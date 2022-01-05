@@ -13,12 +13,15 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
+
 /**
  * List booking objects
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBookingReservationsTableGUI extends ilTable2GUI
 {
+    protected ReservationTableSessionRepository $table_repo;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
     protected int $ref_id;
@@ -27,12 +30,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     protected bool $show_all;
     protected bool $has_schedule;
     protected array $objects;
-    protected int $group_id;
+    protected ?int $group_id;
     protected array $advmd;
     protected bool $has_items_with_host_context = false;
     protected ilTree $tree;
     /** @var int[] ids of context objects (e.g. course ids) */
-    protected array $context_obj_ids;
+    protected ?array $context_obj_ids;
     protected ilAdvancedMDRecordGUI $record_gui;
 
     public function __construct(
@@ -55,15 +58,19 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilUser = $DIC->user();
-        $ilAccess = $DIC->access();
         $this->tree = $DIC->repositoryTree();
 
         $this->context_obj_ids = $context_obj_ids;
         $this->pool_id = $a_pool_id;
         $this->ref_id = $a_ref_id;
         $this->show_all = $a_show_all;
-        $this->has_schedule = (bool) $a_has_schedule;
+        $this->has_schedule = $a_has_schedule;
         $this->group_id = $a_group_id;
+
+        $this->table_repo = $DIC->bookingManager()
+            ->internal()
+            ->repo()
+            ->reservationTable();
         
         $this->advmd = ilObjBookingPool::getAdvancedMDFields($a_ref_id);
         
@@ -95,13 +102,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("book_no_of_objects"), "counter");
             
             $this->setDefaultOrderField("date");
-            $this->setDefaultOrderDirection("asc");
         } else {
             $this->addColumn($this->lng->txt("status"), "status");
             
             $this->setDefaultOrderField("title");
-            $this->setDefaultOrderDirection("asc");
         }
+        $this->setDefaultOrderDirection("asc");
 
         // non-user columns
         $user_cols = $this->getSelectableUserColumns();
@@ -196,11 +202,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     {
         $cols = [];
         // additional user fields
-        if (($parent = $this->getParentGroupCourse()) !== false) {
+        if (($parent = $this->getParentGroupCourse()) !== null) {
             if ($this->access->checkAccess("manage_members", "", $parent["ref_id"])) {
                 $ef = ilExportFieldsInfo::_getInstanceByType($parent["type"]);
                 foreach ($ef->getSelectableFieldsInfo(ilObject::_lookupObjectId($parent["ref_id"])) as $k => $v) {
-                    if (!in_array($k, ["login"])) {
+                    if ($k != "login") {
                         $cols[$k] = $v;
                     }
                 }
@@ -244,7 +250,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     ) : void {
         if (is_array($a_filter_pre) &&
             isset($a_filter_pre["object"])) {
-            $_SESSION["form_" . $this->getId()]["object"] = serialize($a_filter_pre["object"]);
+            $this->table_repo->setObjectFilter(
+                $this->getId(),
+                serialize($a_filter_pre["object"])
+            );
         }
         
         $this->objects = array();
@@ -265,7 +274,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         if ($this->has_schedule) {
             // default period: from:today [ to:(today + n days) ]
-            if (!$_SESSION["form_" . $this->getId()]["fromto"]) {
+            if (!$this->table_repo->hasFromToFilter($this->getId())) {
                 $from = new ilDateTime(date("Y-m-d"), IL_CAL_DATE); // today
                 $to = null;
                 
@@ -279,11 +288,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     }
                     $to = serialize($to);
                 }
-                
-                $_SESSION["form_" . $this->getId()]["fromto"] = serialize(array(
-                    "from" => serialize($from),
-                    "to" => $to
-                ));
+
+                $this->table_repo->setFromToFilter(
+                    $this->getId(),
+                    serialize(array(
+                        "from" => serialize($from),
+                        "to" => $to
+                    ))
+                );
             }
             $item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
             $this->filter["fromto"] = $item->getDate();
@@ -381,12 +393,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         if ($this->filter["user_id"]) {
             $filter["user_id"] = $this->filter["user_id"];
         }
-        if (is_array($this->context_obj_ids)) {
+        if (!is_null($this->context_obj_ids)) {
             $filter["context_obj_ids"] = $this->context_obj_ids;
         }
 
         if ($this->has_schedule) {
-            if (!$filter["status"]) {
+            if (!isset($filter["status"])) {
                 // needs distinct status because of aggregation
                 $filter["status"] = -ilBookingReservation::STATUS_CANCELLED;
             }
@@ -425,7 +437,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         $this->has_items_with_host_context = false;
 
-        if (!$filter["object"]) {
+        if (!isset($filter["object"])) {
             $ids = array_keys($this->objects);
         } else {
             $ids = array($filter["object"]);

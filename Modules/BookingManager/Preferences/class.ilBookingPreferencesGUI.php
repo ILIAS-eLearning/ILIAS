@@ -21,6 +21,7 @@ use ILIAS\UI\Component\Input\Container\Form;
  */
 class ilBookingPreferencesGUI
 {
+    protected \ILIAS\BookingManager\InternalService $service;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;
     protected ilObjBookingPool $pool;
@@ -222,7 +223,7 @@ class ilBookingPreferencesGUI
         $bookings = $this->service->domain()->preferences($this->pool)->readBookings();
         $info_gui->addSection($lng->txt("book_your_bookings"));
         $cnt = 1;
-        if (is_array($bookings[$this->user->getId()])) {
+        if (isset($bookings[$this->user->getId()])) {
             foreach ($bookings[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
 
@@ -249,7 +250,7 @@ class ilBookingPreferencesGUI
             $preferences = $preferences->getPreferences();
             foreach ($preferences as $user_id => $obj_ids) {
                 $booking_str = "<br>" . $lng->txt("book_log") . ": -";
-                if (is_array($bookings[$user_id])) {
+                if (isset($bookings[$user_id])) {
                     $booking_str = "<br>" . $lng->txt("book_log") . ": " . implode(", ", array_map(function ($obj_id) {
                         $book_obj = new ilBookingObject($obj_id);
                         return $book_obj->getTitle();

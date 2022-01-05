@@ -18,6 +18,8 @@
  */
 class ilObjBookingPoolListGUI extends ilObjectListGUI
 {
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
+
     public function __construct()
     {
         global $DIC;
@@ -25,6 +27,10 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         parent::__construct();
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
     }
 
     public function init()
@@ -51,7 +57,11 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", (int) $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass(
+                    "ilrepositorygui",
+                    "ref_id",
+                    $this->book_request->getRefId()
+                );
                 break;
         }
 

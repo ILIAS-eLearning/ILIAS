@@ -19,6 +19,7 @@
  */
 class ilBookingObjectGUI
 {
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
@@ -43,7 +44,7 @@ class ilBookingObjectGUI
     protected int $ref_id;
 
     public function __construct(
-        object $a_parent_obj,
+        ilObjBookingPoolGUI $a_parent_obj,
         string $seed,
         string $sseed,
         ilBookingHelpAdapter $help,
@@ -60,6 +61,12 @@ class ilBookingObjectGUI
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->user = $DIC->user();
 
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
+
+
         $this->seed = $seed;
         $this->sseed = $sseed;
 
@@ -74,11 +81,11 @@ class ilBookingObjectGUI
             ? null
             : $a_parent_obj->object->getOverallLimit();
 
-        $this->object_id = (int) $_REQUEST['object_id'];
-        $this->ref_id = (int) $_REQUEST['ref_id'];
+        $this->object_id = $this->book_request->getObjectId();
+        $this->ref_id = $this->book_request->getRefId();
         $this->ctrl->saveParameter($this, "object_id");
 
-        $this->rsv_ids = array_map('intval', explode(";", $_GET["rsv_ids"]));
+        $this->rsv_ids = array_map('intval', $this->book_request->getReservationIdsFromString());
     }
 
     public function activateManagement(bool $a_val) : void
@@ -145,8 +152,10 @@ class ilBookingObjectGUI
                 } else {
                     $ilCtrl->setReturn($this, "returnToPreferences");
                 }
+                /** @var ilObjBookingPool $pool */
+                $pool = $this->pool_gui->object;
                 $process_gui = new ilBookingProcessGUI(
-                    $this->pool_gui->object,
+                    $pool,
                     $this->object_id,
                     $this->help,
                     $this->seed,

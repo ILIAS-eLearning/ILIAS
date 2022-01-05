@@ -19,6 +19,11 @@
  */
 class ilBookingReservationsGUI
 {
+    /**
+     * @var array|object|null
+     */
+    protected array $raw_post_data;
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilBookingHelpAdapter $help;
     protected int $context_obj_id;
     protected ilCtrl $ctrl;
@@ -50,24 +55,30 @@ class ilBookingReservationsGUI
         $this->tabs_gui = $DIC->tabs();
         $this->help = $help;
         $this->user = $DIC->user();
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
 
-        $this->book_obj_id = (int) $_REQUEST['object_id'];
+        $this->book_obj_id = $this->book_request->getObjectId();
 
         $this->context_obj_id = $context_obj_id;
 
         // user who's reservation is being tackled (e.g. canceled)
-        $this->booked_user = (int) $_REQUEST['bkusr'];
+        $this->booked_user = $this->book_request->getBookedUser();
         if ($this->booked_user == 0) {
             $this->booked_user = $DIC->user()->getId();
         }
         // we get this from the reservation screen
-        $this->reservation_id = ilUtil::stripSlashes($_GET["reservation_id"]);
+        $this->reservation_id = $this->book_request->getReservationId();
 
         $this->ctrl->saveParameter($this, ["object_id", "bkusr"]);
 
-        if ((int) $_REQUEST['object_id'] > 0 && ilBookingObject::lookupPoolId((int) $_REQUEST['object_id']) != $this->pool->getId()) {
+        if ($this->book_request->getObjectId() > 0 && ilBookingObject::lookupPoolId($this->book_request->getObjectId()) != $this->pool->getId()) {
             throw new ilException("Booking Object ID does not match Booking Pool.");
         }
+
+        $this->raw_post_data = $DIC->http()->request()->getParsedBody();
     }
 
     /**
@@ -75,8 +86,9 @@ class ilBookingReservationsGUI
      */
     protected function getLogReservationIds() : array
     {
-        if (is_array($_POST["mrsv"])) {
-            return $_POST["mrsv"];
+        $mrsv = $this->book_request->getReservationIds();
+        if (count($mrsv) > 0) {
+            return $mrsv;
         } elseif ($this->reservation_id > 0) {
             return array($this->reservation_id);
         }
@@ -127,8 +139,8 @@ class ilBookingReservationsGUI
             $filter["object"] = $this->book_obj_id;
         }
         // coming from participants tab to cancel reservations.
-        if ($_GET['user_id']) {
-            $filter["user_id"] = (int) $_GET['user_id'];
+        if ($this->book_request->getUserId() > 0) {
+            $filter["user_id"] = $this->book_request->getUserId();
         }
         $context_filter = ($this->context_obj_id > 0)
             ? [$this->context_obj_id]
@@ -166,13 +178,17 @@ class ilBookingReservationsGUI
      */
     public function changeStatusObject() : void
     {
-        if (!$_POST['reservation_id']) {
+        $rsv_ids = $this->book_request->getReservationIds();
+        if (count($rsv_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->log();
         }
 
         if ($this->checkPermissionBool('write')) {
-            ilBookingReservation::changeStatus($_POST['reservation_id'], (int) $_POST['tstatus']);
+            ilBookingReservation::changeStatus(
+                $rsv_ids,
+                $this->book_request->getStatus()
+            );
         }
 
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -253,7 +269,8 @@ class ilBookingReservationsGUI
             return;
         }
 
-        $id = ilBookingReservation::getObjectReservationForUser($id, $user_id);
+        $ids = ilBookingReservation::getObjectReservationForUser($id, $user_id);
+        $id = current($ids);
         $obj = new ilBookingReservation($id);
         if ($obj->getUserId() != $user_id) {
             ilUtil::sendFailure($lng->txt('permission_denied'), true);
@@ -286,7 +303,7 @@ class ilBookingReservationsGUI
         $ilUser = $this->user;
 
         $ids = $this->getLogReservationIds();
-        if (!is_array($ids) || !sizeof($ids)) {
+        if (count($ids) == 0) {
             $this->back();
         }
 
@@ -402,11 +419,9 @@ class ilBookingReservationsGUI
         ilDatePresentation::setUseRelativeDates(false);
 
         foreach ($a_ids as $idx => $ids) {
+            $first = $ids;
             if (is_array($ids)) {
-                $first = $ids;
                 $first = array_shift($first);
-            } else {
-                $first = $ids;
             }
 
             $rsv = new ilBookingReservation($first);
@@ -444,8 +459,8 @@ class ilBookingReservationsGUI
                 $form->addItem($hidden);
             }
 
-            if ($_POST["rsv_id_" . $idx]) {
-                $item->setValue((int) $_POST["rsv_id_" . $idx]);
+            if ($this->book_request->getCancelNr($idx)) {
+                $item->setValue($this->book_request->getCancelNr($idx));
             }
         }
 
@@ -466,11 +481,12 @@ class ilBookingReservationsGUI
         $ilCtrl = $this->ctrl;
 
         // simple version of reservation id
-        $ids = $_POST["rsv_id"];
+        $ids = $this->book_request->getReservationIds();
 
+        $rsv_aggr = $this->raw_post_data["rsv_aggr"] ?? null;
         // aggregated version: determine reservation ids
-        if ($_POST["rsv_aggr"]) {
-            $form = $this->rsvConfirmCancelAggregationForm($_POST["rsv_aggr"]);
+        if (!is_null($rsv_aggr)) {
+            $form = $this->rsvConfirmCancelAggregationForm($rsv_aggr);
             if (!$form->checkInput()) {
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
@@ -483,8 +499,8 @@ class ilBookingReservationsGUI
             }
 
             $ids = array();
-            foreach ($_POST["rsv_aggr"] as $idx => $aggr_ids) {
-                $max = (int) $_POST["rsv_id_" . $idx];
+            foreach ($rsv_aggr as $idx => $aggr_ids) {
+                $max = $this->book_request->getCancelNr($idx);
                 if ($max) {
                     if (!is_array($aggr_ids)) {
                         $ids[] = $aggr_ids;

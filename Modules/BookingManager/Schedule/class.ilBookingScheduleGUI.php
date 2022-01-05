@@ -21,6 +21,7 @@
  */
 class ilBookingScheduleGUI
 {
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilTemplate $tpl;
     protected ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
@@ -44,7 +45,11 @@ class ilBookingScheduleGUI
         $this->help = $DIC["ilHelp"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->ref_id = $a_parent_obj->ref_id;
-        $this->schedule_id = (int) $_REQUEST['schedule_id'];
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
+        $this->schedule_id = $this->book_request->getScheduleId();
     }
 
     public function executeCommand() : void

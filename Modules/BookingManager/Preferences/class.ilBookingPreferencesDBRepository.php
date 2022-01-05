@@ -48,7 +48,7 @@ class ilBookingPreferencesDBRepository
         );
         $preferences = [];
         while ($rec = $db->fetchAssoc($set)) {
-            if (!is_array($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
+            if (!isset($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
                 $preferences[$rec["user_id"]][] = $rec["book_obj_id"];
             }
         }
@@ -73,7 +73,7 @@ class ilBookingPreferencesDBRepository
         );
         $preferences = [];
         while ($rec = $db->fetchAssoc($set)) {
-            if (!is_array($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
+            if (!isset($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
                 $preferences[$rec["user_id"]][] = $rec["book_obj_id"];
             }
         }

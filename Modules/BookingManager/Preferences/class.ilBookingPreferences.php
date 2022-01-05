@@ -37,7 +37,7 @@ class ilBookingPreferences
         foreach ($preferences as $user_id => $obj_ids) {
             if ($user_id > 0 && is_array($obj_ids)) {
                 foreach ($obj_ids as $obj_id) {
-                    if (!is_array($this->preferences[$user_id]) || !in_array($obj_id, $this->preferences[$user_id])) {
+                    if (!isset($this->preferences[$user_id]) || !in_array($obj_id, $this->preferences[$user_id])) {
                         $this->preferences[$user_id][] = $obj_id;
                     }
                 }

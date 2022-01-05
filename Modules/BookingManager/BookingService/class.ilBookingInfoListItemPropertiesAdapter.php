@@ -33,20 +33,18 @@ class ilBookingInfoListItemPropertiesAdapter
     ) : array {
         $repo = $this->repo;
         $info = [];
-        if ($repo) {
-            foreach ($repo->getCachedContextObjBookingInfo($obj_id) as $item) {
-                $info[$item["pool_id"]]["title"] = ilObject::_lookupTitle($item["pool_id"]);
-                $info[$item["pool_id"]]["object"][$item["obj_id"]]["title"] = $item["title"];
-                $info[$item["pool_id"]]["object"][$item["obj_id"]]["bookings"][] =
-                    ilDatePresentation::formatDate(new ilDate($item["date"], IL_CAL_DATE)) . ", " . $item["slot"] . " (" . $item["counter"] . ")";
+        foreach ($repo->getCachedContextObjBookingInfo($obj_id) as $item) {
+            $info[$item["pool_id"]]["title"] = ilObject::_lookupTitle($item["pool_id"]);
+            $info[$item["pool_id"]]["object"][$item["obj_id"]]["title"] = $item["title"];
+            $info[$item["pool_id"]]["object"][$item["obj_id"]]["bookings"][] =
+                ilDatePresentation::formatDate(new ilDate($item["date"], IL_CAL_DATE)) . ", " . $item["slot"] . " (" . $item["counter"] . ")";
+        }
+        foreach ($info as $pool) {
+            $val = "";
+            foreach ($pool["object"] as $o) {
+                $val .= $o["title"] . ": " . implode(", ", $o["bookings"]);
             }
-            foreach ($info as $pool) {
-                $val = "";
-                foreach ($pool["object"] as $o) {
-                    $val .= $o["title"] . ": " . implode(", ", $o["bookings"]);
-                }
-                $props[] = array("alert" => false, "property" => $pool["title"], "value" => $val);
-            }
+            $props[] = array("alert" => false, "property" => $pool["title"], "value" => $val);
         }
         return $props;
     }

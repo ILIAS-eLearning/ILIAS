@@ -65,7 +65,7 @@ class ilBookingReservation
 
     public function setUserId(int $a_user_id) : void
     {
-        $this->user_id = (int) $a_user_id;
+        $this->user_id = $a_user_id;
     }
 
     public function getUserId() : int
@@ -91,7 +91,7 @@ class ilBookingReservation
      */
     public function setFrom(int $a_from) : void
     {
-        $this->from = (int) $a_from;
+        $this->from = $a_from;
     }
 
     public function getFrom() : int
@@ -104,7 +104,7 @@ class ilBookingReservation
      */
     public function setTo(int $a_to) : void
     {
-        $this->to = (int) $a_to;
+        $this->to = $a_to;
     }
 
     public function getTo() : int
@@ -247,7 +247,7 @@ class ilBookingReservation
             if ($row['cnt'] >= $nr_map[$row['object_id']]) {
                 $blocked[] = $row['object_id'];
             } elseif ($a_return_counter) {
-                $counter[$row['object_id']] = (int) $nr_map[$row['object_id']] - (int) $row['cnt'];
+                $counter[$row['object_id']] = $nr_map[$row['object_id']] - (int) $row['cnt'];
             }
         }
         
@@ -277,7 +277,7 @@ class ilBookingReservation
             if ($a_return_counter) {
                 foreach ($a_ids as $id) {
                     if (!isset($counter[$id])) {
-                        $counter[$id] = (int) $nr_map[$id];
+                        $counter[$id] = $nr_map[$id];
                     }
                 }
                 return $counter;
@@ -424,7 +424,7 @@ class ilBookingReservation
     public static function numAvailableFromObjectNoSchedule(int $a_obj_id) : int
     {
         $available = self::getNumAvailablesNoSchedule($a_obj_id);
-        return (int) $available;
+        return $available;
     }
 
     public static function getNumAvailablesNoSchedule(int $a_obj_id) : int
@@ -434,7 +434,7 @@ class ilBookingReservation
         $ilDB = $DIC->database();
 
         $all = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
-        $all = (int) $all[$a_obj_id];
+        $all = $all[$a_obj_id];
 
         $set = $ilDB->query('SELECT COUNT(*) cnt' .
             ' FROM booking_reservation r' .
@@ -444,7 +444,7 @@ class ilBookingReservation
         $cnt = $ilDB->fetchAssoc($set);
         $cnt = (int) $cnt['cnt'];
 
-        return (int) $all - $cnt; // #11864
+        return $all - $cnt; // #11864
     }
 
     /**
@@ -475,9 +475,8 @@ class ilBookingReservation
      */
     public static function getObjectReservationForUser(
         int $a_object_id,
-        int $a_user_id,
-        bool $a_multi = false
-    ) : array {
+        int $a_user_id
+    ) : ?array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -487,16 +486,11 @@ class ilBookingReservation
             ' AND object_id = ' . $ilDB->quote($a_object_id, 'integer') .
             ' AND (status <> ' . $ilDB->quote(self::STATUS_CANCELLED, 'integer') .
             ' OR STATUS IS NULL)');
-        if (!$a_multi) {
-            $row = $ilDB->fetchAssoc($set);
-            return $row['booking_reservation_id'];
-        } else {
-            $res = array();
-            while ($row = $ilDB->fetchAssoc($set)) {
-                $res[] = (int) $row['booking_reservation_id'];
-            }
-            return $res;
+        $res = array();
+        while ($row = $ilDB->fetchAssoc($set)) {
+            $res[] = (int) $row['booking_reservation_id'];
         }
+        return $res;
     }
 
     /**

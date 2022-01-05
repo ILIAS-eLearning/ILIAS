@@ -48,8 +48,8 @@ class ilObjUseBookDBRepository
 
         foreach ($book_obj_ids as $id) {
             $db->insert(self::TABLE_NAME, array(
-                "obj_id" => array("integer", (int) $obj_id),
-                "book_ref_id" => array("integer", (int) $id)
+                "obj_id" => array("integer", $obj_id),
+                "book_ref_id" => array("integer", $id)
             ));
         }
     }

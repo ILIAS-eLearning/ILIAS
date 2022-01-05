@@ -23,6 +23,7 @@ class ilBookingParticipantGUI
     public const FILTER_ACTION_APPLY = 1;
     public const FILTER_ACTION_RESET = 2;
     public const PARTICIPANT_VIEW = 1;
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
 
     protected ilTemplate $tpl;
     protected ilTabsGUI $tabs;
@@ -44,6 +45,11 @@ class ilBookingParticipantGUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
+
 
         $this->ref_id = $a_parent_obj->ref_id;
         $this->pool_id = $a_parent_obj->object->getId();
@@ -108,13 +114,13 @@ class ilBookingParticipantGUI
 
     public function addUserFromAutoCompleteObject() : bool
     {
-        if (!strlen(trim($_POST['user_login']))) {
+        if (!strlen(trim($this->book_request->getUserLogin()))) {
             ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
             $this->render();
             return false;
         }
 
-        $users = explode(',', $_POST['user_login']);
+        $users = explode(',', $this->book_request->getUserLogin());
 
         $user_ids = array();
         foreach ($users as $user) {

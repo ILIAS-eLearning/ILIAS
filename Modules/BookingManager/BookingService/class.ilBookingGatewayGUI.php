@@ -23,6 +23,7 @@ use ILIAS\BookingManager;
  */
 class ilBookingGatewayGUI
 {
+    protected BookingManager\StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected \ilGlobalTemplateInterface $main_tpl;
@@ -54,27 +55,32 @@ class ilBookingGatewayGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->parent_gui = $parent_gui;
         $this->tabs = $DIC->tabs();
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
 
         $this->lng->loadLanguageModule("book");
 
         // current parent context (e.g. session in course)
-        $this->obj_id = (int) $parent_gui->object->getId();
-        $this->ref_id = (int) $parent_gui->object->getRefId();
+        $this->obj_id = $parent_gui->object->getId();
+        $this->ref_id = $parent_gui->object->getRefId();
 
         $this->main_host_ref_id = ($main_host_ref_id == 0)
             ? $this->ref_id
             : $main_host_ref_id;
 
 
-        $this->seed = ilUtil::stripSlashes($_GET['seed']);
-        $this->sseed = ilUtil::stripSlashes($_GET['sseed']);
+        $this->seed = $this->book_request->getSeed();
+        $this->sseed = $this->book_request->getSSeed();
 
         $this->toolbar = $DIC->toolbar();
 
         $this->use_book_repo = new ilObjUseBookDBRepository($DIC->database());
 
-        if (in_array($_REQUEST["return_to"], ["ilbookingobjectservicegui", "ilbookingreservationsgui"])) {
-            $this->return_to = $_REQUEST["return_to"];
+        $req_return_to = $this->book_request->getReturnTo();
+        if (in_array($req_return_to, ["ilbookingobjectservicegui", "ilbookingreservationsgui"])) {
+            $this->return_to = $req_return_to;
         }
 
         // get current settings
@@ -105,9 +111,7 @@ class ilBookingGatewayGUI
         $ctrl = $this->ctrl;
 
         $ctrl->saveParameter($this, "pool_ref_id");
-        $pool_ref_id = ($_POST["pool_ref_id"] > 0)
-            ? (int) $_POST["pool_ref_id"]
-            : (int) $_GET["pool_ref_id"];
+        $pool_ref_id = $this->book_request->getPoolRefId();
 
         $book_ref_ids = $this->use_book_repo->getUsedBookingPools(ilObject::_lookupObjId($this->main_host_ref_id));
 

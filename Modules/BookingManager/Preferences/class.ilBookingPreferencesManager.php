@@ -197,7 +197,7 @@ class ilBookingPreferencesManager
     protected function selectRandomEntry(array $items)
     {
         $nr = rand(0, count($items) - 1);
-        return $items[$nr];
+        return $items[$nr] ?? null;
     }
     
     
@@ -283,7 +283,7 @@ class ilBookingPreferencesManager
     ) : array {
         $new_preferences = [];
         foreach ($preferences as $user_id => $obj_ids) {
-            $new_preferences[$user_id] = array_filter($preferences[$user_id], function ($i) use ($obj_id) {
+            $new_preferences[$user_id] = array_filter($obj_ids, function ($i) use ($obj_id) {
                 return ($i != $obj_id);
             });
         }
@@ -308,7 +308,7 @@ class ilBookingPreferencesManager
      */
     protected function chooseRandomUserFromPreferences(
         array $preferences
-    ) : int {
+    ) : ?int {
         $user_ids = array_keys($preferences);
         return $this->selectRandomEntry($user_ids);
     }

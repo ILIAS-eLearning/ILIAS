@@ -19,6 +19,7 @@
  */
 class ilBookingAssignObjectsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected int $ref_id;
@@ -42,13 +43,17 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $this->ref_id = $a_ref_id;
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
 
         $this->pool_id = $a_pool_id;
         $this->pool = new ilObjBookingPool($this->pool_id, false);
 
         $user_name = "";
-        if ($_GET['bkusr']) {
-            $this->user_id_to_book = (int) $_GET['bkusr'];
+        if ($this->book_request->getBookedUser() > 0) {
+            $this->user_id_to_book = $this->book_request->getBookedUser();
             if (!ilObjUser::_exists($this->user_id_to_book)) {
                 $this->ctrl->redirect($a_parent_obj, $a_parent_cmd);
             }
@@ -88,7 +93,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
         $obj_items = ilBookingObject::getList($this->pool_id);
         foreach ($obj_items as $item) {
             if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE ||
-                empty(ilBookingReservation::getObjectReservationForUser($item['booking_object_id'], $this->user_id_to_book))) {
+                count(ilBookingReservation::getObjectReservationForUser($item['booking_object_id'], $this->user_id_to_book)) == 0) {
                 $this->ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $this->user_id_to_book);
                 $this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $item['booking_object_id']);
                 $this->ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);

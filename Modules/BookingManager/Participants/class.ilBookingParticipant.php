@@ -119,7 +119,7 @@ class ilBookingParticipant
                         "name" => $name
                     );
                 } elseif (!in_array($booking_object->getTitle(), $res[$index]['object_title'])) {
-                    array_push($res[$index]['object_title'], $booking_object->getTitle());
+                    $res[$index]['object_title'][] = $booking_object->getTitle();
                 }
             }
         }
@@ -186,7 +186,7 @@ class ilBookingParticipant
                 $row['title'],
                 $res[$index]['object_title']
             ) && $status != ilBookingReservation::STATUS_CANCELLED)) {
-                array_push($res[$index]['object_title'], $row['title']);
+                $res[$index]['object_title'][] = $row['title'];
                 $res[$index]['obj_count'] = $res[$index]['obj_count'] + 1;
                 $res[$index]['object_ids'][] = $row['object_id'];
             }
@@ -258,7 +258,7 @@ class ilBookingParticipant
         int $a_booking_object_id,
         int $a_participant_id
     ) : bool {
-        if (!empty(ilBookingReservation::getObjectReservationForUser($a_booking_object_id, $a_participant_id))) {
+        if (count(ilBookingReservation::getObjectReservationForUser($a_booking_object_id, $a_participant_id)) > 0) {
             return true;
         } else {
             return false;

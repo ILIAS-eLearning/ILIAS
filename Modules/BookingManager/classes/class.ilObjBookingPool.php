@@ -60,8 +60,8 @@ class ilObjBookingPool extends ilObject
             "reminder_status" => array("integer", $this->getReminderStatus()),
             "reminder_day" => array("integer", $this->getReminderDay()),
             "rsv_filter_period" => array("integer", $this->getReservationFilterPeriod()),
-            "preference_nr" => array("integer", (int) $this->getPreferenceNumber()),
-            "pref_deadline" => array("integer", (int) $this->getPreferenceDeadline())
+            "preference_nr" => array("integer", $this->getPreferenceNumber()),
+            "pref_deadline" => array("integer", $this->getPreferenceDeadline())
         );
     }
 
@@ -242,7 +242,7 @@ class ilObjBookingPool extends ilObject
     public function setOffline(
         bool $a_value = true
     ) : void {
-        $this->offline = (bool) $a_value;
+        $this->offline = $a_value;
     }
 
     public function isOffline() : bool
@@ -338,9 +338,6 @@ class ilObjBookingPool extends ilObject
      */
     public function setOverallLimit(?int $a_value = null) : void
     {
-        if ($a_value !== null) {
-            $a_value = (int) $a_value;
-        }
         $this->overall_limit = $a_value;
     }
     
@@ -355,9 +352,6 @@ class ilObjBookingPool extends ilObject
     public function setReservationFilterPeriod(
         ?int $a_value = null
     ) : void {
-        if ($a_value !== null) {
-            $a_value = $a_value;
-        }
         $this->reservation_period = $a_value;
     }
     

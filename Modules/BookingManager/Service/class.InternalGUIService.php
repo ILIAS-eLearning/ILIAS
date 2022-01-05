@@ -47,12 +47,11 @@ class InternalGUIService
         );
     }
 
-    /*
     public function standardRequest() : StandardGUIRequest
     {
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
         );
-    }*/
+    }
 }

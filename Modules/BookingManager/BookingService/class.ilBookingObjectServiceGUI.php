@@ -39,7 +39,7 @@ class ilBookingObjectServiceGUI extends ilBookingObjectGUI
             $help,
             ilObject::_lookupObjId($host_obj_ref_id)
         );
-        $this->host_obj_ref_id = (int) $host_obj_ref_id;
+        $this->host_obj_ref_id = $host_obj_ref_id;
         $this->use_book_repo = $use_book_repo;
 
         $this->activateManagement(false);

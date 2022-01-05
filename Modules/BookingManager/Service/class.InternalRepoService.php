@@ -15,6 +15,8 @@
 
 namespace ILIAS\BookingManager;
 
+use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
+
 /**
  * Repository internal repo service
  * @author Alexander Killing <killing@leifos.de>
@@ -52,5 +54,10 @@ class InternalRepoService
         return new \ilBookingPrefBasedBookGatewayRepository(
             $this->db
         );
+    }
+
+    public function reservationTable() : ReservationTableSessionRepository
+    {
+        return new ReservationTableSessionRepository();
     }
 }

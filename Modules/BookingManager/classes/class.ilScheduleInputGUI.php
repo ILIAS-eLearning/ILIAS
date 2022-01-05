@@ -62,7 +62,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
      */
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue((array) $this->getPostData($this->getPostVar(), false));
+        $this->setValue($this->getPostData($this->getPostVar(), false));
     }
 
     public function checkInput() : bool
@@ -124,7 +124,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     ) : array {
         $res = array();
         for ($loop = 0; $loop < 240; $loop++) {
-            $days = $this->str($a_post_var . "_days~" . $loop);
+            $days = $this->strArray($a_post_var . "_days~" . $loop);
             $from = self::parseTime(
                 $this->str($a_post_var . "_from_hh~" . $loop),
                 $this->str($a_post_var . "_from_mm~" . $loop)

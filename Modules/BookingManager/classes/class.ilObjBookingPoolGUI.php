@@ -23,6 +23,7 @@
  */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected \ILIAS\BookingManager\InternalService $service;
     protected ilTabsGUI $tabs;
     protected ilNavigationHistory $nav_history;
@@ -49,31 +50,40 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->type = "book";
+
+        $this->book_request = $DIC->bookingManager()
+                                  ->internal()
+                                  ->gui()
+                                  ->standardRequest();
+
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule("book");
 
         // not on creation
         if (is_object($this->object)) {
-            $this->help = new ilBookingHelpAdapter($this->object, $DIC["ilHelp"]);
+            /** @var ilObjBookingPool $pool */
+            $pool = $this->object;
+            $this->help = new ilBookingHelpAdapter($pool, $DIC["ilHelp"]);
             $DIC["ilHelp"]->setScreenIdComponent("book");
         }
 
-        $this->book_obj_id = (int) $_REQUEST['object_id'];
-        $this->seed = ilUtil::stripSlashes($_GET['seed']);
-        $this->sseed = ilUtil::stripSlashes($_GET['sseed']);
-        $this->reservation_id = ilUtil::stripSlashes($_GET["reservation_id"]);
-        $this->profile_user_id = (int) $_GET['user_id'];
+        $this->book_obj_id = $this->book_request->getObjectId();
+        $this->seed = $this->book_request->getSeed();
+        $this->sseed = $this->book_request->getSSeed();
+        $this->reservation_id = $this->book_request->getReservationId();
+        $this->profile_user_id = $this->book_request->getUserId();
 
         $this->service = $DIC->bookingManager()->internal();
 
         $this->user_id_assigner = $this->user->getId();
-        if ($_GET['bkusr']) {
-            $this->user_id_to_book = (int) $_GET['bkusr'];
+        if ($this->book_request->getBookedUser() > 0) {
+            $this->user_id_to_book = $this->book_request->getBookedUser();
         } else {
             $this->user_id_to_book = $this->user_id_assigner; // by default user books his own booking objects.
         }
 
-        if ((int) $_REQUEST['object_id'] > 0 && ilBookingObject::lookupPoolId((int) $_REQUEST['object_id']) != $this->object->getId()) {
+        if ($this->book_request->getObjectId() > 0 &&
+            ilBookingObject::lookupPoolId($this->book_request->getObjectId()) != $this->object->getId()) {
             throw new ilException("Booking Object ID does not match Booking Pool.");
         }
     }
@@ -189,13 +199,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
             case "ilbookingreservationsgui":
                 $this->tabs_gui->setTabActive('log');
-                $res_gui = new ilBookingReservationsGUI($this->object, $this->help);
+                /** @var ilObjBookingPool $pool */
+                $pool = $this->object;
+                $res_gui = new ilBookingReservationsGUI($pool, $this->help);
                 $this->ctrl->forwardCommand($res_gui);
                 break;
 
             case 'ilbookingpreferencesgui':
                 $this->tabs_gui->setTabActive('preferences');
-                $gui = $this->service->gui()->preferences()->BookingPreferencesGUI($this->object);
+                /** @var ilObjBookingPool $pool */
+                $pool = $this->object;
+                $gui = $this->service->gui()->preferences()->BookingPreferencesGUI($pool);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -627,7 +641,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $user = $this->user;
 
 
-        switch ($_GET["ntf"]) {
+        switch ($this->book_request->getNotification()) {
             case 0:
                 ilNotification::setNotification(ilNotification::TYPE_BOOK, $user->getId(), $this->object->getId(), false);
                 break;

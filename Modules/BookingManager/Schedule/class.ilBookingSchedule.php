@@ -70,7 +70,7 @@ class ilBookingSchedule
     public function setRaster(
         int $a_raster
     ) : void {
-        $this->raster = (int) $a_raster;
+        $this->raster = $a_raster;
     }
 
     public function getRaster() : int
@@ -98,7 +98,7 @@ class ilBookingSchedule
     public function setMaxRental(
         int $a_max
     ) : void {
-        $this->rent_max = (int) $a_max;
+        $this->rent_max = $a_max;
     }
 
     public function getMaxRental() : int

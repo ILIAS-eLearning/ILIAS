@@ -25,7 +25,7 @@ class ilBookingObject
     protected string $title;
     protected string $description;
     protected int $nr_of_items;
-    protected int $schedule_id;
+    protected ?int $schedule_id;
     protected string $info_file;
     protected string $post_text;
     protected string $post_file;
@@ -75,12 +75,12 @@ class ilBookingObject
         return $this->pool_id;
     }
 
-    public function setScheduleId(int $a_schedule_id) : void
+    public function setScheduleId(?int $a_schedule_id) : void
     {
         $this->schedule_id = $a_schedule_id;
     }
 
-    public function getScheduleId() : int
+    public function getScheduleId() : ?int
     {
         return $this->schedule_id;
     }
@@ -255,14 +255,14 @@ class ilBookingObject
                 ' FROM booking_object' .
                 ' WHERE booking_object_id = ' . $ilDB->quote($this->id, 'integer'));
             $row = $ilDB->fetchAssoc($set);
-            $this->setTitle($row['title']);
-            $this->setDescription($row['description']);
-            $this->setPoolId($row['pool_id']);
+            $this->setTitle((string) $row['title']);
+            $this->setDescription((string) $row['description']);
+            $this->setPoolId((int) $row['pool_id']);
             $this->setScheduleId($row['schedule_id']);
-            $this->setNrOfItems($row['nr_items']);
-            $this->setFile($row['info_file']);
-            $this->setPostText($row['post_text']);
-            $this->setPostFile($row['post_file']);
+            $this->setNrOfItems((int) $row['nr_items']);
+            $this->setFile((string) $row['info_file']);
+            $this->setPostText((string) $row['post_text']);
+            $this->setPostFile((string) $row['post_file']);
         }
     }
     

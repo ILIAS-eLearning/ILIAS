@@ -98,7 +98,7 @@ class ilBookingPrefBasedBookGatewayRepository
             foreach ($bookings as $user_id => $obj_ids) {
                 foreach ($obj_ids as $obj_id) {
                     if (ilBookingReservation::isObjectAvailableNoSchedule($obj_id) &&
-                        !ilBookingReservation::getObjectReservationForUser($obj_id, $user_id)) { // #18304
+                        count(ilBookingReservation::getObjectReservationForUser($obj_id, $user_id)) == 0) { // #18304
                         $reservation = new ilBookingReservation();
                         $reservation->setObjectId($obj_id);
                         $reservation->setUserId($user_id);

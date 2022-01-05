@@ -19,6 +19,11 @@
  */
 class ilBookingProcessGUI
 {
+    /**
+     * @var array|object|null
+     */
+    protected array $raw_post_data;
+    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilObjBookingPool $pool;
     protected int $booking_object_id;
     protected int $user_id_to_book;
@@ -63,13 +68,18 @@ class ilBookingProcessGUI
 
         $this->seed = $seed;
         $this->sseed = $sseed;
+        $this->book_request = $DIC->bookingManager()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
-        $this->rsv_ids = explode(";", $_REQUEST["rsv_ids"]);
+        $this->rsv_ids = $this->book_request->getReservationIdsFromString();
 
+        $this->raw_post_data = $DIC->http()->request()->getParsedBody();
 
         $this->user_id_assigner = $this->user->getId();
-        if ($_GET['bkusr']) {
-            $this->user_id_to_book = (int) $_GET['bkusr'];
+        if ($this->book_request->getBookedUser() > 0) {
+            $this->user_id_to_book = $this->book_request->getBookedUser();
         } else {
             $this->user_id_to_book = $this->user_id_assigner; // by default user books his own booking objects.
         }
@@ -231,11 +241,10 @@ class ilBookingProcessGUI
 
             $week_start = $user_settings->getWeekStart();
 
+            $dates = array();
             if (!$find_first_open) {
-                $dates = array();
                 $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
             } else {
-                $dates = array();
 
                 //loop for 1 week
                 $has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
@@ -244,11 +253,11 @@ class ilBookingProcessGUI
                 if (!$has_open_slot) {
                     // 1 year is limit for search
                     $limit = clone($seed);
-                    $limit->increment(ilDate::YEAR, 1);
+                    $limit->increment(ilDateTime::YEAR, 1);
                     $limit = $limit->get(IL_CAL_UNIX);
 
                     while (!$has_open_slot && $seed->get(IL_CAL_UNIX) < $limit) {
-                        $seed->increment(ilDate::WEEK, 1);
+                        $seed->increment(ilDateTime::WEEK, 1);
 
                         $dates = array();
                         $has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
@@ -286,7 +295,6 @@ class ilBookingProcessGUI
                     if (!isset($days[$loop])) {
                         $mytpl->setCurrentBlock('dates');
                         $mytpl->setVariable('DUMMY', '&nbsp;');
-                        $mytpl->parseCurrentBlock();
                     } elseif (isset($days[$loop]['captions'])) {
                         foreach ($days[$loop]['captions'] as $slot_id => $slot_caption) {
                             $mytpl->setCurrentBlock('choice');
@@ -305,16 +313,14 @@ class ilBookingProcessGUI
 
                         $mytpl->setCurrentBlock('dates');
                         $mytpl->setVariable('DUMMY', '');
-                        $mytpl->parseCurrentBlock();
                     } elseif (isset($days[$loop]['in_slot'])) {
                         $mytpl->setCurrentBlock('dates');
                         $mytpl->setVariable('DATE_COLOR', $color[$loop]);
-                        $mytpl->parseCurrentBlock();
                     } else {
                         $mytpl->setCurrentBlock('dates');
                         $mytpl->setVariable('DUMMY', '&nbsp;');
-                        $mytpl->parseCurrentBlock();
                     }
+                    $mytpl->parseCurrentBlock();
                 }
 
                 $mytpl->setCurrentBlock('slots');
@@ -398,11 +404,10 @@ class ilBookingProcessGUI
                     }
                 }
 
+                $period_from = (int) substr($period[0], 0, 2) . "00";
                 if (sizeof($period) == 1) {
-                    $period_from = (int) substr($period[0], 0, 2) . "00";
                     $period_to = (int) substr($period[0], 0, 2) . "59";
                 } else {
-                    $period_from = (int) substr($period[0], 0, 2) . "00";
                     $period_to = (int) substr($period[1], 0, 2) . "59";
                 }
 
@@ -422,7 +427,7 @@ class ilBookingProcessGUI
                         $slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
 
                         // always single object, we can sum up
-                        $nr_available = (array) ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to - 1, false, true);
+                        $nr_available = ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to - 1, false, true);
 
                         // any objects available?
                         if (!array_sum($nr_available)) {
@@ -493,9 +498,8 @@ class ilBookingProcessGUI
      */
     public function bookMultipleParticipants() : void
     {
-        if ($_POST["mass"]) {
-            $participants = $_POST["mass"];
-        } else {
+        $participants = $this->book_request->getParticipants();
+        if (count($participants) == 0) {
             $this->back();
             return;
         }
@@ -544,10 +548,10 @@ class ilBookingProcessGUI
      */
     public function saveMultipleBookings() : void
     {
-        $participants = [];
-        if ($_POST["participants"] && $_POST['object_id']) {
-            $participants = (array) $_POST["participants"];
-            $this->book_obj_id = $_POST['object_id'];
+        $participants = $this->book_request->getParticipants();
+        $object_id = $this->book_request->getObjectId();
+        if (count($participants) > 0 && $object_id > 0) {
+            $this->book_obj_id = $object_id;
         } else {
             $this->back();
         }
@@ -559,11 +563,10 @@ class ilBookingProcessGUI
 
         if (sizeof($rsv_ids)) {
             ilUtil::sendSuccess("booking_multiple_succesfully");
-            $this->back();
         } else {
             ilUtil::sendFailure($this->lng->txt('book_reservation_failed_overbooked'), true);
-            $this->back();
         }
+        $this->back();
     }
 
 
@@ -582,7 +585,7 @@ class ilBookingProcessGUI
                 $object_id = $this->book_obj_id;
                 if ($object_id) {
                     if (ilBookingReservation::isObjectAvailableNoSchedule($object_id) &&
-                        !ilBookingReservation::getObjectReservationForUser($object_id, $this->user_id_to_book)) { // #18304
+                        count(ilBookingReservation::getObjectReservationForUser($object_id, $this->user_id_to_book)) == 0) { // #18304
                         $rsv_ids[] = $this->processBooking($object_id);
                         $success = $object_id;
                     } else {
@@ -593,7 +596,8 @@ class ilBookingProcessGUI
                 }
             }
         } else {
-            if (!isset($_POST['date'])) {
+            $dates = $this->book_request->getDates();
+            if (count($dates) == 0) {
                 ilUtil::sendFailure($this->lng->txt('select_one'));
                 $this->book();
                 return false;
@@ -611,7 +615,7 @@ class ilBookingProcessGUI
                     $f = new ilBookingReservationDBRepositoryFactory();
                     $repo = $f->getRepo();
                     $group_id = $repo->getNewGroupId();
-                    foreach ($_POST['date'] as $date) {
+                    foreach ($dates as $date) {
                         $fromto = explode('_', $date);
                         $fromto[1]--;
 
@@ -814,14 +818,14 @@ class ilBookingProcessGUI
     {
 
         //get the user who will get the booking.
-        if ($_POST['bkusr']) {
-            $this->user_id_to_book = (int) $_POST['bkusr'];
+        if ($this->book_request->getBookedUser() > 0) {
+            $this->user_id_to_book = $this->book_request->getBookedUser();
         }
 
         // convert post data to initial form config
         $counter = array();
         $current_first = $obj_id = null;
-        foreach (array_keys($_POST) as $id) {
+        foreach (array_keys($this->raw_post_data) as $id) {
             if (substr($id, 0, 9) == "conf_nr__") {
                 $id = explode("_", substr($id, 9));
                 $counter[$id[0] . "_" . $id[1] . "_" . $id[2]] = (int) $id[3];
@@ -834,12 +838,14 @@ class ilBookingProcessGUI
         // recurrence
 
         // checkInput() has not been called yet, so we have to improvise
-        $end = ilCalendarUtil::parseIncomingDate($_POST["rece"], null);
+        $rece = $this->book_request->getRece();
+        $recm = $this->book_request->getRecm();
+        $end = ilCalendarUtil::parseIncomingDate($rece, null);
 
-        if ((int) $_POST["recm"] > 0 && $end && $current_first) {
+        if ((int) $recm > 0 && $end && $current_first) {
             ksort($counter);
             $end = $end->get(IL_CAL_DATE);
-            $cycle = (int) $_POST["recm"] * 7;
+            $cycle = (int) $recm * 7;
             $cut = 0;
             $org = $counter;
             while ($cut < 1000 && $this->addDaysDate($current_first, $cycle) <= $end) {
@@ -867,13 +873,14 @@ class ilBookingProcessGUI
                         }
 
                         // clone input
-                        $_POST["conf_nr__" . $new_item_id . "_" . $new_max] = $_POST["conf_nr__" . $item_id . "_" . $max];
+                        throw new ilException("Booking process max invalid");
+                        //$_POST["conf_nr__" . $new_item_id . "_" . $new_max] = $_POST["conf_nr__" . $item_id . "_" . $max];
                     }
                 }
             }
         }
 
-        $group_id = $_POST["grp_id"];
+        $group_id = $this->book_request->getGroupId();
 
         $form = $this->initBookingNumbersForm($counter, $group_id, true);
         if ($form->checkInput()) {
@@ -908,21 +915,21 @@ class ilBookingProcessGUI
         } else {
             // ilDateTimeInputGUI does NOT add hidden values on disabled!
 
-            $rece_array = explode(".", $_POST['rece']);
+            $rece_array = explode(".", $rece);
 
             $rece_day = str_pad($rece_array[0], 2, "0", STR_PAD_LEFT);
             $rece_month = str_pad($rece_array[1], 2, "0", STR_PAD_LEFT);
             $rece_year = $rece_array[2];
 
             // ilDateTimeInputGUI will choke on POST array format
-            $_POST["rece"] = null;
+            //$_POST["rece"] = null;
 
             $form->setValuesByPost();
 
             $rece_date = new ilDate($rece_year . "-" . $rece_month . "-" . $rece_day, IL_CAL_DATE);
 
             $form->getItemByPostVar("rece")->setDate($rece_date);
-            $form->getItemByPostVar("recm")->setHideSubForm($_POST["recm"] < 1);
+            $form->getItemByPostVar("recm")->setHideSubForm($recm < 1);
 
             $hidden_date = new ilHiddenInputGUI("rece");
             $hidden_date->setValue($rece_date);
@@ -996,7 +1003,7 @@ class ilBookingProcessGUI
 
         // placeholder
 
-        $book_ids = ilBookingReservation::getObjectReservationForUser($id, $this->user_id_assigner, true);
+        $book_ids = ilBookingReservation::getObjectReservationForUser($id, $this->user_id_assigner);
         $tmp = array();
         foreach ($book_ids as $book_id) {
             if (in_array($book_id, $this->rsv_ids)) {
@@ -1078,7 +1085,8 @@ class ilBookingProcessGUI
             return;
         }
 
-        $book_id = ilBookingReservation::getObjectReservationForUser($id, $this->user_id_assigner);
+        $book_ids = ilBookingReservation::getObjectReservationForUser($id, $this->user_id_assigner);
+        $book_id = current($book_ids);
         $obj = new ilBookingReservation($book_id);
         if ($obj->getUserId() != $this->user_id_assigner) {
             return;
