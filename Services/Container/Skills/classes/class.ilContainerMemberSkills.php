@@ -175,6 +175,10 @@ class ilContainerMemberSkills
             }
         }
 
+        //write profile completion entries if fulfilment status has changed
+        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
+        $prof_manager->writeCompletionEntryForAllProfiles();
+
         $db->manipulate("UPDATE cont_member_skills SET " .
             " published = " . $db->quote(1, "integer") .
             " WHERE obj_id = " . $db->quote($this->getObjId(), "integer") .
