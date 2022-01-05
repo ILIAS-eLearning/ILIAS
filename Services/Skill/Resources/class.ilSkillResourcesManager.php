@@ -55,7 +55,7 @@ class ilSkillResourcesManager
         return $too_low;
     }
 
-    public function getSuggestedResourcesForProfile() : array
+    public function getSuggestedResources() : array
     {
         $resources = $this->res->getResources();
         $imp_resources = [];

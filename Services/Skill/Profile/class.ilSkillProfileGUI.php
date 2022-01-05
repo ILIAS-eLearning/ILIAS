@@ -281,6 +281,7 @@ class ilSkillProfileGUI
         $desc = $this->ui_fac->input()->field()->textarea($lng->txt("description"));
 
         // skill trees (if local profile)
+        $se = null;
         if ($a_mode == "createLocal") {
             $options = [];
             $trees = $this->tree_service->getObjSkillTrees();
@@ -317,10 +318,17 @@ class ilSkillProfileGUI
             }
         }
 
-        $section_basic = $this->ui_fac->input()->field()->section(
-            ["title" => $ti, "description" => $desc, "skill_tree" => $se],
-            $sec_des
-        );
+        if (is_null($se)) {
+            $section_basic = $this->ui_fac->input()->field()->section(
+                ["title" => $ti, "description" => $desc],
+                $sec_des
+            );
+        } else {
+            $section_basic = $this->ui_fac->input()->field()->section(
+                ["title" => $ti, "description" => $desc, "skill_tree" => $se],
+                $sec_des
+            );
+        }
         $section_advanced = $this->ui_fac->input()->field()->section(["image" => $img], $lng->txt("skmg_form_presentation"));
 
         $form = $this->ui_fac->input()->container()->form()->standard(
