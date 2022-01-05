@@ -13,24 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\BookingManager;
+
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSStorageBooking extends ilFileSystemStorage
+class getObjectSettingsResponse
 {
-    public function __construct(
-        int $a_container_id = 0
-    ) {
-        parent::__construct(self::STORAGE_WEB, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix() : string
+    protected \ilObjBookingServiceSettings $settings;
+
+    public function __construct(\ilObjBookingServiceSettings $settings)
     {
-        return 'book';
+        $this->settings = $settings;
     }
-    
-    protected function getPathPrefix() : string
+
+    public function getSettings() : \ilObjBookingServiceSettings
     {
-        return 'ilBookingManager';
+        return $this->settings;
     }
 }

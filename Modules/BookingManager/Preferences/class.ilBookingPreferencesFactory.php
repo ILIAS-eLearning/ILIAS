@@ -14,23 +14,17 @@
  */
 
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * Factory for booking preference data objects
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSStorageBooking extends ilFileSystemStorage
+class ilBookingPreferencesFactory
 {
-    public function __construct(
-        int $a_container_id = 0
-    ) {
-        parent::__construct(self::STORAGE_WEB, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix() : string
+    public function __construct()
     {
-        return 'book';
     }
-    
-    protected function getPathPrefix() : string
+
+    public function preferences(array $preferences) : ilBookingPreferences
     {
-        return 'ilBookingManager';
+        return new ilBookingPreferences($preferences);
     }
 }

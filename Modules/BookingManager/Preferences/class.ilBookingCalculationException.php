@@ -14,23 +14,9 @@
  */
 
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * Booking calculation exception
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSStorageBooking extends ilFileSystemStorage
+class ilBookingCalculationException extends ilException
 {
-    public function __construct(
-        int $a_container_id = 0
-    ) {
-        parent::__construct(self::STORAGE_WEB, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix() : string
-    {
-        return 'book';
-    }
-    
-    protected function getPathPrefix() : string
-    {
-        return 'ilBookingManager';
-    }
 }

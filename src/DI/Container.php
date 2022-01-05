@@ -307,14 +307,10 @@ class Container extends \Pimple\Container
     }
 
 
-    /**
-     * @return \ilBookingManagerService
-     */
-    public function bookingManager()
+    public function bookingManager() : \ILIAS\BookingManager\Service
     {
-        return new \ilBookingManagerService();
+        return new \ILIAS\BookingManager\Service($this);
     }
-
 
     /**
      * @return SkillService

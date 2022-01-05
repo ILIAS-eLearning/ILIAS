@@ -1,21 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilObjBookingPoolListGUI
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * $Id: class.ilObjCategoryListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
- *
- * @ingroup ModulesBookingManager
  */
 class ilObjBookingPoolListGUI extends ilObjectListGUI
 {
-    /**
-    * constructor
-    */
     public function __construct()
     {
         global $DIC;
@@ -25,9 +27,6 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
         parent::__construct();
     }
 
-    /**
-    * initialisation
-    */
     public function init()
     {
         $this->static_link_enabled = true;
@@ -44,25 +43,6 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjBookingPoolAccess::_getCommands();
     }
 
-    /**
-    * Get command target frame.
-    *
-    * Overwrite this method if link frame is not current frame
-    *
-    * @param	string		$a_cmd			command
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
-    {
-        return parent::getCommandFrame($a_cmd);
-    }
-
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    */
     public function getCommandLink($a_cmd)
     {
         $ilCtrl = $this->ctrl;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,24 +13,27 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\BookingManager;
+
+use ILIAS\DI\Container;
+
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSStorageBooking extends ilFileSystemStorage
+class Service
 {
-    public function __construct(
-        int $a_container_id = 0
-    ) {
-        parent::__construct(self::STORAGE_WEB, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix() : string
+    protected Container $DIC;
+
+    public function __construct(Container $DIC)
     {
-        return 'book';
+        $this->DIC = $DIC;
     }
-    
-    protected function getPathPrefix() : string
+
+    /**
+     * Internal service, do not use in other components
+     */
+    public function internal() : InternalService
     {
-        return 'ilBookingManager';
+        return new InternalService($this->DIC);
     }
 }
