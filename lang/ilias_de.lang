@@ -16714,3 +16714,6 @@ forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beitr�
 skmg#:#skmg_custom_image_alt#:#Benutzerdefiniertes Bild für Kompetenzprofil
 skmg#:#skmg_form_presentation#:#Darstellung
 skll#:#skll_lhist_skill_profile_fulfilled#:#Kompetenzprofil $3$ wurde erfüllt.
+skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinschätzung durch, damit Ihre Profil-Zielausprägung angezeigt wird. Klicken Sie hierzu auf die Schaltfläche "Aktionen".
+skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird die Profil-Zielausprägung für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
+skmg#:#skmg_recommended_learning_material#:#Empfohlene Lernmaterialien

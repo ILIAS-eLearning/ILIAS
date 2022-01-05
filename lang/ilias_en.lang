@@ -16717,3 +16717,6 @@ forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all fo
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
 skmg#:#skmg_form_presentation#:#Presentation
 skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your profile target level. Please click on "actions" for that.
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the profile target level for the affected competences until a self-evaluation is done.
+skmg#:#skmg_recommended_learning_material#:#Recommended Learning Materials
