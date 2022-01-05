@@ -181,11 +181,19 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
         $check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
         $form->addItem($check);
-
-        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'), 'file_upload_allowed_fora');
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_allow'), ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED));
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_disallow'), ilForumProperties::FILE_UPLOAD_INDIVIDUAL));
-        $file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
+    
+        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'),
+            'file_upload_allowed_fora');
+        $option_all_forums = new ilRadioOption($this->lng->txt('file_upload_option_allow'),
+            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED,
+            $this->lng->txt('file_upload_option_allow_info'));
+        $file_upload->addOption($option_all_forums);
+    
+        $option_per_forum = new ilRadioOption($this->lng->txt('file_upload_option_disallow'),
+            ilForumProperties::FILE_UPLOAD_INDIVIDUAL,
+            $this->lng->txt('file_upload_allowed_fora_desc'));
+        $file_upload->addOption($option_per_forum);
+        
         $form->addItem($file_upload);
 
         if (ilCronManager::isJobActive('frm_notification')) {

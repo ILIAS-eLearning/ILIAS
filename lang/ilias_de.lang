@@ -13057,7 +13057,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewählten Foren erlauben" ausgewählt ist, können Moderatoren das Anhängen von Dateien in den jeweiligen Foren-Einstellungen gezielt aktivieren. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
@@ -16638,3 +16638,4 @@ prg#:#prgr_new#:#Create Study Programme Link###03 11 2021 new variable
 prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###03 11 2021 new variable
 common#:#actions_for#:#Aktionen für %s
 common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
