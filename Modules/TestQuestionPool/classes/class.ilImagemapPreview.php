@@ -194,8 +194,10 @@ class ilImagemapPreview
 
         $source = ilUtil::escapeShellCmd($this->imagemap_filename);
         $target = ilUtil::escapeShellCmd($this->preview_filename);
+
         $convert_cmd = $source . "[0] " . $convert_cmd . " " . $target;
-        ilUtil::execConvert($convert_cmd);
+        $convert = ilUtil::getConvertCmd();
+        ilUtil::execQuoted($convert, $convert_cmd);
     }
 
     public function getPreviewFilename($imagePath, $baseFileName)
