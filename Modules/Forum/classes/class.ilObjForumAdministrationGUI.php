@@ -183,15 +183,15 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $form->addItem($check);
 
         $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'), 'file_upload_allowed_fora');
-        $option_1 = new ilRadioOption($this->lng->txt('file_upload_option_allow'),
-            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED);
-        $option_1->setInfo($this->lng->txt('file_upload_option_allow_info'));
-        $file_upload->addOption($option_1);
+        $option_all_forums = new ilRadioOption($this->lng->txt('file_upload_option_allow'),
+            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED,
+            $this->lng->txt('file_upload_option_allow_info'));
+        $file_upload->addOption($option_all_forums);
     
-        $option_2 = new ilRadioOption($this->lng->txt('file_upload_option_disallow'),
-            ilForumProperties::FILE_UPLOAD_INDIVIDUAL);
-        $option_2->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
-        $file_upload->addOption($option_2);
+        $option_per_forum = new ilRadioOption($this->lng->txt('file_upload_option_disallow'),
+            ilForumProperties::FILE_UPLOAD_INDIVIDUAL,
+            $this->lng->txt('file_upload_allowed_fora_desc'));
+        $file_upload->addOption($option_per_forum);
         
         $form->addItem($file_upload);
 
