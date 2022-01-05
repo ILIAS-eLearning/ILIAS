@@ -13109,7 +13109,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Das Anhängen von Dateien muss in jedem Forum von der Moderation aktiviert werden. Bei neuen Foren ist das Anhängen standardmäßig deaktiviert.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -16710,3 +16710,4 @@ rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
 rbac#:#manage_comp#:#Kompetenzen bearbeiten
 rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
 rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten
+forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
