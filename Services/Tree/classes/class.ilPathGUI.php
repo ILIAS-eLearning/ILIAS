@@ -231,6 +231,7 @@ class ilPathGUI
 
                 $first = false;
             }
+            $tpl->setVariable("TXT_BREADCRUMBS", $this->lng->txt("breadcrumb_navigation"));
             return $tpl->get();
         }
     }
