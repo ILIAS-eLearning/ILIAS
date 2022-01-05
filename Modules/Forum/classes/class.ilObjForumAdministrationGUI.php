@@ -183,9 +183,16 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $form->addItem($check);
 
         $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'), 'file_upload_allowed_fora');
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_allow'), ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED));
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_disallow'), ilForumProperties::FILE_UPLOAD_INDIVIDUAL));
-        $file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
+        $option_1 = new ilRadioOption($this->lng->txt('file_upload_option_allow'),
+            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED);
+        $option_1->setInfo($this->lng->txt('file_upload_option_allow_info'));
+        $file_upload->addOption($option_1);
+    
+        $option_2 = new ilRadioOption($this->lng->txt('file_upload_option_disallow'),
+            ilForumProperties::FILE_UPLOAD_INDIVIDUAL);
+        $option_2->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
+        $file_upload->addOption($option_2);
+        
         $form->addItem($file_upload);
 
         if (ilCronManager::isJobActive('frm_notification')) {
