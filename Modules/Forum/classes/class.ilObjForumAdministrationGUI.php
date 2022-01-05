@@ -181,8 +181,9 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
         $check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
         $form->addItem($check);
-
-        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'), 'file_upload_allowed_fora');
+    
+        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'),
+            'file_upload_allowed_fora');
         $option_all_forums = new ilRadioOption($this->lng->txt('file_upload_option_allow'),
             ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED,
             $this->lng->txt('file_upload_option_allow_info'));
