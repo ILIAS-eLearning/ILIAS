@@ -8,14 +8,8 @@
 class ilBiblFieldFilterPresentationGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    /**
-     * @var \ilBiblFactoryFacadeInterface
-     */
-    protected $facade;
-    /**
-     * @var \ilBiblFieldFilterInterface
-     */
-    protected $filter;
+    protected \ilBiblFactoryFacadeInterface $facade;
+    protected \ilBiblFieldFilterInterface $filter;
 
 
     /**
@@ -32,10 +26,7 @@ class ilBiblFieldFilterPresentationGUI
     }
 
 
-    /**
-     * @return ilTableFilterItem
-     */
-    public function getFilterItem()
+    public function getFilterItem(): \ilTableFilterItem
     {
         $field = $this->facade->fieldFactory()->findById($this->getFilter()->getFieldId());
         $translated = $this->facade->translationFactory()->translate($field);
@@ -69,19 +60,13 @@ class ilBiblFieldFilterPresentationGUI
     }
 
 
-    /**
-     * @return \ilBiblFieldFilterInterface
-     */
-    public function getFilter()
+    public function getFilter(): \ilBiblFieldFilterInterface
     {
         return $this->filter;
     }
 
 
-    /**
-     * @param \ilBiblFieldFilterInterface $filter
-     */
-    public function setFilter($filter)
+    public function setFilter(\ilBiblFieldFilterInterface $filter): void
     {
         $this->filter = $filter;
     }

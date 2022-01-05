@@ -53,12 +53,9 @@ class ilMDIdentifier_ extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_identifier__id'] = array('integer',$next_id = $ilDB->nextId('il_meta_identifier_'));
+        $fields['meta_identifier__id'] = array('integer',$next_id = $this->db->nextId('il_meta_identifier_'));
         
         if ($this->db->insert('il_meta_identifier_', $fields)) {
             $this->setMetaId($next_id);
@@ -69,9 +66,6 @@ class ilMDIdentifier_ extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -87,14 +81,11 @@ class ilMDIdentifier_ extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_identifier_ " .
-                "WHERE meta_identifier__id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_identifier__id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             return true;
         }
         return false;
@@ -114,13 +105,10 @@ class ilMDIdentifier_ extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_identifier_ " .
-                "WHERE meta_identifier__id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_identifier__id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -153,7 +141,7 @@ class ilMDIdentifier_ extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_identifier__id FROM il_meta_identifier_ " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

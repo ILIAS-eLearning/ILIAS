@@ -8,7 +8,6 @@
 
 /**
  * Class ilBiblTranslationFactory
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblTranslationFactoryInterface
@@ -20,114 +19,65 @@ interface ilBiblTranslationFactoryInterface
      * - if a explicit translation in the users language is available, use this
      * - if a translation is only for the systems language, us this
      * - return string like "bib_year"
-     *
-     * @param \ilBiblFieldInterface $field
-     *
-     * @return string
      */
-    public function translate(ilBiblFieldInterface $field);
+    public function translate(ilBiblFieldInterface $field) : string;
 
+    public function translateAttribute(ilBiblAttributeInterface $attribute) : string;
 
-    /**
-     * @param \ilBiblAttributeInterface $attribute
-     *
-     * @return string
-     */
-    public function translateAttribute(ilBiblAttributeInterface $attribute);
+    public function translateAttributeString(int $type_id, ilBiblAttributeInterface $attribute) : string;
 
-
-    /**
-     * @param int                      $type_id
-     * @param ilBiblAttributeInterface $attribute
-     *
-     * @return string
-     */
-    public function translateAttributeString($type_id, ilBiblAttributeInterface $attribute);
-
-
-    /**
-     * @return \ilBiblFieldFactoryInterface
-     */
-    public function getFieldFactory();
-
+    public function getFieldFactory() : \ilBiblFieldFactoryInterface;
 
     /**
      * @param \ilBiblFieldInterface $field
-     *
      * @return bool
      */
-    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field);
-
+    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) : bool;
 
     /**
      * @param \ilBiblFieldInterface $field
-     *
      * @return bool
      */
-    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field);
-
+    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : bool;
 
     /**
      * @param \ilBiblFieldInterface $field
-     *
      * @return bool
      */
-    public function translationExistsForField(ilBiblFieldInterface $field);
-
+    public function translationExistsForField(ilBiblFieldInterface $field) : bool;
 
     /**
      * @param \ilBiblFieldInterface $field
-     *
+     * @return \ilBiblTranslationInterface|null
+     */
+    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
+
+    /**
+     * @param \ilBiblFieldInterface $field
+     * @return \ilBiblTranslationInterface|null
+     */
+    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
+
+    /**
      * @return \ilBiblTranslationInterface
      */
-    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field);
-
-
-    /**
-     * @param \ilBiblFieldInterface $field
-     *
-     * @return \ilBiblTranslationInterface
-     */
-    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field);
-
+    public function findArCreateInstanceForFieldAndlanguage(
+        ilBiblFieldInterface $field,
+        string $language_key
+    ) : \ilBiblTranslationInterface;
 
     /**
-     * @param \ilBiblFieldInterface $field
-     * @param string                $language_key
-     *
-     * @return \ilBiblTranslationInterface
-     */
-    public function findArCreateInstanceForFieldAndlanguage(ilBiblFieldInterface $field, $language_key);
-
-
-    /**
-     * @param \ilBiblFieldInterface $field
-     *
      * @return \ilBiblTranslationInterface[]
      */
-    public function getAllTranslationsForField(ilBiblFieldInterface $field);
-
+    public function getAllTranslationsForField(ilBiblFieldInterface $field) : array;
 
     /**
      * @param \ilBiblFieldInterface $field
-     *
-     * @return array
+     * @return string[]
      */
-    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field);
+    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) : array;
 
+    public function findById(int $id) : \ilBiblTranslationInterface;
 
-    /**
-     * @param int $id
-     *
-     * @return \ilBiblTranslationInterface
-     */
-    public function findById($id);
-
-
-    /**
-     * @param int $id
-     *
-     * @return bool
-     */
-    public function deleteById($id);
+    public function deleteById(int $id) : bool;
 }

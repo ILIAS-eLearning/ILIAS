@@ -9,19 +9,10 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
     const TBL_ID = 'tbl_bibl_fields';
-    /**
-     * @var \ilBiblAdminFactoryFacadeInterface
-     */
-    protected $facade;
-    /**
-     * @var array
-     */
-    protected $filter = [];
-    /**
-     * @var int
-     */
-    protected $position_index = 1;
-
+    protected \ilBiblAdminFactoryFacadeInterface $facade;
+    protected int $position_index = 1;
+    protected array $filter = [];
+    
     /**
      * ilBiblAdminFieldTableGUI constructor.
      * @param object                             $a_parent_obj
@@ -60,7 +51,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng()->txt('order'));
         $this->addColumn($this->lng()->txt('identifier'));
@@ -69,7 +60,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->addColumn($this->lng()->txt('actions'), '', '150px');
     }
 
-    protected function addFilterItems()
+    protected function addFilterItems() : void
     {
         $field = new ilTextInputGUI($this->lng()->txt('identifier'), 'identifier');
         $this->addAndReadFilterItem($field);
@@ -78,7 +69,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     /**
      * @param $field
      */
-    protected function addAndReadFilterItem(ilFormPropertyGUI $field)
+    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -111,7 +102,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("STANDARD");
-        if ($field->getIsStandardField()) {
+        if ($field->isStandardField()) {
             $this->tpl->setVariable('IS_STANDARD_VALUE', $this->lng()->txt('standard'));
         } else {
             $this->tpl->setVariable('IS_STANDARD_VALUE', $this->lng()->txt('custom'));
@@ -128,7 +119,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     /**
      * @param \ilBiblFieldInterface $field
      */
-    protected function addActionMenu(ilBiblFieldInterface $field)
+    protected function addActionMenu(ilBiblFieldInterface $field) : void
     {
         $selectionList = new ilAdvancedSelectionListGUI();
         $selectionList->setListTitle($this->lng->txt('actions'));
@@ -137,16 +128,18 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->ctrl()
              ->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
         $this->ctrl()
-             ->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
+             ->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
+                 $field->getId());
 
         $txt = $this->lng()->txt('translate');
         $selectionList->addItem($txt, '', $this->ctrl()
-                                               ->getLinkTargetByClass(ilBiblTranslationGUI::class, ilBiblTranslationGUI::CMD_DEFAULT));
+                                               ->getLinkTargetByClass(ilBiblTranslationGUI::class,
+                                                   ilBiblTranslationGUI::CMD_DEFAULT));
 
         $this->tpl->setVariable('VAL_ACTIONS', $selectionList->getHTML());
     }
 
-    protected function parseData()
+    protected function parseData() : void
     {
         $this->determineOffsetAndOrder();
         $this->determineLimit();

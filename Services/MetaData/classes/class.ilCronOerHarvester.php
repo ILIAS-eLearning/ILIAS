@@ -20,15 +20,8 @@ class ilCronOerHarvester extends ilCronJob
      */
     const DEFAULT_SCHEDULE_VALUE = 1;
 
-    /**
-     * @var \ilLogger
-     */
-    private $logger = null;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $lng = null;
+    private ilLogger $logger;
+    private ilLanguage $lng;
 
     /**
      * @var null
@@ -157,18 +150,14 @@ class ilCronOerHarvester extends ilCronJob
 
     public function addToExternalSettingsForm(int $a_form_id, &$a_fields, bool $a_is_active) : void
     {
-        #23901
-        global $DIC;
-        $lng = $DIC->language();
-
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT:
 
                 $a_fields['meta_oer_harvester'] =
                     (
                         $a_is_active ?
-                        $lng->txt('enabled') :
-                        $lng->txt('disabled')
+                        $this->lng->txt('enabled') :
+                        $this->lng->txt('disabled')
                     );
                 break;
         }

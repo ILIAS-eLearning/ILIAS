@@ -10,18 +10,8 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_filters';
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
-    /**
-     * @var array
-     */
-    protected $filter = [];
-    /**
-     * @var \ILIAS\UI\Component\Modal\Interruptive[]
-     */
-    protected $interruptive_modals = [];
+    protected \ilBiblFactoryFacade $facade;
+    protected array $interruptive_modals = [];
 
 
     /**
@@ -59,7 +49,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('field'), 'field');
         $this->addColumn($this->lng()->txt('filter_type'), 'filter_type');
@@ -67,7 +57,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function addFilterItems()
+    protected function addFilterItems(): void
     {
         $field = new ilTextInputGUI($this->lng()->txt('field'), 'field');
         $this->addAndReadFilterItem($field);
@@ -77,7 +67,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     /**
      * @param $field
      */
-    protected function addAndReadFilterItem(ilFormPropertyGUI $field)
+    protected function addAndReadFilterItem(ilFormPropertyGUI $field): void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -120,7 +110,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     /**
      * @param \ilBiblFieldFilter $ilBiblFieldFilter
      */
-    protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter)
+    protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter): void
     {
         $this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
@@ -143,7 +133,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function parseData()
+    protected function parseData(): void
     {
         $this->determineOffsetAndOrder();
         $this->determineLimit();

@@ -11,8 +11,9 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     /**
      * @inheritDoc
      */
-    public function findById($id)
+    public function findById(int $id) : \ilBiblFieldFilter
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilBiblFieldFilter::findOrFail($id);
     }
 
@@ -20,8 +21,9 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     /**
      * @inheritDoc
      */
-    public function findByFieldId($id)
+    public function findByFieldId(int $id): ?\ilBiblFieldFilter
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilBiblFieldFilter::where(['field_id' => $id])->first();
     }
 
@@ -29,7 +31,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getAllForObjectId($obj_id)
+    public function getAllForObjectId(int $obj_id) : array
     {
         return ilBiblFieldFilter::where(['object_id' => $obj_id])->get();
     }
@@ -38,7 +40,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     /**
      * @inheritDoc
      */
-    public function filterItemsForTable($obj_id, ilBiblTableQueryInfoInterface $info)
+    public function filterItemsForTable(int $obj_id, ilBiblTableQueryInfoInterface $info) : array
     {
         $list = ilBiblFieldFilter::where(['object_id' => $obj_id])
             ->limit($info->getOffset(), $info->getLimit())
@@ -51,7 +53,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getByObjectIdAndField(ilBiblFieldInterface $field, $object_id)
+    public function getByObjectIdAndField(ilBiblFieldInterface $field, int $object_id) : ilBiblFieldFilterInterface
     {
         $list = ilBiblFieldFilter::where([
             'object_id' => $object_id,
@@ -60,7 +62,8 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
         if (!$list) {
             throw new LogicException("filter not found");
         }
-
+    
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $list;
     }
 }

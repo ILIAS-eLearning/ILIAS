@@ -13105,7 +13105,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
-forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora_desc#:#The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default.
 forum#:#file_upload_allowed_fora#:#Attachments
 forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
 forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
@@ -16713,3 +16713,4 @@ rbac#:#read_profiles#:#User has read access to Competence Profiles
 rbac#:#manage_comp#:#User can change Competences
 rbac#:#manage_comp_temp#:#User can change Competence Templates
 rbac#:#manage_profiles#:#User can change Competence Profiles
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.

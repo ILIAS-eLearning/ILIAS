@@ -1,29 +1,32 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\UI\Implementation\Component\Button\Bulky;
 
-/**
- * Help meta bar provider
- * @author <killing@leifos.de>
- */
 class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider
 {
     use ilHelpDisplayed;
 
-    /**
-     * @return IdentificationInterface
-     */
     private function getId() : IdentificationInterface
     {
         return $this->if->identifier('help');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMetaBarItems() : array
     {
         global $DIC;
@@ -37,7 +40,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
         if ($this->showHelpTool()) {
             // position should be 0, see bug #26794
             $item = $mb->topLinkItem($this->getId())
-                       ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
+                       ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ?ILIAS\UI\Component\Component {
                            if ($c instanceof Bulky) {
                                return $c->withAdditionalOnLoadCode(static function (string $id) : string {
                                    return "$('#$id').on('click', function() {
@@ -46,6 +49,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                                 })";
                                });
                            }
+                           return null;
                        })
 //                       ->withAction($this->dic->ctrl()->getLinkTargetByClass(ilDashboardGUI::class, "toggleHelp"))
                        ->withSymbol($f->symbol()->glyph()->help())

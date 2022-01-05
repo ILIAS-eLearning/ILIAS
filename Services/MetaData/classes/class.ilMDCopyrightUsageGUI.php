@@ -18,25 +18,10 @@ class ilMDCopyrightUsageGUI
      */
     protected $entry_id;
 
-    /**
-     * @var ilTemplate|null
-     */
-    protected $tpl = null;
-
-    /**
-     * @var ilCtrl|null
-     */
-    protected $ctrl = null;
-
-    /**
-     * @var ilLanguage|null
-     */
-    protected $lng = null;
-
-    /**
-     * @var \ilTabsGUI|null
-     */
-    protected $tabs = null;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
 
     /**
      * ilMDCopyrightUsageGUI constructor.
@@ -87,10 +72,6 @@ class ilMDCopyrightUsageGUI
      */
     public function showUsageTable()
     {
-        global $DIC;
-
-        $tabs = $DIC->tabs();
-        $lng = $DIC->language();
 
         ilUtil::sendInfo($this->lng->txt("meta_info_only_repository_objects"));
 

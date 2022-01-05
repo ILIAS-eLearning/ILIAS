@@ -2,79 +2,32 @@
 
 /**
  * Interface ilBiblEntryInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblFieldInterface
 {
-    const DATA_TYPE_RIS = 1;
-    const DATA_TYPE_BIBTEX = 2;
-
-
-    /**
-     * @return int
-     */
-    public function getId();
-
-
-    /**
-     * @param int $id
-     */
-    public function setId($id);
-
-
-    /**
-     * @return string
-     */
-    public function getIdentifier();
-
-
-    /**
-     * @param string $identifier
-     */
-    public function setIdentifier($identifier);
-
-
-    /**
-     * @return int
-     */
-    public function getPosition();
-
-
-    /**
-     * @param int $position
-     */
-    public function setPosition($position);
-
-
-    /**
-     * @return int
-     */
-    public function getIsStandardField();
-
-
-    /**
-     * @param int $is_standard_field
-     */
-    public function setIsStandardField($is_standard_field);
-
-
-    /**
-     * @return int
-     */
-    public function getDataType();
-
-
-    /**
-     * @param int $data_type
-     */
-    public function setDataType($data_type);
-
-
-    /**
-     * Stores the Object, creates a newone in Db if non existing or updates an existing
-     *
-     * @return void
-     */
-    public function store();
+    public const DATA_TYPE_RIS = 1;
+    public const DATA_TYPE_BIBTEX = 2;
+    
+    public function getId() : ?int;
+    
+    public function setId(int $id) : void;
+    
+    public function getIdentifier() : string;
+    
+    public function setIdentifier(string $identifier) : void;
+    
+    public function getPosition() : ?int;
+    
+    public function setPosition(int $position) : void;
+    
+    public function isStandardField() : bool;
+    
+    public function setIsStandardField(bool $is_standard_field) : void;
+    
+    public function getDataType() : int;
+    
+    public function setDataType(int $data_type) : void;
+    
+    public function store() : void;
 }
