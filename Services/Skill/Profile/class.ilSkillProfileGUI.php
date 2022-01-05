@@ -360,7 +360,7 @@ class ilSkillProfileGUI
             $prof->setTitle($result["section_basic"]["title"]);
             $prof->setDescription($result["section_basic"]["description"]);
             $prof->setSkillTreeId($this->skill_tree_id);
-            $prof->setImageId($result["section_advanced"]["image"][0]);
+            $prof->setImageId($result["section_advanced"]["image"][0] ?? "");
             $prof->create();
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -392,7 +392,7 @@ class ilSkillProfileGUI
             $prof->setTitle($result["section_basic"]["title"]);
             $prof->setDescription($result["section_basic"]["description"]);
             $prof->setSkillTreeId($result["section_basic"]["skill_tree"]);
-            $prof->setImageId($result["section_advanced"]["image"][0]);
+            $prof->setImageId($result["section_advanced"]["image"][0] ?? "");
             $prof->setRefId($this->requested_ref_id);
             $prof->create();
             $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole($this->requested_ref_id));
@@ -423,7 +423,7 @@ class ilSkillProfileGUI
             }
             $this->profile->setTitle($result["section_basic"]["title"]);
             $this->profile->setDescription($result["section_basic"]["description"]);
-            $this->profile->setImageId($result["section_advanced"]["image"][0]);
+            $this->profile->setImageId($result["section_advanced"]["image"][0] ?? "");
             $this->profile->update();
             
             ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
