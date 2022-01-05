@@ -258,4 +258,15 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_10()
+    {
+        if (!$this->db->tableColumnExists("skl_profile", "image_id")) {
+            $this->db->addTableColumn("skl_profile", "image_id", array(
+                "type" => "text",
+                "notnull" => false,
+                "length" => 4000
+            ));
+        }
+    }
 }
