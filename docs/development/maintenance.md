@@ -96,7 +96,7 @@ file containes the following fields:
 
 ## Current Maintainerships
 
-###Components in the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers):
+Components in the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers):
 
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -711,7 +711,7 @@ file containes the following fields:
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 
-###Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
+Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 * **Data Collection**
 	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
@@ -747,7 +747,7 @@ The following directories are currently maintained under the [Coordinator Model]
 * src/Refinery
 * src/UI
 
-###Unmaintained
+##Unmaintained Components
 
 The following directories are currently unmaintained:
 
