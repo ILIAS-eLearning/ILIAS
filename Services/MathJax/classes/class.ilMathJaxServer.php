@@ -51,7 +51,7 @@ class ilMathJaxServer
     /**
      * Call the mathjax server by curl
      */
-    protected function callByCurl(array $options): string
+    protected function callByCurl(array $options) : string
     {
         $curl = curl_init($this->config->getServerAddress());
         curl_setopt($curl, CURLOPT_HEADER, false);
