@@ -747,7 +747,7 @@ The following directories are currently maintained under the [Coordinator Model]
 * src/Refinery
 * src/UI
 
-##Unmaintained Components
+## Unmaintained Components
 
 The following directories are currently unmaintained:
 
