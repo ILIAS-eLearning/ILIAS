@@ -18,7 +18,7 @@
  */
 class ilMathJaxConfig
 {
-    const LIMITER_MATHJAX = 0;
+    private const LIMITER_MATHJAX = 0;
     const LIMITER_TEX = 1;
     const LIMITER_SPAN = 2;
 
