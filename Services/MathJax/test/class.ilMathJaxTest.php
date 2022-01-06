@@ -39,7 +39,7 @@ class ilMathJaxTest extends ilMathJaxBaseTest
         $this->assertEquals($expected, $result, 'input: ' . $input);
     }
 
-    public function clientSideData()
+    public function clientSideData() : array
     {
         return  [
             [0, '[tex]e=m*c^2[/tex]', null, null, '\(e=m*c^2\)'],
