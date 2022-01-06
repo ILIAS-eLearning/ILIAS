@@ -20,7 +20,7 @@ class ilMathJaxConfig
 {
     private const LIMITER_MATHJAX = 0;
     private const LIMITER_TEX = 1;
-    const LIMITER_SPAN = 2;
+    private const LIMITER_SPAN = 2;
 
     protected bool $client_enabled;
     protected string $client_polyfill_url;
