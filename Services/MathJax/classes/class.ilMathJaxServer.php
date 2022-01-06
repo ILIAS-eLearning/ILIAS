@@ -38,7 +38,7 @@ class ilMathJaxServer
      * @return string
      * @throws ilMathJaxException
      */
-    public function call(array $options): string
+    public function call(array $options) : string
     {
         if (extension_loaded('cURL')) {
             return $this->callByCurl($options);
