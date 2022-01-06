@@ -9867,7 +9867,7 @@ prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The posting is published.
 survey#:#svy_page_add_question#:#Add new %s
-skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
@@ -13913,7 +13913,7 @@ survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participan
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#svy_mail_own_results_body#:#you participated in the following survey:
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available competence levels.
 common#:#grpr_edit_info#:#Please choose one group for creating a new group link.
 common#:#grpr_edit#:#Edit Group Link
 common#:#grpr_new#:#Create Group Link
