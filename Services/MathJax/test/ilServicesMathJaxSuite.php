@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilServicesMathJaxSuite extends TestSuite
 {
-    const TEST_CLASSES = [
+    private const TEST_CLASSES = [
       'ilMathJaxTest'
     ];
 
