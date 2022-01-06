@@ -178,6 +178,7 @@ class ilTaggingGUI
             "VAL_TAGS",
             ilUtil::prepareFormOutput(implode(", ", $tags))
         );
+        $ttpl->setVariable("TAG_LABEL", $lng->txt("tagging_my_tags"));
         $ttpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $ttpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $ttpl->setVariable("CMD_SAVE", $this->savecmd);
