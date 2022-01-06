@@ -19,7 +19,7 @@
 class ilMathJaxConfig
 {
     private const LIMITER_MATHJAX = 0;
-    const LIMITER_TEX = 1;
+    private const LIMITER_TEX = 1;
     const LIMITER_SPAN = 2;
 
     protected bool $client_enabled;
