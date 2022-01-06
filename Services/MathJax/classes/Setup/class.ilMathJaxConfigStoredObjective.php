@@ -1,6 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Setup;
 
@@ -29,25 +40,21 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
 
     public function isNotable() : bool
     {
-        return false;
+        return true;
     }
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new ilIniFilesLoadedObjective()
+            new \ilSettingsFactoryExistsObjective()
         ];
     }
 
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "latex", $this->config->getPathToLatexCGI());
-
-        if (!$ini->write()) {
-            throw new Setup\UnachievableException("Could not write ilias.ini.php");
-        }
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $repo = new ilMathJaxConfigSettingsRepository($factory);
+        $repo->updateConfig($this->config->applyTo($repo->getConfig()));
 
         return $environment;
     }
@@ -57,8 +64,10 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $repo = new ilMathJaxConfigSettingsRepository($factory);
 
-        return $ini->readVariable("tools", "latex") !== $this->config->getPathToLatexCGI();
+        return $this->config->isApplicableTo($repo->getConfig());
+
     }
 }
