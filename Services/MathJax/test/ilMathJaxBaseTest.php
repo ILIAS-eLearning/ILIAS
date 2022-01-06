@@ -20,8 +20,12 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMathJaxBaseTest extends TestCase
 {
-
-    protected function getEmptyConfig() : ilMathJaxConfig {
+    /**
+     * Get a config without active settings
+     * @return ilMathJaxConfig
+     */
+    protected function getEmptyConfig(): ilMathJaxConfig
+    {
         return new ilMathJaxConfig(
             false,
             '',
@@ -36,7 +40,12 @@ abstract class ilMathJaxBaseTest extends TestCase
         );
     }
 
-    protected function getFactoryMock($imagefile = null)
+    /**
+     * Get a factory mockup that will deliver other mockups
+     * @param string|null $imagefile
+     * @return ilMathJaxFactory
+     */
+    protected function getFactoryMock(?string $imagefile = null): ilMathJaxFactory
     {
         $factory = $this
             ->getMockBuilder(ilMathJaxFactory::class)
@@ -51,7 +60,11 @@ abstract class ilMathJaxBaseTest extends TestCase
         return $factory;
     }
 
-    protected function getTemplateMock()
+    /**
+     * Get a global template mockup
+     * @return ilGlobalTemplate
+     */
+    protected function getTemplateMock(): ilGlobalTemplate
     {
         $template = $this
             ->getMockBuilder(ilGlobalTemplate::class)
@@ -61,7 +74,12 @@ abstract class ilMathJaxBaseTest extends TestCase
         return $template;
     }
 
-    protected function getImageMock($imagefile)
+    /**
+     * Get a cached image mockup from an example file
+     * @param string $imagefile name of the example file in the test directory
+     * @return ilMathJaxImage
+     */
+    protected function getImageMock(string $imagefile): ilMathJaxImage
     {
         $image = $this
             ->getMockBuilder(ilMathJaxImage::class)
@@ -75,7 +93,11 @@ abstract class ilMathJaxBaseTest extends TestCase
         return $image;
     }
 
-    protected function getServerMock()
+    /**
+     * Get a mockup of the class for server calls
+     * @return ilMathJaxServer
+     */
+    protected function getServerMock(): ilMathJaxServer
     {
         $server = $this
             ->getMockBuilder(ilMathJaxServer::class)
