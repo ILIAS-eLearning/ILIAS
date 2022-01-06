@@ -21,13 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("IL_NO_PERMISSION", "no_permission");
-define("IL_MISSING_PRECONDITION", "missing_precondition");
-define("IL_NO_OBJECT_ACCESS", "no_object_access");
-define("IL_NO_PARENT_ACCESS", "no_parent_access");
-define("IL_DELETED", 'object_deleted');
-define("IL_STATUS_INFO", 'object_status');
-define("IL_STATUS_MESSAGE", IL_STATUS_INFO);
 /**
 * class ilAccessInfo
 *
@@ -38,23 +31,26 @@ define("IL_STATUS_MESSAGE", IL_STATUS_INFO);
 */
 class ilAccessInfo
 {
-    const IL_STATUS_INFO = 'object_status';
+    public const IL_NO_PERMISSION = 'no_permission';
+    public const IL_MISSING_PRECONDITION = "missing_precondition";
+    public const IL_NO_OBJECT_ACCESS = "no_object_access";
+    public const IL_NO_PARENT_ACCESS = "no_parent_access";
+    public const IL_DELETED = 'object_deleted';
+    public const IL_STATUS_INFO = 'object_status';
+    public const IL_STATUS_MESSAGE = self::IL_STATUS_INFO;
+
+    private array $info_items = [];
 
 
-    public function __construct()
+    public function clear() : void
     {
-        $this->info_items = array();
-    }
-
-    public function clear()
-    {
-        $this->info_items = array();
+        $this->info_items = [];
     }
 
     /**
     * add an info item
     */
-    public function addInfoItem($a_type, $a_text, $a_data = "")
+    public function addInfoItem(string $a_type, string $a_text, string $a_data = "") : void
     {
         $this->info_items[] = array(
                                     "type" => $a_type,
@@ -66,19 +62,8 @@ class ilAccessInfo
     /**
     * get all info items
     */
-    public function getInfoItems()
+    public function getInfoItems() : array
     {
         return $this->info_items;
-    }
-    
-    public function setQueryData($a_result)
-    {
-        $this->query = array(
-                            "ref_id" => $a_result[1],
-                            "permission" => $a_result[2],
-                            "cmd" => $a_result[3],
-                            "user_id" => $a_result[4]
-                            );
-        $this->result = $a_result[0];
     }
 }

@@ -11,69 +11,62 @@ include_once './Services/AccessControl/exceptions/class.ilRoleImporterException.
  */
 class ilRoleXmlImporter
 {
-    protected $role_folder = 0;
-    protected $role = null;
+    protected int $role_folder = 0;
+    protected ?ilObject $role = null;
     
-    protected $xml = '';
+    protected string $xml = '';
 
-    /**
-     * @var \ilLogger|null
-     */
-    private $logger = null;
+    private ilLogger $logger;
+    private ilRbacAdmin $rbacadmin;
+    private ilRbacReview $rbacreview;
+    private ilLanguage $language;
     
     /**
      * Constructor
      */
-    public function __construct($a_role_folder_id = 0)
+    public function __construct(int $a_role_folder_id = 0)
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->otpl();
+        $this->logger = $DIC->logger()->ac();
+        $this->rbacreview = $DIC->rbac()->review();
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->language = $DIC->language();
+
         $this->role_folder = $a_role_folder_id;
+
     }
     
-    public function setXml($a_xml)
+    public function setXml(string $a_xml) : void
     {
         $this->xml = $a_xml;
     }
     
-    public function getXml()
+    public function getXml() : string
     {
         return $this->xml;
     }
     
-    /**
-     * Get role folder id
-     * @return int
-     */
-    public function getRoleFolderId()
+    public function getRoleFolderId() : int
     {
         return $this->role_folder;
     }
     
-    /**
-     * Get role
-     * @return ilObjRole
-     */
-    public function getRole()
+    public function getRole() : ?ilObject
     {
         return $this->role;
     }
     
-    /**
-     * Set role or role template
-     * @param ilObject $role
-     */
-    public function setRole(ilObject $role)
+    public function setRole(ilObject $role) : void
     {
         $this->role = $role;
     }
     
     /**
      * import role | role templatae
-     * @throws ilRoleXmlImporterException
+     * @throws ilRoleImporterException
      */
-    public function import()
+    public function import() : void
     {
         libxml_use_internal_errors(true);
         
@@ -90,25 +83,11 @@ class ilRoleXmlImporter
     }
 
 
-    /**
-     * Import using simplexml
-     * @param SimpleXMLElement $role
-     */
-    public function importSimpleXml(SimpleXMLElement $role)
+    public function importSimpleXml(SimpleXMLElement $role) : int
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-        $lng = $DIC['lng'];
-
         $import_id = (string) $role['id'];
         $this->logger->info('Importing role with import_id: ' . $import_id);
-
-        if (!$this->initRole($import_id)) {
-            return 0;
-        }
-        
+        $this->initRole($import_id);
         $this->getRole()->setTitle(trim((string) $role->title));
         $this->getRole()->setDescription(trim((string) $role->description));
 
@@ -120,9 +99,9 @@ class ilRoleXmlImporter
         if (count($exp) > 0 && $exp[0] === "il") {
             if (count($exp) > 1 && $exp[1] !== $type) {
                 throw new ilRoleImporterException(sprintf(
-                    $lng->txt("rbac_cant_import_role_wrong_type"),
-                    $lng->txt('obj_' . $exp[1]),
-                    $lng->txt('obj_' . $type)
+                    $this->language->txt("rbac_cant_import_role_wrong_type"),
+                    $this->language->txt('obj_' . $exp[1]),
+                    $this->language->txt('obj_' . $type)
                 ));
             }
 
@@ -131,7 +110,6 @@ class ilRoleXmlImporter
             $id = ilObjRole::_getIdsForTitle(implode("_", $exp));
 
             if ($id[0]) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Overwrite role ' . implode("_", $exp));
                 $this->getRole()->setId($id[0]);
                 $this->getRole()->read();
             }
@@ -139,7 +117,7 @@ class ilRoleXmlImporter
 
         // Create or update
         if ($this->getRole()->getId()) {
-            $rbacadmin->deleteRolePermission($this->getRole()->getId(), $this->getRoleFolderId());
+            $this->rbacadmin->deleteRolePermission($this->getRole()->getId(), $this->getRoleFolderId());
             $this->getRole()->update();
         } else {
             $this->getRole()->create();
@@ -150,11 +128,11 @@ class ilRoleXmlImporter
 
         $protected = (string) $role['protected'];
         if ($protected) {
-            $rbacadmin->setProtected(0, $this->getRole()->getId(), 'y');
+            $this->rbacadmin->setProtected(0, $this->getRole()->getId(), 'y');
         }
 
         // Add operations
-        $ops = $rbacreview->getOperations();
+        $ops = $this->rbacreview->getOperations();
         $operations = array();
         foreach ($ops as $ope) {
             $operations[$ope['operation']] = $ope['ops_id'];
@@ -167,45 +145,29 @@ class ilRoleXmlImporter
                 $ops = trim((string) $sxml_op);
                 
                 if ($ops_group and $ops_id) {
-                    $rbacadmin->setRolePermission(
+                    $this->rbacadmin->setRolePermission(
                         $this->getRole()->getId(),
                         $ops_group,
                         array($ops_id),
                         $this->getRoleFolderId() // #10161
                     );
-                } else {
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Cannot create operation for...');
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': New operation for group ' . $ops_group);
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': New operation ' . $ops);
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': New operation ' . $ops_id);
                 }
             }
         }
-
         return $this->getRole()->getId();
     }
     
-    /**
-     * Assign role to folder
-     * @global type $rbacadmin
-     * @return type
-     */
-    protected function assigntoRoleFolder()
+    protected function assignToRoleFolder() : void
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-        
         if (!$this->getRoleFolderId()) {
             return;
         }
 
-        if ($rbacreview->isRoleAssignedToObject($this->getRole()->getId(), $this->getRoleFolderId())) {
+        if ($this->rbacreview->isRoleAssignedToObject($this->getRole()->getId(), $this->getRoleFolderId())) {
             return;
         }
 
-        $rbacadmin->assignRoleToFolder(
+        $this->rbacadmin->assignRoleToFolder(
             $this->getRole()->getId(),
             $this->getRoleFolderId(),
             $this->getRole() instanceof ilObjRole ? 'y' : 'n'
@@ -213,10 +175,10 @@ class ilRoleXmlImporter
     }
 
 
-    protected function initRole($import_id)
+    protected function initRole(string $import_id) : void
     {
         if ($this->getRole()) {
-            return true;
+            return;
         }
 
         $this->logger->debug('Searching already imported role by import_id: ' . $import_id);
@@ -238,10 +200,9 @@ class ilRoleXmlImporter
             $this->role = new ilObjRoleTemplate();
         }
         $this->role->setImportId((string) $import_id);
-        return true;
     }
     
-    protected function parseXmlErrors()
+    protected function parseXmlErrors() : string
     {
         $errors = '';
         

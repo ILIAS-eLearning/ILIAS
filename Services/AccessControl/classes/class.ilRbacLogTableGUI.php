@@ -9,10 +9,7 @@ include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 *
-* @version $Id: class.ilObjRoleGUI.php 24339 2010-06-23 15:06:55Z jluetzen $
-*
 * @ilCtrl_Calls ilRbacLogTableGUI:
-*
 * @ingroup	ServicesAccessControl
 */
 class ilRbacLogTableGUI extends ilTable2GUI
@@ -20,21 +17,18 @@ class ilRbacLogTableGUI extends ilTable2GUI
     protected $operations = array();
     protected $filter = array();
     protected $action_map = array();
+
+    private int $ref_id;
     
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
 
         $this->setId("rbaclog");
         $this->ref_id = $a_ref_id;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setTitle($lng->txt("rbac_log"));
+        $this->setTitle($this->lng->txt("rbac_log"));
         $this->setLimit(5);
         
         $this->addColumn($this->lng->txt("date"), "", "15%");
@@ -45,7 +39,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.rbac_log_row.html", "Services/AccessControl");
         $this->setFilterCommand("applyLogFilter");
         $this->setResetCommand("resetLogFilter");
@@ -60,7 +54,6 @@ class ilRbacLogTableGUI extends ilTable2GUI
             ilRbacLog::CHANGE_OWNER => $this->lng->txt("rbac_log_change_owner"));
 
         $this->initFilter();
-
         $this->getItems($this->ref_id, $this->filter);
     }
 
@@ -74,7 +67,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->filter["date"] = $item->getDate();
     }
 
-    protected function getItems($a_ref_id, array $a_current_filter = null)
+    protected function getItems(int $a_ref_id, array $a_current_filter = null) : void
     {
         global $DIC;
 
@@ -123,7 +116,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         }
     }
 
-    protected function parseChangesFaPa(array $raw)
+    protected function parseChangesFaPa(array $raw) : array
     {
         $result = array();
 
@@ -166,7 +159,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         return $result;
     }
 
-    protected function parseChangesTemplate(array $raw)
+    protected function parseChangesTemplate(array $raw) : array
     {
         $result = array();
         foreach ($raw as $type => $actions) {
@@ -180,8 +173,12 @@ class ilRbacLogTableGUI extends ilTable2GUI
         return $result;
     }
 
-    // #10946
-    protected function getOPCaption($a_type, $a_op)
+    /**
+     * @param string           $a_type
+     * @param array|int|string $a_op
+     * @return string
+     */
+    protected function getOPCaption(string $a_type, $a_op) : string
     {
         // #11717
         if (is_array($a_op)) {
@@ -217,34 +214,26 @@ class ilRbacLogTableGUI extends ilTable2GUI
                 return $perm;
             }
         }
+        return '';
     }
 
     /**
      * Check the type for plugin and get the translation for op_id
-     *
-     * @param string 	$type
-     * @param string 	$op_id
-     * @return string | null
      */
-    protected function getTranslationFromPlugin($type, $op_id)
+    protected function getTranslationFromPlugin(string $type, string $op_id) : ?string
     {
         global $objDefinition;
 
         if ($objDefinition->isPlugin($type)) {
             return ilObjectPlugin::lookupTxtById($type, $op_id);
         }
-
         return null;
     }
 
     /**
      * Check the op is translated correctly
-     *
-     * @param string 	$type
-     * @param string 	$op_id
-     * @return bool
      */
-    protected function notTranslated($perm, $op_id)
+    protected function notTranslated(string $perm, string $op_id) : bool
     {
         return is_null($perm) || (strpos($perm, $op_id) !== false);
     }

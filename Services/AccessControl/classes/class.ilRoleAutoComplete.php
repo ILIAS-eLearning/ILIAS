@@ -10,12 +10,11 @@ class ilRoleAutoComplete
     /**
     * Get completion list
     */
-    public static function getList($a_str)
+    public static function getList(string $a_str) : string
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $ilDB->setLimit(20);
         $query = "SELECT o1.title role,o2.title container FROM object_data o1 " .
             "JOIN rbac_fa fa ON o1.obj_id = rol_id " .
@@ -48,15 +47,13 @@ class ilRoleAutoComplete
     
     /**
      * Get list of roles assigned to an object
-     * @return
-     * @param object $result
      */
-    public static function getListByObject($a_str)
+    public static function getListByObject(string $a_str) : string
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-        $ilDB = $DIC['ilDB'];
+        $rbacreview = $DIC->rbac()->review();
+        $ilDB = $DIC->database();
         
         include_once './Services/JSON/classes/class.ilJsonUtil.php';
         $result = array();

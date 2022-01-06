@@ -12,37 +12,34 @@
  */
 class ilSettingsPermissionGUI
 {
-    protected $permissions = array();			// permissions selected by context
-    protected $base_permissions = array();		// base permissions of the object type (ops_id -> permission)
-    protected $base_permissions_by_op = array();// base permissions of the object type (permission -> ops_id)
-    protected $role_required_permissions = array();
-    protected $role_prohibited_permissions = array();
+    protected array $permissions = array();			// permissions selected by context
+    protected array $base_permissions = array();		// base permissions of the object type (ops_id -> permission)
+    protected array $base_permissions_by_op = array();// base permissions of the object type (permission -> ops_id)
+    protected array $role_required_permissions = array();
+    protected array $role_prohibited_permissions = array();
+    protected array $base_roles = [];
 
-    /**
-     * Constructor
-     *
-     * @param ilObjectGUI $a_gui_obj object gui object
-     */
-    public function __construct($a_gui_obj)
+    private object $obj;
+
+    protected ilRbacReview $review;
+    protected ilRbacAdmin $admin;
+    protected ilGlobalTemplateInterface $tpl;
+
+
+    public function __construct(object $a_gui_obj)
     {
         global $DIC;
 
-        $objDefinition = $DIC['objDefinition'];
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-
-        $this->objDefinition = $objDefinition;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("rbac");
 
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
 
-        $this->gui_obj = $a_gui_obj;
         $this->obj = $a_gui_obj->object;
-        $this->red_id = $this->obj->getRefId();
+
+        $this->review = $DIC->rbac()->review();
+        $this->admin = $DIC->rbac()->admin();
+        $this->tpl = $DIC->ui()->mainTemplate();
 
 
         foreach (ilRbacReview::_getOperationList($this->obj->getType()) as $p) {
@@ -50,21 +47,17 @@ class ilSettingsPermissionGUI
             $this->base_permissions_by_op[$p["operation"]] = $p["ops_id"];
         }
 
-        $this->base_roles = $rbacreview->getParentRoleIds($this->obj->getRefId());
+        $this->base_roles = $this->review->getParentRoleIds($this->obj->getRefId());
     }
 
     /**
      * Determine roles
      */
-    public function determineRoles()
+    public function determineRoles() : array
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
         $roles = array();
         foreach ($this->base_roles as $k => $r) {
-            $ops = $rbacreview->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+            $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
             $use = true;
             foreach ($this->getRoleRequiredPermissions() as $o) {
                 if (!in_array($o, $ops)) {
@@ -86,10 +79,8 @@ class ilSettingsPermissionGUI
 
     /**
      * Set role required permissions (this permissions are required for a role to be listed)
-     *
-     * @param array $a_val permissions required to be listed
      */
-    public function setRoleRequiredPermissions($a_val)
+    public function setRoleRequiredPermissions(array $a_val) : void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -102,10 +93,9 @@ class ilSettingsPermissionGUI
 
     /**
      * Get role required permissions
-     *
      * @return array permissions required to be listed
      */
-    public function getRoleRequiredPermissions()
+    public function getRoleRequiredPermissions() : array
     {
         return $this->role_required_permissions;
     }
@@ -115,7 +105,7 @@ class ilSettingsPermissionGUI
      *
      * @param array $a_val permissions prohibited to be listed
      */
-    public function setRoleProhibitedPermissions($a_val)
+    public function setRoleProhibitedPermissions(array $a_val) : void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -131,7 +121,7 @@ class ilSettingsPermissionGUI
      *
      * @return array permissions prohibited to be listed
      */
-    public function getRoleProhibitedPermissions()
+    public function getRoleProhibitedPermissions() : array
     {
         return $this->role_prohibited_permissions;
     }
@@ -141,7 +131,7 @@ class ilSettingsPermissionGUI
      *
      * @param array $a_val array of operations (string) that should be offered
      */
-    public function setPermissions($a_val)
+    public function setPermissions(array $a_val) : void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -157,7 +147,7 @@ class ilSettingsPermissionGUI
      *
      * @return array array of operations (string) that should be offered
      */
-    public function getPermissions()
+    public function getPermissions() : array
     {
         return $this->permissions;
     }
@@ -165,7 +155,7 @@ class ilSettingsPermissionGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd("showForm");
         if (in_array($cmd, array("showForm", "save"))) {
@@ -186,19 +176,13 @@ class ilSettingsPermissionGUI
     /**
      * Init permission form
      */
-    public function initPermissionForm()
+    public function initPermissionForm() : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
-
         $roles = $this->determineRoles();
         $ops = array();
         foreach ($roles as $r) {
-            $ops[$r["rol_id"]] = $rbacreview->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+            $ops[$r["rol_id"]] = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
         }
 
         // for each permission, collect all roles that have the permission activated
@@ -229,28 +213,22 @@ class ilSettingsPermissionGUI
 
         $form->setTitle($this->lng->txt("rbac_permissions"));
         $form->setFormAction($this->ctrl->getFormAction($this));
-
         return $form;
     }
 
     /**
      * Save  form
      */
-    public function save()
+    public function save() : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-
         $form = $this->initPermissionForm();
         if ($form->checkInput()) {
             foreach ($this->determineRoles() as $r) {
                 // get active operations for role
-                $ops = $rbacreview->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+                $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
 
                 // revode all permissions for the role
-                $rbacadmin->revokePermission($this->obj->getRefId(), $r["rol_id"]);
+                $this->admin->revokePermission($this->obj->getRefId(), $r["rol_id"]);
 
                 // for all permissions of the form...
                 foreach ($this->getPermissions() as $p) {
@@ -272,9 +250,8 @@ class ilSettingsPermissionGUI
                         $ops[] = $o;
                     }
                 }
-
                 // now grant resulting permissions
-                $rbacadmin->grantPermission(
+                $this->admin->grantPermission(
                     $r["rol_id"],
                     array_unique($ops),
                     $this->obj->getRefId()
@@ -285,7 +262,7 @@ class ilSettingsPermissionGUI
             $this->ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
-            $this->tpl->setContent($form->getHtml());
+            $this->tpl->setContent($form->getHTML());
         }
     }
 }

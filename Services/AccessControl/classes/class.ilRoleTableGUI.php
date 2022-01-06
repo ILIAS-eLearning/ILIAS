@@ -13,83 +13,63 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilRoleTableGUI extends ilTable2GUI
 {
-    const TYPE_GLOBAL_AU = 1;
-    const TYPE_GLOBAL_UD = 2;
-    const TYPE_LOCAL_AU = 3;
-    const TYPE_LOCAL_UD = 4;
-    const TYPE_ROLT_AU = 5;
-    const TYPE_ROLT_UD = 6;
+    private const TYPE_GLOBAL_AU = 1;
+    private const TYPE_GLOBAL_UD = 2;
+    private const TYPE_LOCAL_AU = 3;
+    private const TYPE_LOCAL_UD = 4;
+    private const TYPE_ROLT_AU = 5;
+    private const TYPE_ROLT_UD = 6;
 
 
-    const TYPE_VIEW = 1;
-    const TYPE_SEARCH = 2;
+    private const TYPE_VIEW = 1;
+    private const TYPE_SEARCH = 2;
     
-    private $path_gui = null;
+    private ilPathGUI $path_gui;
 
-    private $type = self::TYPE_VIEW;
-    private $role_title_filter = '';
-    private $role_folder_id = 0;
+    private int $type = self::TYPE_VIEW;
+    private string $role_title_filter = '';
+    private int $role_folder_id = 0;
 
-    /**
-     * Constructor
-     * @param object $a_parent_gui
-     * @param string $a_parent_cmd
-     */
-    public function __construct($a_parent_gui, $a_parent_cmd)
+    private array $filter = [];
+    private ilTree $tree;
+    private ilRbacReview $rbacreview;
+    private ilRbacSystem $system;
+
+    public function __construct(object $a_parent_gui, string $a_parent_cmd)
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ctrl = $ilCtrl;
+        $this->rbacreview = $DIC->rbac()->review();
+        $this->tree = $DIC->repositoryTree();
+        $this->system = $DIC->rbac()->system();
 
         $this->setId('rolf_role_tbl');
-        
         parent::__construct($a_parent_gui, $a_parent_cmd);
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule('search');
     }
 
-    /**
-     * Set table type
-     * @param int $a_type
-     */
-    public function setType($a_type)
+    public function setType(int $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-     * Set role title filter
-     * @param string $a_filter
-     */
-    public function setRoleTitleFilter($a_filter)
+    public function setRoleTitleFilter(string $a_filter) : void
     {
         $this->role_title_filter = $a_filter;
     }
 
-    /**
-     * Get role title filter
-     * @return string
-     */
-    public function getRoleTitleFilter()
+    public function getRoleTitleFilter() : string
     {
         return $this->role_title_filter;
     }
 
-    /**
-     * Get table type
-     */
-    public function getType()
+    public function getType() : int
     {
         return $this->type;
     }
 
-    /**
-     * Get path gui
-     * @return ilPathGUI $path
-     */
-    protected function getPathGUI()
+    protected function getPathGUI() : ilPathGUI
     {
         return $this->path_gui;
     }
@@ -99,7 +79,7 @@ class ilRoleTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init()
+    public function init() : void
     {
         $this->addColumn('', 'f', '1px');
 
@@ -142,10 +122,8 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->path_gui = new ilPathGUI();
         $this->getPathGUI()->enableTextOnly(false);
         $this->getPathGUI()->enableHideLeaf(false);
-        
 
         // Filter initialisation
-
         if ($this->getType() == self::TYPE_VIEW) {
             $this->initFilter();
         }
@@ -158,6 +136,7 @@ class ilRoleTableGUI extends ilTable2GUI
     {
         $this->setDisableFilterHiding(true);
 
+        $action = [];
         switch ($this->getType()) {
             case self::TYPE_VIEW:
                 $action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
@@ -202,16 +181,8 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->filter['role_title'] = $title->getValue();
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $tree = $DIC['tree'];
-
         if ($a_set['type'] == 'role') {
             if ($a_set['parent'] != ROLE_FOLDER_ID) {
                 $this->ctrl->setParameterByClass(
@@ -250,8 +221,6 @@ class ilRoleTableGUI extends ilTable2GUI
                 break;
         }
 
-
-
         if (
             ($a_set['obj_id'] != ANONYMOUS_ROLE_ID and
                 $a_set['obj_id'] != SYSTEM_ROLE_ID and
@@ -265,13 +234,6 @@ class ilRoleTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
-        /**
-        if((substr($set['title_orig'],0,3) == 'il_') and ($set['type'] == 'rolt'))
-        {
-            $this->tpl->setVariable('VAL_PRE',$this->lng->txt('predefined_template'));
-        }
-        */
-
         $ref = $a_set['parent'];
         if ($ref == ROLE_FOLDER_ID) {
             $this->tpl->setVariable('CONTEXT', $this->lng->txt('rbac_context_global'));
@@ -283,7 +245,7 @@ class ilRoleTableGUI extends ilTable2GUI
         }
 
         if ($this->getType() == self::TYPE_VIEW and $a_set['obj_id'] != SYSTEM_ROLE_ID) {
-            if ($GLOBALS['DIC']['rbacsystem']->checkAccess('write', $this->role_folder_id)) {
+            if ($this->system->checkAccess('write', $this->role_folder_id)) {
                 // Copy role
                 $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_role_rights_copy'));
                 $this->ctrl->setParameter($this->getParentObject(), "csource", $a_set["obj_id"]);
@@ -300,13 +262,8 @@ class ilRoleTableGUI extends ilTable2GUI
      * Parse role list
      * @param array $role_list
      */
-    public function parse($role_folder_id)
+    public function parse(int $role_folder_id) : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
-        
         $this->role_folder_id = $role_folder_id;
 
         include_once './Services/AccessControl/classes/class.ilObjRole.php';
@@ -326,7 +283,7 @@ class ilRoleTableGUI extends ilTable2GUI
             $filter = '';
         }
 
-        $role_list = $rbacreview->getRolesByFilter(
+        $role_list = $this->rbacreview->getRolesByFilter(
             $type,
             0,
             $filter
@@ -334,12 +291,12 @@ class ilRoleTableGUI extends ilTable2GUI
         
         $counter = 0;
         $rows = array();
-        foreach ((array) $role_list as $role) {
+        foreach ($role_list as $role) {
             if (
                 $role['parent'] and
                     (
-                        $GLOBALS['DIC']['tree']->isDeleted($role['parent']) or
-                        !$GLOBALS['DIC']['tree']->isInTree($role['parent'])
+                        $this->tree->isDeleted($role['parent']) ||
+                        !$this->tree->isInTree($role['parent'])
                     )
             ) {
                 continue;
@@ -362,23 +319,21 @@ class ilRoleTableGUI extends ilTable2GUI
             $rows[$counter]['parent'] = $role['parent'];
             $rows[$counter]['type'] = $role['type'];
 
-            $auto = (substr($role['title'], 0, 3) == 'il_' ? true : false);
+            $auto = substr($role['title'], 0, 3) == 'il_';
 
 
             // Role templates
             if ($role['type'] == 'rolt') {
                 $rows[$counter]['rtype'] = $auto ? self::TYPE_ROLT_AU :	self::TYPE_ROLT_UD;
-            } else {
+            } elseif ($role['parent'] == ROLE_FOLDER_ID) {
                 // Roles
-                if ($role['parent'] == ROLE_FOLDER_ID) {
-                    if ($role['obj_id'] == ANONYMOUS_ROLE_ID or $role['obj_id'] == SYSTEM_ROLE_ID) {
-                        $rows[$counter]['rtype'] = self::TYPE_GLOBAL_AU;
-                    } else {
-                        $rows[$counter]['rtype'] = self::TYPE_GLOBAL_UD;
-                    }
+                if ($role['obj_id'] == ANONYMOUS_ROLE_ID or $role['obj_id'] == SYSTEM_ROLE_ID) {
+                    $rows[$counter]['rtype'] = self::TYPE_GLOBAL_AU;
                 } else {
-                    $rows[$counter]['rtype'] = $auto ? self::TYPE_LOCAL_AU : self::TYPE_LOCAL_UD;
+                    $rows[$counter]['rtype'] = self::TYPE_GLOBAL_UD;
                 }
+            } else {
+                $rows[$counter]['rtype'] = $auto ? self::TYPE_LOCAL_AU : self::TYPE_LOCAL_UD;
             }
 
             ++$counter;

@@ -27,18 +27,10 @@ require_once "./Services/Object/classes/class.ilObject.php";
 * Class ilObjRoleTemplate
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 * @ingroup	ServicesAccessControl
 */
 class ilObjRoleTemplate extends ilObject
 {
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
     public function __construct($a_id = 0, $a_call_by_reference = false)
     {
         $this->type = "rolt";
@@ -46,27 +38,17 @@ class ilObjRoleTemplate extends ilObject
     }
 
 
-    /**
-    * delete role template and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
     public function delete()
     {
         // put here role template specific stuff
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-
         // delete rbac permissions
-        $rbacadmin->deleteTemplate($this->getId(), $_GET["ref_id"]);
+        $this->rbacadmin->deleteTemplate($this->getId());
 
         // always call parent delete function at the end!!
-        return (parent::delete()) ? true : false;
+        return parent::delete();
     }
 
-    public function isInternalTemplate()
+    public function isInternalTemplate() : bool
     {
         if (substr($this->getTitle(), 0, 3) == "il_") {
             return true;
@@ -77,18 +59,13 @@ class ilObjRoleTemplate extends ilObject
     
     public function getFilterOfInternalTemplate()
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        
         $filter = array();
-
         switch ($this->getTitle()) {
             case "il_grp_admin":
             case "il_grp_member":
             case "il_grp_status_closed":
             case "il_grp_status_open":
-                $obj_data = $objDefinition->getSubObjects('grp', false);
+                $obj_data = $this->objDefinition->getSubObjects('grp', false);
                 unset($obj_data["rolf"]);
                 $filter = array_keys($obj_data);
                 $filter[] = 'grp';
@@ -98,7 +75,7 @@ class ilObjRoleTemplate extends ilObject
             case "il_crs_tutor":
             case "il_crs_member":
             case "il_crs_non_member":
-                $obj_data = $objDefinition->getSubObjects('crs', false);
+                $obj_data = $this->objDefinition->getSubObjects('crs', false);
                 unset($obj_data["rolf"]);
                 $filter = array_keys($obj_data);
                 $filter[] = 'crs';

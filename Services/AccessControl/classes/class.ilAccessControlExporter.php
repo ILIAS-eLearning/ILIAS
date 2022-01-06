@@ -9,25 +9,11 @@ include_once './Services/Export/classes/class.ilXmlExporter.php';
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @version $Id$
 *
 * @ingroup ServicesAccessControl
 */
 class ilAccessControlExporter extends ilXmlExporter
 {
-    private $writer = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-    
-    /**
-     * Init export
-     * @return void
-     */
     public function init() : void
     {
     }
@@ -41,7 +27,7 @@ class ilAccessControlExporter extends ilXmlExporter
      */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
-        return array();
+        return [];
     }
     
     
@@ -66,7 +52,6 @@ class ilAccessControlExporter extends ilXmlExporter
         $eo->read();
         
         $rolf = $eo->getOptionByObjId($a_id, ilExportOptions::KEY_ROOT);
-        // @todo refactor rolf
         $writer->setRoles(array($a_id => $rolf));
         $writer->write();
         return $writer->xmlDumpMem(false);

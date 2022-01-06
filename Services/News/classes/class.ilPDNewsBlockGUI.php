@@ -82,7 +82,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $this->handleView();
         
         // reset access check results
-        $ilAccess->setResults($this->acc_results);
+        $ilAccess->setResults((array) $this->acc_results);
 
         $this->setPresentation(self::PRES_SEC_LIST);
     }

@@ -15,47 +15,28 @@
 */
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
-    const FORM_MODE_EDIT = 1;
-    const FORM_MODE_CREATE = 2;
+    private const FORM_MODE_EDIT = 1;
+    private const FORM_MODE_CREATE = 2;
     
-    /**
-    * ILIAS3 object type abbreviation
-    * @var		string
-    * @access	public
-    */
-    public $type;
+    private int $rolf_ref_id;
 
-    /**
-    * rolefolder ref_id where role is assigned to
-    * @var		string
-    * @access	public
-    */
-    public $rolf_ref_id;
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
+    protected ilRbacAdmin $rbacadmin;
+
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        $lng->loadLanguageModule('rbac');
-        
+        $this->rbacadmin = $DIC->rbac()->admin();
+
         $this->type = "rolt";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        $this->lng->loadLanguageModule('rbac');
         $this->rolf_ref_id = &$this->ref_id;
         $this->ctrl->saveParameter($this, "obj_id");
     }
     
     public function executeCommand()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
         $this->prepareOutput();
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -71,16 +52,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                     
                 break;
         }
-
         return true;
     }
     
-    /**
-     * Init create form
-     * @param bool creation mode
-     * @return ilPropertyFormGUI $form
-     */
-    protected function initFormRoleTemplate($a_mode = self::FORM_MODE_CREATE)
+    protected function initFormRoleTemplate(int $a_mode = self::FORM_MODE_CREATE) : ilPropertyFormGUI
     {
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -139,25 +114,15 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     }
 
     
-    /**
-    * create new role definition template
-    *
-    * @access	public
-    */
     public function createObject(ilPropertyFormGUI $form = null)
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if (!$rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
         }
         if (!$form) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_CREATE);
         }
         $this->tpl->setContent($form->getHTML());
-        return true;
     }
     
     /**
@@ -165,45 +130,30 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
      */
     public function editObject(ilPropertyFormGUI $form = null)
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
         $this->tabs_gui->activateTab('settings');
         
-        if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilias->error_obj->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
         
         if (!$form) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         }
-        $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-    * update role template object
-    *
-    * @access	public
-    */
     public function updateObject()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-
         // check write access
-        if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"), $this->ilias->error_obj->WARNING);
+        if (!$this->rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt("msg_no_perm_modify_rolt"), $this->ilErr->WARNING);
         }
         
         $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         if ($form->checkInput()) {
             $this->object->setTitle($form->getInput('title'));
             $this->object->setDescription($form->getInput('desc'));
-            $rbacadmin->setProtected(
+            $this->rbacadmin->setProtected(
                 $this->rolf_ref_id,
                 $this->object->getId(),
                 $form->getInput('protected') ? 'y' : 'n'
@@ -219,20 +169,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     
 
 
-    /**
-    * save a new role template object
-    *
-    * @access	public
-    */
     public function saveObject()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-
-        if (!$rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"), $this->ilias->error_obj->WARNING);
         }
         $form = $this->initFormRoleTemplate();
@@ -242,8 +181,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $roltObj->setTitle($form->getInput('title'));
             $roltObj->setDescription($form->getInput('desc'));
             $roltObj->create();
-            $rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id, 'n');
-            $rbacadmin->setProtected(
+            $this->rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id, 'n');
+            $this->rbacadmin->setProtected(
                 $this->rolf_ref_id,
                 $roltObj->getId(),
                 $form->getInput('protected') ? 'y' : 'n'
@@ -259,31 +198,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     }
 
 
-    /**
-     * Show role template permissions
-     */
-    protected function permObject()
+    protected function permObject() : void
     {
-        global $DIC;
-
-        /**
-         * @var ilRbacSystem
-         */
-        $rbacsystem = $DIC->rbac()->system();
-
-        /**
-         * @var ilErrorHandling
-         */
-        $ilErr = $DIC['ilErr'];
-
-        /**
-         * @var ilObjectDefinition
-         */
-        $objDefinition = $DIC['objDefinition'];
-
-        if (!$rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $ilErr->MESSAGE);
-            return true;
+        if (!$this->rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $this->ilErr->MESSAGE);
+            return;
         }
         $this->tabs_gui->activateTab('perm');
 
@@ -340,39 +259,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     }
 
 
-    /**
-    * save permission templates of role
-    *
-    * @access	public
-    */
-    protected function permSaveObject()
+    protected function permSaveObject() : void
     {
-        global $DIC;
-
-        /**
-         * @var ilRbacSystem
-         */
-        $rbacsystem = $DIC->rbac()->system();
-
-        /**
-         * @var ilRbacAdmin
-         */
-        $rbacadmin = $DIC->rbac()->admin();
-
-        /**
-         * @var ilErrorHandling
-         */
-        $ilErr = $DIC['ilErr'];
-
-        /**
-         * @var ilObjectDefinition
-         */
-        $objDefinition = $DIC['objDefinition'];
-
-
-        if (!$rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $ilErr->MESSAGE);
-            return true;
+        if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $this->ilErr->MESSAGE);
+            return;
         }
         // delete all existing template entries
         //$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
@@ -380,11 +271,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
         foreach ($subs as $subtype => $def) {
             // Delete per object type
-            $rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
+            $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
         }
 
         foreach ($_POST["template_perm"] as $key => $ops_array) {
-            $rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
+            $this->rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
         }
 
         // update object data entry (to update last modification date)
@@ -394,27 +285,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "perm");
     }
 
-    /**
-    * adopting permission setting from other roles/role templates
-    *
-    * @access	public
-    */
-    public function adoptPermSaveObject()
+    public function adoptPermSaveObject() : void
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacsystem = $DIC['rbacsystem'];
-        $rbacreview = $DIC['rbacreview'];
-
-        if (!$rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
+        if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"), $this->ilias->error_obj->WARNING);
         } elseif ($this->obj_id == $_POST["adopt"]) {
             ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
-            $rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
-            $parentRoles = $rbacreview->getParentRoleIds($this->rolf_ref_id, true);
-            $rbacadmin->copyRoleTemplatePermissions(
+            $this->rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
+            $parentRoles = $this->rbacreview->getParentRoleIds($this->rolf_ref_id, true);
+            $this->rbacadmin->copyRoleTemplatePermissions(
                 $_POST["adopt"],
                 $parentRoles[$_POST["adopt"]]["parent"],
                 $this->rolf_ref_id,
@@ -431,9 +311,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "perm");
     }
 
-    /**
-    * admin and normal tabs are equal for roles
-    */
     public function getAdminTabs()
     {
         $this->getTabs();
@@ -444,19 +321,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
      */
     protected function getTabs()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC->rbac()->system();
         $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
 
-        if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+        if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
             $this->tabs_gui->addTab(
                 'settings',
                 $this->lng->txt('settings'),
                 $this->ctrl->getLinkTarget($this, 'edit')
             );
         }
-        if ($rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
             $this->tabs_gui->addTab(
                 'perm',
                 $this->lng->txt('default_perm_settings'),
@@ -465,10 +339,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         }
     }
 
-    /**
-    * cancelObject is called when an operation is canceled, method links back
-    * @access	public
-    */
     public function cancelObject()
     {
         $this->ctrl->redirectByClass("ilobjrolefoldergui", "view");
@@ -481,13 +351,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
      */
     protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
-        global $DIC;
-
-        $ilLocator = $DIC['ilLocator'];
-        
         parent::addAdminLocatorItems(true);
                 
-        $ilLocator->addItem(
+        $this->locator->addItem(
             ilObject::_lookupTitle(
                 ilObject::_lookupObjId($_GET["ref_id"])
             ),

@@ -11,7 +11,6 @@ class ilServicesAccessControlSuite extends TestSuite
         
         include_once("./Services/AccessControl/test/ilRBACTest.php");
         $suite->addTestSuite("ilRBACTest");
-
         return $suite;
     }
 }

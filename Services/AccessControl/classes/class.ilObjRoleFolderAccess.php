@@ -28,7 +28,6 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ingroup	ServicesAccessControl
 */
