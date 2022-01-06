@@ -17,32 +17,17 @@
  * GUI for MathJax Settings
  * This GUI maintains the MathJax config stored in the ILIAS settings
  * Since ILIAS 8 these settings can also be written by the ILIAS setup
- *
  * @ilCtrl_Calls ilMathJaxSettingsGUI:
  */
 class ilMathJaxSettingsGUI
 {
-    /** @var \ILIAS\DI\Container */
-    protected $dic;
-
-    /** @var \ilCtrl */
-    protected $ctrl;
-
-    /** @var  \ilTabsGUI */
-    protected $tabs;
-
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /** @var \ilGlobalTemplateInterface  */
-    protected $tpl;
-
-    /** @var \ilToolbarGUI */
-    protected $toolbar;
-
-
-    /** @var \Psr\Http\Message\RequestInterface|\Psr\Http\Message\ServerRequestInterface  */
-    protected $request;
+    protected \ILIAS\DI\Container $dic;
+    protected \ilCtrl $ctrl;
+    protected \ilTabsGUI $tabs;
+    protected \ilLanguage $lng;
+    protected \ilGlobalTemplateInterface $tpl;
+    protected \ilToolbarGUI $toolbar;
+    protected \Psr\Http\Message\ServerRequestInterface $request;
 
     protected $refinery;
 
@@ -62,7 +47,7 @@ class ilMathJaxSettingsGUI
         $this->tabs = $this->dic->tabs();
         $this->toolbar = $this->dic->toolbar();
         $this->lng = $this->dic->language();
-        $this->tpl = $this->dic->ui()->mainTemplate();;
+        $this->tpl = $this->dic->ui()->mainTemplate();
         $this->request = $this->dic->http()->request();
         $this->refinery = $this->dic->refinery();
 
@@ -70,19 +55,17 @@ class ilMathJaxSettingsGUI
         $this->repository = new ilMathJaxConfigSettingsRepository($factory);
     }
 
-
     /**
      * Execute a command
      * This should be overridden in the child classes
      * note: permissions are already checked in the object gui
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->lng->loadLanguageModule('mathjax');
 
         $cmd = $this->ctrl->getCmd('editSettings');
-        switch ($cmd)
-        {
+        switch ($cmd) {
             case 'editSettings':
             case 'clearCache':
                 $this->$cmd();
@@ -96,7 +79,7 @@ class ilMathJaxSettingsGUI
     /**
      * Edit the MathJax settings
      */
-    protected function editSettings()
+    protected function editSettings() : void
     {
         $testcode = 'f(x)=\int_{-\infty}^x e^{-t^2}dt';
 
@@ -111,41 +94,41 @@ class ilMathJaxSettingsGUI
         // client-side rendering settings
         $client_enabled = $factory->optionalGroup([
 
-                'client_polyfill_url' => $factory->url(
-                    $this->lng->txt('mathjax_polyfill_url'),
-                    implode('<br />', [
-                            $this->lng->txt('mathjax_polyfill_url_desc_line1'),
-                            $this->lng->txt('mathjax_polyfill_url_desc_line2')
-                        ])
-                )
-                 ->withValue($config->getClintPolyfillUrl()),
+            'client_polyfill_url' => $factory->url(
+                $this->lng->txt('mathjax_polyfill_url'),
+                implode('<br />', [
+                    $this->lng->txt('mathjax_polyfill_url_desc_line1'),
+                    $this->lng->txt('mathjax_polyfill_url_desc_line2')
+                ])
+            )
+                                             ->withValue($config->getClintPolyfillUrl()),
 
-                'client_script_url' => $factory->url(
-                    $this->lng->txt('mathjax_script_url'),
-                    implode('<br />', [
-                        $this->lng->txt('mathjax_script_url_desc_line1'),
-                        $this->lng->txt('mathjax_script_url_desc_line2')
-                    ])
-                )->withRequired(true) // mantis #31645
-                ->withValue($config->getClientScriptUrl()),
+            'client_script_url' => $factory->url(
+                $this->lng->txt('mathjax_script_url'),
+                implode('<br />', [
+                    $this->lng->txt('mathjax_script_url_desc_line1'),
+                    $this->lng->txt('mathjax_script_url_desc_line2')
+                ])
+            )->withRequired(true) // mantis #31645
+                                           ->withValue($config->getClientScriptUrl()),
 
-                'client_limiter' => $factory->select(
-                    $this->lng->txt('mathjax_limiter'),
-                    $config->getClientLimiterOptions(),
-                    $this->lng->txt('mathjax_limiter_info')
-                )->withRequired(true)
-                 ->withValue($config->getClientLimiter()),
+            'client_limiter' => $factory->select(
+                $this->lng->txt('mathjax_limiter'),
+                $config->getClientLimiterOptions(),
+                $this->lng->txt('mathjax_limiter_info')
+            )->withRequired(true)
+                                        ->withValue($config->getClientLimiter()),
 
-                'client_test' => $factory->text(
-                    $this->lng->txt('mathjax_test_expression'),
-                    $this->lng->txt('mathjax_test_expression_info_client')
-                    . ilMathJax::getIndependent(
-                                    $config->withClientEnabled(true)
-                                           ->withServerEnabled(false),
-                                    new ilMathJaxFactory())
-                              ->init(ilMathJax::PURPOSE_BROWSER)
-                              ->insertLatexImages('<p>[tex]' . $testcode . '[/tex]</p>')
-                )->withDisabled(true)->withValue($testcode)
+            'client_test' => $factory->text(
+                $this->lng->txt('mathjax_test_expression'),
+                $this->lng->txt('mathjax_test_expression_info_client')
+                . ilMathJax::getIndependent(
+                    $config->withClientEnabled(true)
+                           ->withServerEnabled(false),
+                    new ilMathJaxFactory())
+                           ->init(ilMathJax::PURPOSE_BROWSER)
+                           ->insertLatexImages('<p>[tex]' . $testcode . '[/tex]</p>')
+            )->withDisabled(true)->withValue($testcode)
 
         ],
             $this->lng->txt('mathjax_enable_client'),
@@ -155,50 +138,50 @@ class ilMathJaxSettingsGUI
 
         // server-side rendering settings
         $server_enabled = $factory->optionalGroup([
-                'server_address' => $factory->url(
-                    $this->lng->txt('mathjax_server_address'),
-                    $this->lng->txt('mathjax_server_address_info')
-                )->withRequired(true)
-                 ->withValue($config->getServerAddress()),
+            'server_address' => $factory->url(
+                $this->lng->txt('mathjax_server_address'),
+                $this->lng->txt('mathjax_server_address_info')
+            )->withRequired(true)
+                                        ->withValue($config->getServerAddress()),
 
-                'server_timeout' => $factory->numeric(
-                    $this->lng->txt('mathjax_server_timeout'),
-                    $this->lng->txt('mathjax_server_timeout_info')
-                )//->withRequired(true) // mantis #31645
-                 ->withValue($config->getServerTimeout()),
+            'server_timeout' => $factory->numeric(
+                $this->lng->txt('mathjax_server_timeout'),
+                $this->lng->txt('mathjax_server_timeout_info')
+            )//->withRequired(true) // mantis #31645
+                                        ->withValue($config->getServerTimeout()),
 
-                'server_for_browser' => $factory->checkbox(
-                    $this->lng->txt('mathjax_server_for_browser'),
-                    $this->lng->txt('mathjax_server_for_browser_info')
-                )->withValue($config->isServerForBrowser()),
+            'server_for_browser' => $factory->checkbox(
+                $this->lng->txt('mathjax_server_for_browser'),
+                $this->lng->txt('mathjax_server_for_browser_info')
+            )->withValue($config->isServerForBrowser()),
 
-                'server_for_export' => $factory->checkbox(
-                    $this->lng->txt('mathjax_server_for_export'),
-                    $this->lng->txt('mathjax_server_for_export_info')
-                )->withValue($config->isServerForExport()),
+            'server_for_export' => $factory->checkbox(
+                $this->lng->txt('mathjax_server_for_export'),
+                $this->lng->txt('mathjax_server_for_export_info')
+            )->withValue($config->isServerForExport()),
 
-                'server_for_pdf' => $factory->checkbox(
-                    $this->lng->txt('mathjax_server_for_pdf'),
-                    $this->lng->txt('mathjax_server_for_pdf_info')
-                )->withValue($config->isServerForPdf()),
+            'server_for_pdf' => $factory->checkbox(
+                $this->lng->txt('mathjax_server_for_pdf'),
+                $this->lng->txt('mathjax_server_for_pdf_info')
+            )->withValue($config->isServerForPdf()),
 
-                'cache_size' => $factory->text(
-                    $this->lng->txt('mathjax_server_cache_size'),
-                    $this->lng->txt('mathjax_server_cache_size_info') . ' ' .
-                    $this->renderLink('mathjax_server_clear_cache', $this->ctrl->getLinkTarget($this, 'clearCache'), false)
-                )->withDisabled(true)->withValue(ilMathJax::getInstance()->getCacheSize()),
+            'cache_size' => $factory->text(
+                $this->lng->txt('mathjax_server_cache_size'),
+                $this->lng->txt('mathjax_server_cache_size_info') . ' ' .
+                $this->renderLink('mathjax_server_clear_cache', $this->ctrl->getLinkTarget($this, 'clearCache'), false)
+            )->withDisabled(true)->withValue(ilMathJax::getInstance()->getCacheSize()),
 
-                'server_test' => $factory->text(
-                    $this->lng->txt('mathjax_test_expression'),
-                    $this->lng->txt('mathjax_test_expression_info_server')
-                    . ilMathJax::getIndependent(
-                                    $config->withClientEnabled(false)
-                                            ->withServerEnabled(true)
-                                            ->withServerForBrowser(true),
-                                    new ilMathJaxFactory())
-                              ->init(ilMathJax::PURPOSE_BROWSER)
-                              ->insertLatexImages('<p>[tex]' . $testcode . '[/tex]</p>')
-                )->withDisabled(true)->withValue($testcode)
+            'server_test' => $factory->text(
+                $this->lng->txt('mathjax_test_expression'),
+                $this->lng->txt('mathjax_test_expression_info_server')
+                . ilMathJax::getIndependent(
+                    $config->withClientEnabled(false)
+                           ->withServerEnabled(true)
+                           ->withServerForBrowser(true),
+                    new ilMathJaxFactory())
+                           ->init(ilMathJax::PURPOSE_BROWSER)
+                           ->insertLatexImages('<p>[tex]' . $testcode . '[/tex]</p>')
+            )->withDisabled(true)->withValue($testcode)
         ],
             $this->lng->txt('mathjax_enable_server'),
             $this->lng->txt('mathjax_enable_server_info') . ' ' .
@@ -228,8 +211,7 @@ class ilMathJaxSettingsGUI
                                  ->withClientPolyfillUrl((string) $client_data['client_polyfill_url'])
                                  ->withClientScriptUrl((string) $client_data['client_script_url'])
                                  ->withClientLimiter((int) $client_data['client_limiter']);
-            }
-            else {
+            } else {
                 $config = $config->withClientEnabled(false);
             }
 
@@ -241,8 +223,7 @@ class ilMathJaxSettingsGUI
                                  ->withServerForBrowser((bool) $server_data['server_for_browser'])
                                  ->withServerForExport((bool) $server_data['server_for_export'])
                                  ->withServerForPdf((bool) $server_data['server_for_pdf']);
-            }
-            else {
+            } else {
                 $config = $config->withServerEnabled(false);
             }
             $this->repository->updateConfig($config);
@@ -258,7 +239,7 @@ class ilMathJaxSettingsGUI
     /**
      * Clear the directory with cached LaTeX graphics
      */
-    protected function clearCache()
+    protected function clearCache() : void
     {
         ilMathJax::getInstance()->clearCache();
         ilUtil::sendSuccess($this->lng->txt('mathjax_server_cache_cleared'), true);
@@ -268,9 +249,10 @@ class ilMathJaxSettingsGUI
     /**
      * Render an html link
      */
-    protected function renderLink(string $langvar, string $url, $new_tab = true): string
+    protected function renderLink(string $langvar, string $url, bool $new_tab = true) : string
     {
-        $link = $this->dic->ui()->factory()->link()->standard($this->lng->txt($langvar), $url)->withOpenInNewViewport($new_tab);
+        $link = $this->dic->ui()->factory()->link()->standard($this->lng->txt($langvar),
+            $url)->withOpenInNewViewport($new_tab);
         return $this->dic->ui()->renderer()->render($link);
     }
 }

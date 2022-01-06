@@ -12,18 +12,15 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
-
 interface ilMathJaxConfigRespository
 {
     /**
      * Get the MathJax Configuration
-     * @return ilMathJaxConfig
      */
     public function getConfig() : ilMathJaxConfig;
 
     /**
      * Update the MathJax Configuration
-     * @param ilMathJaxConfig $config
      */
-    public function updateConfig(ilMathJaxConfig $config);
+    public function updateConfig(ilMathJaxConfig $config) : void;
 }

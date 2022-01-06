@@ -37,7 +37,7 @@ class ilMathJaxFactory
     }
 
     /**
-     * @return ilGlobalTemplateInterface
+     * Get the global template
      */
     public function template() : ilGlobalTemplateInterface
     {

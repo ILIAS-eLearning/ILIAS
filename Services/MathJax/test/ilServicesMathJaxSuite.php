@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 class ilServicesMathJaxSuite extends TestSuite
 {
     private const TEST_CLASSES = [
-      'ilMathJaxTest'
+        'ilMathJaxTest'
     ];
 
     public static function suite() : self

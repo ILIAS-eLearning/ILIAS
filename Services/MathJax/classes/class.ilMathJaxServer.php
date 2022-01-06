@@ -23,14 +23,11 @@ class ilMathJaxServer
 
     /**
      * Constructor
-     * @param ilMathJaxConfig $config
-     * @param array           $options  will be sent json encoded to the server
      */
     public function __construct(ilMathJaxConfig $config)
     {
         $this->config = $config;
     }
-
 
     /**
      * Call the mathjax server
@@ -42,8 +39,7 @@ class ilMathJaxServer
     {
         if (extension_loaded('cURL')) {
             return $this->callByCurl($options);
-        }
-        else {
+        } else {
             return $this->callByStreamContext($options);
         }
     }
@@ -69,8 +65,7 @@ class ilMathJaxServer
             $lines = explode("\n", $response);
             if (isset($lines[1])) {
                 throw new ilMathJaxException($lines[1]);
-            }
-            else {
+            } else {
                 throw new ilMathJaxException('curl server call failed');
             }
         }

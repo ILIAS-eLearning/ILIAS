@@ -22,9 +22,8 @@ abstract class ilMathJaxBaseTest extends TestCase
 {
     /**
      * Get a config without active settings
-     * @return ilMathJaxConfig
      */
-    protected function getEmptyConfig(): ilMathJaxConfig
+    protected function getEmptyConfig() : ilMathJaxConfig
     {
         return new ilMathJaxConfig(
             false,
@@ -42,10 +41,8 @@ abstract class ilMathJaxBaseTest extends TestCase
 
     /**
      * Get a factory mockup that will deliver other mockups
-     * @param string|null $imagefile
-     * @return ilMathJaxFactory
      */
-    protected function getFactoryMock(?string $imagefile = null): ilMathJaxFactory
+    protected function getFactoryMock(?string $imagefile = null) : ilMathJaxFactory
     {
         $factory = $this
             ->getMockBuilder(ilMathJaxFactory::class)
@@ -62,9 +59,8 @@ abstract class ilMathJaxBaseTest extends TestCase
 
     /**
      * Get a global template mockup
-     * @return ilGlobalTemplate
      */
-    protected function getTemplateMock(): ilGlobalTemplate
+    protected function getTemplateMock() : ilGlobalTemplate
     {
         $template = $this
             ->getMockBuilder(ilGlobalTemplate::class)
@@ -77,9 +73,8 @@ abstract class ilMathJaxBaseTest extends TestCase
     /**
      * Get a cached image mockup from an example file
      * @param string $imagefile name of the example file in the test directory
-     * @return ilMathJaxImage
      */
-    protected function getImageMock(string $imagefile): ilMathJaxImage
+    protected function getImageMock(string $imagefile) : ilMathJaxImage
     {
         $image = $this
             ->getMockBuilder(ilMathJaxImage::class)
@@ -87,17 +82,16 @@ abstract class ilMathJaxBaseTest extends TestCase
             ->onlyMethods(['exists', 'read', 'write', 'absolutePath', 'getCacheSize'])
             ->getMock();
         $image->method('exists')->willReturn(false);
-        $image->method('read')->willReturn(file_get_contents(__DIR__ . '/'. $imagefile));
-        $image->method('absolutePath')->willReturn(__DIR__ . '/'. $imagefile);
+        $image->method('read')->willReturn(file_get_contents(__DIR__ . '/' . $imagefile));
+        $image->method('absolutePath')->willReturn(__DIR__ . '/' . $imagefile);
         $image->method('getCacheSize')->willReturn('10 KB');
         return $image;
     }
 
     /**
      * Get a mockup of the class for server calls
-     * @return ilMathJaxServer
      */
-    protected function getServerMock(): ilMathJaxServer
+    protected function getServerMock() : ilMathJaxServer
     {
         $server = $this
             ->getMockBuilder(ilMathJaxServer::class)

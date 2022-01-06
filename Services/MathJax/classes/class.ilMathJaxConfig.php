@@ -98,7 +98,7 @@ class ilMathJaxConfig
      * Get the avaliable options for the client limiters
      * @return array limiter => display text
      */
-    public function getClientLimiterOptions(): array
+    public function getClientLimiterOptions() : array
     {
         return [
             self::LIMITER_MATHJAX => '\&#8203;(...\&#8203;)',
@@ -110,7 +110,7 @@ class ilMathJaxConfig
     /**
      * Start limiter of Latex code which the client-side Mathjax searches for
      */
-    public function getClientLimiterStart(): string
+    public function getClientLimiterStart() : string
     {
         switch ($this->client_limiter) {
             case self::LIMITER_TEX:
@@ -126,7 +126,7 @@ class ilMathJaxConfig
     /**
      * End limiter of Latex code which the client-side Mathjax searches for
      */
-    public function getClientLimiterEnd(): string
+    public function getClientLimiterEnd() : string
     {
         switch ($this->client_limiter) {
             case self::LIMITER_TEX:

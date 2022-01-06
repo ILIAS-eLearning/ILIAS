@@ -22,11 +22,11 @@ use ILIAS\DI\Container;
  */
 class ilMathJaxImage
 {
-    const TYPE_PNG = 'png';
-    const TYPE_SVG = 'svg';
+    private const TYPE_PNG = 'png';
+    private const TYPE_SVG = 'svg';
 
     /**
-     * @var string relative path from the ilias web directory
+     * @var string Relative path from the ilias web directory
      */
     protected string $basepath = '/temp/tex';
 
@@ -36,21 +36,19 @@ class ilMathJaxImage
     protected string $tex;
 
     /**
-     * @var string file suffix for the given type
+     * @var string File suffix for the given type
      */
     protected string $suffix;
 
     /**
-     * @var string salt for the filename generation, depending on the dpi parameter
+     * @var string Salt for the filename generation, depending on the dpi parameter
      */
     protected string $salt;
 
-
     /**
-     * 
-     * @param string $a_tex     latex code
-     * @param string $a_type    image type (png or svg)
-     * @param int $a_dpi        dpi of rendered image
+     * @param string $a_tex  latex code
+     * @param string $a_type image type ('png' or 'svg')
+     * @param int    $a_dpi  dpi of rendered image
      */
     public function __construct(string $a_tex, string $a_type, int $a_dpi)
     {
@@ -73,7 +71,7 @@ class ilMathJaxImage
     /**
      * Get the ILIAS DI container
      */
-    protected function di(): Container
+    protected function di() : Container
     {
         global $DIC;
         return $DIC;
@@ -81,9 +79,8 @@ class ilMathJaxImage
 
     /**
      * Get the webspace file system
-     * @return \ILIAS\Filesystem\Filesystem
      */
-    protected function fs()
+    protected function fs() : \ILIAS\Filesystem\Filesystem
     {
         return $this->di()->filesystem()->web();
     }
@@ -91,7 +88,7 @@ class ilMathJaxImage
     /**
      * Create the relative file path of the image
      */
-    public function filepath()
+    protected function filepath() : string
     {
         $hash = md5($this->tex . $this->salt);
         return $this->basepath
@@ -103,7 +100,7 @@ class ilMathJaxImage
     /**
      * Get the absolute path of the image
      */
-    public function absolutePath()
+    public function absolutePath() : string
     {
         return CLIENT_WEB_DIR . $this->filepath();
     }
@@ -111,7 +108,7 @@ class ilMathJaxImage
     /**
      * Check if an image is cached
      */
-    public function exists(): bool
+    public function exists() : bool
     {
         return $this->fs()->has($this->filepath());
     }
@@ -119,26 +116,24 @@ class ilMathJaxImage
     /**
      * Read the content of a cached image
      */
-    public function read(): string
+    public function read() : string
     {
         return $this->fs()->read($this->filepath());
     }
-    
-    
+
     /**
      * Save the content of a cached image
      * @param string $a_content image content
      */
-    public function write(string $a_content)
+    public function write(string $a_content) : void
     {
         $this->fs()->put($this->filepath(), $a_content);
     }
-    
 
     /**
      * Get the total size of the cache with an appropriate unit for display
      */
-    public function getCacheSize(): string
+    public function getCacheSize() : string
     {
         $size = 0;
         if ($this->fs()->hasDir($this->basepath)) {
@@ -161,7 +156,7 @@ class ilMathJaxImage
     /**
      * Delete all files from the cache
      */
-    public function clearCache()
+    public function clearCache() : void
     {
         $this->fs()->deleteDir($this->basepath);
     }

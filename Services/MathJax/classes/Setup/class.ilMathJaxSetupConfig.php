@@ -83,7 +83,7 @@ class ilMathJaxSetupConfig implements Setup\Config
     /**
      * Apply the setup config to an existing config
      */
-    public function applyTo(ilMathJaxConfig $config): ilMathJaxConfig
+    public function applyTo(ilMathJaxConfig $config) : ilMathJaxConfig
     {
         if (isset($this->data['client_enabled'])) {
             $config = $config->withClientEnabled($this->config->isClientEnabled());

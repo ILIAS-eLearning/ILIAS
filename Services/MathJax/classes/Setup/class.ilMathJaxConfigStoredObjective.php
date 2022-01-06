@@ -17,14 +17,11 @@ use ILIAS\Setup;
 
 class ilMathJaxConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilMathJaxSetupConfig
-     */
-    protected $config;
 
-    public function __construct(
-        \ilMathJaxSetupConfig $config
-    ) {
+    protected \ilMathJaxSetupConfig $config;
+
+    public function __construct(\ilMathJaxSetupConfig $config)
+    {
         $this->config = $config;
     }
 
@@ -59,9 +56,6 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Setup\Environment $environment) : bool
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);

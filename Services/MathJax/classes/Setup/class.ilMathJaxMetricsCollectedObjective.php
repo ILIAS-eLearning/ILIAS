@@ -36,8 +36,7 @@ class ilMathJaxMetricsCollectedObjective extends Setup\Metrics\CollectedObjectiv
 
             if (is_bool($value)) {
                 $storage->storeStableBool($key, $value);
-            }
-            else {
+            } else {
                 $storage->storeStableText($key, (string) $value);
             }
         }

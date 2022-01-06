@@ -17,7 +17,6 @@ use ILIAS\DI\Container;
 
 /**
  * Class for processing of latex formulas
- *
  * This class uses a sigleton pattern to store the rendering purpose during a request.
  * The rendering purpose for export or deferred PDF generation must be determined at the beginning of a request.
  * All following calls to convert latex code must use this purpose.
@@ -25,73 +24,72 @@ use ILIAS\DI\Container;
  */
 class ilMathJax
 {
-    const PURPOSE_BROWSER = 'browser';					// direct display of page in the browser
-    const PURPOSE_EXPORT = 'export';					// html export of contents
-    const PURPOSE_PDF = 'pdf';							// server-side PDF generation (only TCPDF and XSL-FO, not PhantomJS!!!)
-    const PURPOSE_DEFERRED_PDF = 'deferred_pdf';		// defer rendering for server-side pdf generation (XSL-FO)
-                                                        // this needs a second call with PURPOSE_PDF at the end
+    public const PURPOSE_BROWSER = 'browser';                    // direct display of page in the browser
+    public const PURPOSE_EXPORT = 'export';                        // html export of contents
+    public const PURPOSE_PDF = 'pdf';                            // server-side PDF generation (only TCPDF and XSL-FO, not PhantomJS!!!)
+    public const PURPOSE_DEFERRED_PDF = 'deferred_pdf';            // defer rendering for server-side pdf generation (XSL-FO)
+    // this needs a second call with PURPOSE_PDF at the end
 
-    const ENGINE_SERVER = 'server';						// code is treated by one of the rendering modes below
-    const ENGINE_CLIENT = 'client';						// code delimiters are
-    const ENGINE_DEFERRED = 'deferred';					// protect code for a deferred rendering
-    const ENGINE_NONE = 'none';							// don't render the code, just show it
+    public const ENGINE_SERVER = 'server';                        // code is treated by one of the rendering modes below
+    public const ENGINE_CLIENT = 'client';                        // code delimiters are
+    public const ENGINE_DEFERRED = 'deferred';                    // protect code for a deferred rendering
+    public const ENGINE_NONE = 'none';                            // don't render the code, just show it
 
-    const RENDER_SVG_AS_XML_EMBED = 'svg_as_xml_embed';	// embed svg code directly in html (default for browser view)
-    const RENDER_SVG_AS_IMG_EMBED = 'svg_as_img_embed'; // embed svg base64 encoded in an img tag (default for HTML export)
-    const RENDER_PNG_AS_IMG_EMBED = 'png_as_img_embed'; // embed png base64 encoded in an img tag (default for PDF generation)
-    const RENDER_PNG_AS_FO_FILE = 'png_as_fo_file';		// refer to a png file from an fo tag (for PDF generation with XSL-FO)
+    public const RENDER_SVG_AS_XML_EMBED = 'svg_as_xml_embed';    // embed svg code directly in html (default for browser view)
+    public const RENDER_SVG_AS_IMG_EMBED = 'svg_as_img_embed';  // embed svg base64 encoded in an img tag (default for HTML export)
+    public const RENDER_PNG_AS_IMG_EMBED = 'png_as_img_embed';  // embed png base64 encoded in an img tag (default for PDF generation)
+    public const RENDER_PNG_AS_FO_FILE = 'png_as_fo_file';        // refer to a png file from an fo tag (for PDF generation with XSL-FO)
 
-    const OUTPUT_SVG = 'svg';                           // svg output format for server side rendering
-    const OUTPUT_PNG = 'png';                           // png output format for server side rendering
+    protected const OUTPUT_SVG = 'svg';                         // svg output format for server side rendering
+    protected const OUTPUT_PNG = 'png';                         // png output format for server side rendering
 
-    const DEFAULT_DPI = 150;                            // default DIP of rendered images
-    const DEFAULT_ZOOM = 1.0;                           // default zoom factor of included images
-    
+    protected const DEFAULT_DPI = 150;                          // default DIP of rendered images
+    protected const DEFAULT_ZOOM = 1.0;                         // default zoom factor of included images
+
     /**
      * @var ilMathJax Singleton instance
      */
     protected static ?self $_instance;
 
     /**
-     * @var ilMathJaxConfig    Stored configuration
+     * @var ilMathJaxConfig Stored configuration
      */
     protected ilMathJaxConfig $config;
 
     /**
-     * @var ilMathJaxFactory
+     * @var ilMathJaxFactory Factory for image, server or global template
      */
     protected ilMathJaxFactory $factory;
 
     /**
-     * @var string|null  Chosen rendering engine
+     * @var string|null Chosen rendering engine
      */
     protected ?string $engine;
 
     /**
-     * @var string		Chosen rendering mode
+     * @var string    Chosen rendering mode
      */
     protected string $rendering = self::RENDER_SVG_AS_XML_EMBED;
 
     /**
-     * @var string		Output format of the server side rendering
+     * @var string Output format of the server side rendering
      */
     protected string $output = self::OUTPUT_SVG;
 
     /**
-     * @var int		DPI of rasterized image
+     * @var int DPI of rasterized image
      */
     protected int $dpi;
 
     /**
-     * @var float	Zoom factor of included images
+     * @var float Zoom factor of included images
      */
     protected float $zoom_factor;
-    
 
     /**
-     * @var array    Default options for calling the MathJax server
+     * @var array Default options for calling the MathJax server
      */
-    protected $default_server_options = array(
+    protected array $default_server_options = array(
         "format" => "TeX",
         "math" => '',        // TeX code
         "svg" => true,
@@ -115,11 +113,10 @@ class ilMathJax
         $this->init(self::PURPOSE_BROWSER);
     }
 
-
     /**
      * Singleton: get instance for use in ILIAS
      */
-    public static function getInstance(): ilMathJax
+    public static function getInstance() : ilMathJax
     {
         /** @var Container $DIC */
         global $DIC;
@@ -136,7 +133,7 @@ class ilMathJax
      * for use in unit tests or on the mathjax settings page
      * Don't use in standard cases!
      */
-    public static function getIndependent(ilMathJaxConfig $config, ilMathJaxFactory $factory): ilMathJax
+    public static function getIndependent(ilMathJaxConfig $config, ilMathJaxFactory $factory) : ilMathJax
     {
         return new self($config, $factory);
     }
@@ -145,15 +142,15 @@ class ilMathJax
      * Initialize the usage for a certain purpose
      * This must be done before any rendering call
      */
-    public function init(string $a_purpose = self::PURPOSE_BROWSER): ilMathJax
+    public function init(string $a_purpose = self::PURPOSE_BROWSER) : ilMathJax
     {
         // reset the class variables
         $this->engine = null;
         $this->rendering = self::RENDER_SVG_AS_XML_EMBED;
         $this->output = self::OUTPUT_SVG;
         $this->dpi = self::DEFAULT_DPI;
-        $this->zoom_factor =self::DEFAULT_ZOOM;
-        
+        $this->zoom_factor = self::DEFAULT_ZOOM;
+
         // try the server-side rendering first, set this engine, if possible
         if ($this->config->isServerEnabled()) {
 
@@ -183,7 +180,7 @@ class ilMathJax
         // support client-side rendering if enabled
         if ($this->config->isClientEnabled()) {
 
-            // included matjax script may render code which is not found by the server-side rendering
+            // included mathjax script may render code which is not found by the server-side rendering
             // see https://docu.ilias.de/goto_docu_wiki_wpage_5614_1357.html
             $this->includeMathJax();
 
@@ -204,7 +201,7 @@ class ilMathJax
     /**
      * Set the Rendering engine
      */
-    protected function setEngine(string $a_engine): ilMathJax
+    protected function setEngine(string $a_engine) : ilMathJax
     {
         switch ($a_engine) {
             case self::ENGINE_CLIENT:
@@ -222,7 +219,7 @@ class ilMathJax
     /**
      * Set the image type rendered by the server
      */
-    public function setRendering(string $a_rendering): ilMathJax
+    public function setRendering(string $a_rendering) : ilMathJax
     {
         switch ($a_rendering) {
             case self::RENDER_SVG_AS_XML_EMBED:
@@ -243,7 +240,7 @@ class ilMathJax
     /**
      * Set the dpi of the rendered images
      */
-    public function setDpi(int $a_dpi): ilMathJax
+    public function setDpi(int $a_dpi) : ilMathJax
     {
         $this->dpi = $a_dpi;
         return $this;
@@ -252,7 +249,7 @@ class ilMathJax
     /**
      * Set the zoom factor of the rendered images
      */
-    public function setZoomFactor(float $a_factor): ilMathJax
+    public function setZoomFactor(float $a_factor) : ilMathJax
     {
         $this->zoom_factor = $a_factor;
         return $this;
@@ -261,7 +258,7 @@ class ilMathJax
     /**
      * Include the Mathjax javascript(s) in the page template
      */
-    public function includeMathJax(ilGlobalTemplateInterface $a_tpl = null): ilMathJax
+    public function includeMathJax(ilGlobalTemplateInterface $a_tpl = null) : ilMathJax
     {
         if ($this->config->isClientEnabled()) {
             $tpl = $a_tpl ?? $this->factory->template();
@@ -279,16 +276,14 @@ class ilMathJax
 
     /**
      * Replace all tex code within given start and end delimiters in a text
-     *
      * If client-side rendering is enabled, change the start end end delimiters to what Mathjax expects
      * If Server-side rendering is used, replace the whole expression with delimiters by svg or image
-     *
-     * @param string $a_text  text to be converted
+     * @param string      $a_text  text to be converted
      * @param string|null $a_start start delimiter to be searched for
      * @param string|null $a_end   end delimiter to be converted
      * @return string    replaced text
      */
-    public function insertLatexImages(string $a_text, ?string $a_start = '[tex]', ?string $a_end = '[/tex]'): string
+    public function insertLatexImages(string $a_text, ?string $a_start = '[tex]', ?string $a_end = '[/tex]') : string
     {
         // don't change anything if mathjax is not configured
         if ($this->engine == self::ENGINE_NONE) {
@@ -379,7 +374,7 @@ class ilMathJax
     /**
      * Render image from tex code using the MathJax server
      */
-    protected function renderMathJax(string $a_tex): string
+    protected function renderMathJax(string $a_tex) : string
     {
         $options = $this->default_server_options;
         $options['math'] = $a_tex;
@@ -401,13 +396,13 @@ class ilMathJax
         }
 
         $image = $this->factory->image($a_tex, $this->output, $this->dpi);
-        
+
         try {
             if (!$image->exists()) {
                 $server = $this->factory->server($this->config);
                 $image->write($server->call($options));
             }
-            
+
             // get the image properties
             switch ($this->output) {
                 case self::OUTPUT_PNG:
@@ -449,17 +444,15 @@ class ilMathJax
                     break;
             }
             return $html;
-        } 
-        catch (Exception $e) {
-            return "[TeX rendering failed: " . $e->getMessage() . htmlentities($a_tex).  "]";
+        } catch (Exception $e) {
+            return "[TeX rendering failed: " . $e->getMessage() . htmlentities($a_tex) . "]";
         }
     }
 
     /**
      * Get the size of the image cache
-     * @return string
      */
-    public function getCacheSize()
+    public function getCacheSize() : string
     {
         $image = $this->factory->image('', $this->output, $this->dpi);
         return $image->getCacheSize();
@@ -468,7 +461,7 @@ class ilMathJax
     /**
      * Clear the cache of rendered graphics
      */
-    public function clearCache()
+    public function clearCache() : void
     {
         $image = $this->factory->image('', $this->output, $this->dpi);
         $image->clearCache();

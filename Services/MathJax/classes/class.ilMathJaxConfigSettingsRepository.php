@@ -14,17 +14,14 @@
  */
 
 /**
- * Repository for storing and loading the MathJax configiration
+ * Repository for storing and loading the MathJax configuration
  */
 class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
 {
-
-    /** @var ilSetting */
-    protected $settings;
+    protected ilSetting $settings;
 
     /**
      * Constructor
-     * @param ilSettingsFactory $factory
      */
     public function __construct(ilSettingsFactory $factory)
     {
@@ -33,7 +30,6 @@ class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
 
     /**
      * Get the MathJax Configuration
-     * @return ilMathJaxConfig
      */
     public function getConfig() : ilMathJaxConfig
     {
@@ -53,9 +49,8 @@ class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
 
     /**
      * Update the MathNax Configuration
-     * @param ilMathJaxConfig $config
      */
-    public function updateConfig(ilMathJaxConfig $config)
+    public function updateConfig(ilMathJaxConfig $config) : void
     {
         $this->settings->set('enable', (string) $config->isClientEnabled());
         $this->settings->set('path_to_polyfill', $config->getClintPolyfillUrl());
