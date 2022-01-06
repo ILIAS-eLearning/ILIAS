@@ -28,11 +28,9 @@ class ilMathJaxSettingsGUI
     protected \ilGlobalTemplateInterface $tpl;
     protected \ilToolbarGUI $toolbar;
     protected \Psr\Http\Message\ServerRequestInterface $request;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    protected $refinery;
-
-    /** @var ilMathJaxConfigRespository $repository */
-    protected $repository;
+    protected ilMathJaxConfigRespository $repository;
 
     /**
      * Constructor
