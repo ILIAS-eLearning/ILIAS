@@ -5906,7 +5906,7 @@ mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
 mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by tghe script in the browser.
+mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
 mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
