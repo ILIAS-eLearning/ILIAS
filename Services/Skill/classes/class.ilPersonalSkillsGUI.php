@@ -592,7 +592,7 @@ class ilPersonalSkillsGUI
                     $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation")
                 );
                 $sub = $sub->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
-                if ($this->getProfileId() > 0) {
+                if ($this->getFilter()->showMaterialsRessources() && $this->getProfileId() > 0) {
                     $sub = $sub->withFurtherInformation(
                         $this->getSuggestedResourcesForProfile($level_data, $bs["id"], $bs["tref"])
                     );
