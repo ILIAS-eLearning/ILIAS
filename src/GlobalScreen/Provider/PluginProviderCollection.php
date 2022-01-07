@@ -19,11 +19,11 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
  *****************************************************************************/
 class PluginProviderCollection implements ProviderCollection
 {
-    private AbstractModificationPluginProvider $modification_provider;
-    private AbstractStaticMainMenuPluginProvider $main_bar_provider;
-    private AbstractDynamicToolPluginProvider $tool_provider;
-    private AbstractStaticMetaBarPluginProvider $meta_bar_provider;
-    private AbstractNotificationPluginProvider $notification_provider;
+    private ?AbstractModificationPluginProvider $modification_provider = null;
+    private ?AbstractStaticMainMenuPluginProvider $main_bar_provider = null;
+    private ?AbstractDynamicToolPluginProvider $tool_provider = null;
+    private ?AbstractStaticMetaBarPluginProvider $meta_bar_provider = null;
+    private ?AbstractNotificationPluginProvider $notification_provider = null;
     
     public function getModificationProvider() : ?AbstractModificationPluginProvider
     {
