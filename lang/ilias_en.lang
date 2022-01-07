@@ -11234,7 +11234,8 @@ skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_360_survey#:#360° Survey
 skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
 skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
-skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
+skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
+skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
 survey#:#survey_360_rater_mail_sent#:#Mail sent
 survey#:#survey_360_rater_message_content_registered#:#Message Content (Registered)
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -16719,5 +16720,6 @@ skmg#:#skmg_form_presentation#:#Presentation
 skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
-skmg#:#skmg_recommended_learning_material#:#Recommended Learning Materials
+skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
+skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
 skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.

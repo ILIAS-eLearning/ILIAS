@@ -1626,6 +1626,8 @@ class ilPersonalSkillsGUI
         // suggested resources
         if ($res_manager->isLevelTooLow($a_levels, $this->profile_levels, $this->actual_levels)) {
             $imp_resources = $res_manager->getSuggestedResources();
+            $info[] = $this->ui_fac->item()->standard($lng->txt("skmg_recommended_learning_material_info"));
+            $info_group = $this->ui_fac->item()->group("", $info);
             $items = [];
 
             foreach ($imp_resources as $r) {
@@ -1644,15 +1646,15 @@ class ilPersonalSkillsGUI
             if (count($imp_resources) > 0) {
                 $sec_panel = $this->ui_fac->panel()->secondary()->listing(
                     $lng->txt("skmg_recommended_learning_material"),
-                    array($item_group)
+                    [$info_group, $item_group]
                 );
             } else {
                 $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_needs_impr_no_res"));
                 $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
             }
         } else {
-            $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_no_needs_impr"));
-            $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
+            $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_no_needs_impr_info"));
+            $sec_panel = $this->ui_fac->panel()->secondary()->legacy($lng->txt("skmg_skill_no_needs_impr"), $sec_panel_content);
         }
 
         return $sec_panel;
