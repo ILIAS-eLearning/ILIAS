@@ -9210,7 +9210,7 @@ skmg#:#skmg_update_order#:#Update Order
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_levels#:#Competence Levels
-skmg#:#skmg_target_levels#:#Target Levels
+skmg#:#skmg_target_levels#:#Competence Targets
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -11203,7 +11203,7 @@ skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_assigned_skill_levels#:#Assigned Target Levels
+skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Targets
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
@@ -11230,7 +11230,7 @@ survey#:#survey_skill_max_scale_points#:#Max. Scale Points
 survey#:#survey_reached_level#:#Reached Level
 survey#:#survey_sum_of_means#:#Sum of Arithm. Means per Question
 survey#:#survey_calc_skills#:#Determine Competence Levels
-skmg#:#skmg_target_level#:#Profile Target Level
+skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_360_survey#:#360° Survey
 skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
 skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
@@ -14645,8 +14645,8 @@ survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
 skmg#:#skmg_selected_skills#:#Selected Competences
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
+skmg#:#skmg_hide_profile_self_eval#:#Hide Competence Target without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Competence Target will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
@@ -16717,7 +16717,7 @@ forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all fo
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
 skmg#:#skmg_form_presentation#:#Presentation
 skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.
-skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your profile target level. Please click on "actions" for that.
-skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the profile target level for the affected competences until a self-evaluation is done.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
 skmg#:#skmg_recommended_learning_material#:#Recommended Learning Materials
 skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
