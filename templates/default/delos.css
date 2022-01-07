@@ -8851,7 +8851,7 @@ div.alert ul > li:before {
 .il-tree li.il-tree-node .node-line > .node-label {
   padding-left: 4px;
 }
-.il-tree li.il-tree-node .node-line > .node-label > .icon {
+.il-tree li.il-tree-node .node-line > .node-label .icon {
   vertical-align: text-bottom;
 }
 .il-tree li.il-tree-node .node-line > .node-byline {
