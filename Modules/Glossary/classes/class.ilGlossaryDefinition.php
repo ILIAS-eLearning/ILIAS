@@ -1,42 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilGlossaryDefinition
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryDefinition
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ilObjUser $user;
+    public ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
+    public int $id;
+    public int $term_id;
+    public int $glo_id;
+    public ilGlossaryDefPage $page_object;
+    public string $short_text;
+    public int $nr;
+    public bool $short_text_dirty = false;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    public $lng;
-    public $tpl;
-
-    public $id;
-    public $term_id;
-    public $glo_id;
-    public $page_object;
-    public $short_text;
-    public $nr;
-    public $short_text_dirty = false;
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -53,10 +49,7 @@ class ilGlossaryDefinition
         }
     }
 
-    /**
-    * read data of content object
-    */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -65,133 +58,102 @@ class ilGlossaryDefinition
         $def_set = $ilDB->query($q);
         $def_rec = $ilDB->fetchAssoc($def_set);
 
-        $this->setTermId($def_rec["term_id"]);
-        $this->setShortText($def_rec["short_text"]);
-        $this->setNr($def_rec["nr"]);
-        $this->setShortTextDirty($def_rec["short_text_dirty"]);
+        $this->setTermId((int) $def_rec["term_id"]);
+        $this->setShortText((string) $def_rec["short_text"]);
+        $this->setNr((int) $def_rec["nr"]);
+        $this->setShortTextDirty((bool) $def_rec["short_text_dirty"]);
 
         $this->page_object = new ilGlossaryDefPage($this->id);
     }
 
-    public function setId($a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "gdf";
     }
 
-    public function setTermId($a_term_id)
+    public function setTermId(int $a_term_id) : void
     {
         $this->term_id = $a_term_id;
     }
 
-    public function getTermId()
+    public function getTermId() : int
     {
         return $this->term_id;
     }
 
-    public function setShortText($a_text)
+    public function setShortText(string $a_text) : void
     {
         $this->short_text = $this->shortenShortText($a_text);
     }
 
-    public function getShortText()
+    public function getShortText() : string
     {
         return $this->short_text;
     }
 
-    public function setNr($a_nr)
+    public function setNr(int $a_nr) : void
     {
         $this->nr = $a_nr;
     }
 
-    public function getNr()
+    public function getNr() : int
     {
         return $this->nr;
     }
 
-    public function assignPageObject(&$a_page_object)
+    public function assignPageObject(ilGlossaryDefPage $a_page_object) : void
     {
         $this->page_object = $a_page_object;
     }
 
-    public function &getPageObject()
+    public function getPageObject() : ilGlossaryDefPage
     {
         return $this->page_object;
     }
 
-    /**
-    * get title of content object
-    *
-    * @return	string		title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * set title of content object
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * Get description
-     *
-     * @return	string		description
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * Set description
-     *
-     * @param string description
-     */
-    public function setDescription($a_description)
+    public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
 
-    /**
-     * Set short text dirty
-     *
-     * @param	boolean	short text dirty
-     */
-    public function setShortTextDirty($a_val)
+    public function setShortTextDirty(bool $a_val) : void
     {
         $this->short_text_dirty = $a_val;
     }
 
-    /**
-     * Get short text dirty
-     *
-     * @return	boolean	short text dirty
-     */
-    public function getShortTextDirty()
+    public function getShortTextDirty() : bool
     {
         return $this->short_text_dirty;
     }
-    /**
-     * Create definition
-     *
-     * @param boolean upload true/false
-     */
-    public function create($a_upload = false, $a_omit_page_creation = false)
-    {
+    public function create(
+        bool $a_upload = false,
+        bool $a_omit_page_creation = false
+    ) : void {
         $ilDB = $this->db;
         
         $term = new ilGlossaryTerm($this->getTermId());
@@ -244,7 +206,7 @@ class ilGlossaryDefinition
         }
     }
 
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
 
@@ -280,7 +242,7 @@ class ilGlossaryDefinition
     }
 
 
-    public function moveUp()
+    public function moveUp() : void
     {
         $ilDB = $this->db;
 
@@ -315,7 +277,7 @@ class ilGlossaryDefinition
         $ilAtomQuery->run();
     }
 
-    public function moveDown()
+    public function moveDown() : void
     {
         $ilDB = $this->db;
 
@@ -357,8 +319,7 @@ class ilGlossaryDefinition
         $ilAtomQuery->run();
     }
 
-
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
@@ -374,11 +335,8 @@ class ilGlossaryDefinition
 
     /**
      * Shorten short text
-     *
-     * @param
-     * @return
      */
-    public function shortenShortText($text)
+    public function shortenShortText(string $text) : string
     {
         $a_length = 196;
 
@@ -412,7 +370,7 @@ class ilGlossaryDefinition
         return $short;
     }
 
-    public function updateShortText()
+    public function updateShortText() : void
     {
         $this->page_object->buildDom();
         $text = $this->page_object->getFirstParagraphText();
@@ -423,10 +381,7 @@ class ilGlossaryDefinition
         $this->update();
     }
 
-    /**
-    * static
-    */
-    public static function getDefinitionList($a_term_id)
+    public static function getDefinitionList(int $a_term_id) : array
     {
         global $DIC;
 
@@ -447,11 +402,10 @@ class ilGlossaryDefinition
         return $defs;
     }
 
-    /**
-    * export xml
-    */
-    public function exportXML(&$a_xml_writer, $a_inst)
-    {
+    public function exportXML(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst
+    ) : void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("Definition", $attrs);
 
@@ -462,14 +416,9 @@ class ilGlossaryDefinition
     }
 
 
-    /**
-    * export content objects meta data to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLMetaData(&$a_xml_writer)
-    {
+    public function exportXMLMetaData(
+        ilXmlWriter $a_xml_writer
+    ) : void {
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
         $md2xml = new ilMD2XML($glo_id, $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
@@ -477,11 +426,11 @@ class ilGlossaryDefinition
         $a_xml_writer->appendXML($md2xml->getXML());
     }
 
-    /**
-    *
-    */
-    public function modifyExportIdentifier($a_tag, $a_param, $a_value)
-    {
+    public function modifyExportIdentifier(
+        string $a_tag,
+        string $a_param,
+        string $a_value
+    ) : string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_gdf_" . $this->getId();
         }
@@ -489,15 +438,13 @@ class ilGlossaryDefinition
         return $a_value;
     }
 
-
     /**
-    * export page objects meta data to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLDefinition(&$a_xml_writer, $a_inst = 0)
-    {
+     * export page objects meta data to xml
+     */
+    public function exportXMLDefinition(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst = 0
+    ) : void {
         $this->page_object->buildDom();
         $this->page_object->insertInstIntoIDs($a_inst);
         $this->mobs_contained = $this->page_object->collectMediaObjects(false);
@@ -509,13 +456,8 @@ class ilGlossaryDefinition
         $this->page_object->freeDom();
     }
 
-    /**
-    * create meta data entry
-    */
-    public function createMetaData()
+    public function createMetaData() : void
     {
-        $ilUser = $this->user;
-
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
         $lang = ilGlossaryTerm::_lookLanguage($this->getTermId());
         $md_creator = new ilMDCreator($glo_id, $this->getId(), $this->getType());
@@ -525,16 +467,10 @@ class ilGlossaryDefinition
         $md_creator->setDescriptionLanguage($lang);
         $md_creator->setKeywordLanguage($lang);
         $md_creator->setLanguage($lang);
-        //echo "-".$this->getTitle()."-"; exit;
         $md_creator->create();
-
-        return true;
     }
 
-    /**
-    * update meta data entry
-    */
-    public function updateMetaData()
+    public function updateMetaData() : void
     {
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
         $md = new ilMD($glo_id, $this->getId(), $this->getType());
@@ -551,10 +487,7 @@ class ilGlossaryDefinition
         $md_gen->update();
     }
 
-    /**
-    * delete meta data entry
-    */
-    public function deleteMetaData()
+    public function deleteMetaData() : void
     {
         // Delete meta data
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
@@ -563,20 +496,18 @@ class ilGlossaryDefinition
     }
 
     /**
-    * Meta data update listener
-    *
-    * Important note: Do never call create() or update()
-    * method of ilObject here. It would result in an
-    * endless loop: update object -> update meta -> update
-    * object -> ...
-    * Use static _writeTitle() ... methods instead.
-    *
-    * Even if this is not stored to db, it should be stored to the object
-    * e.g. for during import parsing
-    *
-    * @param	string		$a_element
-    */
-    public function MDUpdateListener($a_element)
+     * Meta data update listener
+     *
+     * Important note: Do never call create() or update()
+     * method of ilObject here. It would result in an
+     * endless loop: update object -> update meta -> update
+     * object -> ...
+     * Use static _writeTitle() ... methods instead.
+     *
+     * Even if this is not stored to db, it should be stored to the object
+     * e.g. for during import parsing
+     */
+    public function MDUpdateListener(string $a_element) : bool
     {
         switch ($a_element) {
             case 'General':
@@ -604,11 +535,10 @@ class ilGlossaryDefinition
     }
 
     /**
-    * Looks up term id for a definition id
-    *
-    * @param	int		$a_def_id		definition id
-    */
-    public static function _lookupTermId($a_def_id)
+     * Looks up term id for a definition id
+     * @param	int		$a_def_id		definition id
+     */
+    public static function _lookupTermId(int $a_def_id) : int
     {
         global $DIC;
 
@@ -623,12 +553,10 @@ class ilGlossaryDefinition
     }
 
     /**
-     * Set short texts dirty
-     *
-     * @param
-     * @return
+     * Set all short texts of glossary dirty
+     * (e.g. if length is changed in settings)
      */
-    public static function setShortTextsDirty($a_glo_id)
+    public static function setShortTextsDirty(int $a_glo_id) : void
     {
         global $DIC;
 
@@ -646,12 +574,9 @@ class ilGlossaryDefinition
     }
 
     /**
-     * Set short texts dirty
-     *
-     * @param
-     * @return
+     * Set short texts dirty (for all glossaries)
      */
-    public static function setShortTextsDirtyGlobally()
+    public static function setShortTextsDirtyGlobally() : void
     {
         global $DIC;
 

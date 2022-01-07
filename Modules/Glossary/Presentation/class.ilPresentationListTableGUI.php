@@ -1,47 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Term list table for presentation mode
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPresentationListTableGUI: ilFormPropertyDispatchGUI
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {
+    protected int $tax_id;
+    protected int $tax_node;
+    protected ilObjGlossary $glossary;
+    protected array $adv_cols_order = array();
+    protected bool $offline;
+    protected ilPageConfig $page_config;
 
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
-
-    /**
-     * @var array
-     */
-    protected $adv_cols_order = array();
-
-    /**
-     * @var bool
-     */
-    protected $offline;
-
-    /**
-     * @var ilPageConfig
-     */
-    protected $page_config;
-
-
-    /**
-     * Constructor
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_glossary,
-        $a_offline,
-        $a_tax_node,
-        $a_tax_id = 0
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjGlossary $a_glossary,
+        bool $a_offline,
+        int $a_tax_node,
+        int $a_tax_id = 0
     ) {
         global $DIC;
 
@@ -129,19 +122,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
         //		$this->setData(array());
     }
     
-    /**
-     * needed for advmd filter handling
-     *
-     * @return ilAdvancedMDRecordGUI
-     */
-    protected function getAdvMDRecordGUI()
+    protected function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
     {
         return $this->record_gui;
     }
     
-    /**
-     * Init filter
-     */
     public function initFilter() : void
     {
         // term
@@ -165,10 +150,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * Should this field be sorted numeric?
-     * @return	boolean		numeric ordering; default is false
-     */
     public function numericOrdering(string $a_field) : bool
     {
         if (substr($a_field, 0, 3) == "md_") {
@@ -180,9 +161,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow(array $a_set) : void
     {
         $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);

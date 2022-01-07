@@ -199,7 +199,7 @@ class ilTermListTableGUI extends ilTable2GUI
         if ($this->term_perm->checkPermission("write", $a_set["id"]) ||
             $this->term_perm->checkPermission("edit_content", $a_set["id"])) {
             if (ilGlossaryTerm::_lookGlossaryID($a_set["id"]) == $this->glossary->getId() ||
-                ilGlossaryTermReferences::isReferenced($this->glossary->getId(), $a_set["id"])) {
+                ilGlossaryTermReferences::isReferenced([$this->glossary->getId()], $a_set["id"])) {
                 $list = new ilAdvancedSelectionListGUI();
                 $list->addItem($this->lng->txt("cont_edit_term"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
                 if (count($defs) > 1) {

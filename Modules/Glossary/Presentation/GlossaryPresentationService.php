@@ -2,33 +2,30 @@
 
 namespace ILIAS\Glossary\Presentation;
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Glossary presentation service
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class GlossaryPresentationService
 {
-    /**
-     * @var \ilObjGlossary
-     */
-    protected $glo;
+    protected \ilObjGlossary $glo;
+    protected \ilObjGlossaryGUI $glo_gui;
+    protected bool $offline;
 
-    /**
-     * @var \ilObjGlossaryGUI
-     */
-    protected $glo_gui;
-
-    /**
-     * @var bool
-     */
-    protected $offline;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         \ilObjUser $user,
         array $query_params,
@@ -37,40 +34,27 @@ class GlossaryPresentationService
     ) {
         global $DIC;
 
-        $ctrl = (is_null($ctrl))
-            ? $DIC->ctrl()
-            : $ctrl;
-
         $this->request = new GlossaryPresentationRequest($query_params);
         $this->user = $user;
         $this->ref_id = $this->request->getRequestedRefId();
         $this->glo_gui = new \ilObjGlossaryGUI([], $this->ref_id, true, false);
-        $this->glo = $this->glo_gui->object;
+        /** @var \ilObjGlossary $glossary */
+        $glossary = $this->glo_gui->object;
+        $this->glo = $glossary;
         $this->offline = $offline;
     }
 
-    /**
-     * @return \ilObjGlossaryGUI
-     */
     public function getGlossaryGUI() : \ilObjGlossaryGUI
     {
         return $this->glo_gui;
     }
 
-    /**
-     * @return \ilObjGlossary
-     */
     public function getGlossary() : \ilObjGlossary
     {
         return $this->glo;
     }
 
-    /**
-     * Get request
-     *
-     * @return GlossaryPresentationRequest
-     */
-    public function getRequest()
+    public function getRequest() : GlossaryPresentationRequest
     {
         return $this->request;
     }

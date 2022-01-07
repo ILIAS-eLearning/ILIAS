@@ -2,12 +2,11 @@
 
 /**
  * Class MetaBarProviderInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface MetaBarProviderInterface
 {
-
+    
     /**
      * @return string
      */

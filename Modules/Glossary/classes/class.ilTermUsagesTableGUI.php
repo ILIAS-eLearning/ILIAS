@@ -1,33 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * TableGUI class for media object usages listing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTermUsagesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected int $term_id;
+    protected ilAccessHandler $access;
 
-    
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_term_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_term_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -41,15 +45,10 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_usage"));
     }
 
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $usages = ilGlossaryTerm::getUsages($this->term_id);
         
-        $clip_cnt = 0;
-        $to_del = array();
         $agg_usages = array();
         foreach ($usages as $k => $usage) {
             if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
@@ -64,16 +63,8 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
     protected function fillRow(array $a_set) : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-
         $usage = $a_set;
         
         if (is_int(strpos($usage["type"], ":"))) {
@@ -258,7 +249,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getFirstWritableRefId($a_obj_id)
+    public function getFirstWritableRefId(int $a_obj_id) : int
     {
         $ilAccess = $this->access;
         

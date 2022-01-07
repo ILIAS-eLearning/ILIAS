@@ -1,29 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Advanced meta data adapter
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryAdvMetaDataAdapter
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_glo_ref_id)
-    {
+    public function __construct(
+        int $a_glo_ref_id
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -36,7 +37,7 @@ class ilGlossaryAdvMetaDataAdapter
     /**
      * Get all advanced metadata fields
      */
-    public function getAllFields()
+    public function getAllFields() : array
     {
         $fields = array();
         $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $this->glo_ref_id, "term");
@@ -56,11 +57,8 @@ class ilGlossaryAdvMetaDataAdapter
     
     /**
      * Get column order
-     *
-     * @param
-     * @return
      */
-    public function getColumnOrder()
+    public function getColumnOrder() : array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -108,11 +106,8 @@ class ilGlossaryAdvMetaDataAdapter
 
     /**
      * Save column order
-     *
-     * @param
-     * @return
      */
-    public function saveColumnOrder($a_cols)
+    public function saveColumnOrder(array $a_cols) : void
     {
         $ilDB = $this->db;
         
@@ -139,12 +134,12 @@ class ilGlossaryAdvMetaDataAdapter
 
     /**
      * Write single column order
-     *
-     * @param
-     * @return
      */
-    public static function writeColumnOrder($a_glo_id, $a_field_id, $a_order_nr)
-    {
+    public static function writeColumnOrder(
+        int $a_glo_id,
+        int $a_field_id,
+        int $a_order_nr
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();

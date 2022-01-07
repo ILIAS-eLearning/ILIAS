@@ -9,11 +9,8 @@ use ILIAS\Filesystem\Stream\FileStream;
  */
 class ilFileObjectToStorageInfoResolver extends StreamInfoResolver
 {
-    /**
-     * @var DateTimeImmutable
-     */
-    protected $creation_date;
-
+    protected ?DateTimeImmutable $creation_date;
+    
     public function __construct(
         FileStream $stream,
         int $next_version_number,

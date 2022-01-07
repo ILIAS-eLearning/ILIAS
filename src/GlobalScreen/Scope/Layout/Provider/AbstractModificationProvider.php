@@ -16,14 +16,26 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class AbstractModificationProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractModificationProvider extends AbstractProvider implements ModificationProvider
 {
-
+    
     /**
      * @var ContextCollection
      */
@@ -32,8 +44,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
      * @var ToolFactory
      */
     protected $factory;
-
-
+    
     /**
      * @inheritDoc
      */
@@ -41,10 +52,9 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         parent::__construct($dic);
         $this->context_collection = $this->globalScreen()->tool()->context()->collection();
-        $this->factory = $this->globalScreen()->layout()->factory();
+        $this->factory            = $this->globalScreen()->layout()->factory();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -52,8 +62,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -61,8 +70,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -70,8 +78,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -79,8 +86,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -88,8 +94,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -97,8 +102,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -106,7 +110,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -114,7 +118,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -122,7 +126,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-
+    
     /**
      * @inheritDoc
      */

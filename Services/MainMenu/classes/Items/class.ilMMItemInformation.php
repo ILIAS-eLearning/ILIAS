@@ -20,22 +20,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 class ilMMItemInformation implements ItemInformation
 {
     private const ICON_ID = 'icon_id';
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    private $ui_factory;
-    /**
-     * @var Services
-     */
-    private $storage;
-    /**
-     * @var array
-     */
-    private $translations = [];
-    /**
-     * @var array
-     */
-    private $items = [];
+
+    private Services $storage;
+    private array $translations;
+    private array $items;
 
     /**
      * ilMMItemInformation constructor.

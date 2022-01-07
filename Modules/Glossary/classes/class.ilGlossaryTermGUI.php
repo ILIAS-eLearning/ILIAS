@@ -1,63 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * GUI class for glossary terms
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilGlossaryTermGUI: ilObjectMetaDataGUI
  */
 class ilGlossaryTermGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var \ILIAS\COPage\PageLinker
-     */
-    protected $page_linker;
-
-    public $lng;
-    public $tpl;
-    public $glossary;
-    public $term;
-    public $link_xml;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var ilObjGlossary|null
-     */
-    protected $term_glossary = null;
-
-    /**
-     * @var \ilToolbarGUI
-     */
+    protected string $offline_directory;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilHelpGUI $help;
+    protected \ILIAS\COPage\PageLinker $page_linker;
+    public ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
+    public ilObjGlossary $glossary;
+    public ilGlossaryTerm $term;
+    protected ilLogger $log;
+    protected ?ilObjGlossary $term_glossary = null;
     protected $toolbar;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0
+    ) {
         global $DIC;
 
         $this->help = $DIC["ilHelp"];
@@ -88,10 +67,7 @@ class ilGlossaryTermGUI
         }
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilTabs = $this->tabs_gui;
         
@@ -132,28 +108,18 @@ class ilGlossaryTermGUI
         }
     }
 
-    /**
-     * set offline directory to offdir
-     *
-     * @param offdir contains diretory where to store files
-     */
-    public function setOfflineDirectory($offdir)
+    public function setOfflineDirectory(string $offdir) : void
     {
         $this->offline_directory = $offdir;
     }
 
-
-    /**
-     * get offline directory
-     * @return directory where to store offline files
-     */
-    public function getOfflineDirectory()
+    public function getOfflineDirectory() : string
     {
         return $this->offline_directory;
     }
 
 
-    public function setGlossary($a_glossary)
+    public function setGlossary(ilObjGlossary $a_glossary) : void
     {
         $this->glossary = $a_glossary;
         if (!is_object($this->term_glossary)) {
@@ -161,33 +127,14 @@ class ilGlossaryTermGUI
         }
     }
 
-    public function setPageLinker($page_linker)
+    public function setPageLinker(\ILIAS\COPage\PageLinker $page_linker) : void
     {
         $this->page_linker = $page_linker;
     }
 
-    /**
-    * form for new content object creation
-    */
-    public function create()
-    {
-        // deprecated
-    }
-
-    /**
-    * save term
-    */
-    public function saveTerm()
-    {
-        // deprecated
-    }
-
-
-    /**
-     * Edit term
-     */
-    public function editTerm(ilPropertyFormGUI $a_form = null)
-    {
+    public function editTerm(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $ilTabs = $this->tabs_gui;
         $ilCtrl = $this->ctrl;
 
@@ -208,17 +155,8 @@ class ilGlossaryTermGUI
         $this->quickList();
     }
     
-    /**
-     * Get edit term form
-     *
-     * @param
-     * @return
-     */
-    public function getEditTermForm()
+    public function getEditTermForm() : ilPropertyFormGUI
     {
-        $ilTabs = $this->tabs_gui;
-        $ilCtrl = $this->ctrl;
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "updateTerm"));
         $form->setTitle($this->lng->txt("cont_edit_term"));
@@ -264,13 +202,8 @@ class ilGlossaryTermGUI
 
         return $form;
     }
-    
 
-
-    /**
-    * update term
-    */
-    public function updateTerm()
+    public function updateTerm() : void
     {
         $form = $this->getEditTermForm();
         if ($form->checkInput() &&
@@ -300,14 +233,12 @@ class ilGlossaryTermGUI
         $this->editTerm($form);
     }
 
-    /**
-     * Get overlay html
-     *
-     * @param
-     * @return
-     */
-    public function getOverlayHTML($a_close_el_id, $a_glo_ov_id = "", $a_lang = "", $a_outputmode = "offline")
-    {
+    public function getOverlayHTML(
+        string $a_close_el_id,
+        string $a_glo_ov_id = "",
+        string $a_lang = "",
+        string $a_outputmode = "offline"
+    ) : string {
         $lng = $this->lng;
         
         if ($a_lang == "") {
@@ -337,12 +268,14 @@ class ilGlossaryTermGUI
     
     /**
      * output glossary term definitions
-     *
      * used in ilLMPresentationGUI->ilGlossary()
      */
-    public function output($a_offline = false, $a_tpl = "", $a_outputmode = "presentation")
-    {
-        if ($a_tpl != "") {
+    public function output(
+        bool $a_offline = false,
+        ilTemplate $a_tpl = null,
+        string $a_outputmode = "presentation"
+    ) : void {
+        if ($a_tpl != null) {
             $tpl = $a_tpl;
         } else {
             $tpl = $this->tpl;
@@ -356,10 +289,7 @@ class ilGlossaryTermGUI
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
             $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
-            if (!$a_offline) {
-                //$page_gui->setFullscreenLink(
-                //	"ilias.php?baseClass=ilGlossaryPresentationGUI&cmd=fullscreen&ref_id=".$_GET["ref_id"]);
-            } else {
+            if ($a_offline) {
                 $page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt
             }
             $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $_GET["ref_id"]);
@@ -394,10 +324,7 @@ class ilGlossaryTermGUI
         }
     }
 
-    /**
-    * get internal links
-    */
-    public function getInternalLinks()
+    public function getInternalLinks() : array
     {
         $defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -415,10 +342,7 @@ class ilGlossaryTermGUI
         return $term_links;
     }
 
-    /**
-    * list definitions
-    */
-    public function listDefinitions()
+    public function listDefinitions() : void
     {
         $ilTabs = $this->tabs_gui;
         
@@ -524,11 +448,7 @@ class ilGlossaryTermGUI
         $this->quickList();
     }
 
-
-    /**
-    * deletion confirmation screen
-    */
-    public function confirmDefinitionDeletion()
+    public function confirmDefinitionDeletion() : void
     {
         $ilTabs = $this->tabs_gui;
 
@@ -577,46 +497,34 @@ class ilGlossaryTermGUI
         $this->tpl->setContent($dtpl->get());
     }
 
-    public function cancelDefinitionDeletion()
+    public function cancelDefinitionDeletion() : void
     {
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
 
-    public function deleteDefinition()
+    public function deleteDefinition() : void
     {
         $definition = new ilGlossaryDefinition($_GET["def"]);
         $definition->delete();
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
-
-    /**
-    * move definition upwards
-    */
-    public function moveUp()
+    public function moveUp() : void
     {
         $definition = new ilGlossaryDefinition($_GET["def"]);
         $definition->moveUp();
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
-
-    /**
-    * move definition downwards
-    */
-    public function moveDown()
+    public function moveDown() : void
     {
         $definition = new ilGlossaryDefinition($_GET["def"]);
         $definition->moveDown();
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
-
-    /**
-    * add definition
-    */
-    public function addDefinition()
+    public function addDefinition() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -624,18 +532,12 @@ class ilGlossaryTermGUI
         $ilCtrl->redirectByClass("ilobjglossarygui", "addDefinition");
     }
 
-    /**
-    * cancel adding definition
-    */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
-    /**
-    * save definition
-    */
-    public function saveDefinition()
+    public function saveDefinition() : void
     {
         $def = new ilGlossaryDefinition();
         $def->setTermId($_GET["term_id"]);
@@ -646,18 +548,12 @@ class ilGlossaryTermGUI
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
-    /**
-    * output tabs
-    */
-    public function setTabs()
+    public function setTabs() : void
     {
         $this->getTabs();
     }
 
-    /**
-    * display locator
-    */
-    public function displayLocator()
+    public function displayLocator() : void
     {
         $gloss_loc = new ilGlossaryLocatorGUI();
         $gloss_loc->setTerm($this->term);
@@ -666,16 +562,11 @@ class ilGlossaryTermGUI
         $gloss_loc->display();
     }
 
-
-    /**
-    * get tabs
-    */
-    public function getTabs()
+    public function getTabs() : void
     {
         $lng = $this->lng;
         $ilHelp = $this->help;
-        
-        
+
         $ilHelp->setScreenIdComponent("glo_term");
         
         //echo ":".$_GET["term_id"].":";
@@ -730,17 +621,13 @@ class ilGlossaryTermGUI
         );
     }
 
-    /**
-    * redirect script
-    *
-    * @param	string		$a_target
-    */
-    public static function _goto($a_target, $a_ref_id = "")
-    {
+    public static function _goto(
+        string $a_target,
+        int $a_ref_id = 0
+    ) : void {
         global $DIC;
 
-        $rbacsystem = $DIC->rbac()->system();
-        $ilErr = $DIC["ilErr"];
+        $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
 
@@ -757,12 +644,9 @@ class ilGlossaryTermGUI
         foreach ($ref_ids as $ref_id) {
             // Permission check
             if ($ilAccess->checkAccess("read", "", $ref_id)) {
-                $_GET["baseClass"] = "ilGlossaryPresentationGUI";
-                $_GET["term_id"] = $a_target;
-                $_GET["ref_id"] = $ref_id;
-                $_GET["cmd"] = "listDefinitions";
-                include_once("ilias.php");
-                exit;
+                $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "term_id", $a_target);
+                $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "ref_id", $ref_id);
+                $ctrl->redirectByClass("ilGlossaryPresentationGUI", "listDefinitions");
             }
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
@@ -773,14 +657,10 @@ class ilGlossaryTermGUI
             ilObjectGUI::_gotoRepositoryRoot();
         }
 
-
-        $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+        throw new ilPermissionException($lng->txt("msg_no_perm_read_lm"));
     }
 
-    /**
-     * List usage
-     */
-    public function listUsages()
+    public function listUsages() : void
     {
         $ilTabs = $this->tabs_gui;
         $tpl = $this->tpl;
@@ -804,7 +684,7 @@ class ilGlossaryTermGUI
     /**
      * Set quick term list cmd into left navigation URL
      */
-    public function quickList()
+    public function quickList() : void
     {
         $tpl = $this->tpl;
 

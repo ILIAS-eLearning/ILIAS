@@ -1,29 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for collecting foreign terms
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryForeignTermTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
+    protected ilObjGlossary $glossary;
 
-    /**
-     * ilGlossaryForeignTermTableGUI constructor.
-     *
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilObjGlossary $a_glossary
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjGlossary $a_glossary)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjGlossary $a_glossary
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -44,13 +46,8 @@ class ilGlossaryForeignTermTableGUI extends ilTable2GUI
 
         $this->addMultiCommand("copyTerms", $this->lng->txt("glo_copy_terms"));
         $this->addMultiCommand("referenceTerms", $this->lng->txt("glo_reference_terms"));
-
-        //$this->addCommandButton("", $lng->txt(""));
     }
     
-    /**
-     * Fill table row
-     */
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TERM", $a_set["term"]);

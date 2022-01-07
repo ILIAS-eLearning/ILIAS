@@ -1,7 +1,4 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
-
-use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
-use ILIAS\UI\Component\Component;
+<?php namespace ILIAS\GlobalScreen\Provider;
 
 /******************************************************************************
  *
@@ -17,18 +14,19 @@ use ILIAS\UI\Component\Component;
  *
  *****************************************************************************/
 /**
- * Class BaseMetaBarItemRenderer
+ * Class NullProvider
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class BaseMetaBarItemRenderer extends AbstractMetaBarItemRenderer implements MetaBarItemRenderer
+class NullProvider implements Provider
 {
-    
-    /**
-     * @param isItem $item
-     * @return Component
-     */
-    protected function getSpecificComponentForItem(isItem $item) : Component
+    public function getFullyQualifiedClassName() : string
     {
-        return $this->ui->factory()->legacy("no renderer found");
+        return static::class;
     }
+    
+    public function getProviderNameForPresentation() : string
+    {
+        return 'Null';
+    }
+    
 }

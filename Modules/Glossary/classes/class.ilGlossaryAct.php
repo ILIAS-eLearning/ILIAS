@@ -1,36 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Glossary actor class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryAct
 {
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
+    protected ilObjGlossary $glossary;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilObjUser acting user
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * ilGlossaryAct constructor.
-     * @param ilObjGlossary $a_glossary
-     * @param ilObjUser $a_user
-     */
-    protected function __construct(ilObjGlossary $a_glossary, ilObjUser $a_user)
-    {
+    protected function __construct(
+        ilObjGlossary $a_glossary,
+        ilObjUser $a_user
+    ) {
         global $DIC;
 
         $this->access = $DIC->access();
@@ -38,25 +35,17 @@ class ilGlossaryAct
         $this->user = $a_user;
     }
 
-    /**
-     * Get instance
-     * @param ilObjGlossary $a_glossary
-     * @param ilObjUser $a_user
-     * @return ilGlossaryAct
-     */
-    public static function getInstance(ilObjGlossary $a_glossary, ilObjUser $a_user)
-    {
+    public static function getInstance(
+        ilObjGlossary $a_glossary,
+        ilObjUser $a_user
+    ) {
         return new self($a_glossary, $a_user);
     }
 
-    /**
-     * Copy term
-     *
-     * @param ilObjGlossary $a_source_glossary
-     * @param int $a_term_id term id
-     */
-    public function copyTerm(ilObjGlossary $a_source_glossary, $a_term_id)
-    {
+    public function copyTerm(
+        ilObjGlossary $a_source_glossary,
+        int $a_term_id
+    ) : void {
         if (!$this->access->checkAccessOfUser($this->user->getId(), "write", "", $this->glossary->getRefId())) {
             return;
         }
@@ -75,12 +64,12 @@ class ilGlossaryAct
 
     /**
      * Reference a term of another glossary in current glossary
-     *
-     * @param ilObjGlossary $a_source_glossary
      * @param int[] $a_term_ids
      */
-    public function referenceTerms(ilObjGlossary $a_source_glossary, $a_term_ids)
-    {
+    public function referenceTerms(
+        ilObjGlossary $a_source_glossary,
+        array $a_term_ids
+    ) : void {
         if (!$this->access->checkAccessOfUser($this->user->getId(), "write", "", $this->glossary->getRefId())) {
             return;
         }

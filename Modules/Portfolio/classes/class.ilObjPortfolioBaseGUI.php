@@ -16,10 +16,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     protected $help;
 
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
 
     protected $user_id; // [int]
     protected $additional = array();
@@ -62,7 +58,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->settings = $DIC->settings();
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->tpl = $DIC["tpl"];
         $ilUser = $DIC->user();
         $this->ui = $DIC->ui();
@@ -701,13 +696,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                     $back_caption = $this->lng->txt("prtt_edit");
                 }
             }
-        }
-        
-        $ilMainMenu = $this->main_menu;
-        $ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);
-        if ($back) {
-            // might already be set in ilPublicUserProfileGUI
-            $ilMainMenu->setTopBarBack($back, $back_caption);
         }
         
         // render tabs

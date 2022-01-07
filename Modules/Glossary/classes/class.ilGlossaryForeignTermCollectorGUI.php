@@ -1,58 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Collects terms (reference or copy) from other glossaries
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesGlossary
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryForeignTermCollectorGUI
 {
-    /**
-     * @var ilObjGlossaryGUI
-     */
-    protected $glossary_gui;
+    protected ilObjGlossaryGUI $glossary_gui;
+    protected ilObjGlossary $glossary;
+    protected int $fglo_ref_id;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
-
-    /**
-     * @var int ref id of foreign glossary
-     */
-    protected $fglo_ref_id;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * Constructor
-     *
-     * @param ilObjGlossaryGUI $a_glossary_gui
-     */
-    protected function __construct(ilObjGlossaryGUI $a_glossary_gui)
-    {
+    protected function __construct(
+        ilObjGlossaryGUI $a_glossary_gui
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -61,7 +38,9 @@ class ilGlossaryForeignTermCollectorGUI
         $this->user = $DIC->user();
 
         $this->glossary_gui = $a_glossary_gui;
-        $this->glossary = $a_glossary_gui->object;
+        /** @var ilObjGlossary $glossary */
+        $glossary = $a_glossary_gui->object;
+        $this->glossary = $glossary;
 
         $this->fglo_ref_id = (int) $_GET["fglo_ref_id"];
         if ($this->fglo_ref_id > 0 && ilObject::_lookupType($this->fglo_ref_id, true) == "glo") {
@@ -71,21 +50,12 @@ class ilGlossaryForeignTermCollectorGUI
         $this->ctrl->saveParameter($this, "fglo_ref_id");
     }
 
-    /**
-     * Get instance
-     *
-     * @param ilObjGlossaryGUI $a_glossary_gui
-     * @return ilGlossaryForeignTermCollectorGUI
-     */
-    public static function getInstance(ilObjGlossaryGUI $a_glossary_gui)
+    public static function getInstance(ilObjGlossaryGUI $a_glossary_gui) : self
     {
         return new self($a_glossary_gui);
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("showGlossarySelector");
@@ -98,10 +68,7 @@ class ilGlossaryForeignTermCollectorGUI
         }
     }
 
-    /**
-     * Add level resource
-     */
-    public function showGlossarySelector()
+    public function showGlossarySelector() : void
     {
         ilUtil::sendInfo($this->lng->txt("glo_select_source_glo"));
         $exp = new ilRepositorySelectorExplorerGUI(
@@ -118,10 +85,7 @@ class ilGlossaryForeignTermCollectorGUI
         }
     }
 
-    /**
-     * Save level resource
-     */
-    public function setForeignGlossary()
+    public function setForeignGlossary() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -136,26 +100,14 @@ class ilGlossaryForeignTermCollectorGUI
         $ilCtrl->redirect($this, "showTerms");
     }
 
-    /**
-     * Show Terms
-     *
-     * @param
-     * @return
-     */
-    public function showTerms()
+    public function showTerms() : void
     {
         $t = new ilGlossaryForeignTermTableGUI($this, "showTerms", $this->foreign_glossary);
 
         $this->tpl->setContent($t->getHTML());
     }
     
-    /**
-     * Copy terms
-     *
-     * @param
-     * @return
-     */
-    public function copyTerms()
+    public function copyTerms() : void
     {
         if (!is_array($_POST["term_id"])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
@@ -169,13 +121,7 @@ class ilGlossaryForeignTermCollectorGUI
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * Reference terms
-     *
-     * @param
-     * @return
-     */
-    public function referenceTerms()
+    public function referenceTerms() : void
     {
         if (!is_array($_POST["term_id"])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);

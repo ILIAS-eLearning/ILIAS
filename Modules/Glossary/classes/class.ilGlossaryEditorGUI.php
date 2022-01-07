@@ -1,45 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Class ilGlossaryEditorGUI
-*
-* GUI class for Glossary Editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilGlossaryEditorGUI: ilObjGlossaryGUI
-*
-* @ingroup ModulesGlossary
-*/
+ * GUI class for Glossary Editor
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilGlossaryEditorGUI: ilObjGlossaryGUI
+ */
 class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilNavigationHistory $nav_history;
 
     public function __construct()
     {
@@ -48,13 +32,11 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->nav_history = $DIC["ilNavigationHistory"];
-        $this->error = $DIC["ilErr"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $ilNavigationHistory = $DIC["ilNavigationHistory"];
-        $ilErr = $DIC["ilErr"];
-        
+
         // initialisation stuff
         $this->ctrl = $ilCtrl;
         $lng->loadLanguageModule("content");
@@ -64,7 +46,7 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         // check write permission
         if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
             !$ilAccess->checkAccess("edit_content", "", $_GET["ref_id"])) {
-            $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
+            throw new ilPermissionException($lng->txt("permission_denied"));
         }
         
         $ilNavigationHistory->addItem(
@@ -74,15 +56,8 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         );
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        
-        $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjglossarygui");

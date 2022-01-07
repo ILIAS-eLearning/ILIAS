@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Glossary\Presentation;
 
@@ -11,49 +22,15 @@ namespace ILIAS\Glossary\Presentation;
  */
 class GlossaryPresentationRequest
 {
-    /**
-     * @var int
-     */
-    protected $requested_ref_id;
+    protected int $requested_ref_id;
+    protected int $requested_term_id;
+    protected int $requested_tax_node;
+    protected string $requested_letter;
+    protected int $requested_def_pg_id;
+    protected int $requested_mob_id;
+    protected string $requested_file_id;
+    protected string $requested_export_type;
 
-    /**
-     * @var int
-     */
-    protected $requested_term_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_tax_node;
-
-    /**
-     * @var string
-     */
-    protected $requested_letter;
-
-    /**
-     * @var int
-     */
-    protected $requested_def_pg_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_mob_id;
-
-    /**
-     * @var string
-     */
-    protected $requested_file_id;
-
-    /**
-     * @var string
-     */
-    protected $requested_export_type;
-
-    /**
-     * Constructor
-     */
     public function __construct(array $query_params)
     {
         $this->requested_ref_id = (int) $query_params["ref_id"];
@@ -67,73 +44,46 @@ class GlossaryPresentationRequest
         $this->requested_export_type = (string) $query_params["type"];
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedMobId() : int
     {
         return $this->requested_mob_id;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedExportType() : string
     {
         return $this->requested_export_type;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedFileId() : string
     {
         return $this->requested_file_id;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedSearchString() : string
     {
         return $this->requested_search_string;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedDefinitionPageId() : int
     {
         return $this->requested_def_pg_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedTermId() : int
     {
         return $this->requested_term_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedTaxNode() : int
     {
         return $this->requested_tax_node;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedLetter() : string
     {
         return $this->requested_letter;
