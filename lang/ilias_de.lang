@@ -14629,7 +14629,7 @@ iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
-skmg#:#skmg_selected_skills#:#Kompetenzeinträge
+skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_hide_profile_self_eval#:#Profil-Zielausprägung nach Selbsteinschätzung anzeigen
 skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird die Profil-Zielausprägung erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
