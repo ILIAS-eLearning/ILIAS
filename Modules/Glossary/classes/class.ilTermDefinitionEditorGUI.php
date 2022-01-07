@@ -1,35 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * GUI class for glossary term definition editor
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI
  */
 class ilTermDefinitionEditorGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
+    public ilObjGlossary $glossary;
+    public ilGlossaryDefinition $definition;
+    public ilGlossaryTerm $term;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    public $tpl;
-    public $lng;
-    public $glossary;
-    public $definition;
-    public $term;
-
-    /**
-    * Constructor
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
@@ -53,7 +51,7 @@ class ilTermDefinitionEditorGUI
     }
 
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -165,39 +163,18 @@ class ilTermDefinitionEditorGUI
             default:
                 $this->setTabs();
                 $gloss_loc->display();
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
 
         }
     }
 
-
-    /**
-    * output main header (title and locator)
-    */
-    public function main_header($a_header_title)
+    public function setTabs() : void
     {
-        $lng = $this->lng;
-
-        $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitle($a_header_title);
-        $this->displayLocator();
-        //$this->setAdminTabs($a_type);
-    }
-
-    /**
-    * output tabs
-    */
-    public function setTabs()
-    {
-        // catch feedback message
         $this->getTabs();
     }
 
-    /**
-    * get tabs
-    */
-    public function getTabs()
+    public function getTabs() : void
     {
         // back to glossary
         $this->tabs_gui->setBack2Target(
@@ -212,8 +189,7 @@ class ilTermDefinitionEditorGUI
         );
     }
 
-
-    public function saveShortText()
+    public function saveShortText() : void
     {
         $this->definition->updateShortText();
     }

@@ -1,59 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Glossary definition page GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  */
 class ilGlossaryDefPageGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
+    protected ilObjGlossary $glossary;
     
-    /**
-    * Constructor
-    */
-    public function __construct($a_id = 0, $a_old_nr = 0)
-    {
-        global $DIC;
-
-        $this->tpl = $DIC["tpl"];
-        $tpl = $DIC["tpl"];
-
+    public function __construct(
+        int $a_id = 0,
+        int $a_old_nr = 0
+    ) {
         parent::__construct("gdf", $a_id, $a_old_nr);
     }
     
-    /**
-     * Set glossary
-     *
-     * @param ilObjGlossary $a_val glossary
-     */
-    public function setGlossary($a_val)
+    public function setGlossary(ilObjGlossary $a_val) : void
     {
         $this->glossary = $a_val;
     }
     
-    /**
-     * Get glossary
-     *
-     * @return ilObjGlossary glossary
-     */
-    public function getGlossary()
+    public function getGlossary() : ilObjGlossary
     {
         return $this->glossary;
     }
 
-    /**
-     * Output metadata
-     */
     public function postOutputProcessing(string $a_output) : string
     {
         if ($this->getOutputMode() == "print" && $this->glossary instanceof ilObjGlossary) {

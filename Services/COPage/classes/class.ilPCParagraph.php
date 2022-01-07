@@ -1636,7 +1636,7 @@ class ilPCParagraph extends ilPageContent
                     $ref_ids = ilObject::_getAllReferences($glo);
                     $glo_ref_id = current($ref_ids);
                     if ($glo_ref_id > 0) {
-                        $terms = ilGlossaryTerm::getTermList($glo_ref_id);
+                        $terms = ilGlossaryTerm::getTermList([$glo_ref_id]);
                         foreach ($terms as $t) {
                             if (is_int(stripos($text, $t["term"]))) {
                                 $found_terms[$t["id"]] = $t;

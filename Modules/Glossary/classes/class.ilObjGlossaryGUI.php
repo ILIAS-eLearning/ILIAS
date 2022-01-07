@@ -1,14 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilGlossaryGUI
- *
  * GUI class for ilGlossary
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
@@ -16,11 +23,6 @@
  */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
     public $admin_tabs;
     public $mode;
     public $term;
@@ -86,7 +88,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
     */
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
     {
-        $this->error = $DIC["ilErr"];
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -116,7 +117,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->term_id = (int) $_GET["term_id"];
         $term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
         if ($this->term_id > 0 && $term_glo_id != $this->object->getId()
-            && !ilGlossaryTermReferences::isReferenced($this->object->getId(), $this->term_id)) {
+            && !ilGlossaryTermReferences::isReferenced([$this->object->getId()], $this->term_id)) {
             $this->term_id = "";
         }
 
@@ -365,13 +366,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
     */
     public function saveObject()
     {
-        $ilErr = $this->error;
-
         $new_type = $_REQUEST["new_type"];
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
+            throw new ilPermissionException($this->lng->txt("no_create_permission"));
         }
 
         $this->lng->loadLanguageModule($new_type);
@@ -469,15 +468,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
     
     public function viewObject()
     {
-        $ilErr = $this->error;
-
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             parent::viewObject();
             return;
         }
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+            throw new ilPermissionException($this->lng->txt("permission_denied"));
         }
     }
 
@@ -998,13 +995,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
     */
     public function publishExportFile()
     {
-        $ilErr = $this->error;
-
         if (!isset($_POST["file"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+            ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+            $this->ctrl->redirectByClass("ilexportgui", "");
         }
         if (count($_POST["file"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
+            ilUtil::sendFailure($this->lng->txt("cont_select_max_one_item"));
+            $this->ctrl->redirectByClass("ilexportgui", "");
         }
         
         $file = explode(":", $_POST["file"][0]);
@@ -1041,7 +1038,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         // check ids
         foreach ($_POST["id"] as $term_id) {
             $term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $term_id);
-            if ($term_glo_id != $this->object->getId() && !ilGlossaryTermReferences::isReferenced($this->object->getId(), $term_id)) {
+            if ($term_glo_id != $this->object->getId() && !ilGlossaryTermReferences::isReferenced([$this->object->getId()], $term_id)) {
                 ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
                 $this->ctrl->redirect($this, "listTerms");
             }
@@ -1066,7 +1063,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                     $id
                 );
 
-                if (ilGlossaryTermReferences::isReferenced($this->object->getId(), $id)) {
+                if (ilGlossaryTermReferences::isReferenced([$this->object->getId()], $id)) {
                     $add = " (" . $this->lng->txt("glo_term_reference") . ")";
                 } else {
                     $link = "[<a href='" .
@@ -1099,7 +1096,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     public function deleteTerms()
     {
         foreach ($_POST["id"] as $id) {
-            if (ilGlossaryTermReferences::isReferenced($this->object->getId(), $id)) {
+            if (ilGlossaryTermReferences::isReferenced([$this->object->getId()], $id)) {
                 $refs = new ilGlossaryTermReferences($this->object->getId());
                 $refs->deleteTerm($id);
                 $refs->update();
@@ -1369,19 +1366,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
-        $ilErr = $DIC["ilErr"];
+        $ctrl = $DIC->ctrl();
 
         if ($ilAccess->checkAccess("read", "", $a_target)) {
-            $_GET["ref_id"] = $a_target;
-            $_GET["baseClass"] = "ilGlossaryPresentationGUI";
-            include("ilias.php");
-            exit;
+            $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "ref_id", $a_target);
+            $ctrl->redirectByClass("ilGlossaryPresentationGUI", "");
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
-            $_GET["ref_id"] = $a_target;
-            $_GET["cmd"] = "infoScreen";
-            $_GET["baseClass"] = "ilGlossaryPresentationGUI";
-            include("ilias.php");
-            exit;
+            $ctrl->setParameterByClass("ilGlossaryPresentationGUI", "ref_id", $a_target);
+            $ctrl->redirectByClass("ilGlossaryPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             ilUtil::sendFailure(sprintf(
                 $lng->txt("msg_no_perm_read_item"),
@@ -1390,13 +1382,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
             ilObjectGUI::_gotoRepositoryRoot();
         }
 
-        $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+        throw new ilPermissionException($lng->txt("no_permission"));
     }
 
-    /**
-     * Apply filter
-     */
-    public function applyFilter()
+    public function applyFilter() : void
     {
         $prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
         $prtab->resetOffset();
@@ -1404,11 +1393,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->listTerms();
     }
     
-    /**
-     * Reset filter
-     * (note: this function existed before data table filter has been introduced
-     */
-    public function resetFilter()
+    public function resetFilter() : void
     {
         $prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
         $prtab->resetOffset();
@@ -1421,11 +1406,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
     //// Style related functions
     ////
     
-    /**
-     * Set content style sheet
-     */
-    public function setContentStyleSheet($a_tpl = null)
-    {
+    public function setContentStyleSheet(
+        ilGlobalTemplateInterface $a_tpl = null
+    ) : void {
         if ($a_tpl != null) {
             $ctpl = $a_tpl;
         } else {
@@ -1441,10 +1424,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
     
     
-    /**
-     * Edit style properties
-     */
-    public function editStyleProperties()
+    public function editStyleProperties() : void
     {
         $this->checkPermission("write");
         
@@ -1455,10 +1435,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->setSettingsSubTabs("style");
     }
     
-    /**
-     * Init style properties form
-     */
-    public function initStylePropertiesForm()
+    public function initStylePropertiesForm() : void
     {
         $this->lng->loadLanguageModule("style");
 
@@ -1531,34 +1508,22 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
 
-    /**
-     * Create Style
-     */
-    public function createStyle()
+    public function createStyle() : void
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
     }
     
-    /**
-     * Edit Style
-     */
-    public function editStyle()
+    public function editStyle() : void
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
     }
 
-    /**
-     * Delete Style
-     */
-    public function deleteStyle()
+    public function deleteStyle() : void
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "delete");
     }
 
-    /**
-     * Save style settings
-     */
-    public function saveStyleSettings()
+    public function saveStyleSettings() : void
     {
         if ($this->setting->get("fixed_content_style_id") <= 0 &&
             (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
@@ -1573,8 +1538,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
     /**
      * Get public access value for export table
      */
-    public function getPublicAccessColValue($a_type, $a_file)
-    {
+    public function getPublicAccessColValue(
+        string $a_type,
+        string $a_file
+    ) : string {
         if ($this->object->getPublicExportFile($a_type) == $a_file) {
             return $this->lng->txt("yes");
         }
@@ -1584,10 +1551,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
     /**
      * Show taxonomy
-     *
-     * @throws ilCtrlException
      */
-    public function showTaxonomy()
+    public function showTaxonomy() : void
     {
         global $DIC;
 
@@ -1643,11 +1608,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
     /**
      * Edit automatically linked glossaries
-     *
-     * @param
-     * @return
      */
-    public function editGlossaries()
+    public function editGlossaries() : void
     {
         $this->tabs->setTabActive("settings");
         $this->setSettingsSubTabs("glossaries");
@@ -1663,12 +1625,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
 
     /**
-     * Select LM Glossary
-     *
-     * @param
-     * @return
+     * Show auto glossary selection
      */
-    public function showGlossarySelector()
+    public function showGlossarySelector() : void
     {
         $this->tabs->setTabActive("settings");
         $this->setSettingsSubTabs("glossaries");
@@ -1686,10 +1645,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->tpl->setContent($exp->getOutput());
     }
 
-    /**
-     * Confirm glossary selection
-     */
-    public function confirmGlossarySelection()
+    public function confirmGlossarySelection() : void
     {
         $cgui = new ilConfirmationGUI();
         $this->ctrl->setParameter($this, "glo_ref_id", $_GET["root_id"]);
@@ -1702,26 +1658,19 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
     /**
      * Select a glossary and link all its terms
-     *
-     * @param
-     * @return
      */
-    public function selectGlossaryLink()
+    public function selectGlossaryLink() : void
     {
         $glo_ref_id = (int) $_GET["glo_ref_id"];
-        $glo_id = ilObject::_lookupObjId($glo_ref_id);
         $this->object->autoLinkGlossaryTerms($glo_ref_id);
         $this->selectGlossary();
     }
 
 
     /**
-     * Select lm glossary
-     *
-     * @param
-     * @return
+     * Select auto glossary
      */
-    public function selectGlossary()
+    public function selectGlossary() : void
     {
         $glos = $this->object->getAutoGlossaries();
         $glo_ref_id = (int) $_GET["glo_ref_id"];
@@ -1736,13 +1685,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "editGlossaries");
     }
 
-    /**
-     * Remove lm glossary
-     *
-     * @param
-     * @return
-     */
-    public function removeGlossary()
+    public function removeGlossary() : void
     {
         $this->object->removeAutoGlossary((int) $_GET["glo_id"]);
         $this->object->update();
@@ -1752,12 +1695,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
     
     /**
-     * Copy terms
-     *
-     * @param
-     * @return
+     * Copy terms to clipboard
      */
-    public function copyTerms()
+    public function copyTerms() : void
     {
         $items = ilUtil::stripSlashesArray($_POST["id"]);
         if (!is_array($items)) {
@@ -1787,12 +1727,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
     
     /**
-     * Reference terms
-     *
-     * @param
-     * @return
+     * Add terms to be referenced to clipboard
      */
-    public function referenceTerms()
+    public function referenceTerms() : void
     {
         $items = ilUtil::stripSlashesArray($_POST["id"]);
         if (!is_array($items)) {
@@ -1822,22 +1759,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
     }
 
 
-    /**
-     * Clear clipboard
-     *
-     * @param
-     * @return
-     */
-    public function clearClipboard()
+    public function clearClipboard() : void
     {
         $this->user->clipboardDeleteObjectsOfType("term");
         $this->ctrl->redirect($this, "listTerms");
     }
 
-    /**
-     * Paste Terms
-     */
-    public function pasteTerms()
+    public function pasteTerms() : void
     {
         if (ilEditClipboard::getAction() == "copy") {
             foreach ($this->user->getClipboardObjects("term") as $item) {

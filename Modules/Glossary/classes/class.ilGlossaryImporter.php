@@ -1,18 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Importer class for files
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilGlossaryImporter extends ilXmlImporter
 {
-    /**
-     * Initialisation
-     */
+    protected ilGlossaryDataSet $ds;
+
     public function init() : void
     {
         $this->ds = new ilGlossaryDataSet();
@@ -20,13 +28,12 @@ class ilGlossaryImporter extends ilXmlImporter
         $this->config = $this->getImport()->getConfig("Modules/Glossary");
     }
 
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         if ($a_entity == "glo") {
             // case i container
             if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -57,13 +64,9 @@ class ilGlossaryImporter extends ilXmlImporter
         }
     }
     
-    /**
-     * Final processing
-     * @param
-     * @return void
-     */
-    public function finalProcessing(ilImportMapping $a_mapping) : void
-    {
+    public function finalProcessing(
+        ilImportMapping $a_mapping
+    ) : void {
 
         // get all glossaries of the import
         $maps = $a_mapping->getMappingsOfEntity("Modules/Glossary", "glo");

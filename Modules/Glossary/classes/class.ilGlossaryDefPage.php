@@ -1,31 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Glossary definition page object
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryDefPage extends ilPageObject
 {
-    /**
-     * Get parent type
-     * @return string parent type
-     */
     public function getParentType() : string
     {
         return "gdf";
     }
 
-    /**
-     * Before page content update
-     * Note: This one is "work in progress", currently only text paragraphs call this hook
-     * It is called before the page content object invokes the update procedure of
-     * ilPageObject
-     * @param
-     * @return void
-     */
     public function beforePageContentUpdate(ilPageContent $a_page_content) : void
     {
         if ($a_page_content->getType() == "par") {
@@ -35,8 +33,8 @@ class ilGlossaryDefPage extends ilPageObject
     }
 
     /**
-     * Get object id of repository object that contains this page, return 0 if page does not belong to a repo object
-     * @return int|null
+     * Get object id of repository object that contains this page,
+     * return 0 if page does not belong to a repo object
      */
     public function getRepoObjId() : ?int
     {

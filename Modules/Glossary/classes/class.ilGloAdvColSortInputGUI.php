@@ -1,24 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Input for adv meta data column sorting in glossaries.
  * Please note, that data us already an array, we do not use the MultipleValues
  * interface here.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 {
-    
-    /**
-    * Constructor
-    *
-    * @param
-    */
-    public function __construct($a_title = "", $a_id = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_id = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -26,22 +33,12 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         $this->setType("glo_adv_col_sort");
     }
     
-    /**
-     * Set Value.
-     *
-     * @param	string	$a_value	Value
-     */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-     * Get Value.
-     *
-     * @return	string	Value
-     */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -49,26 +46,20 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
     
     /**
      * Input should always be valid, since we sort only
-     * @return boolean
      */
     public function checkInput() : bool
     {
-        if (is_array($_POST[$this->getPostVar()])) {
-            foreach ($_POST[$this->getPostVar()] as $k => $v) {
-                $_POST[$this->getPostVar()][$k]["id"] = ilUtil::stripSlashes($_POST[$this->getPostVar()][$k]["id"]);
-                $_POST[$this->getPostVar()][$k]["text"] = ilUtil::stripSlashes($_POST[$this->getPostVar()][$k]["text"]);
-            }
-        } else {
-            $_POST[$this->getPostVar()] = array();
-        }
-
         return true;
     }
 
-    /**
-     * render
-     */
-    public function render()
+    protected function getInput() : array
+    {
+        $val = $this->arrayArray($this->getPostVar());
+        $val = ilUtil::stripSlashesRecursive($val);
+        return $val;
+    }
+
+    public function render() : string
     {
         $lng = $this->lng;
         
@@ -93,33 +84,21 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         return $tpl->get();
     }
     
-    /**
-    * Insert property html
-    *
-    */
-    public function insert(&$a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
     
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         if ($this->getPostVar() && isset($a_values[$this->getPostVar()])) {
             $this->setValue($a_values[$this->getPostVar()]);
         }
     }
     
-    /**
-    * Get HTML for table filter
-    */
-    public function getTableFilterHTML()
+    public function getTableFilterHTML() : string
     {
         $html = $this->render();
         return $html;

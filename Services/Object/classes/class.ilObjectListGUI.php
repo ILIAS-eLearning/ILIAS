@@ -89,7 +89,7 @@ class ilObjectListGUI
     public $download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
     
     protected $obj_id;
-    protected $ref_id;
+    protected int $ref_id;
     protected $type;
     protected $sub_obj_id;
     protected $sub_obj_type;

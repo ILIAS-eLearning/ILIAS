@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Glossary Data set class
@@ -11,19 +22,12 @@
  * - glo_definition: data from glossary_definition
  * - glo_advmd_col_order: ordering md fields
  * - glo_auto_glossaries: automatically linked glossaries
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryDataSet extends ilDataSet
 {
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,31 +37,16 @@ class ilGlossaryDataSet extends ilDataSet
         parent::__construct();
     }
 
-    /**
-     * Get supported versions
-     * @return array version
-     */
     public function getSupportedVersions() : array
     {
         return array("5.1.0", "5.4.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/Glossary/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param string $a_entity  entity
-     * @param string $a_version version number
-     * @return array types array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "glo") {
@@ -126,13 +115,9 @@ class ilGlossaryDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -247,13 +232,13 @@ class ilGlossaryDataSet extends ilDataSet
     }
     
     
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "glo":
 

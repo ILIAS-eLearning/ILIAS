@@ -1,37 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Glossary term reference
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesGlossary
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryTermReferences
 {
-    /**
-     * @var int glossary id
-     */
-    protected $glo_id;
+    protected int $glo_id;
+    /** @var int[] (term ids) */
+    protected array $terms = array();
+    protected ilDBInterface $db;
 
-    /**
-     * @var int[] (term ids)
-     */
-    protected $terms = array();
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * __construct
-     *
-     * @param int $a_glo_id glossary id
-     */
-    public function __construct($a_glo_id = 0)
+    public function __construct(int $a_glo_id = 0)
     {
         global $DIC;
 
@@ -43,64 +36,40 @@ class ilGlossaryTermReferences
         }
     }
 
-    /**
-     * Set glossary id
-     *
-     * @param int $a_val glossary id
-     */
-    public function setGlossaryId($a_val)
+    public function setGlossaryId(int $a_val) : void
     {
         $this->glo_id = $a_val;
     }
 
-    /**
-     * Get glossary id
-     *
-     * @return int glossary id
-     */
-    public function getGlossaryId()
+    public function getGlossaryId() : int
     {
         return $this->glo_id;
     }
 
     /**
-     * Set terms
-     *
      * @param int[] $a_val term ids
      */
-    public function setTerms($a_val)
+    public function setTerms(array $a_val) : void
     {
         $this->terms = $a_val;
     }
 
     /**
-     * Get terms
-     *
      * @return int[] term ids
      */
-    public function getTerms()
+    public function getTerms() : array
     {
         return $this->terms;
     }
 
-    /**
-     * Add term
-     *
-     * @param int term id
-     */
-    public function addTerm($a_term_id)
+    public function addTerm(int $a_term_id) : void
     {
         if (!in_array($a_term_id, $this->terms)) {
             $this->terms[] = $a_term_id;
         }
     }
 
-    /**
-     * Delete term
-     *
-     * @param $a_term_id
-     */
-    public function deleteTerm($a_term_id)
+    public function deleteTerm(int $a_term_id) : void
     {
         foreach ($this->terms as $k => $v) {
             if ($v == $a_term_id) {
@@ -109,11 +78,7 @@ class ilGlossaryTermReferences
         }
     }
 
-
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $set = $this->db->query("SELECT term_id FROM glo_term_reference " .
             " WHERE glo_id = " . $this->db->quote($this->getGlossaryId(), "integer"));
@@ -122,10 +87,7 @@ class ilGlossaryTermReferences
         }
     }
 
-    /**
-     * Update
-     */
-    public function update()
+    public function update() : void
     {
         $this->delete();
         foreach ($this->getTerms() as $t) {
@@ -143,7 +105,7 @@ class ilGlossaryTermReferences
     /**
      * Delete references (of glossary)
      */
-    public function delete()
+    public function delete() : void
     {
         $this->db->manipulate(
             "DELETE FROM glo_term_reference WHERE " .
@@ -153,10 +115,8 @@ class ilGlossaryTermReferences
 
     /**
      * Delete all references of a term
-     *
-     * @param int $a_term_id term id
      */
-    public static function deleteReferencesOfTerm($a_term_id)
+    public static function deleteReferencesOfTerm(int $a_term_id) : void
     {
         global $DIC;
 
@@ -170,11 +130,8 @@ class ilGlossaryTermReferences
 
     /**
      * Check if a glossary uses references
-     *
-     * @param int $a_glossary_id
-     * @return bool
      */
-    public static function hasReferences($a_glossary_id)
+    public static function hasReferences(int $a_glossary_id) : bool
     {
         global $DIC;
 
@@ -190,13 +147,15 @@ class ilGlossaryTermReferences
     }
 
     /**
-     * Is a term referenced by one or multiple glossaries
-     * @param int|int[] $a_glo_id
+     * Is a term referenced by a set of glossaries
+     * @param int[] $a_glo_id glossary ids
      * @param int $a_term_id
      * @return bool
      */
-    public static function isReferenced($a_glo_id, $a_term_id)
-    {
+    public static function isReferenced(
+        array $a_glo_id,
+        int $a_term_id
+    ) : bool {
         global $DIC;
 
         $db = $DIC->database();
@@ -215,13 +174,12 @@ class ilGlossaryTermReferences
     }
 
     /**
-     * Lookup references of a term
-     *
      * @param int $a_term_id term id
      * @return int[] glossary ids
      */
-    public static function lookupReferencesOfTerm($a_term_id)
-    {
+    public static function lookupReferencesOfTerm(
+        int $a_term_id
+    ) : array {
         global $DIC;
 
         $db = $DIC->database();
