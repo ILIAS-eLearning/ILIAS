@@ -6,6 +6,19 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class UploadedFileRevision
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -13,14 +26,8 @@ use ILIAS\ResourceStorage\Information\FileInformation;
 class FileStreamRevision extends FileRevision implements Revision
 {
 
-    /**
-     * @var FileStream
-     */
-    private $stream;
-    /**
-     * @var bool
-     */
-    protected $keep_original = true;
+    private \ILIAS\Filesystem\Stream\FileStream $stream;
+    protected bool $keep_original = true;
 
     /**
      * @inheritDoc
@@ -34,17 +41,11 @@ class FileStreamRevision extends FileRevision implements Revision
         $this->setInformation($information);
     }
 
-    /**
-     * @return FileStream
-     */
     public function getStream() : FileStream
     {
         return $this->stream;
     }
 
-    /**
-     * @return bool
-     */
     public function keepOriginal() : bool
     {
         return $this->keep_original;

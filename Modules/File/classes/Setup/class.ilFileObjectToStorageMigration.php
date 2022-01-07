@@ -9,23 +9,14 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 {
     private const FILE_PATH_REGEX = '/.*\/file_([\d]*)$/';
     public const MIGRATION_LOG_CSV = "migration_log.csv";
-
-    /**
-     * @var ilFileObjectToStorageMigrationHelper
-     */
-    private $helper;
-    /**
-     * @var bool
-     */
-    protected $prepared = false;
-    /**
-     * @var ilFileObjectToStorageMigrationRunner
-     */
-    protected $runner;
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
+    
+    private ?ilFileObjectToStorageMigrationHelper $helper = null;
+    
+    protected bool $prepared = false;
+    
+    protected ilFileObjectToStorageMigrationRunner $runner;
+    
+    protected ilDBInterface $database;
 
     /**
      * @inheritDoc
@@ -118,6 +109,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 $this->database,
                 $legacy_files_dir . "/" . self::MIGRATION_LOG_CSV
             );
+            $this->prepared = true;
         }
     }
 
@@ -135,6 +127,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
+        if (!$this->prepared) {
+            return 0;
+        }
+        
         $r = $this->database->query("SELECT COUNT(file_id) AS amount FROM file_data WHERE rid IS NULL OR rid = '';");
         $d = $this->database->fetchObject($r);
 

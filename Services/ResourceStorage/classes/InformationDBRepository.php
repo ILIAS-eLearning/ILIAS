@@ -6,6 +6,19 @@ use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Information\Information;
 use ILIAS\ResourceStorage\Revision\Revision;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface InformationDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -16,21 +29,21 @@ class InformationDBRepository implements InformationRepository
     const TABLE_NAME = 'il_resource_info';
     const IDENTIFICATION = 'rid';
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    protected $cache = [];
+    protected \ilDBInterface $db;
 
     /**
-     * @param \ilDBInterface $db
+     * @var mixed[]
      */
+    protected array $cache = [];
+
     public function __construct(\ilDBInterface $db)
     {
         $this->db = $db;
     }
 
+    /**
+     * @return string[]
+     */
     public function getNamesForLocking() : array
     {
         return [self::TABLE_NAME];
@@ -39,7 +52,7 @@ class InformationDBRepository implements InformationRepository
     /**
      * @inheritDoc
      */
-    public function blank()
+    public function blank() : Information
     {
         return new FileInformation();
     }
