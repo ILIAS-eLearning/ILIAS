@@ -30,7 +30,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_MOVE = 'move';
     const CMD_FLUSH = 'flush';
 
-    private function dispatchCommand($cmd)
+    private function dispatchCommand($cmd):string
     {
         global $DIC;
         switch ($cmd) {
@@ -175,12 +175,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function cancel()
+    private function cancel():void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
 
-    private function doubleCancel()
+    private function doubleCancel():void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }

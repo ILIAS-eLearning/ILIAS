@@ -1566,13 +1566,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-            include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-            $ilMainMenu = new ilMainMenuGUI("_top");
-
-            self::initGlobal("ilMainMenu", $ilMainMenu);
-            unset($ilMainMenu);
-
-            // :TODO: tableGUI related
 
             // set hits per page for all lists using table module
             $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');

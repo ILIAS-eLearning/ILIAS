@@ -11,19 +11,10 @@ use ILIAS\MainMenu\Provider\CustomMainBarProvider;
  */
 class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeInterface
 {
-
-    /**
-     * @var string
-     */
-    private $parent_identification = "";
-    /**
-     * @var
-     */
-    private $active_status;
-    /**
-     * @var bool
-     */
-    protected $top_item = false;
+    
+    private ?string $parent_identification = "";
+    private bool $active_status;
+    protected bool $top_item = false;
 
 
     /**
@@ -48,7 +39,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function setIsTopItm(bool $top_item)
+    public function setIsTopItm(bool $top_item) : void
     {
         $this->top_item = $top_item;
     }
@@ -66,7 +57,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function setActiveStatus(bool $status)
+    public function setActiveStatus(bool $status) : void
     {
         $this->active_status = $status;
     }
@@ -75,13 +66,13 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function setParent(string $parent)
+    public function setParent(string $parent) : void
     {
         $this->parent_identification = $parent;
     }
 
 
-    public function create()
+    public function create() : void
     {
         $s = new ilMMCustomItemStorage();
         $s->setIdentifier(uniqid());
@@ -152,7 +143,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function delete()
+    public function delete() : void
     {
         parent::delete();
     }

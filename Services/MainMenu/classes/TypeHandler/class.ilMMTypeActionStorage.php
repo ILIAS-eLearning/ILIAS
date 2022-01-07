@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMMTypeActionStorage
  *
@@ -9,31 +22,25 @@ class ilMMTypeActionStorage extends CachedActiveRecord
 {
 
     /**
-     * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected $identification;
+    protected ?string $identification;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     4000
      */
-    protected $action = '';
+    protected string $action = '';
     /**
-     * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $external = false;
+    protected bool $external = false;
     /**
      * @var string
      */

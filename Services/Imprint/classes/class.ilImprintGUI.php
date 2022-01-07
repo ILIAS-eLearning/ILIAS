@@ -27,7 +27,6 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {
     protected StandardGUIRequest $imprint_request;
     protected ilLocatorGUI $locator;
-    protected ilMainMenuGUI $main_menu;
 
     public function __construct()
     {
@@ -37,7 +36,6 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
         $this->locator = $DIC["ilLocator"];
         $this->lng = $DIC->language();
-        $this->main_menu = $DIC["ilMainMenu"];
         $tpl = $DIC["tpl"];
 
         $this->imprint_request = new StandardGUIRequest(

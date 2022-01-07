@@ -38,6 +38,8 @@ final class ChangeLicenseHeader extends AbstractRector
         return [
             Node\Stmt\Use_::class,
             Node\Stmt\Class_::class,
+            Node\Stmt\Interface_::class,
+            Node\Stmt\Trait_::class,
             Node\Expr\Include_::class
         ];
     }
@@ -57,6 +59,8 @@ final class ChangeLicenseHeader extends AbstractRector
                 $node->setAttribute('comments', $this->filterComments($node));
                 return $node;
             case $node instanceof Node\Stmt\Class_:
+            case $node instanceof Node\Stmt\Interface_:
+            case $node instanceof Node\Stmt\Trait_:
                 $node->setAttribute('comments', $this->filterComments($node, [$this->standard_comment]));
                 return $node;
             default:

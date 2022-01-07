@@ -30,11 +30,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      * @var ilNavigationHistory
      */
     protected $nav_history;
-
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
+    
 
     /**
      * @var ilRbacAdmin
@@ -147,7 +143,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->toolbar = $DIC->toolbar();
         $this->tree = $DIC->repositoryTree();
         $this->locator = $DIC["ilLocator"];
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->rbacreview = $DIC->rbac()->review();
         $this->rbacadmin = $DIC->rbac()->admin();
         $this->http = $DIC->http();
@@ -1290,12 +1285,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $parent_id = $tree->getParentId($this->node_id);
                 $back = ilLink::_getStaticLink($parent_id);
             }
-        }
-        
-        $ilMainMenu = $this->main_menu;
-        $ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);
-        if ($back !== "") {
-            $ilMainMenu->setTopBarBack($back, $back_caption);
         }
         
         $this->renderFullscreenHeader($tpl, $owner);
