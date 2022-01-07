@@ -15,7 +15,7 @@ class ilRoleAutoComplete
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilDB->setLimit(20);
+        $ilDB->setLimit(20, 0);
         $query = "SELECT o1.title role,o2.title container FROM object_data o1 " .
             "JOIN rbac_fa fa ON o1.obj_id = rol_id " .
             "JOIN tree t1 ON fa.parent =  t1.child " .
@@ -64,7 +64,7 @@ class ilRoleAutoComplete
         
         $a_str = substr($a_str, 1);
         
-        $ilDB->setLimit(100);
+        $ilDB->setLimit(100, 0);
         $query = "SELECT ref_id, title FROM object_data ode " .
             "JOIN object_reference ore ON ode.obj_id = ore.obj_id " .
             "WHERE " . $ilDB->like('title', 'text', $a_str . '%') . ' ' .

@@ -225,22 +225,23 @@ class ilObjectPermissionStatusGUI
     {
         global $DIC;
 
-        $ilUser = $DIC->user();
-        if (!isset($_POST['user_login'])) {
-            $user = $ilUser;
-        } else {
-            include_once('Services/User/classes/class.ilObjUser.php');
-            $user_id = ilObjUser::_lookupId($_POST['user_login']);
-
-            $factory = new ilObjectFactory();
-            $user = $factory->getInstanceByObjId($user_id, false);
-            if ($user === false or $user->getType() != 'usr') {
-                $user = $ilUser;
-                ilUtil::sendFailure($this->lng->txt('info_err_user_not_exist'));
-            } else {
-                ilUtil::sendInfo($this->lng->txt('info_user_view_changed'));
-            }
+        $user_login  = '';
+        if ($DIC->http()->wrapper()->post()->has('user_login')) {
+            $user_login = $DIC->http()->wrapper()->post()->retrieve(
+                'user_login',
+                $DIC->refinery()->kindlyTo()->string()
+            );
         }
+        if (strlen($user_login)) {
+            return $DIC->user();
+        }
+        $user_id = ilObjUser::_lookupId($user_login);
+        $user = ilObjectFactory::getInstanceByObjId($user_id, false);
+        if (!$user instanceof ilObjUser || $user->getType() != 'usr') {
+            ilUtil::sendFailure($this->lng->txt('info_err_user_not_exist'));
+            return $DIC->user();
+        }
+        ilUtil::sendSuccess($this->lng->txt('info_user_view_changed'));
         return $user;
     }
 

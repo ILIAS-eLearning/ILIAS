@@ -24,6 +24,8 @@ class ilSettingsPermissionGUI
     protected ilRbacReview $review;
     protected ilRbacAdmin $admin;
     protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
 
 
     public function __construct(object $a_gui_obj)
@@ -32,11 +34,8 @@ class ilSettingsPermissionGUI
 
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("rbac");
-
         $this->ctrl = $DIC->ctrl();
-
         $this->obj = $a_gui_obj->object;
-
         $this->review = $DIC->rbac()->review();
         $this->admin = $DIC->rbac()->admin();
         $this->tpl = $DIC->ui()->mainTemplate();

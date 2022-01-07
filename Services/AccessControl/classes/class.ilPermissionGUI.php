@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/AccessControl/classes/class.ilPermission2GUI.php';
+
 
 /**
 * New PermissionGUI (extends from old ilPermission2GUI)
@@ -33,6 +33,7 @@ class ilPermissionGUI extends ilPermission2GUI
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_gui_obj);
         $this->recommended_content_manager = new ilRecommendedContentManager();
+
     }
     
     /**
@@ -48,9 +49,16 @@ class ilPermissionGUI extends ilPermission2GUI
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             case "ilobjrolegui":
+
+                $role_id = 0;
+                if ($this->http->wrapper()->query()->has('obj_id')) {
+                    $role_id = $this->http->wrapper()->query()->retrieve(
+                        'obj_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
                 $this->ctrl->setReturn($this, 'perm');
-                include_once("Services/AccessControl/classes/class.ilObjRoleGUI.php");
-                $this->gui_obj = new ilObjRoleGUI("", (int) $_GET["obj_id"], false, false);
+                $this->gui_obj = new ilObjRoleGUI("", $role_id, false, false);
                 $ret = $this->ctrl->forwardCommand($this->gui_obj);
                 break;
 

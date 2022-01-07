@@ -15,12 +15,20 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 {
     protected int $role_id;
     protected bool $roleAssignmentEditable = true;
+    protected bool $isAdministrationContext = false;
     
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_role_id, bool $a_editable = true)
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_role_id,
+        bool $a_editable = true,
+        bool $isAdministrationContext
+    )
     {
         $this->setId("rbac_ua_" . $a_role_id);
         $this->role_id = $a_role_id;
         $this->roleAssignmentEditable = $a_editable;
+        $this->isAdministrationContext = $isAdministrationContext;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         //		$this->setTitle($this->lng->txt("users"));
@@ -131,8 +139,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
             '',
             $link_contact
         );
-        
-        if (strtolower($_GET["baseClass"]) == 'iladministrationgui' && $_GET["admin_mode"] == "settings") {
+
+        if ($this->isAdministrationContext) {
             $this->ctrl->setParameterByClass("ilobjusergui", "ref_id", 7);
             $this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
             

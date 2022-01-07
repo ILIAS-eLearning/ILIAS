@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
 * class ilRbacSystem
@@ -34,6 +36,9 @@ class ilRbacSystem
     protected ilRbacReview $review;
     protected ilObjectDataCache $objectDataCache;
     protected ilTree $tree;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
 
     /**
     * Constructor
@@ -47,6 +52,8 @@ class ilRbacSystem
         $this->review = $DIC->rbac()->review();
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
     
     public static function getInstance() : ilRbacSystem
@@ -305,17 +312,28 @@ class ilRbacSystem
     public function initMemberView() : void
     {
         $settings = ilMemberViewSettings::getInstance();
-        
-        // disable member view
-        if (isset($_GET['mv']) && $_GET['mv'] == 0) {
-            // force deactivation
-            $settings->toggleActivation((int) $_GET['ref_id'], false);
+        $member_view_activation = null;
+        if ($this->http->wrapper()->query()->has('mv')) {
+            $member_view_activation = $this->http->wrapper()->query()->retrieve(
+                'mv',
+                $this->refinery->kindlyTo()->bool()
+            );
         }
-        if (isset($_GET['mv']) && $_GET['mv'] == 1) {
-            if ($this->checkAccess('write', (int) $_GET['ref_id'])) {
-                $settings->toggleActivation((int) $_GET['ref_id'], true);
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($member_view_activation === true) {
+            if ($this->checkAccess('write', $ref_id)) {
+                $settings->toggleActivation($ref_id, true);
                 self::resetCaches();
             }
+        }
+        if ($member_view_activation === false) {
+            $settings->toggleActivation($ref_id, false);
         }
         if (!$settings->isActive()) {
             $this->mem_view['active'] = false;

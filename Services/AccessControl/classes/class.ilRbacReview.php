@@ -55,10 +55,10 @@ class ilRbacReview
      */
     public function roleExists(string $a_title, int $a_id = 0) : ?int
     {
-        $clause = ($a_id) ? " AND obj_id != " . $this->db->quote($a_id) . " " : "";
+        $clause = ($a_id) ? " AND obj_id != " . $this->db->quote($a_id, ilDBConstants::T_TEXT) . " " : "";
         
         $q = "SELECT DISTINCT(obj_id) obj_id FROM object_data " .
-             "WHERE title =" . $this->db->quote($a_title) . " " .
+             "WHERE title =" . $this->db->quote($a_title, ilDBConstants::T_TEXT) . " " .
              "AND type IN('role','rolt')" .
              $clause . " ";
         $r = $this->db->query($q);
@@ -332,7 +332,7 @@ class ilRbacReview
         $this->db->setLimit(1, 0);
         $query = "SELECT usr_id FROM rbac_ua WHERE " .
                     "rol_id= " . $this->db->quote($a_role_id, 'integer') . " " .
-                    "AND usr_id= " . $this->db->quote($a_usr_id);
+                    "AND usr_id= " . $this->db->quote($a_usr_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         $is_assigned = $res->numRows() == 1;
         self::$is_assigned_cache[$a_role_id][$a_usr_id] = $is_assigned;
@@ -357,7 +357,7 @@ class ilRbacReview
         $this->db->setLimit(1, 0);
         $query = "SELECT usr_id FROM rbac_ua WHERE " .
                     $this->db->in('rol_id', $a_role_ids, false, 'integer') .
-                    " AND usr_id= " . $this->db->quote($a_usr_id);
+                    " AND usr_id= " . $this->db->quote($a_usr_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
 
         return $this->db->numRows($res) == 1;
@@ -388,7 +388,7 @@ class ilRbacReview
         $query = "SELECT ua.rol_id FROM rbac_ua ua " .
             "JOIN rbac_fa fa ON ua.rol_id = fa.rol_id " .
             "WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer') . ' ' .
-            "AND parent = " . $this->db->quote(ROLE_FOLDER_ID) . " " .
+            "AND parent = " . $this->db->quote(ROLE_FOLDER_ID, ilDBConstants::T_INTEGER) . " " .
             "AND assign = 'y' ";
         
         $res = $this->db->query($query);
@@ -782,7 +782,7 @@ class ilRbacReview
     public function isDeleted(int $a_node_id) : bool
     {
 
-        $q = "SELECT tree FROM tree WHERE child =" . $this->db->quote($a_node_id) . " ";
+        $q = "SELECT tree FROM tree WHERE child =" . $this->db->quote($a_node_id, ilDBConstants::T_INTEGER) . " ";
         $r = $this->db->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         

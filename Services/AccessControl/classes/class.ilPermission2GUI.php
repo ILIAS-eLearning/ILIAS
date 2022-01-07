@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 
 /**
 * Class ilPermissionGUI
@@ -25,6 +28,8 @@ class ilPermission2GUI
     protected ilRbacAdmin $rbacadmin;
     protected ilObjectDataCache $objectDataCache;
     protected ilTabsGUI $tabs;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
 
     private array $roles = [];
     private int $num_roles = 0;
@@ -45,6 +50,9 @@ class ilPermission2GUI
         $this->rbacadmin = $DIC->rbac()->admin();
         $this->tabs = $DIC->tabs();
         $this->ilErr = $DIC['ilErr'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
 
         $this->gui_obj = $a_gui_obj;
     }
@@ -77,7 +85,14 @@ class ilPermission2GUI
     
     public function changeOwner() : void
     {
-        if (!$user_id = ilObjUser::_lookupId($_POST['owner'])) {
+        $owner = '';
+        if ($this->http->wrapper()->post()->has('owner')) {
+            $owner = $this->http->wrapper()->post()->retrieve(
+                'owner',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if (!$user_id = ilObjUser::_lookupId($owner)) {
             ilUtil::sendFailure($this->lng->txt('user_not_known'));
             $this->owner();
             return;
