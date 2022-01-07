@@ -70,7 +70,7 @@ class Notifications
         $mode  = 0;
         $query = $DIC->http()->wrapper()->query();
         if ($query->has(self::MODE)) {
-            $mode = $query->retrieve(self::MODE, $DIC->refinery()->to()->int());
+            $mode = $query->retrieve(self::MODE, $DIC->refinery()->to()->string());
         }
         
         switch ($mode) {

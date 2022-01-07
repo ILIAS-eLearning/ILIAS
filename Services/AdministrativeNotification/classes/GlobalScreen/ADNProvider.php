@@ -13,15 +13,25 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use Closure;
 use ILIAS\DI\Container;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ADNProvider
  */
 class ADNProvider extends AbstractNotificationProvider implements NotificationProvider
 {
-    /**
-     * @var BasicAccessCheckClosures
-     */
-    protected $access;
+    protected \ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures $access;
 
     public function __construct(Container $dic)
     {
@@ -44,9 +54,7 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
     {
         $adns = [];
 
-        $i = function (string $id) : IdentificationInterface {
-            return $this->if->identifier($id);
-        };
+        $i = fn(string $id): IdentificationInterface => $this->if->identifier($id);
         /**
          * @var $item ilADNNotification
          * @var $adn  AdministrativeNotification
@@ -55,16 +63,12 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
             $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary($item->getBody());
             $adn = $this->handleDenotation($item, $adn);
 
-            $is_visible = static function () : bool {
-                return true;
-            };
+            $is_visible = static fn(): bool => true;
 
             // is limited to roles
             if ($item->isLimitToRoles()) {
-                $is_visible = $this->combineClosure($is_visible, function () use ($item) {
-                    return $this->dic->rbac()->review()->isAssignedToAtLeastOneGivenRole($this->dic->user()->getId(),
-                        $item->getLimitedToRoleIds());
-                });
+                $is_visible = $this->combineClosure($is_visible, fn() => $this->dic->rbac()->review()->isAssignedToAtLeastOneGivenRole($this->dic->user()->getId(),
+                    $item->getLimitedToRoleIds()));
             }
 
             // is dismissale
@@ -72,14 +76,10 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
                 $adn = $adn->withClosedCallable(function () use ($item) {
                     $item->dismiss($this->dic->user());
                 });
-                $is_visible = $this->combineClosure($is_visible, function () use ($item) : bool {
-                    return !\ilADNDismiss::hasDimissed($this->dic->user(), $item);
-                });
+                $is_visible = $this->combineClosure($is_visible, fn(): bool => !\ilADNDismiss::hasDimissed($this->dic->user(), $item));
             }
 
-            $is_visible = $this->combineClosure($is_visible, function () use ($item) : bool {
-                return $item->isVisibleForUser($this->dic->user());
-            });
+            $is_visible = $this->combineClosure($is_visible, fn(): bool => $item->isVisibleForUser($this->dic->user()));
 
             $adns[] = $adn->withVisibilityCallable($is_visible);
         }
@@ -112,9 +112,7 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
     private function combineClosure(Closure $closure, ?Closure $additional = null) : Closure
     {
         if ($additional instanceof Closure) {
-            return static function () use ($closure, $additional) : bool {
-                return $additional() && $closure();
-            };
+            return static fn(): bool => $additional() && $closure();
         }
 
         return $closure;
