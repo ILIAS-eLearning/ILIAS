@@ -11227,8 +11227,8 @@ survey#:#survey_sum_of_means#:#Summe des arithm. Mittels der Frage
 survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
 skmg#:#skmg_target_level#:#Kompetenzziel
 skmg#:#skmg_360_survey#:#360°-Umfrage
-skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial welches Ihrer Ziel-Kompetenzstufe entspricht.
-skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial welches Ihrer Ziel-Kompetenzstufe entspricht.
+skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial, welches Ihrem Kompetenzziel entspricht.
 skmg#:#skmg_skill_no_needs_impr#:#Ihre Kompetenzstufen sind für dieses Profil ausreichend.
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
 survey#:#survey_360_rater_message_content_registered#:#Inhalt (Registrierte Benutzer)
