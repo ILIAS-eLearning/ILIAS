@@ -2,12 +2,11 @@
 
 /**
  * Class IdentificationProviderInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ToolIdentificationProviderInterface extends IdentificationProviderInterface
 {
-
+    
     /**
      * @param string $identifier_string this is a identifier which is only known
      *                                  to your component. The GlobalScreen services uses
@@ -19,11 +18,9 @@ interface ToolIdentificationProviderInterface extends IdentificationProviderInte
      *                                  serialized and is used e.g. to store in
      *                                  database and cache. you don't need to
      *                                  take care of storing this.
-     *
      * @param bool   $ignore_context
-     *
      * @return IdentificationInterface use this CoreIdentification to put into your
-     *                                 GlobalScreen-elements.
+     *                                  GlobalScreen-elements.
      */
     public function contextAwareIdentifier(string $identifier_string, bool $ignore_context = false) : IdentificationInterface;
 }

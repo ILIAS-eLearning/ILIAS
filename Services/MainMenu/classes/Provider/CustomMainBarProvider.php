@@ -38,19 +38,9 @@ use ilObjMainMenuAccess;
  */
 class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
 {
-
-    /**
-     * @var BasicAccessCheckClosures
-     */
-    private $access_helper;
-    /**
-     * @var ilObjMainMenuAccess
-     */
-    private $mm_access;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    private BasicAccessCheckClosures $access_helper;
+    private ilObjMainMenuAccess $mm_access;
+    protected \ILIAS\DI\Container $dic;
 
     /**
      * @inheritDoc
