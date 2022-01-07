@@ -3152,8 +3152,8 @@ common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
-common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
-common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
+common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Forum beenden
+common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
@@ -6562,10 +6562,10 @@ forum#:#forums_censor_comment#:#Bemerkung des Zensors
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
-forum#:#forums_disable_notification#:#Benachrichtigung für Thema beenden
+forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung für Thema starten
+forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
