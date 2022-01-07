@@ -1,19 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * UI class for handling permissions that can be configured
  * having the write permission for an object
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesAccessControl
  */
 class ilSettingsPermissionGUI
 {
-    protected array $permissions = array();			// permissions selected by context
-    protected array $base_permissions = array();		// base permissions of the object type (ops_id -> permission)
+    protected array $permissions = array();            // permissions selected by context
+    protected array $base_permissions = array();        // base permissions of the object type (ops_id -> permission)
     protected array $base_permissions_by_op = array();// base permissions of the object type (permission -> ops_id)
     protected array $role_required_permissions = array();
     protected array $role_prohibited_permissions = array();
@@ -27,7 +26,6 @@ class ilSettingsPermissionGUI
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
 
-
     public function __construct(object $a_gui_obj)
     {
         global $DIC;
@@ -39,7 +37,6 @@ class ilSettingsPermissionGUI
         $this->review = $DIC->rbac()->review();
         $this->admin = $DIC->rbac()->admin();
         $this->tpl = $DIC->ui()->mainTemplate();
-
 
         foreach (ilRbacReview::_getOperationList($this->obj->getType()) as $p) {
             $this->base_permissions[$p["ops_id"]] = $p["operation"];
@@ -75,7 +72,6 @@ class ilSettingsPermissionGUI
         return $roles;
     }
 
-
     /**
      * Set role required permissions (this permissions are required for a role to be listed)
      */
@@ -101,7 +97,6 @@ class ilSettingsPermissionGUI
 
     /**
      * Set role prohibited permissions (this permissions are prohibited for a role to be listed)
-     *
      * @param array $a_val permissions prohibited to be listed
      */
     public function setRoleProhibitedPermissions(array $a_val) : void
@@ -117,7 +112,6 @@ class ilSettingsPermissionGUI
 
     /**
      * Get role prohibited permissions
-     *
      * @return array permissions prohibited to be listed
      */
     public function getRoleProhibitedPermissions() : array
@@ -127,7 +121,6 @@ class ilSettingsPermissionGUI
 
     /**
      * Set permissions
-     *
      * @param array $a_val array of operations (string) that should be offered
      */
     public function setPermissions(array $a_val) : void
@@ -143,7 +136,6 @@ class ilSettingsPermissionGUI
 
     /**
      * Get permissions
-     *
      * @return array array of operations (string) that should be offered
      */
     public function getPermissions() : array
@@ -171,7 +163,6 @@ class ilSettingsPermissionGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Init permission form
      */
@@ -193,7 +184,6 @@ class ilSettingsPermissionGUI
         }
 
         // for each permission
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
         foreach ($this->getPermissions() as $p) {
             // roles
             $cb = new ilCheckboxGroupInputGUI($this->lng->txt($p), $p);

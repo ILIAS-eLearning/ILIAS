@@ -1,28 +1,27 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
 /**
-* class ilRbacSystem
-* system function like checkAccess, addActiveRole ...
-* Supporting system functions are required for session management and in making access control decisions.
-* This class depends on the session since we offer the possiblility to add or delete active roles during one session.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * class ilRbacSystem
+ * system function like checkAccess, addActiveRole ...
+ * Supporting system functions are required for session management and in making access control decisions.
+ * This class depends on the session since we offer the possiblility to add or delete active roles during one session.
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilRbacSystem
 {
     private const MAX_CACHE_ENTRIES = 1000;
 
     protected static ?ilRbacSystem $instance = null;
-    
+
     protected $mem_view;
-    
+
     protected static array $user_role_cache = [];
 
     // Cache accesses to RBAC PA
@@ -39,10 +38,9 @@ class ilRbacSystem
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     protected function __construct()
     {
         global $DIC;
@@ -55,7 +53,7 @@ class ilRbacSystem
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
-    
+
     public static function getInstance() : ilRbacSystem
     {
         if (!self::$instance) {
@@ -63,7 +61,7 @@ class ilRbacSystem
         }
         return self::$instance;
     }
-    
+
     /**
      * Reset internal caches
      */
@@ -73,29 +71,29 @@ class ilRbacSystem
         self::$_paCache = [];
         self::$_checkAccessOfUserCache = [];
     }
-    
+
     /**
-    *  checkAccess represents the main method of the RBAC-system in ILIAS3 developers want to use
-    *  With this method you check the permissions a use may have due to its roles
-    *  on an specific object.
-    *  The first parameter are the operation(s) the user must have
-    *  The second & third parameter specifies the object where the operation(s) may apply to
-    *  The last parameter is only required, if you ask for the 'create' operation. Here you specify
-    *  the object type which you want to create.
-    *  example: $rbacSystem->checkAccess("visible,read",23);
-    *  Here you ask if the user is allowed to see ('visible') and access the object by reading it ('read').
-    *  The reference_id is 23 in the tree structure.
-    * @access	public
-    * @param	string		one or more operations, separated by commas (i.e.: visible,read,join)
-    * @param	int     	the child_id in tree (usually a reference_id, no object_id !!)
-    * @param	string		the type definition abbreviation (i.e.: frm,grp,crs)
-    * @return	bool		returns true if ALL passed operations are given, otherwise false
-    */
+     *  checkAccess represents the main method of the RBAC-system in ILIAS3 developers want to use
+     *  With this method you check the permissions a use may have due to its roles
+     *  on an specific object.
+     *  The first parameter are the operation(s) the user must have
+     *  The second & third parameter specifies the object where the operation(s) may apply to
+     *  The last parameter is only required, if you ask for the 'create' operation. Here you specify
+     *  the object type which you want to create.
+     *  example: $rbacSystem->checkAccess("visible,read",23);
+     *  Here you ask if the user is allowed to see ('visible') and access the object by reading it ('read').
+     *  The reference_id is 23 in the tree structure.
+     * @access    public
+     * @param string        one or more operations, separated by commas (i.e.: visible,read,join)
+     * @param int        the child_id in tree (usually a reference_id, no object_id !!)
+     * @param string        the type definition abbreviation (i.e.: frm,grp,crs)
+     * @return    bool        returns true if ALL passed operations are given, otherwise false
+     */
     public function checkAccess(string $a_operations, int $a_ref_id, string $a_type = "") : bool
     {
         return $this->checkAccessOfUser($this->user->getId(), $a_operations, $a_ref_id, $a_type);
     }
-    
+
     public function checkAccessOfUser(int $a_user_id, string $a_operations, int $a_ref_id, string $a_type = "") : bool
     {
         // Create the user cache key
@@ -123,10 +121,9 @@ class ilRbacSystem
             return true;
         }
 
-        
         // get roles using role cache
         $roles = $this->fetchAssignedRoles($a_user_id, $a_ref_id);
-        
+
         // exclude system role from rbac
         if (in_array(SYSTEM_ROLE_ID, $roles)) {
             // Store positive outcome in cache.
@@ -149,7 +146,7 @@ class ilRbacSystem
         } else {
             // Data is not in PA cache, perform database query
             $q = "SELECT * FROM rbac_pa " .
-                     "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer');
+                "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer');
 
             $r = $this->db->query($q);
 
@@ -229,10 +226,10 @@ class ilRbacSystem
             }
         }
     }
-    
+
     /**
-    * check if a specific role has the permission '$a_operation' of an object
-    */
+     * check if a specific role has the permission '$a_operation' of an object
+     */
     public function checkPermission(int $a_ref_id, int $a_rol_id, string $a_operation) : bool
     {
         $ops = [];
@@ -243,10 +240,10 @@ class ilRbacSystem
         while ($row = $this->db->fetchObject($res)) {
             $ops_id = (int) $row->ops_id;
         }
-    
+
         $query = "SELECT * FROM rbac_pa " .
-             "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer') . " " .
-             "AND ref_id = " . $this->db->quote($a_ref_id, 'integer') . " ";
+            "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer') . " " .
+            "AND ref_id = " . $this->db->quote($a_ref_id, 'integer') . " ";
         $res = $this->db->query($query);
 
         while ($row = $this->db->fetchObject($res)) {
@@ -287,7 +284,7 @@ class ilRbacSystem
         }
         return $new_ops;
     }
-    
+
     /**
      * Fetch assigned roles
      * This method caches the assigned roles per user
@@ -308,7 +305,7 @@ class ilRbacSystem
         }
         return self::$user_role_cache[$a_usr_id] = $this->review->assignedRoles($a_usr_id);
     }
-    
+
     public function initMemberView() : void
     {
         $settings = ilMemberViewSettings::getInstance();
@@ -346,14 +343,14 @@ class ilRbacSystem
             $this->mem_view['role'] = ilParticipants::getDefaultMemberRole($settings->getContainer());
         }
     }
-    
+
     public function addTemporaryRole(int $a_usr_id, int $a_role_id) : void
     {
         if (!in_array($a_role_id, self::$user_role_cache[$a_usr_id])) {
             self::$user_role_cache[$a_usr_id][] = $a_role_id;
         }
     }
-    
+
     public function resetPACache(int $a_usr_id, int $a_ref_id) : void
     {
         $paCacheKey = $a_usr_id . ':' . $a_ref_id;

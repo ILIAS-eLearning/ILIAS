@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
-* Copy Permission Settings
-*
-* @author Fabian Wolf <wolf@leifos.com>
-* @ingroup ServiceAccessControl
-*/
+ * Copy Permission Settings
+ * @author  Fabian Wolf <wolf@leifos.com>
+ * @ingroup ServiceAccessControl
+ */
 class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 {
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
@@ -26,10 +26,10 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
 
         $this->setLimit(9999);
     }
-    
+
     /**
-    * Fill a single data row.
-    */
+     * Fill a single data row.
+     */
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("PARAM", "adopt");

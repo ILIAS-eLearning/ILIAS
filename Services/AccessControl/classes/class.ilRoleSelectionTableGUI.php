@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,14 +22,10 @@
 */
 
 /**
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAccessControl
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilRoleSelectionTableGUI extends ilTable2GUI
 {
     protected ilRbacReview $review;
@@ -44,14 +40,13 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
         $this->addColumn('', 'f', 1);
         $this->addColumn($this->lng->txt('title'), 'title', "70%");
         $this->addColumn($this->lng->txt('context'), 'context', "30%");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_role_selection_row.html", "Services/AccessControl");
         $this->setDefaultOrderField('type');
         $this->setDefaultOrderDirection("desc");
     }
-    
-    
+
     protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -61,7 +56,6 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('VAL_CONTEXT', $a_set['context']);
     }
-    
 
     public function parse(array $entries) : void
     {

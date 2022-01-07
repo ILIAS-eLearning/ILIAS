@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,14 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
-* Class ilObjRoleTemplate
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup	ServicesAccessControl
-*/
+ * Class ilObjRoleTemplate
+ * @author     Stefan Meyer <meyer@leifos.com>
+ * @ingroup    ServicesAccessControl
+ */
 class ilObjRoleTemplate extends ilObject
 {
     public function __construct($a_id = 0, $a_call_by_reference = false)
@@ -36,7 +33,6 @@ class ilObjRoleTemplate extends ilObject
         $this->type = "rolt";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
 
     public function delete()
     {
@@ -53,10 +49,10 @@ class ilObjRoleTemplate extends ilObject
         if (substr($this->getTitle(), 0, 3) == "il_") {
             return true;
         }
-        
+
         return false;
     }
-    
+
     public function getFilterOfInternalTemplate()
     {
         $filter = array();
@@ -70,7 +66,7 @@ class ilObjRoleTemplate extends ilObject
                 $filter = array_keys($obj_data);
                 $filter[] = 'grp';
                 break;
-                
+
             case "il_crs_admin":
             case "il_crs_tutor":
             case "il_crs_member":
@@ -87,7 +83,7 @@ class ilObjRoleTemplate extends ilObject
                 $filter[] = 'chtr';
                 break;
         }
-        
+
         return $filter;
     }
 } // END class.ilObjRoleTemplate

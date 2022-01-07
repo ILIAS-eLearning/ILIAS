@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilStartingPoint
- *
- * @author Jesús López <lopez@leifos.com>
+ * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilStartingPoint:
- * @ingroup	ServicesAccessControl
+ * @ingroup      ServicesAccessControl
  */
-
 class ilStartingPoint
 {
     //list view: first and last items in the table are fixed.
@@ -106,7 +104,6 @@ class ilStartingPoint
 
     /**
      * Gets calendar view
-     *
      * @return int
      */
     public function getCalendarView() : int
@@ -116,7 +113,6 @@ class ilStartingPoint
 
     /**
      * Sets calendar view
-     *
      * @param int $calendar_view
      */
     public function setCalendarView(int $calendar_view) : void
@@ -255,19 +251,27 @@ class ilStartingPoint
 
         $next_id = $this->db->nextId('usr_starting_point');
         $values = array(
-                    $next_id,
-                    $this->getStartingPoint(),
-                    $this->getStartingObject(),
-                    $position,
-                    $this->getRuleType(),
-                    $this->getRuleOptions(),
-                    $this->getCalendarView(),
-                    $this->getCalendarPeriod()
-                );
+            $next_id,
+            $this->getStartingPoint(),
+            $this->getStartingObject(),
+            $position,
+            $this->getRuleType(),
+            $this->getRuleOptions(),
+            $this->getCalendarView(),
+            $this->getCalendarPeriod()
+        );
 
         $this->db->manipulateF(
             "INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options, calendar_view, calendar_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-            array(ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER),
+            array(ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_TEXT,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER
+            ),
             $values
         );
     }
@@ -287,9 +291,24 @@ class ilStartingPoint
 				calendar_view = %s,
 				calendar_period = %s
 			WHERE id = %s',
-            array(ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER),
-            array($this->getStartingPoint(), $this->getStartingObject(), $this->getPosition(),
-                    $this->getRuleType(), $this->getRuleOptions(), $this->getCalendarView(), $this->getCalendarPeriod(), $this->id)
+            array(ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_TEXT,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER,
+                  ilDBConstants::T_INTEGER
+            ),
+            array($this->getStartingPoint(),
+                  $this->getStartingObject(),
+                  $this->getPosition(),
+                  $this->getRuleType(),
+                  $this->getRuleOptions(),
+                  $this->getCalendarView(),
+                  $this->getCalendarPeriod(),
+                  $this->id
+            )
         );
     }
 

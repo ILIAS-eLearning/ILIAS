@@ -1,31 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Table for object role permissions
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * Table for object role permissions
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 {
     private int $ref_id = 0;
     private int $role_id = 0;
     private int $role_folder_id = 0;
-    
+
     private string $tpl_type = '';
-    
+
     private bool $show_admin_permissions = false;
     private bool $show_change_existing_objects = true;
-    
+
     private static ?array $template_permissions = null;
     protected ilObjectDefinition $objDefinition;
     protected ilRbacReview $review;
-    
 
     public function __construct(
         object $a_parent_obj,
@@ -33,8 +28,8 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
         int $a_ref_id,
         int $a_role_id,
         string $a_type,
-        bool $a_show_admin_permissions = false)
-    {
+        bool $a_show_admin_permissions = false
+    ) {
         global $DIC;
 
         $this->review = $DIC->rbac()->review();
@@ -47,26 +42,26 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setFormName('role_template_permissions');
         $this->setSelectAllCheckbox('template_perm[' . $this->getTemplateType() . ']');
-        
+
         $this->lng->loadLanguageModule('rbac');
-        
+
         $this->ref_id = $a_ref_id;
         $this->role_id = $a_role_id;
-        
+
         $this->setRowTemplate("tpl.obj_role_template_perm_row.html", "Services/AccessControl");
         $this->setLimit(100);
         $this->setShowRowsSelector(false);
         $this->setDisableFilterHiding(true);
         $this->setNoEntriesText($this->lng->txt('msg_no_roles_of_type'));
-        
+
         $this->setEnableHeader(false);
         $this->disable('sort');
         $this->disable('numinfo');
         $this->disable('form');
-        
+
         $this->addColumn('', '', '0');
         $this->addColumn('', '', '100%');
-        
+
         $this->initTemplatePermissions();
     }
 
@@ -90,7 +85,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             $this->getRefId()
         );
     }
-    
+
     /**
      * Get permissions by type
      */
@@ -103,27 +98,27 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
     {
         return $this->tpl_type;
     }
-    
+
     public function getRoleId() : int
     {
         return $this->role_id;
     }
-    
+
     public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
+
     public function getObjId() : int
     {
         return ilObject::_lookupObjId($this->getRefId());
     }
-    
+
     public function getObjType() : string
     {
         return ilObject::_lookupType($this->getObjId());
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         if (isset($a_set['show_ce'])) {
@@ -162,13 +157,13 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('OBJ_TYPE', $this->getTemplateType());
             $this->tpl->setVariable('PERM_PERM_ID', $a_set['ops_id']);
             $this->tpl->setVariable('PERM_CHECKED', $a_set['set'] ? 'checked="checked"' : '');
-            
+
             if ($this->getRoleId() == SYSTEM_ROLE_ID) {
                 $this->tpl->setVariable('PERM_DISABLED', 'disabled="disabled"');
             }
-            
+
             $this->tpl->parseCurrentBlock();
-            
+
             $this->tpl->setCurrentBlock('perm_desc_td');
             $this->tpl->setVariable('DESC_TYPE', $this->getTemplateType());
             $this->tpl->setVariable('DESC_PERM_ID', $a_set['ops_id']);
@@ -199,13 +194,13 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
                 } else {
                     $perm = $this->lng->txt($a_set['name']) . ': ' . $this->lng->txt($this->getTemplateType() . '_' . $a_set['name']);
                 }
-                
+
                 $this->tpl->setVariable('TXT_PERMISSION', $perm);
             }
             $this->tpl->parseCurrentBlock();
         }
     }
-    
+
     /**
      * Parse permissions
      * @return
@@ -218,33 +213,33 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
         $rows = array();
         foreach ($this->review->getOperationsByTypeAndClass($this->getTemplateType(), 'object') as $ops_id) {
             $operations = $this->getPermissions($this->getTemplateType());
-            
+
             $operation = $this->review->getOperation($ops_id);
 
             $perm['ops_id'] = $ops_id;
             $perm['set'] = (in_array($ops_id, $operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
             $perm['name'] = $operation['operation'];
-            
+
             $rows[] = $perm;
         }
-        
+
         // Get creatable objects
         $objects = $this->objDefinition->getCreatableSubObjects($this->getTemplateType());
         $ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
 
         foreach ($objects as $type => $info) {
             $ops_id = $ops_ids[$type];
-            
+
             if (!$ops_id) {
                 continue;
             }
-            
+
             $perm['ops_id'] = $ops_id;
             $perm['set'] = (in_array($ops_id, $operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
-            
+
             $perm['name'] = 'create_' . $info['name'];
             $perm['create_type'] = $info['name'];
-            
+
             $rows[] = $perm;
         }
 

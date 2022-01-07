@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilAccessHandler
- *
  * Checks access for ILIAS objects
- *
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  */
@@ -28,7 +26,6 @@ class ilAccess implements ilAccessHandler
     protected bool $cache;
 
     private bool $prevent_caching_last_result = false;
-
 
     protected ilAccessInfo $current_info;
     protected ?ilAccessInfo $last_info = null;
@@ -77,7 +74,6 @@ class ilAccess implements ilAccessHandler
         $this->ac_logger = ilLoggerFactory::getLogger('ac');
     }
 
-
     /**
      * @inheritdoc
      */
@@ -88,8 +84,7 @@ class ilAccess implements ilAccessHandler
         bool $a_access_granted,
         ?int $a_user_id = null,
         ?ilAccessInfo $a_info = null
-    ) : void
-    {
+    ) : void {
 
         if ($a_user_id === null) {
             $a_user_id = $this->user->getId();
@@ -135,8 +130,7 @@ class ilAccess implements ilAccessHandler
         string $a_cmd,
         int $a_ref_id,
         ?int $a_user_id = null
-    ) : array
-    {
+    ) : array {
         if ($a_user_id === null) {
             $a_user_id = $this->user->getId();
         }
@@ -145,6 +139,7 @@ class ilAccess implements ilAccessHandler
         }
         return [];
     }
+
     /**
      * @inheritdoc
      */
@@ -154,11 +149,12 @@ class ilAccess implements ilAccessHandler
         $res = $this->db->manipulate($query);
 
         $this->db->insert('acc_cache', array(
-            'user_id' => array('integer',$this->user->getId()),
-            'time' => array('integer',time()),
-            'result' => array('clob',serialize($this->results))
-            ));
+            'user_id' => array('integer', $this->user->getId()),
+            'time' => array('integer', time()),
+            'result' => array('clob', serialize($this->results))
+        ));
     }
+
     /**
      * @inheritdoc
      */
@@ -176,6 +172,7 @@ class ilAccess implements ilAccessHandler
         }
         return false;
     }
+
     /**
      * @inheritdoc
      */
@@ -183,6 +180,7 @@ class ilAccess implements ilAccessHandler
     {
         return $this->results;
     }
+
     /**
      * @inheritdoc
      */
@@ -209,8 +207,7 @@ class ilAccess implements ilAccessHandler
         string $a_type = "",
         ?int $a_obj_id = null,
         ?int $a_tree_id = null
-    ) : bool
-    {
+    ) : bool {
         return $this->checkAccessOfUser(
             $this->user->getId(),
             $a_permission,
@@ -233,14 +230,13 @@ class ilAccess implements ilAccessHandler
         string $a_type = "",
         ?int $a_obj_id = 0,
         ?int $a_tree_id = 0
-    ) : bool
-    {
+    ) : bool {
         global $DIC;
 
         $ilBench = $DIC['ilBench'];
         $lng = $DIC['lng'];
 
-        $this->setPreventCachingLastResult(false);	// for external db based caches
+        $this->setPreventCachingLastResult(false);    // for external db based caches
 
         $ilBench->start("AccessControl", "0400_clear_info");
         $this->current_info->clear();
@@ -254,7 +250,7 @@ class ilAccess implements ilAccessHandler
                 $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
             }
             if ($cached["prevent_db_cache"]) {
-                $this->setPreventCachingLastResult(true);	// should have been saved in previous call already
+                $this->setPreventCachingLastResult(true);    // should have been saved in previous call already
             }
             return $cached["granted"];
         }
@@ -324,7 +320,7 @@ class ilAccess implements ilAccessHandler
         if (!$this->doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type)) {
             $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
-            $this->setPreventCachingLastResult(true);		// do not store this in db, since condition updates are not monitored
+            $this->setPreventCachingLastResult(true);        // do not store this in db, since condition updates are not monitored
             return false;
         }
 
@@ -332,7 +328,7 @@ class ilAccess implements ilAccessHandler
         if (!$this->doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type)) {
             $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $lng->txt("status_no_permission"));
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
-            $this->setPreventCachingLastResult(true);		// do not store this in db, since status updates are not monitored
+            $this->setPreventCachingLastResult(true);        // do not store this in db, since status updates are not monitored
             return false;
         }
 
@@ -356,6 +352,7 @@ class ilAccess implements ilAccessHandler
     {
         return $this->last_result;
     }
+
     /**
      * @inheritdoc
      */
@@ -406,7 +403,8 @@ class ilAccess implements ilAccessHandler
         if (array_key_exists($tree_cache_key, $this->obj_tree_cache)) {
             // Store access result
             if (!$this->obj_tree_cache[$tree_cache_key]) {
-                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->language->txt("status_no_permission"));
+                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION,
+                    $this->language->txt("status_no_permission"));
             }
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $this->obj_tree_cache[$tree_cache_key],
                 $a_user_id);
@@ -448,8 +446,7 @@ class ilAccess implements ilAccessHandler
         int $a_ref_id,
         int $a_user_id,
         string $a_type
-    ) : bool
-    {
+    ) : bool {
         if ($a_permission == "") {
             $message = sprintf(
                 '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
@@ -472,7 +469,8 @@ class ilAccess implements ilAccessHandler
         }
         // Store in result cache
         if (!$access) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->language->txt("status_no_permission"));
+            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION,
+                $this->language->txt("status_no_permission"));
         }
         if ($a_permission != "create") {
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
@@ -489,8 +487,7 @@ class ilAccess implements ilAccessHandler
         int $a_ref_id,
         int $a_user_id,
         bool $a_all = false
-    ) : bool
-    {
+    ) : bool {
         $path = $this->repositoryTree->getPathId($a_ref_id);
         foreach ($path as $id) {
             if ($a_ref_id == $id) {
@@ -498,7 +495,8 @@ class ilAccess implements ilAccessHandler
             }
             $access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
             if ($access == false) {
-                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PARENT_ACCESS, $this->language->txt("no_parent_access"), $id);
+                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PARENT_ACCESS,
+                    $this->language->txt("no_parent_access"), $id);
                 if ($a_all == false) {
                     return false;
                 }
@@ -517,12 +515,10 @@ class ilAccess implements ilAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool
-    {
+    ) : bool {
         $cache_perm = ($a_permission == "visible")
             ? "visible"
             : "other";
-
 
         if (isset($this->ac_cache[$cache_perm][$a_ref_id][$a_user_id])) {
             return $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id];
@@ -566,7 +562,7 @@ class ilAccess implements ilAccessHandler
         }
         // if within activation time
         if (($item_data['timing_start'] == 0 || time() >= $item_data['timing_start']) and
-           ($item_data['timing_end'] == 0 || time() <= $item_data['timing_end'])) {
+            ($item_data['timing_end'] == 0 || time() <= $item_data['timing_end'])) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
@@ -603,8 +599,7 @@ class ilAccess implements ilAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool
-    {
+    ) : bool {
         if (
             ($a_permission == 'visible') &&
             !$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id)
@@ -657,8 +652,7 @@ class ilAccess implements ilAccessHandler
         int $a_user_id,
         int $a_obj_id,
         string $a_type
-    ) : bool
-    {
+    ) : bool {
         // check for a deactivated plugin
         if ($this->objDefinition->isPluginTypeName($a_type) && !$this->objDefinition->isPlugin($a_type)) {
             return false;
@@ -733,7 +727,8 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission)
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission($user_ids, $permission);
+        return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission($user_ids,
+            $permission);
     }
 
     /**
@@ -741,7 +736,8 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission)
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission($user_ids, $for_user_id, $permission);
+        return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission($user_ids, $for_user_id,
+            $permission);
     }
 
     /**
@@ -757,7 +753,8 @@ class ilAccess implements ilAccessHandler
      */
     public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids)
     {
-        return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo($which_user_id, $permission, $on_user_ids);
+        return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo($which_user_id, $permission,
+            $on_user_ids);
     }
 
     /**
@@ -797,7 +794,8 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids)
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, $user_ids);
+        return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm,
+            $ref_id, $user_ids);
     }
 
     /**

@@ -1,14 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
  * TableGUI for the presentation og roles and role templates
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- *
  * @ingroup ServicesAccessControl
  */
 class ilRoleTableGUI extends ilTable2GUI
@@ -20,10 +16,9 @@ class ilRoleTableGUI extends ilTable2GUI
     private const TYPE_ROLT_AU = 5;
     private const TYPE_ROLT_UD = 6;
 
-
     private const TYPE_VIEW = 1;
     private const TYPE_SEARCH = 2;
-    
+
     private ilPathGUI $path_gui;
 
     private int $type = self::TYPE_VIEW;
@@ -74,8 +69,6 @@ class ilRoleTableGUI extends ilTable2GUI
         return $this->path_gui;
     }
 
-
-    
     /**
      * Init table
      */
@@ -94,12 +87,13 @@ class ilRoleTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt('context'), '', '40%');
                 $this->addColumn($this->lng->txt('actions'), '', '10%');
                 $this->setTitle($this->lng->txt('objs_role'));
-                
-                if ($GLOBALS['DIC']['rbacsystem']->checkAccess('delete', $this->getParentObject()->object->getRefId())) {
+
+                if ($GLOBALS['DIC']['rbacsystem']->checkAccess('delete',
+                    $this->getParentObject()->object->getRefId())) {
                     $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
                 }
                 break;
-            
+
             case self::TYPE_SEARCH:
                 $this->setShowRowsSelector(true);
                 $this->disable('sort');
@@ -113,12 +107,10 @@ class ilRoleTableGUI extends ilTable2GUI
                 break;
         }
 
-
         $this->setRowTemplate('tpl.role_row.html', 'Services/AccessControl');
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setSelectAllCheckbox('roles');
 
-        include_once './Services/Tree/classes/class.ilPathGUI.php';
         $this->path_gui = new ilPathGUI();
         $this->getPathGUI()->enableTextOnly(false);
         $this->getPathGUI()->enableHideLeaf(false);
@@ -156,7 +148,6 @@ class ilRoleTableGUI extends ilTable2GUI
                 break;
         }
 
-        include_once './Services/Form/classes/class.ilSelectInputGUI.php';
         $roles = new ilSelectInputGUI($this->lng->txt('rbac_role_selection'), 'role_type');
 
         $roles->setOptions($action);
@@ -169,7 +160,6 @@ class ilRoleTableGUI extends ilTable2GUI
         }
 
         // title filter
-        include_once './Services/Form/classes/class.ilTextInputGUI.php';
         $title = new ilTextInputGUI($this->lng->txt('title'), 'role_title');
         $title->setSize(16);
         $title->setMaxLength(64);
@@ -224,7 +214,7 @@ class ilRoleTableGUI extends ilTable2GUI
         if (
             ($a_set['obj_id'] != ANONYMOUS_ROLE_ID and
                 $a_set['obj_id'] != SYSTEM_ROLE_ID and
-            substr($a_set['title_orig'], 0, 3) != 'il_') or
+                substr($a_set['title_orig'], 0, 3) != 'il_') or
             $this->getType() == self::TYPE_SEARCH) {
             $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
         }
@@ -266,8 +256,6 @@ class ilRoleTableGUI extends ilTable2GUI
     {
         $this->role_folder_id = $role_folder_id;
 
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
-        
         if ($this->getType() == self::TYPE_VIEW) {
             $filter_orig = $filter = $this->getFilterItemByPostVar('role_title')->getValue();
             $type = $this->getFilterItemByPostVar('role_type')->getValue();
@@ -276,7 +264,6 @@ class ilRoleTableGUI extends ilTable2GUI
             $type = ilRbacReview::FILTER_ALL;
         }
 
-        
         // the translation must be filtered
         if ($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL) {
             // roles like il_crs_... are filtered manually
@@ -288,20 +275,20 @@ class ilRoleTableGUI extends ilTable2GUI
             0,
             $filter
         );
-        
+
         $counter = 0;
         $rows = array();
         foreach ($role_list as $role) {
             if (
                 $role['parent'] and
-                    (
-                        $this->tree->isDeleted($role['parent']) ||
-                        !$this->tree->isInTree($role['parent'])
-                    )
+                (
+                    $this->tree->isDeleted($role['parent']) ||
+                    !$this->tree->isInTree($role['parent'])
+                )
             ) {
                 continue;
             }
-            
+
             $title = ilObjRole::_getTranslation($role['title']);
             if ($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL) {
                 if (strlen($filter_orig)) {
@@ -310,8 +297,7 @@ class ilRoleTableGUI extends ilTable2GUI
                     }
                 }
             }
-            
-            
+
             $rows[$counter]['title_orig'] = $role['title'];
             $rows[$counter]['title'] = $title;
             $rows[$counter]['description'] = $role['description'];
@@ -321,10 +307,9 @@ class ilRoleTableGUI extends ilTable2GUI
 
             $auto = substr($role['title'], 0, 3) == 'il_';
 
-
             // Role templates
             if ($role['type'] == 'rolt') {
-                $rows[$counter]['rtype'] = $auto ? self::TYPE_ROLT_AU :	self::TYPE_ROLT_UD;
+                $rows[$counter]['rtype'] = $auto ? self::TYPE_ROLT_AU : self::TYPE_ROLT_UD;
             } elseif ($role['parent'] == ROLE_FOLDER_ID) {
                 // Roles
                 if ($role['obj_id'] == ANONYMOUS_ROLE_ID or $role['obj_id'] == SYSTEM_ROLE_ID) {

@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Table for Available Roles in Permission > Permission of User
- *
- * @author Fabian Wolf <wolf@leifos.com>
+ * @author  Fabian Wolf <wolf@leifos.com>
  * @ingroup ServicesAccessControl
  */
 class ilAvailableRolesStatusTableGUI extends ilTable2GUI
@@ -22,7 +21,8 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 
         $this->addColumn("", "status", "5%");
         $this->addColumn($this->lng->txt("role"), "role", "32%");
-        $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_source")), "effective_from", "32%");
+        $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_source")), "effective_from",
+            "32%");
         $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_origin")), "original_position");
     }
 

@@ -1,13 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* class ilRbacLog
-*  Log changes in Rbac-related settings
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ingroup ServicesAccessControl
-*/
+ * class ilRbacLog
+ *  Log changes in Rbac-related settings
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesAccessControl
+ */
 class ilRbacLog
 {
     public const EDIT_PERMISSIONS = 1;
@@ -18,7 +17,6 @@ class ilRbacLog
     public const EDIT_TEMPLATE = 6;
     public const EDIT_TEMPLATE_EXISTING = 7;
     public const CHANGE_OWNER = 8;
-
 
     public static function isActive() : bool
     {
@@ -31,7 +29,7 @@ class ilRbacLog
 
         $rbacreview = $DIC->rbac()->review();
         $result = array();
-        
+
         // #10946 - if result is written to log directly we need to add an "action" dimension
         // if result is used as input to diffFaPa() we need "raw" data
 
@@ -54,7 +52,7 @@ class ilRbacLog
                 $result["inht"] = $rbacreview->getRolesOfRoleFolder($a_ref_id);
             }
         }
-        
+
         return $result;
     }
 
@@ -194,7 +192,8 @@ class ilRbacLog
             }
         }
 
-        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id, "integer") . implode('', $where));
+        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id,
+                "integer") . implode('', $where));
         $res = $ilDB->fetchAssoc($set);
         $count = array_pop($res);
 
@@ -223,11 +222,11 @@ class ilRbacLog
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
+
         $settings = ilPrivacySettings::getInstance();
         $max = $settings->getRbacLogAge();
 
-        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(strtotime("-" . $max . "months"), "integer"));
+        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(strtotime("-" . $max . "months"),
+                "integer"));
     }
 }

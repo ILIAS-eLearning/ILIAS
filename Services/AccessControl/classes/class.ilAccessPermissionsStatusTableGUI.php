@@ -1,11 +1,8 @@
-<?php
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+<?php declare(strict_types=1);
 
 /**
  * Table for Acces Permissons in Permission > Permission of User
- *
- * @author Fabian Wolf <wolf@leifos.com>
- *
+ * @author  Fabian Wolf <wolf@leifos.com>
  * @ingroup ServicesAccessControl
  */
 class ilAccessPermissionsStatusTableGUI extends ilTable2GUI

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,16 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
-* Class ilObjRoleFolder
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup	ServicesAccessControl
-*/
+ * Class ilObjRoleFolder
+ * @author     Stefan Meyer <meyer@leifos.com>
+ * @ingroup    ServicesAccessControl
+ */
 class ilObjRoleFolder extends ilObject
 {
     public function __construct($a_id = 0, $a_call_by_reference = true)
@@ -38,17 +33,16 @@ class ilObjRoleFolder extends ilObject
         $this->type = "rolf";
         parent::__construct($a_id, $a_call_by_reference);
     }
-    
+
     public function read()
     {
         parent::read();
-        
+
         if ($this->getId() != ROLE_FOLDER_ID) {
             $this->setDescription($this->lng->txt("obj_" . $this->getType() . "_local_desc") . $this->getTitle() . $this->getDescription());
             $this->setTitle($this->lng->txt("obj_" . $this->getType() . "_local"));
         }
     }
-
 
     public function delete()
     {
@@ -68,8 +62,8 @@ class ilObjRoleFolder extends ilObject
     }
 
     /**
-    * creates a local role in current rolefolder (this object)
-    */
+     * creates a local role in current rolefolder (this object)
+     */
     public function createRole(string $a_title, string $a_desc, int $a_import_id = 0) : ilObjRole
     {
         global $DIC;
@@ -77,7 +71,6 @@ class ilObjRoleFolder extends ilObject
         $rbacadmin = $DIC['rbacadmin'];
         $rbacreview = $DIC['rbacreview'];
 
-        include_once("./Services/AccessControl/classes/class.ilObjRole.php");
         $roleObj = new ilObjRole();
         $roleObj->setTitle($a_title);
         $roleObj->setDescription($a_desc);

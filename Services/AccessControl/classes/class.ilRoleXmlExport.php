@@ -1,24 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
  * Xml export of roles and role templates
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesAccessControl
  */
 class ilRoleXmlExport extends ilXmlWriter
 {
     public const MODE_DTPL = 1;
 
-
     private array $roles = array();
     private array $operations = array();
     private int $mode = 0;
 
     protected ilRbacReview $rbacreview;
-
 
     public function __construct()
     {
@@ -29,7 +25,6 @@ class ilRoleXmlExport extends ilXmlWriter
         parent::__construct();
         $this->initRbacOperations();
     }
-
 
     /**
      * Set roles
@@ -60,7 +55,6 @@ class ilRoleXmlExport extends ilXmlWriter
         return $this->mode;
     }
 
-
     /**
      * Write xml header
      */
@@ -90,7 +84,7 @@ class ilRoleXmlExport extends ilXmlWriter
             $this->xmlEndTag('roles');
         }
     }
-    
+
     /**
      * Write xml presentation of one role
      * @param int $a_role_id
