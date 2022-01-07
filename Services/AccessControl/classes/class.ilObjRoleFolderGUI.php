@@ -298,12 +298,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             'type'
         );
         $copy_type->setRequired(true);
-        $copy_type->setValue(self::COPY_CLONE_PERMISSIONS);
+        $copy_type->setValue((string) self::COPY_CLONE_PERMISSIONS);
 
         if ($full_featured) {
             $add = new \ilRadioOption(
                 $this->lng->txt('rbac_form_copy_roles_adjust_type_add'),
-                self::COPY_ADD_PERMISSIONS,
+                (string) self::COPY_ADD_PERMISSIONS,
                 $this->lng->txt('rbac_form_copy_roles_adjust_type_add_info')
             );
             $copy_type->addOption($add);
@@ -315,13 +315,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $ce_type_add->setRequired(true);
             $ce_add_yes = new \ilRadioOption(
                 $this->lng->txt('rbac_form_copy_roles_ce_add_yes'),
-                self::COPY_CHANGE_EXISTING_OBJECTS,
+                (string) self::COPY_CHANGE_EXISTING_OBJECTS,
                 $this->lng->txt('rbac_form_copy_roles_ce_add_yes_info')
             );
             $ce_type_add->addOption($ce_add_yes);
             $ce_add_no = new \ilRadioOption(
                 $this->lng->txt('rbac_form_copy_roles_ce_add_no'),
-                0,
+                (string) 0,
                 $this->lng->txt('rbac_form_copy_roles_ce_add_no_info')
             );
             $ce_type_add->addOption($ce_add_no);
@@ -329,7 +329,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
         $clone = new \ilRadioOption(
             $this->lng->txt('rbac_form_copy_roles_adjust_type_clone'),
-            self::COPY_CLONE_PERMISSIONS,
+            (string) self::COPY_CLONE_PERMISSIONS,
             $this->lng->txt('rbac_form_copy_roles_adjust_type_clone_info')
         );
         $copy_type->addOption($clone);
@@ -341,13 +341,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $ce_type_clone->setRequired(true);
         $ce_clone_yes = new \ilRadioOption(
             $this->lng->txt('rbac_form_copy_roles_ce_clone_yes'),
-            self::COPY_CHANGE_EXISTING_OBJECTS,
+            (string) self::COPY_CHANGE_EXISTING_OBJECTS,
             $this->lng->txt('rbac_form_copy_roles_ce_clone_yes_info')
         );
         $ce_type_clone->addOption($ce_clone_yes);
         $ce_clone_no = new \ilRadioOption(
             $this->lng->txt('rbac_form_copy_roles_ce_clone_no'),
-            0,
+            (string) 0,
             $this->lng->txt('rbac_form_copy_roles_ce_clone_no_info')
         );
         $ce_type_clone->addOption($ce_clone_no);
@@ -356,7 +356,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         if ($full_featured) {
             $remove = new \ilRadioOption(
                 $this->lng->txt('rbac_form_copy_roles_adjust_type_remove'),
-                self::COPY_REMOVE_PERMISSIONS,
+                (string) self::COPY_REMOVE_PERMISSIONS,
                 $this->lng->txt('rbac_form_copy_roles_adjust_type_remove_info')
             );
             $copy_type->addOption($remove);
@@ -367,13 +367,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $ce_type_remove->setRequired(true);
             $ce_remove_yes = new \ilRadioOption(
                 $this->lng->txt('rbac_form_copy_roles_ce_remove_yes'),
-                self::COPY_CHANGE_EXISTING_OBJECTS,
+                (string) self::COPY_CHANGE_EXISTING_OBJECTS,
                 $this->lng->txt('rbac_form_copy_roles_ce_remove_yes_info')
             );
             $ce_type_remove->addOption($ce_remove_yes);
             $ce_remove_no = new \ilRadioOption(
                 $this->lng->txt('rbac_form_copy_roles_ce_remove_no'),
-                0,
+                (string) 0,
                 $this->lng->txt('rbac_form_copy_roles_ce_remove_no_info')
             );
             $ce_type_remove->addOption($ce_remove_no);
@@ -622,7 +622,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         foreach ($roles as $role_id) {
             $confirm->addItem(
                 'roles[]',
-                $role_id,
+                (string) $role_id,
                 ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))
             );
         }
@@ -717,13 +717,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $privacy = ilPrivacySettings::getInstance();
-            $privacy->enableRbacLog((int) $form->getInput('rbac_log'));
+            $privacy->enableRbacLog((bool) $form->getInput('rbac_log'));
             $privacy->setRbacLogAge((int) $form->getInput('rbac_log_age'));
             $privacy->save();
 
             if ($this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)) {
                 $security = ilSecuritySettings::_getInstance();
-                $security->protectedAdminRole((int) $form->getInput('admin_role'));
+                $security->protectedAdminRole((bool) $form->getInput('admin_role'));
                 $security->save();
             }
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -753,8 +753,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $admin = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('adm_adm_role_protect'), 'admin_role');
         $admin->setDisabled(!$this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID));
         $admin->setInfo($this->lng->txt('adm_adm_role_protect_info'));
-        $admin->setChecked((int) $security->isAdminRoleProtected());
-        $admin->setValue(1);
+        $admin->setChecked((bool) $security->isAdminRoleProtected());
+        $admin->setValue((string) 1);
         $form->addItem($admin);
 
         $check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
@@ -764,7 +764,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
         $age = new ilNumberInputGUI($this->lng->txt('rbac_log_age'), 'rbac_log_age');
         $age->setInfo($this->lng->txt('rbac_log_age_info'));
-        $age->setValue($privacy->getRbacLogAge());
+        $age->setValue((string) $privacy->getRbacLogAge());
         $age->setMinValue(1);
         $age->setMaxValue(24);
         $age->setSize(2);

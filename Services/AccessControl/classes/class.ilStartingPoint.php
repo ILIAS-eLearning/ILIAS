@@ -49,7 +49,7 @@ class ilStartingPoint
             $this->setPosition((int) $point['position']);
             $this->setStartingObject((int) $point['starting_object']);
             $this->setRuleType((int) $point['rule_type']);
-            $this->setCalendarView((bool) $point['calendar_view']);
+            $this->setCalendarView((int) $point['calendar_view']);
             $this->setCalendarPeriod((int) $point['calendar_period']);
         }
     }

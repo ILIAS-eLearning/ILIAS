@@ -460,7 +460,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 
         $possible_roles = array();
         foreach ($roles as $role) {
-            if ($this->review->isBlockedInUpperContext($role['obj_id'], $this->getRefId())) {
+            if ($this->review->isBlockedInUpperContext((int) $role['obj_id'], $this->getRefId())) {
                 ilLoggerFactory::getLogger('ac')->debug('Ignoring blocked role: ' . $role['obj_id']);
                 continue;
             }
@@ -479,17 +479,17 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             if ($role['obj_id'] == SYSTEM_ROLE_ID) {
                 continue;
             }
-
+            $role['obj_id'] = (int) $role['obj_id'];
             $role['blocked'] = (bool) $this->review->isBlockedAtPosition($role['obj_id'], $this->getRefId());
             $role['role_type'] = $this->review->isGlobalRole($role['obj_id']) ? 'global' : 'local';
 
             // TODO check filter
             $this->addColumn(
                 $this->createTitle($role),
-                $role['obj_id'],
-                '',
+                (string) $role['obj_id'],
                 '',
                 false,
+                '',
                 $this->createTooltip($role)
             );
             $all_roles[] = $role;

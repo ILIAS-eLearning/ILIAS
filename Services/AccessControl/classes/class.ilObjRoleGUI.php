@@ -265,18 +265,18 @@ class ilObjRoleGUI extends ilObjectGUI
 
         if ($this->obj_ref_id == ROLE_FOLDER_ID) {
             $reg = new ilCheckboxInputGUI($this->lng->txt('allow_register'), 'reg');
-            $reg->setValue(1);
+            $reg->setValue((string) 1);
             #$reg->setInfo($this->lng->txt('rbac_new_acc_reg_info'));
             $form->addItem($reg);
 
             $la = new ilCheckboxInputGUI($this->lng->txt('allow_assign_users'), 'la');
-            $la->setValue(1);
+            $la->setValue((string) 1);
             #$la->setInfo($this->lng->txt('rbac_local_admin_info'));
             $form->addItem($la);
         }
 
         $pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'), 'pro');
-        $pro->setValue(1);
+        $pro->setValue((string) 1);
         #$pro->setInfo($this->lng->txt('role_protext_permission_info'));
         $form->addItem($pro);
         return $form;
@@ -571,7 +571,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $confirm->addItem(
             'role',
-            $this->object->getId(),
+            (string) $this->object->getId(),
             $this->object->getTitle(),
             ilUtil::getImagePath('icon_role.svg')
         );
@@ -1017,7 +1017,10 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->tabs_gui->clearTargets();
 
         $this->help->setScreenIdComponent("role");
-        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('btn_back'),
+            (string) $this->ctrl->getParentReturn($this)
+        );
         if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit) {
             $this->tabs_gui->addTarget(
                 "edit_properties",
@@ -1133,17 +1136,17 @@ class ilObjRoleGUI extends ilObjectGUI
         $rad = new ilRadioGroupInputGUI($this->lng->txt('rbac_local_policies'), 'mode');
 
         if ($protected) {
-            $rad->setValue(ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES);
+            $rad->setValue((string) ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES);
             $keep = new ilRadioOption(
                 $this->lng->txt('rbac_keep_local_policies'),
-                ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
                 $this->lng->txt('rbac_keep_local_policies_info')
             );
         } else {
-            $rad->setValue(ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES);
+            $rad->setValue((string) ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES);
             $keep = new ilRadioOption(
                 $this->lng->txt('rbac_keep_local_policies'),
-                ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
                 $this->lng->txt('rbac_unprotected_keep_local_policies_info')
             );
         }
@@ -1152,13 +1155,13 @@ class ilObjRoleGUI extends ilObjectGUI
         if ($protected) {
             $del = new ilRadioOption(
                 $this->lng->txt('rbac_delete_local_policies'),
-                ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES,
                 $this->lng->txt('rbac_delete_local_policies_info')
             );
         } else {
             $del = new ilRadioOption(
                 $this->lng->txt('rbac_delete_local_policies'),
-                ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
                 $this->lng->txt('rbac_unprotected_delete_local_policies_info')
             );
         }

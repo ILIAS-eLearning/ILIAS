@@ -23,9 +23,9 @@ class ilAccessControlImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ) : void {
-        $role_folder_id = $a_mapping->getMapping('Services/AccessControl', 'rolf', 0);
+        $role_folder_id = $a_mapping->getMapping('Services/AccessControl', 'rolf', (string) 0);
 
-        $importer = new ilRoleXmlImporter($role_folder_id);
+        $importer = new ilRoleXmlImporter((int) $role_folder_id);
         $importer->setXml($a_xml);
         $importer->setRole(new ilObjRole());
         $importer->import();

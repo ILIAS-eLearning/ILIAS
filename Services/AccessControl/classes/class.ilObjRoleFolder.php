@@ -77,7 +77,7 @@ class ilObjRoleFolder extends ilObject
         //echo "aaa-1-";
         if ($a_import_id != "") {
             //echo "aaa-2-".$a_import_id."-";
-            $roleObj->setImportId($a_import_id);
+            $roleObj->setImportId((string) $a_import_id);
         }
         $roleObj->create();
 

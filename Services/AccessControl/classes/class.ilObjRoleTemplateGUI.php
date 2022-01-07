@@ -110,7 +110,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->rolf_ref_id,
             $this->object->getId()
         ));
-        $pro->setValue(1);
+        $pro->setValue((string) 1);
         $form->addItem($pro);
 
         return $form;

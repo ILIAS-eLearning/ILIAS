@@ -37,7 +37,7 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
         $this->review = $DIC->rbac()->review();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', 'f', 1);
+        $this->addColumn('', 'f', (string) 1);
         $this->addColumn($this->lng->txt('title'), 'title', "70%");
         $this->addColumn($this->lng->txt('context'), 'context', "30%");
 

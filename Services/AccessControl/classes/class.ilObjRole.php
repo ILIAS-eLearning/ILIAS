@@ -140,8 +140,6 @@ class ilObjRole extends ilObject
         $res = $this->db->query($query);
         if ($res->numRows() > 0) {
             $row = $this->db->fetchAssoc($res);
-            $this->setTitle($row['title']);
-            $this->setDescription($row['description']);
             $this->setAllowRegister((bool) $row['allow_register']);
             $this->toggleAssignUsersStatus((bool) $row['assign_user']);
         } else {

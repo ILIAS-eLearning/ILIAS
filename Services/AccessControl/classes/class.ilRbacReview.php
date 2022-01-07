@@ -960,7 +960,7 @@ class ilRbacReview
             $type_arr = explode('_', $row->operation);
             $type = $type_arr[1];
 
-            $ops_ids[$type] = $row->ops_id;
+            $ops_ids[$type] = (int) $row->ops_id;
         }
         return $ops_ids;
     }

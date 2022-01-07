@@ -17,7 +17,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         int $a_role_id,
         bool $a_editable = true,
-        bool $isAdministrationContext
+        bool $isAdministrationContext = false
     ) {
         $this->setId("rbac_ua_" . $a_role_id);
         $this->role_id = $a_role_id;

@@ -477,7 +477,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 $imp->getMapping()->addMapping(
                     'Services/AccessControl',
                     'rolf',
-                    0,
+                    (string) 0,
                     $this->getCurrentObject()->getRefId()
                 );
 
@@ -543,7 +543,7 @@ class ilPermissionGUI extends ilPermission2GUI
 
         $pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'), 'pro');
         $pro->setInfo($this->lng->txt('role_protect_permissions_desc'));
-        $pro->setValue(1);
+        $pro->setValue((string) 1);
         $form->addItem($pro);
 
         $pd = new ilCheckboxInputGUI($this->lng->txt('rbac_add_recommended_content'), 'desktop');
@@ -554,12 +554,12 @@ class ilPermissionGUI extends ilPermission2GUI
                 $this->lng->txt('rbac_add_recommended_content_info')
             )
         );
-        $pd->setValue(1);
+        $pd->setValue((string) 1);
         $form->addItem($pd);
 
         if (!$this->isInAdministration()) {
             $rights = new ilRadioGroupInputGUI($this->lng->txt("rbac_role_rights_copy"), 'rights');
-            $option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), 0);
+            $option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), (string) 0);
             $rights->addOption($option);
 
             $parent_role_ids = $this->rbacreview->getParentRoleIds($this->gui_obj->object->getRefId(), true);

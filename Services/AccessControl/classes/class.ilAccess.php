@@ -496,7 +496,7 @@ class ilAccess implements ilAccessHandler
             $access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
             if ($access == false) {
                 $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PARENT_ACCESS,
-                    $this->language->txt("no_parent_access"), $id);
+                    $this->language->txt("no_parent_access"), (string) $id);
                 if ($a_all == false) {
                     return false;
                 }
