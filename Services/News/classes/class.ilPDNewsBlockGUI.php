@@ -237,7 +237,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 case 366: $per_str = $lng->txt("news_period_1_year"); break;
             }
             if ($per_str != "") {
-                $this->setTitle($this->getTitle() . ' <span style="font-weight:normal;">- ' . $per_str . "</span>");
+                $this->setTitle($this->getTitle() . ' - ' . $per_str);
             }
         }
 
