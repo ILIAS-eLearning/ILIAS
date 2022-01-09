@@ -220,7 +220,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 $lng->txt("settings")
             );
         }
-        
+
         $en = "";
         if ($ilUser->getPref("il_feed_js") == "n") {
             $en = $this->getJSEnabler();
