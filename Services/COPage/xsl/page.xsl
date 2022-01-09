@@ -3761,35 +3761,37 @@
 			<xsl:if test="$mode = 'edit'">
 				<xsl:attribute name="class">flex-col flex-grow copg-edit-container</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$mode = 'edit'">
-				<xsl:call-template name="EditReturnAnchors"/>
-			</xsl:if>
-			<!-- insert commands -->
-			<!-- <xsl:value-of select="@HierId"/> -->
-			<xsl:if test="$mode = 'edit'">
-				<!-- drop area (js) -->
-				<xsl:if test="$javascript = 'enable'">
-					<xsl:call-template name="DropArea">
-						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-					</xsl:call-template>
+			<div>	<!-- this div enforces margin collapsing, see bug 31536 -->
+				<xsl:if test="$mode = 'edit'">
+					<xsl:call-template name="EditReturnAnchors"/>
 				</xsl:if>
-				<!-- insert dropdown (no js) -->
-				<xsl:if test= "$javascript = 'disable'">
-					<select size="1" class="ilEditSelect">
-						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-						</xsl:attribute>
-						<xsl:call-template name="EditMenuInsertItems"/>
-					</select>
-					<input class="ilEditSubmit" type="submit">
-						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-					</input>
-					<br/>
+				<!-- insert commands -->
+				<!-- <xsl:value-of select="@HierId"/> -->
+				<xsl:if test="$mode = 'edit'">
+					<!-- drop area (js) -->
+					<xsl:if test="$javascript = 'enable'">
+						<xsl:call-template name="DropArea">
+							<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+							<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:if>
+					<!-- insert dropdown (no js) -->
+					<xsl:if test= "$javascript = 'disable'">
+						<select size="1" class="ilEditSelect">
+							<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+							</xsl:attribute>
+							<xsl:call-template name="EditMenuInsertItems"/>
+						</select>
+						<input class="ilEditSubmit" type="submit">
+							<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+						</input>
+						<br/>
+					</xsl:if>
 				</xsl:if>
-			</xsl:if>
-			<xsl:apply-templates select="PageContent"/>
-			<xsl:comment>End of Grid Cell</xsl:comment>
+				<xsl:apply-templates select="PageContent"/>
+				<xsl:comment>End of Grid Cell</xsl:comment>
+			</div>
 		</div>
 	</div>
 </xsl:template>
