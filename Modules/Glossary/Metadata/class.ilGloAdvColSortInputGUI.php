@@ -22,6 +22,8 @@
  */
 class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 {
+    protected array $value;
+
     public function __construct(
         string $a_title = "",
         string $a_id = ""
@@ -33,12 +35,12 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         $this->setType("glo_adv_col_sort");
     }
     
-    public function setValue(string $a_value) : void
+    public function setValue(array $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue() : array
     {
         return $this->value;
     }

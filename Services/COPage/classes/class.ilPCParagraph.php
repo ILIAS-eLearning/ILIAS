@@ -871,7 +871,7 @@ class ilPCParagraph extends ilPageContent
 
         $current_list = array();
         $text = "";
-        for ($i = 0; $i <= count($segments); $i++) {
+        for ($i = 0; $i < count($segments); $i++) {
             if ($segments[$i] == "<SimpleBulletList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;

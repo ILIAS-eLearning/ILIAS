@@ -164,19 +164,19 @@ class ilGlossaryExporter extends ilXmlExporter
     {
         return array(
             "5.4.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Glossary/htlm/5_4",
+                "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/5_4",
                 "xsd_file" => "ilias_glo_5_4.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
                 "max" => ""),
             "5.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Glossary/htlm/5_1",
+                "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/5_1",
                 "xsd_file" => "ilias_glo_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
                 "max" => ""),
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Glossary/htlm/4_1",
+                "namespace" => "https://www.ilias.de/Modules/Glossary/htlm/4_1",
                 "xsd_file" => "ilias_glo_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",

@@ -19,6 +19,7 @@
  */
 class ilGlossaryImporter extends ilXmlImporter
 {
+    protected ilImportConfig $config;
     protected ilGlossaryDataSet $ds;
 
     public function init() : void

@@ -21,6 +21,7 @@ namespace ILIAS\Glossary\Export;
  */
 class GlossaryHtmlExport
 {
+    protected \ilGlossaryPresentationGUI $glo_gui;
     protected \ilObjGlossary $glossary;
     protected string $export_dir;
     protected string $sub_dir;
@@ -157,7 +158,7 @@ class GlossaryHtmlExport
             $file = $this->target_dir . "/term_" . $term["id"] . ".html";
 
             // open file
-            $fp = @fopen($file, "w+");
+            $fp = fopen($file, "w+");
             fwrite($fp, $content);
             fclose($fp);
 

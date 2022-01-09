@@ -18,16 +18,20 @@
  */
 class ilGlossaryDefinition
 {
+    protected array $files_contained = [];
+    protected array $mobs_contained = [];
+    protected string $description = "";
+    protected string $title = "";
     protected ilDBInterface $db;
     protected ilObjUser $user;
     public ilLanguage $lng;
     public ilGlobalTemplateInterface $tpl;
-    public int $id;
-    public int $term_id;
-    public int $glo_id;
+    public int $id = 0;
+    public int $term_id = 0;
+    public int $glo_id = 0;
     public ilGlossaryDefPage $page_object;
-    public string $short_text;
-    public int $nr;
+    public string $short_text = "";
+    public int $nr = 0;
     public bool $short_text_dirty = false;
 
     public function __construct(
@@ -341,7 +345,7 @@ class ilGlossaryDefinition
         $a_length = 196;
 
         if ($this->getTermId() > 0) {
-            $glo_id = ilGlossaryTerm::_lookGlossaryId($this->getTermId());
+            $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
             $snippet_length = ilObjGlossary::lookupSnippetLength($glo_id);
             if ($snippet_length > 0) {
                 $a_length = $snippet_length;
@@ -350,6 +354,7 @@ class ilGlossaryDefinition
 
         $text = str_replace("<br/>", "<br>", $text);
         $text = strip_tags($text, "<br>");
+        $offset = 0;
         if (is_int(strpos(substr($text, $a_length - 16 - 5, 10), "[tex]"))) {
             $offset = 5;
         }
@@ -394,7 +399,7 @@ class ilGlossaryDefinition
         $def_set = $ilDB->query($q);
         while ($def_rec = $ilDB->fetchAssoc($def_set)) {
             $defs[] = array("term_id" => $def_rec["term_id"],
-                "page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
+                "page_id" => (int) ($def_rec["page_id"] ?? 0), "id" => $def_rec["id"],
                 "short_text" => strip_tags($def_rec["short_text"], "<br>"),
                 "nr" => $def_rec["nr"],
                 "short_text_dirty" => $def_rec["short_text_dirty"]);

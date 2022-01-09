@@ -20,6 +20,8 @@
  */
 class ilTermDefinitionEditorGUI
 {
+    protected ilObjGlossary $term_glossary;
+    protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     public ilGlobalTemplateInterface $tpl;
@@ -41,8 +43,15 @@ class ilTermDefinitionEditorGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->glossary = new ilObjGlossary($_GET["ref_id"], true);
-        $this->definition = new ilGlossaryDefinition($_GET["def"]);
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+
+        $this->glossary = new ilObjGlossary($this->request->getRefId(), true);
+        $this->definition = new ilGlossaryDefinition($this->request->getDefinitionId());
         $this->term = new ilGlossaryTerm($this->definition->getTermId());
         $this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($this->definition->getTermId()), false);
         $this->tabs_gui = $ilTabs;
@@ -91,11 +100,14 @@ class ilTermDefinitionEditorGUI
         switch ($next_class) {
 
             case "ilglossarydefpagegui":
-                
+                // this part contained "broken" code, so most probable it
+                // will never be called. Abandon, if no issues occur in ILIAS 8.
+                throw new ilGlossaryException("ilGlossaryDefPageGUI error in ilTermDefinitionEditorGUI.");
+                /*
                 // output number of usages
                 if ($ilCtrl->getCmd() == "edit" &&
                     $ilCtrl->getCmdClass() == "ilglossarydefpagegui") {
-                    $nr = ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]);
+                    $nr = ilGlossaryTerm::getNumberOfUsages($this->request->getTermId());
                     if ($nr > 0) {
                         $link = "[<a href='" .
                             $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages") .
@@ -106,7 +118,7 @@ class ilTermDefinitionEditorGUI
                         ) . " " . $link);
                     }
                 }
-            
+
                 // not so nice, to do: revise locator handling
                 if ($this->ctrl->getNextClass() == "ilglossarydefpagegui"
                     || $this->ctrl->getCmdClass() == "ileditclipboardgui") {
@@ -116,11 +128,12 @@ class ilTermDefinitionEditorGUI
                 $this->ctrl->setReturnByClass("ilGlossaryDefPageGUI", "edit");
                 $this->ctrl->setReturn($this, "listDefinitions");
                 $page_gui = new ilGlossaryDefPageGUI($this->definition->getId());
+                // @var ilGlossaryDefPage $page
                 $page = $page_gui->getPageObject();
                 $this->definition->assignPageObject($page);
                 $page->addUpdateListener($this, "saveShortText");
                 $page_gui->setEditPreview(true);
-                
+
                 // metadata
                 // ... set title to term, if no title is given
                 $md = new ilMD($this->term_glossary->getId(), $this->definition->getId(), "gdf");
@@ -131,9 +144,9 @@ class ilTermDefinitionEditorGUI
                 }
 
                 $page_gui->activateMetaDataEditor($this->term_glossary, "gdf", $this->definition->getId());
-                
-                $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
-                $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=" . $_GET["ref_id"]);
+
+                $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->request->getRefId());
+                $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=" . $this->request->getRefId());
                 $page_gui->setTemplateTargetVar("ADM_CONTENT");
                 $page_gui->setOutputMode("edit");
 
@@ -141,7 +154,6 @@ class ilTermDefinitionEditorGUI
                     $this->term_glossary->getStyleSheetId(),
                     "glo"
                 ));
-                $page_gui->setLocator($gloss_loc);
                 $page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass(
                     "ilobjglossarygui",
                     "quickList",
@@ -150,15 +162,16 @@ class ilTermDefinitionEditorGUI
                     false
                 ));
                 $page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
-                $page_gui->setLinkParams("ref_id=" . $_GET["ref_id"]);
+                $page_gui->setLinkParams("ref_id=" . $this->request->getRefId());
                 $page_gui->setHeader($this->term->getTerm());
-                $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $_GET["ref_id"]);
+                $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $this->request->getRefId());
                 $page_gui->setPresentationTitle($this->term->getTerm());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != "") {
                     $tpl->setContent($ret);
                 }
                 break;
+                */
 
             default:
                 $this->setTabs();

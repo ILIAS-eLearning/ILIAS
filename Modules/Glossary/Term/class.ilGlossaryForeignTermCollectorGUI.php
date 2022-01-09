@@ -19,6 +19,9 @@
  */
 class ilGlossaryForeignTermCollectorGUI
 {
+    protected ilObjGlossary $foreign_glossary;
+    protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;
+    protected \ILIAS\Glossary\Term\TermManager $term_manager;
     protected ilObjGlossaryGUI $glossary_gui;
     protected ilObjGlossary $glossary;
     protected int $fglo_ref_id;
@@ -42,7 +45,20 @@ class ilGlossaryForeignTermCollectorGUI
         $glossary = $a_glossary_gui->object;
         $this->glossary = $glossary;
 
-        $this->fglo_ref_id = (int) $_GET["fglo_ref_id"];
+        $this->term_manager = $DIC->glossary()
+            ->internal()
+            ->domain()
+            ->term(
+                $this->glossary,
+                $this->user->getId()
+            );
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+        $this->fglo_ref_id = $this->request->getForeignGlossaryRefId();
         if ($this->fglo_ref_id > 0 && ilObject::_lookupType($this->fglo_ref_id, true) == "glo") {
             $this->foreign_glossary = new ilObjGlossary($this->fglo_ref_id, true);
         }
@@ -90,7 +106,7 @@ class ilGlossaryForeignTermCollectorGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ref_id = (int) $_GET["fglo_ref_id"];
+        $ref_id = $this->request->getForeignGlossaryRefId();
 
         if ($ref_id == $this->glossary->getRefId()) {
             ilUtil::sendFailure($lng->txt("glo_please_select_other_glo"), true);
@@ -109,13 +125,16 @@ class ilGlossaryForeignTermCollectorGUI
     
     public function copyTerms() : void
     {
-        if (!is_array($_POST["term_id"])) {
+        $term_ids = $this->request->getTermIds();
+        if (count($term_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "showTerms");
         }
-        $act = ilGlossaryAct::getInstance($this->glossary, $this->user);
-        foreach ($_POST["term_id"] as $id) {
-            $act->copyTerm($this->foreign_glossary, (int) $id);
+        foreach ($term_ids as $id) {
+            $this->term_manager->copyTermFromOtherGlossary(
+                $this->foreign_glossary->getRefId(),
+                $id
+            );
         }
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);
@@ -123,16 +142,19 @@ class ilGlossaryForeignTermCollectorGUI
 
     public function referenceTerms() : void
     {
-        if (!is_array($_POST["term_id"])) {
+        $term_ids = $this->request->getTermIds();
+        if (count($term_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "showTerms");
         }
-        $act = ilGlossaryAct::getInstance($this->glossary, $this->user);
         $terms = array();
-        foreach ($_POST["term_id"] as $id) {
-            $terms[] = (int) $id;
+        foreach ($term_ids as $id) {
+            $terms[] = $id;
         }
-        $act->referenceTerms($this->foreign_glossary, $terms);
+        $this->term_manager->referenceTermsFromOtherGlossary(
+            $this->foreign_glossary->getRefId(),
+            $terms
+        );
         
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->returnToParent($this);

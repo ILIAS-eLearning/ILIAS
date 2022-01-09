@@ -20,14 +20,14 @@ require_once 'libs/composer/vendor/autoload.php';
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilModulesCategoryReferenceSuite extends TestSuite
+class ilModulesGlossarySuite extends TestSuite
 {
     public static function suite()
     {
         $suite = new self();
 
-        require_once("./Modules/CategoryReference/test/CategoryReferenceTest.php");
-        $suite->addTestSuite("CategoryReferenceTest");
+        require_once("./Modules/Glossary/test/GloPresentationGUIRequestTest.php");
+        $suite->addTestSuite("GloPresentationGUIRequestTest");
 
         return $suite;
     }

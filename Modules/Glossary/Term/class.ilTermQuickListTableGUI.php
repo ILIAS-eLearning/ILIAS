@@ -20,10 +20,12 @@
  */
 class ilTermQuickListTableGUI extends ilTable2GUI
 {
+    protected ilObjGlossary $glossary;
+    protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;
     protected ilAccessHandler $access;
 
     public function __construct(
-        object $a_parent_obj,
+        ilGlossaryTermGUI $a_parent_obj,
         string $a_parent_cmd
     ) {
         global $DIC;
@@ -33,21 +35,22 @@ class ilTermQuickListTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
         
         $this->glossary = $a_parent_obj->glossary;
         $this->setId("gloqtl" . $this->glossary->getId());
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($lng->txt("cont_terms"));
-        
         $this->addColumn("", "");
         $this->setEnableHeader(false);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.term_quick_list_row.html", "Modules/Glossary");
         $this->setEnableTitle(false);
-
         $this->setData($this->glossary->getTermList("", "", "", 0, false, false, null, true));
     }
     
@@ -75,9 +78,13 @@ class ilTermQuickListTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
             $sep = ", ";
         }
-        $ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $_GET["def"]);
+        $ilCtrl->setParameterByClass(
+            "ilglossarydefpagegui",
+            "def",
+            $this->request->getDefinitionId()
+        );
 
-        if ($a_set["id"] == $_GET["term_id"]) {
+        if ($a_set["id"] == $this->request->getTermId()) {
             $this->tpl->touchBlock("hl");
         }
         
@@ -87,6 +94,10 @@ class ilTermQuickListTableGUI extends ilTable2GUI
             $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm")
         );
         
-        $ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $_GET["term_id"]);
+        $ilCtrl->setParameterByClass(
+            "ilglossarytermgui",
+            "term_id",
+            $this->request->getTermId()
+        );
     }
 }

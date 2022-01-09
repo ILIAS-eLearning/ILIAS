@@ -19,6 +19,7 @@
  */
 class ilGlossaryTerm
 {
+    protected string $type;
     protected ilDBInterface $db;
     public ilLanguage $lng;
     public ilTemplate $tpl;
@@ -384,7 +385,7 @@ class ilGlossaryTerm
     }
 
     public static function getFirstLetters(
-        int $a_glo_id,
+        array $a_glo_id,
         int $a_tax_node = 0
     ) : array {
         global $DIC;
@@ -392,11 +393,12 @@ class ilGlossaryTerm
         $ilDB = $DIC->database();
         
         // meta glossary
-        if (is_array($a_glo_id)) {
+        if (count($a_glo_id) > 1) {
             $where = $ilDB->in("glo_id", $a_glo_id, false, "integer");
         } else {
+            $a_glo_id = current($a_glo_id);
             $where = " glo_id = " . $ilDB->quote($a_glo_id, "integer") . " ";
-            
+            $in = "";
             // get all term ids under taxonomy node (if given)
             if ($a_tax_node > 1) {
                 $tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);

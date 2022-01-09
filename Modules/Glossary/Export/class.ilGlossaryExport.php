@@ -20,6 +20,11 @@
  */
 class ilGlossaryExport
 {
+    protected ilXmlWriter $xml;
+    protected string $export_dir;
+    protected string $filename;
+    protected string $subdir;
+    protected string $mode;
     protected ilSetting $settings;
     public ilDBInterface $db;
     public ilObjGlossary $glo_obj;
@@ -84,14 +89,14 @@ class ilGlossaryExport
      */
     public function buildExportFileXML() : string
     {
-        $this->xml = new ilXmlWriter;
+        $this->xml = new ilXmlWriter();
 
         // set dtd definition
-        $this->xml->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co_3_7.dtd\">");
+        $this->xml->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"https://www.ilias.uni-koeln.de/download/dtd/ilias_co_3_7.dtd\">");
 
         // set generated comment
         $this->xml->xmlSetGenCmt("Export of ILIAS Glossary " .
-            $this->glo_obj->getId() . " of installation " . $this->inst . ".");
+            $this->glo_obj->getId() . " of installation " . $this->inst_id . ".");
 
         // set xml header
         $this->xml->xmlHeader();

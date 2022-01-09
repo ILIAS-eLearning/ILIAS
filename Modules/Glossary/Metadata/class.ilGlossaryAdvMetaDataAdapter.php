@@ -19,6 +19,8 @@
  */
 class ilGlossaryAdvMetaDataAdapter
 {
+    protected int $glo_ref_id;
+    protected int $glo_id;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 

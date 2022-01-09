@@ -21,6 +21,9 @@
  */
 class ilGlossaryTermGUI
 {
+    protected ilAdvancedMDRecordGUI $record_gui;
+    protected int $ref_id;
+    protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;
     protected string $offline_directory;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
@@ -50,12 +53,17 @@ class ilGlossaryTermGUI
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("term_id"));
         $this->tabs_gui = $ilTabs;
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $this->log = ilLoggerFactory::getLogger('glo');
 
         $this->toolbar = $DIC->toolbar();
 
-        $this->ref_id = $_GET["ref_id"];
+        $this->ref_id = $this->request->getRefId();
 
         if ($a_id != 0) {
             $this->term = new ilGlossaryTerm($a_id);
@@ -78,11 +86,9 @@ class ilGlossaryTermGUI
 
         switch ($next_class) {
             case "iltermdefinitioneditorgui":
-                //$this->ctrl->setReturn($this, "listDefinitions");
                 $def_edit = new ilTermDefinitionEditorGUI();
-                //$ret = $def_edit->executeCommand();
-                $ret = $this->ctrl->forwardCommand($def_edit);
-                $this->quickList("edit", $def_edit);
+                $this->ctrl->forwardCommand($def_edit);
+                $this->quickList();
                 break;
 
             case "ilpropertyformgui":
@@ -209,18 +215,16 @@ class ilGlossaryTermGUI
         if ($form->checkInput() &&
             $this->record_gui->importEditFormPostValues()) {
             // update term
-            $this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
-            $this->term->setLanguage($_POST["term_language"]);
+            $this->term->setTerm($form->getInput("term"));
+            $this->term->setLanguage($form->getInput("term_language"));
             $this->term->update();
 
             // update taxonomy assignment
             if ($this->term_glossary->getTaxonomyId() > 0) {
                 $ta = new ilTaxNodeAssignment("glo", $this->term_glossary->getId(), "term", $this->term_glossary->getTaxonomyId());
                 $ta->deleteAssignmentsOfItem($this->term->getId());
-                if (is_array($_POST["tax_node"])) {
-                    foreach ($_POST["tax_node"] as $node_id) {
-                        $ta->addAssignment($node_id, $this->term->getId());
-                    }
+                foreach ($this->request->getTaxNodes() as $node_id) {
+                    $ta->addAssignment($node_id, $this->term->getId());
                 }
             }
 
@@ -288,11 +292,11 @@ class ilGlossaryTermGUI
         for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
-            $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
+            $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
             if ($a_offline) {
                 $page_gui->setFullscreenLink("fullscreen.html");	// id is set by xslt
             }
-            $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $_GET["ref_id"]);
+            $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=" . $this->ref_id);
 
             if (!$a_offline) {
                 $page_gui->setOutputMode($a_outputmode);
@@ -375,7 +379,9 @@ class ilGlossaryTermGUI
         $tpl->parseCurrentBlock();
 //        $tpl->setCurrentBlock("def_list");
 
-        $defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
+        $defs = ilGlossaryDefinition::getDefinitionList(
+            $this->request->getTermId()
+        );
 
         $tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
@@ -383,7 +389,7 @@ class ilGlossaryTermGUI
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
             $page_gui->setStyleId($this->term_glossary->getStyleSheetId());
-            $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
+            $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
             $page_gui->setTemplateOutput(false);
             $output = $page_gui->preview();
 
@@ -441,10 +447,6 @@ class ilGlossaryTermGUI
         $this->toolbar->setItems([]);
 
         $this->tpl->setContent($tpl->get());
-
-        //$this->tpl->setCurrentBlock("def_list");
-        //$this->tpl->parseCurrentBlock();
-
         $this->quickList();
     }
 
@@ -470,13 +472,13 @@ class ilGlossaryTermGUI
 
         $this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
-        $definition = new ilGlossaryDefinition($_GET["def"]);
+        $definition = new ilGlossaryDefinition($this->request->getDefinitionId());
         $page_gui = new ilGlossaryDefPageGUI($definition->getId());
         $page_gui->setTemplateOutput(false);
         $page_gui->setStyleId($this->term_glossary->getStyleSheetId());
-        $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
-        $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
-        $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
+        $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
+        $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
+        $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
         $output = $page_gui->preview();
 
         $dtpl->setCurrentBlock("definition");
@@ -505,21 +507,21 @@ class ilGlossaryTermGUI
 
     public function deleteDefinition() : void
     {
-        $definition = new ilGlossaryDefinition($_GET["def"]);
+        $definition = new ilGlossaryDefinition($this->request->getDefinitionId());
         $definition->delete();
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
     public function moveUp() : void
     {
-        $definition = new ilGlossaryDefinition($_GET["def"]);
+        $definition = new ilGlossaryDefinition($this->request->getDefinitionId());
         $definition->moveUp();
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
     public function moveDown() : void
     {
-        $definition = new ilGlossaryDefinition($_GET["def"]);
+        $definition = new ilGlossaryDefinition($this->request->getDefinitionId());
         $definition->moveDown();
         $this->ctrl->redirect($this, "listDefinitions");
     }
@@ -537,17 +539,6 @@ class ilGlossaryTermGUI
         $this->ctrl->redirect($this, "listDefinitions");
     }
 
-    public function saveDefinition() : void
-    {
-        $def = new ilGlossaryDefinition();
-        $def->setTermId($_GET["term_id"]);
-        $def->setTitle(ilUtil::stripSlashes($_POST["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save
-        $def->setDescription(ilUtil::stripSlashes($_POST["desc"]));	// set by meta_gui->save
-        $def->create();
-
-        $this->ctrl->redirect($this, "listDefinitions");
-    }
-
     public function setTabs() : void
     {
         $this->getTabs();
@@ -558,7 +549,6 @@ class ilGlossaryTermGUI
         $gloss_loc = new ilGlossaryLocatorGUI();
         $gloss_loc->setTerm($this->term);
         $gloss_loc->setGlossary($this->glossary);
-        //$gloss_loc->setDefinition($this->definition);
         $gloss_loc->display();
     }
 
@@ -569,8 +559,7 @@ class ilGlossaryTermGUI
 
         $ilHelp->setScreenIdComponent("glo_term");
         
-        //echo ":".$_GET["term_id"].":";
-        if ($_GET["term_id"] != "") {
+        if ($this->request->getTermId() > 0) {
             $this->tabs_gui->addTab(
                 "properties",
                 $lng->txt("term"),
@@ -585,7 +574,7 @@ class ilGlossaryTermGUI
 
             $this->tabs_gui->addTab(
                 "usage",
-                $lng->txt("cont_usage") . " (" . ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]) . ")",
+                $lng->txt("cont_usage") . " (" . ilGlossaryTerm::getNumberOfUsages($this->request->getTermId()) . ")",
                 $this->ctrl->getLinkTarget($this, "listUsages")
             );
 
@@ -609,7 +598,7 @@ class ilGlossaryTermGUI
                 ILIAS_HTTP_PATH .
                 "/goto.php?target=" .
                 "git" .
-                "_" . $_GET["term_id"] . "_" . $_GET["ref_id"] . "&client_id=" . CLIENT_ID,
+                "_" . $this->request->getTermId() . "_" . $this->request->getRefId() . "&client_id=" . CLIENT_ID,
                 "_top"
             );
         }
@@ -674,7 +663,7 @@ class ilGlossaryTermGUI
         $this->tpl->setTitle($this->lng->txt("cont_term") . ": " . $this->term->getTerm());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
-        $tab = new ilTermUsagesTableGUI($this, "listUsages", $_GET["term_id"]);
+        $tab = new ilTermUsagesTableGUI($this, "listUsages", $this->request->getTermId());
         
         $tpl->setContent($tab->getHTML());
         

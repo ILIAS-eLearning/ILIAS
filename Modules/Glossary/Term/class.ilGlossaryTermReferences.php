@@ -159,15 +159,12 @@ class ilGlossaryTermReferences
         global $DIC;
 
         $db = $DIC->database();
-        if (!is_array($a_glo_id)) {
-            $a_glo_id = array($a_glo_id);
-        }
         $set = $db->query(
-            $q = "SELECT * FROM glo_term_reference " .
+            "SELECT * FROM glo_term_reference " .
             " WHERE " . $db->in("glo_id", $a_glo_id, false, "integer") .
             " AND term_id = " . $db->quote($a_term_id, "integer")
         );
-        if ($rec = $db->fetchAssoc($set)) {
+        if ($db->fetchAssoc($set)) {
             return true;
         }
         return false;

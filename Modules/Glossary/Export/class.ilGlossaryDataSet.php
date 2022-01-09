@@ -26,6 +26,8 @@
  */
 class ilGlossaryDataSet extends ilDataSet
 {
+    protected int $old_glo_id;
+    protected ilObjGlossary $current_obj;
     protected ilLogger $log;
 
     public function __construct()
@@ -44,7 +46,7 @@ class ilGlossaryDataSet extends ilDataSet
     
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Glossary/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Glossary/" . $a_entity;
     }
     
     protected function getTypes(string $a_entity, string $a_version) : array
@@ -122,10 +124,6 @@ class ilGlossaryDataSet extends ilDataSet
     {
         $ilDB = $this->db;
 
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-                
         if ($a_entity == "glo") {
             switch ($a_version) {
                 case "5.1.0":
@@ -259,7 +257,7 @@ class ilGlossaryDataSet extends ilDataSet
                 if ($this->getCurrentInstallationId() > 0) {
                     $newObj->setImportId("il_" . $this->getCurrentInstallationId() . "_glo_" . $a_rec["Id"]);
                 }
-                $newObj->update(true);
+                $newObj->update();
 
                 $this->current_obj = $newObj;
                 $this->old_glo_id = $a_rec["Id"];
@@ -324,7 +322,7 @@ class ilGlossaryDataSet extends ilDataSet
                 // id, term_id, short_text, nr, short_text_dirty
 
                 $term_id = (int) $a_mapping->getMapping("Modules/Glossary", "term", $a_rec["TermId"]);
-                if ((int) $term_id == 0) {
+                if ($term_id == 0) {
                     $this->log->debug("ERROR: Did not find glossary term glo_term id '" . $a_rec["TermId"] . "' for definition id '" . $a_rec["Id"] . "'.");
                 } else {
                     $def = new ilGlossaryDefinition();

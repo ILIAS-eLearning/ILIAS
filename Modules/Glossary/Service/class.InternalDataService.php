@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,17 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\Glossary;
+
 /**
- * Glossary definition page configuration
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilGlossaryDefPageConfig extends ilPageConfig
+class InternalDataService
 {
-    public function init() : void
+    // protected ...\DataFactory ..._factory;
+
+    public function __construct()
     {
-        $this->setEnableKeywords(true);
-        $this->setEnableInternalLinks(true);
-        $this->setIntLinkHelpDefaultType("GlossaryItem");
-        $this->setIntLinkHelpDefaultId($_GET["ref_id"]);
+        //$this->..._factory = new ...\DataFactory();
     }
+
+    /*
+    public function ...() : ...\...
+    {
+        return $this->..._factory->...();
+    }*/
 }

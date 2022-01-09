@@ -50,7 +50,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
             case "read":
                 if (!ilObjGlossaryAccess::_lookupOnline($a_obj_id)
                     && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
@@ -58,7 +58,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
             case "visible":
                 if (!ilObjGlossaryAccess::_lookupOnline($a_obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
@@ -94,9 +94,10 @@ class ilObjGlossaryAccess extends ilObjectAccess
         $q = "SELECT * FROM glossary WHERE id = " .
             $ilDB->quote($a_id, "integer");
         $lm_set = $ilDB->query($q);
-        $lm_rec = $ilDB->fetchAssoc($lm_set);
-
-        return ilUtil::yn2tf($lm_rec["is_online"]);
+        if ($lm_rec = $ilDB->fetchAssoc($lm_set)) {
+            return ilUtil::yn2tf($lm_rec["is_online"]);
+        }
+        return false;
     }
 
     public static function _lookupOnlineStatus(array $a_ids) : array

@@ -1,29 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Term list table
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTermListTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
-
-    /**
-     * @var ilGlossaryTermPermission
-     */
+    protected array $selected_cols;
+    protected array $adv_cols_order;
+    protected array $selectable_cols;
+    protected array $adv_fields;
+    protected int $tax_node;
+    protected ilObjGlossary $glossary;
     protected $term_perm;
+    protected array $filter;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_tax_node)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_tax_node
+    ) {
         global $DIC;
         
         $this->glossary = $a_parent_obj->object;
@@ -117,13 +127,7 @@ class ilTermListTableGUI extends ilTable2GUI
         ));
     }
 
-    /**
-     * Show glossary column
-     *
-     * @param
-     * @return
-     */
-    public function showGlossaryColumn()
+    public function showGlossaryColumn() : bool
     {
         return (in_array(
             $this->glossary->getVirtualMode(),
@@ -132,20 +136,11 @@ class ilTermListTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * Get selectable columns
-     * @param
-     * @return array
-     */
     public function getSelectableColumns() : array
     {
         return $this->selectable_cols;
     }
 
-    /**
-     * Should this field be sorted numeric?
-     * @return	boolean		numeric ordering; default is false
-     */
     public function numericOrdering(string $a_field) : bool
     {
         if (substr($a_field, 0, 3) == "md_") {
@@ -157,9 +152,6 @@ class ilTermListTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * Init filter
-     */
     public function initFilter() : void
     {
         // term
@@ -183,9 +175,6 @@ class ilTermListTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow(array $a_set) : void
     {
         $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
@@ -277,12 +266,11 @@ class ilTermListTableGUI extends ilTable2GUI
                     $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages")
                 );
                 $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", "");
-                $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("usage");
                 $this->tpl->setVariable("USAGE", ilGlossaryTerm::getNumberOfUsages($a_set["id"]));
-                $this->tpl->parseCurrentBlock();
             }
+            $this->tpl->parseCurrentBlock();
             $this->tpl->setCurrentBlock("td_usage");
             $this->tpl->parseCurrentBlock();
         }

@@ -66,7 +66,8 @@ class ilTermUsagesTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $usage = $a_set;
-        
+
+        $cont_type = "";
         if (is_int(strpos($usage["type"], ":"))) {
             $us_arr = explode(":", $usage["type"]);
             $usage["type"] = $us_arr[1];
@@ -120,7 +121,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
                     case "gdf":
                         $page_obj = new ilGlossaryDefPage($usage["id"]);
                         $term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
-                        $glo_id = ilGlossaryTerm::_lookGlossaryId($term_id);
+                        $glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         $item["obj_type_txt"] = $this->lng->txt("obj_glo");
                         $item["obj_title"] = ilObject::_lookupTitle($glo_id);
                         $item["sub_txt"] = $this->lng->txt("cont_term");

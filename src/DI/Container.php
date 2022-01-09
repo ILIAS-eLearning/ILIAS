@@ -395,6 +395,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Notes\Service($this);
     }
 
+    public function glossary() : \ILIAS\Glossary\Service
+    {
+        return new \ILIAS\Glossary\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

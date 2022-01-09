@@ -20,6 +20,8 @@
  */
 class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
 {
+    protected int $requested_ref_id;
+    protected \ILIAS\Glossary\Editing\EditingGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
@@ -37,6 +39,14 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         $ilAccess = $DIC->access();
         $ilNavigationHistory = $DIC["ilNavigationHistory"];
 
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+        $this->requested_ref_id = $this->request->getRefId();
+
         // initialisation stuff
         $this->ctrl = $ilCtrl;
         $lng->loadLanguageModule("content");
@@ -44,14 +54,14 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         $DIC->globalScreen()->tool()->context()->claim()->repository();
         
         // check write permission
-        if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
-            !$ilAccess->checkAccess("edit_content", "", $_GET["ref_id"])) {
+        if (!$ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
+            !$ilAccess->checkAccess("edit_content", "", $this->requested_ref_id)) {
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
         
         $ilNavigationHistory->addItem(
-            $_GET["ref_id"],
-            "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $_GET["ref_id"],
+            $this->requested_ref_id,
+            "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $this->requested_ref_id,
             "glo"
         );
     }
@@ -67,7 +77,12 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         switch ($next_class) {
             case 'ilobjglossarygui':
             default:
-                $glossary_gui = new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
+                $glossary_gui = new ilObjGlossaryGUI(
+                    "",
+                    $this->requested_ref_id,
+                    true,
+                    false
+                );
                 $this->ctrl->forwardCommand($glossary_gui);
                 break;
         }

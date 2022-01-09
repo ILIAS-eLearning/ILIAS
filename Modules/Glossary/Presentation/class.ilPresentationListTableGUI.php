@@ -21,12 +21,16 @@
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {
+    protected ilAdvancedMDRecordGUI $record_gui;
+    protected array $adv_fields;
+    protected \ILIAS\Glossary\Presentation\PresentationGUIRequest $request;
     protected int $tax_id;
     protected int $tax_node;
     protected ilObjGlossary $glossary;
     protected array $adv_cols_order = array();
     protected bool $offline;
     protected ilPageConfig $page_config;
+    protected array $filter = [];
 
     public function __construct(
         object $a_parent_obj,
@@ -46,6 +50,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
         $this->tax_node = $a_tax_node;
         $this->tax_id = $a_tax_id;
         $this->setId("glopr" . $this->glossary->getId());
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
 
         $gdf = new ilGlossaryDefPage();
         $this->page_config = $gdf->getPageConfig();
@@ -106,7 +115,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
         //$this->setDefaultOrderDirection("asc");
         $this->setData($this->glossary->getTermList(
             $this->filter["term"],
-            $_GET["letter"],
+            $this->request->getLetter(),
             $this->filter["definition"],
             $this->tax_node,
             false,
@@ -170,7 +179,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("fd_td");
             $this->tpl->setVariable(
                 "FULL_DEF",
-                $this->parent_obj->listDefinitions($_GET["ref_id"], $a_set["id"], true)
+                $this->parent_obj->listDefinitions(
+                    $this->request->getRefId(),
+                    $a_set["id"],
+                    true
+                )
             );
             $this->tpl->parseCurrentBlock();
         } else {
@@ -181,10 +194,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         if (!$this->offline) {
                             if (!empty($filter)) {
                                 $this->ctrl->setParameter($this->parent_obj, "term", $filter);
-                                $this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
                             }
                             $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
-                            $this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
                             $def_href = $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions");
                             $this->ctrl->clearParameters($this->parent_obj);
                         } else {
@@ -269,14 +280,13 @@ class ilPresentationListTableGUI extends ilTable2GUI
                 if (!$this->offline) {
                     if (!empty($filter)) {
                         $this->ctrl->setParameter($this->parent_obj, "term", $filter);
-                        $this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
                     }
                     $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
-                    $this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
                     $this->tpl->setVariable(
                         "LINK_VIEW_TERM",
                         $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions")
                     );
+
                     $this->ctrl->clearParameters($this->parent_obj);
                 } else {
                     $this->tpl->setVariable("LINK_VIEW_TERM", "term_" . $a_set["id"] . ".html");
@@ -289,7 +299,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
                 
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TEXT", $a_set["term"]);
-                $this->tpl->parseCurrentBlock();
             } else {
                 $id = $c["id"];
                                 
@@ -303,8 +312,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
                 
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TEXT", $val);
-                $this->tpl->parseCurrentBlock();
             }
+            $this->tpl->parseCurrentBlock();
         }
     }
 }

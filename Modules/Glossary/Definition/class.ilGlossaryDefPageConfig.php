@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,22 +13,21 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use PHPUnit\Framework\TestSuite;
-
-require_once 'libs/composer/vendor/autoload.php';
-
 /**
+ * Glossary definition page configuration
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilModulesCategoryReferenceSuite extends TestSuite
+class ilGlossaryDefPageConfig extends ilPageConfig
 {
-    public static function suite()
+    public function init() : void
     {
-        $suite = new self();
+        global $DIC;
 
-        require_once("./Modules/CategoryReference/test/CategoryReferenceTest.php");
-        $suite->addTestSuite("CategoryReferenceTest");
+        $ref_id = $DIC->glossary()->internal()->gui()->editing()->request()->getRefId();
 
-        return $suite;
+        $this->setEnableKeywords(true);
+        $this->setEnableInternalLinks(true);
+        $this->setIntLinkHelpDefaultType("GlossaryItem");
+        $this->setIntLinkHelpDefaultId($ref_id);
     }
 }

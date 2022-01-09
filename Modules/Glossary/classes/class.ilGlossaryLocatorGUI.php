@@ -13,14 +13,17 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Glossary\Presentation\PresentationGUIRequest;
+
 /**
  * Glossary Locator GUI
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryLocatorGUI
 {
-    protected ilGlossaryDefinition $definition;
-    protected ilGlossaryTerm $term;
+    protected PresentationGUIRequest $presentation_request;
+    protected ?ilGlossaryDefinition $definition = null;
+    protected ?ilGlossaryTerm $term = null;
     protected ilCtrl $ctrl;
     protected ilLocatorGUI $locator;
 
@@ -46,6 +49,11 @@ class ilGlossaryLocatorGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->tree = $tree;
+        $this->presentation_request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
     }
 
     public function setTemplateVariable(string $a_temp_var) : void
@@ -104,7 +112,11 @@ class ilGlossaryLocatorGUI
                 $this->term->getTerm(),
                 $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui", "listDefinitions")
             );
-            $ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", $_GET["term_id"]);
+            $ilCtrl->setParameterByClass(
+                "ilglossarypresentationgui",
+                "term_id",
+                $this->presentation_request->getTermId()
+            );
         }
 
         if (is_object($this->definition)) {
@@ -112,7 +124,11 @@ class ilGlossaryLocatorGUI
             if ($this->mode == "edit") {
                 $link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
             } else {
-                $ilCtrl->setParameterByClass("ilglossarypresentationgui", "def", $_GET["def"]);
+                $ilCtrl->setParameterByClass(
+                    "ilglossarypresentationgui",
+                    "def",
+                    $this->presentation_request->getDefinitionId()
+                );
                 $link = $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui", "view");
             }
             $ilLocator->addItem($title, $link);

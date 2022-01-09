@@ -18,16 +18,22 @@
  */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
-    protected bool $downloads_active;
-    protected bool $glo_menu_active;
-    protected bool $online;
-    protected int $snippet_length;
-    protected string $pres_mode;
-    protected bool $virtual;
-    protected string $virtual_mode;
+    protected ilGlossaryDefPage $page_object;
+    protected array $file_ids = [];
+    protected array $mob_ids = [];
+    protected bool $show_tax = false;
+    protected int $style_id = 0;
+    protected bool $downloads_active = false;
+    protected bool $glo_menu_active = false;
+    protected bool $online = false;
+    protected int $snippet_length = 0;
+    protected string $pres_mode = "";
+    protected bool $virtual = false;
+    protected string $virtual_mode = "";
     protected ilGlobalTemplateInterface $tpl;
     public array $auto_glossaries = array();
     protected ilObjUser $user;
+    protected array $public_export_file = [];
 
     public function __construct(
         int $a_id = 0,
@@ -67,7 +73,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
         $this->updateAutoGlossaries();
 
-        if (((int) $this->getStyleSheetId()) > 0) {
+        if (($this->getStyleSheetId()) > 0) {
             ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
         }
     }
@@ -83,15 +89,19 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $gl_rec = $this->db->fetchAssoc($gl_set);
         $this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
         $this->setVirtualMode($gl_rec["virtual"]);
-        $this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
-        $this->setPublicExportFile("html", $gl_rec["public_html_file"]);
+        if (isset($gl_rec["public_xml_file"]) && $gl_rec["public_xml_file"] != "") {
+            $this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
+        }
+        if (isset($gl_rec["public_html_file"]) && $gl_rec["public_html_file"] != "") {
+            $this->setPublicExportFile("html", $gl_rec["public_html_file"]);
+        }
         $this->setActiveGlossaryMenu(ilUtil::yn2tf($gl_rec["glo_menu_active"]));
         $this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
         $this->setPresentationMode($gl_rec["pres_mode"]);
         $this->setSnippetLength($gl_rec["snippet_length"]);
         $this->setShowTaxonomy($gl_rec["show_tax"]);
 
-        $this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
+        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         // read auto glossaries
         $set = $this->db->query(
@@ -259,7 +269,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     public function addAutoGlossary(int $glo_id) : void
     {
-        $glo_id = (int) $glo_id;
         if ($glo_id > 0 && ilObject::_lookupType($glo_id) == "glo" &&
             !in_array($glo_id, $this->auto_glossaries)) {
             $this->auto_glossaries[] = $glo_id;
@@ -438,18 +447,18 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             // see bug #14477
             if ($ids_are_ref_ids) {
                 if (!in_array($this->getRefId(), $glo_ids)) {
-                    $glo_ids[] = (int) $this->getRefId();
+                    $glo_ids[] = $this->getRefId();
                 }
             } else {
                 if (!in_array($this->getId(), $glo_ids)) {
-                    $glo_ids[] = (int) $this->getId();
+                    $glo_ids[] = $this->getId();
                 }
             }
         } else {
             if ($ids_are_ref_ids) {
-                $glo_ids = $this->getRefId();
+                $glo_ids = [$this->getRefId()];
             } else {
-                $glo_ids = $this->getId();
+                $glo_ids = [$this->getId()];
             }
         }
         
@@ -549,7 +558,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->mob_ids = array();
         $this->file_ids = array();
         foreach ($terms as $term) {
-            $defs = ilGlossaryDefinition::getDefinitionList($term[id]);
+            $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 
             foreach ($defs as $def) {
                 $this->page_object = new ilGlossaryDefPage($def["id"]);
@@ -729,6 +738,10 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
 
+        $tax_ass = null;
+        $new_tax_ass = null;
+        $map = [];
+
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
@@ -762,13 +775,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             
             // assign new taxonomy to new glossary
             ilObjTaxonomy::saveUsage($new_tax->getId(), $new_obj->getId());
-        }
-        
-        // assign new tax/new glossary
-        // handle mapping
-        
-        // prepare tax node assignments objects
-        if ($tax_id > 0) {
+
             $tax_ass = new ilTaxNodeAssignment("glo", $this->getId(), "term", $tax_id);
             $new_tax_ass = new ilTaxNodeAssignment("glo", $new_obj->getId(), "term", $new_tax->getId());
         }
@@ -792,7 +799,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
         // add mapping of term_ids to copy wizard options
         if (!empty($term_mappings)) {
-            $cp_options->appendMapping($this->getRefId() . '_glo_terms', (array) $term_mappings);
+            $cp_options->appendMapping($this->getRefId() . '_glo_terms', $term_mappings);
         }
 
 
@@ -846,6 +853,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             
             return $lng->txt("glo_term") . ' "' . ilGlossaryTerm::_lookGlossaryTerm($a_sub_id) . '"';
         }
+        return "";
     }
 
     /**
