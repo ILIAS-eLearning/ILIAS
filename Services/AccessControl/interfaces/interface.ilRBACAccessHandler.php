@@ -2,12 +2,9 @@
 
 /**
  * Interface ilRBACAccessHandler
- *
  * Checks access for ILIAS objects
- *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Sascha Hofmann <saschahofmann@gmx.de>
- *
  * @ingroup ServicesAccessControl
  */
 interface ilRBACAccessHandler
@@ -16,7 +13,8 @@ interface ilRBACAccessHandler
     /**
      * store access result
      */
-    public function storeAccessResult(string $a_permission,
+    public function storeAccessResult(
+        string $a_permission,
         string $a_cmd,
         int $a_ref_id,
         bool $a_access_granted,
@@ -24,13 +22,12 @@ interface ilRBACAccessHandler
         ?ilAccessInfo $a_info = null
     ) : void;
 
-
     /**
      * get stored access result
-     * @param  string $a_permission   permission
-     * @param  string $a_cmd          command string
-     * @param  int $a_ref_id          reference id
-     * @param  int|null $a_user_id    user id (if no id passed, current user id)
+     * @param string   $a_permission permission
+     * @param string   $a_cmd        command string
+     * @param int      $a_ref_id     reference id
+     * @param int|null $a_user_id    user id (if no id passed, current user id)
      * @return array<{granted: bool, info: ?ilAccessInfo, prevent_db_cache: bool}>
      */
     public function getStoredAccessResult(
@@ -45,21 +42,16 @@ interface ilRBACAccessHandler
      */
     public function setPreventCachingLastResult(bool $a_val) : void;
 
-
     /**
      * Get prevent caching last result.
      */
     public function getPreventCachingLastResult() : bool;
 
-
     public function storeCache() : void;
-
 
     public function readCache(int $a_secs = 0) : bool;
 
-
     public function getResults() : array;
-
 
     public function setResults(array $a_results);
 
@@ -67,7 +59,6 @@ interface ilRBACAccessHandler
      * add an info item to current info object
      */
     public function addInfoItem(string $a_type, string $a_text, string $a_data = "") : void;
-
 
     /**
      * check access for an object
@@ -96,22 +87,18 @@ interface ilRBACAccessHandler
         ?int $a_tree_id = null
     ) : bool;
 
-
     /**
      * get last info object
      * @see ilAccessInfo::getInfoItems()
      */
     public function getInfo() : array;
 
-
     /**
      * get last info object
      */
     public function getResultLast() : array;
 
-
     public function getResultAll(int $a_ref_id = 0) : array;
-
 
     /**
      * look if result for current query is already in cache
@@ -121,8 +108,8 @@ interface ilRBACAccessHandler
         string $a_permission,
         string $a_cmd,
         int $a_ref_id,
-        int $a_user_id) : array;
-
+        int $a_user_id
+    ) : array;
 
     /**
      * check if object is in tree and not deleted
@@ -133,7 +120,6 @@ interface ilRBACAccessHandler
         int $a_ref_id,
         int $a_user_id
     ) : bool;
-
 
     /**
      * rbac check for current object
@@ -158,7 +144,6 @@ interface ilRBACAccessHandler
         bool $a_all = false
     ) : bool;
 
-
     /**
      * check for activation and centralized offline status.
      */
@@ -171,7 +156,6 @@ interface ilRBACAccessHandler
         string $a_type
     ) : bool;
 
-
     /**
      * condition check (currently only implemented for read permission)
      */
@@ -181,7 +165,8 @@ interface ilRBACAccessHandler
         int $a_ref_id,
         int $a_user_id,
         int $a_obj_id,
-        string $a_type) : bool;
+        string $a_type
+    ) : bool;
 
     /**
      * object type specific check
@@ -195,9 +180,7 @@ interface ilRBACAccessHandler
         string $a_type
     ) : bool;
 
-
     public function clear() : void;
-
 
     /**
      * @deprected

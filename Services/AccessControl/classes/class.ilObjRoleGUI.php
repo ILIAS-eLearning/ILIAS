@@ -1,19 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
-* Class ilObjRoleGUI
-*
-* @author Stefan Meyer <smeyer@ilias@gmx.de>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI, ilRecommendedContentRoleConfigGUI
-*
-* @ingroup	ServicesAccessControl
-*/
+ * Class ilObjRoleGUI
+ * @author       Stefan Meyer <smeyer@ilias@gmx.de>
+ * @author       Sascha Hofmann <saschahofmann@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI, ilRecommendedContentRoleConfigGUI
+ * @ingroup      ServicesAccessControl
+ */
 class ilObjRoleGUI extends ilObjectGUI
 {
     protected const MODE_GLOBAL_UPDATE = 1;
@@ -26,15 +25,20 @@ class ilObjRoleGUI extends ilObjectGUI
     protected string $obj_obj_type = '';
     protected string $container_type = '';
 
+    protected $role_id = 0;
+
     protected ilRbacAdmin $rbacadmin;
     protected ilHelpGUI $help;
 
     private ilLogger $logger;
 
+    private GlobalHttpState $http;
+    private Factory $refinery;
+
     /**
-    * Constructor
-    * @access public
-    */
+     * Constructor
+     * @access public
+     */
     public function __construct($a_data, $a_id, $a_call_by_reference = false, $a_prepare_output = true)
     {
         global $DIC;
@@ -43,14 +47,12 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->help = $DIC->help();
         $this->logger = $DIC->logger()->ac();
 
-        // Add ref_id of object that contains this role folder
-        $this->obj_ref_id =
-                (
-                    (int) $_REQUEST['rolf_ref_id'] ?
-                (int) $_REQUEST['rolf_ref_id'] :
-                (int) $_REQUEST['ref_id']
-                );
-        
+        $this->role_id = $a_id;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        // Add ref_id of object that contains role
+        $this->initParentRefId();
         $this->obj_obj_id = ilObject::_lookupObjId($this->getParentRefId());
         $this->obj_obj_type = ilObject::_lookupType($this->getParentObjId());
         $this->container_type = ilObject::_lookupType(ilObject::_lookupObjId($this->obj_ref_id));
@@ -58,10 +60,9 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->type = "role";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->ctrl->saveParameter($this, array('obj_id', 'rolf_ref_id'));
-
         $this->lng->loadLanguageModule('rbac');
-    }
 
+    }
 
     public function executeCommand()
     {
@@ -70,7 +71,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
 
         $this->prepareOutput();
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -78,11 +79,11 @@ class ilObjRoleGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilrepositorysearchgui':
-                
+
                 if (!$GLOBALS['DIC']['ilAccess']->checkAccess('edit_permission', '', $this->obj_ref_id)) {
-                    $GLOBALS['DIC']['ilErr']->raiseError($GLOBALS['DIC']['lng']->txt('permission_denied'), $GLOBALS['DIC']['ilErr']->WARNING);
+                    $GLOBALS['DIC']['ilErr']->raiseError($GLOBALS['DIC']['lng']->txt('permission_denied'),
+                        $GLOBALS['DIC']['ilErr']->WARNING);
                 }
-                include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
                 $rep_search = new ilRepositorySearchGUI();
                 $rep_search->setTitle($this->lng->txt('role_add_user'));
                 $rep_search->setCallback($this, 'addUserObject');
@@ -92,16 +93,14 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->ctrl->setReturn($this, 'userassignment');
                 $ret = $this->ctrl->forwardCommand($rep_search);
                 break;
-            
+
             case 'ilexportgui':
-                    
+
                 $this->tabs_gui->setTabActive('export');
-                
-                include_once './Services/Export/classes/class.ilExportOptions.php';
+
                 $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
                 $eo->addOption(ilExportOptions::KEY_ROOT, 0, $this->object->getId(), $this->obj_ref_id);
-                
-                include_once './Services/Export/classes/class.ilExportGUI.php';
+
                 $exp = new ilExportGUI($this, new ilObjRole($this->object->getId()));
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
@@ -123,13 +122,46 @@ class ilObjRoleGUI extends ilObjectGUI
                 }
                 $cmd .= "Object";
                 $this->$cmd();
-                    
+
                 break;
         }
 
         return true;
     }
-    
+
+    protected function getRoleId() : int
+    {
+        return $this->role_id;
+    }
+
+    protected function initParentRefId() : void
+    {
+        $this->obj_ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $this->obj_ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+    }
+
+    protected function retrieveTemplatePermissionsFromPost() : array
+    {
+        $template_permissions = [];
+        if ($this->http->wrapper()->post()->has('template_perm')) {
+            $custom_transformer = $this->refinery->custom()->transformation(
+                function ($array) {
+                    return $array;
+                }
+            );
+            $template_permissions = $this->http->wrapper()->post()->retrieve(
+                'template_perm',
+                $custom_transformer
+            );
+        }
+        return $template_permissions;
+    }
+
     /**
      * Get ref id of current object (not role folder id)
      */
@@ -137,7 +169,7 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         return $this->obj_ref_id;
     }
-    
+
     /**
      * Get obj_id of current object
      */
@@ -145,7 +177,7 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         return $this->obj_obj_id;
     }
-    
+
     /**
      * get type of current object (not role folder)
      */
@@ -153,16 +185,15 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         return $this->obj_obj_type;
     }
-    
 
     /**
-    * admin and normal tabs are equal for roles
-    */
+     * admin and normal tabs are equal for roles
+     */
     public function getAdminTabs()
     {
         $this->getTabs();
     }
-    
+
     /**
      * Get type of role container
      */
@@ -170,7 +201,7 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         return $this->container_type;
     }
-    
+
     /**
      * check if default permissions are shown or not
      */
@@ -179,9 +210,7 @@ class ilObjRoleGUI extends ilObjectGUI
         return $this->objDefinition->isContainer($this->getContainerType());
     }
 
-
-
-    protected function initFormRoleProperties(int $a_mode): ilPropertyFormGUI
+    protected function initFormRoleProperties(int $a_mode) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -189,24 +218,24 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->ctrl->setParameter($this, "new_type", 'role');
         }
         $form->setFormAction($this->ctrl->getFormAction($this));
-    
+
         switch ($a_mode) {
             case self::MODE_GLOBAL_CREATE:
                 $form->setTitle($this->lng->txt('role_new'));
                 $form->addCommandButton('save', $this->lng->txt('role_new'));
                 break;
-                
+
             case self::MODE_GLOBAL_UPDATE:
                 $form->setTitle($this->lng->txt('role_edit'));
                 $form->addCommandButton('update', $this->lng->txt('save'));
                 break;
-                
+
             case self::MODE_LOCAL_CREATE:
             case self::MODE_LOCAL_UPDATE:
         }
         // Fix cancel
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        
+
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         if (ilObjRole::isAutoGenerated($this->object->getId())) {
             $title->setDisabled(true);
@@ -220,7 +249,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $title->setMaxLength(70);
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
         if (ilObjRole::isAutoGenerated($this->object->getId())) {
             $desc->setDisabled(true);
@@ -233,32 +262,32 @@ class ilObjRoleGUI extends ilObjectGUI
             $ilias_id = new ilNonEditableValueGUI($this->lng->txt("ilias_id"), "ilias_id");
             $form->addItem($ilias_id);
         }
-        
+
         if ($this->obj_ref_id == ROLE_FOLDER_ID) {
             $reg = new ilCheckboxInputGUI($this->lng->txt('allow_register'), 'reg');
-            $reg->setValue(1);
+            $reg->setValue((string) 1);
             #$reg->setInfo($this->lng->txt('rbac_new_acc_reg_info'));
             $form->addItem($reg);
-            
+
             $la = new ilCheckboxInputGUI($this->lng->txt('allow_assign_users'), 'la');
-            $la->setValue(1);
+            $la->setValue((string) 1);
             #$la->setInfo($this->lng->txt('rbac_local_admin_info'));
             $form->addItem($la);
         }
-        
+
         $pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'), 'pro');
-        $pro->setValue(1);
+        $pro->setValue((string) 1);
         #$pro->setInfo($this->lng->txt('role_protext_permission_info'));
         $form->addItem($pro);
         return $form;
     }
-    
+
     /**
      * Store form input in role object
      * @param object $role
-     *@return void
+     * @return void
      */
-    protected function loadRoleProperties(ilObjRole $role, ilPropertyFormGUI $form): void
+    protected function loadRoleProperties(ilObjRole $role, ilPropertyFormGUI $form) : void
     {
         //Don't set if fields are disabled to prevent html manipulation.
         if (!$form->getItemByPostVar('title')->getDisabled()) {
@@ -270,7 +299,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $role->setAllowRegister($form->getInput('reg'));
         $role->toggleAssignUsersStatus($form->getInput('la'));
     }
-    
+
     /**
      * Read role properties and write them to form
      */
@@ -279,19 +308,16 @@ class ilObjRoleGUI extends ilObjectGUI
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-        
+
         $data['title'] = $role->getTitle();
         $data['desc'] = $role->getDescription();
         $data['ilias_id'] = 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($role->getId()) . '_' . $role->getId();
         $data['reg'] = $role->getAllowRegister();
         $data['la'] = $role->getAssignUsersStatus();
         $data['pro'] = $rbacreview->isProtected($this->obj_ref_id, $role->getId());
-        
+
         $form->setValuesByArray($data);
     }
-    
-
-
 
     /**
      * Only called from administration -> role folder ?
@@ -305,14 +331,14 @@ class ilObjRoleGUI extends ilObjectGUI
         $form = $this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     public function editObject()
     {
         if (!$this->checkAccess('write', 'edit_permission')) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
         $this->tabs_gui->activateTab('edit_properties');
-        
+
         // Show copy role button
         if ($this->object->getId() != SYSTEM_ROLE_ID) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
@@ -327,8 +353,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->readRoleProperties($this->object, $form);
         $this->tpl->setContent($form->getHTML());
     }
-    
-    
+
     /**
      * Save new role
      * @return
@@ -337,20 +362,20 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         $form = $this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
         if ($form->checkInput()) {
-            include_once './Services/AccessControl/classes/class.ilObjRole.php';
-            $this->loadRoleProperties($this->role = new ilObjRole(), $form);
-            $this->role->create();
-            $this->rbacadmin->assignRoleToFolder($this->role->getId(), $this->obj_ref_id, 'y');
+            $role = new ilObjRole();
+            $this->loadRoleProperties($role, $form);
+            $role->create();
+            $this->rbacadmin->assignRoleToFolder($role->getId(), $this->obj_ref_id, 'y');
             $this->rbacadmin->setProtected(
                 $this->obj_ref_id,
-                $this->role->getId(),
+                $role->getId(),
                 $form->getInput('pro') ? 'y' : 'n'
             );
             ilUtil::sendSuccess($this->lng->txt("role_added"), true);
-            $this->ctrl->setParameter($this, 'obj_id', $this->role->getId());
+            $this->ctrl->setParameter($this, 'obj_id', $role->getId());
             $this->ctrl->redirect($this, 'perm');
         }
-        
+
         ilUtil::sendFailure($this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
@@ -365,7 +390,6 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         $form = $this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
         if ($form->checkInput()) {
-            include_once './Services/AccessControl/classes/class.ilObjRole.php';
             $this->loadRoleProperties($this->object, $form);
             $this->object->update();
             $this->rbacadmin->setProtected(
@@ -376,30 +400,30 @@ class ilObjRoleGUI extends ilObjectGUI
             ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
             $this->ctrl->redirect($this, 'edit');
         }
-        
+
         ilUtil::sendFailure($this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
         return false;
     }
-    
+
     protected function permObject(bool $a_show_admin_permissions = false) : void
     {
         $this->tabs_gui->setTabActive('default_perm_settings');
-        
+
         $this->setSubTabs('default_perm_settings');
-        
+
         if ($a_show_admin_permissions) {
             $this->tabs_gui->setSubTabActive('rbac_admin_permissions');
         } else {
             $this->tabs_gui->setSubTabActive('rbac_repository_permissions');
         }
-        
+
         if (!$this->checkAccess('write', 'edit_permission')) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $this->ilErr->MESSAGE);
             return;
         }
-        
+
         // Show copy role button
         if ($this->object->getId() != SYSTEM_ROLE_ID) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
@@ -414,21 +438,20 @@ class ilObjRoleGUI extends ilObjectGUI
                 );
             }
         }
-        
+
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
             'adm_content',
             'tpl.rbac_template_permissions.html',
             'Services/AccessControl'
         );
-        
+
         $this->tpl->setVariable('PERM_ACTION', $this->ctrl->getFormAction($this));
-        
-        include_once './Services/Accordion/classes/class.ilAccordionGUI.php';
+
         $acc = new ilAccordionGUI();
         $acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
         $acc->setId('template_perm_' . $this->getParentRefId());
-        
+
         if ($this->obj_ref_id == ROLE_FOLDER_ID) {
             if ($a_show_admin_permissions) {
                 $subs = ilObjRole::getSubObjects('adm', true);
@@ -440,7 +463,6 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         foreach ($subs as $subtype => $def) {
-            include_once 'Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php';
             $tbl = new ilObjectRoleTemplatePermissionTableGUI(
                 $this,
                 'perm',
@@ -450,14 +472,13 @@ class ilObjRoleGUI extends ilObjectGUI
                 $a_show_admin_permissions
             );
             $tbl->parse();
-            
+
             $acc->addItem($def['translation'], $tbl->getHTML());
         }
 
         $this->tpl->setVariable('ACCORDION', $acc->getHTML());
-        
+
         // Add options table
-        include_once './Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php';
         $options = new ilObjectRoleTemplateOptionsTableGUI(
             $this,
             'perm',
@@ -475,7 +496,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $options->parse();
         $this->tpl->setVariable('OPTIONS_TABLE', $options->getHTML());
     }
-    
+
     /**
      * Show administration permissions
      */
@@ -483,7 +504,7 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         $this->permObject(true);
     }
-    
+
     /**
      * Save admin permissions
      * @return
@@ -515,16 +536,13 @@ class ilObjRoleGUI extends ilObjectGUI
             }
         }
 
-
-        include_once('./Services/AccessControl/classes/class.ilRoleAdoptPermissionTableGUI.php');
-
         $tbl = new ilRoleAdoptPermissionTableGUI($this, "adoptPerm");
         $tbl->setTitle($this->lng->txt("adopt_perm_from_template"));
         $tbl->setData($output);
 
         $this->tpl->setContent($tbl->getHTML());
     }
-    
+
     /**
      * Show delete confirmation screen
      */
@@ -533,7 +551,7 @@ class ilObjRoleGUI extends ilObjectGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         $access = $this->checkAccess('visible,write', 'edit_permission');
         if (!$access) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $this->ilErr->WARNING);
@@ -544,25 +562,23 @@ class ilObjRoleGUI extends ilObjectGUI
             $question .= ('<br />' . $this->lng->txt('rbac_role_delete_self'));
         }
         ilUtil::sendQuestion($question);
-        
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($question);
         $confirm->setCancel($this->lng->txt('cancel'), 'perm');
         $confirm->setConfirm($this->lng->txt('rbac_delete_role'), 'performDeleteRole');
-        
+
         $confirm->addItem(
             'role',
-            $this->object->getId(),
+            (string) $this->object->getId(),
             $this->object->getTitle(),
             ilUtil::getImagePath('icon_role.svg')
         );
-        
+
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    
     /**
      * Delete role
      */
@@ -572,30 +588,28 @@ class ilObjRoleGUI extends ilObjectGUI
         if (!$access) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $this->ilErr->WARNING);
         }
-        
+
         $this->object->setParent((int) $this->obj_ref_id);
         $this->object->delete();
         ilUtil::sendSuccess($this->lng->txt('msg_deleted_role'), true);
-        
+
         $this->ctrl->returnToParent($this);
     }
 
     /**
-    * save permissions
-    *
-    * @access	public
-    */
+     * save permissions
+     * @access    public
+     */
     public function permSaveObject(bool $a_show_admin_permissions = false) : void
     {
         // for role administration check write of global role folder
         $access = $this->checkAccess('visible,write', 'edit_permission');
-            
+
         if (!$access) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_perm"), $this->ilErr->MESSAGE);
         }
 
         // rbac log
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_active = ilRbacLog::isActive();
         if ($rbac_log_active) {
             $rbac_log_old = ilRbacLog::gatherTemplate($this->obj_ref_id, $this->object->getId());
@@ -617,11 +631,8 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id, $subtype);
         }
 
-        if (empty($_POST["template_perm"])) {
-            $_POST["template_perm"] = array();
-        }
-
-        foreach ($_POST["template_perm"] as $key => $ops_array) {
+        $template_permissions = $this->retrieveTemplatePermissionsFromPost();
+        foreach ($template_permissions as $key => $ops_array) {
             // sets new template permissions
             $this->rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->obj_ref_id);
         }
@@ -634,18 +645,42 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // update object data entry (to update last modification date)
         $this->object->update();
-        
+
         // set protected flag
-        if ($this->obj_ref_id == ROLE_FOLDER_ID or $this->rbacreview->isAssignable($this->object->getId(), $this->obj_ref_id)) {
-            $this->rbacadmin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($_POST['protected']));
+        $protected = false;
+        if ($this->http->wrapper()->post()->has('protected')) {
+            $protected = $this->http->wrapper()->post()->retrieve(
+                'protected',
+                $this->refinery->kindlyTo()->bool()
+            );
         }
-        
+        if ($this->obj_ref_id == ROLE_FOLDER_ID or $this->rbacreview->isAssignable($this->object->getId(),
+                $this->obj_ref_id)) {
+            $this->rbacadmin->setProtected($this->obj_ref_id, $this->object->getId(), ilUtil::tf2yn($protected));
+        }
+        $recursive = false;
+        if ($this->http->wrapper()->post()->has('recursive')) {
+            $recursive = $this->http->wrapper()->post()->retrieve(
+                'recursive',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+        // aka change existing object for specific object types
+        $recursive_list = [];
+        if ($this->http->wrapper()->post()->has('recursive_list')) {
+            $recursive_list = $this->http->wrapper()->post()->retrieve(
+                'recursive_list',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
         if ($a_show_admin_permissions) {
-            $_POST['recursive'] = true;
+            $recursive = true;
         }
-        
+
         // Redirect if Change existing objects is not chosen
-        if (!$_POST['recursive'] and !is_array($_POST['recursive_list'])) {
+        if (!$recursive && !count($recursive_list)) {
             ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
             if ($a_show_admin_permissions) {
                 $this->ctrl->redirect($this, 'adminPerm');
@@ -654,23 +689,27 @@ class ilObjRoleGUI extends ilObjectGUI
             }
         }
         // New implementation
-        if ($this->isChangeExistingObjectsConfirmationRequired() and !$a_show_admin_permissions) {
-            $this->showChangeExistingObjectsConfirmation();
+        if (
+            ($recursive || count($recursive_list)) &&
+            $this->isChangeExistingObjectsConfirmationRequired() &&
+            !$a_show_admin_permissions
+        ) {
+            $this->showChangeExistingObjectsConfirmation($recursive, $recursive_list);
             return;
         }
-        
+
         $start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $this->obj_ref_id);
         if ($a_show_admin_permissions) {
             $start = $this->tree->getParentId($this->obj_ref_id);
         }
 
-        if ($_POST['protected']) {
+        if ($protected) {
             $this->object->changeExistingObjects(
                 $start,
                 ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
                 array('all'),
                 array()
-                #$a_show_admin_permissions ? array('adm') : array()
+            #$a_show_admin_permissions ? array('adm') : array()
             );
         } else {
             $this->object->changeExistingObjects(
@@ -678,11 +717,11 @@ class ilObjRoleGUI extends ilObjectGUI
                 ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
                 array('all'),
                 array()
-                #$a_show_admin_permissions ? array('adm') : array()
+            #$a_show_admin_permissions ? array('adm') : array()
             );
         }
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-        
+
         if ($a_show_admin_permissions) {
             $this->ctrl->redirect($this, 'adminPerm');
         } else {
@@ -690,28 +729,34 @@ class ilObjRoleGUI extends ilObjectGUI
         }
     }
 
-
     public function adoptPermSaveObject() : void
     {
-        if (!$_POST['adopt']) {
+        $source = 0;
+        if ($this->http->wrapper()->post()->has('adopt')) {
+            $source = $this->http->wrapper()->post()->retrieve(
+                'adopt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        if (!$source) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->adoptPermObject();
             return;
         }
-    
+
         $access = $this->checkAccess('visible,write', 'edit_permission');
         if (!$access) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"), $this->ilias->error_obj->MESSAGE);
+            ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
         }
-
-        if ($this->object->getId() == $_POST["adopt"]) {
+        if ($this->object->getId() == $source) {
             ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
             $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id);
             $parentRoles = $this->rbacreview->getParentRoleIds($this->obj_ref_id, true);
             $this->rbacadmin->copyRoleTemplatePermissions(
-                $_POST["adopt"],
-                $parentRoles[$_POST["adopt"]]["parent"],
+                $source,
+                $parentRoles[$source]["parent"],
                 $this->obj_ref_id,
                 $this->object->getId(),
                 false
@@ -721,17 +766,12 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->object->update();
 
             // send info
-            $obj_data = &$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $obj_data->getTitle() . "'.<br/>" .
-                     $this->lng->txt("msg_perm_adopted_from2"), true);
+            $title = ilObject::_lookupTitle($source);
+            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $title . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"),
+                true);
         }
 
         $this->ctrl->redirect($this, "perm");
-    }
-
-    public function assignSaveObject() : void
-    {
-        $this->assignUserObject();
     }
 
     /**
@@ -756,37 +796,53 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         $assigned_users_all = $this->rbacreview->assignedUsers($this->object->getId());
-                
+
         // users to assign
         $assigned_users_new = array_diff($a_user_ids, array_intersect($a_user_ids, $assigned_users_all));
-        
+
         // selected users all already assigned. stop
         if (count($assigned_users_new) == 0) {
             ilUtil::sendInfo($this->lng->txt("rbac_msg_user_already_assigned"), true);
             $this->ctrl->redirect($this, 'userassignment');
         }
-        
+
         // assign new users
         foreach ($assigned_users_new as $user) {
             $this->rbacadmin->assignUser($this->object->getId(), $user);
         }
-        
+
         // update object data entry (to update last modification date)
         $this->object->update();
 
         ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"), true);
         $this->ctrl->redirect($this, 'userassignment');
     }
-    
+
     public function deassignUserObject() : void
     {
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"), $this->ilias->error_obj->MESSAGE);
+            $this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),
+                $this->ilias->error_obj->MESSAGE);
         }
 
-        $selected_users = ($_POST["user_id"]) ? $_POST["user_id"] : array($_GET["user_id"]);
-
-        if ($selected_users[0] === null) {
+        $selected_users = [];
+        if ($this->http->wrapper()->query()->has('user_id')) {
+            $selected_users = [
+                $this->http->wrapper()->query()->retrieve(
+                    'user_id',
+                    $this->refinery->kindlyTo()->int()
+                )
+            ];
+        }
+        if ($this->http->wrapper()->post()->has('user_id')) {
+            $selected_users = $this->http->wrapper()->post()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($selected_users)) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -800,19 +856,18 @@ class ilObjRoleGUI extends ilObjectGUI
         // check for each user if the current role is his last global role before deassigning him
         $last_role = array();
         $global_roles = $this->rbacreview->getGlobalRoles();
-        
         foreach ($selected_users as $user) {
             $assigned_roles = $this->rbacreview->assignedRoles($user);
             $assigned_global_roles = array_intersect($assigned_roles, $global_roles);
 
-            if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array($this->object->getId(), $assigned_global_roles))) {
+            if (count($assigned_roles) == 1 or (count($assigned_global_roles) == 1 and in_array($this->object->getId(),
+                        $assigned_global_roles))) {
                 $userObj = $this->ilias->obj_factory->getInstanceByObjId($user);
                 $last_role[$user] = $userObj->getFullName();
                 unset($userObj);
             }
         }
 
-        
         // ... else perform deassignment
         foreach ($selected_users as $user) {
             if (!isset($last_role[$user])) {
@@ -826,47 +881,45 @@ class ilObjRoleGUI extends ilObjectGUI
         // raise error if last role was taken from a user...
         if (count($last_role)) {
             $user_list = implode(", ", $last_role);
-            ilUtil::sendFailure($this->lng->txt('msg_is_last_role') . ': ' . $user_list . '<br />' . $this->lng->txt('msg_min_one_role'), true);
+            ilUtil::sendFailure($this->lng->txt('msg_is_last_role') . ': ' . $user_list . '<br />' . $this->lng->txt('msg_min_one_role'),
+                true);
         } else {
             ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"), true);
         }
         $this->ctrl->redirect($this, 'userassignment');
     }
-    
-    
+
     /**
-    * display user assignment panel
-    */
+     * display user assignment panel
+     */
     public function userassignmentObject() : void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         if (!$this->checkAccess('edit_userassignment', 'edit_permission')) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"), $this->ilias->error_obj->MESSAGE);
+            $this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),
+                $this->ilias->error_obj->MESSAGE);
         }
-        
+
         $this->tabs_gui->setTabActive('user_assignment');
-        
+
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rbac_ua.html', 'Services/AccessControl');
-        
-        include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+
         $tb = new ilToolbarGUI();
 
         // protected admin role
-        include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
         if (
             $this->object->getId() != SYSTEM_ROLE_ID ||
-                (
-                    !$this->rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) or
-                    !ilSecuritySettings::_getInstance()->isAdminRoleProtected()
-                )
+            (
+                !$this->rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) or
+                !ilSecuritySettings::_getInstance()->isAdminRoleProtected()
+            )
         ) {
 
 
             // add member
-            include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $tb,
@@ -884,57 +937,57 @@ class ilObjRoleGUI extends ilObjectGUI
             );
             $tb->addSpacer();
         }
-        
+
         $tb->addButton(
             $this->lng->txt('role_mailto'),
             $this->ctrl->getLinkTarget($this, 'mailToRole')
         );
         $this->tpl->setVariable('BUTTONS_UA', $tb->getHTML());
-        
-        
-        include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+
         $role_assignment_editable = true;
         if (
-                $this->object->getId() == SYSTEM_ROLE_ID &&
-                !ilSecuritySettings::_getInstance()->checkAdminRoleAccessible($ilUser->getId())) {
+            $this->object->getId() == SYSTEM_ROLE_ID &&
+            !ilSecuritySettings::_getInstance()->checkAdminRoleAccessible($ilUser->getId())) {
             $role_assignment_editable = false;
         }
-        include_once './Services/AccessControl/classes/class.ilAssignedUsersTableGUI.php';
-        $ut = new ilAssignedUsersTableGUI($this, 'userassignment', $this->object->getId(), $role_assignment_editable);
+        $ut = new ilAssignedUsersTableGUI(
+            $this,
+            'userassignment',
+            $this->object->getId(),
+            $role_assignment_editable,
+            $this->getAdminMode() === self::ADMIN_MODE_SETTINGS
+        );
         $this->tpl->setVariable('TABLE_UA', $ut->getHTML());
     }
 
-
     /**
-    * cancelObject is called when an operation is canceled, method links back
-    * @access	public
-    */
+     * cancelObject is called when an operation is canceled, method links back
+     * @access    public
+     */
     public function cancelObject() : void
     {
-        if ($_GET["new_type"] != "role") {
-            $this->ctrl->redirect($this, "userassignment");
+        if ($this->requested_new_type != 'role') {
+            $this->ctrl->redirect($this, 'userassignment');
         } else {
             $this->ctrl->redirectByClass("ilobjrolefoldergui", "view");
         }
     }
-
 
     /**
      * @inheritdoc
      */
     protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
-        if (
-            $_GET["admin_mode"] == "settings"
-            && $_GET["ref_id"] == ROLE_FOLDER_ID) {	// system settings
+        if ($this->getAdminMode() === self::ADMIN_MODE_SETTINGS) {
+
             parent::addAdminLocatorItems(true);
 
             $this->locator->addItem(
-                $this->lng->txt("obj_" . ilObject::_lookupType(ilObject::_lookupObjId($_GET["ref_id"]))),
+                $this->lng->txt('obj_' . $this->getParentType()),
                 $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", 'view')
             );
-            
-            if ($_GET["obj_id"] > 0) {
+
+            if ($this->getRoleId() > 0) {
                 $this->locator->addItem(
                     $this->object->getTitle(),
                     $this->ctrl->getLinkTarget($this, 'perm')
@@ -944,22 +997,19 @@ class ilObjRoleGUI extends ilObjectGUI
             parent::addAdminLocatorItems($a_do_not_add_object);
         }
     }
-    
-
-
 
     protected function getTabs()
     {
         $base_role_container = $this->rbacreview->getFoldersAssignedToRole($this->object->getId(), true);
-        
 
         $activate_role_edit = false;
-        
+
         // todo: activate the following (allow editing of local roles in
         // roles administration)
-        if (in_array($this->obj_ref_id, $base_role_container) ||
-            (strtolower($_GET["baseClass"]) == "iladministrationgui" &&
-            $_GET["admin_mode"] == "settings")) {
+        if (
+            in_array($this->obj_ref_id, $base_role_container) ||
+            $this->getAdminMode() === self::ADMIN_MODE_SETTINGS
+        ) {
             $activate_role_edit = true;
         }
 
@@ -967,12 +1017,15 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->tabs_gui->clearTargets();
 
         $this->help->setScreenIdComponent("role");
-        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('btn_back'),
+            (string) $this->ctrl->getParentReturn($this)
+        );
         if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit) {
             $this->tabs_gui->addTarget(
                 "edit_properties",
                 $this->ctrl->getLinkTarget($this, "edit"),
-                array("edit","update"),
+                array("edit", "update"),
                 get_class($this)
             );
         }
@@ -985,7 +1038,8 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         }
 
-        if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
+        if ($this->checkAccess('write',
+                'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
             $this->tabs_gui->addTarget(
                 "user_assignment",
                 $this->ctrl->getLinkTarget($this, "userassignment"),
@@ -994,7 +1048,8 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         }
 
-        if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
+        if ($this->checkAccess('write',
+                'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
             $this->lng->loadLanguageModule("rep");
             $this->tabs_gui->addTarget(
                 "rep_recommended_content",
@@ -1019,32 +1074,27 @@ class ilObjRoleGUI extends ilObjectGUI
             $_SESSION['mail_roles'][] = (new \ilRoleMailboxAddress($this->object->getId()))->value();
         }
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
         $script = ilMailFormCall::getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
         ilUtil::redirect($script);
     }
-    
+
     public function checkAccess(string $a_perm_global, string $a_perm_obj = '') : bool
     {
         $a_perm_obj = $a_perm_obj ?: $a_perm_global;
-        
+
         if ($this->obj_ref_id == ROLE_FOLDER_ID) {
             return $this->rbacsystem->checkAccess($a_perm_global, $this->obj_ref_id);
         } else {
             return $this->access->checkAccess($a_perm_obj, '', $this->obj_ref_id);
         }
     }
-    
+
     /**
      * Check if a confirmation about further settings is required or not
      * @return bool
      */
     protected function isChangeExistingObjectsConfirmationRequired() : bool
     {
-        if (!(int) $_POST['recursive'] and !is_array($_POST['recursive_list'])) {
-            return false;
-        }
-        
         // Role is protected
         if ($this->rbacreview->isProtected($this->obj_ref_id, $this->object->getId())) {
             // TODO: check if recursive_list is enabled
@@ -1056,80 +1106,96 @@ class ilObjRoleGUI extends ilObjectGUI
             return count($this->rbacreview->getFoldersAssignedToRole($this->object->getId())) > 1;
         }
     }
-    
+
     /**
      * Show confirmation screen
+     * @param bool     $recursive
+     * @param string[] $recursive_list
      * @return void
      */
-    protected function showChangeExistingObjectsConfirmation() : void
+    protected function showChangeExistingObjectsConfirmation(bool $recursive, array $recursive_list) : void
     {
-        $protected = $_POST['protected'];
-        
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+        $protected = false;
+        if ($this->http->wrapper()->post()->has('protected')) {
+            $protected = $this->http->wrapper()->post()->retrieve(
+                'protected',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'changeExistingObjects'));
         $form->setTitle($this->lng->txt('rbac_change_existing_confirm_tbl'));
-        
+
         $form->addCommandButton('changeExistingObjects', $this->lng->txt('change_existing_objects'));
         $form->addCommandButton('perm', $this->lng->txt('cancel'));
-        
+
         $hidden = new ilHiddenInputGUI('type_filter');
-        $hidden->setValue(
-            $_POST['recursive'] ?
-                serialize(array('all')) :
-                serialize($_POST['recursive_list'])
-        );
+        $hidden->setValue($recursive ? serialize(['all']) : serialize($recursive_list));
         $form->addItem($hidden);
 
         $rad = new ilRadioGroupInputGUI($this->lng->txt('rbac_local_policies'), 'mode');
-        
+
         if ($protected) {
-            $rad->setValue(ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES);
+            $rad->setValue((string) ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES);
             $keep = new ilRadioOption(
                 $this->lng->txt('rbac_keep_local_policies'),
-                ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
                 $this->lng->txt('rbac_keep_local_policies_info')
             );
         } else {
-            $rad->setValue(ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES);
+            $rad->setValue((string) ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES);
             $keep = new ilRadioOption(
                 $this->lng->txt('rbac_keep_local_policies'),
-                ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
                 $this->lng->txt('rbac_unprotected_keep_local_policies_info')
             );
         }
         $rad->addOption($keep);
-        
+
         if ($protected) {
             $del = new ilRadioOption(
                 $this->lng->txt('rbac_delete_local_policies'),
-                ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES,
                 $this->lng->txt('rbac_delete_local_policies_info')
             );
         } else {
             $del = new ilRadioOption(
                 $this->lng->txt('rbac_delete_local_policies'),
-                ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+                (string) ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
                 $this->lng->txt('rbac_unprotected_delete_local_policies_info')
             );
         }
         $rad->addOption($del);
-        
+
         $form->addItem($rad);
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     protected function changeExistingObjectsObject() : void
     {
-        $mode = (int) $_POST['mode'];
+        $mode = 0;
+        if ($this->http->wrapper()->post()->has('mode')) {
+            $mode = $this->http->wrapper()->post()->retrieve(
+                'mode',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         $start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $this->obj_ref_id);
-        
-        $this->object->changeExistingObjects($start, $mode, unserialize(ilUtil::stripSlashes($_POST['type_filter'])));
-        
+
+        $type_filter = [];
+        if ($this->http->wrapper()->post()->has('type_filter')) {
+            $serialized_type_filter = $this->http->wrapper()->post()->retrieve(
+                'type_filter',
+                $this->refinery->kindlyTo()->string()
+            );
+            $type_filter = unserialize($serialized_type_filter);
+        }
+
+        $this->object->changeExistingObjects($start, $mode, $type_filter);
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'perm');
     }
-    
+
     protected function setSubTabs($a_tab) : void
     {
         switch ($a_tab) {
@@ -1147,18 +1213,25 @@ class ilObjRoleGUI extends ilObjectGUI
                 );
         }
     }
-    
+
     /**
      * Add selected users to user clipboard
      */
     protected function addToClipboardObject() : void
     {
-        $users = (array) $_POST['user_id'];
+        $users = [];
+        if ($this->http->wrapper()->post()->has('user_id')) {
+            $users = $this->http->wrapper()->post()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         if (!count($users)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'userassignment');
         }
-        include_once './Services/User/classes/class.ilUserClipboard.php';
         $clip = ilUserClipboard::getInstance($GLOBALS['DIC']['ilUser']->getId());
         $clip->add($users);
         $clip->save();
@@ -1173,18 +1246,19 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function addLocatorItems()
     {
-        if ($_GET["admin_mode"] == "") {
+        if ($this->getAdminMode() === self::ADMIN_MODE_NONE || $this->getAdminMode() === self::ADMIN_MODE_REPOSITORY) {
             $this->ctrl->setParameterByClass(
                 "ilobjrolegui",
                 "obj_id",
-                (int) $_GET["obj_id"]
+                $this->getRoleId()
             );
             $this->locator->addItem(
                 ilObjRole::_getTranslation($this->object->getTitle()),
                 $this->ctrl->getLinkTargetByClass(
                     array(
                         "ilpermissiongui",
-                        "ilobjrolegui"),
+                        "ilobjrolegui"
+                    ),
                     "perm"
                 )
             );
@@ -1205,7 +1279,6 @@ class ilObjRoleGUI extends ilObjectGUI
             return true;
         }
 
-
         $possible_roles = [];
         try {
             $possible_roles = $this->rbacreview->getRolesOfObject(
@@ -1215,13 +1288,11 @@ class ilObjRoleGUI extends ilObjectGUI
         } catch (\InvalidArgumentException $e) {
             $this->logger->warning('Role access check failed: ' . $e);
 
-            include_once "Services/Object/exceptions/class.ilObjectException.php";
             throw new \ilObjectException($this->lng->txt('permission_denied'));
         }
 
         if (!in_array($this->object->getId(), $possible_roles)) {
             $this->logger->warning('Object id: ' . $this->object->getId() . ' is not accessible for ref_id: ' . $this->obj_ref_id);
-            include_once "Services/Object/exceptions/class.ilObjectException.php";
             throw new \ilObjectException($this->lng->txt('permission_denied'));
         }
         return true;

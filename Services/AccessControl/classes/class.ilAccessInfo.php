@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,13 +22,11 @@
 */
 
 /**
-* class ilAccessInfo
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * class ilAccessInfo
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilAccessInfo
 {
     public const IL_NO_PERMISSION = 'no_permission';
@@ -41,27 +39,26 @@ class ilAccessInfo
 
     private array $info_items = [];
 
-
     public function clear() : void
     {
         $this->info_items = [];
     }
 
     /**
-    * add an info item
-    */
+     * add an info item
+     */
     public function addInfoItem(string $a_type, string $a_text, string $a_data = "") : void
     {
         $this->info_items[] = array(
-                                    "type" => $a_type,
-                                    "text" => $a_text,
-                                    "data" => $a_data
-                                    );
+            "type" => $a_type,
+            "text" => $a_text,
+            "data" => $a_data
+        );
     }
 
     /**
-    * get all info items
-    */
+     * get all info items
+     */
     public function getInfoItems() : array
     {
         return $this->info_items;

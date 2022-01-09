@@ -1,17 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* This class displays the permission status of a user concerning a specific object.
-* ("Permissions" -> "Permission of User")
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjectPermissionStatusGUI: ilRepositorySearchGUI
-*
-* @ingroup	ServicesAccessControl
-*/
+ * This class displays the permission status of a user concerning a specific object.
+ * ("Permissions" -> "Permission of User")
+ * @author       Sascha Hofmann <saschahofmann@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilObjectPermissionStatusGUI: ilRepositorySearchGUI
+ * @ingroup      ServicesAccessControl
+ */
 class ilObjectPermissionStatusGUI
 {
     public ilObjUser $user;
@@ -32,11 +29,10 @@ class ilObjectPermissionStatusGUI
     public const IMG_OK = 0;
     public const IMG_NOT_OK = 1;
 
-
     /**
-    * Constructor
-    * @access	public
-    */
+     * Constructor
+     * @access    public
+     */
     public function __construct(ilObject $a_obj)
     {
         global $DIC;
@@ -56,8 +52,8 @@ class ilObjectPermissionStatusGUI
     }
 
     /**
-    * execute command
-    */
+     * execute command
+     */
     public function executeCommand() : void
     {
         // determine next class in the call structure
@@ -65,7 +61,6 @@ class ilObjectPermissionStatusGUI
 
         switch ($next_class) {
             case 'ilrepositorysearchgui':
-                include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
                 $rep_search = new ilRepositorySearchGUI();
                 $this->ctrl->setReturn($this, 'perminfo');
                 $this->ctrl->forwardCommand($rep_search);
@@ -102,11 +97,10 @@ class ilObjectPermissionStatusGUI
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "perminfo"));
         $this->toolbar->addText($this->lng->txt('user'));
 
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-
         $login = new ilTextInputGUI($this->lng->txt("username"), "user_login");
         $login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
-                                                                      'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));
+                                                                      'ilRepositorySearchGUI'
+        ), 'doUserAutoComplete', '', true));
         $login->setSize(15);
         $login->setValue($this->user->getLogin());
         $this->toolbar->addInputItem($login);
@@ -118,7 +112,6 @@ class ilObjectPermissionStatusGUI
      */
     public function accessStatusInfo() : string
     {
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
         $info = new ilInfoScreenGUI(new stdClass());
         $info->setFormAction($this->ctrl->getFormAction($this));
@@ -137,7 +130,6 @@ class ilObjectPermissionStatusGUI
      */
     public function accessPermissionsTable() : string
     {
-        include_once("./Services/AccessControl/classes/class.ilAccessPermissionsStatusTableGUI.php");
 
         $table = new ilAccessPermissionsStatusTableGUI($this, "perminfo");
 
@@ -153,7 +145,6 @@ class ilObjectPermissionStatusGUI
      */
     public function availableRolesTable() : string
     {
-        include_once("./Services/AccessControl/classes/class.ilAvailableRolesStatusTableGUI.php");
 
         $table = new ilAvailableRolesStatusTableGUI($this, "perminfo");
 
@@ -169,7 +160,6 @@ class ilObjectPermissionStatusGUI
      */
     public function getAssignedValidRoles() : array
     {
-        include_once('./Services/AccessControl/classes/class.ilObjRole.php');
         $assigned_valid_roles = array();
 
         $ops = [];
@@ -178,17 +168,17 @@ class ilObjectPermissionStatusGUI
                 if ($role["obj_id"] == SYSTEM_ROLE_ID) {
                     // get all possible operation of current object
                     $ops_list = ilRbacReview::_getOperationList($this->object->getType());
-                    
+
                     foreach ($ops_list as $ops_data) {
                         $ops[] = (int) $ops_data['ops_id'];
                     }
-                    
+
                     $role['ops'] = $ops;
                 } else {
-                    $role['ops'] = $this->rbacreview->getRoleOperationsOnObject($role["obj_id"], $this->object->getRefId());
+                    $role['ops'] = $this->rbacreview->getRoleOperationsOnObject($role["obj_id"],
+                        $this->object->getRefId());
                 }
-                
-                include_once('./Services/AccessControl/classes/class.ilObjRole.php');
+
                 $role['translation'] = str_replace(" ", "&nbsp;", ilObjRole::_getTranslation($role["title"]));
                 $assigned_valid_roles[] = $role;
             }
@@ -205,15 +195,15 @@ class ilObjectPermissionStatusGUI
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-                
+
         $class = $objDefinition->getClassName($a_type);
         $location = $objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "Access";
 
         $cmds = call_user_func(array($full_class, "_getCommands"));
-        
-        array_push($cmds, array('permission' => 'visible','cmd' => 'info'));
-        
+
+        array_push($cmds, array('permission' => 'visible', 'cmd' => 'info'));
+
         return $cmds;
     }
 
@@ -225,22 +215,23 @@ class ilObjectPermissionStatusGUI
     {
         global $DIC;
 
-        $ilUser = $DIC->user();
-        if (!isset($_POST['user_login'])) {
-            $user = $ilUser;
-        } else {
-            include_once('Services/User/classes/class.ilObjUser.php');
-            $user_id = ilObjUser::_lookupId($_POST['user_login']);
-
-            $factory = new ilObjectFactory();
-            $user = $factory->getInstanceByObjId($user_id, false);
-            if ($user === false or $user->getType() != 'usr') {
-                $user = $ilUser;
-                ilUtil::sendFailure($this->lng->txt('info_err_user_not_exist'));
-            } else {
-                ilUtil::sendInfo($this->lng->txt('info_user_view_changed'));
-            }
+        $user_login = '';
+        if ($DIC->http()->wrapper()->post()->has('user_login')) {
+            $user_login = $DIC->http()->wrapper()->post()->retrieve(
+                'user_login',
+                $DIC->refinery()->kindlyTo()->string()
+            );
         }
+        if (strlen($user_login)) {
+            return $DIC->user();
+        }
+        $user_id = ilObjUser::_lookupId($user_login);
+        $user = ilObjectFactory::getInstanceByObjId($user_id, false);
+        if (!$user instanceof ilObjUser || $user->getType() != 'usr') {
+            ilUtil::sendFailure($this->lng->txt('info_err_user_not_exist'));
+            return $DIC->user();
+        }
+        ilUtil::sendSuccess($this->lng->txt('info_user_view_changed'));
         return $user;
     }
 
@@ -352,7 +343,8 @@ class ilObjectPermissionStatusGUI
 
         // check permissions of user
         foreach ($ops_list as $ops) {
-            $access = $ilAccess->doRBACCheck($ops['operation'], "info", $this->object->getRefId(), $this->user->getId(), $this->object->getType());
+            $access = $ilAccess->doRBACCheck($ops['operation'], "info", $this->object->getRefId(), $this->user->getId(),
+                $this->object->getType());
 
             $result_set[$counter]["img"] = $access ? self::IMG_OK : self::IMG_NOT_OK;
 
@@ -396,7 +388,6 @@ class ilObjectPermissionStatusGUI
                 $list_role[] = $this->lng->txt('none');
             }
 
-
             $result_set[$counter]["role_ownership"] = $list_role;
 
             ++$counter;
@@ -415,19 +406,18 @@ class ilObjectPermissionStatusGUI
 
         $tree = $DIC['tree'];
 
-        include_once('./Services/AccessControl/classes/class.ilObjRole.php');
-
         $path = array_reverse($tree->getPathId($this->object->getRefId()));
 
-        include_once('./Services/AccessControl/classes/class.ilObjRole.php');
         $counter = 0;
 
         $result_set = [];
         foreach ($this->valid_roles as $role) {
-            $result_set[$counter]["img"] = in_array($role['obj_id'], $this->user_roles) ? self::IMG_OK : self::IMG_NOT_OK;
+            $result_set[$counter]["img"] = in_array($role['obj_id'],
+                $this->user_roles) ? self::IMG_OK : self::IMG_NOT_OK;
 
             if (is_subclass_of($this->object, ilObjectPlugin::class) && $role["parent"] == $this->object->getRefId()) {
-                $result_set[$counter][] = ilObjectPlugin::lookupTxtById($this->object->getType(), ilObjRole::_removeObjectId($role["title"]));
+                $result_set[$counter][] = ilObjectPlugin::lookupTxtById($this->object->getType(),
+                    ilObjRole::_removeObjectId($role["title"]));
             } else {
                 $result_set[$counter][] = str_replace(" ", "&nbsp;", ilObjRole::_getTranslation($role["title"]));
             }
@@ -444,7 +434,6 @@ class ilObjectPermissionStatusGUI
                     if ($node == 1) {
                         break;
                     }
-
 
                     if (in_array($node, $rolfs)) {
                         $nodedata = $tree->getNodeData($node);

@@ -1,26 +1,28 @@
-<?php
+<?php declare(strict_types=1);
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Class ilObjRoleTemplateGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjRoleTemplateGUI:
-*
-* @ingroup	ServicesAccessControl
-*/
+ * Class ilObjRoleTemplateGUI
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @version      $Id$
+ * @ilCtrl_Calls ilObjRoleTemplateGUI:
+ * @ingroup      ServicesAccessControl
+ */
 class ilObjRoleTemplateGUI extends ilObjectGUI
 {
     private const FORM_MODE_EDIT = 1;
     private const FORM_MODE_CREATE = 2;
-    
+
     private int $rolf_ref_id;
 
     protected ilRbacAdmin $rbacadmin;
+
+    private GlobalHttpState $http;
+    private Factory $refinery;
 
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
@@ -33,8 +35,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('rbac');
         $this->rolf_ref_id = &$this->ref_id;
         $this->ctrl->saveParameter($this, "obj_id");
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
-    
+
     public function executeCommand()
     {
         $this->prepareOutput();
@@ -49,23 +53,22 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 }
                 $cmd .= "Object";
                 $this->$cmd();
-                    
+
                 break;
         }
         return true;
     }
-    
+
     protected function initFormRoleTemplate(int $a_mode = self::FORM_MODE_CREATE) : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
 
         if ($this->creation_mode) {
             $this->ctrl->setParameter($this, "new_type", 'rolt');
         }
-        
+
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         if ($a_mode == self::FORM_MODE_CREATE) {
             $form->setTitle($this->lng->txt('rolt_new'));
             $form->addCommandButton('save', $this->lng->txt('rolt_new'));
@@ -74,7 +77,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $form->addCommandButton('update', $this->lng->txt('save'));
         }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        
+
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         if ($a_mode != self::FORM_MODE_CREATE) {
             if ($this->object->isInternalTemplate()) {
@@ -86,9 +89,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $title->setMaxLength(70);
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
-        
+
         if ($a_mode != self::FORM_MODE_CREATE) {
             $desc->setValue($this->object->getDescription());
         }
@@ -107,13 +110,12 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->rolf_ref_id,
             $this->object->getId()
         ));
-        $pro->setValue(1);
+        $pro->setValue((string) 1);
         $form->addItem($pro);
 
         return $form;
     }
 
-    
     public function createObject(ilPropertyFormGUI $form = null)
     {
         if (!$this->rbacsystem->checkAccess("create_rolt", $this->rolf_ref_id)) {
@@ -124,18 +126,18 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     /**
      * Create new object
      */
     public function editObject(ilPropertyFormGUI $form = null)
     {
         $this->tabs_gui->activateTab('settings');
-        
+
         if (!$this->rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilErr->MESSAGE);
         }
-        
+
         if (!$form) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         }
@@ -148,7 +150,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         if (!$this->rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
             $this->ilErr->raiseError($this->lng->txt("msg_no_perm_modify_rolt"), $this->ilErr->WARNING);
         }
-        
+
         $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         if ($form->checkInput()) {
             $this->object->setTitle($form->getInput('title'));
@@ -162,12 +164,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
             $this->ctrl->returnToParent($this);
         }
-        
+
         $form->setValuesByPost();
         $this->editObject($form);
     }
-    
-
 
     public function saveObject()
     {
@@ -176,7 +176,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         }
         $form = $this->initFormRoleTemplate();
         if ($form->checkInput()) {
-            include_once("./Services/AccessControl/classes/class.ilObjRoleTemplate.php");
             $roltObj = new ilObjRoleTemplate();
             $roltObj->setTitle($form->getInput('title'));
             $roltObj->setDescription($form->getInput('desc'));
@@ -187,7 +186,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 $roltObj->getId(),
                 $form->getInput('protected') ? 'y' : 'n'
             );
-            
+
             ilUtil::sendSuccess($this->lng->txt("rolt_added"), true);
             // redirect to permission screen
             $this->ctrl->setParameter($this, 'obj_id', $roltObj->getId());
@@ -196,7 +195,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $form->setValuesByPost();
         $this->createObject($form);
     }
-
 
     protected function permObject() : void
     {
@@ -215,7 +213,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
         $this->tpl->setVariable('PERM_ACTION', $this->ctrl->getFormAction($this));
 
-        include_once './Services/Accordion/classes/class.ilAccordionGUI.php';
         $acc = new ilAccordionGUI();
         $acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
         $acc->setId('template_perm_' . $this->ref_id);
@@ -240,7 +237,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->tpl->setVariable('ACCORDION', $acc->getHTML());
 
         // Add options table
-        include_once './Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php';
         $options = new ilObjectRoleTemplateOptionsTableGUI(
             $this,
             'perm',
@@ -258,12 +254,27 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->tpl->setVariable('OPTIONS_TABLE', $options->getHTML());
     }
 
-
+    /**
+     * @todo fix custom transformation
+     */
     protected function permSaveObject() : void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $this->ilErr->MESSAGE);
             return;
+        }
+
+        $template_permissions = [];
+        if ($this->http->wrapper()->post()->has('template_perm')) {
+            $custom_transformer = $this->refinery->custom()->transformation(
+                function ($array) {
+                    return $array;
+                }
+            );
+            $template_permissions = $this->http->wrapper()->post()->retrieve(
+                'template_perm',
+                $custom_transformer
+            );
         }
         // delete all existing template entries
         //$rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id);
@@ -274,29 +285,37 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->rbacadmin->deleteRolePermission($this->object->getId(), $this->ref_id, $subtype);
         }
 
-        foreach ($_POST["template_perm"] as $key => $ops_array) {
+        foreach ($template_permissions as $key => $ops_array) {
             $this->rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
         }
 
         // update object data entry (to update last modification date)
         $this->object->update();
-        
+
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
         $this->ctrl->redirect($this, "perm");
     }
 
     public function adoptPermSaveObject() : void
     {
+        $source = 0;
+        if ($this->http->wrapper()->post()->has('adopt')) {
+            $source = $this->http->wrapper()->post()->retrieve(
+                'adopt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         if (!$this->rbacsystem->checkAccess('write', $this->rolf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"), $this->ilias->error_obj->WARNING);
-        } elseif ($this->obj_id == $_POST["adopt"]) {
+            ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'), true);
+        } elseif ($this->obj_id == $source) {
             ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"), true);
         } else {
             $this->rbacadmin->deleteRolePermission($this->obj_id, $this->rolf_ref_id);
             $parentRoles = $this->rbacreview->getParentRoleIds($this->rolf_ref_id, true);
             $this->rbacadmin->copyRoleTemplatePermissions(
-                $_POST["adopt"],
-                $parentRoles[$_POST["adopt"]]["parent"],
+                $source,
+                $parentRoles[$source]["parent"],
                 $this->rolf_ref_id,
                 $this->obj_id
             );
@@ -304,10 +323,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->object->update();
 
             // send info
-            $obj_data = &$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $obj_data->getTitle() . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"), true);
+            $title = ilObject::_lookupTitle($source);
+            ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $title . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"),
+                true);
         }
-
         $this->ctrl->redirect($this, "perm");
     }
 
@@ -344,18 +363,16 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->ctrl->redirectByClass("ilobjrolefoldergui", "view");
     }
 
-
-
     /**
      * @inheritdoc
      */
     protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
         parent::addAdminLocatorItems(true);
-                
+
         $this->locator->addItem(
             ilObject::_lookupTitle(
-                ilObject::_lookupObjId($_GET["ref_id"])
+                ilObject::_lookupObjId($this->object->getRefId())
             ),
             $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
         );

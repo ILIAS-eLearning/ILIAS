@@ -1,28 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* Class ilRbacAdmin
-*  Core functions for role based access control.
-*  Creation and maintenance of Relations.
-*  The main relations of Rbac are user <-> role (UR) assignment relation and the permission <-> role (PR) assignment relation.
-*  This class contains methods to 'create' and 'delete' instances of the (UR) relation e.g.: assignUser(), deassignUser()
-*  Required methods for the PR relation are grantPermission(), revokePermission()
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesAccessControl
-*/
+ * Class ilRbacAdmin
+ *  Core functions for role based access control.
+ *  Creation and maintenance of Relations.
+ *  The main relations of Rbac are user <-> role (UR) assignment relation and the permission <-> role (PR) assignment relation.
+ *  This class contains methods to 'create' and 'delete' instances of the (UR) relation e.g.: assignUser(), deassignUser()
+ *  Required methods for the PR relation are grantPermission(), revokePermission()
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAccessControl
+ */
 class ilRbacAdmin
 {
     protected ilDBInterface $db;
     protected ilRbacReview $rbacreview;
 
     /**
-    * Constructor
-    * @access	public
-    */
+     * Constructor
+     * @access    public
+     */
     public function __construct()
     {
         global $DIC;
@@ -30,13 +27,13 @@ class ilRbacAdmin
         $this->db = $DIC->database();
         $this->rbacreview = $DIC->rbac()->review();
     }
-    
+
     public function setBlockedStatus(int $a_role_id, int $a_ref_id, bool $a_blocked_status) : void
     {
         ilLoggerFactory::getLogger('crs')->logStack();
         $query = 'UPDATE rbac_fa set blocked = ' . $this->db->quote($a_blocked_status, 'integer') . ' ' .
-                'WHERE rol_id = ' . $this->db->quote($a_role_id, 'integer') . ' ' .
-                'AND parent = ' . $this->db->quote($a_ref_id, 'integer');
+            'WHERE rol_id = ' . $this->db->quote($a_role_id, 'integer') . ' ' .
+            'AND parent = ' . $this->db->quote($a_ref_id, 'integer');
         $this->db->manipulate($query);
     }
 
@@ -62,24 +59,22 @@ class ilRbacAdmin
             throw new DomainException('System administrator role is not deletable.');
         }
 
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->deleteRole($a_rol_id);
 
-
         // TODO: check assigned users before deletion
         // This is done in ilObjRole. Should be better moved to this place?
-        
+
         // delete user assignements
         $query = "DELETE FROM rbac_ua " .
-             "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer');
+            "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer');
         $res = $this->db->manipulate($query);
-        
+
         // delete permission assignments
         $query = "DELETE FROM rbac_pa " .
-             "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer') . " ";
+            "WHERE rol_id = " . $this->db->quote($a_rol_id, 'integer') . " ";
         $res = $this->db->manipulate($query);
-        
+
         //delete rbac_templates and rbac_fa
         $this->deleteLocalRole($a_rol_id);
     }
@@ -90,7 +85,7 @@ class ilRbacAdmin
     public function deleteTemplate(int $a_obj_id) : void
     {
         $query = 'DELETE FROM rbac_templates ' .
-             'WHERE rol_id = ' . $this->db->quote($a_obj_id, 'integer');
+            'WHERE rol_id = ' . $this->db->quote($a_obj_id, 'integer');
         $res = $this->db->manipulate($query);
 
         $query = 'DELETE FROM rbac_fa ' .
@@ -112,25 +107,24 @@ class ilRbacAdmin
         if ($a_ref_id != 0) {
             $clause = 'AND parent = ' . $this->db->quote($a_ref_id, 'integer') . ' ';
         }
-        
+
         $query = 'DELETE FROM rbac_fa ' .
-             'WHERE rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ' .
-             $clause;
+            'WHERE rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ' .
+            $clause;
         $res = $this->db->manipulate($query);
 
         $query = 'DELETE FROM rbac_templates ' .
-             'WHERE rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ' .
-             $clause;
+            'WHERE rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ' .
+            $clause;
         $res = $this->db->manipulate($query);
     }
-    
+
     public function assignUserLimited(
         int $a_role_id,
         int $a_usr_id,
         int $a_limit,
         array $a_limited_roles = []
-    ) : void
-    {
+    ) : void {
         $ilDB = $this->db;
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('rbac_ua');
@@ -138,7 +132,7 @@ class ilRbacAdmin
             function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) {
                 $ret = true;
                 $limit_query = 'SELECT COUNT(*) num FROM rbac_ua ' .
-                'WHERE ' . $ilDB->in('rol_id', (array) $a_limited_roles, false, 'integer');
+                    'WHERE ' . $ilDB->in('rol_id', (array) $a_limited_roles, false, 'integer');
                 $res = $ilDB->query($limit_query);
                 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
                 if ($row->num >= $a_limit) {
@@ -147,9 +141,9 @@ class ilRbacAdmin
                 }
 
                 $query = "INSERT INTO rbac_ua (usr_id, rol_id) " .
-                "VALUES (" .
-                $ilDB->quote($a_usr_id, 'integer') . "," . $ilDB->quote($a_role_id, 'integer') .
-                ")";
+                    "VALUES (" .
+                    $ilDB->quote($a_usr_id, 'integer') . "," . $ilDB->quote($a_role_id, 'integer') .
+                    ")";
                 $res = $ilDB->manipulate($query);
             }
         );
@@ -160,11 +154,9 @@ class ilRbacAdmin
         }
 
         $this->rbacreview->setAssignedCacheEntry($a_role_id, $a_usr_id, true);
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->assign($a_role_id, $a_usr_id);
     }
-
 
     /**
      * Assigns an user to a role. Update of table rbac_ua
@@ -173,40 +165,38 @@ class ilRbacAdmin
     {
         // check if already assigned user id and role_id
         $alreadyAssigned = $this->rbacreview->isAssigned($a_usr_id, $a_rol_id);
-        
+
         // enhanced: only if we haven't had this role for this user
         if (!$alreadyAssigned) {
             $query = "INSERT INTO rbac_ua (usr_id, rol_id) " .
-             "VALUES (" . $this->db->quote($a_usr_id, 'integer') . "," . $this->db->quote($a_rol_id, 'integer') . ")";
+                "VALUES (" . $this->db->quote($a_usr_id, 'integer') . "," . $this->db->quote($a_rol_id,
+                    'integer') . ")";
             $res = $this->db->manipulate($query);
-        
+
             $this->rbacreview->setAssignedCacheEntry($a_rol_id, $a_usr_id, true);
         }
-        
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->assign($a_rol_id, $a_usr_id);
-        
-        
+
         $ref_id = $this->rbacreview->getObjectReferenceOfRole($a_rol_id);
         $obj_id = ilObject::_lookupObjId($ref_id);
         $type = ilObject::_lookupType($obj_id);
-        
+
         if (!$alreadyAssigned) {
             ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event assign user');
             $GLOBALS['DIC']['ilAppEventHandler']->raise(
                 'Services/AccessControl',
                 'assignUser',
                 array(
-                        'obj_id' => $obj_id,
-                        'usr_id' => $a_usr_id,
-                        'role_id' => $a_rol_id,
-                        'type' => $type
-                    )
+                    'obj_id' => $obj_id,
+                    'usr_id' => $a_usr_id,
+                    'role_id' => $a_rol_id,
+                    'type' => $type
+                )
             );
         }
     }
-
 
     /**
      * Deassigns a user from a role. Update of table rbac_ua
@@ -214,13 +204,12 @@ class ilRbacAdmin
     public function deassignUser(int $a_rol_id, int $a_usr_id) : void
     {
         $query = "DELETE FROM rbac_ua " .
-             "WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
-             "AND rol_id = " . $this->db->quote($a_rol_id, 'integer') . " ";
+            "WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
+            "AND rol_id = " . $this->db->quote($a_rol_id, 'integer') . " ";
         $res = $this->db->manipulate($query);
 
         $this->rbacreview->setAssignedCacheEntry($a_rol_id, $a_usr_id, false);
 
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->deassign($a_rol_id, $a_usr_id);
 
@@ -231,10 +220,10 @@ class ilRbacAdmin
 
             ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
             $GLOBALS['DIC']['ilAppEventHandler']->raise('Services/AccessControl', 'deassignUser', array(
-                    'obj_id' => $obj_id,
-                    'usr_id' => $a_usr_id,
-                    'role_id' => $a_rol_id,
-                    'type' => $type,
+                'obj_id' => $obj_id,
+                'usr_id' => $a_usr_id,
+                'role_id' => $a_rol_id,
+                'type' => $type,
             ));
         }
     }
@@ -248,30 +237,31 @@ class ilRbacAdmin
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
         }
-        
+
         // convert all values to integer
         foreach ($a_ops as $key => $operation) {
             $a_ops[$key] = (int) $operation;
         }
 
         $ops_ids = serialize($a_ops);
-        
+
         $query = 'DELETE FROM rbac_pa ' .
             'WHERE rol_id = %s ' .
             'AND ref_id = %s';
         $res = $this->db->queryF(
             $query,
-            array('integer','integer'),
-            array($a_rol_id,$a_ref_id)
+            array('integer', 'integer'),
+            array($a_rol_id, $a_ref_id)
         );
-            
+
         if (!count($a_ops)) {
             return;
         }
 
         $query = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) " .
-             "VALUES " .
-             "(" . $this->db->quote($a_rol_id, 'integer') . "," . $this->db->quote($ops_ids, 'text') . "," . $this->db->quote($a_ref_id, 'integer') . ")";
+            "VALUES " .
+            "(" . $this->db->quote($a_rol_id, 'integer') . "," . $this->db->quote($ops_ids,
+                'text') . "," . $this->db->quote($a_ref_id, 'integer') . ")";
         $res = $this->db->manipulate($query);
     }
 
@@ -293,35 +283,35 @@ class ilRbacAdmin
             } else {
                 $and1 = "";
             }
-    
+
             $query = "DELETE FROM rbac_pa " .
-                 "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer') .
-                 $and1;
+                "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer') .
+                $and1;
             $res = $this->db->manipulate($query);
             return;
         }
-        
+
         // consider protected status of roles
-    
+
         // in any case, get all roles in scope first
         $roles_in_scope = $this->rbacreview->getParentRoleIds($a_ref_id);
 
         if (!$a_rol_id) {
             $role_ids = [];
-            
+
             foreach ($roles_in_scope as $role) {
                 if ($role['protected'] == true) {
                     continue;
                 }
-                
+
                 $role_ids[] = $role['obj_id'];
             }
-            
+
             // return if no role in array
             if (!$role_ids) {
                 return;
             }
-            
+
             $query = 'DELETE FROM rbac_pa ' .
                 'WHERE ' . $this->db->in('rol_id', $role_ids, false, 'integer') . ' ' .
                 'AND ref_id = ' . $this->db->quote($a_ref_id, 'integer');
@@ -333,42 +323,42 @@ class ilRbacAdmin
             }
 
             $query = "DELETE FROM rbac_pa " .
-                 "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer') . " " .
-                 "AND rol_id = " . $this->db->quote($a_rol_id, 'integer') . " ";
+                "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer') . " " .
+                "AND rol_id = " . $this->db->quote($a_rol_id, 'integer') . " ";
             $res = $this->db->manipulate($query);
         }
     }
-    
+
     /**
      * Revoke subtree permissions
      */
     public function revokeSubtreePermissions(int $a_ref_id, int $a_role_id) : void
     {
         $query = 'DELETE FROM rbac_pa ' .
-                'WHERE ref_id IN ' .
-                '( ' . $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
-                'AND rol_id = ' . $this->db->quote($a_role_id, 'integer');
-        
+            'WHERE ref_id IN ' .
+            '( ' . $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
+            'AND rol_id = ' . $this->db->quote($a_role_id, 'integer');
+
         $this->db->manipulate($query);
     }
-    
+
     /**
      * Delete all template permissions of subtree nodes
      */
     public function deleteSubtreeTemplates(int $a_ref_id, int $a_rol_id) : void
     {
         $query = 'DELETE FROM rbac_templates ' .
-                'WHERE parent IN ( ' .
-                $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
-                'AND rol_id = ' . $this->db->quote($a_rol_id, 'integer');
-        
+            'WHERE parent IN ( ' .
+            $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
+            'AND rol_id = ' . $this->db->quote($a_rol_id, 'integer');
+
         $this->db->manipulate($query);
 
         $query = 'DELETE FROM rbac_fa ' .
-                'WHERE parent IN ( ' .
-                $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
-                'AND rol_id = ' . $this->db->quote($a_rol_id, 'integer');
-        
+            'WHERE parent IN ( ' .
+            $GLOBALS['DIC']['tree']->getSubTreeQuery($a_ref_id, array('child')) . ' ) ' .
+            'AND rol_id = ' . $this->db->quote($a_rol_id, 'integer');
+
         $this->db->manipulate($query);
     }
 
@@ -382,11 +372,11 @@ class ilRbacAdmin
             throw new DomainException('System administrator role is not writeable.');
         }
         $query = "DELETE FROM rbac_pa " .
-             "WHERE " . $this->db->in('ref_id', $a_ref_ids, false, 'integer') . ' ' .
-             "AND rol_id = " . $this->db->quote($a_rol_id, 'integer');
+            "WHERE " . $this->db->in('ref_id', $a_ref_ids, false, 'integer') . ' ' .
+            "AND rol_id = " . $this->db->quote($a_rol_id, 'integer');
         $res = $this->db->manipulate($query);
     }
-    
+
     /**
      * Copies template permissions and permission of one role to another.
      */
@@ -396,12 +386,12 @@ class ilRbacAdmin
         int $a_dest_parent,
         int $a_dest_id,
         bool $a_consider_protected = true
-    ) : void
-    {
+    ) : void {
         // Copy template permissions
-        $this->copyRoleTemplatePermissions($a_source_id, $a_source_parent, $a_dest_parent, $a_dest_id, $a_consider_protected);
+        $this->copyRoleTemplatePermissions($a_source_id, $a_source_parent, $a_dest_parent, $a_dest_id,
+            $a_consider_protected);
         $ops = $this->rbacreview->getRoleOperationsOnObject($a_source_id, $a_source_parent);
-        
+
         $this->revokePermission($a_dest_parent, $a_dest_id);
         $this->grantPermission($a_dest_id, $ops, $a_dest_parent);
     }
@@ -416,8 +406,7 @@ class ilRbacAdmin
         int $a_dest_parent,
         int $a_dest_id,
         bool $a_consider_protected = true
-    ) : void
-    {
+    ) : void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
@@ -425,8 +414,8 @@ class ilRbacAdmin
 
         // Read operations
         $query = 'SELECT * FROM rbac_templates ' .
-             'WHERE rol_id = ' . $this->db->quote($a_source_id, 'integer') . ' ' .
-             'AND parent = ' . $this->db->quote($a_source_parent, 'integer');
+            'WHERE rol_id = ' . $this->db->quote($a_source_id, 'integer') . ' ' .
+            'AND parent = ' . $this->db->quote($a_source_parent, 'integer');
         $res = $this->db->query($query);
         $operations = array();
         $rownum = 0;
@@ -440,17 +429,17 @@ class ilRbacAdmin
         $query = 'DELETE FROM rbac_templates WHERE rol_id = ' . $this->db->quote($a_dest_id, 'integer') . ' ' .
             'AND parent = ' . $this->db->quote($a_dest_parent, 'integer');
         $res = $this->db->manipulate($query);
-        
+
         foreach ($operations as $row => $op) {
             $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
-                 'VALUES (' .
-                 $this->db->quote($a_dest_id, 'integer') . "," .
-                 $this->db->quote($op['type'], 'text') . "," .
-                 $this->db->quote($op['ops_id'], 'integer') . "," .
-                 $this->db->quote($a_dest_parent, 'integer') . ")";
+                'VALUES (' .
+                $this->db->quote($a_dest_id, 'integer') . "," .
+                $this->db->quote($op['type'], 'text') . "," .
+                $this->db->quote($op['ops_id'], 'integer') . "," .
+                $this->db->quote($a_dest_parent, 'integer') . ")";
             $this->db->manipulate($query);
         }
-        
+
         // copy also protection status if applicable
         if ($a_consider_protected == true) {
             if ($this->rbacreview->isProtected($a_source_parent, $a_source_id)) {
@@ -458,6 +447,7 @@ class ilRbacAdmin
             }
         }
     }
+
     /**
      * Copies the intersection of the template permissions of two roles to a
      * third role.
@@ -469,21 +459,20 @@ class ilRbacAdmin
         int $a_source2_parent,
         int $a_dest_parent,
         int $a_dest_id
-    ):void
-    {
+    ) : void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
         }
         $query = "SELECT s1.type, s1.ops_id " .
-                        "FROM rbac_templates s1, rbac_templates s2 " .
-                        "WHERE s1.rol_id = " . $this->db->quote($a_source1_id, 'integer') . " " .
-                        "AND s1.parent = " . $this->db->quote($a_source1_parent, 'integer') . " " .
-                        "AND s2.rol_id = " . $this->db->quote($a_source2_id, 'integer') . " " .
-                        "AND s2.parent = " . $this->db->quote($a_source2_parent, 'integer') . " " .
-                        "AND s1.type = s2.type " .
-                        "AND s1.ops_id = s2.ops_id";
-        
+            "FROM rbac_templates s1, rbac_templates s2 " .
+            "WHERE s1.rol_id = " . $this->db->quote($a_source1_id, 'integer') . " " .
+            "AND s1.parent = " . $this->db->quote($a_source1_parent, 'integer') . " " .
+            "AND s2.rol_id = " . $this->db->quote($a_source2_id, 'integer') . " " .
+            "AND s2.parent = " . $this->db->quote($a_source2_parent, 'integer') . " " .
+            "AND s1.type = s2.type " .
+            "AND s1.ops_id = s2.ops_id";
+
         $res = $this->db->query($query);
         $operations = array();
         $rowNum = 0;
@@ -493,7 +482,7 @@ class ilRbacAdmin
 
             $rowNum++;
         }
-        
+
         // Delete template permissions of target
         $query = 'DELETE FROM rbac_templates WHERE rol_id = ' . $this->db->quote($a_dest_id, 'integer') . ' ' .
             'AND parent = ' . $this->db->quote($a_dest_parent, 'integer');
@@ -501,13 +490,14 @@ class ilRbacAdmin
 
         $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
             'VALUES (?,?,?,?)';
-        $sta = $this->db->prepareManip($query, array('integer','text','integer','integer'));
+        $sta = $this->db->prepareManip($query, array('integer', 'text', 'integer', 'integer'));
         foreach ($operations as $key => $set) {
             $this->db->execute($sta, array(
                 $a_dest_id,
                 $set['type'],
                 $set['ops_id'],
-                $a_dest_parent));
+                $a_dest_parent
+            ));
         }
     }
 
@@ -542,7 +532,7 @@ class ilRbacAdmin
                 $this->db->manipulate($query);
             }
         }
-        
+
         // and the other direction...
         foreach ($s2_ops as $type => $ops) {
             foreach ($ops as $op) {
@@ -559,7 +549,7 @@ class ilRbacAdmin
             }
         }
     }
-    
+
     /**
      * Subtract role permissions
      */
@@ -568,29 +558,27 @@ class ilRbacAdmin
         int $a_source_parent,
         int $a_dest_id,
         int $a_dest_parent
-    ) : void
-    {
+    ) : void {
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
         }
         $s1_ops = $this->rbacreview->getAllOperationsOfRole($a_source_id, $a_source_parent);
         $d_ops = $this->rbacreview->getAllOperationsOfRole($a_dest_id, $a_dest_parent);
-        
+
         foreach ($s1_ops as $type => $ops) {
             foreach ($ops as $op) {
                 if (isset($d_ops[$type]) and in_array($op, $d_ops[$type])) {
                     $query = 'DELETE FROM rbac_templates ' .
-                            'WHERE rol_id = ' . $this->db->quote($a_dest_id, 'integer') . ' ' .
-                            'AND type = ' . $this->db->quote($type, 'text') . ' ' .
-                            'AND ops_id = ' . $this->db->quote($op, 'integer') . ' ' .
-                            'AND parent = ' . $this->db->quote($a_dest_parent, 'integer');
+                        'WHERE rol_id = ' . $this->db->quote($a_dest_id, 'integer') . ' ' .
+                        'AND type = ' . $this->db->quote($type, 'text') . ' ' .
+                        'AND ops_id = ' . $this->db->quote($op, 'integer') . ' ' .
+                        'AND parent = ' . $this->db->quote($a_dest_parent, 'integer');
                     $this->db->manipulate($query);
                 }
             }
         }
     }
 
-    
     /**
      * Deletes all entries of a template. If an object type is given for third parameter only
      * the entries for that object type are deleted
@@ -600,8 +588,7 @@ class ilRbacAdmin
         int $a_rol_id,
         int $a_ref_id,
         ?string $a_type = null
-    ) : void
-    {
+    ) : void {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
         }
@@ -610,12 +597,12 @@ class ilRbacAdmin
             $and_type = " AND type=" . $this->db->quote($a_type, 'text') . " ";
         }
         $query = 'DELETE FROM rbac_templates ' .
-             'WHERE rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ' .
-             'AND parent = ' . $this->db->quote($a_ref_id, 'integer') . ' ' .
-             $and_type;
+            'WHERE rol_id = ' . $this->db->quote($a_rol_id, 'integer') . ' ' .
+            'AND parent = ' . $this->db->quote($a_ref_id, 'integer') . ' ' .
+            $and_type;
         $res = $this->db->manipulate($query);
     }
-    
+
     /**
      * Inserts template permissions in rbac_templates for an specific object type.
      *  Update of table rbac_templates
@@ -650,8 +637,7 @@ class ilRbacAdmin
         int $a_rol_id,
         int $a_parent,
         string $a_assign = "y"
-    ) : void
-    {
+    ) : void {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
         }
@@ -686,7 +672,7 @@ class ilRbacAdmin
     public function assignOperationToObject(int $a_type_id, int $a_ops_id) : void
     {
         $query = "INSERT INTO rbac_ta (typ_id, ops_id) " .
-             "VALUES(" . $this->db->quote($a_type_id, 'integer') . "," . $this->db->quote($a_ops_id, 'integer') . ")";
+            "VALUES(" . $this->db->quote($a_type_id, 'integer') . "," . $this->db->quote($a_ops_id, 'integer') . ")";
         $res = $this->db->manipulate($query);
     }
 
@@ -697,11 +683,11 @@ class ilRbacAdmin
     public function deassignOperationFromObject(int $a_type_id, int $a_ops_id) : void
     {
         $query = "DELETE FROM rbac_ta " .
-             "WHERE typ_id = " . $this->db->quote($a_type_id, 'integer') . " " .
-             "AND ops_id = " . $this->db->quote($a_ops_id, 'integer');
+            "WHERE typ_id = " . $this->db->quote($a_type_id, 'integer') . " " .
+            "AND ops_id = " . $this->db->quote($a_ops_id, 'integer');
         $res = $this->db->manipulate($query);
     }
-    
+
     /**
      * Set protected
      */
@@ -714,7 +700,7 @@ class ilRbacAdmin
             'WHERE rol_id = ' . $this->db->quote($a_role_id, 'integer');
         $res = $this->db->manipulate($query);
     }
-    
+
     /**
      * Copy local roles
      * This method creates a copy of all local role.
@@ -735,29 +721,27 @@ class ilRbacAdmin
         }
         // Create role folder
         foreach ($real_local as $role) {
-            include_once("./Services/AccessControl/classes/class.ilObjRole.php");
             $orig = new ilObjRole($role);
             $orig->read();
-            
+
             $roleObj = new ilObjRole();
             $roleObj->setTitle($orig->getTitle());
             $roleObj->setDescription($orig->getDescription());
             $roleObj->setImportId($orig->getImportId());
             $roleObj->create();
-            
+
             $this->assignRoleToFolder($roleObj->getId(), $a_target_id, "y");
             $this->copyRolePermissions($role, $a_source_id, $a_target_id, $roleObj->getId(), true);
         }
     }
-    
+
     public function initIntersectionPermissions(
         int $a_ref_id,
         int $a_role_id,
         int $a_role_parent,
         int $a_template_id,
         int $a_template_parent
-    ) : void
-    {
+    ) : void {
         if ($this->rbacreview->isProtected($a_role_parent, $a_role_id)) {
             // Assign object permissions
             $new_ops = $this->rbacreview->getOperationsOfRole(
@@ -801,10 +785,10 @@ class ilRbacAdmin
             ilObject::_lookupType($a_ref_id, true),
             $a_ref_id
         );
-        
+
         // revoke existing permissions
         $this->revokePermission($a_ref_id, $a_role_id);
-        
+
         // set new permissions for object
         $this->grantPermission(
             $a_role_id,
@@ -816,16 +800,14 @@ class ilRbacAdmin
     /**
      * Apply didactic templates after object movement
      * @deprecated since version 5.1.0 will be removed with 5.4 and implemented using event handler
-     * @todo implement using event handler
+     * @todo       implement using event handler
      */
     protected function applyMovedObjectDidacticTemplates(int $a_ref_id, int $a_old_parent) : void
     {
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
         $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($a_ref_id);
         if (!$tpl_id) {
             return;
         }
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
         foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($tpl_id) as $action) {
             if ($action instanceof ilDidacticTemplateLocalRoleAction) {
                 continue;
@@ -835,7 +817,6 @@ class ilRbacAdmin
         }
     }
 
-    
     /**
      * Adjust permissions of moved objects
      * - Delete permissions of parent roles that do not exist in new context
@@ -851,7 +832,7 @@ class ilRbacAdmin
         $new_parent = $tree->getParentId($a_ref_id);
         $old_context_roles = $this->rbacreview->getParentRoleIds($a_old_parent, false);
         $new_context_roles = $this->rbacreview->getParentRoleIds($new_parent, false);
-        
+
         $for_addition = $for_deletion = array();
         foreach ($new_context_roles as $new_role_id => $new_role) {
             if (!isset($old_context_roles[$new_role_id])) {
@@ -867,25 +848,24 @@ class ilRbacAdmin
                 $for_deletion[$old_role_id] = $old_role;
             }
         }
-        
+
         if (!count($for_deletion) and !count($for_addition)) {
             $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
             return;
         }
-        
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+
         $rbac_log_active = ilRbacLog::isActive();
         if ($rbac_log_active) {
             $role_ids = array_unique(array_merge(array_keys($for_deletion), array_keys($for_addition)));
         }
-        
+
         foreach ($nodes = $tree->getSubTree($tree->getNodeData($a_ref_id), true) as $node_data) {
             $node_id = $node_data['child'];
 
             if ($rbac_log_active) {
                 $log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
             }
-            
+
             // If $node_data['type'] is not set, this means there is a tree entry without
             // object_reference and/or object_data entry
             // Continue in this case
@@ -895,7 +875,7 @@ class ilRbacAdmin
             if (!$node_id) {
                 continue;
             }
-            
+
             foreach ($for_deletion as $role_id => $role_data) {
                 $this->deleteLocalRole($role_id, $node_id);
                 $this->revokePermission($node_id, $role_id, false);
@@ -904,7 +884,6 @@ class ilRbacAdmin
             foreach ($for_addition as $role_id => $role_data) {
                 switch ($node_data['type']) {
                     case 'grp':
-                        include_once './Modules/Group/classes/class.ilObjGroup.php';
                         $tpl_id = ilObjGroup::lookupGroupStatusTemplateId($node_data['obj_id']);
                         $this->initIntersectionPermissions(
                             $node_data['child'],
@@ -914,9 +893,8 @@ class ilRbacAdmin
                             ROLE_FOLDER_ID
                         );
                         break;
-                    
+
                     case 'crs':
-                        include_once './Modules/Course/classes/class.ilObjCourse.php';
                         $tpl_id = ilObjCourse::lookupCourseNonMemberTemplatesId();
                         $this->initIntersectionPermissions(
                             $node_data['child'],
@@ -926,17 +904,16 @@ class ilRbacAdmin
                             ROLE_FOLDER_ID
                         );
                         break;
-                            
-                            
+
                     default:
                         $this->grantPermission(
                             $role_id,
-                            $ops = $this->rbacreview->getOperationsOfRole($role_id, $node_data['type'], $role_data['parent']),
+                            $ops = $this->rbacreview->getOperationsOfRole($role_id, $node_data['type'],
+                                $role_data['parent']),
                             $node_id
                         );
                         break;
-                        
-                            
+
                 }
             }
 

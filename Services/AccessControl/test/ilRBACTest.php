@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,12 +26,10 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
 /**
-* Unit tests for tree table
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesTree
-*/
+ * Unit tests for tree table
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesTree
+ */
 class ilRBACTest extends TestCase
 {
     protected $backupGlobals = false;
@@ -55,7 +54,6 @@ class ilRBACTest extends TestCase
         $this->assertTrue($review instanceof ilRbacReview);
     }
 
-
     protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;
@@ -77,6 +75,8 @@ class ilRBACTest extends TestCase
         $this->setGlobalVariable('rbacreview', $this->createMock(ilRbacReview::class));
         $this->setGlobalVariable('ilObjDataCache', $this->createMock(ilObjectDataCache::class));
         $this->setGlobalVariable('tree', $this->createMock(ilTree::class));
+        $this->setGlobalVariable('http', $this->createMock(\ILIAS\HTTP\Services::class));
+        $this->setGlobalVariable('refinery', $this->createMock(\ILIAS\Refinery\Factory::class));
 
         $logger = $this->getMockBuilder(ilLogger::class)
                        ->disableOriginalConstructor()
