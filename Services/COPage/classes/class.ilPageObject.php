@@ -1955,7 +1955,7 @@ abstract class ilPageObject
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
                         require_once("./Modules/File/classes/class.ilObjFile.php");
-                        $size = ilObjFileAccess::_lookupFileSize($a_id);
+                        $size = ilObjFileAccess::_lookupFileSize($id);
                     }
                 }
             }
