@@ -27,10 +27,10 @@
 		</object>
 	</objects>
 	<copage>
-		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="classes"/>
-		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="classes"/>
-		<pagecontent pc_type="cach" name="ConsultationHours" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="138"/>
-		<pagecontent pc_type="mcrs" name="MyCourses" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="137"/>
+		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="Page"/>
+		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="Template"/>
+		<pagecontent pc_type="cach" name="ConsultationHours" directory="Page" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="138"/>
+		<pagecontent pc_type="mcrs" name="MyCourses" directory="Page" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="137"/>
 		<pagecontent pc_type="amdfrm" name="AMDForm" directory="Page" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="139"/>
 	</copage>
 
