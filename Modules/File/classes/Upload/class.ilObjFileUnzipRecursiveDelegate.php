@@ -2,6 +2,19 @@
 
 use ILIAS\FileUpload\DTO\UploadResult;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjFileUnzipRecursiveDelegate
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -78,7 +91,7 @@ class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
             if ($is_dir) {
                 $obj = $this->createContainer($original_path, $parent_ref_id);
                 $rtrim = rtrim($original_path, DIRECTORY_SEPARATOR);
-                $i = $this->isInWorkspace() ? $obj->getRefId() : $obj->getRefId();
+                $i = $this->isInWorkspace() ? $obj->getId() : $obj->getRefId();
                 $this->path_map[$rtrim] = $i;
             } else {
                 $this->createFile($original_path, $parent_ref_id);

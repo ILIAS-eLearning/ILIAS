@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SeparatorItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\RepositoryLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -38,19 +37,9 @@ use ilObjMainMenuAccess;
  */
 class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
 {
-
-    /**
-     * @var BasicAccessCheckClosures
-     */
-    private $access_helper;
-    /**
-     * @var ilObjMainMenuAccess
-     */
-    private $mm_access;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    private BasicAccessCheckClosures $access_helper;
+    private ilObjMainMenuAccess $mm_access;
+    protected \ILIAS\DI\Container $dic;
 
     /**
      * @inheritDoc
@@ -99,7 +88,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      * @param bool                  $register
      * @return isItem
      */
-    public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false) : isItem
+    public function getSingleCustomItem(ilMMCustomItemStorage $storage, bool $register = false) : isItem
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 

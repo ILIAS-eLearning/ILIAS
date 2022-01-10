@@ -64,28 +64,28 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     
     /**
      * Fill row
-     * @param type $a_set
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         
-        $this->tpl->setVariable('START', $row['start_str']);
-        $this->tpl->setVariable('NAME', $row['name']);
-        $this->tpl->setVariable('COMMENT', $row['comment']);
-        $this->tpl->setVariable('TITLE', $row['title']);
-        $this->tpl->setVariable('VAL_ID', $row['id']);
+        $this->tpl->setVariable('START', $a_set['start_str']);
+        $this->tpl->setVariable('NAME', $a_set['name']);
+        $this->tpl->setVariable('COMMENT', $a_set['comment']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
+        $this->tpl->setVariable('VAL_ID', $a_set['id']);
         
         include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
-        $list->setId('act_chboo_' . $row['id']);
+        $list->setId('act_chboo_' . $a_set['id']);
         $list->setListTitle($this->lng->txt('actions'));
 
-        $ilCtrl->setParameter($this->getParentObject(), 'bookuser', $row['id']);
+        $ilCtrl->setParameter($this->getParentObject(), 'bookuser', $a_set['id']);
         
-        $start = new ilDateTime($row['start'], IL_CAL_UNIX);
+        $start = new ilDateTime($a_set['start'], IL_CAL_UNIX);
         if (ilDateTime::_after($start, $this->today, IL_CAL_DAY)) {
             $list->addItem(
                 $this->lng->txt('cal_ch_reject_booking'),

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,90 +21,53 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-
 /**
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAccessControl
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilRoleSelectionTableGUI extends ilTable2GUI
 {
-    
-    /**
-     *
-     * @return
-     * @param object $a_parent_obj
-     * @param object $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    protected ilRbacReview $review;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        
+        $this->review = $DIC->rbac()->review();
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', 'f', 1);
+        $this->addColumn('', 'f', (string) 1);
         $this->addColumn($this->lng->txt('title'), 'title', "70%");
         $this->addColumn($this->lng->txt('context'), 'context', "30%");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_role_selection_row.html", "Services/AccessControl");
         $this->setDefaultOrderField('type');
         $this->setDefaultOrderDirection("desc");
     }
-    
-    
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param array row data
-     *
-     */
-    public function fillRow($a_set)
+
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         if (strlen($a_set['description'])) {
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
-        
         $this->tpl->setVariable('VAL_CONTEXT', $a_set['context']);
     }
-    
 
-    /**
-     * Parse Search entries
-     *
-     * @access public
-     * @param array array of search entries
-     *
-     */
-    public function parse($entries)
+    public function parse(array $entries) : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        $records_arr = [];
         foreach ($entries as $entry) {
             $tmp_arr['id'] = $entry['obj_id'];
             $tmp_arr['title'] = ilObjRole::_getTranslation(ilObject::_lookupTitle($entry['obj_id']));
             $tmp_arr['description'] = ilObject::_lookupDescription($entry['obj_id']);
-            $tmp_arr['context'] = ilObject::_lookupTitle($rbacreview->getObjectOfRole($entry['obj_id']));
+            $tmp_arr['context'] = ilObject::_lookupTitle($this->review->getObjectOfRole((int) $entry['obj_id']));
 
             $records_arr[] = $tmp_arr;
         }
-        
-        $this->setData($records_arr ? $records_arr : array());
+        $this->setData($records_arr);
     }
 }

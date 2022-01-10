@@ -421,7 +421,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this,
                 "chooseLetter"
             );
-            $ai->setHighlighted($_GET["letter"] ?? null);
+            $ai->setHighlighted($_GET["letter"] ?? "");
             $ilToolbar->addInputItem(
                 $ai,
                 true

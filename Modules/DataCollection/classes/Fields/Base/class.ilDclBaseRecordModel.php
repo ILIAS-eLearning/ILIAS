@@ -1002,7 +1002,7 @@ class ilDclBaseRecordModel
     public function getComments()
     {
         if ($this->comments === null) {
-            $this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', IL_NOTE_PUBLIC);
+            $this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', ilNote::PUBLIC);
         }
 
         return $this->comments;

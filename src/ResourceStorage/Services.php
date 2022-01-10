@@ -18,6 +18,19 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Services
  * @public
@@ -26,29 +39,14 @@ use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 class Services
 {
 
-    /**
-     * @var Manager
-     */
-    protected $manager;
-    /**
-     * @var Consumers
-     */
-    protected $consumers;
-    /**
-     * @var RepositoryPreloader
-     */
-    protected $preloader;
+    protected \ILIAS\ResourceStorage\Manager\Manager $manager;
+    protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
+    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
 
 
     /**
      * Services constructor.
      * @param StorageHandler        $storage_handler_factory
-     * @param RevisionRepository    $revision_repository
-     * @param ResourceRepository    $resource_repository
-     * @param InformationRepository $information_repository
-     * @param StakeholderRepository $stakeholder_repository
-     * @param LockHandler           $lock_handler
-     * @param FileNamePolicy        $file_name_policy
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,

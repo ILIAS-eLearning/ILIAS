@@ -69,10 +69,9 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
     
     /**
      * Fill template row
-     *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $ilCtrl;
         

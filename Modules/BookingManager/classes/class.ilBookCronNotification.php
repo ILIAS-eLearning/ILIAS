@@ -1,32 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Cron for booking manager notification
- *
- * @author Alex Killing <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilBookCronNotification extends ilCronJob
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilLogger $book_log;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilLogger
-     */
-    protected $book_log;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -96,19 +92,9 @@ class ilBookCronNotification extends ilCronJob
         return $result;
     }
 
-    /**
-     * Send notifications
-     *
-     * @param
-     * @return int
-     */
-    protected function sendNotifications()
+    protected function sendNotifications() : int
     {
         $log = $this->book_log;
-
-        // get all booking pools with notification setting
-
-
 
         $log->debug("start");
 
@@ -197,13 +183,9 @@ class ilBookCronNotification extends ilCronJob
         return count($notifications);
     }
 
-    /**
-     * Send mails
-     *
-     * @param
-     */
-    protected function sendMails($notifications)
-    {
+    protected function sendMails(
+        array $notifications
+    ) : void {
         foreach ($notifications as $uid => $n) {
             $ntf = new ilSystemNotification();
             $lng = $ntf->getUserLanguage($uid);
@@ -246,14 +228,12 @@ class ilBookCronNotification extends ilCronJob
     }
 
 
-    /**
-     * check access on obj id
-     *
-     * @param
-     * @return
-     */
-    protected function checkAccess($perm, $uid, $obj_id)
-    {
+    // check access on obj id
+    protected function checkAccess(
+        string $perm,
+        int $uid,
+        int $obj_id
+    ) : bool {
         $access = $this->access;
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($access->checkAccessOfUser($uid, $perm, "", $ref_id)) {
@@ -261,36 +241,5 @@ class ilBookCronNotification extends ilCronJob
             }
         }
         return false;
-    }
-
-
-    /**
-     * Send user notifications
-     */
-    protected function sendUserNotifications($res)
-    {
-        /*
-         * Your reservations for tomorrow
-         *
-         * Pool Title
-         * Pool Link
-         * - Object (cnt), From - To
-         * - ...
-         *
-         * Reservations for tomorrow
-         *
-         * Pool Title
-         * Pool Link
-         * - Object (cnt), From - To
-         * - ...
-         *
-         */
-    }
-
-    /**
-     * Send admin notifications
-     */
-    protected function sendAdminNotifications($res)
-    {
     }
 }

@@ -65,7 +65,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field != "title") {
             return true;
@@ -76,7 +76,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -185,7 +185,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -269,11 +269,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
     
-    protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
     {
     }
     
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
         $a_excel->setCell($a_row, 1, $a_set["obj_id"]);
@@ -298,11 +298,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, ++$col, $sum);
     }
     
-    protected function fillMetaCSV($a_csv)
+    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
     {
     }
     
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
         $a_csv->addColumn($a_set["obj_id"]);

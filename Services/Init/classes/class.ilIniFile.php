@@ -356,7 +356,7 @@ class ilIniFile
     * @access	public
     * @param	string		group name
     * @param	string		value
-    * @return	mixed		return value string or boolean 'false' on failure
+    * @return	string | bool		return value string or boolean 'false' on failure
     */
     public function readVariable($a_group, $a_var_name)
     {

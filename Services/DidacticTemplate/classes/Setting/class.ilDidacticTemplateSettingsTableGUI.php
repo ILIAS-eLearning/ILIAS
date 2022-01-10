@@ -14,10 +14,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
     /**
      * Constructor
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", int $ref_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
     {
         global $DIC;
         $this->ref_id = $ref_id;
@@ -94,26 +92,25 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
     /**
      * Fill row
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $this->tpl->setVariable('VAL_ID', $set['id']);
+            $this->tpl->setVariable('VAL_ID', $a_set['id']);
         }
 
-        $this->tpl->setVariable('VAL_TITLE', $set['title']);
-        $this->tpl->setVariable('VAL_DESC', $set['description']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
+        $this->tpl->setVariable('VAL_DESC', $a_set['description']);
 
-        if (strlen($set['icon'])) {
-            $this->tpl->setVariable('ICON_SRC', $set['icon']);
-            foreach ((array) $set['assignments'] as $obj_type) {
-
+        if (strlen($a_set['icon'])) {
+            $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
+            foreach ((array) $a_set['assignments'] as $obj_type) {
                 $this->tpl->setVariable('ICON_ALT', $this->lng->txt('objs_' . $obj_type));
             }
         }
 
-        foreach ((array) explode("\n", $set['info']) as $info) {
+        foreach ((array) explode("\n", $a_set['info']) as $info) {
             $trimmed_info = trim($info);
             if ($trimmed_info) {
                 $this->tpl->setCurrentBlock('info');
@@ -122,25 +119,25 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             }
         }
 
-        if ($set['automatic_generated']) {
+        if ($a_set['automatic_generated']) {
             $this->tpl->setVariable("VAL_AUTOMATIC_GENERATED", $this->lng->txt("didactic_auto_generated"));
         }
 
         $this->tpl->setVariable(
             'VAL_IMAGE',
-            $set['enabled'] ?
+            $a_set['enabled'] ?
                 ilUtil::getImagePath('icon_ok.svg') :
                 ilUtil::getImagePath('icon_not_ok.svg')
         );
         $this->tpl->setVariable(
             'VAL_ENABLED_TXT',
-            $set['enabled'] ?
+            $a_set['enabled'] ?
                 $this->lng->txt('active') :
                 $this->lng->txt('inactive')
         );
 
         $atxt = '';
-        foreach ((array) $set['assignments'] as $obj_type) {
+        foreach ((array) $a_set['assignments'] as $obj_type) {
             $atxt .= ($this->lng->txt('objs_' . $obj_type) . '<br/>');
         }
         $this->tpl->setVariable('VAL_APPLICABLE', $atxt);
@@ -148,15 +145,15 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass(
             get_class($this->getParentObject()),
             'tplid',
-            $set['id']
+            $a_set['id']
         );
 
-        if (count($set['scope'])) {
+        if (count($a_set['scope'])) {
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('didactic_scope_list_header'));
             $this->tpl->parseCurrentBlock();
 
-            foreach ($set['scope'] as $ref_id) {
+            foreach ($a_set['scope'] as $ref_id) {
                 $this->tpl->setCurrentBlock('scope_entry');
                 $this->tpl->setVariable('LINK_HREF', ilLink::_getLink($ref_id));
                 $this->tpl->setVariable('LINK_NAME', ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)));
@@ -164,16 +161,16 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             }
         } else {
             $this->tpl->setCurrentBlock('scope_txt');
-            $this->tpl->setVariable('LOCAL_OR_GLOBAL',
-                $set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global'));
+            $this->tpl->setVariable(
+                'LOCAL_OR_GLOBAL',
+                $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
+            );
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-
-
             $actions = new ilAdvancedSelectionListGUI();
-            $actions->setId((string) $set['id']);
+            $actions->setId((string) $a_set['id']);
             $actions->setListTitle($this->lng->txt("actions"));
             // Edit
             $actions->addItem(

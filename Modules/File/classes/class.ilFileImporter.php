@@ -1,4 +1,17 @@
 <?php
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Importer class for files
  *
@@ -8,7 +21,8 @@
  */
 class ilFileImporter extends ilXmlImporter
 {
-
+    protected ?ilObjFile $current_obj = null;
+    
     /**
      * Import XML
      * @param
@@ -29,11 +43,7 @@ class ilFileImporter extends ilXmlImporter
         $parser = new ilFileXMLParser($newObj, $a_xml);
         $parser->setImportDirectory($this->getImportDirectory());
         $parser->startParsing();
-
-        if ($newObj instanceof ilObjFile) {
-            $newObj->setMaxVersion($newObj->getVersion());
-        }
-
+        
         $newObj->createProperties();
 
         $parser->setFileContents();

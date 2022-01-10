@@ -12,7 +12,6 @@ include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSetti
  */
 class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 {
-    protected $lng = null;
 
     /**
      * Constructor
@@ -58,7 +57,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
      * Fill table row template
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

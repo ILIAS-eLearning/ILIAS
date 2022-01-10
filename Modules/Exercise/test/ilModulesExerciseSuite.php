@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestSuite;
 require_once __DIR__ . '/bootstrap.php';
 
 /**
- * Exercise test suite
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilModulesExerciseSuite extends TestSuite

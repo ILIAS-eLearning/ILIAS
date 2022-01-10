@@ -77,11 +77,10 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
     
     /**
      * Get selectable columns
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -222,7 +221,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -251,7 +250,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -259,38 +258,38 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
 
-        if (!$this->isPercentageAvailable($data["obj_id"])) {
-            $data["percentage"] = null;
+        if (!$this->isPercentageAvailable($a_set["obj_id"])) {
+            $a_set["percentage"] = null;
         }
 
         foreach ($this->getSelectedColumns() as $c) {
-            if (!$data["privacy_conflict"]) {
-                $val = (trim($data[$c]) == "")
+            if (!$a_set["privacy_conflict"]) {
+                $val = (trim($a_set[$c]) == "")
                     ? " "
-                    : $data[$c];
+                    : $a_set[$c];
 
-                if ($data[$c] != "" || $c == "status") {
+                if ($a_set[$c] != "" || $c == "status") {
                     switch ($c) {
                         case "first_access":
-                            $val = ilDatePresentation::formatDate(new ilDateTime($data[$c], IL_CAL_DATETIME));
+                            $val = ilDatePresentation::formatDate(new ilDateTime($a_set[$c], IL_CAL_DATETIME));
                             break;
 
                         case "last_access":
-                            $val = ilDatePresentation::formatDate(new ilDateTime($data[$c], IL_CAL_UNIX));
+                            $val = ilDatePresentation::formatDate(new ilDateTime($a_set[$c], IL_CAL_UNIX));
                             break;
 
                         case "status":
                             include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($data[$c]);
-                            $text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
+                            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($a_set[$c]);
+                            $text = ilLearningProgressBaseGUI::_getStatusText($a_set[$c]);
                             $val = ilUtil::img($path, $text);
 
-                            if ($data["ref_id"] &&
-                                $data["type"] != "lobj" &&
-                                $data["type"] != "sco" &&
-                                $data["type"] != "st" &&
-                                $data["type"] != "mob") {
-                                $timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
+                            if ($a_set["ref_id"] &&
+                                $a_set["type"] != "lobj" &&
+                                $a_set["type"] != "sco" &&
+                                $a_set["type"] != "st" &&
+                                $a_set["type"] != "mob") {
+                                $timing = $this->showTimingsWarning($a_set["ref_id"], $this->user_id);
                                 if ($timing) {
                                     if ($timing !== true) {
                                         $timing = ": " . ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
@@ -306,15 +305,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             break;
 
                         case "spent_seconds":
-                            if (!ilObjectLP::supportsSpentSeconds($data["type"])) {
+                            if (!ilObjectLP::supportsSpentSeconds($a_set["type"])) {
                                 $val = "-";
                             } else {
-                                $val = ilDatePresentation::secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
+                                $val = ilDatePresentation::secondsToString($a_set[$c], ($a_set[$c] < 3600 ? true : false)); // #14858
                             }
                             break;
 
                         case "percentage":
-                            $val = $data[$c] . "%";
+                            $val = $a_set[$c] . "%";
                             break;
 
                     }
@@ -328,7 +327,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                     $val = "-";
                 }
                 if ($c == "percentage" &&
-                    !$this->isPercentageAvailable($data["obj_id"])) {
+                    !$this->isPercentageAvailable($a_set["obj_id"])) {
                     $val = "-";
                 }
             } else {
@@ -340,20 +339,20 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
                 
-        if ($data["privacy_conflict"]) {
+        if ($a_set["privacy_conflict"]) {
             $this->tpl->setCurrentBlock("permission_bl");
             $this->tpl->setVariable("TXT_NO_PERMISSION", $lng->txt("status_no_permission"));
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($data["title"] == "") {
-            $data["title"] = "--" . $lng->txt("none") . "--";
+        if ($a_set["title"] == "") {
+            $a_set["title"] = "--" . $lng->txt("none") . "--";
         }
-        $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $data["type"]));
-        $this->tpl->setVariable("ICON_ALT", $lng->txt($data["type"]));
+        $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
+        $this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
         
-        if (in_array($data['type'], array('fold', 'grp')) && $data['obj_id'] != $this->obj_id) {
-            if ($data['type'] == 'fold') {
+        if (in_array($a_set['type'], array('fold', 'grp')) && $a_set['obj_id'] != $this->obj_id) {
+            if ($a_set['type'] == 'fold') {
                 $object_gui = 'ilobjfoldergui';
             } else {
                 $object_gui = 'ilobjgroupgui';
@@ -363,8 +362,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             // link structure gets too complicated
             if ($_GET["baseClass"] != "ilDashboardGUI" && $_GET["baseClass"] != "ilAdministrationGUI") {
                 $old = $ilCtrl->getParameterArrayByClass('illplistofobjectsgui');
-                $ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $data["ref_id"]);
-                $ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $data["ref_id"]);
+                $ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $a_set["ref_id"]);
+                $ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $a_set["ref_id"]);
                 $ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', $this->user_id);
                 $url = $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', $object_gui, 'illearningprogressgui', 'illplistofobjectsgui'), 'userdetails');
                 $ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $old["ref_id"]);
@@ -375,19 +374,19 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             }
 
             $this->tpl->setVariable("URL_TITLE", $url);
-            $this->tpl->setVariable("VAL_TITLE", $data["title"]);
+            $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('title_plain');
-            $this->tpl->setVariable("VAL_TITLE", $data["title"]);
+            $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
             $this->tpl->parseCurrentBlock();
         }
         
         // #16453 / #17163
-        if ($data['ref_id']) {
+        if ($a_set['ref_id']) {
             include_once './Services/Tree/classes/class.ilPathGUI.php';
             $path = new ilPathGUI();
-            $path = $path->getPath($this->ref_id, $data['ref_id']);
+            $path = $path->getPath($this->ref_id, $a_set['ref_id']);
             if ($path) {
                 $this->tpl->setVariable('COLL_PATH', $this->lng->txt('path') . ': ' . $path);
             }
@@ -395,11 +394,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
         // #13807 / #17069
         include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-        if ($data["ref_id"] &&
-            ilLearningProgressAccess::checkPermission('edit_learning_progress', $data['ref_id'])) {
-            if (!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode()) {
+        if ($a_set["ref_id"] &&
+            ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id'])) {
+            if (!in_array($a_set["type"], array("sco", "lobj")) && !$this->getPrintMode()) {
                 $this->tpl->setCurrentBlock("item_command");
-                $ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
+                $ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $a_set["ref_id"]);
                 $this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
                 $this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
                 $ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
@@ -408,7 +407,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
     
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("type"));
         $a_excel->setCell($a_row, 1, $this->lng->txt("title"));
@@ -422,7 +421,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt - 1) . $a_row);
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
@@ -438,7 +437,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $a_csv->addColumn($this->lng->txt("type"));
         $a_csv->addColumn($this->lng->txt("title"));
@@ -451,7 +450,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn($this->lng->txt($a_set["type"]));
         $a_csv->addColumn($a_set["title"]);

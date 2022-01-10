@@ -34,7 +34,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

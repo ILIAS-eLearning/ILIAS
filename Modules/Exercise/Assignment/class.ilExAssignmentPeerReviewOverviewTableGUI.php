@@ -120,7 +120,7 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("PEER", $a_set["recipient"]);
         $this->tpl->setVariable("GIVER", $a_set["giver"]);

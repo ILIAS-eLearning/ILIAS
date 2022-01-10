@@ -37,29 +37,7 @@ class ilBibTex implements ilBiblTypeInterface
 
 
 
-    /**
-     * should return
-     *
-     * Array
-     * (
-     *      [0] => Array
-     *      (
-     *          [isbn] => 978-0-12-411454-8
-     *          [year] => 2013
-     *          [title] => Mastering cloud computing
-     *          [cite] => Masteringcloudcomputing:2013
-     *          [entryType] => book
-     *      )
-     *
-     *      [...]
-     *
-     * @return array
-     */
-
-    /**
-     * @var array
-     */
-    protected static $standard_fields
+    protected static array $standard_fields
         = array(
             'address',
             'annote',
@@ -88,10 +66,7 @@ class ilBibTex implements ilBiblTypeInterface
             'volume',
             'year',
         );
-    /**
-     * @var array
-     */
-    protected static $entry_types
+    protected static array $entry_types
         = array(
             'article',
             'book',

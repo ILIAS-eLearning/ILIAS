@@ -2,31 +2,36 @@
 
 namespace ILIAS\BackgroundTasks\Types;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ListType
- *
  * @package ILIAS\Types
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
- *
  * Describes a list of a certain Type.
- *
  * Attention:
  * isExtensionOf behaves Covariant!
  * new ListType(Dog::class).isExtensionOf(new ListType(Animal::class)) == true!
- *
  * See: https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
  */
 class ListType implements Type, Ancestors
 {
-
-    /** @var Type */
-    protected $type;
-
-
+    
+    protected \ILIAS\BackgroundTasks\Types\Type $type;
+    
     /**
      * SingleType constructor.
-     *
      * @param $fullyQualifiedClassName string|Type Give a Value Type or a Type that will be wrapped
      *                                 in a single type.
      */
@@ -37,8 +42,7 @@ class ListType implements Type, Ancestors
         }
         $this->type = $fullyQualifiedClassName;
     }
-
-
+    
     /**
      * @inheritdoc
      */
@@ -46,67 +50,53 @@ class ListType implements Type, Ancestors
     {
         return "[" . $this->type . "]";
     }
-
-
+    
     /**
      * Is this type a subtype of $type. Not strict! x->isExtensionOf(x) == true.
-     *
      * Attention: [Dog].isExtensionOf([Animal]) == true. In other words:
      * The isExtensionOf behaves Covariant!
-     *
      * If you are familiar with e.g. Java Generics ?.isExtensionOf(x) behaves the same as <? extends x>.
-     *
      * See: http://stackoverflow.com/questions/2575363/generics-list-extends-animal-is-same-as-listanimal
-     *
      * See: https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
-     *
      * @param $type Type
-     *
-     * @return bool
      */
-    public function isExtensionOf(Type $type)
+    public function isExtensionOf(Type $type) : bool
     {
         if (!$type instanceof ListType) {
             return false;
         }
-
+        
         return $this->type->isExtensionOf($type->getContainedType());
     }
-
-
-    /**
-     * @return Type
-     */
-    public function getContainedType()
+    
+    public function getContainedType() : \ILIAS\BackgroundTasks\Types\Type
     {
         return $this->type;
     }
-
-
+    
     /**
      * @inheritdoc
      */
-    public function getAncestors()
+    public function getAncestors() : array
     {
         $ancestors = [];
-
+        
         foreach ($this->type->getAncestors() as $type) {
             $ancestors[] = new ListType($type);
         }
-
+        
         return $ancestors;
     }
-
-
+    
     /**
      * @inheritdoc
      */
-    public function equals(Type $otherType)
+    public function equals(Type $otherType) : bool
     {
         if (!$otherType instanceof ListType) {
             return false;
         }
-
+        
         return $this->type->equals($otherType->getContainedType());
     }
 }

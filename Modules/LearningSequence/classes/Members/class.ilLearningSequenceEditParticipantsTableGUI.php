@@ -44,20 +44,20 @@ class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_ID', $set['usr_id']);
-        $this->tpl->setVariable('VAL_NAME', $set['lastname'] . ', ' . $set['firstname']);
-        $this->tpl->setVariable('VAL_LOGIN', $set['login']);
-        $this->tpl->setVariable('VAL_NOTIFICATION_ID', $set['usr_id']);
-        $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', $set['notification'] ? 'checked="checked"' : '');
+        $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
+        $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
+        $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+        $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', $a_set['notification'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('NUM_ROLES', count($this->ls_participants->getRoles()));
 
         if ($this->privacy_settings->enabledLearningSequenceAccessTimes()) {
-            $this->tpl->setVariable('VAL_ACCESS', $set['access_time']);
+            $this->tpl->setVariable('VAL_ACCESS', $a_set['access_time']);
         }
 
-        $assigned = $this->ls_participants->getAssignedRoles($set['usr_id']);
+        $assigned = $this->ls_participants->getAssignedRoles($a_set['usr_id']);
         foreach ($this->ls_object->getLocalLearningSequenceRoles(true) as $name => $role_id) {
             $this->tpl->setCurrentBlock('roles');
             $this->tpl->setVariable('ROLE_ID', $role_id);

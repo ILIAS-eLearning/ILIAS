@@ -70,19 +70,18 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
-            $this->tpl->setVariable('CB_PHRASE_ID', $data["phrase_id"]);
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->setVariable('CB_PHRASE_ID', $a_set["phrase_id"]);
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            $this->tpl->setVariable('HIDDEN_PHRASE_ID', $data["phrase_id"]);
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->setVariable('HIDDEN_PHRASE_ID', $a_set["phrase_id"]);
         }
-        $this->tpl->setVariable('PHRASE_ID', $data["phrase_id"]);
-        $this->tpl->setVariable("PHRASE", $data["phrase"]);
-        $this->tpl->setVariable("ANSWERS", $data["answers"]);
+        $this->tpl->parseCurrentBlock();
+        $this->tpl->setVariable('PHRASE_ID', $a_set["phrase_id"]);
+        $this->tpl->setVariable("PHRASE", $a_set["phrase"]);
+        $this->tpl->setVariable("ANSWERS", $a_set["answers"]);
     }
 }

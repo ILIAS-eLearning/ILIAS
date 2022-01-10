@@ -21,9 +21,9 @@
  */
 class SurveyMetricQuestion extends SurveyQuestion
 {
-    const SUBTYPE_NON_RATIO = 3;
-    const SUBTYPE_RATIO_NON_ABSOLUTE = 4;
-    const SUBTYPE_RATIO_ABSOLUTE = 5;
+    public const SUBTYPE_NON_RATIO = 3;
+    public const SUBTYPE_RATIO_NON_ABSOLUTE = 4;
+    public const SUBTYPE_RATIO_ABSOLUTE = 5;
     
     public int $subtype;
 
@@ -167,7 +167,7 @@ class SurveyMetricQuestion extends SurveyQuestion
             $ilDB->manipulateF(
                 "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, subtype) VALUES (%s, %s)",
                 array('integer', 'text'),
-                array($this->getId(), $this->getSubType())
+                array($this->getId(), $this->getSubtype())
             );
 
             // saving material uris in the database
@@ -198,7 +198,7 @@ class SurveyMetricQuestion extends SurveyQuestion
     public function toXML(
         bool $a_include_header = true
     ) : string {
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
@@ -216,7 +216,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "subtype" => $this->getSubtype(),
             "obligatory" => $this->getObligatory()
         );
@@ -306,7 +306,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         $entered_value = $post_data[$this->getId() . "_metric_question"];
         $data = array();
         if (strlen($entered_value)) {
-            array_push($data, array("value" => $entered_value));
+            $data[] = array("value" => $entered_value);
         }
         return $data;
     }
@@ -322,7 +322,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         // replace german notation with international notation
         $entered_value = str_replace(",", ".", $entered_value);
         
-        if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) {
+        if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
             return "";
         }
         
@@ -350,7 +350,7 @@ class SurveyMetricQuestion extends SurveyQuestion
             return $this->lng->txt("metric_question_not_a_value");
         }
 
-        if (($this->getSubType() == self::SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value))) {
+        if (($this->getSubtype() == self::SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value))) {
             return $this->lng->txt("metric_question_floating_point");
         }
         return "";

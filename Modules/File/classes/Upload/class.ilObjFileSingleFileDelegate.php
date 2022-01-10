@@ -2,21 +2,28 @@
 
 use ILIAS\FileUpload\DTO\UploadResult;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjFileSingleFileDelegate
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
 {
-    /**
-     * @var int
-     */
-    protected $object_id;
-
-    /**
-     * @var array
-     */
-    protected $uploaded_suffixes = [];
+    protected ?int $object_id = null;
+    
+    protected array $uploaded_suffixes = [];
 
     public function handle(
         int $parent_id,
@@ -56,6 +63,9 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
         return $response;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getUploadedSuffixes() : array
     {
         return $this->uploaded_suffixes;

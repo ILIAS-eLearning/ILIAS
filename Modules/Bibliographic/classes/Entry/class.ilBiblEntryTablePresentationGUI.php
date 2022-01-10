@@ -8,18 +8,9 @@
 class ilBiblEntryTablePresentationGUI
 {
     
-    /**
-     * @var \ilBiblEntry
-     */
-    protected $entry;
-    /**
-     * @var string
-     */
-    protected $html = '';
-    /**
-     * @var ilBiblFactoryFacadeInterface
-     */
-    protected $facade;
+    protected \ilBiblEntry $entry;
+    protected string $html = '';
+    protected \ilBiblFactoryFacadeInterface $facade;
     
     /**
      * ilBiblEntryTablePresentationGUI constructor.
@@ -36,7 +27,7 @@ class ilBiblEntryTablePresentationGUI
      * @return mixed|string
      * @deprecated Has to be refactored. Active records verwenden statt array
      */
-    protected function render()
+    protected function render(): void
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($this->getEntry()->getId());
         //Get the model which declares which attributes to show in the overview table and how to show them
@@ -102,34 +93,22 @@ class ilBiblEntryTablePresentationGUI
         $this->setHtml($single_entry);
     }
     
-    /**
-     * @return string
-     */
-    public function getHtml()
+    public function getHtml(): string
     {
         return $this->html;
     }
     
-    /**
-     * @param string $html
-     */
-    public function setHtml($html)
+    public function setHtml(string $html): void
     {
         $this->html = $html;
     }
     
-    /**
-     * @return ilBiblEntry
-     */
-    public function getEntry()
+    public function getEntry(): \ilBiblEntry
     {
         return $this->entry;
     }
     
-    /**
-     * @param ilBiblEntry $entry
-     */
-    public function setEntry($entry)
+    public function setEntry(\ilBiblEntry $entry): void
     {
         $this->entry = $entry;
     }

@@ -19,6 +19,7 @@
  */
 class ilSurveyConstraintsGUI
 {
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilObjSurvey $object;
     protected ilObjSurveyGUI $parent_gui;
@@ -50,6 +51,11 @@ class ilSurveyConstraintsGUI
             ->internal()
             ->domain()
             ->edit();
+        $this->request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     public function executeCommand() : void
@@ -67,10 +73,7 @@ class ilSurveyConstraintsGUI
      */
     public function constraintsObject() : void
     {
-        $step = 0;
-        if (array_key_exists("step", $_GET)) {
-            $step = (int) $_GET["step"];
-        }
+        $step = $this->request->getStep();
         switch ($step) {
             case 1:
                 $this->constraintStep1Object();
@@ -100,7 +103,7 @@ class ilSurveyConstraintsGUI
      */
     public function constraintsAddObject() : void
     {
-        if (strlen($_POST["v"]) == 0) {
+        if (strlen($this->request->getConstraintPar("v")) == 0) {
             ilUtil::sendFailure($this->lng->txt("msg_enter_value_for_valid_constraint"));
             $this->constraintStep3Object();
             return;
@@ -110,16 +113,30 @@ class ilSurveyConstraintsGUI
         $include_elements = $this->edit_manager->getConstraintElements();
         foreach ($include_elements as $elementCounter) {
             if (is_array($structure[$elementCounter])) {
-                if (strlen($_GET["precondition"])) {
-                    $this->object->updateConstraint($_GET['precondition'], $_POST["q"], $_POST["r"], $_POST["v"], $_POST['c']);
+                if (strlen($this->request->getPrecondition())) {
+                    $this->object->updateConstraint(
+                        $this->request->getPrecondition(),
+                        $this->request->getConstraintPar("q"),
+                        $this->request->getConstraintPar("r"),
+                        $this->request->getConstraintPar("v"),
+                        $this->request->getConstraintPar("c")
+                    );
                 } else {
-                    $constraint_id = $this->object->addConstraint($_POST["q"], $_POST["r"], $_POST["v"], $_POST['c']);
+                    $constraint_id = $this->object->addConstraint(
+                        $this->request->getConstraintPar("q"),
+                        $this->request->getConstraintPar("r"),
+                        $this->request->getConstraintPar("v"),
+                        $this->request->getConstraintPar("c")
+                    );
                     foreach ($structure[$elementCounter] as $key => $question_id) {
                         $this->object->addConstraintToQuestion($question_id, $constraint_id);
                     }
                 }
                 if (count($structure[$elementCounter]) > 1) {
-                    $this->object->updateConjunctionForQuestions($structure[$elementCounter], $_POST['c']);
+                    $this->object->updateConjunctionForQuestions(
+                        $structure[$elementCounter],
+                        $this->request->getConstraintPar("c")
+                    );
                 }
             }
         }
@@ -131,17 +148,22 @@ class ilSurveyConstraintsGUI
     /**
      * Handles the first step of the precondition add action
      */
-    public function constraintStep1Object() : void
+    public function constraintStep1Object($start = null) : void
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $structure = $this->edit_manager->getConstraintStructure();
-        $start = $_GET["start"];
+        if (is_null($start)) {
+            $start = $this->request->getStart();
+        }
         $option_questions = array();
         for ($i = 1; $i < $start; $i++) {
             if (is_array($structure[$i])) {
                 foreach ($structure[$i] as $key => $question_id) {
                     if ($survey_questions[$question_id]["usableForPrecondition"]) {
-                        array_push($option_questions, array("question_id" => $survey_questions[$question_id]["question_id"], "title" => $survey_questions[$question_id]["title"], "type_tag" => $survey_questions[$question_id]["type_tag"]));
+                        $option_questions[] = array("question_id" => $survey_questions[$question_id]["question_id"],
+                                                    "title" => $survey_questions[$question_id]["title"],
+                                                    "type_tag" => $survey_questions[$question_id]["type_tag"]
+                        );
                     }
                 }
             }
@@ -152,7 +174,7 @@ class ilSurveyConstraintsGUI
             ilUtil::sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
             $this->ctrl->redirect($this, "constraints");
         }
-        $this->constraintForm(1, $_POST, $survey_questions, $option_questions);
+        $this->constraintForm(1, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
     }
     
     /**
@@ -162,8 +184,13 @@ class ilSurveyConstraintsGUI
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
-        array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
-        $this->constraintForm(2, $_POST, $survey_questions, $option_questions);
+        $q = $this->request->getConstraintPar("q");
+        $option_questions[] = array(
+            "question_id" => $q,
+            "title" => $survey_questions[$q]["title"],
+            "type_tag" => $survey_questions[$q]["type_tag"]
+        );
+        $this->constraintForm(2, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
     }
     
     /**
@@ -173,24 +200,42 @@ class ilSurveyConstraintsGUI
     {
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
-        if (strlen($_GET["precondition"])) {
-            if (!$this->validateConstraintForEdit($_GET["precondition"])) {
+        if (strlen($this->request->getPrecondition())) {
+            if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
                 $this->ctrl->redirect($this, "constraints");
             }
             
-            $pc = $this->object->getPrecondition($_GET["precondition"]);
+            $pc = $this->object->getPrecondition($this->request->getPrecondition());
             $postvalues = array(
                 "c" => $pc["conjunction"],
                 "q" => $pc["question_fi"],
                 "r" => $pc["relation_id"],
                 "v" => $pc["value"]
             );
-            array_push($option_questions, array("question_id" => $pc["question_fi"], "title" => $survey_questions[$pc["question_fi"]]["title"], "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]));
+            $option_questions[] = array("question_id" => $pc["question_fi"],
+                                        "title" => $survey_questions[$pc["question_fi"]]["title"],
+                                        "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]
+            );
             $this->constraintForm(3, $postvalues, $survey_questions, $option_questions);
         } else {
-            array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
-            $this->constraintForm(3, $_POST, $survey_questions, $option_questions);
+            $q = $this->request->getConstraintPar("q");
+            $option_questions[] = array(
+                "question_id" => $q,
+                "title" => $survey_questions[$q]["title"],
+                "type_tag" => $survey_questions[$q]["type_tag"]
+            );
+            $this->constraintForm(3, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
         }
+    }
+
+    protected function getConstraintParsFromPost() : array
+    {
+        return [
+            "c" => $this->request->getConstraintPar("c"),
+            "q" => $this->request->getConstraintPar("q"),
+            "r" => $this->request->getConstraintPar("r"),
+            "v" => $this->request->getConstraintPar("v")
+        ];
     }
 
     // output constraint editing form
@@ -200,8 +245,8 @@ class ilSurveyConstraintsGUI
         array $survey_questions,
         ?array $questions = null
     ) : void {
-        if (strlen($_GET["start"])) {
-            $this->ctrl->setParameter($this, "start", $_GET["start"]);
+        if (strlen($this->request->getStart())) {
+            $this->ctrl->setParameter($this, "start", $this->request->getStart());
         }
         $this->ctrl->saveParameter($this, "precondition");
         $form = new ilPropertyFormGUI();
@@ -215,7 +260,7 @@ class ilSurveyConstraintsGUI
         $title = array();
         $title_ids = $this->edit_manager->getConstraintElements();
         if (!$title_ids) {
-            $title_ids = array($_GET["start"]);
+            $title_ids = array($this->request->getStart());
         }
         foreach ($title_ids as $title_id) {
             // question block
@@ -274,6 +319,9 @@ class ilSurveyConstraintsGUI
             $form->addItem($step3);
         }
 
+        $cmd_back = "";
+        $cmd_continue = "";
+
         switch ($step) {
             case 1:
                 $cmd_continue = "constraintStep2";
@@ -319,7 +367,7 @@ class ilSurveyConstraintsGUI
      */
     public function confirmDeleteConstraintsObject() : void
     {
-        $id = (int) $_REQUEST["precondition"];
+        $id = (int) $this->request->getPrecondition();
         if (!$this->validateConstraintForEdit($id)) {
             $this->ctrl->redirect($this, "constraints");
         }
@@ -353,7 +401,7 @@ class ilSurveyConstraintsGUI
 
     public function deleteConstraintsObject() : void
     {
-        $id = (int) $_REQUEST["precondition"];
+        $id = (int) $this->request->getPrecondition();
         if ($this->validateConstraintForEdit($id)) {
             ilUtil::sendSuccess($this->lng->txt("survey_constraint_deleted"), true);
             $this->object->deleteConstraint($id);
@@ -364,15 +412,14 @@ class ilSurveyConstraintsGUI
     
     public function createConstraintsObject() : void
     {
-        $include_elements = $_POST["includeElements"];
-        if ((!is_array($include_elements)) || (count($include_elements) == 0)) {
+        $include_elements = $this->request->getIncludeElements();
+        if (count($include_elements) == 0) {
             ilUtil::sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
             $this->ctrl->redirect($this, "constraints");
         } elseif (count($include_elements) >= 1) {
             $this->edit_manager->setConstraintElements($include_elements);
             sort($include_elements, SORT_NUMERIC);
-            $_GET["start"] = $include_elements[0];
-            $this->constraintStep1Object();
+            $this->constraintStep1Object($include_elements[0]);
         }
     }
 
@@ -381,13 +428,13 @@ class ilSurveyConstraintsGUI
      */
     public function editPreconditionObject() : void
     {
-        if (!$this->validateConstraintForEdit($_GET["precondition"])) {
+        if (!$this->validateConstraintForEdit($this->request->getPrecondition())) {
             $this->ctrl->redirect($this, "constraints");
         }
         
-        $this->edit_manager->setConstraintElements([$_GET["start"]]);
-        $this->ctrl->setParameter($this, "precondition", $_GET["precondition"]);
-        $this->ctrl->setParameter($this, "start", $_GET["start"]);
+        $this->edit_manager->setConstraintElements([$this->request->getStart()]);
+        $this->ctrl->setParameter($this, "precondition", $this->request->getPrecondition());
+        $this->ctrl->setParameter($this, "start", $this->request->getStart());
         $this->ctrl->redirect($this, "constraintStep3");
     }
 }

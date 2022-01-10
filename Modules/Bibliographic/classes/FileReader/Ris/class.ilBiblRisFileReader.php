@@ -10,7 +10,7 @@ class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
     /**
      * @return array
      */
-    public function parseContent()
+    public function parseContent() : array
     {
         return (new ilBiblRisFileReaderWrapper())->parseContent($this->file_content);
     }

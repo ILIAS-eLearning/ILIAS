@@ -5,6 +5,19 @@ namespace ILIAS\ResourceStorage\Consumer;
 use ILIAS\ResourceStorage\Revision\Revision;
 use OutOfBoundsException;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Trait GetRevisionTrait
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -12,7 +25,6 @@ use OutOfBoundsException;
 trait GetRevisionTrait
 {
     /**
-     * @return Revision
      * @throws OutOfBoundsException
      */
     protected function getRevision() : Revision

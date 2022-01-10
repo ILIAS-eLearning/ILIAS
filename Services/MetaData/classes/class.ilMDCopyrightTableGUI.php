@@ -42,9 +42,6 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd = '', $a_has_write = false)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
         
         $this->has_write = (bool) $a_has_write;
         
@@ -77,7 +74,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         if ($this->has_write) {
             if ($a_set['default']) {

@@ -143,7 +143,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         /** @var $a_set ilForumTopic */
         $this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $a_set->getId());

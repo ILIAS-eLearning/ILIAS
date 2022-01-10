@@ -88,7 +88,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
         $this->setData($questions["set"]);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable(
             "PAGE_TITLE",

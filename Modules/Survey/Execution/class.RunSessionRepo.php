@@ -35,7 +35,7 @@ class RunSessionRepo
 
     protected function getAnonymKey(int $survey_id) : string
     {
-        return self::KEY_ANONYM . (string) $survey_id;
+        return self::KEY_ANONYM . $survey_id;
     }
 
     public function issetCode(int $survey_id) : bool
@@ -82,7 +82,7 @@ class RunSessionRepo
 
     public function getPageEnter() : int
     {
-        return \ilSession::get(self::KEY_PAGE_ENTER);
+        return \ilSession::get(self::KEY_PAGE_ENTER) ?? 0;
     }
 
     public function clearPageEnter() : void
@@ -140,7 +140,7 @@ class RunSessionRepo
 
     public function getErrors() : array
     {
-        return \ilSession::get(self::KEY_ERRORS);
+        return \ilSession::get(self::KEY_ERRORS) ?? [];
     }
 
     public function clearErrors() : void

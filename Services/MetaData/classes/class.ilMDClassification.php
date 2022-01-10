@@ -141,12 +141,9 @@ class ilMDClassification extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_classification_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_classification'));
+        $fields['meta_classification_id'] = array('integer',$next_id = $this->db->nextId('il_meta_classification'));
         
         if ($this->db->insert('il_meta_classification', $fields)) {
             $this->setMetaId($next_id);
@@ -157,9 +154,6 @@ class ilMDClassification extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -175,14 +169,11 @@ class ilMDClassification extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_classification " .
-                "WHERE meta_classification_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_classification_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getTaxonPathIds() as $id) {
                 $tax = $this->getTaxonPath($id);
@@ -211,15 +202,12 @@ class ilMDClassification extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_classification " .
-                "WHERE meta_classification_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_classification_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

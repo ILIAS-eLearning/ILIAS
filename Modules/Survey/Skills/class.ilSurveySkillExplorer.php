@@ -19,6 +19,10 @@
  */
 class ilSurveySkillExplorer extends ilExplorer
 {
+    protected array $parent;
+    protected array $node;
+    protected bool $templates;
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected array $force_open_path;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
@@ -61,6 +65,12 @@ class ilSurveySkillExplorer extends ilExplorer
             $this->child_nodes[$n["parent"]][] = $n;
             $this->parent[$n["child"]] = $n["parent"];
         }
+
+        $this->edit_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     /**
@@ -87,7 +97,7 @@ class ilSurveySkillExplorer extends ilExplorer
 
         $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $a_node_id);
         $ret = $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "selectSkillForQuestion");
-        $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $this->edit_request->getObjId());
         
         return $ret;
     }
@@ -105,7 +115,7 @@ class ilSurveySkillExplorer extends ilExplorer
         string $a_type = "",
         $a_obj_id = ""
     ) : string {
-        if (in_array($a_type, array("sktr"))) {
+        if ($a_type == "sktr") {
             return ilUtil::getImagePath("icon_skll_s.gif");
         }
         return ilUtil::getImagePath($a_name);

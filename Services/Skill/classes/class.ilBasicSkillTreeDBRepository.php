@@ -17,14 +17,18 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+
 class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
 {
     protected ilDBInterface $db;
+    protected Tree\SkillTreeFactory $tree_factory;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(Tree\SkillTreeFactory $tree_factory, ilDBInterface $db = null)
     {
         global $DIC;
 
+        $this->tree_factory = $tree_factory;
         $this->db = ($db)
             ?: $DIC->database();
     }
@@ -33,7 +37,6 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
      * @inheritDoc
      */
     public function getCommonSkillIdForImportId(
-        ilSkillTree $tree,
         int $a_source_inst_id,
         int $a_skill_import_id,
         int $a_tref_import_id = 0
@@ -69,6 +72,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
         while ($rec = $ilDB->fetchAssoc($set)) {
             $matching_trefs = [];
             if ($a_tref_import_id > 0) {
+                $tree = $this->tree_factory->getTreeById($rec["skl_tree_id"]);
                 $skill_template_id = $tree->getTopParentNodeId($rec["obj_id"]);
 
                 // check of skill is in template
@@ -109,5 +113,40 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
             $results[] = array("level_id" => $rec["id"], "creation_date" => $rec["creation_date"]);
         }
         return $results;
+    }
+
+    public function isInAnyTree(int $node_id) : bool
+    {
+        $tree_id = $this->getTreeIdForNodeId($node_id);
+        if ($tree_id > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getTreeIdForNodeId(int $node_id) : int
+    {
+        $db = $this->db;
+
+        $set = $db->queryF(
+            "SELECT * FROM skl_tree " .
+            " WHERE child = %s ",
+            ["integer"],
+            [$node_id]
+        );
+        $rec = $db->fetchAssoc($set);
+        return $rec["skl_tree_id"] ?? 0;
+    }
+
+    public function getTreeForNodeId(int $node_id) : ilSkillTree
+    {
+        $tree_id = $this->getTreeIdForNodeId($node_id);
+        return $this->tree_factory->getTreeById($tree_id);
+    }
+
+    public function getVirtualTreeForNodeId(int $node_id) : ilVirtualSkillTree
+    {
+        $tree_id = $this->getTreeIdForNodeId($node_id);
+        return $this->tree_factory->getVirtualTreeById($tree_id);
     }
 }

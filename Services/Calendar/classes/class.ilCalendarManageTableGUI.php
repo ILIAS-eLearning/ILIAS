@@ -108,12 +108,11 @@ class ilCalendarManageTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $current_selection_list = new ilAdvancedSelectionListGUI();

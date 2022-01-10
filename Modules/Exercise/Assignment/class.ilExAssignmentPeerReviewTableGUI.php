@@ -34,8 +34,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         
         $this->setLimit(9999);
         
-        $this->setTitle($a_ass->getTitle() . ": " . $this->lng->txt("exc_peer_review") .
-            " - " . $this->lng->txt("exc_peer_review_give"));
+        $this->setTitle(
+            $a_ass->getTitle() . ": " . $this->lng->txt("exc_peer_review") .
+                " - " . $this->lng->txt("exc_peer_review_give")
+        );
                     
         if (!$this->ass->hasPeerReviewPersonalized()) {
             $this->addColumn($this->lng->txt("id"), "seq");
@@ -123,7 +125,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, array("seq"))) {
             return true;
@@ -134,7 +136,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
     /**
      * @throws ilDateTimeException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
                     

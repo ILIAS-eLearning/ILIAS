@@ -53,7 +53,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("id[]");
         $this->setTopCommands(true);
 
-        if($access->checkAccess("write", '', $a_parent_obj->ref_id)) {
+        if ($access->checkAccess("write", '', $a_parent_obj->ref_id)) {
             $this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
         }
         
@@ -90,7 +90,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
             $this->filter["role"],
             $this->filter["generated"],
             $this->filter["alimit"]
-            );
+        );
             
         if (count($codes_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
@@ -103,7 +103,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                 $this->filter["role"],
                 $this->filter["generated"],
                 $this->filter["alimit"]
-                );
+            );
         }
         
         include_once './Services/AccessControl/classes/class.ilObjRole.php';
@@ -183,7 +183,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -247,7 +247,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->filter["generated"] = $si->getValue();
     }
     
-    public function getSelectedColumns()
+    public function getSelectedColumns() : array
     {
         return array("code" => "registration_code",
             "role" => "registration_codes_roles",
@@ -257,11 +257,11 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
             "used" => "registration_used");
     }
 
-    protected function fillRow($code)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ID", $code["code_id"]);
+        $this->tpl->setVariable("ID", $a_set["code_id"]);
         foreach (array_keys($this->getSelectedColumns()) as $c) {
-            $this->tpl->setVariable("VAL_" . strtoupper($c), $code[$c]);
+            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c]);
         }
     }
 }

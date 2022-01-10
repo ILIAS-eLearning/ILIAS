@@ -1,9 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
  * Class ilObjBibliographicAccess
  *
@@ -25,8 +21,9 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *        array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
+     * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
-    public static function _getCommands()
+    public static function _getCommands(): array
     {
         $commands = array(
             array(
@@ -45,10 +42,8 @@ class ilObjBibliographicAccess extends ilObjectAccess
 
     /**
      * @param $a_target
-     *
-     * @return bool
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -77,7 +72,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *
      * @return    boolean        true, if everything is ok
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""): bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -88,8 +83,12 @@ class ilObjBibliographicAccess extends ilObjectAccess
             $a_user_id = $ilUser->getId();
         }
 
-        if (isset($_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
-            if (!self::checkEntryIdMatch($a_obj_id, $_GET[ilObjBibliographicGUI::P_ENTRY_ID])) {
+        if ($DIC->http()->wrapper()->query()->has(ilObjBibliographicGUI::P_ENTRY_ID)) {
+            $entry_id = $DIC->http()->wrapper()->query()->retrieve(
+                ilObjBibliographicGUI::P_ENTRY_ID,
+                $DIC->refinery()->to()->int()
+            );
+            if (!self::checkEntryIdMatch($a_obj_id, $entry_id)) {
                 return false;
             }
         }
@@ -133,10 +132,8 @@ class ilObjBibliographicAccess extends ilObjectAccess
     /**
      * @param $ref_id
      * @param $obj_id
-     *
-     * @return bool
      */
-    private static function checkEntryIdMatch($obj_id, $entry_id)
+    private static function checkEntryIdMatch($obj_id, $entry_id): bool
     {
         /**
          * @var $ilBiblEntry ilBiblEntry
@@ -155,7 +152,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *
      * @param int $a_id bibl id
      */
-    public static function _lookupOnline($a_id)
+    public static function _lookupOnline(int $a_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

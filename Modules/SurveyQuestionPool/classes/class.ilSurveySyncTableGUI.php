@@ -19,6 +19,7 @@
  */
 class ilSurveySyncTableGUI extends ilTable2GUI
 {
+    protected SurveyQuestion $question;
     protected ilAccessHandler $access;
     protected ilTree $tree;
 
@@ -72,7 +73,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
         $table_data = array();
         foreach ($this->question->getCopyIds(true) as $survey_obj_id => $questions) {
             $survey_id = new ilObjSurvey($survey_obj_id, false);
-            $survey_id->loadFromDB();
+            $survey_id->loadFromDb();
             $survey_id = $survey_id->getSurveyId();
             
             $ref_ids = ilObject::_getAllReferences($survey_obj_id);
@@ -117,7 +118,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

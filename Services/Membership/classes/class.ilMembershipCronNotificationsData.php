@@ -180,7 +180,7 @@ class ilMembershipCronNotificationsData
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $coms = ilNote::_getAllNotesOfSingleRepObject(
                         $obj_id,
-                        IL_NOTE_PUBLIC,
+                        ilNote::PUBLIC,
                         false,
                         false,
                         $this->last_run

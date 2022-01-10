@@ -45,7 +45,7 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
         $this->setData($rows);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);

@@ -86,7 +86,7 @@ class ilCalendarCopyDefinition extends AbstractValue
      * @param Value $other
      * @return bool
      */
-    public function equals(Value $other)
+    public function equals(Value $other) : bool
     {
         return strcmp($this->getHash(), $other->getHash());
     }
@@ -96,7 +96,7 @@ class ilCalendarCopyDefinition extends AbstractValue
      * Get hash
      * @return string
      */
-    public function getHash()
+    public function getHash() : string
     {
         return md5($this->serialize());
     }
@@ -116,9 +116,9 @@ class ilCalendarCopyDefinition extends AbstractValue
 
     /**
      * Set value
-     * @param string[] $value
+     * @param $value
      */
-    public function setValue($value)
+    public function setValue($value) : void
     {
         $this->copy_definitions = $value;
     }

@@ -56,7 +56,7 @@ class ilExportTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('date'), 'timestamp');
     }
     
-    protected function prepareOutput()
+    protected function prepareOutput() : void
     {
         // append at last position (after custom columns)
         $this->addColumn($this->lng->txt('actions'));
@@ -128,7 +128,7 @@ class ilExportTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

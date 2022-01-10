@@ -11,7 +11,6 @@
 */
 class ilSearchResultTableGUI extends ilTable2GUI
 {
-
     protected ilObjUser $user;
     protected ilSearchResultPresentation $presenter;
     protected ilObjectDefinition $objDefinition;
@@ -65,7 +64,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'relevance':
@@ -76,9 +75,9 @@ class ilSearchResultTableGUI extends ilTable2GUI
     
     /**
      * Get selectable columns
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         return array('create_date' =>
                         array(
@@ -92,9 +91,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-
         $obj_id = $a_set["obj_id"];
         $ref_id = $a_set["ref_id"];
         $type = $a_set['type'];
@@ -106,7 +104,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
             return;
         }
         
-        include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
         $item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
         $item_list_gui->initItem($ref_id, $obj_id, $type, $title, $description);
         $item_list_gui->setContainerObject($this->parent_obj);
@@ -126,7 +123,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
 
         
         if ($this->enabledRelevance()) {
-            include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
             $pbar = ilProgressBar::getInstance();
             $pbar->setCurrent($relevance);
             
@@ -153,7 +149,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
             $type_txt = $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type);
             $icon = ilObject::_getIcon($obj_id, 'small', $type);
         } else {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $type_txt = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
             $icon = ilObject::_getIcon($obj_id, 'small', $type);
         }

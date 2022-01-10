@@ -46,7 +46,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         }
     }
 
-    const ID = 'svy_rater_inv';
+    public const ID = 'svy_rater_inv';
 
     public function getId() : string
     {
@@ -124,7 +124,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
 
         switch ($placeholder_id) {
             case 'svy_title':
-                return (string) $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
 
             case 'svy_link':
                 $svy = new ilObjSurvey($context_parameters['ref_id']);

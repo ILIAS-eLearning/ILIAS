@@ -159,57 +159,57 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return !in_array($a_field, array("question", "question_type"));
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("TITLE", $data['title']);
+        $this->tpl->setVariable("TITLE", $a_set['title']);
     
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'question') == 0) {
                 $this->tpl->setCurrentBlock('question');
-                $this->tpl->setVariable("QUESTION", $data['question']);
+                $this->tpl->setVariable("QUESTION", $a_set['question']);
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'question_type') == 0) {
                 $this->tpl->setCurrentBlock('question_type');
-                $this->tpl->setVariable("QUESTION_TYPE", trim($data['question_type']));
+                $this->tpl->setVariable("QUESTION_TYPE", trim($a_set['question_type']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'users_answered') == 0) {
                 $this->tpl->setCurrentBlock('users_answered');
-                $this->tpl->setVariable("USERS_ANSWERED", trim($data['users_answered']));
+                $this->tpl->setVariable("USERS_ANSWERED", trim($a_set['users_answered']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'users_skipped') == 0) {
                 $this->tpl->setCurrentBlock('users_skipped');
-                $this->tpl->setVariable("USERS_SKIPPED", trim($data['users_skipped']));
+                $this->tpl->setVariable("USERS_SKIPPED", trim($a_set['users_skipped']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'mode') == 0) {
                 $this->tpl->setCurrentBlock('mode');
-                $this->tpl->setVariable("MODE", trim($data['mode']));
+                $this->tpl->setVariable("MODE", trim($a_set['mode']));
                 // : $this->lng->txt("survey_not_available")
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'mode_nr_of_selections') == 0) {
                 $this->tpl->setCurrentBlock('mode_nr_of_selections');
-                $this->tpl->setVariable("MODE_NR_OF_SELECTIONS", trim($data['mode_nr_of_selections']));
+                $this->tpl->setVariable("MODE_NR_OF_SELECTIONS", trim($a_set['mode_nr_of_selections']));
                 // : $this->lng->txt("survey_not_available")
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'median') == 0) {
                 $this->tpl->setCurrentBlock('median');
-                $this->tpl->setVariable("MEDIAN", trim($data['median']));
+                $this->tpl->setVariable("MEDIAN", trim($a_set['median']));
                 // : $this->lng->txt("survey_not_available")
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'arithmetic_mean') == 0) {
                 $this->tpl->setCurrentBlock('arithmetic_mean');
-                $this->tpl->setVariable("ARITHMETIC_MEAN", trim($data['arithmetic_mean']));
+                $this->tpl->setVariable("ARITHMETIC_MEAN", trim($a_set['arithmetic_mean']));
                 // : $this->lng->txt("survey_not_available");
                 $this->tpl->parseCurrentBlock();
             }

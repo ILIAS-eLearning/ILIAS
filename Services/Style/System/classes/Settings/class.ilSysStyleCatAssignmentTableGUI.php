@@ -55,7 +55,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("REF_ID", $a_set["ref_id"]);
         $this->tpl->setVariable(

@@ -269,8 +269,9 @@ class ilCourseObjectivesGUI
         $tbl->setHeaderVars(
             array("title"),
             array("ref_id" => $this->course_obj->getRefId(),
-                                  "cmdClass" => "ilcourseobjectivesgui",
-                                  "cmdNode" => $_GET["cmdNode"])
+                  "cmdClass" => "ilcourseobjectivesgui",
+                  "cmdNode" => $_GET["cmdNode"]
+            )
         );
         $tbl->setColumnWidth(array("50%"));
 
@@ -345,7 +346,11 @@ class ilCourseObjectivesGUI
 
         include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php');
         $table = new ilCourseObjectiveQuestionsTableGUI($this, $this->course_obj);
-        $table->setTitle($this->lng->txt('crs_objectives_edit_question_assignments'), '', $this->lng->txt('crs_objectives'));
+        $table->setTitle(
+            $this->lng->txt('crs_objectives_edit_question_assignments'),
+            '',
+            $this->lng->txt('crs_objectives')
+        );
         // begin-patch lok
         $table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId(), false));
         // end-patch lok

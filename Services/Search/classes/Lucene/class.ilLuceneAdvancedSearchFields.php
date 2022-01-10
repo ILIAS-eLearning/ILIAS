@@ -22,7 +22,6 @@
 */
 
 
-include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
 
 /**
 * Field definitions of advanced meta data search
@@ -37,7 +36,7 @@ class ilLuceneAdvancedSearchFields
     public const ONLINE_QUERY = 1;
     public const OFFLINE_QUERY = 2;
     
-    private static ilLuceneAdvancedSearchFields $instance;
+    private static ?ilLuceneAdvancedSearchFields $instance = null;
     private ilLuceneAdvancedSearchSettings $settings;
     
     protected ilLanguage $lng;
@@ -86,7 +85,6 @@ class ilLuceneAdvancedSearchFields
         
         $fields['lom_content'] = $lng->txt('content');
         
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             $fields['general_offline'] = $lng->txt('lucene_offline_filter');
         }
@@ -524,7 +522,6 @@ class ilLuceneAdvancedSearchFields
                 
             case 'lom_level_start':
                 $q_string = '';
-                include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
                 $options = (array) ilMDUtilSelect::_getInteractivityLevelSelect(0, 'lom_level', array(), true);
                 for ($i = $a_query; $i <= count($options); $i++) {
                     if (strlen($q_string)) {
@@ -536,7 +533,6 @@ class ilLuceneAdvancedSearchFields
                 
             case 'lom_level_end':
                 $q_string = '';
-                include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
                 $options = (array) ilMDUtilSelect::_getInteractivityLevelSelect(0, 'lom_level', array(), true);
                 for ($i = 1; $i <= $a_query; $i++) {
                     if (strlen($q_string)) {
@@ -548,7 +544,6 @@ class ilLuceneAdvancedSearchFields
 
             case 'lom_density_start':
                 $q_string = '';
-                include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
                 $options = (array) ilMDUtilSelect::_getSemanticDensitySelect(0, 'lom_density', array(), true);
                 for ($i = $a_query; $i <= count($options); $i++) {
                     if (strlen($q_string)) {
@@ -560,7 +555,6 @@ class ilLuceneAdvancedSearchFields
                 
             case 'lom_density_end':
                 $q_string = '';
-                include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
                 $options = (array) ilMDUtilSelect::_getSemanticDensitySelect(0, 'lom_density', array(), true);
                 for ($i = 1; $i <= $a_query; $i++) {
                     if (strlen($q_string)) {
@@ -578,7 +572,6 @@ class ilLuceneAdvancedSearchFields
             
             case 'lom_difficulty_start':
                 $q_string = '';
-                include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
                 $options = (array) ilMDUtilSelect::_getDifficultySelect(0, 'lom_difficulty', array(), true);
                 for ($i = $a_query; $i <= count($options); $i++) {
                     if (strlen($q_string)) {
@@ -590,7 +583,6 @@ class ilLuceneAdvancedSearchFields
                 
             case 'lom_difficulty_end':
                 $q_string = '';
-                include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
                 $options = (array) ilMDUtilSelect::_getDifficultySelect(0, 'lom_difficulty', array(), true);
                 for ($i = 1; $i <= $a_query; $i++) {
                     if (strlen($q_string)) {

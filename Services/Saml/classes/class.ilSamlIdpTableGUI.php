@@ -57,7 +57,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->setData($idp_data);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['is_active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));

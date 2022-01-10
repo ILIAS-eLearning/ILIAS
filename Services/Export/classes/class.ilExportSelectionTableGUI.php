@@ -55,23 +55,23 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         $this->addCommandButton($a_parent_cmd, $this->lng->txt('cancel'));
     }
     
-    public function fillRow($s)
+    public function fillRow(array $a_set) : void
     {
-        $s['copy'] = $s['copy'] ?? false;
-        $s['perm_copy'] = $s['perm_copy'] ?? false;
-        $s['link'] = $s['link'] ?? false;
-        $s['perm_export'] = $s['perm_export'] ?? false;
+        $a_set['copy'] = $a_set['copy'] ?? false;
+        $a_set['perm_copy'] = $a_set['perm_copy'] ?? false;
+        $a_set['link'] = $a_set['link'] ?? false;
+        $a_set['perm_export'] = $a_set['perm_export'] ?? false;
 
         // set selected radio button
-        if ((!$s['copy'] or !$s['perm_copy']) and (!$s['link'])) {
+        if ((!$a_set['copy'] or !$a_set['perm_copy']) and (!$a_set['link'])) {
             $selected = "OMIT";
         }
-        if ($s['perm_export'] and $s['last_export']) {
+        if ($a_set['perm_export'] and $a_set['last_export']) {
             $selected = "EXPORT_E";
         }
         if (is_array($this->post_data["cp_options"])) {
-            if (isset($this->post_data["cp_options"][$s['ref_id']]["type"])) {
-                switch ($this->post_data["cp_options"][$s['ref_id']]["type"]) {
+            if (isset($this->post_data["cp_options"][$a_set['ref_id']]["type"])) {
+                switch ($this->post_data["cp_options"][$a_set['ref_id']]["type"]) {
                     case "2":
                         $selected = "EXPORT";
                         break;
@@ -82,7 +82,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             }
         }
 
-        if ($s['last']) {
+        if ($a_set['last']) {
             $this->tpl->setCurrentBlock('footer_export_e');
             $this->tpl->setVariable('TXT_EXPORT_E_ALL', $this->lng->txt('select_all'));
             $this->tpl->parseCurrentBlock();
@@ -92,38 +92,38 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('footer_omit');
             $this->tpl->setVariable('TXT_OMIT_ALL', $this->lng->txt('select_all'));
             $this->tpl->parseCurrentBlock();
-            return true;
+            return;
         }
         
-        for ($i = 0; $i < $s['depth']; $i++) {
+        for ($i = 0; $i < $a_set['depth']; $i++) {
             $this->tpl->touchBlock('padding');
             $this->tpl->touchBlock('end_padding');
         }
-        $this->tpl->setVariable('TREE_IMG', ilObject::_getIcon(ilObject::_lookupObjId($s['ref_id']), "tiny", $s['type']));
-        $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $s['type']));
-        $this->tpl->setVariable('TREE_TITLE', $s['title']);
+        $this->tpl->setVariable('TREE_IMG', ilObject::_getIcon(ilObject::_lookupObjId($a_set['ref_id']), "tiny", $a_set['type']));
+        $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
+        $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
         
         
-        if ($s['last_export']) {
-            $this->tpl->setVariable('VAL_LAST_EXPORT', ilDatePresentation::formatDate(new ilDateTime($s['last_export'], IL_CAL_UNIX)));
+        if ($a_set['last_export']) {
+            $this->tpl->setVariable('VAL_LAST_EXPORT', ilDatePresentation::formatDate(new ilDateTime($a_set['last_export'], IL_CAL_UNIX)));
         } else {
             $this->tpl->setVariable('VAL_LAST_EXPORT', $this->lng->txt('no_file'));
         }
 
-        if ($s['source']) {
-            return true;
+        if ($a_set['source']) {
+            return;
         }
 
         // Export existing
-        if ($s['perm_export'] and $s['last_export']) {
+        if ($a_set['perm_export'] and $a_set['last_export']) {
             $this->tpl->setCurrentBlock('radio_export_e');
             $this->tpl->setVariable('TXT_EXPORT_E', $this->lng->txt('export_existing'));
-            $this->tpl->setVariable('NAME_EXPORT_E', 'cp_options[' . $s['ref_id'] . '][type]');
+            $this->tpl->setVariable('NAME_EXPORT_E', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT_E', ilExportOptions::EXPORT_EXISTING);
-            $this->tpl->setVariable('ID_EXPORT_E', $s['depth'] . '_' . $s['type'] . '_' . $s['ref_id'] . '_export_e');
+            $this->tpl->setVariable('ID_EXPORT_E', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export_e');
             $this->tpl->setVariable('EXPORT_E_CHECKED', 'checked="checked"');
             $this->tpl->parseCurrentBlock();
-        } elseif (!$s['perm_export']) {
+        } elseif (!$a_set['perm_export']) {
             $this->tpl->setCurrentBlock('missing_export_perm');
             $this->tpl->setVariable('TXT_MISSING_EXPORT_PERM', $this->lng->txt('missing_perm'));
             $this->tpl->parseCurrentBlock();
@@ -131,17 +131,17 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 
         
         // Create new
-        if ($s['perm_export'] and $s['export']) {
+        if ($a_set['perm_export'] and $a_set['export']) {
             $this->tpl->setCurrentBlock('radio_export');
             $this->tpl->setVariable('TXT_EXPORT', $this->lng->txt('export'));
-            $this->tpl->setVariable('NAME_EXPORT', 'cp_options[' . $s['ref_id'] . '][type]');
+            $this->tpl->setVariable('NAME_EXPORT', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT', ilExportOptions::EXPORT_BUILD);
-            $this->tpl->setVariable('ID_EXPORT', $s['depth'] . '_' . $s['type'] . '_' . $s['ref_id'] . '_export');
+            $this->tpl->setVariable('ID_EXPORT', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export');
             if ($selected == "EXPORT") {
                 $this->tpl->setVariable('EXPORT_CHECKED', 'checked="checked"');
             }
             $this->tpl->parseCurrentBlock();
-        } elseif ($s['export']) {
+        } elseif ($a_set['export']) {
             $this->tpl->setCurrentBlock('missing_export_perm');
             $this->tpl->setVariable('TXT_MISSING_EXPORT_PERM', $this->lng->txt('missing_perm'));
             $this->tpl->parseCurrentBlock();
@@ -150,9 +150,9 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         // Omit
         $this->tpl->setCurrentBlock('omit_radio');
         $this->tpl->setVariable('TXT_OMIT', $this->lng->txt('omit'));
-        $this->tpl->setVariable('NAME_OMIT', 'cp_options[' . $s['ref_id'] . '][type]');
+        $this->tpl->setVariable('NAME_OMIT', 'cp_options[' . $a_set['ref_id'] . '][type]');
         $this->tpl->setVariable('VALUE_OMIT', ilExportOptions::EXPORT_OMIT);
-        $this->tpl->setVariable('ID_OMIT', $s['depth'] . '_' . $s['type'] . '_' . $s['ref_id'] . '_omit');
+        $this->tpl->setVariable('ID_OMIT', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_omit');
         if ($selected == "OMIT") {
             $this->tpl->setVariable($selected . '_CHECKED', 'checked="checked"');
         }

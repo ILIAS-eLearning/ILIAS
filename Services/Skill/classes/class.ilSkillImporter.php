@@ -25,11 +25,15 @@
 class ilSkillImporter extends ilXmlImporter
 {
     protected ilSkillDataSet $ds;
+    protected ilImportConfig $config;
 
     public function init() : void
     {
         $this->ds = new ilSkillDataSet();
         $this->ds->setDSPrefix("ds");
+
+        $this->config = $this->getImport()->getConfig("Services/Skill");
+        $this->ds->setSkillTreeId($this->config->getSkillTreeId());
     }
 
     /**

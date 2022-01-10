@@ -4,6 +4,19 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilFileVersionFormGUI
  *
@@ -20,23 +33,11 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
     /**
      * @var
      */
-    protected $dnd = true;
-    /**
-     * @var int
-     */
-    private $save_mode = self::MODE_ADD;
-    /**
-     * @var FileUpload
-     */
-    private $upload;
-    /**
-     * @var ilObjFile
-     */
-    private $file;
-    /**
-     * @var ilFileVersionsGUI
-     */
-    private $calling_gui;
+    protected bool $dnd = true;
+    private int $save_mode = self::MODE_ADD;
+
+    private FileUpload $upload;
+    private \ilObjFile $file;
 
 
     /**
@@ -49,17 +50,16 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
         global $DIC;
         $this->file = $file_version_gui->getFile();
         $this->upload = $DIC->upload();
-        $this->calling_gui = $file_version_gui;
         $this->lng = $DIC->language();
         $this->save_mode = $mode;
         parent::__construct();
+        $this->setFormAction($DIC->ctrl()->getFormAction($file_version_gui));
         $this->initForm();
         $this->setTarget('_top');
-        $this->setFormAction($DIC->ctrl()->getFormAction($file_version_gui));
     }
 
 
-    private function initForm()
+    private function initForm(): void
     {
         // Buttons and Title
         $this->lng->loadLanguageModule('file');
@@ -99,7 +99,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
                 self::F_FILE
             );
             $file->setRequired(true);
-            // $file->setUploadUrl($this->ctrl->getLinkTarget($this->calling_gui, ilFileVersionsGUI::C, "", true, true));
+            $file->setUploadUrl($this->getFormAction());
             $file->setMaxFiles(1);
             $this->addItem($file);
         } else {
@@ -112,11 +112,10 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
 
 
     /**
-     * @return bool
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    public function saveObject()
+    public function saveObject(): bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -162,7 +161,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function fillForm()
+    public function fillForm(): void
     {
         $values = [];
         $values[self::F_TITLE] = $this->file->getTitle();

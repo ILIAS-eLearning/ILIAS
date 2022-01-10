@@ -3,6 +3,19 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMMItemStorage
  *
@@ -60,47 +73,37 @@ class ilMMItemStorage extends CachedActiveRecord
 
 
     /**
-     * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected $identification;
+    protected ?string $identification;
     /**
-     * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $active = true;
+    protected bool $active = true;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      */
-    protected $position = 0;
+    protected int $position = 0;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $parent_identification = '';
+    protected ?string $parent_identification = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $icon_id = '';
+    protected ?string $icon_id = '';
     /**
      * @var string
      */

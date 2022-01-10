@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 /**
  * Class ilRepositoryObjectSearchGUI
  * Repository object search
@@ -22,8 +25,13 @@ class ilRepositoryObjectSearchGUI
     private object $object;
     private object $parent_obj;
     private string $parent_cmd;
-    
-    
+
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
+
+
+
 
     public function __construct(int $a_ref_id, object $a_parent_obj, string $a_parent_cmd)
     {
@@ -36,7 +44,9 @@ class ilRepositoryObjectSearchGUI
         $this->obj_definition = $DIC['objDefinition'];
         
         $this->ref_id = $a_ref_id;
-        
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
 
         $factory = new ilObjectFactory();
         $this->object = $factory->getInstanceByRefId($this->getRefId(), false);
@@ -108,7 +118,15 @@ class ilRepositoryObjectSearchGUI
         
         try {
             $search = new ilRepositoryObjectDetailSearch(ilObject::_lookupObjId($this->getRefId()));
-            $search->setQueryString(ilUtil::stripSlashes($_POST['search_term']));
+
+            $search_term = '';
+            if ($this->http->wrapper()->post()->has('search_term')) {
+                $search_term = $this->http->wrapper()->post()->retrieve(
+                    'search_term',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+            $search->setQueryString($search_term);
             $result = $search->performSearch();
         } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage(), true);
@@ -117,7 +135,7 @@ class ilRepositoryObjectSearchGUI
         }
         // @todo: add a factory to allow overwriting of search result presentation
         $result_table = $this->getResultTableInstance();
-        $result_table->setSearchTerm(ilUtil::stripSlashes($_POST['search_term']));
+        $result_table->setSearchTerm($search_term);
         $result_table->setResults($result);
         
         $result_table->init();

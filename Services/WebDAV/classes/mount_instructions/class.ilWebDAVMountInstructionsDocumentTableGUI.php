@@ -102,7 +102,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
     {
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $optional_columns = array_filter($this->getColumnDefinition(), function ($column) {
             return isset($column['optional']) && $column['optional'];
@@ -136,9 +136,9 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow($a_row)
+    final protected function fillRow(array $a_set) : void
     {
-        $this->prepareRow($a_row);
+        $this->prepareRow($a_set);
 
         foreach ($this->getColumnDefinition() as $index => $column) {
             if (!$this->isColumnVisible($index)) {
@@ -146,7 +146,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
             }
 
             $this->tpl->setCurrentBlock('column');
-            $value = $this->formatCellValue($column['field'], $a_row);
+            $value = $this->formatCellValue($column['field'], $a_set);
             if ((string) $value === '') {
                 $this->tpl->touchBlock('column');
             } else {
@@ -381,7 +381,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         return $sorting_field->render();
     }
 
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->ui_renderer->render($this->ui_components);
     }

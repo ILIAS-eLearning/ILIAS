@@ -23,11 +23,13 @@
 class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
 {
     protected ilDBInterface $db;
+    protected ilBasicSkillTreeRepository $tree_repo;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(ilBasicSkillTreeRepository $tree_repo, ilDBInterface $db = null)
     {
         global $DIC;
 
+        $this->tree_repo = $tree_repo;
         $this->db = ($db)
             ?: $DIC->database();
     }
@@ -199,7 +201,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         );
         $skill = null;
         if ($rec = $ilDB->fetchAssoc($set)) {
-            if (ilSkillTreeNode::isInTree($rec["skill_id"])) {
+            if ($this->tree_repo->isInAnyTree($rec["skill_id"])) {
                 $skill = new ilBasicSkill($rec["skill_id"]);
             }
         }

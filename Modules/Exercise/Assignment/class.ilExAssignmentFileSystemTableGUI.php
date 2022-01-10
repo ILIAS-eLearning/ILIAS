@@ -67,7 +67,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         return $ass->fileAddOrder($entries);
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "order_val") {
             return true;
@@ -98,7 +98,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock("Order");
         if ($a_set['order_id']) {

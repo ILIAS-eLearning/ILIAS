@@ -5,65 +5,53 @@ namespace ILIAS\BackgroundTasks\Implementation\Values;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 //use ILIAS\BackgroundTasks\ValueType;
-
 /**
  * Class ThunkValue
- *
  * @package ILIAS\BackgroundTasks\Implementation\Values
- *
  * Represents a value that has not yet been calculated.
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 class ThunkValue extends AbstractValue
 {
-
-    /**
-     * @var ValueType
-     */
-    protected $type;
-
-
-    /**
-     * ThunkValue constructor.
-     */
-    public function __construct()
-    {
-    }
-
-
-    /**
-     * @return Type
-     */
-    public function getType()
+    
+    protected Type $type;
+    
+    public function getType() : Type
     {
         return $this->parentTask->getOutputType();
     }
-
-
+    
     /**
      * String representation of object
-     *
      * @link  http://php.net/manual/en/serializable.serialize.php
      * @return string the string representation of the object or null
      * @since 5.1.0
      */
     public function serialize()
     {
-        return null;
+        return '';
     }
-
-
+    
     /**
      * Constructs the object
-     *
      * @link  http://php.net/manual/en/serializable.unserialize.php
-     *
      * @param string $serialized <p>
      *                           The string representation of the object.
      *                           </p>
-     *
      * @return void
      * @since 5.1.0
      */
@@ -71,36 +59,26 @@ class ThunkValue extends AbstractValue
     {
         // Nothing to do.
     }
-
-
+    
     /**
      * @return string Gets a hash for this IO. If two objects are the same the hash must be the
-     *                same! if two objects are different you need to have as view collitions as
-     *                possible.
+     * same! if two objects are different you need to have as view collitions as
+     * possible.
      */
-    public function getHash()
+    public function getHash() : string
     {
-        return null;
+        return '';
     }
-
-
-    /**
-     * @param \ILIAS\BackgroundTasks\Value $other
-     *
-     * @return mixed
-     */
-    public function equals(Value $other)
+    
+    public function equals(Value $other) : bool
     {
         return false;
     }
-
-
+    
     /**
      * @param $value
-     *
-     * @return
      */
-    public function setValue($value)
+    public function setValue($value) : void
     {
         // TODO: Implement setValue() method.
     }

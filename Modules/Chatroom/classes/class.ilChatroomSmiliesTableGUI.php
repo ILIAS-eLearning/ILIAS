@@ -42,7 +42,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_SMILEY_ID', $a_set['smiley_id']);
         $this->tpl->setVariable('VAL_SMILEY_PATH', $a_set['smiley_fullpath']);

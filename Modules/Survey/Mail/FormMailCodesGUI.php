@@ -20,6 +20,7 @@
  */
 class FormMailCodesGUI extends ilPropertyFormGUI
 {
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $request;
     protected ilSurveyParticipantsGUI $guiclass;
     protected ilTextInputGUI $subject;
     protected ilRadioGroupInputGUI $sendtype;
@@ -38,7 +39,11 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $ilAccess = $DIC->access();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
-        $rbacsystem = $DIC->rbac()->system();
+        $this->request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $lng = $this->lng;
 
@@ -66,7 +71,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
                 if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
-                    array_push($existingcolumns, '[' . $key . ']');
+                    $existingcolumns[] = '[' . $key . ']';
                 }
             }
         }
@@ -101,10 +106,10 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $this->addItem($this->savemessage);
 
         if (count($settings)) {
-            if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+            if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
                 $this->addCommandButton("deleteSavedMessage", $this->lng->txt("delete_saved_message"));
             }
-            if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+            if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
                 $this->addCommandButton("insertSavedMessage", $this->lng->txt("insert_saved_message"));
             }
         }

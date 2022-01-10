@@ -86,7 +86,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $lng, $ilCtrl;
 

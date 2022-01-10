@@ -23,10 +23,8 @@ class ilOerHarvesterSettings
      */
     private static $instance = null;
 
-    /**
-     * @var \ilSetting|null
-     */
-    private $storage = null;
+    protected ilSetting $storage;
+    protected ilSetting $settings;
 
     /**
      * @var int
@@ -52,16 +50,11 @@ class ilOerHarvesterSettings
      */
     protected function __construct()
     {
-        $this->storage = new ilSetting(self::STORAGE_IDENTIFIER);
-        /*
-        $this->cronjob = ilCronManager::getJobInstanceById(self::CRON_JOB_IDENTIFIER);
-        if(!$this->cronjob instanceof ilCronJob) {
+        global $DIC;
 
-            throw new \LogicException(
-                'Cannot create cron job instance'
-            );
-        }
-        */
+        $this->storage = new ilSetting(self::STORAGE_IDENTIFIER);
+        $this->settings = $DIC->settings();
+
         $this->read();
     }
 
@@ -142,13 +135,10 @@ class ilOerHarvesterSettings
      */
     public function getCopyRightTemplatesInLomFormat()
     {
-        global $DIC;
-
-        $settings = $DIC->settings();
 
         $lom_entries = [];
         foreach ($this->getCopyrightTemplates() as $copyright_id) {
-            $lom_entries[] = 'il_copyright_entry__' . $settings->get('inst_id', 0) . '__' . $copyright_id;
+            $lom_entries[] = 'il_copyright_entry__' . $this->settings->get('inst_id', 0) . '__' . $copyright_id;
         }
         return $lom_entries;
     }

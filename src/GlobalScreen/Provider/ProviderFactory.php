@@ -9,67 +9,55 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 
 /**
  * Interface ProviderFactory
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ProviderFactory
 {
-
+    
     /**
      * @return ModificationProvider[]
      */
     public function getModificationProvider() : array;
-
-
+    
     /**
      * @return StaticMainMenuProvider[]
      */
     public function getMainBarProvider() : array;
-
-
+    
     /**
      * @return ItemInformation
      */
     public function getMainBarItemInformation() : ItemInformation;
-
-
+    
     /**
      * @return DynamicToolProvider[]
      */
     public function getToolProvider() : array;
-
-
+    
     /**
      * @return StaticMetaBarProvider[]
      */
     public function getMetaBarProvider() : array;
-
-
+    
     /**
      * @return NotificationProvider[]
      */
     public function getNotificationsProvider() : array;
-
-
+    
     /**
      * @param string $class_name
-     *
      * @return Provider
      */
     public function getProviderByClassName(string $class_name) : Provider;
-
-
+    
     /**
      * @param string $class_name
-     *
      * @return bool
      */
     public function isInstanceCreationPossible(string $class_name) : bool;
-
-
+    
     /**
      * @param string $class_name
-     *
      * @return bool
      */
     public function isRegistered(string $class_name) : bool;

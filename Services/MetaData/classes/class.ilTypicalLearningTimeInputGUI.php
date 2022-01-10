@@ -24,14 +24,9 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
      */
     public function __construct($a_title = "", $a_postvar = "")
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule("meta");
-        
         parent::__construct($a_title, $a_postvar);
+
+        $this->lng->loadLanguageModule("meta");
         $this->setType("typical_learntime");
         $this->setValue(array(0,0,0,0,0));
     }
@@ -95,9 +90,6 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
      */
     public function checkInput() : bool
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         
         $_POST[$this->getPostVar()][0] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][0]);
         $_POST[$this->getPostVar()][1] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][1]);
@@ -111,7 +103,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $v = $_POST[$this->getPostVar()];
         if ($this->getRequired() && $v[0] == 0 && $v[1] == 0 &&
             $v[2] == 0 && $v[3] == 0 && (int) $v[4] == 0) {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+            $this->setAlert($this->lng->txt("msg_input_is_required"));
             return false;
         }
 

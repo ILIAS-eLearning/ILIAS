@@ -25,6 +25,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     protected bool $writeAccess = false;
     protected array $browsercolumns = array();
     protected ?array $questionpools = null;
+    protected array $filter = [];
     
     public function __construct(
         object $a_parent_obj,
@@ -110,7 +111,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
 
@@ -142,7 +143,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->filter["author"] = $ti->getValue();
         
         // questiontype
-        $types = ilObjSurveyQuestionPool::_getQuestionTypes();
+        $types = ilObjSurveyQuestionPool::_getQuestiontypes();
         $options = array();
         $options[""] = $lng->txt('filter_all_question_types');
         foreach ($types as $translation => $row) {
@@ -178,22 +179,22 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->filter["type"] = $si->getValue();
     }
     
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
-        $this->tpl->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($data["title"]));
+        $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
+        $this->tpl->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
 
         $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-        $guiclass = strtolower($data['type_tag']) . "gui";
-        $this->ctrl->setParameterByClass($guiclass, "q_id", $data["question_id"]);
-        $this->tpl->setVariable("LINK_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $data["ref_id"] . "&amp;cmd=preview&amp;preview=" . $data["question_id"]);
+        $guiclass = strtolower($a_set['type_tag']) . "gui";
+        $this->ctrl->setParameterByClass($guiclass, "q_id", $a_set["question_id"]);
+        $this->tpl->setVariable("LINK_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $a_set["ref_id"] . "&amp;cmd=preview&amp;preview=" . $a_set["question_id"]);
 
-        $this->tpl->setVariable("QUESTION_DESCRIPTION", ilUtil::prepareFormOutput((strlen($data["description"])) ? $data["description"] : ""));
-        $this->tpl->setVariable("QUESTION_TYPE", $data["ttype"]);
-        $this->tpl->setVariable("QUESTION_AUTHOR", ilUtil::prepareFormOutput($data["author"]));
-        $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'], IL_CAL_UNIX)));
-        $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"], IL_CAL_UNIX)));
-        $this->tpl->setVariable("QPL", ilUtil::prepareFormOutput($data["spl"]));
+        $this->tpl->setVariable("QUESTION_DESCRIPTION", ilUtil::prepareFormOutput((strlen($a_set["description"])) ? $a_set["description"] : ""));
+        $this->tpl->setVariable("QUESTION_TYPE", $a_set["ttype"]);
+        $this->tpl->setVariable("QUESTION_AUTHOR", ilUtil::prepareFormOutput($a_set["author"]));
+        $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($a_set['created'], IL_CAL_UNIX)));
+        $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX)));
+        $this->tpl->setVariable("QPL", ilUtil::prepareFormOutput($a_set["spl"]));
     }
     
     public function setEditable(bool $value) : void

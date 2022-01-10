@@ -68,7 +68,6 @@ class ilSearchGUI extends ilSearchBaseGUI
                 self::SEARCH_OR
         );
         $this->setString((string) ($_POST['search']['string'] ?? $_SESSION['search']['string']));
-        #$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
         $this->setDetails($new_search ? $_POST['search']['details'] : $_SESSION['search']['details']);
     }
 
@@ -118,7 +117,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
     public function getType() : int
     {
-        return $this->type ?: ilSearchBaseGUI::SEARCH_FAST;
+        return $this->type ?? ilSearchBaseGUI::SEARCH_FAST;
     }
     /**
     * Set/get combination of search ('and' or 'or')
@@ -154,7 +153,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
     public function getDetails() : array
     {
-        return $this->details ?: [];
+        return $this->details ?? [];
     }
 
         
@@ -170,8 +169,22 @@ class ilSearchGUI extends ilSearchBaseGUI
     
     public function remoteSearch() : void
     {
-        $this->setString(ilUtil::stripSlashes($_POST['queryString']));
-        $this->setRootNode((int) $_POST['root_id']);
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->setString($queryString);
+        $this->setRootNode($root_id);
         $this->performSearch();
     }
     
@@ -223,7 +236,6 @@ class ilSearchGUI extends ilSearchBaseGUI
             }
         } else {
             $q = $_REQUEST["term"];
-            include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
             $list = ilSearchAutoComplete::getList($q);
             ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
             echo $list;
@@ -233,19 +245,14 @@ class ilSearchGUI extends ilSearchBaseGUI
     
     public function showSearch() : void
     {
-        
-        // include js needed
-        include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
         ilOverlayGUI::initJavascript();
         $this->tpl->addJavascript("./Services/Search/js/Search.js");
 
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'Services/Search');
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->getString()));
         $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
-        include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");
         $btn->setCaption("search");
@@ -296,7 +303,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         if (count($result_obj->getResults())) {
             $this->addPager($result_obj, 'max_page');
 
-                        $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
+            $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setSubitemIds($result_obj->getSubitemIds());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
@@ -314,8 +321,8 @@ class ilSearchGUI extends ilSearchBaseGUI
      */
     public function performSearch() : bool
     {
-        
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
             unset($_SESSION['max_page']);
             $this->search_cache->deleteCachedEntries();
         }
@@ -389,7 +396,6 @@ class ilSearchGUI extends ilSearchBaseGUI
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
-            //			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
             $this->tpl->setVariable('RESULTS_TABLE', $presentation->getHTML());
         }
         return true;

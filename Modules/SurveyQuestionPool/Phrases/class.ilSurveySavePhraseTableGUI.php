@@ -47,10 +47,10 @@ class ilSurveySavePhraseTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ANSWER", $data["answer"]);
-        $this->tpl->setVariable("OPEN_ANSWER", ($data["other"]) ? $this->lng->txt('yes') : $this->lng->txt('no'));
-        $this->tpl->setVariable("SCALE", $data["scale"]);
+        $this->tpl->setVariable("ANSWER", $a_set["answer"]);
+        $this->tpl->setVariable("OPEN_ANSWER", ($a_set["other"]) ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $this->tpl->setVariable("SCALE", $a_set["scale"]);
     }
 }

@@ -1,57 +1,31 @@
 <?php
 /**
  * Class ilBiblDataInterface
- *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
 interface ilBiblDataInterface
 {
-
+    
+    public function getId() : ?int;
+    
+    public function setId(int $id) : void;
+    
     /**
-     * @return integer
+     * @deprecated
      */
-    public function getId();
-
-
+    public function getFilename() : ?string;
+    
     /**
-     * @param integer $id
+     * @deprecated
      */
-    public function setId($id);
-
-
-    /**
-     * @return string
-     */
-    public function getFilename();
-
-
-    /**
-     * @param string $filename
-     */
-    public function setFilename($filename);
-
-
-    /**
-     * @return integer
-     */
-    public function getIsOnline();
-
-
-    /**
-     * @param integer $is_online
-     */
-    public function setIsOnline($is_online);
-
-
-    /**
-     * @return integer
-     */
-    public function getFileType();
-
-
-    /**
-     * @param integer $file_type
-     */
-    public function setFileType($file_type);
+    public function setFilename(string $filename) : void;
+    
+    public function isOnline() : bool;
+    
+    public function setIsOnline(int $is_online) : void;
+    
+    public function getFileType() : int;
+    
+    public function setFileType(int $file_type) : void;
 }

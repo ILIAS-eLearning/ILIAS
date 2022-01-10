@@ -2,26 +2,14 @@
 
 /**
  * Interface ilBiblAdminLibraryFacadeInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblAdminLibraryFacadeInterface
 {
 
-    /**
-     * @return int
-     */
-    public function iliasObjId();
+    public function iliasObjId() : int;
 
+    public function iliasRefId() : int;
 
-    /**
-     * @return int
-     */
-    public function iliasRefId();
-
-
-    /**
-     * @return \ilBiblLibraryFactoryInterface
-     */
-    public function libraryFactory();
+    public function libraryFactory() : \ilBiblLibraryFactoryInterface;
 }

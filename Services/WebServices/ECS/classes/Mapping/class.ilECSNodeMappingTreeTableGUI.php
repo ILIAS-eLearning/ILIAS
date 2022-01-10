@@ -69,7 +69,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
      * Fill row
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

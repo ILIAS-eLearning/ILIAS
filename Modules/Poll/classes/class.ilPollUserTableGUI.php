@@ -35,8 +35,10 @@ class ilPollUserTableGUI extends ilTable2GUI
                 
         $this->getItems($this->answer_ids);
         
-        $this->setTitle($this->lng->txt("poll_question") . ": \"" .
-            $this->getParentObject()->object->getQuestion() . "\"");
+        $this->setTitle(
+            $this->lng->txt("poll_question") . ": \"" .
+                $this->getParentObject()->object->getQuestion() . "\""
+        );
     
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.user_row.html", "Modules/Poll");
@@ -64,7 +66,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setCurrentBlock("answer_bl");
         foreach ($this->answer_ids as $answer_id) {
@@ -81,7 +83,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LASTNAME", (string) ($a_set["lastname"] ?? ''));
     }
     
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn((string) ($a_set["login"] ?? ''));
         $a_csv->addColumn((string) ($a_set["lastname"] ?? ''));
@@ -96,7 +98,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
     
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, (string) ($a_set["login"] ?? ''));
         $a_excel->setCell($a_row, 1, (string) ($a_set["lastname"] ?? ''));

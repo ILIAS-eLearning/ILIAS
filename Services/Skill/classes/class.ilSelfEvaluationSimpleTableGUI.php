@@ -24,10 +24,6 @@
  */
 class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected int $top_skill_id;
@@ -64,17 +60,12 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
             $this->tref_id,
             $this->basic_skill_id
         );
-        
+
         // build title
-        $stree = new ilSkillTree();
-        $path = $stree->getPathFull($this->basic_skill_id);
-        $title = $sep = "";
-        foreach ($path as $p) {
-            if ($p["type"] != "skrt") {
-                $title .= $sep . $p["title"];
-                $sep = " > ";
-            }
-        }
+        $tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $tree_id = $tree_repo->getTreeIdForNodeId($this->basic_skill_id);
+        $node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
+        $title = $node_manager->getWrittenPath($this->basic_skill_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getLevels());
@@ -110,7 +101,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($this->cur_level_id == $a_set["id"]) {
             $this->tpl->setVariable("CHECKED", "checked='checked'");

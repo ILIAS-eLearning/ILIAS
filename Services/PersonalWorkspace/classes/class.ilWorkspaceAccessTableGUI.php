@@ -123,10 +123,9 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
     
     /**
      * Fill table row
-     *
      * @param array $a_set data array
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         

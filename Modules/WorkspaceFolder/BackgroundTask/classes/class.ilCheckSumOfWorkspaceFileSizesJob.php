@@ -16,6 +16,8 @@
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
@@ -48,7 +50,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
@@ -58,7 +60,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         return true;
     }
 
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
     {
         $this->logger->debug('Start checking adherence to maxsize!');
         $this->logger->dump($input);

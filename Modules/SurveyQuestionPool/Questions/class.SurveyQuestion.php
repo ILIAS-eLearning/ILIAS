@@ -124,7 +124,7 @@ class SurveyQuestion
             array('text'),
             array($title)
         );
-        return ($result->numRows() > 0) ? true : false;
+        return $result->numRows() > 0;
     }
 
     public function setTitle(string $title = "") : void
@@ -419,7 +419,7 @@ class SurveyQuestion
                 $mat->text_material = $row['text_material'];
                 $mat->external_link = $row['external_link'];
                 $mat->file_material = $row['file_material'];
-                array_push($this->material, $mat);
+                $this->material[] = $mat;
             }
         }
     }
@@ -498,7 +498,7 @@ class SurveyQuestion
                 "obligatory" => array("text", $this->getObligatory()),
                 "complete" => array("text", $this->isComplete()),
                 "created" => array("integer", time()),
-                "original_id" => array("integer", ($original_id) ? $original_id : null),
+                "original_id" => array("integer", ($original_id) ?: null),
                 "tstamp" => array("integer", time())
             ));
 
@@ -653,16 +653,14 @@ class SurveyQuestion
         );
         $insert = false;
         $returnvalue = "";
+        $insert = true;
         if ($result->numRows()) {
-            $insert = true;
             while ($row = $ilDB->fetchAssoc($result)) {
                 if (strcmp($row["title"], $categorytext) == 0) {
                     $returnvalue = $row["category_id"];
                     $insert = false;
                 }
             }
-        } else {
-            $insert = true;
         }
         if ($insert) {
             $next_id = $ilDB->nextId('svy_category');
@@ -849,7 +847,7 @@ class SurveyQuestion
         );
 
         if ($data = $ilDB->fetchAssoc($result)) {
-            return $data["title"];
+            return (string) $data["title"];
         }
         return "";
     }
@@ -873,7 +871,7 @@ class SurveyQuestion
             $row = $ilDB->fetchAssoc($result);
             if ($row["original_id"] > 0) {
                 return (int) $row["original_id"];
-            } elseif ((bool) $a_return_question_id_if_no_original) { // #12419
+            } elseif ($a_return_question_id_if_no_original) { // #12419
                 return (int) $row["question_id"];
             }
         }
@@ -969,11 +967,12 @@ class SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        return ($result->numRows() == 1) ? true : false;
+        return $result->numRows() == 1;
     }
 
     public function addInternalLink(string $material_id) : void
     {
+        $material_title = "";
         if (strlen($material_id)) {
             if (preg_match("/il__(\w+)_(\d+)/", $material_id, $matches)) {
                 $type = $matches[1];
@@ -988,7 +987,8 @@ class SurveyQuestion
 
                     case "pg":
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
-                        $cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, false);
+                        $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
+                        /** @var ilObjLearningModule $cont_obj */
                         $cont_obj = $cont_obj_gui->object;
                         $pg_obj = new ilLMPageObject($cont_obj, $target_id);
                         $material_title .= $pg_obj->getTitle();
@@ -996,7 +996,8 @@ class SurveyQuestion
 
                     case "st":
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
-                        $cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, false);
+                        $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
+                        /** @var ilObjLearningModule $cont_obj */
                         $cont_obj = $cont_obj_gui->object;
                         $st_obj = new ilStructureObject($cont_obj, $target_id);
                         $material_title .= $st_obj->getTitle();
@@ -1052,7 +1053,7 @@ class SurveyQuestion
     
     public function addMaterial(ilSurveyMaterial $obj_material)
     {
-        array_push($this->material, $obj_material);
+        $this->material[] = $obj_material;
     }
     
     /**
@@ -1085,7 +1086,8 @@ class SurveyQuestion
 
                         case "pg":
                             $lm_id = ilLMObject::_lookupContObjID($target_id);
-                            $cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, false);
+                            $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
+                            /** @var ilObjLearningModule $cont_obj */
                             $cont_obj = $cont_obj_gui->object;
                             $pg_obj = new ilLMPageObject($cont_obj, $target_id);
                             $material_title .= $pg_obj->getTitle();
@@ -1093,7 +1095,8 @@ class SurveyQuestion
 
                         case "st":
                             $lm_id = ilLMObject::_lookupContObjID($target_id);
-                            $cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, false);
+                            $cont_obj_gui = new ilObjLearningModuleGUI("", $lm_id, false);
+                            /** @var ilObjLearningModule $cont_obj */
                             $cont_obj = $cont_obj_gui->object;
                             $st_obj = new ilStructureObject($cont_obj, $target_id);
                             $material_title .= $st_obj->getTitle();
@@ -1119,6 +1122,7 @@ class SurveyQuestion
     public static function _resolveInternalLink(
         string $internal_link
     ) : string {
+        $resolved_link = "";
         if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches)) {
             switch ($matches[2]) {
                 case "lm":
@@ -1247,7 +1251,7 @@ class SurveyQuestion
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
             $qpl_object_id = $row["obj_fi"];
-            return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id, $user_id);
+            return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id);
         } else {
             return false;
         }
@@ -1602,7 +1606,6 @@ class SurveyQuestion
                 } else {
                     return null;
                 }
-                break;
         }
     }
 

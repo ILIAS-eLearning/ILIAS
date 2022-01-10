@@ -74,10 +74,9 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
-     * @param array $data data array
+     * @param array $a_set data array
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -85,27 +84,27 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
             $this->tpl->setVariable('CB_ID', $this->counter);
-            $this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($data['file']));
-            $this->tpl->setVariable("FILETYPE", $data["filetype"]);
+            $this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($a_set['file']));
+            $this->tpl->setVariable("FILETYPE", $a_set["filetype"]);
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->setCurrentBlock('action');
-            $ilCtrl->setParameter($this->getParentObject(), "file", rawurlencode($data['file']));
-            $ilCtrl->setParameter($this->getParentObject(), "type", rawurlencode($data["filetype"]));
+            $ilCtrl->setParameter($this->getParentObject(), "file", rawurlencode($a_set['file']));
+            $ilCtrl->setParameter($this->getParentObject(), "type", rawurlencode($a_set["filetype"]));
             $this->tpl->setVariable("DOWNLOAD_HREF", $ilCtrl->getLinkTarget($this->getParentObject(), "downloadExportFile"));
             $this->tpl->setVariable("DOWNLOAD_TXT", $lng->txt("download"));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            $this->tpl->setVariable('HIDDEN_FILENAME', ilUtil::prepareFormOutput($data['file']));
-            $this->tpl->setVariable('HIDDEN_TYPE', ilUtil::prepareFormOutput($data['type']));
+            $this->tpl->setVariable('HIDDEN_FILENAME', ilUtil::prepareFormOutput($a_set['file']));
+            $this->tpl->setVariable('HIDDEN_TYPE', ilUtil::prepareFormOutput($a_set['type']));
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable('CB_ID', $this->counter);
-        $this->tpl->setVariable("FILENAME", ilUtil::prepareFormOutput($data['file']));
-        $this->tpl->setVariable("SIZE", $data["size"]);
-        $this->tpl->setVariable("DATE", $data["date"]);
-        $this->tpl->setVariable("TYPE", $data["type"]);
+        $this->tpl->setVariable("FILENAME", ilUtil::prepareFormOutput($a_set['file']));
+        $this->tpl->setVariable("SIZE", $a_set["size"]);
+        $this->tpl->setVariable("DATE", $a_set["date"]);
+        $this->tpl->setVariable("TYPE", $a_set["type"]);
         $this->counter++;
     }
 }

@@ -19,6 +19,13 @@
  */
 class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 {
+    /** @var int[] */
+    protected array $question_ids;
+    protected array $thresholds;
+    protected int $tref_id = 0;
+    protected ilObjSurvey $object;
+    protected int $scale_sum;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -90,7 +97,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         return $bs->getLevelData();
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -20,6 +20,7 @@
  */
 class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 {
+    protected \ILIAS\Refinery\Factory $refinery;
     protected string $lng_key;
     protected ilCtrl$ctrl;
     protected ilLanguage $lng;
@@ -32,6 +33,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->refinery = $DIC->refinery();
     }
 
     public function setNewsItem(
@@ -90,7 +92,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
             return $a_str;
         }
 
-        return ilUtil::makeClickable($a_str);
+        return $this->refinery->string()->makeClickable()->transform($a_str);
     }
 
     public function addTimelineActions(ilAdvancedSelectionListGUI $list) : void

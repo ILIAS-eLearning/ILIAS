@@ -60,7 +60,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         $ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
 
-        if ($list = ilRbacReview::_getOperationList("", $_GET["order"], $_GET["direction"])) {
+        if ($list = ilRbacReview::_getOperationList("")) {
             foreach ($list as $key => $val) {
                 if (in_array($val["ops_id"], $ops_valid)) {
                     $ops_status = 'enabled';
@@ -251,7 +251,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         $a_order = "";
         $a_direction = "";
-        if ($ops_arr = ilRbacReview::_getOperationList('', $a_order, $a_direction)) {
+        if ($ops_arr = ilRbacReview::_getOperationList('')) {
             $options = array("e" => "enabled","d" => "disabled");
 
             foreach ($ops_arr as $key => $ops) {
@@ -309,7 +309,9 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $tbl = new ilTableGUI();
         
         // title & header columns
-        $tbl->setTitle($this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'");
+        $tbl->setTitle(
+            $this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'"
+        );
 
         $header_names = [];
         foreach ($this->data["cols"] as $val) {

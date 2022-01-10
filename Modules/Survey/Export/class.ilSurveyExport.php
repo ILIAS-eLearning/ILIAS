@@ -101,9 +101,9 @@ class ilSurveyExport
         // zip the file
         ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
 
-        if (@file_exists($this->export_dir . "/" . $this->subdir . ".zip")) {
+        if (file_exists($this->export_dir . "/" . $this->subdir . ".zip")) {
             // remove export directory and contents
-            if (@is_dir($this->export_dir . "/" . $this->subdir)) {
+            if (is_dir($this->export_dir . "/" . $this->subdir)) {
                 ilUtil::delDir($this->export_dir . "/" . $this->subdir);
             }
         }

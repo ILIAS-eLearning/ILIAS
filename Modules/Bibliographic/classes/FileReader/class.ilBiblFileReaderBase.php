@@ -17,26 +17,11 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     const ENCODING_UTF_8 = 'UTF-8';
     const ENCODING_ASCII = 'ASCII';
     const ENCODING_ISO_8859_1 = 'ISO-8859-1';
-    /**
-     * @var string
-     */
-    protected $file_content = '';
-    /**
-     * @var string
-     */
-    protected $path_to_file = '';
-    /**
-     * @var ilBiblEntryFactoryInterface
-     */
-    protected $entry_factory;
-    /**
-     * @var ilBiblFieldFactoryInterface
-     */
-    protected $field_factory;
-    /**
-     * @var ilBiblAttributeFactoryInterface
-     */
-    protected $attribute_factory;
+    protected string $file_content = '';
+    protected string $path_to_file = '';
+    protected \ilBiblEntryFactoryInterface $entry_factory;
+    protected \ilBiblFieldFactoryInterface $field_factory;
+    protected \ilBiblAttributeFactoryInterface $attribute_factory;
     /**
      * @var \ILIAS\ResourceStorage\Services
      */
@@ -63,7 +48,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
      * @param ResourceIdentification $identification
      * @return bool
      */
-    public function readContent(ResourceIdentification $identification)
+    public function readContent(ResourceIdentification $identification) : bool
     {
         $stream = $this->storage->consume()->stream($identification)->getStream();
         $this->setFileContent($stream->getContents());
@@ -73,9 +58,8 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 
     /**
      * @param $string
-     * @return string
      */
-    protected function convertStringToUTF8($string)
+    protected function convertStringToUTF8($string): string
     {
         if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
             || !function_exists("mb_convert_encoding")
@@ -104,18 +88,12 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $string;
     }
 
-    /**
-     * @return string
-     */
-    public function getFileContent()
+    public function getFileContent(): string
     {
         return $this->file_content;
     }
 
-    /**
-     * @param string $file_content
-     */
-    public function setFileContent($file_content)
+    public function setFileContent(string $file_content)
     {
         $this->file_content = $file_content;
     }
@@ -123,7 +101,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritDoc
      */
-    public function parseContentToEntries(ilObjBibliographic $bib)
+    public function parseContentToEntries(ilObjBibliographic $bib): array
     {
         $entries_from_file = $this->parseContent();
         $entry_instances = [];
@@ -176,7 +154,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritdoc
      */
-    public function getEntryFactory()
+    public function getEntryFactory() : ilBiblEntryFactoryInterface
     {
         return $this->entry_factory;
     }
@@ -184,7 +162,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritdoc
      */
-    public function getFieldFactory()
+    public function getFieldFactory() : ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
@@ -192,7 +170,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritDoc
      */
-    public function getAttributeFactory()
+    public function getAttributeFactory() : ilBiblAttributeFactoryInterface
     {
         return $this->attribute_factory;
     }
