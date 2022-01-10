@@ -166,56 +166,54 @@ class PageContentGUI
      */
     public function setPageFormAction(string $page_form_action) : void
     {
-        $this->page_form_action = $page_form_action;
-    }
-
-    /**
-     * @param mixed $permanent_link
-     */
-    public function setPermanentLink($permanent_link)
-    {
-        $this->permanent_link = $permanent_link;
+        if (!empty($page_form_action)) {
+            $this->page_form_action = $page_form_action;
+        }
     }
 
     /**
      * @param string $main_content
      */
-    public function setMainContent(string $main_content)
+    public function setMainContent(string $main_content) : void
     {
-        $this->main_content = $main_content;
+        if (!empty($main_content)) {
+            $this->main_content = $main_content;
+        }
     }
 
     /**
-     * @param $a_html
-     * @param $a_id
+     * @param string $lightbox_html
+     * @param string $id
      */
-    public function addLightbox($a_html, $a_id)
+    public function addLightbox(string $lightbox_html, string $id) : void
     {
-        $this->lightbox[$a_id] = $a_html;
+        if (!empty($lightbox_html)) {
+            $this->lightbox[$id] = $lightbox_html;
+        }
     }
 
     /**
-     * @param mixed $header_page_title
+     * @param string $header_page_title
      */
-    public function setHeaderPageTitle($header_page_title)
+    public function setHeaderPageTitle(string $header_page_title) : void
     {
-        $this->header_page_title = $header_page_title;
+        // property is never used.
     }
 
     /**
-     * Set banner
-     * @param string $image_src banner img src
+     * @param string $image_src
      */
-    public function setBannerImagesrc(string $image_src) : void
+    public function setBanner(string $image_src) : void
     {
-        $this->banner_image_src = $image_src;
+        if (!empty($image_src)) {
+            $this->banner_image_src = $image_src;
+        }
     }
 
     /**
-     * Get banner
-     * @return string banner img src
+     * @return string|null
      */
-    public function getBannerImagesrc()
+    public function getBanner() : ?string
     {
         return $this->banner_image_src;
     }
@@ -226,8 +224,10 @@ class PageContentGUI
      */
     public function setTitle(string $title, bool $is_hidden = false) : void
     {
-        $this->title = $title;
-        $this->is_title_hidden = $is_hidden;
+        if (!empty($title)) {
+            $this->title = $title;
+            $this->is_title_hidden = $is_hidden;
+        }
     }
 
     /**
@@ -235,7 +235,9 @@ class PageContentGUI
      */
     public function setTitleDesc(string $title_desc) : void
     {
-        $this->title_desc = $title_desc;
+        if (!empty($title_desc)) {
+            $this->title_desc = $title_desc;
+        }
     }
 
     /**
@@ -251,13 +253,15 @@ class PageContentGUI
      */
     public function setHeaderAction(string $header_action) : void
     {
-        $this->header_action = $header_action;
+        if (!empty($header_action)) {
+            $this->header_action = $header_action;
+        }
     }
 
     /**
-     * @param mixed $admin_panel_commands_toolbar
+     * @param ilToolbarGUI $admin_panel_commands_toolbar
      */
-    public function setAdminPanelCommandsToolbar($admin_panel_commands_toolbar)
+    public function setAdminPanelCommandsToolbar(ilToolbarGUI $admin_panel_commands_toolbar) : void
     {
         $this->admin_panel_commands_toolbar = $admin_panel_commands_toolbar;
     }
@@ -283,7 +287,9 @@ class PageContentGUI
      */
     public function setRightContent(string $content) : void
     {
-        $this->right_content = $content;
+        if (!empty($content)) {
+            $this->right_content = $content;
+        }
     }
 
     /**
@@ -291,7 +297,9 @@ class PageContentGUI
      */
     public function setLeftContent(string $content) : void
     {
-        $this->left_content = $content;
+        if (!empty($content)) {
+            $this->left_content = $content;
+        }
     }
 
     /**
@@ -299,7 +307,9 @@ class PageContentGUI
      */
     public function setFilter(string $filter) : void
     {
-        $this->filter = $filter;
+        if (!empty($filter)) {
+            $this->filter = $filter;
+        }
     }
 
     protected function fillFilter() : void
@@ -316,7 +326,9 @@ class PageContentGUI
      */
     public function setIconPath(string $icon_path) : void
     {
-        $this->icon_path = $icon_path;
+        if (!empty($icon_path)) {
+            $this->icon_path = $icon_path;
+        }
     }
 
     /**
@@ -324,7 +336,9 @@ class PageContentGUI
      */
     public function setIconDesc(string $icon_desc) : void
     {
-        $this->icon_desc = $icon_desc;
+        if (!empty($icon_desc)) {
+            $this->icon_desc = $icon_desc;
+        }
     }
 
     /**
@@ -546,22 +560,17 @@ class PageContentGUI
             return;
         }
 
-        $center_column_class = null;
-        if (null !== $this->left_content && null !== $this->right_content) {
-            $center_column_class = "two_side_col";
-        } elseif (null !== $this->left_content || null !== $this->right_content) {
-            $center_column_class = "one_side_col";
-        }
+        switch (true) {
+            case (null !== $this->left_content && null !== $this->right_content):
+                $center_column_class = 'col-sm-6';
+                break;
 
-        switch ($center_column_class) {
-            case "one_side_col":
-                $center_column_class = "col-sm-9";
+            case (null !== $this->left_content || null !== $this->right_content):
+                $center_column_class = 'col-sm-9';
                 break;
-            case "two_side_col":
-                $center_column_class = "col-sm-6";
-                break;
+
             default:
-                $center_column_class = "col-sm-12";
+                $center_column_class = 'col-sm-12';
                 break;
         }
 
