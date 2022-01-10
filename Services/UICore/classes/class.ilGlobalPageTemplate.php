@@ -9,7 +9,6 @@ use ILIAS\UICore\PageContentProvider;
 
 /**
  * Class ilGlobalPageTemplate
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilGlobalPageTemplate implements ilGlobalTemplateInterface
@@ -25,7 +24,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     private $lng;
 
-
     /**
      * @inheritDoc
      */
@@ -40,18 +38,18 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->il_settings = $DIC->settings();
     }
 
-
     private function prepareOutputHeaders()
     {
-        $this->http->saveResponse($this->http->response()->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('P3P',
+            'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
         $this->http->saveResponse($this->http->response()->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
         if (defined("ILIAS_HTTP_PATH")) {
-            $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
+            $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH,
+                -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
         }
         $this->gs->layout()->meta()->setTextDirection($this->lng->getTextDirection());
     }
-
 
     private function prepareBasicJS()
     {
@@ -74,13 +72,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $onScreenNotifier->populatePage();
     }
 
-
     private function prepareBasicCSS()
     {
         $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation());
         $this->gs->layout()->meta()->addCss(\ilUtil::getNewContentStyleSheetLocation());
     }
-
 
     /**
      * @inheritDoc
@@ -91,7 +87,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true));
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
 
         // save language usages as late as possible
@@ -100,7 +96,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         // see #26968
         $this->handleReferer();
     }
-
 
     /**
      * @inheritDoc
@@ -111,7 +106,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicJS();
         $this->prepareBasicCSS();
 
-        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true));
 
         return $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
@@ -130,7 +125,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs->layout()->meta()->addJs($a_js_file, $a_add_version_parameter, $a_batch);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -139,7 +133,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs->layout()->meta()->addCss($a_css_file, $media);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -147,7 +140,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->gs->layout()->meta()->addOnloadCode($a_code, $a_batch);
     }
-
 
     /**
      * @inheritDoc
@@ -160,7 +152,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     // CONTENT
 
-
     /**
      * @inheritDoc
      */
@@ -169,7 +160,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setMainContent($a_html);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -177,7 +167,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setLeftContent($a_html);
     }
-
 
     /**
      * @inheritDoc
@@ -189,7 +178,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     // Filter section
 
-
     /**
      * @param string $filter
      */
@@ -200,7 +188,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
 
     // MAIN INFOS
-
 
     /**
      * @inheritDoc
@@ -220,7 +207,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         PageContentProvider::setTitle($header_title);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -228,7 +214,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setTitleDesc($a_descr);
     }
-
 
     /**
      * @inheritDoc
@@ -239,14 +224,12 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setIconDesc($a_icon_desc);
     }
 
-
     public function setBanner(string $img_src)
     {
-        $this->legacy_content_template->setBanner($img_src);
+        $this->legacy_content_template->setBannerImagesrc($img_src);
     }
 
     // ALERTS & OS-MESSAGES
-
 
     /**
      * @inheritDoc
@@ -255,7 +238,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setTitleAlerts($a_props);
     }
-
 
     /**
      * @inheritDoc
@@ -267,15 +249,13 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     // SPECIAL FEATURES
 
-
     /**
      * @inheritDoc
      */
     public function enableDragDropFileUpload($a_ref_id)
     {
-        $this->legacy_content_template->setEnableFileupload((int) $a_ref_id);
+        $this->legacy_content_template->setFileUploadRefId((int) $a_ref_id);
     }
-
 
     /**
      * @inheritDoc
@@ -285,7 +265,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setHeaderAction($a_header);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -293,7 +272,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setHeaderPageTitle($a_title);
     }
-
 
     /**
      * @inheritDoc
@@ -303,7 +281,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->addLightbox($a_html, $a_id);
     }
 
-
     /**
      * @param $a_action
      */
@@ -311,7 +288,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setPageFormAction($a_action);
     }
-
 
     /**
      * @inheritDoc
@@ -343,7 +319,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setVariable($variable, $value);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -352,7 +327,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs->layout()->meta()->getJs()->clear();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -360,7 +334,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         return $this->legacy_content_template->get($part);
     }
-
 
     /**
      * @inheritDoc
@@ -378,7 +351,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -393,7 +365,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
             throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
         }
     }
-
 
     /**
      * @inheritDoc
@@ -410,7 +381,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -422,7 +392,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
         return $this->legacy_content_template->addBlockFile($var, $block, $tplname, $in_module);
     }
-
 
     /**
      * @inheritDoc
@@ -451,7 +420,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         // Nothing to do
     }
 
-
     /**
      * @inheritDoc
      */
@@ -459,7 +427,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         // Nothing to do
     }
-
 
     /**
      * @inheritDoc
@@ -470,7 +437,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         PageContentProvider::setPermaLink($href);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -478,7 +444,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         // Nothing to do
     }
-
 
     /**
      * @inheritDoc
@@ -488,7 +453,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         // Nothing to do
     }
 
-
     /**
      * @inheritDoc
      */
@@ -497,7 +461,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         // Nothing to do, this should be handled in Slates later
     }
 
-
     /**
      * @inheritDoc
      */
@@ -505,7 +468,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         // Nothing to do
     }
-
 
     /**
      * @inheritDoc
@@ -537,7 +499,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         return "";
     }
 
-
     /**
      * @param bool $a_force
      */
@@ -545,7 +506,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
-
 
     /**
      * @inheritDoc
@@ -555,7 +515,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -563,7 +522,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
-
 
     /**
      * @inheritDoc
@@ -573,7 +531,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -582,12 +539,18 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getSpecial($part = "DEFAULT", $add_error_mess = false, $handle_referer = false, $add_ilias_footer = false, $add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
-    { //
+    public function getSpecial(
+        $part = "DEFAULT",
+        $add_error_mess = false,
+        $handle_referer = false,
+        $add_ilias_footer = false,
+        $add_standard_elements = false,
+        $a_main_menu = true,
+        $a_tabs = true
+    ) { //
         throw new NotImplementedException();
     }
 
@@ -610,7 +573,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
                 $url_parts = @parse_url($protocol . $host . $path);
             }
 
-            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/",
+                    $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
                 foreach ($_POST as $key => $val) {
                     if (is_array($val)) {
                         $val = key($val);
@@ -621,7 +585,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
                 $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
                 $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-            } elseif (isset($url_parts["query"]) && preg_match("/cmd=post/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+            } elseif (isset($url_parts["query"]) && preg_match("/cmd=post/",
+                    $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
                 foreach ($_POST as $key => $val) {
                     if (is_array($val)) {
                         $val = key($val);
