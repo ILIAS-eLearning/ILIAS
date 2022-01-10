@@ -24,7 +24,7 @@
 			"./CI/PHPUnit/run_tests.sh"
 		],
 		"rector": [
-			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/rector.php --no-diffs"
+			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs"
 		]
 	},
 	"require": {
