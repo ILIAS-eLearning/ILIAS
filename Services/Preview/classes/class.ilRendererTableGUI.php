@@ -15,14 +15,8 @@ require_once("Services/Preview/classes/class.ilFilePreviewRenderer.php");
  */
 class ilRendererTableGUI extends ilTable2GUI
 {
-    /**
-     * Creates a new ilRendererTableGUI instance.
-     *
-     * @param ilObjFileGUI $a_parent_obj The parent object.
-     * @param string $a_parent_cmd The parent command.
-     * @param int $a_file_id The id of the file object
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    
+    public function __construct(ilObjFileAccessSettingsGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
