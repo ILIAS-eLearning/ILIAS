@@ -243,8 +243,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
 
-        // set user language to system language
-        $userObj->setLanguage($ilSetting->get("language"));
+        // set user language
+        $userObj->setLanguage($consumer->getLanguage());
 
         // Time limit
         $userObj->setTimeLimitOwner(7);
