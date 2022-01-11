@@ -8,15 +8,9 @@ namespace ILIAS\Refinery;
  */
 class KeyValueAccess implements \ArrayAccess, \Countable
 {
-
-    /**
-     * @var array
-     */
-    private $raw_values;
-    /**
-     * @var Transformation
-     */
-    protected $trafo;
+    
+    private array $raw_values;
+    protected Transformation $trafo;
 
     /**
      * KeyValueAccess constructor.
