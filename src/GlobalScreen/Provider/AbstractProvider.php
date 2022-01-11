@@ -3,24 +3,28 @@
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Services;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class AbstractProvider
- *
  * @package ILIAS\GlobalScreen\Provider
  */
 abstract class AbstractProvider implements Provider
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
-    /**
-     * @var string
-     */
-    private $provider_name_cache = "";
-
-
+    protected Container $dic;
+    private string $provider_name_cache = "";
+    
     /**
      * @inheritDoc
      */
@@ -28,8 +32,7 @@ abstract class AbstractProvider implements Provider
     {
         $this->dic = $dic;
     }
-
-
+    
     /**
      * @return Services
      */
@@ -37,8 +40,7 @@ abstract class AbstractProvider implements Provider
     {
         return $this->dic->globalScreen();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -46,8 +48,7 @@ abstract class AbstractProvider implements Provider
     {
         return self::class;
     }
-
-
+    
     /**
      * @return string
      * @throws \ReflectionException
@@ -58,13 +59,13 @@ abstract class AbstractProvider implements Provider
             return $this->provider_name_cache;
         }
         $reflector = new \ReflectionClass($this);
-
+        
         $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
-
+        
         preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
-
+        
         $this->provider_name_cache = isset($matches[1]) ? is_string($matches[1]) ? $matches[1] : self::class : self::class;
-
+        
         return $this->provider_name_cache;
     }
 }

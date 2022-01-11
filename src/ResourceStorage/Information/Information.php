@@ -4,6 +4,19 @@ namespace ILIAS\ResourceStorage\Information;
 
 use DateTimeImmutable;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Information
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -11,28 +24,13 @@ use DateTimeImmutable;
 interface Information
 {
 
-    /**
-     * @return string
-     */
     public function getTitle() : string;
 
-    /**
-     * @return string
-     */
     public function getSuffix() : string;
 
-    /**
-     * @return string
-     */
     public function getMimeType() : string;
 
-    /**
-     * @return int
-     */
     public function getSize() : int;
 
-    /**
-     * @return DateTimeImmutable
-     */
     public function getCreationDate() : DateTimeImmutable;
 }

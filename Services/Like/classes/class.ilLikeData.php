@@ -222,7 +222,7 @@ class ilLikeData
         $cnt = array();
         foreach ($this->getExpressionTypes() as $k => $txt) {
             $cnt[$k] = 0;
-            if (is_array($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k])) {
+            if (isset($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k])) {
                 $cnt[$k] = count($this->data[$obj_id][$sub_obj_id][$sub_obj_type][$news_id][$k]);
             }
         }

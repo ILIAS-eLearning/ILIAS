@@ -89,7 +89,7 @@ class ilObjectListGUI
     public $download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
     
     protected $obj_id;
-    protected $ref_id;
+    protected int $ref_id;
     protected $type;
     protected $sub_obj_id;
     protected $sub_obj_type;
@@ -1072,7 +1072,7 @@ class ilObjectListGUI
         }
 
         if ($this->context == self::CONTEXT_REPOSITORY) {
-            $access = $ilAccess->checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+            $access = $ilAccess->checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type, (int) $a_obj_id);
             if ($ilAccess->getPreventCachingLastResult()) {
                 $this->prevent_access_caching = true;
             }

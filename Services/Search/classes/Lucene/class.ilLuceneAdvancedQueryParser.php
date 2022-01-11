@@ -33,7 +33,10 @@
 class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 {
     protected ilLuceneAdvancedSearchFields $field_definition;
-    protected ?array $query_data;
+    /**
+     * @var array|string
+     */
+    protected $query_data;
 
     /**
      * Constructor
@@ -49,14 +52,20 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
     /**
      * Get field definition settings
      */
-    public function getFieldDefinition()
+    public function getFieldDefinition() : ilLuceneAdvancedSearchFields
     {
         return $this->field_definition;
     }
-    
+
+    /**
+     * @return array|string
+     */
     public function getQueryData()
     {
-        return $this->query_data ?: array();
+        if (is_array($this->query_data)) {
+            return $this->query_data;
+        }
+        return $this->query_data ?? '';
     }
     
     public function parse() : void

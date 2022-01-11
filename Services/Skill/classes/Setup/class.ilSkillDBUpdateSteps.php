@@ -258,4 +258,44 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_10()
+    {
+        if (!$this->db->tableColumnExists("skl_profile", "image_id")) {
+            $this->db->addTableColumn("skl_profile", "image_id", array(
+                "type" => "text",
+                "notnull" => true,
+                "length" => 4000
+            ));
+        }
+    }
+
+    public function step_11()
+    {
+        if (!$this->db->tableExists("skl_profile_completion")) {
+            $fields = [
+                "profile_id" => [
+                    "type" => "integer",
+                    "length" => 4,
+                    "notnull" => true
+                ],
+                "user_id" => [
+                    "type" => "integer",
+                    "length" => 4,
+                    "notnull" => true
+                ],
+                "date" => [
+                    "type" => "timestamp",
+                    "notnull" => true
+                ],
+                "fulfilled" => [
+                    "type" => "integer",
+                    "length" => 1,
+                    "notnull" => true
+                ]
+            ];
+            $this->db->createTable("skl_profile_completion", $fields);
+            $this->db->addPrimaryKey("skl_profile_completion", ["profile_id", "user_id", "date"]);
+        }
+    }
 }

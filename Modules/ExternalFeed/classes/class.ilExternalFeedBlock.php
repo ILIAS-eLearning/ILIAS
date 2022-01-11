@@ -10,10 +10,6 @@
  */
 class ilExternalFeedBlock extends ilCustomBlock
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
 
     /**
      * @var Logger
@@ -88,7 +84,7 @@ class ilExternalFeedBlock extends ilCustomBlock
     * Create new item.
     *
     */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
         $ilLog = $this->log;
@@ -108,7 +104,7 @@ class ilExternalFeedBlock extends ilCustomBlock
     * Read item from database.
     *
     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -126,7 +122,7 @@ class ilExternalFeedBlock extends ilCustomBlock
     * Update item in database.
     *
     */
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
@@ -143,7 +139,7 @@ class ilExternalFeedBlock extends ilCustomBlock
     * Delete item from database.
     *
     */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         

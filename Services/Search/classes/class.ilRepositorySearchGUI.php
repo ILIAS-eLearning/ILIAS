@@ -35,6 +35,9 @@
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 
 class ilRepositorySearchGUI
 {
@@ -50,22 +53,20 @@ class ilRepositorySearchGUI
     private string $string = '';
     protected bool $user_limitations = true;
 
-    protected bool $stored;
+    protected bool $stored = false;
     protected array $callback = [];
     protected array $role_callback = [];
 
     protected ilSearchResult $result_obj;
     protected ilSearchSettings $settings;
     protected ?ilPropertyFormGUI $form = null;
-    
+
     /**
      * @var callable
      */
     protected $user_filter = null;
     
     private int $privacy_mode = ilUserAutoComplete::PRIVACY_MODE_IGNORE_USER_SETTING;
-
-
 
     protected ilTree $tree;
     protected Renderer $ui_renderer;
@@ -76,6 +77,9 @@ class ilRepositorySearchGUI
     protected ilRbacReview $rbacreview;
     protected ilTabsGUI $tabs;
     protected ilLanguage $lng;
+    private GlobalHttpState $http;
+    private RefineryFactory $refinery;
+
 
 
 
@@ -92,6 +96,8 @@ class ilRepositorySearchGUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->lng = $DIC->language();
         $this->rbacreview = $DIC->rbac()->review();
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('crs');
@@ -147,6 +153,16 @@ class ilRepositorySearchGUI
     public function getPrivacyMode() : int
     {
         return $this->privacy_mode;
+    }
+
+    public function getSearchType() : string
+    {
+        return $this->search_type;
+    }
+
+    public function getRoleCallback() : array
+    {
+        return $this->role_callback;
     }
 
 
@@ -308,16 +324,22 @@ class ilRepositorySearchGUI
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
             return ilJsonUtil::encode(new stdClass());
         }
-        
-        
-        if (!isset($_GET['autoCompleteField'])) {
-            $a_fields = array('login','firstname','lastname','email');
+        if (!$this->http->wrapper()->query()->has('autoCompleteField')) {
+            $a_fields = [
+                'login',
+                'firstname',
+                'lastname',
+                'email'
+            ];
             $result_field = 'login';
         } else {
-            $a_fields = array((string) $_GET['autoCompleteField']);
-            $result_field = (string) $_GET['autoCompleteField'];
+            $auto_complete_field = $this->http->wrapper()->query()->retrieve(
+                    'autoCompleteField',
+                    $this->refinery->kindlyTo()->string()
+            );
+            $a_fields = [$auto_complete_field];
+            $result_field = $auto_complete_field;
         }
-
         $auto = new ilUserAutoComplete();
         $auto->setPrivacyMode($this->getPrivacyMode());
 
@@ -396,7 +418,13 @@ class ilRepositorySearchGUI
 
         // call callback if that function does give a return value => show error message
         // listener redirects if everything is ok.
-        $obj_ids = (array) $_POST['obj'];
+        $obj_ids = [];
+        if ($this->http->wrapper()->post()->has('obj')) {
+            $obj_ids = $this->http->wrapper()->post()->retrieve(
+                'obj',
+                $this->refinery->kindlyTo()->listOf($this->refinery->int())
+            );
+        }
         $role_ids = array();
         foreach ($obj_ids as $id) {
             $obj_type = ilObject::_lookupType($id);
@@ -418,10 +446,18 @@ class ilRepositorySearchGUI
     {
         $class = $this->callback['class'];
         $method = $this->callback['method'];
+
+        $users = [];
+        if ($this->http->wrapper()->post()->has('user')) {
+            $users = $this->http->wrapper()->post()->retrieve(
+                'user',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
         
         // call callback if that function does give a return value => show error message
         // listener redirects if everything is ok.
-        $class->$method((array) $_POST['user']);
+        $class->$method($users);
 
         $this->showSearchResults();
     }
@@ -489,8 +525,17 @@ class ilRepositorySearchGUI
 
     protected function removeFromClipboard() : void
     {
+        $users = [];
+        if ($this->http->wrapper()->post()->has('uids')) {
+            $users = $this->http->wrapper()->post()->retrieve(
+                'uids',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+
         $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);
-        $users = (array) $_POST['uids'];
         if (!count($users)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
@@ -717,7 +762,7 @@ class ilRepositorySearchGUI
                 break;
             }
         }
-        if (array_key_exists('rep_query_orgu', $_POST) && count($_POST['rep_query_orgu']) > 0) {
+        if ($this->http->wrapper()->post()->has('rep_query_orgu')) {
             $found_query = true;
         }
         if (!$found_query) {
@@ -1100,25 +1145,36 @@ class ilRepositorySearchGUI
     {
         // get parameter is used e.g. in exercises to provide
         // "add members of course" link
-        if ($_GET["list_obj"] != "" && !is_array($_POST['obj'])) {
-            $_POST['obj'][0] = $_GET["list_obj"];
+        $selected_entries = [];
+        if ($this->http->wrapper()->post()->has('obj')) {
+            $selected_entries = $this->http->wrapper()->post()->retrieve(
+                'obj',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
-        if (!is_array($_POST['obj']) or !$_POST['obj']) {
+        if (
+            $this->http->wrapper()->query()->has('list_obj') &&
+            !count($selected_entries)
+        ) {
+            $selected_entries[] = $this->http->wrapper()->query()->retrieve(
+                'list_obj',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if (!count($selected_entries)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->showSearchResults();
             return false;
         }
-        
-        $_SESSION['rep_search']['objs'] = $_POST['obj'];
+        $_SESSION['rep_search']['objs'] = $selected_entries;
         
         // Get all members
         $members = array();
-        foreach ($_POST['obj'] as $obj_id) {
+        foreach ($selected_entries as $obj_id) {
             $type = ilObject::_lookupType($obj_id);
             switch ($type) {
                 case 'crs':
                 case 'grp':
-                    
                     if (ilParticipants::hasParticipantListAccess($obj_id)) {
                         $part = [];
                         if (is_callable($this->user_filter)) {
@@ -1137,8 +1193,6 @@ class ilRepositorySearchGUI
                     break;
                     
                 case 'role':
-
-                    
                     $assigned = [];
                     if (is_callable($this->user_filter)) {
                         $assigned = call_user_func_array(
@@ -1215,17 +1269,30 @@ class ilRepositorySearchGUI
     protected function selectObject() : bool
     {
         // get parameter is used e.g. in exercises to provide
-        // "add members of course" link
-        if ($_GET["list_obj"] != "" && !is_array($_POST['obj'])) {
-            $_POST['obj'][0] = $_GET["list_obj"];
+        // "add members of course"
+        $selected_entries = [];
+        if ($this->http->wrapper()->post()->has('obj')) {
+            $selected_entries = $this->http->wrapper()->post()->retrieve(
+                'obj',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
-        if (!is_array($_POST['obj']) or !$_POST['obj']) {
+        if (
+            $this->http->wrapper()->query()->has('list_obj') &&
+            !count($selected_entries)
+        ) {
+            $selected_entries[] = $this->http->wrapper()->query()->retrieve(
+                'list_obj',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        if (!count($selected_entries)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->showSearchResults();
             return false;
         }
-
-        $this->ctrl->setParameter($this->callback["class"], "obj", implode(";", $_POST["obj"]));
+        $this->ctrl->setParameter($this->callback["class"], "obj", implode(";", $selected_entries));
         $this->ctrl->redirect($this->callback["class"], $this->callback["method"]);
         return true;
     }

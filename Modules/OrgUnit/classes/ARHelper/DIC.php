@@ -2,9 +2,8 @@
 
 namespace ILIAS\Modules\OrgUnit\ARHelper;
 
-/**
+use ILIAS\HTTP\RawHTTPServices;/**
  * Class DIC
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait DIC
@@ -85,7 +84,7 @@ trait DIC
 
 
     /**
-     * @return ILIAS\
+     * @return \ILIAS\HTTP\Services
      */
     protected function http()
     {

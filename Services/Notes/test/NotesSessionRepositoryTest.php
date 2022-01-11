@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class NotesSessionRepositoryTest extends TestCase
 {
     //protected $backupGlobals = false;
-    protected \ILIAS\Notes\NotesSessionRepository $clipboard;
+    protected \ILIAS\Notes\NotesSessionRepository $repo;
 
     protected function setUp() : void
     {

@@ -1514,7 +1514,7 @@ class ilNoteGUI
         );
 
         $cnt = ilNote::_countNotesAndComments($this->rep_obj_id, $this->obj_id, $this->obj_type, $this->news_id);
-        $cnt = $cnt[$this->rep_obj_id][ilNote::PUBLIC];
+        $cnt = $cnt[$this->rep_obj_id][ilNote::PUBLIC] ?? 0;
 
         $tpl = new ilTemplate("tpl.note_widget_header.html", true, true, "Services/Notes");
         $widget_el_id = "notew_" . str_replace(";", "_", $hash);

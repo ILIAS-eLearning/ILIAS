@@ -147,7 +147,7 @@ class ilWorkspaceCopyDefinition extends AbstractValue
 
     /**
      * Set value
-     * @param string[] $value
+     * @param $value
      */
     public function setValue($value) : void
     {

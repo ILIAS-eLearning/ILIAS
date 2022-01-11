@@ -13,7 +13,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
             new ilIniFilesLoadedObjective()
         ];
     }
-
+    
     protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
@@ -29,6 +29,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
         // component could just service locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
+        /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
         $GLOBALS["DIC"]["ilDB"] = $db;
 
         $settings = new ilGlobalCacheSettings();

@@ -14,6 +14,19 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class RevisionDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -23,23 +36,20 @@ class RevisionDBRepository implements RevisionRepository
 {
     const TABLE_NAME = 'il_resource_revision';
     const IDENTIFICATION = 'rid';
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
     /**
      * @var Revision[]
      */
-    protected $cache = [];
+    protected array $cache = [];
 
-    /**
-     * @param \ilDBInterface $db
-     */
     public function __construct(\ilDBInterface $db)
     {
         $this->db = $db;
     }
 
+    /**
+     * @return string[]
+     */
     public function getNamesForLocking() : array
     {
         return [self::TABLE_NAME];
@@ -82,9 +92,6 @@ class RevisionDBRepository implements RevisionRepository
         return $revision;
     }
 
-    /**
-     * @param Revision $revision
-     */
     public function store(Revision $revision) : void
     {
         $rid = $revision->getIdentification()->serialize();

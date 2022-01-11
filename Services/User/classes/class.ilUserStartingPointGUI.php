@@ -335,7 +335,7 @@ class ilUserStartingPointGUI
                     $starting_point = new ilStartingPoint();
                 }
                 $starting_point->setRuleType(ilStartingPoint::ROLE_BASED);
-                $starting_point->setStartingPoint($form->getInput("start_point"));
+                $starting_point->setStartingPoint((int) $form->getInput("start_point"));
                 $rules = array("role_id" => $form->getInput('role'));
                 $starting_point->setRuleOptions(serialize($rules));
 

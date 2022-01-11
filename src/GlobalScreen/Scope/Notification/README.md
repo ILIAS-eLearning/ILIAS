@@ -1,8 +1,6 @@
 Scope Notifications
 ===================
-This scope addresses notifications that are displayed to the user in the NotificationCenter (a dedicated item in the MetaBar). 
-Components can - as in all other scopes - via an implementation of a `NotificationProvider` provide the `MainNotificationCollector` with a list of notifications. 
-These are summarized and displayed in the NotificationCenter.
+This scope addresses notifications that are displayed to the user in the NotificationCenter (a dedicated item in the MetaBar). Components can - as in all other scopes - via an implementation of a `NotificationProvider` provide the `MainNotificationCollector` with a list of notifications. These are summarized and displayed in the NotificationCenter.
 
 The following types are currently available via the Factory:
 
@@ -71,5 +69,4 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
 In this case, the effective notifications are collected in a NotificationGroup. These will rendered as a group in the NotificationCenter.
 
-For more details on the properties of the UI Component Notification Item, see the respective documentation in src/UI/Components/Item/Notification
-and the respective examples.
+For more details on the properties of the UI Component Notification Item, see the respective documentation in src/UI/Components/Item/Notification and the respective examples.

@@ -14,10 +14,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
     /**
      * Constructor
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", int $ref_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
     {
         global $DIC;
         $this->ref_id = $ref_id;
@@ -96,7 +94,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
      * Fill row
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setVariable('VAL_ID', $a_set['id']);

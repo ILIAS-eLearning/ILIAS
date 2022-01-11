@@ -9,7 +9,7 @@
  */
 class ilDidacticTemplateGUI
 {
-    private ilObjectGUI $parent_object;
+    private object $parent_object;
     private ilLanguage $lng;
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
@@ -19,7 +19,7 @@ class ilDidacticTemplateGUI
     /**
      * Constructor
      */
-    public function __construct(ilObjectGUI $a_parent_obj, int $requested_template_id = 0)
+    public function __construct(object $a_parent_obj, int $requested_template_id = 0)
     {
         global $DIC;
 
@@ -36,7 +36,7 @@ class ilDidacticTemplateGUI
         }
     }
 
-    public function getParentObject() : ilObjectGUI
+    public function getParentObject() : object
     {
         return $this->parent_object;
     }

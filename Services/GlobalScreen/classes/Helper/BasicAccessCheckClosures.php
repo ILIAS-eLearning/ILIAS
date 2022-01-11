@@ -5,19 +5,32 @@ namespace ILIAS\GlobalScreen\Helper;
 use Closure;
 use ReflectionFunction;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BasicAccessCheckClosures
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class BasicAccessCheckClosures
 {
-
+    
     /**
      * @var self
      */
     protected static $instance;
     private $dic;
-
+    
     /**
      * BasicAccessCheckClosures constructor.
      * @param $dic
@@ -27,7 +40,7 @@ class BasicAccessCheckClosures
         global $DIC;
         $this->dic = $DIC;
     }
-
+    
     /**
      * @return self
      */
@@ -36,10 +49,10 @@ class BasicAccessCheckClosures
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }
-
+        
         return self::$instance;
     }
-
+    
     public function isRepositoryReadable(?Closure $additional = null) : Closure
     {
         static $repo_read;
@@ -51,12 +64,12 @@ class BasicAccessCheckClosures
                 $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             }
         }
-
+        
         return $this->getClosureWithOptinalClosure(static function () use ($repo_read) : bool {
             return $repo_read;
         }, $additional);
     }
-
+    
     public function isRepositoryVisible(?Closure $additional = null) : Closure
     {
         static $repo_visible;
@@ -68,24 +81,24 @@ class BasicAccessCheckClosures
                 $repo_visible = (bool) $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
             }
         }
-
+        
         return $this->getClosureWithOptinalClosure(static function () use ($repo_visible) : bool {
             return $repo_visible;
         }, $additional);
     }
-
+    
     public function isUserLoggedIn(?Closure $additional = null) : Closure
     {
         static $is_anonymous;
         if (!isset($is_anonymous)) {
             $is_anonymous = (bool) $this->dic->user()->isAnonymous() || ($this->dic->user()->getId() == 0);
         }
-
+        
         return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous) : bool {
             return !$is_anonymous;
         }, $additional);
     }
-
+    
     public function hasAdministrationAccess(?Closure $additional = null) : Closure
     {
         static $has_admin_access;
@@ -96,12 +109,12 @@ class BasicAccessCheckClosures
             return $has_admin_access;
         }, $additional);
     }
-
-
+    
+    
     //
     // Internal
     //
-
+    
     private function checkClosureForBoolReturnValue(Closure $c) : bool
     {
         try {
@@ -109,13 +122,13 @@ class BasicAccessCheckClosures
         } catch (\Throwable $e) {
             return false;
         }
-
-        if(!$r->hasReturnType() || !$r->getReturnType()->isBuiltin()){
+        
+        if (!$r->hasReturnType() || !$r->getReturnType()->isBuiltin()) {
             throw new \InvalidArgumentException('the additional Closure MUST return a bool dy declaration');
         }
         return true;
     }
-
+    
     private function getClosureWithOptinalClosure(Closure $closure, ?Closure $additional = null) : Closure
     {
         if ($additional instanceof Closure && $this->checkClosureForBoolReturnValue($additional)) {
@@ -123,7 +136,7 @@ class BasicAccessCheckClosures
                 return $additional() && $closure();
             };
         }
-
+        
         return $closure;
     }
 }

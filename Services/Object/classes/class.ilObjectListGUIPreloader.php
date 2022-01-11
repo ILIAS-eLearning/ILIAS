@@ -66,7 +66,7 @@ class ilObjectListGUIPreloader
         $this->types[] = $a_type;
         
         if ($a_ref_id) {
-            $this->ref_ids[] = $a_ref_id;
+            $this->ref_ids[] = (int) $a_ref_id;
             $this->ref_ids_by_type[$a_type][] = $a_ref_id;
         }
     }

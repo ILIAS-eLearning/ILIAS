@@ -6,6 +6,8 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
@@ -30,7 +32,7 @@ class ilSubmissionsZipJob extends AbstractJob
         ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -41,16 +43,16 @@ class ilSubmissionsZipJob extends AbstractJob
     }
 
     /**
-     * @todo use filesystem service
      * @param array    $input
      * @param Observer $observer
-     * @return StringValue
+     * @return Value
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
+     *@todo use filesystem service
      */
     public function run(
         array $input,
         Observer $observer
-    ) : StringValue {
+    ) : Value {
         $tmpdir = $input[0]->getValue();
 
         ilUtil::zip($tmpdir, $tmpdir . '.zip');

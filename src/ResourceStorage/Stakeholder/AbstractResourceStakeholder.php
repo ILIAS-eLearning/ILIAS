@@ -4,6 +4,19 @@ namespace ILIAS\ResourceStorage\Stakeholder;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class AbstractResourceStakeholder
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -11,10 +24,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {
 
-    /**
-     * @var string
-     */
-    private $provider_name_cache = '';
+    private string $provider_name_cache = '';
 
     /**
      * @inheritDoc

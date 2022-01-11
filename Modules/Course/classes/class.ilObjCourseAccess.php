@@ -325,6 +325,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+        $type = null;
 
         $query = "SELECT * FROM crs_settings " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";

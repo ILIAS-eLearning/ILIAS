@@ -17,6 +17,19 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class AbstractFileSystemStorageHandler
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -24,26 +37,11 @@ use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
 abstract class AbstractFileSystemStorageHandler implements StorageHandler
 {
     protected const DATA = 'data';
-    /**
-     * @var PathGenerator
-     */
-    protected $path_generator;
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
-    /**
-     * @var UniqueIDIdentificationGenerator
-     */
-    protected $id;
-    /**
-     * @var int
-     */
-    protected $location;
-    /**
-     * @var bool
-     */
-    protected $links_possible = false;
+    protected \ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator $path_generator;
+    protected \ILIAS\Filesystem\Filesystem $fs;
+    protected \ILIAS\ResourceStorage\Identification\IdentificationGenerator $id;
+    protected int $location;
+    protected bool $links_possible = false;
 
     public function __construct(
         Filesystem $filesystem,
@@ -243,8 +241,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
 
     private function getAbsoluteRevisionPath(Revision $revision) : string
     {
-        $str = rtrim(CLIENT_DATA_DIR, "/") . "/" . ltrim($this->getRevisionPath($revision), "/");
-        return $str;
+        return rtrim(CLIENT_DATA_DIR, "/") . "/" . ltrim($this->getRevisionPath($revision), "/");
     }
 
     public function movementImplementation() : string

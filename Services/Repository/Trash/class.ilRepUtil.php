@@ -120,7 +120,7 @@ class ilRepUtil
                 $subnodes = $tree->getSubtree($tree->getNodeData($id));
 
                 foreach ($subnodes as $subnode) {
-                    $rbacadmin->revokePermission($subnode["child"]);
+                    $rbacadmin->revokePermission((int) $subnode["child"]);
 
                     $affected_ids[$subnode["child"]] = $subnode["child"];
                     $affected_parents[$subnode["child"]] = $subnode["parent"];

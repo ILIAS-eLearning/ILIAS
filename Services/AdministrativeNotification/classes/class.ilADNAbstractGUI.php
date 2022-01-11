@@ -1,5 +1,15 @@
 <?php
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class ilADNAbstractGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
@@ -7,48 +17,25 @@
 abstract class ilADNAbstractGUI
 {
     const IDENTIFIER = 'identifier';
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    protected $http;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilADNTabHandling
-     */
-    protected $tab_handling;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilTree
-     */
-    public $tree;
-    /**
-     * @var ilObjAdministrativeNotificationAccess
-     */
-    protected $access;
-
+    
+    protected \ILIAS\DI\UIServices $ui;
+    
+    protected \ILIAS\HTTP\Services $http;
+    
+    protected ilToolbarGUI $toolbar;
+    protected \ilADNTabHandling $tab_handling;
+    
+    protected ilTabsGUI $tabs;
+    
+    public ilLanguage $lng;
+    
+    protected ilCtrl $ctrl;
+    
+    public ilGlobalTemplateInterface $tpl;
+    
+    public ilTree $tree;
+    protected \ilObjAdministrativeNotificationAccess $access;
+    
     /**
      * ilADNAbstractGUI constructor.
      * @param ilADNTabHandling $tab_handling
@@ -56,7 +43,7 @@ abstract class ilADNAbstractGUI
     public function __construct(ilADNTabHandling $tab_handling)
     {
         global $DIC;
-
+        
         $this->tab_handling = $tab_handling;
         $this->tabs         = $DIC['ilTabs'];
         $this->lng          = $DIC->language();
@@ -67,10 +54,10 @@ abstract class ilADNAbstractGUI
         $this->http         = $DIC->http();
         $this->ui           = $DIC->ui();
         $this->access       = new ilObjAdministrativeNotificationAccess();
-
+        
         $this->lng->loadLanguageModule('form');
     }
-
+    
     /**
      * @param string|null $standard
      * @return string
@@ -83,23 +70,23 @@ abstract class ilADNAbstractGUI
         if ($cmd !== '') {
             return $cmd;
         }
-
+        
         return $standard;
     }
-
+    
     abstract protected function dispatchCommand(string $cmd) : string;
-
+    
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
-
+        
         if ($next_class === '') {
             $cmd = $this->determineCommand();
             $this->tpl->setContent($this->dispatchCommand($cmd));
-
+            
             return;
         }
-
+        
         switch ($next_class) {
             case strtolower(ilADNNotificationGUI::class):
                 $this->tab_handling->initTabs(ilObjAdministrativeNotificationGUI::TAB_MAIN, ilADNNotificationGUI::TAB_TABLE, false);
@@ -110,5 +97,5 @@ abstract class ilADNAbstractGUI
                 break;
         }
     }
-
+    
 }

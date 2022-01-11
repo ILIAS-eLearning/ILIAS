@@ -8,14 +8,8 @@
 class ilBiblTranslationTableGUI extends ilTable2GUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    /**
-     * @var \ilBiblFieldInterface
-     */
-    protected $field;
-    /**
-     * @var \ilBiblTranslationFactoryInterface
-     */
-    protected $translation_facory;
+    protected \ilBiblFieldInterface $field;
+    protected \ilBiblTranslationFactoryInterface $translation_facory;
 
 
     /**
@@ -49,7 +43,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('bibl_translation_select'), '', '15px', true);
         $this->addColumn($this->lng()->txt('bibl_translation_lang'));
@@ -58,7 +52,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     }
 
 
-    protected function parseData()
+    protected function parseData(): void
     {
         $data = $this->translation_facory->getAllTranslationsForFieldAsArray($this->field);
         $this->setData($data);

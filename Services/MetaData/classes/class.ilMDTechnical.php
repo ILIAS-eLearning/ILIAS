@@ -228,12 +228,9 @@ class ilMDTechnical extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_technical_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_technical'));
+        $fields['meta_technical_id'] = array('integer',$next_id = $this->db->nextId('il_meta_technical'));
         
         if ($this->db->insert('il_meta_technical', $fields)) {
             $this->setMetaId($next_id);
@@ -244,9 +241,6 @@ class ilMDTechnical extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -262,14 +256,11 @@ class ilMDTechnical extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_technical " .
-                "WHERE meta_technical_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_technical_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             
             foreach ($this->getFormatIds() as $id) {
                 $for = &$this->getFormat($id);
@@ -310,17 +301,14 @@ class ilMDTechnical extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_technical " .
-                "WHERE meta_technical_id = " . $ilDB->quote($this->getMetaId(), 'integer') . " ";
+                "WHERE meta_technical_id = " . $this->db->quote($this->getMetaId(), 'integer') . " ";
 
-            $res = $ilDB->query($query);
+            $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId($row->rbac_id);
                 $this->setObjId($row->obj_id);
@@ -408,7 +396,7 @@ class ilMDTechnical extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_technical_id FROM il_meta_technical " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

@@ -2207,7 +2207,7 @@ class ilObjContentObject extends ilObject
         int $a_glo_ref_id
     ) : void {
         // get terms
-        $terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
+        $terms = ilGlossaryTerm::getTermList([$a_glo_ref_id]);
 
         // each get page: get content
         $pages = ilLMPage::getAllPages($this->getType(), $this->getId());

@@ -54,10 +54,14 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
 
         $ctrl = $DIC->ctrl();
+        $ctrl->clearParametersByClass("ilPersonalSkillsGUI");
+        $ctrl->setParameterByClass("ilPersonalSkillsGUI", "list_mode", \ilPersonalSkillsGUI::LIST_PROFILES);
+        $link = $ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI", "ilPersonalSkillsGUI"]);
+        $ctrl->clearParameterByClass("ilPersonalSkillsGUI", "list_mode");
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_skill'))
                 ->withTitle($title)
-                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
+                ->withAction($link)
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(20)
                 ->withSymbol($icon)

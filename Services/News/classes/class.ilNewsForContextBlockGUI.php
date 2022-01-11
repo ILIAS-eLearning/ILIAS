@@ -760,7 +760,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $item["title"],
                     $item["content_is_lang_var"],
                     $item["agg_ref_id"] ?? 0,
-                    $item["aggregation"] ?? false
+                    $item["aggregation"] ?? []
                 )
             );
             

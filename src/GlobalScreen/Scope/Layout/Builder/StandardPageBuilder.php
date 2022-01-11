@@ -1,8 +1,20 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
+use ILIAS\DI\UIServices;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
+
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
 
 /**
  * Interface PageBuilder
@@ -10,26 +22,20 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
  */
 class StandardPageBuilder implements PageBuilder
 {
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
-     */
-    protected $meta;
-
+    
+    protected UIServices $ui;
+    protected MetaContent $meta;
+    
     /**
      * StandardPageBuilder constructor.
      */
     public function __construct()
     {
         global $DIC;
-        $this->ui = $DIC->ui();
+        $this->ui   = $DIC->ui();
         $this->meta = $DIC->globalScreen()->layout()->meta();
     }
-
+    
     /**
      * @param PagePartProvider $parts
      * @return Page
@@ -44,7 +50,7 @@ class StandardPageBuilder implements PageBuilder
         $title        = $parts->getTitle();
         $short_title  = $parts->getShortTitle();
         $view_title   = $parts->getViewTitle();
-
+        
         $standard = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
             $meta_bar,
@@ -56,7 +62,7 @@ class StandardPageBuilder implements PageBuilder
             $short_title,
             $view_title
         );
-
+        
         return $standard->withSystemInfos($parts->getSystemInfos())
                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
     }
