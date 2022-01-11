@@ -41,6 +41,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
                     \ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
                     $file_obj->getTitle()
                 );
+
+                $file_obj->setFileName($file["name"]);
             } else {
                 $move_file = $file['tmp_name'];
                 /**
