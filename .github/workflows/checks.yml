@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0]
+        php: [7.4, 8.0, 8.1]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer update && composer install --no-interaction --no-progress
 
       - name: PHP Unit Test 
         run: CI/PHPUnit/run_tests.sh
