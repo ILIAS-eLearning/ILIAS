@@ -374,10 +374,9 @@ class ilInitialisation
      */
     protected static function buildHTTPPath()
     {
-        include_once './Services/Http/classes/class.ilHTTPS.php';
-        $https = new ilHTTPS();
+        global $DIC;
 
-        if ($https->isDetected()) {
+        if ($DIC['https']->isDetected()) {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
@@ -640,14 +639,13 @@ class ilInitialisation
      */
     protected static function setSessionCookieParams()
     {
-        global $ilSetting;
+        global $ilSetting, $DIC;
 
         if (!defined('IL_COOKIE_SECURE')) {
             // If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
             // \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-            include_once './Services/Http/classes/class.ilHTTPS.php';
-            $cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+            $cookie_secure = !$ilSetting->get('https', 0) && $DIC['https']->isDetected();
             define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
             session_set_cookie_params(
@@ -1274,7 +1272,7 @@ class ilInitialisation
                 "./Services/Component/classes/class.ilPluginAdmin.php"
             );
         }
-
+        self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
         self::initSettings();
         self::setSessionHandler();
         self::initMail($GLOBALS['DIC']);
@@ -1289,10 +1287,8 @@ class ilInitialisation
         self::initLocale();
 
         if (ilContext::usesHTTP()) {
-            // $https
-            self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
             $https->enableSecureCookies();
-            $https->checkPort();
+            $https->checkProtocolAndRedirectIfNeeded();
         }
 
 

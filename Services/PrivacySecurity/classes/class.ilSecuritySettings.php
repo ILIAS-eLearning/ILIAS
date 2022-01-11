@@ -12,6 +12,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
+
 /**
  * Singleton class that stores all security settings
  * @author  Roland Küstermann <roland@kuestermann.com>
@@ -37,6 +38,7 @@ class ilSecuritySettings
     private \ilDBInterface $db;
     private \ilSetting $settings;
     private \ilRbacReview $review;
+    protected ilHTTPS $https;
 
     private bool $https_enable;
 
@@ -75,6 +77,7 @@ class ilSecuritySettings
         $this->db = $DIC->database();
         $this->settings = $DIC->settings();
         $this->review = $DIC->rbac()->review();
+        $this->https = $DIC['https'];
 
         $this->read();
     }
@@ -342,7 +345,7 @@ class ilSecuritySettings
         $code = null;
 
         if ($this->isHTTPSEnabled()) {
-            if (!ilHTTPS::_checkHTTPS()) {
+            if (!$this->https->checkHTTPS()) {
                 $code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
                 if (!$a_form) {
                     return $code;
