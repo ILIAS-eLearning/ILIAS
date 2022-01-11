@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -12,26 +12,11 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
-* Class for proxy related exception handling in ILIAS.
-*
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
-*
-*/
+ * Class for proxy related exception handling in ILIAS.
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilProxyException extends ilException
 {
-    /**
-    * Constructor
-    *
-    * A message is not optional as in build in class Exception
-    *
-    * @access public
-    * @param	string	$a_message message
-    *
-    */
-    public function __construct($a_message)
-    {
-        parent::__construct($a_message);
-    }
 }

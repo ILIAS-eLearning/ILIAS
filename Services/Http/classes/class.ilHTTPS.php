@@ -171,5 +171,4 @@ class ilHTTPS
 
         return false;
     }
-
 }
