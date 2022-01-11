@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -15,39 +15,25 @@
 
 /**
  * class ilProxySettings
- *
- * @author     Michael Jansen <mjansen@databay.de>
- * @version    $Id$
- *
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilProxySettings
 {
-    const CONNECTION_CHECK_TIMEOUT = 10;
-
-    /**
-     *
-     * Unique instance
-     *
-     * @access    protected
-     * @type    ilProxySettings
-     *
-     */
-    protected static ?\ilProxySettings $_instance = null;
+    protected static ?ilProxySettings $_instance = null;
     protected string $host = '';
     protected int $port = 80;
     protected bool $active = false;
     protected ilSetting $setting;
-    protected ilLanguage $language;
 
     protected function __construct()
     {
         global $DIC;
+
         $this->setting = $DIC->settings();
-        $this->language = $DIC->language();
         $this->read();
     }
 
-    public static function _getInstance() : \ilProxySettings
+    public static function _getInstance() : ilProxySettings
     {
         if (null === self::$_instance) {
             self::$_instance = new self();
@@ -56,13 +42,6 @@ class ilProxySettings
         return self::$_instance;
     }
 
-    /**
-     *
-     * Fetches data from database
-     *
-     * @access    protected
-     *
-     */
     protected function read() : void
     {
         $this->host = (string) $this->setting->get('proxy_host');
@@ -84,5 +63,4 @@ class ilProxySettings
     {
         return $this->port;
     }
-
 }

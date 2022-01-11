@@ -43,7 +43,7 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data): \ilHttpSetupConfig {
+        return $this->refinery->custom()->transformation(function ($data) : \ilHttpSetupConfig {
             return new \ilHttpSetupConfig(
                 $data["path"],
                 isset($data["https_autodetection"]) && $data["https_autodetection"],

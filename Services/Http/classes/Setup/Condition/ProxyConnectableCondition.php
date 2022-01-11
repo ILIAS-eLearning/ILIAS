@@ -20,7 +20,7 @@ class ProxyConnectableCondition extends ExternalConditionObjective
 {
     public function __construct($config)
     {
-        return parent::__construct(
+        parent::__construct(
             "Can establish a connection to proxy",
             function (Setup\Environment $env) use ($config) : bool {
                 try {
