@@ -1,12 +1,14 @@
 {
-  "maintenance_model": "Classic",
-  "first_maintainer": "ukohnle(21855)",
-  "second_maintainer": "bheyser(14300)",
-  "implicit_maintainers": [],
-  "coordinator": "",
-  "tester": "",
-  "testcase_writer": "",
-  "path": "Modules/CmiXapi",
-  "belong_to_component": "cmi5/xAPI Object",
-  "used_in_components": []
+    "maintenance_model": "Classic",
+    "first_maintainer": "ukohnle(21855)",
+    "second_maintainer": "bheyser(14300)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "Modules/CmiXapi",
+    "belong_to_component": "cmi5/xAPI Object",
+    "used_in_components": []
 }
