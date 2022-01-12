@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+
+
 /**
  * Base class for member tab content
  *
@@ -46,6 +48,8 @@ class ilMembershipGUI
     protected $access;
     
     protected $participants;
+
+    protected array $member_data = [];
     
     
     /**

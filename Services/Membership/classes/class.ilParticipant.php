@@ -88,13 +88,6 @@ abstract class ilParticipant
         $this->readParticipantStatus();
     }
     
-    /**
-     * Update member roles
-     * @global ilDB $ilDB
-     * @param type $a_obj_id
-     * @param type $a_role_id
-     * @param type $a_status
-     */
     public static function updateMemberRoles($a_obj_id, $a_usr_id, $a_role_id, $a_status)
     {
         global $DIC;

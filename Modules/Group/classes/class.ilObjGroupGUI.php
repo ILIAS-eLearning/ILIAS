@@ -1939,7 +1939,7 @@ class ilObjGroupGUI extends ilContainerGUI
         }
 
         foreach ($local_roles as $title => $role_id) {
-            $grp_roles[$role_id] = ilObjRole::_getTranslation($title);
+            $grp_roles[(int) $role_id] = ilObjRole::_getTranslation($title);
         }
         return $grp_roles;
     }

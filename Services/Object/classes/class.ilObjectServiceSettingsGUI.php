@@ -47,7 +47,6 @@ class ilObjectServiceSettingsGUI
     
     /**
      * Constructor
-     * @param type $a_parent_gui
      */
     public function __construct($a_parent_gui, $a_obj_id, $a_modes)
     {

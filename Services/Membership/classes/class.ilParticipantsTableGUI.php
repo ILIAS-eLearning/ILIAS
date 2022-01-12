@@ -142,8 +142,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 
     /**
      * Check acceptance
-     * @param object $a_usr_id
-     * @return
      */
     public function checkAcceptance($a_usr_id)
     {
@@ -180,8 +178,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 
     /**
      * show edit links
-     * @param type $a_set
-     * @return boolean
      */
     protected function showActionLinks($a_set)
     {

@@ -30,7 +30,7 @@ class ilObjectCustomUserFieldHistory
     /**
      * Get entries by obj_id
      * @global type $ilDB
-     * @param type $a_obj_id
+     * @param int $a_obj_id
      * @return \ilDateTime
      */
     public static function lookupEntriesByObjectId($a_obj_id)

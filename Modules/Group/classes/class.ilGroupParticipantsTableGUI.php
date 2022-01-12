@@ -311,7 +311,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $filtered_user_ids = array();
         $local_roles = $this->getParentObject()->getLocalRoles();
         foreach ((array) $usr_data['set'] as $ud) {
-            $user_id = $ud['usr_id'];
+            $user_id = (int) $ud['usr_id'];
             if ($this->current_filter['roles']) {
                 if (!$this->rbacreview->isAssigned($user_id, $this->current_filter['roles'])) {
                     continue;

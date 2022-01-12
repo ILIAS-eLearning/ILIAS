@@ -112,6 +112,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         parent::__construct($a_id, $a_call_by_reference);
 
         $this->logger = $DIC->logger()->grp();
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacreview = $DIC->rbac()->review();
     }
 
     public static function lookupGroupTye(int $a_id) : int

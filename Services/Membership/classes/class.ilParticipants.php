@@ -46,6 +46,9 @@ abstract class ilParticipants
     protected $admins = array();
     
     protected $subscribers = array();
+
+    protected ilAppEventHandler $eventHandler;
+    protected ilRbacReview $rbacReview;
     
     /**
      * @var ilDBInterface
@@ -78,9 +81,13 @@ abstract class ilParticipants
      */
     public function __construct($a_component_name, $a_ref_id)
     {
+        global $DIC;
+
         $this->ilDB = $GLOBALS['DIC']->database();
         $this->lng = $GLOBALS['DIC']->language();
         $this->logger = $GLOBALS['DIC']->logger()->mem();
+        $this->eventHandler = $DIC->event();
+        $this->rbacReview = $DIC->rbac()->review();
      
         $this->component = $a_component_name;
         
@@ -893,10 +900,6 @@ abstract class ilParticipants
     // cognos-blu-patch: begin
     /**
      * Update contact setting
-     * @global type $ilDB
-     * @param type $a_usr_id
-     * @param type $a_contact
-     * @return boolean
      */
     public function updateContact($a_usr_id, $a_contact)
     {

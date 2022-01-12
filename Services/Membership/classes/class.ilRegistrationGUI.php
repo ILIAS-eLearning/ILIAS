@@ -40,6 +40,11 @@ abstract class ilRegistrationGUI
     protected $ref_id;
     protected $obj_id;
 
+    protected ilObjUser $user;
+    protected ilTabsGUI  $tabs;
+    protected ilTree $tree;
+    protected ilRbacReview $rbacreview;
+
     /**
      * @var ilParticipants
      */
@@ -69,6 +74,11 @@ abstract class ilRegistrationGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
+
+        $this->user = $DIC->user();
+        $this->tabs = $DIC->tabs();
+        $this->tree  = $DIC->repositoryTree();
+        $this->rbacreview = $DIC->rbac()->review();
         
         $this->lng = $lng;
         $this->lng->loadLanguageModule('crs');
