@@ -32,6 +32,17 @@ include_once 'class.ilMDBase.php';
 
 class ilMDEducational extends ilMDBase
 {
+
+    private string $interactivity_type = '';
+    private string $learning_resource_type = '';
+    private string $interactivity_level = '';
+    private string $semantic_density = '';
+    private string $intended_end_user_role = '';
+    private string $context = '';
+    private string $difficulty = '';
+    private string $typical_learning_time = '';
+
+
     // Methods for child objects (TypicalAgeRange, Description, Language)
     public function getTypicalAgeRangeIds()
     {

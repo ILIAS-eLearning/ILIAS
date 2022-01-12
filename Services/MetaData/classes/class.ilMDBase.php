@@ -36,28 +36,30 @@ class ilMDBase
      * of the content object; for media objects this is set to 0, because their
      * object id are not assigned to ref ids)
      */
-    public $rbac_id;
+    private int $rbac_id;
 
     /*
      * obj_id (e.g for structure objects the obj_id of the structure object)
      */
-    public $obj_id;
+    private int $obj_id;
 
     /*
      * type of the object (e.g st,pg,crs ...)
      */
-    public $obj_type;
+    private string $obj_type;
+
+    private int $meta_id;
+    private int $parent_id;
+    private string $parent_type;
+
     
     /*
      * export mode, if true, first Identifier will be
      * set to ILIAS/il_<INSTALL_ID>_<TYPE>_<ID>
      */
-    public $export_mode = false;
+    private $export_mode = false;
 
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
 
     protected ilDBInterface $db;
 

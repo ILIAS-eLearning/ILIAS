@@ -47,7 +47,7 @@ class ilMD extends ilMDBase
 
             return $gen;
         }
-        return false;
+        return null;
     }
     public function addGeneral()
     {
@@ -69,7 +69,7 @@ class ilMD extends ilMDBase
 
             return $lif;
         }
-        return false;
+        return null;
     }
     public function addLifecycle()
     {
@@ -90,7 +90,7 @@ class ilMD extends ilMDBase
             
             return $met;
         }
-        return false;
+        return null;
     }
     public function addMetaMetadata()
     {
@@ -111,7 +111,7 @@ class ilMD extends ilMDBase
             
             return $tec;
         }
-        return false;
+        return null;
     }
     public function addTechnical()
     {
@@ -132,7 +132,7 @@ class ilMD extends ilMDBase
             
             return $edu;
         }
-        return false;
+        return null;
     }
     public function addEducational()
     {
@@ -152,7 +152,7 @@ class ilMD extends ilMDBase
             
             return $rig;
         }
-        return false;
+        return null;
     }
     public function addRights()
     {
@@ -174,7 +174,7 @@ class ilMD extends ilMDBase
         include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
         if (!$a_relation_id) {
-            return false;
+            return null;
         }
 
         $rel = new ilMDRelation();
@@ -201,7 +201,7 @@ class ilMD extends ilMDBase
     public function getAnnotation($a_annotation_id)
     {
         if (!$a_annotation_id) {
-            return false;
+            return null;
         }
         include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
 
@@ -228,7 +228,7 @@ class ilMD extends ilMDBase
     public function getClassification($a_classification_id)
     {
         if (!$a_classification_id) {
-            return false;
+            return null;
         }
 
         include_once 'Services/MetaData/classes/class.ilMDClassification.php';

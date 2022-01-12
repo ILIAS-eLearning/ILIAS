@@ -32,6 +32,10 @@ include_once 'class.ilMDBase.php';
 
 class ilMDIdentifier_ extends ilMDBase
 {
+
+    private string $catalog = '';
+    private string $entry = '';
+
     // SET/GET
     public function setCatalog($a_catalog)
     {

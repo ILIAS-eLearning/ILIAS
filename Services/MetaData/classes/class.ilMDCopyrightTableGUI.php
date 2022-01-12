@@ -31,7 +31,7 @@
 */
 class ilMDCopyrightTableGUI extends ilTable2GUI
 {
-    protected $has_write; // [bool]
+    protected bool $has_write;
     
     /**
      * Constructor

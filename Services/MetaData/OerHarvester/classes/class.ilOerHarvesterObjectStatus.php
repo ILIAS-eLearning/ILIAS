@@ -10,11 +10,11 @@
  */
 class ilOerHarvesterObjectStatus
 {
-    private $obj_id = 0;
+    private int $obj_id;
 
-    private $harvest_ref_id = 0;
+    private int $harvest_ref_id;
 
-    private $blocked = false;
+    private bool $blocked = false;
 
     protected ilDBInterface $db;
 

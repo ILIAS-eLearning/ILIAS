@@ -32,6 +32,9 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRelation extends ilMDBase
 {
+
+    private string $kind = '';
+
     // METHODS OF CHILD OBJECTS (Taxon)
     public function getIdentifier_Ids()
     {

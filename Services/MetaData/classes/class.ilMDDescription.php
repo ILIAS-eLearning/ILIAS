@@ -32,6 +32,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDDescription extends ilMDBase
 {
+
+    private string $description = '';
+    private ?ilMDLanguageItem $description_language;
+
+
     // SET/GET
     public function setDescription($a_description)
     {

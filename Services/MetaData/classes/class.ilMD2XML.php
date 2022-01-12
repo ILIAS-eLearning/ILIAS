@@ -33,8 +33,8 @@ include_once 'Services/MetaData/classes/class.ilMD.php';
 
 class ilMD2XML extends ilXmlWriter
 {
-    public $md_obj = null;
-    public $export_mode = false;
+    public ilMD $md_obj;
+    public bool $export_mode = false;
 
     public function __construct($a_rbac_id, $a_obj_id, $a_type)
     {

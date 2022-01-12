@@ -33,6 +33,9 @@ include_once 'class.ilMDBase.php';
 
 class ilMDEntity extends ilMDBase
 {
+
+    private string $entity = '';
+
     // SET/GET
     public function setEntity($a_entity)
     {

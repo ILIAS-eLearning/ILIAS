@@ -32,6 +32,10 @@ include_once 'class.ilMDBase.php';
 
 class ilMDKeyword extends ilMDBase
 {
+
+    private string $keyword = '';
+    private ?ilMDLanguageItem $keyword_language = null;
+
     // SET/GET
     public function setKeyword($a_keyword)
     {
@@ -117,12 +121,12 @@ class ilMDKeyword extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
-                $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
-                $this->setParentType($row->parent_type);
-                $this->setKeyword($row->keyword);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
+                $this->setObjType((string) $row->obj_type);
+                $this->setParentId((int) $row->parent_id);
+                $this->setParentType((string) $row->parent_type);
+                $this->setKeyword((string) $row->keyword);
                 $this->setKeywordLanguage(new ilMDLanguageItem($row->keyword_language));
             }
         }

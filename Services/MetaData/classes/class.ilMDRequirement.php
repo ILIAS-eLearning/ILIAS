@@ -32,6 +32,15 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRequirement extends ilMDBase
 {
+
+    private int $or_composite_id = 0;
+    private string $operating_system_name = '';
+    private string $operating_system_minimum_version = '';
+    private string $operating_system_maximum_version = '';
+    private string $browser_name = '';
+    private string $browser_minimum_version = '';
+    private string $browser_maximum_version = '';
+
     // SET/GET
     public function setOrCompositeId($a_or_composite_id)
     {

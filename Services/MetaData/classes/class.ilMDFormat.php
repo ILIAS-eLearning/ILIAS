@@ -33,6 +33,9 @@ include_once 'class.ilMDBase.php';
 
 class ilMDFormat extends ilMDBase
 {
+
+    private string $format = '';
+
     // SET/GET
     public function setFormat($a_format)
     {

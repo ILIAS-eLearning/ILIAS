@@ -32,6 +32,12 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTypicalAgeRange extends ilMDBase
 {
+
+    private string $typical_age_range = '';
+    private ?ilMDLanguageItem $typical_age_range_language = null;
+    private string $typical_age_range_minimum = '';
+    private string $typical_age_range_maximum = '';
+
     // SET/GET
     public function setTypicalAgeRange($a_typical_age_range)
     {

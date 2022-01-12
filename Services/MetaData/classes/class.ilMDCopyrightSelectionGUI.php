@@ -40,11 +40,11 @@ class ilMDCopyrightSelectionGUI
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected $settings;
+    protected ilMDSettings $settings;
 
-    private $mode;
-    private $rbac_id;
-    private $obj_id;
+    private int $mode;
+    private int $rbac_id;
+    private int $obj_id;
 
     /**
      * Constructor

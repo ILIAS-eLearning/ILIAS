@@ -12,17 +12,15 @@ use ILIAS\UI\Renderer;
  */
 class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var integer
-     */
-    protected $copyright_id;
+
+    protected int $copyright_id;
 
     protected ilDBInterface $db;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
 
-    protected $filter;
-    protected $objects;
+    protected array $filter = [];
+    protected array $objects = [];
 
     /**
      * ilCopyrightUsageGUI constructor.

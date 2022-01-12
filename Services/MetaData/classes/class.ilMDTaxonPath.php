@@ -32,6 +32,10 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTaxonPath extends ilMDBase
 {
+
+    private string $source = '';
+    private ?ilMDLanguageItem $source_language = null;
+
     // METHODS OF CHILD OBJECTS (Taxon)
     public function getTaxonIds()
     {

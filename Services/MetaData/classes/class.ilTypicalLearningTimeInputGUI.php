@@ -13,8 +13,9 @@ include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
  */
 class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 {
-    protected $value;
-    protected $valid = true;
+    protected array $value;
+    protected bool $valid = true;
+    protected string $lom_duration = '';
     
     /**
      * Constructor

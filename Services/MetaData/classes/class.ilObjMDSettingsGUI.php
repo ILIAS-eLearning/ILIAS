@@ -36,6 +36,10 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjMDSettingsGUI extends ilObjectGUI
 {
 
+    protected ?ilPropertyFormGUI $form = null;
+    protected ?ilMDSettings $md_settings = null;
+    protected ?ilMDCopyrightSelectionEntry $entry = null;
+
     /**
      * Contructor
      *
@@ -63,7 +67,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
         }
 
         switch ($next_class) {

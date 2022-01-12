@@ -31,27 +31,23 @@
 */
 class ilMDCopyrightSelectionEntry
 {
-    protected $logger = null;
-    protected $db;
+    protected ilLogger $logger;
+    protected ilDBInterface $db;
     
-    private $entry_id;
-    private $title;
-    private $decription;
-    private $copyright;
-    private $costs;
-    private $language;
-    private $copyright_and_other_restrictions;
+    private int $entry_id;
+    private string $title = '';
+    private string $description = '';
+    private string $copyright = '';
+    private int $costs = 0;
+    private string $language = '';
+    private bool $copyright_and_other_restrictions = false;
+    private int $usage = 0;
 
-    /**
-     * @var integer
-     */
-    protected $outdated;
 
-    /**
-     * order position in the MDCopyrightTableGUI
-     * @var integer
-     */
-    protected $order_position;
+    protected int $outdated = 0;
+
+
+    protected int $order_position = 0;
     
 
     /**

@@ -35,27 +35,31 @@
 
 class ilMDCreator
 {
-    public $md_obj = null;
+    protected ilMD $md_obj;
 
     /*
      * rbac_id ref_id of rbac object (e.g for page objects the obj_id of the content object)
      */
-    public $rbac_id;
+    private int $rbac_id;
 
     /*
      * obj_id (e.g for structure objects the obj_id of the structure object)
      */
-    public $obj_id;
+    private int $obj_id;
 
     /*
      * type of the object (e.g st,pg,crs ...)
      */
-    public $obj_type;
+    public string $obj_type;
 
-    protected string $structure = '';
-    protected string $catalog = '';
-    protected string $entry = '';
-    protected string $keyword = '';
+    private string $structure = '';
+    private string $catalog = '';
+    private string $entry = '';
+    private string $keyword = '';
+    private string $title = '';
+    private string $description = '';
+    protected ?ilMDLanguageItem $title_lng = null;
+
 
     public function __construct($a_rbac_id, $a_obj_id, $a_type)
     {

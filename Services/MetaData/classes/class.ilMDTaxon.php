@@ -32,6 +32,11 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTaxon extends ilMDBase
 {
+    private string $taxon = '';
+    private ?ilMDLanguageItem $taxon_language = null;
+    private int $taxon_id = 0;
+
+
     // SET/GET
     public function setTaxon($a_taxon)
     {

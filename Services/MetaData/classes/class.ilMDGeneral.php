@@ -33,8 +33,12 @@ include_once 'class.ilMDBase.php';
 
 class ilMDGeneral extends ilMDBase
 {
-    protected ?string $coverage = '';
-    protected $coverage_language;
+    protected ?ilMDLanguageItem $coverage_language;
+
+    private string $coverage = '';
+    private string $structure = '';
+    private string $title = '';
+    private ?ilMDLanguageItem $title_language = null;
 
     public function getPossibleSubelements()
     {
@@ -335,7 +339,7 @@ class ilMDGeneral extends ilMDBase
                 $this->setStructure($row->general_structure);
                 $this->setTitle($row->title);
                 $this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
-                $this->setCoverage($row->coverage);
+                $this->setCoverage((string) $row->coverage);
                 $this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));
             }
         }

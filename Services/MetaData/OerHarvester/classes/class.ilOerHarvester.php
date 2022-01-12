@@ -10,21 +10,13 @@
  */
 class ilOerHarvester
 {
-    /**
-     * @var \ilLogger
-     */
-    private $logger = null;
 
-    /**
-     * @var \ilCronJobResult
-     */
-    private $cronresult = null;
+    private ilLogger $logger;
+
+    private ilCronJobResult $cronresult;
 
 
-    /**
-     * @var ilOerHarvesterSettings
-     */
-    private $settings = null;
+    private ilOerHarvesterSettings $settings;
 
     protected ilTree $tree;
 

@@ -32,6 +32,10 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLocation extends ilMDBase
 {
+
+    private string $location = '';
+    private string $location_type = '';
+
     // SET/GET
     public function setLocation($a_location)
     {

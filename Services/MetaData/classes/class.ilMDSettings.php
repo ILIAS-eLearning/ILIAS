@@ -34,8 +34,9 @@ class ilMDSettings
 {
     public static $instance = null;
 
-    private $settings;
-    private $copyright_selection_active = false;
+    private ilSetting $settings;
+    private bool $copyright_selection_active = false;
+    private string $delimiter = '';
 
     /**
      * Constructor

@@ -32,6 +32,12 @@ include_once 'class.ilMDBase.php';
 
 class ilMDAnnotation extends ilMDBase
 {
+
+    private string $entity = '';
+    private string $date = '';
+    private string $description = '';
+    private ?ilMDLanguageItem $description_language;
+
     // SET/GET
     public function setEntity($a_entity)
     {

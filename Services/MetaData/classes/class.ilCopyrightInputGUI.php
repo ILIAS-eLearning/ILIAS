@@ -15,10 +15,10 @@ include_once('Services/MetaData/classes/class.ilMDRights.php');
  */
 class ilCopyrightInputGUI extends ilFormPropertyGUI
 {
-    protected $value;
-    protected $cols;
-    protected $rows;
-    protected $settings;
+    protected string $value = '';
+    protected int $cols = 0;
+    protected int $rows = 0;
+    protected ilMDSettings $settings;
     
     /**
      * Constructor

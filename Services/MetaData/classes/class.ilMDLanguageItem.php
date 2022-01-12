@@ -31,8 +31,8 @@
 
 class ilMDLanguageItem
 {
-    public $language_code;
-    public $possible_language_codes = array();
+    public string $language_code;
+    public array $possible_language_codes = array();
 
 
     public function __construct($a_code)

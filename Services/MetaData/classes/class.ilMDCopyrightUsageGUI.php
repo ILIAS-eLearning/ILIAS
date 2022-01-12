@@ -12,21 +12,15 @@ class ilMDCopyrightUsageGUI
 {
     const DEFAULT_CMD = 'showUsageTable';
 
-    /**
-     * copyright identifier
-     * @var integer
-     */
-    protected $entry_id;
+
+    protected int $entry_id;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
 
-    /**
-     * ilMDCopyrightUsageGUI constructor.
-     * @param int $a_entry_id
-     */
+
     public function __construct(int $a_entry_id)
     {
         global $DIC;

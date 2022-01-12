@@ -32,6 +32,14 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTechnical extends ilMDBase
 {
+
+    private string $size = '';
+    private string $installation_remarks = '';
+    private ?ilMDLanguageItem $installation_remarks_language = null;
+    private string $other_platform_requirements = '';
+    private ?ilMDLanguageItem $other_platform_requirements_language = null;
+    private string $duration = '';
+
     public function getPossibleSubelements()
     {
         $subs['Format'] = 'meta_format';

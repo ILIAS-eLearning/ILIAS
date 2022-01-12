@@ -27,14 +27,20 @@ class ilMDEditorGUI
     protected ilRbacSystem $rbac_system;
     protected ilTree $tree;
     protected ilToolbarGUI $toolbarGUI;
+    protected ilMDSettings $md_settings;
+    /**
+     * @var ilMDTechnical|ilMDGeneral|ilMDLifecycle|ilMDEducational|ilMDRights|ilMDMetaMetadata|ilMDRelation|ilMDAnnotation|ilMDClassification $md_section
+     */
+    protected ?object $md_section = null;
+    protected ?ilPropertyFormGUI $form = null;
 
-    public $md_obj = null;
+    protected ilMD $md_obj;
 
-    public $observers = array();
+    protected array $observers = [];
 
-    public $rbac_id = null;
-    public $obj_id = null;
-    public $obj_type = null;
+    protected int $rbac_id;
+    protected int $obj_id;
+    protected string $obj_type;
 
     public function __construct($a_rbac_id, $a_obj_id, $a_obj_type)
     {
@@ -847,9 +853,9 @@ class ilMDEditorGUI
 
     public function updateQuickEdit_scorm_propagate($request, $type)
     {
-        $module_id = $this->md_obj->obj_id;
-        if ($this->md_obj->obj_type == 'sco') {
-            $module_id = $this->md_obj->rbac_id;
+        $module_id = $this->md_obj->getObjId();
+        if ($this->md_obj->getObjType() == 'sco') {
+            $module_id = $this->md_obj->getRBACId();
         }
         $tree = new ilTree($module_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -3377,7 +3383,7 @@ class ilMDEditorGUI
                 return $this->listClassification();
 
             default:
-                if ($this->md_obj->obj_type == 'sahs' || $this->md_obj->obj_type == 'sco') {
+                if ($this->md_obj->getObjType() == 'sahs' || $this->md_obj->getObjType() == 'sco') {
                     return $this->listQuickEdit_scorm();
                 } else {
                     return $this->listQuickEdit();

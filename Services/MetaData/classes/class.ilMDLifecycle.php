@@ -33,7 +33,7 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLifecycle extends ilMDBase
 {
-    protected $version_language = null;
+    protected ?ilMDLanguageItem $version_language = null;
     protected string $version = "";
     protected string $status = "";
 

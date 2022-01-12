@@ -33,29 +33,47 @@ include_once './Services/Xml/classes/class.ilSaxParser.php';
  */
 class ilMDSaxParser extends ilSaxParser
 {
-    public $md_in_md = false;
-    public $md_chr_data = '';
-
-    public $md_cur_el = null;
-
-    /*
-     * @var boolean enable/disable parsing status.
-     */
-    public $md_parsing_enabled = null;
-    /*
-     * @var object ilMD
-     */
-    public $md = null;
-
-    /*
-     * @var object ilMDGeneral
-     */
-    public $md_gen;
+    protected bool $md_in_md = false;
+    protected string $md_chr_data = '';
+    protected ?ilMDIdentifier $md_ide = null;
+    protected ?ilMDLanguage $md_lan = null;
+    protected ?ilMDDescription $md_des = null;
+    protected ?ilMDLifecycle $md_lif = null;
+    protected ?ilMDContribute $md_con = null;
+    protected ?ilMDEntity $md_ent = null;
+    protected ?ilMDMetaMetadata $md_met = null;
+    protected ?ilMDTechnical $md_tec = null;
+    protected ?ilMDFormat $md_for = null;
+    protected ?ilMDLocation $md_loc = null;
+    protected ?ilMDRequirement $md_req = null;
+    protected ?ilMDOrComposite $md_orc = null;
+    protected ?ilMDEducational $md_edu = null;
+    protected ?ilMDTypicalAgeRange $md_typ = null;
+    protected ?ilMDRights $md_rig = null;
+    protected ?ilMDRelation $md_rel = null;
+    protected ?ilMDIdentifier_ $md_ide_ = null;
+    protected ?ilMDAnnotation $md_ann = null;
+    protected ?ilMDClassification $md_cla = null;
+    protected ?ilMDTaxonPath $md_taxp = null;
+    protected ?ilMDTaxon $md_tax = null;
 
     /**
-     * @var ilLogger
+     * Array of mixed ilMD objects
+     * @var array<object>
      */
-    protected $meta_log;
+    protected array $md_parent = array();
+
+
+
+    private bool $md_parsing_enabled;
+
+    protected ?ilMD $md = null;
+
+
+    protected ?ilMDGeneral $md_gen = null;
+
+
+    protected ilLogger $meta_log;
 
     /**
     * Constructor

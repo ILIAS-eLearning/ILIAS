@@ -32,6 +32,10 @@ include_once 'class.ilMDBase.php';
 
 class ilMDMetaMetadata extends ilMDBase
 {
+
+    private string $meta_data_scheme = '';
+    private ?ilMDLanguageItem $language = null;
+
     public function getPossibleSubelements()
     {
         $subs['Identifier'] = 'meta_identifier';

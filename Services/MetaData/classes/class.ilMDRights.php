@@ -32,6 +32,12 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRights extends ilMDBase
 {
+
+    private string $costs = '';
+    private string $caor = '';
+    private string $description = '';
+    private ?ilMDLanguageItem $description_language = null;
+
     /**
      * @param string[] $a_types
      * @param string[] $a_copyright

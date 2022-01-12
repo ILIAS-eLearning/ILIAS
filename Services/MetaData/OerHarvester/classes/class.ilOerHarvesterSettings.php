@@ -18,29 +18,21 @@ class ilOerHarvesterSettings
         'file'
     ];
 
-    /**
-     * @var \ilOerHarvesterSettings
-     */
-    private static $instance = null;
+    private static ?ilOerHarvesterSettings $instance = null;
 
     protected ilSetting $storage;
     protected ilSetting $settings;
 
-    /**
-     * @var int
-     */
-    private $target = 0;
+
+    private int $target = 0;
 
 
     /**
      * @var string[]
      */
-    private $copyright_templates = [];
+    private array $copyright_templates = [];
 
-    /**
-     * @var ilCronOerHarvester
-     */
-    private $cronjob = null;
+    private ?ilCronOerHarvester $cronjob = null;
 
 
 

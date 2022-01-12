@@ -36,7 +36,8 @@ include_once 'Services/MetaData/classes/class.ilMD.php';
 
 class ilMDXMLCopier extends ilMDSaxParser
 {
-    public $filter = array();
+    private array $filter = [];
+    private bool $in_meta_data = false;
 
     public function __construct($content, $a_rbac_id, $a_obj_id, $a_obj_type)
     {

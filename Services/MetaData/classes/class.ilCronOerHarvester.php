@@ -23,10 +23,7 @@ class ilCronOerHarvester extends ilCronJob
     private ilLogger $logger;
     private ilLanguage $lng;
 
-    /**
-     * @var null
-     */
-    private $settings = null;
+    private ilOerHarvesterSettings $settings;
 
 
     /**
