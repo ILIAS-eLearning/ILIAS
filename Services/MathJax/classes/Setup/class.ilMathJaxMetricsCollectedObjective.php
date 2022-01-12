@@ -33,7 +33,6 @@ class ilMathJaxMetricsCollectedObjective extends Setup\Metrics\CollectedObjectiv
 
         $setup_config = new ilMathJaxSetupConfig([]);
         foreach ($setup_config->getDataFromConfig($config) as $key => $value) {
-
             if (is_bool($value)) {
                 $storage->storeStableBool($key, $value);
             } else {

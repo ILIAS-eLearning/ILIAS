@@ -17,7 +17,6 @@ use ILIAS\Setup;
 
 class ilMathJaxConfigStoredObjective implements Setup\Objective
 {
-
     protected \ilMathJaxSetupConfig $config;
 
     public function __construct(\ilMathJaxSetupConfig $config)
@@ -62,6 +61,5 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
         $repo = new ilMathJaxConfigSettingsRepository($factory);
 
         return $this->config->isApplicableTo($repo->getConfig());
-
     }
 }

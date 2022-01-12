@@ -47,13 +47,14 @@ class ilMathJaxConfig
         bool $server_for_browser,
         bool $server_for_export,
         bool $server_for_pdf
-
     ) {
         $this->client_enabled = $client_enabled;
         $this->client_polyfill_url = trim($client_polyfill_url);
         $this->client_script_url = trim($client_script_url);
-        $this->client_limiter = (in_array($client_limiter,
-            [self::LIMITER_MATHJAX, self::LIMITER_TEX, self::LIMITER_SPAN]) ? $client_limiter : self::LIMITER_MATHJAX);
+        $this->client_limiter = (in_array(
+            $client_limiter,
+            [self::LIMITER_MATHJAX, self::LIMITER_TEX, self::LIMITER_SPAN]
+        ) ? $client_limiter : self::LIMITER_MATHJAX);
         $this->server_enabled = $server_enabled;
         $this->server_address = trim($server_address);
         $this->server_timeout = (empty($server_timeout) ? 5 : $server_timeout);

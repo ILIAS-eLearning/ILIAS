@@ -90,7 +90,8 @@ class ilMathJaxSettingsGUI
         });
 
         // client-side rendering settings
-        $client_enabled = $factory->optionalGroup([
+        $client_enabled = $factory->optionalGroup(
+            [
 
             'client_polyfill_url' => $factory->url(
                 $this->lng->txt('mathjax_polyfill_url'),
@@ -123,7 +124,8 @@ class ilMathJaxSettingsGUI
                 . ilMathJax::getIndependent(
                     $config->withClientEnabled(true)
                            ->withServerEnabled(false),
-                    new ilMathJaxFactory())
+                    new ilMathJaxFactory()
+                )
                            ->init(ilMathJax::PURPOSE_BROWSER)
                            ->insertLatexImages('<p>[tex]' . $testcode . '[/tex]</p>')
             )->withDisabled(true)->withValue($testcode)
@@ -135,7 +137,8 @@ class ilMathJaxSettingsGUI
         )->withAdditionalTransformation($checkbox_transformation);
 
         // server-side rendering settings
-        $server_enabled = $factory->optionalGroup([
+        $server_enabled = $factory->optionalGroup(
+            [
             'server_address' => $factory->url(
                 $this->lng->txt('mathjax_server_address'),
                 $this->lng->txt('mathjax_server_address_info')
@@ -176,7 +179,8 @@ class ilMathJaxSettingsGUI
                     $config->withClientEnabled(false)
                            ->withServerEnabled(true)
                            ->withServerForBrowser(true),
-                    new ilMathJaxFactory())
+                    new ilMathJaxFactory()
+                )
                            ->init(ilMathJax::PURPOSE_BROWSER)
                            ->insertLatexImages('<p>[tex]' . $testcode . '[/tex]</p>')
             )->withDisabled(true)->withValue($testcode)
@@ -184,7 +188,8 @@ class ilMathJaxSettingsGUI
             $this->lng->txt('mathjax_enable_server'),
             $this->lng->txt('mathjax_enable_server_info') . ' ' .
             $this->renderLink('mathjax_server_installation', './Services/MathJax/docs/install-server.md')
-        )->withAdditionalTransformation($checkbox_transformation);;
+        )->withAdditionalTransformation($checkbox_transformation);
+        ;
 
         // build the settings form
         // uncheck optional groups, if not enabled, see https://mantis.ilias.de/view.php?id=26476
@@ -202,7 +207,6 @@ class ilMathJaxSettingsGUI
 
         // posted inputs exist and are ok => save data
         if (isset($data)) {
-
             if (is_array($data['client_enabled'])) {
                 $client_data = $data['client_enabled'];
                 $config = $config->withClientEnabled(true)
@@ -249,8 +253,10 @@ class ilMathJaxSettingsGUI
      */
     protected function renderLink(string $langvar, string $url, bool $new_tab = true) : string
     {
-        $link = $this->dic->ui()->factory()->link()->standard($this->lng->txt($langvar),
-            $url)->withOpenInNewViewport($new_tab);
+        $link = $this->dic->ui()->factory()->link()->standard(
+            $this->lng->txt($langvar),
+            $url
+        )->withOpenInNewViewport($new_tab);
         return $this->dic->ui()->renderer()->render($link);
     }
 }

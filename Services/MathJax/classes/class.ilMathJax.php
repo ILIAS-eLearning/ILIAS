@@ -153,24 +153,20 @@ class ilMathJax
 
         // try the server-side rendering first, set this engine, if possible
         if ($this->config->isServerEnabled()) {
-
             if ($a_purpose == self::PURPOSE_BROWSER && $this->config->isServerForBrowser()) {
                 // delivering svg directly in page may be faster than loading image files
                 $this->setEngine(self::ENGINE_SERVER);
                 $this->setRendering(self::RENDER_SVG_AS_XML_EMBED);
-
             } elseif ($a_purpose == self::PURPOSE_EXPORT && $this->config->isServerForExport()) {
                 // offline pages must always embed the svg as image tags
                 // otherwise the html base tag may conflict with references in svg
                 $this->setEngine(self::ENGINE_SERVER);
                 $this->setRendering(self::RENDER_SVG_AS_IMG_EMBED);
-
             } elseif ($a_purpose == self::PURPOSE_PDF && $this->config->isServerForPdf()) {
                 // embedded png should work in most pdf engines
                 // details can be set by the rendering engine
                 $this->setEngine(self::ENGINE_SERVER);
                 $this->setRendering(self::RENDER_PNG_AS_IMG_EMBED);
-
             } elseif ($a_purpose == self::PURPOSE_DEFERRED_PDF && $this->config->isServerForPdf()) {
                 // final engine and rendering is set before the pdf is created
                 $this->setEngine(self::ENGINE_DEFERRED);

@@ -12,6 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
+
 interface ilMathJaxConfigRespository
 {
     /**
