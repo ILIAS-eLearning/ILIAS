@@ -9,9 +9,8 @@ class ilServicesAccessControlSuite extends TestSuite
     public static function suite()
     {
         $suite = new ilServicesAccessControlSuite();
-
         include_once("./Services/AccessControl/test/ilRBACTest.php");
-        $suite->addTestSuite("ilRBACTest");
+        $suite->addTestSuite(ilRBACTest::class);
         return $suite;
     }
 }
