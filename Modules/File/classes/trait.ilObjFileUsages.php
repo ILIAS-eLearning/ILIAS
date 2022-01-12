@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Trait ilObjFileUsages
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -9,12 +22,10 @@ trait ilObjFileUsages
     /**
      * @param        $a_type
      * @param        $a_id
-     * @param int    $a_usage_hist_nr
-     * @param string $a_usage_lang
      * @deprecated
      */
     // FSX
-    public static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+    public static function _deleteAllUsages($a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -42,11 +53,9 @@ trait ilObjFileUsages
      * @param        $a_file_id
      * @param        $a_type
      * @param        $a_id
-     * @param int    $a_usage_hist_nr
-     * @param string $a_usage_lang
      * @deprecated
      */
-    public static function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+    public static function _saveUsage($a_file_id, $a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -67,6 +76,7 @@ trait ilObjFileUsages
 
     /**
      * get all usages of file object
+     * @return array<int, array<string, mixed>>
      */
     public function getUsages()
     {
@@ -92,12 +102,10 @@ trait ilObjFileUsages
     /**
      * @param        $a_type
      * @param        $a_id
-     * @param int    $a_usage_hist_nr
-     * @param string $a_usage_lang
      * @return array
      * @deprecated
      */
-    public static function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+    public static function _getFilesOfObject($a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

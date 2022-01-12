@@ -6,10 +6,7 @@
  */
 trait ilObjFileMetadata
 {
-    /**
-     * @var bool
-     */
-    protected $no_meta_data_creation;
+    protected ?bool $no_meta_data_creation = null;
 
     /**
      * The basic properties of a file object are stored in table object_data.
@@ -21,36 +18,24 @@ trait ilObjFileMetadata
     public function createProperties(bool $a_upload = false) : void
     {
         global $DIC;
-
-        if ($a_upload) {
-            return;
-        }
-
+    
         // New Item
-        $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($_GET['ref_id']);
-        if ($default_visibility === "public") {
-            ilBlockSetting::_write("news", "public_notifications", 1, 0, $this->getId());
+        if ($this->ref_id) {
+            $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($this->ref_id);
+            if ($default_visibility === "public") {
+                ilBlockSetting::_write("news", "public_notifications", 1, 0, $this->getId());
+            }
         }
-
-        // log creation
-        $this->log->debug("ilObjFile::createProperties, ID: " . $this->getId() . ", Name: "
-            . $this->getFileName() . ", Type: " . $this->getFileType() . ", Size: "
-            . $this->getFileSize() . ", Mode: " . $this->getMode() . ", Name(Bytes): "
-            . implode(":", ilStr::getBytesForString($this->getFileName())));
-        $this->log->logStack(ilLogLevel::DEBUG);
-
+    
         $DIC->database()->insert('file_data', $this->getArrayForDatabase());
-
+    
         // no meta data handling for file list files
-        if ($this->getMode() != self::MODE_FILELIST) {
+        if ($this->getMode() !== self::MODE_FILELIST) {
             $this->createMetaData();
         }
     }
 
-    /**
-     * @param bool $a_status
-     */
-    public function setNoMetaDataCreation($a_status)
+    public function setNoMetaDataCreation(bool $a_status)
     {
         $this->no_meta_data_creation = (bool) $a_status;
     }

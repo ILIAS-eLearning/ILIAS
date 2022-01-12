@@ -41,7 +41,9 @@ class ilLanguage
     protected array $map_modules_txt = array();
     protected bool $usage_log_enabled = false;
     protected static array $lng_log = array();
-    public string $cust_lang_path;      // public due to access in ilObjLanguage
+    protected string $cust_lang_path;
+    protected ilLogger $log;
+    protected ilCachedLanguage $global_cache;
 
     /**
      * Constructor
@@ -55,7 +57,7 @@ class ilLanguage
     public function __construct(string $a_lang_key)
     {
         global $DIC;
-        $ilIliasIniFile = $DIC->iliasIni();
+        $client_ini = $DIC->clientIni();
 
         $this->log = $DIC->logger()->lang();
 
@@ -66,7 +68,7 @@ class ilLanguage
         $this->lang_path = ILIAS_ABSOLUTE_PATH . "/lang";
         $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/Customizing/global/lang";
 
-        $this->lang_default = $ilIliasIniFile->readVariable("language", "default");
+        $this->lang_default = $client_ini->readVariable("language", "default") ?: 'en';
 
         if ($DIC->offsetExists("ilSetting")) {
             $ilSetting = $DIC->settings();
@@ -80,7 +82,7 @@ class ilLanguage
         }
 
         $langs = $this->getInstalledLanguages();
-        
+
         if (!in_array($this->lang_key, $langs)) {
             $this->lang_key = $this->lang_default;
         }
@@ -108,7 +110,7 @@ class ilLanguage
      */
     public function getDefaultLanguage() : string
     {
-        return $this->lang_default ? $this->lang_default : "en";
+        return $this->lang_default ?: "en";
     }
 
     /**
@@ -197,7 +199,7 @@ class ilLanguage
             return $translation;
         }
     }
-    
+
     /**
      * Check if language entry exists
      */
@@ -286,14 +288,14 @@ class ilLanguage
             }
         }
 
-        return $languages ? $languages : array();
+        return $languages ?: [];
     }
 
     public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query($q = sprintf(
             "SELECT * FROM lng_data WHERE module = %s " .
             "AND lang_key = %s AND identifier = %s",
@@ -302,7 +304,7 @@ class ilLanguage
             $ilDB->quote($a_id, "text")
         ));
         $rec = $ilDB->fetchAssoc($set);
-        
+
         if (isset($rec["value"]) && $rec["value"] != "") {
             // remember the used topics
             self::$used_topics[$a_id] = $a_id;
@@ -314,7 +316,7 @@ class ilLanguage
 
             return $rec["value"];
         }
-        
+
         return "-" . $a_id . "-";
     }
 
@@ -361,6 +363,11 @@ class ilLanguage
     public function getUserLanguage() : string
     {
         return $this->lang_user;
+    }
+
+    public function getCustomLangPath() : string
+    {
+        return $this->cust_lang_path;
     }
 
     /**

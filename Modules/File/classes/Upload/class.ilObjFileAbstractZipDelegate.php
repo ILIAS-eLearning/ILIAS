@@ -3,6 +3,19 @@
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Stream\Streams;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjFileAbstractZipDelegate
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -13,26 +26,11 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
      * @var ilAccess|ilWorkspaceAccessHandler
      */
     protected $access_handler;
-    /**
-     * @var int
-     */
-    protected $node_type;
-    /**
-     * @var ilTree|ilWorkspaceTree
-     */
-    protected $tree;
-    /**
-     * @var array
-     */
-    protected $path_map = [];
-    /**
-     * @var ZipArchive
-     */
-    protected $zip;
-    /**
-     * @var array
-     */
-    protected $uploaded_suffixes = [];
+    protected int $node_type;
+    protected \ilTree $tree;
+    protected array $path_map = [];
+    protected ?\ZipArchive $zip = null;
+    protected array $uploaded_suffixes = [];
 
     /**
      * ilObjFileAbstractZipDelegate constructor.
@@ -63,7 +61,7 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
 
     protected function isInWorkspace() : bool
     {
-        return $this->node_type === ilObjFileGUI::WORKSPACE_NODE_ID;
+        return $this->node_type === ilObject2GUI::WORKSPACE_NODE_ID;
     }
 
     /**
@@ -95,9 +93,9 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
     }
 
     /**
-     * @return Generator|string[]
+     * @return \Iterator<string|bool>
      */
-    protected function getNextPath() : Generator
+    protected function getNextPath() : \Iterator
     {
         for ($i = 0; $i < $this->zip->numFiles; $i++) {
             $original_path = $this->zip->getNameIndex($i, ZipArchive::FL_UNCHANGED);
@@ -108,6 +106,9 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
         }
     }
 
+    /**
+     * @return string[]
+     */
     public function getUploadedSuffixes() : array
     {
         return $this->uploaded_suffixes;

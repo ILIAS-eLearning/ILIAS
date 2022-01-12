@@ -5,6 +5,19 @@ namespace ILIAS\HTTP\Cookies;
 use Dflydev\FigCookies\SetCookies;
 use Psr\Http\Message\ResponseInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class CookieJarFactoryImpl
  *
@@ -21,7 +34,7 @@ class CookieJarFactoryImpl implements CookieJarFactory
     /**
      * @inheritdoc
      */
-    public function fromCookieStrings(array $cookieStrings) : \ILIAS\HTTP\Cookies\CookieJar
+    public function fromCookieStrings(array $cookieStrings) : CookieJar
     {
         return new CookieJarWrapper(SetCookies::fromSetCookieStrings($cookieStrings));
     }
@@ -30,7 +43,7 @@ class CookieJarFactoryImpl implements CookieJarFactory
     /**
      * @inheritdoc
      */
-    public function fromResponse(ResponseInterface $response) : \ILIAS\HTTP\Cookies\CookieJar
+    public function fromResponse(ResponseInterface $response) : CookieJar
     {
         return new CookieJarWrapper(SetCookies::fromResponse($response));
     }
