@@ -1,60 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Portfolio;
 
-use \ILIAS\COPage;
-use \ILIAS\Export;
+use ILIAS\COPage;
+use ILIAS\Export;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected StandardGUIRequest $port_request;
+    protected \ilLanguage $lng;
+    protected \ilObjPortfolio $portfolio;
+    protected ?array $selected_pages = null;
+    protected bool $include_signature;
+    protected ?\ilPortfolioDeclarationOfAuthorship $declaration_of_authorship = null;
+    protected \ilObjUser $user;
+    protected \ilCtrl $ctrl;
 
-    /**
-     * @var \ilObjPortfolio
-     */
-    protected $portfolio;
-
-    /**
-     * @var array|null
-     */
-    protected $selected_pages = null;
-
-    /**
-     * @var bool
-     */
-    protected $include_signature;
-
-    /**
-     * @var \ilPortfolioDeclarationOfAuthorship
-     */
-    protected $declaration_of_authorship = null;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * PrintView constructor.
-     * @param \ilLanguage     $lng
-     * @param \ilObjPortfolio $portfolio
-     * @param bool            $include_signature
-     * @param array|null      $selected_pages
-     */
     public function __construct(
         \ilLanguage $lng,
         \ilCtrl $ctrl,
@@ -62,11 +39,17 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         bool $include_signature = false,
         array $selected_pages = null
     ) {
+        global $DIC;
+
         $this->lng = $lng;
         $this->ctrl = $ctrl;
         $this->portfolio = $portfolio;
         $this->selected_pages = $selected_pages;
         $this->include_signature = $include_signature;
+        $this->port_request = $DIC->portfolio()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
     protected function withDeclarationOfAuthorship(
@@ -206,12 +189,11 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                 }
                 $cover_tpl->setCurrentBlock("content_item");
                 $cover_tpl->setVariable("ITEM_TITLE", $page["title"]);
-                $cover_tpl->parseCurrentBlock();
             } else {
                 $cover_tpl->setCurrentBlock("content_item");
                 $cover_tpl->setVariable("ITEM_TITLE", $lng->txt("obj_blog") . ": " . \ilObject::_lookupTitle($page["title"]));
-                $cover_tpl->parseCurrentBlock();
             }
+            $cover_tpl->parseCurrentBlock();
         }
 
         if ($this->include_signature) {
@@ -269,7 +251,8 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             } else {
                 $pages2 = \ilBlogPosting::getAllPostings($page["title"]);
                 foreach ($pages2 as $p2) {
-                    if ($_POST["sel_type"] == "selection" && (!is_array($_POST["obj_id"]) || !in_array("b" . $p2["id"], $_POST["obj_id"]))) {
+                    if ($this->port_request->getPrintSelectedType() == "selection" &&
+                        (!in_array("b" . $p2["id"], $this->port_request->getObjIds()))) {
                         continue;
                     }
                     $page_gui = new \ilBlogPostingGUI(0, null, $p2["id"]);

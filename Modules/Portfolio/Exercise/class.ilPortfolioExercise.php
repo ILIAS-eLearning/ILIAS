@@ -1,29 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Exercise info for portfolios
- *
- * @author <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioExercise
 {
-    protected $user_id; // [int]
-    protected $obj_id; // [int]
+    protected int $user_id;
+    protected int $obj_id;
+    protected ilTree $tree;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * ilPortfolioExercise constructor.
-     * @param int $a_user_id
-     * @param int $a_obj_id
-     */
-    public function __construct(int $a_user_id, int $a_obj_id)
-    {
+    public function __construct(
+        int $a_user_id,
+        int $a_obj_id
+    ) {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -31,10 +34,6 @@ class ilPortfolioExercise
         $this->obj_id = $a_obj_id;
     }
 
-
-    /**
-     * @return array
-     */
     public function getAssignmentsOfPortfolio() : array
     {
         $user_id = $this->user_id;

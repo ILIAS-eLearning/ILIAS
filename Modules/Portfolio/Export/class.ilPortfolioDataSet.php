@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio Data set class
@@ -15,27 +26,18 @@
  */
 class ilPortfolioDataSet extends ilDataSet
 {
-    protected $current_portfolio;
+    protected ilObjPortfolio $current_portfolio;
     
-    /**
-     * Get supported versions
-     */
     public function getSupportedVersions() : array
     {
         return array("4.4.0", "5.0.0");
     }
     
-    /**
-     * Get xml namespace
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Portfolio/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Portfolio/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "prtt") {
@@ -69,13 +71,9 @@ class ilPortfolioDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -118,9 +116,6 @@ class ilPortfolioDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -136,13 +131,11 @@ class ilPortfolioDataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * Get xml record
-     * @param
-     * @return array
-     */
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
-    {
+    public function getXmlRecord(
+        string $a_entity,
+        string $a_version,
+        array $a_set
+    ) : array {
         if ($a_entity == "prtt") {
             $dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
@@ -153,13 +146,13 @@ class ilPortfolioDataSet extends ilDataSet
         return $a_set;
     }
     
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "prtt":
 
@@ -202,7 +195,7 @@ class ilPortfolioDataSet extends ilDataSet
                     $newObj->setTitle($a_rec["Title"]);
                     $newObj->setType($a_rec["Type"]);
                     $newObj->setOrderNr($a_rec["OrderNr"]);
-                    $newObj->create(false, true);
+                    $newObj->create(false);
                     
                     $a_mapping->addMapping("Services/COPage", "pg", "prtt:" . $a_rec["Id"], "prtt:" . $newObj->getId());
                 }

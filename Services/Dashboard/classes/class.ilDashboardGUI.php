@@ -103,7 +103,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
-
         switch ($next_class) {
 
                 // profile

@@ -1,38 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjPortfolioTemplateAccess
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjPortfolioTemplateAccess extends ilObjectAccess
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -43,7 +34,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "preview", "lang_var" => "preview", "default" => true),
@@ -55,14 +46,19 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
         return $commands;
     }
     
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
-    {
+    public function _checkAccess(
+        $a_cmd,
+        $a_permission,
+        $a_ref_id,
+        $a_obj_id,
+        $a_user_id = null
+    ) {
         $ilUser = $this->user;
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
-        if ($a_user_id == "") {
+        if (is_null($a_user_id)) {
             $a_user_id = $ilUser->getId();
         }
 
@@ -70,7 +66,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
                case "view":
                     if (!self::_lookupOnline($a_obj_id)
                          && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-                        $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                        $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                         return false;
                     }
                     break;
@@ -78,9 +74,9 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
                // for permission query feature
                case "infoScreen":
                     if (!self::_lookupOnline($a_obj_id)) {
-                        $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                        $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     } else {
-                        $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                        $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                     }
                     break;
 
@@ -91,7 +87,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
                case "visible":
                     if (!self::_lookupOnline($a_obj_id) &&
                          (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
-                        $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                        $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                         return false;
                     }
                     break;
@@ -100,17 +96,15 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
         return true;
     }
     
-    public static function _lookupOnline($a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         return ilObjPortfolioTemplate::lookupOnline($a_id);
     }
 
     /**
-     * Check wether booking pool is online (legacy version)
-     *
      * @deprecated
      */
-    public static function _lookupOnlineStatus($a_ids)
+    public static function _lookupOnlineStatus(array $a_ids) : array
     {
         global $DIC;
 
@@ -128,8 +122,8 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 
 
     /**
-    * check whether goto script will succeed
-    */
+     * check whether goto script will succeed
+     */
     public static function _checkGoto($a_target)
     {
         global $DIC;

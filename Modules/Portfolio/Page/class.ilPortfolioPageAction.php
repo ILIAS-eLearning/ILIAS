@@ -1,23 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Actions on portfolio pages
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioPageAction
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $actor;
+    protected ilObjUser $actor;
 
-    /**
-     * Constructor
-     */
     public function __construct(ilObjUser $actor = null)
     {
         global $DIC;
@@ -29,10 +32,8 @@ class ilPortfolioPageAction
 
     /**
      * Delete pages of blog
-     *
-     * @param int $a_blog_id
      */
-    public function deletePagesOfBlog($a_blog_id)
+    public function deletePagesOfBlog(int $a_blog_id) : void
     {
         $pages = ilPortfolioPage::getPagesForBlog($a_blog_id);
         foreach ($pages as $page) {

@@ -400,6 +400,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Glossary\Service($this);
     }
 
+    public function portfolio() : \ILIAS\Portfolio\Service
+    {
+        return new \ILIAS\Portfolio\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio template page gui class
@@ -12,6 +23,8 @@
  */
 class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 {
+    protected bool $may_write = false;
+
     public function getParentType() : string
     {
         return "prtt";
@@ -50,12 +63,14 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
         }
     }
     
-    protected function renderPageElement($a_type, $a_html)
-    {
+    protected function renderPageElement(
+        string $a_type,
+        string $a_html
+    ) : string {
         return parent::renderPageElement($a_type, $this->addPlaceholderInfo($a_html));
     }
     
-    protected function addPlaceholderInfo($a_html)
+    protected function addPlaceholderInfo(string $a_html) : string
     {
         return '<fieldset style="border: 1px dashed red; padding: 3px; margin: 5px;">' .
                     '<legend style="color: red; font-style: italic;" class="small">' .
@@ -65,17 +80,11 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
                 '</fieldset>';
     }
     
-    protected function renderBlogTemplate()
+    protected function renderBlogTemplate() : string
     {
         return $this->renderTeaser("blog_template", $this->lng->txt("obj_blog"));
     }
 
-    /**
-     * Get view page link
-     *
-     * @param
-     * @return
-     */
     public function getViewPageLink() : string
     {
         global $DIC;
@@ -86,10 +95,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
         return $ctrl->getLinkTargetByClass("ilobjportfoliotemplategui", "preview");
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getCourseSortAction($ctrl)
+    protected function getCourseSortAction(ilCtrl $ctrl) : string
     {
         return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
     }

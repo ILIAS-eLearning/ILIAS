@@ -1,26 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Page for portfolio template
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPortfolioTemplatePage extends ilPortfolioPage
 {
-    const TYPE_BLOG_TEMPLATE = 3;
+    public const TYPE_BLOG_TEMPLATE = 3;
     
-    /**
-     * Get parent type
-     * @return string parent type
-     */
     public function getParentType() : string
     {
         return "prtt";
     }
     
-    public function getPageDiskSize()
+    public function getPageDiskSize() : int
     {
         $quota_sum = 0;
         
@@ -34,9 +40,10 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
         // mobs
         $nodes = $xpath_temp->query("//PageContent/MediaObject/MediaAlias");
         foreach ($nodes as $node) {
-            $mob_id = array_pop(explode("_", $node->getAttribute("OriginId")));
+            $id = explode("_", $node->getAttribute("OriginId"));
+            $mob_id = array_pop($id);
             $mob_dir = ilObjMediaObject::_getDirectory($mob_id);
-            $quota_sum += ilUtil::dirSize($mob_dir);
+            $quota_sum += ilUtil::dirsize($mob_dir);
         }
         
         return $quota_sum;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,10 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Class ilObjPortfolioAdministrationAccess
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjPortfolioAdministrationAccess extends ilObjectAccess
+class ilModulesPortfolioSuite extends TestSuite
 {
+    public static function suite()
+    {
+        $suite = new self();
+
+        require_once("./Modules/Portfolio/test/AccessSessionRepositoryTest.php");
+        $suite->addTestSuite("AccessSessionRepositoryTest");
+
+        return $suite;
+    }
 }

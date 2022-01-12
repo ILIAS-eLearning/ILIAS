@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,10 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\Portfolio;
+
 /**
- * Class ilObjPortfolioAdministrationAccess
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjPortfolioAdministrationAccess extends ilObjectAccess
+class InternalDataService
 {
+    // protected ...\DataFactory ..._factory;
+
+    public function __construct()
+    {
+        //$this->..._factory = new ...\DataFactory();
+    }
+
+    /*
+    public function ...() : ...\...
+    {
+        return $this->..._factory->...();
+    }*/
 }

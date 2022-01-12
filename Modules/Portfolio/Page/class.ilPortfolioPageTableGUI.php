@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio page table
@@ -9,20 +20,16 @@
  */
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $portfolio; // [ilObjPortfolio]
-    protected $is_template; // [bool]
-    protected $page_gui; // [string]
+    protected array $blogs;
+    protected ilObjUser $user;
+    protected ilObjPortfolio $portfolio;
+    protected bool $is_template;
+    protected string $page_gui;
     
-    /**
-     * Constructor
-     */
-    public function __construct(ilObjPortfolioBaseGUI $a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        ilObjPortfolioBaseGUI $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -35,7 +42,9 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->disable("numinfo");
         $this->setLimit(9999);
 
-        $this->portfolio = $a_parent_obj->object;
+        /** @var ilObjPortfolio $portfolio */
+        $portfolio = $a_parent_obj->object;
+        $this->portfolio = $portfolio;
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
         $this->is_template = ($this->portfolio->getType() == "prtt");
         
@@ -63,7 +72,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("blog");
     }
 
-    public function getItems()
+    public function getItems() : void
     {
         $ilUser = $this->user;
             
@@ -85,12 +94,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow(array $a_set) : void
     {
-        $lng = $this->lng;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $action_items = [];

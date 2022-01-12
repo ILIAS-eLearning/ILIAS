@@ -1,27 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio page configuration
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioPageConfig extends ilPageConfig
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ilSetting $settings;
+    protected ilRbacSystem $rbacsystem;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * Init
-     */
     public function init() : void
     {
         global $DIC;
@@ -29,7 +29,11 @@ class ilPortfolioPageConfig extends ilPageConfig
         $this->settings = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
 
-        $ilSetting = $this->settings;
+        $request = $DIC->portfolio()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+
         $rbacsystem = $this->rbacsystem;
         
         $prfa_set = new ilSetting("prfa");
@@ -40,7 +44,7 @@ class ilPortfolioPageConfig extends ilPageConfig
         $this->addIntLinkFilter("User");
         $this->addIntLinkFilter("PortfolioPage");
         $this->removeIntLinkFilter("File");
-        $this->setIntLinkHelpDefaultId($_GET["prt_id"], false);
+        $this->setIntLinkHelpDefaultId($request->getPortfolioId(), false);
         $this->setIntLinkHelpDefaultType("PortfolioPage");
         $this->setEnablePCType("Profile", true);
         $this->setEditLockSupport(false);
