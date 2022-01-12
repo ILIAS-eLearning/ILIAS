@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,26 +17,23 @@
  ********************************************************************
  */
 
-use ILIAS\DI\UIServices;
-use Psr\Http\Message\ServerRequestInterface;
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
 
 /**
- * Filter service
- *
- * @author killing@leifos.de
- * @ingroup ServiceUI
+ * UI Service test suite
+ * @author Thomas Famula <famula@leifos.de>
  */
-class ilUIService
+class ilServiceUISuite extends TestSuite
 {
-    protected ilUIServiceDependencies $_deps;
-
-    public function __construct(ServerRequestInterface $request, UIServices $ui)
+    public static function suite() : self
     {
-        $this->_deps = new ilUIServiceDependencies($ui, new ilUIFilterRequestAdapter($request));
-    }
+        $suite = new self();
 
-    public function filter() : ilUIFilterService
-    {
-        return new ilUIFilterService($this, $this->_deps);
+        require_once("./Services/Skill/test/ilUIFilterTest.php");
+        $suite->addTestSuite(UIFilterServiceSessionGatewayTest::class);
+
+        return $suite;
     }
 }
