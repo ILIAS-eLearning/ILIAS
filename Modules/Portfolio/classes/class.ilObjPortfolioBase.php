@@ -159,9 +159,9 @@ abstract class ilObjPortfolioBase extends ilObject2
         
         $this->setOnline((bool) $row["is_online"]);
         $this->setProfilePicture((bool) $row["ppic"]);
-        $this->setBackgroundColor($row["bg_color"]);
-        $this->setFontColor($row["font_color"]);
-        $this->setImage($row["img"]);
+        $this->setBackgroundColor((string) $row["bg_color"]);
+        $this->setFontColor((string) $row["font_color"]);
+        $this->setImage((string) $row["img"]);
         
         // #14661
         $this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));

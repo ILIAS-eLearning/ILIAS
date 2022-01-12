@@ -25,10 +25,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 {
     protected StandardGUIRequest $port_request;
     protected ilHelpGUI $help;
-    protected int $user_id;
+    protected int $user_id = 0;
     protected array $additional = array();
-    protected array $perma_link;
-    protected int $page_id;
+    protected array $perma_link = [];
+    protected int $page_id = 0;
     protected string $page_mode; // preview|edit
     protected int $requested_ppage;
     protected int $requested_user_page;
@@ -94,7 +94,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             );
         }
                 
-        if ($this->page_id) {
+        if ($this->page_id > 0) {
             $page = $this->getPageInstance($this->page_id);
             $title = $page->getTitle();
             if ($page->getType() == ilPortfolioPage::TYPE_BLOG) {

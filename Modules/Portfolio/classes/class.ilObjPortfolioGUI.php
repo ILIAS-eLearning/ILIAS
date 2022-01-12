@@ -22,7 +22,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
  */
-class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClassInterface
+class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {
     protected ilWorkspaceAccessHandler $ws_access;
     protected ContextServices $tool_context;
@@ -563,7 +563,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClass
         if (!$a_portfolio_id && $this->object) {
             $a_portfolio_id = $this->object->getId();
         }
-        $page = new ilPortfolioPage($a_page_id);
+        $page = new ilPortfolioPage((int) $a_page_id);
         $page->setPortfolioId($a_portfolio_id);
         return $page;
     }

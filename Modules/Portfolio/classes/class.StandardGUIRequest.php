@@ -112,7 +112,13 @@ class StandardGUIRequest
     /** @return int[] */
     public function getPortfolioPageIds() : array
     {
-        return $this->intArray("prtf_pages");
+        $pages = $this->intArray("prtf_pages");
+        if (count($pages) == 0) {
+            if ($this->int("prtf_page") > 0) {
+                $pages = [$this->int("prtf_page")];
+            }
+        }
+        return $pages;
     }
 
     public function getConsultationHourUserId() : int

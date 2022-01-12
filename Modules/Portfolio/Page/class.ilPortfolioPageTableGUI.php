@@ -164,7 +164,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                 break;
         }
 
-        $ilCtrl->setParameter($this->parent_obj, "prtf_pages[]", $a_set["id"]);
+        $ilCtrl->setParameter($this->parent_obj, "prtf_page", $a_set["id"]);
 
         // copy
         $action_item = ilLinkButton::getInstance();
@@ -178,8 +178,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion"));
         $action_items[] = $action_item;
 
-
-        $ilCtrl->setParameter($this->parent_obj, "prtf_pages[]", "");
+        $ilCtrl->setParameter($this->parent_obj, "prtf_page", "");
 
         if (count($action_items) > 0) {
             $split_button = ilSplitButtonGUI::getInstance();
