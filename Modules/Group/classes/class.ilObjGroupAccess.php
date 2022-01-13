@@ -273,10 +273,10 @@ class ilObjGroupAccess extends ilObjectAccess
 
     /**
      * @param int $a_obj_id
-     * @return array<{property: string, value: string}>
+     * @return array<{property: string, value: string}> | null
      * @throws ilDateTimeException
      */
-    public static function lookupPeriodInfo(int $a_obj_id) : array
+    public static function lookupPeriodInfo(int $a_obj_id) : ?array
     {
         global $DIC;
 
@@ -314,7 +314,7 @@ class ilObjGroupAccess extends ilObjectAccess
                     'value' => ilDatePresentation::formatPeriod($start, $end)
                 ];
         }
-        return [];
+        return null;
     }
 
     public static function _usingRegistrationCode() : bool
