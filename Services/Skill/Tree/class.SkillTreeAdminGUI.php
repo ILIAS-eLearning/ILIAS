@@ -42,7 +42,7 @@ class SkillTreeAdminGUI
     protected UIServices $ui;
     protected ilLanguage $lng;
     protected RequestInterface $request;
-    protected int $requested_ref_id;
+    protected int $requested_ref_id = 0;
     protected ilTabsGUI $tabs;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected SkillInternalManagerService $skill_manager;

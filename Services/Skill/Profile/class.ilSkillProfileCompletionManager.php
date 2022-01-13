@@ -26,7 +26,7 @@
  */
 class ilSkillProfileCompletionManager
 {
-    protected int $user_id;
+    protected int $user_id = 0;
 
     public function __construct(int $a_user_id)
     {

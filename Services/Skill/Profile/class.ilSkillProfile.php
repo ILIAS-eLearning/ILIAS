@@ -28,9 +28,9 @@ class ilSkillProfile implements ilSkillUsageInfo
     protected ilLanguage $lng;
     protected ilRbacReview $review;
 
-    protected int $id;
-    protected string $title;
-    protected string $description;
+    protected int $id = 0;
+    protected string $title = "";
+    protected string $description = "";
     protected int $ref_id = 0;
     protected string $image_id = "";
     protected int $skill_tree_id = 0;

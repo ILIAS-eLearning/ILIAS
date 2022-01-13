@@ -40,9 +40,9 @@ class ilSkillDataSet extends ilDataSet
     public const MODE_PROFILES = "prof";
 
     protected int $skill_tree_id = 0;
-    protected int $skill_tree_root_id;
-    protected int $init_top_order_nr;
-    protected int $init_templ_top_order_nr;
+    protected int $skill_tree_root_id = 0;
+    protected int $init_top_order_nr = 0;
+    protected int $init_templ_top_order_nr = 0;
 
     protected array $selected_nodes = [];
     protected array $selected_profiles = [];

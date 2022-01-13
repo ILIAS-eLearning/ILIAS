@@ -37,16 +37,16 @@ class ilContSkillAdminGUI
     protected ilSkillManagementSettings $skmg_settings;
     protected ilToolbarGUI $toolbar;
     protected ilAccessHandler $access;
-    protected int $ref_id;
+    protected int $ref_id = 0;
     protected ilSkillTree $skill_tree;
-    protected array $params;
+    protected array $params = [];
     protected ilSkillContainerGUIRequest $container_gui_request;
-    protected int $requested_usr_id;
-    protected array $requested_usr_ids;
-    protected string $requested_selected_skill;
-    protected array $requested_combined_skill_ids;
-    protected int $requested_selected_profile_id;
-    protected array $requested_profile_ids;
+    protected int $requested_usr_id = 0;
+    protected array $requested_usr_ids = [];
+    protected string $requested_selected_skill = "";
+    protected array $requested_combined_skill_ids = [];
+    protected int $requested_selected_profile_id = 0;
+    protected array $requested_profile_ids = [];
 
     public function __construct(ilContainerGUI $a_container_gui)
     {

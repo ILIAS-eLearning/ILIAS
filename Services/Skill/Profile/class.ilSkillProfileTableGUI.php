@@ -30,8 +30,8 @@ class ilSkillProfileTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     protected SkillTreeAccess $skill_tree_access_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_ref_id;
-    protected int $requested_sprof_id;
+    protected int $requested_ref_id = 0;
+    protected int $requested_sprof_id = 0;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, int $a_skill_tree_id)
     {
