@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 class ilObjLearningSequenceLearnerGUI
@@ -97,12 +98,12 @@ class ilObjLearningSequenceLearnerGUI
     protected function view(string $cmd) : void
     {
         $this->initToolbar($cmd);
-        
+
         $content = $this->getMainContent($cmd);
         $this->tpl->setContent(
             $this->getWrappedHTML($content)
         );
-        
+
         $curriculum = $this->curriculum_builder->getLearnerCurriculum();
         if (count($curriculum->getSteps()) > 0) {
             $this->tpl->setRightContent(
@@ -233,7 +234,7 @@ class ilObjLearningSequenceLearnerGUI
         switch ($response) {
             case null:
                 //render the page
-                $this->tpl->enableDragDropFileUpload(null);
+                $this->tpl->setFileUploadRefId(null);
                 $this->tpl->setContent('THIS SHOULD NOT SHOW');
                 return;
 

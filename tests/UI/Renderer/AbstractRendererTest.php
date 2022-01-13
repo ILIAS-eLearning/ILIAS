@@ -3,6 +3,7 @@
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
+
     require_once("libs/composer/vendor/autoload.php");
 
     use ILIAS\UI\Component\Component;
@@ -15,10 +16,12 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         public function render(Component $component, Renderer $default_renderer) : string
         {
         }
+
         public function _getTemplate($a, $b, $c) : Template
         {
             return $this->getTemplate($a, $b, $c);
         }
+
         protected function getComponentInterfaceName() : array
         {
             return ["\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph"];
@@ -38,6 +41,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
 }
 
 namespace ILIAS\UI\Implementation\Component\Counter {
+
     use ILIAS\UI\Component\Component;
     use ILIAS\UI\Renderer;
     use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -48,10 +52,12 @@ namespace ILIAS\UI\Implementation\Component\Counter {
         public function render(Component $component, Renderer $default_renderer) : string
         {
         }
+
         public function _getTemplate(string $a, bool $b, bool $c) : Template
         {
             return $this->getTemplate($a, $b, $c);
         }
+
         protected function getComponentInterfaceName() : array
         {
             return ["\\ILIAS\\UI\\Component\\Counter\\Counter"];
@@ -60,6 +66,7 @@ namespace ILIAS\UI\Implementation\Component\Counter {
 }
 
 namespace {
+
     require_once(__DIR__ . "/../Base.php");
 
     use ILIAS\UI\Component as C;
@@ -75,25 +82,32 @@ namespace {
 
     class NullTemplate implements Template
     {
-        public function setCurrentBlock($name)
+        public function setCurrentBlock(string $name) : bool
+        {
+            return true;
+        }
+
+        public function parseCurrentBlock() : bool
+        {
+            return true;
+        }
+
+        public function touchBlock(string $name) : bool
+        {
+            return true;
+        }
+
+        public function setVariable(string $name, $value) : void
         {
         }
-        public function parseCurrentBlock()
-        {
-        }
-        public function touchBlock($name)
-        {
-        }
-        public function setVariable($name, $value)
-        {
-        }
-        public function get($name = null)
+
+        public function get(string $block = null) : string
         {
             return "";
         }
-        public function addOnLoadCode($code)
+
+        public function addOnLoadCode(string $code) : void
         {
-            return "";
         }
     }
 
@@ -120,10 +134,12 @@ namespace {
         {
             return "";
         }
+
         public function renderAsync($component) : string
         {
             return '';
         }
+
         public function withAdditionalContext(C\Component $context) : Renderer
         {
             return $this;
@@ -149,7 +165,7 @@ namespace {
             $this->lng = new ilLanguageMock();
             $this->js_binding = new LoggingJavaScriptBinding();
             $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
-                ->getMock();
+                                              ->getMock();
         }
 
         public function test_getTemplate_successfull() : void
@@ -164,8 +180,8 @@ namespace {
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
-            $expected = array( realpath(__DIR__ . "/../../../src/UI/templates/default/Symbol/tpl.glyph.html")
-                    => array(true, false)
+            $expected = array(realpath(__DIR__ . "/../../../src/UI/templates/default/Symbol/tpl.glyph.html")
+                              => array(true, false)
             );
 
             $this->assertEquals($expected, $this->tpl_factory->files);
@@ -185,8 +201,8 @@ namespace {
             $this->expectException(TypeError::class);
             $r->_getTemplate("tpl.counter_foo.html", true, false);
 
-            $expected = array( realpath(__DIR__ . "/../../src/UI/templates/default/Counter/tpl.counter_foo.html")
-                    => array(true, false)
+            $expected = array(realpath(__DIR__ . "/../../src/UI/templates/default/Counter/tpl.counter_foo.html")
+                              => array(true, false)
             );
             $this->assertEquals($expected, $this->tpl_factory->files);
         }

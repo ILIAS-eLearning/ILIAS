@@ -1,38 +1,25 @@
-<?php namespace ILIAS\Services\UICore\MetaTemplate;
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-use ilTemplate;
-use ilTemplateException;
+namespace ILIAS\Services\UICore\MetaTemplate;
+
+use ilGlobalTemplateInterface;
 use InvalidArgumentException;
-use ilSession;
+use ilTemplateException;
 use ilToolbarGUI;
+use ilTemplate;
+use ilSession;
+use ilSystemStyleException;
 
 /**
- * Class PageContentGUI
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class PageContentGUI
 {
-    public const MESSAGE_TYPE_FAILURE = 'failure';
-    public const MESSAGE_TYPE_SUCCESS = "success";
-    public const MESSAGE_TYPE_QUESTION = "question";
-    public const MESSAGE_TYPE_INFO = "info";
-
-    /**
-     * @var array available types for messages.
-     */
-    public const MESSAGE_TYPES = [
-        self::MESSAGE_TYPE_FAILURE,
-        self::MESSAGE_TYPE_INFO,
-        self::MESSAGE_TYPE_SUCCESS,
-        self::MESSAGE_TYPE_QUESTION,
-    ];
-
-    /**
-     * @var string default block for several operations.
-     */
-    public const DEFAULT_BLOCK = 'DEFAULT';
+    protected ilTemplate $template;
+    protected ?ilToolbarGUI $admin_panel_commands_toolbar = null;
 
     /**
      * @var array<string, string>
@@ -42,22 +29,20 @@ class PageContentGUI
     /**
      * @var array<string, string>
      */
-    protected array $messages;
+    protected array $messages = [];
 
     /**
      * @var array<int, array>
      */
     protected array $title_alerts = [];
 
-    protected ilTemplate $template;
-    protected ?ilToolbarGUI $admin_panel_commands_toolbar = null;
     protected ?string $page_form_action = null;
-    protected ?string $main_content = null;
     protected ?string $title = null;
     protected ?string $title_desc = null;
     protected ?string $header_action = null;
     protected ?string $tabs_html = null;
     protected ?string $sub_tabs_html = null;
+    protected ?string $main_content = null;
     protected ?string $right_content = null;
     protected ?string $left_content = null;
     protected ?string $icon_path = null;
@@ -70,21 +55,14 @@ class PageContentGUI
     protected bool $is_admin_panel_for_bottom = false;
 
     /**
-     * @param string $file
-     * @param bool   $flag1
-     * @param bool   $flag2
-     * @param bool   $in_module
-     * @param string $vars
-     * @param bool   $plugin
-     * @param bool   $a_use_cache
-     * @throws ilTemplateException
+     * @throws ilTemplateException|ilSystemStyleException
      */
     public function __construct(
         string $file,
         bool $flag1,
         bool $flag2,
-        bool $in_module = false,
-        string $vars = self::DEFAULT_BLOCK,
+        string $in_module = '',
+        string $vars = ilGlobalTemplateInterface::DEFAULT_BLOCK,
         bool $plugin = false,
         bool $a_use_cache = true
     ) {
@@ -99,71 +77,41 @@ class PageContentGUI
         );
     }
 
-    /**
-     * @param string $var
-     * @param string $block
-     * @param string $template_name
-     * @param bool   $in_module
-     * @return bool
-     */
-    public function addBlockFile(string $var, string $block, string $template_name, bool $in_module = false) : bool
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
     {
         return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-    /**
-     * @param string $block_name
-     * @return bool
-     */
     public function blockExists(string $block_name) : bool
     {
-        return (bool) $this->template->blockExists($block_name);
+        return $this->template->blockExists($block_name);
     }
 
-    /**
-     * @param string $block_name
-     */
     public function removeBlockData(string $block_name) : void
     {
         $this->template->removeBlockData($block_name);
     }
 
-    /**
-     * @param string $variable
-     * @param string $value
-     */
     public function setVariable(string $variable, string $value = '') : void
     {
         $this->template->setVariable($variable, $value);
     }
 
-    /**
-     * @param string $block_name
-     */
-    public function setCurrentBlock(string $block_name = self::DEFAULT_BLOCK) : void
+    public function setCurrentBlock(string $block_name = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
     {
-        $this->template->setCurrentBlock($block_name);
+        return $this->template->setCurrentBlock($block_name);
     }
 
-    /**
-     * @param string $block_name
-     */
     public function touchBlock(string $block_name) : void
     {
         $this->template->touchBlock($block_name);
     }
 
-    /**
-     * @param string $block_name
-     */
-    public function parseCurrentBlock(string $block_name = self::DEFAULT_BLOCK) : void
+    public function parseCurrentBlock(string $block_name = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
     {
-        $this->template->parseCurrentBlock($block_name);
+        return $this->template->parseCurrentBlock($block_name);
     }
 
-    /**
-     * @param string $page_form_action
-     */
     public function setPageFormAction(string $page_form_action) : void
     {
         if (!empty($page_form_action)) {
@@ -171,9 +119,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $main_content
-     */
     public function setMainContent(string $main_content) : void
     {
         if (!empty($main_content)) {
@@ -181,10 +126,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $lightbox_html
-     * @param string $id
-     */
     public function addLightbox(string $lightbox_html, string $id) : void
     {
         if (!empty($lightbox_html)) {
@@ -192,17 +133,11 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $header_page_title
-     */
     public function setHeaderPageTitle(string $header_page_title) : void
     {
         // property is never used.
     }
 
-    /**
-     * @param string $image_src
-     */
     public function setBanner(string $image_src) : void
     {
         if (!empty($image_src)) {
@@ -210,18 +145,11 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @return string|null
-     */
     public function getBanner() : ?string
     {
         return $this->banner_image_src;
     }
 
-    /**
-     * @param mixed $title
-     * @param bool  $is_hidden
-     */
     public function setTitle(string $title, bool $is_hidden = false) : void
     {
         if (!empty($title)) {
@@ -230,9 +158,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $title_desc
-     */
     public function setTitleDesc(string $title_desc) : void
     {
         if (!empty($title_desc)) {
@@ -240,17 +165,11 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param array $title_alerts
-     */
     public function setTitleAlerts(array $title_alerts) : void
     {
         $this->title_alerts = $title_alerts;
     }
 
-    /**
-     * @param string $header_action
-     */
     public function setHeaderAction(string $header_action) : void
     {
         if (!empty($header_action)) {
@@ -258,33 +177,21 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param ilToolbarGUI $admin_panel_commands_toolbar
-     */
     public function setAdminPanelCommandsToolbar(ilToolbarGUI $admin_panel_commands_toolbar) : void
     {
         $this->admin_panel_commands_toolbar = $admin_panel_commands_toolbar;
     }
 
-    /**
-     * @param bool $should_display_admin_panel_arrow
-     */
     public function setAdminPanelArrow(bool $should_display_admin_panel_arrow) : void
     {
         $this->should_display_admin_panel_arrow = $should_display_admin_panel_arrow;
     }
 
-    /**
-     * @param bool $is_admin_panel_for_bottom
-     */
     public function setAdminPanelBottom(bool $is_admin_panel_for_bottom) : void
     {
         $this->is_admin_panel_for_bottom = $is_admin_panel_for_bottom;
     }
 
-    /**
-     * @param string $content
-     */
     public function setRightContent(string $content) : void
     {
         if (!empty($content)) {
@@ -292,9 +199,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $content
-     */
     public function setLeftContent(string $content) : void
     {
         if (!empty($content)) {
@@ -302,9 +206,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $filter
-     */
     public function setFilter(string $filter) : void
     {
         if (!empty($filter)) {
@@ -321,9 +222,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $icon_path
-     */
     public function setIconPath(string $icon_path) : void
     {
         if (!empty($icon_path)) {
@@ -331,9 +229,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $icon_desc
-     */
     public function setIconDesc(string $icon_desc) : void
     {
         if (!empty($icon_desc)) {
@@ -341,25 +236,14 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param mixed $upload_ref_id
-     */
     public function setFileUploadRefId(int $upload_ref_id) : void
     {
         $this->file_upload_ref_id = $upload_ref_id;
     }
 
-    /**
-     * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
-     * ilUtil::sendSuccess() and ilUtil::sendFailure()
-     * @param string $type        (@see PageContentGUI::MESSAGE_TYPES)
-     * @param string $message     The message to be sent
-     * @param bool   $should_keep Keep this message over one redirect
-     * @throws InvalidArgumentException if an invalid type was given.
-     */
     public function setOnScreenMessage(string $type, string $message, bool $should_keep = false) : void
     {
-        if (!in_array($type, self::MESSAGE_TYPES, true)) {
+        if (!in_array($type, ilGlobalTemplateInterface::MESSAGE_TYPES, true)) {
             throw new InvalidArgumentException("Type '$type' is not declared in " . self::class . "::MESSAGE_TYPES and is therefore invalid.");
         }
 
@@ -368,6 +252,11 @@ class PageContentGUI
         } else {
             ilSession::set($type, $message);
         }
+    }
+
+    public function get(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : string
+    {
+        return $this->template->get($part);
     }
 
     public function renderPage(string $part, bool $a_fill_tabs) : string
@@ -400,7 +289,7 @@ class PageContentGUI
             }
         }
 
-        if (self::DEFAULT_BLOCK === $part) {
+        if (ilGlobalTemplateInterface::DEFAULT_BLOCK === $part) {
             $html = $this->template->getUnmodified();
         } else {
             $html = $this->template->getUnmodified($part);
@@ -433,7 +322,7 @@ class PageContentGUI
     protected function fillMessage() : void
     {
         $out = '';
-        foreach (self::MESSAGE_TYPES as $type) {
+        foreach (ilGlobalTemplateInterface::MESSAGE_TYPES as $type) {
             $message = $this->getMessageTextForType($type);
             if (null !== $message) {
                 $out .= \ilUtil::getSystemMessageHTML($message, $type);
@@ -447,10 +336,6 @@ class PageContentGUI
         }
     }
 
-    /**
-     * @param string $type
-     * @return string|null
-     */
     protected function getMessageTextForType(string $type) : ?string
     {
         if (ilSession::has($type)) {
@@ -472,15 +357,12 @@ class PageContentGUI
         }
     }
 
-    /**
-     * Init help
-     */
-    protected function initHelp()
+    protected function initHelp() : void
     {
         //\ilHelpGUI::initHelp($this);
     }
 
-    protected function fillHeader()
+    protected function fillHeader() : void
     {
         global $DIC;
 

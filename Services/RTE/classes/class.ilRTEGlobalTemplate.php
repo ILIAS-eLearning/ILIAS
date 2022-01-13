@@ -309,7 +309,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
     {
     }
 
-    public function enableDragDropFileUpload($a_ref_id) : void
+    public function setFileUploadRefId($a_ref_id) : void
     {
     }
 
@@ -318,9 +318,9 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         return $this->template->get($part);
     }
 
-    public function setVariable($variable, $value = '')
+    public function setVariable(string $variable, $value = '') : void
     {
-        return $this->template->setVariable($variable, $value);
+        $this->template->setVariable($variable, $value);
     }
 
     private function variableExists($a_variablename) : bool
@@ -328,27 +328,30 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         return $this->template->variableExists($a_variablename);
     }
 
-    public function setCurrentBlock($part = 'DEFAULT')
+    public function setCurrentBlock(string $part = 'DEFAULT') : bool
     {
         return $this->template->setCurrentBlock($part);
     }
 
-    public function touchBlock($block)
+    /**
+     * @throws ilTemplateException
+     */
+    public function touchBlock(string $block) : bool
     {
         return $this->template->touchBlock($block);
     }
 
-    public function parseCurrentBlock($part = 'DEFAULT')
+    public function parseCurrentBlock(string $part = 'DEFAULT') : bool
     {
         return $this->template->parseCurrentBlock($part);
     }
 
-    public function addBlockFile($var, $block, $tplname, $in_module = false)
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
     {
-        return $this->template->addBlockFile($var, $block, $tplname, $in_module);
+        return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-    public function blockExists($a_blockname)
+    public function blockExists(string $a_blockname) : bool
     {
         return $this->template->blockExists($a_blockname);
     }

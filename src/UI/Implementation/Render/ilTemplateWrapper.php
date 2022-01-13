@@ -24,7 +24,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function setCurrentBlock($name)
+    public function setCurrentBlock(string $name) : bool
     {
         return $this->tpl->setCurrentBlock($name);
     }
@@ -32,7 +32,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function parseCurrentBlock()
+    public function parseCurrentBlock() : bool
     {
         return $this->tpl->parseCurrentBlock();
     }
@@ -40,7 +40,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function touchBlock($name)
+    public function touchBlock(string $name) : bool
     {
         return $this->tpl->touchBlock($name);
     }
@@ -48,7 +48,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function setVariable($name, $value)
+    public function setVariable(string $name, $value) : void
     {
         $this->tpl->setVariable($name, $value);
     }
@@ -56,7 +56,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function get($block = null)
+    public function get(string $block = null) : string
     {
         if ($block === null) {
             $block = "__global__";
@@ -67,7 +67,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function addOnLoadCode($code)
+    public function addOnLoadCode(string $code) : void
     {
         $this->global_tpl->addOnLoadCode($code);
     }

@@ -1,12 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
 
 /**
- * Class ilServicesUICoreSuite
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class ilServicesUICoreSuite extends TestSuite
@@ -20,7 +18,7 @@ class ilServicesUICoreSuite extends TestSuite
             include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
             ilUnitUtil::performInitialisation();
         } else {
-            chdir(dirname(__FILE__));
+            chdir(__DIR__);
             chdir('../../../');
         }
 
