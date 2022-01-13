@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,23 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSStorageBadge extends ilFileSystemStorage
+class ilServicesBadgeSuite extends TestSuite
 {
-    public function __construct(int $a_container_id = 0)
+    public static function suite()
     {
-        parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix()
-    {
-        return 'badge';
-    }
-    
-    protected function getPathPrefix()
-    {
-        return 'ilBadge';
+        $suite = new self();
+
+        require_once("./Services/Badge/test/BadgeManagementSessionRepositoryTest.php");
+        $suite->addTestSuite("BadgeManagementSessionRepositoryTest");
+
+        return $suite;
     }
 }

@@ -15,7 +15,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 {
     protected $parent_ref_id; // [int]
     
-    public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
+    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
     {
         global $DIC;
 
@@ -78,7 +78,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         return $res;
     }
     
-    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config)
+    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void
     {
         global $DIC;
 
@@ -123,7 +123,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
     }
     
-    public function getConfigFromForm(ilPropertyFormGUI $a_form)
+    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
     {
         return array("subitems" => $a_form->getInput("subitems"));
     }
@@ -177,7 +177,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
     }
 
 
-    public function validateForm(ilPropertyFormGUI $a_form)
+    public function validateForm(ilPropertyFormGUI $a_form) : bool
     {
         global $DIC;
 

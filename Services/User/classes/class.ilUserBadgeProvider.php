@@ -13,7 +13,7 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeProvider.php";
  */
 class ilUserBadgeProvider implements ilBadgeProvider
 {
-    public function getBadgeTypes()
+    public function getBadgeTypes() : array
     {
         include_once "Services/User/classes/Badges/class.ilUserProfileBadge.php";
         return array(
