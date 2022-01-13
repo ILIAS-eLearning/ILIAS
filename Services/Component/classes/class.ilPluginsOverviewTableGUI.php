@@ -67,7 +67,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         return;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow($a_set) : void
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
