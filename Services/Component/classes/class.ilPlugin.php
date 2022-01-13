@@ -40,15 +40,29 @@ abstract class ilPlugin
      * @var bool
      */
     protected $lang_initialised = false;
+
     /**
      * @var ProviderCollection
      */
     protected $provider_collection;
+
     /**
      * @var string
      */
     protected $message;
 
+    /**
+     * @return string
+     */
+    public function getMessage() : string
+    {
+        return strval($this->message);
+    }
+
+
+    // ------------------------------------------
+    // Initialisation
+    // ------------------------------------------
 
     public function __construct(
         \ilDBInterface $db,
@@ -76,6 +90,70 @@ abstract class ilPlugin
         $this->init();
     }
 
+    /**
+     * Object initialization. Can be overwritten by plugin class
+     * (and should be made protected)
+     *
+     * TODO: Maybe this should be removed or be documented better. This is called
+     * during __construct. If this contains expensive stuff this will be bad for
+     * overall system performance, because Plugins tend to be constructed a lot.
+     */
+    protected function init()
+    {
+    }
+
+
+    // ------------------------------------------
+    // General Information About Plugin
+    // ------------------------------------------
+
+    public function getPluginName() : string
+    {
+        return $this->getPluginInfo()->getName();
+    }
+
+    public function getId() : string
+    {
+        return $this->getPluginInfo()->getId();
+    }
+
+    /**
+     * Only very little classes seem to care about this:
+     *     - Services/COPage/classes/class.ilPCPluggedGUI.php
+     *
+     * @return string
+     */
+    public function getVersion() : string
+    {
+        return (string) $this->getPluginInfo()->getAvailableVersion();
+    }
+
+    /**
+     * Only very little classes seem to care about this:
+     *     - Services/COPage/classes/class.ilPCPlugged.php
+     *     - Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php
+     */
+    public function getDirectory() : string
+    {
+        return $this->getPluginInfo()->getPath();
+    }
+
+    /**
+     * Only very little classes seem to care about this:
+     *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
+     *    - Services/Component/classes/class.ilPluginsOverviewTableGUI.php
+     *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
+     */
+    public function isActive()
+    {
+        return $this->getPluginInfo()->isActive();
+    }
+
+    public function needsUpdate()
+    {
+        return $this->getPluginInfo()->isUpdateRequired();
+    }
+
     protected function getPluginInfo() : ilPluginInfo
     {
         return $this->component_repository
@@ -94,41 +172,182 @@ abstract class ilPlugin
         return $this->getPluginInfo()->getPluginSlot();
     }
 
-    /**
-     * Get Plugin Name. Must be same as in class name il<Name>Plugin
-     * and must correspond to plugins subdirectory name.
-     */
-    public function getPluginName() : string
+
+    // ------------------------------------------
+    // (De-)Installation
+    // ------------------------------------------
+
+    public function install() : void
     {
-        return $this->getPluginInfo()->getName();
+        $this->afterInstall();
     }
 
-    public function getId() : string
+    public function uninstall() : bool
     {
-        return $this->getPluginInfo()->getId();
+        if (!$this->beforeUninstall()) {
+            return false;
+        }
+
+        $this->getLanguageHandler()->uninstall();
+        $this->clearEventListening();
+        $this->component_repository->removeStateInformationOf($this->getId());
+        $this->afterUninstall();
+        return true;
     }
 
     /**
-     * Only very little classes seem to care about this: Services/COPage/classes/class.ilPCPluggedGUI.php
-     *
-     * @return string
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            install method in your subclass instead.
      */
-    public function getVersion() : string
+    protected function afterInstall() : void
     {
-        return (string) $this->getPluginInfo()->getAvailableVersion();
     }
 
     /**
-     * Get Plugin Directory
-     *
-     * Only very little classes seem to care about this:
-     *     - Services/COPage/classes/class.ilPCPlugged.php
-     *     - Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            uninstall method in your subclass instead.
      */
-    public function getDirectory() : string
+    protected function beforeUninstall() : bool
     {
-        return $this->getPluginInfo()->getPath();
+        return true;
     }
+
+    /**
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            uninstall method in your subclass instead.
+     */
+    protected function afterUninstall() : void
+    {
+    }
+
+
+    // ------------------------------------------
+    // (De-)Activation
+    // ------------------------------------------
+
+    /**
+     * This will update (if required) and activate the plugin.
+     */
+    public function activate() : bool
+    {
+        if ($this->needsUpdate() && !$this->update()) {
+            return false;
+        }
+
+        if(!$this->beforeActivation()) {
+            return false;
+        }
+
+
+        $this->component_repository->setActivation($this->getId(), true);
+        $this->afterActivation();
+
+        return true;
+    }
+
+    public function deactivate()
+    {
+        $this->component_repository->setActivation($this->getId(), false);
+        $this->afterDeactivation();
+
+        return $result;
+    }
+
+    /**
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            activate method in your subclass instead.
+     */
+    protected function beforeActivation() : bool
+    {
+        return true;
+    }
+
+    /**
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            activate method in your subclass instead.
+     */
+    protected function afterActivation() : void
+    {
+    }
+
+    /**
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            activate method in your subclass instead.
+     */
+    protected function afterDeactivation() : void
+    {
+    }
+
+
+    // ------------------------------------------
+    // Update
+    // ------------------------------------------
+
+    public function update()
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $result = $this->beforeUpdate();
+        if ($result === false) {
+            return false;
+        }
+
+        // Load language files
+        $this->getLanguageHandler()->updateLanguages();
+
+        // DB update
+        if ($result === true) {
+            $db_version = $this->updateDatabase();
+        }
+
+        $this->readEventListening();
+
+        $this->readEventListening();
+
+        // set last update version to current version
+        if ($result === true) {
+            $this->component_repository->setCurrentPluginVersion(
+                $this->getPluginInfo()->getId(),
+                $this->getPluginInfo()->getAvailableVersion(),
+                $db_version
+            );
+            $this->afterUpdate();
+        }
+
+        return $result;
+    }
+
+    protected function updateDatabase()
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+        $lng = $DIC->language();
+
+        $dbupdate = new ilPluginDBUpdate(
+            $this->db,
+            $this->getPluginInfo()
+        );
+
+        $dbupdate->applyUpdate();
+
+        return $dbupdate->getCurrentVersion();
+    }
+
+    /**
+     * @deprecate If you cannot get rid of the requirement to use this, adjust the
+     *            update method in your subclass instead.
+     */
+    protected function beforeUpdate() : bool
+    {
+        return true;
+    }
+
+
+    protected function afterUpdate() : void 
+    {
+    }
+
 
     // ------------------------------------------
     // Language Handling
@@ -165,37 +384,14 @@ abstract class ilPlugin
         return $this->getLanguageHandler()->txt($a_var);
     }
 
+
+    // ------------------------------------------
+    // Rendering and Style
     // ------------------------------------------
 
     /**
-     * Update database
-     */
-    public function updateDatabase()
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-        $lng = $DIC->language();
-
-        $dbupdate = new ilPluginDBUpdate(
-            $this->db,
-            $this->getPluginInfo()
-        );
-
-        $dbupdate->applyUpdate();
-
-        return $dbupdate->getCurrentVersion();
-    }
-
-
-
-    /**
-     * gets a ilTemplate instance of a html-file in the plugin /templates
-     *
-     * @param string $a_template
-     * @param bool   $a_par1
-     * @param bool   $a_par2
-     *
-     * @return ilTemplate
+     * @deprecate ILIAS is moving towards UI components and plugins are expected
+     *            to use these components. Hence, this method will be removed.
      */
     public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true) : ilTemplate
     {
@@ -203,9 +399,8 @@ abstract class ilPlugin
     }
 
     /**
-     * @param string $a_css_file
-     *
-     * @return string
+     * @deprecate ILIAS is moving towards UI components and plugins are expected
+     *            to use these components. Hence, this method will be removed.
      */
     public function getStyleSheetLocation(string $a_css_file) : string
     {
@@ -221,7 +416,8 @@ abstract class ilPlugin
 
 
     /**
-     * Add template content to placeholder variable
+     * @deprecate ILIAS is moving towards UI components and plugins are expected
+     *            to use these components. Hence, this method will be removed.
      */
     public function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname)
     {
@@ -232,196 +428,11 @@ abstract class ilPlugin
         );
     }
 
-    /**
-     * Object initialization. Can be overwritten by plugin class
-     * (and should be made protected)
-     *
-     * TODO: Maybe this should be removed or be documented better. This is called
-     * during __construct. If this contains expensive stuff this will be bad for
-     * overall system performance, because Plugins tend to be constructed a lot.
-     */
-    protected function init()
-    {
-    }
 
+    // ------------------------------------------
+    // Event Handling
+    // ------------------------------------------
 
-    /**
-     * Check whether plugin is active.
-     *
-     * Only very little classes seem to care about this:
-     *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
-     *    - Services/Component/classes/class.ilPluginsOverviewTableGUI.php
-     *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
-     */
-    public function isActive()
-    {
-        return $this->getPluginInfo()->isActive();
-    }
-
-
-    /**
-     * Check whether update is needed.
-     */
-    public function needsUpdate()
-    {
-        return $this->getPluginInfo()->isUpdateRequired();
-    }
-
-
-    public function install()
-    {
-        $this->afterInstall();
-    }
-
-
-    /**
-     * Activate
-     */
-    public function activate()
-    {
-        $result = true;
-
-        // check whether update is necessary
-        if ($this->needsUpdate()) {
-            //$result = $this->isUpdatePossible();
-
-            // do update
-            if ($result === true) {
-                $result = $this->update();
-            }
-        }
-        if ($result === true) {
-            $result = $this->beforeActivation();
-            $this->component_repository->setActivation($this->getId(), true);
-            $this->afterActivation();
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * After install processing
-     *
-     * @return void
-     */
-    protected function afterInstall()
-    {
-    }
-
-
-    /**
-     * Before activation processing
-     */
-    protected function beforeActivation()
-    {
-        return true;    // false would indicate that anything went wrong
-        // activation would not proceed
-        // throw an exception in this case
-        //throw new ilPluginException($lng->txt(""));
-    }
-
-
-    /**
-     * After activation processing
-     */
-    protected function afterActivation()
-    {
-    }
-
-
-    /**
-     * Deactivate
-     */
-    public function deactivate()
-    {
-        $this->component_repository->setActivation($this->getId(), false);
-        $this->afterDeactivation();
-
-        return $result;
-    }
-
-
-    /**
-     * After deactivation processing
-     */
-    protected function afterDeactivation()
-    {
-    }
-
-
-    protected function beforeUninstall()
-    {
-        // plugin-specific
-        // false would indicate that anything went wrong
-        return true;
-    }
-
-
-    final public function uninstall() : bool
-    {
-        if (!$this->beforeUninstall()) {
-            return false;
-        }
-
-        $this->getLanguageHandler()->uninstall();
-        $this->clearEventListening();
-        $this->component_repository->removeStateInformationOf($this->getId());
-        $this->afterUninstall();
-        return true;
-    }
-
-
-    /**
-     * This is Plugin-Specific and is triggered after the uninstall command of a plugin
-     */
-    protected function afterUninstall()
-    {
-    }
-
-
-    /**
-     * Update plugin
-     */
-    public function update()
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $result = $this->beforeUpdate();
-        if ($result === false) {
-            return false;
-        }
-
-        // Load language files
-        $this->getLanguageHandler()->updateLanguages();
-
-        // DB update
-        if ($result === true) {
-            $db_version = $this->updateDatabase();
-        }
-
-        $this->readEventListening();
-
-        $this->readEventListening();
-
-        // set last update version to current version
-        if ($result === true) {
-            $this->component_repository->setCurrentPluginVersion(
-                $this->getPluginInfo()->getId(),
-                $this->getPluginInfo()->getAvailableVersion(),
-                $db_version
-            );
-            $this->afterUpdate();
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Read the event listening definitions from the plugin.xml (if file exists)
-     */
     protected function readEventListening()
     {
         $reader = new ilPluginReader(
@@ -435,10 +446,6 @@ abstract class ilPlugin
         $reader->startParsing();
     }
 
-
-    /**
-     * Clear the entries of this plugin in the event handling table
-     */
     protected function clearEventListening()
     {
         $reader = new ilPluginReader(
@@ -452,29 +459,12 @@ abstract class ilPlugin
     }
 
 
-    /**
-     * Before update processing
-     */
-    protected function beforeUpdate()
-    {
-        return true;    // false would indicate that anything went wrong
-        // update would not proceed
-        // throw an exception in this case
-        //throw new ilPluginException($lng->txt(""));
-    }
-
+    // ------------------------------------------
+    // Global Screen
+    // ------------------------------------------
 
     /**
-     * After update processing
-     */
-    protected function afterUpdate()
-    {
-    }
-
-    /**
-     * @return AbstractStaticPluginMainMenuProvider
-     *
-     * @deprecated
+     * @deprecate
      * @see getGlobalScreenProviderCollection instead
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
@@ -484,10 +474,6 @@ abstract class ilPlugin
         return new ilPluginGlobalScreenNullProvider($DIC, $this);
     }
 
-
-    /**
-     * @return PluginProviderCollection
-     */
     final public function getGlobalScreenProviderCollection() : PluginProviderCollection
     {
         if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
@@ -497,6 +483,10 @@ abstract class ilPlugin
         return $this->provider_collection;
     }
 
+
+    // ------------------------------------------
+    // Initialisation
+    // ------------------------------------------
 
     /**
      * This methods allows to replace the UI Renderer (see src/UI) of ILIAS after initialization
@@ -508,10 +498,6 @@ abstract class ilPlugin
      *
      * Note: Note that plugins might conflict by replacing the renderer, so only use if you
      * are sure, that no other plugin will do this for a given context.
-     *
-     * @param \ILIAS\DI\Container $dic
-     *
-     * @return Closure
      */
     public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic) : Closure
     {
@@ -532,24 +518,10 @@ abstract class ilPlugin
      *
      * Note: Note that plugins might conflict by replacing the same factory, so only use if you
      * are sure, that no other plugin will do this for a given context.
-     *
-     * @param string              $dic_key
-     * @param \ILIAS\DI\Container $dic
-     *
-     * @return Closure
      */
     public function exchangeUIFactoryAfterInitialization(string $dic_key, \ILIAS\DI\Container $dic) : Closure
     {
         //This returns the callable of $c[$key] without executing it.
         return $dic->raw($dic_key);
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getMessage() : string
-    {
-        return strval($this->message);
     }
 }

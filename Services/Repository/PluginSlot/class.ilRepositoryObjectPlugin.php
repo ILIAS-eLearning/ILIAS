@@ -90,7 +90,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         return $component_repository->getPluginById($a_id)->getName();
     }
     
-    protected function beforeActivation()
+    protected function beforeActivation() : bool
     {
         $ilDB = $this->db;
         
@@ -203,7 +203,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     
     abstract protected function uninstallCustom() : void;
     
-    final protected function beforeUninstall()
+    final protected function beforeUninstall() : bool
     {
         if ($this->beforeUninstallCustom()) {
             $rep_util = new ilRepUtil();
