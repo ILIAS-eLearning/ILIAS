@@ -69,7 +69,7 @@ class Migrator
         }
         if (rename($existing_path, $destination_path)) {
             $r = $this->database->manipulateF(
-                "UPDATE il_resource SET storage_id = %s WHERE identification = %s LIMIT 1",
+                "UPDATE il_resource SET storage_id = %s WHERE rid = %s LIMIT 1",
                 ['text', 'text'],
                 [$to_handler_id, $resource->getIdentification()->serialize()]
             );

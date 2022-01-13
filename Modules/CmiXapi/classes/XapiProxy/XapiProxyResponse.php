@@ -13,22 +13,32 @@
         public function __construct() {
             $this->dic = $GLOBALS['DIC'];
             $this->xapiproxy = $this->dic['xapiproxy'];
-            //$this->xapiProxyRequest = $this->xapiproxy->getXapiProxyRequest();
         }
 
-        public function checkResponse($response, $endpoint) {
-            if ($response['state'] === 'fulfilled') {
+        public function checkResponse($response, $endpoint)
+        {
+            if ($response['state'] == 'fulfilled')
+            {
                 $status = $response['value']->getStatusCode();
-                if ($status === 200 || $status === 204 || $status === 404) {
+                if ($status === 200 || $status === 204 || $status === 404)
+                {
                     return true;
                 }
-                else {
-                    $this->xapiproxy->log()->error($this->msg("Could not get valid response status_code: " . $status .  " from " . $endpoint));
+                else
+                {
+                    $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response['value']->getBody());
                     return false;
                 }
             }
             else {
-                $this->xapiproxy->log()->error($this->msg("Could not fulfill request to " . $endpoint));
+                try
+                {
+                    $this->xapiproxy->log()->error("Connection error {$endpoint}: " . $response['reason']->getMessage());
+                }
+                catch(Exception $e)
+                {
+                    $this->xapiproxy->log()->error("error {$endpoint}:" . $e->getMessage());
+                }
                 return false;
             }
             return false;

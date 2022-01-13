@@ -96,4 +96,12 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
     {
         return $this->aggregateEndPoint;
     }
+
+    /**
+     * @return ilObjCmiXapi
+     */
+    public function getObj()
+    {
+        return ilObjCmiXapi::getInstance($this->getObjId(),false);
+    }
 }

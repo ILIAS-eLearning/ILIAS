@@ -7,13 +7,14 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
+use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
 /**
  * Interface ResourceRepository
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ResourceRepository extends LockingRepository
+interface ResourceRepository extends LockingRepository, PreloadableRepository
 {
 
     /**

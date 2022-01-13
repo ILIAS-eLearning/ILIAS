@@ -14,10 +14,18 @@
  */
 class ilCmiXapiVerbList
 {
+    const COMPLETED = 'http://adlnet.gov/expapi/verbs/completed';
+    const PASSED = 'http://adlnet.gov/expapi/verbs/passed';
+    const FAILED = 'http://adlnet.gov/expapi/verbs/failed';
+    const SATISFIED = 'http://adlnet.gov/expapi/verbs/satisfied';
+    const PROGRESSED = 'http://adlnet.gov/expapi/verbs/progressed';
+    const EXPERIENCED = 'http://adlnet.gov/expapi/verbs/experienced';
+
     /**
      * @var array
      */
     protected $verbs = array(
+        'http://adlnet.gov/expapi/verbs/abandoned',
         'http://adlnet.gov/expapi/verbs/answered',
         'http://adlnet.gov/expapi/verbs/asked',
         'http://adlnet.gov/expapi/verbs/attempted',
@@ -38,6 +46,7 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/registered',
         'http://adlnet.gov/expapi/verbs/responded',
         'http://adlnet.gov/expapi/verbs/resumed',
+        'http://adlnet.gov/expapi/verbs/satisfied',
         'http://adlnet.gov/expapi/verbs/scored',
         'http://adlnet.gov/expapi/verbs/shared',
         'http://adlnet.gov/expapi/verbs/suspended',
@@ -54,6 +63,37 @@ class ilCmiXapiVerbList
         return in_array($verb, $this->verbs);
     }
     
+    /**
+     * @param string $shortVerbId
+     * @return string
+     */
+    public function getVerbUri($verb)
+    {
+        return 'http://adlnet.gov/expapi/verbs/'. $verb;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDynamicSelectOptions($verbs)
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        
+        $options = array(
+            '' => $DIC->language()->txt('cmix_all_verbs')
+        );
+        
+        foreach ($verbs as $verb) {
+            $verb = $verb['_id'];
+            $options[urlencode($verb)] = self::getVerbTranslation(
+                $DIC->language(),
+                $verb
+            );
+        }
+        
+        return $options;
+    }
+
     /**
      * @return array
      */
@@ -82,12 +122,22 @@ class ilCmiXapiVerbList
      */
     public static function getVerbTranslation(ilLanguage $lng, $verb)
     {
-        $langVar = str_replace('http://', '', $verb);
+        $verbMatch = preg_match('/\/([^\/]+)$/',$verb,$matches);
+        $shortVerb = $matches[1];
+        $langVar = preg_replace('/http(s)?:\/\//', '', $verb);
         $langVar = str_replace('.', '', $langVar);
         $langVar = str_replace('/', '_', $langVar);
         $langVar = 'cmix_' . $langVar;
-        
-        return $lng->txt($langVar);
+        $translatedVerb = $lng->txt($langVar);
+        // check no translation found?
+        if (strpos($translatedVerb,'-cmix_') === 0)
+        {
+            return $shortVerb;
+        }
+        else
+        {
+            return $translatedVerb;
+        }
     }
     
     /**

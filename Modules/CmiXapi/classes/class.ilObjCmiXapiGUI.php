@@ -289,22 +289,40 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $err = $DIC['ilErr']; /* @var ilErrorHandling $err */
-        
-        
-        if ($DIC->access()->checkAccess('read', '', $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, 'infoScreen');
-        } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
+        $ctrl = $DIC->ctrl();
+        $request = $DIC->http()->request();
+        $access = $DIC->access();
+        $lng = $DIC->language();
+
+        $targetParameters = explode('_', $a_target);
+        $id = (int) $targetParameters[0];
+
+        if ($id <= 0) {
+            $err->raiseError($lng->txt('msg_no_perm_read'), $err->FATAL);
+        }
+
+        if ($access->checkAccess('read', '', $id)) {
+            $ctrl->setTargetScript('ilias.php');
+            $ctrl->initBaseClass(ilRepositoryGUI::class);
+            $ctrl->setParameterByClass(ilObjCmiXapiGUI::class, 'ref_id', $id);
+            if (isset($request->getQueryParams()['gotolp'])) {
+                $ctrl->setParameterByClass(ilObjCmiXapiGUI::class, 'gotolp', 1);
+            }
+            $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjCmiXapiGUI::class]);
+        } elseif ($access->checkAccess('visible', '', $id)) {
+            ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
+        } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
             ilUtil::sendInfo(
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($id))
                 ),
                 true
             );
 
             ilObjectGUI::_gotoRepositoryRoot();
         }
-        
+
         $err->raiseError($DIC->language()->txt("msg_no_perm_read_lm"), $err->FATAL);
     }
     
@@ -675,12 +693,16 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable()) {
-            $cmixUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
+            // TODO : check if this is the correct query
+            // p.e. switched to another privacyIdent before: user exists but not with the new privacyIdent
+            // re_check for isSourceTypeExternal
+            //$cmixUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
             
             if ($this->object->isSourceTypeExternal()) {
+                $extCmiUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
                 $registerButton = ilLinkButton::getInstance();
                 
-                if ($cmixUserExists) {
+                if ($extCmiUserExists) {
                     $registerButton->setCaption('change_registration');
                 } else {
                     $registerButton->setPrimary(true);
@@ -708,8 +730,14 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 $DIC->toolbar()->addButtonInstance($launchButton);
             }
             
-            
-            if ($cmixUserExists) {
+            /**
+             * beware: ilCmiXapiUser::exists($this->object->getId(),$DIC->user()->getId());
+             * this is not a valid query because if you switched privacyIdent mode before you will get 
+             * an existing user without launched data like proxySuccess
+             */
+            $cmiUserExists = ilCmiXapiUser::exists($this->object->getId(),$DIC->user()->getId(),$this->object->getPrivacyIdent());
+
+            if ($cmiUserExists) {
                 $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
                 
                 if ($this->isFetchXapiStatementsRequired($cmixUser)) {
@@ -740,6 +768,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     
     protected function isFetchXapiStatementsRequired(ilCmiXapiUser $cmixUser)
     {
+        global $DIC;
         if ($this->object->getLaunchMode() != ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
             return false;
         }

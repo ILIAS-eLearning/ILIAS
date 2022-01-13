@@ -29,7 +29,7 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function presentation($title, array $view_controls, \Closure $row_mapping) : T\Presentation
+    public function presentation(string $title, array $view_controls, \Closure $row_mapping) : T\Presentation
     {
         return new Presentation($title, $view_controls, $row_mapping, $this->signal_generator);
     }

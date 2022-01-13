@@ -13,6 +13,11 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
      */
     protected $object_id;
 
+    /**
+     * @var array
+     */
+    protected $uploaded_suffixes = [];
+
     public function handle(
         int $parent_id,
         array $post_data,
@@ -43,6 +48,15 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
             $file->delete();
             $response->error = $e->getMessage();
         }
+
+        $this->uploaded_suffixes[] = $file->getFileExtension();
+
         return $response;
     }
+
+    public function getUploadedSuffixes() : array
+    {
+        return $this->uploaded_suffixes;
+    }
+
 }

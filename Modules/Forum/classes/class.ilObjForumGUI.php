@@ -855,7 +855,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
             $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
             if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
-                (int) $_GET['ref_id'],
+                $this->ref_id,
                 $draft->getPostAuthorId()
             )) {
                 if ($authorinfo->getAuthor()->getGender() == 'f') {
@@ -1009,7 +1009,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if (!$node->isActivated() && !$this->objCurrentTopic->isClosed() && $this->is_moderator) {
             $rowCol = 'ilPostingNeedsActivation';
         } elseif ($this->objProperties->getMarkModeratorPosts() == 1) {
-            $isAuthorModerator = ilForum::_isModerator($this->object->getRefId(), $node->getPosAuthorId());
+            $isAuthorModerator = ilForum::_isModerator($this->ref_id, $node->getPosAuthorId());
             if ($node->getIsAuthorModerator() === null && $isAuthorModerator) {
                 $rowCol = 'ilModeratorPosting';
             } elseif ($node->getIsAuthorModerator()) {
@@ -1073,7 +1073,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
         $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
-        $isModerator = ilForum::_isModerator((int) $authorinfo->getAuthor()->getId(), $node->getPosAuthorId());
+        $isModerator = ilForum::_isModerator($this->ref_id, $node->getPosAuthorId());
         if ($authorinfo->getAuthor()->getId() && $isModerator) {
             $authorRole = $this->lng->txt('frm_moderator_n');
             if (is_string($authorinfo->getAuthor()->getGender()) && strlen($authorinfo->getAuthor()->getGender()) > 0) {

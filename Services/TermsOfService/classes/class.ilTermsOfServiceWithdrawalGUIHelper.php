@@ -170,9 +170,13 @@ class ilTermsOfServiceWithdrawalGUIHelper
             ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
         );
 
-        $question = $this->lng->txt('withdrawal_sure_account');
+        $lng_suffix = ''; 
+        if (!$this->user->getAgreeDate()) {
+            $lng_suffix = '_no_consent_yet';
+        }
+        $question = $this->lng->txt('withdrawal_sure_account' . $lng_suffix);
         if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', false))  {
-            $question = $this->lng->txt('withdrawal_sure_account_deletion');
+            $question = $this->lng->txt('withdrawal_sure_account_deletion' . $lng_suffix);
         }
 
         $confirmation = $this->uiFactory->messageBox()->confirmation($question)->withButtons([

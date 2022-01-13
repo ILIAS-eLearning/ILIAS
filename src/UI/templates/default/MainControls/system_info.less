@@ -47,9 +47,9 @@
 
   // General Sizes
   line-height: @line-height-computed;
-  padding-top: @padding-base-vertical;
-  padding-bottom: @padding-base-vertical;
-  height: calc(@padding-base-vertical + @padding-base-vertical + @line-height-computed);
+  padding-top: @il-padding-large-vertical;
+  padding-bottom: @il-padding-large-vertical;
+  height: calc(@il-padding-large-vertical + @il-padding-large-vertical + @line-height-computed);
 
 
   // Flex
@@ -78,10 +78,15 @@
   }
 
   div.il-system-info-actions {
+    font-size: @font-size-large;
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: 60px;
     text-align: right;
+    flex-basis: @padding-large-horizontal*5;
+
+    :not(:last-child){
+      padding-right: @padding-large-horizontal;
+    }
 
     span.il-system-info-more {
       display: none;

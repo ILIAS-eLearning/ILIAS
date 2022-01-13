@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ilUtil;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 
 /**
  * Class UserMetaBarProvider
@@ -17,6 +18,7 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
      */
     public function getMetaBarItems() : array
     {
+        $access_checks = BasicAccessCheckClosures::getInstance();
         $f = $this->dic->ui()->factory();
         $txt = function ($id) {
             return $this->dic->language()->txt($id);
@@ -50,19 +52,9 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withSymbol($this->dic->user()->getAvatar())
             ->withTitle($this->dic->language()->txt("info_view_of_user"))
             ->withPosition(4)
-            ->withVisibilityCallable(
-                function () {
-                    return $this->isUserLoggedIn();
-                }
-            )
+            ->withVisibilityCallable($access_checks->isUserLoggedIn())
             ->withChildren($children);
 
         return $item;
-    }
-
-
-    private function isUserLoggedIn() : bool
-    {
-        return (!$this->dic->user()->isAnonymous() && $this->dic->user()->getId() != 0);
     }
 }

@@ -136,6 +136,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             $settings = $this->settings_db->getSettings()
                 ->withPollingIntervalSeconds($data[self::F_POLL_INTERVAL]);
             $this->settings_db->storeSettings($settings);
+            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
         }
         $this->show($form);
     }

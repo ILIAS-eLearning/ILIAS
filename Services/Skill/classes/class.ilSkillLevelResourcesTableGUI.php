@@ -84,6 +84,9 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         if ($a_set["imparting"]) {
             $this->tpl->touchBlock("sugg_checked");
         }
+        $this->tpl->setCurrentBlock("suggested_checkbox");
+        $this->tpl->setVariable("SG_ID", $ref_id);
+        $this->tpl->parseCurrentBlock();
 
         if (ilObjectLP::isSupportedObjectType($obj_type)) {
             if ($a_set["trigger"]) {

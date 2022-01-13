@@ -469,8 +469,6 @@ class ilLPStatus
                     ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
                 }
             }
-
-            self::raiseEvent($a_obj_id, $a_user_id, $a_status, $a_old_status, $a_percentage);
             
             // find all course references
             if (ilObject::_lookupType($a_obj_id) == 'crs') {

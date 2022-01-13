@@ -11,6 +11,7 @@
  *
  * @package     Module/CmiXapi
  */
+
 class ilCmiXapiLaunchGUI
 {
     const XAPI_PROXY_ENDPOINT = 'Modules/CmiXapi/xapiproxy.php';
@@ -25,7 +26,7 @@ class ilCmiXapiLaunchGUI
      */
     protected $cmixUser;
 
-        /**
+    /**
      * @var plugin
      */
     protected $plugin = false;
@@ -48,14 +49,16 @@ class ilCmiXapiLaunchGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $this->initCmixUser();
-        if ($this->object->getContentType(ilObjCmiXapi::CONT_TYPE_CMI5)) {
-            $this->CMI5preLaunch();
+        $token = $this->getValidToken();
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+            $ret = $this->CMI5preLaunch($token);
+            $token = $ret['token'];
         }
-        $launchLink = $this->buildLaunchLink();
+        $launchLink = $this->buildLaunchLink($token);
         $DIC->ctrl()->redirectToURL($launchLink);
     }
     
-    protected function buildLaunchLink()
+    protected function buildLaunchLink($token)
     {
         if ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE) {
             $launchLink = $this->object->getLaunchUrl();
@@ -72,46 +75,54 @@ class ilCmiXapiLaunchGUI
             }
         }
         
-        foreach ($this->getLaunchParameters() as $paramName => $paramValue) {
+        foreach ($this->getLaunchParameters($token) as $paramName => $paramValue) {
             $launchLink = ilUtil::appendUrlParameterString($launchLink, "{$paramName}={$paramValue}");
         }
         
         return $launchLink;
     }
     
-    protected function getLaunchParameters()
+    protected function getLaunchParameters($token)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $params = [];
         
         if ($this->object->isBypassProxyEnabled()) {
-            $params['endpoint'] = urlencode($this->object->getLrsType()->getLrsEndpoint());
+            $params['endpoint'] = urlencode(rtrim($this->object->getLrsType()->getLrsEndpoint(), '/') . '/');
         } else {
-            $params['endpoint'] = urlencode(ILIAS_HTTP_PATH . '/' . self::XAPI_PROXY_ENDPOINT);
+            $params['endpoint'] = urlencode(rtrim(ILIAS_HTTP_PATH . '/' . self::XAPI_PROXY_ENDPOINT, '/') . '/');
         }
         
         if ($this->object->isAuthFetchUrlEnabled()) {
-            $this->getValidToken();
             $params['fetch'] = urlencode($this->getAuthTokenFetchLink());
         } else {
             if ($this->object->isBypassProxyEnabled()) {
                 $params['auth'] = urlencode($this->object->getLrsType()->getBasicAuth());
-                $this->getValidToken();
             } else {
                 $params['auth'] = urlencode('Basic ' . base64_encode(
-                    CLIENT_ID . ':' . $this->getValidToken()
+                    CLIENT_ID . ':' . $token
                 ));
             }
         }
         
         $params['activity_id'] = urlencode($this->object->getActivityId());
         $params['activityId'] = urlencode($this->object->getActivityId());
-        
-        $params['actor'] = urlencode($this->buildActorParameter());
-
-        $params['registration'] = urlencode(ilCmiXapiUser::getRegistration($this->object, $DIC->user()));
-
+        $params['actor'] = urlencode(json_encode($this->object->getStatementActor($this->cmixUser)));
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
+        {
+            $registration = $this->cmixUser->getRegistration();
+            // for old CMI5 Content after switch commit but before cmi5 bugfix
+            if ($registration == '') 
+            {
+                $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+            }
+            $params['registration'] = $registration;
+        }
+        else
+        {
+            $params['registration'] = urlencode(ilCmiXapiUser::generateRegistration($this->object, $DIC->user()));
+        }
         return $params;
     }
     
@@ -121,7 +132,8 @@ class ilCmiXapiLaunchGUI
             ILIAS_HTTP_PATH, 'Modules', 'CmiXapi', 'xapitoken.php'
         ]);
         
-        $link = iLUtil::appendUrlParameterString($link, "param={$this->buildAuthTokenFetchParam()}");
+        $param = $this->buildAuthTokenFetchParam();
+        $link = iLUtil::appendUrlParameterString($link, "param={$param}");
         
         return $link;
     }
@@ -135,6 +147,7 @@ class ilCmiXapiLaunchGUI
         $params = [
             session_name() => session_id(),
             'obj_id' => $this->object->getId(),
+            'ref_id' => $this->object->getRefId(),
             'ilClientId' => CLIENT_ID
         ];
         
@@ -147,38 +160,7 @@ class ilCmiXapiLaunchGUI
             0,
             ilCmiXapiAuthToken::OPENSSL_IV
         )));
-        
         return $param;
-    }
-    
-    protected function buildActorParameter()
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $name = ilCmiXapiUser::getName($this->object->getPrivacyName(), $DIC->user());
-
-        return json_encode([
-            'mbox' => $this->cmixUser->getUsrIdent(),
-            'name' => $name,
-            'objectType' => 'Agent',
-            'account' => [
-                'homePage' => 'NO_PAGE',
-                'name' => $name
-            ]
-        ]);
-    }
-
-    protected function buildAgentParameter()
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $name = ilCmiXapiUser::getName($this->object->getPrivacyName(), $DIC->user());
-
-        return json_encode([
-            'objectType' => 'Agent',
-            'mbox' => 'mailto:'.$this->cmixUser->getUsrIdent(),
-            'name' => $name
-        ]);
     }
     
     protected function getValidToken()
@@ -208,62 +190,18 @@ class ilCmiXapiLaunchGUI
         $user_ident = $this->cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
 			$user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
-			$this->cmixUser->setUsrIdent($user_ident);
+            $this->cmixUser->setUsrIdent($user_ident);
+
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
+            {
+                $this->cmixUser->setRegistration(ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
+            }
 			$this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-		}
-        
+        }
         // if ($doLpUpdate) {
             // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         // }
-    }
-
-    protected function getLaunchData()
-    {
-        /**
-         * launchMethod:
-         * OwnWindow | AnyWindow: see https://github.com/andyjohnson/CMI-5_Spec_Current/blob/master/cmi5_spec.md#launchmethod
-         */
-        // $launchMethod = "OwnWindow";
-        
-        /**
-         * moveOn: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#moveon
-         */
-        $moveOn = "Completed"; // needs to be saved on import and get with $this->object->getMoveOn()
-
-        /**
-         * sessionid: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#9631-session-id
-         */
-        $sessionId = $this->guidv4(); // vielleicht brauchen wir noch replizierbar die gleiche session-id
-        $launchMode = $this->object->getLaunchMode();
-        $activityId = $this->object->getActivityId();
-        $ctxTemplate = [
-            "contextTemplate" => [
-                "contextActivities" => [
-                    "grouping" => [
-                        "objectType" => "Activity",
-                        "id" => "{$activityId}"
-                    ]
-                ],
-                "extensions" => [
-                    "https://w3id.org/xapi/cmi5/context/extensions/sessionid" => "{$sessionId}"
-                ]
-            ],
-            "launchMode" => ucfirst($launchMode),
-            "launchMethod" => "OwnWindow",
-            "moveOn" => $moveOn
-        ];
-        $lmsLaunchMethod = $this->object->getLaunchMethod();
-        if ($lmsLaunchMethod === "ownWin") {
-            include_once('./Services/Link/classes/class.ilLink.php');
-            $href = ilLink::_getStaticLink(
-                $this->object->getRefId(),
-                $this->object->getType()
-            );
-            $this->log()->log($href);
-            $ctxTemplate['returnURL'] = $href;
-        }
-        return json_encode($ctxTemplate);
     }
 
     protected function getCmi5LearnerPreferences() 
@@ -275,7 +213,7 @@ class ilCmiXapiLaunchGUI
             "languagePreference" => "{$language}",
             "audioPreference" => "{$audio}"
         ];
-        return json_encode($prefs);
+        return $prefs;
     }
 
     /**
@@ -283,10 +221,10 @@ class ilCmiXapiLaunchGUI
      * post cmi5LearnerPreference (agent profile)
      * post LMS.LaunchData
      */
-    protected function CMI5preLaunch()
+    protected function CMI5preLaunch($token)
     {
         global $DIC;
-
+        
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
         //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
@@ -295,45 +233,122 @@ class ilCmiXapiLaunchGUI
         $defaultHeaders = [
             'X-Experience-API-Version' => '1.0.3',
             'Authorization' => $defaultBasicAuth,
-            'Cache-Control' => 'no-cache, no-store, must-revalidate',
-            'Content-Type' => 'application/json; charset=utf-8'
+            'Content-Type' => 'application/json;charset=utf-8',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
         ];
         /*
         $fallbackHeaders = [
             'X-Experience-API-Version' => '1.0.3',
             'Authorization' => $fallbackBasicAuth,
-            'Content-Type' => 'application/json; charset=utf-8'
+            'Content-Type' => 'application/json;charset=utf-8',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
         ];
         */
         
-        $registration = ilCmiXapiUser::getRegistration($this->object, $DIC->user());
+        //$registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+        $registration = $this->cmixUser->getRegistration();
+        // for old CMI5 Content after switch commit but before cmi5 bugfix
+        if ($registration == '') 
+        {
+            $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+        }
+        
         $activityId = $this->object->getActivityId();
         
         // profile
         $profileParams = [];
         $defaultAgentProfileUrl = $defaultLrs . "/agents/profile";
-        $profileParams['agent'] = $this->buildAgentParameter();
+        $profileParams['agent'] = json_encode($this->object->getStatementActor($this->cmixUser));
         $profileParams['profileId'] = 'cmi5LearnerPreferences';
-        $defaultProfileUrl = $defaultAgentProfileUrl . '?' . $this->buildQuery($profileParams);
+        $defaultProfileUrl = $defaultAgentProfileUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($profileParams);
         
         // launchData
         $launchDataParams = [];
         $defaultStateUrl = $defaultLrs . "/activities/state";
-        $launchDataParams['agent'] = $this->buildAgentParameter();
+        //$launchDataParams['agent'] = $this->buildCmi5ActorParameter();
+        $launchDataParams['agent'] = json_encode($this->object->getStatementActor($this->cmixUser));
         $launchDataParams['activityId'] = $activityId;
         $launchDataParams['activity_id'] = $activityId;
         $launchDataParams['registration'] = $registration;
-        $launchDataParams['agent'] = $this->buildAgentParameter();
         $launchDataParams['stateId'] = 'LMS.LaunchData';
-        $defaultLaunchDataUrl = $defaultStateUrl . '?' . $this->buildQuery($launchDataParams);
-        
-        $this->log()->log($defaultLaunchDataUrl); 
-        
-        $cmi5LearnerPreferences = $this->getCmi5LearnerPreferences();
-        $launchData = $this->getLaunchData();
+        $defaultLaunchDataUrl = $defaultStateUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($launchDataParams);
+        $cmi5LearnerPreferencesObj = $this->getCmi5LearnerPreferences();
+        $cmi5LearnerPreferences = json_encode($cmi5LearnerPreferencesObj);
+        //$DIC->logger()->root()->log($cmi5LearnerPreferences);
+        $lang = $cmi5LearnerPreferencesObj['languagePreference'];
+        $cmi5_session = ilObjCmiXapi::guidv4();
+        $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
+        $oldSession = $tokenObject->getCmi5Session();
+        $oldSessionLaunchedTimestamp = '';
+        $abandoned = false;
+        // cmi5_session already exists?
+        if (!empty($oldSession)) {
+            $oldSessionData = json_decode($tokenObject->getCmi5SessionData());
+            $oldSessionLaunchedTimestamp = $oldSessionData->launchedTimestamp;
+            $tokenObject->delete();
+            $token = $this->getValidToken();
+            $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
+            $lastStatement = $this->object->getLastStatement($oldSession);
+            // should never be 'terminated', because terminated statement is sniffed from proxy -> token delete
+            if ($lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated'))
+            {
+                $abandoned = true;
+                $start = new DateTime($oldSessionLaunchedTimestamp);
+                $end = new DateTime($lastStatement[0]['statement']['timestamp']);
+                $diff = $end->diff($start);
+                $duration = ilCmiXapiDateTime::dateIntervalToISO860Duration($diff);
+            }
+        }
+        // satisfied on launch?
+        // see: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#moveon
+        // https://aicc.github.io/CMI-5_Spec_Current/samples/
+        // Session that includes the absolute minimum data, and is associated with a NotApplicable Move On criteria 
+        // which results in immediate satisfaction of the course upon registration creation. Includes Satisfied Statement.
+        $satisfied = false;
+        $lpMode = $this->object->getLPMode();
+        // only do this, if we decide to map the moveOn NotApplicable to ilLPObjSettings::LP_MODE_DEACTIVATED on import and settings editing
+        // and what about user result status?
+        if ($lpMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
+            $satisfied = true;
+        }
 
+        $tokenObject->setCmi5Session($cmi5_session);
+        $sessionData = array();
+        $sessionData['cmi5LearnerPreferences'] = $cmi5LearnerPreferencesObj;
+        //https://www.php.net/manual/de/class.dateinterval.php
+        $now = new ilCmiXapiDateTime(time(), IL_CAL_UNIX);
+        $sessionData['launchedTimestamp'] = $now->toXapiTimestamp(); // required for abandoned statement duration, don't want another roundtrip to lrs ...puhhh
+        $tokenObject->setCmi5SessionData(json_encode($sessionData));
+        $tokenObject->update();
+        $defaultStatementsUrl = $defaultLrs . "/statements";
+        
+        // launchedStatement
+        $launchData = json_encode($this->object->getLaunchData($this->cmixUser,$lang));
+        $launchedStatement = $this->object->getLaunchedStatement($this->cmixUser);
+        $launchedStatementParams = [];
+        $launchedStatementParams['statementId'] = $launchedStatement['id'];
+        $defaultLaunchedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($launchedStatementParams);
+        
+        // abandonedStatement
+        if ($abandoned) {
+            $abandonedStatement = $this->object->getAbandonedStatement($oldSession, $duration, $this->cmixUser);
+            $abandonedStatementParams = [];
+            $abandonedStatementParams['statementId'] = $abandonedStatement['id'];
+            $defaultAbandonedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($abandonedStatementParams);
+        }
+        // abandonedStatement
+        if ($satisfied) {
+            $satisfiedStatement = $this->object->getSatisfiedStatement($this->cmixUser);
+            $satisfiedStatementParams = [];
+            $satisfiedStatementParams['statementId'] = $satisfiedStatement['id'];
+            $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
+        }
         $client = new GuzzleHttp\Client();
-        //new GuzzleHttp\Psr7\Request('POST', $defaultUrl, $this->defaultHeaders, $body);
+        $req_opts = array(
+            GuzzleHttp\RequestOptions::VERIFY => true,
+            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
+            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
+        );
         $defaultProfileRequest = new GuzzleHttp\Psr7\Request(
             'POST',
             $defaultProfileUrl,
@@ -346,95 +361,53 @@ class ilCmiXapiLaunchGUI
             $defaultHeaders,
             $launchData
         );
+        $defaultLaunchedStatementRequest = new GuzzleHttp\Psr7\Request(
+            'PUT',
+            $defaultLaunchedStatementUrl,
+            $defaultHeaders,
+            json_encode($launchedStatement)
+        );
+        if ($abandoned) {
+            $defaultAbandonedStatementRequest = new GuzzleHttp\Psr7\Request(
+                'PUT',
+                $defaultAbandonedStatementUrl,
+                $defaultHeaders,
+                json_encode($abandonedStatement)
+            );
+        }
+        if ($satisfied) {
+            $defaultSatisfiedStatementRequest = new GuzzleHttp\Psr7\Request(
+                'PUT',
+                $defaultSatisfiedStatementUrl,
+                $defaultHeaders,
+                json_encode($satisfiedStatement)
+            );
+        }
         $promises = array();
-        $promises['defaultProfile'] = $client->sendAsync($defaultProfileRequest);
-        $promises['defaultLaunchData'] = $client->sendAsync($defaultLaunchDataRequest);
-
-        try 
+        $promises['defaultProfile'] = $client->sendAsync($defaultProfileRequest, $req_opts);
+        $promises['defaultLaunchData'] = $client->sendAsync($defaultLaunchDataRequest, $req_opts);
+        $promises['defaultLaunchedStatement'] = $client->sendAsync($defaultLaunchedStatementRequest, $req_opts);
+        if ($abandoned) {
+            $promises['defaultAbandonedStatement'] = $client->sendAsync($defaultAbandonedStatementRequest, $req_opts);
+        }
+        if ($satisfied) {
+            $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
+        }
+        try
         {
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $body = '';
+            foreach ($responses as $response) {
+                ilCmiXapiAbstractRequest::checkResponse($response,$body,[204]);
+            }
         }
-        catch(Exception $e) 
+        catch(Exception $e)
         {
             $this->log()->error('error:' . $e->getMessage());
         }
-    }
-
-    private function checkResponse($response) 
-    {
-        global $DIC;
-        if ($response['state'] === 'fulfilled') {
-            $status = $response['value']->getStatusCode();
-            if ($status === 204) {
-                return true;
-            }
-            else {
-                $this->log()->error($this->msg("Could not get valid response status_code: " . $status .  " from "));
-                return false;
-            }
-        }
-        else {
-            $this->log()->error($this->msg("Could not fulfill request to "));
-            return false;
-        }
-        return false;
-    }
-
-    private function guidv4($data = null) {
-        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-        $data = $data ?? random_bytes(16);
-        assert(strlen($data) == 16);
-    
-        // Set version to 0100
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        // Set bits 6-7 to 10
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-    
-        // Output the 36 character UUID.
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        return array('cmi5_session' => $cmi5_session, 'token' => $token);
     }
     
-    private function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986)
-    {
-        if (!$params) {
-            return '';
-        }
-
-        if ($encoding === false) {
-            $encoder = function ($str) {
-                return $str;
-            };
-        } elseif ($encoding === PHP_QUERY_RFC3986) {
-            $encoder = 'rawurlencode';
-        } elseif ($encoding === PHP_QUERY_RFC1738) {
-            $encoder = 'urlencode';
-        } else {
-            throw new \InvalidArgumentException('Invalid type');
-        }
-
-        $qs = '';
-        foreach ($params as $k => $v) {
-            $k = $encoder($k);
-            if (!is_array($v)) {
-                $qs .= $k;
-                if ($v !== null) {
-                    $qs .= '=' . $encoder($v);
-                }
-                $qs .= '&';
-            } else {
-                foreach ($v as $vv) {
-                    $qs .= $k;
-                    if ($vv !== null) {
-                        $qs .= '=' . $encoder($vv);
-                    }
-                    $qs .= '&';
-                }
-            }
-        }
-
-        return $qs ? (string) substr($qs, 0, -1) : '';
-    }
-
     private function log() {
         global $log;
         if ($this->plugin) {

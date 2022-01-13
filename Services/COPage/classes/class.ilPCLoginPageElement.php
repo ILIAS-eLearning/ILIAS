@@ -24,7 +24,8 @@ class ilPCLoginPageElement extends ilPageContent
         'openid-connect-login' => 'openid_connect_login',
         'registration-link' => 'registration_link',
         'language-selection' => 'language_selection',
-        'user-agreement' => 'user_agreement_link'
+        'user-agreement' => 'user_agreement_link',
+        'saml-login' => 'saml_login'
     );
 
     /**

@@ -208,10 +208,10 @@ class ilDataCollectionDataSet extends ilDataSet
                     }
                     $tableview->setRoles($a_rec['roles']);
                     is_null($a_rec['step_vs']) ? $tableview->setStepVs(1) : $tableview->setStepVs($a_rec['step_vs']);
-                    is_null($a_rec['step_c']) ? $tableview->setStepC(0) : $tableview->setStepVs($a_rec['step_c']);
-                    is_null($a_rec['step_e']) ? $tableview->setStepE(0) : $tableview->setStepVs($a_rec['step_e']);
-                    is_null($a_rec['step_o']) ? $tableview->setStepO(0) : $tableview->setStepVs($a_rec['step_o']);
-                    is_null($a_rec['step_s']) ? $tableview->setStepS(0) : $tableview->setStepVs($a_rec['step_s']);
+                    is_null($a_rec['step_c']) ? $tableview->setStepC(0) : $tableview->setStepC($a_rec['step_c']);
+                    is_null($a_rec['step_e']) ? $tableview->setStepE(0) : $tableview->setStepE($a_rec['step_e']);
+                    is_null($a_rec['step_o']) ? $tableview->setStepO(0) : $tableview->setStepO($a_rec['step_o']);
+                    is_null($a_rec['step_s']) ? $tableview->setStepS(0) : $tableview->setStepS($a_rec['step_s']);
                     $tableview->create(false);    //do not create default setting as they are imported too
                 }
                 $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_tableview', $a_rec['id'], $tableview->getId());

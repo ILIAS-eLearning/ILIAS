@@ -41,6 +41,7 @@ class ParagraphResponseFactory
                 $error = print_r($updated, true);
             }
         } else {
+            $page_gui->setDefaultLinkXml(); // fixes #31087
             $rendered_content = $this->getParagraphOutput($page_gui, $pcid);
             $last_change = $page_gui->getPageObject()->getLastChange();
         }
@@ -106,16 +107,19 @@ class ParagraphResponseFactory
      */
     protected function getParagraphOutput(\ilPageObjectGUI $page_gui, $pcid)
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
         $page_gui->setRawPageContent(true);
         $page_gui->setAbstractOnly(true, $pcid);
         $page_gui->setOutputMode(\ilPageObjectGUI::PRESENTATION);
-        $html = $page_gui->showPage();
+        //$html = $page_gui->showPage();
+        $html = $DIC->ctrl()->getHTML($page_gui);
 
-        $pos = strpos($html, "<!--COPage-PageTop-->");
+        $pos = strrpos($html, "<!--COPage-PageTop-->");
         if ($pos > 0) {
             $html = substr($html, $pos + 21);
         }
-
         return $html;
     }
 }

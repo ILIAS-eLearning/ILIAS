@@ -246,8 +246,10 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+content#:#cont_lpe_saml_login#:#SAML Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
+common#:#msg_no_files_selected#:#No files selected
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
@@ -844,7 +846,7 @@ assessment#:#end_tag#:#End Tag
 assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#enlarge#:#Enlarge
-assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
+assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
@@ -1334,7 +1336,7 @@ assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#true#:#True
-assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
@@ -1975,7 +1977,6 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
-common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
@@ -1995,7 +1996,9 @@ common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account d
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -2807,6 +2810,7 @@ common#:#hint#:#Hint
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
@@ -13037,7 +13041,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
-forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora_desc#:#The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default.
 forum#:#file_upload_allowed_fora#:#Attachments
 forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
 forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
@@ -14178,7 +14182,7 @@ rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline_landing_page#:#Landing Page
@@ -15891,6 +15895,10 @@ cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
+cmix#:#conf_switch_to_review#:#Switch to Review Mode
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.
+cmix#:#conf_mastery_score#:#Mastery Score
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store
@@ -15940,8 +15948,11 @@ cmix#:#type_cmi5#:#cmi5 Learning Module
 cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.
 cmix#:#conf_launch_mode_browse#:#Browse
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.
 cmix#:#conf_launch_mode_review#:#Review
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.
 cmix#:#conf_keep_lp#:#Keep Learning Progress
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.
 cmix#:#conf_external_lrs#:#External LRS
@@ -16520,6 +16531,7 @@ file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#file_import#:#Import File
 file#:#file_download#:#Download File
 file#:#file_uploaded_by#:#Version uploaded by
+file#:#versionname#:#Title
 file#:#version_uploaded#:#Version uploaded
 file#:#file_copy#:#Copy File
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
@@ -16533,7 +16545,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
@@ -16613,3 +16625,5 @@ content#:#cont_sur_block_format#:#Surrounding Section
 ui#:#datetime_required#:#Time/Date required
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
 forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
+common#:#actions_for#:#Actions for %s
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.
