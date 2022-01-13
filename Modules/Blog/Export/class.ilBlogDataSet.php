@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Blog Data set class
@@ -13,31 +24,25 @@
  */
 class ilBlogDataSet extends ilDataSet
 {
-    protected $current_blog;
+    protected ilObjBlog $current_blog;
+    public static array $style_map = array();
     
-    public static $style_map = array();
-    
-    /**
-     * Get supported versions
-     */
     public function getSupportedVersions() : array
     {
         return array("4.3.0", "5.0.0", "5.3.0");
     }
     
-    /**
-     * Get xml namespace
-     */
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
-    {
-        return "http://www.ilias.de/xml/Modules/Blog/" . $a_entity;
+    protected function getXmlNamespace(
+        string $a_entity,
+        string $a_schema_version
+    ) : string {
+        return "https://www.ilias.de/xml/Modules/Blog/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     */
-    protected function getTypes(string $a_entity, string $a_version) : array
-    {
+    protected function getTypes(
+        string $a_entity,
+        string $a_version
+    ) : array {
         if ($a_entity == "blog") {
             switch ($a_version) {
                 case "4.3.0":
@@ -133,19 +138,13 @@ class ilBlogDataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * Read data
-     *
-     * @param
-     */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
-    {
+    public function readData(
+        string $a_entity,
+        string $a_version,
+        array $a_ids
+    ) : void {
         $ilDB = $this->db;
 
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-        
         if ($a_entity == "blog") {
             switch ($a_version) {
                 case "4.3.0":
@@ -211,9 +210,6 @@ class ilBlogDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -229,13 +225,11 @@ class ilBlogDataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * Get xml record
-     * @param
-     * @return array
-     */
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
-    {
+    public function getXmlRecord(
+        string $a_entity,
+        string $a_version,
+        array $a_set
+    ) : array {
         if ($a_entity == "blog") {
             $dir = ilObjBlog::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
@@ -249,11 +243,6 @@ class ilBlogDataSet extends ilDataSet
         return $a_set;
     }
     
-    /**
-     * Import record
-     *
-     * @param
-     */
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -334,7 +323,7 @@ class ilBlogDataSet extends ilDataSet
                     $author = $this->parseObjectExportId($a_rec["Author"], -1);
                     $newObj->setAuthor($author["id"]);
                     
-                    $newObj->create(false, true);
+                    $newObj->create(false);
                     
                     // keywords
                     $keywords = array();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,21 +13,27 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\Blog;
+
+use ILIAS\DI\Container;
+
 /**
- * Blog news renderer
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
+class Service
 {
-    public function getObjectLink() : string
-    {
-        $n = $this->getNewsItem();
-        $add = "";
-        if ($n->getContextSubObjType() == "blp"
-            && $n->getContextSubObjId() > 0) {
-            $add = "_" . $n->getContextSubObjId();
-        }
+    protected Container $DIC;
 
-        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+    public function __construct(Container $DIC)
+    {
+        $this->DIC = $DIC;
+    }
+
+    /**
+     * Internal service, do not use in other components
+     */
+    public function internal() : InternalService
+    {
+        return new InternalService($this->DIC);
     }
 }
