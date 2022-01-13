@@ -1,64 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Blog;
 
-use \ILIAS\COPage;
-use \ILIAS\Export;
+use ILIAS\COPage;
+use ILIAS\Export;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected \ilLanguage $lng;
+    protected ?array $selected_pages = null;
+    protected \ilObjBlog $blog;
+    protected \ilCtrl $ctrl;
+    protected object $access_handler;
+    protected int $style_sheet_id = 0;
+    protected int $node_id = 0;
 
-    /**
-     * @var array|null
-     */
-    protected $selected_pages = null;
-
-    /**
-     * @var \ilObjBlog
-     */
-    protected $blog;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    protected $access_handler;
-
-    /**
-     * @var int
-     */
-    protected $style_sheet_id = 0;
-
-    /**
-     * @var int
-     */
-    protected $node_id = 0;
-
-    /**
-     * PrintView constructor.
-     * @param \ilLanguage $lng
-     * @param \ilCtrl     $ctrl
-     * @param \ilObjBlog  $blog
-     * @param array       $selected_pages
-     */
     public function __construct(
         \ilLanguage $lng,
         \ilCtrl $ctrl,
         \ilObjBlog $blog,
         int $node_id,
-        $access_handler,
-        $style_id,
+        object $access_handler,
+        int $style_id,
         ?array $selected_pages = null
     ) {
         $this->lng = $lng;
@@ -90,7 +69,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     {
         $print_pages = [];
 
-        $selected_pages = (is_array($this->selected_pages))
+        $selected_pages = (count($this->selected_pages) > 0)
             ? $this->selected_pages
             : array_map(function ($i) {
                 return $i["id"];
@@ -113,7 +92,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm()
+    public function getSelectionForm() : \ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilBlogPosting
@@ -9,148 +20,92 @@
  */
 class ilBlogPosting extends ilPageObject
 {
-    protected $title; // [string]
-    protected $created; // [ilDateTime]
-    protected $blog_node_id; // [int]
-    protected $blog_node_is_wsp; // [bool]
-    protected $author; // [int]
-    protected $approved; // [bool]
-    protected $withdrawn; // [ilDateTime]
+    protected string $title;
+    protected ilDateTime $created;
+    protected int $blog_node_id;
+    protected bool $blog_node_is_wsp;
+    protected int $author;
+    protected bool $approved;
+    protected ilDateTime$withdrawn;
 
-    /**
-     * Get parent type
-     * @return string parent type
-     */
     public function getParentType() : string
     {
         return "blp";
     }
 
-
-    /**
-     * Set title
-     *
-     * @param string $a_title
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * Set blog object id
-     *
-     * @param int $a_id
-     */
-    public function setBlogId($a_id)
+    public function setBlogId(int $a_id) : void
     {
         $this->setParentId($a_id);
     }
 
-    /**
-     * Get blog object id
-     *
-     * @return int
-     */
-    public function getBlogId()
+    public function getBlogId() : int
     {
         return $this->getParentId();
     }
 
-    /**
-     * Set creation date
-     *
-     * @param ilDateTime $a_date
-     */
-    public function setCreated(ilDateTime $a_date)
+    public function setCreated(ilDateTime $a_date) : void
     {
         $this->created = $a_date;
     }
 
-    /**
-     * Get creation date
-     *
-     * @return ilDateTime
-     */
-    public function getCreated()
+    public function getCreated() : ilDateTime
     {
         return $this->created;
     }
     
-    /**
-     * Set author user id
-     *
-     * @param int $a_id
-     */
-    public function setAuthor($a_id)
+    public function setAuthor(int $a_id) : void
     {
-        $this->author = (int) $a_id;
+        $this->author = $a_id;
     }
 
-    /**
-     * Get author user id
-     *
-     * @return int
-     */
-    public function getAuthor()
+    public function getAuthor() : int
     {
         return $this->author;
     }
     
-    /**
-     * Toggle approval status
-     */
-    public function setApproved($a_status)
+    public function setApproved(bool $a_status) : void
     {
-        $this->approved = (bool) $a_status;
+        $this->approved = $a_status;
     }
 
-    /**
-     * Get approved status
-     *
-     * @return bool
-     */
-    public function isApproved()
+    public function isApproved() : bool
     {
-        return (bool) $this->approved;
+        return $this->approved;
     }
 
     /**
      * Set last withdrawal date
-     *
-     * @param ilDateTime $a_date
      */
-    public function setWithdrawn(ilDateTime $a_date)
-    {
+    public function setWithdrawn(
+        ilDateTime $a_date
+    ) : void {
         $this->withdrawn = $a_date;
     }
 
     /**
      * Get last withdrawal date
-     *
-     * @return ilDateTime
      */
-    public function getWithdrawn()
+    public function getWithdrawn() : ilDateTime
     {
         return $this->withdrawn;
     }
 
     /**
      * Create new blog posting
-     * @param bool $a_import
      */
-    public function create(bool $a_import = false) : void
-    {
+    public function create(
+        bool $a_import = false
+    ) : void {
         $ilDB = $this->db;
 
         $id = $ilDB->nextId("il_blog_posting");
@@ -184,8 +139,8 @@ class ilBlogPosting extends ilPageObject
     public function update(
         bool $a_validate = true,
         bool $a_no_history = false,
-        $a_notify = true,
-        $a_notify_action = "update"
+        bool $a_notify = true,
+        string $a_notify_action = "update"
     ) : bool {
         $ilDB = $this->db;
 
@@ -224,7 +179,7 @@ class ilBlogPosting extends ilPageObject
         $this->setBlogId($rec["blog_id"]);
         $this->setCreated(new ilDateTime($rec["created"], IL_CAL_DATETIME));
         $this->setAuthor($rec["author"]);
-        if ((bool) $rec["approved"]) {
+        if ($rec["approved"]) {
             $this->setApproved(true);
         }
         $this->setWithdrawn(new ilDateTime($rec["last_withdrawn"], IL_CAL_DATETIME));
@@ -245,7 +200,6 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Delete blog posting and all related data
-     * @return void
      */
     public function delete() : void
     {
@@ -286,11 +240,10 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Delete all postings for blog
-     *
-     * @param int $a_blog_id
      */
-    public static function deleteAllBlogPostings($a_blog_id)
-    {
+    public static function deleteAllBlogPostings(
+        int $a_blog_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -313,14 +266,9 @@ class ilBlogPosting extends ilPageObject
         }
     }
     
-    /**
-     * Lookup blog id
-     *
-     * @param int $a_posting_id
-     * @return int
-     */
-    public static function lookupBlogId($a_posting_id)
-    {
+    public static function lookupBlogId(
+        int $a_posting_id
+    ) : ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -329,21 +277,19 @@ class ilBlogPosting extends ilPageObject
             " WHERE id = " . $ilDB->quote($a_posting_id, "integer");
         $set = $ilDB->query($query);
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["blog_id"];
+            return (int) $rec["blog_id"];
         }
-        return false;
+        return null;
     }
 
     /**
      * Get all postings of blog
-     *
-     * @param int $a_blog_id
-     * @param int $a_limit
-     * @param int $a_offset
-     * @return array
      */
-    public static function getAllPostings($a_blog_id, $a_limit = 1000, $a_offset = 0)
-    {
+    public static function getAllPostings(
+        int $a_blog_id,
+        int $a_limit = 1000,
+        int $a_offset = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -381,13 +327,11 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Checks whether a posting exists
-     *
-     * @param int $a_blog_id
-     * @param int $a_posting_id
-     * @return bool
      */
-    public static function exists($a_blog_id, $a_posting_id)
-    {
+    public static function exists(
+        int $a_blog_id,
+        int $a_posting_id
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -404,12 +348,10 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Get newest posting for blog
-     *
-     * @param int $a_blog_id
-     * @return int
      */
-    public static function getLastPost(int $a_blog_id) : int
-    {
+    public static function getLastPost(
+        int $a_blog_id
+    ) : int {
         $data = self::getAllPostings($a_blog_id, 1);
         if ($data) {
             $keys = array_keys($data);
@@ -420,24 +362,21 @@ class ilBlogPosting extends ilPageObject
     
     /**
      * Set blog node id (needed for notification)
-     *
-     * @param int $a_id
-     * @param bool $a_is_in_workspace
      */
-    public function setBlogNodeId($a_id, $a_is_in_workspace = false)
-    {
-        $this->blog_node_id = (int) $a_id;
-        $this->blog_node_is_wsp = (bool) $a_is_in_workspace;
+    public function setBlogNodeId(
+        int $a_id,
+        bool $a_is_in_workspace = false
+    ) : void {
+        $this->blog_node_id = $a_id;
+        $this->blog_node_is_wsp = $a_is_in_workspace;
     }
     
     /**
      * Get all blogs where user has postings
-     *
-     * @param int $a_user_id
-     * @return array
      */
-    public static function searchBlogsByAuthor($a_user_id)
-    {
+    public static function searchBlogsByAuthor(
+        int $a_user_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -449,12 +388,12 @@ class ilBlogPosting extends ilPageObject
             " WHERE author = " . $ilDB->quote($a_user_id);
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $ids[] = $row["blog_id"];
+            $ids[] = (int) $row["blog_id"];
         }
         return $ids;
     }
     
-    public function getNotificationAbstract()
+    public function getNotificationAbstract() : string
     {
         $snippet = ilBlogPostingGUI::getSnippet($this->getId(), true);
         
@@ -469,21 +408,22 @@ class ilBlogPosting extends ilPageObject
     
     
     // keywords
-    
-    public function getMDSection()
+
+    public function getMDSection() : ?ilMDGeneral
     {
         // general section available?
         $md_obj = new ilMD($this->getBlogId(), $this->getId(), "blp");
         if (!is_object($md_section = $md_obj->getGeneral())) {
             $md_section = $md_obj->addGeneral();
             $md_section->save();
+            return $md_section;
         }
-        
-        return $md_section;
+        return null;
     }
         
-    public function updateKeywords(array $keywords)
-    {
+    public function updateKeywords(
+        array $keywords
+    ) : void {
         $ilUser = $this->user;
                 
         // language is not "used" anywhere
@@ -493,18 +433,19 @@ class ilBlogPosting extends ilPageObject
         ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);
     }
         
-    public static function getKeywords($a_obj_id, $a_posting_id)
-    {
+    public static function getKeywords(
+        int $a_obj_id,
+        int $a_posting_id
+    ) : array {
         return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
     }
         
     /**
      * Handle news item
-     *
-     * @param bool $a_update
      */
-    public function handleNews($a_update = false)
-    {
+    public function handleNews(
+        bool $a_update = false
+    ) : void {
         $lng = $this->lng;
         $ilUser = $this->user;
         
@@ -517,7 +458,7 @@ class ilBlogPosting extends ilPageObject
         $news_item = null;
         
         // try to re-use existing news item
-        if ((bool) $a_update) {
+        if ($a_update) {
             // get last news item of the day (if existing)
             $news_id = ilNewsItem::getLastNewsIdForContext(
                 $this->getBlogId(),
@@ -593,13 +534,11 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Lookup posting property
-     *
-     * @param string $a_field field
-     * @param int $a_posting_id posting id
-     * @return mixed
      */
-    protected static function lookup($a_field, $a_posting_id)
-    {
+    protected static function lookup(
+        string $a_field,
+        string $a_posting_id
+    ) : ?string {
         global $DIC;
 
         $db = $DIC->database();
@@ -608,17 +547,11 @@ class ilBlogPosting extends ilPageObject
             " WHERE id = " . $db->quote($a_posting_id, "integer"));
         $rec = $db->fetchAssoc($set);
 
-        return $rec[$a_field];
+        return $rec[$a_field] ?? null;
     }
 
-    /**
-     * Lookup title
-     *
-     * @param int $a_posting_id posting id
-     * @return string
-     */
-    public static function lookupTitle($a_posting_id)
+    public static function lookupTitle(int $a_posting_id) : string
     {
-        return self::lookup("title", $a_posting_id);
+        return (string) self::lookup("title", $a_posting_id);
     }
 }

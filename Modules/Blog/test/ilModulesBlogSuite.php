@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,21 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Blog news renderer
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
+class ilModulesBlogSuite extends TestSuite
 {
-    public function getObjectLink() : string
+    public static function suite()
     {
-        $n = $this->getNewsItem();
-        $add = "";
-        if ($n->getContextSubObjType() == "blp"
-            && $n->getContextSubObjId() > 0) {
-            $add = "_" . $n->getContextSubObjId();
-        }
+        $suite = new self();
 
-        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+        require_once("./Modules/Blog/test/BlogStandardGUIRequestTest.php");
+        $suite->addTestSuite("BlogStandardGUIRequestTest");
+
+        return $suite;
     }
 }
