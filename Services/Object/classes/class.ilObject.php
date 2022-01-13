@@ -141,6 +141,12 @@ class ilObject
     */
     public $add_dots;
 
+    /**
+     * Legacy compatibility
+     * @var
+     */
+    public $ilias;
+
 
     /**
     * Constructor
