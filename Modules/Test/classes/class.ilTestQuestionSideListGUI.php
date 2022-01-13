@@ -163,7 +163,7 @@ class ilTestQuestionSideListGUI
             $title = ilUtil::prepareFormOutput($row['title']);
 
             if (strlen($row['description'])) {
-                $description = " title=\"{$row['description']}\" ";
+                $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";
             } else {
                 $description = "";
             }
