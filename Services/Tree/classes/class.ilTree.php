@@ -754,7 +754,7 @@ class ilTree
                 ));
             }
         }
-        $this->getTreeImplementation()->deleteTree($a_node['child']);
+        $this->getTreeImplementation()->deleteTree((int) $a_node['child']);
         $this->resetInTreeCache();
     }
 
