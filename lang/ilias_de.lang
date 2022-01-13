@@ -16637,5 +16637,5 @@ forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
 prg#:#prgr_new#:#Create Study Programme Link###03 11 2021 new variable
 prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###03 11 2021 new variable
 common#:#actions_for#:#Aktionen für %s
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.

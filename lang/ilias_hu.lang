@@ -16622,6 +16622,6 @@ ui#:#datetime_required#:#Idő/Dátum kötelező
 ui#:#duration_end_must_not_be_earlier_than_start#:#A kezdő időpont nem lehet későbbi, mint a záró.
 forum#:#sticky_threads_sorting#:#Ragadós témák rendezése
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
