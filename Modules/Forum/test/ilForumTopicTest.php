@@ -5,6 +5,7 @@
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use \PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 class ilForumTopicTest extends TestCase
 {
@@ -46,12 +47,8 @@ class ilForumTopicTest extends TestCase
                       ->with(ilDBConstants::FETCHMODE_OBJECT)
                       ->willReturn($valueAsObject);
 
-        $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            '
-                SELECT frm_threads.*, top_frm_fk frm_obj_id
-                FROM frm_threads
-                INNER JOIN frm_data ON top_pk = thr_top_fk
-                WHERE thr_pk = %s',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer'],
             [$id]
         )->willReturn($mockStatement);
@@ -171,16 +168,8 @@ class ilForumTopicTest extends TestCase
         $instance->setLastPostString('hej');
         $instance->setAverageRating(27);
 
-        $this->mockDatabase->expects(self::once())->method('manipulateF')->with(
-            '
-                UPDATE frm_threads
-                SET thr_top_fk = %s,
-                    thr_subject = %s,
-                    thr_update = %s,
-                    thr_num_posts = %s,
-                    thr_last_post = %s,
-                    avg_rating = %s
-                WHERE thr_pk = %s',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('manipulateF'),
             ['integer', 'text', 'timestamp', 'integer', 'text', 'text', 'integer'],
             [
                 789,
@@ -191,7 +180,7 @@ class ilForumTopicTest extends TestCase
                 '27',
                 8,
             ]
-        );
+        )->willReturn(0);
         $this->assertTrue($instance->update());
     }
 
@@ -251,12 +240,8 @@ class ilForumTopicTest extends TestCase
     {
         $id = 789;
         $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            '
-            SELECT COUNT(*) cnt
-            FROM frm_posts
-            INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
-            WHERE pos_thr_fk = %s AND parent_pos != 0 ',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer'],
             [$id]
         )->willReturn($mockStatement);
@@ -271,12 +256,8 @@ class ilForumTopicTest extends TestCase
     {
         $id = 789;
         $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            '
-            SELECT COUNT(*) cnt
-            FROM frm_posts
-            INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
-            WHERE pos_thr_fk = %s AND parent_pos != 0 ',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer'],
             [$id]
         )->willReturn($mockStatement);
@@ -293,14 +274,8 @@ class ilForumTopicTest extends TestCase
         $userId = 354;
         $this->mockUser->expects(self::once())->method('getId')->willReturn($userId);
         $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            '
-            SELECT COUNT(*) cnt
-            FROM frm_posts
-            INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
-            WHERE (pos_status = %s
-                 OR (pos_status = %s AND pos_display_user_id = %s))
-            AND pos_thr_fk = %s AND parent_pos != 0 ',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer', 'integer', 'integer', 'integer'],
             ['1', '0', $userId, $id]
         )->willReturn($mockStatement);
@@ -317,14 +292,8 @@ class ilForumTopicTest extends TestCase
         $userId = 354;
         $this->mockUser->expects(self::once())->method('getId')->willReturn($userId);
         $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mockDatabase->expects(self::once())->method('queryF')->with(
-            '
-            SELECT COUNT(*) cnt
-            FROM frm_posts
-            INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
-            WHERE (pos_status = %s
-                 OR (pos_status = %s AND pos_display_user_id = %s))
-            AND pos_thr_fk = %s AND parent_pos != 0 ',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('queryF'),
             ['integer', 'integer', 'integer', 'integer'],
             ['1', '0', $userId, $id]
         )->willReturn($mockStatement);
@@ -417,17 +386,11 @@ class ilForumTopicTest extends TestCase
         $mockStatement = $this->getMockBuilder(\ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->mockDatabase->expects(self::once())->method('nextId')->with('frm_notification')->willReturn($nextId);
         $this->mockDatabase->expects(self::once())->method('queryF')->willReturn($mockStatement);
-        $this->mockDatabase->expects(self::once())->method('manipulateF')->with(
-            '
-                INSERT INTO frm_notification
-                (    notification_id,
-                    user_id,
-                    thread_id
-                )
-                VALUES(%s, %s, %s)',
+        $this->withIgnoredQuery(
+            $this->mockDatabase->expects(self::once())->method('manipulateF'),
             ['integer', 'integer', 'integer'],
             [$nextId, $userId, $id]
-        );
+        )->willReturn(0);
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn(['cnt' => 0]);
 
         $instance = new \ilForumTopic();
@@ -546,5 +509,12 @@ class ilForumTopicTest extends TestCase
 
         $DIC['ilDB'] = $this->mockDatabase;
         $DIC['ilUser'] = $this->mockUser;
+    }
+
+    private function withIgnoredQuery(InvocationMocker $mock, ...$expected) : InvocationMocker
+    {
+        return $mock->willReturnCallback(function ($ignored, ...$actual) use ($expected) {
+            $this->assertEquals($expected, $actual);
+        });
     }
 }
