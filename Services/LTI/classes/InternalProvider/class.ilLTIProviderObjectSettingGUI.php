@@ -89,6 +89,10 @@ class ilLTIProviderObjectSettingGUI
      */
     public function setCustomRolesForSelection($a_roles)
     {
+        if (empty($a_roles)) {
+            $this->checkLocalRole();
+            $a_roles = $GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->ref_id);
+        }
         $this->custom_roles = $a_roles;
     }
     
@@ -293,5 +297,44 @@ class ilLTIProviderObjectSettingGUI
             $options[$role_id] = $title;
         }
         return $options;
+    }
+    
+    /**
+     * check for local roles for lti objects which are not grp or crs
+     */
+    protected function checkLocalRole()
+    {
+        global $DIC;
+        $a_global_role = ilObject::_getIdsForTitle("il_lti_global_role", "role", false);
+        if (is_array($a_global_role) && !empty($a_global_role)) {
+            $rbacreview = $DIC['rbacreview'];
+            if (count($rbacreview->getRolesOfObject($this->ref_id, false)) == 0) {
+                $rbacadmin = $DIC['rbacadmin'];
+                $type = ilObject::_lookupType($this->ref_id, true);
+                $role = new ilObjRole();
+                $role->setTitle("il_lti_learner");
+                $role->setDescription("LTI Learner of " . $type . " obj_no." . ilObject::_lookupObjectId($this->ref_id));
+                $role->create();
+                $rbacadmin->assignRoleToFolder($role->getId(), $this->ref_id, 'y');
+                $rbacadmin->grantPermission($role->getId(), ilRbacReview::_getOperationIdsByName(array('visible','read')), $this->ref_id);
+                // $rbacadmin->setRolePermission($role->getId(), ilObject::_lookupType($this->ref_id, true), [2,3], $this->ref_id);
+                if ($type == "sahs" || $type == "lm" || $type == "svy" || $type == "tst") {
+                    $role = new ilObjRole();
+                    $role->setTitle("il_lti_instructor");
+                    $role->setDescription("LTI Instructor of " . $type . " obj_no." . ilObject::_lookupObjectId($this->ref_id));
+                    $role->create();
+                    $rbacadmin->assignRoleToFolder($role->getId(), $this->ref_id, 'y');
+                    $ops = ilRbacReview::_getOperationIdsByName(array('visible','read','read_learning_progress'));
+                    if ($type == "svy") {
+                        $ops[] = ilRbacReview::_getOperationIdsByName(array('read_results'))[0];
+                    }
+                    if ($type == "tst") {
+                        $ops[] = ilRbacReview::_getOperationIdsByName(array('tst_results'))[0];
+                        $ops[] = ilRbacReview::_getOperationIdsByName(array('tst_statistics'))[0];
+                    }
+                    $rbacadmin->grantPermission($role->getId(), $ops, $this->ref_id);
+                }
+            }
+        }
     }
 }
