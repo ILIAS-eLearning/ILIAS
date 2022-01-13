@@ -1,7 +1,7 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "tfamula(58959)",
-    "second_maintainer": "akill(149)",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
     "implicit_maintainers": [],
     "coordinator": [
         ""
