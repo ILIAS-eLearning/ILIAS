@@ -13,12 +13,12 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
  */
 class ilCourseMeritBadge implements ilBadgeType
 {
-    public function getId()
+    public function getId() : string
     {
         return "merit";
     }
     
-    public function getCaption()
+    public function getCaption() : string
     {
         global $DIC;
 
@@ -26,17 +26,17 @@ class ilCourseMeritBadge implements ilBadgeType
         return $lng->txt("badge_crs_merit");
     }
     
-    public function isSingleton()
+    public function isSingleton() : bool
     {
         return true;
     }
     
-    public function getValidObjectTypes()
+    public function getValidObjectTypes() : array
     {
         return array("crs", "grp");
     }
     
-    public function getConfigGUIInstance()
+    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
     {
         // no config
     }

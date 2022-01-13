@@ -26,7 +26,7 @@ class ilContainerSkills
 {
     protected ilDBInterface $db;
     protected array $skills = [];
-    protected int $id;
+    protected int $id = 0;
 
     public function __construct(int $a_obj_id)
     {

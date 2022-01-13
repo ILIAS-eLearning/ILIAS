@@ -33,8 +33,8 @@ class ilSkillResources implements ilSkillUsageInfo
 {
     protected ilDBInterface $db;
     protected ilTree $tree;
-    protected int $base_skill_id;
-    protected int $tref_id;
+    protected int $base_skill_id = 0;
+    protected int $tref_id = 0;
     
     // The resources array has the following keys (int)
     // first dimension is "level_id" (int): the skill level id

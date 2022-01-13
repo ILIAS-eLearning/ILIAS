@@ -113,9 +113,9 @@ class ilNotificationConfig
      * in $parameters. The language var is loaded from the language module
      * given as third parameter.
      * Placeholders of type ##name## are deprecated
-     * @param type $name
-     * @param type $parameters
-     * @param type $language_module
+     * @param string $name
+     * @param array $parameters
+     * @param string $language_module
      */
     public function setTitleVar($name, $parameters = array(), $language_module = 'notification')
     {

@@ -26,8 +26,8 @@ class ilContainerMemberSkills
 {
     protected ilDBInterface $db;
     protected array $skills = [];
-    protected int $obj_id;
-    protected int $user_id;
+    protected int $obj_id = 0;
+    protected int $user_id = 0;
     protected array $skill_levels = [];
     protected bool $published = false;
 

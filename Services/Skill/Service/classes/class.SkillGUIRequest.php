@@ -32,8 +32,8 @@ class SkillGUIRequest
 {
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
-    protected ?array $passed_query_params;
-    protected ?array $passed_post_data;
+    protected ?array $passed_query_params = null;
+    protected ?array $passed_post_data = null;
 
     /**
      * Query params and post data parameters are used for testing. If none of these is

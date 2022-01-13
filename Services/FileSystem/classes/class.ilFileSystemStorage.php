@@ -82,6 +82,7 @@ abstract class ilFileSystemStorage
      */
     public static function _createPathFromId($a_container_id, $a_name)
     {
+        $path_string = "";
         $path = array();
         $found = false;
         $num = $a_container_id;

@@ -1,28 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Blog Exercise
- *
- * @author <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilBlogExercise
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected int $node_id;
+    protected ilTree $tree;
 
-    protected $node_id; // [int]
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    public function __construct($a_node_id)
-    {
+    public function __construct(
+        int $a_node_id
+    ) {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -30,10 +33,7 @@ class ilBlogExercise
         $this->node_id = $a_node_id;
     }
 
-    /**
-     * @return array
-     */
-    public function getAssignmentsOfBlog()
+    public function getAssignmentsOfBlog() : array
     {
         $user = $this->user;
         $node_id = $this->node_id;

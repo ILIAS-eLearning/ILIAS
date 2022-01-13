@@ -151,7 +151,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $ctrl = $this->ctrl;
 
         $ilTabs->setBackTarget(
-            $lng->txt("obj_skmg"),
+            $lng->txt("back"),
             $ctrl->getLinkTarget($this, "listSkills")
         );
 

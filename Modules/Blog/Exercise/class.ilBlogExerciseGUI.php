@@ -1,41 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Blog\StandardGUIRequest;
 
 /**
  * Class ilBlogExerciseGUI
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilBlogExerciseGUI:
  */
 class ilBlogExerciseGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $node_id; // [int]
-    protected $ass_id; // [int]
-    protected $file; // [string]
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected StandardGUIRequest $blog_request;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected int $node_id;
+    protected int $ass_id;
+    protected string $file;
+    protected \ILIAS\DI\UIServices $ui;
     
-    public function __construct($a_node_id)
+    public function __construct(int $a_node_id)
     {
         global $DIC;
 
@@ -43,12 +39,17 @@ class ilBlogExerciseGUI
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         $this->node_id = $a_node_id;
-        $this->ass_id = (int) ($_GET["ass"] ?? 0);
-        $this->file = trim(ilUtil::stripSlashes($_GET["file"] ?? ""));
+        $this->blog_request = $DIC->blog()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+
+        $this->ass_id = $this->blog_request->getAssId();
+        $this->file = $this->blog_request->getAssFile();
         $this->ui = $DIC->ui();
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -64,12 +65,11 @@ class ilBlogExerciseGUI
                 $this->$cmd();
                 break;
         }
-        
-        return true;
     }
     
-    public static function checkExercise($a_node_id)
-    {
+    public static function checkExercise(
+        int $a_node_id
+    ) : string {
         $be = new ilBlogExercise($a_node_id);
 
         $info = [];
@@ -86,8 +86,9 @@ class ilBlogExerciseGUI
         return "";
     }
 
-    protected static function getExerciseInfo(int $a_assignment_id) : string
-    {
+    protected static function getExerciseInfo(
+        int $a_assignment_id
+    ) : string {
         global $DIC;
 
         $ui = $DIC->ui();
@@ -195,7 +196,7 @@ class ilBlogExerciseGUI
         return $ui->renderer()->render($elements);
     }
     
-    protected function downloadExcAssFile()
+    protected function downloadExcAssFile() : void
     {
         if ($this->file) {
             $ass = new ilExAssignment($this->ass_id);
@@ -210,7 +211,7 @@ class ilBlogExerciseGUI
         }
     }
     
-    protected function downloadExcSubFile()
+    protected function downloadExcSubFile() : void
     {
         $ilUser = $this->user;
                 
@@ -231,10 +232,7 @@ class ilBlogExerciseGUI
         }
     }
         
-    /**
-     * Finalize and submit blog to exercise
-     */
-    protected function finalize()
+    protected function finalize() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -248,12 +246,11 @@ class ilBlogExerciseGUI
 
     /**
      * Get submit link
-     *
-     * @param int $ass_id
-     * @return object
+     * @throws ilCtrlException
      */
-    public function getSubmitButton(int $ass_id)
-    {
+    public function getSubmitButton(
+        int $ass_id
+    ) : ?\ILIAS\UI\Component\Button\Primary {
         $ilCtrl = $this->ctrl;
         $ui = $this->ui;
         $lng = $this->lng;
@@ -270,13 +267,12 @@ class ilBlogExerciseGUI
     }
 
     /**
-     * Get download button
-     *
-     * @param
-     * @return
+     * @throws ilCtrlException
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getDownloadSubmissionButton(int $ass_id)
-    {
+    public function getDownloadSubmissionButton(
+        int $ass_id
+    ) : ?\ILIAS\UI\Component\Button\Standard {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ui = $this->ui;
@@ -297,12 +293,7 @@ class ilBlogExerciseGUI
     }
 
 
-    /**
-     * Get action buttons
-     *
-     * @return array
-     */
-    public function getActionButtons()
+    public function getActionButtons() : array
     {
         $be = new ilBlogExercise($this->node_id);
 

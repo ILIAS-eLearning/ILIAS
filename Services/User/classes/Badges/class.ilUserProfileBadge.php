@@ -14,12 +14,12 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeAuto.php";
  */
 class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 {
-    public function getId()
+    public function getId() : string
     {
         return "profile";
     }
     
-    public function getCaption()
+    public function getCaption() : string
     {
         global $DIC;
 
@@ -27,23 +27,23 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         return $lng->txt("badge_user_profile");
     }
     
-    public function isSingleton()
+    public function isSingleton() : bool
     {
         return false;
     }
     
-    public function getValidObjectTypes()
+    public function getValidObjectTypes() : array
     {
         return array("bdga");
     }
     
-    public function getConfigGUIInstance()
+    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
     {
         include_once "Services/User/classes/Badges/class.ilUserProfileBadgeGUI.php";
         return new ilUserProfileBadgeGUI();
     }
     
-    public function evaluate($a_user_id, array $a_params, array $a_config)
+    public function evaluate(int $a_user_id, array $a_params, array $a_config) : bool
     {
         global $DIC;
 

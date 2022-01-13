@@ -309,6 +309,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
     protected function getSkillManagementLink() : string
     {
+        $this->ctrl->clearParametersByClass("ilobjskillmanagementgui");
         $this->ctrl->setParameterByClass(
             "ilobjskillmanagementgui",
             "ref_id",
@@ -365,7 +366,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         }
 
         // section
-        $section1 = $f->input()->field()->section($fields, $lng->txt("skmg_comp_tree"));
+        $section1 = $f->input()->field()->section($fields, $lng->txt("skmg_add_skill_tree"));
 
         if ($edit) {
             $form_action = $ctrl->getLinkTarget($this, "update");

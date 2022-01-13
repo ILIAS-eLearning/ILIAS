@@ -33,7 +33,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
     protected ilLanguage $lng;
     protected ilHelpGUI $help;
 
-    protected int $tref_id;
+    protected int $tref_id = 0;
 
     public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0, int $a_tref_id = 0)
     {

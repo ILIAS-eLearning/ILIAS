@@ -36,7 +36,7 @@ class ilSkillTreeNodeGUI
     protected ilTree $tree;
     protected ilPropertyFormGUI $form;
     protected object $parentgui;
-    public ?object $node_object;
+    public ?object $node_object = null;
     protected int $tref_id = 0;
     public bool $in_use = false;
     public bool $use_checked = false;
@@ -44,7 +44,7 @@ class ilSkillTreeNodeGUI
     protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
     protected SkillTreeAccess $tree_access_manager;
     protected ilBasicSkillTreeRepository $tree_repo;
-    protected int $skill_tree_id;
+    protected int $skill_tree_id = 0;
     protected ilTabsGUI $tabs;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
@@ -282,6 +282,7 @@ class ilSkillTreeNodeGUI
             $op = new ilRadioOption($op, $k, ilSkillTreeNode::getStatusInfo($k));
             $radg->addOption($op);
         }
+        $radg->setValue((string) ilSkillTreeNode::STATUS_PUBLISH);
         $a_form->addItem($radg);
     }
 

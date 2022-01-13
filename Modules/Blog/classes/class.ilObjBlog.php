@@ -1,61 +1,64 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjBlog
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjBlog extends ilObject2
 {
+    public const NAV_MODE_LIST = 1;
+    public const NAV_MODE_MONTH = 2;
+    public const ABSTRACT_DEFAULT_SHORTEN_LENGTH = 500;
+    public const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
+    public const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
+    public const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_id = 0, $a_reference = true)
-    {
+    protected int $nav_mode_list_months_with_post = 0;
+    protected bool $notes;
+    protected string $bg_color;
+    protected string $font_color;
+    protected string $img;
+    protected string $ppic;
+    protected bool $rss;
+    protected bool $approval;
+    protected bool $style;
+    protected bool $abstract_shorten = false;
+    protected int $abstract_shorten_length = self::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
+    protected bool $abstract_image = false;
+    protected int $abstract_image_width = self::ABSTRACT_DEFAULT_IMAGE_WIDTH;
+    protected int $abstract_image_height = self::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
+    protected bool $keywords = true;
+    protected int $nav_mode = self::NAV_MODE_LIST;
+    protected int $nav_mode_list_postings = self::NAV_MODE_LIST_DEFAULT_POSTINGS;
+    protected ?int $nav_mode_list_months;
+    protected int $overview_postings = 5;
+    protected bool $authors = true;
+    protected array $order = [];
+
+    public function __construct(
+        int $a_id = 0,
+        bool $a_reference = true
+    ) {
         global $DIC;
 
         parent::__construct($a_id, $a_reference);
         $this->rbacreview = $DIC->rbac()->review();
     }
 
-    protected $notes; // [bool]
-    protected $bg_color; // [string]
-    protected $font_color; // [string]
-    protected $img; // [string]
-    protected $ppic; // [string]
-    protected $rss; // [bool]
-    protected $approval; // [bool]
-    protected $style; // [bool]
-    protected $abstract_shorten = false; // [bool]
-    protected $abstract_shorten_length = self::ABSTRACT_DEFAULT_SHORTEN_LENGTH; // [int]
-    protected $abstract_image = false; // [bool]
-    protected $abstract_image_width = self::ABSTRACT_DEFAULT_IMAGE_WIDTH; // [int]
-    protected $abstract_image_height = self::ABSTRACT_DEFAULT_IMAGE_HEIGHT; // [int]
-    protected $keywords = true; // [bool]
-    protected $nav_mode = self::NAV_MODE_LIST; // [int]
-    protected $nav_mode_list_postings = self::NAV_MODE_LIST_DEFAULT_POSTINGS; // [int]
-    protected $nav_mode_list_months; // [int]
-    protected $overview_postings = 5; // [int]
-    protected $authors = true; // [bool]
-    protected $order;
-
-    /**
-     * @var int
-     */
-    protected $nav_mode_list_months_with_post = 0;
-    
-    const NAV_MODE_LIST = 1;
-    const NAV_MODE_MONTH = 2;
-    
-    const ABSTRACT_DEFAULT_SHORTEN_LENGTH = 500;
-    const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
-    const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
-    const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
-
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = "blog";
     }
@@ -68,9 +71,9 @@ class ilObjBlog extends ilObject2
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
         $row = $ilDB->fetchAssoc($set);
         $this->setProfilePicture((bool) $row["ppic"]);
-        $this->setBackgroundColor($row["bg_color"]);
-        $this->setFontColor($row["font_color"]);
-        $this->setImage($row["img"]);
+        $this->setBackgroundColor((string) $row["bg_color"]);
+        $this->setFontColor((string) $row["font_color"]);
+        $this->setImage((string) $row["img"]);
         $this->setRSS($row["rss_active"]);
         $this->setApproval($row["approval"]);
         $this->setAbstractShorten($row["abs_shorten"]);
@@ -81,7 +84,7 @@ class ilObjBlog extends ilObject2
         $this->setKeywords($row["keywords"]);
         $this->setAuthors($row["authors"]);
         $this->setNavMode($row["nav_mode"]);
-        $this->setNavModeListMonthsWithPostings($row["nav_list_mon_with_post"]);
+        $this->setNavModeListMonthsWithPostings((int) $row["nav_list_mon_with_post"]);
         $this->setNavModeListMonths($row["nav_list_mon"]);
         $this->setOverviewPostings($row["ov_post"]);
         if (trim($row["nav_order"])) {
@@ -205,52 +208,27 @@ class ilObjBlog extends ilObject2
         }
     }
     
-    /**
-     * Get notes status
-     *
-     * @return bool
-     */
-    public function getNotesStatus()
+    public function getNotesStatus() : bool
     {
         return $this->notes;
     }
 
-    /**
-     * Toggle notes status
-     *
-     * @param bool $a_status
-     */
-    public function setNotesStatus($a_status)
+    public function setNotesStatus(bool $a_status) : void
     {
-        $this->notes = (bool) $a_status;
+        $this->notes = $a_status;
     }
     
-    /**
-     * Get profile picture status
-     *
-     * @return bool
-     */
-    public function hasProfilePicture()
+    public function hasProfilePicture() : bool
     {
         return $this->ppic;
     }
 
-    /**
-     * Toggle profile picture status
-     *
-     * @param bool $a_status
-     */
-    public function setProfilePicture($a_status)
+    public function setProfilePicture(bool $a_status) : void
     {
-        $this->ppic = (bool) $a_status;
+        $this->ppic = $a_status;
     }
     
-    /**
-     * Get background color
-     *
-     * @return string
-     */
-    public function getBackgroundColor()
+    public function getBackgroundColor() : string
     {
         if (!$this->bg_color) {
             $this->bg_color = "ffffff";
@@ -258,22 +236,12 @@ class ilObjBlog extends ilObject2
         return $this->bg_color;
     }
 
-    /**
-     * Set background color
-     *
-     * @param string $a_value
-     */
-    public function setBackgroundColor($a_value)
+    public function setBackgroundColor(string $a_value) : void
     {
-        $this->bg_color = (string) $a_value;
+        $this->bg_color = $a_value;
     }
     
-    /**
-     * Get font color
-     *
-     * @return string
-     */
-    public function getFontColor()
+    public function getFontColor() : string
     {
         if (!$this->font_color) {
             $this->font_color = "505050";
@@ -281,43 +249,24 @@ class ilObjBlog extends ilObject2
         return $this->font_color;
     }
 
-    /**
-     * Set font color
-     *
-     * @param string $a_value
-     */
-    public function setFontColor($a_value)
+    public function setFontColor(string $a_value) : void
     {
-        $this->font_color = (string) $a_value;
+        $this->font_color = $a_value;
     }
     
-    /**
-     * Get banner image
-     *
-     * @return string
-     */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->img;
     }
 
-    /**
-     * Set banner image
-     *
-     * @param string $a_value
-     */
-    public function setImage($a_value)
+    public function setImage(string $a_value) : void
     {
-        $this->img = (string) $a_value;
+        $this->img = $a_value;
     }
     
-    /**
-     * Get banner image incl. path
-     *
-     * @param bool $a_as_thumb
-     */
-    public function getImageFullPath($a_as_thumb = false) : string
-    {
+    public function getImageFullPath(
+        bool $a_as_thumb = false
+    ) : string {
         if ($this->img) {
             $path = $this->initStorage($this->id);
             if (!$a_as_thumb) {
@@ -329,10 +278,7 @@ class ilObjBlog extends ilObject2
         return "";
     }
     
-    /**
-     * remove existing file
-     */
-    public function deleteImage()
+    public function deleteImage() : void
     {
         if ($this->id) {
             $storage = new ilFSStorageBlog($this->id);
@@ -346,13 +292,11 @@ class ilObjBlog extends ilObject2
 
     /**
      * Init file system storage
-     *
-     * @param int $a_id
-     * @param string $a_subdir
-     * @return string
      */
-    public static function initStorage(int $a_id, string $a_subdir = null) : string
-    {
+    public static function initStorage(
+        int $a_id,
+        string $a_subdir = null
+    ) : string {
         $storage = new ilFSStorageBlog($a_id);
         $storage->create();
         
@@ -371,11 +315,8 @@ class ilObjBlog extends ilObject2
     
     /**
      * Upload new image file
-     *
-     * @param array $a_upload
-     * @return bool
      */
-    public function uploadImage(array $a_upload)
+    public function uploadImage(array $a_upload) : bool
     {
         if (!$this->id) {
             return false;
@@ -418,201 +359,165 @@ class ilObjBlog extends ilObject2
         return false;
     }
         
-    /**
-     * Get RSS status
-     *
-     * @return bool
-     */
-    public function hasRSS()
+    public function hasRSS() : bool
     {
         return $this->rss;
     }
 
-    /**
-     * Toggle RSS status
-     *
-     * @param bool $a_status
-     */
-    public function setRSS($a_status)
+    public function setRSS(bool $a_status) : void
     {
-        $this->rss = (bool) $a_status;
+        $this->rss = $a_status;
     }
     
-    /**
-     * Get approval status
-     *
-     * @return bool
-     */
-    public function hasApproval()
+    public function hasApproval() : bool
     {
-        return (bool) $this->approval;
+        return $this->approval;
     }
 
-    /**
-     * Toggle approval status
-     *
-     * @param bool $a_status
-     */
-    public function setApproval($a_status)
+    public function setApproval(bool $a_status) : void
     {
-        $this->approval = (bool) $a_status;
+        $this->approval = $a_status;
     }
     
-    /**
-     * Get style sheet id
-     *
-     * @return bool
-     */
-    public function getStyleSheetId()
+    public function getStyleSheetId() : int
     {
-        return (int) $this->style;
+        return $this->style;
     }
 
-    /**
-     * Set style sheet id
-     *
-     * @param int $a_style
-     */
-    public function setStyleSheetId($a_style)
+    public function setStyleSheetId(int $a_style) : void
     {
-        $this->style = (int) $a_style;
+        $this->style = $a_style;
     }
     
-    public function hasAbstractShorten()
+    public function hasAbstractShorten() : bool
     {
         return $this->abstract_shorten;
     }
     
-    public function setAbstractShorten($a_value)
+    public function setAbstractShorten(bool $a_value) : void
     {
-        $this->abstract_shorten = (bool) $a_value;
+        $this->abstract_shorten = $a_value;
     }
     
-    public function getAbstractShortenLength()
+    public function getAbstractShortenLength() : int
     {
         return $this->abstract_shorten_length;
     }
     
-    public function setAbstractShortenLength($a_value)
+    public function setAbstractShortenLength(int $a_value) : void
     {
-        $this->abstract_shorten_length = (int) $a_value;
+        $this->abstract_shorten_length = $a_value;
     }
             
-    public function hasAbstractImage()
+    public function hasAbstractImage() : bool
     {
         return $this->abstract_image;
     }
     
-    public function setAbstractImage($a_value)
+    public function setAbstractImage(bool $a_value) : void
     {
-        $this->abstract_image = (bool) $a_value;
+        $this->abstract_image = $a_value;
     }
     
-    public function getAbstractImageWidth()
+    public function getAbstractImageWidth() : int
     {
         return $this->abstract_image_width;
     }
     
-    public function setAbstractImageWidth($a_value)
+    public function setAbstractImageWidth(int $a_value) : void
     {
-        $this->abstract_image_width = (int) $a_value;
+        $this->abstract_image_width = $a_value;
     }
     
-    public function getAbstractImageHeight()
+    public function getAbstractImageHeight() : int
     {
         return $this->abstract_image_height;
     }
     
-    public function setAbstractImageHeight($a_value)
+    public function setAbstractImageHeight(int $a_value) : void
     {
-        $this->abstract_image_height = (int) $a_value;
+        $this->abstract_image_height = $a_value;
     }
     
-    public function setKeywords($a_value)
+    public function setKeywords(bool $a_value) : void
     {
-        $this->keywords = (bool) $a_value;
+        $this->keywords = $a_value;
     }
     
-    public function hasKeywords()
+    public function hasKeywords() : bool
     {
         return $this->keywords;
     }
     
-    public function setAuthors($a_value)
+    public function setAuthors(bool $a_value) : void
     {
-        $this->authors = (bool) $a_value;
+        $this->authors = $a_value;
     }
     
-    public function hasAuthors()
+    public function hasAuthors() : bool
     {
         return $this->authors;
     }
     
-    public function setNavMode($a_value)
+    public function setNavMode(int $a_value) : void
     {
-        $a_value = (int) $a_value;
         if (in_array($a_value, array(self::NAV_MODE_LIST, self::NAV_MODE_MONTH))) {
             $this->nav_mode = $a_value;
         }
     }
     
-    public function getNavMode()
+    public function getNavMode() : int
     {
         return $this->nav_mode;
     }
     
-    public function setNavModeListMonthsWithPostings($a_value)
+    public function setNavModeListMonthsWithPostings(int $a_value) : void
     {
-        $this->nav_mode_list_months_with_post = (int) $a_value;
+        $this->nav_mode_list_months_with_post = $a_value;
     }
     
-    public function getNavModeListMonthsWithPostings()
+    public function getNavModeListMonthsWithPostings() : int
     {
         return $this->nav_mode_list_months_with_post;
     }
     
-    public function setNavModeListMonths($a_value)
+    public function setNavModeListMonths(?int $a_value) : void
     {
-        if (!$a_value) {
-            $a_value = null;
-        } else {
-            $a_value = (int) $a_value;
-        }
         $this->nav_mode_list_months = $a_value;
     }
     
-    public function getNavModeListMonths()
+    public function getNavModeListMonths() : ?int
     {
         return $this->nav_mode_list_months;
     }
     
-    public function setOverviewPostings($a_value)
+    public function setOverviewPostings(?int $a_value) : void
     {
-        if (!$a_value) {
-            $a_value = null;
-        } else {
-            $a_value = (int) $a_value;
-        }
         $this->overview_postings = $a_value;
     }
     
-    public function getOverviewPostings()
+    public function getOverviewPostings() : ?int
     {
         return $this->overview_postings;
     }
     
-    public function setOrder(array $a_values = null)
+    public function setOrder(array $a_values = null) : void
     {
         $this->order = $a_values;
     }
     
-    public function getOrder()
+    public function getOrder() : array
     {
-        return (array) $this->order;
+        return $this->order;
     }
         
-    public static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)
-    {
+    public static function sendNotification(
+        string $a_action,
+        bool $a_in_wsp,
+        int $a_blog_node_id,
+        int $a_posting_id,
+        ?string $a_comment = null
+    ) : void {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -705,10 +610,8 @@ class ilObjBlog extends ilObject2
             
     /**
      * Deliver blog as rss feed
-     *
-     * @param int $a_wsp_id
      */
-    public static function deliverRSS($a_wsp_id)
+    public static function deliverRSS(int $a_wsp_id) : void
     {
         global $DIC;
 
@@ -800,7 +703,7 @@ class ilObjBlog extends ilObject2
         return array();
     }
     
-    public function getLocalContributorRole($a_node_id) : int
+    public function getLocalContributorRole(int $a_node_id) : int
     {
         $rbacreview = $this->rbacreview;
         
@@ -812,7 +715,7 @@ class ilObjBlog extends ilObject2
         return 0;
     }
     
-    public function getLocalEditorRole($a_node_id) : int
+    public function getLocalEditorRole(int $a_node_id) : int
     {
         $rbacreview = $this->rbacreview;
         
@@ -824,7 +727,7 @@ class ilObjBlog extends ilObject2
         return 0;
     }
     
-    public function getAllLocalRoles($a_node_id)
+    public function getAllLocalRoles(int $a_node_id) : array
     {
         $rbacreview = $this->rbacreview;
         
@@ -837,7 +740,7 @@ class ilObjBlog extends ilObject2
         return $res;
     }
     
-    public function getRolesWithContributeOrRedact($a_node_id)
+    public function getRolesWithContributeOrRedact(int $a_node_id) : array
     {
         $rbacreview = $this->rbacreview;
         
@@ -861,7 +764,7 @@ class ilObjBlog extends ilObject2
         return $res;
     }
     
-    protected function handleQuotaUpdate()
+    protected function handleQuotaUpdate() : void
     {
     }
 }

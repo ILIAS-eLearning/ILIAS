@@ -46,19 +46,19 @@ class ilSkillProfileGUI
     protected ?ilSkillProfile $profile = null;
     protected SkillTreeService $tree_service;
     protected SkillTreeAccess $skill_tree_access_manager;
-    protected int $skill_tree_id;
+    protected int $skill_tree_id = 0;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_ref_id;
-    protected int $requested_sprof_id;
-    protected array $requested_profile_ids;
-    protected bool $requested_local_context;
-    protected string $requested_cskill_id;
-    protected int $requested_level_id;
-    protected array $requested_level_ass_ids;
-    protected array $requested_level_order;
-    protected string $requested_user_login;
-    protected array $requested_users;
-    protected array $requested_user_ids;
+    protected int $requested_ref_id = 0;
+    protected int $requested_sprof_id = 0;
+    protected array $requested_profile_ids = [];
+    protected bool $requested_local_context = false;
+    protected string $requested_cskill_id = "";
+    protected int $requested_level_id = 0;
+    protected array $requested_level_ass_ids = [];
+    protected array $requested_level_order = [];
+    protected string $requested_user_login = "";
+    protected array $requested_users = [];
+    protected array $requested_user_ids = [];
     protected bool $local_context = false;
 
     public function __construct(SkillTreeAccess $skill_tree_access_manager, int $skill_tree_id = 0)
@@ -160,7 +160,7 @@ class ilSkillProfileGUI
         $ilHelp->setScreenIdComponent("skmg_prof");
         
         $ilTabs->setBackTarget(
-            $lng->txt("back"),
+            $lng->txt("skmg_skill_profiles"),
             $ilCtrl->getLinkTarget($this, "")
         );
 

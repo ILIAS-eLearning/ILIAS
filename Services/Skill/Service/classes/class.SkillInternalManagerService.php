@@ -32,11 +32,11 @@ class SkillInternalManagerService
     /**
      * @var int ref id of skill management administration node
      */
-    protected int $skmg_ref_id;
+    protected int $skmg_ref_id = 0;
     protected \ilTree $repository_tree;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected \ilRbacSystem $rbac_system;
-    protected int $usr_id;
+    protected int $usr_id = 0;
 
     public function __construct(
         int $skmg_ref_id,

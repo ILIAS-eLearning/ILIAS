@@ -1,24 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Blog Administration Settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilObjBlogAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjBlogAdministrationGUI: ilAdministrationGUI
  */
 class ilObjBlogAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -30,13 +39,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("blog");
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -58,16 +61,9 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTarget(
@@ -87,11 +83,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         }
     }
 
-    
-    /**
-    * Edit settings.
-    */
-    public function editSettings($a_form = null)
+    public function editSettings(?ilPropertyFormGUI $a_form = null) : void
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
@@ -108,13 +100,9 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
-        return true;
     }
 
-    /**
-    * Save settings
-    */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -138,22 +126,14 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    /**
-    * Save settings
-    */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "view");
     }
         
-    /**
-     * Init settings property form
-     *
-     * @access protected
-     */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         

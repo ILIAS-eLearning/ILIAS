@@ -1,80 +1,50 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Blog\StandardGUIRequest;
 
 /**
  * Class ilBlogPosting GUI class
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected StandardGUIRequest $blog_request;
+    protected ilTabsGUI$tabs;
+    protected ilLocatorGUI $locator;
+    protected ilSetting $settings;
+    protected int $node_id;
+    protected ?object $access_handler = null;
+    protected bool $enable_public_notes = false;
+    protected bool $may_contribute = false;
+    protected bool $fetchall = false;
+    protected bool $blpg = false;
+    protected string $term = "";
+    public bool $add_date = false;
 
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var int
-     */
-    protected $node_id;
-    protected $access_handler; // [object]
-
-    /**
-     * @var bool
-     */
-    protected $enable_public_notes;
-
-    /**
-     * @var bool
-     */
-    protected $may_contribute;
-
-    /**
-     * @var bool
-     */
-    protected $fetchall;
-
-    /**
-     * @var int
-     */
-    protected $blpg;
-
-    /**
-     * @var string
-     */
-    protected $term;
-
-    /**
-     * @var bool
-     */
-    public $add_date;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_node
-     * @param object $a_access_handler
-     * @param int $a_id
-     * @param int $a_old_nr
-     * @param bool $a_enable_notes
-     * @param bool $a_may_contribute
-     */
-    public function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_contribute = true, $a_style_sheet_id = 0)
-    {
+    public function __construct(
+        int $a_node_id,
+        object $a_access_handler = null,
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        bool $a_enable_public_notes = true,
+        bool $a_may_contribute = true,
+        int $a_style_sheet_id = 0
+    ) {
         global $DIC;
 
         $this->tabs = $DIC->tabs();
@@ -83,12 +53,16 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->user = $DIC->user();
         $tpl = $DIC["tpl"];
         $lng = $DIC->language();
+        $this->blog_request = $DIC->blog()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $lng->loadLanguageModule("blog");
 
         $this->node_id = $a_node_id;
         $this->access_handler = $a_access_handler;
-        $this->enable_public_notes = (bool) $a_enable_public_notes;
+        $this->enable_public_notes = $a_enable_public_notes;
 
         parent::__construct("blp", $a_id, $a_old_nr);
 
@@ -97,7 +71,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->getBlogPosting()->getPageConfig()->setEditLockSupport(!$this->isInWorkspace());
         
         // #11151
-        $this->may_contribute = (bool) $a_may_contribute;
+        $this->may_contribute = $a_may_contribute;
         $this->setEnableEditing($a_may_contribute);
         
         // content style
@@ -120,14 +94,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         // needed for editor
         $this->setStyleId($a_style_sheet_id);
 
-        $this->blpg = (int) $_GET["blpg"];
-        $this->fetchall = (bool) $_GET["fetchall"];
-        $this->term = ilUtil::stripSlashes($_GET["term"]);
+        $this->blpg = $this->blog_request->getBlogPage();
+        $this->fetchall = $this->blog_request->getFetchAll();
+        $this->term = $this->blog_request->getTerm();
     }
 
-    /**
-    * execute command
-    */
     public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
@@ -170,33 +141,19 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
     }
 
-    /**
-     * Set blog posting
-     *
-     * @param ilBlogPosting $a_posting
-     */
-    public function setBlogPosting(ilBlogPosting $a_posting)
+    public function setBlogPosting(ilBlogPosting $a_posting) : void
     {
         $this->setPageObject($a_posting);
     }
 
-    /**
-     * Get blog posting
-     *
-     * @returnilBlogPosting
-     */
-    public function getBlogPosting()
+    public function getBlogPosting() : ilBlogPosting
     {
-        return $this->getPageObject();
+        /** @var ilBlogPosting $bp */
+        $bp = $this->getPageObject();
+        return $bp;
     }
 
-    /**
-     * Centralized access management
-     *
-     * @param string $a_cmd
-     * @return bool
-     */
-    protected function checkAccess($a_cmd)
+    protected function checkAccess(string $a_cmd) : bool
     {
         if ($a_cmd == "contribute") {
             return $this->may_contribute;
@@ -204,11 +161,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return $this->access_handler->checkAccess($a_cmd, "", $this->node_id);
     }
 
-    /**
-     * Preview blog posting
-     */
-    public function preview($a_mode = null) : string
-    {
+    public function preview(
+        string $a_mode = null
+    ) : string {
         global $DIC;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -272,31 +227,24 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     
     /**
      * Needed for portfolio/blog handling
-     *
-     * @return string
      */
-    public function previewEmbedded()
+    public function previewEmbedded() : string
     {
         return $this->preview("embedded");
     }
     
     /**
      * Needed for portfolio/blog handling
-     *
-     * @return string
      */
-    public function previewFullscreen()
+    public function previewFullscreen() : string
     {
         $this->add_date = true;
         return $this->preview("fullscreen");
     }
 
-    /**
-     * Embedded posting in portfolio
-     * @return string
-     */
-    public function showPage($a_title = "") : string
-    {
+    public function showPage(
+        string $a_title = ""
+    ) : string {
         $this->setTemplateOutput(false);
 
         if (!$this->getAbstractOnly()) {
@@ -313,10 +261,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     
     /**
      * Is current page part of personal workspace blog?
-     *
-     * @return bool
      */
-    protected function isInWorkspace()
+    protected function isInWorkspace() : bool
     {
         $class = '';
         if (is_object($this->access_handler)) {
@@ -328,11 +274,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Finalizing output processing
-     * @param string $a_output
-     * @return string
      */
-    public function postOutputProcessing(string $a_output) : string
-    {
+    public function postOutputProcessing(
+        string $a_output
+    ) : string {
         // #8626/#9370
         if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline")
             && !$this->getAbstractOnly() && $this->add_date) {
@@ -369,10 +314,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return $a_output;
     }
 
-    /**
-     * Get tabs
-     * @param string $a_activate
-     */
     public function getTabs(string $a_activate = "") : void
     {
         $ilCtrl = $this->ctrl;
@@ -382,10 +323,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         parent::getTabs($a_activate);
     }
 
-    /**
-     * Delete blog posting confirmation screen
-     */
-    public function deleteBlogPostingConfirmationScreen()
+    public function deleteBlogPostingConfirmationScreen() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -425,20 +363,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
     }
 
-    /**
-     * Cancel blog posting deletion
-     */
-    public function cancelBlogPostingDeletion()
+    public function cancelBlogPostingDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "preview");
     }
     
-    /**
-    * Delete the blog posting
-    */
-    public function confirmBlogPostingDeletion()
+    public function confirmBlogPostingDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -459,7 +391,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $ilCtrl->redirectByClass("ilobjbloggui", "render");
     }
     
-    public function editTitle($a_form = null)
+    public function editTitle(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -476,9 +408,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    public function updateTitle()
+    public function updateTitle() : void
     {
-        $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $form = $this->initTitleForm();
@@ -500,7 +431,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->editTitle($form);
     }
     
-    public function initTitleForm()
+    public function initTitleForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -521,7 +452,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return $form;
     }
     
-    public function editDate($a_form = null)
+    public function editDate(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -538,9 +469,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    public function updateDate()
+    public function updateDate() : void
     {
-        $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $form = $this->initDateForm();
@@ -563,7 +493,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->editTitle($form);
     }
     
-    public function initDateForm()
+    public function initDateForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -586,17 +516,18 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return $form;
     }
 
-    /**
-     * Cancel editing
-     */
-    protected function cancelEdit()
+    protected function cancelEdit() : void
     {
         $this->ctrl->redirectByClass("ilObjBlogGUI", "");
     }
 
-    
-    public function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action, $a_note_id)
-    {
+    public function observeNoteAction(
+        int $a_blog_id,
+        int $a_posting_id,
+        string $a_type,
+        string $a_action,
+        int $a_note_id
+    ) : void {
         // #10040 - get note text
         $note = new ilNote($a_note_id);
         $note = $note->getText();
@@ -611,12 +542,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 "activatePage" => $lng->txt("blog_toggle_final"));
     }
     
-    public function deactivatePageToList()
+    public function deactivatePageToList() : void
     {
         $this->deactivatePage(true);
     }
     
-    public function deactivatePage($a_to_list = false) : void
+    public function deactivatePage(bool $a_to_list = false) : void
     {
         if ($this->checkAccess("write") || $this->checkAccess("contribute")) {
             $this->getBlogPosting()->unpublish();
@@ -630,12 +561,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
     }
     
-    public function activatePageToList()
+    public function activatePageToList() : void
     {
         $this->activatePage(true);
     }
     
-    public function activatePage($a_to_list = false) : void
+    public function activatePage(bool $a_to_list = false) : void
     {
         // send notifications
         ilObjBlog::sendNotification("new", $this->isInWorkspace(), $this->node_id, $this->getBlogPosting()->getId());
@@ -654,10 +585,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Diplay the form
-     * @param ilPropertyFormGUI|null $a_form
      */
-    public function editKeywords(ilPropertyFormGUI $a_form = null)
-    {
+    public function editKeywords(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
@@ -680,8 +611,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
         $tpl->setContent($renderer->render($a_form));
     }
-    
-    protected function initKeywordsForm()
+
+    /**
+     * @throws ilCtrlException
+     */
+    protected function initKeywordsForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         global $DIC;
 
@@ -738,7 +672,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return 0;
     }
     
-    public function saveKeywordsForm()
+    public function saveKeywordsForm() : void
     {
         global $DIC;
 
@@ -766,18 +700,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Get first text paragraph of page
-     *
-     * @param int $a_id
-     * @param bool $a_truncate
-     * @param int $a_truncate_length
-     * @param bool $a_include_picture
-     * @param int $a_picture_width
-     * @param int $a_picture_height
-     * @param string $a_export_directory
-     * @return string
      */
-    public static function getSnippet($a_id, $a_truncate = false, $a_truncate_length = 500, $a_truncate_sign = "...", $a_include_picture = false, $a_picture_width = 144, $a_picture_height = 144, $a_export_directory = null)
-    {
+    public static function getSnippet(
+        int $a_id,
+        bool $a_truncate = false,
+        int $a_truncate_length = 500,
+        string $a_truncate_sign = "...",
+        bool $a_include_picture = false,
+        int $a_picture_width = 144,
+        int $a_picture_height = 144,
+        string $a_export_directory = null
+    ) : string {
         $bpgui = new self(0, null, $a_id);
         
         // scan the full page for media objects
@@ -808,8 +741,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return $page;
     }
     
-    protected function getFirstMediaObjectAsTag($a_width = 144, $a_height = 144, $a_export_directory = null) : string
-    {
+    protected function getFirstMediaObjectAsTag(
+        int $a_width = 144,
+        int $a_height = 144,
+        string $a_export_directory = null
+    ) : string {
         $this->obj->buildDom();
         $mob_ids = $this->obj->collectMediaObjects();
         if ($mob_ids) {
@@ -851,8 +787,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         return "";
     }
     
-    protected static function parseImage($src_width, $src_height, $tgt_width, $tgt_height)
-    {
+    protected static function parseImage(
+        int $src_width,
+        int $src_height,
+        int $tgt_width,
+        int $tgt_height
+    ) : array {
         $ratio_width = $ratio_height = 1;
         if ($src_width > $tgt_width) {
             $ratio_width = $tgt_width / $src_width;
@@ -868,20 +808,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         );
     }
 
-    /**
-     * Get disabled text
-     * @param
-     * @return string
-     */
     public function getDisabledText() : string
     {
         return $this->lng->txt("blog_draft_text");
     }
 
-    /**
-     * @return string
-     */
-    public function getCommentsHTMLExport()
+    public function getCommentsHTMLExport() : string
     {
         return $this->getNotesHTML(
             $this->getBlogPosting(),
@@ -893,9 +825,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         );
     }
 
-    /**
-     * Show edit toolbar
-     */
     protected function showEditToolbar() : void
     {
     }

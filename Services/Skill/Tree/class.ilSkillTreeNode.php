@@ -26,16 +26,16 @@ class ilSkillTreeNode
 {
     protected ilDBInterface $db;
     protected ilSkillTree $skill_tree;
-    protected string $type;
-    protected int $id;
-    protected string $title;
+    protected string $type = "";
+    protected int $id = 0;
+    protected string $title = "";
     protected string $description = "";
     protected bool $self_eval = false;
-    protected int $order_nr;
+    protected int $order_nr = 0;
     protected string $import_id = "";
-    protected string $creation_date;
+    protected string $creation_date = "";
     protected int $status = 0;
-    protected array $data_record;
+    protected array $data_record = [];
 
     public const STATUS_PUBLISH = 0;
     public const STATUS_DRAFT = 1;
@@ -175,7 +175,7 @@ class ilSkillTreeNode
     {
         $ilDB = $this->db;
 
-        if (!isset($this->data_record)) {
+        if (empty($this->data_record)) {
             $query = "SELECT * FROM skl_tree_node WHERE obj_id = " .
                 $ilDB->quote($this->id, "integer");
             $obj_set = $ilDB->query($query);
