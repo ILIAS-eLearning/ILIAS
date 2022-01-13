@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,21 +13,27 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\MediaCast;
+
+use ILIAS\DI\Container;
+
 /**
- * Class ilObjMediaCastSettings
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjMediaCastSettings extends ilObject
+class Service
 {
-    public function __construct(
-        int $a_id = 0,
-        bool $a_call_by_reference = true
-    ) {
-        global $DIC;
+    protected Container $DIC;
 
-        $this->db = $DIC->database();
-        $this->type = "mcts";
-        parent::__construct($a_id, $a_call_by_reference);
+    public function __construct(Container $DIC)
+    {
+        $this->DIC = $DIC;
+    }
+
+    /**
+     * Internal service, do not use in other components
+     */
+    public function internal() : InternalService
+    {
+        return new InternalService($this->DIC);
     }
 }

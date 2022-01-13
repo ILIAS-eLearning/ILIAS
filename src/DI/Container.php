@@ -410,6 +410,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Blog\Service($this);
     }
 
+    public function mediaCast() : \ILIAS\MediaCast\Service
+    {
+        return new \ILIAS\MediaCast\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

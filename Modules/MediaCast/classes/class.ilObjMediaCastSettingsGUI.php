@@ -1,33 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\MediaCast\StandardGUIRequest;
 
 /**
  * Media Cast Settings.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjMediaCastSettingsGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjMediaCastSettingsGUI: ilAdministrationGUI
  */
 class ilObjMediaCastSettingsGUI extends ilObjectGUI
 {
+    protected StandardGUIRequest $mc_request;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    private static $ERROR_MESSAGE;
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
-        $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -35,16 +39,14 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->lng->loadLanguageModule('mcst');
-        $this->initMediaCastSettings();
+        $this->settings = ilMediaCastSettings::_getInstance();
+        $this->mc_request = $DIC->mediaCast()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -52,7 +54,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+            throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
@@ -70,19 +72,11 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -102,32 +96,26 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-    * Edit mediacast settings.
-    */
-    public function editSettings()
+    public function editSettings() : void
     {
         $this->tabs_gui->setTabActive('mcst_edit_settings');
         $this->initFormSettings();
-        return true;
     }
 
-    /**
-    * Save mediacast settings
-    */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
+        $purposeSuffixes = [];
         
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) {
-                $purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($_POST[$purpose])));
+                $purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($this->mc_request->getSettingsPurpose($purpose))));
             }
 
             $this->settings->setPurposeSuffixes($purposeSuffixes);
-            $this->settings->setDefaultAccess($_POST["defaultaccess"]);
-            $this->settings->setMimeTypes(explode(",", $_POST["mimetypes"]));
+            $this->settings->setDefaultAccess($this->mc_request->getDefaultAccess());
+            $this->settings->setMimeTypes(explode(",", $this->mc_request->getMimeTypes()));
 
             $this->settings->save();
 
@@ -137,31 +125,13 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    /**
-    * Save mediacast settings
-    */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
-        
         $ilCtrl->redirect($this, "view");
     }
-    
-    /**
-     * iniitialize settings storage for media cast
-     *
-     */
-    protected function initMediaCastSettings()
-    {
-        $this->settings = ilMediaCastSettings::_getInstance();
-    }
-    
-    /**
-     * Init settings property form
-     *
-     * @access protected
-     */
-    protected function initFormSettings()
+
+    protected function initFormSettings() : void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
