@@ -187,12 +187,11 @@ class StandardPageTest extends ILIAS_UI_TestBase
             <div class="header-inner">
                <div class="il-logo">Logo Stub<div class="il-pagetitle">Title</div></div>MetaBar Stub</div>
          </header>
-         <div class="breadcrumbs"></div>
          <div class="il-system-infos"></div>
          <div class="nav il-maincontrols">MainBar Stub</div>
          <!-- html5 main-tag is not supported in IE / div is needed -->
          <main class="il-layout-page-content">
-            <div>some content</div>
+            <div><div class="breadcrumbs"></div>some content</div>
          </main>
       </div>
       <script>il.Util.addOnLoad(function() {});</script>
@@ -224,12 +223,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
             <div class="header-inner">
                <div class="il-logo">Logo Stub<div class="il-pagetitle">pagetitle</div></div>MetaBar Stub</div>
          </header>
-         <div class="breadcrumbs"></div>
+         
          <div class="il-system-infos"></div>
          <div class="nav il-maincontrols">MainBar Stub</div>
          <!-- html5 main-tag is not supported in IE / div is needed -->
          <main class="il-layout-page-content">
-            <div>some content</div>
+            <div><div class="breadcrumbs"></div>some content</div>
          </main>
       </div>
       <script>il.Util.addOnLoad(function() {});</script>
