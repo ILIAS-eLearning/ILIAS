@@ -253,7 +253,7 @@ class ilMailFormGUI
             $draftId = (int) ilSession::get('draft');
             ilSession::clear('draft');
         } else {
-            $draftId = $this->umail->getNewDraftId($this->user->getId(), $draftFolderId);
+            $draftId = $this->umail->getNewDraftId($draftFolderId);
         }
 
         $this->umail->updateDraft(

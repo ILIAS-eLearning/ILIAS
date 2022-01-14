@@ -400,14 +400,14 @@ class ilMail
         return $row;
     }
 
-    public function getNewDraftId(int $usrId, int $folderId) : int
+    public function getNewDraftId(int $folderId) : int
     {
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
             'mail_id' => ['integer', $nextId],
-            'user_id' => ['integer', $usrId],
+            'user_id' => ['integer', $this->user_id],
             'folder_id' => ['integer', $folderId],
-            'sender_id' => ['integer', $usrId],
+            'sender_id' => ['integer', $this->user_id],
         ]);
 
         return $nextId;
