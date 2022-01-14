@@ -5,6 +5,19 @@ namespace ILIAS\Filesystem\Finder\Comparator;
 
 use InvalidArgumentException;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class NumberComparator
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -39,7 +52,7 @@ class NumberComparator extends BaseComparator
                     break;
 
                 case 'm':
-                    $target *= 1000000;
+                    $target *= 1_000_000;
                     break;
 
                 case 'mi':
@@ -47,7 +60,7 @@ class NumberComparator extends BaseComparator
                     break;
 
                 case 'g':
-                    $target *= 1000000000;
+                    $target *= 1_000_000_000;
                     break;
 
                 case 'gi':

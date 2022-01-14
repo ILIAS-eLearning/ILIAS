@@ -20,9 +20,9 @@ interface MetadataType
     /**
      * The subject is file.
      */
-    const FILE = 'file';
+    public const FILE = 'file';
     /**
      * The subject is a directory.
      */
-    const DIRECTORY = 'dir';
+    public const DIRECTORY = 'dir';
 }
