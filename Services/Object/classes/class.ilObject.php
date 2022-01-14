@@ -60,17 +60,17 @@ class ilObject
 
 
     /**
-    * lng object
-    * @var		object language
-    * @access	private
-    */
+     * lng object
+     * @var		object language
+     * @access	private
+     */
     public $lng;
 
     /**
-    * object id
-    * @var		integer object id of object itself
-    * @access	private
-    */
+     * object id
+     * @var		integer object id of object itself
+     * @access	private
+     */
     public $id;	// true object_id!!!!
     public $ref_id;// reference_id
     public $type;
@@ -110,44 +110,49 @@ class ilObject
     public $register = false;		// registering required for object? set to true to implement a subscription interface
 
     /**
-    * indicates if object is a referenced object
-    * @var		boolean
-    * @access	private
-    */
+     * indicates if object is a referenced object
+     * @var		boolean
+     * @access	private
+     */
     public $referenced;
 
     /**
-    * object list
-    * @var		array	contains all child objects of current object
-    * @access	private
-    */
+     * object list
+     * @var		array	contains all child objects of current object
+     * @access	private
+     */
     public $objectList;
 
     /**
-    * max title length
-    * @var integer
-    */
+     * max title length
+     * @var integer
+     */
     public $max_title;
 
     /**
-    * max description length
-    * @var integer
-    */
+     * max description length
+     * @var integer
+     */
     public $max_desc;
 
     /**
-    * add dots to shortened titles and descriptions
-    * @var boolean
-    */
+     * add dots to shortened titles and descriptions
+     * @var boolean
+     */
     public $add_dots;
 
+    /**
+     * Legacy compatibility
+     * @var \ILIAS
+     */
+    public $ilias;
 
     /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
+     * Constructor
+     * @access	public
+     * @param	integer	reference_id or object_id
+     * @param	boolean	treat the id as reference_id (true) or object_id (false)
+     */
     public function __construct($a_id = 0, $a_reference = true)
     {
         global $DIC;
@@ -194,8 +199,8 @@ class ilObject
     }
 
     /**
-    * determines wehter objects are referenced or not (got ref ids or not)
-    */
+     * determines wehter objects are referenced or not (got ref ids or not)
+     */
     final public function withReferences() : bool
     {
         // both vars could differ. this method should always return true if one of them is true without changing their status
@@ -317,30 +322,30 @@ class ilObject
     }
 
     /**
-    * get object id
-    * @access	public
-    * @return	int	object id
-    */
+     * get object id
+     * @access	public
+     * @return	int	object id
+     */
     public function getId() : int
     {
         return (int) $this->id;
     }
 
     /**
-    * set object id
-    * @access	public
-    * @param	integer	$a_id		object id
-    */
+     * set object id
+     * @access	public
+     * @param	integer	$a_id		object id
+     */
     public function setId($a_id)
     {
         $this->id = (int) $a_id;
     }
 
     /**
-    * set reference id
-    * @access	public
-    * @param	integer	$a_id		reference id
-    */
+     * set reference id
+     * @access	public
+     * @param	integer	$a_id		reference id
+     */
     final public function setRefId(int $a_id)
     {
         $this->ref_id = $a_id;
@@ -366,10 +371,10 @@ class ilObject
     }
 
     /**
-    * set object type
-    * @access	public
-    * @param	integer	$a_type		object type
-    */
+     * set object type
+     * @access	public
+     * @param	integer	$a_type		object type
+     */
     final public function setType(string $a_type)
     {
         $this->type = $a_type;
@@ -389,10 +394,10 @@ class ilObject
     
 
     /**
-    * get object title
-    * @access	public
-    * @return	string		object title
-    */
+     * get object title
+     * @access	public
+     * @return	string		object title
+     */
     public function getTitle() : string
     {
         return $this->title;
@@ -610,26 +615,26 @@ class ilObject
 
 
     /**
-    * Gets the disk usage of the object in bytes.
-    * Returns null, if the object does not use disk space at all.
-    *
-    * The implementation of class ilObject always returns null.
-    * Subclasses which use disk space can override this method to return a
-    * non-null value.
-    *
-    * @access	public
-    * @return	integer		the disk usage in bytes or null
-    */
+     * Gets the disk usage of the object in bytes.
+     * Returns null, if the object does not use disk space at all.
+     *
+     * The implementation of class ilObject always returns null.
+     * Subclasses which use disk space can override this method to return a
+     * non-null value.
+     *
+     * @access	public
+     * @return	integer		the disk usage in bytes or null
+     */
     public function getDiskUsage()
     {
         return null;
     }
 
     /**
-    * create
-    *
-    * note: title, description and type should be set when this function is called
-    *
+     * create
+     *
+     * note: title, description and type should be set when this function is called
+     *
      * @return int
      */
     public function create()
@@ -719,11 +724,11 @@ class ilObject
     }
 
     /**
-    * update object in db
-    *
-    * @access	public
-    * @return	boolean	true on success
-    */
+     * update object in db
+     *
+     * @access	public
+     * @return	boolean	true on success
+     */
     public function update()
     {
         global $DIC;
@@ -871,8 +876,8 @@ class ilObject
     }
 
     /**
-    * update meta data entry
-    */
+     * update meta data entry
+     */
     final public function updateMetaData() : void
     {
         if ($this->beforeUpdateMetaData()) {
@@ -910,8 +915,8 @@ class ilObject
 
 
     /**
-    * delete meta data entry
-    */
+     * delete meta data entry
+     */
     final public function deleteMetaData() : void
     {
         if ($this->beforeDeleteMetaData()) {
@@ -1075,10 +1080,10 @@ class ilObject
     }
 
     /**
-    * lookup object description
-    *
-    * @param	int		$a_id		object id
-    */
+     * lookup object description
+     *
+     * @param	int		$a_id		object id
+     */
     final public static function _lookupDescription(int $a_id) : string
     {
         global $DIC;
@@ -1176,8 +1181,8 @@ class ilObject
     }
 
     /**
-    * only called in ilObjectGUI::insertSavedNodes
-    */
+     * only called in ilObjectGUI::insertSavedNodes
+     */
     final public static function _resetDeletedDate(int $a_ref_id) : void
     {
         global $DIC;
@@ -1191,8 +1196,8 @@ class ilObject
     }
     
     /**
-    * only called in ilObjectGUI::insertSavedNodes
-    */
+     * only called in ilObjectGUI::insertSavedNodes
+     */
     final public static function _lookupDeletedDate($a_ref_id)
     {
         global $DIC;
@@ -1209,12 +1214,12 @@ class ilObject
 
 
     /**
-    * write title to db (static)
-    *
-    * @param	int		$a_obj_id		object id
-    * @param	string	$a_title		title
-    * @access	public
-    */
+     * write title to db (static)
+     *
+     * @param	int		$a_obj_id		object id
+     * @param	string	$a_title		title
+     * @access	public
+     */
     final public static function _writeTitle($a_obj_id, $a_title)
     {
         global $DIC;
@@ -1231,12 +1236,12 @@ class ilObject
     }
 
     /**
-    * write description to db (static)
-    *
-    * @param	int		$a_obj_id		object id
-    * @param	string	$a_desc			description
-    * @access	public
-    */
+     * write description to db (static)
+     *
+     * @param	int		$a_obj_id		object id
+     * @param	string	$a_desc			description
+     * @access	public
+     */
     final public static function _writeDescription($a_obj_id, $a_desc)
     {
         global $DIC;
@@ -1275,12 +1280,12 @@ class ilObject
     }
 
     /**
-    * write import id to db (static)
-    *
-    * @param	int		$a_obj_id			object id
-    * @param	string	$a_import_id		import id
-    * @access	public
-    */
+     * write import id to db (static)
+     *
+     * @param	int		$a_obj_id			object id
+     * @param	string	$a_import_id		import id
+     * @access	public
+     */
     final public static function _writeImportId($a_obj_id, $a_import_id) : void
     {
         global $DIC;
@@ -1297,10 +1302,10 @@ class ilObject
     }
 
     /**
-    * lookup object type
-    *
-    * @param	int		$a_id		object id
-    */
+     * lookup object type
+     *
+     * @param	int		$a_id		object id
+     */
     final public static function _lookupType($a_id, bool $a_reference = false) : string
     {
         global $DIC;
@@ -1315,8 +1320,8 @@ class ilObject
     }
 
     /**
-    * checks wether object is in trash
-    */
+     * checks wether object is in trash
+     */
     final public static function _isInTrash($a_ref_id) : bool
     {
         global $DIC;
@@ -1327,8 +1332,8 @@ class ilObject
     }
 
     /**
-    * checks wether an object has at least one reference that is not in trash
-    */
+     * checks wether an object has at least one reference that is not in trash
+     */
     final public static function _hasUntrashedReference($a_obj_id) : bool
     {
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
@@ -1342,10 +1347,10 @@ class ilObject
     }
 
     /**
-    * lookup object id
-    * @static
-    * @param	int		$a_id		object id
-    */
+     * lookup object id
+     * @static
+     * @param	int		$a_id		object id
+     */
     final public static function _lookupObjectId($a_ref_id) : int
     {
         global $DIC;
@@ -1356,15 +1361,15 @@ class ilObject
     }
 
     /**
-    * get all objects of a certain type
-    *
-    * @param	string		$a_type			desired object type
-    * @param	boolean		$a_omit_trash	omit objects, that are in trash only
-    *										(default: false)
-    *
-    * @return	array		array of object data arrays ("id", "title", "type",
-    *						"description")
-    */
+     * get all objects of a certain type
+     *
+     * @param	string		$a_type			desired object type
+     * @param	boolean		$a_omit_trash	omit objects, that are in trash only
+     *										(default: false)
+     *
+     * @return	array		array of object data arrays ("id", "title", "type",
+     *						"description")
+     */
     final public static function _getObjectsDataForType($a_type, $a_omit_trash = false)
     {
         global $DIC;
@@ -1420,11 +1425,11 @@ class ilObject
     }
 
     /**
-    * set permissions of object
-    *
-    * @param	integer	reference_id of parent object
-    * @access	public
-    */
+     * set permissions of object
+     *
+     * @param	integer	reference_id of parent object
+     * @access	public
+     */
     public function setPermissions($a_parent_ref)
     {
         $this->setParentRolePermissions($a_parent_ref);
@@ -1459,11 +1464,11 @@ class ilObject
     }
 
     /**
-    * creates reference for object
-    *
-    * @access	public
-    * @return	integer	reference_id of object
-    */
+     * creates reference for object
+     *
+     * @access	public
+     * @return	integer	reference_id of object
+     */
     public function createReference()
     {
         $ilDB = $this->db;
@@ -1634,12 +1639,12 @@ class ilObject
     }
 
     /**
-    * init default roles settings
-    * Purpose of this function is to create a local role folder and local roles, that are needed depending on the object type
-    * If you want to setup default local roles you MUST overwrite this method in derived object classes (see ilObjForum for an example)
-    * @access	public
-    * @return	array	empty array
-    */
+     * init default roles settings
+     * Purpose of this function is to create a local role folder and local roles, that are needed depending on the object type
+     * If you want to setup default local roles you MUST overwrite this method in derived object classes (see ilObjForum for an example)
+     * @access	public
+     * @return	array	empty array
+     */
     public function initDefaultRoles()
     {
         return array();
@@ -1665,14 +1670,14 @@ class ilObject
     }
 
     /**
-    * checks if an object exists in object_data
-    * @static
-    * @access	public
-    * @param	integer	object id or reference id
-    * @param	boolean	true if id is a reference, else false (default)
-    * @param	string	restrict on a certain type.
-    * @return	boolean	true if object exists
-    */
+     * checks if an object exists in object_data
+     * @static
+     * @access	public
+     * @param	integer	object id or reference id
+     * @param	boolean	true if id is a reference, else false (default)
+     * @param	string	restrict on a certain type.
+     * @return	boolean	true if object exists
+     */
     public static function _exists($a_id, $a_reference = false, $a_type = null)
     {
         global $DIC;
@@ -2286,14 +2291,14 @@ class ilObject
     }
 
     /**
-    * get all possible subobjects of this type
-    * the object can decide which types of subobjects are possible jut in time
-    * overwrite if the decision distinguish from standard model
-    *
-    * @param boolean filter disabled objects? ($a_filter = true)
-    * @access public
-    * @return array list of allowed object types
-    */
+     * get all possible subobjects of this type
+     * the object can decide which types of subobjects are possible jut in time
+     * overwrite if the decision distinguish from standard model
+     *
+     * @param boolean filter disabled objects? ($a_filter = true)
+     * @access public
+     * @return array list of allowed object types
+     */
     public function getPossibleSubObjects($a_filter = true)
     {
         return $this->objDefinition->getSubObjects($this->type, $a_filter);
