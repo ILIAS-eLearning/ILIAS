@@ -224,7 +224,6 @@ class ilMailTest extends ilMailBaseTest
         return [
             [[]],
             [[
-                'allowed_classes' => '',
                 'attachments' => '',
                 'folder_id' => '',
                 'mail_id' => '',
@@ -234,7 +233,6 @@ class ilMailTest extends ilMailBaseTest
                 'user_id' => ''
             ]],
             [[
-                'allowed_classes' => '',
                 'folder_id' => '',
                 'mail_id' => '',
                 'sender_id' => '',
