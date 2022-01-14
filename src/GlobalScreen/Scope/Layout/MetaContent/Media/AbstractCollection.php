@@ -21,17 +21,27 @@ use Generator;
  */
 abstract class AbstractCollection
 {
-    
+
     /**
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
     protected array $items = [];
-    
+
+    protected string $resource_version;
+
+    /**
+     * @param string $resource_version
+     */
+    public function __construct(string $resource_version)
+    {
+        $this->resource_version = $resource_version;
+    }
+
     public function clear()
     {
         $this->items = [];
     }
-    
+
     /**
      * @return \Iterator<\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css[]|\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss[]|\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js[]|\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode[]>
      */
@@ -39,7 +49,7 @@ abstract class AbstractCollection
     {
         yield from $this->items;
     }
-    
+
     /**
      * @return Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
@@ -47,7 +57,7 @@ abstract class AbstractCollection
     {
         return $this->items;
     }
-    
+
     /**
      * @param string $path
      * @return string
@@ -57,7 +67,7 @@ abstract class AbstractCollection
         if (strpos($path, '?') !== false) {
             return parse_url($path, PHP_URL_PATH);
         }
-        
+
         return $path;
     }
 }

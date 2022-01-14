@@ -26,20 +26,17 @@ use ILIAS\GlobalScreen\SingletonTrait;
 class LayoutServices
 {
     use SingletonTrait;
-    
-    /**
-     * @var MetaContent
-     */
-    private $meta_content;
-    
+
+    private MetaContent $meta_content;
+
     /**
      * LayoutServices constructor.
      */
-    public function __construct()
+    public function __construct(string $resource_version)
     {
-        $this->meta_content = new MetaContent();
+        $this->meta_content = new MetaContent($resource_version);
     }
-    
+
     /**
      * @return ModificationFactory
      */
@@ -47,7 +44,7 @@ class LayoutServices
     {
         return $this->get(ModificationFactory::class);
     }
-    
+
     /**
      * @return MetaContent
      */
