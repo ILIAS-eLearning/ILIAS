@@ -17,7 +17,7 @@ $finder = PhpCsFixer\Finder::create()
 	))
 ;
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
 	->setRules([
         '@PSR2' => true,
         'strict_param' => false,
