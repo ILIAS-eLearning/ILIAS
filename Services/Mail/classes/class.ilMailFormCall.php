@@ -192,6 +192,11 @@ class ilMailFormCall
                 } else {
                     $url .= '?returned_from_mail=1';
                 }
+
+                $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+                if (isset($parts['host']) && $ilias_url_parts['host'] !== $parts['host']) {
+                    $url = 'ilias.php?baseClass=ilMailGUI';
+                }
             }
 
             unset($session[self::REFERER_KEY]);
