@@ -143,7 +143,7 @@ class ilObject
 
     /**
      * Legacy compatibility
-     * @var
+     * @var \ILIAS
      */
     public $ilias;
 
