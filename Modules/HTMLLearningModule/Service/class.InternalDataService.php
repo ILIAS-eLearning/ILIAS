@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,22 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use PHPUnit\Framework\TestSuite;
-
-require_once 'libs/composer/vendor/autoload.php';
+namespace ILIAS\HTMLLearningModule;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilModulesItemGroupSuite extends TestSuite
+class InternalDataService
 {
-    public static function suite()
+    // protected ...\DataFactory ..._factory;
+
+    public function __construct()
     {
-        $suite = new self();
-
-        require_once("./Modules/ItemGroup/test/ItemGroupStandardGUIRequestTest.php");
-        $suite->addTestSuite("ItemGroupStandardGUIRequestTest");
-
-        return $suite;
+        //$this->..._factory = new ...\DataFactory();
     }
+
+    /*
+    public function ...() : ...\...
+    {
+        return $this->..._factory->...();
+    }*/
 }

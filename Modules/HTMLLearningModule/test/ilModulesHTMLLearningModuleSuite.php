@@ -20,14 +20,14 @@ require_once 'libs/composer/vendor/autoload.php';
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilModulesItemGroupSuite extends TestSuite
+class ilModulesHTMLLearningModuleSuite extends TestSuite
 {
     public static function suite()
     {
         $suite = new self();
 
-        require_once("./Modules/ItemGroup/test/ItemGroupStandardGUIRequestTest.php");
-        $suite->addTestSuite("ItemGroupStandardGUIRequestTest");
+        require_once("./Modules/HTMLLearningModule/test/HTMLLearningModuleStandardGUIRequestTest.php");
+        $suite->addTestSuite("HTMLLearningModuleStandardGUIRequestTest");
 
         return $suite;
     }

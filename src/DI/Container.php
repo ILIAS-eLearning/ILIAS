@@ -420,6 +420,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\ItemGroup\Service($this);
     }
 
+    public function htmlLearningModule() : \ILIAS\HTMLLearningModule\Service
+    {
+        return new \ILIAS\HTMLLearningModule\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.
