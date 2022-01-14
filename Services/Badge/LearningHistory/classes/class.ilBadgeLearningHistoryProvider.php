@@ -45,7 +45,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $this->ui = $ui;
     }
 
-    public function isActive()
+    public function isActive() : bool
     {
         if (ilBadgeHandler::getInstance()->isActive()) {
             return true;
@@ -53,7 +53,7 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         return false;
     }
 
-    public function getEntries($ts_start, $ts_end)
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("badge");

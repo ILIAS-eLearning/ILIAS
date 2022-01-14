@@ -14,7 +14,7 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
     /**
      * @inheritdoc
      */
-    public function isActive()
+    public function isActive() : bool
     {
         include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if (ilObjUserTracking::_enabledLearningProgress() &&
@@ -27,7 +27,7 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
     /**
      * @inheritdoc
      */
-    public function getEntries($ts_start, $ts_end)
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("trac");

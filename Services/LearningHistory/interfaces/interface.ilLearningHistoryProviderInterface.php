@@ -14,15 +14,16 @@
  */
 
 /**
+ * Learning history provider interface
+ * Providers can add entries to the learning history through this interface
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjLearningHistorySettings extends ilObject
+interface ilLearningHistoryProviderInterface
 {
-    public function __construct(
-        int $a_id = 0,
-        bool $a_call_by_reference = true
-    ) {
-        $this->type = "lhts";
-        parent::__construct($a_id, $a_call_by_reference);
-    }
+    public function isActive() : bool;
+
+    public function getEntries(int $ts_start, int $ts_end) : array;
+
+    // Get name of provider (in user language)
+    public function getName() : string;
 }

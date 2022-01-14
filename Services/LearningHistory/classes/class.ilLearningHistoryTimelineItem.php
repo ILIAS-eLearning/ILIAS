@@ -1,49 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 {
-    /**
-     * @var ilLearningHistoryEntry
-     */
-    protected $lh_entry;
+    protected ilLearningHistoryEntry $lh_entry;
+    protected \ILIAS\DI\UIServices $ui;
+    protected int $user_id;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * Constructor
-     * ilLearningHistoryTimelineItem constructor.
-     * @param ilLearningHistoryEntry $lh_entry
-     */
     public function __construct(
         ilLearningHistoryEntry $lh_entry,
         \ILIAS\DI\UIServices $ui,
-        $user_id,
+        int $user_id,
         ilAccessHandler $access,
         ilTree $tree
     ) {
@@ -54,20 +38,15 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         $this->tree = $tree;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDatetime() : ilDateTime
     {
         return new ilDateTime($this->lh_entry->getTimestamp(), IL_CAL_UNIX);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function render() : string
     {
         $access = $this->access;
+        $parent_ref_id = 0;
 
         $tpl = new ilTemplate("tpl.timeline_item_inner.html", true, true, "Services/LearningHistory");
 
@@ -118,25 +97,15 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    /**
-     * Get emphasized title
-     *
-     * @param string
-     * @return string
-     */
-    protected function getEmphasizedTitle($title)
+    protected function getEmphasizedTitle(string $title) : string
     {
         $tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
         $tpl->setVariable("TITLE", $title);
-        ;
         return $tpl->get();
     }
 
-    /**
-     * Render footer
-     * @throws ilCtrlException
-     */
-    public function renderFooter()
+    public function renderFooter() : string
     {
+        return "";
     }
 }

@@ -84,7 +84,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
      * @param int $ts_end
      * @return ilLearningHistoryEntry[]
      */
-    public function getEntries($ts_start, $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $entries = [];
 
