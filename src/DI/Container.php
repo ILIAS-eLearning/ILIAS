@@ -415,6 +415,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\MediaCast\Service($this);
     }
 
+    public function itemGroup() : \ILIAS\ItemGroup\Service
+    {
+        return new \ILIAS\ItemGroup\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.
