@@ -74,6 +74,7 @@ class InstallCommand extends Command
             $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
 
+        return 0;
     }
 
     protected function prepareILIASInstallation(InputInterface $input, OutputInterface $output) : array
@@ -147,6 +148,6 @@ class InstallCommand extends Command
             $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
         }
 
-       return [$objective, $environment, $io];
+        return [$objective, $environment, $io];
     }
 }
