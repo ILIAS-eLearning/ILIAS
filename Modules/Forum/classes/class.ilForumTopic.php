@@ -798,10 +798,10 @@ class ilForumTopic
             $this->db->manipulateF(
                 'UPDATE frm_threads SET is_closed = %s WHERE thr_pk = %s',
                 ['integer', 'integer'],
-                ['0', $this->id]
+                [0, $this->id]
             );
 
-            $this->is_closed = true;
+            $this->is_closed = false;
         }
     }
 
