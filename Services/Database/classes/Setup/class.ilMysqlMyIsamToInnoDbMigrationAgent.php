@@ -2,11 +2,12 @@
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
+use ILIAS\Setup\Config;
 
 class ilMysqlMyIsamToInnoDbMigrationAgent implements Setup\Agent
 {
 
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
     public function __construct(Refinery\Factory $refinery)
     {
@@ -26,13 +27,13 @@ class ilMysqlMyIsamToInnoDbMigrationAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        throw new \LogicException("Agent has no config.");
+        throw new LogicException("Agent has no config.");
     }
 
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Config $config = null) : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -40,7 +41,7 @@ class ilMysqlMyIsamToInnoDbMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Config $config = null) : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -71,4 +72,10 @@ class ilMysqlMyIsamToInnoDbMigrationAgent implements Setup\Agent
         ];
     }
 
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        return [
+            new Setup\ilMysqlMyIsamToInnoDbMigration()
+        ];
+    }
 }

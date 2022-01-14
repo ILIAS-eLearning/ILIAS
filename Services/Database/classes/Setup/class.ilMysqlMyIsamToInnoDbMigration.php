@@ -8,21 +8,10 @@ use ilDatabaseInitializedObjective;
 use ilDatabaseUpdatedObjective;
 use ilException;
 use ILIAS\Setup;
-use ILIAS\Setup\Environment;
 use ilIniFilesLoadedObjective;
 
 class ilMysqlMyIsamToInnoDbMigration implements Migration
 {
-
-    /**
-     * @var bool
-     */
-    protected $prepared = false;
-
-    /**
-     * @var \ilDBInterface
-     */
-    protected $database;
 
     protected ?string $db_name = null;
 
@@ -64,8 +53,6 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
          */
         $this->database = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
-        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         $this->db_name = $client_ini->readVariable('db', 'name');
 
         if (!$this->prepared) {
@@ -79,11 +66,10 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
 
     /**
      * @inheritDoc
+     * @throws ilException
      */
     public function step(Environment $environment): void
     {
-        // TODO: Implement step() method.
-        exit();
         $errors = $this->database->migrateAllTablesToEngine();
         if (sizeof($errors) > 0) {
             $error_string = '';
@@ -99,9 +85,6 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
      */
     public function getRemainingAmountOfSteps(): int
     {
-        //Todo: remove
-        $this->db_name = 'test';
-        //Todo: remove
         if($this->db_name !== null) {
             $set = $this->database->queryF("SELECT count(*) as tables
                 FROM INFORMATION_SCHEMA.TABLES
