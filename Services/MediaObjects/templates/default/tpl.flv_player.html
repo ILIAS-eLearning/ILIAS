@@ -79,7 +79,8 @@
 			success: function (mediaElement, domObject) {
 				// add event listener
 				mediaElement.addEventListener('play', function(e) {
-					il.MediaObjects.playerStarted('player_{APLAYER_NR}');
+					il.MediaObjects.current_player_id = 'player_{APLAYER_NR}';
+					il.MediaObjects.playerStarted('');
 					}, false);		
 				}
 		});
