@@ -33,6 +33,11 @@ class ilMailTest extends ilMailBaseTest
     private $mockParserFactory;
 
     /**
+     * @var MockObject|ilLanguage
+     */
+    private $mockLanguage;
+
+    /**
      * @throws ReflectionException
      */
     public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected() : void
@@ -204,7 +209,9 @@ class ilMailTest extends ilMailBaseTest
     {
         $instance = $this->create();
 
-        $this->assertEquals('', $instance->formatNamesForOutput(''));
+        $this->mockLanguage->expects(self::once())->method('txt')->with('not_available')->willReturn('not_available');
+
+        $this->assertEquals('not_available', $instance->formatNamesForOutput(''));
         $this->assertEquals('', $instance->formatNamesForOutput(','));
     }
 
@@ -540,7 +547,7 @@ class ilMailTest extends ilMailBaseTest
             $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock(),
             ($this->mockLog = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock()),
             ($this->mockDatabase = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock()),
-            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
+            ($this->mockLanguage = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()),
             $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock(),
