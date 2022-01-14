@@ -94,5 +94,7 @@ class UpdateCommand extends Command
         } catch (NoConfirmationException $e) {
             $io->error("Aborting Update, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
+
+        return 0;
     }
 }
