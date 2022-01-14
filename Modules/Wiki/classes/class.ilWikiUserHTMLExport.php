@@ -209,6 +209,6 @@ class ilWikiUserHTMLExport
         }
         $file = $exp->getUserExportFile();
         $this->log->debug("file: " . $file);
-        ilUtil::deliverFile($file, pathinfo($file, PATHINFO_BASENAME));
+        ilFileDelivery::deliverFileLegacy($file, pathinfo($file, PATHINFO_BASENAME));
     }
 }

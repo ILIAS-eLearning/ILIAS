@@ -83,7 +83,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 

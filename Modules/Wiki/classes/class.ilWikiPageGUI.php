@@ -1245,7 +1245,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $title = ilObject::_lookupTitle($submitted["obj_id"]) . " - " .
                 $ass->getTitle() . " (Team " . $submission->getTeam()->getId() . ").zip";
 
-            ilUtil::deliverFile($submitted["filename"], $title);
+            ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
         }
     }
 

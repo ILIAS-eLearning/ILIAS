@@ -204,7 +204,7 @@ class ilBlogExerciseGUI
             if (count($ass_files) > 0) {
                 foreach ($ass_files as $file) {
                     if ($file["name"] == $this->file) {
-                        ilUtil::deliverFile($file["fullpath"], $file["name"]);
+                        ilFileDelivery::deliverFileLegacy($file["fullpath"], $file["name"]);
                     }
                 }
             }
@@ -228,7 +228,7 @@ class ilBlogExerciseGUI
                 $user_data["lastname"] . " (" .
                 $user_data["login"] . ").zip";
 
-            ilUtil::deliverFile($submitted["filename"], $title);
+            ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
         }
     }
         

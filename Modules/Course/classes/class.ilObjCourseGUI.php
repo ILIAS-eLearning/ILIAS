@@ -1549,7 +1549,7 @@ class ilObjCourseGUI extends ilContainerGUI
     {
         include_once 'Modules/Course/classes/class.ilCourseFile.php';
         $file = new ilCourseFile((int) $_GET['file_id']);
-        ilUtil::deliverFile($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
+        ilFileDelivery::deliverFileLegacy($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
         return true;
     }
 

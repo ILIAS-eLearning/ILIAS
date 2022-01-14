@@ -2181,7 +2181,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface
         if ($this->lm->getPublicExportFile($base_type) != "") {
             $dir = $this->lm->getExportDirectory($type);
             if (is_file($dir . "/" . $file)) {
-                ilUtil::deliverFile($dir . "/" . $file, $file);
+                ilFileDelivery::deliverFileLegacy($dir . "/" . $file, $file);
                 exit;
             }
         }

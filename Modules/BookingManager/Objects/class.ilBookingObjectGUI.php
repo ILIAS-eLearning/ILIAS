@@ -551,7 +551,7 @@ class ilBookingObjectGUI
         $obj = new ilBookingObject($id);
         $file = $obj->getFileFullPath();
         if ($file) {
-            ilUtil::deliverFile($file, $obj->getFile());
+            ilFileDelivery::deliverFileLegacy($file, $obj->getFile());
         }
     }
 }

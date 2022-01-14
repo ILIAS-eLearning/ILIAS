@@ -1,7 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\FileDelivery;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface ilFileDeliveryType
  *
@@ -11,11 +25,9 @@ interface ilFileDeliveryType
 {
 
     /**
-     * @param string $path_to_file
-     *
      * @return bool
      */
-    public function doesFileExists($path_to_file);
+    public function doesFileExists(string $path_to_file);
 
 
     /**
@@ -34,7 +46,7 @@ interface ilFileDeliveryType
      *
      * @return bool
      */
-    public function deliver($path_to_file, $file_marked_to_delete);
+    public function deliver(string $path_to_file, bool $file_marked_to_delete);
 
 
     /**

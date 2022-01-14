@@ -80,12 +80,10 @@ class ilPortfolioCertificateFileService
             $userCertificate = $userCertificateRepository->fetchActiveCertificateForPresentation($userId, $objectId);
 
             $downloadFilePath = CLIENT_DATA_DIR . '/' . $completePath;
-            $delivery = new ilFileDelivery($downloadFilePath);
-            $delivery->setMimeType(ilMimeTypeUtil::APPLICATION__PDF);
-            $delivery->setConvertFileNameToAsci(true);
-            $delivery->setDownloadFileName(ilFileUtils::getValidFilename($userCertificate->getObjectTitle() . '.pdf'));
-
-            $delivery->deliver();
+            ilFileDelivery::deliverFileAttached(
+                $downloadFilePath,
+                ilFileUtils::getValidFilename($userCertificate->getObjectTitle() . '.pdf')
+            );
         }
     }
 

@@ -903,7 +903,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $port_export->includeComments($a_with_comments);
         $zip = $port_export->exportHtml();
 
-        ilUtil::deliverFile($zip, $this->object->getTitle() . ".zip", '', false, true);
+        ilFileDelivery::deliverFileLegacy($zip, $this->object->getTitle() . ".zip", '', false, true);
     }
     
     public function exportWithComments() : void

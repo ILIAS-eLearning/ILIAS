@@ -949,7 +949,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $filename = $export_file;
             $filename = preg_replace("/.*\//", "", $filename);
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::deliverFile($export_file, $filename);
+            ilFileDelivery::deliverFileLegacy($export_file, $filename);
             exit();
         } else {
             ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"), true);

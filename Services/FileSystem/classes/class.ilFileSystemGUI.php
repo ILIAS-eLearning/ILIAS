@@ -937,7 +937,7 @@ class ilFileSystemGUI
         $file = $this->main_dir . "/" . $a_file;
     
         if (@is_file($file) && !(@is_dir($file))) {
-            ilUtil::deliverFile($file, basename($a_file));
+            ilFileDelivery::deliverFileLegacy($file, basename($a_file));
             exit;
         } else {
             $this->ctrl->saveParameter($this, self::CDIR);

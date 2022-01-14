@@ -3277,7 +3277,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $file = basename($_POST["file"][0]);
 
         $export_dir = $this->object->getExportDirectory();
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $file,
             $file
         );
@@ -4176,7 +4176,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname . '.xlsx',
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_EXCEL) . '.xlsx',
                 '',
@@ -4218,7 +4218,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname,
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_CSV),
                 '',
@@ -4259,7 +4259,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname,
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_XML),
                 '',

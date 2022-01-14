@@ -1880,7 +1880,7 @@ class ilNewsItem
                 if ($a_increase_download_cnt) {
                     $this->increaseDownloadCounter();
                 }
-                ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
                 ilUtil::sendFailure("File not found!", true);

@@ -584,7 +584,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $file = str_replace("..", "", $_GET['file']);
         $export = new ilScorm2004Export($this->node_object);
         $export_dir = $export->getExportDirectoryForType($_GET['type']);
-        ilUtil::deliverFile($export_dir . "/" . $file, $file);
+        ilFileDelivery::deliverFileLegacy($export_dir . "/" . $file, $file);
     }
     
     /**
@@ -728,7 +728,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
             } else {
                 if ($f["path"] == $_GET["resource"]) {
                     if (is_file($f["path"])) {
-                        ilUtil::deliverFile($f["path"], $f["file"]);
+                        ilFileDelivery::deliverFileLegacy($f["path"], $f["file"]);
                     }
                 }
             }

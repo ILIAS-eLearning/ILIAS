@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Class XAccelTest
  *
@@ -7,14 +8,25 @@
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class XSendfile
  *
@@ -29,10 +41,7 @@ class XAccelTest extends TestCase
 {
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    /**
-     * @var \Mockery\MockInterface | Services
-     */
-    private $httpServiceMock;
+    private \Mockery\LegacyMockInterface $httpServiceMock;
 
 
     protected function setUp() : void
@@ -41,18 +50,13 @@ class XAccelTest extends TestCase
 
         $this->httpServiceMock = Mockery::mock(Services::class);
         $this->httpServiceMock->shouldIgnoreMissing();
-
-        //set remote address to localhost
-        // $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
-        require_once './Services/FileDelivery/classes/FileDeliveryTypes/XAccel.php';
     }
 
 
     /**
      * @Test
      */
-    public function testPrepareWhichShouldSucceed()
+    public function testPrepareWhichShouldSucceed(): void
     {
         $expectedContentValue = '';
 
@@ -75,7 +79,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testDeliverWithNormalPathWhichShouldSucceed()
+    public function testDeliverWithNormalPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
         $path = './normal/path';
@@ -97,7 +101,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testDeliverWithDataPathWhichShouldSucceed()
+    public function testDeliverWithDataPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
         $path = './data/path/to/what/ever';

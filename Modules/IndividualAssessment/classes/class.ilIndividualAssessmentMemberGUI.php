@@ -194,7 +194,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     {
         $path = $this->getUserFileStorage()->getFilePath();
         $file_name = $this->getMember()->fileName();
-        ilUtil::deliverFile($path, $file_name);
+        ilFileDelivery::deliverFileLegacy($path, $file_name);
     }
 
     protected function saveAmend() : void

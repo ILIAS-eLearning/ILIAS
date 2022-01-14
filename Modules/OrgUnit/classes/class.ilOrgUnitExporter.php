@@ -133,7 +133,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $exp->setFilename($new_file);
         $exp->create();
 
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $new_file,
             $new_file
         );

@@ -1113,7 +1113,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         bool $a_with_comments = false
     ) : void {
         $zip = $this->buildExportFile($a_with_comments);
-        ilUtil::deliverFile($zip, $this->object->getTitle() . ".zip", '', false, true);
+        ilFileDelivery::deliverFileLegacy($zip, $this->object->getTitle() . ".zip", '', false, true);
     }
     
     

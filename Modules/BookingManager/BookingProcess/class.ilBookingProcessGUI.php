@@ -1095,7 +1095,7 @@ class ilBookingProcessGUI
         $obj = new ilBookingObject($id);
         $file = $obj->getPostFileFullPath();
         if ($file) {
-            ilUtil::deliverFile($file, $obj->getPostFile());
+            ilFileDelivery::deliverFileLegacy($file, $obj->getPostFile());
         }
     }
 }

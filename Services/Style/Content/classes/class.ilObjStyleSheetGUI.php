@@ -870,7 +870,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $exp = new ilExport();
         $r = $exp->exportObject($this->object->getType(), $this->object->getId());
 
-        ilUtil::deliverFile($r["directory"] . "/" . $r["file"], $r["file"], '', false, true);
+        ilFileDelivery::deliverFileLegacy($r["directory"] . "/" . $r["file"], $r["file"], '', false, true);
     }
 
     public function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type, $a_mq_id = 0, $a_custom = false)

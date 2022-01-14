@@ -540,7 +540,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         
         $file = basename($files[0]);
         
-        ilUtil::deliverFile($export_dir . "/" . $file, $file);
+        ilFileDelivery::deliverFileLegacy($export_dir . "/" . $file, $file);
     }
 
     /**

@@ -749,7 +749,7 @@ class ilExPeerReviewGUI
         $crit->setPeerReviewContext($this->ass, $giver_id, $peer_id);
         $file = $crit->getFileByHash();
         if ($file) {
-            ilUtil::deliverFile($file, basename($file));
+            ilFileDelivery::deliverFileLegacy($file, basename($file));
         }
         
         $ilCtrl->redirect($this, "returnToParent");

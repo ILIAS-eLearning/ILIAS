@@ -761,7 +761,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $file = new ilSessionFile((int) $_GET['file_id']);
         
-        ilUtil::deliverFile($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
+        ilFileDelivery::deliverFileLegacy($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
         return true;
     }
     

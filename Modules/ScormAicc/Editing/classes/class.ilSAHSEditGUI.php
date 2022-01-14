@@ -119,7 +119,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 $fileName = $ftmp[1];
                 require_once("./Services/Export/classes/class.ilExport.php");
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-                ilUtil::deliverFile($exportDir . "/" . $fileName, $fileName);
+                ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName);
             } elseif ($cmd == "confirmDeletion") {
                 require_once("./Services/Export/classes/class.ilExport.php");
                 $exportDir = ilExport::_getExportDirectory($obj_id);

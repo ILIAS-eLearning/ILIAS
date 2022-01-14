@@ -612,13 +612,9 @@ class ilFileDataMail extends ilFileData
 
         $this->tmpDirectory->deleteDir($relativeZipDirectory);
 
-        $delivery = new ilFileDelivery($processingDirectory . '/' . $downloadFilename . '.zip');
-        $delivery->setDisposition(\ilFileDelivery::DISP_ATTACHMENT);
-        $delivery->setMimeType(\ilMimeTypeUtil::APPLICATION__ZIP);
-        $delivery->setConvertFileNameToAsci(true);
-        $delivery->setDownloadFileName(\ilFileUtils::getValidFilename($downloadFilename . '.zip'));
-        $delivery->setDeleteFile(true);
-
-        $delivery->deliver();
+        ilFileDelivery::deliverFileAttached(
+            $processingDirectory . '/' . $downloadFilename . '.zip',
+            \ilFileUtils::getValidFilename($downloadFilename . '.zip')
+        );
     }
 }

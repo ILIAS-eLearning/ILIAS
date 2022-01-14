@@ -5058,7 +5058,7 @@ class ilObjUser extends ilObject
         $file = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data") .
             "/" . $this->getPersonalDataExportFile();
         if (is_file($file)) {
-            ilUtil::deliverFile($file, $this->getPersonalDataExportFile());
+            ilFileDelivery::deliverFileLegacy($file, $this->getPersonalDataExportFile());
         }
     }
     

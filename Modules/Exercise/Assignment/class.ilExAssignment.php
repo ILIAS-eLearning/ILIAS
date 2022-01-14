@@ -1338,7 +1338,7 @@ class ilExAssignment
         chdir($cdir);
         
 
-        ilUtil::deliverFile($tmpzipfile, $deliverFilename . ".zip", "", false, true);
+        ilFileDelivery::deliverFileLegacy($tmpzipfile, $deliverFilename . ".zip", "", false, true);
     }
 
     /**
