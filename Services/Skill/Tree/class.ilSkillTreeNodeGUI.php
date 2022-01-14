@@ -282,6 +282,7 @@ class ilSkillTreeNodeGUI
             $op = new ilRadioOption($op, $k, ilSkillTreeNode::getStatusInfo($k));
             $radg->addOption($op);
         }
+        $radg->setValue((string) ilSkillTreeNode::STATUS_PUBLISH);
         $a_form->addItem($radg);
     }
 

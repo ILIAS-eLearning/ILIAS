@@ -170,5 +170,6 @@ class PNGImageBaker
             $chunkHeader = substr($png, $ipos, 8);
             $ipos = $ipos + 8;
         }
+        return false;
     }
 }

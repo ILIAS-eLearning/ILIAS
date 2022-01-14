@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for user badge listing
@@ -9,18 +20,14 @@
  */
 class ilBadgePersonalTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected array $filter = [];
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = null)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_user_id = null
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -76,7 +83,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->getItems($a_user_id);
     }
     
-    public function initFilters(array $a_parents)
+    public function initFilters(array $a_parents) : void
     {
         $lng = $this->lng;
         
@@ -96,7 +103,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->filter["obj"] = $obj->getValue();
     }
     
-    public function getItems($a_user_id)
+    public function getItems(int $a_user_id) : void
     {
         $lng = $this->lng;
         
@@ -155,7 +162,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -175,7 +175,7 @@ class ilSkillTreeNode
     {
         $ilDB = $this->db;
 
-        if (!isset($this->data_record)) {
+        if (empty($this->data_record)) {
             $query = "SELECT * FROM skl_tree_node WHERE obj_id = " .
                 $ilDB->quote($this->id, "integer");
             $obj_set = $ilDB->query($query);

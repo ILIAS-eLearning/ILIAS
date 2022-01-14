@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Badge Template
@@ -9,23 +20,13 @@
  */
 class ilBadgeImageTemplate
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $id; // [int]
-    protected $title; // [string]
-    protected $image; // [string]
-    protected $types; // [array]
+    protected ilDBInterface $db;
+    protected int $id;
+    protected string $title;
+    protected string $image;
+    protected array $types;
     
-    /**
-     * Constructor
-     *
-     * @param int $a_id
-     * @return self
-     */
-    public function __construct($a_id = null)
+    public function __construct(int $a_id = null)
     {
         global $DIC;
 
@@ -35,7 +36,7 @@ class ilBadgeImageTemplate
         }
     }
     
-    public static function getInstances()
+    public static function getInstances() : array
     {
         global $DIC;
 
@@ -62,7 +63,7 @@ class ilBadgeImageTemplate
         return $res;
     }
     
-    public static function getInstancesByType($a_type_unique_id)
+    public static function getInstancesByType(string $a_type_unique_id) : array
     {
         $res = array();
         
@@ -81,53 +82,53 @@ class ilBadgeImageTemplate
     // setter/getter
     //
     
-    protected function setId($a_id)
+    protected function setId(int $a_id) : void
     {
-        $this->id = (int) $a_id;
+        $this->id = $a_id;
     }
     
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
     
-    public function setTitle($a_value)
+    public function setTitle(string $a_value) : void
     {
         $this->title = trim($a_value);
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
     
-    protected function setImage($a_value)
+    protected function setImage(string $a_value) : void
     {
         $this->image = trim($a_value);
     }
     
-    public function getTypes()
+    public function getTypes() : array
     {
-        return (array) $this->types;
+        return $this->types;
     }
     
-    public function setTypes(array $types = null)
+    public function setTypes(array $types = null) : void
     {
         $this->types = is_array($types)
             ? array_unique($types)
             : null;
     }
     
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }
 
     /**
-     * @param array $a_upload_meta
+     * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function uploadImage(array $a_upload_meta)
+    public function uploadImage(array $a_upload_meta) : void
     {
         if ($this->getId() &&
             $a_upload_meta["tmp_name"]) {
@@ -136,7 +137,8 @@ class ilBadgeImageTemplate
 
             $filename = ilFileUtils::getValidFilename($a_upload_meta["name"]);
 
-            $suffix = strtolower(array_pop(explode(".", $filename)));
+            $exp = explode(".", $filename);
+            $suffix = strtolower(array_pop($exp));
             $tgt = $path . "img" . $this->getId() . "." . $suffix;
 
             if (ilUtil::moveUploadedFile($a_upload_meta["tmp_name"], "img" . $this->getId() . "." . $suffix, $tgt)) {
@@ -146,13 +148,14 @@ class ilBadgeImageTemplate
         }
     }
     
-    public function getImagePath()
+    public function getImagePath() : string
     {
         if ($this->getId()) {
             if (is_file($this->getFilePath($this->getId()) . "img" . $this->getId())) {	// formerly (early 5.2 versino), images have been uploaded with no suffix
                 return $this->getFilePath($this->getId()) . "img" . $this->getId();
             } else {
-                $suffix = strtolower(array_pop(explode(".", $this->getImage())));
+                $exp = explode(".", $this->getImage());
+                $suffix = strtolower(array_pop($exp));
                 return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
             }
         }
@@ -161,13 +164,11 @@ class ilBadgeImageTemplate
     
     /**
      * Init file system storage
-     *
-     * @param type $a_id
-     * @param type $a_subdir
-     * @return string
      */
-    protected function getFilePath($a_id, $a_subdir = null)
-    {
+    protected function getFilePath(
+        int $a_id,
+        string $a_subdir = null
+    ) : string {
         $storage = new ilFSStorageBadgeImageTemplate($a_id);
         $storage->create();
         
@@ -189,7 +190,7 @@ class ilBadgeImageTemplate
     // crud
     //
     
-    protected function read($a_id)
+    protected function read(int $a_id) : void
     {
         $ilDB = $this->db;
         
@@ -202,7 +203,7 @@ class ilBadgeImageTemplate
         }
     }
     
-    protected function readTypes($a_id)
+    protected function readTypes(int $a_id) : array
     {
         $ilDB = $this->db;
         
@@ -221,7 +222,7 @@ class ilBadgeImageTemplate
         return $res;
     }
     
-    protected function importDBRow(array $a_row)
+    protected function importDBRow(array $a_row) : void
     {
         $this->setId($a_row["id"]);
         $this->setTitle($a_row["title"]);
@@ -229,12 +230,13 @@ class ilBadgeImageTemplate
         $this->setTypes($a_row["types"]);
     }
     
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
         
         if ($this->getId()) {
-            return $this->update();
+            $this->update();
+            return;
         }
         
         $id = $ilDB->nextId("badge_image_template");
@@ -248,12 +250,13 @@ class ilBadgeImageTemplate
         $this->saveTypes();
     }
     
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
         if (!$this->getId()) {
-            return $this->create();
+            $this->create();
+            return;
         }
         
         $fields = $this->getPropertiesForStorage();
@@ -267,7 +270,7 @@ class ilBadgeImageTemplate
         $this->saveTypes();
     }
     
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -282,7 +285,7 @@ class ilBadgeImageTemplate
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
     
-    protected function getPropertiesForStorage()
+    protected function getPropertiesForStorage() : array
     {
         return array(
             "title" => array("text", $this->getTitle()),
@@ -290,7 +293,7 @@ class ilBadgeImageTemplate
         );
     }
     
-    protected function saveTypes()
+    protected function saveTypes() : void
     {
         $ilDB = $this->db;
         

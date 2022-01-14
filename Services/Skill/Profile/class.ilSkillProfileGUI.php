@@ -160,7 +160,7 @@ class ilSkillProfileGUI
         $ilHelp->setScreenIdComponent("skmg_prof");
         
         $ilTabs->setBackTarget(
-            $lng->txt("back"),
+            $lng->txt("skmg_skill_profiles"),
             $ilCtrl->getLinkTarget($this, "")
         );
 

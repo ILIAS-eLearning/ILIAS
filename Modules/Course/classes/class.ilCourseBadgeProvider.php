@@ -13,7 +13,7 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeProvider.php";
  */
 class ilCourseBadgeProvider implements ilBadgeProvider
 {
-    public function getBadgeTypes()
+    public function getBadgeTypes() : array
     {
         include_once "Modules/Course/classes/Badges/class.ilCourseMeritBadge.php";
         include_once "Modules/Course/classes/Badges/class.ilCourseLPBadge.php";
