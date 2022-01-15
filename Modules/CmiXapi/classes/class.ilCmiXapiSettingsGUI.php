@@ -337,91 +337,91 @@ class ilCmiXapiSettingsGUI
                 $userName->setDisabled(true);
             }
 
-            // $item = new ilCheckboxInputGUI($DIC->language()->txt('only_moveon_label'), 'only_moveon');
-            // $item->setInfo($DIC->language()->txt('only_moveon_info'));
-            // $item->setChecked($this->object->getOnlyMoveon());
+            $item = new ilCheckboxInputGUI($DIC->language()->txt('only_moveon_label'), 'only_moveon');
+            $item->setInfo($DIC->language()->txt('only_moveon_info'));
+            $item->setChecked($this->object->getOnlyMoveon());
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('achieved_label'), 'achieved');
-            // $subitem->setInfo($DIC->language()->txt('achieved_info'));
-            // $subitem->setChecked($this->object->getAchieved());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('achieved_label'), 'achieved');
+            $subitem->setInfo($DIC->language()->txt('achieved_info'));
+            $subitem->setChecked($this->object->getAchieved());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('answered_label'), 'answered');
-            // $subitem->setInfo($DIC->language()->txt('answered_info'));
-            // $subitem->setChecked($this->object->getAnswered());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('answered_label'), 'answered');
+            $subitem->setInfo($DIC->language()->txt('answered_info'));
+            $subitem->setChecked($this->object->getAnswered());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('completed_label'), 'completed');
-            // $subitem->setInfo($DIC->language()->txt('completed_info'));
-            // $subitem->setChecked($this->object->getCompleted());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('completed_label'), 'completed');
+            $subitem->setInfo($DIC->language()->txt('completed_info'));
+            $subitem->setChecked($this->object->getCompleted());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('failed_label'), 'failed');
-            // $subitem->setInfo($DIC->language()->txt('failed_info'));
-            // $subitem->setChecked($this->object->getFailed());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('failed_label'), 'failed');
+            $subitem->setInfo($DIC->language()->txt('failed_info'));
+            $subitem->setChecked($this->object->getFailed());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('initialized_label'), 'initialized');
-            // $subitem->setInfo($DIC->language()->txt('initialized_info'));
-            // $subitem->setChecked($this->object->getInitialized());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('initialized_label'), 'initialized');
+            $subitem->setInfo($DIC->language()->txt('initialized_info'));
+            $subitem->setChecked($this->object->getInitialized());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('passed_label'), 'passed');
-            // $subitem->setInfo($DIC->language()->txt('passed_info'));
-            // $subitem->setChecked($this->object->getPassed());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('passed_label'), 'passed');
+            $subitem->setInfo($DIC->language()->txt('passed_info'));
+            $subitem->setChecked($this->object->getPassed());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('progressed_label'), 'progressed');
-            // $subitem->setInfo($DIC->language()->txt('progressed_info'));
-            // $subitem->setChecked($this->object->getProgressed());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
-            // if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
-                // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('satisfied_label'), 'satisfied');
-                // $subitem->setInfo($DIC->language()->txt('satisfied_info'));
-                // $subitem->setChecked($this->object->getSatisfied());
-                // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-                // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('progressed_label'), 'progressed');
+            $subitem->setInfo($DIC->language()->txt('progressed_info'));
+            $subitem->setChecked($this->object->getProgressed());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
+            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $subitem = new ilCheckboxInputGUI($DIC->language()->txt('satisfied_label'), 'satisfied');
+                $subitem->setInfo($DIC->language()->txt('satisfied_info'));
+                $subitem->setChecked($this->object->getSatisfied());
+                if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+                $item->addSubItem($subitem);
 
-                // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('terminated_label'), 'terminated');
-                // $subitem->setInfo($DIC->language()->txt('terminated_info'));
-                // $subitem->setChecked($this->object->getTerminated());
-                // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-                // $item->addSubItem($subitem);
-            // }
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $item->setDisabled(true);
-            // $form->addItem($item);
+                $subitem = new ilCheckboxInputGUI($DIC->language()->txt('terminated_label'), 'terminated');
+                $subitem->setInfo($DIC->language()->txt('terminated_info'));
+                $subitem->setChecked($this->object->getTerminated());
+                if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+                $item->addSubItem($subitem);
+            }
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $item->setDisabled(true);
+            $form->addItem($item);
 
-            // $item = new ilCheckboxInputGUI($DIC->language()->txt('hide_data_label'), 'hide_data');
-            // $item->setInfo($DIC->language()->txt('hide_data_info'));
-            // $item->setChecked($this->object->getHideData());
+            $item = new ilCheckboxInputGUI($DIC->language()->txt('hide_data_label'), 'hide_data');
+            $item->setInfo($DIC->language()->txt('hide_data_info'));
+            $item->setChecked($this->object->getHideData());
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('timestamp_label'), 'timestamp');
-            // $subitem->setInfo($DIC->language()->txt('timestamp_info'));
-            // $subitem->setChecked($this->object->getTimestamp());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('timestamp_label'), 'timestamp');
+            $subitem->setInfo($DIC->language()->txt('timestamp_info'));
+            $subitem->setChecked($this->object->getTimestamp());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // $subitem = new ilCheckboxInputGUI($DIC->language()->txt('duration_label'), 'duration');
-            // $subitem->setInfo($DIC->language()->txt('duration_info'));
-            // $subitem->setChecked($this->object->getDuration());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
-            // $item->addSubItem($subitem);
+            $subitem = new ilCheckboxInputGUI($DIC->language()->txt('duration_label'), 'duration');
+            $subitem->setInfo($DIC->language()->txt('duration_info'));
+            $subitem->setChecked($this->object->getDuration());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $subitem->setDisabled(true);
+            $item->addSubItem($subitem);
 
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $item->setDisabled(true);
-            // $form->addItem($item);
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $item->setDisabled(true);
+            $form->addItem($item);
 
-            // $item = new ilCheckboxInputGUI($DIC->language()->txt('no_substatements_label'), 'no_substatements');
-            // $item->setInfo($DIC->language()->txt('no_substatements_info'));
-            // $item->setChecked($this->object->getNoSubstatements());
-            // if ($this->object->getLrsType()->getForcePrivacySettings()) $item->setDisabled(true);
-            // $form->addItem($item);
+            $item = new ilCheckboxInputGUI($DIC->language()->txt('no_substatements_label'), 'no_substatements');
+            $item->setInfo($DIC->language()->txt('no_substatements_info'));
+            $item->setChecked($this->object->getNoSubstatements());
+            if ($this->object->getLrsType()->getForcePrivacySettings()) $item->setDisabled(true);
+            $form->addItem($item);
 
         }
         
@@ -534,25 +534,25 @@ class ilCmiXapiSettingsGUI
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
                 $this->object->setPrivacyIdent($form->getInput('privacy_ident'));
                 $this->object->setPrivacyName($form->getInput('privacy_name'));
-                // $this->object->setOnlyMoveon((bool)$form->getInput("only_moveon"));
-                // $this->object->setAchieved((bool)$form->getInput("achieved"));
-                // $this->object->setAnswered((bool)$form->getInput("answered"));
-                // $this->object->setCompleted((bool)$form->getInput("completed"));
-                // $this->object->setFailed((bool)$form->getInput("failed"));
-                // $this->object->setInitialized((bool)$form->getInput("initialized"));
-                // $this->object->setPassed((bool)$form->getInput("passed"));
-                // $this->object->setProgressed((bool)$form->getInput("progressed"));
-                // if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                    // $this->object->setSatisfied(true);
-                    // $this->object->setTerminated(true);
-                // } else {
-                    // $this->object->setSatisfied((bool)$form->getInput("satisfied"));
-                    // $this->object->setTerminated((bool)$form->getInput("terminated"));
-                // }
-                // $this->object->setHideData((bool)$form->getInput("hide_data"));
-                // $this->object->setTimestamp((bool)$form->getInput("timestamp"));
-                // $this->object->setDuration((bool)$form->getInput("duration"));
-                // $this->object->setNoSubstatements((bool)$form->getInput("no_substatements"));
+                $this->object->setOnlyMoveon((bool)$form->getInput("only_moveon"));
+                $this->object->setAchieved((bool)$form->getInput("achieved"));
+                $this->object->setAnswered((bool)$form->getInput("answered"));
+                $this->object->setCompleted((bool)$form->getInput("completed"));
+                $this->object->setFailed((bool)$form->getInput("failed"));
+                $this->object->setInitialized((bool)$form->getInput("initialized"));
+                $this->object->setPassed((bool)$form->getInput("passed"));
+                $this->object->setProgressed((bool)$form->getInput("progressed"));
+                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                    $this->object->setSatisfied(true);
+                    $this->object->setTerminated(true);
+                } else {
+                    $this->object->setSatisfied((bool)$form->getInput("satisfied"));
+                    $this->object->setTerminated((bool)$form->getInput("terminated"));
+                }
+                $this->object->setHideData((bool)$form->getInput("hide_data"));
+                $this->object->setTimestamp((bool)$form->getInput("timestamp"));
+                $this->object->setDuration((bool)$form->getInput("duration"));
+                $this->object->setNoSubstatements((bool)$form->getInput("no_substatements"));
             }
         } else { //SourceTypeExternal
             $this->object->setBypassProxyEnabled(true);
