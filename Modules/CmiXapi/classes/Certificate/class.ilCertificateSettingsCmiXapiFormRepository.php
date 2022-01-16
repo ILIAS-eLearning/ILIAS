@@ -18,16 +18,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
      */
     private $settingsFormRepository;
 
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilObjCmiXapi
-     */
-    private $object;
-
     public function __construct(
         ilObjCmiXapi $object,
         string $certificatePath,
@@ -39,8 +29,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
-        $this->object = $object;
-        $this->language = $language;
 
         if (null === $settingsFormRepository) {
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
@@ -57,7 +45,7 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
         $this->settingsFormRepository = $settingsFormRepository;
     }
 
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $form = $this->settingsFormRepository->createForm($certificateGUI);
 
@@ -65,12 +53,11 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
     }
 
 
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
-        return;
     }
 
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
 

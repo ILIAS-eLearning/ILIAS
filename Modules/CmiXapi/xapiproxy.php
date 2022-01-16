@@ -78,7 +78,7 @@
     try {
         $dic['xapiproxy']->initLrs();
     }
-    catch(Exception $e) { // ?
+    catch(\Exception $e) { // ?
         $dic['xapiproxy']->log()->error($dic['xapiproxy']->getLogMessage($e->getMessage()));
     }
 

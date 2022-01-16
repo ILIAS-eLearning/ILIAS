@@ -27,7 +27,7 @@ class ilCmiXapiLaunchGUI
     protected $cmixUser;
 
     /**
-     * @var plugin
+     * @var bool
      */
     protected $plugin = false;
     
@@ -236,16 +236,7 @@ class ilCmiXapiLaunchGUI
             'Content-Type' => 'application/json;charset=utf-8',
             'Cache-Control' => 'no-cache, no-store, must-revalidate'
         ];
-        /*
-        $fallbackHeaders = [
-            'X-Experience-API-Version' => '1.0.3',
-            'Authorization' => $fallbackBasicAuth,
-            'Content-Type' => 'application/json;charset=utf-8',
-            'Cache-Control' => 'no-cache, no-store, must-revalidate'
-        ];
-        */
         
-        //$registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
         $registration = $this->cmixUser->getRegistration();
         // for old CMI5 Content after switch commit but before cmi5 bugfix
         if ($registration == '') 
@@ -274,7 +265,6 @@ class ilCmiXapiLaunchGUI
         $defaultLaunchDataUrl = $defaultStateUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($launchDataParams);
         $cmi5LearnerPreferencesObj = $this->getCmi5LearnerPreferences();
         $cmi5LearnerPreferences = json_encode($cmi5LearnerPreferencesObj);
-        //$DIC->logger()->root()->log($cmi5LearnerPreferences);
         $lang = $cmi5LearnerPreferencesObj['languagePreference'];
         $cmi5_session = ilObjCmiXapi::guidv4();
         $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);

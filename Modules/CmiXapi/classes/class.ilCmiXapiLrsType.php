@@ -60,7 +60,6 @@ class ilCmiXapiLrsType
     protected $launch_type = self::LAUNCH_TYPE_LINK;
     
     protected $remarks;
-    protected $template;
     
     /**
      * @var bool
@@ -114,6 +113,7 @@ class ilCmiXapiLrsType
      */
     public function __construct($a_type_id = 0)
     {
+
         if ($a_type_id) {
             $this->type_id = $a_type_id;
             $this->read();
@@ -551,14 +551,6 @@ class ilCmiXapiLrsType
     }
     
     /**
-     * @return string template
-     */
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-    
-    /**
      * @return bool
      */
     public function isBypassProxyEnabled() : bool
@@ -573,18 +565,21 @@ class ilCmiXapiLrsType
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
-    
+
+    /**
+	 * @access public
+	 */
     public function read()
     {
         global $ilDB, $ilErr;
         
-        $query = "SELECT * FROM {$this->getDbTableName()} WHERE type_id = %s";
+        $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         
         $res = $ilDB->queryF($query, ['integer'], [$this->getTypeId()]);
         $row = $ilDB->fetchObject($res);
-        if ($row) {
+        if ($row)
+        {
             $this->setTypeId($row->type_id);
-            
             $this->setTitle($row->title);
             $this->setDescription($row->description);
             $this->setAvailability($row->availability);
@@ -596,10 +591,8 @@ class ilCmiXapiLrsType
             $this->setForcePrivacySettings((bool) $row->force_privacy_settings);
             $this->setPrivacyCommentDefault($row->privacy_comment_default);
             $this->setExternalLrs($row->external_lrs);
-            
             $this->setTimeToDelete($row->time_to_delete);
             $this->setRemarks($row->remarks);
-            
             $this->setBypassProxyEnabled((bool) $row->bypass_proxy);
             $this->setOnlyMoveon((bool)$row->only_moveon);
             $this->setAchieved((bool)$row->achieved);
@@ -631,23 +624,25 @@ class ilCmiXapiLrsType
         }
     }
     
+    /**
+	 * @access public
+	 */
     public function create()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $this->setTypeId(
-            $DIC->database()->nextId($this->getDbTableName())
-        );
-        
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */      
+        $this->setTypeId($DIC->database()->nextId(self::DB_TABLE_NAME) );
         $this->update();
     }
-    
+
+    /**
+	 * @access public
+	 */    
     public function update()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $DIC->database()->replace(
-            $this->getDbTableName(),
+            self::DB_TABLE_NAME,
             array(
                 'type_id' => array('integer', $this->getTypeId())
             ),
@@ -685,12 +680,15 @@ class ilCmiXapiLrsType
         
         return true;
     }
-    
+
+    /**
+	 * @access public
+	 */
     public function delete()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $query = "DELETE FROM {$this->getDbTableName()} WHERE type_id = %s";
+
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         $DIC->database()->manipulateF($query, ['integer'], [$this->getTypeId()]);
         
         return true;
