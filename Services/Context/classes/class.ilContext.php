@@ -21,8 +21,8 @@
  */
 class ilContext
 {
-    protected static string $class_name;
-    protected static string $type;
+    protected static string $class_name = "";
+    protected static string $type = "";
     
     public const CONTEXT_WEB = "ilContextWeb";
     public const CONTEXT_CRON = "ilContextCron";
