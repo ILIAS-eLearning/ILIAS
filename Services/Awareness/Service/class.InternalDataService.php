@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,19 +13,29 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\Awareness;
+
 /**
- * A context where user actions are used (e.g. who-is-online, profile, members gallery)
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilUserActionContext
+class InternalDataService
 {
-    /**
-     * Get compoment id of context as defined in service.xml/module.xml
-     */
-    abstract public function getComponentId() : string;
+    // protected ...\DataFactory ..._factory;
 
-    /**
-     * Get id for context. Should be unique within the component
-     */
-    abstract public function getContextId() : string;
+    public function __construct()
+    {
+        //$this->..._factory = new ...\DataFactory();
+    }
+
+    public function counter(
+        int $cnt,
+        int $highlight_cnt
+    ) : Counter {
+        return new Counter($cnt, $highlight_cnt);
+    }
+
+    public function userCollection() : User\Collection
+    {
+        return new User\Collection();
+    }
 }

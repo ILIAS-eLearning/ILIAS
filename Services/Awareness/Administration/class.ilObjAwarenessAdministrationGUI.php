@@ -1,28 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Awareness tool administration
-*
-* @author Alex Killing <killing@leifos.com>
-* @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI, ilUserActionAdminGUI
-* @ilCtrl_IsCalledBy ilObjAwarenessAdministrationGUI: ilAdministrationGUI
-*/
+ * Awareness tool administration
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI, ilUserActionAdminGUI
+ * @ilCtrl_IsCalledBy ilObjAwarenessAdministrationGUI: ilAdministrationGUI
+ */
 class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected \ILIAS\Awareness\AdminManager $admin_manager;
 
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -34,15 +40,13 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("awrn");
         $this->lng->loadLanguageModule("pd");
         $this->lng->loadLanguageModule("usr");
+        $this->admin_manager = $DIC->awareness()
+            ->internal()
+            ->domain()
+            ->admin($this->requested_ref_id);
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -72,13 +76,9 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -99,13 +99,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Set sub tabs
-     *
-     * @param
-     * @return
-     */
-    public function setSubTabs($a_id)
+    public function setSubTabs(string $a_id) : void
     {
         $this->tabs_gui->addSubTab(
             "settings",
@@ -162,11 +156,14 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
             $awrn_set->set("use_osd", (int) $form->getInput("use_osd"));
 
             $pd_set = new ilSetting("pd");
-            $pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
+            $pd_set->set("user_activity_time", (int) $form->getInput("time_removal"));
 
-            $prov = ilAwarenessUserProviderFactory::getAllProviders();
+            $prov = $this->admin_manager->getAllUserProviders();
             foreach ($prov as $p) {
-                $p->setActivationMode($form->getInput("up_act_mode_" . $p->getProviderId()));
+                $this->admin_manager->setActivationMode(
+                    $p->getProviderId(),
+                    $form->getInput("up_act_mode_" . $p->getProviderId())
+                );
             }
 
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -252,18 +249,14 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         $en->addSubItem($osd);
 
 
-        $prov = ilAwarenessUserProviderFactory::getAllProviders();
+        $prov = $this->admin_manager->getAllUserProviders();
         foreach ($prov as $p) {
             // activation mode
-            $options = array(
-                ilAwarenessUserProvider::MODE_INACTIVE => $lng->txt("awrn_inactive"),
-                ilAwarenessUserProvider::MODE_ONLINE_ONLY => $lng->txt("awrn_online_only"),
-                ilAwarenessUserProvider::MODE_INCL_OFFLINE => $lng->txt("awrn_incl_offline")
-                );
+            $options = $this->admin_manager->getModeOptions();
             $si = new ilSelectInputGUI($p->getTitle(), "up_act_mode_" . $p->getProviderId());
             $si->setOptions($options);
             $si->setInfo($p->getInfo());
-            $si->setValue($p->getActivationMode());
+            $si->setValue($this->admin_manager->getActivationMode($p->getProviderId()));
             $en->addSubItem($si);
         }
 

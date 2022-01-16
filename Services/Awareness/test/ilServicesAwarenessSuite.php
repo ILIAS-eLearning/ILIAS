@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,19 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * A context where user actions are used (e.g. who-is-online, profile, members gallery)
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilUserActionContext
+class ilServicesAwarenessSuite extends TestSuite
 {
-    /**
-     * Get compoment id of context as defined in service.xml/module.xml
-     */
-    abstract public function getComponentId() : string;
+    public static function suite()
+    {
+        $suite = new self();
 
-    /**
-     * Get id for context. Should be unique within the component
-     */
-    abstract public function getContextId() : string;
+        require_once("./Services/Awareness/test/AwarenessSessionRepositoryTest.php");
+        $suite->addTestSuite("AwarenessSessionRepositoryTest");
+
+        return $suite;
+    }
 }

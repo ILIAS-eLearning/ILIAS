@@ -1,43 +1,53 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+namespace ILIAS\Awareness\User;
+
+use ILIAS\DI\Container;
 
 /**
  * All members of the same courses/groups as the user
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
+class ProviderMemberships implements Provider
 {
+    protected \ilObjUser $user;
+    protected \ilLanguage $lng;
+    protected \ilDBInterface $db;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function __construct(Container $DIC)
     {
-        global $DIC;
-
-        parent::__construct();
-        
         $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
     }
 
     /**
      * Get provider id
-     *
      * @return string provider id
      */
-    public function getProviderId()
+    public function getProviderId() : string
     {
         return "mmbr_user_grpcrs";
     }
 
     /**
      * Provider title (used in awareness overlay and in administration settings)
-     *
      * @return string provider title
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         $this->lng->loadLanguageModule("mmbr");
         return $this->lng->txt("mmbr_awrn_my_groups_courses");
@@ -45,10 +55,9 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 
     /**
      * Provider info (used in administration settings)
-     *
      * @return string provider info text
      */
-    public function getInfo()
+    public function getInfo() : string
     {
         $this->lng->loadLanguageModule("crs");
         return $this->lng->txt("mmbr_awrn_my_groups_courses_info");
@@ -56,16 +65,19 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 
     /**
      * Get initial set of users
-     *
-     * @return array array of user IDs
+     * @param ?int[] $user_ids
+     * @return int[] array of user IDs
      */
-    public function getInitialUserSet()
+    public function getInitialUserSet(?array $user_ids = null) : array
     {
         $ilDB = $this->db;
 
 
-        $groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), array("grp", "crs"));
-        $this->log->debug("user: " . $this->getUserId() . ", courses and groups: " . implode(",", $groups_and_courses_of_user));
+        $groups_and_courses_of_user = \ilParticipants::_getMembershipByType(
+            $this->user->getId(),
+            array("grp", "crs")
+        );
+        //$this->log->debug("user: " . $this->user->getId() . ", courses and groups: " . implode(",", $groups_and_courses_of_user));
 
         $set = $ilDB->query(
             "SELECT DISTINCT usr_id, obj_id FROM obj_members " .
@@ -77,7 +89,8 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
         $ub = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (!in_array($rec["usr_id"], $ub)) {
-                $ub[] = $rec["usr_id"];
+                $ub[] = (int) $rec["usr_id"];
+                /*
                 if ($this->log->isHandling(ilLogLevel::DEBUG)) {
                     // cross-check if user is in course
                     $ref_ids = ilObject::_getAllReferences($rec["obj_id"]);
@@ -88,12 +101,17 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
                             ", user : " . ilObject::_lookupTitle($rec["usr_id"]) . ", course ref: " . $ref_id . ", course: " .
                             ilObject::_lookupTitle($rec["obj_id"]) . ", but ilParticipants does not list this user as a member.");
                     }
-                }
+                }*/
             }
         }
 
-        $this->log->debug("Got " . count($ub) . " distinct members.");
+        //$this->log->debug("Got " . count($ub) . " distinct members.");
 
         return $ub;
+    }
+
+    public function isHighlighted() : bool
+    {
+        return false;
     }
 }

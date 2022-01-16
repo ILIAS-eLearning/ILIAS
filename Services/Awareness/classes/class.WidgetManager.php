@@ -1,124 +1,164 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+namespace ILIAS\Awareness;
 
 /**
+ * High level business class, interface to front ends
  *
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilAwarenessData
+class WidgetManager
 {
-    protected $user_id;
-    protected $ref_id = 0;
-    protected $user_collector;
-    protected $action_collector;
-    protected $user_collection;
-    protected $data = null;
-    protected $online_user_data = null;
-    protected static $instances = array();
-    protected $filter = "";
+    protected InternalDataService $data_service;
+    protected \ilSetting $settings;
+    protected AwarenessSessionRepository $session_repo;
+    protected \ilLanguage $lng;
 
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    protected function __construct($a_user_id)
-    {
+    protected int $user_id;
+    protected int $ref_id = 0;
+    protected User\Collector $user_collector;
+    protected \ilUserActionCollector $action_collector;
+    protected array $user_collections;
+    protected ?array $data = null;
+    protected ?array $online_user_data = null;
+    protected static array $instances = array();
+
+    public function __construct(
+        int $a_user_id,
+        int $ref_id,
+        InternalDataService $data_service,
+        InternalRepoService $repo_service,
+        InternalDomainService $domain_service
+    ) {
+        $this->lng = $domain_service->lng();
         $this->user_id = $a_user_id;
-
-        $this->user_collector = ilAwarenessUserCollector::getInstance($a_user_id);
-        $this->action_collector = ilUserActionCollector::getInstance($a_user_id, new ilAwarenessUserActionContext());
-    }
-
-    /**
-     * Set ref id
-     *
-     * @param int $a_val ref id
-     */
-    public function setRefId($a_val)
-    {
-        $this->ref_id = $a_val;
-    }
-    
-    /**
-     * Get ref id
-     *
-     * @return int ref id
-     */
-    public function getRefId()
-    {
-        return $this->ref_id;
-    }
-    
-    /**
-     * Set filter
-     *
-     * @param string $a_val filter string
-     */
-    public function setFilter($a_val)
-    {
-        $this->filter = $a_val;
-    }
-    
-    /**
-     * Get filter
-     *
-     * @return string filter string
-     */
-    public function getFilter()
-    {
-        return $this->filter;
+        $this->ref_id = $ref_id;
+        $this->session_repo = $repo_service->awarenessSession();
+        $this->settings = $domain_service->awarenessSettings();
+        $this->data_service = $data_service;
+        $this->user_collector = $domain_service->userCollector($a_user_id, $ref_id);
+        $this->action_collector = \ilUserActionCollector::getInstance($a_user_id, new \ilAwarenessUserActionContext());
     }
 
     /**
      * Maximum for online user data
      */
-    public function getMaxOnlineUserCnt()
+    public function getMaxOnlineUserCnt() : int
     {
         return 20;
     }
 
-    
     /**
-     * Get instance (for a user)
-     *
-     * @param int $a_user_id user id
-     * @return ilAwarenessData actor class
+     * Send OSD notification on new users
      */
-    public static function getInstance($a_user_id)
+    public function notifyOnNewOnlineContacts() : void
     {
-        if (!isset(self::$instances[$a_user_id])) {
-            self::$instances[$a_user_id] = new ilAwarenessData($a_user_id);
+        $lng = $this->lng;
+        $awrn_set = $this->settings;
+        if (!$awrn_set->get("use_osd", true)) {
+            return;
         }
+        $ts = $this->session_repo->getOnlineUsersTS();
 
-        return self::$instances[$a_user_id];
+        $d = $this->getOnlineUserData($ts);
+        $new_online_users = array();
+        $no_ids = array();
+        foreach ($d as $u) {
+            $uname = "[" . $u->login . "]";
+            if ($u->public_profile) {
+                $uname = "<a href='./goto.php?target=usr_" . $u->id . "'>" . $u->lastname . ", " . $u->firstname . " " . $uname . "</a>";
+            }
+            if (!in_array($u->id, $no_ids)) {
+                $new_online_users[] = $uname;
+                $no_ids[] = $u->id;
+            }
+        }
+        if (count($new_online_users) == 0) {
+            return;
+        }
+        //var_dump($d); exit;
+        $lng->loadLanguageModule('mail');
+
+        //$recipient = ilObjectFactory::getInstanceByObjId($this->user_id);
+        $bodyParams = array(
+            'online_user_names' => implode("<br />", $new_online_users)
+        );
+        $notification = new \ilNotificationConfig('osd_main');
+        $notification->setTitleVar('awareness_now_online', $bodyParams, 'awrn');
+        $notification->setShortDescriptionVar('awareness_now_online_users', $bodyParams, 'awrn');
+        $notification->setLongDescriptionVar('', $bodyParams, '');
+        $notification->setAutoDisable(false);
+        //$notification->setLink();
+        $notification->setIconPath('templates/default/images/icon_usr.svg');
+        $notification->setValidForSeconds(\ilNotificationConfig::TTL_SHORT);
+        $notification->setVisibleForSeconds(\ilNotificationConfig::DEFAULT_TTS);
+
+        //$notification->setHandlerParam('mail.sender', $sender_id);
+
+        $this->session_repo->setOnlineUsersTS(date("Y-m-d H:i:s", time()));
+        
+        $notification->notifyByUsers(array($this->user_id));
     }
 
+    public function isWidgetVisible() : bool
+    {
+        $awrn_set = $this->settings;
+        if (!$awrn_set->get("awrn_enabled", "0") ||
+            ANONYMOUS_USER_ID == $this->user_id ||
+            $this->user_id == 0) {
+            return false;
+        }
+        return true;
+    }
 
+    public function processMetaBar()
+    {
+        $cache_period = (int) $this->settings->get("caching_period");
+        $last_update = $this->session_repo->getLastUpdate();
+        $now = time();
+
+        if ($last_update == "" || ($now - $last_update) >= $cache_period) {
+            $counter = $this->getUserCounter();
+            $hcnt = $counter->getHighlightCount();
+            $cnt = $counter->getCount();
+            $this->notifyOnNewOnlineContacts();
+            $this->session_repo->setLastUpdate($now);
+            $this->session_repo->setCount($cnt);
+            $this->session_repo->setHighlightCount($hcnt);
+        } else {
+            $cnt = $this->session_repo->getCount();
+            $hcnt = $this->session_repo->getHighlightCount();
+        }
+        return $this->data_service->counter($cnt, $hcnt);
+    }
 
     /**
      * Get user collections
-     *
      * @param bool $a_online_only true, if only online users should be collected
      * @return array array of collections
      */
-    public function getUserCollections($a_online_only = false)
+    public function getUserCollections(bool $a_online_only = false) : array
     {
         if (!isset($this->user_collections[(int) $a_online_only])) {
-            $this->user_collector->setRefId($this->getRefId());
             $this->user_collections[(int) $a_online_only] = $this->user_collector->collectUsers($a_online_only);
         }
-
         return $this->user_collections[(int) $a_online_only];
     }
 
-    /**
-     * Get user counter
-     */
-    public function getUserCounter()
+    public function getUserCounter() : Counter
     {
         $all_user_ids = array();
         $hall_user_ids = array();
@@ -140,19 +180,21 @@ class ilAwarenessData
             }
         }
 
-        return count($all_user_ids) . ":" . count($hall_user_ids);
+        return $this->data_service->counter(
+            count($all_user_ids),
+            count($hall_user_ids)
+        );
     }
 
     /**
      * Get online user data
-     *
      * @param string $a_ts timestamp
      * @return array array of data objects
      */
-    public function getOnlineUserData($a_ts = "")
+    public function getOnlineUserData(string $a_ts = "") : array
     {
         $online_user_data = array();
-        $online_users = ilAwarenessUserCollector::getOnlineUsers();
+        $online_users = $this->user_collector->getOnlineUsers();
         $user_collections = $this->getUserCollections(true);			// get user collections with online users only
         $all_online_user_ids = array();
 
@@ -170,7 +212,7 @@ class ilAwarenessData
             }
         }
 
-        $names = ilUserUtil::getNamePresentation(
+        $names = \ilUserUtil::getNamePresentation(
             $all_online_user_ids,
             true,
             false,
@@ -194,10 +236,10 @@ class ilAwarenessData
             $names[$k]["sort_str"] = $sort_str;
         }
 
-        $names = ilUtil::sortArray($names, "sort_str", "asc", false, true);
+        $names = \ilUtil::sortArray($names, "sort_str", "asc", false, true);
 
         foreach ($names as $n) {
-            $obj = new stdClass;
+            $obj = new \stdClass();
             $obj->lastname = $n["lastname"];
             $obj->firstname = $n["firstname"];
             $obj->login = $n["login"];
@@ -205,7 +247,6 @@ class ilAwarenessData
             $obj->public_profile = $n["public_profile"];
             $obj->online = $n["online"];
             $obj->last_login = $n["last_login"];
-            ;
 
             $online_user_data[] = $obj;
         }
@@ -215,10 +256,11 @@ class ilAwarenessData
 
     /**
      * Get data
-     *
+     * @param string $filter
      * @return array array of data objects
+     * @throws \ilWACException
      */
-    public function getData()
+    public function getListData(string $filter = "") : array
     {
         if ($this->user_id == ANONYMOUS_USER_ID) {
             return [
@@ -226,14 +268,14 @@ class ilAwarenessData
                 "cnt" => "0:0"
             ];
         }
-        $awrn_set = new ilSetting("awrn");
+        $awrn_set = $this->settings;
         $max = $awrn_set->get("max_nr_entries");
 
         $all_user_ids = array();
         $hall_user_ids = array();
 
         if ($this->data == null) {
-            $online_users = ilAwarenessUserCollector::getOnlineUsers();
+            $online_users = $this->user_collector->getOnlineUsers();
 
             $user_collections = $this->getUserCollections();
 
@@ -259,7 +301,7 @@ class ilAwarenessData
                     }
                 }
 
-                $names = ilUserUtil::getNamePresentation(
+                $names = \ilUserUtil::getNamePresentation(
                     $user_ids,
                     true,
                     false,
@@ -289,7 +331,7 @@ class ilAwarenessData
                     $names[$k]["sort_str"] = $sort_str;
                 }
 
-                $names = ilUtil::sortArray($names, "sort_str", "asc", false, true);
+                $names = \ilUtil::sortArray($names, "sort_str", "asc", false, true);
 
                 foreach ($names as $n) {
                     // limit part 2
@@ -298,7 +340,7 @@ class ilAwarenessData
                     }
 
                     // filter
-                    $filter = trim($this->getFilter());
+                    $filter = trim($filter);
                     if ($filter != "" &&
                         !is_int(stripos($n["login"], $filter)) &&
                         (
@@ -311,7 +353,7 @@ class ilAwarenessData
                         continue;
                     }
 
-                    $obj = new stdClass;
+                    $obj = new \stdClass();
                     $obj->lastname = $n["lastname"];
                     $obj->firstname = $n["firstname"];
                     $obj->login = $n["login"];
@@ -320,18 +362,17 @@ class ilAwarenessData
                     $obj->highlighted = $uc["highlighted"];
 
                     //$obj->img = $n["img"];
-                    $obj->img = ilObjUser::_getPersonalPicturePath($n["id"], "xsmall");
+                    $obj->img = \ilObjUser::_getPersonalPicturePath($n["id"], "xsmall");
                     $obj->public_profile = $n["public_profile"];
 
                     $obj->online = $n["online"];
                     $obj->last_login = $n["last_login"];
-                    ;
 
                     // get actions
                     $action_collection = $this->action_collector->getActionsForTargetUser($n["id"]);
                     $obj->actions = array();
                     foreach ($action_collection->getActions() as $action) {
-                        $f = new stdClass;
+                        $f = new \stdClass();
                         $f->text = $action->getText();
                         $f->href = $action->getHref();
                         $f->data = $action->getData();
@@ -343,6 +384,23 @@ class ilAwarenessData
             }
         }
 
+        // update counter
+        $this->updateCounter(
+            count($all_user_ids),
+            count($hall_user_ids)
+        );
+
         return array("data" => $this->data, "cnt" => count($all_user_ids) . ":" . count($hall_user_ids));
+    }
+
+    protected function updateCounter(
+        int $cnt,
+        int $hcnt
+    ) : void {
+        // update counter
+        $now = time();
+        $this->session_repo->setLastUpdate($now);
+        $this->session_repo->setCount($cnt);
+        $this->session_repo->setHighlightCount($hcnt);
     }
 }

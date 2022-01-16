@@ -13,19 +13,32 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\Awareness;
+
 /**
- * A context where user actions are used (e.g. who-is-online, profile, members gallery)
+ * Counter DTO class
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilUserActionContext
+class Counter
 {
-    /**
-     * Get compoment id of context as defined in service.xml/module.xml
-     */
-    abstract public function getComponentId() : string;
+    protected int $highlight_cnt;
+    protected int $cnt;
 
-    /**
-     * Get id for context. Should be unique within the component
-     */
-    abstract public function getContextId() : string;
+    public function __construct(
+        int $cnt,
+        int $highlight_cnt
+    ) {
+        $this->cnt = $cnt;
+        $this->highlight_cnt = $highlight_cnt;
+    }
+
+    public function getCount()
+    {
+        return $this->cnt;
+    }
+
+    public function getHighlightCount()
+    {
+        return $this->highlight_cnt;
+    }
 }

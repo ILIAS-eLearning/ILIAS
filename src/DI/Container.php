@@ -425,6 +425,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\HTMLLearningModule\Service($this);
     }
 
+    public function awareness() : \ILIAS\Awareness\Service
+    {
+        return new \ILIAS\Awareness\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

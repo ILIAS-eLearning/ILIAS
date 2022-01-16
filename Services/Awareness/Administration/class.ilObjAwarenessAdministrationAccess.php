@@ -14,18 +14,9 @@
  */
 
 /**
- * A context where user actions are used (e.g. who-is-online, profile, members gallery)
+ * Awareness administration access class
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilUserActionContext
+class ilObjAwarenessAdministrationAccess extends ilObjectAccess
 {
-    /**
-     * Get compoment id of context as defined in service.xml/module.xml
-     */
-    abstract public function getComponentId() : string;
-
-    /**
-     * Get id for context. Should be unique within the component
-     */
-    abstract public function getContextId() : string;
 }

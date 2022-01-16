@@ -14,18 +14,17 @@
  */
 
 /**
- * A context where user actions are used (e.g. who-is-online, profile, members gallery)
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilUserActionContext
+class ilObjAwarenessAdministration extends ilObject
 {
-    /**
-     * Get compoment id of context as defined in service.xml/module.xml
-     */
-    abstract public function getComponentId() : string;
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
+        $this->type = "awra";
+        parent::__construct($a_id, $a_call_by_reference);
 
-    /**
-     * Get id for context. Should be unique within the component
-     */
-    abstract public function getContextId() : string;
+        $this->lng->loadLanguageModule("awrn");
+    }
 }
