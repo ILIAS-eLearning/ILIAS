@@ -1,7 +1,17 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilScormAiccDataSet extends ilDataSet
 {
     public function __construct()
@@ -88,14 +98,15 @@ class ilScormAiccDataSet extends ilDataSet
             $this->data ["description"] = $dataset["description"];
         }
     }
-    
+
     /**
-     * Write properties for imported object (actually updates !!)
-     * @param
-     * $data contains imported module properties from xml file
-     * @return
+     * @param $a_entity
+     * @param $a_version
+     * @param $a_id
+     * @param $data
+     * @return void
      */
-    public function writeData($a_entity, $a_version, $a_id, $data)
+    public function writeData($a_entity, $a_version, $a_id, $data) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -167,12 +178,8 @@ class ilScormAiccDataSet extends ilDataSet
      * @param $a_entity
      * @param $a_schema_version
      * @param $a_ids (obj_id)
-     * @param string $a_field
-     * @param bool $a_omit_header
-     * @param bool $a_omit_types
-     * @return string
      */
-    public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
+    public function getExtendedXmlRepresentation(string $a_entity, string $a_schema_version, array $a_ids, string $a_field = "", bool $a_omit_header = false, bool $a_omit_types = false): string
     {
         $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
@@ -180,13 +187,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
         $id = $this->data["id"];
-
-        require_once("./Services/Export/classes/class.ilExport.php");
         $exportDir = ilExport::_getExportDirectory($id);
-
-        // step 1: check target release and supported versions
-        // step 2: init writer
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();
@@ -262,7 +263,7 @@ class ilScormAiccDataSet extends ilDataSet
             fclose($manifestFile);
         }
 
-        usleep(2000000);
+        usleep(2_000_000);
         $zArchive = new zipArchive();
         $fileName = $exportDir . "/" . $baseExportName . ".zip";
 
@@ -287,7 +288,6 @@ class ilScormAiccDataSet extends ilDataSet
 
     public function buildMetaData($id)
     {
-        require_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($id, $id, "sahs");
         $md2xml->startExport();
         $xml = $md2xml->getXML();
@@ -310,9 +310,9 @@ class ilScormAiccDataSet extends ilDataSet
                     $types[$key] = $value["db_type"];
                 }
                 return $types;
-                break;
             }
         }
+        return [];
     }
 
     /**
@@ -325,6 +325,9 @@ class ilScormAiccDataSet extends ilDataSet
         return "http://www.ilias.de/xml/Modules/ScormAicc/" . $a_entity;
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -334,6 +337,9 @@ class ilScormAiccDataSet extends ilDataSet
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     public function getSupportedVersions() : array
     {
         return ["5.1.0"];

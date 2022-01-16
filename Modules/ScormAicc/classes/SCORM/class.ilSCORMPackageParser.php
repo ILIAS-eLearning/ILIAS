@@ -1,36 +1,17 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMManifest.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizations.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganization.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResources.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceFile.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceDependency.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * SCORM Package Parser
 *
@@ -50,7 +31,7 @@ class ilSCORMPackageParser extends ilSaxParser
     public $current_organization;	// current organization object
     public $current_resource;	// current resource object
     public $item_stack;		// current open item objects
-    public $package_title = "";	// title for the package (title from organisation)
+    public string $package_title = "";	// title for the package (title from organisation)
 
 
     /**
@@ -76,14 +57,14 @@ class ilSCORMPackageParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing()
+    public function startParsing(): void
     {
         parent::startParsing();
     }
@@ -96,7 +77,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /*
     * update parsing status for a element begin
     */
-    public function beginElement($a_name)
+    public function beginElement($a_name): void
     {
         if (!isset($this->status["$a_name"])) {
             $this->cnt[$a_name] == 1;
@@ -109,7 +90,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /*
     * update parsing status for an element ending
     */
-    public function endElement($a_name)
+    public function endElement($a_name): void
     {
         $this->cnt[$a_name]--;
         unset($this->current_element[count($this->current_element) - 1]);
@@ -150,7 +131,7 @@ class ilSCORMPackageParser extends ilSaxParser
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr = "")
+    public function buildTag($type, $name, $attr = ""): string
     {
         $tag = "<";
 
@@ -179,7 +160,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
     * handler for begin of element
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs): void
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
@@ -282,7 +263,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name): void
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -316,7 +297,7 @@ class ilSCORMPackageParser extends ilSaxParser
     /**
     * handler for character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data): void
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
