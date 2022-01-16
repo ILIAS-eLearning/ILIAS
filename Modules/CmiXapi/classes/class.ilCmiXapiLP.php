@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiLP
  *
@@ -14,10 +24,15 @@
  */
 class ilCmiXapiLP extends ilObjectLP
 {
-    public function initModeOptions(ilRadioGroupInputGUI $modeRadio)
+    const MOVEON_COMPLETED = 'Completed';
+    const MOVEON_PASSED = 'Passed';
+    const MOVEON_COMPLETED_OR_PASSED = 'CompletedOrPassed';
+    const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
+    const MOVEON_NOT_APPLICABLE = 'NotApplicable';
+
+    public function initModeOptions(ilRadioGroupInputGUI $modeRadio): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $modeCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_deactivated'),
             ilLPObjSettings::LP_MODE_DEACTIVATED
@@ -89,7 +104,7 @@ class ilCmiXapiLP extends ilObjectLP
         }
     }
     
-    public function fetchModeOption(ilPropertyFormGUI $form)
+    public function fetchModeOption(ilPropertyFormGUI $form): int
     {
         $mainMode = (int) $form->getInput('modus');
         $failedOpt = (int) $form->getInput('modus_' . $mainMode . '_failed');
@@ -110,7 +125,7 @@ class ilCmiXapiLP extends ilObjectLP
         return $mainMode;
     }
     
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes($a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -123,12 +138,12 @@ class ilCmiXapiLP extends ilObjectLP
         );
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
     
-    public function getValidModes()
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

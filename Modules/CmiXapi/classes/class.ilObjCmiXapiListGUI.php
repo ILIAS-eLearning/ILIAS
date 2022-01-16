@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjCmiXapiListGUI
  *
@@ -14,7 +24,7 @@
  */
 class ilObjCmiXapiListGUI extends ilObjectListGUI
 {
-    public function init()
+    public function init(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -35,7 +45,10 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         $DIC->language()->loadLanguageModule('cmix');
     }
     
-    public function getProperties()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getProperties(): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

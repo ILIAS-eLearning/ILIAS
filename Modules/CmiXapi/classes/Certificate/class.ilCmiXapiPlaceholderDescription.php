@@ -1,7 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiPlaceholderDescription
  *
@@ -13,20 +24,11 @@
  */
 class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var ilDefaultPlaceholderDescription
-     */
-    private $defaultPlaceHolderDescriptionObject;
+    private \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
+    private ?\ilLanguage $language;
 
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private array $placeholder;
 
     /**
      * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -58,6 +60,9 @@ class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescrip
         $this->placeholder['REACHED_SCORE'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_reached_score'));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPlaceholderDescriptions() : array
     {
         return $this->placeholder;
