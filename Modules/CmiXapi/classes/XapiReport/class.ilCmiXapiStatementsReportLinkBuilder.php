@@ -59,6 +59,8 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
     
     protected function buildFilterStage()
     {
+        $cmi5_extensions_query = false;
+
         $stage = array();
         $stage['statement.object.objectType'] = 'Activity';
         $stage['statement.actor.objectType'] = 'Agent';
@@ -81,7 +83,7 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         $obj = $this->getObj();
         $activityId = array();
 
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
+        if ($cmi5_extensions_query == true && $obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
         {
             // https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#963-extensions
             $activityId['statement.context.extensions.https://ilias&46;de/cmi5/activityid'] = $obj->getActivityId();

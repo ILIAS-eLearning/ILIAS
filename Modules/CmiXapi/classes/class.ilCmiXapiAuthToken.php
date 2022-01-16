@@ -12,8 +12,11 @@
  *
  * @package     Module/CmiXapi
  */
-class ilCmiXapiAuthToken
+class ilCmiXapiAuthToken 
 {
+
+    const DB_TABLE_NAME = 'cmix_token';
+
     const OPENSSL_ENCRYPTION_METHOD = 'aes128';
 
     const OPENSSL_IV = '1234567890123456';
@@ -211,7 +214,7 @@ class ilCmiXapiAuthToken
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->database()->update(
-            'cmix_token',
+            self::DB_TABLE_NAME,
             [
                 'valid_until' => array('timestamp', $this->getValidUntil()),
                 'ref_id' => array('integer', $this->getRefId()),
@@ -234,7 +237,7 @@ class ilCmiXapiAuthToken
         $ilDB = $DIC->database();
         
         $ilDB->insert(
-            'cmix_token',
+            self::DB_TABLE_NAME,
             array(
                 'token' => array('text', $a_token),
                 'valid_until' => array('timestamp', $a_time),
@@ -254,7 +257,7 @@ class ilCmiXapiAuthToken
         $ilDB = $DIC->database();
         
         $query = "
-			DELETE FROM cmix_token
+			DELETE FROM " . self::DB_TABLE_NAME . "
 			WHERE obj_id = %s AND usr_id = %s
 		";
         
@@ -267,7 +270,7 @@ class ilCmiXapiAuthToken
         $ilDB = $DIC->database();
         
         $query = "
-			DELETE FROM cmix_token
+			DELETE FROM " . self::DB_TABLE_NAME . "
 			WHERE obj_id = %s AND ref_id = %s AND usr_id = %s
 		";
         
@@ -280,7 +283,7 @@ class ilCmiXapiAuthToken
         $ilDB = $DIC->database();
         
         $query = "
-			DELETE FROM cmix_token
+			DELETE FROM " . self::DB_TABLE_NAME . "
 			WHERE obj_id = %s AND ref_id = %s AND usr_id = %s
 		";
         
@@ -292,7 +295,7 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
         
-        $query = "DELETE FROM cmix_token WHERE valid_until < CURRENT_TIMESTAMP";
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE valid_until < CURRENT_TIMESTAMP";
         $ilDB->manipulate($query);
     }
     
@@ -358,7 +361,7 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $query = "
-			SELECT * FROM cmix_token
+			SELECT * FROM " . self::DB_TABLE_NAME . "
 			WHERE token = %s AND valid_until > CURRENT_TIMESTAMP
 		";
         
@@ -393,7 +396,7 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
         
-		$query = "SELECT * FROM cmix_token WHERE obj_id = %s AND usr_id = %s";
+		$query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s";
 		
         if ($checkValid) {
             $query .= " AND valid_until > CURRENT_TIMESTAMP";
@@ -433,7 +436,7 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
         
-		$query = "SELECT * FROM cmix_token WHERE obj_id = %s AND ref_id = %s AND usr_id = %s";
+		$query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND ref_id = %s AND usr_id = %s";
 		
         if ($checkValid) {
             $query .= " AND valid_until > CURRENT_TIMESTAMP";
@@ -466,7 +469,7 @@ class ilCmiXapiAuthToken
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $ilDB->manipulate("UPDATE cmix_token SET cmi5_session = " . $ilDB->quote($cmi5_session, 'text') . " WHERE token = " . $ilDB->quote($token, 'text'));
+        $ilDB->manipulate("UPDATE " . self::DB_TABLE_NAME . " SET cmi5_session = " . $ilDB->quote($cmi5_session, 'text') . " WHERE token = " . $ilDB->quote($token, 'text'));
     }
     */
 
@@ -483,12 +486,12 @@ class ilCmiXapiAuthToken
         global $DIC; 
         $ilDB = $DIC->database();
         if (empty($refId)) {
-            $query = "SELECT cmi5_session FROM cmix_token WHERE usr_id = %s AND obj_id = %s";
+            $query = "SELECT cmi5_session FROM " . self::DB_TABLE_NAME . " WHERE usr_id = %s AND obj_id = %s";
             $result = $ilDB->queryF($query, array('integer', 'integer'), array($usrId, $objId));    
         }
         else
         {
-            $query = "SELECT cmi5_session FROM cmix_token WHERE usr_id = %s AND obj_id = %s AND ref_id = %s";
+            $query = "SELECT cmi5_session FROM " . self::DB_TABLE_NAME . " WHERE usr_id = %s AND obj_id = %s AND ref_id = %s";
             $result = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array($usrId, $objId, $refId));
         }
         

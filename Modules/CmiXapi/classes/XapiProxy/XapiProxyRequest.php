@@ -67,7 +67,7 @@
                         $fakePostBody = $retArr[1]; // fake post php array of ALL statments as if all statements were processed
                     }
                 }
-                catch(Exception $e) {
+                catch(\Exception $e) {
                     $this->xapiproxy->log()->error($this->msg($e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
@@ -76,7 +76,7 @@
                     $req = new Request($request->getMethod(),$request->getUri(),$request->getHeaders(),$body);
                     $this->handleProxy($req, $fakePostBody);
                 }
-                catch(Exception $e) {
+                catch(\Exception $e) {
                     $this->xapiproxy->log()->error($this->msg($e->getMessage()));
                     $this->handleProxy($request, $fakePostBody);
                 }
@@ -132,7 +132,7 @@
                 try {
                     $responses = Promise\settle($promises)->wait();
                 }
-                catch(Exception $e) {
+                catch(\Exception $e) {
                     $this->xapiproxy->log()->error($this->msg($e->getMessage()));
                 }
                
@@ -143,7 +143,7 @@
                     try {
                         $this->xapiProxyResponse->handleResponse($reqDefault, $responses['default']['value'], $fakePostBody);
                     }
-                    catch (Exception $e) {
+                    catch (\Exception $e) {
                         $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                         $this->xapiProxyResponse->exitProxyError();
                     }
@@ -153,7 +153,7 @@
                     try {
                         $this->xapiProxyResponse->handleResponse($reqFallback, $responses['fallback']['value'], $fakePostBody);
                     }
-                    catch (Exception $e) {
+                    catch (\Exception $e) {
                         $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                         $this->xapiProxyResponse->exitProxyError();
                     }
@@ -171,14 +171,14 @@
                 try {
                     $responses = Promise\settle($promises)->wait();
                 }
-                catch(Exception $e) {
+                catch(\Exception $e) {
                     $this->xapiproxy->log()->error($this->msg($e->getMessage()));
                 }
                 if ($this->xapiProxyResponse->checkResponse($responses['default'], $endpointDefault)) {
                     try {
                         $this->xapiProxyResponse->handleResponse($reqDefault, $responses['default']['value'], $fakePostBody);
                     }
-                    catch(Exception $e) {
+                    catch(\Exception $e) {
                         $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                         $this->xapiProxyResponse->exitProxyError();
                     }

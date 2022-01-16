@@ -126,9 +126,8 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Builds the CmiXapi Object
-     * @return $this
      */
-    private function prepareContainerObject()
+    private function prepareContainerObject() : void
     {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
@@ -186,13 +185,12 @@ class ilCmiXapiImporter extends ilXmlImporter
 
         $xmlRoot = null;
         $xml = $DIC->filesystem()->temp()->readStream($this->_relImportDir . '/properties.xml');
-        if ($xml !== false) {
+        if ($xml != false) {
             $xmlRoot = simplexml_load_string($xml);
         }
         foreach ($this->_dataset->_cmixSettingsProperties as $key => $property) {
             $this->_moduleProperties[$key] = trim($xmlRoot->$key->__toString());
         }
-        $this->_moduleProperties['Title'] = $this->_moduleProperties['Title'];
         return $this;
     }
 

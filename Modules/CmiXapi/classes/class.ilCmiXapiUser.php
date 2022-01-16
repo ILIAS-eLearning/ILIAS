@@ -14,6 +14,8 @@
  */
 class ilCmiXapiUser
 {
+    const DB_TABLE_NAME = 'cmix_users';
+
     /**
      * @var int
      */
@@ -157,6 +159,12 @@ class ilCmiXapiUser
     public static function getIliasUuid() : string
     {
         $setting = new ilSetting('cmix');
+        // Fallback
+        if (!$setting->get('ilias_uuid', false)) {
+			// $uuid = (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
+			$uuid = self::getUUID(32);
+			$setting->set('ilias_uuid', $uuid);
+		}
         $ilUuid = $setting->get('ilias_uuid');
         return $ilUuid;
     }
@@ -214,7 +222,7 @@ class ilCmiXapiUser
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $res = $DIC->database()->queryF(
-            "SELECT * FROM cmix_users WHERE obj_id = %s AND usr_id = %s AND privacy_ident = %s",
+            "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s AND privacy_ident = %s",
             array('integer', 'integer', 'integer'),
             array($this->getObjId(), $this->getUsrId(), $this->getPrivacyIdent())
         );
@@ -241,7 +249,7 @@ class ilCmiXapiUser
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $DIC->database()->replace(
-            'cmix_users',
+            self::DB_TABLE_NAME,
             array(
                 'obj_id' => array('integer', (int) $this->getObjId()),
                 'usr_id' => array('integer', (int) $this->getUsrId()),
@@ -256,13 +264,31 @@ class ilCmiXapiUser
             )
         );
     }
-    
+
+    // ToDo Only for Deletion -> Core
+    public static function getInstancesByObjectIdAndUsrId($objId, $usrId)
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $res = $DIC->database()->queryF(
+            "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s",
+            array('integer', 'integer'),
+            array($objId, $usrId)
+        );
+        $cmixUsers = array();
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $cmixUser = new self();
+            $cmixUser->assignFromDbRow($row);
+            $cmixUsers[] = $cmixUser;
+        }
+        return $cmixUsers;
+    }
+
     public static function getInstanceByObjectIdAndUsrIdent($objId, $usrIdent)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $res = $DIC->database()->queryF(
-            "SELECT * FROM cmix_users WHERE obj_id = %s AND usr_ident = %s",
+            "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_ident = %s",
             array('integer', 'text'),
             array($objId, $usrIdent)
         );
@@ -286,7 +312,7 @@ class ilCmiXapiUser
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $DIC->database()->update(
-            'cmix_users',
+            self::DB_TABLE_NAME,
             array(
                 'proxy_success' => array('integer', 1)
             ),
@@ -410,7 +436,7 @@ class ilCmiXapiUser
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $res = $DIC->database()->queryF(
-            "SELECT * FROM cmix_users WHERE obj_id = %s",
+            "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s",
             array('integer'),
             array($objId)
         );
@@ -447,7 +473,7 @@ class ilCmiXapiUser
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $res = $DIC->database()->queryF(
-            "SELECT usr_ident FROM cmix_users WHERE obj_id = %s AND usr_id = %s",
+            "SELECT usr_ident FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s",
             array('integer','integer'),
             array($objId,$usrId)
         );
@@ -460,13 +486,32 @@ class ilCmiXapiUser
         return $usrIdents;
     }
 
+/**
+     * @param int $objId
+     * @param int[] $users
+     */
+    public static function deleteUsersForObject(int $objId, ?array $users = [])
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = ".$DIC->database()->quote($objId, 'integer');
+        if (count($users) == 0) {
+            $DIC->database()->manipulate($query);
+        }
+        else {
+            $DIC->database()->manipulateF($query." AND usr_id = %s",
+                array('integer'),
+                $users
+            );
+        }
+    }
+   
     // $withIdent requires constructed object with privacyIdent!
     public static function exists($objId, $usrId, $privacyIdent = 999)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         if ($privacyIdent == 999)
         {
-            $query = "SELECT count(*) cnt FROM cmix_users WHERE obj_id = %s AND usr_id = %s";
+            $query = "SELECT count(*) cnt FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s";
             $res = $DIC->database()->queryF(
                 $query,
                 array('integer', 'integer'),
@@ -475,7 +520,7 @@ class ilCmiXapiUser
         }
         else
         {
-            $query = "SELECT count(*) cnt FROM cmix_users WHERE obj_id = %s AND usr_id = %s AND privacy_ident = %s";
+            $query = "SELECT count(*) cnt FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s AND usr_id = %s AND privacy_ident = %s";
             $res = $DIC->database()->queryF(
                 $query,
                 array('integer', 'integer', 'integer'),
@@ -496,7 +541,7 @@ class ilCmiXapiUser
         
         $query = "
 			SELECT DISTINCT cu.obj_id
-			FROM cmix_users cu
+			FROM " . self::DB_TABLE_NAME . " cu
 			INNER JOIN object_data od
 			ON od.obj_id = cu.obj_id
 			AND od.type = 'cmix'
@@ -520,7 +565,7 @@ class ilCmiXapiUser
         
         $IN_objIds = $DIC->database()->in('obj_id', $objectIds, false, 'integer');
         
-        $query = "UPDATE cmix_users SET fetched_until = %s WHERE $IN_objIds";
+        $query = "UPDATE " . self::DB_TABLE_NAME . " SET fetched_until = %s WHERE $IN_objIds";
         $DIC->database()->manipulateF($query, array('timestamp'), array($fetchedUntil->get(IL_CAL_DATETIME)));
     }
     
@@ -540,7 +585,7 @@ class ilCmiXapiUser
         
         $query = "
 			SELECT cu.obj_id
-			FROM cmix_users cu
+			FROM " . self::DB_TABLE_NAME . " cu
 			{$TYPE_JOIN}
 			WHERE cu.usr_id = {$DIC->database()->quote($usrId, 'integer')}
 		";
@@ -608,11 +653,14 @@ class ilCmiXapiUser
 
     private static function userObjectUniqueIdExists($id)
     {
-        global $DIC; /** @var Container */
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $query = "SELECT usr_ident FROM cmix_users WHERE " . $DIC->database()->like('usr_ident', 'text', $id . '@%');
+        $query = "SELECT usr_ident FROM " . self::DB_TABLE_NAME . " WHERE " . $DIC->database()->like('usr_ident', 'text', $id . '@%');
         $result = $DIC->database()->query($query);
-        return (bool)$num = $DIC->database()->numRows($result);
+        if ($result->numRows() == 0) {
+            return false;
+        }
+        return true;
     }
 
     public static function generateCMI5Registration($objId, $usrId)

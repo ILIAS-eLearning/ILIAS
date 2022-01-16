@@ -72,7 +72,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function viewCmd()
     {
-        return $this->showLrsTypesListCmd();
+        $this->showLrsTypesListCmd();
     }
     
     protected function showLrsTypesListCmd()
@@ -391,7 +391,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         return $form;
     }
     
-    protected function saveLrsTypeFormCmd()
+    protected function saveLrsTypeFormCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -400,7 +400,8 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $form = $this->buildLrsTypeForm($lrsType);
         
         if (!$form->checkInput()) {
-            return $this->showLrsTypeFormCmd($form);
+            $this->showLrsTypeFormCmd($form);
+            return;
         }
         
         $lrsType->setTitle($form->getInput("title"));
