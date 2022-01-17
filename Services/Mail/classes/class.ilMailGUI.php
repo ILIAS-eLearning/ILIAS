@@ -263,7 +263,6 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         global $DIC;
 
         $DIC['ilHelp']->setScreenIdComponent("mail");
-        $DIC['ilMainMenu']->setActive("mail");
 
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
