@@ -85,9 +85,6 @@ class ilConsultationHourGroups
 
     /**
      * Lookup max number of bookings for group
-     * @global type $ilDB
-     * @param type $a_group_id
-     * @return int
      */
     public static function lookupMaxBookings($a_group_id)
     {

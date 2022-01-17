@@ -4,7 +4,6 @@
 
 include_once 'Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php';
 include_once 'Services/Calendar/classes/class.ilCalendarCategories.php';
-include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 
 /**
  * Calendar schedule filter for consultation hour bookings

@@ -26,7 +26,6 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
         $this->addCommonSection($a_app, $cat_info['obj_id']);
 
         //objects
-        include_once 'Services/Booking/classes/class.ilBookingEntry.php';
         $booking = new ilBookingEntry($context_id);
 
         if ($manager = ilConsultationHourAppointments::getManager(true, true, $booking->getObjId())) {

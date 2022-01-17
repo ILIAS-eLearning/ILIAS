@@ -1387,7 +1387,6 @@ class ilCalendarAppointmentGUI
         $this->ctrl->saveParameter($this, 'app_id');
         
         include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-        include_once 'Services/Booking/classes/class.ilBookingEntry.php';
         $entry = new ilCalendarEntry($entry_id);
         $booking = new \ilBookingEntry($entry->getContextId());
         $user = $booking->getObjId();
@@ -1442,7 +1441,6 @@ class ilCalendarAppointmentGUI
             include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
             $cal_entry = new ilCalendarEntry($entry);
             
-            include_once './Services/Booking/classes/class.ilBookingEntry.php';
             $booking = new ilBookingEntry($cal_entry->getContextId());
             
             if (!$booking->isAppointmentBookableForUser($entry, $GLOBALS['DIC']['ilUser']->getId())) {
@@ -1453,7 +1451,6 @@ class ilCalendarAppointmentGUI
             include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourUtils.php';
             ilConsultationHourUtils::bookAppointment($ilUser->getId(), $entry);
             
-            include_once './Services/Booking/classes/class.ilBookingEntry.php';
             ilBookingEntry::writeBookingMessage($entry, $ilUser->getId(), $form->getInput('comment'));
         }
         ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'), true);
@@ -1478,7 +1475,6 @@ class ilCalendarAppointmentGUI
 
         $category = $this->calendarEntryToCategory($entry);
         if ($category->getType() == ilCalendarCategory::TYPE_CH) {
-            include_once 'Services/Booking/classes/class.ilBookingEntry.php';
             $booking = new ilBookingEntry($entry->getContextId());
             if (!$booking->hasBooked($entry->getEntryId())) {
                 $this->ctrl->returnToParent($this);
@@ -1538,7 +1534,6 @@ class ilCalendarAppointmentGUI
                 $ref_entry->delete();
             }
             
-            include_once 'Services/Booking/classes/class.ilBookingEntry.php';
             $booking = new ilBookingEntry($entry->getContextId());
             $booking->cancelBooking($entry->getEntryId());
 

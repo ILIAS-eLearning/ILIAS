@@ -263,7 +263,6 @@ class ilCalendarEntry implements ilDatePeriod
         $title = $style = "";
         switch ($a_type) {
             case "consultationhour":
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilBookingEntry($this->getContextId());
                 if ($entry) {
                     if ($entry->isOwner()) {

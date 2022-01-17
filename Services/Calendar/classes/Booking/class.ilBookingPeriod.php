@@ -1,22 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
-
 /**
-* Booking period
-* Used for calculation of recurring events
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesBooking
-*/
+ * Booking period
+ * Used for calculation of recurring events
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesBooking
+ */
 class ilBookingPeriod implements ilDatePeriod
 {
-    private $start = null;
-    private $end = null;
+    private ?ilDateTime $start = null;
+    private ?ilDateTime $end = null;
 
     /**
      * Constructor
@@ -26,6 +20,7 @@ class ilBookingPeriod implements ilDatePeriod
         $this->start = $start;
         $this->end = $end;
     }
+
     /**
      * @see ilDatePeriod::getEnd()
      */
@@ -33,6 +28,7 @@ class ilBookingPeriod implements ilDatePeriod
     {
         return $this->end;
     }
+
     /**
      * @see ilDatePeriod::getStart()
      */
@@ -40,6 +36,7 @@ class ilBookingPeriod implements ilDatePeriod
     {
         return $this->start;
     }
+
     /**
      * @see ilDatePeriod::isFullday()
      */
