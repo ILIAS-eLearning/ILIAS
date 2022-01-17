@@ -32,11 +32,12 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
 
         $this->ilChatroomMock->method('getRoomId')->willReturn($roomId);
 
-        $_SESSION['chat'] = [
+        $session = [
             $roomId => [
                 'user_id' => $userId,
             ],
         ];
+        ilSession::set('chat', $session);
 
         $this->assertEquals($userId, $this->user->getUserId());
     }
