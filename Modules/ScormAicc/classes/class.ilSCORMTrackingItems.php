@@ -24,7 +24,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int|string, mixed>
      */
-    public function scoTitlesForExportSelected($obj_id): array
+    public function scoTitlesForExportSelected($obj_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -62,7 +62,7 @@ class ilSCORMTrackingItems
         return $a_scos;
     }
 
-    public static function userDataArrayForExport($user, $b_allowExportPrivacy = false): array
+    public static function userDataArrayForExport($user, $b_allowExportPrivacy = false) : array
     {
         $userArray = array();
         if ($b_allowExportPrivacy == false) {
@@ -113,7 +113,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, mixed>
      */
-    public function getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user = array(), $a_sco = array(), $lvalue, $counter, $topic): array
+    public function getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user = array(), $a_sco = array(), $lvalue, $counter, $topic) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -140,7 +140,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedRawColumns(): array
+    public static function exportSelectedRawColumns() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -154,10 +154,10 @@ class ilSCORMTrackingItems
             . ',c_timestamp,lvalue,rvalue'
         );
         $a_true = explode(',', $udh["default"] . ",identifierref,c_timestamp,lvalue,rvalue");
-        for ($i = 0;$i < count($a_cols);$i++) {
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
@@ -166,7 +166,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, mixed[]>
      */
-    public function exportSelectedRaw($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle): array
+    public function exportSelectedRaw($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -209,7 +209,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy): array
+    public static function exportSelectedCoreColumns($b_orderBySCO, $b_allowExportPrivacy) : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -223,10 +223,10 @@ class ilSCORMTrackingItems
             . ',lesson_status,credit,c_entry,c_exit,c_max,c_min,c_raw,session_time,total_time,c_timestamp,suspend_data,launch_data'
         );
         $a_true = explode(',', $udh["default"] . ",sco_title,lesson_status");
-        for ($i = 0;$i < count($a_cols);$i++) {
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
@@ -235,7 +235,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, mixed[]>
      */
-    public function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle): array
+    public function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -250,7 +250,7 @@ class ilSCORMTrackingItems
 
         //data-arrays to fill for all users
         $a_empty = array();
-        for ($i = 0; $i < count($a_user); $i++) {
+        for ($i = 0, $iMax = count($a_user); $i < $iMax; $i++) {
             $a_empty[$a_user[$i]] = array();
         }
         
@@ -324,7 +324,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedInteractionsColumns(): array
+    public static function exportSelectedInteractionsColumns() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -337,10 +337,10 @@ class ilSCORMTrackingItems
             . ',counter,id,weighting,type,result,student_response,latency,time,c_timestamp'
         );//,latency_seconds
         $a_true = explode(',', $udh["default"] . ",sco_title,id,result,student_response");
-        for ($i = 0;$i < count($a_cols);$i++) {
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
@@ -349,7 +349,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, mixed[]>
      */
-    public function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle): array
+    public function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -414,7 +414,7 @@ class ilSCORMTrackingItems
         $a_student_response = array();
         $a_latency = array();
         $a_time = array();
-        for ($i = 0;$i < count($interactionsCounter);$i++) {
+        for ($i = 0, $iMax = count($interactionsCounter); $i < $iMax; $i++) {
             $a_id = array_merge($a_id, self::getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user, $a_sco, 'id', $interactionsCounter[$i], 'interactions'));
             $a_weighting = array_merge($a_weighting, self::getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user, $a_sco, 'weighting', $interactionsCounter[$i], 'interactions'));
             $a_type = array_merge($a_type, self::getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user, $a_sco, 'type', $interactionsCounter[$i], 'interactions'));
@@ -467,7 +467,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedObjectivesColumns(): array
+    public static function exportSelectedObjectivesColumns() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -480,10 +480,10 @@ class ilSCORMTrackingItems
             . ',counter,id,c_max,c_min,c_raw,ostatus,c_timestamp'
         );
         $a_true = explode(',', $udh["default"] . ",sco_title,id,c_raw,ostatus");
-        for ($i = 0;$i < count($a_cols);$i++) {
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
@@ -492,7 +492,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, mixed[]>
      */
-    public function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle): array
+    public function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -551,7 +551,7 @@ class ilSCORMTrackingItems
         $a_c_min = array();
         $a_c_raw = array();
         $a_status = array();
-        for ($i = 0;$i < count($objectivesCounter);$i++) {
+        for ($i = 0, $iMax = count($objectivesCounter); $i < $iMax; $i++) {
             $a_id = array_merge($a_id, self::getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user, $a_sco, 'id', $objectivesCounter[$i], 'objectives'));
             $a_c_max = array_merge($a_c_max, self::getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user, $a_sco, 'score.max', $objectivesCounter[$i], 'objectives'));
             $a_c_min = array_merge($a_c_min, self::getScormTrackingValueForInteractionsOrObjectives($obj_id, $a_user, $a_sco, 'score.min', $objectivesCounter[$i], 'objectives'));
@@ -595,7 +595,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedSuccessColumns(): array
+    public static function exportSelectedSuccessColumns() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -608,10 +608,10 @@ class ilSCORMTrackingItems
             . ',status,Percentage,Attempts,existingSCOs,startedSCOs,completedSCOs,passedSCOs,roundedTotal_timeSeconds,offline_mode,last_access');
         $a_true = explode(',', $udh["default"] . ",LearningModuleTitle,status,Percentage,Attempts");
 
-        for ($i = 0;$i < count($a_cols);$i++) {
+        for ($i = 0, $iMax = count($a_cols); $i < $iMax; $i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i = 0;$i < count($a_true);$i++) {
+        for ($i = 0, $iMax = count($a_true); $i < $iMax; $i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
@@ -620,7 +620,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, mixed[]>
      */
-    public function exportSelectedSuccessRows($a_user = array(), $allowExportPrivacy = false, $dbdata = array(), $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id, $lmTitle): array
+    public function exportSelectedSuccessRows($a_user = array(), $allowExportPrivacy = false, $dbdata = array(), $scoCounter, $u_startedSCO, $u_completedSCO, $u_passedSCO, $obj_id, $lmTitle) : array
     {
         $returnData = array();
         foreach ($dbdata as $data) {
@@ -653,7 +653,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, mixed[]>
      */
-    public function exportSelectedSuccess($a_user = array(), $allowExportPrivacy = false, $obj_id, $lmTitle): array
+    public function exportSelectedSuccess($a_user = array(), $allowExportPrivacy = false, $obj_id, $lmTitle) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -678,7 +678,7 @@ class ilSCORMTrackingItems
         $u_startedSCO = array();
         $u_completedSCO = array();
         $u_passedSCO = array();
-        for ($i = 0; $i < count($a_user); $i++) {
+        for ($i = 0, $iMax = count($a_user); $i < $iMax; $i++) {
             $u_startedSCO[$a_user[$i]] = 0;
             $u_completedSCO[$a_user[$i]] = 0;
             $u_passedSCO[$a_user[$i]] = 0;
@@ -737,7 +737,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, string>
      */
-    public static function userDataHeaderForExport(): array
+    public static function userDataHeaderForExport() : array
     {
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
