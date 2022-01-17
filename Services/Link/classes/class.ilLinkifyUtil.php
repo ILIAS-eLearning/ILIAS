@@ -19,19 +19,16 @@
  */
 class ilLinkifyUtil
 {
-    private static $ver = "1_1";
-    private static $min = ".min";
+    private static string $ver = "1_1";
+    private static string $min = ".min";
 
-    /**
-     * Init Linkify
-     */
-    public static function initLinkify(ilTemplate $a_tpl = null) : void
+    public static function initLinkify(?ilGlobalTemplateInterface $a_tpl = null) : void
     {
         global $DIC;
 
         $tpl = $DIC["tpl"];
         
-        if ($a_tpl == null) {
+        if ($a_tpl === null) {
             $a_tpl = $tpl;
         }
 
@@ -42,13 +39,14 @@ class ilLinkifyUtil
 
     /**
      * Get paths of necessary js files
+     * @return string[]
      */
     public static function getLocalJsPaths() : array
     {
-        return array(
+        return [
             "./node_modules/linkifyjs/dist/linkify.min.js",
             "./node_modules/linkifyjs/dist/linkify-jquery.min.js",
             "./Services/Link/js/ilExtLink.js"
-        );
+        ];
     }
 }
