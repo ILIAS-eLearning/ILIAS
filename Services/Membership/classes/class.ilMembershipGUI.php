@@ -24,7 +24,7 @@ class ilMembershipGUI
     protected ilLogger $logger;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
-    protected ilParticipants $participants;
+    protected ?ilParticipants $participants = null;
     protected ilObjUser $user;
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;

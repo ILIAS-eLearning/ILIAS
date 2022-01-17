@@ -96,9 +96,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        
+        $ilUser = $DIC->user();
+        $ilAccess = $DIC->access();
+
+        $a_set['usr_id'] = (int) $a_set['usr_id'];
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
         if (!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) and
