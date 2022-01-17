@@ -67,7 +67,12 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
     {
         $username = 'username';
         $roomId = 99;
-        $_SESSION['chat'][$roomId]['username'] = $username;
+
+        ilSession::set('chat', [
+            $roomId => [
+                'username' => $username,
+            ],
+        ]);
 
         $this->ilChatroomMock->method('getRoomId')->willReturn(99);
 
@@ -82,7 +87,11 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
     {
         $username = 'login';
         $roomId = 99;
-        $_SESSION['chat'][$roomId]['username'] = ''; // Fix missing key warning
+        ilSession::set('chat', [
+            $roomId => [
+                'username' => '',
+            ],
+        ]);
 
         $this->ilUserMock->expects($this->once())->method('getLogin')->willReturn($username);
         $this->ilChatroomMock->method('getRoomId')->willReturn($roomId);
