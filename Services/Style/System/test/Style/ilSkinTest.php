@@ -2,27 +2,17 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-use PHPUnit\Framework\TestCase;
-
-class ilSkinTest extends TestCase
+class ilSkinTest extends ilSystemStyleBaseFSTest
 {
     protected ilSkin $skin;
     protected ilSkinStyle $style1;
     protected ilSkinStyle $style2;
     protected ilSkinStyle $substyle1;
     protected ilSkinStyle $substyle2;
-    protected ilSystemStyleConfigMock $system_style_config;
-    protected ilFileSystemHelper $file_system;
 
     protected function setUp() : void
     {
-        global $DIC;
-
-        if(isset($this->save_dic)){
-            $DIC = $this->save_dic;
-        }
-
-        $DIC = new ilSystemStyleDICMock();
+        parent::setUp();
 
         $this->skin = new ilSkin("skin1", "skin 1");
 
@@ -43,24 +33,6 @@ class ilSkinTest extends TestCase
 
         $this->substyle2 = new ilSkinStyle("substyle2", "Substyle 2");
         $this->substyle2->setSubstyleOf($this->style2->getId());
-
-        $this->system_style_config = new ilSystemStyleConfigMock();
-
-        mkdir($this->system_style_config->test_skin_temp_path);
-        $this->file_system = new ilFileSystemHelper($DIC->language());
-        $this->file_system->recursiveCopy($this->system_style_config->test_skin_original_path,
-            $this->system_style_config->test_skin_temp_path);
-    }
-
-    protected function tearDown() : void
-    {
-        global $DIC;
-
-        if (isset($this->save_dic)) {
-            $DIC = $this->save_dic;
-        }
-
-        $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
     public function testSkinNameAndId() : void

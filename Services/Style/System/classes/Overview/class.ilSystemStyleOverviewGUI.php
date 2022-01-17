@@ -1,35 +1,67 @@
 <?php declare(strict_types=1);
 
+use \ILIAS\UI\Factory;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use \ILIAS\UI\Renderer;
+
 class ilSystemStyleOverviewGUI
 {
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
-    protected ilGlobalPageTemplate $tpl;
-    protected ILIAS\DI\Container $DIC;
-    protected int $ref_id;
-    protected bool $read_only = true;
-    protected bool $management_enabled = false;
-    protected $ilias;
-    protected \ILIAS\DI\Container $dic;
-    protected \ILIAS\UI\Factory $f;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilSkinFactory $skin_factory;
     protected ilFileSystemHelper $file_system;
+    protected ilSkinStyleContainer $style_container;
+    protected ilSystemStyleMessageStack $message_stack;
+    protected Factory $ui_factory;
+    protected Renderer $renderer;
+    protected WrapperFactory $request_wrapper;
+    protected Refinery $refinery;
+    protected ilSystemStyleConfig $config;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
 
-    public function __construct(bool $read_only, bool $management_enabled)
-    {
-        global $DIC;
+    protected string $ref_id;
+    protected bool $read_only = true;
+    protected bool $management_enabled = false;
 
-        $this->ilias = $DIC["ilias"];
-        $this->dic = $DIC;
-        $this->ctrl = $DIC->ctrl();
-        $this->toolbar = $DIC->toolbar();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
-        $this->f = $DIC->ui()->factory();
-        $this->skin_factory = new ilSkinFactory();
+    protected string $style_id;
 
-        $this->ref_id = (int) $_GET["ref_id"];
+    public function __construct(
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
+        Factory $ui_factory,
+        Renderer $renderer,
+        WrapperFactory $request_wrapper,
+        ilToolbarGUI $toolbar,
+        Refinery $refinery,
+        ilSkinFactory $skin_factory,
+        ilTabsGUI $tabs,
+        ilHelpGUI $help,
+        string $skin_id,
+        string $style_id,
+        string $ref_id,
+        bool $read_only,
+        bool $management_enabled
+    ) {
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->ui_factory = $ui_factory;
+        $this->renderer = $renderer;
+        $this->request_wrapper = $request_wrapper;
+        $this->toolbar = $toolbar;
+        $this->refinery = $refinery;
+        $this->tabs = $tabs;
+        $this->style_id = $style_id;
+        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->skin_factory = $skin_factory;
+        $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
+        $this->help = $help;
+        $this->ref_id = $ref_id;
 
         $this->setReadOnly($read_only);
         $this->setManagementEnabled($management_enabled);
@@ -93,20 +125,16 @@ class ilSystemStyleOverviewGUI
     {
         if ($this->isManagementEnabled()) {
             // Add Button for adding skins
-            $add_skin_btn = ilLinkButton::getInstance();
-            $add_skin_btn->setCaption($this->lng->txt("add_system_style"), false);
-            $add_skin_btn->setUrl($this->ctrl->getLinkTarget($this, 'addSystemStyle'));
-            $this->toolbar->addButtonInstance($add_skin_btn);
+            $this->toolbar->addComponent($this->ui_factory->button()->standard($this->lng->txt("add_system_style"),
+                $this->ctrl->getLinkTarget($this, 'addSystemStyle')));
 
-            // Add Button for adding skins
-            $add_substyle_btn = ilLinkButton::getInstance();
-            $add_substyle_btn->setCaption($this->lng->txt("add_substyle"), false);
-            $add_substyle_btn->setUrl($this->ctrl->getLinkTarget($this, 'addSubStyle'));
+            // Add Button for adding sub styles
+            $add_sub = $this->ui_factory->button()->standard($this->lng->txt("add_substyle"),
+                $this->ctrl->getLinkTarget($this, 'addSubStyle'));
             if (count(ilStyleDefinition::getAllSkins()) == 1) {
-                $add_substyle_btn->setDisabled(true);
+                $add_sub = $add_sub->withUnavailableAction();
             }
-            $this->toolbar->addButtonInstance($add_substyle_btn);
-
+            $this->toolbar->addComponent($add_sub);
             $this->toolbar->addSeparator();
         }
 
@@ -124,14 +152,11 @@ class ilSystemStyleOverviewGUI
 
         $this->toolbar->addInputItem($si, true);
 
-        // from styles selector
         $si = new ilSelectInputGUI($this->lng->txt("sty_to"), "to_style");
         $si->setOptions($options);
         $this->toolbar->addInputItem($si, true);
-        // Add Button for adding skins
-        $move_skin_btn = ilSubmitButton::getInstance();
-        $move_skin_btn->setCaption($this->lng->txt("sty_move_style"), false);
-        $this->toolbar->addButtonInstance($move_skin_btn);
+        $this->toolbar->addComponent($this->ui_factory->button()->standard($this->lng->txt("sty_move_style"), ""));
+
         $this->toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'moveUserStyles'));
 
         $table = new ilSystemStylesTableGUI($this, "edit");
@@ -141,9 +166,11 @@ class ilSystemStyleOverviewGUI
 
     public function moveUserStyles() : void
     {
-        $to = explode(":", $_POST["to_style"]);
+        $to = $this->request_wrapper->post()->retrieve('to_style', $this->refinery->string()->splitString(":"));
 
-        if ($_POST["from_style"] == "other") {
+        $from_style = $this->request_wrapper->post()->retrieve('from_style', $this->refinery->kindlyTo()->string());
+
+        if ($from_style == "other") {
             // get all user assigned styles
             $all_user_styles = ilObjUser::_getAllUserAssignedStyles();
 
@@ -156,18 +183,24 @@ class ilSystemStyleOverviewGUI
                 }
             }
         } else {
-            $from = explode(":", $_POST["from_style"]);
+            $from = explode(":", $from_style);
             ilObjUser::_moveUsersToStyle($from[0], $from[1], $to[0], $to[1]);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "edit");
+        $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("msg_obj_modified")));
+        $this->edit();
     }
 
     public function saveStyleSettings() : void
     {
         $message_stack = new ilSystemStyleMessageStack();
 
+        $to_array = $this->refinery->custom()->transformation(function ($v){
+            return $v;
+        });
+        $active_styles = $this->request_wrapper->post()->retrieve("st_act", $this->refinery->to()->);
+        var_dump($active_styles);
+        exit;
         if ($this->checkStyleSettings($message_stack)) {
             $all_styles = ilStyleDefinition::getAllSkinStyles();
             foreach ($all_styles as $st) {
@@ -232,13 +265,19 @@ class ilSystemStyleOverviewGUI
         $form = $this->createSystemStyleForm();
 
         if ($form->checkInput()) {
+            $skin_id = $this->request_wrapper->post()->retrieve('skin_id', $this->refinery->kindlyTo()->string());
+            $style_id = $this->request_wrapper->post()->retrieve('style_id', $this->refinery->kindlyTo()->string());
+
+            $skin_name = $this->request_wrapper->post()->retrieve('skin_name', $this->refinery->kindlyTo()->string());
+            $style_name = $this->request_wrapper->post()->retrieve('style_name', $this->refinery->kindlyTo()->string());
+
             $message_stack = new ilSystemStyleMessageStack();
-            if (ilStyleDefinition::skinExists($_POST["skin_id"])) {
+            if (ilStyleDefinition::skinExists($skin_id)) {
                 ilUtil::sendFailure($this->lng->txt("skin_id_exists"));
             } else {
                 try {
-                    $skin = new ilSkin($_POST["skin_id"], $_POST["skin_name"]);
-                    $style = new ilSkinStyle($_POST["style_id"], $_POST["style_name"]);
+                    $skin = new ilSkin($skin_id, $skin_name);
+                    $style = new ilSkinStyle($style_id, $style_name);
                     $skin->addStyle($style);
                     $container = new ilSkinStyleContainer($skin);
                     $container->create($message_stack);
@@ -265,15 +304,13 @@ class ilSystemStyleOverviewGUI
 
     protected function addSystemStyleForms() : void
     {
-        global $DIC;
-
-        $DIC->tabs()->clearTargets();
+        $this->tabs->clearTargets();
         /**
          * Since clearTargets also clears the help screen ids
          */
-        $DIC->help()->setScreenIdComponent("sty");
-        $DIC->help()->setScreenId("system_styles");
-        $DIC->help()->setSubScreenId("create");
+        $this->help->setScreenIdComponent("sty");
+        $this->help->setScreenId("system_styles");
+        $this->help->setSubScreenId("create");
 
         $forms = array();
 
@@ -435,8 +472,8 @@ class ilSystemStyleOverviewGUI
 
     protected function deleteStyle() : void
     {
-        $skin_id = $_GET["skin_id"];
-        $style_id = $_GET["style_id"];
+        $skin_id = $this->style_container->getSkin()->getId();
+        $style_id = $this->style_id;
         $message_stack = new ilSystemStyleMessageStack();
 
         if ($this->checkDeletable($skin_id, $style_id, $message_stack)) {
@@ -583,15 +620,13 @@ class ilSystemStyleOverviewGUI
      */
     protected function addSubStyle() : void
     {
-        global $DIC;
-
-        $DIC->tabs()->clearTargets();
+        $this->tabs->clearTargets();
         /**
          * Since clearTargets also clears the help screen ids
          */
-        $DIC->help()->setScreenIdComponent("sty");
-        $DIC->help()->setScreenId("system_styles");
-        $DIC->help()->setSubScreenId("create_sub");
+        $this->help->setScreenIdComponent("sty");
+        $this->help->setScreenId("system_styles");
+        $this->help->setSubScreenId("create_sub");
 
         $form = $this->addSubStyleForms();
 

@@ -2,47 +2,8 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-use PHPUnit\Framework\TestCase;
-
-class ilSkinStyleLessFileTest extends TestCase
+class ilSkinStyleLessFileTest extends ilSystemStyleBaseFSTest
 {
-    protected ilSystemStyleConfigMock $system_style_config;
-    protected ilSkinStyleContainer $container;
-    protected ilSkinStyle $style;
-    protected ilFileSystemHelper $file_system;
-    protected \ILIAS\DI\Container $save_dic;
-
-    protected function setUp() : void
-    {
-        global $DIC;
-
-        if(isset($DIC)){
-            $this->save_dic = $DIC;
-        }
-
-
-        $this->system_style_config = new ilSystemStyleConfigMock();
-
-        mkdir($this->system_style_config->test_skin_temp_path);
-        $this->file_system = new ilFileSystemHelper($DIC->language());
-        $this->file_system->recursiveCopy($this->system_style_config->test_skin_original_path,
-            $this->system_style_config->test_skin_temp_path);
-
-        $factory = new ilSkinFactory($this->system_style_config);
-        $this->container = $factory->skinStyleContainerFromId("skin1");
-        $this->style = $this->container->getSkin()->getStyle("style1");
-    }
-
-    protected function tearDown() : void
-    {
-        global $DIC;
-        if (isset($this->save_dic)) {
-            $DIC = $this->save_dic;
-        }
-
-        $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
-    }
-
     public function testConstructAndRead() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));

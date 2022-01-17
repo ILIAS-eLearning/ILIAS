@@ -1,7 +1,11 @@
 <?php declare(strict_types=1);
 
 use ILIAS\FileUpload\Location;
-
+use \ILIAS\UI\Factory;
+use \ILIAS\UI\Renderer;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use \ILIAS\FileUpload\FileUpload;
 /**
  * @ilCtrl_Calls ilSystemStyleIconsGUI:
  */
@@ -9,36 +13,59 @@ class ilSystemStyleIconsGUI
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilSkinStyleContainer $style_container;
-    protected ilSystemStyleIconFolder $icon_folder;
-    protected ilTabsGUI $tabs;
-    protected \ILIAS\UI\Factory $f;
     protected ilSkinFactory $skin_factory;
+    protected ilSystemStyleMessageStack $message_stack;
+    protected Factory $ui_factory;
+    protected Renderer $renderer;
+    protected WrapperFactory $request_wrapper;
+    protected ilToolbarGUI $toolbar;
+    protected Refinery $refinery;
+    protected ilSystemStyleConfig $config;
+    protected ilTabsGUI $tabs;
+    protected ilSystemStyleIconFolder $icon_folder;
+    protected FileUpload $upload;
+    protected string $style_id;
 
-    public function __construct(string $skin_id = "", string $style_id = "")
-    {
-        global $DIC;
+    public function __construct(
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
+        Factory $ui_factory,
+        Renderer $renderer,
+        WrapperFactory $request_wrapper,
+        ilToolbarGUI $toolbar,
+        Refinery $refinery,
+        ilSkinFactory $skin_factory,
+        ilTabsGUI $tabs,
+        FileUpload $upload,
+        string $skin_id,
+        string $style_id
+    ) {
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->ui_factory = $ui_factory;
+        $this->renderer = $renderer;
+        $this->request_wrapper = $request_wrapper;
+        $this->toolbar = $toolbar;
+        $this->refinery = $refinery;
+        $this->tabs = $tabs;
+        $this->upload = $upload;
+        $this->style_id = $style_id;
+        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->skin_factory = $skin_factory;
+        $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
-        $this->tabs = $DIC->tabs();
-        $this->f = $DIC->ui()->factory();
-        $this->skin_factory = new ilSkinFactory();
-
-        if ($skin_id == "") {
-            $skin_id = $_GET["skin_id"];
-        }
-        if ($style_id == "") {
-            $style_id = $_GET["style_id"];
-        }
         $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id));
+
         if ($this->ctrl->getCmd() != "reset") {
             try {
                 $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style_id)));
             } catch (ilSystemStyleExceptionBase $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(),
+                    ilSystemStyleMessage::TYPE_ERROR));
                 $this->ctrl->setCmd("fail");
             }
         }
@@ -80,8 +107,10 @@ class ilSystemStyleIconsGUI
     protected function setSubStyleSubTabs(string $active = "") : void
     {
         $this->tabs->addSubTab('edit', $this->lng->txt('edit_by_color'), $this->ctrl->getLinkTarget($this, 'edit'));
-        $this->tabs->addSubTab('editIcon', $this->lng->txt('edit_by_icon'), $this->ctrl->getLinkTarget($this, 'editIcon'));
-        $this->tabs->addSubTab('preview', $this->lng->txt('icons_gallery'), $this->ctrl->getLinkTarget($this, "preview"));
+        $this->tabs->addSubTab('editIcon', $this->lng->txt('edit_by_icon'),
+            $this->ctrl->getLinkTarget($this, 'editIcon'));
+        $this->tabs->addSubTab('preview', $this->lng->txt('icons_gallery'),
+            $this->ctrl->getLinkTarget($this, "preview"));
 
         if ($active == "preview") {
             $this->tabs->activateSubTab($active);
@@ -101,10 +130,10 @@ class ilSystemStyleIconsGUI
 
     protected function preview() : void
     {
-        $this->tpl->setContent($this->renderIconsPreviews());
+        $this->tpl->setContent($this->renderer->render($this->getIconsPreviews()));
     }
 
-    public function initByColorForm() : ilPropertyFormGUI
+    protected function initByColorForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -117,7 +146,8 @@ class ilSystemStyleIconsGUI
             try {
                 $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
             } catch (ilSystemStyleExceptionBase $e) {
-                ilUtil::sendFailure($e->getMessage());
+                $this->message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(),
+                    ilSystemStyleMessage::TYPE_ERROR));
             }
         }
 
@@ -177,7 +207,7 @@ class ilSystemStyleIconsGUI
         return $form;
     }
 
-    public function getByColorValues(ilPropertyFormGUI $form) : void
+    protected function getByColorValues(ilPropertyFormGUI $form) : void
     {
         $values = [];
 
@@ -196,9 +226,9 @@ class ilSystemStyleIconsGUI
         $form->setValuesByArray($values);
     }
 
-    public function reset() : void
+    protected function reset() : void
     {
-        $style = $this->getStyleContainer()->getSkin()->getStyle($_GET["style_id"]);
+        $style = $this->getStyleContainer()->getSkin()->getStyle($this->style_id);
         $this->getStyleContainer()->resetImages($style);
         $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style->getId())));
         $message_stack = new ilSystemStyleMessageStack();
@@ -206,12 +236,12 @@ class ilSystemStyleIconsGUI
             $this->lng->txt("color_reset"),
             ilSystemStyleMessage::TYPE_SUCCESS
         ));
-        $message_stack->getUIComponentsMessages( $this->f);
+        $message_stack->getUIComponentsMessages($this->ui_factory);
 
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function update() : void
+    protected function update() : void
     {
         $form = $this->initByColorForm();
         if ($form->checkInput()) {
@@ -235,7 +265,7 @@ class ilSystemStyleIconsGUI
                 }
             }
             $this->getIconFolder()->changeIconColors($color_changes);
-            $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($_GET["style_id"])));
+            $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($this->style_id)));
             $skin = $this->getStyleContainer()->getSkin();
             $skin->getVersionStep($skin->getVersion());
             $this->getStyleContainer()->updateSkin($skin);
@@ -243,17 +273,23 @@ class ilSystemStyleIconsGUI
                 $this->lng->txt("color_update"),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
-            $message_stack->getUIComponentsMessages( $this->f);
+            $message_stack->getUIComponentsMessages($this->ui_factory);
             $this->ctrl->redirect($this, "edit");
         }
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
     }
 
-
     protected function editIcon() : void
     {
-        $icon_name = $_POST['selected_icon']?$_POST['selected_icon']:$_GET['selected_icon'];
+        $icon_name = "";
+        if ($this->request_wrapper->post()->has('selected_icon')) {
+            $icon_name = $this->request_wrapper->post()->retrieve('selected_icon',
+                $this->refinery->kindlyTo()->string());
+        } elseif ($this->request_wrapper->query()->has('selected_icon')) {
+            $icon_name = $this->request_wrapper->query()->retrieve('selected_icon',
+                $this->refinery->kindlyTo()->string());
+        }
 
         $this->addSelectIconToolbar($icon_name);
 
@@ -266,10 +302,6 @@ class ilSystemStyleIconsGUI
 
     protected function addSelectIconToolbar(?string $icon_name = "")
     {
-        global $DIC;
-
-        $toolbar = $DIC->toolbar();
-
         $si = new ilSelectInputGUI($this->lng->txt("select_icon"), "selected_icon");
 
         $options = array();
@@ -285,15 +317,14 @@ class ilSystemStyleIconsGUI
 
         $si->setValue($icon_name);
 
-        $toolbar->addInputItem($si, true);
+        $this->toolbar->addInputItem($si, true);
 
-        $select_btn = ilSubmitButton::getInstance();
-        $select_btn->setCaption($this->lng->txt("select"), false);
-        $toolbar->addButtonInstance($select_btn);
-        $toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'editIcon'));
+        $this->toolbar->addComponent($this->ui_factory->button()->standard($this->lng->txt("select"),
+            ""));
+        $this->toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'editIcon'));
     }
 
-    public function initByIconForm(ilSystemStyleIcon $icon) : ilPropertyFormGUI
+    protected function initByIconForm(ilSystemStyleIcon $icon) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -331,11 +362,11 @@ class ilSystemStyleIconsGUI
         return $form;
     }
 
-    public function updateIcon() : void
+    protected function updateIcon() : void
     {
-        global $DIC;
+        $icon_path = $this->request_wrapper->post()->retrieve('selected_icon',
+            $this->refinery->kindlyTo()->string());
 
-        $icon_path = $_POST['selected_icon'];
         $icon = $this->getIconFolder()->getIconByPath($icon_path);
 
         $form = $this->initByIconForm($icon);
@@ -363,17 +394,15 @@ class ilSystemStyleIconsGUI
             }
             $icon->changeColors($color_changes);
 
-            if ($_POST["changed_icon"]) {
-                /**
-                 * @var \ILIAS\FileUpload\FileUpload $upload
-                 */
-                $upload = $DIC->upload();
-                $upload->process();
-                $old_icon = $this->getIconFolder()->getIconByName($icon_path);
-                $result = $upload->getResults();
+            if ($this->upload->hasUploads()) {
+                $this->upload->process();
+                /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+                $result = array_values($this->upload->getResults())[0];
 
-                $upload->moveOneFileTo(
-                    array_pop($result),
+                $old_icon = $this->getIconFolder()->getIconByPath($icon_path);
+
+                $this->upload->moveOneFileTo(
+                    $result,
                     $old_icon->getDirRelToCustomizing(),
                     Location::CUSTOMIZING,
                     $old_icon->getName(),
@@ -381,7 +410,8 @@ class ilSystemStyleIconsGUI
                 );
             }
 
-            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"), ilSystemStyleMessage::TYPE_SUCCESS));
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("color_update"),
+                ilSystemStyleMessage::TYPE_SUCCESS));
 
             foreach ($message_stack->getJoinedMessages() as $type => $message) {
                 if ($type == ilSystemStyleMessage::TYPE_SUCCESS) {
@@ -391,7 +421,7 @@ class ilSystemStyleIconsGUI
                     continue;
                 }
             }
-            $message_stack->getUIComponentsMessages( $this->f);
+            $message_stack->getUIComponentsMessages($this->ui_factory);
             $this->ctrl->setParameter($this, "selected_icon", $icon->getPath());
             $this->ctrl->redirect($this, "editIcon");
         }
@@ -401,29 +431,20 @@ class ilSystemStyleIconsGUI
 
     protected function renderIconPreview(ilSystemStyleIcon $icon) : string
     {
-        global $DIC;
+        $icon_image = $this->ui_factory->image()->standard($icon->getPath(), $icon->getName());
 
-        $f = $DIC->ui()->factory();
-
-        $icon_image = $f->image()->standard($icon->getPath(), $icon->getName());
-
-        $card = $f->card()->standard(
+        $card = $this->ui_factory->card()->standard(
             $icon->getName(),
             $icon_image
         );
 
-        $report = $f->panel()->standard($this->lng->txt("preview"), $f->deck([$card]));
+        $report = $this->ui_factory->panel()->standard($this->lng->txt("preview"), $this->ui_factory->deck([$card]));
 
-        return $DIC->ui()->renderer()->render($report);
+        return $this->renderer->render($report);
     }
 
-    protected function renderIconsPreviews() : string
+    public function getIconsPreviews() : \ILIAS\UI\Component\Panel\Report
     {
-        global $DIC;
-
-        $f = $DIC->ui()->factory();
-
-
         $sub_panels = [];
         foreach ($this->getIconFolder()->getIconsSortedByFolder() as $folder_name => $icons) {
             $cards = [];
@@ -432,43 +453,41 @@ class ilSystemStyleIconsGUI
                 /**
                  * @var ilSystemStyleIcon $icon
                  */
-                $icon_image = $f->image()->standard($icon->getPath(), $icon->getName());
-                $card = $f->card()->standard(
+                $icon_image = $this->ui_factory->image()->standard($icon->getPath(), $icon->getName());
+                $card = $this->ui_factory->card()->standard(
                     $icon->getName(),
                     $icon_image
                 );
                 $colors = $icon->getColorSet()->asString();
                 if ($colors) {
                     $card = $card->withSections(array(
-                        $f->listing()->descriptive(array($this->lng->txt("used_colors") => $colors))
+                        $this->ui_factory->listing()->descriptive(array($this->lng->txt("used_colors") => $colors))
                     ));
                 }
                 $cards[] = $card;
             }
-            $sub_panels[] = $f->panel()->sub($folder_name, $f->deck($cards));
+            $sub_panels[] = $this->ui_factory->panel()->sub($folder_name, $this->ui_factory->deck($cards));
         }
 
-        $report = $f->panel()->report($this->lng->txt("icons"), $sub_panels);
-
-        return $DIC->ui()->renderer()->render($report);
+        return $this->ui_factory->panel()->report($this->lng->txt("icons"), $sub_panels);
     }
 
-    public function getStyleContainer() : ilSkinStyleContainer
+    protected function getStyleContainer() : ilSkinStyleContainer
     {
         return $this->style_container;
     }
 
-    public function setStyleContainer(ilSkinStyleContainer $style_container)
+    protected function setStyleContainer(ilSkinStyleContainer $style_container)
     {
         $this->style_container = $style_container;
     }
 
-    public function getIconFolder() : ilSystemStyleIconFolder
+    protected function getIconFolder() : ilSystemStyleIconFolder
     {
         return $this->icon_folder;
     }
 
-    public function setIconFolder(ilSystemStyleIconFolder $icon_folder)
+    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder)
     {
         $this->icon_folder = $icon_folder;
     }

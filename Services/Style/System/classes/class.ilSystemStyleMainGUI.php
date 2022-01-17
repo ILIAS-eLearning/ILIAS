@@ -4,9 +4,10 @@ use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use \ILIAS\UI\Factory;
 use \ILIAS\UI\Renderer;
 use ILIAS\GlobalScreen\Services;
-use \ILIAS\HTTP\Wrapper\RequestWrapper;
+use \ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Factory as RefineryFactory;
+use \ILIAS\FileUpload\FileUpload;
 
 /**
  * Settings UI class for system styles. Acts as main router for the systems styles and handles permissions checks,
@@ -28,11 +29,12 @@ class ilSystemStyleMainGUI
     protected ilIniFile $ilIniFile;
     protected ilLocatorGUI $locator;
     protected Services $global_screen;
-    protected RequestWrapper $request_wrapper;
+    protected WrapperFactory $request_wrapper;
     protected RefineryFactory $refinery;
     protected ServerRequestInterface $request;
     protected ilToolbarGUI $toolbar;
     protected ilSkinFactory $skin_factory;
+    protected FileUpload $upload;
 
     public function __construct()
     {
@@ -52,13 +54,14 @@ class ilSystemStyleMainGUI
         $this->locator = $DIC["ilLocator"];
         $this->ilIniFile = $DIC->iliasIni();
         $this->global_screen = $DIC->globalScreen();
-        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->request_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
         $this->toolbar = $DIC->toolbar();
+        $this->upload = $DIC->upload();
         $this->skin_factory = new ilSkinFactory();
 
-        $this->ref_id = $this->request_wrapper->retrieve('ref_id', $this->refinery->kindlyTo()->string());
+        $this->ref_id = $this->request_wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
 
     /**
@@ -75,9 +78,9 @@ class ilSystemStyleMainGUI
         $config = new ilSystemStyleConfig();
         $skin_factory = new ilSkinFactory();
 
-        if ($this->request_wrapper->has('skin_id') && $this->request_wrapper->has('style_id')) {
-            $skin_id = $this->request_wrapper->retrieve('skin_id', $this->refinery->kindlyTo()->string());
-            $style_id = $this->request_wrapper->retrieve('style_id', $this->refinery->kindlyTo()->string());
+        if ($this->request_wrapper->query()->has('skin_id') && $this->request_wrapper->query()->has('style_id')) {
+            $skin_id = $this->request_wrapper->query()->retrieve('skin_id', $this->refinery->kindlyTo()->string());
+            $style_id = $this->request_wrapper->query()->retrieve('style_id', $this->refinery->kindlyTo()->string());
         } else {
             $skin_id = $config->getDefaultSkinId();
             $style_id = $config->getDefaultStyleId();
@@ -98,7 +101,7 @@ class ilSystemStyleMainGUI
                 case "ilsystemstylesettingsgui":
                     $this->help->setSubScreenId("settings");
                     $this->checkPermission("sty_management");
-                    $this->setUnderworldTabs('settings');
+                    $this->setUnderworldTabs($skin_id, 'settings');
                     $this->setUnderworldTitle($skin_id, $style_id);
                     $system_styles_settings = new ilSystemStyleSettingsGUI();
                     $this->ctrl->forwardCommand($system_styles_settings);
@@ -106,53 +109,68 @@ class ilSystemStyleMainGUI
                 case "ilsystemstylelessgui":
                     $this->help->setSubScreenId("less");
                     $this->checkPermission("sty_management");
-                    $this->setUnderworldTabs('less');
+                    $this->setUnderworldTabs($skin_id, 'less');
                     $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_less = new ilSystemStyleLessGUI($this->ctrl, $this->lng, $this->tpl, $this->ui_factory,
-                        $this->renderer, $this->request, $this->toolbar, $this->refinery, $skin_factory, $skin_id, $style_id);
+                    $system_styles_less = new ilSystemStyleLessGUI($this->ctrl, $this->lng, $this->tpl,
+                        $this->ui_factory,
+                        $this->renderer, $this->request, $this->toolbar, $this->refinery, $skin_factory, $skin_id,
+                        $style_id);
                     $this->ctrl->forwardCommand($system_styles_less);
                     break;
                 case "ilsystemstyleiconsgui":
                     $this->help->setSubScreenId("icons");
                     $this->checkPermission("sty_management");
-                    $this->setUnderworldTabs('icons');
+                    $this->setUnderworldTabs($skin_id, 'icons');
                     $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_icons = new ilSystemStyleIconsGUI();
+                    $system_styles_icons = new ilSystemStyleIconsGUI($this->ctrl, $this->lng, $this->tpl,
+                        $this->ui_factory, $this->renderer, $this->request_wrapper, $this->toolbar, $this->refinery,
+                        $skin_factory, $this->tabs, $this->upload, $skin_id, $style_id);
                     $this->ctrl->forwardCommand($system_styles_icons);
                     break;
                 case "ilsystemstyledocumentationgui":
                     $this->help->setSubScreenId("documentation");
                     $read_only = !$this->checkPermission("sty_management", false);
-                    $this->setUnderworldTabs('documentation', $read_only);
+                    $this->setUnderworldTabs($skin_id, 'documentation', $read_only);
                     $this->setUnderworldTitle($skin_id, $style_id, $read_only);
-                    $goto_link = (new ilKSDocumentationGotoLink())->generateGotoLink($_GET["node_id"] ? $_GET["node_id"] : "",
-                        $skin_id, $style_id);
+                    $node_id = "";
+                    if ($this->request_wrapper->query()->has('node_id')) {
+                        $node_id = $this->request_wrapper->query()->retrieve('node_id',
+                            $this->refinery->kindlyTo()->string());
+                    }
+                    $goto_link = (new ilKSDocumentationGotoLink())->generateGotoLink($node_id, $skin_id, $style_id);
                     $this->global_screen->tool()->context()->current()->addAdditionalData(
                         ilSystemStyleDocumentationGUI::SHOW_TREE, true);
-                    $this->tpl->setPermanentLink("stys", $_GET["ref_id"], $goto_link);
+                    $this->tpl->setPermanentLink("stys", $this->ref_id, $goto_link);
                     $entries = new Entries();
                     $entries->addEntriesFromArray(include ilSystemStyleDocumentationGUI::DATA_PATH);
                     $documentation_gui = new ilSystemStyleDocumentationGUI($this->tpl, $this->ctrl, $this->ui_factory,
                         $this->renderer);
-                    $documentation_gui->show($entries, $_GET["node_id"] ? $_GET["node_id"] : "");
+                    $documentation_gui->show($entries, $node_id);
                     break;
                 case "ilsystemstyleoverviewgui":
                 default:
-                    $this->help->setSubScreenId("overview");
-                    $this->checkPermission("visible,read");
-                    $system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",
-                        false), $this->checkPermission("sty_management", false));
-                    $this->ctrl->forwardCommand($system_styles_overview);
+                    $this->executeDefaultCommand($skin_factory, $skin_id, $style_id);
                     break;
             }
         } catch (ilObjectException $e) {
             ilUtil::sendFailure($e->getMessage());
-            $this->checkPermission("visible,read");
             $this->ctrl->setCmd("");
-            $system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system", false),
-                $this->checkPermission("sty_management", false));
-            $this->ctrl->forwardCommand($system_styles_overview);
+            $this->executeDefaultCommand($skin_factory, $skin_id, $style_id);
         }
+    }
+
+    protected function executeDefaultCommand(ilSkinFactory $skin_factory, string $skin_id, string $style_id)
+    {
+        $this->help->setSubScreenId("overview");
+        $this->checkPermission("visible,read");
+        $read_only = !$this->checkPermission("sty_write_system", false);
+        $management_enabled = $this->checkPermission("sty_management", false);
+        $system_styles_overview = new ilSystemStyleOverviewGUI($this->ctrl, $this->lng, $this->tpl,
+            $this->ui_factory, $this->renderer, $this->request_wrapper, $this->toolbar, $this->refinery,
+            $skin_factory, $this->tabs, $this->help, $skin_id, $style_id, $this->ref_id, $read_only,
+            $management_enabled);
+
+        $this->ctrl->forwardCommand($system_styles_overview);
     }
 
     /**
@@ -191,7 +209,7 @@ class ilSystemStyleMainGUI
      * Sets the tab correctly if one system style is open (navigational underworld opened)
      * @param string $active
      */
-    protected function setUnderworldTabs(string $active = "", bool $read_only = false)
+    protected function setUnderworldTabs(string $sking_id, string $active = "", bool $read_only = false)
     {
         $this->tabs->clearTargets();
 
@@ -208,7 +226,7 @@ class ilSystemStyleMainGUI
         $this->help->setScreenId("system_styles");
         $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
         $config = new ilSystemStyleConfig();
-        if ($_GET["skin_id"] != $config->getDefaultSkinId()) {
+        if ($sking_id != $config->getDefaultSkinId()) {
             $this->tabs->addTab('settings', $this->lng->txt('settings'),
                 $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
             $this->tabs->addTab('less', $this->lng->txt('less'),
