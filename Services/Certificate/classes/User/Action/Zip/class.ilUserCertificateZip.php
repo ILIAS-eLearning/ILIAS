@@ -80,7 +80,7 @@ class ilUserCertificateZip
         ilUtil::delDir($dir);
 
         if ($deliver) {
-            ilUtil::deliverFile($zipFilePath, $zipFile, 'application/zip', false, true);
+            ilFileDelivery::deliverFileLegacy($zipFilePath, $zipFile, 'application/zip', false, true);
         }
 
         return $zipFilePath;

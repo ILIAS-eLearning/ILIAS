@@ -29,7 +29,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected ilObjectDefinition $obj_definition;
     protected array $type_grps = [];
     protected array $session_materials = [];
-    protected ?string $highlighted_node = null;
+    protected string $highlighted_node = "";
     protected array $clickable_types = [];
     protected array $selectable_types = [];
     protected ilAccessHandler $access;
@@ -226,7 +226,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 
         $childs = array();
         foreach ($this->type_grps[$parent_type] as $t => $g) {
-            if (is_array($group[$t])) {
+            if (isset($group[$t])) {
                 // do we have to sort this group??
                 $sort = ilContainerSorting::_getInstance($parent_obj_id);
                 $group = $sort->sortItems($group);

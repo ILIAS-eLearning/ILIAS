@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * GUI class for scorm verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -79,7 +90,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 
@@ -141,7 +152,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 
         $_GET["baseClass"] = "ilsharedresourceGUI";
         $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
         exit;
     }
 

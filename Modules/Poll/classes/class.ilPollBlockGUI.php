@@ -237,7 +237,7 @@ class ilPollBlockGUI extends ilBlockGUI
                             $chart_data = $chart->getDataInstance();
 
                             foreach ($order as $answer_id) {
-                                $chart_data->addPoint(
+                                $chart_data->addPiePoint(
                                     round((float) ($perc[$answer_id]["perc"] ?? 0)),
                                     nl2br((string) ($answers[$answer_id] ?? ''))
                                 );

@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiAccess
  *
@@ -28,18 +38,12 @@ class ilCmiXapiAccess
         $this->object = $object;
     }
     
-    /**
-     * @return bool
-     */
-    public function hasLearningProgressAccess()
+    public function hasLearningProgressAccess(): bool
     {
         return ilLearningProgressAccess::checkAccess($this->object->getRefId());
     }
     
-    /**
-     * @return bool
-     */
-    public function hasWriteAccess()
+    public function hasWriteAccess(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -52,10 +56,7 @@ class ilCmiXapiAccess
         );
     }
     
-    /**
-     * @return bool
-     */
-    public function hasEditPermissionsAccess()
+    public function hasEditPermissionsAccess(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -74,10 +75,7 @@ class ilCmiXapiAccess
         return false;
     }
     
-    /**
-     * @return bool
-     */
-    public function hasOutcomesAccess()
+    public function hasOutcomesAccess(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -95,10 +93,7 @@ class ilCmiXapiAccess
         return false;
     }
     
-    /**
-     * @return bool
-     */
-    public function hasStatementsAccess()
+    public function hasStatementsAccess(): bool
     {
         if ($this->object->isStatementsReportEnabled()) {
             return true;
@@ -107,10 +102,7 @@ class ilCmiXapiAccess
         return $this->hasOutcomesAccess();
     }
     
-    /**
-     * @return bool
-     */
-    public function hasHighscoreAccess()
+    public function hasHighscoreAccess(): bool
     {
         if ($this->object->getHighscoreEnabled()) {
             return true;
@@ -121,9 +113,8 @@ class ilCmiXapiAccess
     
     /**
      * @param ilObjCmiXapi $object
-     * @return ilCmiXapiAccess
      */
-    public static function getInstance(ilObjCmiXapi $object)
+    public static function getInstance(ilObjCmiXapi $object): \ilCmiXapiAccess
     {
         return new self($object);
     }

@@ -25,6 +25,11 @@ class UITestHelperTest extends TestCase
         $this->assertInstanceOf(Renderer::class, (new UITestHelper())->renderer());
     }
 
+    public function testGetMainTemplate() : void
+    {
+        $this->assertInstanceOf(ilIndependentGlobalTemplate::class, (new UITestHelper())->mainTemplate());
+    }
+
     public function testRenderExample() : void
     {
         $helper = new UITestHelper();

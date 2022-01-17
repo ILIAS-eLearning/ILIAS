@@ -34,30 +34,33 @@ class ComponentEntriesTest extends TestCase
         $this->assertInstanceOf(Entries::class, $this->entries);
     }
 
-    public function testCreateFromArray() : void
-    {
-        $entries = new Entries();
-        $this->assertEquals(Entries::createFromArray([]), $entries);
-        $this->assertEquals(Entries::createFromArray($this->entries_data), $this->entries);
-    }
-
     public function testAddEntry() : void
     {
         $entry = new Entry($this->entry_data);
         $entries = new Entries();
 
-        $this->assertEquals(Entries::createFromArray([]), $entries);
         $entries->addEntry($entry);
-        $this->assertEquals(Entries::createFromArray([$this->entry_data]), $entries);
+        $this->assertEquals(1, $entries->count());
+
+        $entry->setId("2");
+        $entries->addEntry($entry);
+        $this->assertEquals(2, $entries->count());
     }
 
     public function testAddEntries() : void
     {
-        $entries = new Entries();
+        $entry = new Entry($this->entry_data);
 
-        $this->assertEquals(Entries::createFromArray([]), $entries);
-        $entries->addEntries($this->entries);
-        $this->assertEquals($this->entries, $entries);
+        $entries = new Entries();
+        $entries->addEntry($entry);
+
+        $entry->setId("2");
+        $entries->addEntry($entry);
+
+        $new_entries = new Entries();
+        $new_entries->addEntries($this->entries);
+        $this->assertEquals(2, $new_entries->count());
+
     }
 
     public function testAddFromArray() : void
@@ -110,6 +113,12 @@ class ComponentEntriesTest extends TestCase
         $this->assertEquals(["Entry1"], $this->entries->getParentsOfEntry("Entry2"));
     }
 
+    public function testIsParentOfEntry() : void
+    {
+        $this->assertEquals(false, $this->entries->isParentOfEntry("Entry2", "Entry1"));
+        $this->assertEquals(true, $this->entries->isParentOfEntry("Entry1", "Entry2"));
+    }
+
     public function testGetParentsOfEntryTitles() : void
     {
         $this->assertEquals([], $this->entries->getParentsOfEntryTitles("Entry1"));
@@ -125,6 +134,12 @@ class ComponentEntriesTest extends TestCase
     public function testGetDescendantsOfEntryTitles() : void
     {
         $this->assertEquals(['Entry2' => 'Entry2Title'], $this->entries->getDescendantsOfEntryTitles("Entry1"));
+        $this->assertEquals([], $this->entries->getDescendantsOfEntryTitles("Entry2"));
+    }
+
+    public function testGetChildrenOfEntry() : void
+    {
+        $this->assertEquals([$this->entries->getEntryById("Entry2")], $this->entries->getChildrenOfEntry("Entry1"));
         $this->assertEquals([], $this->entries->getDescendantsOfEntryTitles("Entry2"));
     }
 

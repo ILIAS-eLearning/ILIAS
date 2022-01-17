@@ -133,7 +133,7 @@ class ilForumNotification
         $res = $this->db->queryF(
             '
 			SELECT admin_force_noti FROM frm_notification
-			WHERE user_id = %s 
+			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s ',
             ['integer', 'integer', 'integer'],
@@ -152,7 +152,7 @@ class ilForumNotification
         $res = $this->db->queryF(
             '
 			SELECT user_toggle_noti FROM frm_notification
-			WHERE user_id = %s 
+			WHERE user_id = %s
 			AND frm_id = %s
 			AND user_id_noti > %s',
             ['integer', 'integer', 'integer'],
@@ -190,8 +190,8 @@ class ilForumNotification
             '
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
-			AND		frm_id = %s 
-			AND		admin_force_noti = %s 
+			AND		frm_id = %s
+			AND		admin_force_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer'],
             [$this->getUserId(), $this->getForumId(), 1, 0]
@@ -204,9 +204,9 @@ class ilForumNotification
             '
 			DELETE FROM frm_notification
 			WHERE 	user_id = %s
-			AND		frm_id = %s 
-			AND		admin_force_noti = %s 
-			AND		user_toggle_noti = %s			
+			AND		frm_id = %s
+			AND		admin_force_noti = %s
+			AND		user_toggle_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer', 'integer'],
             [$this->getUserId(), $this->getForumId(), 1, 1, 0]
@@ -300,7 +300,9 @@ class ilForumNotification
             $node_data = array_filter($node_data, static function (array $forum_node) use ($DIC, $ref_id) : bool {
                 // filter out forum if a grp lies in the path (#0027702)
                 foreach ($DIC->repositoryTree()->getNodePath($forum_node['child'], $ref_id) as $path_node) {
-                    if ((int) $path_node['child'] !== (int) $ref_id && $path_node['type'] === 'grp') {
+                    $notRootNode = (int) $path_node['child'] !== (int) $ref_id;
+                    $isGroup = $path_node['type'] === 'grp';
+                    if ($notRootNode && $isGroup) {
                         return false;
                     }
                 }

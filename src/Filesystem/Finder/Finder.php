@@ -16,7 +16,21 @@ use IteratorAggregate;
 use LogicException;
 use RecursiveIteratorIterator;
 use Traversable;
+use ILIAS\Filesystem\Finder\Iterator\SortableIterator;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Finder
  * Port of the Symfony2 bundle to work with the ILIAS FileSystem abstraction
@@ -29,30 +43,26 @@ final class Finder implements IteratorAggregate, Countable
     private const IGNORE_VCS_FILES = 1;
     private const IGNORE_DOT_FILES = 2;
 
-    /** @var Filesystem */
-    private $filesystem;
+    private \ILIAS\Filesystem\Filesystem $filesystem;
     /** @var string[] */
-    private $vcsPatterns = ['.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
+    private array $vcsPatterns = ['.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
     /** @var PhpIterator[] */
-    private $iterators = [];
+    private array $iterators = [];
     /** @var string[] */
-    protected $dirs = [];
+    protected array $dirs = [];
     /** @var string[] */
-    private $exclude = [];
-    /** @var int */
-    private $ignore = 0;
-    /** @var int */
-    private $mode = Iterator\FileTypeFilterIterator::ALL;
-    /** @var bool */
-    private $reverseSorting = false;
+    private array $exclude = [];
+    private int $ignore = 0;
+    private int $mode = Iterator\FileTypeFilterIterator::ALL;
+    private bool $reverseSorting = false;
     /** @var Comparator\DateComparator[] */
-    private $dates = [];
+    private array $dates = [];
     /** @var Comparator\NumberComparator[] */
-    private $sizes = [];
+    private array $sizes = [];
     /** @var Comparator\NumberComparator[] */
-    private $depths = [];
-    /** @var bool */
-    private $sort = false;
+    private array $depths = [];
+    /** @var int|Closure  */
+    private $sort = SortableIterator::SORT_BY_NONE;
 
     /**
      * Finder constructor.
@@ -104,7 +114,7 @@ final class Finder implements IteratorAggregate, Countable
      */
     public function exclude(array $directories) : self
     {
-        array_walk($directories, function ($directory) {
+        array_walk($directories, function ($directory): void {
             if (!is_string($directory)) {
                 if (is_object($directory)) {
                     throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -127,7 +137,7 @@ final class Finder implements IteratorAggregate, Countable
      */
     public function in(array $directories) : self
     {
-        array_walk($directories, function ($directory) {
+        array_walk($directories, function ($directory): void {
             if (!is_string($directory)) {
                 if (is_object($directory)) {
                     throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -250,7 +260,7 @@ final class Finder implements IteratorAggregate, Countable
      */
     public function addVCSPattern(array $pattern) : self
     {
-        array_walk($pattern, function ($p) {
+        array_walk($pattern, function ($p): void {
             if (!is_string($p)) {
                 if (is_object($p)) {
                     throw new InvalidArgumentException(sprintf('Invalid pattern given: %s', get_class($p)));
@@ -358,7 +368,7 @@ final class Finder implements IteratorAggregate, Countable
      * @param string $dir
      * @return PhpIterator
      */
-    private function searchInDirectory(string $dir) : PhpIterator
+    private function searchInDirectory(string $dir) : \Traversable
     {
         if (self::IGNORE_VCS_FILES === (self::IGNORE_VCS_FILES & $this->ignore)) {
             $this->exclude = array_merge($this->exclude, $this->vcsPatterns);
@@ -431,7 +441,7 @@ final class Finder implements IteratorAggregate, Countable
     /**
      * @inheritdoc
      */
-    public function count()
+    public function count(): int
     {
         return iterator_count($this->getIterator());
     }

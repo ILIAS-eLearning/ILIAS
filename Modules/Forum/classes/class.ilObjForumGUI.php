@@ -3718,7 +3718,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 return;
             }
 
-            unset($_SESSION['threads2move']);
+            ilSession::set('threads2move', []);
             ilUtil::sendInfo($this->lng->txt('threads_moved_successfully'), true);
             $this->ctrl->redirect($this, 'showThreads');
         } else {

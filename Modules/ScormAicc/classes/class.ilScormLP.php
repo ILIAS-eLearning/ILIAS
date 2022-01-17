@@ -1,9 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectLP.php";
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * SCORM to lp connector
  *
@@ -15,7 +24,10 @@ class ilScormLP extends ilObjectLP
 {
     protected ?bool $precondition_cache = null;
 
-    public static function getDefaultModes($a_lp_active)
+    /**
+     * @return int[]
+     */
+    public static function getDefaultModes($a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -23,21 +35,18 @@ class ilScormLP extends ilObjectLP
         );
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
     
     public function getValidModes()
     {
-        include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
         $subtype = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
         if ($subtype != "scorm2004") {
             if ($this->checkSCORMPreconditions()) {
                 return array(ilLPObjSettings::LP_MODE_SCORM);
             }
-            
-            include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfSCOs.php";
             $collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);
             if (sizeof($collection->getPossibleItems())) {
                 return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -49,8 +58,6 @@ class ilScormLP extends ilObjectLP
                 return array(ilLPObjSettings::LP_MODE_SCORM,
                     ilLPObjSettings::LP_MODE_SCORM_PACKAGE);
             }
-            
-            include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfSCOs.php";
             $collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);
             if (sizeof($collection->getPossibleItems())) {
                 return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -91,7 +98,7 @@ class ilScormLP extends ilObjectLP
         return $this->precondition_cache;
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -129,9 +136,8 @@ class ilScormLP extends ilObjectLP
         }
     }
     
-    public function getMailTemplateId()
+    public function getMailTemplateId(): string
     {
-        include_once './Modules/ScormAicc/classes/class.ilScormMailTemplateLPContext.php';
         return ilScormMailTemplateLPContext::ID;
     }
 }

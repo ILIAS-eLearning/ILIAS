@@ -255,13 +255,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         $this->prepareOutput();
     }
 
-    /**
-     * Instantiates, prepares and returns object.
-     * $class_name = 'ilObj' . $objDefinition->getClassName( $new_type ).
-     * Fetches title from $_POST['title'], description from $_POST['desc']
-     * and RefID from $_GET['ref_id'].
-     * @return ilObject
-     */
     public function insertObject() : ilObjChatroom
     {
         $new_type = $this->type;

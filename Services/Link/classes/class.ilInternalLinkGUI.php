@@ -1,100 +1,69 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Link\StandardGUIRequest;
 
 /**
- * Class ilInternalLinkGUI
- *
- * Some gui methods to handle internal links
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * Internal link selector
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilInternalLinkGUI
 {
-    /**
-     * @var string
-     */
-    protected $default_link_type;
-
-    /**
-     * @var int
-     */
-    protected $default_parent_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $default_parent_obj_id;
-
-    /**
-     * @var int
-     */
-    protected $parent_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $parent_obj_id;
-
-    protected $link_type;		// "PageObject_New"
-    protected $link_target;		// "New"
-    protected $base_link_type;	// "PageObject"
-
-
-    public $set_link_script;
-
-    /**
-     * @var array link types
-     */
-    protected $ltypes = array();
-
-    /**
-     * @var array parent object types for link base types
-     */
-    protected $parent_type = array();
-
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-
-    /**
-     * @var bool
-     */
-    protected $filter_white_list = false;
-
-    /**
-     * @var array
-     */
-    protected $filter_link_types = array();
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjFile $uploaded_file;
+    protected int $parent_fold_id;
+    protected string $default_parent_obj_type;
+    protected StandardGUIRequest $request;
+    protected string $return;
+    protected string $default_link_type = "";
+    protected int $default_parent_ref_id = 0;
+    protected int $default_parent_obj_id = 0;
+    protected int $parent_ref_id = 0;
+    protected int $parent_obj_id = 0;
+    protected string $link_type = "";		// "PageObject_New"
+    protected string $link_target = "";		// "New"
+    protected string $base_link_type = "";	// "PageObject"
+    public string $set_link_script = "";
+    // @var array link types
+    protected array $ltypes = array();
+    // @var array parent object types for link base types
+    protected array $parent_type = array();
+    public ilCtrl $ctrl;
+    protected bool $filter_white_list = false;
+    protected array $filter_link_types = array();
+    protected ilTree $tree;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
     
-    public function __construct($a_default_link_type, $a_default_parent_id, $a_is_ref = true)
-    {
+    public function __construct(
+        string $a_default_link_type,
+        int $a_default_parent_id,
+        bool $a_is_ref = true
+    ) {
         global $DIC;
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
 
+        $this->request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+
         $this->lng->loadLanguageModule("link");
         $this->lng->loadLanguageModule("content");
-        //$this->ctrl->saveParameter($this, array("linkmode", "target_type", "link_par_ref_id", "link_par_obj_id",
-        //	"link_par_fold_id", "link_type"));
         $this->ctrl->saveParameter($this, array("linkmode", "link_par_ref_id", "link_par_obj_id",
             "link_par_fold_id", "link_type"));
 
@@ -112,19 +81,16 @@ class ilInternalLinkGUI
             : "";
 
         // current parent object
-        $this->parent_ref_id = (int) $_GET["link_par_ref_id"];
-        $this->parent_fold_id = (int) $_GET["link_par_fold_id"];		// e.g. media pool folder
+        $this->parent_ref_id = $this->request->getLinkParentRefId();
+        $this->parent_fold_id = $this->request->getLinkParentFolderId();		// e.g. media pool folder
         if ($this->parent_ref_id > 0) {
             $this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
         } else {
-            $this->parent_obj_id = (int) $_GET["link_par_obj_id"];
+            $this->parent_obj_id = $this->request->getLinkParentObjId();
         }
     }
 
-    /**
-     * Init (first in execute command)
-     */
-    public function init()
+    public function init() : void
     {
         $lng = $this->lng;
         $tree = $this->tree;
@@ -181,12 +147,12 @@ class ilInternalLinkGUI
             $this->ltypes = $ltypes;
         }
         // determine link type and target
-        $this->link_type = ($_GET["link_type"] == "")
+        $this->link_type = ($this->request->getLinkType() == "")
             ? $this->default_link_type
-            : $_GET["link_type"];
+            : $this->request->getLinkType();
         $ltype_arr = explode("_", $this->link_type);
         $this->base_link_type = $ltype_arr[0];
-        $this->link_target = $ltype_arr[1];
+        $this->link_target = $ltype_arr[1] ?? "";
 
 
         $def_type = ilObject::_lookupType($this->default_parent_obj_id);
@@ -204,54 +170,43 @@ class ilInternalLinkGUI
                     && $def_type == $this->parent_type[$this->base_link_type]) {
                     $this->parent_ref_id = $this->default_parent_ref_id;
                     $this->parent_obj_id = $this->default_parent_obj_id;
-                    $ctrl->setParameter($this, "link_par_obj_id", $this->parent_obj_id);
-                    $ctrl->setParameter($this, "link_par_ref_id", $this->parent_ref_id);
+                    $ctrl->setParameter($this, "link_par_obj_id", (int) $this->parent_obj_id);
+                    $ctrl->setParameter($this, "link_par_ref_id", (int) $this->parent_ref_id);
                 }
                 break;
         }
     }
     
-
-    /**
-     * Set mode
-     * @deprecated
-     */
-    public function setMode($a_mode = "text")
-    {
-    }
-
-    public function setSetLinkTargetScript($a_script)
+    public function setSetLinkTargetScript(string $a_script) : void
     {
         $this->set_link_script = $a_script;
     }
     
-    public function setReturn($a_return)
+    public function setReturn(string $a_return) : void
     {
         $this->return = $a_return;
     }
 
-    public function getSetLinkTargetScript()
+    public function getSetLinkTargetScript() : string
     {
         return $this->set_link_script;
     }
 
-    public function filterLinkType($a_link_type)
+    public function filterLinkType(string $a_link_type) : void
     {
         $this->filter_link_types[] = $a_link_type;
     }
 
     /**
      * Set filter list as white list (per detault it is a black list)
-     *
-     * @return boolean white list
      */
-    public function setFilterWhiteList($a_white_list)
+    public function setFilterWhiteList(bool $a_white_list) : void
     {
         $this->filter_white_list = $a_white_list;
     }
 
 
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $this->init();
         $next_class = $this->ctrl->getNextClass($this);
@@ -263,22 +218,22 @@ class ilInternalLinkGUI
                 break;
         }
 
-        return $ret;
+        return (string) $ret;
     }
 
-    public function resetLinkList()
+    public function resetLinkList() : void
     {
         $ctrl = $this->ctrl;
 
-        $ctrl->setParameter($this, "link_par_ref_id", "");
-        $ctrl->setParameter($this, "link_par_obj_id", "");
-        $ctrl->setParameter($this, "link_par_fold_id", "");
+        $ctrl->setParameter($this, "link_par_ref_id", 0);
+        $ctrl->setParameter($this, "link_par_obj_id", 0);
+        $ctrl->setParameter($this, "link_par_fold_id", 0);
         $ctrl->setParameter($this, "link_type", "");
 
         $ctrl->redirect($this, "showLinkHelp", "", true);
     }
 
-    public function closeLinkHelp()
+    public function closeLinkHelp() : void
     {
         if ($this->return == "") {
             $this->ctrl->returnToParent($this);
@@ -290,7 +245,7 @@ class ilInternalLinkGUI
     /**
      * Prepare output for JS enabled editing
      */
-    public function prepareJavascriptOutput($str)
+    public function prepareJavascriptOutput(string $str) : string
     {
         return htmlspecialchars($str, ENT_QUOTES);
     }
@@ -299,7 +254,7 @@ class ilInternalLinkGUI
     /**
     * Show link help list
     */
-    public function showLinkHelp()
+    public function showLinkHelp() : void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -310,7 +265,7 @@ class ilInternalLinkGUI
             ($this->parent_ref_id == 0))
             ||
             (($this->parent_ref_id > 0) &&
-            !in_array(ilObject::_lookupType($this->parent_ref_id, true), array($parent_type)))) {
+                ilObject::_lookupType($this->parent_ref_id, true) != $parent_type)) {
             if ($parent_type != "") {
                 $this->changeTargetObject($parent_type);
             }
@@ -362,7 +317,7 @@ class ilInternalLinkGUI
 
                 // get all chapters
                 $ctree = $cont_obj->getLMTree();
-                $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+                $nodes = $ctree->getSubTree($ctree->getNodeData($ctree->getRootId()));
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
                 $tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
@@ -431,18 +386,15 @@ class ilInternalLinkGUI
             case "StructureObject":
             
                 // check whether current object matchs to type
-                if (!in_array(
-                    ilObject::_lookupType($this->parent_ref_id, true),
-                    array("lm")
-                )) {
+                if (ilObject::_lookupType($this->parent_ref_id, true) != "lm") {
                     $this->changeTargetObject("lm");
                 }
 
                 $cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
                 // get all chapters
-                $ctree = &$cont_obj->getLMTree();
-                $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+                $ctree = $cont_obj->getLMTree();
+                $nodes = $ctree->getSubTree($ctree->getNodeData($ctree->getRootId()));
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
                 $tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
@@ -530,8 +482,6 @@ class ilInternalLinkGUI
                             "media"
                         );
                     }
-                    $tpl->setCurrentBlock("chapter_list");
-                    $tpl->parseCurrentBlock();
                 } else {
                     $med_pool = new ilObjMediaPool($this->parent_ref_id, true);
                     // get current folders
@@ -562,12 +512,10 @@ class ilInternalLinkGUI
                     $tpl->setVariable("COLSPAN", "2");
                     $tpl->parseCurrentBlock();
                     if ($parent_id = $med_pool->getParentId($this->parent_fold_id)) {
-                        $css_row = "tblrow1";
                         $tpl->setCurrentBlock("icon");
                         $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
                         $tpl->parseCurrentBlock();
                         $tpl->setCurrentBlock("link_row");
-                        $tpl->setVariable("ROWCLASS", $css_row);
                         $tpl->setVariable("TXT_CHAPTER", "..");
                         $this->ctrl->setParameter($this, "mep_fold", $parent_id);
                         if ($ilCtrl->isAsynch()) {
@@ -588,14 +536,10 @@ class ilInternalLinkGUI
                     }
                     foreach ($objs as $obj) {
                         if ($obj["type"] == "fold") {
-                            $css_row = ($css_row == "tblrow2")
-                                ? "tblrow1"
-                                : "tblrow2";
                             $tpl->setCurrentBlock("icon");
                             $tpl->setVariable("ICON_SRC", ilUtil::getImagePath("icon_fold.svg"));
                             $tpl->parseCurrentBlock();
                             $tpl->setCurrentBlock("link_row");
-                            $tpl->setVariable("ROWCLASS", $css_row);
                             $tpl->setVariable("TXT_CHAPTER", $obj["title"]);
                             $this->ctrl->setParameter($this, "mep_fold", $obj["child"]);
                             if ($ilCtrl->isAsynch()) {
@@ -627,9 +571,9 @@ class ilInternalLinkGUI
                         $tpl->setCurrentBlock("row");
                         $tpl->parseCurrentBlock();
                     }
-                    $tpl->setCurrentBlock("chapter_list");
-                    $tpl->parseCurrentBlock();
                 }
+                $tpl->setCurrentBlock("chapter_list");
+                $tpl->parseCurrentBlock();
                 break;
 
             // wiki page link
@@ -723,15 +667,14 @@ class ilInternalLinkGUI
     
     /**
      * Get HTML for file link
-     * @return	string		file link html
      */
-    public function getFileLinkHTML()
+    public function getFileLinkHTML() : string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
+        $tpl = new ilTemplate("tpl.link_file.html", true, true, "Services/Link");
         if (!is_object($this->uploaded_file)) {
-            $tpl = new ilTemplate("tpl.link_file.html", true, true, "Services/Link");
             $tpl->setCurrentBlock("form");
             $tpl->setVariable(
                 "FORM_ACTION",
@@ -744,9 +687,7 @@ class ilInternalLinkGUI
             $fi->setSize(15);
             $tpl->setVariable("INPUT", $fi->getToolbarHTML());
             $tpl->parseCurrentBlock();
-            return $tpl->get();
         } else {
-            $tpl = new ilTemplate("tpl.link_file.html", true, true, "Services/Link");
             $tpl->setCurrentBlock("link_js");
             //			$tpl->setVariable("LINK_FILE",
             //				$this->prepareJavascriptOutput("[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]")
@@ -764,14 +705,14 @@ class ilInternalLinkGUI
                 $this->uploaded_file->getTitle()
             );
             //			$tpl->parseCurrentBlock();
-            return $tpl->get();
         }
+        return $tpl->get();
     }
     
     /**
      * Save file link
      */
-    public function saveFileLink()
+    public function saveFileLink() : void
     {
         if ($_FILES["link_file"]["name"] != "") {
             $fileObj = new ilObjFile();
@@ -779,12 +720,9 @@ class ilInternalLinkGUI
             $fileObj->setTitle($_FILES["link_file"]["name"]);
             $fileObj->setDescription("");
             $fileObj->setFileName($_FILES["link_file"]["name"]);
-            $fileObj->setFileType($_FILES["link_file"]["type"]);
-            $fileObj->setFileSize($_FILES["link_file"]["size"]);
             $fileObj->setMode("filelist");
             $fileObj->create();
             // upload file to filesystem
-            $fileObj->createDirectory();
             $fileObj->getUploadFile(
                 $_FILES["link_file"]["tmp_name"],
                 $_FILES["link_file"]["name"]
@@ -797,11 +735,14 @@ class ilInternalLinkGUI
     /**
      * output thumbnail
      */
-    public function outputThumbnail(&$tpl, $a_id, $a_mode = "")
-    {
+    public function outputThumbnail(
+        ilGlobalTemplate $tpl,
+        int $a_id,
+        string $a_mode = ""
+    ) : void {
         // output thumbnail
         $mob = new ilObjMediaObject($a_id);
-        $med = &$mob->getMediaItem("Standard");
+        $med = $mob->getMediaItem("Standard");
         $target = $med->getThumbnailTarget("small");
         $suff = "";
         if ($this->getSetLinkTargetScript() != "") {
@@ -828,16 +769,12 @@ class ilInternalLinkGUI
         $tpl->parseCurrentBlock();
     }
 
-
-    /**
-    * change link type
-    */
-    public function changeLinkType()
+    public function changeLinkType() : void
     {
         $ctrl = $this->ctrl;
 
-        $ctrl->setParameter($this, "link_type", $_GET["link_type"]);
-        $base_type = explode("_", $_GET["link_type"])[0];
+        $ctrl->setParameter($this, "link_type", $this->request->getLinkType());
+        $base_type = explode("_", $this->request->getLinkType())[0];
         if ($this->parent_type[$base_type] != ilObject::_lookupType($this->parent_ref_id, true)) {
             $ctrl->setParameter($this, "link_par_ref_id", 0);
             $ctrl->setParameter($this, "link_par_obj_id", 0);
@@ -847,19 +784,19 @@ class ilInternalLinkGUI
     }
 
     /**
-    * select media pool folder
-    */
-    public function setMedPoolFolder()
+     * select media pool folder
+     */
+    public function setMedPoolFolder() : void
     {
         $ctrl = $this->ctrl;
-        $ctrl->setParameter($this, "link_par_fold_id", $_GET["mep_fold"]);
+        $ctrl->setParameter($this, "link_par_fold_id", $this->request->getMediaPoolFolder());
         $ctrl->redirect($this, "showLinkHelp", "", true);
     }
 
     /**
      * Cange target object
      */
-    public function getTargetExplorer()
+    public function getTargetExplorer() : string
     {
         //$ilCtrl->setParameter($this, "target_type", $a_type);
         $exp = new ilLinkTargetObjectExplorerGUI($this, "getTargetExplorer", $this->link_type);
@@ -881,18 +818,20 @@ class ilInternalLinkGUI
         if (!$exp->handleCommand()) {
             return $exp->getHTML();
         }
+        return "";
     }
 
     /**
      * Cange target object
      */
-    public function changeTargetObject($a_type = "")
-    {
+    public function changeTargetObject(
+        string $a_type = ""
+    ) : void {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameter($this, "link_par_fold_id", "");
-        if ($_GET["do"] == "set") {
-            $ilCtrl->setParameter($this, "link_par_ref_id", $_GET["sel_id"]);
+        if ($this->request->getDo() == "set") {
+            $ilCtrl->setParameter($this, "link_par_ref_id", (int) $this->request->getSelectedId());
             $ilCtrl->redirect($this, "showLinkHelp", "", true);
             return;
         }
@@ -934,9 +873,9 @@ class ilInternalLinkGUI
 
     
     /**
-    * select repository item explorer
-    */
-    public function selectRepositoryItem()
+     * select repository item explorer
+     */
+    public function selectRepositoryItem() : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -948,12 +887,13 @@ class ilInternalLinkGUI
         if (!$exp->handleCommand()) {
             return $exp->getHTML();
         }
+        return "";
     }
 
     /**
      * Refresh Repository Selector
      */
-    public function refreshRepositorySelector()
+    public function refreshRepositorySelector() : void
     {
         $output = $this->selectRepositoryItem();
         echo $output;
@@ -964,7 +904,7 @@ class ilInternalLinkGUI
     /**
      * Get initialisation HTML to use internal link editing
      */
-    public static function getInitHTML($a_url)
+    public static function getInitHTML(string $a_url) : string
     {
         global $DIC;
 
@@ -997,15 +937,15 @@ class ilInternalLinkGUI
      * Render internal link item
      */
     public function renderLink(
-        $tpl,
-        $a_title,
-        $a_obj_id,
-        $a_type,
-        $a_type_short,
-        $a_bb_type,
-        $a_anchors = array(),
-        $a_link_content = ""
-    ) {
+        ilGlobalTemplate $tpl,
+        string $a_title,
+        int $a_obj_id,
+        string $a_type,
+        string $a_type_short,
+        string $a_bb_type,
+        array $a_anchors = array(),
+        string $a_link_content = ""
+    ) : void {
         $chapterRowBlock = "chapter_row_js";
         $anchor_row_block = "anchor_link_js";
 
@@ -1040,17 +980,12 @@ class ilInternalLinkGUI
             }
         }
 
-        $this->css_row = ($this->css_row == "tblrow1")
-            ? "tblrow2"
-            : "tblrow1";
-
         if ($this->getSetLinkTargetScript() != "") {
             ilImageMapEditorGUI::_recoverParameters();
             if ($a_type == "MediaObject") {
                 $this->outputThumbnail($tpl, $a_obj_id);
             }
             $tpl->setCurrentBlock("link_row");
-            $tpl->setVariable("ROWCLASS", $this->css_row);
             $tpl->setVariable("TXT_CHAPTER", $a_title);
             $tpl->setVariable(
                 "LINK",
@@ -1061,14 +996,12 @@ class ilInternalLinkGUI
                 "&linktargetframe=" . $this->link_target
                 )
             );
-            $tpl->parseCurrentBlock();
         } else {
             $tpl->setCurrentBlock($chapterRowBlock);
             if ($a_type == "MediaObject") {
                 $this->outputThumbnail($tpl, $a_obj_id);
                 $tpl->setCurrentBlock($chapterRowBlock);
             }
-            $tpl->setVariable("ROWCLASS", $this->css_row);
             $tpl->setVariable("TXT_CHAPTER", $a_title);
             if ($a_type == "MediaObject" && empty($target_str)) {
                 $tpl->setVariable(
@@ -1084,8 +1017,8 @@ class ilInternalLinkGUI
                 $tpl->setVariable("LINK_CONTENT", $a_link_content);
                 $tpl->setVariable("LINK_END", "[/iln]");
             }
-            $tpl->parseCurrentBlock();
         }
+        $tpl->parseCurrentBlock();
 
         $tpl->setCurrentBlock("row");
         $tpl->parseCurrentBlock();
@@ -1093,11 +1026,8 @@ class ilInternalLinkGUI
 
     /**
      * Add user
-     *
-     * @param
-     * @return
      */
-    public function addUser()
+    public function addUser() : string
     {
         $form = $this->initUserSearchForm();
         return $form->getHTML() . $this->getUserSearchResult();
@@ -1106,14 +1036,14 @@ class ilInternalLinkGUI
     /**
      * Init user search form.
      */
-    public function initUserSearchForm()
+    public function initUserSearchForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setId("link_user_search_form");
 
         // user search
         $ti = new ilTextInputGUI($this->lng->txt("obj_user"), "usr_search_str");
-        $ti->setValue($_POST["usr_search_str"]);
+        $ti->setValue($this->request->getUserSearchStr());
         $form->addItem($ti);
 
         $form->addCommandButton("searchUser", $this->lng->txt("search"));
@@ -1123,19 +1053,15 @@ class ilInternalLinkGUI
 
     /**
      * Search user
-     *
-     * @param
-     * @return
      */
-    public function getUserSearchResult()
+    public function getUserSearchResult() : string
     {
         global $DIC;
 
-        $tpl = $DIC["tpl"];
         $lng = $DIC->language();
 
-        if (strlen($_POST["usr_search_str"]) < 3) {
-            if (strlen($_POST["usr_search_str"]) > 0) {
+        if (strlen($this->request->getUserSearchStr()) < 3) {
+            if (strlen($this->request->getUserSearchStr()) > 0) {
                 $lng->loadLanguageModule("search");
                 return ilUtil::getSystemMessageHTML($lng->txt("search_minimum_three"), "info");
             }

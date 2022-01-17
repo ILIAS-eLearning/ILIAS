@@ -12,7 +12,7 @@
  */
 class ilLPStatusCmiXapiCompletedOrPassed extends ilLPStatusCmiXapiAbstract
 {
-    protected function resultSatisfyCompleted(ilCmiXapiResult $result)
+    protected function resultSatisfyCompleted(ilCmiXapiResult $result) : bool
     {
         if ($result->getStatus() == 'completed') {
             return true;
@@ -25,7 +25,7 @@ class ilLPStatusCmiXapiCompletedOrPassed extends ilLPStatusCmiXapiAbstract
         return false;
     }
     
-    protected function resultSatisfyFailed(ilCmiXapiResult $result)
+    protected function resultSatisfyFailed(ilCmiXapiResult $result) : bool
     {
         return false;
     }

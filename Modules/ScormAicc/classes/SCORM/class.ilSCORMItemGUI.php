@@ -1,31 +1,17 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObjectGUI.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * GUI class for SCORM Items
 *
@@ -42,7 +28,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
         $this->sc_object = new ilSCORMItem($a_id);
     }
 
-    public function view()
+    public function view(): void
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -125,26 +111,4 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function api()
-    {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-
-        $slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
-
-        $func_tpl = new ilTemplate("tpl.scorm_functions.html", true, true, "Modules/ScormAicc");
-        $func_tpl->setVariable("PREFIX", $slm_obj->getAPIFunctionsPrefix());
-        $func_tpl->parseCurrentBlock();
-
-        $this->tpl = new ilTemplate("tpl.scorm_api.html", true, true, "Modules/ScormAicc");
-        $this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
-        $this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
-        $this->tpl->setVariable("USER_ID", $ilias->account->getId());
-        $this->tpl->setVariable("SESSION_ID", session_id());
-                
-        $this->tpl->setVariable("CODE_BASE", "http://" . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], "/ilias.php")));
-        
-        $this->tpl->printToStdout();
-        exit;
-    }
 }

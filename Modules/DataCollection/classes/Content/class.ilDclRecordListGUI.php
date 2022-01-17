@@ -375,7 +375,7 @@ class ilDclRecordListGUI
                 $filetitle = $file_obj->getTitle();
             }
 
-            ilUtil::deliverFile($filepath, $filetitle);
+            ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
         }
     }
 

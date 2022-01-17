@@ -30,7 +30,7 @@ class ilCalendarFileHandler
             $fh = ilAppointmentFileHandlerFactory::getInstance($event);
             foreach ($fh->getFiles() as $file) {
                 // just for demonstration we provide only the last file
-                $last_file = $file;
+                $last_file = $file->getAbsolutePath();
 
                 // @todo: collect all files
             }
@@ -76,17 +76,7 @@ class ilCalendarFileHandler
 
             // just for demonstration: send last file
             if (is_file($last_file)) {
-                require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
-                global $DIC;
-                $ilClientIniFile = $DIC['ilClientIniFile'];
-
-                $ilFileDelivery = new ilFileDelivery($last_file);
-                $ilFileDelivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
-                //$ilFileDelivery->setMimeType($this->guessFileType($file));
-                $ilFileDelivery->setConvertFileNameToAsci((bool) !$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
-                //$ilFileDelivery->setDownloadFileName();
-                $ilFileDelivery->deliver();
-                exit;
+                ilFileDelivery::deliverFileAttached($last_file);
             }
         }
     }

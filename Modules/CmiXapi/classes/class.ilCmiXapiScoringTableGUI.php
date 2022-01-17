@@ -1,7 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 //use \ILIAS\UI\Component\Modal\RoundTrip;
 /**
  * Class ilCmiXapiScoringTableGUI
@@ -21,15 +32,9 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
      */
     protected $isMultiActorReport;
 
-    /**
-     * @var ilCmiXapiScoringGUI
-     */
-    private $_parent;
+    private \ilCmiXapiScoringGUI $_parent;
     
-    /**
-     * @var bool
-     */
-    private $hasOutcomeAccess;
+    private bool $hasOutcomeAccess;
 
     /**
      * ilCmiXapiScoringTableGUI constructor.
@@ -38,7 +43,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
      * @param $isMultiActorReport
      * @param $tableId
      */
-    public function __construct(ilCmiXapiScoringGUI $a_parent_obj, $a_parent_cmd, $isMultiActorReport, $tableId, $hasOutcomeAccess)
+    public function __construct(ilCmiXapiScoringGUI $a_parent_obj, string $a_parent_cmd, $isMultiActorReport, $tableId, $hasOutcomeAccess)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -72,7 +77,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->hasOutcomeAccess = $hasOutcomeAccess;
     }
 
-    protected function initColumns()
+    protected function initColumns(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

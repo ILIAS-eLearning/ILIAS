@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiAbstractReportLinkBuilder
  *
@@ -46,10 +56,7 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
         $this->filter = $filter;
     }
     
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         $url = $this->aggregateEndPoint;
         $url = $this->appendRequestParameters($url);
@@ -58,19 +65,15 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
     
     /**
      * @param string $link
-     * @return string
      */
-    protected function appendRequestParameters($url)
+    protected function appendRequestParameters($url): string
     {
         $url = ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());
         
         return $url;
     }
     
-    /**
-     * @return string
-     */
-    protected function buildPipelineParameter()
+    protected function buildPipelineParameter(): string
     {
         $pipeline = urlencode(json_encode($this->buildPipeline()));
         return "pipeline={$pipeline}";
@@ -81,19 +84,18 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
      */
     abstract protected function buildPipeline() : array;
     
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->objId;
     }
     
-    /**
-     * @return string
-     */
-    public function getAggregateEndPoint()
+    public function getAggregateEndPoint(): string
     {
         return $this->aggregateEndPoint;
+    }
+
+    public function getObj(): \ilObjCmiXapi
+    {
+        return ilObjCmiXapi::getInstance($this->getObjId(),false);
     }
 }
