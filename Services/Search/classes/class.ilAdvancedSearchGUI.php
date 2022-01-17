@@ -137,9 +137,23 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     protected function remoteSearch() : void
     {
-        $this->search_cache->setRoot((int) $_POST['root_id']);
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->search_cache->setRoot($root_id);
         $this->search_cache->setResultPageNumber(1);
-        $this->search_cache->setQuery(array('lom_content' => ilUtil::stripSlashes($_POST['queryString'])));
+        $this->search_cache->setQuery(array('lom_content' => $queryString));
         $this->search_cache->save();
 
         $this->options = $this->search_cache->getQuery();
@@ -152,21 +166,22 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function performSearch() : bool
     {
-
         $this->initSearchType(self::TYPE_LOM);
-        
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
             unset($_SESSION['adv_max_page']);
             $this->search_cache->deleteCachedEntries();
         }
-        
-        if (isset($_POST['query'])) {
-            $this->search_cache->setQuery($_POST['query']);
+
+        if ($this->http->wrapper()->post()->has('query')) {
+            $this->search_cache->setQuery(
+                $this->http->wrapper()->post()->retrieve(
+                    'query',
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
         }
-        
-
         $res = new ilSearchResult();
-
         if ($res_con = $this->__performContentSearch()) {
             $this->__storeEntries($res, $res_con);
         }
@@ -293,21 +308,17 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     protected function performAdvMDSearch() : bool
     {
-
-
         $this->initSearchType(self::TYPE_ADV_MD);
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
             unset($_SESSION['adv_max_page']);
             $this->search_cache->delete();
         }
-
         $res = new ilSearchResult();
-        
         if ($res_tit = $this->__performTitleSearch()) {
             $this->__storeEntries($res, $res_tit);
         }
         $this->searchAdvancedMD($res);
-
         if ($this->search_mode == 'in_results') {
 
             $old_result_obj = new ilSearchResult($this->user->getId());
@@ -315,8 +326,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             $res->diffEntriesFromResult();
         }
-
-        
         $res->filter($this->getRootNode(), true);
         $res->save();
         $this->showAdvMDSearch();
@@ -812,16 +821,21 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __setSearchOptions() : bool
     {
+        $query = '';
+        if ($this->http->wrapper()->post()->has('query')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
         if (isset($_POST['cmd']['performSearch'])) {
-            $this->options = $_SESSION['search_adv'] = $_POST['query'];
+            $this->options = $_SESSION['search_adv'] = $query;
         } elseif (isset($_POST['cmd']['performAdvMDSearch'])) {
             $this->options = $_SESSION['search_adv_md'] = $_POST;
         } else {
             $this->options = ($_SESSION['search_adv'] ?? array());
         }
-        
-        $_POST['result'] = $_POST['id'];
-
         $this->filter = array();
 
         $this->options['type'] = 'all';
@@ -925,12 +939,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
     private function initUserSearchCache() : void
     {
-
-        
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
-        if ($_GET['page_number']) {
-            $this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+        $page_number = $this->initPageNumberFromQuery();
+        if ($page_number) {
+            $this->search_cache->setResultPageNumber($page_number);
         }
         if ($_POST['cmd']['performSearch']) {
             $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']['lomContent']));

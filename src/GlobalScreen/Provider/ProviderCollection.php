@@ -11,36 +11,31 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
 
 /**
  * Class PluginProviderCollection
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ProviderCollection
 {
-
+    
     /**
      * @return AbstractModificationPluginProvider
      */
     public function getModificationProvider() : ?AbstractModificationPluginProvider;
-
-
+    
     /**
      * @return AbstractStaticMainMenuPluginProvider
      */
     public function getMainBarProvider() : ?AbstractStaticMainMenuPluginProvider;
-
-
+    
     /**
      * @return AbstractDynamicToolPluginProvider
      */
     public function getToolProvider() : ?AbstractDynamicToolPluginProvider;
-
-
+    
     /**
      * @return AbstractStaticMetaBarPluginProvider
      */
     public function getMetaBarProvider() : ?AbstractStaticMetaBarPluginProvider;
-
-
+    
     /**
      * @return AbstractNotificationPluginProvider
      */

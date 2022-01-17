@@ -1,13 +1,8 @@
-<?php
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+<?php declare(strict_types=1);
 
 /**
  * Table for Available Roles in Permission > Permission of User
- *
- * @author Fabian Wolf <wolf@leifos.com>
- *
- * @version $Id$
- *
+ * @author  Fabian Wolf <wolf@leifos.com>
  * @ingroup ServicesAccessControl
  */
 class ilAvailableRolesStatusTableGUI extends ilTable2GUI
@@ -17,24 +12,18 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
-        global $DIC;
-
-        $lng = $DIC->language();
-
+        $this->setId('available_roles' . $a_parent_obj->user->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        $this->setId('available_roles' . $this->parent_obj->user->getId());
         $this->setEnableHeader(true);
         $this->disable('numinfo');
         $this->setLimit(100);
         $this->setRowTemplate("tpl.available_roles_status_row.html", "Services/AccessControl");
 
         $this->addColumn("", "status", "5%");
-        $this->addColumn($lng->txt("role"), "role", "32%");
-        $this->addColumn(str_replace(" ", "&nbsp;", $lng->txt("info_permission_source")), "effective_from", "32%");
-        $this->addColumn(str_replace(" ", "&nbsp;", $lng->txt("info_permission_origin")), "original_position");
-
-        include_once('./Services/Link/classes/class.ilLink.php');
+        $this->addColumn($this->lng->txt("role"), "role", "32%");
+        $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_source")), "effective_from",
+            "32%");
+        $this->addColumn(str_replace(" ", "&nbsp;", $this->lng->txt("info_permission_origin")), "original_position");
     }
 
     /**
@@ -42,22 +31,17 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         if ($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK) {
             $img_path = ilUtil::getImagePath("icon_ok.svg");
-            $img_info = $lng->txt("info_assigned");
+            $img_info = $this->lng->txt("info_assigned");
         } else {
             $img_path = ilUtil::getImagePath("icon_not_ok.svg");
-            $img_info = $lng->txt("info_not_assigned");
+            $img_info = $this->lng->txt("info_not_assigned");
         }
         $this->tpl->setVariable("IMG_PATH", $img_path);
         $this->tpl->setVariable("IMG_INFO", $img_info);
 
-        $link = $ilCtrl->getLinkTargetByClass(array('ilpermissiongui'), 'perm', '', true);
+        $link = $this->ctrl->getLinkTargetByClass(array('ilpermissiongui'), 'perm', '', true);
         $this->tpl->setVariable("ROLE_LINK", $link);
         $this->tpl->setVariable("TXT_ROLE", $a_set["role"]);
 

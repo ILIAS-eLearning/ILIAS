@@ -31,7 +31,6 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 
 class ilLikeMetaDataSearch extends ilMetaDataSearch
 {

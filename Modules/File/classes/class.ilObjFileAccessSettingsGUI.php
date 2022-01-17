@@ -1,26 +1,19 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilObjFileAccessSettingsGUI
@@ -38,12 +31,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     const CMD_EDIT_SETTINGS = 'editSettings';
     const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';
 
-    /**
-     * @var \ilSetting
-     */
-    protected $folderSettings;
-
-
+    protected ilSetting $folderSettings;
+    protected Services $http;
+    
     /**
      * Constructor
      *
@@ -51,9 +41,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      */
     public function __construct($a_data, $a_id, $a_call_by_reference)
     {
+        global $DIC;
         $this->type = "facs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->folderSettings = new ilSetting('fold');
+        $this->http = $DIC->http();
     }
 
 
@@ -63,7 +55,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -85,7 +77,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
             default:
                 if (!$cmd || $cmd == 'view') {
@@ -106,7 +98,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -126,7 +118,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function addFileObjectsSubTabs()
+    protected function addFileObjectsSubTabs(): void
     {
         $this->tabs_gui->addSubTabTarget(
             "settings",
@@ -144,7 +136,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    protected function initSettingsForm()
+    protected function initSettingsForm(): \ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -214,7 +206,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    public function editSettings(ilPropertyFormGUI $a_form = null)
+    public function editSettings(ilPropertyFormGUI $a_form = null): void
     {
         global $DIC, $ilErr;
 
@@ -237,7 +229,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function saveSettings()
+    public function saveSettings(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -249,12 +241,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($_POST['download_with_uploaded_filename']));
-            $this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
+            // TODO switch to new forms
+            $post = (array) $this->http->request()->getParsedBody();
+            $this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($post['download_with_uploaded_filename']));
+            $this->object->setInlineFileExtensions(ilUtil::stripSlashes($post['inline_file_extensions']));
             $this->object->update();
-            $this->folderSettings->set("bgtask_download_limit", (int) $_POST["bg_limit"]);
-            ilPreviewSettings::setPreviewEnabled($_POST["enable_preview"] == 1);
-            ilPreviewSettings::setMaximumPreviews($_POST["max_previews_per_object"]);
+            $this->folderSettings->set("bgtask_download_limit", (int) $post["bg_limit"]);
+            ilPreviewSettings::setPreviewEnabled($post["enable_preview"] == 1);
+            ilPreviewSettings::setMaximumPreviews($post["max_previews_per_object"]);
 
             ilUtil::sendSuccess($DIC->language()->txt('settings_saved'), true);
             $DIC->ctrl()->redirect($this, self::CMD_EDIT_SETTINGS);
@@ -265,7 +259,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function showPreviewRenderers()
+    protected function showPreviewRenderers(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -288,7 +282,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
         $renderers = ilRendererFactory::getRenderers();
 
-        $table = new ilRendererTableGUI($this, array(self::CMD_SHOW_PREVIEW_RENDERERS, "view"));
+        $table = new ilRendererTableGUI($this, self::CMD_SHOW_PREVIEW_RENDERERS);
         $table->setMaxCount(sizeof($renderers));
         $table->setData($renderers);
 
@@ -300,7 +294,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * called by prepare output
      */
-    public function setTitleAndDescription()
+    protected function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());

@@ -42,11 +42,11 @@ class ilObjLanguage extends ilObject
 
         $this->type = "lng";
         $this->key = $this->title;
-        $this->status = $this->desc;
+        $this->status = (string) $this->desc;
         $this->lang_default = $lng->lang_default;
         $this->lang_user = $lng->lang_user;
         $this->lang_path = $lng->lang_path;
-        $this->cust_lang_path = $lng->cust_lang_path;
+        $this->cust_lang_path = $lng->getCustomLangPath();
         $this->separator = $lng->separator;
         $this->comment_separator = $lng->comment_separator;
     }
@@ -265,35 +265,35 @@ class ilObjLanguage extends ilObject
         $component_factory = $DIC["component.factory"];
 
         foreach ($component_repository->getPluginSlots() as $slot) {
-            foreach ($component_factory->getActivePluginsInSlot($slot->getId() as $plugin) {
+            foreach ($component_factory->getActivePluginsInSlot($slot->getId()) as $plugin) {
                 $plugin->updateLanguages($a_lang_keys);
                 $ilPluginAdmin = $DIC["ilPluginAdmin"];
 
-              // refresh languages of activated plugins
-              include_once "./Services/Component/classes/class.ilPluginSlot.php";
-              $slots = ilPluginSlot::getAllSlots();
-              foreach ($slots as $slot) {
-                  $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
-                      $slot["component_type"],
-                      $slot["component_name"],
-                      $slot["slot_id"]
-                  );
-                  foreach ($act_plugins as $plugin) {
-                      include_once "./Services/Component/classes/class.ilPlugin.php";
-                      $pl = ilPlugin::getPluginObject(
-                          $slot["component_type"],
-                          $slot["component_name"],
-                          $slot["slot_id"],
-                          $plugin
-                      );
-                      if (is_object($pl)) {
-                          $pl->updateLanguages($a_lang_keys);
-                      }
-                  }
-              }
-          }
+                // refresh languages of activated plugins
+                include_once "./Services/Component/classes/class.ilPluginSlot.php";
+                $slots = ilPluginSlot::getAllSlots();
+                foreach ($slots as $slot) {
+                    $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
+                        $slot["component_type"],
+                        $slot["component_name"],
+                        $slot["slot_id"]
+                    );
+                    foreach ($act_plugins as $plugin) {
+                        include_once "./Services/Component/classes/class.ilPlugin.php";
+                        $pl = ilPlugin::getPluginObject(
+                            $slot["component_type"],
+                            $slot["component_name"],
+                            $slot["slot_id"],
+                            $plugin
+                        );
+                        if (is_object($pl)) {
+                            $pl->updateLanguages($a_lang_keys);
+                        }
+                    }
+                }
+            }
         }
-     }
+    }
 
                     
     /**
@@ -386,7 +386,7 @@ class ilObjLanguage extends ilObject
         $result = $ilDB->query($q);
 
         if ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return $row["last_change"];
+            return (string) $row["last_change"];
         } else {
             return "";
         }
@@ -749,7 +749,7 @@ class ilObjLanguage extends ilObject
      * $content   expecting an ILIAS lang-file
      * Return content without header info OR false if no valid header was found
      */
-    public static function cut_header(array $content) : bool|array
+    public static function cut_header(array $content) : bool | array
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {
@@ -865,6 +865,6 @@ class ilObjLanguage extends ilObject
             $rec2 = $ilDB->fetchAssoc($set2);
         }
         
-        return (int) $rec["cnt"] + (int) $rec2["cnt"];
+        return (int) $rec["cnt"] + (int) ($rec2["cnt"] ?? 0);
     }
 } // END class.LanguageObject

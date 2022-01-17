@@ -26,7 +26,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected ilTree $tree;
-    protected int $level_id;
+    protected int $level_id = 0;
     protected bool $write_permission = false;
     protected ilSkillResources $resources;
 

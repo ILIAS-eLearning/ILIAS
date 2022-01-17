@@ -10,16 +10,16 @@ use ILIAS\UI\Factory as UIFactory;
  */
 interface isItem
 {
-
+    
     /**
      * @return IdentificationInterface
      */
     public function getProviderIdentification() : IdentificationInterface;
-
+    
     /**
      * @param UIFactory $factory
      * @return NotificationRenderer
      */
     public function getRenderer(UIFactory $factory) : NotificationRenderer;
-
+    
 }

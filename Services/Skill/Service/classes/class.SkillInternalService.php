@@ -31,10 +31,10 @@ class SkillInternalService
     /**
      * @var int ref id of skill management administration node
      */
-    protected int $skmg_ref_id;
+    protected int $skmg_ref_id = 0;
     protected \ilTree $repository_tree;
     protected \ilRbacSystem $rbac_system;
-    protected int $usr_id;
+    protected int $usr_id = 0;
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
 

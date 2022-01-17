@@ -72,7 +72,8 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
      */
     public function assignUserToMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass) : bool
     {
-        return $this->admin->assignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        $this->admin->assignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        return true;
     }
 
     /**
@@ -80,7 +81,8 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
      */
     public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass) : bool
     {
-        return $this->admin->deassignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        $this->admin->deassignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        return true;
     }
 
     protected function getRoleTitleByObj(ilObjIndividualAssessment $iass) : string

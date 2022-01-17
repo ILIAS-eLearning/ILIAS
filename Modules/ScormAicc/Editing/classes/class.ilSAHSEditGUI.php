@@ -1,6 +1,17 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilSAHSPresentationGUI
 *
@@ -39,7 +50,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -51,8 +62,6 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $ilias = $DIC['ilias'];
         $ilCtrl = $DIC['ilCtrl'];
         $GLOBALS['DIC']["ilLog"]->write("bc:" . $_GET["baseClass"] . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
-
-        include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
         $lng->loadLanguageModule("content");
 
@@ -77,12 +86,10 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         switch ($type) {
             
             case "scorm2004":
-                include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php");
                 $this->slm_gui = new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"], true, false);
                 break;
                 
             case "scorm":
-                include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
                 $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
                 break;
         }
@@ -110,18 +117,15 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         case "ilexportgui":
             $obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
             if ($cmd == "create_xml") {
-                require_once("Modules/ScormAicc/classes/class.ilScormAiccExporter.php");
                 $exporter = new ilScormAiccExporter();
-                $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $obj_id);
+//                $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $obj_id);
             } elseif ($cmd == "download") {
                 $file = $_GET["file"];
                 $ftmp = explode(":", $file);
                 $fileName = $ftmp[1];
-                require_once("./Services/Export/classes/class.ilExport.php");
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 ilUtil::deliverFile($exportDir . "/" . $fileName, $fileName);
             } elseif ($cmd == "confirmDeletion") {
-                require_once("./Services/Export/classes/class.ilExport.php");
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 foreach ($_POST["file"] as $file) {
                     $file = explode(":", $file);
@@ -138,7 +142,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 
 
         default:
-            die("ilSAHSEdit: Class $next_class not found.");;
+            die("ilSAHSEdit: Class $next_class not found.");
         }
         
         $this->tpl->printToStdout();

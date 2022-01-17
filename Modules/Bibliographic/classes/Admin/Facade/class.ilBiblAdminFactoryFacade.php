@@ -8,30 +8,12 @@
 class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
 {
 
-    /**
-     * @var \ilBiblTranslationFactory
-     */
-    protected $translation_factory;
-    /**
-     * @var \ilBiblFieldFactory
-     */
-    protected $field_factory;
-    /**
-     * @var \ilBiblTypeInterface|\ilBibTex|\ilRis
-     */
-    protected $type;
-    /**
-     * @var \ilBiblTypeFactory
-     */
-    protected $type_factory;
-    /**
-     * @var int
-     */
-    protected $object_id;
-    /**
-     * @var int
-     */
-    protected $ref_id;
+    protected \ilBiblTranslationFactory $translation_factory;
+    protected \ilBiblFieldFactory $field_factory;
+    protected \ilBiblTypeInterface $type;
+    protected \ilBiblTypeFactory $type_factory;
+    protected int $object_id;
+    protected int $ref_id;
 
 
     /**
@@ -53,7 +35,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function typeFactory()
+    public function typeFactory() : \ilBiblTypeFactoryInterface
     {
         return $this->type_factory;
     }
@@ -62,7 +44,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function type()
+    public function type() : \ilBiblTypeInterface
     {
         return $this->type;
     }
@@ -71,7 +53,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function translationFactory()
+    public function translationFactory() : \ilBiblTranslationFactoryInterface
     {
         return $this->translation_factory;
     }
@@ -80,7 +62,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function fieldFactory()
+    public function fieldFactory() : \ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
@@ -89,7 +71,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasObjId()
+    public function iliasObjId() : int
     {
         return $this->object_id;
     }
@@ -98,7 +80,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasRefId()
+    public function iliasRefId() : int
     {
         return $this->ref_id;
     }

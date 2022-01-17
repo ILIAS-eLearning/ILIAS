@@ -152,9 +152,6 @@ class ilObjectGUI
      */
     protected $request;
 
-    /**
-     * @var int
-     */
     protected $admin_mode = self::ADMIN_MODE_NONE;
 
     protected int $requested_ref_id = 0;
@@ -282,6 +279,11 @@ class ilObjectGUI
             throw new ilObjectException("Unknown Admin Mode $mode.");
         }
         $this->admin_mode = $mode;
+    }
+
+    public function getAdminMode() : string
+    {
+        return $this->admin_mode;
     }
     
     /**

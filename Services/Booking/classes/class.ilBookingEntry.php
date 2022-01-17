@@ -629,9 +629,6 @@ class ilBookingEntry
 
     /**
      * Lookup bookings for own and managed consultation hours of an object
-     * @param type $a_obj_id
-     * @param type $a_usr_id
-     * @return array
      */
     public static function lookupManagedBookingsForObject($a_obj_id, $a_usr_id)
     {

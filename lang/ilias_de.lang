@@ -1109,7 +1109,7 @@ assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der B
 assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenzstufe beitragen.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
@@ -1915,7 +1915,7 @@ assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
-assessment#:#tst_level#:#Kompetenz-Ausprägung
+assessment#:#tst_level#:#Kompetenzstufe
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
@@ -3203,8 +3203,8 @@ common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
-common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
-common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
+common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Forum beenden
+common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
@@ -6614,10 +6614,10 @@ forum#:#forums_censor_comment#:#Bemerkung der Moderation###Modified as part of g
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
-forum#:#forums_disable_notification#:#Benachrichtigung für Thema beenden
+forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung für Thema starten
+forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
@@ -8741,7 +8741,7 @@ skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
 skmg#:#skmg_assign_materials#:#Materialien zuordnen
-skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
+skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzstufe
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
@@ -8781,7 +8781,7 @@ skmg#:#skmg_order_nr#:#Nummer
 skmg#:#skmg_please_select_self_skill#:#Neue Selbsteinschätzung
 skmg#:#skmg_please_select_your_skill_levels#:#Bitte wählen Sie Ihre Fähigkeiten
 skmg#:#skmg_previous_step#:#Voriger Schritt
-skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzausprägungen wirklich gelöscht werden?
+skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzstufen wirklich gelöscht werden?
 skmg#:#skmg_really_remove_skills#:#Möchten Sie die folgenden Kompetenzen wirklich entfernen?
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_skills#:#Kompetenz entfernen
@@ -8799,10 +8799,10 @@ skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
 skmg#:#skmg_skill#:#Kompetenz
-skmg#:#skmg_skill_level#:#Kompetenzausprägung
+skmg#:#skmg_skill_level#:#Kompetenzstufe
 skmg#:#skmg_skill_level_trigger#:#Auslöser
-skmg#:#skmg_skill_levels#:#Kompetenzausprägungen
-skmg#:#skmg_target_levels#:#Zielausprägungen
+skmg#:#skmg_skill_levels#:#Kompetenzstufen
+skmg#:#skmg_target_levels#:#Kompetenzziele
 skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
 skmg#:#skmg_skill_template#:#Vorlage
 skmg#:#skmg_skill_templates#:#Vorlagen
@@ -10050,7 +10050,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzausprägungen.
+assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzstufen.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
@@ -11198,12 +11198,12 @@ skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
-skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Zielausprägungen
+skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Kompetenzziele
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
-skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzausprägungen aus dem Profil entfernen?
+skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzstufen aus dem Profil entfernen?
 skmg#:#skmg_assigned_users#:#Zugeordnete Rollen und Benutzer
 skmg#:#skmg_assign_user#:#Benutzer zuordnen
 skmg#:#skmg_add_assignment#:#Rollen / Mitglieder zuordnen
@@ -11218,18 +11218,19 @@ survey#:#survey_skill#:#Kompetenz
 survey#:#survey_assign_competence#:#Kompetenz zuordnen
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
-survey#:#survey_skill_level#:#Kompetenzausprägung
+survey#:#survey_skill_level#:#Kompetenzstufe
 survey#:#survey_up_to_x_points#:#Bis zu x Punkten
 survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_max_scale_points#:#Max. Skalenpunkte
 survey#:#survey_reached_level#:#Erreichte Ausprägung
 survey#:#survey_sum_of_means#:#Summe des arithm. Mittels der Frage
-survey#:#survey_calc_skills#:#Kompetenzausprägungen bestimmen
-skmg#:#skmg_target_level#:#Profil-Zielausprägung
+survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
+skmg#:#skmg_target_level#:#Kompetenzziel
 skmg#:#skmg_360_survey#:#360°-Umfrage
-skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial welches Ihrer Ziel-Kompetenzausprägung entspricht.
-skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial welches Ihrer Ziel-Kompetenzausprägung entspricht.
-skmg#:#skmg_skill_no_needs_impr#:#Ihre Kompetenzausprägungen sind für dieses Profil ausreichend.
+skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
+skmg#:#skmg_skill_no_needs_impr_info#:#Sie haben das Ziel für diese Kompetenz erfüllt.
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
 survey#:#survey_360_rater_message_content_registered#:#Inhalt (Registrierte Benutzer)
 survey#:#survey_360_rater_message_content_anonymous#:#Inhalt (Anonym)
@@ -11248,7 +11249,7 @@ survey#:#survey_360_appraisee_info#:#Info über Feedback-Nehmer
 survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
 survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
 survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.
-survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzausprägungen werden aktualisiert.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzstufen werden aktualisiert.
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
 survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
@@ -12273,7 +12274,7 @@ content#:#cont_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
 prtf#:#prtf_page_element_my_courses_title#:#Kurs-Mitgliedschaften
-prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
+prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzstufe.
 prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog aus Ihren persönlichen Ressourcen.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
 prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
@@ -12863,7 +12864,7 @@ survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem 
 survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen.
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
 survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen.
-survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen gesetzt.
+survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
@@ -13109,7 +13110,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Das Anhängen von Dateien muss in jedem Forum von der Moderation aktiviert werden. Bei neuen Foren ist das Anhängen standardmäßig deaktiviert.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -13928,7 +13929,7 @@ survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehme
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen.
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen.
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
@@ -14629,9 +14630,9 @@ iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
-skmg#:#skmg_selected_skills#:#Kompetenzeinträge
-skmg#:#skmg_hide_profile_self_eval#:#Profil-Zielausprägung nach Selbsteinschätzung anzeigen
-skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird die Profil-Zielausprägung erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
+skmg#:#skmg_hide_profile_self_eval#:#Kompetenzziel nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird das Kompetenzziel erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
@@ -14751,8 +14752,8 @@ cont#:#cont_skill_members#:#Mitglieder
 cont#:#cont_skill_show#:#Anzeigen
 cont#:#cont_skill_publish#:#Veröffentlichung
 cont#:#cont_skill_publish_manual#:#Manuell
-cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
-cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese sofort sichtbar.
+cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
+cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese sofort sichtbar.
 cont#:#cont_skill_publish_auto#:#Automatisch
 cont#:#cont_add_skill#:#Kompetenz hinzufügen
 cont#:#cont_cont_skills#:#Kompetenzen der Mitglieder
@@ -14779,17 +14780,17 @@ cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
 cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
 cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
 cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzzuweisungen des Benutzers zurücksetzen?
-skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzausprägungen im Zeitraum %1$s bis %2$s erreicht:
+skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzstufen im Zeitraum %1$s bis %2$s erreicht:
 skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
-skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzausprägungen benachrichtigt.
+skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzstufen benachrichtigt.
 skll#:#skll_competence_achievements#:#Neue Kompetenzbewertungen und -einschätzungen
 common#:#grade#:#Bewerten
 rbac#:#grp_grade#:#Gruppenmitglieder bewerten
 rbac#:#crs_grade#:#Kursmitglieder bewerten
 grp#:#grp_no_perm_to_add_create_first#:#Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll.
 grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.
-obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzausprägungen zuzuweisen.
+obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzstufen zuzuweisen.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
 grp#:#grp_user_already_in_group#:#Der ausgewählte Benutzer ist bereits Mitglied der Gruppe.
@@ -16710,3 +16711,12 @@ rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
 rbac#:#manage_comp#:#Kompetenzen bearbeiten
 rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
 rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten
+forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
+skmg#:#skmg_custom_image_alt#:#Benutzerdefiniertes Bild für Kompetenzprofil
+skmg#:#skmg_form_presentation#:#Darstellung
+skll#:#skll_lhist_skill_profile_fulfilled#:#Kompetenzprofil $3$ wurde erfüllt.
+skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinschätzung durch, damit Ihr Kompetenzziel angezeigt wird. Klicken Sie hierzu auf die Schaltfläche "Aktionen".
+skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
+skmg#:#skmg_recommended_learning_material#:#Lerninhalte zur Zielerreichung
+skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der folgenden Lerninhalte aus. Bearbeiten Sie ihn um das Kompetenzziel zu erreichen.
+skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen und sie hier angezeigt zu bekommen. Sie können beliebig viele Kompetenzen hinzufügen.

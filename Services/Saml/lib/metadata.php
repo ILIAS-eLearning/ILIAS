@@ -15,6 +15,7 @@ use SimpleSAML\Utils\Auth;
 use SimpleSAML\Utils\Config\Metadata;
 use SimpleSAML\Utils\Crypto;
 use SimpleSAML\XHTML\Template;
+use Symfony\Component\VarExporter\VarExporter;
 
 chdir(dirname(__FILE__));
 
@@ -108,7 +109,7 @@ foreach ($slob as $binding) {
     }
     $metaArray20['SingleLogoutService'][] = [
         'Binding' => $binding,
-        'Location' => $slol,
+        'Location' => $spconfig->getString('SingleLogoutServiceLocation', $slol),
     ];
 }
 
@@ -284,10 +285,12 @@ if ($spconfig->hasValue('contacts')) {
 // add technical contact
 $email = $config->getString('technicalcontact_email', 'na@example.org');
 if ($email && $email !== 'na@example.org') {
-    $techcontact['emailAddress'] = $email;
-    $techcontact['name'] = $config->getString('technicalcontact_name', null);
-    $techcontact['contactType'] = 'technical';
-    $metaArray20['contacts'][] = Metadata::getContact($techcontact);
+    $techcontact = [
+        'emailAddress' => $email,
+        'name' => $config->getString('technicalcontact_name', null),
+        'contactType' => 'technical'
+    ];
+    $metaArray20['contacts'][] = \SimpleSAML\Utils\Config\Metadata::getContact($techcontact);
 }
 
 // add certificate
@@ -350,7 +353,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
     $t->data['header'] = 'saml20-sp'; // TODO: Replace with headerString in 2.0
     $t->data['headerString'] = Translate::noop('metadata_saml20-sp');
     $t->data['metadata'] = htmlspecialchars($xml);
-    $t->data['metadataflat'] = '$metadata[' . var_export($entityId, true) . '] = ' . var_export($metaArray20, true) . ';';
+    $t->data['metadataflat'] = '$metadata[' . var_export($entityId, true) . '] = ' . VarExporter::export($metaArray20) . ';';
     // ilias-patch: begin
     $t->data['metaurl'] = $iliasHttpPath . "/metadata.php{$sourceId}/" . CLIENT_ID;
     // ilias-patch: end

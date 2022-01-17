@@ -5,26 +5,32 @@ namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 use ILIAS\BackgroundTasks\Dependencies\Exceptions\NoSuchServiceException;
 use ILIAS\DI\Container;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BaseDependencyMap
- *
  * @package ILIAS\BackgroundTasks\Dependencies
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 class EmptyDependencyMap implements DependencyMap
 {
-
-    /**
-     * @var callable[]
-     */
-    protected $maps = [];
-
-
+    protected array $maps = [];
+    
     /**
      * @inheritdoc
      */
-    public function getDependencyWith(Container $DIC, $fullyQualifiedDomainName, $for, callable $map)
+    public function getDependencyWith(Container $DIC, string $fullyQualifiedDomainName, string $for, callable $map)
     {
         $result = $map($DIC, $fullyQualifiedDomainName, $for);
         if ($result) {
@@ -33,29 +39,24 @@ class EmptyDependencyMap implements DependencyMap
             return $this->getDependency($DIC, $fullyQualifiedDomainName, $for);
         }
     }
-
-
+    
     /**
      * Returns a new dependency map with the given mapping. The newer mapping always comes first!
-     *
      * @param callable $map (Container $DIC, string $fullyQualifiedDomainName, string $for) =>
      *                      mixed|null
-     *
-     * @return static
      */
-    public function with(callable $map)
+    public function with(callable $map) : DependencyMap
     {
-        $dependencyMap = new static();
-        $dependencyMap->maps = array_merge([$map], $this->maps);
-
-        return $dependencyMap;
+        $dependency_map       = new static();
+        $dependency_map->maps = array_merge([$map], $this->maps);
+        
+        return $dependency_map;
     }
-
-
+    
     /**
      * @inheritdoc
      */
-    public function getDependency(Container $DIC, $fullyQualifiedDomainName, $for)
+    public function getDependency(Container $DIC, string $fullyQualifiedDomainName, string $for)
     {
         foreach ($this->maps as $map) {
             $result = $map($DIC, $fullyQualifiedDomainName, $for);
@@ -63,7 +64,7 @@ class EmptyDependencyMap implements DependencyMap
                 return $result;
             }
         }
-
+        
         throw new NoSuchServiceException("The requested service " . $fullyQualifiedDomainName
             . " could not be resolved.");
     }

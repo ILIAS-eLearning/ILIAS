@@ -924,7 +924,7 @@ class ilMailFolderGUI
                 $mailFileData = new ilFileDataMail($this->user->getId());
                 try {
                     $file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash($filename, (int) $mailId);
-                    ilUtil::deliverFile($file['path'], $file['filename']);
+                    ilFileDelivery::deliverFileLegacy($file['path'], $file['filename']);
                 } catch (OutOfBoundsException $e) {
                     throw new ilException('mail_error_reading_attachment');
                 }
@@ -976,7 +976,7 @@ class ilMailFolderGUI
                         $pathToFile = $file['path'];
                         $fileName = $file['filename'];
                     }
-                    ilUtil::deliverFile($pathToFile, $fileName);
+                    ilFileDelivery::deliverFileLegacy($pathToFile, $fileName);
                 } catch (OutOfBoundsException $e) {
                     throw new ilException('mail_error_reading_attachment');
                 }

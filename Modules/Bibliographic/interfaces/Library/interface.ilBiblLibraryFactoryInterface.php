@@ -2,28 +2,14 @@
 
 /**
  * Interface ilBiblLibraryFactoryInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblLibraryFactoryInterface
 {
 
-    /**
-     * @return \ilBiblLibraryInterface[]
-     */
-    public function getAll();
+    public function getAll() : array;
 
+    public function findById(int $id) : \ilBiblLibraryInterface;
 
-    /**
-     * @param int $id
-     *
-     * @return \ilBiblLibraryInterface
-     */
-    public function findById($id);
-
-
-    /**
-     * @return \ilBiblLibraryInterface
-     */
-    public function getEmptyInstance();
+    public function getEmptyInstance() : \ilBiblLibraryInterface;
 }

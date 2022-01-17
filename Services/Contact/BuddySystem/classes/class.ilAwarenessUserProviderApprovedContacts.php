@@ -1,28 +1,29 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Awareness\User\Provider;
+use ILIAS\DI\Container;
+
 /**
  * Class ilAwarenessUserProviderApprovedContacts
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
+class ilAwarenessUserProviderApprovedContacts implements Provider
 {
+    protected ilLanguage $lng;
     protected ilObjUser $user;
 
-    public function __construct()
+    public function __construct(Container $DIC)
     {
-        global $DIC;
-
-        parent::__construct();
-
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
     }
 
     /**
      * @inheritDoc
      */
-    public function getProviderId()
+    public function getProviderId() : string
     {
         return 'contact_requests';
     }
@@ -30,7 +31,7 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
     /**
      * @inheritDoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         $this->lng->loadLanguageModule('contact');
         return $this->lng->txt('contact_awrn_ap_contacts');
@@ -39,16 +40,18 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
     /**
      * @inheritDoc
      */
-    public function getInfo()
+    public function getInfo() : string
     {
         $this->lng->loadLanguageModule('contact');
         return $this->lng->txt('contact_awrn_ap_contacts_info');
     }
 
     /**
-     * @inheritDoc
+     * Get initial set of users
+     * @param ?int[] $user_ids
+     * @return int[] array of user IDs
      */
-    public function getInitialUserSet()
+    public function getInitialUserSet(?array $user_ids = null) : array
     {
         if ($this->user->isAnonymous()) {
             return [];
@@ -59,5 +62,10 @@ class ilAwarenessUserProviderApprovedContacts extends ilAwarenessUserProvider
         }
 
         return ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->getKeys();
+    }
+
+    public function isHighlighted() : bool
+    {
+        return false;
     }
 }

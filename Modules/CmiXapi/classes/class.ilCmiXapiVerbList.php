@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiVerbList
  *
@@ -14,10 +24,18 @@
  */
 class ilCmiXapiVerbList
 {
+    const COMPLETED = 'http://adlnet.gov/expapi/verbs/completed';
+    const PASSED = 'http://adlnet.gov/expapi/verbs/passed';
+    const FAILED = 'http://adlnet.gov/expapi/verbs/failed';
+    const SATISFIED = 'http://adlnet.gov/expapi/verbs/satisfied';
+    const PROGRESSED = 'http://adlnet.gov/expapi/verbs/progressed';
+    const EXPERIENCED = 'http://adlnet.gov/expapi/verbs/experienced';
+
     /**
      * @var array
      */
     protected $verbs = array(
+        'http://adlnet.gov/expapi/verbs/abandoned',
         'http://adlnet.gov/expapi/verbs/answered',
         'http://adlnet.gov/expapi/verbs/asked',
         'http://adlnet.gov/expapi/verbs/attempted',
@@ -38,6 +56,7 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/registered',
         'http://adlnet.gov/expapi/verbs/responded',
         'http://adlnet.gov/expapi/verbs/resumed',
+        'http://adlnet.gov/expapi/verbs/satisfied',
         'http://adlnet.gov/expapi/verbs/scored',
         'http://adlnet.gov/expapi/verbs/shared',
         'http://adlnet.gov/expapi/verbs/suspended',
@@ -47,17 +66,46 @@ class ilCmiXapiVerbList
     
     /**
      * @param string $verbId
-     * @return bool
      */
-    public function isValidVerb($verb)
+    public function isValidVerb($verb): bool
     {
         return in_array($verb, $this->verbs);
     }
     
     /**
-     * @return array
+     * @param string $shortVerbId
      */
-    public function getSelectOptions()
+    public function getVerbUri($verb): string
+    {
+        return 'http://adlnet.gov/expapi/verbs/'. $verb;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getDynamicSelectOptions($verbs): array
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        
+        $options = array(
+            '' => $DIC->language()->txt('cmix_all_verbs')
+        );
+        
+        foreach ($verbs as $verb) {
+            $verb = $verb['_id'];
+            $options[urlencode($verb)] = self::getVerbTranslation(
+                $DIC->language(),
+                $verb
+            );
+        }
+        
+        return $options;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getSelectOptions(): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -76,24 +124,29 @@ class ilCmiXapiVerbList
     }
     
     /**
-     * @param ilLanguage $lng
-     * @param string $verb
      * @return string
      */
-    public static function getVerbTranslation(ilLanguage $lng, $verb)
+    public static function getVerbTranslation(ilLanguage $lng, string $verb)
     {
-        $langVar = str_replace('http://', '', $verb);
+        $verbMatch = preg_match('/\/([^\/]+)$/',$verb,$matches);
+        $shortVerb = $matches[1];
+        $langVar = preg_replace('/http(s)?:\/\//', '', $verb);
         $langVar = str_replace('.', '', $langVar);
         $langVar = str_replace('/', '_', $langVar);
         $langVar = 'cmix_' . $langVar;
-        
-        return $lng->txt($langVar);
+        $translatedVerb = $lng->txt($langVar);
+        // check no translation found?
+        if (strpos($translatedVerb,'-cmix_') === 0)
+        {
+            return $shortVerb;
+        }
+        else
+        {
+            return $translatedVerb;
+        }
     }
     
-    /**
-     * @return ilCmiXapiVerbList
-     */
-    public static function getInstance()
+    public static function getInstance(): \ilCmiXapiVerbList
     {
         return new self();
     }

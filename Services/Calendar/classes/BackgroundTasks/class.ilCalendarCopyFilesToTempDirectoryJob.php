@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -38,7 +39,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 
     /**
      */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
         [
@@ -47,25 +48,25 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     }
 
     /**
-     * @todo output should be file type
-     * @return SingleType
+     * @return Type
+     *@todo output should be file type
      */
-    public function getOutputType()
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
 
     /**
      * run the job
-     * @param Value $input
+     * @param Value    $input
      * @param Observer $observer
      */
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer) : Value
     {
         $cal_copy_def = $input[0];
 
@@ -149,7 +150,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

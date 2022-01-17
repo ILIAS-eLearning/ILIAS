@@ -307,14 +307,10 @@ class Container extends \Pimple\Container
     }
 
 
-    /**
-     * @return \ilBookingManagerService
-     */
-    public function bookingManager()
+    public function bookingManager() : \ILIAS\BookingManager\Service
     {
-        return new \ilBookingManagerService();
+        return new \ILIAS\BookingManager\Service($this);
     }
-
 
     /**
      * @return SkillService
@@ -392,6 +388,46 @@ class Container extends \Pimple\Container
     public function mediaPool() : \ILIAS\MediaPool\Service
     {
         return new \ILIAS\MediaPool\Service($this);
+    }
+
+    public function notes() : \ILIAS\Notes\Service
+    {
+        return new \ILIAS\Notes\Service($this);
+    }
+
+    public function glossary() : \ILIAS\Glossary\Service
+    {
+        return new \ILIAS\Glossary\Service($this);
+    }
+
+    public function portfolio() : \ILIAS\Portfolio\Service
+    {
+        return new \ILIAS\Portfolio\Service($this);
+    }
+
+    public function blog() : \ILIAS\Blog\Service
+    {
+        return new \ILIAS\Blog\Service($this);
+    }
+
+    public function mediaCast() : \ILIAS\MediaCast\Service
+    {
+        return new \ILIAS\MediaCast\Service($this);
+    }
+
+    public function itemGroup() : \ILIAS\ItemGroup\Service
+    {
+        return new \ILIAS\ItemGroup\Service($this);
+    }
+
+    public function htmlLearningModule() : \ILIAS\HTMLLearningModule\Service
+    {
+        return new \ILIAS\HTMLLearningModule\Service($this);
+    }
+
+    public function awareness() : \ILIAS\Awareness\Service
+    {
+        return new \ILIAS\Awareness\Service($this);
     }
 
     /**

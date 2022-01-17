@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiRegistrationGUI
  *
@@ -43,7 +53,7 @@ class ilCmiXapiRegistrationGUI
         $this->cmixUser = new ilCmiXapiUser($object->getId(), $DIC->user()->getId(), $object->getPrivacyIdent());
     }
     
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -54,14 +64,14 @@ class ilCmiXapiRegistrationGUI
         }
     }
     
-    protected function cancelCmd()
+    protected function cancelCmd(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
-    protected function showFormCmd(ilPropertyFormGUI $form = null)
+    protected function showFormCmd(ilPropertyFormGUI $form = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -72,7 +82,7 @@ class ilCmiXapiRegistrationGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveFormCmd()
+    protected function saveFormCmd(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -90,10 +100,7 @@ class ilCmiXapiRegistrationGUI
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
     
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function buildForm()
+    protected function buildForm(): \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -120,12 +127,12 @@ class ilCmiXapiRegistrationGUI
         return $form;
     }
     
-    protected function hasRegistration()
+    protected function hasRegistration(): int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
     
-    protected function saveRegistration(ilPropertyFormGUI $form)
+    protected function saveRegistration(ilPropertyFormGUI $form): void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));
         $this->cmixUser->save();

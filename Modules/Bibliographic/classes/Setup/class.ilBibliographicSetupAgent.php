@@ -56,10 +56,11 @@ final class ilBibliographicSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilFileSystemComponentDataDirectoryCreatedObjective(
-            self::COMPONENT_DIR,
-            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
-        );
+        return new Setup\ObjectiveCollection('Setup Bibliografic directories and database', true, ...[
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilBibliograficDB80()
+            )
+        ]);
     }
 
     /**

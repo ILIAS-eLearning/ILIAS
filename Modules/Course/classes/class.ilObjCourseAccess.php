@@ -257,7 +257,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * Lookup view mode. This is placed here to the need that ilObjFolder must
      * always instantiate a Course object.
-     * @return
+     * @return int
      * @param int $a_id
      */
     public static function _lookupViewMode($a_id)
@@ -271,7 +271,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->view_mode;
         }
-        return false;
+        return ilContainer::VIEW_DEFAULT;
     }
     
     /**
@@ -325,6 +325,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+        $type = null;
 
         $query = "SELECT * FROM crs_settings " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";

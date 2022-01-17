@@ -1,11 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use ILIAS\FileUpload\DTO\UploadResult as FileUploadResult;
 use ILIAS\FileUpload\DTO\ProcessingStatus as FileUploadProcessingStatus;
 use ILIAS\FileUpload\Location as FileUploadResultLocation;
+use ILIAS\Filesystem\Stream\Streams;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiContentUploadImporter
  *
@@ -62,7 +74,7 @@ class ilCmiXapiContentUploadImporter
     /**
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function ensureCreatedObjectDirectory()
+    public function ensureCreatedObjectDirectory(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -71,7 +83,7 @@ class ilCmiXapiContentUploadImporter
         }
     }
     
-    protected function sanitizeObjectDirectory()
+    protected function sanitizeObjectDirectory(): void
     {
         ilUtil::renameExecutables(implode(DIRECTORY_SEPARATOR, [
             \ilUtil::getWebspaceDir(), $this->getWebDataDirRelativeObjectDirectory()
@@ -83,7 +95,7 @@ class ilCmiXapiContentUploadImporter
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    public function importServerFile($serverFile)
+    public function importServerFile(string $serverFile): void
     {
         $this->ensureCreatedObjectDirectory();
         
@@ -96,7 +108,7 @@ class ilCmiXapiContentUploadImporter
      * @param string $serverFile
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    protected function handleFile(string $serverFile)
+    protected function handleFile(string $serverFile): void
     {
         $fileInfo = pathinfo($serverFile);
         
@@ -124,7 +136,7 @@ class ilCmiXapiContentUploadImporter
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    public function importFormUpload(ilFileInputGUI $uploadInput)
+    public function importFormUpload(ilFileInputGUI $uploadInput): void
     {
         $this->ensureCreatedObjectDirectory();
         
@@ -145,7 +157,7 @@ class ilCmiXapiContentUploadImporter
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    protected function getUpload($uploadFilePath)
+    protected function getUpload($uploadFilePath): FileUploadResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -181,12 +193,12 @@ class ilCmiXapiContentUploadImporter
      * @param FileUploadResult $uploadResult
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    protected function handleUpload(FileUploadResult $uploadResult)
+    protected function handleUpload(FileUploadResult $uploadResult): void
     {
         switch ($this->fetchFileExtension($uploadResult)) {
             case self::IMP_FILE_EXTENSION_XML:
                 
-                $this->handleXmlFileFromUpload($uploadResult->getName(), $uploadResult->getPath());
+                $this->handleXmlFileFromUpload($uploadResult->getName(),$uploadResult->getPath());
                 break;
                 
             case self::IMP_FILE_EXTENSION_ZIP:
@@ -202,10 +214,9 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param string $xmlFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    protected function handleXmlFile($xmlFilePath)
+    protected function handleXmlFile(string $xmlFilePath): void
     {
         $dom = new DOMDocument();
         $dom->load($xmlFilePath);
@@ -232,11 +243,9 @@ class ilCmiXapiContentUploadImporter
     }
 
     /**
-     * @param string $xmlFileName
-     * @param string $xmlFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    protected function handleXmlFileFromUpload($xmlFileName, $xmlFilePath)
+    protected function handleXmlFileFromUpload(string $xmlFileName, string $xmlFilePath): void
     {
         $dom = new DOMDocument();
         $dom->load($xmlFilePath);
@@ -261,26 +270,23 @@ class ilCmiXapiContentUploadImporter
         }
     }
     
-    protected function validateXmlFile(DOMDocument $dom, $xsdFilePath)
+    protected function validateXmlFile(DOMDocument $dom, $xsdFilePath): void
     {
         if (!$dom->schemaValidate($xsdFilePath)) {
             throw new ilCmiXapiInvalidUploadContentException('invalid content xml given!');
         }
     }
     
-    protected function handleZipContentUpload($uploadFilePath)
+    protected function handleZipContentUpload($uploadFilePath): void
     {
         $targetPath = $this->getAbsoluteObjectDirectory();
-        $zar = new ZipArchive();
+        $zar = new \ZipArchive();
         $zar->open($uploadFilePath);
         $zar->extractTo($targetPath);
         $zar->close();
     }
     
-    /**
-     * @return string
-     */
-    protected function getAbsoluteObjectDirectory()
+    protected function getAbsoluteObjectDirectory(): string
     {
         $dirs = [
             ILIAS_ABSOLUTE_PATH,
@@ -291,10 +297,7 @@ class ilCmiXapiContentUploadImporter
         return implode(DIRECTORY_SEPARATOR, $dirs);
     }
     
-    /**
-     * @return string
-     */
-    public function getWebDataDirRelativeObjectDirectory()
+    public function getWebDataDirRelativeObjectDirectory(): string
     {
         return self::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId();
     }
@@ -303,23 +306,17 @@ class ilCmiXapiContentUploadImporter
      * @param FileUploadResult $uploadResult
      * @return mixed
      */
-    protected function fetchFileExtension(FileUploadResult $uploadResult)
+    protected function fetchFileExtension(FileUploadResult $uploadResult): string
     {
         return pathinfo($uploadResult->getName(), PATHINFO_EXTENSION);
     }
     
-    /**
-     * @return bool
-     */
-    protected function hasStoredContentXml()
+    protected function hasStoredContentXml(): bool
     {
         return $this->getStoredContentXml() !== '';
     }
     
-    /**
-     * @return string
-     */
-    protected function getStoredContentXml()
+    protected function getStoredContentXml(): string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -334,63 +331,120 @@ class ilCmiXapiContentUploadImporter
         return '';
     }
     
-    /**
-     * @param string $xsdFileName
-     * @return string
-     */
-    protected function getXsdFilePath($xsdFileName)
+    protected function getXsdFilePath(string $xsdFileName): string
     {
         return ILIAS_ABSOLUTE_PATH . DIRECTORY_SEPARATOR . self::RELATIVE_XSD_DIRECTORY . DIRECTORY_SEPARATOR . $xsdFileName;
     }
     
-    protected function initObjectFromCmi5Xml($dom)
+    protected function initObjectFromCmi5Xml($dom): void
     {
+        global $DIC;
         $xPath = new DOMXPath($dom);
         
         $courseNode = $xPath->query("//*[local-name()='course']")->item(0);
-        
-        $title = $xPath->query("//*[local-name()='title']", $courseNode)->item(0)->nodeValue;
+        // TODO: multilanguage support
+        $title = $xPath->query("//*[local-name()='title']/*[local-name()='langstring']", $courseNode)->item(0)->nodeValue;
         $this->object->setTitle(trim($title));
         
-        $description = $xPath->query("//*[local-name()='description']", $courseNode)->item(0)->nodeValue;
+        $description = $xPath->query("//*[local-name()='description']/*[local-name()='langstring']", $courseNode)->item(0)->nodeValue;
         $this->object->setDescription(trim($description));
         
-        $activityId = $courseNode->getAttribute('id');
-        $this->object->setActivityId(trim($activityId));
+        $publisherId = trim($courseNode->getAttribute('id'));
+        $this->object->setPublisherId($publisherId);
+
+        $activityId = $this->generateActivityId($publisherId);
+        $this->object->setActivityId($activityId);
         
         foreach ($xPath->query("//*[local-name()='au']") as $assignedUnitNode) {
             $relativeLaunchUrl = $xPath->query("//*[local-name()='url']", $assignedUnitNode)->item(0)->nodeValue;
-            $this->object->setLaunchUrl(trim($relativeLaunchUrl));
-            
+            $launchParameters = $xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue;
+            $moveOn = trim($assignedUnitNode->getAttribute('moveOn'));
+            $entitlementKey = $xPath->query("//*[local-name()='entitlementKey']", $assignedUnitNode)->item(0)->nodeValue;
+            $masteryScore = trim($assignedUnitNode->getAttribute('masteryScore'));
+
+            if (!empty($relativeLaunchUrl)) {
+                $this->object->setLaunchUrl(trim($relativeLaunchUrl));
+            }
+            if (!empty($launchParameters)) {
+                $this->object->setLaunchParameters(trim($launchParameters));
+            }
+            if (!empty($moveOn)) {
+                if ($moveOn == ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED) {
+                    $moveOn = ilCmiXapiLP::MOVEON_PASSED;
+                }
+                $this->object->setMoveOn($moveOn);
+            }
+            if (!empty($entitlementKey)) {
+                $this->object->setEntitlementKey($entitlementKey);
+            }
+            if (!empty($masteryScore)) {
+                $this->object->setMasteryScore($masteryScore);
+            }
+            else {
+                $this->object->setMasteryScore(ilObjCmiXapi::LMS_MASTERY_SCORE);
+            }
+
             break; // TODO: manage multi au imports
         }
-        
+        $xml_str = $dom->saveXML();
+        $this->object->setXmlManifest($xml_str);
         $this->object->update();
         $this->object->save();
+        
+        $lpSettings = new ilLPObjSettings($this->object->getId());
+        $mode = ilLPObjSettings::LP_MODE_DEACTIVATED;
+        switch ($moveOn)
+        {
+            case ilCmiXapiLP::MOVEON_COMPLETED :
+                $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;
+            break;
+            case ilCmiXapiLP::MOVEON_PASSED :
+                $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
+            break;
+            case ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED :
+                $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED;
+            break;
+            case ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED : // ich würde es noch implementieren
+                $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED; 
+            break;
+        }
+        $lpSettings->setMode($mode);
+        $lpSettings->update();
     }
     
-    protected function initObjectFromTincanXml($dom)
+    protected function initObjectFromTincanXml($dom): void
     {
         $xPath = new DOMXPath($dom);
         
         foreach ($xPath->query("//*[local-name()='activity']") as $activityNode) {
             $title = $xPath->query("//*[local-name()='name']", $activityNode)->item(0)->nodeValue;
             $this->object->setTitle(trim($title));
-            
+
             $description = $xPath->query("//*[local-name()='description']", $activityNode)->item(0)->nodeValue;
             $this->object->setDescription(trim($description));
-            
+
             $activityId = $activityNode->getAttribute('id');
             $this->object->setActivityId(trim($activityId));
-            
+
             $relativeLaunchUrl = $xPath->query("//*[local-name()='launch']", $activityNode)->item(0)->nodeValue;
             $this->object->setLaunchUrl(trim($relativeLaunchUrl));
-            
+
             break; // TODO: manage multi activities imports
         }
         
-        
+        $xml_str = $dom->saveXML();
+        $this->object->setXmlManifest($xml_str);
         $this->object->update();
         $this->object->save();
     }
+
+    private function generateActivityId($publisherId)
+    {
+        global $DIC;
+        $objId = $this->object->getId();
+        $activityId = "https://ilias.de/cmi5/activityid/".(new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(),$objId . '-' . $publisherId);
+        return $activityId;
+    }
+
+
 }

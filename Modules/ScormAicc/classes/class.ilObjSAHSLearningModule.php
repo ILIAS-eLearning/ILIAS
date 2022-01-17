@@ -1,14 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject.php";
-require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 //require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
-
 /** @defgroup ModulesScormAicc Modules/ScormAicc
  */
-
 /**
 * Class ilObjSCORMLearningModule
 *
@@ -113,8 +120,6 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setMasteryScore($lm_rec["mastery_score"]);
             $this->setIdSetting($lm_rec["id_setting"]);
             $this->setNameSetting($lm_rec["name_setting"]);
-            
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             if (ilObject::_lookupType($this->getStyleSheetId()) != "sty") {
                 $this->setStyleSheetId(0);
             }
@@ -127,7 +132,7 @@ class ilObjSAHSLearningModule extends ilObject
      *
      * @param int $a_id scorm lm id
      */
-    public static function getAffectiveLocalization($a_id)
+    public static function getAffectiveLocalization(int $a_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -171,7 +176,7 @@ class ilObjSAHSLearningModule extends ilObject
     *
     * @param	boolean	$a_editable	Editable
     */
-    public function setEditable($a_editable)
+    public function setEditable(bool $a_editable)
     {
         $this->editable = $a_editable;
     }
@@ -212,7 +217,7 @@ class ilObjSAHSLearningModule extends ilObject
      *
      * @param string $a_val localization
      */
-    public function setLocalization($a_val)
+    public function setLocalization(string $a_val)
     {
         $this->localization = $a_val;
     }
@@ -249,7 +254,6 @@ class ilObjSAHSLearningModule extends ilObject
     */
     public function getDiskUsage()
     {
-        require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
         return ilObjSAHSLearningModuleAccess::_lookupDiskUsage($this->id);
     }
 
@@ -712,7 +716,7 @@ class ilObjSAHSLearningModule extends ilObject
      *
      * @param boolean $a_val sequencing expert mode
      */
-    public function setSequencingExpertMode($a_val)
+    public function setSequencingExpertMode(bool $a_val)
     {
         $this->seq_exp_mode = $a_val;
     }
@@ -1121,9 +1125,6 @@ class ilObjSAHSLearningModule extends ilObject
         $ilLog->write("SAHS Delete(SAHSLM), Subtype: " . $this->getSubType());
         
         if ($this->getSubType() == "scorm") {
-            // remove all scorm objects and scorm tree
-            include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-            include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
             $sc_tree = new ilSCORMTree($this->getId());
             $r_id = $sc_tree->readRootId();
             if ($r_id > 0) {
@@ -1355,13 +1356,11 @@ class ilObjSAHSLearningModule extends ilObject
         // cloneIntoNewObject method
         switch ($this->getSubType()) {
             case "scorm":
-                include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                 $source_obj = new ilObjSCORMLearningModule($this->getRefId());
                 $new_obj = new ilObjSCORMLearningModule($new_obj->getRefId());
                 break;
                 
             case "scorm2004":
-                include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                 $source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
                 $new_obj = new ilObjSCORM2004LearningModule($new_obj->getRefId());
                 break;
@@ -1377,13 +1376,8 @@ class ilObjSAHSLearningModule extends ilObject
             // ... or read manifest file
             $new_obj->readObject();
         }
-        
-        // Copy learning progress settings (Mantis #0022964)
-        include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
-
-        include_once('Services/Object/classes/class.ilObjectLP.php');
         /** @var ilScormLP $olp */
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
@@ -1484,7 +1478,6 @@ class ilObjSAHSLearningModule extends ilObject
             $setUrl = "javascript:void(0); onclick=startSAHS('" . $setUrl . "','ilContObj" . $this->getId() . "'," . $om . "," . $width . "," . $height . ");";
             $setTarget = "";
         }
-        include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
         $button = ilLinkButton::getInstance();
         $button->setCaption("view");
         $button->setPrimary(true);

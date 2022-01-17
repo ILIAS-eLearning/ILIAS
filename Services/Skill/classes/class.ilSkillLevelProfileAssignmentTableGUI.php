@@ -26,11 +26,11 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  */
 class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
 {
-    protected int $skill_id;
-    protected int $tref_id;
+    protected int $skill_id = 0;
+    protected int $tref_id = 0;
     protected ilBasicSkill $skill;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_level_id;
+    protected int $requested_level_id = 0;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id)
     {

@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
+
+namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use Closure;
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
@@ -15,64 +17,66 @@ use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class MainToolCollector
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MainToolCollector extends AbstractBaseCollector implements ItemCollector
 {
-
-    /**
-     * @var ItemInformation
-     */
-    private $information;
-    /**
-     * @var TypeInformationCollection
-     */
-    private $type_information_collection;
+    private ?ItemInformation $information;
+    private TypeInformationCollection $type_information_collection;
     /**
      * @var isToolItem[]
      */
-    private $tools;
+    private array $tools;
     /**
      * @var DynamicToolProvider[]
      */
-    private $providers = [];
-
-
+    private array $providers;
+    
     /**
      * MainToolCollector constructor.
-     *
      * @param DynamicToolProvider[] $providers
      * @param ItemInformation|null  $information
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->providers = $providers;
-        $this->information = $information;
+        $this->providers                   = $providers;
+        $this->information                 = $information;
         $this->type_information_collection = new TypeInformationCollection();
-
+        
         // Tool
         $tool = new TypeInformation(Tool::class, Tool::class, new ToolItemRenderer());
         $tool->setCreationPrevented(true);
         $this->type_information_collection->add($tool);
-
+        
         $tool = new TypeInformation(TreeTool::class, TreeTool::class, new TreeToolItemRenderer());
         $tool->setCreationPrevented(true);
         $this->type_information_collection->add($tool);
-
+        
         $this->tools = [];
     }
-
-
+    
     public function collectStructure() : void
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
-
+        
         $tools_to_merge = [];
-
+        
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
             if ($context_collection->hasMatch($called_contexts)) {
@@ -81,13 +85,12 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         }
         $this->tools = array_merge([], ...$tools_to_merge);
     }
-
-
+    
     public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
     }
-
+    
     public function getSingleItem(IdentificationInterface $identification) : isToolItem
     {
         foreach ($this->tools as $tool) {
@@ -97,35 +100,29 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         }
         return new Tool($identification);
     }
-
-
+    
     public function prepareItemsForUIRepresentation() : void
     {
-        array_walk($this->tools, function (isToolItem $tool) {
+        array_walk($this->tools, function (isToolItem $tool): void {
             $this->applyTypeInformation($tool);
         });
     }
-
+    
     public function cleanupItemsForUIRepresentation() : void
     {
         // TODO: Implement cleanupItemsForUIRepresentation() method.
     }
-
+    
     public function sortItemsForUIRepresentation() : void
     {
         usort($this->tools, $this->getItemSorter());
     }
-
-
-    /**
-     * @return \Generator
-     */
+    
     public function getItemsForUIRepresentation() : \Generator
     {
         yield from $this->tools;
     }
-
-
+    
     /**
      * @return bool
      */
@@ -133,24 +130,20 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
     {
         return count($this->tools) > 0;
     }
-
-
+    
     /**
      * @param isToolItem $item
-     *
      * @return isToolItem
      */
     private function applyTypeInformation(isToolItem $item) : isToolItem
     {
         $item->setTypeInformation($this->getTypeInfoermationForItem($item));
-
+        
         return $item;
     }
-
-
+    
     /**
      * @param isToolItem $item
-     *
      * @return TypeInformation
      */
     private function getTypeInfoermationForItem(isToolItem $item) : TypeInformation
@@ -159,28 +152,20 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
          * @var $handler TypeHandler
          */
         $type = get_class($item);
-
+        
         return $this->type_information_collection->get($type);
     }
-
-
-    /**
-     * @return Closure
-     */
-    private function getVisibleFilter() : Closure
+    
+    private function getVisibleFilter() : callable
     {
-        return static function (isToolItem $tool) {
+        return static function (isToolItem $tool): bool {
             return ($tool->isAvailable() && $tool->isVisible());
         };
     }
-
-
-    /**
-     * @return Closure
-     */
-    private function getItemSorter() : Closure
+    
+    private function getItemSorter() : callable
     {
-        return static function (isToolItem $a, isToolItem $b) {
+        return static function (isToolItem $a, isToolItem $b): int {
             return $a->getPosition() - $b->getPosition();
         };
     }

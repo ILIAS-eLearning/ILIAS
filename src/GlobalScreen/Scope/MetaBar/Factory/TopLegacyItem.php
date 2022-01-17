@@ -6,28 +6,27 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class TopLegacyItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle
 {
-
-    /**
-     * @var Glyph
-     */
-    protected $glyph;
-    /**
-     * @var string
-     */
-    protected $title = "";
-    /**
-     * @var Legacy
-     */
-    protected $content = null;
-
-
+    
+    protected ?Symbol $symbol = null;
+    protected string $title = "";
+    protected ?Legacy $content = null;
+    
     /**
      * @inheritDoc
      */
@@ -36,50 +35,45 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
         parent::__construct($provider_identification);
         $this->renderer = new TopLegacyItemRenderer();
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
-        $clone = clone($this);
-        $clone->glyph = $symbol;
-
+        $clone         = clone($this);
+        $clone->symbol = $symbol;
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function getSymbol() : Symbol
     {
-        return $this->glyph;
+        return $this->symbol;
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function hasSymbol() : bool
     {
-        return ($this->glyph instanceof Symbol);
+        return ($this->symbol instanceof Symbol);
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->title = $title;
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -87,22 +81,15 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     {
         return $this->title;
     }
-
-
-    /**
-     * @param Legacy $content
-     *
-     * @return TopLegacyItem
-     */
-    public function withLegacyContent(Legacy $content) : TopLegacyItem
+    
+    public function withLegacyContent(Legacy $content) : self
     {
-        $clone = clone $this;
+        $clone          = clone $this;
         $clone->content = $content;
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @return Legacy
      */
@@ -110,8 +97,7 @@ class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     {
         return $this->content;
     }
-
-
+    
     /**
      * @return bool
      */

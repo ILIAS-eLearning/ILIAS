@@ -1,11 +1,21 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilScormAiccImporter extends ilXmlImporter
 {
     public function __construct()
     {
-        require_once "./Modules/ScormAicc/classes/class.ilScormAiccDataSet.php";
         $this->dataset = new ilScormAiccDataSet();
         //todo: at the moment restricted to one module in xml file, extend?
         $this->moduleProperties = [];
@@ -32,8 +42,6 @@ class ilScormAiccImporter extends ilXmlImporter
         // case i container
         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-
-            require_once("./Services/Export/classes/class.ilExport.php");
             $exportDir = ilExport::_getExportDirectory($a_id);
             $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
@@ -88,10 +96,8 @@ class ilScormAiccImporter extends ilXmlImporter
                             // $newObj->setPermissions($newId);
                             $subType = $this->moduleProperties["SubType"][0];
                             if ($subType == "scorm") {
-                                include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                                 $newObj = new ilObjSCORMLearningModule($newId);
                             } else {
-                                include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                                 $newObj = new ilObjSCORM2004LearningModule($newId);
                             }
                             $title = $newObj->readObject();
@@ -117,7 +123,7 @@ class ilScormAiccImporter extends ilXmlImporter
         }
     }
 
-    public function writeData($a_entity, $a_version, $a_id)
+    public function writeData($a_entity, $a_version, $a_id) : void
     {
         $this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
     }
@@ -131,17 +137,13 @@ class ilScormAiccImporter extends ilXmlImporter
      * @param ilImportMapping $a_mapping import mapping object
      * @return bool success
      */
-    public function handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)
+    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping): bool
     {
         // if editable...
         if (is_int(strpos($a_xml, "<Editable>1</Editable>"))) {
-            // ...use ilScorm2004DataSet for import
-            include_once("./Modules/Scorm2004/classes/class.ilScorm2004DataSet.php");
             $dataset = new ilScorm2004DataSet();
             $dataset->setDSPrefix("ds");
             $dataset->setImportDirectory($this->getImportDirectory());
-
-            include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
             $parser = new ilDataSetImportParser(
                 $a_entity,
                 $this->getSchemaVersion(),

@@ -484,29 +484,30 @@ class Renderer extends AbstractComponentRenderer
     protected function renderMultiSelectField(F\MultiSelect $component) : string
     {
         $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-        $name = $this->applyName($component, $tpl);
-
-        $value = $component->getValue();
-        $tpl->setVariable("VALUE", $value);
-
         $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable("ID", $id);
 
-        foreach ($component->getOptions() as $opt_value => $opt_label) {
-            $tpl->setCurrentBlock("option");
-            $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("VALUE", $opt_value);
-            $tpl->setVariable("LABEL", $opt_label);
+        $options = $component->getOptions();
+        if (count($options) > 0) {
+            $value = $component->getValue();
+            $name = $this->applyName($component, $tpl);
+            foreach ($options as $opt_value => $opt_label) {
+                $tpl->setCurrentBlock("option");
+                $tpl->setVariable("NAME", $name);
+                $tpl->setVariable("VALUE", $opt_value);
+                $tpl->setVariable("LABEL", $opt_label);
 
-            if ($value && in_array($opt_value, $value)) {
-                $tpl->setVariable("CHECKED", 'checked="checked"');
+                if ($value && in_array($opt_value, $value)) {
+                    $tpl->setVariable("CHECKED", 'checked="checked"');
+                }
+
+                if ($component->isDisabled()) {
+                    $tpl->setVariable("DISABLED", 'disabled="disabled"');
+                }
+                $tpl->parseCurrentBlock();
             }
-
-            if ($component->isDisabled()) {
-                $tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
-
-            $tpl->parseCurrentBlock();
+        } else {
+            $tpl->touchBlock("no_options");
         }
 
         return $this->wrapInFormContext($component, $tpl->get());

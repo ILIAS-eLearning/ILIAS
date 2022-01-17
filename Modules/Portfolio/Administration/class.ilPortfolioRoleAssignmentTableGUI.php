@@ -13,22 +13,19 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
+
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager
-     */
-    protected $manager;
+    protected PortfolioRoleAssignmentManager $manager;
 
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager $manager
+        PortfolioRoleAssignmentManager $manager
     ) {
         global $DIC;
 
@@ -50,26 +47,19 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.prtf_role_assignment_row.html", "Modules/Portfolio/Administration");
 
         $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
-        //$this->addCommandButton("", $this->lng->txt(""));
     }
 
     /**
-     * Get items
      * @return array[]
      */
-    protected function getItems()
+    protected function getItems() : array
     {
         return $this->manager->getAllAssignmentData();
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
         $tpl->setVariable("ROLE_ID", $a_set["role_id"]);
         $tpl->setVariable("TEMPLATE_ID", $a_set["template_ref_id"]);
         $tpl->setVariable("TEMPLATE_TITLE", $a_set["template_title"]);

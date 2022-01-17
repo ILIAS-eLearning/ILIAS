@@ -508,8 +508,8 @@ class ilInitialisation
         define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
         define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
-        define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
-        define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
+        define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
+        define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
@@ -1442,7 +1442,7 @@ class ilInitialisation
     private static function initGlobalScreen(\ILIAS\DI\Container $c)
     {
         $c['global_screen'] = function () use ($c) {
-            return new Services(new ilGSProviderFactory($c));
+            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace(" ", "_", ILIAS_VERSION)));
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
@@ -1566,13 +1566,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-            include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-            $ilMainMenu = new ilMainMenuGUI("_top");
-
-            self::initGlobal("ilMainMenu", $ilMainMenu);
-            unset($ilMainMenu);
-
-            // :TODO: tableGUI related
 
             // set hits per page for all lists using table module
             $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');

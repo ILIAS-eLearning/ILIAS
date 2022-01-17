@@ -52,7 +52,7 @@ class ilNewsItem
     protected int $context_obj_id = 0;
     protected string $context_obj_type = "";
     protected int $context_sub_obj_id = 0;
-    protected string $context_sub_obj_type = "";
+    protected ?string $context_sub_obj_type = null;
     protected string $content_type = "text";
     protected string $creation_date = "";
     protected string $update_date = "";
@@ -146,12 +146,12 @@ class ilNewsItem
         return $this->context_sub_obj_id;
     }
 
-    public function setContextSubObjType(string $a_context_sub_obj_type) : void
+    public function setContextSubObjType(?string $a_context_sub_obj_type) : void
     {
         $this->context_sub_obj_type = $a_context_sub_obj_type;
     }
 
-    public function getContextSubObjType() : string
+    public function getContextSubObjType() : ?string
     {
         return $this->context_sub_obj_type;
     }
@@ -359,8 +359,8 @@ class ilNewsItem
         $this->setPriority($rec["priority"]);
         $this->setContentIsLangVar($rec["content_is_lang_var"]);
         $this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
-        $this->setMobId($rec["mob_id"]);
-        $this->setPlaytime($rec["playtime"]);
+        $this->setMobId((int) $rec["mob_id"]);
+        $this->setPlaytime((string) $rec["playtime"]);
         $this->setMobPlayCounter($rec["mob_cnt_play"]);
         $this->setMobDownloadCounter($rec["mob_cnt_download"]);
         $this->setContentHtml((bool) $rec["content_html"]);
@@ -1880,7 +1880,7 @@ class ilNewsItem
                 if ($a_increase_download_cnt) {
                     $this->increaseDownloadCounter();
                 }
-                ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
                 ilUtil::sendFailure("File not found!", true);

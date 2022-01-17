@@ -178,8 +178,8 @@ class ilMediaCreationGUI
             // move title from form to accordion
             $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
                 $form_title);
-            $cf->setTitle(null);
-            $cf->setTitleIcon(null);
+            $cf->setTitle("");
+            $cf->setTitleIcon("");
             $cf->setTableWidth("100%");
 
             $acc->addItem($htpl->get(), $cf->getHTML());
@@ -239,7 +239,12 @@ class ilMediaCreationGUI
 
         $form = new \ilPropertyFormGUI();
 
-        $mcst = new ilRepositorySelector2InputGUI($lng->txt("obj_mep"), "mep", false);
+        $mcst = new ilRepositorySelector2InputGUI(
+            $lng->txt("obj_mep"),
+            "mep",
+            false,
+            $form
+        );
         $exp = $mcst->getExplorerGUI();
         $exp->setSelectableTypes(["mep"]);
         $exp->setTypeWhiteList(["root", "mep", "cat", "crs", "grp", "fold"]);

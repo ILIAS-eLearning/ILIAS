@@ -11,9 +11,9 @@ class ilBiblRisFileReaderWrapper
 
     /**
      * @param $content
-     * @return array
+     * @return mixed[]
      */
-    public function parseContent($content)
+    public function parseContent($content): array
     {
         $RISReader = new RISReader();
 

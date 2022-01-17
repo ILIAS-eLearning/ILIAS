@@ -1,38 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilBadgeHandler
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBadgeHandler
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $settings; // [ilSetting]
+    protected ilComponentRepository $component_repository;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected static ?ilBadgeHandler $instance = null;
     
-    protected static $instance; // [ilBadgeHandler]
-    
-    /**
-     * Constructor
-     *
-     * @return self
-     */
     protected function __construct()
     {
         global $DIC;
@@ -47,12 +40,7 @@ class ilBadgeHandler
         $this->settings = new ilSetting("bdga");
     }
     
-    /**
-     * Constructor
-     *
-     * @return self
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         if (!self::$instance) {
             self::$instance = new self();
@@ -65,60 +53,60 @@ class ilBadgeHandler
     // setter/getter
     //
     
-    public function isActive()
+    public function isActive() : bool
     {
-        return (bool) $this->settings->get("active", null);
+        return (bool) $this->settings->get("active", "");
     }
     
-    public function setActive(bool $a_value)
+    public function setActive(bool $a_value) : void
     {
         $this->settings->set("active", (string) $a_value);
     }
     
-    public function isObiActive()
+    public function isObiActive() : bool
     {
         // see bug #20124
         return false;
 
-        return $this->settings->get("obi_active", false);
+        //return $this->settings->get("obi_active", false);
     }
     
-    public function setObiActive($a_value)
+    public function setObiActive(bool $a_value) : void
     {
-        $this->settings->set("obi_active", (bool) $a_value);
+        $this->settings->set("obi_active", $a_value);
     }
     
-    public function getObiOrganistation()
+    public function getObiOrganistation() : string
     {
-        return $this->settings->get("obi_organisation", null);
+        return $this->settings->get("obi_organisation", "");
     }
     
-    public function setObiOrganisation($a_value)
+    public function setObiOrganisation(string $a_value) : void
     {
         $this->settings->set("obi_organisation", trim($a_value));
     }
     
-    public function getObiContact()
+    public function getObiContact() : string
     {
-        return $this->settings->get("obi_contact", null);
+        return $this->settings->get("obi_contact", "");
     }
     
-    public function setObiContact($a_value)
+    public function setObiContact(string $a_value) : void
     {
         $this->settings->set("obi_contact", trim($a_value));
     }
     
-    public function getObiSalt()
+    public function getObiSalt() : string
     {
-        return $this->settings->get("obi_salt", null);
+        return $this->settings->get("obi_salt", "");
     }
     
-    public function setObiSalt($a_value)
+    public function setObiSalt(string $a_value) : void
     {
         $this->settings->set("obi_salt", trim($a_value));
     }
     
-    public function getComponents()
+    public function getComponents() : array
     {
         $components = $this->settings->get("components", null);
         if ($components) {
@@ -127,7 +115,7 @@ class ilBadgeHandler
         return array();
     }
     
-    public function setComponents(array $a_components = null)
+    public function setComponents(array $a_components = null) : void
     {
         if (is_array($a_components) &&
             !sizeof($a_components)) {
@@ -143,7 +131,7 @@ class ilBadgeHandler
     // component handling
     //
     
-    protected function getComponent($a_id)
+    protected function getComponent(string $a_id) : ?array
     {
         if (!$this->component_repository->hasComponentId($a_id)) {
             return null;
@@ -155,51 +143,48 @@ class ilBadgeHandler
         ];
     }
     
-    /**
-     * Get provider instance
-     *
-     * @param string $a_component_id
-     * @return ilBadgeProvider
-     */
-    public function getProviderInstance($a_component_id)
+    public function getProviderInstance(string $a_component_id) : ?ilBadgeProvider
     {
         $comp = $this->getComponent($a_component_id);
         if ($comp) {
             $class = "il" . $comp["name"] . "BadgeProvider";
             $file = $comp["type"] . "/" . $comp["name"] . "/classes/class." . $class . ".php";
             if (file_exists($file)) {
-                $obj = new $class;
+                $obj = new $class();
                 if ($obj instanceof ilBadgeProvider) {
                     return $obj;
                 }
             }
         }
+        return null;
     }
     
-    public function getComponentCaption($a_component_id)
+    public function getComponentCaption(string $a_component_id) : string
     {
         $comp = $this->getComponent($a_component_id);
         if ($comp) {
             return $comp["type"] . "/" . $comp["name"];
         }
+        return "";
     }
     
     //
     // types
     //
     
-    public function getUniqueTypeId($a_component_id, ilBadgeType $a_badge)
-    {
+    public function getUniqueTypeId(
+        string $a_component_id,
+        ilBadgeType $a_badge
+    ) : string {
         return $a_component_id . "/" . $a_badge->getId();
     }
     
     /**
      * Get type instance by unique id (component, type)
-     * @param string $a_id
-     * @return ilBadgeType
      */
-    public function getTypeInstanceByUniqueId($a_id)
-    {
+    public function getTypeInstanceByUniqueId(
+        string $a_id
+    ) : ?ilBadgeType {
         $parts = explode("/", $a_id);
         $comp_id = $parts[0];
         $type_id = $parts[1];
@@ -211,9 +196,10 @@ class ilBadgeHandler
                 }
             }
         }
+        return null;
     }
     
-    public function getInactiveTypes()
+    public function getInactiveTypes() : array
     {
         $types = $this->settings->get("inactive_types", null);
         if ($types) {
@@ -222,7 +208,7 @@ class ilBadgeHandler
         return array();
     }
     
-    public function setInactiveTypes(array $a_types = null)
+    public function setInactiveTypes(array $a_types = null) : void
     {
         if (is_array($a_types) &&
             !sizeof($a_types)) {
@@ -235,10 +221,9 @@ class ilBadgeHandler
     
     /**
      * Get badges types
-     *
      * @return ilBadgeType[]
      */
-    public function getAvailableTypes()
+    public function getAvailableTypes() : array
     {
         $res = array();
         
@@ -260,11 +245,9 @@ class ilBadgeHandler
     
     /**
      * Get valid badges types for object type
-     *
-     * @param string $a_object_type
      * @return ilBadgeType[]
      */
-    public function getAvailableTypesForObjType($a_object_type)
+    public function getAvailableTypesForObjType(string $a_object_type) : array
     {
         $res = array();
         
@@ -279,13 +262,12 @@ class ilBadgeHandler
         
     /**
      * Get available manual badges for object id
-     *
-     * @param int $a_parent_obj_id
-     * @param string $a_parent_obj_type
-     * @return array id,title
+     * @return array<int,string>
      */
-    public function getAvailableManualBadges($a_parent_obj_id, $a_parent_obj_type = null)
-    {
+    public function getAvailableManualBadges(
+        int $a_parent_obj_id,
+        string $a_parent_obj_type = null
+    ) : array {
         $res = array();
         
         if (!$a_parent_obj_type) {
@@ -316,10 +298,8 @@ class ilBadgeHandler
     
     /**
      * Import component definition
-     *
-     * @param string $a_component_id
      */
-    public static function updateFromXML($a_component_id)
+    public static function updateFromXML(string $a_component_id) : void
     {
         $handler = self::getInstance();
         $components = $handler->getComponents();
@@ -329,10 +309,8 @@ class ilBadgeHandler
     
     /**
      * Remove component definition
-     *
-     * @param string $a_component_id
      */
-    public static function clearFromXML($a_component_id)
+    public static function clearFromXML(string $a_component_id) : void
     {
         $handler = self::getInstance();
         $components = $handler->getComponents();
@@ -349,8 +327,10 @@ class ilBadgeHandler
     // helper
     //
     
-    public function isObjectActive($a_obj_id, $a_obj_type = null)
-    {
+    public function isObjectActive(
+        int $a_obj_id,
+        ?string $a_obj_type = null
+    ) : bool {
         if (!$this->isActive()) {
             return false;
         }
@@ -372,16 +352,18 @@ class ilBadgeHandler
         return true;
     }
     
-    public function triggerEvaluation($a_type_id, $a_user_id, array $a_params = null)
-    {
+    public function triggerEvaluation(
+        string $a_type_id,
+        int $a_user_id,
+        array $a_params = null
+    ) : void {
         if (!$this->isActive() ||
             in_array($a_type_id, $this->getInactiveTypes())) {
             return;
         }
                         
         $type = $this->getTypeInstanceByUniqueId($a_type_id);
-        if (!$type ||
-            !$type instanceof ilBadgeAuto) {
+        if (!$type instanceof ilBadgeAuto) {
             return;
         }
         
@@ -390,7 +372,7 @@ class ilBadgeHandler
             if ($badge->isActive()) {
                 // already assigned?
                 if (!ilBadgeAssignment::exists($badge->getId(), $a_user_id)) {
-                    if ((bool) $type->evaluate($a_user_id, (array) $a_params, (array) $badge->getConfiguration())) {
+                    if ($type->evaluate($a_user_id, (array) $a_params, (array) $badge->getConfiguration())) {
                         $ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
                         $ass->store();
                         
@@ -403,8 +385,11 @@ class ilBadgeHandler
         $this->sendNotification($new_badges);
     }
     
-    public function getUserIds($a_parent_ref_id, $a_parent_obj_id = null, $a_parent_type = null)
-    {
+    public function getUserIds(
+        int $a_parent_ref_id,
+        int $a_parent_obj_id = null,
+        string $a_parent_type = null
+    ) : array {
         $tree = $this->tree;
                 
         if (!$a_parent_obj_id) {
@@ -426,6 +411,7 @@ class ilBadgeHandler
             
             default:
                 // walk path to find course or group object and use members of that object
+                /* this does not work since getParticipantsForObject does not exist
                 $path = $tree->getPathId($a_parent_ref_id);
                 array_pop($path);
                 foreach (array_reverse($path) as $path_ref_id) {
@@ -433,9 +419,10 @@ class ilBadgeHandler
                     if ($type == "crs" || $type == "grp") {
                         return $this->getParticipantsForObject($path_ref_id, null, $type);
                     }
-                }
+                }*/
                 break;
         }
+        return [];
     }
     
     
@@ -443,12 +430,12 @@ class ilBadgeHandler
     // PATH HANDLING (PUBLISHING)
     //
     
-    protected function getBasePath()
+    protected function getBasePath() : string
     {
         return ilUtil::getWebspaceDir() . "/pub_badges/";
     }
     
-    public function getInstancePath(ilBadgeAssignment $a_ass)
+    public function getInstancePath(ilBadgeAssignment $a_ass) : string
     {
         $hash = md5($a_ass->getBadgeId() . "_" . $a_ass->getUserId());
         
@@ -463,7 +450,7 @@ class ilBadgeHandler
         return $path;
     }
 
-    public function countStaticBadgeInstances(ilBadge $a_badge)
+    public function countStaticBadgeInstances(ilBadge $a_badge) : int
     {
         $path = $this->getBasePath() . "instances/" . $a_badge->getId();
         $cnt = 0;
@@ -473,8 +460,10 @@ class ilBadgeHandler
         return $cnt;
     }
     
-    protected function countStaticBadgeInstancesHelper(&$a_cnt, $a_path)
-    {
+    protected function countStaticBadgeInstancesHelper(
+        int &$a_cnt,
+        string $a_path
+    ) : void {
         foreach (glob($a_path . "/*") as $item) {
             if (is_dir($item)) {
                 $this->countStaticBadgeInstancesHelper($a_cnt, $item);
@@ -484,7 +473,7 @@ class ilBadgeHandler
         }
     }
     
-    public function getBadgePath(ilBadge $a_badge)
+    public function getBadgePath(ilBadge $a_badge) : string
     {
         $hash = md5($a_badge->getId());
         
@@ -497,7 +486,7 @@ class ilBadgeHandler
         return $path;
     }
     
-    protected function prepareIssuerJson($a_url)
+    protected function prepareIssuerJson(string $a_url) : stdClass
     {
         $json = new stdClass();
         $json->{"@context"} = "https://w3id.org/openbadges/v1";
@@ -510,7 +499,7 @@ class ilBadgeHandler
         return $json;
     }
     
-    public function getIssuerStaticUrl()
+    public function getIssuerStaticUrl() : string
     {
         $path = $this->getBasePath() . "issuer/";
         ilUtil::makeDirParents($path);
@@ -526,7 +515,7 @@ class ilBadgeHandler
         return $url;
     }
     
-    public function rebuildIssuerStaticUrl()
+    public function rebuildIssuerStaticUrl() : void
     {
         $path = $this->getBasePath() . "issuer/issuer.json";
         if (file_exists($path)) {
@@ -540,8 +529,10 @@ class ilBadgeHandler
     // notification
     //
     
-    public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
-    {
+    public function sendNotification(
+        array $a_user_map,
+        int $a_parent_ref_id = null
+    ) : void {
         $badges = array();
 
         foreach ($a_user_map as $user_id => $badge_ids) {

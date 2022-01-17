@@ -7,6 +7,19 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StakeholderRepositoryTests
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -14,14 +27,8 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class StakeholderRepositoryTests extends AbstractBaseTest
 {
 
-    /**
-     * @var StakeholderDBRepository
-     */
-    protected $stakeholder_repository;
-    /**
-     * @var ResourceIdentification
-     */
-    protected $identification;
+    protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository $stakeholder_repository;
+    protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     protected function setUp() : void
     {
@@ -30,7 +37,7 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->identification = new ResourceIdentification('test_identification');
     }
 
-    public function testIdTooLong()
+    public function testIdTooLong(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('stakeholder ids MUST be shorter or equal to than 64 characters');
@@ -40,7 +47,7 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    public function testNameTooLong()
+    public function testNameTooLong(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('stakeholder classnames MUST be shorter or equal to than 250 characters');
@@ -51,14 +58,17 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    /**
-     * @return ResourceStakeholder
-     */
-    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null)
+    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null): \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder
     {
         return new class($stakeholder_id, $stakeholder_classname) implements ResourceStakeholder {
 
+            /**
+             * @var string|mixed
+             */
             protected $stakeholder_id = 'the_ludicrous_long_identification_string_of_a_resource_stakeholder';
+            /**
+             * @var string|mixed
+             */
             protected $stakeholder_classname = 'This\Is\A\Very\Long\Class\Name\Which\Can\Not\Be\Handled\As\A\Propper\Stakeholder\In\The\ILIAS\Resource\Storage\Service';
 
             public function __construct(?string $stakeholder_id = null, ?string $stakeholder_classname = null)

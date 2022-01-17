@@ -26,7 +26,7 @@ namespace ILIAS\Skill\Tree;
  */
 class SkillTreeNodeManager
 {
-    protected int $skill_tree_id;
+    protected int $skill_tree_id = 0;
     protected \ilSkillTree $tree;
     protected \ilObjUser $user;
 

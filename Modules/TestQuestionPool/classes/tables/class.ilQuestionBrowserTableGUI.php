@@ -158,7 +158,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 false
             );
             
-            ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
+            ilNoteGUI::initJavascript($notesUrl, ilNote::PUBLIC, $DIC->ui()->mainTemplate());
         }
     }
     
@@ -191,7 +191,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     $this->parent_obj->object->getId(),
                     $data['question_id'],
                     'quest',
-                    IL_NOTE_PUBLIC
+                    ilNote::PUBLIC
                 ));
                 
                 if ($this->filter['commented'] && !$numComments) {

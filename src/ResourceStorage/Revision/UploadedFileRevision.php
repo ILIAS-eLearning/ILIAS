@@ -6,6 +6,19 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\FileInformation;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class UploadedFileRevision
  *
@@ -14,10 +27,7 @@ use ILIAS\ResourceStorage\Information\FileInformation;
 class UploadedFileRevision extends FileRevision implements Revision
 {
 
-    /**
-     * @var UploadResult
-     */
-    private $upload;
+    private \ILIAS\FileUpload\DTO\UploadResult $upload;
 
 
     /**
@@ -37,9 +47,6 @@ class UploadedFileRevision extends FileRevision implements Revision
     }
 
 
-    /**
-     * @return UploadResult
-     */
     public function getUpload() : UploadResult
     {
         return $this->upload;

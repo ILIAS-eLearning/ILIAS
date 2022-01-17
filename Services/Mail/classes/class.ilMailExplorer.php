@@ -100,6 +100,11 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $content;
     }
 
+    public function getNodeIconAlt($a_node) : string
+    {
+        return $this->getNodeContent($a_node);
+    }
+
     public function getNodeIcon($a_node) : string
     {
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {

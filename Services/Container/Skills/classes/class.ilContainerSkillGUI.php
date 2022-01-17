@@ -33,7 +33,7 @@ class ilContainerSkillGUI
     protected ilContainer $container;
     protected ilAccessHandler $access;
     protected ilSkillManagementSettings $skmg_settings;
-    protected int $ref_id;
+    protected int $ref_id = 0;
 
     public function __construct(ilContainerGUI $a_container_gui)
     {

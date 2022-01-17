@@ -89,7 +89,11 @@ class ilCachedLanguage
         $res = $ilDB->queryF($q, array( "text" ), array( $this->getLanguageKey() ));
         $translations = array();
         while ($set = $ilDB->fetchObject($res)) {
-            $lang_array = unserialize($set->lang_array);
+            try {
+                $lang_array = unserialize($set->lang_array);
+            } catch (Throwable $t) {
+                continue;
+            }
             if (is_array($lang_array)) {
                 $translations[$set->module] = $lang_array;
             }

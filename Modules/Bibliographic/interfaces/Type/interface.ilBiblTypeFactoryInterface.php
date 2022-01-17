@@ -7,14 +7,11 @@
  */
 interface ilBiblTypeFactoryInterface
 {
-    const DATA_TYPE_RIS = 1;
-    const DATA_TYPE_BIBTEX = 2;
+    public const DATA_TYPE_RIS = 1;
+    public const DATA_TYPE_BIBTEX = 2;
 
 
     /**
-     * @param int $type
-     *
-     * @return \ilBiblTypeInterface
      * @throws ilException when type not found
      *
      */
@@ -22,9 +19,6 @@ interface ilBiblTypeFactoryInterface
 
 
     /**
-     * @param string $filename
-     *
-     * @return \ilBiblTypeInterface
      * @throws ilException when type not found
      *
      */

@@ -8,24 +8,15 @@
 class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
 {
 
-    /**
-     * @var string
-     */
-    protected $field_name = '';
-    /**
-     * @var string
-     */
-    protected $field_value = '';
-    /**
-     * @var string
-     */
-    protected $operator = '=';
+    protected string $field_name = '';
+    protected string $field_value = '';
+    protected string $operator = '=';
 
 
     /**
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName() : string
     {
         return $this->field_name;
     }
@@ -34,7 +25,7 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     /**
      * @param string $field_name
      */
-    public function setFieldName($field_name)
+    public function setFieldName(string $field_name) : void
     {
         $this->field_name = $field_name;
     }
@@ -43,7 +34,7 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     /**
      * @return string
      */
-    public function getFieldValue()
+    public function getFieldValue() : string
     {
         return $this->field_value;
     }
@@ -52,7 +43,7 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     /**
      * @param string $field_value
      */
-    public function setFieldValue($field_value)
+    public function setFieldValue(string $field_value) : void
     {
         $this->field_value = $field_value;
     }
@@ -61,7 +52,7 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     /**
      * @return string
      */
-    public function getOperator()
+    public function getOperator() : string
     {
         return $this->operator;
     }
@@ -70,7 +61,7 @@ class ilBiblTableQueryFilter implements ilBiblTableQueryFilterInterface
     /**
      * @param string $operator
      */
-    public function setOperator($operator)
+    public function setOperator(string $operator) : void
     {
         $this->operator = $operator;
     }

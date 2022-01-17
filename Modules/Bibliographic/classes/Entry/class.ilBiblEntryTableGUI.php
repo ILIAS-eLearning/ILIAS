@@ -16,16 +16,9 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @var \ilBiblFieldFilterInterface[]
      */
-    protected $filter_objects = array();
-    /**
-     * @var array
-     */
-    protected $applied_filter = array();
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
-
+    protected array $filter_objects = array();
+    protected array $applied_filter = array();
+    protected \ilBiblFactoryFacade $facade;
 
     /**
      * ilBiblEntryTableGUI constructor.
@@ -77,7 +70,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @param $field
      */
-    protected function addAndReadFilterItem(ilTableFilterItem $field)
+    protected function addAndReadFilterItem(ilTableFilterItem $field): void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -117,7 +110,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    protected function initData()
+    protected function initData(): void
     {
         $query = new ilBiblTableQueryInfo();
         /**

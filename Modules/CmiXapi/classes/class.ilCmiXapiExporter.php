@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiExporter
  *
@@ -23,7 +33,6 @@ class ilCmiXapiExporter extends ilXmlExporter
     public function __construct()
     {
         parent::__construct();
-        include_once("./Modules/CmiXapi/classes/class.ilCmiXapiDataSet.php");
         $this->_dataset = new ilCmiXapiDataSet();
         $this->_dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->_dataset->setDSPrefix("ds");
@@ -53,6 +62,9 @@ class ilCmiXapiExporter extends ilXmlExporter
     }
 
 
+    /**
+     * @return array<string, array<string, string|bool>>
+     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(

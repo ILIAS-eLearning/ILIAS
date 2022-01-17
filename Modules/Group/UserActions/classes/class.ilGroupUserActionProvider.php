@@ -1,22 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
 
 /**
  * Group user actions (add to group)
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ModulesGroup
  */
 class ilGroupUserActionProvider extends ilUserActionProvider
 {
-    /**
-     * @var array
-     */
-    protected static $grp_ops = array();
+    protected static $grp_ops = [];
 
     /**
      * @inheritdoc
@@ -38,13 +32,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
         );
     }
 
-    /**
-     * Get command access for user
-     *
-     * @param int $a_user_id
-     * @return array
-     */
-    public static function getCommandAccess($a_user_id)
+    public static function getCommandAccess(int $a_user_id) : array
     {
         if (!isset(self::$grp_ops[$a_user_id])) {
             $ops = array();
@@ -61,12 +49,8 @@ class ilGroupUserActionProvider extends ilUserActionProvider
         return self::$grp_ops[$a_user_id];
     }
 
-
     /**
-     * Collect user actions
-     *
-     * @param int $a_target_user target user
-     * @return ilUserActionCollection collection
+     * @inheritDoc
      */
     public function collectActionsForTargetUser($a_target_user)
     {
@@ -98,23 +82,18 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     }
 
     /**
-     * Get js scripts
-     *
-     * @param string $a_action_type
-     * @return array
+     * @inheritDoc
      */
     public function getJsScripts($a_action_type)
     {
         switch ($a_action_type) {
             case "add_to":
-                include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
                 return array(
                     "./Modules/Group/UserActions/js/GroupUserActions.js",
                     "./src/UI/templates/js/Modal/modal.js",
                     ilExplorerBaseGUI::getLocalExplorerJsPath(),
                     ilExplorerBaseGUI::getLocalJsTreeJsPath()
                 );
-                break;
         }
         return array();
     }

@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * @author Jesús López <lopez@leifos.com>
@@ -70,7 +72,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -84,7 +86,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * run the job
      * @param array    $input
      * @param Observer $observer
-     * @return StringValue
+     * @return Value
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDatabaseException
@@ -94,7 +96,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public function run(
         array $input,
         Observer $observer
-    ) : StringValue {
+    ) : Value {
         $this->exercise_id = $input[0]->getValue();
         $this->exercise_ref_id = $input[1]->getValue();
         $assignment_id = $input[2]->getValue();

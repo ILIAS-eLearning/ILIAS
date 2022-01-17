@@ -32,7 +32,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected \ilObjUser $user;
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
-    protected ilComponentFactory $component_factory;
+    protected \ilComponentFactory $component_factory;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {

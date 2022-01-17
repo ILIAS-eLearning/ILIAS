@@ -37,33 +37,15 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 {
 
     /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
-    /**
-     * @var ilSetupErrorHandling
-     */
-    protected $error;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
      * Contructor
      *
      * @access public
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
-        global $DIC;
-        $this->dic = $DIC;
-        $this->error = $DIC['ilErr'];
-        $this->rbacsystem = $this->dic->rbac()->system();
-        
-        $this->type = 'mds';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-        $this->lng = $this->dic->language();
+        $this->type = 'mds';
         $this->lng->loadLanguageModule("meta");
     }
 
@@ -155,12 +137,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
      */
     public function getAdminTabs()
     {
-        global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "md_general_settings",
                 $this->ctrl->getLinkTarget($this, "showGeneralSettings"),
@@ -181,7 +159,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
@@ -196,12 +174,9 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     */
     public function showGeneralSettings()
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
         
         $this->initGeneralSettingsForm();
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($this->form->getHTML());
     }
     
     /**
@@ -211,10 +186,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     */
     public function initGeneralSettingsForm($a_mode = "edit")
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
         
         $this->tabs_gui->setTabActive('md_general_settings');
         
@@ -228,12 +199,12 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $ti->setValue($this->md_settings->getDelimiter());
         $this->form->addItem($ti);
                     
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $this->form->addCommandButton("saveGeneralSettings", $lng->txt("save"));
-            $this->form->addCommandButton("showGeneralSettings", $lng->txt("cancel"));
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->form->addCommandButton("saveGeneralSettings", $this->lng->txt("save"));
+            $this->form->addCommandButton("showGeneralSettings", $this->lng->txt("cancel"));
         }
                     
-        $this->form->setTitle($lng->txt("md_general_settings"));
+        $this->form->setTitle($this->lng->txt("md_general_settings"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
     
@@ -242,13 +213,9 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     */
     public function saveGeneralSettings()
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
         
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $ilCtrl->redirect($this, "showGeneralSettings");
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->ctrl->redirect($this, "showGeneralSettings");
         }
         
         $delim = (trim($_POST['delimiter']) == "")
@@ -258,7 +225,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->md_settings->save();
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
 
-        $ilCtrl->redirect($this, "showGeneralSettings");
+        $this->ctrl->redirect($this, "showGeneralSettings");
     }
     
     
@@ -267,9 +234,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     */
     public function showCopyrightSettings()
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
         
         $this->tabs_gui->setTabActive('md_copyright');
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.settings.html', 'Services/MetaData');
@@ -277,7 +241,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->initSettingsForm();
         $this->tpl->setVariable('SETTINGS_TABLE', $this->form->getHTML());
         
-        $has_write = $ilAccess->checkAccess('write', '', $this->object->getRefId());
+        $has_write = $this->access->checkAccess('write', '', $this->object->getRefId());
         
         include_once("./Services/MetaData/classes/class.ilMDCopyrightTableGUI.php");
         $table_gui = new ilMDCopyrightTableGUI($this, 'showCopyrightSettings', $has_write);
@@ -299,11 +263,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     */
     public function saveCopyrightSettings()
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
         
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->ctrl->redirect($this, "showCopyrightSettings");
         }
         
@@ -354,9 +315,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
      */
     public function saveEntry()
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
 
         include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
         $this->entry = new ilMDCopyrightSelectionEntry(0);
@@ -444,9 +402,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
      */
     public function updateEntry()
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
 
         include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
         $this->entry = new ilMDCopyrightSelectionEntry((int) $_REQUEST['entry_id']);
@@ -475,9 +430,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
      */
     protected function initSettingsForm()
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
         
         if (is_object($this->form)) {
             return true;
@@ -488,7 +440,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->form->setTitle($this->lng->txt('md_copyright_settings'));
 
 
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->form->addCommandButton('saveCopyrightSettings', $this->lng->txt('save'));
             $this->form->addCommandButton('showCopyrightSettings', $this->lng->txt('cancel'));
         }

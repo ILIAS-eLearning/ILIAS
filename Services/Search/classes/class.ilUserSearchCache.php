@@ -241,7 +241,10 @@ class ilUserSearchCache
      */
     public function getQuery()
     {
-        return $this->query;
+        if (is_array($this->query)) {
+            return $this->query;
+        }
+        return $this->query ?? '';
     }
     
     /**

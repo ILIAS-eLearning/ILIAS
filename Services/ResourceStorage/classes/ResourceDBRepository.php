@@ -6,6 +6,19 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ResourceDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -16,21 +29,21 @@ class ResourceDBRepository implements ResourceRepository
     const TABLE_NAME = 'il_resource';
     const IDENTIFICATION = 'rid';
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    protected $cache = [];
+    protected \ilDBInterface $db;
 
     /**
-     * @param \ilDBInterface $db
+     * @var \ILIAS\ResourceStorage\Resource\StorableResource[]
      */
+    protected array $cache = [];
+
     public function __construct(\ilDBInterface $db)
     {
         $this->db = $db;
     }
 
+    /**
+     * @return string[]
+     */
     public function getNamesForLocking() : array
     {
         return [self::TABLE_NAME];

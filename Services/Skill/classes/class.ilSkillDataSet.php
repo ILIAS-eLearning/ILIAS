@@ -40,9 +40,9 @@ class ilSkillDataSet extends ilDataSet
     public const MODE_PROFILES = "prof";
 
     protected int $skill_tree_id = 0;
-    protected int $skill_tree_root_id;
-    protected int $init_top_order_nr;
-    protected int $init_templ_top_order_nr;
+    protected int $skill_tree_root_id = 0;
+    protected int $init_top_order_nr = 0;
+    protected int $init_templ_top_order_nr = 0;
 
     protected array $selected_nodes = [];
     protected array $selected_profiles = [];
@@ -134,7 +134,11 @@ class ilSkillDataSet extends ilDataSet
     {
         if ($a_entity == "skmg") {
             switch ($a_version) {
+                case "5.1.0":
                 case "7.0":
+                    return array(
+                        "Mode" => "text"
+                    );
                 case "8.0":
                     return array(
                         "Id" => "integer"
@@ -143,8 +147,6 @@ class ilSkillDataSet extends ilDataSet
         }
         if ($a_entity == "skee") {
             switch ($a_version) {
-                case "5.1.0":
-                case "7.0":
                 case "8.0":
                     return array(
                         "Id" => "integer",
@@ -211,6 +213,11 @@ class ilSkillDataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                 case "7.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text"
+                    );
                 case "8.0":
                     return array(
                         "Id" => "integer",
@@ -223,6 +230,12 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_local_prof") {
             switch ($a_version) {
                 case "7.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "RefId" => "integer"
+                    );
                 case "8.0":
                     return array(
                             "Id" => "integer",
@@ -268,7 +281,14 @@ class ilSkillDataSet extends ilDataSet
         }
         if ($a_entity == "skmg") {
             switch ($a_version) {
+                case "5.1.0":
                 case "7.0":
+                    if ($this->getMode() == self::MODE_SKILLS) {
+                        $this->data[] = array("Mode" => "Skills");
+                    } elseif ($this->getMode() == self::MODE_PROFILES) {
+                        $this->data[] = array("Mode" => "Profiles");
+                    }
+                    break;
                 case "8.0":
                     $this->data[] = [
                         "Id" => $this->getSkillTreeId()
@@ -278,8 +298,6 @@ class ilSkillDataSet extends ilDataSet
         }
         if ($a_entity == "skee") {	// dummy node
             switch ($a_version) {
-                case "5.1.0":
-                case "7.0":
                 case "8.0":
                 foreach ($a_ids as $id) {
                     if ($this->getMode() == self::MODE_SKILLS) {
@@ -409,6 +427,28 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_local_prof") {
             switch ($a_version) {
                 case "7.0":
+                    foreach ($a_ids as $obj_id) {
+                        $obj_ref_id = ilObject::_getAllReferences($obj_id);
+                        $obj_ref_id = end($obj_ref_id);
+                        $profiles = ilSkillProfile::getLocalProfilesForObject($obj_ref_id);
+                        $profile_ids = [];
+                        foreach ($profiles as $p) {
+                            $profile_ids[] = $p["id"];
+                        }
+                        $set = $ilDB->query(
+                            "SELECT * FROM skl_profile " .
+                            " WHERE " . $ilDB->in("id", $profile_ids, false, "integer")
+                        );
+                        while ($rec = $ilDB->fetchAssoc($set)) {
+                            $this->data[] = [
+                                "Id" => $rec["id"],
+                                "Title" => $rec["title"],
+                                "Description" => $rec["description"],
+                                "RefId" => $obj_ref_id
+                            ];
+                        }
+                    }
+                    break;
                 case "8.0":
                     foreach ($a_ids as $obj_id) {
                         $obj_ref_id = ilObject::_getAllReferences($obj_id);

@@ -230,11 +230,6 @@ abstract class ilWaitingList
     
     /**
      * Check if a user on the waiting list
-     * @return bool
-     * @param object $a_usr_id
-     * @param object $a_obj_id
-     * @access public
-     * @static
      */
     public static function _isOnList($a_usr_id, $a_obj_id)
     {
@@ -260,7 +255,7 @@ abstract class ilWaitingList
      * The function is triggered in the preload functions of ilObjCourseAccess
      * and ilObjGroupAccess.
      *
-     * @param array $a_usr_ids array of user ids
+     * @param array | int $a_usr_ids array of user ids
      * @param array $a_obj_ids array of object ids
      */
     public static function _preloadOnListInfo($a_usr_ids, $a_obj_ids)

@@ -113,7 +113,7 @@ class ilMainMenuSearchGUI
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable(
                 'HREF_SEARCH_LINK',
-                'ilias.php?basClass=' . ilSearchControllerGUI::class
+                'ilias.php?baseClass=' . ilSearchControllerGUI::class
             );
             $this->tpl->setVariable('TXT_SEARCH_LINK', $this->lng->txt("last_search_result"));
         }

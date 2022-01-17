@@ -66,8 +66,8 @@ class ilMDCopyrightSelectionEntry
         global $DIC;
         
         
-        $this->logger = $GLOBALS['DIC']->logger()->meta();
-        $this->db = $GLOBALS['DIC']->database();
+        $this->logger = $DIC->logger()->meta();
+        $this->db = $DIC->database();
         $this->entry_id = $a_entry_id;
         $this->read();
     }
@@ -84,7 +84,7 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();;
         
         $query = "SELECT entry_id FROM il_md_cpr_selections ORDER BY is_default DESC, position ASC";
         $res = $ilDB->query($query);
@@ -105,7 +105,7 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();;
         
         if (!$entry_id = self::_extractEntryId($a_cp_string)) {
             return $a_cp_string;
@@ -131,7 +131,7 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();;
         
         if (!$entry_id = self::_extractEntryId($a_cp_string)) {
             return $a_cp_string;
@@ -428,13 +428,10 @@ class ilMDCopyrightSelectionEntry
      */
     public function add()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
-        $next_id = $ilDB->nextId('il_md_cpr_selections');
+        $next_id = $this->db->nextId('il_md_cpr_selections');
         
-        $ilDB->insert('il_md_cpr_selections', array(
+        $this->db->insert('il_md_cpr_selections', array(
             'entry_id' => array('integer',$next_id),
             'title' => array('text',$this->getTitle()),
             'description' => array('clob',$this->getDescription()),
@@ -456,11 +453,8 @@ class ilMDCopyrightSelectionEntry
      */
     public function update()
     {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->update('il_md_cpr_selections', array(
+        $this->db->update('il_md_cpr_selections', array(
             'title' => array('text',$this->getTitle()),
             'description' => array('clob',$this->getDescription()),
             'copyright' => array('clob',$this->getCopyright()),
@@ -483,13 +477,10 @@ class ilMDCopyrightSelectionEntry
      */
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $query = "DELETE FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
     }
     
     /**
@@ -516,9 +507,6 @@ class ilMDCopyrightSelectionEntry
      */
     private function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $query = "SELECT * FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $this->db->quote($this->entry_id, 'integer') . " " .
@@ -538,7 +526,7 @@ class ilMDCopyrightSelectionEntry
         }
         
         $query = "SELECT count(meta_rights_id) used FROM il_meta_rights " .
-            "WHERE description = " . $ilDB->quote('il_copyright_entry__' . IL_INST_ID . '__' . $this->getEntryId(), 'text');
+            "WHERE description = " . $this->db->quote('il_copyright_entry__' . IL_INST_ID . '__' . $this->getEntryId(), 'text');
         
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);

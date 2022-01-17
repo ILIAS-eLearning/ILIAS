@@ -1,9 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * SCORM Item
 *
@@ -42,7 +51,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id)
+    public function setImportId($a_import_id): void
     {
         $this->import_id = $a_import_id;
     }
@@ -52,7 +61,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->identifierref;
     }
 
-    public function setIdentifierRef($a_id_ref)
+    public function setIdentifierRef($a_id_ref): void
     {
         $this->identifierref = $a_id_ref;
     }
@@ -62,7 +71,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->isvisible;
     }
 
-    public function setVisible($a_visible)
+    public function setVisible($a_visible): void
     {
         $this->isvisible = $a_visible;
     }
@@ -72,7 +81,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->parameters;
     }
 
-    public function setParameters($a_par)
+    public function setParameters($a_par): void
     {
         $this->parameters = $a_par;
     }
@@ -82,7 +91,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->prereq_type;
     }
 
-    public function setPrereqType($a_p_type)
+    public function setPrereqType($a_p_type): void
     {
         $this->prereq_type = $a_p_type;
     }
@@ -92,7 +101,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->prerequisites;
     }
 
-    public function setPrerequisites($a_pre)
+    public function setPrerequisites($a_pre): void
     {
         $this->prerequisites = $a_pre;
     }
@@ -102,7 +111,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->maxtimeallowed;
     }
 
-    public function setMaxTimeAllowed($a_max)
+    public function setMaxTimeAllowed($a_max): void
     {
         $this->maxtimeallowed = $a_max;
     }
@@ -112,7 +121,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->timelimitaction;
     }
 
-    public function setTimeLimitAction($a_lim_act)
+    public function setTimeLimitAction($a_lim_act): void
     {
         $this->timelimitaction = $a_lim_act;
     }
@@ -122,7 +131,7 @@ class ilSCORMItem extends ilSCORMObject
         return $this->datafromlms;
     }
 
-    public function setDataFromLms($a_data)
+    public function setDataFromLms($a_data): void
     {
         $this->datafromlms = $a_data;
     }
@@ -132,12 +141,12 @@ class ilSCORMItem extends ilSCORMObject
         return $this->masteryscore;
     }
 
-    public function setMasteryScore($a_score)
+    public function setMasteryScore($a_score): void
     {
         $this->masteryscore = $a_score;
     }
 
-    public function read()
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -167,7 +176,7 @@ class ilSCORMItem extends ilSCORMObject
         $this->setMasteryScore($obj_rec["masteryscore"]);
     }
 
-    public function create()
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -191,7 +200,7 @@ class ilSCORMItem extends ilSCORMObject
         ));
     }
 
-    public function update()
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -221,11 +230,12 @@ class ilSCORMItem extends ilSCORMObject
     }
 
     /**
-    * get tracking data of specified or current user
-    *
-    *
-    */
-    public function getTrackingDataOfUser($a_user_id = 0)
+     * get tracking data of specified or current user
+     *
+     *
+     * @return array<int|string, mixed>
+     */
+    public function getTrackingDataOfUser($a_user_id = 0): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -253,7 +263,10 @@ class ilSCORMItem extends ilSCORMObject
         return $trdata;
     }
 
-    public static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
+    /**
+     * @return array<int|string, mixed>
+     */
+    public static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -281,7 +294,7 @@ class ilSCORMItem extends ilSCORMObject
         return $trdata;
     }
 
-    public function delete()
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -302,15 +315,12 @@ class ilSCORMItem extends ilSCORMObject
             array('integer', 'integer'),
             array($this->getId(), $this->getSLMId())
         );
-        
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getSLMId());
     }
 
     //function insertTrackData($a_lval, $a_rval, $a_ref_id)
-    public function insertTrackData($a_lval, $a_rval, $a_obj_id)
+    public function insertTrackData($a_lval, $a_rval, $a_obj_id): void
     {
-        require_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
         //ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
         ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_obj_id);
     }

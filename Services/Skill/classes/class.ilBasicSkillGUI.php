@@ -42,7 +42,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected ServerRequestInterface $request;
 
     protected int $tref_id = 0;
-    protected int $base_skill_id;
+    protected int $base_skill_id = 0;
     protected int $requested_level_id = 0;
     protected int $requested_root_id = 0;
     protected array $requested_level_order = [];
@@ -541,7 +541,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $this->skill_tree_node_manager->getRootId()
             );
             $ilTabs->setBackTarget(
-                $lng->txt("obj_skmg"),
+                $lng->txt("skmg_skills"),
                 $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills")
             );
             $ilCtrl->setParameterByClass(

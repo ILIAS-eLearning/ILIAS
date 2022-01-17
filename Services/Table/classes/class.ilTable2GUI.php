@@ -114,7 +114,7 @@ class ilTable2GUI extends ilTableGUI
     protected ?array $raw_post_data = null;
 
     public function __construct(
-        object $a_parent_obj,
+        ?object $a_parent_obj,
         string $a_parent_cmd = "",
         string $a_template_context = ""
     ) {
@@ -372,7 +372,7 @@ class ilTable2GUI extends ilTableGUI
     {
     }
 
-    public function getParentObject() : object
+    public function getParentObject() : ?object
     {
         return $this->parent_obj;
     }

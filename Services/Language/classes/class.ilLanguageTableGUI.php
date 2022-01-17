@@ -29,7 +29,7 @@ class ilLanguageTableGUI extends ilTable2GUI
         $this->setLimit(9999);
 
         if ($ilAccess->checkAccess("write", "", $this->folder->getRefId())) {
-            $this->addColumn("", "", "1", 1);
+            $this->addColumn("", "", "1", true);
         }
         $this->addColumn($this->lng->txt("language"));
         $this->addColumn($this->lng->txt("status"));
@@ -85,6 +85,8 @@ class ilLanguageTableGUI extends ilTable2GUI
         $ilSetting = $DIC->settings();
         $ilAccess = $DIC->access();
 
+        $status = "";
+
         // set status info (in use or systemlanguage)
         if ($a_set["status"]) {
             $status = "<span class=\"small\"> (" . $this->lng->txt($a_set["status"]) . ")</span>";
@@ -104,7 +106,7 @@ class ilLanguageTableGUI extends ilTable2GUI
         }
         
         // show page translation
-        if ($ilSetting->get("lang_translate_" . $a_set["key"], false)) {
+        if ($ilSetting->get("lang_translate_" . $a_set["key"])) {
             $remark .= $remark ? '<br />' : '';
             $remark .= "<span class=\"smallgreen\"> " . $this->lng->txt("language_translation_enabled") . "</span>";
         }

@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.php" ;
 
 /**
  * Group Administration Settings
@@ -15,12 +14,12 @@ include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.
  */
 class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
 {
-    public function getType()
+    protected function getType()
     {
         return "grps";
     }
     
-    public function getParentObjType()
+    protected function getParentObjType()
     {
         return "grp";
     }

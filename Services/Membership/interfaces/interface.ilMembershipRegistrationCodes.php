@@ -24,9 +24,6 @@ interface ilMembershipRegistrationCodes
      * Register an user.
      *
      * @todo Throw exeption if registration is impossible due to other restrictions.
-     *
-     * @param object $a_user_id
-     * @return
      */
     public function register($a_user_id);
 }

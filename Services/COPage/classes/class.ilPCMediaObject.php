@@ -26,6 +26,7 @@ class ilPCMediaObject extends ilPageContent
     protected \ILIAS\DI\UIServices $ui;
     protected ilObjMediaObject $mediaobject;
     protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $global_tpl;
 
     public function init() : void
     {
@@ -35,6 +36,7 @@ class ilPCMediaObject extends ilPageContent
         $this->setType("media");
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
+        $this->global_tpl = $DIC['tpl'];
     }
 
     public function readMediaObject(int $a_mob_id = 0) : void
@@ -417,8 +419,15 @@ class ilPCMediaObject extends ilPageContent
         );
         $show_signal = $modal->getShowSignal();
 
-        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->render($modal) . "</div><script>$(function () { il.COPagePres.setFullscreenModalShowSignal('" .
-            $show_signal . "', '" . $suffix . "'); });</script>";
+        $js = "
+            $(function () {
+                il.COPagePres.setFullscreenModalShowSignal('$show_signal', '$suffix');
+            });
+        ";
+
+        $this->global_tpl->addOnloadCode($js);
+
+        return $a_output . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->render($modal) . "</div>";
     }
 
     public function getJavascriptFiles(

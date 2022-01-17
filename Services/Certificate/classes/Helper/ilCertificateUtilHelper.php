@@ -52,7 +52,7 @@ class ilCertificateUtilHelper
 
     public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
     {
-        ilUtil::deliverFile($zipPath, $zipFileName, $mime);
+        ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
     }
 
     public function getDir(string $copyDirectory) : array

@@ -4,12 +4,11 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 
 /**
  * Interface ScreenContextAwareProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ScreenContextAwareProvider
 {
-
+    
     /**
      * @return ContextCollection
      */

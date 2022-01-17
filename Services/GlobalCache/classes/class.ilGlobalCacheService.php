@@ -16,7 +16,7 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     protected string $component = '';
     protected int $service_type = ilGlobalCache::TYPE_STATIC;
     protected string $valid_key_hash = '';
-    
+
     /**
      * ilGlobalCacheService constructor.
      */
@@ -27,59 +27,73 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         self::$active[static::class] = $this->getActive();
         self::$installable[static::class] = ($this->getInstallable() && $this->checkMemory());
     }
-    
+
     abstract protected function getActive() : bool;
-    
+
     abstract protected function getInstallable() : bool;
-    
+
+    /**
+     * @param mixed $serialized_value
+     * @return mixed
+     */
     abstract public function unserialize($serialized_value);
-    
+
+    /**
+     * @return mixed
+     */
     abstract public function get(string $key);
-    
+
+    /**
+     * @param mixed $serialized_value
+     */
     abstract public function set(string $key, $serialized_value, int $ttl = null) : bool;
-    
+
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     abstract public function serialize($value);
-    
+
     public function getServiceId() : string
     {
         return $this->service_id;
     }
-    
+
     public function setServiceId(string $service_id) : void
     {
         $this->service_id = $service_id;
     }
-    
+
     public function getComponent() : string
     {
         return $this->component;
     }
-    
+
     public function setComponent(string $component) : void
     {
         $this->component = $component;
     }
-    
+
     public function isActive() : bool
     {
         return self::$active[static::class];
     }
-    
+
     public function isInstallable() : bool
     {
         return self::$installable[static::class];
     }
-    
+
     public function returnKey(string $key) : string
     {
         return $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
     }
-    
+
     public function getInfo() : array
     {
         return array();
     }
-    
+
     public function getInstallationFailureReason() : string
     {
         if (!$this->getInstallable()) {
@@ -88,20 +102,20 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         if (!$this->checkMemory()) {
             return 'Not enough Cache-Memory, set to at least ' . $this->getMinMemory() . 'M';
         }
-        
+
         return 'Unknown reason';
     }
-    
+
     protected function getMemoryLimit() : string
     {
         return '9999M';
     }
-    
+
     protected function getMinMemory() : int
     {
         return 0;
     }
-    
+
     protected function checkMemory() : bool
     {
         $matches = [];
@@ -115,31 +129,31 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         } else {
             $memory_limit *= 1024 * 1024; // nnnM -> nnn MB
         }
-        
+
         return ($memory_limit >= $this->getMinMemory() * 1024 * 1024);
     }
-    
+
     abstract public function exists(string $key) : bool;
-    
+
     abstract public function delete(string $key) : bool;
-    
+
     abstract public function flush(bool $complete = false) : bool;
-    
+
     public function setServiceType(int $service_type) : void
     {
         $this->service_type = $service_type;
     }
-    
+
     public function getServiceType() : int
     {
         return $this->service_type;
     }
-    
+
     public function setValid(string $key) : void
     {
         $this->valid_keys[$key] = true;
     }
-    
+
     public function isValid(string $key) : bool
     {
         return isset($this->valid_keys[$key]);

@@ -2745,7 +2745,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $export = new ilScorm2004Export($this->object);
 
         $export_dir = $export->getExportDirectoryForType($_GET['type']);
-        ilUtil::deliverFile($export_dir . "/" . $_GET['file'], $_GET['file']);
+        ilFileDelivery::deliverFileLegacy($export_dir . "/" . $_GET['file'], $_GET['file']);
     }
     
     /**

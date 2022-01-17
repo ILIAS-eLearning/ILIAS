@@ -291,7 +291,7 @@ class ilFileDataForum extends ilFileData
         global $DIC;
 
         if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
-            ilUtil::deliverFile($path['path'], $path['clean_filename']);
+            ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
         } else {
             ilUtil::sendFailure($DIC->lanuage()->txt('error_reading_file'), true);
         }
@@ -308,7 +308,7 @@ class ilFileDataForum extends ilFileData
         }
 
         $post = new ilForumPost($this->getPosId());
-        ilUtil::deliverFile($zip_file, $post->getSubject() . '.zip', '', false, true, false);
+        ilFileDelivery::deliverFileLegacy($zip_file, $post->getSubject() . '.zip', '', false, true, false);
         ilUtil::delDir($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
         $DIC->http()->close();
         return true; // never

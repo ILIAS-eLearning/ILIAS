@@ -11,7 +11,7 @@ class ilBiblLibraryFactory implements ilBiblLibraryFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return ilBiblLibrary::get();
     }
@@ -20,8 +20,9 @@ class ilBiblLibraryFactory implements ilBiblLibraryFactoryInterface
     /**
      * @inheritDoc
      */
-    public function findById($id)
+    public function findById(int $id) : \ilBiblLibraryInterface
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilBiblLibrary::findOrFail($id);
     }
 
@@ -29,7 +30,7 @@ class ilBiblLibraryFactory implements ilBiblLibraryFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getEmptyInstance()
+    public function getEmptyInstance() : \ilBiblLibraryInterface
     {
         return new ilBiblLibrary();
     }
