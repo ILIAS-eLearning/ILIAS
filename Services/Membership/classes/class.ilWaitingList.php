@@ -44,7 +44,9 @@ abstract class ilWaitingList
 
         $this->db = $DIC->database();
         $this->obj_id = $a_obj_id;
-        $this->read();
+        if ($a_obj_id) {
+            $this->read();
+        }
     }
     
     public static function lookupListSize(int $a_obj_id) : int
@@ -96,10 +98,10 @@ abstract class ilWaitingList
         return $this->obj_id;
     }
 
-    public function addToList(int $a_usr_id) : void
+    public function addToList(int $a_usr_id) : bool
     {
         if ($this->isOnList($a_usr_id)) {
-            return;
+            return false;
         }
         $query = "INSERT INTO crs_waiting_list (obj_id,usr_id,sub_time) " .
             "VALUES (" .
@@ -109,6 +111,7 @@ abstract class ilWaitingList
             ")";
         $res = $this->db->manipulate($query);
         $this->read();
+        return true;
     }
 
     public function updateSubscriptionTime(int $a_usr_id, int $a_subtime) : void

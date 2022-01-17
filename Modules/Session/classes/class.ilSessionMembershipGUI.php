@@ -202,8 +202,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         
         ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
-
-        return true;
     }
     
     
@@ -255,7 +253,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
      * Get member tab name
      * @return string
      */
-    protected function getMemberTabName()
+    protected function getMemberTabName() : string
     {
         return $this->lng->txt($this->getParentObject()->getType() . '_members');
     }

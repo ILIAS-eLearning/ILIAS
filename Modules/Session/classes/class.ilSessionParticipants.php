@@ -111,7 +111,7 @@ class ilSessionParticipants extends ilParticipants
      * @param int $a_usr_id
      * @param int $a_role
      */
-    public function add(int $a_usr_id, int $a_role = "") : bool
+    public function add(int $a_usr_id, int $a_role = 0) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             return true;

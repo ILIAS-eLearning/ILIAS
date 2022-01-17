@@ -21,22 +21,55 @@
 */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
 * Unit tests for tree table
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesTree
 */
-class ilMembershipTest //extends TestCase
+class ilWaitingListTest extends TestCase
 {
     protected $backupGlobals = false;
 
+    protected Container $dic;
+
     protected function setUp() : void
     {
+        $this->initDependencies();
+        parent::setUp();
+    }
+
+    public function testConstruction()
+    {
+        $obj_id = 0;
+        $some_waiting_list = new class($obj_id) extends ilWaitingList {};
+        $instance = new $some_waiting_list($obj_id);
+        $this->assertTrue($instance instanceof ilWaitingList);
+    }
+
+
+    protected function initDependencies() : void
+    {
+        $this->dic = new Container();
+        $GLOBALS['DIC'] = $this->dic;
+
+        $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
+
+    }
+
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
+
+        $GLOBALS[$name] = $value;
+        unset($DIC[$name]);
+        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+            return $value;
+        };
     }
 
 }

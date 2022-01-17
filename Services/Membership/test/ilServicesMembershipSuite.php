@@ -8,8 +8,8 @@ class ilServicesMembershipSuite extends TestSuite
     {
         $suite = new ilServicesMembershipSuite();
         
-        include_once("./Services/Membership/test/ilMembershipTest.php");
-        $suite->addTestSuite("ilMembershipTest");
+        include_once("./Services/Membership/test/ilWaitingListTest.php");
+        $suite->addTestSuite("ilWaitingListTest");
 
         return $suite;
     }
