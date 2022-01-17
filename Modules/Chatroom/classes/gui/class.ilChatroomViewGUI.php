@@ -12,12 +12,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
-    /**
-     * Joins user to chatroom with custom username, fetched from
-     * $_REQUEST['custom_username_text'] or by calling buld method.
-     * If sucessful, $this->showRoom method is called, otherwise
-     * $this->showNameSelection.
-     */
     public function joinWithCustomName() : void
     {
         $this->redirectIfNoPermission('read');
