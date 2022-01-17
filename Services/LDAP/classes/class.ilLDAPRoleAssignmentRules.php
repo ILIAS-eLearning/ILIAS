@@ -35,8 +35,9 @@ class ilLDAPRoleAssignmentRules
     const ROLE_ACTION_DEASSIGN = 'Detach';
     
     protected static $default_role = null;
-    
-    
+    /** @var null|ilLDAPPlugin[] */
+    private static ?array $active_plugins = null;
+
     /**
      * Get default global role
      * @param int $a_server_id
