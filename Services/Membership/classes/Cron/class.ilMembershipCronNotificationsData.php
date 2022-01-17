@@ -4,8 +4,7 @@
 
 /**
  * Manage data for ilMembershipCronNotifications cron job
- *
- * @author Alex Killing <killing@leifos.de>
+ * @author  Alex Killing <killing@leifos.de>
  * @ingroup ServicesMembership
  */
 class ilMembershipCronNotificationsData
@@ -60,8 +59,6 @@ class ilMembershipCronNotificationsData
     {
         $ilAccess = $this->access;
 
-        include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-
         // all group/course notifications: ref id => user ids
         $this->objects = ilMembershipNotifications::getActiveUsersforAllObjects();
 
@@ -71,7 +68,6 @@ class ilMembershipCronNotificationsData
             // gather news for each user over all objects
             $this->user_news_aggr = array();
 
-            include_once "Services/News/classes/class.ilNewsItem.php";
             foreach ($this->objects as $ref_id => $user_ids) {
                 $this->log->debug("handle ref id " . $ref_id . ", users: " . count($user_ids));
 
@@ -139,7 +135,6 @@ class ilMembershipCronNotificationsData
                 foreach ($objs["ref_id"] as $i) {
                     $ref_for_obj_id[$i["obj_id"]][$i["ref_id"]] = $i["ref_id"];
                 }
-                include_once("./Services/Like/classes/class.ilLikeData.php");
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
@@ -200,7 +195,7 @@ class ilMembershipCronNotificationsData
             $this->loadMissingNews();
         }
     }
-    
+
     /**
      * Get missing news*
      */
@@ -214,13 +209,12 @@ class ilMembershipCronNotificationsData
             $this->missing_news_per_user[$user_id][$ref_id][$news_id] = $news_id;
         }
     }
-    
+
     /**
      * Load missing news (news for new likes and/or comments)
      */
     protected function loadMissingNews() : void
     {
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         foreach (ilNewsItem::queryNewsByIds($this->missing_news) as $news) {
             $this->log->debug("Got missing news: " . $news["id"]);
             $this->news[$news["id"]] = $news;
@@ -235,8 +229,6 @@ class ilMembershipCronNotificationsData
             }
         }
     }
-    
-
 
     /**
      * Get subtree object IDs for ref id
@@ -256,18 +248,19 @@ class ilMembershipCronNotificationsData
                 if ($child["type"] != "rolf") {
                     $nodes["obj_id"][$child["obj_id"]] = array(
                         "obj_id" => $child["obj_id"],
-                        "type" => $child["type"]);
+                        "type" => $child["type"]
+                    );
                     $nodes["ref_id"][$child["child"]] = array(
                         "ref_id" => $child["child"],
                         "obj_id" => $child["obj_id"],
-                        "type" => $child["type"]);
+                        "type" => $child["type"]
+                    );
                 }
             }
         }
 
         return $nodes;
     }
-
 
     /**
      * Ping
@@ -277,7 +270,6 @@ class ilMembershipCronNotificationsData
         ilCronManager::ping($this->cron_id);
     }
 
-
     /**
      * Get aggregated news
      */
@@ -285,7 +277,7 @@ class ilMembershipCronNotificationsData
     {
         return $this->user_news_aggr;
     }
-    
+
     /**
      * Get likes for a news and user
      */

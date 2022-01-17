@@ -10,7 +10,6 @@ class ilMemberExportSettingsGUI
     protected const TYPE_PRINT_VIEW_SETTINGS = 'print_view';
     protected const TYPE_EXPORT_SETTINGS = 'member_export';
     protected const TYPE_PRINT_VIEW_MEMBERS = 'prv_members';
-    
 
     private string $parent_type = '';
     private int $parent_obj_id = 0;
@@ -37,18 +36,16 @@ class ilMemberExportSettingsGUI
         $this->lng->loadLanguageModule('mem');
         $this->rbacsystem = $DIC->rbac()->system();
     }
-    
+
     private function getLang() : ilLanguage
     {
         return $this->lng;
     }
-    
-    
+
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd('printViewSettings');
-
 
         switch ($next_class) {
             default:
@@ -56,7 +53,6 @@ class ilMemberExportSettingsGUI
                 break;
         }
     }
-    
 
     protected function printViewSettings(?ilPropertyFormGUI $form = null)
     {
@@ -65,18 +61,18 @@ class ilMemberExportSettingsGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     protected function initForm($a_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->getLang()->txt('mem_' . $a_type . '_form'));
-        
+
         // profile fields
         $fields['name'] = $this->lng->txt('name');
         $fields['login'] = $this->lng->txt('login');
         $fields['email'] = $this->lng->txt('email');
-        
+
         $field_info = ilExportFieldsInfo::_getInstanceByType($this->parent_type);
         $field_info->sortExportFields();
 
@@ -88,14 +84,12 @@ class ilMemberExportSettingsGUI
                 case 'email':
                     continue 2;
             }
-            
+
             // Check if default enabled
             $fields[$field] = $this->lng->txt($field);
         }
-        
-        
+
         // udf
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
         $udf = ilUserDefinedFields::_getInstance();
         $exportable = array();
         if ($this->parent_type == 'crs') {
@@ -107,15 +101,12 @@ class ilMemberExportSettingsGUI
             $fields['udf_' . $field_id] = $udf_data['field_name'];
         }
 
-        
         $ufields = new ilCheckboxGroupInputGUI($this->lng->txt('user_detail'), 'preset');
         foreach ($fields as $id => $name) {
             $ufields->addOption(new ilCheckboxOption($name, $id));
         }
         $form->addItem($ufields);
-        
-        
-        include_once './Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+
         $privacy = ilPrivacySettings::getInstance();
         if ($this->parent_type == 'crs') {
             if ($privacy->enabledCourseAccessTimes()) {
@@ -129,20 +120,19 @@ class ilMemberExportSettingsGUI
         }
         $ufields->addOption(new ilCheckboxOption($this->lng->txt('crs_status'), 'status'));
         $ufields->addOption(new ilCheckboxOption($this->lng->txt('crs_passed'), 'passed'));
-        
-        
+
         $blank = new ilTextInputGUI($this->lng->txt('event_blank_columns'), 'blank');
         $blank->setMulti(true);
         $form->addItem($blank);
-        
+
         $roles = new ilCheckboxGroupInputGUI($this->lng->txt('event_user_selection'), 'selection_of_users');
-        
+
         $roles->addOption(new ilCheckboxOption($this->lng->txt('event_tbl_admin'), 'role_adm'));
         if ($this->parent_type == 'crs') {
             $roles->addOption(new ilCheckboxOption($this->lng->txt('event_tbl_tutor'), 'role_tut'));
         }
         $roles->addOption(new ilCheckboxOption($this->lng->txt('event_tbl_member'), 'role_mem'));
-        
+
         if (!$this->parent_obj_id) {
             $subscriber = new ilCheckboxOption($this->lng->txt('event_user_selection_include_requests'), 'subscr');
             $roles->addOption($subscriber);
@@ -151,7 +141,7 @@ class ilMemberExportSettingsGUI
             $roles->addOption($waiting_list);
         }
         $form->addItem($roles);
-        
+
         switch ($a_type) {
             case self::TYPE_PRINT_VIEW_SETTINGS:
                 if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
@@ -159,25 +149,24 @@ class ilMemberExportSettingsGUI
                 }
                 break;
         }
-        
-        include_once "Services/User/classes/class.ilUserFormSettings.php";
+
         $identifier = $this->parent_type . 's_pview';
         if ($this->parent_obj_id) {
             $identifier_for_object = $identifier . '_' . $this->parent_obj_id;
         } else {
             $identifier_for_object = $identifier . '_0';
         }
-            
+
         $settings = new ilUserFormSettings($identifier_for_object, -1);
         if (!$settings->hasStoredEntry()) {
             // use default settings
             $settings = new ilUserFormSettings($identifier, -1);
         }
         $settings->exportToForm($form);
-        
+
         return $form;
     }
-    
+
     /**
      * Save print view settings
      */
@@ -186,20 +175,20 @@ class ilMemberExportSettingsGUI
         $form = $this->initForm(self::TYPE_PRINT_VIEW_SETTINGS);
         if ($form->checkInput()) {
             $form->setValuesByPost();
-            
+
             ilUserFormSettings::deleteAllForPrefix('crs_memlist');
             ilUserFormSettings::deleteAllForPrefix('grp_memlist');
-            
+
             $identifier = $this->parent_type . 's_pview';
             if ($this->parent_obj_id) {
                 $identifier .= '_' . $this->parent_obj_id;
             }
-            
+
             $settings = new ilUserFormSettings($identifier, -1);
             $settings->importFromForm($form);
             $settings->store();
-            
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+
+            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'printViewSettings');
         }
     }

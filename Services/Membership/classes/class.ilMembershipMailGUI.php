@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
@@ -6,8 +7,7 @@ use ILIAS\Refinery\Factory;
 
 /**
  *  Membership Mail GUI
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesMembership
  */
 class ilMembershipMailGUI
@@ -30,19 +30,19 @@ class ilMembershipMailGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
     }
-    
+
     public function getCurrentObject() : ilObjectGUI
     {
         return $this->object;
     }
-    
+
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         switch ($next_class) {
-        
+
             default:
                 $this->$cmd();
                 break;
@@ -73,8 +73,6 @@ class ilMembershipMailGUI
         return 0;
     }
 
-
-    
     public function sendMailToSelectedUsers() : void
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
@@ -89,7 +87,7 @@ class ilMembershipMailGUI
                 $this->initRecipientsFromPost('subscribers')
             ));
         }
-        
+
         if (!count($particpants)) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $this->ctrl->returnToParent($this);
@@ -99,24 +97,22 @@ class ilMembershipMailGUI
         foreach ($particpants as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
-        
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+
         ilUtil::redirect(ilMailFormCall::getRedirectTarget(
             $this->getCurrentObject(),
             'members',
             array(),
-            array('type' => 'new', 'rcp_to' => implode(',', $rcps),'sig' => $this->createMailSignature())
+            array('type' => 'new', 'rcp_to' => implode(',', $rcps), 'sig' => $this->createMailSignature())
         ));
     }
-    
+
     protected function createMailSignature() : string
     {
         $GLOBALS['DIC']['lng']->loadLanguageModule($this->getCurrentObject()->object->getType());
-        
+
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt($this->getCurrentObject()->object->getType() . '_mail_permanent_link');
         $link .= chr(13) . chr(10) . chr(13) . chr(10);
-        include_once 'Services/Link/classes/class.ilLink.php';
         $link .= ilLink::_getLink($this->getCurrentObject()->object->getRefId());
         return rawurlencode(base64_encode($link));
     }

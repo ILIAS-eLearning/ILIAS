@@ -22,19 +22,16 @@
 */
 
 /**
-* Class for generation of member export files
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup Modules/Course
-*/
+ * Class for generation of member export files
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup Modules/Course
+ */
 class ilMemberExport
 {
     public const EXPORT_CSV = 1;
     public const EXPORT_EXCEL = 2;
-    
-    
+
     private int $ref_id;
     private int $obj_id;
     private string $type;
@@ -70,15 +67,14 @@ class ilMemberExport
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
 
-        
         $this->export_type = $a_type;
         $this->ref_id = $a_ref_id;
         $this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
-        
+
         $this->initMembers();
         $this->initGroups();
-            
+
         $this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
         $this->settings = new ilUserFormSettings('memexp');
         $this->privacy = ilPrivacySettings::getInstance();
@@ -97,37 +93,37 @@ class ilMemberExport
             $a_usr_ids
         );
     }
-    
+
     public function setFilename(string $a_file) : void
     {
         $this->filename = $a_file;
     }
-    
+
     public function getFilename() : ?string
     {
         return $this->filename;
     }
-    
+
     public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
+
     public function getType() : string
     {
         return $this->type;
     }
-    
+
     public function getExportType() : int
     {
         return $this->export_type;
     }
-    
+
     public function getObjId() : int
     {
         return $this->obj_id;
     }
-    
+
     public function create() : void
     {
         $this->fetchUsers();
@@ -135,13 +131,13 @@ class ilMemberExport
             case self::EXPORT_CSV:
                 $this->createCSV();
                 break;
-                
+
             case self::EXPORT_EXCEL:
                 $this->createExcel();
                 break;
         }
     }
-    
+
     public function getCSVString() : ?string
     {
         if ($this->csv instanceof ilCSVWriter) {
@@ -149,27 +145,22 @@ class ilMemberExport
         }
         return null;
     }
-    
-    
+
     public function createExcel() : void
     {
         $this->worksheet = new ilExcel();
         $this->worksheet->addSheet($this->lng->txt("members"));
         $this->write();
-        
+
         $this->worksheet->writeToFile($this->getFilename());
     }
 
-
     public function createCSV() : void
     {
-        include_once('Services/Utilities/classes/class.ilCSVWriter.php');
         $this->csv = new ilCSVWriter();
         $this->write();
     }
-    
-    
-    
+
     /**
      * Write one column
      */
@@ -179,20 +170,20 @@ class ilMemberExport
             case self::EXPORT_CSV:
                 $this->csv->addColumn($a_value);
                 break;
-                
+
             case self::EXPORT_EXCEL:
                 $this->worksheet->setCell($a_row + 1, $a_col, $a_value);
                 break;
         }
     }
-    
+
     protected function addRow() : void
     {
         switch ($this->getExportType()) {
             case self::EXPORT_CSV:
                 $this->csv->addRow();
                 break;
-            
+
             case self::EXPORT_EXCEL:
                 break;
         }
@@ -217,14 +208,14 @@ class ilMemberExport
                 $fields[] = $field;
             }
         }
-        
+
         $udf = ilUserDefinedFields::_getInstance();
         foreach ($udf->getCourseExportableFields() as $field_id => $udf_data) {
             if ($this->settings->enabled('udf_' . $field_id)) {
                 $fields[] = 'udf_' . $field_id;
             }
         }
-        
+
         // Add course specific fields
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->obj_id) as $field_obj) {
             if ($this->settings->enabled('cdf_' . $field_obj->getId())) {
@@ -236,7 +227,7 @@ class ilMemberExport
         }
         return $fields;
     }
-    
+
     protected function write() : void
     {
         // Add header line
@@ -254,15 +245,14 @@ class ilMemberExport
                     $this->lng->loadLanguageModule('dateplaner');
                     $this->addCol($this->lng->txt('cal_ch_field_ch'), $row, $col++);
                     break;
-                
+
                 case 'org_units':
                     $this->addCol($this->lng->txt('org_units'), $row, $col++);
                     break;
-                
+
                 default:
                     if (substr($field, 0, 4) == 'udf_') {
                         $field_id = explode('_', $field);
-                        include_once('Services/User/classes/class.ilUserDefinedFields.php');
                         $udf = ilUserDefinedFields::_getInstance();
                         $def = $udf->getDefinition($field_id[1]);
                         #$this->csv->addColumn($def['field_name']);
@@ -285,7 +275,7 @@ class ilMemberExport
         foreach ($this->user_ids as $usr_id) {
             $row++;
             $col = 0;
-            
+
             $udf_data = new ilUserDefinedData($usr_id);
             foreach ($all_fields as $field) {
                 // Handle course defined fields
@@ -293,19 +283,19 @@ class ilMemberExport
                     $col++;
                     continue;
                 }
-                
+
                 if ($this->addCourseField($usr_id, $field, $row, $col)) {
                     $col++;
                     continue;
                 }
-                
+
                 switch ($field) {
                     case 'role':
                         switch ($this->user_course_data[$usr_id]['role']) {
                             case IL_CRS_ADMIN:
                                 $this->addCol($this->lng->txt('crs_admin'), $row, $col++);
                                 break;
-                                
+
                             case IL_CRS_TUTOR:
                                 $this->addCol($this->lng->txt('crs_tutor'), $row, $col++);
                                 break;
@@ -313,26 +303,26 @@ class ilMemberExport
                             case IL_CRS_MEMBER:
                                 $this->addCol($this->lng->txt('crs_member'), $row, $col++);
                                 break;
-                                
+
                             case IL_GRP_ADMIN:
                                 $this->addCol($this->lng->txt('il_grp_admin'), $row, $col++);
                                 break;
-                                
+
                             case IL_GRP_MEMBER:
                                 $this->addCol($this->lng->txt('il_grp_member'), $row, $col++);
                                 break;
-                                
+
                             case 'subscriber':
                                 $this->addCol($this->lng->txt($this->getType() . '_subscriber'), $row, $col++);
                                 break;
-                            
+
                             default:
                                 $this->addCol($this->lng->txt('crs_waiting_list'), $row, $col++);
                                 break;
-                            
+
                         }
                         break;
-                    
+
                     case 'agreement':
                         if (isset($this->agreement[$usr_id])) {
                             if ($this->agreement[$usr_id]['accepted']) {
@@ -345,20 +335,21 @@ class ilMemberExport
                             $this->addCol($this->lng->txt('ps_not_accepted'), $row, $col++);
                         }
                         break;
-                        
+
                     // These fields are always enabled
                     case 'username':
                         $this->addCol($this->user_profile_data[$usr_id]['login'], $row, $col++);
                         break;
-                        
+
                     case 'firstname':
                     case 'lastname':
                         $this->addCol($this->user_profile_data[$usr_id][$field], $row, $col++);
                         break;
-                    
+
                     case 'consultation_hour':
-                        $bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id, $GLOBALS['DIC']['ilUser']->getId());
-                        
+                        $bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id,
+                            $GLOBALS['DIC']['ilUser']->getId());
+
                         $uts = array();
                         foreach ((array) $bookings[$usr_id] as $ut) {
                             ilDatePresentation::setUseRelativeDates(false);
@@ -385,11 +376,11 @@ class ilMemberExport
                         }
                         $this->addCol(implode(", ", $groups), $row, $col++);
                         break;
-                        
+
                     case 'org_units':
                         $this->addCol(ilObjUser::lookupOrgUnitsRepresentation($usr_id), $row, $col++);
                         break;
-                        
+
                     default:
                         // Check aggreement
                         if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$usr_id]['accepted']) {
@@ -400,19 +391,17 @@ class ilMemberExport
                             $this->addCol('', $row, $col++);
                         }
                         break;
-                        
+
                 }
             }
             $this->addRow();
         }
     }
-    
-    
-    
+
     private function fetchUsers() : void
     {
         $this->readCourseSpecificFieldsData();
-        
+
         if ($this->settings->enabled('admin')) {
             $this->user_ids = $tmp_ids = $this->members->getAdmins();
             $this->readCourseData($tmp_ids);
@@ -430,7 +419,6 @@ class ilMemberExport
             $this->readCourseData($tmp_ids, 'subscriber');
         }
         if ($this->settings->enabled('waiting_list')) {
-            include_once('Modules/Course/classes/class.ilCourseWaitingList.php');
             $waiting_list = new ilCourseWaitingList($this->obj_id);
             $this->user_ids = array_merge($waiting_list->getUserIds(), $this->user_ids);
         }
@@ -438,11 +426,11 @@ class ilMemberExport
 
         // Sort by lastname
         $this->user_ids = ilUtil::_sortIds($this->user_ids, 'usr_data', 'lastname', 'usr_id');
-        
+
         // Finally read user profile data
         $this->user_profile_data = ilObjUser::_readUsersProfileData($this->user_ids);
     }
-    
+
     /**
      * Read All User related course data
      * @param int[]
@@ -464,13 +452,12 @@ class ilMemberExport
             }
         }
     }
-    
+
     private function readCourseSpecificFieldsData() : void
     {
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         $this->user_course_fields = ilCourseUserData::_getValuesByObjId($this->obj_id);
     }
-    
+
     /**
      * Fill course specific fields
      */
@@ -490,7 +477,7 @@ class ilMemberExport
         $this->addCol('', $row, $col);
         return true;
     }
-    
+
     /**
      * Add user defined fields
      */
@@ -515,7 +502,7 @@ class ilMemberExport
         $this->addCol('', $row, $col);
         return true;
     }
-    
+
     /**
      * Init member object
      */
@@ -534,7 +521,6 @@ class ilMemberExport
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
         if (is_array($groups) && sizeof($groups)) {
-            include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
             $this->groups_rights = [];
             foreach ($groups as $idx => $group_data) {
                 // check for group in group

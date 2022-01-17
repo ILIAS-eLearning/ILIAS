@@ -2,11 +2,10 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Base class for attendance lists
- *
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ingroup ServicesMembership
-*/
+ * Base class for attendance lists
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesMembership
+ */
 class ilAttendanceList
 {
     protected ilLogger $logger;
@@ -30,21 +29,20 @@ class ilAttendanceList
     protected bool $include_waiting_list = false;
     protected bool $include_subscribers = false;
     protected array $user_filters = [];
-        
+
     public function __construct(
         ilObjectGUI $a_parent_gui,
         ilObject $a_parent_obj,
         ?ilParticipants $a_participants_object = null,
         ?ilWaitingList $a_waiting_list = null
-    )
-    {
+    ) {
         global $DIC;
 
         $this->logger = $DIC->logger()->mmbr();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
-        
+
         $this->parent_gui = $a_parent_gui;
         $this->parent_obj = $a_parent_obj;
         $this->participants = $a_participants_object;
@@ -54,7 +52,6 @@ class ilAttendanceList
         $this->presets['name'] = array($DIC->language()->txt('name'), true);
         $this->presets['login'] = array($DIC->language()->txt('login'), true);
 
-        
         // add exportable fields
         $this->readOrderedExportableFields();
 
@@ -110,7 +107,7 @@ class ilAttendanceList
                 case 'lastname':
                     continue 2;
             }
-            
+
             // Check if default enabled
             $this->presets[$field] = array(
                 $GLOBALS['DIC']['lng']->txt($field),
@@ -126,9 +123,8 @@ class ilAttendanceList
                 false
             );
         }
-        
+
         // add cdf fields
-        include_once './Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php';
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->parent_obj->getId()) as $field_obj) {
             $this->presets['cdf_' . $field_obj->getId()] = array(
                 $field_obj->getName(),
@@ -140,13 +136,12 @@ class ilAttendanceList
 
     /**
      * Add user field
-     *
      */
     public function addPreset(string $a_id, string $a_caption, bool $a_selected = false) : void
     {
         $this->presets[$a_id] = array($a_caption, $a_selected);
     }
-    
+
     /**
      * Add blank column preset
      */
@@ -154,17 +149,16 @@ class ilAttendanceList
     {
         $this->pre_blanks[] = $a_caption;
     }
-    
+
     /**
      * Set titles
-     *
      */
     public function setTitle(string $a_title, ?string $a_description = null) : void
     {
         $this->title = $a_title;
         $this->description = (string) $a_description;
     }
-    
+
     /**
      * Add role
      */
@@ -172,14 +166,12 @@ class ilAttendanceList
     {
         $this->role_data[$a_id] = array($a_caption, $a_type);
     }
-    
-    
-    
+
     protected function setRoleSelection(array $a_role_ids) : void
     {
         $this->roles = $a_role_ids;
     }
-    
+
     /**
      * Add user filter
      */
@@ -187,7 +179,7 @@ class ilAttendanceList
     {
         $this->user_filters[$a_id] = array($a_caption, $a_checked);
     }
-    
+
     /**
      * Get user data for subscribers and waiting list
      * @param array &$a_res
@@ -199,7 +191,7 @@ class ilAttendanceList
         if ($this->waiting_list) {
             $user_ids = array_merge($user_ids, $this->waiting_list->getUserIds());
         }
-        
+
         // Finally read user profile data
         $profile_data = ilObjUser::_readUsersProfileData($user_ids);
         foreach ($profile_data as $user_id => $fields) {
@@ -208,17 +200,15 @@ class ilAttendanceList
             }
         }
 
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
         $udf = ilUserDefinedFields::_getInstance();
-        
+
         foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
             foreach ($profile_data as $user_id => $field) {
-                include_once './Services/User/classes/class.ilUserDefinedData.php';
                 $udf_data = new ilUserDefinedData($user_id);
                 $a_res[$user_id]['udf_' . $field_id] = (string) $udf_data->get('f_' . $field_id);
             }
         }
-        
+
         if (sizeof($user_ids)) {
             // object specific user data
             $cdfs = ilCourseUserData::_getValuesByObjId($this->parent_obj->getId());
@@ -232,7 +222,7 @@ class ilAttendanceList
                     } else {
                         $a_res[$user_id]['status'] = $this->lng->txt('crs_waiting_list');
                     }
-                    
+
                     foreach ((array) $cdfs[$user_id] as $field_id => $value) {
                         $a_res[$user_id]['cdf_' . $field_id] = (string) $value;
                     }
@@ -240,7 +230,7 @@ class ilAttendanceList
             }
         }
     }
-    
+
     /**
      * Add blank columns
      */
@@ -267,12 +257,12 @@ class ilAttendanceList
     {
         $this->callback = $a_callback;
     }
-    
+
     public function setId(string $a_value) : void
     {
         $this->id = $a_value;
     }
-    
+
     /**
      * Init form
      * @param string $a_cmd
@@ -281,21 +271,20 @@ class ilAttendanceList
     public function initForm(string $a_cmd = "") : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('crs');
-        
-        include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this->parent_gui, $a_cmd));
         $form->setPreventDoubleSubmission(false);
         $form->setTitle($this->lng->txt('sess_gen_attendance_list'));
-        
+
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setValue($this->title);
         $form->addItem($title);
-        
+
         $desc = new ilTextInputGUI($this->lng->txt('description'), 'desc');
         $desc->setValue($this->description);
         $form->addItem($desc);
-        
+
         if (sizeof($this->presets)) {
             $preset = new ilCheckboxGroupInputGUI($this->lng->txt('user_detail'), 'preset');
             $preset_value = array();
@@ -308,11 +297,11 @@ class ilAttendanceList
             $preset->setValue($preset_value);
             $form->addItem($preset);
         }
-        
+
         $blank = new ilTextInputGUI($this->lng->txt('event_blank_columns'), 'blank');
         $blank->setMulti(true);
         $form->addItem($blank);
-        
+
         if ($this->pre_blanks) {
             $blank->setValue($this->pre_blanks);
         }
@@ -324,7 +313,7 @@ class ilAttendanceList
         // participants by roles
         foreach ($this->role_data as $role_id => $role_data) {
             $title = ilObject::_lookupTitle($role_id);
-            
+
             $role_name = $role_id;
             if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_adm') {
                 $role_name = 'adm';
@@ -335,8 +324,9 @@ class ilAttendanceList
             if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_tut') {
                 $role_name = 'tut';
             }
-            
-            $chk = new ilCheckboxOption(sprintf($this->lng->txt('event_user_selection_include_role'), $role_data[0]), 'role_' . $role_name);
+
+            $chk = new ilCheckboxOption(sprintf($this->lng->txt('event_user_selection_include_role'), $role_data[0]),
+                'role_' . $role_name);
             $checked[] = 'role_' . $role_name;
             $chk_grp->addOption($chk);
         }
@@ -365,30 +355,29 @@ class ilAttendanceList
         $form->addItem($chk_grp);
 
         $form->addCommandButton($a_cmd, $this->lng->txt('sess_print_attendance_list'));
-        
+
         if ($this->id && $a_cmd) {
-            include_once "Services/User/classes/class.ilUserFormSettings.php";
             $settings = new ilUserFormSettings($this->id);
             if (!$settings->hasStoredEntry()) {
                 $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
             }
-            
+
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form);
         } elseif ($a_cmd == 'printForMembersOutput') {
-            include_once "Services/User/classes/class.ilUserFormSettings.php";
-            $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(), -1);
+            $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview_' . $this->parent_obj->getId(),
+                -1);
             if (!$settings->hasStoredEntry()) {
                 // init from global defaults
                 $settings = new ilUserFormSettings($this->parent_obj->getType() . 's_pview', -1);
             }
-            
+
             $settings->deleteValue('desc'); // #11340
             $settings->exportToForm($form, true);
         }
         return $form;
     }
-    
+
     /**
      * Set list attributes from post values
      */
@@ -406,10 +395,10 @@ class ilAttendanceList
                     $this->addPreset($value, $value, true);
                 }
             }
-            
+
             $this->setTitle($form->getInput('title'), $form->getInput('desc'));
             $this->setBlankColumns($form->getInput('blank'));
-            
+
             $selection_of_users = (array) $form->getInput('selection_of_users'); // #18238
 
             $roles = array();
@@ -425,30 +414,28 @@ class ilAttendanceList
                 if (substr($title, 0, 10) == 'il_' . $this->parent_obj->getType() . '_tut') {
                     $role_name = 'tut';
                 }
-                
-                
+
                 if (in_array('role_' . $role_name, $selection_of_users)) {
                     $roles[] = $role_id;
                 }
             }
             $this->setRoleSelection($roles);
-            
+
             // not in sessions
             if ($this->waiting_list) {
                 $this->include_subscribers = in_array('subscr', $selection_of_users);
                 $this->include_waiting_list = in_array('wlist', $selection_of_users);
             }
-            
+
             if ($this->user_filters) {
                 foreach (array_keys($this->user_filters) as $msub_id) {
                     $this->user_filters[$msub_id][2] = in_array("members_" . $msub_id, $selection_of_users);
                 }
             }
-            
+
             if ($this->id) {
                 #$form->setValuesByPost();
-                
-                #include_once "Services/User/classes/class.ilUserFormSettings.php";
+
                 #$settings = new ilUserFormSettings($this->id);
                 #$settings->deleteValue('desc'); // #11340
                 #$settings->importFromForm($form);
@@ -456,7 +443,7 @@ class ilAttendanceList
             }
         }
     }
-    
+
     /**
      * render list in fullscreen mode
      */
@@ -464,7 +451,7 @@ class ilAttendanceList
     {
         $this->tpl->setContent($this->getHTML());
     }
-    
+
     /**
      * render attendance list
      */
@@ -473,7 +460,7 @@ class ilAttendanceList
         $tpl = new ilTemplate('tpl.attendance_list_print.html', true, true, 'Services/Membership');
         ilDatePresentation::setUseRelativeDates(false);
         $time = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
-        
+
         $tpl->setVariable('TXT_TITLE', $this->title);
         if ($this->description) {
             $tpl->setVariable('TXT_DESCRIPTION', $this->description . " (" . $time . ")");
@@ -488,7 +475,7 @@ class ilAttendanceList
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         if ($this->blank_columns) {
             foreach ($this->blank_columns as $blank) {
                 $tpl->setVariable('TXT_HEAD', $blank);
@@ -496,11 +483,10 @@ class ilAttendanceList
             }
         }
 
-        
         // handle members
-    
+
         $valid_user_ids = $filters = array();
-        
+
         if ($this->roles) {
             if ($this->has_local_role) {
                 $members = array();
@@ -512,17 +498,17 @@ class ilAttendanceList
             } else {
                 $members = $this->participants->getMembers();
             }
-        
+
             foreach ($this->roles as $role_id) {
                 switch ($this->role_data[$role_id][1]) {
                     case "admin":
                         $valid_user_ids = array_merge($valid_user_ids, $this->participants->getAdmins());
                         break;
-                    
+
                     case "tutor":
                         $valid_user_ids = array_merge($valid_user_ids, $this->participants->getTutors());
                         break;
-                    
+
                     // member/local
                     default:
                         if (!$this->has_local_role) {
@@ -534,15 +520,15 @@ class ilAttendanceList
                 }
             }
         }
-        
+
         if ($this->include_subscribers) {
             $valid_user_ids = array_merge($valid_user_ids, $this->participants->getSubscribers());
         }
-        
+
         if ($this->include_waiting_list) {
             $valid_user_ids = array_merge($valid_user_ids, $this->waiting_list->getUserIds());
         }
-            
+
         if ($this->user_filters) {
             foreach ($this->user_filters as $sub_id => $sub_item) {
                 $filters[$sub_id] = (bool) $sub_item[2];
@@ -556,7 +542,7 @@ class ilAttendanceList
                 if (!$user_data) {
                     continue;
                 }
-                
+
                 $tpl->setCurrentBlock("row_preset");
                 foreach ($this->presets as $id => $item) {
                     if ($item[1]) {
@@ -571,14 +557,14 @@ class ilAttendanceList
                                     $value = $name["lastname"] . ", " . $name["firstname"];
                                     break;
                                 }
-                                // no break
+                            // no break
                             case "login":
                                 if (!$user_data[$id]) {
                                     $value = ilObjUser::_lookupLogin($user_id);
                                     break;
                                 }
 
-                                // no break
+                            // no break
                             default:
                                 $value = (string) $user_data[$id];
                                 break;
@@ -594,7 +580,7 @@ class ilAttendanceList
                     $tpl->touchBlock('row_blank');
                 }
             }
-            
+
             $tpl->touchBlock("member_row");
         }
         return $tpl->get();

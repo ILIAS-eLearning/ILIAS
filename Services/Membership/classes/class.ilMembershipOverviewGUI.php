@@ -3,10 +3,8 @@
 
 /**
  * Membership overview
- *
  * @ilCtrl_Calls ilMembershipOverviewGUI: ilPDMembershipBlockGUI
- *
- * @author killing@leifos.de
+ * @author       killing@leifos.de
  */
 class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
 {

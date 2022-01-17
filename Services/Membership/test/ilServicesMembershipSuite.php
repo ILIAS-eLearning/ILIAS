@@ -7,7 +7,7 @@ class ilServicesMembershipSuite extends TestSuite
     public static function suite()
     {
         $suite = new ilServicesMembershipSuite();
-        
+
         include_once("./Services/Membership/test/ilWaitingListTest.php");
         $suite->addTestSuite("ilWaitingListTest");
 

@@ -7,9 +7,7 @@ use ILIAS\Refinery\Factory;
 
 /**
  * Base class for member tab content
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilMembershipGUI
 {
@@ -33,17 +31,15 @@ class ilMembershipGUI
     protected ilRbacReview $rbacreview;
     protected ilTree $tree;
 
-
     protected array $member_data = [];
-    
-    
+
     public function __construct(ilObjectGUI $repository_gui, ilObject $repository_obj)
     {
         global $DIC;
 
         $this->repository_gui = $repository_gui;
         $this->repository_object = $repository_obj;
-        
+
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule($this->getParentObject()->getType());
@@ -76,6 +72,7 @@ class ilMembershipGUI
         }
         return [];
     }
+
     protected function initMemberIdFromGet() : int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
@@ -86,6 +83,7 @@ class ilMembershipGUI
         }
         return 0;
     }
+
     protected function initSubscribersFromPost() : array
     {
         if ($this->http->wrapper()->post()->has('subscribers')) {
@@ -96,6 +94,7 @@ class ilMembershipGUI
         }
         return [];
     }
+
     protected function initWaitingListIdsFromPost() : array
     {
         if ($this->http->wrapper()->post()->has('waiting')) {
@@ -107,12 +106,12 @@ class ilMembershipGUI
         return [];
 
     }
-    
+
     protected function getLanguage() : ilLanguage
     {
         return $this->lng;
     }
-    
+
     protected function getCtrl() : ilCtrlInterface
     {
         return $this->ctrl;
@@ -127,12 +126,12 @@ class ilMembershipGUI
     {
         return $this->repository_gui;
     }
-    
+
     public function getParentObject() : ilObject
     {
         return $this->repository_object;
     }
-    
+
     public function getMembersObject() : ilParticipants
     {
         if ($this->participants instanceof ilParticipants) {
@@ -145,26 +144,24 @@ class ilMembershipGUI
     {
         return null;
     }
-    
+
     protected function checkPermissionBool(
         string $a_permission,
         string $a_cmd = '',
         string $a_type = '',
         int $a_ref_id = 0
-    ) : bool
-    {
+    ) : bool {
         if (!$a_ref_id) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
         return $this->access->checkAccess($a_permission, $a_cmd, $a_ref_id);
     }
-    
+
     protected function checkRbacOrPositionAccessBool(
         string $a_rbac_perm,
         string $a_pos_perm,
         int $a_ref_id = 0
-    ) : bool
-    {
+    ) : bool {
         if (!$a_ref_id) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
@@ -194,8 +191,6 @@ class ilMembershipGUI
         }
     }
 
-    
-    
     /**
      * Check if current user is allowed to add / search users
      */
@@ -203,8 +198,7 @@ class ilMembershipGUI
     {
         return $this->checkPermissionBool('manage_members');
     }
-    
-    
+
     /**
      * Filter user ids by access
      * @param int[] $a_usr_ids
@@ -214,21 +208,19 @@ class ilMembershipGUI
     {
         return $a_user_ids;
     }
-    
+
     public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('participants');
         $next_class = $this->ctrl->getNextClass();
-        
+
         switch ($next_class) {
             case 'ilrepositorysearchgui':
 
                 $this->checkPermission('manage_members');
-                
-                include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-                include_once './Services/Membership/classes/class.ilParticipants.php';
+
                 $rep_search = new ilRepositorySearchGUI();
-                $rep_search->addUserAccessFilterCallable([$this,'filterUserIdsByRbacOrPositionOfCurrentUser']);
+                $rep_search->addUserAccessFilterCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
 
                 $participants = $this->getMembersObject();
                 if (
@@ -248,13 +240,12 @@ class ilMembershipGUI
                         $this->getLocalRoles()
                     );
                 }
-                
+
                 // Set tabs
                 $this->ctrl->setReturn($this, 'participants');
                 $ret = $this->ctrl->forwardCommand($rep_search);
                 break;
-            
-            
+
             case 'ilmailmembersearchgui':
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
@@ -264,16 +255,16 @@ class ilMembershipGUI
 
                 $mail = new ilMail($this->user->getId());
                 if (!(
-                    $this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
-                    $this->access->checkAccess('manage_members', "", $this->getParentObject()->getRefId())
-                ) ||
+                        $this->getParentObject()->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+                        $this->access->checkAccess('manage_members', "", $this->getParentObject()->getRefId())
+                    ) ||
                     !$this->rbacsystem->checkAccess(
                         'internal_mail',
                         $mail->getMailObjectReferenceId()
                     )) {
                     $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->MESSAGE);
                 }
-                
+
                 $mail_search = new ilMailMemberSearchGUI(
                     $this,
                     $this->getParentObject()->getRefId(),
@@ -286,13 +277,14 @@ class ilMembershipGUI
                 break;
 
             case 'ilusersgallerygui':
-                
+
                 $this->setSubTabs($this->tabs);
                 $this->tabs->setSubTabActive(
                     $this->getParentObject()->getType() . '_members_gallery'
                 );
                 $is_admin = $this->checkRbacOrPositionAccessBool('manage_members', 'manage_members');
-                $is_participant = ilParticipants::_isParticipant($this->getParentObject()->getRefId(), $this->user->getId());
+                $is_participant = ilParticipants::_isParticipant($this->getParentObject()->getRefId(),
+                    $this->user->getId());
                 if (
                     !$is_admin &&
                     (
@@ -306,63 +298,53 @@ class ilMembershipGUI
                 $this->showMailToMemberToolbarButton($this->toolbar, 'jump2UsersGallery');
                 $this->showMemberExportToolbarButton($this->toolbar, 'jump2UsersGallery');
 
-                require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
-                require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
-
-
                 $provider = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
                 $gallery_gui = new ilUsersGalleryGUI($provider);
                 $this->ctrl->forwardCommand($gallery_gui);
                 break;
-                
+
             case 'ilcourseparticipantsgroupsgui':
 
                 $this->setSubTabs($this->tabs);
                 $this->checkRbacOrPermissionAccess('manage_members', 'manage_members');
-                
-                
-                include_once './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php';
+
                 $cmg_gui = new ilCourseParticipantsGroupsGUI($this->getParentObject()->getRefId());
                 if ($cmd == "show" || $cmd = "") {
                     $this->showMailToMemberToolbarButton($this->toolbar);
                 }
                 $this->ctrl->forwardCommand($cmg_gui);
                 break;
-                
+
             case 'ilsessionoverviewgui':
 
                 $this->setSubTabs($this->tabs);
                 $this->checkRbacOrPermissionAccess('manage_members', 'manage_members');
 
-                include_once './Services/Membership/classes/class.ilParticipants.php';
                 $prt = ilParticipants::getInstance($this->getParentObject()->getRefId());
-            
-                include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
+
                 $overview = new ilSessionOverviewGUI($this->getParentObject()->getRefId(), $prt);
                 $this->ctrl->forwardCommand($overview);
                 break;
-            
+
             case 'ilmemberexportgui':
 
                 $this->setSubTabs($this->tabs);
                 $this->checkRbacOrPermissionAccess('manage_members', 'manage_members');
 
-                include_once('./Services/Membership/classes/Export/class.ilMemberExportGUI.php');
                 $export = new ilMemberExportGUI($this->getParentObject()->getRefId());
                 $this->ctrl->forwardCommand($export);
                 break;
 
             case 'ilobjectcustomuserfieldsgui':
-                
+
                 $this->setSubTabs($this->tabs);
                 $this->checkRbacOrPermissionAccess('manage_members', 'manage_members');
                 $this->activateSubTab($this->getParentObject()->getType() . "_member_administration");
                 $this->ctrl->setReturn($this, 'participants');
-                include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
                 $cdf_gui = new ilObjectCustomUserFieldsGUI($this->getParentGUI()->object->getId());
                 $this->ctrl->forwardCommand($cdf_gui);
                 break;
-                
+
             default:
                 $this->setSubTabs($this->tabs);
                 //exclude mailMembersBtn cmd from this check
@@ -389,32 +371,32 @@ class ilMembershipGUI
         $this->initParticipantTemplate();
         $this->showParticipantsToolbar();
         $this->activateSubTab($this->getParentObject()->getType() . "_member_administration");
-        
+
         // show waiting list table
         $waiting = $this->parseWaitingListTable();
         if ($waiting instanceof ilWaitingListTableGUI) {
             $this->tpl->setVariable('TABLE_WAIT', $waiting->getHTML());
         }
-        
+
         // show subscriber table
         $subscriber = $this->parseSubscriberTable();
         if ($subscriber instanceof ilSubscriberTableGUI) {
             $this->tpl->setVariable('TABLE_SUB', $subscriber->getHTML());
         }
-        
+
         // show member table
         $table = $this->initParticipantTableGUI();
         $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_mem_tbl_header'));
         $table->setFormAction($this->ctrl->getFormAction($this));
         $table->parse();
-        
+
         // filter commands
         $table->setFilterCommand('participantsApplyFilter');
         $table->setResetCommand('participantsResetFilter');
-        
+
         $this->tpl->setVariable('MEMBERS', $table->getHTML());
     }
-    
+
     /**
      * Apply filter for participant table
      */
@@ -423,10 +405,10 @@ class ilMembershipGUI
         $table = $this->initParticipantTableGUI();
         $table->resetOffset();
         $table->writeFilterToSession();
-        
+
         $this->participants();
     }
-    
+
     /**
      * reset participants filter
      */
@@ -435,10 +417,9 @@ class ilMembershipGUI
         $table = $this->initParticipantTableGUI();
         $table->resetOffset();
         $table->resetFilter();
-        
+
         $this->participants();
     }
-
 
     /**
      * Edit one participant
@@ -448,7 +429,7 @@ class ilMembershipGUI
         $this->activateSubTab($this->getParentObject()->getType() . "_member_administration");
         $this->editParticipants(array($this->initMemberIdFromGet()));
     }
-    
+
     /**
      * Edit participants
      * @param int[] $post_participants
@@ -461,7 +442,7 @@ class ilMembershipGUI
 
         $real_participants = $this->getMembersObject()->getParticipants();
         $participants = array_intersect((array) $post_participants, (array) $real_participants);
-        
+
         if (!count($participants)) {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
@@ -469,7 +450,7 @@ class ilMembershipGUI
         $table = $this->initEditParticipantTableGUI($participants);
         $this->tpl->setContent($table->getHTML());
     }
-    
+
     /**
      * update members
      * @todo refactor POST['roles']
@@ -521,11 +502,11 @@ class ilMembershipGUI
         foreach ($this->getLocalTypeRole(false) as $title => $role_id) {
             $assignableLocalRoles[$role_id] = $title;
         }
-                
+
         // Validate the user ids and role ids in the post data
         foreach ($participants as $usr_id) {
             $memberIsAdmin = $this->rbacreview->isAssigned($usr_id, $adminRoleId);
-                        
+
             // If the current user doesn't have the 'edit_permission'
             // permission, make sure he doesn't remove the course
             // administrator role of members who are course administrator.
@@ -534,7 +515,7 @@ class ilMembershipGUI
             ) {
                 $_POST['roles'][$usr_id][] = $adminRoleId;
             }
-                        
+
             // Validate the role ids in the post data
             foreach ((array) $_POST['roles'][$usr_id] as $role_id) {
                 if (!array_key_exists($role_id, $assignableLocalRoles)) {
@@ -549,7 +530,7 @@ class ilMembershipGUI
                 }
             }
         }
-        
+
         $has_admin = false;
         foreach ($this->getMembersObject()->getAdmins() as $admin_id) {
             if (!isset($_POST['roles'][$admin_id])) {
@@ -578,18 +559,20 @@ class ilMembershipGUI
 
         foreach ($participants as $usr_id) {
             $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $_POST['roles'][$usr_id]);
-            
+
             // Disable notification for all of them
             $this->getMembersObject()->updateNotification($usr_id, false);
-            if (($this->getMembersObject()->isTutor($usr_id) or $this->getMembersObject()->isAdmin($usr_id)) and in_array($usr_id, $notifications)) {
+            if (($this->getMembersObject()->isTutor($usr_id) or $this->getMembersObject()->isAdmin($usr_id)) and in_array($usr_id,
+                    $notifications)) {
                 $this->getMembersObject()->updateNotification($usr_id, true);
             }
-            
+
             $this->getMembersObject()->updateBlocked($usr_id, false);
-            if ((!$this->getMembersObject()->isAdmin($usr_id) and !$this->getMembersObject()->isTutor($usr_id)) and in_array($usr_id, $blocked)) {
+            if ((!$this->getMembersObject()->isAdmin($usr_id) and !$this->getMembersObject()->isTutor($usr_id)) and in_array($usr_id,
+                    $blocked)) {
                 $this->getMembersObject()->updateBlocked($usr_id, true);
             }
-            
+
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->updatePassed($usr_id, in_array($usr_id, $passed), true);
                 $this->getMembersObject()->sendNotification(
@@ -597,7 +580,7 @@ class ilMembershipGUI
                     $usr_id
                 );
             }
-            
+
             if (
                 ($this->getMembersObject()->isAdmin($usr_id) || $this->getMembersObject()->isTutor($usr_id)) &&
                 in_array($usr_id, $contact)
@@ -606,20 +589,20 @@ class ilMembershipGUI
             } else {
                 $this->getMembersObject()->updateContact($usr_id, false);
             }
-            
+
             $this->updateLPFromStatus($usr_id, in_array($usr_id, $passed));
         }
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "participants");
     }
-    
+
     /**
      * Show confirmation screen for participants deletion
      */
     protected function confirmDeleteParticipants() : void
     {
         $participants = $this->initParticipantsFromPost();
-        
+
         if (!count($participants)) {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
@@ -630,14 +613,13 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType() . '_at_least_one_admin'), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        
+
         // if only position access is granted, show additional info
         if (!$this->checkPermissionBool('manage_members')) {
             $this->lng->loadLanguageModule('rbac');
             ilUtil::sendInfo($this->lng->txt('rbac_info_only_position_access'));
         }
-        
-        
+
         // Access check for admin deletion
         if (
             !$this->access->checkAccess(
@@ -668,7 +650,7 @@ class ilMembershipGUI
         $confirm->setHeaderText($this->lng->txt($this->getParentObject()->getType() . '_header_delete_members'));
         $confirm->setConfirm($this->lng->txt('confirm'), 'deleteParticipants');
         $confirm->setCancel($this->lng->txt('cancel'), 'participants');
-        
+
         foreach ($participants as $usr_id) {
             $name = ilObjUser::_lookupName($usr_id);
 
@@ -681,7 +663,7 @@ class ilMembershipGUI
         }
         $this->tpl->setContent($confirm->getHTML());
     }
-    
+
     protected function deleteParticipants() : void
     {
         $participants = $this->initParticipantsFromPost();
@@ -689,7 +671,7 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        
+
         // If the user doesn't have the edit_permission and is not administrator, he may not remove
         // members who have the course administrator role
         if (
@@ -703,7 +685,7 @@ class ilMembershipGUI
                 }
             }
         }
-        
+
         if (!$this->getMembersObject()->deleteParticipants($participants)) {
             ilUtil::sendFailure('Error deleting participants.', true);
             $this->ctrl->redirect($this, 'participants');
@@ -716,7 +698,6 @@ class ilMembershipGUI
                         $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
                         break;
                     case 'grp':
-                        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                         $mail_type = ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER;
                         break;
                     case 'lso':
@@ -729,7 +710,7 @@ class ilMembershipGUI
         ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
     }
-    
+
     protected function sendMailToSelectedUsers() : void
     {
         $participants = [];
@@ -779,11 +760,10 @@ class ilMembershipGUI
     protected function membersMap() : void
     {
         $this->activateSubTab($this->getParentObject()->getType() . "_members_map");
-        include_once("./Services/Maps/classes/class.ilMapUtil.php");
         if (!ilMapUtil::isActivated() || !$this->getParentObject()->getEnableMap()) {
             return;
         }
-        
+
         $map = ilMapUtil::getMapGUI();
         $map->setMapId("course_map")
             ->setWidth("700px")
@@ -795,7 +775,6 @@ class ilMembershipGUI
             ->setEnableNavigationControl(true)
             ->setEnableCentralMarker(true);
 
-        include_once './Services/Membership/classes/class.ilParticipants.php';
         $members = ilParticipants::getInstanceByObjId($this->getParentObject()->getId())->getParticipants();
         foreach ((array) $members as $user_id) {
             $map->addUserMarker($user_id);
@@ -804,22 +783,18 @@ class ilMembershipGUI
         $this->tpl->setContent($map->getHtml());
         $this->tpl->setLeftContent($map->getUserListHtml());
     }
-    
+
     protected function mailMembersBtn() : void
     {
         $this->showMailToMemberToolbarButton($this->toolbar, 'mailMembersBtn');
     }
-    
-    
-    
-    
+
     /**
      * Show participants toolbar
      */
     protected function showParticipantsToolbar() : void
     {
         if ($this->canAddOrSearchUsers()) {
-            include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $this->toolbar,
@@ -846,7 +821,7 @@ class ilMembershipGUI
             // separator
             $this->toolbar->addSeparator();
         }
-            
+
         // print button
         $this->toolbar->addButton(
             $this->lng->txt($this->getParentObject()->getType() . "_print_list"),
@@ -855,13 +830,11 @@ class ilMembershipGUI
         $this->showMailToMemberToolbarButton($this->toolbar, 'participants', false);
     }
 
-
     protected function showMemberExportToolbarButton(
         ilToolbarGUI $toolbar,
         ?string $a_back_cmd = null,
         bool $a_separator = false
-    ) : void
-    {
+    ) : void {
         if (
             $this->getParentObject()->getType() == 'crs' &&
             $this->getParentObject()->getShowMembersExport()) {
@@ -886,8 +859,7 @@ class ilMembershipGUI
         ilToolbarGUI $toolbar,
         ?string $a_back_cmd = null,
         bool $a_separator = false
-    ) : void
-    {
+    ) : void {
         $mail = new ilMail($this->user->getId());
 
         if (
@@ -911,7 +883,7 @@ class ilMembershipGUI
             );
         }
     }
-    
+
     /**
      * Create Mail signature
      * @todo better implementation
@@ -949,7 +921,7 @@ class ilMembershipGUI
             'manage_members',
             $this->getParentObject()->getRefId()
         );
-        
+
         if ($has_manage_members_permission) {
             $tabs->addTab(
                 'members',
@@ -963,7 +935,7 @@ class ilMembershipGUI
             $tabs->addTab(
                 'members',
                 $member_tab_name,
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilusersgallerygui'), 'view')
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilusersgallerygui'), 'view')
             );
         } elseif (
             $this->getParentObject()->getMailToMembersType() == 1 &&
@@ -982,13 +954,14 @@ class ilMembershipGUI
     {
         return $this->lng->txt('members');
     }
-    
+
     /**
      * Set sub tabs
      */
     protected function setSubTabs(ilTabsGUI $tabs) : void
     {
-        if ($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId())) {
+        if ($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members',
+            $this->getParentObject()->getRefId())) {
             $tabs->addSubTabTarget(
                 $this->getParentObject()->getType() . "_member_administration",
                 $this->ctrl->getLinkTarget($this, 'participants'),
@@ -1005,20 +978,20 @@ class ilMembershipGUI
                     "ilCourseParticipantsGroupsGUI"
                 );
             }
-            
+
             $children = $this->tree->getSubTree($this->tree->getNodeData($this->getParentObject()->getRefId()), false,
                 ['sess']);
             if (count($children)) {
                 $tabs->addSubTabTarget(
                     'events',
-                    $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilsessionoverviewgui'), 'listSessions'),
+                    $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilsessionoverviewgui'), 'listSessions'),
                     '',
                     'ilsessionoverviewgui'
                 );
             }
             $tabs->addSubTabTarget(
                 $this->getParentObject()->getType() . '_members_gallery',
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilUsersGalleryGUI')),
                 'view',
                 'ilUsersGalleryGUI'
             );
@@ -1026,13 +999,12 @@ class ilMembershipGUI
             // gallery
             $tabs->addSubTabTarget(
                 $this->getParentObject()->getType() . '_members_gallery',
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilUsersGalleryGUI')),
                 'view',
                 'ilUsersGalleryGUI'
             );
         }
-        
-        include_once './Services/Maps/classes/class.ilMapUtil.php';
+
         if (ilMapUtil::isActivated() && $this->getParentObject()->getEnableMap()) {
             $tabs->addSubTabTarget(
                 $this->getParentObject()->getType() . '_members_map',
@@ -1041,18 +1013,17 @@ class ilMembershipGUI
                 get_class($this)
             );
         }
-        
-        include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+
         if (ilPrivacySettings::getInstance()->checkExportAccess($this->getParentObject()->getRefId())) {
             $tabs->addSubTabTarget(
                 'export_members',
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilmemberexportgui'), 'show'),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilmemberexportgui'), 'show'),
                 '',
                 'ilmemberexportgui'
             );
         }
     }
-    
+
     /**
      * Required for member table guis.
      * @todo needs refactoring and should not be located in GUI classes
@@ -1069,7 +1040,7 @@ class ilMembershipGUI
     {
         return $this->getParentGUI()->getLocalRoles();
     }
-    
+
     /**
      * Parse table of subscription request
      */
@@ -1096,7 +1067,7 @@ class ilMembershipGUI
         $subscriber->setTitle($this->lng->txt('group_new_registrations'));
         return $subscriber;
     }
-    
+
     /**
      * Show subscription confirmation
      */
@@ -1128,7 +1099,7 @@ class ilMembershipGUI
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
-    
+
     /**
      * Refuse subscriber confirmation
      */
@@ -1160,7 +1131,7 @@ class ilMembershipGUI
 
         $this->tpl->setContent($c_gui->getHTML());
     }
-    
+
     protected function refuseSubscribers() : void
     {
         $subscribers = $this->initSubscribersFromPost();
@@ -1168,17 +1139,17 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-    
+
         if (!$this->getMembersObject()->deleteSubscribers($subscribers)) {
             ilUtil::sendFailure($this->error->getMessage(), true);
             $this->ctrl->redirect($this, 'participants');
         } else {
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER, $usr_id);
+                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                        $usr_id);
                 }
                 if ($this instanceof ilGroupMembershipGUI) {
-                    include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                         $usr_id
@@ -1203,7 +1174,7 @@ class ilMembershipGUI
         ilUtil::sendSuccess($this->lng->txt("crs_subscribers_deleted"), true);
         $this->ctrl->redirect($this, 'participants');
     }
-    
+
     /**
      * Do assignment of subscription request
      */
@@ -1214,18 +1185,18 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        
+
         if (!$this->getMembersObject()->assignSubscribers($subscribers)) {
             ilUtil::sendFailure($this->error->getMessage(), true);
             $this->ctrl->redirect($this, 'participants');
         } else {
             foreach ($subscribers as $usr_id) {
                 if ($this instanceof ilCourseMembershipGUI) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER, $usr_id);
+                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,
+                        $usr_id);
                     $this->getParentObject()->checkLPStatusSync($usr_id);
                 }
                 if ($this instanceof ilGroupMembershipGUI) {
-                    include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
                         $usr_id
@@ -1233,7 +1204,6 @@ class ilMembershipGUI
                 }
                 if ($this instanceof ilSessionMembershipGUI) {
                     // todo refactor to participants
-                    include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
                     $noti = new ilSessionMembershipMailNotification();
                     $noti->setRefId($this->getParentObject()->getRefId());
                     $noti->setRecipients(array($usr_id));
@@ -1245,30 +1215,29 @@ class ilMembershipGUI
         ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"), true);
         $this->ctrl->redirect($this, 'participants');
     }
-    
+
     /**
      * Parse table of subscription request
      */
     protected function parseWaitingListTable() : ?ilWaitingListTableGUI
     {
         $wait = $this->initWaitingList();
-        
+
         $wait_users = $this->filterUserIdsByRbacOrPositionOfCurrentUser($wait->getUserIds());
         if (!count($wait_users)) {
             return null;
         }
 
-        include_once './Services/Membership/classes/class.ilWaitingListTableGUI.php';
         $waiting_table = new ilWaitingListTableGUI($this, $this->getParentObject(), $wait);
         $waiting_table->setUserIds(
             $wait_users
         );
         $waiting_table->readUserData();
         $waiting_table->setTitle($this->lng->txt('crs_waiting_list'));
-        
+
         return $waiting_table;
     }
-    
+
     /**
      * Assign from waiting list (confirmatoin)
      */
@@ -1279,7 +1248,7 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-       $c_gui = new ilConfirmationGUI();
+        $c_gui = new ilConfirmationGUI();
         // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "assignFromWaitingList"));
         $c_gui->setHeaderText($this->lng->txt("info_assign_sure"));
@@ -1299,7 +1268,7 @@ class ilMembershipGUI
 
         $this->tpl->setContent($c_gui->getHTML());
     }
-    
+
     /**
      * Assign from waiting list
      */
@@ -1310,7 +1279,7 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        
+
         $waiting_list = $this->initWaitingList();
 
         $added_users = 0;
@@ -1321,14 +1290,14 @@ class ilMembershipGUI
             if ($this->getMembersObject()->isAssigned($user_id)) {
                 continue;
             }
-            
+
             if ($this instanceof ilCourseMembershipGUI) {
                 $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
-                $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id, true);
+                $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id,
+                    true);
                 $this->getParentObject()->checkLPStatusSync($user_id);
             }
             if ($this instanceof ilGroupMembershipGUI) {
-                include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                 $this->getMembersObject()->add($user_id, IL_GRP_MEMBER);
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
@@ -1344,7 +1313,7 @@ class ilMembershipGUI
                 $noti->setType(ilSessionMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
                 $noti->send();
             }
-            
+
             $waiting_list->removeFromList($user_id);
             ++$added_users;
         }
@@ -1356,7 +1325,7 @@ class ilMembershipGUI
         }
         $this->ctrl->redirect($this, 'participants');
     }
-    
+
     /**
      * Refuse from waiting list (confirmation)
      */
@@ -1388,7 +1357,7 @@ class ilMembershipGUI
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
-    
+
     /**
      * refuse from waiting list
      */
@@ -1399,17 +1368,17 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        
+
         $waiting_list = $this->initWaitingList();
 
         foreach ($waiting_list_ids as $user_id) {
             $waiting_list->removeFromList($user_id);
-            
+
             if ($this instanceof ilCourseMembershipGUI) {
-                $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER, $user_id, true);
+                $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,
+                    $user_id, true);
             }
             if ($this instanceof ilGroupMembershipGUI) {
-                include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                     $user_id,
@@ -1417,7 +1386,6 @@ class ilMembershipGUI
                 );
             }
             if ($this instanceof ilSessionMembershipGUI) {
-                include_once './Modules/Session/classes/class.ilSessionMembershipMailNotification.php';
                 $noti = new ilSessionMembershipMailNotification();
                 $noti->setRefId($this->getParentObject()->getRefId());
                 $noti->setRecipients(array($user_id));
@@ -1428,7 +1396,7 @@ class ilMembershipGUI
         ilUtil::sendSuccess($this->lng->txt('crs_users_removed_from_list'), true);
         $this->ctrl->redirect($this, 'participants');
     }
-    
+
     /**
      * Add selected users to user clipboard
      */
@@ -1448,11 +1416,10 @@ class ilMembershipGUI
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        include_once './Services/User/classes/class.ilUserClipboard.php';
         $clip = ilUserClipboard::getInstance($this->user->getId());
         $clip->add($users);
         $clip->save();
-        
+
         $this->lng->loadLanguageModule('user');
         ilUtil::sendSuccess($this->lng->txt('clipboard_user_added'), true);
         $this->ctrl->redirect($this, 'participants');
@@ -1463,22 +1430,18 @@ class ilMembershipGUI
         return null;
     }
 
-
     protected function activateSubTab($a_sub_tab) : void
     {
         $this->tabs->activateSubTab($a_sub_tab);
     }
 
-
-    
-    
     /**
      * @todo: refactor to own class
      */
     protected function printMembers() : void
     {
         $this->checkPermission('read');
-        
+
         $this->tabs->clearTargets();
 
         $this->tabs->setBackTarget(
@@ -1490,7 +1453,7 @@ class ilMembershipGUI
         $form = $list->initForm('printMembersOutput');
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     /**
      * print members output
      */
@@ -1510,11 +1473,11 @@ class ilMembershipGUI
                 $this->getMembersObject()->getParticipants()
             )
         );
-        
+
         $list->getNonMemberUserData($this->member_data);
         $list->getFullscreenHTML();
     }
-    
+
     /**
      * print members output
      */
@@ -1541,10 +1504,7 @@ class ilMembershipGUI
     {
         $this->ctrl->redirectByClass('ilUsersGalleryGUI');
     }
-    
-    
-    
-    
+
     protected function initAttendanceList(bool $a_for_members = false) : ?ilAttendanceList
     {
         global $DIC;
@@ -1578,7 +1538,6 @@ class ilMembershipGUI
                 $waiting_list
             );
         } else {
-            include_once 'Services/Membership/classes/class.ilAttendanceList.php';
             $list = new ilAttendanceList(
                 $this,
                 $this->getParentObject(),
@@ -1587,25 +1546,22 @@ class ilMembershipGUI
             );
         }
         $list->setId($this->getParentObject()->getType() . '_memlist_' . $this->getParentObject()->getId());
-    
+
         $list->setTitle(
             $this->lng->txt($this->getParentObject()->getType() . '_members_print_title'),
             $this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle()
         );
-                
-        include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
         if ($show_tracking) {
-            include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
         if ($show_tracking) {
             $list->addPreset('progress', $this->lng->txt('learning_progress'), true);
         }
-        
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+
         /**
          * @var ilPrivacySettings
          */
@@ -1613,7 +1569,7 @@ class ilMembershipGUI
         if ($privacy->enabledAccessTimesByType($this->getParentObject()->getType())) {
             $list->addPreset('access', $this->lng->txt('last_access'), true);
         }
-        
+
         switch ($this->getParentObject()->getType()) {
             case 'crs':
                 $list->addPreset('status', $this->lng->txt('crs_status'), true);
@@ -1628,7 +1584,7 @@ class ilMembershipGUI
                 }
                 $list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);
                 $list->addBlank($this->lng->txt('sess_signature'));
-        
+
                 $list->addUserFilter('registered', $this->lng->txt('event_list_registered_only'));
                 break;
 

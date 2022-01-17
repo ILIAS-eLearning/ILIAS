@@ -1,21 +1,16 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php" ;
-include_once "./Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php" ;
-
 /**
  * Membership Administration Settings
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesMembership
  */
 abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 {
     protected const SUB_TAB_GENERAL_SETTINGS = 'settings';
     protected const SUB_TAB_PRINT_VIEW = 'print_view';
-    
-    
+
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         $this->type = $this->getType();
@@ -24,11 +19,11 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("grp");
         $this->lng->loadLanguageModule('mem');
     }
-    
+
     abstract protected function getType() : string;
-    
+
     abstract protected function getParentObjType() : string;
-    
+
     abstract protected function getAdministrationFormId() : int;
 
     public function executeCommand()
@@ -45,21 +40,17 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive("perm_settings");
-                include_once "Services/AccessControl/classes/class.ilPermissionGUI.php";
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-            
+
             case 'ilmemberexportsettingsgui':
                 $this->setSubTabs('settings', self::SUB_TAB_PRINT_VIEW);
-                include_once './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php';
                 $settings_gui = new ilMemberExportSettingsGUI($this->getParentObjType());
                 $this->ctrl->forwardCommand($settings_gui);
                 break;
 
             case 'iluseractionadmingui':
-                include_once("./Services/User/Actions/classes/class.ilUserActionAdminGUI.php");
-                include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
                 $gui = new ilUserActionAdminGUI();
                 $gui->setActionContext(new ilGalleryUserActionContext());
                 $this->setSubTabs('settings', "actions");
@@ -95,12 +86,12 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
             );
         }
     }
-    
+
     public function editSettings(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->setSubTabs('settings', self::SUB_TAB_GENERAL_SETTINGS);
         $this->tabs_gui->setTabActive('settings');
-                
+
         if (!$a_form) {
             $a_form = $this->initFormSettings();
         }
@@ -122,7 +113,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                     'mail_' . $this->getParentObjType() . '_admin_notification',
                     (string) $form->getInput('mail_admin_notification')
                 );
-                
+
                 ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "editSettings");
             }
@@ -133,16 +124,14 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     protected function initFormSettings() : ilPropertyFormGUI
     {
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
         $form->setTitle($this->lng->txt("settings"));
-                
+
         $this->addFieldsToForm($form);
-                
+
         $this->lng->loadLanguageModule("mail");
 
-        
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             $this->getAdministrationFormId(),
             $form,
@@ -154,13 +143,15 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $form->addItem($sec);
 
         // member notification
-        $cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification'), 'mail_member_notification');
+        $cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification'),
+            'mail_member_notification');
         $cn->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification_info'));
         $cn->setChecked((bool) $this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', '1'));
         $form->addItem($cn);
 
         // default admin membership notification
-        $an = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification'), 'mail_admin_notification');
+        $an = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification'),
+            'mail_admin_notification');
         $an->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification_info'));
         $an->setChecked((bool) $this->settings->get('mail_' . $this->getParentObjType() . '_admin_notification', '1'));
         $form->addItem($an);
@@ -171,14 +162,14 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         }
         return $form;
     }
-    
+
     public function addToExternalSettingsForm(int $a_form_id) : array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_MAIL:
-                
+
                 $this->lng->loadLanguageModule("mail");
-                
+
                 $fields = array(
                     'mail_enable_' . $this->getParentObjType() . '_member_notification' => array(
                         $this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', '1'),
@@ -193,16 +184,16 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         }
         return [];
     }
-        
+
     protected function addFieldsToForm(ilPropertyFormGUI $a_form) : void
     {
     }
-            
+
     protected function save(ilPropertyFormGUI $a_form) : bool
     {
         return true;
     }
-    
+
     protected function setSubTabs(string $a_main_tab, string $a_active_tab) : void
     {
         if ($a_main_tab == 'settings') {

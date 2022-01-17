@@ -24,13 +24,10 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
 /**
-* Unit tests for tree table
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*
-* @ingroup ServicesTree
-*/
+ * Unit tests for tree table
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesTree
+ */
 class ilWaitingListTest extends TestCase
 {
     protected $backupGlobals = false;
@@ -46,11 +43,11 @@ class ilWaitingListTest extends TestCase
     public function testConstruction()
     {
         $obj_id = 0;
-        $some_waiting_list = new class($obj_id) extends ilWaitingList {};
+        $some_waiting_list = new class($obj_id) extends ilWaitingList {
+        };
         $instance = new $some_waiting_list($obj_id);
         $this->assertTrue($instance instanceof ilWaitingList);
     }
-
 
     protected function initDependencies() : void
     {

@@ -21,22 +21,18 @@
 */
 
 /**
-* Base class for course and group waiting lists
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ServicesMembership
-*/
-
+ * Base class for course and group waiting lists
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesMembership
+ */
 abstract class ilWaitingList
 {
     private ilDBInterface $db;
     private int $obj_id = 0;
     private array $user_ids = [];
     private $users = [];
-    
-    public static array $is_on_list = [];
 
+    public static array $is_on_list = [];
 
     public function __construct(int $a_obj_id)
     {
@@ -48,7 +44,7 @@ abstract class ilWaitingList
             $this->read();
         }
     }
-    
+
     public static function lookupListSize(int $a_obj_id) : int
     {
         global $DIC;
@@ -61,7 +57,7 @@ abstract class ilWaitingList
         }
         return 0;
     }
-    
+
     public static function _deleteAll(int $a_obj_id) : void
     {
         global $DIC;
@@ -71,7 +67,7 @@ abstract class ilWaitingList
         $query = "DELETE FROM crs_waiting_list WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     public static function _deleteUser(int $a_usr_id) : void
     {
         global $DIC;
@@ -80,7 +76,7 @@ abstract class ilWaitingList
         $query = "DELETE FROM crs_waiting_list WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
     }
-    
+
     public static function deleteUserEntry(int $a_usr_id, int $a_obj_id) : void
     {
         global $DIC;
@@ -91,7 +87,6 @@ abstract class ilWaitingList
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $ilDB->query($query);
     }
-    
 
     public function getObjId() : int
     {
@@ -136,7 +131,7 @@ abstract class ilWaitingList
     {
         return isset($this->users[$a_usr_id]);
     }
-    
+
     public static function _isOnList(int $a_usr_id, int $a_obj_id) : bool
     {
         global $DIC;
@@ -145,7 +140,7 @@ abstract class ilWaitingList
         if (isset(self::$is_on_list[$a_usr_id][$a_obj_id])) {
             return self::$is_on_list[$a_usr_id][$a_obj_id];
         }
-        
+
         $query = "SELECT usr_id " .
             "FROM crs_waiting_list " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
@@ -153,7 +148,7 @@ abstract class ilWaitingList
         $res = $ilDB->query($query);
         return (bool) $res->numRows();
     }
-    
+
     /**
      * Preload on list info. This is used, e.g. in the repository
      * to prevent multiple reads on the waiting list table.
@@ -180,13 +175,12 @@ abstract class ilWaitingList
             self::$is_on_list[$rec["usr_id"]][$rec["obj_id"]] = true;
         }
     }
-    
 
     public function getCountUsers() : int
     {
         return count($this->users);
     }
-    
+
     public function getPosition(int $a_usr_id) : int
     {
         return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id]['position'] : -1;
@@ -194,7 +188,6 @@ abstract class ilWaitingList
 
     /**
      * get all users on waiting list
-     *
      * @access public
      * @return array<int, array<{position: int, time: int, usr_id: int}>>
      */
@@ -202,7 +195,7 @@ abstract class ilWaitingList
     {
         return $this->users;
     }
-    
+
     /**
      * get user
      * @param int usr_id
@@ -221,7 +214,6 @@ abstract class ilWaitingList
         return $this->user_ids;
     }
 
-
     private function read() : void
     {
         $this->users = [];
@@ -235,7 +227,7 @@ abstract class ilWaitingList
             $this->users[$row->usr_id]['position'] = $counter;
             $this->users[$row->usr_id]['time'] = $row->sub_time;
             $this->users[$row->usr_id]['usr_id'] = $row->usr_id;
-            
+
             $this->user_ids[] = $row->usr_id;
         }
     }

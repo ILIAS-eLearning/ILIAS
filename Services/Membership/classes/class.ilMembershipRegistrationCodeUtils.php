@@ -1,18 +1,14 @@
 <?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Stores registration keys for key based registration on courses and groups
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesMembership
-*/
+ * Stores registration keys for key based registration on courses and groups
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesMembership
+ */
 class ilMembershipRegistrationCodeUtils
 {
     protected const CODE_LENGTH = 10;
-    
 
     public static function handleCode(int $a_ref_id, string $a_type, string $a_code) : void
     {
@@ -56,29 +52,27 @@ class ilMembershipRegistrationCodeUtils
             ilUtil::redirect(ilLink::_getLink($parent_id));
         }
     }
-    
-    
-    
+
     /**
      * Use a registration code and assign the logged in user
      * to the (parent) course/group that offer the code.
      * @param string $a_code
-     * @param int $a_endnode Reference id of node in tree
+     * @param int    $a_endnode Reference id of node in tree
      * @return void
-     *@todo: throw an error if registration fails (max members, availibility...)
+     * @todo: throw an error if registration fails (max members, availibility...)
      */
-    protected static function useCode(string $a_code, int $a_endnode): void
+    protected static function useCode(string $a_code, int $a_endnode) : void
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
-        
+
         $obj_ids = self::lookupObjectsByCode($a_code);
 
         if (!$obj_ids) {
-            include_once './Services/Membership/exceptions/class.ilMembershipRegistrationException.php';
-            throw new ilMembershipRegistrationException('Admission code is not valid', ilMembershipRegistrationException::ADMISSION_LINK_INVALID);
+            throw new ilMembershipRegistrationException('Admission code is not valid',
+                ilMembershipRegistrationException::ADMISSION_LINK_INVALID);
         }
 
         foreach ($tree->getPathId($a_endnode) as $ref_id) {
@@ -94,7 +88,7 @@ class ilMembershipRegistrationCodeUtils
             }
         }
     }
-    
+
     /**
      * Generate new registration key
      */
@@ -102,7 +96,7 @@ class ilMembershipRegistrationCodeUtils
     {
         // missing : 01iloO
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-        
+
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
@@ -110,7 +104,7 @@ class ilMembershipRegistrationCodeUtils
         }
         return $code;
     }
-    
+
     /**
      * Get all objects with enabled access codes
      * @param string $a_code

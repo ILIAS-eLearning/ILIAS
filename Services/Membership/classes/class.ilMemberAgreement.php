@@ -22,41 +22,39 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ModulesCourse
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ModulesCourse
+ */
 class ilMemberAgreement
 {
     private ilDBInterface $db;
     private int $user_id;
     private int $obj_id;
     private string $type;
-    
+
     private ilPrivacySettings $privacy;
-    
+
     private bool $accepted = false;
     private int $acceptance_time = 0;
-    
+
     public function __construct(int $a_usr_id, int $a_obj_id)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $this->db = $ilDB;
         $this->user_id = $a_usr_id;
         $this->obj_id = $a_obj_id;
         $this->type = ilObject::_lookupType($this->obj_id);
-        
+
         $this->privacy = ilPrivacySettings::getInstance();
-        
+
         if ($this->privacy->confirmationRequired($this->type) or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id)) {
             $this->read();
         }
     }
-    
+
     /**
      * Read user data by object id
      */
@@ -68,7 +66,7 @@ class ilMemberAgreement
 
         $query = "SELECT * FROM member_agreement " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer');
-            
+
         $res = $ilDB->query($query);
         $user_data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -77,7 +75,7 @@ class ilMemberAgreement
         }
         return $user_data;
     }
-    
+
     /**
      * Check if there is any user agreement
      */
@@ -89,11 +87,11 @@ class ilMemberAgreement
         $query = "SELECT * FROM member_agreement " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND accepted = 1";
-        
+
         $res = $ilDB->query($query);
         return (bool) $res->numRows();
     }
-    
+
     /**
      * Check if there is any user agreement
      */
@@ -104,7 +102,7 @@ class ilMemberAgreement
         $ilDB = $DIC->database();
         $query = "SELECT * FROM member_agreement " .
             "WHERE accepted = 1";
-        
+
         $res = $ilDB->query($query);
         return (bool) $res->numRows();
     }
@@ -117,7 +115,7 @@ class ilMemberAgreement
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT accepted FROM member_agreement " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
@@ -125,7 +123,7 @@ class ilMemberAgreement
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->accepted == 1;
     }
-    
+
     /**
      * Lookup users who have accepted the agreement
      * @param int $a_obj_id
@@ -139,7 +137,7 @@ class ilMemberAgreement
         $query = "SELECT usr_id FROM member_agreement " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . ' ' .
             "AND accepted = 1 ";
-            
+
         $res = $ilDB->query($query);
         $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
@@ -147,24 +145,21 @@ class ilMemberAgreement
         }
         return $user_ids;
     }
-    
-    
-    
+
     /**
      * Delete all entries by user
-     *
      */
     public static function _deleteByUser(int $a_usr_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "DELETE FROM member_agreement " .
             "WHERE usr_id =" . $ilDB->quote($a_usr_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * Delete all entries by obj_id
      */
@@ -177,7 +172,7 @@ class ilMemberAgreement
             "WHERE obj_id =" . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * Reset all. Set all aggrement to 0.
      * This is called after global settings have been modified.
@@ -187,11 +182,11 @@ class ilMemberAgreement
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "UPDATE member_agreement SET accepted = 0 ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * Reset all agreements for a specific container
      */
@@ -200,12 +195,13 @@ class ilMemberAgreement
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "UPDATE member_agreement " .
             "SET accepted = 0 " .
             "WHERE obj_id = " . $ilDB->quote($a_container_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
+
     /**
      * set accepted
      */
@@ -213,7 +209,7 @@ class ilMemberAgreement
     {
         $this->accepted = $a_status;
     }
-    
+
     /**
      * set acceptance time
      */
@@ -221,6 +217,7 @@ class ilMemberAgreement
     {
         $this->acceptance_time = $a_timest;
     }
+
     /**
      * Checks whether the agreement is accepted
      * This function return always true if no acceptance is required by global setting
@@ -235,17 +232,17 @@ class ilMemberAgreement
         }
         return !$this->accepted;
     }
-    
+
     public function isAccepted() : bool
     {
         return $this->accepted;
     }
-    
+
     public function getAcceptanceTime() : int
     {
         return $this->acceptance_time;
     }
-    
+
     /**
      * save acceptance settings
      */
@@ -261,7 +258,7 @@ class ilMemberAgreement
             ")";
         $this->db->manipulate($query);
     }
-    
+
     /**
      * Delete entry
      */
@@ -272,7 +269,7 @@ class ilMemberAgreement
             "AND obj_id = " . $this->db->quote($this->obj_id, 'integer');
         $res = $this->db->manipulate($query);
     }
-    
+
     /**
      * Read user entries
      */
@@ -281,7 +278,7 @@ class ilMemberAgreement
         $query = "SELECT * FROM member_agreement " .
             "WHERE usr_id = " . $this->db->quote($this->user_id, 'integer') . " " .
             "AND obj_id = " . $this->db->quote($this->obj_id, 'integer') . " ";
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->accepted = (bool) $row->accepted;
