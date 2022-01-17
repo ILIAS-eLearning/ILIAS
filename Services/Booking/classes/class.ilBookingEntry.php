@@ -471,8 +471,8 @@ class ilBookingEntry
     
     /**
      * Check if object has assigned consultation hour appointments
-     * @param type $a_obj_id
-     * @param type $a_usr_id
+     * @param int $a_obj_id
+     * @param int $a_usr_id
      */
     public static function hasObjectBookingEntries($a_obj_id, $a_usr_id)
     {

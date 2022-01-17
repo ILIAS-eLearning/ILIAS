@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,6 +11,21 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilMembershipCronNotifications extends ilCronJob
 {
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilLogger $logger;
+    protected ilTree $tree;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->mmbr();
+        $this->tree = $DIC->repositoryTree();
+    }
+
     /**
      * @var ilMembershipCronNotificationsData
      */
@@ -23,20 +38,12 @@ class ilMembershipCronNotifications extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("enable_course_group_notifications");
+        return $this->lng->txt("enable_course_group_notifications");
     }
     
     public function getDescription() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("enable_course_group_notifications_desc");
+        return $this->lng->txt("enable_course_group_notifications_desc");
     }
     
     public function getDefaultScheduleType() : int
@@ -61,13 +68,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
     public function run() : ilCronJobResult
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-
-        $log = $DIC->logger()->mmbr();
-        $log->debug("===Member Notifications=== start");
+        $this->logger->debug("===Member Notifications=== start");
         
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $status_details = null;
@@ -89,29 +90,26 @@ class ilMembershipCronNotifications extends ilCronJob
         }
         //$last_run = date("Y-m-d H:i:s", strtotime("yesterday"));
 
-        $log->debug("Last run: " . $last_run);
+        $this->logger->debug("Last run: " . $last_run);
 
         include_once("./Services/Membership/classes/class.ilMembershipCronNotificationsData.php");
         $this->data = new ilMembershipCronNotificationsData($last_run, $this->getId());
 
-        $log->debug("prepare sending mails");
+        $this->logger->debug("prepare sending mails");
 
         // send mails (1 max for each user)
 
-        $old_lng = $lng;
+        $old_lng = $this->lng;
         $old_dt = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
         $user_news_aggr = $this->data->getAggregatedNews();
         if (sizeof($user_news_aggr)) {
             foreach ($user_news_aggr as $user_id => $user_news) {
-                $log->debug("sending mails to user " . $user_id . ", nr news: " . count($user_news));
-
+                $this->logger->debug("sending mails to user " . $user_id . ", nr news: " . count($user_news));
                 $this->sendMail($user_id, $user_news, $last_run);
-
                 ilCronManager::ping($this->getId());
             }
-
             // mails were sent - set cron job status accordingly
             $status = ilCronJobResult::STATUS_OK;
         }
@@ -119,47 +117,41 @@ class ilMembershipCronNotifications extends ilCronJob
         ilDatePresentation::setUseRelativeDates($old_dt);
         $lng = $old_lng;
 
-        $log->debug("save run");
+        $this->logger->debug("save run");
 
         // save last run
         $setting->set(get_class($this), date("Y-m-d H:i:s"));
-
         $result = new ilCronJobResult();
         $result->setStatus($status);
-        
         if ($status_details) {
             $result->setMessage($status_details);
         }
-
-        $log->debug("===Member Notifications=== done");
-
+        $this->logger->debug("===Member Notifications=== done");
         return $result;
     }
 
     /**
      * Convert news item to summary html
-     *
-     * @param int $a_parent_ref_id
-     * @param array $a_filter_map
-     * @param array $a_item
-     * @param bool $a_is_sub
-     * @return string
      */
-    protected function parseNewsItem($a_parent_ref_id, array &$a_filter_map, array $a_item, $a_is_sub = false, $a_user_id = 0)
+    protected function parseNewsItem(
+        int $a_parent_ref_id,
+        array &$a_filter_map,
+        array $a_item,
+        $a_is_sub = false,
+        int $a_user_id = 0
+    ) : string
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
         $obj_definiton = $DIC["objDefinition"];
 
-        $lng->loadLanguageModule("news");
-        
+        $this->lng->loadLanguageModule("news");
         $wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
                 $a_parent_ref_id != $a_filter_map[$a_item["id"]]);
         
         // #18223
         if ($wrong_parent) {
-            return;
+            return '';
         }
         
         $item_obj_title = trim(ilObject::_lookupTitle($a_item["context_obj_id"]));
@@ -215,7 +207,7 @@ class ilMembershipCronNotifications extends ilCronJob
         switch ($item_obj_type) {
             case "frm":
                 if (!$a_is_sub) {
-                    $res = $lng->txt("obj_" . $item_obj_type) .
+                    $res = $this->lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '": ' . $title;
                 } else {
                     $res .= '"' . $title . '": "' . $content . '"';
@@ -225,7 +217,7 @@ class ilMembershipCronNotifications extends ilCronJob
             case "file":
                 if (!is_array($a_item["aggregation"]) ||
                     sizeof($a_item["aggregation"]) == 1) {
-                    $res = $lng->txt("obj_" . $item_obj_type) .
+                    $res = $this->lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '" - ' . $title;
                 } else {
                     // if files were removed from aggregation update summary count
@@ -241,7 +233,7 @@ class ilMembershipCronNotifications extends ilCronJob
             default:
                 $type_txt = ($obj_definiton->isPlugin($item_obj_type))
                     ? ilObjectPlugin::lookupTxtById($item_obj_type, "obj_" . $item_obj_type)
-                    : $lng->txt("obj_" . $item_obj_type);
+                    : $this->lng->txt("obj_" . $item_obj_type);
                 $res = $type_txt .
                     ' "' . $item_obj_title . '"';
                 if ($title) {
@@ -256,7 +248,7 @@ class ilMembershipCronNotifications extends ilCronJob
         // comments
         $comments = $this->data->getComments($a_item["id"], $a_user_id);
         if (count($comments) > 0) {
-            $res .= "\n" . $lng->txt("news_new_comments") . " (" . count($comments) . ")";
+            $res .= "\n" . $this->lng->txt("news_new_comments") . " (" . count($comments) . ")";
         }
         foreach ($comments as $c) {
             $res .= "\n* " .
@@ -271,7 +263,7 @@ class ilMembershipCronNotifications extends ilCronJob
         include_once("./Services/Like/classes/class.ilLikeGUI.php");
         $likes = $this->data->getLikes($a_item["id"], $a_user_id);
         if (count($likes) > 0) {
-            $res .= "\n" . $lng->txt("news_new_reactions") . " (" . count($likes) . ")";
+            $res .= "\n" . $this->lng->txt("news_new_reactions") . " (" . count($likes) . ")";
         }
         foreach ($likes as $l) {
             $res .= "\n* " .
@@ -297,17 +289,10 @@ class ilMembershipCronNotifications extends ilCronJob
     }
 
     /**
-     * Filter duplicate news items from structure
-     *
-     * @param array $a_objects
-     * @return array
+     * Filter duplicate news items from structure*
      */
-    protected function filterDuplicateItems(array $a_objects)
+    protected function filterDuplicateItems(array $a_objects) : array
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        
         $parent_map = $news_map = $parsed_map = array();
         
         // gather news ref ids and news parent ref ids
@@ -327,7 +312,7 @@ class ilMembershipCronNotifications extends ilCronJob
         // if news has multiple parents find "lowest" parent in path
         foreach ($parent_map as $news_id => $parents) {
             if (sizeof($parents) > 1 && $news_map[$news_id] > 0) {
-                $path = $tree->getPathId($news_map[$news_id]);
+                $path = $this->tree->getPathId($news_map[$news_id]);
                 $lookup = array_flip($path);
                 
                 $level = 0;
@@ -344,21 +329,12 @@ class ilMembershipCronNotifications extends ilCronJob
 
     /**
      * Send news mail for 1 user and n objects
-     *
-     * @param int $a_user_id
-     * @param array $a_objects
-     * @param string $a_last_run
      */
-    protected function sendMail($a_user_id, array $a_objects, $a_last_run)
+    protected function sendMail(int $a_user_id, array $a_objects, string $a_last_run) : void
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
-        $tree = $DIC['tree'];
-        
-        $log = ilLoggerFactory::getLogger("mmbr");
 
         include_once "./Services/Notification/classes/class.ilSystemNotification.php";
         $ntf = new ilSystemNotification();
@@ -370,11 +346,6 @@ class ilMembershipCronNotifications extends ilCronJob
         
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
-        
-        include_once './Services/Locator/classes/class.ilLocatorGUI.php';
-        require_once "./Services/UICore/classes/class.ilTemplate.php";
-        require_once "./Services/Link/classes/class.ilLink.php";
-            
         $filter_map = $this->filterDuplicateItems($a_objects);
         
         $tmp = array();
@@ -384,7 +355,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
             // path
             $path = array();
-            foreach ($tree->getPathId($parent_ref_id) as $node) {
+            foreach ($this->tree->getPathId($parent_ref_id) as $node) {
                 $path[] = $node;
             }
             $path = implode("-", $path);
@@ -395,7 +366,7 @@ class ilMembershipCronNotifications extends ilCronJob
             $parent["title"] = $lng->txt("obj_" . $parent_type) . ' "' . ilObject::_lookupTitle($parent_obj_id) . '"';
             $parent["url"] = "  " . $lng->txt("crs_course_group_notification_link") . " " . ilLink::_getStaticLink($parent_ref_id);
 
-            $log->debug("ref id: " . $parent_ref_id . ", items: " . count($items));
+            $this->logger->debug("ref id: " . $parent_ref_id . ", items: " . count($items));
 
             // news summary
             $parsed = array();
@@ -418,7 +389,7 @@ class ilMembershipCronNotifications extends ilCronJob
         
         // any objects?
         if (!sizeof($tmp)) {
-            $log->debug("returning");
+            $this->logger->debug("returning");
             return;
         }
         
@@ -463,14 +434,14 @@ class ilMembershipCronNotifications extends ilCronJob
         $subject = sprintf($lng->txt("crs_subject_course_group_notification"), $client);
 
         $mail_content = $ntf->composeAndGetMessage($a_user_id, null, "read", true);
-        $log->debug("sending mail content: " . $mail_content);
+        $this->logger->debug("sending mail content: " . $mail_content);
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $mail->enqueue(
             ilObjUser::_lookupLogin($a_user_id),
-            null,
-            null,
+            (string) null,
+            (string) null,
             $subject,
             $mail_content,
             []
@@ -479,16 +450,12 @@ class ilMembershipCronNotifications extends ilCronJob
     
     public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
                 $a_fields["enable_course_group_notifications"] = $a_is_active ?
-                    $lng->txt("enabled") :
-                    $lng->txt("disabled");
+                    $this->lng->txt("enabled") :
+                    $this->lng->txt("disabled");
                 break;
         }
     }
@@ -500,6 +467,6 @@ class ilMembershipCronNotifications extends ilCronJob
         $ilSetting = $DIC['ilSetting'];
                 
         // propagate cron-job setting to object setting
-        $ilSetting->set("crsgrp_ntf", (bool) $a_currently_active);
+        $ilSetting->set("crsgrp_ntf", $a_currently_active);
     }
 }

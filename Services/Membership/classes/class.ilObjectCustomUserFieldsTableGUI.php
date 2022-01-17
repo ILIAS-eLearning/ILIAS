@@ -1,38 +1,25 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+<?php declare(strict_types=1);/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @classDescription Table presentation of course/group relevant user data fields
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @Id: $Id$
  */
 class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
 {
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         
         $this->setTitle(
             $this->lng->txt(ilObject::_lookupType($this->getParentObject()->getObjId()) . '_custom_user_fields')
         );
         
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', (string) 1);
         $this->addColumn($this->lng->txt('ps_cdf_name'), 'name', '30%');
         $this->addColumn($this->lng->txt('ps_cdf_type'), 'type', '30%');
         $this->addColumn($this->lng->txt('ps_cdf_required'), '', '20%');
@@ -55,11 +42,9 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
     }
     
     /**
-     * Fill row
-     * @param array $a_set
-     * @return void
+     * @inheritDoc
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['field_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['name']);
@@ -70,18 +55,16 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this->getParentObject(), 'editField'));
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
     }
-    
+
     /**
-     * Parse table data
-     * @param object ilCourseDefinedFieldDefinition
-     * @return
+     * @param ilCourseDefinedFieldDefinition[] $a_defs
      */
-    public function parse($a_defs)
+    public function parse(array $a_defs) : void
     {
-        $rows = array();
+        $rows = [];
         foreach ($a_defs as $def) {
-            $rows[$def->getId()]['field_id'] = $def->getId();
-            $rows[$def->getId()]['name'] = $def->getName();
+            $rows[$def->getId()]['field_id'] = (int) $def->getId();
+            $rows[$def->getId()]['name'] = (string) $def->getName();
             
             switch ($def->getType()) {
                 case IL_CDF_TYPE_SELECT:
@@ -93,10 +76,10 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
                     break;
             }
             
-            $rows[$def->getId()]['required'] = (bool) $def->isRequired();
+            $rows[$def->getId()]['required'] = $def->isRequired();
         }
         $this->setData($rows);
-        if (!sizeof($rows)) {
+        if (!count($rows)) {
             $this->clearCommandButtons();
         }
     }

@@ -64,7 +64,7 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
         $ilDB = $this->db;
 
 
-        $groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), array("grp", "crs"));
+        $groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), ["grp", "crs"]);
         $this->log->debug("user: " . $this->getUserId() . ", courses and groups: " . implode(",", $groups_and_courses_of_user));
 
         $set = $ilDB->query(

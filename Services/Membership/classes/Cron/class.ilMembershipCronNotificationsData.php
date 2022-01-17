@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,50 +10,38 @@
  */
 class ilMembershipCronNotificationsData
 {
-    protected $last_run;
-
-    protected $cron_id;
-
-    protected $log;
-
-    protected $objects;
-
-    /**
-     * @var array[]
-     */
-    protected $news = array();
+    protected string $last_run;
+    protected string $cron_id;
+    protected ilLogger $log;
+    protected array $objects;
+    protected array $news = array();
 
     /**
      * @var int[]
      */
-    protected $news_per_user;
+    protected array $news_per_user;
 
     /**
      * news array (may include aggregated news which contains news as subitems)
      * @var array[]
      */
-    protected $user_news_aggr = array();
+    protected array $user_news_aggr = array();
 
     /**
      * @var array[]
      */
-    protected $likes = array();
+    protected array $likes = array();
 
     /**
      * @var array
      */
-    protected $comments = array();
+    protected array $comments = array();
+    protected array $missing_news_per_user = array();
+    protected array $missing_news = array();
 
-    protected $missing_news_per_user = array();
+    protected ilAccessHandler $access;
 
-    protected $missing_news = array();
-
-    /**
-     *
-     *
-     * @param
-     */
-    public function __construct($last_run, $cron_id)
+    public function __construct(string $last_run, string $cron_id)
     {
         global $DIC;
 
@@ -68,7 +56,7 @@ class ilMembershipCronNotificationsData
     /**
      * Load
      */
-    protected function load()
+    protected function load() : void
     {
         $ilAccess = $this->access;
 
@@ -93,7 +81,7 @@ class ilMembershipCronNotificationsData
                 if (
                     isset($objs["obj_id"]) &&
                     is_array($objs["obj_id"]) &&
-                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run)
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], (int) $this->last_run)
                 ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
@@ -214,13 +202,9 @@ class ilMembershipCronNotificationsData
     }
     
     /**
-     * Get missing news
-     *
-     * @param int $user_id
-     * @param int $ref_id
-     * @param int $news_id
+     * Get missing news*
      */
-    protected function checkMissingNews($user_id, $ref_id, $news_id)
+    protected function checkMissingNews(int $user_id, int $ref_id, int $news_id) : void
     {
         $this->log->debug("Check missing news: " . $user_id . "-" . $ref_id . "-" . $news_id);
         if (!is_array($this->news_per_user[$user_id][$ref_id]) ||
@@ -234,7 +218,7 @@ class ilMembershipCronNotificationsData
     /**
      * Load missing news (news for new likes and/or comments)
      */
-    protected function loadMissingNews()
+    protected function loadMissingNews() : void
     {
         include_once("./Services/News/classes/class.ilNewsItem.php");
         foreach (ilNewsItem::queryNewsByIds($this->missing_news) as $news) {
@@ -256,11 +240,8 @@ class ilMembershipCronNotificationsData
 
     /**
      * Get subtree object IDs for ref id
-     *
-     * @param int
-     * @return array
      */
-    protected function getObjectsForRefId($a_ref_id)
+    protected function getObjectsForRefId(int $a_ref_id) : array
     {
         global $DIC;
 
@@ -291,7 +272,7 @@ class ilMembershipCronNotificationsData
     /**
      * Ping
      */
-    protected function ping()
+    protected function ping() : void
     {
         ilCronManager::ping($this->cron_id);
     }
@@ -299,21 +280,16 @@ class ilMembershipCronNotificationsData
 
     /**
      * Get aggregated news
-     * @return array[]
      */
-    public function getAggregatedNews()
+    public function getAggregatedNews() : array
     {
         return $this->user_news_aggr;
     }
     
     /**
      * Get likes for a news and user
-     *
-     * @param int $news_id
-     * @param int $user_id
-     * @return array
      */
-    public function getLikes($news_id, $user_id)
+    public function getLikes(int $news_id, int $user_id) : array
     {
         if (is_array($this->likes[$user_id][$news_id])) {
             return $this->likes[$user_id][$news_id];
@@ -323,12 +299,8 @@ class ilMembershipCronNotificationsData
 
     /**
      * Get comments for a news and user
-     *
-     * @param int $news_id
-     * @param int $user_id
-     * @return array[ilNote]
-     */
-    public function getComments($news_id, $user_id)
+     **/
+    public function getComments(int $news_id, int $user_id) : array
     {
         if (is_array($this->comments[$user_id][$news_id])) {
             return $this->comments[$user_id][$news_id];

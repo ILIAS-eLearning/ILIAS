@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php" ;
@@ -8,14 +8,12 @@ include_once "./Services/Administration/classes/class.ilAdministrationSettingsFo
  * Membership Administration Settings
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
  * @ingroup ServicesMembership
  */
 abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 {
-    const SUB_TAB_GENERAL_SETTINGS = 'settings';
-    const SUB_TAB_PRINT_VIEW = 'print_view';
+    protected const SUB_TAB_GENERAL_SETTINGS = 'settings';
+    protected const SUB_TAB_PRINT_VIEW = 'print_view';
     
     
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -27,22 +25,21 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('mem');
     }
     
-    abstract protected function getType();
+    abstract protected function getType() : string;
     
-    abstract protected function getParentObjType();
+    abstract protected function getParentObjType() : string;
     
-    abstract protected function getAdministrationFormId();
+    abstract protected function getAdministrationFormId() : int;
 
     public function executeCommand()
     {
-        global $DIC;
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$DIC->rbac()->system()->checkAccess("visible,read", $this->object->getRefId())) {
-            $DIC['ilErr']->raiseError($this->lng->txt("no_permission"), $DIC['ilErr']->WARNING);
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
         }
 
         switch ($next_class) {
@@ -81,11 +78,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -93,7 +86,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess("edit_permission", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("edit_permission", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"),
@@ -103,7 +96,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         }
     }
     
-    public function editSettings(ilPropertyFormGUI $a_form = null)
+    public function editSettings(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->setSubTabs('settings', self::SUB_TAB_GENERAL_SETTINGS);
         $this->tabs_gui->setTabActive('settings');
@@ -112,46 +105,34 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
-        return true;
     }
 
-    public function saveSettings()
+    public function saveSettings() : void
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         $this->checkPermission("write");
-        
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             if ($this->save($form)) {
-                $ilSetting->set(
+                $this->settings->set(
                     'mail_' . $this->getParentObjType() . '_member_notification',
-                    (int) $form->getInput('mail_member_notification')
+                    (string) $form->getInput('mail_member_notification')
                 );
 
-                $ilSetting->set(
+                $this->settings->set(
                     'mail_' . $this->getParentObjType() . '_admin_notification',
-                    (int) $form->getInput('mail_admin_notification')
+                    (string) $form->getInput('mail_admin_notification')
                 );
                 
                 ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "editSettings");
             }
         }
-        
         $form->setValuesByPost();
         $this->editSettings($form);
     }
 
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        $ilAccess = $DIC['ilAccess'];
-        
         include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
@@ -175,78 +156,74 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         // member notification
         $cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification'), 'mail_member_notification');
         $cn->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification_info'));
-        $cn->setChecked($ilSetting->get('mail_' . $this->getParentObjType() . '_member_notification', true));
+        $cn->setChecked((bool) $this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', '1'));
         $form->addItem($cn);
 
         // default admin membership notification
         $an = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification'), 'mail_admin_notification');
         $an->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification_info'));
-        $an->setChecked($ilSetting->get('mail_' . $this->getParentObjType() . '_admin_notification', true));
+        $an->setChecked((bool) $this->settings->get('mail_' . $this->getParentObjType() . '_admin_notification', '1'));
         $form->addItem($an);
 
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));
         }
-
         return $form;
     }
     
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(int $a_form_id) : array
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_MAIL:
                 
                 $this->lng->loadLanguageModule("mail");
                 
                 $fields = array(
-                    'mail_enable_' . $this->getParentObjType() . '_member_notification' => array($ilSetting->get('mail_' . $this->getParentObjType() . '_member_notification', true), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'mail_enable_' . $this->getParentObjType() . '_admin_notification' => array($ilSetting->get('mail_' . $this->getParentObjType() . '_admin_notification', true), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'mail_enable_' . $this->getParentObjType() . '_member_notification' => array(
+                        $this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', '1'),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ),
+                    'mail_enable_' . $this->getParentObjType() . '_admin_notification' => array(
+                        $this->settings->get('mail_' . $this->getParentObjType() . '_admin_notification', '1'),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    )
                 );
-
                 return array(array("editSettings", $fields));
         }
+        return [];
     }
         
-    protected function addFieldsToForm(ilPropertyFormGUI $a_form)
+    protected function addFieldsToForm(ilPropertyFormGUI $a_form) : void
     {
     }
             
-    protected function save(ilPropertyFormGUI $a_form)
+    protected function save(ilPropertyFormGUI $a_form) : bool
     {
         return true;
     }
     
-    /**
-     * Set sub tabs
-     * @param string $main_tab
-     * @param type $a_active_tab
-     */
-    protected function setSubTabs($a_main_tab, $a_active_tab)
+    protected function setSubTabs(string $a_main_tab, string $a_active_tab) : void
     {
         if ($a_main_tab == 'settings') {
-            $GLOBALS['DIC']['ilTabs']->addSubTab(
+            $this->tabs_gui->addSubTab(
                 self::SUB_TAB_GENERAL_SETTINGS,
-                $GLOBALS['DIC']['lng']->txt('mem_settings_tab_' . self::SUB_TAB_GENERAL_SETTINGS),
-                $GLOBALS['DIC']['ilCtrl']->getLinkTarget($this, 'editSettings')
+                $this->lng->txt('mem_settings_tab_' . self::SUB_TAB_GENERAL_SETTINGS),
+                $this->ctrl->getLinkTarget($this, 'editSettings')
             );
-            $GLOBALS['DIC']['ilTabs']->addSubTab(
+            $this->tabs_gui->addSubTab(
                 self::SUB_TAB_PRINT_VIEW,
-                $GLOBALS['DIC']['lng']->txt('mem_settings_tab_' . self::SUB_TAB_PRINT_VIEW),
-                $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass('ilMemberExportSettingsGUI', 'printViewSettings')
+                $this->lng->txt('mem_settings_tab_' . self::SUB_TAB_PRINT_VIEW),
+                $this->ctrl->getLinkTargetByClass('ilMemberExportSettingsGUI', 'printViewSettings')
             );
-            $GLOBALS['DIC']['ilTabs']->addSubTab(
+            $this->tabs_gui->addSubTab(
                 "actions",
-                $GLOBALS['DIC']['lng']->txt("mmbr_gallery_user_actions"),
-                $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass("iluseractionadmingui")
+                $this->lng->txt("mmbr_gallery_user_actions"),
+                $this->ctrl->getLinkTargetByClass("iluseractionadmingui")
             );
 
-            $GLOBALS['DIC']['ilTabs']->activateTab($a_main_tab);
-            $GLOBALS['DIC']['ilTabs']->activateSubTab($a_active_tab);
+            $this->tabs_gui->activateTab($a_main_tab);
+            $this->tabs_gui->activateSubTab($a_active_tab);
         }
     }
 }

@@ -1,5 +1,4 @@
-<?php
-/*
+<?php declare(strict_types=1);/*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
         +-----------------------------------------------------------------------------+
@@ -21,14 +20,10 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
-
 /**
 * GUI class for course/group subscriptions
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesMembership
 */
@@ -36,42 +31,27 @@ class ilSubscriberTableGUI extends ilTable2GUI
 {
     protected $subscribers = array();
     
-    /**
-     * @var ilObject
-     */
-    protected $rep_object = null;
+    protected ilObject $rep_object;
 
-    protected static $all_columns = null;
-    protected static $has_odf_definitions = false;
-    protected $show_subject = true;
+    protected static ?array $all_columns = null;
+    protected static bool $has_odf_definitions = false;
+    protected bool $show_subject = true;
     
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $rep_object, $show_content = true, $show_subject = true)
+    public function __construct(
+        object $a_parent_obj,
+        ilObject $rep_object,
+        bool $show_content = true,
+        bool $show_subject = true
+    )
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('grp');
-        $this->lng->loadLanguageModule('crs');
-        $this->ctrl = $ilCtrl;
-        
         $this->rep_object = $rep_object;
-
-        $this->setShowSubject($show_subject);
-        
         $this->setId('crs_sub_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
 
+        $this->lng->loadLanguageModule('grp');
+        $this->lng->loadLanguageModule('crs');
+        $this->setShowSubject($show_subject);
         $this->setFormName('subscribers');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'participants'));
 
@@ -86,7 +66,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
                 array_key_exists('width', $all_cols[$col]) ? $all_cols[$col]['width'] : null
             );
         }
-        
 
         if ($this->getShowSubject()) {
             $this->addColumn($this->lng->txt('application_date'), 'sub_time', "20%");
@@ -94,15 +73,12 @@ class ilSubscriberTableGUI extends ilTable2GUI
         } else {
             $this->addColumn($this->lng->txt('application_date'), 'sub_time', "60%");
         }
-
         $this->addColumn('', 'mail', '20%');
-
         if ($this->getRepositoryObject()->getType() == "sess") {
             $this->addMultiCommand('confirmAssignSubscribers', $this->lng->txt('sess_accept_request'));
         } else {
             $this->addMultiCommand('confirmAssignSubscribers', $this->lng->txt('assign'));
         }
-
         $this->addMultiCommand('confirmRefuseSubscribers', $this->lng->txt('refuse'));
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('crs_mem_send_mail'));
 
@@ -110,7 +86,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('user');
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
         // end-patch clipboard
-
 
         $this->setPrefix('subscribers');
         $this->setSelectAllCheckbox('subscribers', true);
@@ -130,23 +105,14 @@ class ilSubscriberTableGUI extends ilTable2GUI
         }
 
         $this->setExternalSegmentation(true);
-        
-        include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-        self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
+        self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
     
-    /**
-     * @return ilObject
-     */
-    protected function getRepositoryObject()
+    protected function getRepositoryObject() : ilObject
     {
         return $this->rep_object;
     }
     
-    /**
-     * Get selectable columns
-     * @return array
-     */
     public function getSelectableColumns() : array
     {
         if (self::$all_columns) {
@@ -161,8 +127,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
             ];
             return self::$all_columns;
         }
-
-
         include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
         $ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
         self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
@@ -178,19 +142,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
-                
         include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
         if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) and
             ($ids = ilObjCourseGrouping::getAssignedObjects())) {
@@ -203,7 +156,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
                 )
             );
         }
-
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
         
@@ -230,7 +182,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
                     include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -244,11 +197,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
         
         
         $this->tpl->setVariable('VAL_SUBTIME', ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX)));
-        
-        
         $this->showActionLinks($a_set);
-        
-        
         if ($this->getShowSubject()) {
             if (strlen($a_set['subject'])) {
                 $this->tpl->setCurrentBlock('subject');
@@ -262,16 +211,15 @@ class ilSubscriberTableGUI extends ilTable2GUI
     
     /**
      * Show action links (mail ; edit crs|grp data)
-     * @param type $a_set
      */
-    public function showActionLinks($a_set)
+    public function showActionLinks(array $a_set) : void
     {
         if (!self::$has_odf_definitions) {
             $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
             $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
             $this->tpl->setVariable('MAIL_LINK', $link);
             $this->tpl->setVariable('MAIL_TITLE', $this->lng->txt('crs_mem_send_mail'));
-            return true;
+            return;
         }
         
         // show action menu
@@ -303,10 +251,10 @@ class ilSubscriberTableGUI extends ilTable2GUI
      * @param int[] subscriber ids
      * @return
      */
-    public function readSubscriberData(array $a_subscriber_ids)
+    public function readSubscriberData(array $a_subscriber_ids) : void
     {
         $subscriber_data = ilParticipants::lookupSubscribersData($this->getRepositoryObject()->getId());
-        $sub_ids = [];
+        $sub_ids = $sub_data = [];
         foreach ($a_subscriber_ids as $usr_id) {
             $sub_ids[] = $usr_id;
             $sub_data[$usr_id] = $subscriber_data[$usr_id];
@@ -353,7 +301,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
             $usr_data_fields,
             $sub_ids
         );
-        
+
+        $usr_ids = [];
         foreach ((array) $usr_data['set'] as $user) {
             $usr_ids[] = $user['usr_id'];
         }
@@ -426,7 +375,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
             }
             // DONE: accepted
             foreach ($usr_data_fields as $field) {
-                $a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
+                $a_user_data[$user['usr_id']][$field] = $user[$field] ?: '';
             }
         }
         
@@ -440,20 +389,20 @@ class ilSubscriberTableGUI extends ilTable2GUI
         }
         
         $this->setMaxCount(count($sub_ids));
-        return $this->setData($a_user_data);
+        $this->setData($a_user_data);
     }
     
-    protected function checkAcceptance()
+    protected function checkAcceptance(int $a_usr_id) : bool
     {
         return true;
     }
 
-    public function setShowSubject($a_value)
+    public function setShowSubject(bool $a_value) : void
     {
-        $this->show_subject = (bool) $a_value;
+        $this->show_subject = $a_value;
     }
 
-    public function getShowSubject()
+    public function getShowSubject() : bool
     {
         return $this->show_subject;
     }

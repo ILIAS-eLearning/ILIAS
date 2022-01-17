@@ -344,6 +344,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         if ($udf_ids) {
             $data = ilUserDefinedData::lookupData($filtered_user_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
+                $usr_id = (int) $usr_id;
                 if (!$this->checkAcceptance($usr_id)) {
                     continue;
                 }
@@ -357,10 +358,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         if ($odf_ids) {
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
+                $usr_id = (int) $usr_id;
                 if (!$this->checkAcceptance($usr_id)) {
                     continue;
                 }
-                
                 foreach ($fields as $field_id => $value) {
                     if ($a_user_data[$usr_id]) {
                         $a_user_data[$usr_id]['odf_' . $field_id] = $value;

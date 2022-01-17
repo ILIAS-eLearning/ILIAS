@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,16 +20,6 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-include_once('Services/Membership/classes/class.ilMemberAgreement.php');
-include_once('Modules/Course/classes/class.ilCourseParticipants.php');
-include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-include_once('Services/User/classes/class.ilUserDefinedData.php');
-include_once('Services/User/classes/class.ilUserFormSettings.php');
-
-define("IL_MEMBER_EXPORT_CSV_FIELD_SEPERATOR", ',');
-define("IL_MEMBER_EXPORT_CSV_STRING_DELIMITER", '"');
-
 
 /**
 * Class for generation of member export files
@@ -41,48 +31,47 @@ define("IL_MEMBER_EXPORT_CSV_STRING_DELIMITER", '"');
 */
 class ilMemberExport
 {
-    const EXPORT_CSV = 1;
-    const EXPORT_EXCEL = 2;
+    public const EXPORT_CSV = 1;
+    public const EXPORT_EXCEL = 2;
     
     
-    private $ref_id;
-    private $obj_id;
-    private $type;
-    private $members;
-    private $groups = array();
-    private $groups_participants = array();
-    private $groups_rights = array();
-    
-    private $lng;
-    
-    private $settings;
-    
-    private $export_type = null;
-    private $filename = null;
-    
-    private $user_ids = array();
-    private $user_course_data = array();
-    private $user_course_fields = array();
-    private $user_profile_data = array();
-    private $privacy;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
-    public function __construct($a_ref_id, $a_type = self::EXPORT_CSV)
+    private int $ref_id;
+    private int $obj_id;
+    private string $type;
+    private int $export_type;
+    private ilParticipants $members;
+    private array $groups = [];
+    private array $groups_participants = [];
+    private array $groups_rights = [];
+    private ?string $filename = null;
+
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
+    protected array $agreement = [];
+
+    protected ilUserFormSettings $settings;
+    protected ilPrivacySettings $privacy;
+    protected ?ilCSVWriter $csv;
+    protected ?ilExcel $worksheet;
+
+    private array $user_ids = array();
+    private array $user_course_data = array();
+    private array $user_course_fields = array();
+    private array $user_profile_data = array();
+
+    public function __construct(int $a_ref_id, int $a_type = self::EXPORT_CSV)
     {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        $lng = $DIC['lng'];
-        
-        $this->lng = $lng;
+
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
+        $this->access = $DIC->access();
+
         
         $this->export_type = $a_type;
-        
         $this->ref_id = $a_ref_id;
         $this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
@@ -94,11 +83,14 @@ class ilMemberExport
         $this->settings = new ilUserFormSettings('memexp');
         $this->privacy = ilPrivacySettings::getInstance();
     }
-    
-    
-    public function filterUsers($a_usr_ids)
+
+    /**
+     * @param int[] $a_usr_ids
+     * @return int[]
+     */
+    public function filterUsers(array $a_usr_ids) : array
     {
-        return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+        return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             'manage_members',
             $this->ref_id,
@@ -106,72 +98,39 @@ class ilMemberExport
         );
     }
     
-    /**
-     * set filename
-     * @param object $a_file
-     * @return
-     */
-    public function setFilename($a_file)
+    public function setFilename(string $a_file) : void
     {
         $this->filename = $a_file;
     }
     
-    /**
-     * get filename
-     * @return
-     */
-    public function getFilename()
+    public function getFilename() : ?string
     {
         return $this->filename;
     }
     
-    /**
-     * get ref_id
-     * @return
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
     
-    /**
-     * get obj type
-     * @return
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
     
-    /**
-     * get current export type
-     * @return
-     */
-    public function getExportType()
+    public function getExportType() : int
     {
         return $this->export_type;
     }
     
-    /**
-     * Get obj id
-     * @return
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
     
-    /**
-     * Create Export File
-     *
-     * @access public
-     *
-     */
-    public function create()
+    public function create() : void
     {
         $this->fetchUsers();
-        
-        // DONE: Switch different export types
         switch ($this->getExportType()) {
             case self::EXPORT_CSV:
                 $this->createCSV();
@@ -183,58 +142,38 @@ class ilMemberExport
         }
     }
     
-    /**
-     * toString method
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getCSVString()
+    public function getCSVString() : ?string
     {
-        return $this->csv->getCSVString();
+        if ($this->csv instanceof ilCSVWriter) {
+            return $this->csv->getCSVString();
+        }
+        return null;
     }
     
     
-    /**
-     *
-     * @return
-     */
-    public function createExcel()
+    public function createExcel() : void
     {
-        include_once "./Services/Excel/classes/class.ilExcel.php";
         $this->worksheet = new ilExcel();
         $this->worksheet->addSheet($this->lng->txt("members"));
-        
         $this->write();
         
         $this->worksheet->writeToFile($this->getFilename());
     }
-    
-    /**
-     * Create CSV File
-     *
-     * @access public
-     *
-     */
-    public function createCSV()
+
+
+    public function createCSV() : void
     {
         include_once('Services/Utilities/classes/class.ilCSVWriter.php');
         $this->csv = new ilCSVWriter();
-        
         $this->write();
     }
     
     
     
     /**
-     * Write on column
-     * @param object $a_value
-     * @param object $a_row
-     * @param object $a_col
-     * @return
+     * Write one column
      */
-    protected function addCol($a_value, $a_row, $a_col)
+    protected function addCol(string $a_value, int $a_row, int $a_col) : void
     {
         switch ($this->getExportType()) {
             case self::EXPORT_CSV:
@@ -247,11 +186,7 @@ class ilMemberExport
         }
     }
     
-    /**
-     * Add row
-     * @return
-     */
-    protected function addRow()
+    protected function addRow() : void
     {
         switch ($this->getExportType()) {
             case self::EXPORT_CSV:
@@ -262,21 +197,12 @@ class ilMemberExport
                 break;
         }
     }
-    
-    /**
-     * Get ordered enabled fields
-     *
-     * @access public
-     * @param
-     *
-     */
-    protected function getOrderedExportableFields()
-    {
-        include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-        include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-        include_once('Services/User/classes/class.ilUserDefinedFields.php');
 
+    /**
+     * @return array
+     */
+    protected function getOrderedExportableFields() : array
+    {
         $field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
         $field_info->sortExportFields();
         $fields[] = 'role';
@@ -308,15 +234,10 @@ class ilMemberExport
         if ($this->settings->enabled('group_memberships')) {
             $fields[] = 'crs_members_groups';
         }
-
-        return $fields ? $fields : array();
+        return $fields;
     }
     
-    /**
-     * Write data
-     * @return
-     */
-    protected function write()
+    protected function write() : void
     {
         // Add header line
         $row = 0;
@@ -324,11 +245,9 @@ class ilMemberExport
         foreach ($all_fields = $this->getOrderedExportableFields() as $field) {
             switch ($field) {
                 case 'role':
-                    #$this->csv->addColumn($this->lng->txt($this->getType().'_role_status'));
                     $this->addCol($this->lng->txt($this->getType() . '_role_status'), $row, $col++);
                     break;
                 case 'agreement':
-                    #$this->csv->addColumn($this->lng->txt('ps_agreement_accepted'));
                     $this->addCol($this->lng->txt('ps_agreement_accepted'), $row, $col++);
                     break;
                 case 'consultation_hour':
@@ -361,7 +280,6 @@ class ilMemberExport
                     break;
             }
         }
-        #$this->csv->addRow();
         $this->addRow();
         // Add user data
         foreach ($this->user_ids as $usr_id) {
@@ -385,37 +303,30 @@ class ilMemberExport
                     case 'role':
                         switch ($this->user_course_data[$usr_id]['role']) {
                             case IL_CRS_ADMIN:
-                                #$this->csv->addColumn($this->lng->txt('crs_admin'));
                                 $this->addCol($this->lng->txt('crs_admin'), $row, $col++);
                                 break;
                                 
                             case IL_CRS_TUTOR:
-                                #$this->csv->addColumn($this->lng->txt('crs_tutor'));
                                 $this->addCol($this->lng->txt('crs_tutor'), $row, $col++);
                                 break;
 
                             case IL_CRS_MEMBER:
-                                #$this->csv->addColumn($this->lng->txt('crs_member'));
                                 $this->addCol($this->lng->txt('crs_member'), $row, $col++);
                                 break;
                                 
                             case IL_GRP_ADMIN:
-                                #$this->csv->addColumn($this->lng->txt('il_grp_admin'));
                                 $this->addCol($this->lng->txt('il_grp_admin'), $row, $col++);
                                 break;
                                 
                             case IL_GRP_MEMBER:
-                                #$this->csv->addColumn($this->lng->txt('il_grp_member'));
                                 $this->addCol($this->lng->txt('il_grp_member'), $row, $col++);
                                 break;
                                 
                             case 'subscriber':
-                                #$this->csv->addColumn($this->lng->txt($this->getType().'_subscriber'));
                                 $this->addCol($this->lng->txt($this->getType() . '_subscriber'), $row, $col++);
                                 break;
                             
                             default:
-                                #$this->csv->addColumn($this->lng->txt('crs_waiting_list'));
                                 $this->addCol($this->lng->txt('crs_waiting_list'), $row, $col++);
                                 break;
                             
@@ -425,33 +336,27 @@ class ilMemberExport
                     case 'agreement':
                         if (isset($this->agreement[$usr_id])) {
                             if ($this->agreement[$usr_id]['accepted']) {
-                                #$this->csv->addColumn(il-Format::format-Unix-Time($this->agreement[$usr_id]['acceptance_time'],true));
                                 $dt = new ilDateTime($this->agreement[$usr_id]['acceptance_time'], IL_CAL_UNIX);
                                 $this->addCol($dt->get(IL_CAL_DATETIME), $row, $col++);
                             } else {
-                                #$this->csv->addColumn($this->lng->txt('ps_not_accepted'));
                                 $this->addCol($this->lng->txt('ps_not_accepted'), $row, $col++);
                             }
                         } else {
-                            #$this->csv->addColumn($this->lng->txt('ps_not_accepted'));
                             $this->addCol($this->lng->txt('ps_not_accepted'), $row, $col++);
                         }
                         break;
                         
                     // These fields are always enabled
                     case 'username':
-                        #$this->csv->addColumn($this->user_profile_data[$usr_id]['login']);
                         $this->addCol($this->user_profile_data[$usr_id]['login'], $row, $col++);
                         break;
                         
                     case 'firstname':
                     case 'lastname':
-                        #$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
                         $this->addCol($this->user_profile_data[$usr_id][$field], $row, $col++);
                         break;
                     
                     case 'consultation_hour':
-                        include_once './Services/Booking/classes/class.ilBookingEntry.php';
                         $bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id, $GLOBALS['DIC']['ilUser']->getId());
                         
                         $uts = array();
@@ -498,20 +403,13 @@ class ilMemberExport
                         
                 }
             }
-            #$this->csv->addRow();
             $this->addRow();
         }
     }
     
     
     
-    /**
-     * Fetch all users that will be exported
-     *
-     * @access private
-     *
-     */
-    private function fetchUsers()
+    private function fetchUsers() : void
     {
         $this->readCourseSpecificFieldsData();
         
@@ -547,11 +445,11 @@ class ilMemberExport
     
     /**
      * Read All User related course data
-     *
-     * @access private
-     *
+     * @param int[]
+     * @param string
+     * @return void
      */
-    private function readCourseData($a_user_ids, $a_status = 'member')
+    private function readCourseData(array $a_user_ids, string $a_status = 'member') : void
     {
         foreach ($a_user_ids as $user_id) {
             // Read course related data
@@ -567,29 +465,16 @@ class ilMemberExport
         }
     }
     
-    /**
-     * Read course specific fields data
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function readCourseSpecificFieldsData()
+    private function readCourseSpecificFieldsData() : void
     {
         include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         $this->user_course_fields = ilCourseUserData::_getValuesByObjId($this->obj_id);
     }
     
     /**
-     * fill course specific fields
-     *
-     * @access private
-     * @param int usr_id
-     * @param string field
-     * @return bool
-     *
+     * Fill course specific fields
      */
-    private function addCourseField($a_usr_id, $a_field, $row, $col)
+    private function addCourseField(int $a_usr_id, string $a_field, int $row, int $col) : bool
     {
         if (substr($a_field, 0, 4) != 'cdf_') {
             return false;
@@ -598,7 +483,6 @@ class ilMemberExport
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];
             $value = $this->user_course_fields[$a_usr_id][$field_id];
-            #$this->csv->addColumn($value);
             $this->addCol($value, $row, $col);
             return true;
         }
@@ -609,19 +493,17 @@ class ilMemberExport
     
     /**
      * Add user defined fields
-     *
-     * @access private
-     * @param object user defined data object
-     * @param int field
-     *
      */
-    private function addUserDefinedField($udf_data, $a_field, $row, $col)
+    private function addUserDefinedField(ilUserDefinedData $udf_data, string $a_field, int $row, int $col) : bool
     {
         if (substr($a_field, 0, 4) != 'udf_') {
             return false;
         }
 
-        if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$udf_data->getUserId()]['accepted']) {
+        if (
+            !$this->privacy->courseConfirmationRequired() ||
+            $this->agreement[$udf_data->getUserId()]['accepted']
+        ) {
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];
             $value = $udf_data->get('f_' . $field_id);
@@ -636,9 +518,8 @@ class ilMemberExport
     
     /**
      * Init member object
-     * @return
      */
-    protected function initMembers()
+    protected function initMembers() : void
     {
         if ($this->getType() == 'crs') {
             $this->members = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
@@ -646,29 +527,27 @@ class ilMemberExport
         if ($this->getType() == 'grp') {
             $this->members = ilGroupParticipants::_getInstanceByObjId($this->getObjId());
         }
-        return true;
     }
 
-    protected function initGroups()
+    protected function initGroups() : void
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        $ilAccess = $DIC['ilAccess'];
-        $parent_node = $tree->getNodeData($this->ref_id);
-        $groups = $tree->getSubTree($parent_node, true, "grp");
+        $parent_node = $this->tree->getNodeData($this->ref_id);
+        $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
         if (is_array($groups) && sizeof($groups)) {
             include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
-            $this->groups_rights = array();
+            $this->groups_rights = [];
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
+                if (
+                    $group_data["parent"] != $this->ref_id &&
+                    $this->tree->checkForParentType($group_data["ref_id"], "grp", true)
+                ) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];
                     //TODO: change permissions from write to manage_members plus "|| ilObjGroup->getShowMembers()"----- uncomment below; testing required
-                    //$obj = new ilObjGroup($group_data["ref_id"], true);
-                    $this->groups_rights[$group_data["ref_id"]] = (bool) $ilAccess->checkAccess("write", "", $group_data["ref_id"])/* || $obj->getShowMembers()*/;
+                    $this->groups_rights[$group_data["ref_id"]] =
+                        $this->access->checkAccess("write", "", $group_data["ref_id"]);
                     $gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
                     $this->groups_participants[$group_data["ref_id"]] = $gobj->getParticipants();
                 }

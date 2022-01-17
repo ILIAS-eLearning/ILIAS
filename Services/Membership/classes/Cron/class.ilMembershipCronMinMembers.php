@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
  * Cron for course/group minimum members
@@ -12,6 +10,16 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilMembershipCronMinMembers extends ilCronJob
 {
+    protected ilLanguage $lng;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+    }
+
+
     public function getId() : string
     {
         return "mem_min_members";
@@ -19,20 +27,12 @@ class ilMembershipCronMinMembers extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("mem_cron_min_members");
+        return $this->lng->txt("mem_cron_min_members");
     }
     
     public function getDescription() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("mem_cron_min_members_info");
+        return $this->lng->txt("mem_cron_min_members_info");
     }
     
     public function getDefaultScheduleType() : int
@@ -81,9 +81,8 @@ class ilMembershipCronMinMembers extends ilCronJob
         return $result;
     }
     
-    protected function getCourses(array &$a_recipients_map)
+    protected function getCourses(array &$a_recipients_map) : void
     {
-        include_once "Modules/Course/classes/class.ilObjCourse.php";
         foreach (ilObjCourse::findCoursesWithNotEnoughMembers() as $obj_id => $item) {
             $too_few = (bool) $item[0];
             
@@ -100,13 +99,12 @@ class ilMembershipCronMinMembers extends ilCronJob
                 }
             } else {
                 // enough members: notify members?
-                
                 // :TODO: ?
             }
         }
     }
     
-    protected function getGroups(array &$a_recipients_map)
+    protected function getGroups(array &$a_recipients_map) : void
     {
         include_once "Modules/Group/classes/class.ilObjGroup.php";
         foreach (ilObjGroup::findGroupsWithNotEnoughMembers() as $obj_id => $item) {
@@ -131,14 +129,8 @@ class ilMembershipCronMinMembers extends ilCronJob
         }
     }
     
-    protected function sendMessage($a_reci_id, array $a_items)
+    protected function sendMessage(int $a_reci_id, array $a_items)
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
-        include_once "Services/Link/classes/class.ilLink.php";
-        include_once "./Services/Notification/classes/class.ilSystemNotification.php";
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("crs"));
         
@@ -152,8 +144,8 @@ class ilMembershipCronMinMembers extends ilCronJob
         foreach ($a_items as $item) {
             $obj_type = $item[0];
             $obj_id = $item[1];
-            $ref_id = array_pop(ilObject::_getAllReferences($obj_id));
-            
+            $refs = ilObject::_getAllReferences($obj_id);
+            $ref_id = array_pop($ref_id);
             $title = ilObject::_lookupTitle($obj_id);
             $url = ilLink::_getLink($ref_id, $obj_type);
             
@@ -168,8 +160,8 @@ class ilMembershipCronMinMembers extends ilCronJob
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $mail->enqueue(
             ilObjUser::_lookupLogin($a_reci_id),
-            null,
-            null,
+            '',
+            '',
             $lng->txt("mem_cron_min_members_subject"),
             $ntf->composeAndGetMessage($a_reci_id, null, "read", true),
             []

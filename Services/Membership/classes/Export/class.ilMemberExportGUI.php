@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,38 +21,32 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-include_once('./Services/Membership/classes/Export/class.ilMemberExport.php');
-include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
-include_once('Modules/Group/classes/class.ilFSStorageGroup.php');
-include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-include_once('Services/User/classes/class.ilUserDefinedFields.php');
-include_once('Services/User/classes/class.ilUserFormSettings.php');
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls ilMemberExportGUI:
 * @ingroup ModulesCourse
 */
 class ilMemberExportGUI
 {
-    private $ref_id;
-    private $obj_id;
-    private $type;
-    private $ctrl;
-    private $tpl;
-    private $lng;
+    private int $ref_id;
+    private int $obj_id;
+    private string $type;
+
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
     
-    private $fields_info;
-    private $fss_export = null;
-    /**
-     * @var ilUserFormSettings
-     */
-    private $exportSettings;
+    protected ?ilMemberExport $export = null;
+    protected ?ilExportFieldsInfo $fields_info = null;
+    protected ?ilFileSystemStorage $fss_export = null;
+    protected ilUserFormSettings $exportSettings;
 
     /**
      * Constructor
@@ -65,40 +59,24 @@ class ilMemberExportGUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ps');
         $this->ref_id = $a_ref_id;
-        $this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+        $this->obj_id = ilObject::_lookupObjId($this->ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
         
         $this->fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
         $this->initFileSystemStorage();
     }
     
-    /**
-     * Execute Command
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $rbacsystem = $DIC['rbacsystem'];
-
-        
-        include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         if (!ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
@@ -118,11 +96,7 @@ class ilMemberExportGUI
     }
     
     
-    //
-    // export incl. settings
-    //
-    
-    protected function initSettingsForm($a_is_excel = false)
+    protected function initSettingsForm(bool $a_is_excel = false) : ilPropertyFormGUI
     {
         // Check user selection
         $this->exportSettings = new ilUserFormSettings('memexp');
@@ -132,7 +106,7 @@ class ilMemberExportGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('ps_export_settings'));
                 
-        if ((bool) $a_is_excel) {
+        if ($a_is_excel) {
             $form->addCommandButton('exportExcel', $this->lng->txt('ps_export_excel'));
         } else {
             $form->addCommandButton('export', $this->lng->txt('ps_perform_export'));
@@ -221,7 +195,7 @@ class ilMemberExportGUI
         return $form;
     }
     
-    public function initCSV(ilPropertyFormGUI $a_form = null)
+    public function initCSV(ilPropertyFormGUI $a_form = null) : void
     {
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
@@ -229,7 +203,7 @@ class ilMemberExportGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    public function initExcel(ilPropertyFormGUI $a_form = null)
+    public function initExcel(ilPropertyFormGUI $a_form = null) : void
     {
         if (!$a_form) {
             $a_form = $this->initSettingsForm(true);
@@ -237,23 +211,13 @@ class ilMemberExportGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    /**
-     * Show list of export files
-     *
-     * @access public
-     *
-     */
-    public function show()
+    public function show() : void
     {
-        global $DIC;
-
-        $ilToolbar = $DIC['ilToolbar'];
-        
-        $ilToolbar->addButton(
+        $this->toolbar->addButton(
             $this->lng->txt('ps_perform_export'),
             $this->ctrl->getLinkTarget($this, "initCSV")
         );
-        $ilToolbar->addButton(
+        $this->toolbar->addButton(
             $this->lng->txt('ps_export_excel'),
             $this->ctrl->getLinkTarget($this, "initExcel")
         );
@@ -261,11 +225,17 @@ class ilMemberExportGUI
         $this->showFileList();
     }
     
-    protected function handleIncoming()
+    protected function handleIncoming() : void
     {
         $settings = array();
-        $incoming = $_POST['export_members'];
-        if (is_array($incoming)) {
+        $incoming = [];
+        if ($this->http->wrapper()->post()->has('export_members')) {
+            $incoming = $this->http->wrapper()->post()->retrieve(
+                'export_members',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if (count($incoming)) {
             foreach ($incoming as $id) {
                 $settings[$id] = true;
             }
@@ -278,12 +248,9 @@ class ilMemberExportGUI
     }
     
     /**
-     * Export Create member export file and store it in data directory.
-     *
-     * @access public
-     *
+     * Export, create member export file and store it in data directory.
      */
-    public function export()
+    public function export() : void
     {
         $this->handleIncoming();
         
@@ -296,7 +263,7 @@ class ilMemberExportGUI
         $this->ctrl->redirect($this, 'show');
     }
     
-    public function exportExcel()
+    public function exportExcel() : void
     {
         $this->handleIncoming();
         
@@ -311,14 +278,7 @@ class ilMemberExportGUI
         $this->ctrl->redirect($this, 'show');
     }
     
-    /**
-     * Deliver Data
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function deliverData()
+    public function deliverData() : void
     {
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if ($file['name'] == $_SESSION['member_export_filename']) {
@@ -333,11 +293,8 @@ class ilMemberExportGUI
     
     /**
      * Show file list of available export files
-     *
-     * @access public
-     *
      */
-    public function showFileList()
+    public function showFileList() : void
     {
         include_once 'Services/Membership/classes/Export/class.ilMemberExportFileTableGUI.php';
         $tbl = new ilMemberExportFileTableGUI($this, 'show', $this->fss_export);
@@ -346,12 +303,8 @@ class ilMemberExportGUI
     
     /**
      * Download export file
-     *
-     * @access public
-     * @param
-     *
      */
-    public function downloadExportFile()
+    public function downloadExportFile() : void
     {
         $hash = trim($_GET['fl']);
         if (!$hash) {
@@ -395,25 +348,33 @@ class ilMemberExportGUI
                             '.csv', 'text/csv');
                         break;
                 }
-                return true;
             }
         }
+    }
+
+    protected function initFileIdsFromPost() : array
+    {
+        $ids = [];
+        if ($this->http->wrapper()->post()->has('id')) {
+            $ids = $this->http->wrapper()->post()->retrieve(
+                'id',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return $ids;
     }
     
     /**
      * Confirm deletion of export files
      *
-     * @access public
-     * @param
-     *
      */
-    public function confirmDeleteExportFile()
+    public function confirmDeleteExportFile() : void
     {
-        if (!array_key_exists('id', $_POST) || !is_array($_POST['id']) || !count($_POST['id'])) {
+        $file_ids = $this->initFileIdsFromPost();
+        if (!count($file_ids)) {
             ilUtil::sendFailure($this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
-        
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
         $confirmation_gui->setHeaderText($this->lng->txt('info_delete_sure') /* .' '.$this->lng->txt('ps_delete_export_files') */);
@@ -422,10 +383,9 @@ class ilMemberExportGUI
                 
         $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if (!in_array(md5($file['name']), $_POST['id'])) {
+            if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
             }
-            
             $confirmation_gui->addItem(
                 "id[]",
                 md5($file['name']),
@@ -433,26 +393,21 @@ class ilMemberExportGUI
                 ilDatePresentation::formatDate(new ilDateTime($file['timest'], IL_CAL_UNIX))
             );
         }
-        
         $this->tpl->setContent($confirmation_gui->getHTML());
     }
     
     /**
      * Delete member export files
-     *
-     * @access public
-     * @param
-     *
      */
-    public function deleteExportFile()
+    public function deleteExportFile() : void
     {
-        if (!count($_POST['id'])) {
+        $file_ids = $this->initFileIdsFromPost();
+        if (!count($file_ids)) {
             $this->ctrl->redirect($this, 'show');
         }
-        
         $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if (!in_array(md5($file['name']), $_POST['id'])) {
+            if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
             }
 
@@ -471,11 +426,7 @@ class ilMemberExportGUI
     }
     
     
-    /**
-     * Init file object
-     * @return
-     */
-    protected function initFileSystemStorage()
+    protected function initFileSystemStorage() : void
     {
         if ($this->type == 'crs') {
             $this->fss_export = new ilFSStorageCourse($this->obj_id);

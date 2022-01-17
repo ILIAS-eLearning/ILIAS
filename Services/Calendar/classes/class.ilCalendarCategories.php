@@ -540,8 +540,8 @@ class ilCalendarCategories
         $this->readBookingCalendar();
         
         include_once('./Services/Membership/classes/class.ilParticipants.php');
-        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'crs'));
-        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
+        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,['crs']));
+        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
         
         $this->addSubitemCalendars();
     }
@@ -687,8 +687,8 @@ class ilCalendarCategories
 
 
         if (!$a_container_only) {
-            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'crs'));
-            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
+            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
+            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
         }
     }
 

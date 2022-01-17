@@ -1,5 +1,4 @@
-<?php
-/*
+<?php declare(strict_types=1);/*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
@@ -38,62 +37,6 @@ class ilMembershipTest //extends TestCase
 
     protected function setUp() : void
     {
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
     }
-    
-    /**
-     * Waiting list tes
-     * @group IL_Init
-     * @param
-     * @return
-     */
-    public function testMembership()
-    {
-        include_once './Services/Membership/classes/class.ilWaitingList.php';
-        include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
-        
-        $wait = new ilCourseWaitingList(999999);
-        $ret = $wait->addToList(111111);
-        $this->assertEquals($ret, true);
-        
-        $wait->updateSubscriptionTime(111111, time());
-        $wait->removeFromList(111111);
-    
-        $wait->addToList(111111);
-        $ret = $wait->isOnList(111111);
-        $this->assertEquals($ret, true);
-        
-        $wait->addToList(111111);
-        ilWaitingList::_deleteAll(999999);
-        
-        $wait->addToList(111111);
-        ilWaitingList::_deleteUser(111111);
-    }
-    
-    /**
-     * @group IL_Init
-     * @param
-     * @return
-     */
-    public function testSubscription()
-    {
-        include_once './Services/Membership/classes/class.ilParticipants.php';
-        include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-        
-        $part = ilCourseParticipants::_getInstanceByObjId(999999);
-        $part->addSubscriber(111111);
-        $part->updateSubscriptionTime(111111, time());
-        $part->updateSubject(111111, 'hallo');
-        
-        $is = $part->isSubscriber(111111);
-        $this->assertEquals($is, true);
-        
-        $is = ilParticipants::_isSubscriber(999999, 111111);
-        $this->assertEquals($is, true);
-        
-        $part->deleteSubscriber(111111);
-        $is = $part->isSubscriber(111111);
-        $this->assertEquals($is, false);
-    }
+
 }

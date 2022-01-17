@@ -15,17 +15,17 @@ include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.
  */
 class ilObjCourseAdministrationGUI extends ilMembershipAdministrationGUI
 {
-    protected function getType()
+    protected function getType() : string
     {
         return "crss";
     }
     
-    protected function getParentObjType()
+    protected function getParentObjType() : string
     {
         return "crs";
     }
     
-    protected function getAdministrationFormId()
+    protected function getAdministrationFormId() : int
     {
         return ilAdministrationSettingsFormHandler::FORM_COURSE;
     }

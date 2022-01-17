@@ -457,7 +457,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         );
         $a_user_data = array();
         foreach ((array) $usr_data['set'] as $ud) {
-            $user_id = $ud['usr_id'];
+            $user_id = (int) $ud['usr_id'];
             
             if (!in_array($user_id, $usr_ids)) {
                 continue;
@@ -509,7 +509,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             include_once './Services/User/classes/class.ilUserDefinedData.php';
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
+                if (!$this->checkAcceptance((int) $usr_id)) {
                     continue;
                 }
 
@@ -523,6 +523,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
+                $usr_id = (int) $usr_id;
                 // #7264: as we get data for all course members filter against user data
                 if (!$this->checkAcceptance($usr_id) || !in_array($usr_id, $usr_ids)) {
                     continue;

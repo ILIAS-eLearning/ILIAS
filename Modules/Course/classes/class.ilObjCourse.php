@@ -2024,10 +2024,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     
     ###### Interface ilMembershipRegistrationCodes
     /**
-     * @see interface.ilMembershipRegistrationCodes
-     * @return array obj ids
+     * @return int[] obj ids
+     *@see interface.ilMembershipRegistrationCodes
      */
-    public static function lookupObjectsByCode($a_code)
+    public static function lookupObjectsByCode(string $a_code) : array
     {
         global $DIC;
 
@@ -2052,7 +2052,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      * @param bool force registration and do not check registration constraints.
      * @throws ilMembershipRegistrationException
      */
-    public function register($a_user_id, $a_role = ilCourseConstants::CRS_MEMBER, $a_force_registration = false)
+    public function register(
+        int $a_user_id,
+        int $a_role = ilCourseConstants::CRS_MEMBER,
+        bool $a_force_registration = false
+    ) : void
     {
         global $DIC;
 
@@ -2063,7 +2067,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $part = ilCourseParticipants::_getInstanceByObjId($this->getId());
 
         if ($part->isAssigned($a_user_id)) {
-            return true;
+            return;
         }
         
         if (!$a_force_registration) {
@@ -2130,15 +2134,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         
         include_once './Modules/Forum/classes/class.ilForumNotification.php';
         ilForumNotification::checkForumsExistsInsert($this->getRefId(), $a_user_id);
-        
-        return true;
     }
 
     /**
      * Returns automatic notification status from
      * $this->auto_notification
      *
-     * @return boolean
+     * @return bool
      */
     public function getAutoNotification()
     {

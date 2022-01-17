@@ -1,29 +1,24 @@
-<?php
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
+<?php declare(strict_types=1);
 /*
  * Abstract base class for course, group participants table guis
  * @author Stefan Meyer <smeyer.ilias@gmx.de
  */
 abstract class ilParticipantTableGUI extends ilTable2GUI
 {
-    protected static $export_allowed = false;
-    protected static $confirmation_required = true;
-    protected static $accepted_ids = null;
-    protected static $all_columns = null;
-    protected static $has_odf_definitions = false;
-    
-    protected $participants = null;
-    
-    protected $current_filter = array();
-    
+    protected static bool $export_allowed = false;
+    protected static bool $confirmation_required = true;
     /**
-     * @var ilObject
+     * @var int[] | null
      */
-    protected $rep_object;
+    protected static ?array $accepted_ids = null;
+    protected static ?array $all_columns = null;
+    protected static bool $has_odf_definitions = false;
 
-    
+    protected ?ilParticipants $participants = null;
+    protected array $current_filter = [];
+    protected ilObject $rep_object;
+
+
     /**
      * Init table filter
      */
@@ -80,11 +75,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
     }
     
-
-    /**
-     * Get selectable columns
-     * @return array
-     */
     public function getSelectableColumns() : array
     {
         global $DIC;
@@ -122,28 +112,18 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return self::$all_columns;
     }
     
-    /**
-     * @return \ilObject
-     */
-    protected function getRepositoryObject()
+    protected function getRepositoryObject() : ilObject
     {
         return $this->rep_object;
     }
     
     
-    /**
-     * Get participants
-     * @return \ilParticipants
-     */
-    protected function getParticipants()
+    protected function getParticipants() : ilParticipants
     {
         return $this->participants;
     }
 
-    /**
-     * Check acceptance
-     */
-    public function checkAcceptance($a_usr_id)
+    public function checkAcceptance(int $a_usr_id) : bool
     {
         if (!self::$confirmation_required) {
             return true;
@@ -154,14 +134,10 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return in_array($a_usr_id, self::$accepted_ids);
     }
 
-    /**
-     * Init acceptance
-     * @return
-     */
-    protected function initSettings()
+    protected function initSettings() : void
     {
         if (self::$accepted_ids !== null) {
-            return true;
+            return;
         }
         self::$export_allowed = ilPrivacySettings::getInstance()->checkExportAccess($this->getRepositoryObject()->getRefId());
         
@@ -173,13 +149,10 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getRepositoryObject()->getId());
 
         include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-        self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
+        self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
-    /**
-     * show edit links
-     */
-    protected function showActionLinks($a_set)
+    protected function showActionLinks($a_set) : void
     {
         $loc_enabled = (
             $this->getRepositoryObject()->getType() == 'crs' and
@@ -192,7 +165,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));
             $this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
             $this->tpl->parseCurrentBlock();
-            return true;
+            return;
         }
         
         // show action menu
@@ -220,7 +193,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
                 $this->ctrl->getLinkTargetByClass('illomembertestresultgui', '')
             );
         }
-        
         $this->tpl->setVariable('ACTION_USER', $list->getHTML());
     }
 }

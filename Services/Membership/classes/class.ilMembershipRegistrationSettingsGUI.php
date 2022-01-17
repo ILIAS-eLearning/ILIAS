@@ -1,7 +1,4 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Membership/classes/class.ilMembershipRegistrationSettings.php';
+<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Registration settings
@@ -14,17 +11,17 @@ include_once './Services/Membership/classes/class.ilMembershipRegistrationSettin
 */
 abstract class ilMembershipRegistrationSettingsGUI
 {
-    private $object = null;
-    private $gui_object = null;
-    private $options = array();
+    private ilObject $object;
+    private ilObjectGUI $gui_object;
+    private array $options = [];
+
+    protected ilLanguage $lng;
     
-    /**
-     * Constructor
-     * @param ilObjectGUI $gui_object
-     * @param ilObject $object
-     */
-    public function __construct(ilObjectGUI $gui_object, ilObject $object, $a_options)
+    public function __construct(ilObjectGUI $gui_object, ilObject $object, array $a_options)
     {
+        global $DIC;
+
+        $this->lng = $DIC->language();
         $this->gui_object = $gui_object;
         $this->object = $object;
         $this->options = $a_options;
@@ -33,47 +30,32 @@ abstract class ilMembershipRegistrationSettingsGUI
     /**
      * Set form values
      */
-    abstract public function setFormValues(ilPropertyFormGUI $form);
+    abstract public function setFormValues(ilPropertyFormGUI $form) : void;
     
-    /**
-     * Get current object
-     * @return ilObject
-     */
-    public function getCurrentObject()
+    public function getCurrentObject() : ilObject
     {
         return $this->object;
     }
     
-    /**
-     * Get gui object
-     * @return ilObjectGUI
-     */
-    public function getCurrentGUI()
+    public function getCurrentGUI() : ilObjectGUI
     {
         return $this->gui_object;
     }
     
-    /**
-     * Get options
-     * @return array
-     */
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
     
-    /**
-     * Add membership form elements
-     * @param ilPropertyFormGUI $form
-     */
-    final public function addMembershipFormElements(ilPropertyFormGUI $form, $a_parent_post = '')
+    final public function addMembershipFormElements(ilPropertyFormGUI $form, string $a_parent_post = '') : void
     {
         // Registration type
         $reg_type = new ilRadioGroupInputGUI($this->txt('reg_type'), 'registration_type');
         //$reg_type->setValue($this->object->getRegistrationType());
 
         if (in_array(ilMembershipRegistrationSettings::TYPE_DIRECT, $this->getOptions())) {
-            $opt_dir = new ilRadioOption($this->txt('reg_direct'), ilMembershipRegistrationSettings::TYPE_DIRECT);
+            $opt_dir = new ilRadioOption($this->txt('reg_direct'),
+                (string) ilMembershipRegistrationSettings::TYPE_DIRECT);
             $opt_dir->setInfo($this->txt('reg_direct_info'));
             $reg_type->addOption($opt_dir);
 
@@ -83,11 +65,12 @@ abstract class ilMembershipRegistrationSettingsGUI
                 'show_cannot_participate_direct'
             );
             $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
-            $cannot_participate->setValue(1);
+            $cannot_participate->setValue((string) 1);
             $opt_dir->addSubItem($cannot_participate);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD, $this->getOptions())) {
-            $opt_pass = new ilRadioOption($this->txt('reg_pass'), ilMembershipRegistrationSettings::TYPE_PASSWORD);
+            $opt_pass = new ilRadioOption($this->txt('reg_pass'),
+                (string) ilMembershipRegistrationSettings::TYPE_PASSWORD);
             $pass = new ilTextInputGUI($GLOBALS['DIC']['lng']->txt("password"), 'password');
             $pass->setInfo($this->txt('reg_password_info'));
             #$pass->setValue($this->object->getPassword());
@@ -98,7 +81,8 @@ abstract class ilMembershipRegistrationSettingsGUI
         }
 
         if (in_array(ilMembershipRegistrationSettings::TYPE_REQUEST, $this->getOptions())) {
-            $opt_req = new ilRadioOption($this->txt('reg_request'), ilMembershipRegistrationSettings::TYPE_REQUEST, $this->txt('reg_request_info'));
+            $opt_req = new ilRadioOption($this->txt('reg_request'),
+                (string) ilMembershipRegistrationSettings::TYPE_REQUEST, $this->txt('reg_request_info'));
             $reg_type->addOption($opt_req);
 
             // cannot participate
@@ -107,20 +91,21 @@ abstract class ilMembershipRegistrationSettingsGUI
                 'show_cannot_participate_request'
             );
             $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
-            $cannot_participate->setValue(1);
+            $cannot_participate->setValue((string) 1);
             $opt_req->addSubItem($cannot_participate);
 
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_TUTOR, $this->getOptions())) {
             $opt_tutor = new ilRadioOption(
                 $this->txt('reg_tutor'),
-                ilMembershipRegistrationSettings::TYPE_TUTOR,
+                (string) ilMembershipRegistrationSettings::TYPE_TUTOR,
                 $this->txt('reg_tutor_info')
             );
             $reg_type->addOption($opt_tutor);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_NONE, $this->getOptions())) {
-            $opt_deact = new ilRadioOption($this->txt('reg_disabled'), ilMembershipRegistrationSettings::TYPE_NONE, $this->txt('reg_disabled_info'));
+            $opt_deact = new ilRadioOption($this->txt('reg_disabled'),
+                (string) ilMembershipRegistrationSettings::TYPE_NONE, $this->txt('reg_disabled_info'));
             $reg_type->addOption($opt_deact);
         }
         
@@ -130,7 +115,7 @@ abstract class ilMembershipRegistrationSettingsGUI
         if (in_array(ilMembershipRegistrationSettings::REGISTRATION_LIMITED_USERS, $this->getOptions())) {
             // max member
             $lim = new ilCheckboxInputGUI($this->txt('reg_max_members_short'), 'registration_membership_limited');
-            $lim->setValue(1);
+            $lim->setValue((string) 1);
             #$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
             #$lim->setChecked($this->object->isMembershipLimited());
 
@@ -161,14 +146,14 @@ abstract class ilMembershipRegistrationSettingsGUI
             
             $wait = new ilRadioGroupInputGUI($this->txt('reg_waiting_list'), 'waiting_list');
             
-            $option = new ilRadioOption($this->txt('reg_waiting_list_none'), 0);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_none'), (string) 0);
             $wait->addOption($option);
             
-            $option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), 1);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), (string) 1);
             $option->setInfo($this->txt('reg_waiting_list_no_autofill_info'));
             $wait->addOption($option);
             
-            $option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), 2);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), (string) 2);
             $option->setInfo($this->txt('reg_waiting_list_autofill_info'));
             $wait->addOption($option);
             
@@ -200,9 +185,9 @@ abstract class ilMembershipRegistrationSettingsGUI
     /**
      * Translate type specific
      */
-    protected function txt($a_lang_key)
+    protected function txt(string $a_lang_key) : string
     {
         $prefix = $this->getCurrentObject()->getType();
-        return $GLOBALS['DIC']['lng']->txt($prefix . '_' . $a_lang_key);
+        return $this->lng->txt($prefix . '_' . $a_lang_key);
     }
 }

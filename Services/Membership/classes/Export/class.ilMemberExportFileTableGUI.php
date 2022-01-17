@@ -1,29 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
  * Table presentation of membership export files
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @Id: $Id$
  */
 class ilMemberExportFileTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_fss_export)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilFileSystemStorage $a_fss_export)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        
         $this->setId('memexp');
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setTitle($this->lng->txt('ps_export_files'));
-        
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('type'), 'type');
         $this->addColumn($this->lng->txt('ps_size'), 'size');
         $this->addColumn($this->lng->txt('date'), 'date');
@@ -33,11 +24,9 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('desc');
                 
         $this->setRowTemplate('tpl.mem_export_file_row.html', 'Services/Membership');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
-        
         $this->setSelectAllCheckbox('id[]');
-
         $this->getFiles($a_fss_export);
     }
     
@@ -46,10 +35,9 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         return in_array($a_field, array('size', 'date'));
     }
     
-    protected function getFiles($a_fss_export)
+    protected function getFiles(ilFileSystemStorage $a_fss_export) : void
     {
-        $data = array();
-        
+        $data = [];
         foreach ($a_fss_export->getMemberExportFiles() as $exp_file) {
             $data[] = array(
                 'id' => md5($exp_file['name']),
@@ -62,7 +50,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->setData($data);
     }
         
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
