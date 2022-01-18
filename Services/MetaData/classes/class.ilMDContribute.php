@@ -34,27 +34,31 @@ include_once 'class.ilMDBase.php';
 class ilMDContribute extends ilMDBase
 {
     // Subelements
-    protected string $date = "";
+    private string $date = '';
+    private string $role = '';
 
-    public function getEntityIds()
+    /**
+     * @return int[]
+     */
+    public function getEntityIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
         return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_contribute');
     }
-    public function getEntity($a_entity_id)
+    public function getEntity(int $a_entity_id) : ?ilMDEntity
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
         
         if (!$a_entity_id) {
-            return false;
+            return null;
         }
         $ent = new ilMDEntity();
         $ent->setMetaId($a_entity_id);
 
         return $ent;
     }
-    public function addEntity()
+    public function addEntity() : ilMDEntity
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
@@ -66,7 +70,7 @@ class ilMDContribute extends ilMDBase
     }
 
     // SET/GET
-    public function setRole($a_role)
+    public function setRole(string $a_role) : bool
     {
         switch ($a_role) {
             case 'Author':
@@ -93,21 +97,21 @@ class ilMDContribute extends ilMDBase
                 return false;
         }
     }
-    public function getRole()
+    public function getRole() : string
     {
         return $this->role;
     }
-    public function setDate($a_date)
+    public function setDate(string $a_date) : void
     {
         $this->date = $a_date;
     }
-    public function getDate()
+    public function getDate() : string
     {
         return $this->date;
     }
 
 
-    public function save()
+    public function save() : bool
     {
 
         $fields = $this->__getFields();
@@ -120,7 +124,7 @@ class ilMDContribute extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -135,7 +139,7 @@ class ilMDContribute extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -151,9 +155,11 @@ class ilMDContribute extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -164,7 +170,7 @@ class ilMDContribute extends ilMDBase
                      'c_date' => array('text',$this->getDate()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -187,12 +193,8 @@ class ilMDContribute extends ilMDBase
         return true;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Contribute', array('Role' => $this->getRole()
                                                 ? $this->getRole()
@@ -216,7 +218,11 @@ class ilMDContribute extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
@@ -234,19 +240,11 @@ class ilMDContribute extends ilMDBase
         }
         return $ids ? $ids : array();
     }
-    
+
     /**
-     * Lookup authors
-     *
-     * @access public
-     * @static
-     *
-     * @param int rbac_id
-     * @param int obj_id
-     * @param string obj_type
-     * @return array string authors
+     * @return string[]
      */
-    public static function _lookupAuthors($a_rbac_id, $a_obj_id, $a_obj_type)
+    public static function _lookupAuthors(int $a_rbac_id, int $a_obj_id, string $a_obj_type) : array
     {
         global $DIC;
 

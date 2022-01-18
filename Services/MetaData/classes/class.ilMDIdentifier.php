@@ -36,25 +36,25 @@ class ilMDIdentifier extends ilMDBase
 
 
     // SET/GET
-    public function setCatalog($a_catalog)
+    public function setCatalog(string $a_catalog) : void
     {
         $this->catalog = $a_catalog;
     }
-    public function getCatalog()
+    public function getCatalog() : string
     {
         return $this->catalog;
     }
-    public function setEntry($a_entry)
+    public function setEntry(string $a_entry) : void
     {
         $this->entry = $a_entry;
     }
-    public function getEntry()
+    public function getEntry() : string
     {
         return $this->entry;
     }
 
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -67,7 +67,7 @@ class ilMDIdentifier extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -82,7 +82,7 @@ class ilMDIdentifier extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
 
         if ($this->getMetaId()) {
@@ -93,9 +93,11 @@ class ilMDIdentifier extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -106,7 +108,7 @@ class ilMDIdentifier extends ilMDBase
                      'entry' => array('text',$this->getEntry()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         if ($this->getMetaId()) {
@@ -126,13 +128,8 @@ class ilMDIdentifier extends ilMDBase
         }
         return true;
     }
-                
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer, $a_overwrite_id = false)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $entry_default = ($this->getObjId() == 0)
             ? "il_" . IL_INST_ID . "_" . $this->getObjType() . "_" . $this->getRBACId()
@@ -156,7 +153,11 @@ class ilMDIdentifier extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
@@ -176,12 +177,9 @@ class ilMDIdentifier extends ilMDBase
     }
 
     /**
-     * Get IDs for an object
-     *
-     * @param
-     * @return
+     * @return array<int, array<string, string>>
      */
-    public static function _getEntriesForObj($a_rbac_id, $a_obj_id, $a_obj_type)
+    public static function _getEntriesForObj(int $a_rbac_id, int $a_obj_id, string $a_obj_type) : array
     {
         global $DIC;
 
@@ -203,12 +201,9 @@ class ilMDIdentifier extends ilMDBase
     }
 
     /**
-     * Get IDs for an rbac object
-     *
-     * @param
-     * @return
+     * @return array<int, array<string, mixed>>
      */
-    public static function _getEntriesForRbacObj($a_rbac_id, $a_obj_type = "")
+    public static function _getEntriesForRbacObj(int $a_rbac_id, string $a_obj_type = "") : array
     {
         global $DIC;
 
@@ -233,13 +228,8 @@ class ilMDIdentifier extends ilMDBase
         return $entries;
     }
 
-    /**
-     * Does id entry exist in rbac object?
-     *
-     * @param
-     * @return
-     */
-    public static function existsIdInRbacObject($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
+
+    public static function existsIdInRbacObject(int $a_rbac_id, string $a_obj_type, string $a_catalog, string $a_entry) : bool
     {
         global $DIC;
 
@@ -256,14 +246,11 @@ class ilMDIdentifier extends ilMDBase
         }
         return false;
     }
-    
+
     /**
-     * Does id entry exist in rbac object?
-     *
-     * @param
-     * @return
+     * @return array<int, array<string, mixed>>
      */
-    public static function readIdData($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
+    public static function readIdData(int $a_rbac_id, string $a_obj_type, string $a_catalog, string $a_entry) : array
     {
         global $DIC;
 

@@ -17,13 +17,8 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     protected bool $valid = true;
     protected string $lom_duration = '';
     
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
-    public function __construct($a_title = "", $a_postvar = "")
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
 
@@ -32,22 +27,13 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $this->setValue(array(0,0,0,0,0));
     }
 
-    /**
-     * Set Value.
-     *
-     * @param	string	$a_value	Value
-     */
-    public function setValue($a_value)
+    public function setValue(array $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-     * Set by LOM duration
-     *
-     * @param	string	$a_value	Value
-     */
-    public function setValueByLOMDuration($a_value)
+
+    public function setValueByLOMDuration(string $a_value) : void
     {
         $this->lom_duration = $a_value;
         $this->valid = true;
@@ -66,29 +52,19 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     }
 
     /**
-     * Get Value.
-     *
-     * @return	string	Value
+     * @return int[]
      */
-    public function getValue()
+    public function getValue() : array
     {
         return $this->value;
     }
 
-    /**
-     * Set value by array
-     *
-     * @param	array	$a_values	value array
-     */
-    public function setValueByArray($a_values)
+
+    public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
-    /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return	boolean		Input ok, true/false
-     */
     public function checkInput() : bool
     {
         
@@ -111,7 +87,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function __buildMonthsSelect($sel_month)
+    public function __buildMonthsSelect(string $sel_month) : string
     {
         for ($i = 0;$i <= 24;$i++) {
             $options[$i] = sprintf('%02d', $i);
@@ -120,7 +96,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     }
 
 
-    public function __buildDaysSelect($sel_day)
+    public function __buildDaysSelect(string $sel_day) : string
     {
         for ($i = 0;$i <= 31;$i++) {
             $options[$i] = sprintf('%02d', $i);
@@ -128,10 +104,8 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         return ilUtil::formSelect($sel_day, $this->getPostVar() . '[d]', $options, false, true);
     }
 
-    /**
-     * Insert property html
-     */
-    public function insert($a_tpl)
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $ttpl = new ilTemplate("tpl.prop_typical_learning_time.html", true, true, "Services/MetaData");
         $val = $this->getValue();

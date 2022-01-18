@@ -34,10 +34,8 @@ class ilMDCopyrightUsageGUI
         $this->entry_id = $a_entry_id;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
         // save usage id for all request
         $this->ctrl->saveParameter($this, 'entry_id');
@@ -61,10 +59,7 @@ class ilMDCopyrightUsageGUI
         }
     }
 
-    /**
-     * Sho usage table
-     */
-    public function showUsageTable()
+    public function showUsageTable() : void
     {
 
         ilUtil::sendInfo($this->lng->txt("meta_info_only_repository_objects"));
@@ -82,18 +77,14 @@ class ilMDCopyrightUsageGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-     * @return int
-     */
-    public function getEntryId()
+
+    public function getEntryId() : int
     {
         return $this->entry_id;
     }
 
-    /**
-     * Apply filter
-     */
-    protected function applyUsageFilter()
+
+    protected function applyUsageFilter() : void
     {
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
@@ -107,10 +98,8 @@ class ilMDCopyrightUsageGUI
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
-    /**
-     * Reset filter
-     */
-    protected function resetUsageFilter()
+
+    protected function resetUsageFilter() : void
     {
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
@@ -124,10 +113,8 @@ class ilMDCopyrightUsageGUI
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
-    /**
-     * Set tabs
-     */
-    protected function setTabs()
+
+    protected function setTabs() : void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(

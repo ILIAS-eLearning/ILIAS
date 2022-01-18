@@ -37,24 +37,24 @@ class ilMDLocation extends ilMDBase
     private string $location_type = '';
 
     // SET/GET
-    public function setLocation($a_location)
+    public function setLocation(string $a_location) : void
     {
         $this->location = $a_location;
     }
-    public function getLocation()
+    public function getLocation() : string
     {
         return $this->location;
     }
-    public function setLocationType($a_location_type)
+    public function setLocationType(string $a_location_type) : void
     {
         $this->location_type = $a_location_type;
     }
-    public function getLocationType()
+    public function getLocationType() : string
     {
         return $this->location_type;
     }
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -67,7 +67,7 @@ class ilMDLocation extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -82,7 +82,7 @@ class ilMDLocation extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -94,9 +94,11 @@ class ilMDLocation extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -107,7 +109,7 @@ class ilMDLocation extends ilMDBase
                      'location_type' => array('text',$this->getLocationType()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -130,12 +132,8 @@ class ilMDLocation extends ilMDBase
         return true;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'Location',
@@ -148,7 +146,11 @@ class ilMDLocation extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 

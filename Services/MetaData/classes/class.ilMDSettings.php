@@ -32,32 +32,20 @@
 */
 class ilMDSettings
 {
-    public static $instance = null;
+    protected static $instance = null;
 
-    private ilSetting $settings;
+    protected ilSetting $settings;
     private bool $copyright_selection_active = false;
     private string $delimiter = '';
 
-    /**
-     * Constructor
-     *
-     * @access private
-     *
-     */
+
     private function __construct()
     {
         $this->read();
     }
     
-    /**
-     * get instance
-     *
-     * @access public
-     * @static
-     *
-     * @param
-     */
-    public static function _getInstance()
+
+    public static function _getInstance() : ilMDSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -65,45 +53,26 @@ class ilMDSettings
         return self::$instance = new ilMDSettings();
     }
     
-    /**
-     * is copyright selection active
-     *
-     * @access public
-     *
-     */
-    public function isCopyrightSelectionActive()
+
+    public function isCopyrightSelectionActive() : bool
     {
         return $this->copyright_selection_active ? true : false;
     }
     
-    /**
-     * enable copyright selection
-     *
-     * @access public
-     * @param bool status
-     *
-     */
-    public function activateCopyrightSelection($a_status)
+
+    public function activateCopyrightSelection(bool $a_status) : void
     {
         $this->copyright_selection_active = $a_status;
     }
     
-    /**
-    * Set delimiter (used in quick editing screen)
-    *
-    * @param	string delimiter
-    */
-    public function setDelimiter($a_val)
+
+    public function setDelimiter(string $a_val) : void
     {
         $this->delimiter = $a_val;
     }
     
-    /**
-    * Get delimiter
-    *
-    * @return	string delimiter
-    */
-    public function getDelimiter()
+
+    public function getDelimiter() : string
     {
         if (trim($this->delimiter) == "") {
             return ",";
@@ -111,25 +80,15 @@ class ilMDSettings
         return $this->delimiter;
     }
     
-    /**
-     * save
-     *
-     * @access public
-     *
-     */
-    public function save()
+
+    public function save() : void
     {
         $this->settings->set('copyright_selection_active', (int) $this->isCopyrightSelectionActive());
         $this->settings->set('delimiter', $this->getDelimiter());
     }
     
-    /**
-     * read
-     *
-     * @access private
-     *
-     */
-    private function read()
+
+    private function read() : void
     {
         $this->settings = new ilSetting('md_settings');
         

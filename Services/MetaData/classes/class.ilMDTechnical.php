@@ -40,7 +40,10 @@ class ilMDTechnical extends ilMDBase
     private ?ilMDLanguageItem $other_platform_requirements_language = null;
     private string $duration = '';
 
-    public function getPossibleSubelements()
+    /**
+     * @return array<string, string>
+     */
+    public function getPossibleSubelements() : array
     {
         $subs['Format'] = 'meta_format';
         $subs['Location'] = 'meta_location';
@@ -55,25 +58,29 @@ class ilMDTechnical extends ilMDBase
     }
 
     // Methods for child objects (Format, Location, Requirement OrComposite)
-    public function getFormatIds()
+
+    /**
+     * @return int[]
+     */
+    public function getFormatIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
         return ilMDFormat::_getIds($this->getRBACId(), $this->getObjId());
     }
-    public function getFormat($a_format_id)
+    public function getFormat(int $a_format_id) : ?ilMDFormat
     {
         include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
         if (!$a_format_id) {
-            return false;
+            return null;
         }
-        $for = new ilMDFormat($this, $a_format_id);
+        $for = new ilMDFormat($this->getRBACId(), $a_format_id);
         $for->setMetaId($a_format_id);
 
         return $for;
     }
-    public function addFormat()
+    public function addFormat() : ilMDFormat
     {
         include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
@@ -81,25 +88,29 @@ class ilMDTechnical extends ilMDBase
 
         return $for;
     }
-    public function getLocationIds()
+
+    /**
+     * @return int[]
+     */
+    public function getLocationIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
         return ilMDLocation::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
-    public function getLocation($a_location_id)
+    public function getLocation(int $a_location_id) : ?ilMDLocation
     {
         include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
         if (!$a_location_id) {
-            return false;
+            return null;
         }
         $loc = new ilMDLocation();
         $loc->setMetaId($a_location_id);
 
         return $loc;
     }
-    public function addLocation()
+    public function addLocation() : ilMDLocation
     {
         include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
@@ -109,25 +120,29 @@ class ilMDTechnical extends ilMDBase
 
         return $loc;
     }
-    public function getRequirementIds()
+
+    /**
+     * @return int[]
+     */
+    public function getRequirementIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
         return ilMDRequirement::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
-    public function getRequirement($a_requirement_id)
+    public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
         if (!$a_requirement_id) {
-            return false;
+            return null;
         }
         $rec = new ilMDRequirement();
         $rec->setMetaId($a_requirement_id);
         
         return $rec;
     }
-    public function addRequirement()
+    public function addRequirement() : ilMDRequirement
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
@@ -137,18 +152,22 @@ class ilMDTechnical extends ilMDBase
 
         return $rec;
     }
-    public function getOrCompositeIds()
+
+    /**
+     * @return int[]
+     */
+    public function getOrCompositeIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
         return ilMDOrComposite::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
-    public function getOrComposite($a_or_composite_id)
+    public function getOrComposite(int $a_or_composite_id) : ?ilMDOrComposite
     {
         include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
         if (!$a_or_composite_id) {
-            return false;
+            return null;
         }
         $orc = new ilMDOrComposite($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $orc->setOrCompositeId($a_or_composite_id);
@@ -157,7 +176,7 @@ class ilMDTechnical extends ilMDBase
 
         return $orc;
     }
-    public function addOrComposite()
+    public function addOrComposite() : ilMDOrComposite
     {
         include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
@@ -169,72 +188,72 @@ class ilMDTechnical extends ilMDBase
     }
 
     // SET/GET
-    public function setSize($a_size)
+    public function setSize(string $a_size) : void
     {
         $this->size = $a_size;
     }
-    public function getSize()
+    public function getSize() : string
     {
         return $this->size;
     }
-    public function setInstallationRemarks($a_val)
+    public function setInstallationRemarks(string $a_val) : void
     {
         $this->installation_remarks = $a_val;
     }
-    public function getInstallationRemarks()
+    public function getInstallationRemarks() : string
     {
         return $this->installation_remarks;
     }
-    public function setInstallationRemarksLanguage($lng_obj)
+    public function setInstallationRemarksLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->installation_remarks_language = $lng_obj;
         }
     }
-    public function getInstallationRemarksLanguage()
+    public function getInstallationRemarksLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->installation_remarks_language) ? $this->installation_remarks_language : false;
+        return is_object($this->installation_remarks_language) ? $this->installation_remarks_language : null;
     }
-    public function getInstallationRemarksLanguageCode()
+    public function getInstallationRemarksLanguageCode() : string
     {
-        return is_object($this->installation_remarks_language) ? $this->installation_remarks_language->getLanguageCode() : false;
+        return is_object($this->installation_remarks_language) ? $this->installation_remarks_language->getLanguageCode() : '';
     }
-    public function setOtherPlatformRequirements($a_val)
+    public function setOtherPlatformRequirements(string $a_val) : void
     {
         $this->other_platform_requirements = $a_val;
     }
-    public function getOtherPlatformRequirements()
+    public function getOtherPlatformRequirements() : string
     {
         return $this->other_platform_requirements;
     }
-    public function setOtherPlatformRequirementsLanguage($lng_obj)
+    public function setOtherPlatformRequirementsLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->other_platform_requirements_language = &$lng_obj;
         }
     }
-    public function getOtherPlatformRequirementsLanguage()
+    public function getOtherPlatformRequirementsLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->other_platform_requirements_language) ? $this->other_platform_requirements_language : false;
+        return is_object($this->other_platform_requirements_language) ? $this->other_platform_requirements_language : null;
     }
-    public function getOtherPlatformRequirementsLanguageCode()
+    public function getOtherPlatformRequirementsLanguageCode() : string
     {
         return is_object($this->other_platform_requirements_language)
             ? $this->other_platform_requirements_language->getLanguageCode()
-            : false;
+            : '';
     }
-    public function setDuration($a_val)
+    public function setDuration(string $a_val) : void
     {
         $this->duration = $a_val;
     }
-    public function getDuration()
+    public function getDuration() : string
     {
         return $this->duration;
     }
     
     
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -247,7 +266,7 @@ class ilMDTechnical extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -262,7 +281,7 @@ class ilMDTechnical extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -292,9 +311,11 @@ class ilMDTechnical extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -307,7 +328,7 @@ class ilMDTechnical extends ilMDBase
                      'duration' => array('text',$this->getDuration()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -333,12 +354,8 @@ class ilMDTechnical extends ilMDBase
         return false;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Technical');
 
@@ -399,8 +416,8 @@ class ilMDTechnical extends ilMDBase
         
         $writer->xmlEndTag('Technical');
     }
-    // STATIC
-    public static function _getId($a_rbac_id, $a_obj_id)
+
+    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
     {
         global $DIC;
 
@@ -414,6 +431,6 @@ class ilMDTechnical extends ilMDBase
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->meta_technical_id;
         }
-        return false;
+        return 0;
     }
 }

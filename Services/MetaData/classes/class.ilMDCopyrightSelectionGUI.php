@@ -46,12 +46,8 @@ class ilMDCopyrightSelectionGUI
     private int $rbac_id;
     private int $obj_id;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($a_mode, $a_rbac_id, $a_obj_id)
+
+    public function __construct(int $a_mode, int $a_rbac_id, int $a_obj_id)
     {
         global $DIC;
 
@@ -65,13 +61,8 @@ class ilMDCopyrightSelectionGUI
         $this->settings = ilMDSettings::_getInstance();
     }
     
-    /**
-     * parse
-     *
-     * @access public
-     *
-     */
-    public function fillTemplate()
+
+    public function fillTemplate() : bool
     {
         include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
         
@@ -115,5 +106,6 @@ class ilMDCopyrightSelectionGUI
         if (!$found) {
             $this->tpl->setVariable('COPYRIGHT_VAL', $desc);
         }
+        return false;
     }
 }

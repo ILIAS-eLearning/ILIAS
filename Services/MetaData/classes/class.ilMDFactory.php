@@ -31,14 +31,10 @@
 
 class ilMDFactory
 {
-    /*
-     * get md element by index and type
-     *
-     * @param string type (name e.g meta_general,meta_language)
-     *
-     * @return MD object
+    /**
+     * @return null|ilMDTechnical|ilMDTechnical|ilMDRequirement|ilMDLocation|ilMDFormat|ilMDLifecycle|ilMDEntity|ilMDContribute|ilMDIdentifier|ilMDDescription|ilMDKeyword|ilMDLanguage|ilMDRights|ilMDEducational|ilMDTypicalAgeRange|ilMDRelation|ilMDIdentifier_|ilMDAnnotation|ilMDClassification|ilMDTaxonPath|ilMDTaxon|ilMDMetaMetadata
      */
-    public static function _getInstance($a_type, $a_index, $a_technical_id = 0)
+    public static function _getInstance(string $a_type, int $a_index, ?int $a_technical_id = 0) : ?object
     {
         switch ($a_type) {
             case 'meta_technical':
@@ -224,7 +220,7 @@ class ilMDFactory
 
             default:
                 echo $a_type . " not known";
-                
+                return null;
         }
     }
 }

@@ -43,26 +43,28 @@ class ilMDEducational extends ilMDBase
     private string $typical_learning_time = '';
 
 
-    // Methods for child objects (TypicalAgeRange, Description, Language)
-    public function getTypicalAgeRangeIds()
+    /**
+     * @return int[]
+     */
+    public function getTypicalAgeRangeIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
         return ilMDTypicalAgeRange::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
-    public function getTypicalAgeRange($a_typical_age_range_id)
+    public function getTypicalAgeRange(int $a_typical_age_range_id) : ?ilMDTypicalAgeRange
     {
         include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
         if (!$a_typical_age_range_id) {
-            return false;
+            return null;
         }
         $typ = new ilMDTypicalAgeRange();
         $typ->setMetaId($a_typical_age_range_id);
 
         return $typ;
     }
-    public function addTypicalAgeRange()
+    public function addTypicalAgeRange() : ilMDTypicalAgeRange
     {
         include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
@@ -72,25 +74,29 @@ class ilMDEducational extends ilMDBase
 
         return $typ;
     }
-    public function getDescriptionIds()
+
+    /**
+     * @return int[]
+     */
+    public function getDescriptionIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
-    public function getDescription($a_description_id)
+    public function getDescription(int $a_description_id) : ?ilMDDescription
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
         if (!$a_description_id) {
-            return false;
+            return null;
         }
         $des = new ilMDDescription();
         $des->setMetaId($a_description_id);
 
         return $des;
     }
-    public function addDescription()
+    public function addDescription() : ilMDDescription
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
@@ -100,25 +106,29 @@ class ilMDEducational extends ilMDBase
 
         return $des;
     }
-    public function getLanguageIds()
+
+    /**
+     * @return int[]
+     */
+    public function getLanguageIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
-    public function getLanguage($a_language_id)
+    public function getLanguage(int $a_language_id) : ?ilMDLanguage
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
         if (!$a_language_id) {
-            return false;
+            return null;
         }
         $lan = new ilMDLanguage();
         $lan->setMetaId($a_language_id);
 
         return $lan;
     }
-    public function addLanguage()
+    public function addLanguage() : ilMDLanguage
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
         
@@ -130,7 +140,7 @@ class ilMDEducational extends ilMDBase
     }
 
     // SET/GET
-    public function setInteractivityType($a_iat)
+    public function setInteractivityType(string $a_iat) : bool
     {
         switch ($a_iat) {
             case 'Active':
@@ -143,11 +153,11 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getInteractivityType()
+    public function getInteractivityType() : string
     {
         return $this->interactivity_type;
     }
-    public function setLearningResourceType($a_lrt)
+    public function setLearningResourceType(string $a_lrt) : bool
     {
         switch ($a_lrt) {
             case 'Exercise':
@@ -172,7 +182,7 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getLearningResourceType()
+    public function getLearningResourceType() : string
     {
         return $this->learning_resource_type;
     }
@@ -191,11 +201,11 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getInteractivityLevel()
+    public function getInteractivityLevel() : string
     {
         return $this->interactivity_level;
     }
-    public function setSemanticDensity($a_sd)
+    public function setSemanticDensity(string $a_sd) : bool
     {
         switch ($a_sd) {
             case 'VeryLow':
@@ -210,11 +220,11 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getSemanticDensity()
+    public function getSemanticDensity() : string
     {
         return $this->semantic_density;
     }
-    public function setIntendedEndUserRole($a_ieur)
+    public function setIntendedEndUserRole(string $a_ieur) : bool
     {
         switch ($a_ieur) {
             case 'Teacher':
@@ -228,11 +238,11 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getIntendedEndUserRole()
+    public function getIntendedEndUserRole() : string
     {
         return $this->intended_end_user_role;
     }
-    public function setContext($a_context)
+    public function setContext(string $a_context) : bool
     {
         switch ($a_context) {
             case 'School':
@@ -246,11 +256,11 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getContext()
+    public function getContext() : string
     {
         return $this->context;
     }
-    public function setDifficulty($a_difficulty)
+    public function setDifficulty(string $a_difficulty) : bool
     {
         switch ($a_difficulty) {
             case 'VeryEasy':
@@ -265,12 +275,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
-    public function getDifficulty()
+    public function getDifficulty() : string
     {
         return $this->difficulty;
     }
 
-    public function setPhysicalTypicalLearningTime($months, $days, $hours, $minutes, $seconds)
+    public function setPhysicalTypicalLearningTime(int $months, int $days, int $hours, int $minutes, int $seconds) : bool
     {
         if (!$months and !$days and !$hours and !$minutes and !$seconds) {
             $this->setTypicalLearningTime('PT00H00M');
@@ -300,16 +310,16 @@ class ilMDEducational extends ilMDBase
     }
 
 
-    public function setTypicalLearningTime($a_tlt)
+    public function setTypicalLearningTime(string $a_tlt) : void
     {
         $this->typical_learning_time = $a_tlt;
     }
-    public function getTypicalLearningTime()
+    public function getTypicalLearningTime() : string
     {
         return $this->typical_learning_time;
     }
 
-    public function getTypicalLearningTimeSeconds()
+    public function getTypicalLearningTimeSeconds() : int
     {
         include_once './Services/MetaData/classes/class.ilMDUtils.php';
 
@@ -318,7 +328,7 @@ class ilMDEducational extends ilMDBase
         return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
     }
     
-    public function save()
+    public function save() : bool
     {
 
         $fields = $this->__getFields();
@@ -331,7 +341,7 @@ class ilMDEducational extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -346,7 +356,7 @@ class ilMDEducational extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -372,9 +382,11 @@ class ilMDEducational extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -389,7 +401,7 @@ class ilMDEducational extends ilMDBase
                      'typical_learning_time' => array('text',$this->getTypicalLearningTime()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         if ($this->getMetaId()) {
@@ -415,13 +427,8 @@ class ilMDEducational extends ilMDBase
         }
         return false;
     }
-                
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag(
             'Educational',
@@ -480,7 +487,7 @@ class ilMDEducational extends ilMDBase
         $writer->xmlEndTag('Educational');
     }
     // STATIC
-    public static function _getId($a_rbac_id, $a_obj_id)
+    public static function _getId(int $a_rbac_id, int $a_obj_id) : bool
     {
         global $DIC;
 
@@ -497,7 +504,7 @@ class ilMDEducational extends ilMDBase
         return false;
     }
 
-    public static function _getTypicalLearningTimeSeconds($a_rbac_id, $a_obj_id = 0)
+    public static function _getTypicalLearningTimeSeconds(int $a_rbac_id, int $a_obj_id = 0) : int
     {
         global $DIC;
 

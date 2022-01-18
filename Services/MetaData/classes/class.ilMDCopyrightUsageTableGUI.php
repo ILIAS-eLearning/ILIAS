@@ -22,12 +22,8 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     protected array $filter = [];
     protected array $objects = [];
 
-    /**
-     * ilCopyrightUsageGUI constructor.
-     * @param $a_parent_obj ilMDCopyrightUsageGUI
-     * @param $a_parent_cmd string
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '')
+
+    public function __construct(ilMDCopyrightUsageGUI $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
 
@@ -44,10 +40,8 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * init table columns, ...
-     */
-    public function init()
+
+    public function init() : void
     {
         $md_entry = new ilMDCopyrightSelectionEntry($this->copyright_id);
         $this->setTitle($md_entry->getTitle());
@@ -67,18 +61,13 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    /**
-     * Parse table content
-     */
-    public function parse()
+    public function parse() : void
     {
         $data = $this->collectData($this->getCurrentFilter());
         $this->setData($data);
     }
 
-    /**
-     * Init Filter
-     */
+
     public function initFilter() : void
     {
         $title = $this->addFilterItemByMetaType(
@@ -100,10 +89,9 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     }
 
     /**
-     * Get current filter settings
-     * @return	array
+     * @return string[]
      */
-    protected function getCurrentFilter()
+    protected function getCurrentFilter() : array
     {
         $filter = array();
         if ($this->filter["title"]) {
@@ -116,7 +104,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         return $filter;
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
 
         $icon = $this->ui_factory->symbol()->icon()->standard($a_set['type'], $this->lng->txt($a_set['type']), "medium");
@@ -152,10 +140,10 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $filters
-     * @return array
+     * @param string[] $filters
+     * @return array<string, mixed>
      */
-    public function collectData(array $filters)
+    public function collectData(array $filters) : array
     {
         $db_data = $this->getDataFromDB();
 
@@ -187,7 +175,10 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         return $data;
     }
 
-    public function getObjTypesAvailable()
+    /**
+     * @return string[]
+     */
+    public function getObjTypesAvailable() : array
     {
         $query = "SELECT DISTINCT obj_type FROM il_meta_rights " .
             "WHERE description = " . $this->db->quote('il_copyright_entry__' . IL_INST_ID . '__' . $this->copyright_id, 'text') .
@@ -201,9 +192,9 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getDataFromDB()
+    public function getDataFromDB() : array
     {
         $query = "SELECT rbac_id, obj_id, obj_type FROM il_meta_rights " .
             "WHERE description = " . $this->db->quote('il_copyright_entry__' . IL_INST_ID . '__' . $this->copyright_id, 'text') .
@@ -214,14 +205,14 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $data = array();
         while ($row = $this->db->fetchAssoc($result)) {
             $data[] = array(
-                "obj_id" => $row['rbac_id'],
-                "obj_type" => $row['obj_type']
+                "obj_id" => (int) $row['rbac_id'],
+                "obj_type" => (string) $row['obj_type']
             );
         }
         return $data;
     }
 
-    public function getCountSubItemsFromDB($a_rbac_id)
+    public function getCountSubItemsFromDB(int $a_rbac_id) : int
     {
         $query = "SELECT count(rbac_id) total FROM il_meta_rights " .
             "WHERE rbac_id = " . $this->db->quote($a_rbac_id) .

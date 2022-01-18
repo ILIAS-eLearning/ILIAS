@@ -34,19 +34,16 @@ class ilMDUtils
     /**
      * LOM datatype duration is a string like P2M4DT7H18M2S (2 months 4 days 7 hours 18 minutes 2 seconds)
      * This function tries to parse a given string in an array of months, days, hours, minutes and seconds
-     *
-     * @param string string to parse
-     * @return array  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or false if not parsable
-     *
+     * @return int[]  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or empty array if not parsable
      */
-    public static function _LOMDurationToArray($a_string)
+    public static function _LOMDurationToArray(string $a_string) : array
     {
         $a_string = trim($a_string);
         #$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
         $pattern = '/^P(\d{1,2}M)?(\d{1,2}D)?(T(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?)?$/i';
 
         if (!preg_match($pattern, $a_string, $matches)) {
-            return false;
+            return [];
         }
         // Month
         if (preg_match('/^P(\d+)M/i', $a_string, $matches)) {
@@ -73,23 +70,14 @@ class ilMDUtils
         
         // Hack for zero values
         if (!$months and !$days and !$hours and !$min and !$sec) {
-            return false;
+            return [];
         }
         
         return array($months,$days,$hours,$min,$sec);
     }
     
-    /**
-     * Fill html meta tags
-     *
-     * @access public
-     * @static
-     *
-     * @param int rbac_id
-     * @param int obj_id
-     * @param string obj type
-     */
-    public static function _fillHTMLMetaTags($a_rbac_id, $a_obj_id, $a_type)
+
+    public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type) : bool
     {
         global $DIC;
 
@@ -114,18 +102,11 @@ class ilMDUtils
             $tpl->setVariable('MH_META_CONTENT', $author);
             $tpl->parseCurrentBlock();
         }
+        return true;
     }
 
-    /**
-     * Parse copyright
-     *
-     *
-     * @access public
-     * @static
-     *
-     * @param string copyright
-     */
-    public static function _parseCopyright($a_copyright)
+
+    public static function _parseCopyright(string $a_copyright) : string
     {
         include_once('Services/MetaData/classes/class.ilMDSettings.php');
         $settings = ilMDSettings::_getInstance();

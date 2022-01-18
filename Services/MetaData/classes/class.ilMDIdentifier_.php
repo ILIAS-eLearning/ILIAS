@@ -37,25 +37,25 @@ class ilMDIdentifier_ extends ilMDBase
     private string $entry = '';
 
     // SET/GET
-    public function setCatalog($a_catalog)
+    public function setCatalog(string $a_catalog) : void
     {
         $this->catalog = $a_catalog;
     }
-    public function getCatalog()
+    public function getCatalog() : string
     {
         return $this->catalog;
     }
-    public function setEntry($a_entry)
+    public function setEntry(string $a_entry) : void
     {
         $this->entry = $a_entry;
     }
-    public function getEntry()
+    public function getEntry() : string
     {
         return $this->entry;
     }
 
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -68,7 +68,7 @@ class ilMDIdentifier_ extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -83,7 +83,7 @@ class ilMDIdentifier_ extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -94,9 +94,11 @@ class ilMDIdentifier_ extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -107,7 +109,7 @@ class ilMDIdentifier_ extends ilMDBase
                      'entry' => array('text',$this->getEntry()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         if ($this->getMetaId()) {
@@ -128,12 +130,8 @@ class ilMDIdentifier_ extends ilMDBase
         return true;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement('Identifier_', array('Catalog' => $this->getCatalog(),
                                                 'Entry' => $this->getEntry() ? $this->getEntry() : "ID1"));
@@ -141,7 +139,11 @@ class ilMDIdentifier_ extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 

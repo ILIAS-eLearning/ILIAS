@@ -33,14 +33,8 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 {
     protected bool $has_write;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', $a_has_write = false)
+
+    public function __construct(ilObjMDSettingsGUI $a_parent_obj, string $a_parent_cmd = '', bool $a_has_write = false)
     {
         
         $this->has_write = (bool) $a_has_write;
@@ -67,14 +61,8 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
     
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         if ($this->has_write) {
             if ($a_set['default']) {
@@ -132,14 +120,8 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * Parse records
-     *
-     * @access public
-     * @param array array of record objects
-     *
-     */
-    public function parseSelections()
+
+    public function parseSelections() : void
     {
         // These entries are ordered by 1. is_default, 2. position
         $entries = ilMDCopyrightSelectionEntry::_getEntries();

@@ -39,48 +39,48 @@ class ilMDTypicalAgeRange extends ilMDBase
     private string $typical_age_range_maximum = '';
 
     // SET/GET
-    public function setTypicalAgeRange($a_typical_age_range)
+    public function setTypicalAgeRange(string $a_typical_age_range) : void
     {
         $this->typical_age_range = $a_typical_age_range;
     }
-    public function getTypicalAgeRange()
+    public function getTypicalAgeRange() : string
     {
         return $this->typical_age_range;
     }
-    public function setTypicalAgeRangeLanguage($lng_obj)
+    public function setTypicalAgeRangeLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->typical_age_range_language = $lng_obj;
         }
     }
-    public function getTypicalAgeRangeLanguage()
+    public function getTypicalAgeRangeLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : false;
+        return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : null;
     }
-    public function getTypicalAgeRangeLanguageCode()
+    public function getTypicalAgeRangeLanguageCode() : string
     {
-        return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : false;
+        return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : '';
     }
 
-    public function setTypicalAgeRangeMinimum($a_min)
+    public function setTypicalAgeRangeMinimum(string $a_min) : void
     {
         $this->typical_age_range_minimum = $a_min;
     }
-    public function getTypicalAgeRangeMinimum()
+    public function getTypicalAgeRangeMinimum() : string
     {
         return $this->typical_age_range_minimum;
     }
-    public function setTypicalAgeRangeMaximum($a_max)
+    public function setTypicalAgeRangeMaximum(string $a_max) : void
     {
         $this->typical_age_range_maximum = $a_max;
     }
-    public function getTypicalAgeRangeMaximum()
+    public function getTypicalAgeRangeMaximum() : string
     {
         return $this->typical_age_range_maximum;
     }
 
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -93,7 +93,7 @@ class ilMDTypicalAgeRange extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         $this->__parseTypicalAgeRange();
@@ -109,7 +109,7 @@ class ilMDTypicalAgeRange extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -120,9 +120,11 @@ class ilMDTypicalAgeRange extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -135,7 +137,7 @@ class ilMDTypicalAgeRange extends ilMDBase
                      'tar_max' => array('text',$this->getTypicalAgeRangeMaximum()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -160,12 +162,8 @@ class ilMDTypicalAgeRange extends ilMDBase
         return true;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'TypicalAgeRange',
@@ -178,7 +176,11 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 

@@ -38,39 +38,39 @@ class ilMDTaxon extends ilMDBase
 
 
     // SET/GET
-    public function setTaxon($a_taxon)
+    public function setTaxon(string $a_taxon) : void
     {
         $this->taxon = $a_taxon;
     }
-    public function getTaxon()
+    public function getTaxon() : string
     {
         return $this->taxon;
     }
-    public function setTaxonLanguage($lng_obj)
+    public function setTaxonLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->taxon_language = $lng_obj;
         }
     }
-    public function getTaxonLanguage()
+    public function getTaxonLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->taxon_language) ? $this->taxon_language : false;
+        return is_object($this->taxon_language) ? $this->taxon_language : null;
     }
-    public function getTaxonLanguageCode()
+    public function getTaxonLanguageCode() : string
     {
-        return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : false;
+        return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : '';
     }
-    public function setTaxonId($a_taxon_id)
+    public function setTaxonId(int $a_taxon_id) : void
     {
         $this->taxon_id = $a_taxon_id;
     }
-    public function getTaxonId()
+    public function getTaxonId() : int
     {
         return $this->taxon_id;
     }
     
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -83,7 +83,7 @@ class ilMDTaxon extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -98,7 +98,7 @@ class ilMDTaxon extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -111,9 +111,11 @@ class ilMDTaxon extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -125,7 +127,7 @@ class ilMDTaxon extends ilMDBase
                      'taxon_id' => array('text',$this->getTaxonId()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -149,12 +151,8 @@ class ilMDTaxon extends ilMDBase
         return true;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $random = new \ilRandom();
         $writer->xmlElement(
@@ -170,7 +168,11 @@ class ilMDTaxon extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 

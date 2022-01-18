@@ -37,25 +37,29 @@ class ilMDTaxonPath extends ilMDBase
     private ?ilMDLanguageItem $source_language = null;
 
     // METHODS OF CHILD OBJECTS (Taxon)
-    public function getTaxonIds()
+
+    /**
+     * @return int[]
+     */
+    public function getTaxonIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
         return ilMDTaxon::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_taxon_path');
     }
-    public function getTaxon($a_taxon_id)
+    public function getTaxon(int $a_taxon_id) : ?ilMDTaxon
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
         if (!$a_taxon_id) {
-            return false;
+            return null;
         }
         $tax = new ilMDTaxon();
         $tax->setMetaId($a_taxon_id);
 
         return $tax;
     }
-    public function addTaxon()
+    public function addTaxon() : ilMDTaxon
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
@@ -67,31 +71,31 @@ class ilMDTaxonPath extends ilMDBase
     }
 
     // SET/GET
-    public function setSource($a_source)
+    public function setSource(string $a_source) : void
     {
         $this->source = $a_source;
     }
-    public function getSource()
+    public function getSource() : string
     {
         return $this->source;
     }
-    public function setSourceLanguage(&$lng_obj)
+    public function setSourceLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->source_language = $lng_obj;
         }
     }
-    public function getSourceLanguage()
+    public function getSourceLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->source_language) ? $this->source_language : false;
+        return is_object($this->source_language) ? $this->source_language : null;
     }
-    public function getSourceLanguageCode()
+    public function getSourceLanguageCode() : string
     {
-        return is_object($this->source_language) ? $this->source_language->getLanguageCode() : false;
+        return is_object($this->source_language) ? $this->source_language->getLanguageCode() : '';
     }
 
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -104,7 +108,7 @@ class ilMDTaxonPath extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -119,7 +123,7 @@ class ilMDTaxonPath extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -136,9 +140,11 @@ class ilMDTaxonPath extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -149,7 +155,7 @@ class ilMDTaxonPath extends ilMDBase
                      'source_language' => array('text',$this->getSourceLanguageCode()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -172,12 +178,7 @@ class ilMDTaxonPath extends ilMDBase
         return true;
     }
 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('TaxonPath');
 
@@ -204,10 +205,10 @@ class ilMDTaxonPath extends ilMDBase
         $writer->xmlEndTag('TaxonPath');
     }
 
-                
-
-    // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 

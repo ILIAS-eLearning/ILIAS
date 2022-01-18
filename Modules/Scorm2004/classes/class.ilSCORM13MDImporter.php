@@ -93,7 +93,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
     /**
      * handler for begin of element
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         $this->path[count($this->path)] = $a_name;
 
@@ -402,7 +402,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
     /**
      * handler for end of element
      */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         //echo "<br>End TAG: ".$a_name;
         unset($this->path[count($this->path) - 1]);

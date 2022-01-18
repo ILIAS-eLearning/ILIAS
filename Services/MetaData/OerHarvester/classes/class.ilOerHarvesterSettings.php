@@ -36,10 +36,7 @@ class ilOerHarvesterSettings
 
 
 
-    /**
-     * ilOerHarvesterSettings constructor.
-     * @throws \LogicException
-     */
+
     protected function __construct()
     {
         global $DIC;
@@ -52,10 +49,8 @@ class ilOerHarvesterSettings
 
 
 
-    /**
-     * @return \ilOerHarvesterSettings
-     */
-    public static function getInstance()
+
+    public static function getInstance() : ilOerHarvesterSettings
     {
         if (!self::$instance instanceof ilOerHarvesterSettings) {
             self::$instance = new self();
@@ -63,43 +58,36 @@ class ilOerHarvesterSettings
         return self::$instance;
     }
 
-    /**
-     * @param string $a_type
-     * @return bool
-     */
-    public function supportsHarvesting($a_type)
+
+    public function supportsHarvesting(string $a_type) : bool
     {
         return in_array($a_type, self::COLLECTED_TYPES);
     }
 
     /**
-     * Get obj types that support harvesing
+     * @return string[]
      */
-    public function getHarvestingTypes()
+    public function getHarvestingTypes() : array
     {
         return self::COLLECTED_TYPES;
     }
 
-    /**
-     * @param int $a_target
-     */
-    public function setTarget($a_target)
+
+    public function setTarget(int $a_target) : void
     {
         $this->target = $a_target;
     }
 
-    /**
-     * Get target
-     */
-    public function getTarget()
+
+    public function getTarget() : int
     {
         return $this->target;
     }
 
     /**
-     * @param array $a_template_ids
+     * @param string[] $a_template_ids
      */
-    public function setCopyrightTemplates(array $a_template_ids)
+    public function setCopyrightTemplates(array $a_template_ids) : void
     {
         $this->copyright_templates = $a_template_ids;
     }
@@ -107,25 +95,22 @@ class ilOerHarvesterSettings
     /**
      * @return string[]
      */
-    public function getCopyrightTemplates()
+    public function getCopyrightTemplates() : array
     {
         return $this->copyright_templates;
     }
 
-    /**
-     * @param $a_id
-     * @return bool
-     */
-    public function isActiveCopyrightTemplate($a_id)
+
+    public function isActiveCopyrightTemplate(int $a_id) : bool
     {
         return in_array($a_id, $this->getCopyrightTemplates());
     }
 
     /**
      * Get copyright entries in LOM format: "il_copyright_entry_INST_ID_ID"
-     * return string[]
+     * @return string[]
      */
-    public function getCopyRightTemplatesInLomFormat()
+    public function getCopyRightTemplatesInLomFormat() : array
     {
 
         $lom_entries = [];
@@ -136,19 +121,15 @@ class ilOerHarvesterSettings
     }
 
 
-    /**
-     * Save settings
-     */
-    public function save()
+
+    public function save() : void
     {
         $this->storage->set('target', $this->getTarget());
         $this->storage->set('templates', serialize($this->copyright_templates));
     }
 
-    /**
-     * Read settings
-     */
-    public function read()
+
+    public function read() : void
     {
         $this->setTarget($this->storage->get('target', 0));
         $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([]))));

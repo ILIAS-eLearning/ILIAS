@@ -33,15 +33,11 @@ class ilMDUtilSelect
 {
     /**
      * Prepare a meta data language selector
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array  $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getLanguageSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getLanguageSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -68,14 +64,12 @@ class ilMDUtilSelect
     /**
      * Prepare a meta general structure selector
      *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      *
-     * @return string Complete html select
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getStructureSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getStructureSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -99,14 +93,12 @@ class ilMDUtilSelect
     /**
      * Prepare a meta lifecycle status selector
      *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @param array  $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      *
-     * @return string Complete html select
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getStatusSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getStatusSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -129,15 +121,11 @@ class ilMDUtilSelect
     }
     /**
      * Prepare a meta lifecycle status selector
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getRoleSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getRoleSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -162,15 +150,11 @@ class ilMDUtilSelect
     }
     /**
      * Prepare a meta technical os selector
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getOperatingSystemSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getOperatingSystemSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -193,15 +177,11 @@ class ilMDUtilSelect
     }
     /**
      * Prepare a meta technical browser selector
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getBrowserSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getBrowserSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -225,15 +205,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta technical format selector
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getFormatSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getFormatSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -267,14 +243,9 @@ class ilMDUtilSelect
     /**
      * Prepare a meta technical duration selector
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getDurationSelect($a_selected, $a_name, $prepend = array())
+    public static function _getDurationSelect(string $a_selected, string $a_name, array $prepend = array()) : string
     {
         global $DIC;
 
@@ -301,15 +272,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta educational interactivity type
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getInteractivityTypeSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getInteractivityTypeSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -333,15 +300,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta educational learning resource type
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getLearningResourceTypeSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getLearningResourceTypeSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -366,14 +329,10 @@ class ilMDUtilSelect
     /**
      * Prepare a meta educational interactivity level
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
-    public static function _getInteractivityLevelSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getInteractivityLevelSelect(int $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     {
         global $DIC;
 
@@ -397,14 +356,12 @@ class ilMDUtilSelect
      * Prepare a meta educational semantic density
      * All possible entries in meta_format are shown
      *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      *
-     * @return string Complete html select
+     * @return string|array $prepend Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getSemanticDensitySelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getSemanticDensitySelect(int $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -429,14 +386,12 @@ class ilMDUtilSelect
      * Prepare a meta educational intended end user role
      * All possible entries in meta_format are shown
      *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      *
-     * @return string Complete html select
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getIntendedEndUserRoleSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getIntendedEndUserRoleSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -459,15 +414,11 @@ class ilMDUtilSelect
     }
     /**
      * Prepare a meta context
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getContextSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getContextSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -492,14 +443,9 @@ class ilMDUtilSelect
 
     /**
      * Prepare a meta location type
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getLocationTypeSelect($a_selected, $a_name, $prepend = array())
+    public static function _getLocationTypeSelect(string $a_selected, string $a_name, array $prepend = array()) : string
     {
         global $DIC;
 
@@ -519,15 +465,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta educational difficulty
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getDifficultySelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getDifficultySelect(int $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -551,14 +493,9 @@ class ilMDUtilSelect
     /**
      * Prepare a meta educational typical age range
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getTypicalAgeRangeSelect($a_selected, $a_name, $prepend = array())
+    public static function _getTypicalAgeRangeSelect(string $a_selected, string $a_name, array $prepend = array()):string
     {
         global $DIC;
 
@@ -579,14 +516,9 @@ class ilMDUtilSelect
     /**
      * Prepare a meta educational typical learning time
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getTypicalLearningTimeSelect($a_selected, $a_name, $prepend = array())
+    public static function _getTypicalLearningTimeSelect(string $a_selected, string $a_name, array $prepend = array()):string
     {
         global $DIC;
 
@@ -612,15 +544,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta rights costs
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getCostsSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getCostsSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -644,15 +572,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta rights copyright and other restrictions
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getCopyrightAndOtherRestrictionsSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getCopyrightAndOtherRestrictionsSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;
@@ -676,15 +600,11 @@ class ilMDUtilSelect
     /**
      * Prepare a meta rights copyright and other restrictions
      * All possible entries in meta_format are shown
-     *
-     * @param string Checked item
-     * @param string Name of form variable.
-     * @param array  array(value => 'string') of first item. E.g: array(0,'-Please select-')
-     *
-     * @return string Complete html select
+     * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
+     * @return string|array Complete html select
      */
     // BEGIN PATCH Lucene search
-    public static function _getPurposeSelect($a_selected, $a_name, $prepend = array(), $a_options_only = false)
+    public static function _getPurposeSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
         global $DIC;

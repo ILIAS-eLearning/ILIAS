@@ -12,11 +12,7 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilMetaDataImporter extends ilXmlImporter
 {
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
+
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);

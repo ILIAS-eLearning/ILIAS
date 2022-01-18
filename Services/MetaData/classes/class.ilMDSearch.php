@@ -37,17 +37,12 @@ class ilMDSearch
 {
     private string $mode = '';
 
-    /*
-     * instance of query parser
-     */
+
     private ilQueryParser $query_parser;
     private ilDBInterface $db;
     private ilSearchResult $search_result;
 
-    /**
-    * Constructor
-    * @access public
-    */
+
     public function __construct(ilQueryParser $qp_obj)
     {
         global $DIC;
@@ -57,23 +52,18 @@ class ilMDSearch
         $this->search_result = new ilSearchResult();
     }
 
-    /**
-    * Define meta elements to search
-    *
-    * @param string mode keyword or all
-    * @access public
-    */
-    public function setMode($a_mode)
+
+    public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    public function getMode()
+    public function getMode() : string
     {
         return $this->mode;
     }
 
 
-    public function performSearch()
+    public function performSearch() : ?ilSearchResult
     {
         switch ($this->getMode()) {
             case 'all':
@@ -84,14 +74,14 @@ class ilMDSearch
 
             default:
                 echo "ilMDSearch::performSearch() no mode given";
-                return false;
+                return null;
         }
+        return null;
     }
 
 
-
-    // Private
-    public function __searchKeywordsOnly()
+    
+    public function __searchKeywordsOnly() : ilSearchResult
     {
         $where = " WHERE ";
         $field = " keyword ";

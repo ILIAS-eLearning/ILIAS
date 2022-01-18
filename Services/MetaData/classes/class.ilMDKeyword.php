@@ -37,11 +37,11 @@ class ilMDKeyword extends ilMDBase
     private ?ilMDLanguageItem $keyword_language = null;
 
     // SET/GET
-    public function setKeyword($a_keyword)
+    public function setKeyword(string $a_keyword) : void
     {
         $this->keyword = $a_keyword;
     }
-    public function getKeyword()
+    public function getKeyword() : string
     {
         return $this->keyword;
     }
@@ -51,16 +51,16 @@ class ilMDKeyword extends ilMDBase
             $this->keyword_language = $lng_obj;
         }
     }
-    public function getKeywordLanguage()
+    public function getKeywordLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->keyword_language) ? $this->keyword_language : false;
+        return is_object($this->keyword_language) ? $this->keyword_language : null;
     }
-    public function getKeywordLanguageCode()
+    public function getKeywordLanguageCode() : string
     {
-        return is_object($this->keyword_language) ? $this->keyword_language->getLanguageCode() : false;
+        return is_object($this->keyword_language) ? $this->keyword_language->getLanguageCode() : '';
     }
 
-    public function save()
+    public function save() : bool
     {
         $fields = $this->__getFields();
         $fields['meta_keyword_id'] = array('integer',$next_id = $this->db->nextId('il_meta_keyword'));
@@ -72,7 +72,7 @@ class ilMDKeyword extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -87,7 +87,7 @@ class ilMDKeyword extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -99,9 +99,11 @@ class ilMDKeyword extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer', $this->getObjId()),
@@ -112,7 +114,7 @@ class ilMDKeyword extends ilMDBase
                      'keyword_language' => array('text', $this->getKeywordLanguageCode()));
     }
 
-    public function read()
+    public function read() : bool
     {
 
         if ($this->getMetaId()) {
@@ -133,12 +135,8 @@ class ilMDKeyword extends ilMDBase
         return true;
     }
                 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'Keyword',
@@ -151,7 +149,11 @@ class ilMDKeyword extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
@@ -171,18 +173,11 @@ class ilMDKeyword extends ilMDBase
         }
         return $ids;
     }
-    
+
     /**
-     * Get keywords by language
-     *
-     * @access public
-     * @static
-     *
-     * @param int rbac_id
-     * @param int obj_id
-     * @param string obj type
+     * @return array<string, array<int, string>>
      */
-    public static function _getKeywordsByLanguage($a_rbac_id, $a_obj_id, $a_type)
+    public static function _getKeywordsByLanguage(int $a_rbac_id, int $a_obj_id, string $a_type) : array
     {
         global $DIC;
 
@@ -202,32 +197,22 @@ class ilMDKeyword extends ilMDBase
         }
         return $keywords ? $keywords : array();
     }
+
     /**
-     * Get keywords by language as string
-     *
-     * @access public
-     * @static
-     *
-     * @param int rbac_id
-     * @param int obj_id
-     * @param string obj type
+     * @return array<string, string>
      */
-    public static function _getKeywordsByLanguageAsString($a_rbac_id, $a_obj_id, $a_type)
+    public static function _getKeywordsByLanguageAsString(int $a_rbac_id, int $a_obj_id, string $a_type) : array
     {
         foreach (ilMDKeyword::_getKeywordsByLanguage($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $keywords) {
             $key_string[$lng_code] = implode(",", $keywords);
         }
         return $key_string ? $key_string : array();
     }
-    
+
     /**
-     * Search for objects by keywords
-     * @param string $a_query
-     * @param string $a_type
-     * @param int $a_rbac_id [optional]
-     * @return
+     * @return int[]
      */
-    public static function _searchKeywords($a_query, $a_type, $a_rbac_id = 0)
+    public static function _searchKeywords(string $a_query, string $a_type, int $a_rbac_id = 0) : array
     {
         global $DIC;
 
@@ -260,16 +245,11 @@ class ilMDKeyword extends ilMDBase
         
         return (array) $obj_ids;
     }
-    
+
     /**
-     * Search for keywords
-     *
-     * @param string $a_query
-     * @param string $a_type
-     * @param int $a_rbac_id [optional]
-     * @return
+     * @return string[]
      */
-    public static function _getMatchingKeywords($a_query, $a_type, $a_rbac_id = 0)
+    public static function _getMatchingKeywords(string $a_query, string $a_type, int $a_rbac_id = 0) : array
     {
         global $DIC;
 
@@ -290,15 +270,8 @@ class ilMDKeyword extends ilMDBase
         }
         return $kws;
     }
-    
-    /**
-     * Lookup Keywords
-     * @param int $a_rbac_id
-     * @param int $a_obj_id
-     * @param bool $a_return_kw
-     * @return
-     */
-    public static function lookupKeywords($a_rbac_id, $a_obj_id, $a_return_ids = false)
+
+    public static function lookupKeywords(int $a_rbac_id, int $a_obj_id, bool $a_return_ids = false) : array
     {
         global $DIC;
 
@@ -321,12 +294,8 @@ class ilMDKeyword extends ilMDBase
         return $kws;
     }
     
-    /**
-     * Update keywords from input array
-     * @param ilMDGeneral $a_md_section
-     * @param array $a_keywords lang => keywords
-     */
-    public static function updateKeywords(ilMDGeneral $a_md_section, array $a_keywords)
+
+    public static function updateKeywords(ilMDGeneral $a_md_section, array $a_keywords) : void
     {
         // trim keywords
         $new_keywords = array();

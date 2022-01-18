@@ -31,11 +31,11 @@
 
 class ilMDLanguageElement
 {
-    public string $language_code;
-    public array $possible_language_codes;
+    protected string $language_code;
+    protected array $possible_language_codes;
 
 
-    public function __construct($a_code)
+    public function __construct(string $a_code)
     {
         $this->language_code = $a_code;
 
@@ -55,11 +55,11 @@ class ilMDLanguageElement
     }
 
 
-    public function getLanguageCode()
+    public function getLanguageCode() : string
     {
         if (in_array($this->language_code, $this->possible_language_codes)) {
             return $this->language_code;
         }
-        return false;
+        return '';
     }
 }

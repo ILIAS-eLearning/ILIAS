@@ -6,6 +6,7 @@ define('IL_TLT_MAX_HOURS', 99);
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
 * Meta Data class (element general)
@@ -42,7 +43,7 @@ class ilMDEditorGUI
     protected int $obj_id;
     protected string $obj_type;
 
-    public function __construct($a_rbac_id, $a_obj_id, $a_obj_type)
+    public function __construct(int $a_rbac_id, int $a_obj_id, string $a_obj_type)
     {
         global $DIC;
 
@@ -65,7 +66,7 @@ class ilMDEditorGUI
         $this->md_settings = ilMDSettings::_getInstance();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -79,7 +80,7 @@ class ilMDEditorGUI
                 $this->initFilter();
                 $item = $this->getFilterItemByPostVar($_GET["postvar"]);
                 $form_prop_dispatch->setItem($item);
-                return $this->ctrl->forwardCommand($form_prop_dispatch);
+                $this->ctrl->forwardCommand($form_prop_dispatch);
             
             default:
                 if (!$cmd) {
@@ -88,11 +89,10 @@ class ilMDEditorGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
 
-    public function debug()
+    public function debug() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMD2XML.php';
 
@@ -112,7 +112,7 @@ class ilMDEditorGUI
     /**
      * @deprecated with release 5_3
      */
-    public function listQuickEdit_scorm()
+    public function listQuickEdit_scorm() : void
     {
         if (!is_object($this->md_section = $this->md_obj->getGeneral())) {
             $this->md_section = $this->md_obj->addGeneral();
@@ -341,8 +341,8 @@ class ilMDEditorGUI
             }
         }
         $this->tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-        $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($tlt[0]));
-        $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($tlt[1]));
+        $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) ($tlt[0] ?? '')));
+        $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) ($tlt[1] ?? '')));
         
         $this->tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
@@ -370,7 +370,7 @@ class ilMDEditorGUI
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
     }
     
-    public function listQuickEdit()
+    public function listQuickEdit() : void
     {
 
         if (!is_object($this->md_section = $this->md_obj->getGeneral())) {
@@ -395,10 +395,8 @@ class ilMDEditorGUI
         );
     }
 
-    /**
-     * Init quick edit form.
-     */
-    public function initQuickEditForm($a_signal_id)
+
+    public function initQuickEditForm(string $a_signal_id) : ilPropertyFormGUI
     {
     
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -545,11 +543,8 @@ class ilMDEditorGUI
         return $this->form;
     }
 
-    /**
-     * Show copyright selecetion
-     * @param ilPropertyFormGUI $form
-     */
-    protected function listQuickEditCopyright(ilPropertyFormGUI $form)
+
+    protected function listQuickEditCopyright(ilPropertyFormGUI $form) : bool
     {
         $md_settings = ilMDSettings::_getInstance();
         $oer_settings = ilOerHarvesterSettings::getInstance();
@@ -631,15 +626,11 @@ class ilMDEditorGUI
         $own_selection->addSubItem($own_copyright);
         $copyright->addOption($own_selection);
         $form->addItem($copyright);
+        return true;
     }
 
-    /**
-     * Keyword list for autocomplete
-     *
-     * @param
-     * @return
-     */
-    public function keywordAutocomplete()
+
+    public function keywordAutocomplete() : void
     {
         include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
         $res = ilMDKeyword::_getMatchingKeywords(
@@ -666,10 +657,8 @@ class ilMDEditorGUI
     }
     
     
-    /**
-    * update quick edit properties
-    */
-    public function updateQuickEdit()
+
+    public function updateQuickEdit() : bool
     {
         ilLoggerFactory::getLogger('root')->dump($_REQUEST);
 
@@ -849,9 +838,10 @@ class ilMDEditorGUI
         // Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
         $this->ctrl->redirect($this, 'listSection');
+        return true;
     }
 
-    public function updateQuickEdit_scorm_propagate($request, $type)
+    public function updateQuickEdit_scorm_propagate(string $request, string $type) : void
     {
         $module_id = $this->md_obj->getObjId();
         if ($this->md_obj->getObjType() == 'sco') {
@@ -922,22 +912,20 @@ class ilMDEditorGUI
         $this->updateQuickEdit_scorm();
     }
     
-    public function updateQuickEdit_scorm_prop_expert()
+    public function updateQuickEdit_scorm_prop_expert() : void
     {
         $this->updateQuickEdit_scorm_propagate("life_experts", "SubjectMatterExpert");
     }
-    public function updateQuickEdit_scorm_prop_designer()
+    public function updateQuickEdit_scorm_prop_designer() : void
     {
         $this->updateQuickEdit_scorm_propagate("life_designers", "InstructionalDesigner");
     }
-    public function updateQuickEdit_scorm_prop_poc()
+    public function updateQuickEdit_scorm_prop_poc() : void
     {
         $this->updateQuickEdit_scorm_propagate("life_poc", "PointOfContact");
     }
-    /**
-    * update quick edit properties - SCORM customization
-    */
-    public function updateQuickEdit_scorm()
+
+    public function updateQuickEdit_scorm() : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -1246,10 +1234,8 @@ class ilMDEditorGUI
         $this->ctrl->redirect($this, 'listSection');
     }
     
-    /*
-     * list general sections
-     */
-    public function listGeneral()
+
+    public function listGeneral() : void
     {
         if (!is_object($this->md_section = $this->md_obj->getGeneral())) {
             $this->md_section = $this->md_obj->addGeneral();
@@ -1444,10 +1430,8 @@ class ilMDEditorGUI
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
     }
 
-    /**
-    * update general section
-    */
-    public function updateGeneral()
+
+    public function updateGeneral() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
         
@@ -1512,9 +1496,10 @@ class ilMDEditorGUI
         $this->ctrl->setParameter($this, "section", "meta_general");
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
         $this->ctrl->redirect($this, 'listSection');
+        return true;
     }
 
-    public function updateTechnical()
+    public function updateTechnical() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -1566,7 +1551,7 @@ class ilMDEditorGUI
         
 
 
-    public function listTechnical()
+    public function listTechnical() : bool
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_technical');
@@ -1815,11 +1800,12 @@ class ilMDEditorGUI
         $this->tpl->setCurrentBlock("technical");
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
         $this->tpl->parseCurrentBlock();
+        return true;
     }
     
 
 
-    public function listLifecycle()
+    public function listLifecycle() : bool
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_lifecycle');
@@ -1930,9 +1916,10 @@ class ilMDEditorGUI
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+        return true;
     }
 
-    public function updateLifecycle()
+    public function updateLifecycle() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -1979,7 +1966,7 @@ class ilMDEditorGUI
 
 
 
-    public function listMetaMetaData()
+    public function listMetaMetaData() : bool
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_meta_metadata');
@@ -2107,10 +2094,11 @@ class ilMDEditorGUI
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+        return true;
     }
 
 
-    public function updateMetaMetaData()
+    public function updateMetaMetaData() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -2152,10 +2140,8 @@ class ilMDEditorGUI
     }
 
 
-    /*
-     * list rights section
-     */
-    public function listRights()
+
+    public function listRights() : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_rights');
@@ -2215,7 +2201,7 @@ class ilMDEditorGUI
         }
     }
 
-    public function updateRights()
+    public function updateRights() : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -2232,10 +2218,8 @@ class ilMDEditorGUI
         $this->listSection();
     }
 
-    /*
-     * list educational section
-     */
-    public function listEducational()
+
+    public function listEducational() : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_educational');
@@ -2340,8 +2324,8 @@ class ilMDEditorGUI
             }
 
             $this->tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-            $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($tlt[0]));
-            $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($tlt[1]));
+            $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) ($tlt[0] ?? '')));
+            $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) ($tlt[1] ?? '')));
         
             $this->tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
             $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
@@ -2507,7 +2491,7 @@ class ilMDEditorGUI
         }
     }
 
-    public function updateEducational()
+    public function updateEducational() : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -2575,10 +2559,7 @@ class ilMDEditorGUI
         $this->listSection();
     }
 
-    /*
-     * list relation section
-     */
-    public function listRelation()
+    public function listRelation() : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_relation');
@@ -2728,7 +2709,7 @@ class ilMDEditorGUI
         }
     }
 
-    public function updateRelation()
+    public function updateRelation() : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -2736,7 +2717,7 @@ class ilMDEditorGUI
         foreach ($ids = $this->md_obj->getRelationIds() as $id) {
             // kind
             $relation = $this->md_obj->getRelation($id);
-            $relation->setKind($_POST['relation'][$id]['Kind']);
+            $relation->setKind((string) ($_POST['relation'][$id]['Kind'] ?? ''));
             
             $relation->update();
             
@@ -2766,10 +2747,8 @@ class ilMDEditorGUI
         $this->listSection();
     }
 
-    /*
-     * list annotation section
-     */
-    public function listAnnotation()
+
+    public function listAnnotation() : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_annotation');
@@ -2837,7 +2816,7 @@ class ilMDEditorGUI
         }
     }
 
-    public function updateAnnotation()
+    public function updateAnnotation() : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -2860,10 +2839,8 @@ class ilMDEditorGUI
         $this->listSection();
     }
     
-    /*
-     * list classification section
-     */
-    public function listClassification()
+
+    public function listClassification() : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_classification');
@@ -3074,7 +3051,7 @@ class ilMDEditorGUI
         }
     }
 
-    public function updateClassification()
+    public function updateClassification() : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -3106,7 +3083,7 @@ class ilMDEditorGUI
                 $tax_path = $classification->getTaxonPath($tp_id);
                 $tax_path->setSource(ilUtil::stripSlashes($_POST['classification']['TaxonPath'][$tp_id]['Source']['Value']));
                 $tax_path->setSourceLanguage(
-                    new ilMDLanguageItem($_POST['classification']['TaxonPath'][$tp_id]['Source']['Language'])
+                    new ilMDLanguageItem((string) ($_POST['classification']['TaxonPath'][$tp_id]['Source']['Language'] ?? ''))
                 );
                 $tax_path->update();
 
@@ -3116,9 +3093,9 @@ class ilMDEditorGUI
                     $taxon = $tax_path->getTaxon($tax_id);
                     $taxon->setTaxon(ilUtil::stripSlashes($_POST['classification']['TaxonPath']['Taxon'][$tax_id]['Value']));
                     $taxon->setTaxonLanguage(
-                        new ilMDLanguageItem($_POST['classification']['TaxonPath']['Taxon'][$tax_id]['Language'])
+                        new ilMDLanguageItem((string) ($_POST['classification']['TaxonPath']['Taxon'][$tax_id]['Language'] ?? ''))
                     );
-                    $taxon->setTaxonId(ilUtil::stripSlashes($_POST['classification']['TaxonPath']['Taxon'][$tax_id]['Id']));
+                    $taxon->setTaxonId(ilUtil::stripSlashes((int) ($_POST['classification']['TaxonPath']['Taxon'][$tax_id]['Id'] ?? 0)));
                     $taxon->update();
                 }
             }
@@ -3129,7 +3106,7 @@ class ilMDEditorGUI
         $this->listSection();
     }
 
-    public function deleteElement()
+    public function deleteElement() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMDFactory.php';
 
@@ -3141,7 +3118,7 @@ class ilMDEditorGUI
         return true;
     }
     
-    public function deleteSection()
+    public function deleteSection() : bool
     {
         include_once 'Services/MetaData/classes/class.ilMDFactory.php';
 
@@ -3153,7 +3130,7 @@ class ilMDEditorGUI
         return true;
     }
     
-    public function addSection()
+    public function addSection() : bool
     {
         // Switch section
         switch ($_GET['section']) {
@@ -3231,7 +3208,7 @@ class ilMDEditorGUI
         return true;
     }
 
-    public function addSectionElement()
+    public function addSectionElement() : bool
     {
         $section_element = (empty($_POST['section_element']))
             ? $_GET['section_element']
@@ -3349,51 +3326,63 @@ class ilMDEditorGUI
         return true;
     }
 
-    public function listSection()
+    public function listSection() : void
     {
         switch ($_REQUEST['section']) {
             case 'meta_general':
-                return $this->listGeneral();
+                $this->listGeneral();
+                break;
 
             case 'meta_lifecycle':
-                return $this->listLifecycle();
+                $this->listLifecycle();
+                break;
 
             case 'meta_technical':
-                return $this->listTechnical();
+                $this->listTechnical();
+                break;
 
             case 'meta_meta_metadata':
-                return $this->listMetaMetadata();
+                $this->listMetaMetadata();
+                break;
                 
             case 'debug':
-                return $this->debug();
+                $this->debug();
+                break;
                 
             case 'meta_rights':
-                return $this->listRights();
+                $this->listRights();
+                break;
                 
             case 'meta_educational':
-                return $this->listEducational();
+                $this->listEducational();
+                break;
 
             case 'meta_relation':
-                return $this->listRelation();
+                $this->listRelation();
+                break;
 
             case 'meta_annotation':
-                return $this->listAnnotation();
+                $this->listAnnotation();
+                break;
 
             case 'meta_classification':
-                return $this->listClassification();
+                $this->listClassification();
+                break;
 
             default:
                 if ($this->md_obj->getObjType() == 'sahs' || $this->md_obj->getObjType() == 'sco') {
-                    return $this->listQuickEdit_scorm();
+                    $this->listQuickEdit_scorm();
+                    break;
                 } else {
-                    return $this->listQuickEdit();
+                    $this->listQuickEdit();
+                    break;
                 }
         }
     }
 
 
     // PRIVATE
-    public function __fillSubelements()
+    public function __fillSubelements() : void
     {
         if (count($subs = $this->md_section->getPossibleSubelements())) {
             //$subs = array_merge(array('' => 'meta_please_select'),$subs);
@@ -3405,12 +3394,11 @@ class ilMDEditorGUI
 
             $this->tpl->setVariable("TXT_ADD", $this->lng->txt('meta_add'));
         }
-        return true;
     }
 
 
 
-    public function __setTabs($a_active)
+    public function __setTabs(string $a_active) : void
     {
         
         $tabs = array('meta_quickedit' => 'listQuickEdit',
@@ -3448,14 +3436,11 @@ class ilMDEditorGUI
                 
         $this->toolbarGUI->setFormAction($this->ctrl->getFormAction($this, "listSection"));
 
-        return true;
     }
 
 
-    /**
-    * shows language select box
-    */
-    public function __showLanguageSelect($a_name, $a_value = "")
+
+    public function __showLanguageSelect(string $a_name, string $a_value = "") : string
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -3487,7 +3472,7 @@ class ilMDEditorGUI
         return $return;
     }
 
-    public function __buildMonthsSelect($sel_month)
+    public function __buildMonthsSelect(string $sel_month) : string
     {
         for ($i = 0;$i <= 24;$i++) {
             $options[$i] = sprintf('%02d', $i);
@@ -3496,7 +3481,7 @@ class ilMDEditorGUI
     }
 
 
-    public function __buildDaysSelect($sel_day)
+    public function __buildDaysSelect(string $sel_day) : string
     {
         for ($i = 0;$i <= 31;$i++) {
             $options[$i] = sprintf('%02d', $i);
@@ -3507,14 +3492,18 @@ class ilMDEditorGUI
         
 
     // Observer methods
-    public function addObserver(&$a_class, $a_method, $a_element)
+    public function addObserver(object $a_class, string $a_method, string $a_element) : bool
     {
-        $this->observers[$a_element]['class'] = &$a_class;
-        $this->observers[$a_element]['method'] = &$a_method;
+        $this->observers[$a_element]['class'] = $a_class;
+        $this->observers[$a_element]['method'] = $a_method;
 
         return true;
     }
-    public function callListeners($a_element)
+
+    /**
+     * @return mixed
+     */
+    public function callListeners(string $a_element)
     {
         if (isset($this->observers[$a_element])) {
             $class = &$this->observers[$a_element]['class'];
@@ -3522,15 +3511,11 @@ class ilMDEditorGUI
 
             return $class->$method($a_element);
         }
-        return false;
+        return '';
     }
 
-    /**
-     * Get cnange copyright modal
-     *
-     * @return \ILIAS\UI\Component\Modal\Interruptive
-     */
-    protected function getChangeCopyrightModal()
+
+    protected function getChangeCopyrightModal(): ?Interruptive
     {
         $md_settings = ilMDSettings::_getInstance();
         if (!$md_settings->isCopyrightSelectionActive()) {

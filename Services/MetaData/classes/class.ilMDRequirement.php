@@ -42,17 +42,17 @@ class ilMDRequirement extends ilMDBase
     private string $browser_maximum_version = '';
 
     // SET/GET
-    public function setOrCompositeId($a_or_composite_id)
+    public function setOrCompositeId(int $a_or_composite_id) : void
     {
-        $this->or_composite_id = (int) $a_or_composite_id;
+        $this->or_composite_id = $a_or_composite_id;
     }
-    public function getOrCompositeId()
+    public function getOrCompositeId() : int
     {
-        return (int) $this->or_composite_id;
+        return $this->or_composite_id;
     }
 
 
-    public function setOperatingSystemName($a_val)
+    public function setOperatingSystemName(string $a_val) : bool
     {
         switch ($a_val) {
             case 'PC-DOS':
@@ -68,27 +68,27 @@ class ilMDRequirement extends ilMDBase
                 return false;
         }
     }
-    public function getOperatingSystemName()
+    public function getOperatingSystemName() : string
     {
         return $this->operating_system_name;
     }
-    public function setOperatingSystemMinimumVersion($a_val)
+    public function setOperatingSystemMinimumVersion(string $a_val) : void
     {
         $this->operating_system_minimum_version = $a_val;
     }
-    public function getOperatingSystemMinimumVersion()
+    public function getOperatingSystemMinimumVersion() : string
     {
         return $this->operating_system_minimum_version;
     }
-    public function setOperatingSystemMaximumVersion($a_val)
+    public function setOperatingSystemMaximumVersion(string $a_val) : void
     {
         $this->operating_system_maximum_version = $a_val;
     }
-    public function getOperatingSystemMaximumVersion()
+    public function getOperatingSystemMaximumVersion() : string
     {
         return $this->operating_system_maximum_version;
     }
-    public function setBrowserName($a_val)
+    public function setBrowserName(string $a_val) : bool
     {
         switch ($a_val) {
             case 'Any':
@@ -104,28 +104,28 @@ class ilMDRequirement extends ilMDBase
                 return false;
         }
     }
-    public function getBrowserName()
+    public function getBrowserName() : string
     {
         return $this->browser_name;
     }
-    public function setBrowserMinimumVersion($a_val)
+    public function setBrowserMinimumVersion(string $a_val) : void
     {
         $this->browser_minimum_version = $a_val;
     }
-    public function getBrowserMinimumVersion()
+    public function getBrowserMinimumVersion() : string
     {
         return $this->browser_minimum_version;
     }
-    public function setBrowserMaximumVersion($a_val)
+    public function setBrowserMaximumVersion(string $a_val) : void
     {
         $this->browser_maximum_version = $a_val;
     }
-    public function getBrowserMaximumVersion()
+    public function getBrowserMaximumVersion() : string
     {
         return $this->browser_maximum_version;
     }
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -138,7 +138,7 @@ class ilMDRequirement extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -153,7 +153,7 @@ class ilMDRequirement extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -164,9 +164,11 @@ class ilMDRequirement extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -182,7 +184,7 @@ class ilMDRequirement extends ilMDBase
                      'or_composite_id' => array('integer',$this->getOrCompositeId()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -215,7 +217,7 @@ class ilMDRequirement extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML($writer)
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Requirement');
         $writer->xmlStartTag('Type');
@@ -240,7 +242,11 @@ class ilMDRequirement extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type, $a_or_composite_id = 0)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type, int $a_or_composite_id = 0) : array
     {
         global $DIC;
 

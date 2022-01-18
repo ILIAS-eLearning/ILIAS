@@ -56,6 +56,7 @@ class ilMDSaxParser extends ilSaxParser
     protected ?ilMDClassification $md_cla = null;
     protected ?ilMDTaxonPath $md_taxp = null;
     protected ?ilMDTaxon $md_tax = null;
+    protected ?ilMDKeyword $md_key = null;
 
     /**
      * Array of mixed ilMD objects
@@ -75,11 +76,7 @@ class ilMDSaxParser extends ilSaxParser
 
     protected ilLogger $meta_log;
 
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
+
     public function __construct($a_xml_file = '')
     {
         global $DIC;
@@ -93,34 +90,31 @@ class ilMDSaxParser extends ilSaxParser
         parent::__construct($a_xml_file);
     }
 
-    public function enableMDParsing($a_status)
+    public function enableMDParsing(bool $a_status) : void
     {
-        $this->md_parsing_enabled = (bool) $a_status;
+        $this->md_parsing_enabled = $a_status;
     }
-    public function getMDParsingStatus()
+    public function getMDParsingStatus() : bool
     {
-        return (bool) $this->md_parsing_enabled;
+        return $this->md_parsing_enabled;
     }
 
-    public function setMDObject($md)
+    public function setMDObject(ilMD $md) : void
     {
         $this->md = $md;
     }
-    public function getMDObject()
+    public function getMDObject() : ?ilMD
     {
-        return is_object($this->md) ? $this->md : false;
+        return is_object($this->md) ? $this->md : null;
     }
 
-    public function inMetaData()
+    public function inMetaData() : bool
     {
         return $this->md_in_md;
     }
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
+    * @param	resource $a_xml_parser reference to the xml parser
     */
     public function setHandlers($a_xml_parser)
     {
@@ -129,12 +123,10 @@ class ilMDSaxParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-
-
     /**
-    * handler for begin of element
+    * @param resource $a_xml_parser
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -416,9 +408,9 @@ class ilMDSaxParser extends ilSaxParser
     }
 
     /**
-    * handler for end of element
+    * @param resource $a_xml_parser
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -657,9 +649,9 @@ class ilMDSaxParser extends ilSaxParser
     }
 
     /**
-    * handler for character data
+    * @param resource $a_xml_parser
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -676,12 +668,12 @@ class ilMDSaxParser extends ilSaxParser
         
 
     // PRIVATE
-    public function __getCharacterData()
+    public function __getCharacterData() : string
     {
         return trim($this->md_chr_data);
     }
 
-    public function __pushParent(&$md_obj)
+    public function __pushParent(object &$md_obj) : void
     {
         $this->md_parent[] = &$md_obj;
         $this->meta_log->debug('New parent stack (push)...');
@@ -689,7 +681,7 @@ class ilMDSaxParser extends ilSaxParser
             $this->meta_log->debug(get_class($class));
         }
     }
-    public function __popParent()
+    public function __popParent() : void
     {
         $this->meta_log->debug('New parent stack (pop)....');
         $class = array_pop($this->md_parent);
@@ -699,7 +691,7 @@ class ilMDSaxParser extends ilSaxParser
         $this->meta_log->debug(is_object($class) ? get_class($class) : 'null');
         unset($class);
     }
-    public function __getParent()
+    public function __getParent() : object
     {
         return $this->md_parent[count($this->md_parent) - 1];
     }

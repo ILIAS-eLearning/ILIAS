@@ -37,16 +37,16 @@ class ilMDFormat extends ilMDBase
     private string $format = '';
 
     // SET/GET
-    public function setFormat($a_format)
+    public function setFormat(string $a_format) : void
     {
         $this->format = $a_format;
     }
-    public function getFormat()
+    public function getFormat() : string
     {
         return $this->format;
     }
 
-    public function save()
+    public function save() : bool
     {
 
         $fields = $this->__getFields();
@@ -59,7 +59,7 @@ class ilMDFormat extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
 
         if ($this->getMetaId()) {
@@ -74,7 +74,7 @@ class ilMDFormat extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -86,9 +86,11 @@ class ilMDFormat extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -96,7 +98,7 @@ class ilMDFormat extends ilMDBase
                      'format' => array('text',$this->getFormat()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -115,13 +117,8 @@ class ilMDFormat extends ilMDBase
         }
         return true;
     }
-                
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         if ($this->getFormat()) {
             $writer->xmlElement('Format', null, $this->getFormat());
@@ -130,7 +127,11 @@ class ilMDFormat extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id) : array
     {
         global $DIC;
 

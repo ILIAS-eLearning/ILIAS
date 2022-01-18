@@ -12,22 +12,11 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  */
 class ilMetaDataExporter extends ilXmlExporter
 {
-    private $ds;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
     }
 
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         include_once("./Services/MetaData/classes/class.ilMD2XML.php");
@@ -43,7 +32,7 @@ class ilMetaDataExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
+     * @return array<string, array<string, string>>
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {

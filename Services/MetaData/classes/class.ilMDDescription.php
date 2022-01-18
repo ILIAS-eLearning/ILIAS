@@ -34,34 +34,34 @@ class ilMDDescription extends ilMDBase
 {
 
     private string $description = '';
-    private ?ilMDLanguageItem $description_language;
+    private ?ilMDLanguageItem $description_language = null;
 
 
     // SET/GET
-    public function setDescription($a_description)
+    public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
-    public function setDescriptionLanguage($lng_obj)
+    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->description_language = $lng_obj;
         }
     }
-    public function getDescriptionLanguage()
+    public function getDescriptionLanguage() : ?ilMDLanguageItem
     {
-        return is_object($this->description_language) ? $this->description_language : false;
+        return is_object($this->description_language) ? $this->description_language : null;
     }
-    public function getDescriptionLanguageCode()
+    public function getDescriptionLanguageCode() : string
     {
-        return is_object($this->description_language) ? $this->description_language->getLanguageCode() : false;
+        return is_object($this->description_language) ? $this->description_language->getLanguageCode() : '';
     }
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -74,7 +74,7 @@ class ilMDDescription extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -89,7 +89,7 @@ class ilMDDescription extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -101,9 +101,11 @@ class ilMDDescription extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -114,7 +116,7 @@ class ilMDDescription extends ilMDBase
                      'description_language' => array('text',$this->getDescriptionLanguageCode()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -136,13 +138,8 @@ class ilMDDescription extends ilMDBase
         }
         return true;
     }
-                
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'Description',
@@ -155,7 +152,11 @@ class ilMDDescription extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
@@ -171,7 +172,7 @@ class ilMDDescription extends ilMDBase
         $res = $ilDB->query($query);
         $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_description_id;
+            $ids[] = (int) $row->meta_description_id;
         }
         return $ids;
     }

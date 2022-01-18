@@ -33,37 +33,42 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLifecycle extends ilMDBase
 {
-    protected ?ilMDLanguageItem $version_language = null;
-    protected string $version = "";
-    protected string $status = "";
+    private ?ilMDLanguageItem $version_language = null;
+    private string $version = "";
+    private string $status = "";
 
-    public function getPossibleSubelements()
+    /**
+     * @return array<string, string>
+     */
+    public function getPossibleSubelements() : array
     {
         $subs['Contribute'] = 'meta_contribute';
 
         return $subs;
     }
 
-    // Get subelemsts 'Contribute'
-    public function getContributeIds()
+    /**
+     * @return int[]
+     */
+    public function getContributeIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_lifecycle');
     }
-    public function getContribute($a_contribute_id)
+    public function getContribute(int $a_contribute_id) : ?ilMDContribute
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
         
         if (!$a_contribute_id) {
-            return false;
+            return null;
         }
         $con = new ilMDContribute();
         $con->setMetaId($a_contribute_id);
 
         return $con;
     }
-    public function addContribute()
+    public function addContribute() : ilMDContribute
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
@@ -76,7 +81,7 @@ class ilMDLifecycle extends ilMDBase
 
 
     // SET/GET
-    public function setStatus($a_status)
+    public function setStatus(string $a_status) : void
     {
         switch ($a_status) {
             case 'Draft':
@@ -86,39 +91,35 @@ class ilMDLifecycle extends ilMDBase
                 $this->status = $a_status;
                 break;
         }
-        return false;
     }
-    public function getStatus()
+    public function getStatus() : string
     {
         return $this->status;
     }
-    public function setVersion($a_version)
+    public function setVersion(string $a_version) : void
     {
         $this->version = $a_version;
     }
-    public function getVersion()
+    public function getVersion() : string
     {
         return $this->version;
     }
-    public function setVersionLanguage($lng_obj)
+    public function setVersionLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->version_language = $lng_obj;
         }
     }
-    public function getVersionLanguage()
+    public function getVersionLanguage() : ilMDLanguageItem
     {
         return $this->version_language;
     }
-    public function getVersionLanguageCode()
+    public function getVersionLanguageCode() : string
     {
-        if (is_object($this->version_language)) {
-            return $this->version_language->getLanguageCode();
-        }
-        return false;
+        return is_object($this->version_language) ? $this->version_language->getLanguageCode() : '';
     }
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -131,7 +132,7 @@ class ilMDLifecycle extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -146,7 +147,7 @@ class ilMDLifecycle extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         // Delete 'contribute'
@@ -164,9 +165,11 @@ class ilMDLifecycle extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -176,7 +179,7 @@ class ilMDLifecycle extends ilMDBase
                      'version_language' => array('text',$this->getVersionLanguageCode()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -198,12 +201,8 @@ class ilMDLifecycle extends ilMDBase
         return true;
     }
 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Lifecycle', array('Status' => $this->getStatus()
                                                ? $this->getStatus()
@@ -233,7 +232,7 @@ class ilMDLifecycle extends ilMDBase
                 
 
     // STATIC
-    public static function _getId($a_rbac_id, $a_obj_id)
+    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
     {
         global $DIC;
 
@@ -248,6 +247,6 @@ class ilMDLifecycle extends ilMDBase
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->meta_lifecycle_id;
         }
-        return false;
+        return 0;
     }
 }

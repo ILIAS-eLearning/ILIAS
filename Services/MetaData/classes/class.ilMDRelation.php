@@ -36,25 +36,29 @@ class ilMDRelation extends ilMDBase
     private string $kind = '';
 
     // METHODS OF CHILD OBJECTS (Taxon)
-    public function getIdentifier_Ids()
+
+    /**
+     * @return int[]
+     */
+    public function getIdentifier_Ids() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
         return ilMDIdentifier_::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
-    public function getIdentifier_($a_identifier__id)
+    public function getIdentifier_(int $a_identifier__id) : ?ilMDIdentifier_
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
         if (!$a_identifier__id) {
-            return false;
+            return null;
         }
         $ide = new ilMDIdentifier_();
         $ide->setMetaId($a_identifier__id);
 
         return $ide;
     }
-    public function addIdentifier_()
+    public function addIdentifier_() : ilMDIdentifier_
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
@@ -65,25 +69,28 @@ class ilMDRelation extends ilMDBase
         return $ide;
     }
 
-    public function getDescriptionIds()
+    /**
+     * @return int[]
+     */
+    public function getDescriptionIds() : array
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
         return ilMdDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
-    public function getDescription($a_description_id)
+    public function getDescription(int $a_description_id) : ?ilMDDescription
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
         
         if (!$a_description_id) {
-            return false;
+            return null;
         }
         $des = new ilMDDescription();
         $des->setMetaId($a_description_id);
 
         return $des;
     }
-    public function addDescription()
+    public function addDescription() : ilMDDescription
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
         
@@ -94,7 +101,7 @@ class ilMDRelation extends ilMDBase
         return $des;
     }
     // SET/GET
-    public function setKind($a_kind)
+    public function setKind(string $a_kind) : bool
     {
         switch ($a_kind) {
             case 'IsPartOf':
@@ -116,13 +123,13 @@ class ilMDRelation extends ilMDBase
                 return false;
         }
     }
-    public function getKind()
+    public function getKind() : string
     {
         return $this->kind;
     }
 
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -135,7 +142,7 @@ class ilMDRelation extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -150,7 +157,7 @@ class ilMDRelation extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -171,9 +178,11 @@ class ilMDRelation extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -181,7 +190,7 @@ class ilMDRelation extends ilMDBase
                      'kind' => array('text',$this->getKind()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         if ($this->getMetaId()) {
@@ -199,12 +208,8 @@ class ilMDRelation extends ilMDBase
         return true;
     }
 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Relation', array('Kind' => $this->getKind()
                                               ? $this->getKind()
@@ -242,7 +247,11 @@ class ilMDRelation extends ilMDBase
                 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id) : array
     {
         global $DIC;
 
@@ -254,7 +263,7 @@ class ilMDRelation extends ilMDBase
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_relation_id;
+            $ids[] = (int) $row->meta_relation_id;
         }
         return $ids ? $ids : array();
     }

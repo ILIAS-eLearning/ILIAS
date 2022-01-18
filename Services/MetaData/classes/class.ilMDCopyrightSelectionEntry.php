@@ -50,14 +50,8 @@ class ilMDCopyrightSelectionEntry
     protected int $order_position = 0;
     
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int entry id
-     *
-     */
-    public function __construct($a_entry_id)
+
+    public function __construct(int $a_entry_id)
     {
         global $DIC;
         
@@ -69,14 +63,9 @@ class ilMDCopyrightSelectionEntry
     }
     
     /**
-     * get entries
-     *
      * @return ilMDCopyrightSelectionEntry[]
-     * @access public
-     * @static
-     *
      */
-    public static function _getEntries()
+    public static function _getEntries() : array
     {
         global $DIC;
 
@@ -92,12 +81,8 @@ class ilMDCopyrightSelectionEntry
         return $entries;
     }
     
-    /**
-     * Lookup copyright title.
-     * Currently used for export of meta data
-     * @param type $a_cp_string
-     */
-    public static function lookupCopyyrightTitle($a_cp_string)
+
+    public static function lookupCopyyrightTitle(string $a_cp_string) : string
     {
         global $DIC;
 
@@ -115,15 +100,8 @@ class ilMDCopyrightSelectionEntry
     }
 
 
-    /**
-     * lookup copyright by entry id
-     *
-     * @access public
-     * @static
-     *
-     * @param string copyright string il_copyright_entry__IL_INST_ID__ENTRY_ID
-     */
-    public static function _lookupCopyright($a_cp_string)
+
+    public static function _lookupCopyright(string $a_cp_string) : string
     {
         global $DIC;
 
@@ -140,12 +118,7 @@ class ilMDCopyrightSelectionEntry
         return $row->copyright ? $row->copyright : '';
     }
 
-    /**
-     * @param $copyright_text
-     * @return int
-     * @throws ilDatabaseException
-     */
-    public static function lookupCopyrightByText($copyright_text)
+    public static function lookupCopyrightByText(string $copyright_text) : int
     {
         global $DIC;
 
@@ -160,16 +133,8 @@ class ilMDCopyrightSelectionEntry
         return 0;
     }
     
-    /**
-     * extract entry id
-     *
-     * @access public
-     * @static
-     *
-     * @param
-     * @return integer
-     */
-    public static function _extractEntryId($a_cp_string)
+
+    public static function _extractEntryId(string $a_cp_string) : int
     {
         if (!preg_match('/il_copyright_entry__([0-9]+)__([0-9]+)/', $a_cp_string, $matches)) {
             return 0;
@@ -180,26 +145,14 @@ class ilMDCopyrightSelectionEntry
         return $matches[2] ? $matches[2] : 0;
     }
     
-    /**
-     * get usage
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getUsage()
+
+    public function getUsage() : int
     {
         return $this->usage;
     }
     
-    /**
-     * get entry id
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getEntryId()
+
+    public function getEntryId() : int
     {
         return $this->entry_id;
     }
@@ -208,7 +161,7 @@ class ilMDCopyrightSelectionEntry
      * Get if the entry is default
      * No setter for this.
      */
-    public function getIsDefault()
+    public function getIsDefault() : bool
     {
         $query = "SELECT is_default FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $this->db->quote($this->entry_id, 'integer');
@@ -219,27 +172,20 @@ class ilMDCopyrightSelectionEntry
         return $row['is_default'];
     }
 
-    /**
-     * Set copyright element as outdated and not usable anymore
-     * @param $a_value
-     */
-    public function setOutdated($a_value)
+
+    public function setOutdated(int $a_value) : void
     {
-        $this->outdated = (int) $a_value;
+        $this->outdated = $a_value;
     }
 
-    /**
-     * @return int
-     */
-    public function getOutdated()
+
+    public function getOutdated() : int
     {
         return $this->outdated;
     }
 
-    /**
-     * Get default
-     */
-    public static function getDefault()
+
+    public static function getDefault() : int
     {
         global $DIC;
 
@@ -254,161 +200,92 @@ class ilMDCopyrightSelectionEntry
         return $row['entry_id'];
     }
     
-    /**
-     * set title
-     *
-     * @access public
-     * @param string title
-     *
-     */
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
     
-    /**
-     * get title
-     *
-     * @access public
-     *
-     */
-    public function getTitle()
+
+    public function getTitle() : string
     {
         return $this->title;
     }
     
-    /**
-     * set description
-     *
-     * @access public
-     * @param string description
-     *
-     */
-    public function setDescription($a_desc)
+
+    public function setDescription(string $a_desc) : void
     {
         $this->description = $a_desc;
     }
     
-    /**
-     * get description
-     *
-     * @access public
-     */
-    public function getDescription()
+
+    public function getDescription() : string
     {
         return $this->description;
     }
     
-    /**
-     * set copyright
-     *
-     * @access public
-     * @param string $copyright
-     *
-     */
-    public function setCopyright($a_copyright)
+
+    public function setCopyright(string $a_copyright) : void
     {
         $this->copyright = $a_copyright;
     }
     
-    /**
-     * get copyright
-     *
-     * @access publi
-     */
-    public function getCopyright()
+
+    public function getCopyright() : string
     {
         return $this->copyright;
     }
     
-    /**
-     * set costs
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function setCosts($a_costs)
+
+    public function setCosts(int $a_costs) : void
     {
         $this->costs = $a_costs;
     }
     
-    /**
-     * get costs
-     *
-     * @access public
-     */
-    public function getCosts()
+
+    public function getCosts() : int
     {
         return $this->costs;
     }
     
-    /**
-     * set language
-     *
-     * @access public
-     * @param string language key
-     *
-     */
-    public function setLanguage($a_lang_key)
+
+    public function setLanguage(string $a_lang_key) : void
     {
         $this->language = $a_lang_key;
     }
     
-    /**
-     * get language
-     *
-     * @access public
-     *
-     */
-    public function getLanguage()
+
+    public function getLanguage() : string
     {
         return $this->language;
     }
     
-    /**
-     * set copyright and other restrictions
-     *
-     * @access public
-     * @param bool copyright and other restrictions
-     */
-    public function setCopyrightAndOtherRestrictions($a_status)
+
+    public function setCopyrightAndOtherRestrictions(bool $a_status) : void
     {
         $this->copyright_and_other_restrictions = $a_status;
     }
     
-    /**
-     * get copyright and other restrictions
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getCopyrightAndOtherRestrictions()
+
+    public function getCopyrightAndOtherRestrictions() : bool
     {
         // Fixed
         return true;
     }
 
-    /**
-     * Set the order position in the table of copyrights.
-     * @param $a_position integer
-     */
-    public function setOrderPosition($a_position)
+
+    public function setOrderPosition(int $a_position) : void
     {
-        $this->order_position = (int) $a_position;
+        $this->order_position = $a_position;
     }
 
-    /**
-     * Get the order position in the table of copyrights.
-     * @return int
-     */
-    public function getOrderPosition()
+
+    public function getOrderPosition() : int
     {
         return $this->order_position;
     }
 
-    protected function getNextOrderPosition()
+    protected function getNextOrderPosition() : int
     {
         $query = "SELECT count(entry_id) total FROM il_md_cpr_selections";
         $res = $this->db->query($query);
@@ -417,12 +294,8 @@ class ilMDCopyrightSelectionEntry
         return $row['total'] + 1;
     }
 
-    /**
-     * Add entry
-     *
-     * @access public
-     */
-    public function add()
+
+    public function add() : bool
     {
         
         $next_id = $this->db->nextId('il_md_cpr_selections');
@@ -441,13 +314,8 @@ class ilMDCopyrightSelectionEntry
         return true;
     }
     
-    /**
-     * update
-     *
-     * @access public
-     *
-     */
-    public function update()
+
+    public function update() : bool
     {
 
         $this->db->update('il_md_cpr_selections', array(
@@ -465,13 +333,8 @@ class ilMDCopyrightSelectionEntry
         return true;
     }
     
-    /**
-     * delete
-     *
-     * @access public
-     *
-     */
-    public function delete()
+
+    public function delete() : void
     {
         
         $query = "DELETE FROM il_md_cpr_selections " .
@@ -479,14 +342,8 @@ class ilMDCopyrightSelectionEntry
         $res = $this->db->manipulate($query);
     }
     
-    /**
-     * validate
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function validate()
+
+    public function validate() : bool
     {
         if (!strlen($this->getTitle())) {
             return false;
@@ -494,14 +351,8 @@ class ilMDCopyrightSelectionEntry
         return true;
     }
     
-    /**
-     * Read entry
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function read()
+
+    private function read() : void
     {
         
         $query = "SELECT * FROM il_md_cpr_selections " .
@@ -529,12 +380,8 @@ class ilMDCopyrightSelectionEntry
         $this->usage = $row->used;
     }
 
-    /**
-     * Create identifier for entry id
-     * @param $a_entry_id
-     * @return string
-     */
-    public static function createIdentifier($a_entry_id)
+
+    public static function createIdentifier(int $a_entry_id) : string
     {
         return 'il_copyright_entry__' . IL_INST_ID . '__' . $a_entry_id;
     }

@@ -20,13 +20,8 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
     protected int $rows = 0;
     protected ilMDSettings $settings;
     
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
-    public function __construct($a_title = "", $a_postvar = "")
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
         $this->lng->loadLanguageModule("meta");
@@ -34,80 +29,47 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
         $this->settings = ilMDSettings::_getInstance();
     }
 
-    /**
-     * Set Value.
-     *
-     * @param	string	$a_value	Value
-     */
-    public function setValue($a_value)
+
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-     * Get Value.
-     *
-     * @return	string	Value
-     */
-    public function getValue()
+
+    public function getValue() : string
     {
         return $this->value;
     }
 
-    /**
-     * Set Cols.
-     *
-     * @param	int	$a_cols	Cols
-     */
-    public function setCols($a_cols)
+
+    public function setCols(int $a_cols) : void
     {
         $this->cols = $a_cols;
     }
 
-    /**
-     * Get Cols.
-     *
-     * @return	int	Cols
-     */
-    public function getCols()
+    public function getCols() : int
     {
         return $this->cols;
     }
 
-    /**
-     * Set Rows.
-     *
-     *  @param	int	$a_rows	Rows
-     */
-    public function setRows($a_rows)
+
+    public function setRows(int $a_rows) : void
     {
         $this->rows = $a_rows;
     }
 
-    /**
-     * Get Rows.
-     *
-     * @return	int	Rows
-     */
-    public function getRows()
+
+    public function getRows() : int
     {
         return $this->rows;
     }
 
-    /**
-     * Set value by array
-     *
-     * @param	array	$a_values	value array
-     */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values):void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
-    /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return	boolean		Input ok, true/false
-     */
+
     public function checkInput() : bool
     {
         
@@ -120,10 +82,8 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    /**
-     * Insert property html
-     */
-    public function insert($a_tpl)
+
+    public function insert(ilGlobalTemplateInterface $a_tpl) : void
     {
         include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
         

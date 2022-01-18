@@ -31,30 +31,28 @@
 
 class ilMDLanguageItem
 {
-    public string $language_code;
-    public array $possible_language_codes = array();
+    private string $language_code;
 
 
-    public function __construct($a_code)
+    public function __construct(string $a_code)
     {
         $this->language_code = $a_code;
     }
 
 
-    public function getLanguageCode()
+    public function getLanguageCode() : string
     {
         $lang = ilMDLanguageItem::_getPossibleLanguageCodes();
         if (in_array($this->language_code, $lang)) {
             return $this->language_code;
         }
-        return false;
+        return '';
     }
 
-
-    /*
-     * @static
+    /**
+     * @return string[]
      */
-    public static function _getPossibleLanguageCodes()
+    public static function _getPossibleLanguageCodes() : array
     {
         return array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
                      "bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
@@ -71,10 +69,10 @@ class ilMDLanguageItem
                      "zu");
     }
 
-    /*
-     * @static
+    /**
+     * @return array<string, string>
      */
-    public static function _getLanguages()
+    public static function _getLanguages() : array
     {
         global $DIC;
 

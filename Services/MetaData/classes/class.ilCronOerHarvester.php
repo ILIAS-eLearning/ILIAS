@@ -26,9 +26,6 @@ class ilCronOerHarvester extends ilCronJob
     private ilOerHarvesterSettings $settings;
 
 
-    /**
-     * ilOerHarvester constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -145,7 +142,7 @@ class ilCronOerHarvester extends ilCronJob
         return $res;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT:

@@ -46,7 +46,7 @@ class ilMDEntity extends ilMDBase
         return $this->entity;
     }
 
-    public function save()
+    public function save() : bool
     {
         
         $fields = $this->__getFields();
@@ -59,7 +59,7 @@ class ilMDEntity extends ilMDBase
         return false;
     }
 
-    public function update()
+    public function update() : bool
     {
         
         if ($this->getMetaId()) {
@@ -74,7 +74,7 @@ class ilMDEntity extends ilMDBase
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         
         if ($this->getMetaId()) {
@@ -125,7 +125,7 @@ class ilMDEntity extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML($writer)
+    public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement('Entity', null, $this->getEntity());
     }

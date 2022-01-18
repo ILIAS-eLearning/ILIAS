@@ -49,6 +49,9 @@ class ilMDXMLCopier extends ilMDSaxParser
         // set filter of tags which are handled in this class
         $this->__setFilter();
     }
+    /**
+     * @param	resource $a_xml_parser reference to the xml parser
+     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -56,11 +59,14 @@ class ilMDXMLCopier extends ilMDSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    /**
+     * @param	resource $a_xml_parser reference to the xml parser
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         if ($this->in_meta_data and !$this->__inFilter($a_name)) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
-            return true;
+            return;
         }
             
 
@@ -79,13 +85,15 @@ class ilMDXMLCopier extends ilMDSaxParser
                 $this->__pushParent($this->md_ide);
                 break;
         }
-        return true;
     }
-    public function handlerEndTag($a_xml_parser, $a_name)
+    /**
+     * @param	resource $a_xml_parser reference to the xml parser
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if ($this->in_meta_data and !$this->__inFilter($a_name)) {
             parent::handlerEndTag($a_xml_parser, $a_name);
-            return true;
+            return;
         }
         switch ($a_name) {
             case 'Identifier':
@@ -100,31 +108,24 @@ class ilMDXMLCopier extends ilMDSaxParser
                 parent::handlerEndTag($a_xml_parser, $a_name);
                 break;
         }
-        return true;
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    /**
+     * @param	resource $a_xml_parser reference to the xml parser
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->in_meta_data) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
-            return true;
         }
     }
-    /*
-     * Set filter of tags which are handled in this class.
-     * @access protected
-     *
-     */
-    public function __setFilter()
+
+    public function __setFilter() : void
     {
         $this->filter[] = 'Identifier';
     }
-    /*
-     * Check if tag is filtered
-     * @access protected
-     *
-     */
-    public function __inFilter($a_tag_name)
+
+    public function __inFilter(string $a_tag_name) : bool
     {
         return in_array($a_tag_name, $this->filter);
     }
