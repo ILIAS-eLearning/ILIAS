@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class handles translation mode for an object.
@@ -26,26 +37,20 @@
  */
 class ilMultilingualism
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $db;
-    protected $obj_id;
-    protected $languages = array();
-    protected $type = "";
-    protected static $instances = array();
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected int $obj_id;
+    protected array $languages = array();
+    protected string $type = "";
+    protected static array $instances = array();
 
     /**
-     * Constructor
-     *
-     * @param int $a_obj_id object id
-     * @param string $a_type id type
      * @throws ilObjectException
      */
-    private function __construct($a_obj_id, $a_type)
-    {
+    private function __construct(
+        int $a_obj_id,
+        string $a_type
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -64,12 +69,9 @@ class ilMultilingualism
     }
 
     /**
-     * Get instance
-     *
-     * @param integer $a_obj_id (repository) object id
-     * @return ilMultilingualism translation object
+     * @param int $a_obj_id (repository) object id
      */
-    public static function getInstance($a_obj_id, $a_type)
+    public static function getInstance(int $a_obj_id, string $a_type) : self
     {
         if (!isset(self::$instances[$a_type][$a_obj_id])) {
             self::$instances[$a_type][$a_obj_id] = new self($a_obj_id, $a_type);
@@ -78,64 +80,43 @@ class ilMultilingualism
         return self::$instances[$a_type][$a_obj_id];
     }
 
-
-    /**
-     * Set object id
-     *
-     * @param int $a_val object id
-     */
-    public function setObjId($a_val)
+    public function setObjId(int $a_val) : void
     {
         $this->obj_id = $a_val;
     }
 
-    /**
-     * Get object id
-     *
-     * @return int object id
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
     /**
-     * Set languages
-     *
      * @param array $a_val array of language codes
      */
-    public function setLanguages(array $a_val)
+    public function setLanguages(array $a_val) : void
     {
         $this->languages = $a_val;
     }
 
     /**
-     * Get languages
-     *
      * @return array array of language codes
      */
-    public function getLanguages()
+    public function getLanguages() : string
     {
         return $this->languages;
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type) : void
     {
         $this->type = $type;
     }
     
-    public function getDefaultLanguage()
+    public function getDefaultLanguage() : string
     {
         $lng = $this->lng;
         
@@ -156,9 +137,15 @@ class ilMultilingualism
      * @param string $a_title title
      * @param string $a_description description
      * @param bool $a_default default language?
+     * @param bool $a_force overwrite existing
      */
-    public function addLanguage($a_lang, $a_title, $a_description, $a_default, $a_force = false)
-    {
+    public function addLanguage(
+        string $a_lang,
+        string $a_title,
+        string $a_description,
+        bool $a_default,
+        bool $a_force = false
+    ) : void {
         if ($a_lang != "" && (!isset($this->languages[$a_lang]) || $a_force)) {
             if ($a_default) {
                 foreach ($this->languages as $k => $l) {
@@ -172,10 +159,9 @@ class ilMultilingualism
 
     /**
      * Get default title
-     *
      * @return string title of default language
      */
-    public function getDefaultTitle()
+    public function getDefaultTitle() : string
     {
         foreach ($this->languages as $l) {
             if ($l["lang_default"]) {
@@ -186,11 +172,9 @@ class ilMultilingualism
     }
 
     /**
-     * Set default title
-     *
-     * @param string $a_title title
+     * Set title for default language
      */
-    public function setDefaultTitle($a_title)
+    public function setDefaultTitle(string $a_title) : void
     {
         foreach ($this->languages as $k => $l) {
             if ($l["lang_default"]) {
@@ -200,11 +184,9 @@ class ilMultilingualism
     }
 
     /**
-     * Get default description
-     *
      * @return string description of default language
      */
-    public function getDefaultDescription()
+    public function getDefaultDescription() : string
     {
         foreach ($this->languages as $l) {
             if ($l["lang_default"]) {
@@ -216,10 +198,8 @@ class ilMultilingualism
 
     /**
      * Set default description
-     *
-     * @param string $a_description description
      */
-    public function setDefaultDescription($a_description)
+    public function setDefaultDescription(string $a_description) : void
     {
         foreach ($this->languages as $k => $l) {
             if ($l["lang_default"]) {
@@ -230,21 +210,16 @@ class ilMultilingualism
 
 
     /**
-     * Remove language
-     *
      * @param string $a_lang language code
      */
-    public function removeLanguage($a_lang)
+    public function removeLanguage(string $a_lang) : void
     {
         if ($a_lang != $this->getDefaultLanguage()) {
             unset($this->languages[$a_lang]);
         }
     }
 
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $this->setLanguages(array());
         $set = $this->db->query(
@@ -257,10 +232,7 @@ class ilMultilingualism
         }
     }
 
-    /**
-     * Delete
-     */
-    public function delete()
+    public function delete() : void
     {
         $this->db->manipulate(
             "DELETE FROM il_translations " .
@@ -269,10 +241,7 @@ class ilMultilingualism
         );
     }
 
-    /**
-     * Save
-     */
-    public function save()
+    public function save() : void
     {
         $this->delete();
 
@@ -291,12 +260,9 @@ class ilMultilingualism
 
     /**
      * Copy multilinguality settings
-     *
-     * @param string $a_type parent object type
-     * @param int $a_obj_id parent object id
-     * @return ilObjectTranslation target multilang object
+     * @throws ilObjectException
      */
-    public function copy($a_obj_id)
+    public function copy(int $a_obj_id) : self
     {
         $target_ml = new self($a_obj_id, $this->getType());
         $target_ml->setLanguages($this->getLanguages());
@@ -307,12 +273,11 @@ class ilMultilingualism
 
     
     /**
-     * Export
-     * @param ilXmlWriter $writer
-     * @return ilXmlWriter
+     * Export to xml
      */
-    public function toXml(ilXmlWriter $writer)
-    {
+    public function toXml(
+        ilXmlWriter $writer
+    ) : ilXmlWriter {
         $writer->xmlStartTag('translations');
         
         foreach ($this->getLanguages() as $k => $v) {
@@ -328,9 +293,7 @@ class ilMultilingualism
 
     /**
      * xml import
-     *
      * @param SimpleXMLElement $root
-     * @return mixed
      */
     public function fromXML(SimpleXMLElement $root)
     {
@@ -340,10 +303,10 @@ class ilMultilingualism
         
         foreach ($root->translation as $trans) {
             $this->addLanguage(
-                (string) trim($trans["language"]),
-                (string) trim($trans->title),
-                (string) trim($trans->description),
-                (int) $trans["default"] != 0?true:false
+                trim($trans["language"]),
+                trim($trans->title),
+                trim($trans->description),
+                (int) $trans["default"] != 0
             );
         }
     }
