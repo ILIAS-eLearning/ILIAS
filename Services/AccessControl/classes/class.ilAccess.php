@@ -85,7 +85,6 @@ class ilAccess implements ilAccessHandler
         ?int $a_user_id = null,
         ?ilAccessInfo $a_info = null
     ) : void {
-
         if ($a_user_id === null) {
             $a_user_id = $this->user->getId();
         }
@@ -257,7 +256,7 @@ class ilAccess implements ilAccessHandler
 
         $ilBench->start("AccessControl", "0500_lookup_id_and_type");
         // get object id if not provided
-        if ($a_obj_id == "") {
+        if ($a_obj_id == 0) {
             if (isset($this->obj_id_cache[$a_ref_id]) && $this->obj_id_cache[$a_ref_id] > 0) {
                 $a_obj_id = $this->obj_id_cache[$a_ref_id];
             } else {
@@ -403,11 +402,18 @@ class ilAccess implements ilAccessHandler
         if (array_key_exists($tree_cache_key, $this->obj_tree_cache)) {
             // Store access result
             if (!$this->obj_tree_cache[$tree_cache_key]) {
-                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION,
-                    $this->language->txt("status_no_permission"));
+                $this->current_info->addInfoItem(
+                    ilAccessInfo::IL_NO_PERMISSION,
+                    $this->language->txt("status_no_permission")
+                );
             }
-            $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $this->obj_tree_cache[$tree_cache_key],
-                $a_user_id);
+            $this->storeAccessResult(
+                $a_permission,
+                $a_cmd,
+                $a_ref_id,
+                $this->obj_tree_cache[$tree_cache_key],
+                $a_user_id
+            );
 
             return $this->obj_tree_cache[$tree_cache_key];
         }
@@ -469,8 +475,10 @@ class ilAccess implements ilAccessHandler
         }
         // Store in result cache
         if (!$access) {
-            $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION,
-                $this->language->txt("status_no_permission"));
+            $this->current_info->addInfoItem(
+                ilAccessInfo::IL_NO_PERMISSION,
+                $this->language->txt("status_no_permission")
+            );
         }
         if ($a_permission != "create") {
             $this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
@@ -495,8 +503,11 @@ class ilAccess implements ilAccessHandler
             }
             $access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
             if ($access == false) {
-                $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PARENT_ACCESS,
-                    $this->language->txt("no_parent_access"), (string) $id);
+                $this->current_info->addInfoItem(
+                    ilAccessInfo::IL_NO_PARENT_ACCESS,
+                    $this->language->txt("no_parent_access"),
+                    (string) $id
+                );
                 if ($a_all == false) {
                     return false;
                 }
@@ -727,8 +738,10 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission)
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission($user_ids,
-            $permission);
+        return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission(
+            $user_ids,
+            $permission
+        );
     }
 
     /**
@@ -736,8 +749,11 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission)
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission($user_ids, $for_user_id,
-            $permission);
+        return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission(
+            $user_ids,
+            $for_user_id,
+            $permission
+        );
     }
 
     /**
@@ -753,8 +769,11 @@ class ilAccess implements ilAccessHandler
      */
     public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids)
     {
-        return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo($which_user_id, $permission,
-            $on_user_ids);
+        return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo(
+            $which_user_id,
+            $permission,
+            $on_user_ids
+        );
     }
 
     /**
@@ -794,8 +813,12 @@ class ilAccess implements ilAccessHandler
      */
     public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids)
     {
-        return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm,
-            $ref_id, $user_ids);
+        return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
+            $rbac_perm,
+            $pos_perm,
+            $ref_id,
+            $user_ids
+        );
     }
 
     /**

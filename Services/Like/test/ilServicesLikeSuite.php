@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,21 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLikeFactoryGUI
+class ilServicesLikeSuite extends TestSuite
 {
-    public function __construct()
+    public static function suite()
     {
-    }
+        $suite = new self();
 
-    /**
-     * Get widget
-     */
-    public function widget(array $a_obj_ids) : ilLikeGUI
-    {
-        $data = new ilLikeData($a_obj_ids);
-        return new ilLikeGUI($data);
+        require_once("./Services/Awareness/test/AwarenessSessionRepositoryTest.php");
+        $suite->addTestSuite("AwarenessSessionRepositoryTest");
+
+        return $suite;
     }
 }

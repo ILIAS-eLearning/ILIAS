@@ -81,7 +81,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         if ($a_user_id == "") {
             $a_user_id = $ilUser->getId();
         }
-        
         if ($ilUser->getId() == $a_user_id) {
             $participants = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $a_user_id);
         } else {
