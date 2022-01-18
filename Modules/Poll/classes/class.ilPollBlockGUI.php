@@ -236,14 +236,14 @@ class ilPollBlockGUI extends ilBlockGUI
                         // pie chart
                         if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
                             $chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
-                            $chart->setSize("100%", 200);
+                            $chart->setSize(400, 200);
                             $chart->setAutoResize(true);
 
                             $chart_data = $chart->getDataInstance();
 
                             foreach ($order as $answer_id) {
                                 $chart_data->addPiePoint(
-                                    round((float) ($perc[$answer_id]["perc"] ?? 0)),
+                                    (int) round((float) ($perc[$answer_id]["perc"] ?? 0)),
                                     nl2br((string) ($answers[$answer_id] ?? ''))
                                 );
                             }
