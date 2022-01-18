@@ -56,7 +56,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         int $a_parent_ref_id,
         int $a_parent_obj_id,
         string $a_parent_obj_type
-    ) : array {
+    ) : bool {
         global $DIC;
 
         $ilUser = $DIC->user();

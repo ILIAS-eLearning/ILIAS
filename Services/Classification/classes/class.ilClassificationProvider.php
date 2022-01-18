@@ -73,7 +73,7 @@ abstract class ilClassificationProvider
         int $a_parent_ref_id,
         int $a_parent_obj_id,
         string $a_parent_obj_type
-    ) : array;
+    ) : bool;
 
     /**
      * Render HTML chunks

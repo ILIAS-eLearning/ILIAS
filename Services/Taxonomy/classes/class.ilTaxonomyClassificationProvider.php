@@ -13,7 +13,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     protected static array $valid_tax_map = [];
     protected int $incoming_id;
     
-    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type) : array
+    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type) : bool
     {
         return (bool) self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
     }
