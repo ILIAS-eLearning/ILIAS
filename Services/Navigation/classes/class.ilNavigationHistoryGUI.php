@@ -77,8 +77,7 @@ class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
         $selection->setHeaderIcon(ilAdvancedSelectionListGUI::NO_ICON);
         $selection->setItemLinkClass("small");
         $selection->setUseImages(true);
-        $selection->setAccessKey(ilAccessKey::LAST_VISITED);
-        
+
         $items = $ilNavigationHistory->getItems();
         //$sel_arr = array(0 => "-- ".$lng->txt("last_visited")." --");
         reset($items);

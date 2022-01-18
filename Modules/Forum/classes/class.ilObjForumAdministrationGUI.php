@@ -14,7 +14,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     private \ILIAS\DI\RBACServices $rbac;
     private ilErrorHandling $error;
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         /**
          * @var $DIC \ILIAS\DI\Container

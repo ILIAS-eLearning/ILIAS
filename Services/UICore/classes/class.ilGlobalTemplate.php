@@ -1563,12 +1563,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             }
             $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
-            $this->setVariable(
-                "TREE_ACC_KEY",
-                ilAccessKeyGUI::getAttribute(($this->tree_flat_mode == "tree")
-                    ? ilAccessKey::TREE_ON
-                    : ilAccessKey::TREE_OFF)
-            );
             $this->parseCurrentBlock();
         }
 
