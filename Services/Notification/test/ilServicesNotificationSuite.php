@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,21 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilNotificationAppEventListener implements ilAppEventListener
+class ilServicesNotificationSuite extends TestSuite
 {
-    public static function handleEvent(
-        string $a_component,
-        string $a_event,
-        array $a_parameter
-    ) : void {
-        if ($a_component == 'Services/Object' && $a_event == 'delete') {
-            if ($a_parameter['obj_id'] > 0) {
-                $set = new ilObjNotificationSettings($a_parameter['obj_id']);
-                $set->delete();
-            }
-        }
+    public static function suite()
+    {
+        $suite = new self();
+
+        require_once("./Services/Notification/test/NotificationTest.php");
+        $suite->addTestSuite("NotificationTest");
+
+        return $suite;
     }
 }
