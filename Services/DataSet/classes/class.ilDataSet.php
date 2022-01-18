@@ -32,13 +32,13 @@
  */
 abstract class ilDataSet
 {
-    const EXPORT_NO_INST_ID = 1;
-    const EXPORT_ID_ILIAS_LOCAL = 2;
-    const EXPORT_ID_ILIAS_LOCAL_INVALID = 3;
-    const EXPORT_ID_ILIAS_REMOTE = 4;
-    const EXPORT_ID_ILIAS_REMOTE_INVALID = 5;
-    const EXPORT_ID = 6;
-    const EXPORT_ID_INVALID = 7;
+    public const EXPORT_NO_INST_ID = 1;
+    public const EXPORT_ID_ILIAS_LOCAL = 2;
+    public const EXPORT_ID_ILIAS_LOCAL_INVALID = 3;
+    public const EXPORT_ID_ILIAS_REMOTE = 4;
+    public const EXPORT_ID_ILIAS_REMOTE_INVALID = 5;
+    public const EXPORT_ID = 6;
+    public const EXPORT_ID_INVALID = 7;
 
     public int $dircnt = 0;
     protected string $current_installation_id = "";
@@ -135,6 +135,7 @@ abstract class ilDataSet
         if ($this->getDSPrefix() != "") {
             return $this->getDSPrefix() . ":";
         }
+        return "";
     }
 
     /**
@@ -189,15 +190,15 @@ abstract class ilDataSet
      */
     final public function getJsonRepresentation() : string
     {
-        if ($this->version === false) {
+        if ($this->version === "") {
             return "";
         }
         
-        $arr["entity"] = $this->getJsonEntityName();
+        $arr["entity"] = $this->getJsonEntityName("", "");
         $arr["version"] = $this->version;
         $arr["install_id"] = IL_INST_ID;
         $arr["install_url"] = ILIAS_HTTP_PATH;
-        $arr["types"] = $this->getJsonTypes();
+        $arr["types"] = $this->getJsonTypes("", "");
         $arr["set"] = array();
         foreach ($this->data as $d) {
             $arr["set"][] = $this->getJsonRecord($d);
@@ -297,65 +298,49 @@ abstract class ilDataSet
         $this->ds_log->debug("...read data");
         $this->readData($a_entity, $a_schema_version, $a_ids);
         $this->ds_log->debug("...data: " . print_r($this->data, true));
-        if (is_array($this->data)) {
-            foreach ($this->data as $d) {
-                $a_writer->xmlStartTag(
-                    $this->getDSPrefixString() . "Rec",
-                    array("Entity" => $this->getXmlEntityName($a_entity, $a_schema_version))
-                );
+        foreach ($this->data as $d) {
+            $a_writer->xmlStartTag(
+                $this->getDSPrefixString() . "Rec",
+                array("Entity" => $this->getXMLEntityName($a_entity, $a_schema_version))
+            );
 
-                // entity tag
-                $a_writer->xmlStartTag($this->getXmlEntityTag($a_entity, $a_schema_version));
+            // entity tag
+            $a_writer->xmlStartTag($this->getXMLEntityTag($a_entity, $a_schema_version));
 
-                $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
-                foreach ($rec as $f => $c) {
-                    switch ($types[$f]) {
-                        case "directory":
-                            if ($this->absolute_export_dir != "" && $this->relative_export_dir != "") {
-                                ilUtil::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                                ilUtil::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                                //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
-                                $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                                $this->dircnt++;
-                            }
-                            break;
-                    }
-                    // this changes schema/dtd
-                    //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
-                    //	array(), $c);
-                    $a_writer->xmlElement($f, array(), $c);
+            $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
+            foreach ($rec as $f => $c) {
+                switch ($types[$f]) {
+                    case "directory":
+                        if ($this->absolute_export_dir != "" && $this->relative_export_dir != "") {
+                            ilUtil::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                            ilUtil::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                            //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
+                            $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
+                            $this->dircnt++;
+                        }
+                        break;
                 }
-                
-                $a_writer->xmlEndTag($this->getXmlEntityTag($a_entity, $a_schema_version));
-
-                $a_writer->xmlEndTag($this->getDSPrefixString() . "Rec");
-                
-                $this->afterXmlRecordWriting($a_entity, $a_schema_version, $d);
-
-                // foreach record records of dependent entities
-                $this->ds_log->debug("...get dependencies");
-                $deps = $this->getDependencies($a_entity, $a_schema_version, $rec, $a_ids);
-                $this->ds_log->debug("...dependencies: " . print_r($deps, true));
-                if (is_array($deps)) {
-                    foreach ($deps as $dp => $par) {
-                        $ids = is_string($par["ids"])
-                            ? [$par["ids"]]
-                            : $par["ids"];
-                        $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
-                    }
-                }
+                // this changes schema/dtd
+                //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
+                //	array(), $c);
+                $a_writer->xmlElement($f, array(), $c);
             }
-        } elseif ($this->data === false) {
-            // false -> add records of dependent entities (no record)
-            $this->ds_log->debug("...get dependencies (no record)");
-            $deps = $this->getDependencies($a_entity, $a_schema_version, null, $a_ids);
-            if (is_array($deps)) {
-                foreach ($deps as $dp => $par) {
-                    $ids = is_string($par["ids"])
-                        ? [$par["ids"]]
-                        : $par["ids"];
-                    $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
-                }
+
+            $a_writer->xmlEndTag($this->getXMLEntityTag($a_entity, $a_schema_version));
+
+            $a_writer->xmlEndTag($this->getDSPrefixString() . "Rec");
+
+            $this->afterXmlRecordWriting($a_entity, $a_schema_version, $d);
+
+            // foreach record records of dependent entities
+            $this->ds_log->debug("...get dependencies");
+            $deps = $this->getDependencies($a_entity, $a_schema_version, $rec, $a_ids);
+            $this->ds_log->debug("...dependencies: " . print_r($deps, true));
+            foreach ($deps as $dp => $par) {
+                $ids = is_string($par["ids"])
+                    ? [$par["ids"]]
+                    : $par["ids"];
+                $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
             }
         }
     }
@@ -380,10 +365,10 @@ abstract class ilDataSet
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
         
         // add types of current entity
-        if (is_array($types)) {
+        if (count($types) > 0) {
             $a_writer->xmlStartTag(
                 $this->getDSPrefixString() . "Types",
-                array("Entity" => $this->getXmlEntityName($a_entity, $a_schema_version),
+                array("Entity" => $this->getXMLEntityName($a_entity, $a_schema_version),
                     "SchemaVersion" => $a_schema_version)
             );
             foreach ($this->getXmlTypes($a_entity, $a_schema_version) as $f => $t) {
@@ -397,10 +382,8 @@ abstract class ilDataSet
         
         // add types of dependent entities
         $deps = $this->getDependencies($a_entity, $a_schema_version, null, null);
-        if (is_array($deps)) {
-            foreach ($deps as $dp => $w) {
-                $this->addTypesXml($a_writer, $dp, $a_schema_version);
-            }
+        foreach ($deps as $dp => $w) {
+            $this->addTypesXml($a_writer, $dp, $a_schema_version);
         }
     }
     
@@ -413,10 +396,8 @@ abstract class ilDataSet
         }
         // add types of dependent entities
         $deps = $this->getDependencies($a_entity, $a_schema_version, null, null);
-        if (is_array($deps)) {
-            foreach ($deps as $dp => $w) {
-                $this->getNamespaces($namespaces, $dp, $a_schema_version);
-            }
+        foreach ($deps as $dp => $w) {
+            $this->getNamespaces($namespaces, $dp, $a_schema_version);
         }
     }
     
@@ -464,8 +445,6 @@ abstract class ilDataSet
 
     /**
      * Get entity tag
-     * @param
-     * @return string
      */
     public function getXMLEntityTag(string $a_entity, string $a_schema_version) : string
     {

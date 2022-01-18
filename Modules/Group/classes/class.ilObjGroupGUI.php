@@ -477,7 +477,7 @@ class ilObjGroupGUI extends ilContainerGUI
         // Add user as admin and enable notification
         $members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
         $members_obj->add($this->user->getId(), IL_GRP_ADMIN);
-        $members_obj->updateNotification($this->user->getId(), $this->settings->get('mail_grp_admin_notification', '1'));
+        $members_obj->updateNotification($this->user->getId(), (bool) $this->settings->get('mail_grp_admin_notification', '1'));
         $members_obj->updateContact($this->user->getId(), true);
         
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);

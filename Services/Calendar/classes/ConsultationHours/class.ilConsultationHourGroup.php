@@ -113,7 +113,6 @@ class ilConsultationHourGroup
                 'WHERE grp_id = ' . $ilDB->quote($this->getGroupId(), 'integer');
         $ilDB->manipulate($query);
         
-        include_once './Services/Booking/classes/class.ilBookingEntry.php';
         ilBookingEntry::resetGroup($this->getGroupId());
     }
     

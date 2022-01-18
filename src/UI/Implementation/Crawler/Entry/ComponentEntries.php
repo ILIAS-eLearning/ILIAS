@@ -29,13 +29,6 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         $this->rewind();
     }
 
-    public static function createFromArray(array $entries_array) : ComponentEntries
-    {
-        $entries = new self();
-        $entries->addEntriesFromArray($entries_array);
-        return $entries;
-    }
-
     /**
      * Add and entry, first is always root.
      *
@@ -112,6 +105,11 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         }
     }
 
+    public function isParentOfEntry(string $parent_id, string $entry_id) : bool
+    {
+        return in_array($parent_id,$this->getParentsOfEntry($entry_id));
+    }
+
     /**
      * @return	string[]
      */
@@ -132,6 +130,20 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         $children = $this->getEntryById($id)->getChildren();
         foreach ($this->getEntryById($id)->getChildren() as $child) {
             $children = array_merge($children, $this->getDescendantsOfEntry($child));
+        }
+        return $children;
+    }
+
+    /**
+     * @param string $id
+     * @return ComponentEntry[]
+     * @throws Crawler\Exception\CrawlerException
+     */
+    public function getChildrenOfEntry(string $id) : array
+    {
+        $children = [];
+        foreach ($this->getEntryById($id)->getChildren() as $child_id) {
+            $children[] = $this->getEntryById($child_id);
         }
         return $children;
     }

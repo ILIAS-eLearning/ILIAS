@@ -95,8 +95,6 @@ class ilConsultationHourUtils
 
     /**
      * Book an appointment. All checks (assignment possible, max booking) must be done before
-     * @param type $a_usr_id
-     * @param type $a_app_id
      * @return bool
      */
     public static function bookAppointment($a_usr_id, $a_app_id)
@@ -131,7 +129,6 @@ class ilConsultationHourUtils
         $assignment->addAssignment($ch->getCategoryID());
 
         // book appointment
-        include_once './Services/Booking/classes/class.ilBookingEntry.php';
         $booking = new ilBookingEntry($app->getContextId());
         $booking->book($app->getEntryId(), $a_usr_id);
         return true;
@@ -139,9 +136,6 @@ class ilConsultationHourUtils
     
     /**
      * Cancel a booking
-     * @param type $a_usr_id
-     * @param type $a_app_id
-     * @return bool
      */
     public static function cancelBooking($a_usr_id, $a_app_id, $a_send_notification = true)
     {
@@ -180,7 +174,6 @@ class ilConsultationHourUtils
     
     /**
      * Lookup managed users
-     * @param type $a_usr_id
      */
     public static function lookupManagedUsers($a_usr_id)
     {

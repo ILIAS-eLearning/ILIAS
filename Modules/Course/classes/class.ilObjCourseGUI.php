@@ -103,7 +103,7 @@ class ilObjCourseGUI extends ilContainerGUI
         include_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $part = ilCourseParticipants::_getInstanceByObjId($a_new_object->getId());
         $part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
-        $part->updateNotification($ilUser->getId(), $ilSetting->get('mail_crs_admin_notification', true));
+        $part->updateNotification($ilUser->getId(), (bool) $ilSetting->get('mail_crs_admin_notification', '1'));
 
         parent::afterImport($a_new_object);
     }

@@ -35,8 +35,7 @@ class ilLDAPRoleAssignmentRules
     const ROLE_ACTION_DEASSIGN = 'Detach';
     
     protected static $default_role = null;
-    
-    
+
     /**
      * Get default global role
      * @param int $a_server_id
@@ -253,13 +252,9 @@ class ilLDAPRoleAssignmentRules
         $attributes = array();
         $component_factory = $DIC["component.factory"];
         foreach ($component_factory->getActivePluginsInSlot('ldaphk') as $plugin) {
-        }
-        
-        if (self::$active_plugins == null) {
-            self::$active_plugins = $component_repository->getPluginSlotById('ldaphk')->getActivePlugins();
-
             $attributes[] = $plugin->getAdditionalAttributeNames();
         }
+        
         return array_merge(...$attributes);
     }
 

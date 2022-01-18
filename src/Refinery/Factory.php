@@ -152,4 +152,9 @@ class Factory
     {
         return new RandomGroup();
     }
+
+    public function identity() : IdentityTransformation
+    {
+        return new IdentityTransformation();
+    }
 }

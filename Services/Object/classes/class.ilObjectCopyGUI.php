@@ -392,8 +392,8 @@ class ilObjectCopyGUI
         $cgs->init();
         $cgs->setObjects(
             array_merge(
-                ilParticipants::_getMembershipByType($user->getId(), 'crs', false),
-                ilParticipants::_getMembershipByType($user->getId(), 'grp', false)
+                ilParticipants::_getMembershipByType($user->getId(), ['crs'], false),
+                ilParticipants::_getMembershipByType($user->getId(), ['grp'], false)
             )
         );
         $cgs->parse();
