@@ -287,7 +287,10 @@ class ilBuddySystemGUI
                     }
                 }
             }
-            $this->ctrl->redirectToURL($redirectUrl);
+
+            if ($redirectUrl !== '') {
+                $this->ctrl->redirectToURL($redirectUrl);
+            }
         }
 
         $this->ctrl->returnToParent($this);
