@@ -17,23 +17,22 @@
  ********************************************************************
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Thomas Famula <famula@leifos.de>
  */
-class ilFSStoragePoll extends ilFileSystemStorage
+class ilModulesPollSuite extends TestSuite
 {
-    public function __construct(int $a_container_id = 0)
+    public static function suite() : self
     {
-        parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix() : string
-    {
-        return 'poll';
-    }
-    
-    protected function getPathPrefix() : string
-    {
-        return 'ilPoll';
+        $suite = new self();
+
+        require_once("./Modules/Poll/test/PollBlockTest.php");
+        $suite->addTestSuite(PollBlockTest::class);
+
+        return $suite;
     }
 }
