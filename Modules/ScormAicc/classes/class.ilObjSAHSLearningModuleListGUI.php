@@ -37,7 +37,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *
     * this method should be overwritten by derived classes
     */
-    public function init(): void
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -52,7 +52,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     /**
      * @inheritdoc
      */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = ""): void
+    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "") : void
     {
         // general commands array
         $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($a_obj_id);
@@ -68,7 +68,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     * @param	string		$a_cmd			command
     *
     */
-    public function getCommandLink(string $a_cmd) : string
+    public function getCommandLink($a_cmd) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -109,7 +109,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame(string $a_cmd): string
+    public function getCommandFrame($a_cmd) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -150,7 +150,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];

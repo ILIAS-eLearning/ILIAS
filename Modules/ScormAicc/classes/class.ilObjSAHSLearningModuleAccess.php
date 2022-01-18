@@ -73,7 +73,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     *
     * @return    boolean        true, if everything is ok
     */
-    public function _checkAccess(string $a_cmd, string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id = 0): bool //UK weg?
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0) : bool //UK weg?
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -127,7 +127,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *    );
      * @return array<int, mixed[]>
      */
-    public static function _getCommands($a_obj_id = null): array
+    public static function _getCommands($a_obj_id = null) : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show","default" => true),
@@ -175,7 +175,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target): bool
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -197,7 +197,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      * with the specified object id.
      * @param int object id of a file object.
      */
-    public static function _lookupDiskUsage($a_id): int
+    public static function _lookupDiskUsage($a_id) : int
     {
         $lm_data_dir = ilUtil::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;
@@ -209,7 +209,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
         * Checks offlineMode and returns false if
         */
-    public static function _lookupUserIsOfflineMode($a_obj_id): bool
+    public static function _lookupUserIsOfflineMode($a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
