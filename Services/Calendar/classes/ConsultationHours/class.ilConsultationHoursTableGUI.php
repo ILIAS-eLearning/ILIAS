@@ -165,7 +165,6 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $ilDB = $DIC['ilDB'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 
         $data = array();
         $counter = 0;

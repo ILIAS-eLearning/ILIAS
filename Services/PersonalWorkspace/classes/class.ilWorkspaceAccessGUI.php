@@ -197,12 +197,12 @@ class ilWorkspaceAccessGUI
         $options = array();
         $options["user"] = $this->lng->txt("wsp_set_permission_single_user");
         
-        $grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+        $grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), ['grp']);
         if (sizeof($grp_ids)) {
             $options["group"] = $this->lng->txt("wsp_set_permission_group");
         }
         
-        $crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
+        $crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), ['crs']);
         if (sizeof($crs_ids)) {
             $options["course"] = $this->lng->txt("wsp_set_permission_course");
         }

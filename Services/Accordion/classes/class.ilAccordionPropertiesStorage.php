@@ -1,33 +1,36 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Saves (mostly asynchronously) user properties of accordions
- *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilAccordionPropertiesStorage: ilAccordionPropertiesStorage
  */
 class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected int $tab_nr;
+    protected string $req_acc_id;
+    protected int $user_id;
+    protected \ILIAS\Accordion\StandardGUIRequest $request;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected ilDBInterface $db;
+    public array $properties = array(
+        "opened" => array("storage" => "session")
+    );
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -35,49 +38,42 @@ class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->db = $DIC->database();
+        $this->request = new \ILIAS\Accordion\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+        $this->user_id = $this->request->getUserId();
+        $this->req_acc_id = $this->request->getId();
+        $this->tab_nr = $this->request->getTabNr();
     }
 
-    public $properties = array(
-        "opened" => array("storage" => "session")
-        );
-    
-    /**
-    * execute command
-    */
-    public function &executeCommand()
+    public function executeCommand() : void
     {
-        $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
-        
         $cmd = $ilCtrl->getCmd();
-        //		$next_class = $this->ctrl->getNextClass($this);
-
         $this->$cmd();
     }
     
-    /**
-     * Show Filter
-     */
-    public function setOpenedTab()
+    public function setOpenedTab() : void
     {
         $ilUser = $this->user;
         
-        if ($_GET["user_id"] == $ilUser->getId()) {
-            switch ($_GET["act"]) {
+        if ($this->user_id == $ilUser->getId()) {
+            switch ($this->request->getAction()) {
 
                 case "add":
                     $cur = $this->getProperty(
-                        $_GET["accordion_id"],
-                        (int) $_GET["user_id"],
+                        $this->req_acc_id,
+                        $this->user_id,
                         "opened"
                     );
                     $cur_arr = explode(";", $cur);
-                    if (!in_array((int) $_GET["tab_nr"], $cur_arr)) {
-                        $cur_arr[] = (int) $_GET["tab_nr"];
+                    if (!in_array($this->tab_nr, $cur_arr)) {
+                        $cur_arr[] = $this->tab_nr;
                     }
                     $this->storeProperty(
-                        $_GET["accordion_id"],
-                        (int) $_GET["user_id"],
+                        $this->req_acc_id,
+                        $this->user_id,
                         "opened",
                         implode(";", $cur_arr)
                     );
@@ -85,17 +81,17 @@ class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
 
                 case "rem":
                     $cur = $this->getProperty(
-                        $_GET["accordion_id"],
-                        (int) $_GET["user_id"],
+                        $this->req_acc_id,
+                        $this->user_id,
                         "opened"
                     );
                     $cur_arr = explode(";", $cur);
-                    if (($key = array_search((int) $_GET["tab_nr"], $cur_arr)) !== false) {
+                    if (($key = array_search($this->tab_nr, $cur_arr)) !== false) {
                         unset($cur_arr[$key]);
                     }
                     $this->storeProperty(
-                        $_GET["accordion_id"],
-                        (int) $_GET["user_id"],
+                        $this->req_acc_id,
+                        $this->user_id,
                         "opened",
                         implode(";", $cur_arr)
                     );
@@ -103,8 +99,8 @@ class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
 
                 case "clear":
                     $this->storeProperty(
-                        $_GET["accordion_id"],
-                        (int) $_GET["user_id"],
+                        $this->req_acc_id,
+                        $this->user_id,
                         "opened",
                         ""
                     );
@@ -113,10 +109,10 @@ class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
                 case "set":
                 default:
                     $this->storeProperty(
-                        $_GET["accordion_id"],
-                        (int) $_GET["user_id"],
+                        $this->req_acc_id,
+                        $this->user_id,
                         "opened",
-                        $_GET["tab_nr"]
+                        $this->tab_nr
                     );
                     break;
             }
@@ -124,60 +120,34 @@ class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
     }
     
     /**
-    * Store property in session or db
-    */
+     * Store property in session
+     */
     public function storeProperty(
-        $a_table_id,
-        $a_user_id,
-        $a_property,
-        $a_value
-    ) {
-        $ilDB = $this->db;
-
+        string $a_table_id,
+        int $a_user_id,
+        string $a_property,
+        string $a_value
+    ) : void {
         switch ($this->properties[$a_property]["storage"]) {
             case "session":
-                $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property]
-                    = $a_value;
+                if (ilSession::has("accordion")) {
+                    $acc = ilSession::get("accordion");
+                }
+                $acc[$a_table_id][$a_user_id][$a_property] = $a_value;
+                ilSession::set("accordion", $acc);
                 break;
-                
-            case "db":
-/*
-                $ilDB->replace("table_properties", array(
-                    "table_id" => array("text", $a_table_id),
-                    "user_id" => array("integer", $a_user_id),
-                    "property" => array("text", $a_property)),
-                    array(
-                    "value" => array("text", $a_value)
-                    ));
-*/
         }
     }
     
-    /**
-    * Get property in session or db
-    */
-    public function getProperty($a_table_id, $a_user_id, $a_property)
-    {
-        $ilDB = $this->db;
-
-        switch ($this->properties[$a_property]["storage"]) {
-            case "session":
-                $r = $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property] ?? "";
-//echo "<br><br><br><br><br><br><br><br>get-".$r;
-                return $r;
-                break;
-                
-            case "db":
-/*
-                $set = $ilDB->query("SELECT value FROM table_properties ".
-                    " WHERE table_id = ".$ilDB->quote($a_table_id, "text").
-                    " AND user_id = ".$ilDB->quote($a_user_id, "integer").
-                    " AND property = ".$ilDB->quote($a_property, "text")
-                    );
-                $rec  = $ilDB->fetchAssoc($set);
-                return $rec["value"];
-                break;
-*/
+    public function getProperty(
+        string $a_table_id,
+        int $a_user_id,
+        string $a_property
+    ) : string {
+        $acc = [];
+        if (ilSession::has("accordion")) {
+            $acc = ilSession::get("accordion");
         }
+        return $acc[$a_table_id][$a_user_id][$a_property] ?? "";
     }
 }

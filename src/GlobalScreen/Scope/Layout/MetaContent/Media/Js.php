@@ -14,7 +14,7 @@
  * Class Js
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Js extends AbstractMedia
+class Js extends AbstractMediaWithPath
 {
     private bool $add_version_number = true;
     private int $batch = 2;
@@ -25,9 +25,9 @@ class Js extends AbstractMedia
      * @param bool   $add_version_number
      * @param int    $batch
      */
-    public function __construct(string $content, bool $add_version_number = true, int $batch = 2)
+    public function __construct(string $content, string $version, bool $add_version_number = true, int $batch = 2)
     {
-        parent::__construct($content);
+        parent::__construct($content, $version);
         $this->add_version_number = $add_version_number;
         $this->batch              = $batch;
     }

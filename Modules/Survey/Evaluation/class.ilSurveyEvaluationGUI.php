@@ -1501,7 +1501,7 @@ class ilSurveyEvaluationGUI
         }
 
         if (!$a_return) {
-            ilUtil::deliverFile($target, $a_filename, $mime_type);
+            ilFileDelivery::deliverFileLegacy($target, $a_filename, $mime_type);
         } else {
             ilLoggerFactory::getRootLogger()->debug("**** Return a target = " . $target);
             return $target;

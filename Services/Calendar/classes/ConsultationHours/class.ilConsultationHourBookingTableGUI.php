@@ -118,7 +118,6 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
             include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
             $cal_entry = new ilCalendarEntry($app);
             
-            include_once './Services/Booking/classes/class.ilBookingEntry.php';
             foreach (ilBookingEntry::lookupBookingsForAppointment($app) as $user_id) {
                 include_once './Services/User/classes/class.ilUserUtil.php';
                 $rows[$counter]['name'] = ilUserUtil::getNamePresentation(

@@ -1,10 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-include_once 'Services/Conditions/interfaces/interface.ilConditionHandling.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilObjContentObjectAccess
 *
@@ -19,41 +27,36 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     
     /**
      * Get possible conditions operaditors
+     * @return string[]
      */
     public static function getConditionOperators() : array
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         return array(
             ilConditionHandler::OPERATOR_FINISHED,
             ilConditionHandler::OPERATOR_FAILED
         );
     }
-    
-    
+
     /**
-     * check condition
-     * @param type   $a_svy_id
+     * @param int    $a_trigger_obj_id
      * @param string $a_operator
      * @param string $a_value
      * @param int    $a_usr_id
-     * @return boolean
+     * @return bool
      */
     public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
 
             case ilConditionHandler::OPERATOR_FAILED:
-                include_once './Services/Tracking/classes/class.ilLPStatus.php';
                 return ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
                 break;
             
             case ilConditionHandler::OPERATOR_FINISHED:
             default:
-                include_once './Services/Tracking/classes/class.ilLPStatus.php';
                 return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
 
         }
-        return true;
     }
     
     
@@ -70,7 +73,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     *
     * @return    boolean        true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") //UK weg?
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0) : bool //UK weg?
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -78,7 +81,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($a_user_id == "") {
+        if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
         }
 
@@ -122,8 +125,9 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *        array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
+     * @return array<int, mixed[]>
      */
-    public static function _getCommands($a_obj_id = null)
+    public static function _getCommands($a_obj_id = null) : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show","default" => true),
@@ -171,7 +175,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -193,7 +197,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      * with the specified object id.
      * @param int object id of a file object.
      */
-    public static function _lookupDiskUsage($a_id)
+    public static function _lookupDiskUsage($a_id) : int
     {
         $lm_data_dir = ilUtil::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;
@@ -205,7 +209,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
         * Checks offlineMode and returns false if
         */
-    public static function _lookupUserIsOfflineMode($a_obj_id)
+    public static function _lookupUserIsOfflineMode($a_obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

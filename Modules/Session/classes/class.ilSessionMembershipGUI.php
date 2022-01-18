@@ -19,7 +19,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     /**
      * @return ilAbstractMailMemberRoles|null
      */
-    protected function getMailMemberRoles()
+    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberSessionRoles();
     }
@@ -30,9 +30,9 @@ class ilSessionMembershipGUI extends ilMembershipGUI
      * Check if rbac or position access is granted.
      * @param string $a_rbac_perm
      * @param string $a_pos_perm
-     * @param int $a_ref_id
+     * @param int    $a_ref_id
      */
-    protected function checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm, $a_ref_id = 0)
+    protected function checkRbacOrPositionAccessBool(string $a_rbac_perm, string $a_pos_perm, int $a_ref_id = 0) : bool
     {
         if (!$a_ref_id) {
             $a_ref_id = $this->getParentObject()->getRefId();
@@ -78,7 +78,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     /**
      * @return \ilSubscriberTableGUI
      */
-    protected function initSubscriberTable()
+    protected function initSubscriberTable() : ilSubscriberTableGUI
     {
         $subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(), true, false);
         $subscriber->setTitle($this->lng->txt('group_new_registrations'));
@@ -139,7 +139,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     /**
      * Show confirmation screen for participants deletion
      */
-    protected function confirmDeleteParticipants()
+    protected function confirmDeleteParticipants() : void
     {
         $participants = (array) $_POST['participants'];
         
@@ -170,13 +170,13 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     
     /**
      * Delete participants
-     * @global type $rbacreview
-     * @global type $rbacsystem
+     * @return void
+     *@global type $rbacsystem
      * @global type $ilAccess
      * @global type $ilUser
-     * @return boolean
+     * @global type $rbacreview
      */
-    protected function deleteParticipants()
+    protected function deleteParticipants(): void
     {
         $this->checkPermission('manage_members');
                 
@@ -202,8 +202,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         
         ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
         $this->ctrl->redirect($this, "participants");
-
-        return true;
     }
     
     
@@ -221,7 +219,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     /**
      * @inheritdoc
      */
-    protected function canAddOrSearchUsers()
+    protected function canAddOrSearchUsers() : bool
     {
         return false;
     }
@@ -255,7 +253,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
      * Get member tab name
      * @return string
      */
-    protected function getMemberTabName()
+    protected function getMemberTabName() : string
     {
         return $this->lng->txt($this->getParentObject()->getType() . '_members');
     }

@@ -16,7 +16,7 @@ class ilGalleryUserActionContext extends ilUserActionContext
     /**
      * @inheritdoc
      */
-    public function getComponentId()
+    public function getComponentId() : string
     {
         return "user";
     }
@@ -24,7 +24,7 @@ class ilGalleryUserActionContext extends ilUserActionContext
     /**
      * @inheritdoc
      */
-    public function getContextId()
+    public function getContextId() : string
     {
         return "gallery";
     }

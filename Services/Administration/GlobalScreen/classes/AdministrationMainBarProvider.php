@@ -219,7 +219,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
             "repository_and_objects" =>
                 array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
-                    "mcts", "mobs", "svyf", "assf", "wbrs", "wiks", 'lsos'),
+                    "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
         );
         $groups = [];
         // now get all items and groups that are accessible

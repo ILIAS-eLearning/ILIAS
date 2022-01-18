@@ -67,9 +67,9 @@ class ilConsultationHourAppointments
     
     /**
      * Get appointment ids by consultation hour group
-     * @param type $a_user_id
-     * @param type $a_ch_group_id
-     * @param ilDateTime $start
+     * @param int $a_user_id
+     * @param int $a_ch_group_id
+     * @param ?ilDateTime $start
      */
     public static function getAppointmentIdsByGroup($a_user_id, $a_ch_group_id, ilDateTime $start = null)
     {

@@ -5,7 +5,11 @@
 	"authors": [],
 	"config": {
 		"optimize-autoloader": true,
-		"vendor-dir": "./libs/composer/vendor"
+		"vendor-dir": "./libs/composer/vendor",
+		"allow-plugins": {
+			"simplesamlphp/composer-module-installer": true,
+			"cweagans/composer-patches": true
+		}
 	},
 	"scripts": {
 		"post-autoload-dump": [
@@ -54,22 +58,22 @@
 		"phpoffice/phpspreadsheet": "^1.18.0",
 		"jumbojett/openid-connect-php": "^0.9.2",
 		"sabre/dav": "^4.1",
-		"symfony/console" : "^4.2",
+		"symfony/console" : "^5.0",
 		"slim/slim": "^3.11",
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"simplesamlphp/simplesamlphp": "^1.19.3",
+		"simplesamlphp/simplesamlphp": "^1.19.4",
 		"seld/jsonlint": "^1.8"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^9.5",
 		"mockery/mockery": "^1.4",
-		"friendsofphp/php-cs-fixer": "^2.15",
+		"friendsofphp/php-cs-fixer": "^3.5",
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.3",
-		"rector/rector": "^0.11.7"
+		"rector/rector": "^0.12.12"
 	},
 	"autoload": {
 		"psr-4" : {

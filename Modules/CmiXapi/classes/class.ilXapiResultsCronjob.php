@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilXapiResultsCronjob
  *
@@ -43,29 +53,29 @@ class ilXapiResultsCronjob extends ilCronJob
         $this->readLastRunTS();
     }
     
-    protected function initThisRunTS()
+    protected function initThisRunTS(): void
     {
         $this->thisRunTS = time();
     }
     
-    protected function readLastRunTS()
+    protected function readLastRunTS(): void
     {
         $settings = new ilSetting('cmix');
         $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, 0);
     }
     
-    protected function writeThisAsLastRunTS()
+    protected function writeThisAsLastRunTS(): void
     {
         $settings = new ilSetting('cmix');
         $settings->set(self::LAST_RUN_TS_SETTING_NAME, $this->thisRunTS);
     }
     
-    public function getThisRunTS()
+    public function getThisRunTS(): int
     {
         return $this->thisRunTS;
     }
     
-    public function getLastRunTS()
+    public function getLastRunTS(): int
     {
         return $this->lastRunTS;
     }
@@ -147,7 +157,7 @@ class ilXapiResultsCronjob extends ilCronJob
         return $result;
     }
     
-    protected function getXapiStatementsReport(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)
+    protected function getXapiStatementsReport(ilObject $object, ilCmiXapiStatementsReportFilter $filter): \ilCmiXapiStatementsReport
     {
         $filter->setActivityId($object->getActivityId());
         
@@ -165,7 +175,7 @@ class ilXapiResultsCronjob extends ilCronJob
         return $request->queryReport($object->getId());
     }
     
-    protected function buildReportFilter()
+    protected function buildReportFilter(): \ilCmiXapiStatementsReportFilter
     {
         $filter = new ilCmiXapiStatementsReportFilter();
         

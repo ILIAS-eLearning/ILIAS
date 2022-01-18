@@ -6,6 +6,19 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Visibility;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface DirectoryWriteAccess
  *
@@ -39,7 +52,7 @@ interface DirectoryWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS);
+    public function createDir(string $path, string $visibility = Visibility::PUBLIC_ACCESS) : void;
 
 
     /**
@@ -52,15 +65,15 @@ interface DirectoryWriteAccess
      * @param string $source        The source which should be scanned and copied.
      * @param string $destination   The destination of the recursive copy.
      *
-     * @throws IOException                  Thrown if the directory could not be copied.
-     * @throws DirectoryNotFoundException   Thrown if the source directory could not be found.
-     *
      * @return void
      *
+     * @throws DirectoryNotFoundException   Thrown if the source directory could not be found.
+     *
+     * @throws IOException                  Thrown if the directory could not be copied.
      * @since 5.3
      * @version 1.0
      */
-    public function copyDir(string $source, string $destination);
+    public function copyDir(string $source, string $destination) : void;
 
     /**
      * Deletes a directory recursive.
@@ -74,5 +87,5 @@ interface DirectoryWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function deleteDir(string $path);
+    public function deleteDir(string $path) : void;
 }

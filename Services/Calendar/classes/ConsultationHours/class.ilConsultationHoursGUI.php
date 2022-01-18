@@ -22,7 +22,6 @@
 */
 
 include_once './Services/Calendar/classes/class.ilCalendarRecurrence.php';
-include_once './Services/Booking/classes/class.ilBookingEntry.php';
 include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
 
 /**
@@ -241,7 +240,6 @@ class ilConsultationHoursGUI
         }
         
         
-        include_once './Services/Booking/classes/class.ilBookingEntry.php';
         $booking = ilBookingEntry::getInstanceByCalendarEntryId($app);
         
         $assigned_users = array();
@@ -284,7 +282,6 @@ class ilConsultationHoursGUI
         
         // Get all future consultation hours
         include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-        include_once './Services/Booking/classes/class.ilBookingEntry.php';
         $apps = ilConsultationHourAppointments::getAppointmentIdsByGroup(
             $this->user_id,
             $group_id,
@@ -903,7 +900,6 @@ class ilConsultationHoursGUI
         include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
         include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         include_once './Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php';
-        include_once './Services/Booking/classes/class.ilBookingPeriod.php';
         
         $num_appointments = 0;
         foreach ($concurrent_dates as $dt) {
@@ -1030,7 +1026,6 @@ class ilConsultationHoursGUI
         $this->form->getItemByPostVar('lo')->setValue($entry->getLocation());
         $this->form->getItemByPostVar('de')->setValue($entry->getDescription());
         
-        include_once 'Services/Booking/classes/class.ilBookingEntry.php';
         $booking = new ilBookingEntry($entry->getContextId());
 
         $this->form->getItemByPostVar('bo')->setValue($booking->getNumberOfBookings());
@@ -1189,7 +1184,6 @@ class ilConsultationHoursGUI
             $entry = new ilCalendarEntry($entry_id);
             $confirm->addItem('apps[]', $entry_id, ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle());
             
-            include_once './Services/Booking/classes/class.ilBookingEntry.php';
             if (ilBookingEntry::lookupBookingsForAppointment($entry_id)) {
                 $bookings_available[] = ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle();
             }

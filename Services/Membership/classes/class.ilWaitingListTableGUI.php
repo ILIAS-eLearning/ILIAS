@@ -1,5 +1,4 @@
-<?php
-/*
+<?php declare(strict_types=1);/*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
         +-----------------------------------------------------------------------------+
@@ -21,64 +20,48 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
-
 /**
-* GUI class for course/group waiting list
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMembership
-*/
+ * GUI class for course/group waiting list
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesMembership
+ */
 class ilWaitingListTableGUI extends ilTable2GUI
 {
-    protected $rep_object = null;
-    
-    protected $waiting_list = null;
-    protected $wait = array();
-    protected $wait_user_ids = array();
+    protected ilObject $rep_object;
+    protected ilObjUser $user;
 
-    protected static $all_columns = null;
-    protected static $has_odf_definitions = false;
+    protected ilWaitingList $waiting_list;
+    protected array $wait = [];
+    protected array $wait_user_ids = [];
 
+    protected static ?array $all_columns = null;
+    protected static bool $has_odf_definitions;
 
-    /**
-     * ilWaitingListTableGUI constructor.
-     * @param $a_parent_obj
-     * @param \ilObject $rep_object
-     * @param \ilWaitingList $waiting_list
-     */
-    public function __construct($a_parent_obj, ilObject $rep_object, $waiting_list)
+    public function __construct(object $a_parent_obj, ilObject $rep_object, ilWaitingList $waiting_list)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
+        $this->rep_object = $rep_object;
+        $this->user = $DIC->user();
+
+        $this->setId('crs_wait_' . $this->getRepositoryObject()->getId());
+        parent::__construct($a_parent_obj, 'participants');
+        $this->setFormName('waiting');
+        $this->setPrefix('waiting');
+
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('sess');
         $this->lng->loadLanguageModule('ps');
-        $this->ctrl = $ilCtrl;
-        
-        $this->rep_object = $rep_object;
 
         $this->setExternalSorting(false);
         $this->setExternalSegmentation(true);
-        $this->setId('crs_wait_' . $this->getRepositoryObject()->getId());
-        $this->setFormName('waiting');
-        $this->setPrefix('waiting');
-
-        parent::__construct($a_parent_obj, 'participants');
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'participants'));
 
         $this->addColumn('', 'f', "1", true);
         $this->addColumn($this->lng->txt('name'), 'lastname', '20%');
-        
+
         $all_cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
             $this->addColumn($all_cols[$col]['txt'], $col);
@@ -86,13 +69,13 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('application_date'), 'sub_time', "10%");
         $this->addColumn('', 'mail', '10%');
-        
+
         $this->addMultiCommand('confirmAssignFromWaitingList', $this->lng->txt('assign'));
         $this->addMultiCommand('confirmRefuseFromList', $this->lng->txt('refuse'));
         $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('crs_mem_send_mail'));
 
         $this->setDefaultOrderField('sub_time');
-        
+
         // begin-patch clipboard
         $this->lng->loadLanguageModule('user');
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
@@ -100,42 +83,35 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
         $this->setPrefix('waiting');
         $this->setSelectAllCheckbox('waiting', true);
-        
+
         $this->setRowTemplate("tpl.show_waiting_list_row.html", "Services/Membership");
-        
+
         $this->enable('sort');
         $this->enable('header');
         $this->enable('numinfo');
         $this->enable('select_all');
 
         $this->waiting_list = $waiting_list;
-        
-        include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-        self::$has_odf_definitions = ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
+
+        self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
-    
-    /**
-     * @return \ilWaitingList
-     */
-    protected function getWaitingList()
+
+    protected function getWaitingList() : ilWaitingList
     {
         return $this->waiting_list;
     }
-    
-    /**
-     * Get repository object
-     * @return ilObject
-     */
-    protected function getRepositoryObject()
+
+    protected function getRepositoryObject() : ilObject
     {
         return $this->rep_object;
     }
-    
+
     /**
      * Set user ids
      * @param int[] $a_user_ids
+     * @retrun void
      */
-    public function setUserIds($a_user_ids)
+    public function setUserIds(array $a_user_ids) : void
     {
         $this->wait_user_ids = $this->wait = [];
         foreach ($a_user_ids as $usr_id) {
@@ -144,11 +120,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * configure numeric ordering
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
@@ -158,17 +129,12 @@ class ilWaitingListTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    /**
-     * Get selectable columns
-     * @return array
-     */
     public function getSelectableColumns() : array
     {
         if (self::$all_columns) {
             return self::$all_columns;
         }
 
-        include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
         $ef = ilExportFieldsInfo::_getInstanceByType($this->getRepositoryObject()->getType());
         self::$all_columns = $ef->getSelectableFieldsInfo($this->getRepositoryObject()->getId());
 
@@ -191,25 +157,13 @@ class ilWaitingListTableGUI extends ilTable2GUI
         }
         return self::$all_columns;
     }
-    
-    
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        include_once('./Services/Calendar/classes/class.ilDateTime.php');
-        include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
-        
-        if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) and
-            ($ids = ilObjCourseGrouping::getAssignedObjects())) {
+    protected function fillRow(array $a_set) : void
+    {
+        if (
+            !ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) &&
+            ($ids = ilObjCourseGrouping::getAssignedObjects())
+        ) {
             $prefix = $this->getRepositoryObject()->getType();
             $this->tpl->setVariable(
                 'ALERT_MSG',
@@ -219,7 +173,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
                 )
             );
         }
-                
+
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
 
@@ -233,23 +187,23 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'], IL_CAL_DATE)) : $this->lng->txt('no_date');
+                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],
+                        IL_CAL_DATE)) : $this->lng->txt('no_date');
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable('VAL_CUST', $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
                     break;
-                
+
                 case 'odf_last_update':
                     $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
                     break;
-                
+
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
-                
 
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
@@ -258,26 +212,14 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     break;
             }
         }
-        
-        $this->tpl->setVariable('VAL_SUBTIME', ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX)));
-        
-        #$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
-        
+        $this->tpl->setVariable('VAL_SUBTIME',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'], IL_CAL_UNIX)));
         $this->showActionLinks($a_set);
     }
-    
-    /**
-     * read data
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    public function readUserData()
+
+    public function readUserData() : void
     {
         $this->determineOffsetAndOrder();
-
-        include_once './Services/User/classes/class.ilUserQuery.php';
 
         $additional_fields = $this->getSelectedColumns();
         unset($additional_fields["firstname"]);
@@ -337,10 +279,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
                 $this->wait_user_ids
             );
         }
-
-        ilLoggerFactory::getLogger('mem')->dump($this->wait_user_ids);
-        ilLoggerFactory::getLogger('mem')->dump($usr_data);
-        
+        $usr_ids = [];
         foreach ((array) $usr_data['set'] as $user) {
             $usr_ids[] = $user['usr_id'];
         }
@@ -354,7 +293,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
         // Custom user data fields
         if ($udf_ids) {
-            include_once './Services/User/classes/class.ilUserDefinedData.php';
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance($usr_id)) {
@@ -368,7 +306,6 @@ class ilWaitingListTableGUI extends ilTable2GUI
         }
         // Object specific user data fields
         if ($odf_ids) {
-            include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
                 // #7264: as we get data for all course members filter against user data
@@ -380,15 +317,13 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     $a_user_data[$usr_id]['odf_' . $field_id] = $value;
                 }
             }
-            
+
             // add last edit date
-            include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
             foreach (ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info) {
                 if (!isset($a_user_data[$usr_id])) {
                     continue;
                 }
-                
-                include_once './Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+
                 if ($usr_id == $edit_info['update_user']) {
                     $a_user_data[$usr_id]['odf_last_update'] = '';
                     $a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');
@@ -399,7 +334,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
                 } else {
                     $a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
                     $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
-                    
+
                     $name = ilObjUser::_lookupName($edit_info['update_user']);
                     $a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'] . ' ' . $name['lastname'] . ', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                 }
@@ -413,37 +348,32 @@ class ilWaitingListTableGUI extends ilTable2GUI
             }
             // DONE: accepted
             foreach ($usr_data_fields as $field) {
-                $a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
+                $a_user_data[$user['usr_id']][$field] = $user[$field] ?: '';
             }
         }
-        
+
         // Waiting list subscription
         foreach ($this->wait as $usr_id => $wait_usr_data) {
             if (isset($a_user_data[$usr_id])) {
                 $a_user_data[$usr_id]['sub_time'] = $wait_usr_data['time'];
             }
         }
-        
-        $this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
-        return $this->setData($a_user_data);
+
+        $this->setMaxCount($usr_data['cnt'] ?: 0);
+        $this->setData($a_user_data);
     }
-    
-    /**
-     * Show action links (mail ; edit crs|grp data)
-     * @param type $a_set
-     */
-    public function showActionLinks($a_set)
+
+    public function showActionLinks(array $a_set) : void
     {
         if (!self::$has_odf_definitions) {
             $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
             $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
             $this->tpl->setVariable('MAIL_LINK', $link);
             $this->tpl->setVariable('MAIL_TITLE', $this->lng->txt('crs_mem_send_mail'));
-            return true;
+            return;
         }
-        
+
         // show action menu
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
         $list->setSelectionHeaderClass('small');
         $list->setItemLinkClass('small');
@@ -455,17 +385,15 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_mem_send_mail');
         $link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'sendMailToSelectedUsers');
         $list->addItem($trans, '', $link, 'sendMailToSelectedUsers');
-        
+
         $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
         $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member');
         $list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember'));
-        
+
         $this->tpl->setVariable('ACTION_USER', $list->getHTML());
     }
-    
-    
-    
-    protected function checkAcceptance()
+
+    protected function checkAcceptance(int $a_usr_id) : bool
     {
         return true;
     }

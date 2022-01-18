@@ -134,7 +134,7 @@ class ilCalendarCategories
             
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->cat_id;
+            return (int) $row->cat_id;
         }
         return 0;
     }
@@ -540,8 +540,8 @@ class ilCalendarCategories
         $this->readBookingCalendar();
         
         include_once('./Services/Membership/classes/class.ilParticipants.php');
-        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'crs'));
-        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
+        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,['crs']));
+        $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
         
         $this->addSubitemCalendars();
     }
@@ -660,22 +660,22 @@ class ilCalendarCategories
             $res = $ilDB->query($subtree_query);
             $obj_ids = array();
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if ($tree->isDeleted($row->ref_id)) {
+                if ($tree->isDeleted((int) $row->ref_id)) {
                     continue;
                 }
 
-                $obj_type = ilObject::_lookupType($row->obj_id);
+                $obj_type = ilObject::_lookupType((int) $row->obj_id);
                 if ($obj_type == 'crs' or $obj_type == 'grp') {
                     //Added for calendar revision --> https://goo.gl/CXGTRF
                     //In 5.2-trunk, the booking pools did not appear in the marginal calendar.
                     $this->readBookingCalendar();
                     // Check for global/local activation
-                    if (!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id)) {
+                    if (!ilCalendarSettings::_getInstance()->lookupCalendarActivated((int) $row->obj_id)) {
                         continue;
                     }
                 }
-                if ($ilAccess->checkAccess('read', '', $row->ref_id)) {
-                    $obj_ids[] = $row->obj_id;
+                if ($ilAccess->checkAccess('read', '', (int) $row->ref_id)) {
+                    $obj_ids[] = (int) $row->obj_id;
                 }
             }
             $this->readSelectedCategories($obj_ids, $this->root_ref_id);
@@ -687,8 +687,8 @@ class ilCalendarCategories
 
 
         if (!$a_container_only) {
-            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'crs'));
-            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, 'grp'));
+            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
+            $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
         }
     }
 
@@ -744,16 +744,16 @@ class ilCalendarCategories
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->categories[] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
-            $this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['title'] = $row->title;
-            $this->categories_info[$row->cat_id]['color'] = $row->color;
-            $this->categories_info[$row->cat_id]['type'] = $row->type;
-            $this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event', ilCalendarSettings::_getInstance()->getCalendarSettingsId());
-            $this->categories_info[$row->cat_id]['settings'] = $rbacsystem->checkAccess('write', ilCalendarSettings::_getInstance()->getCalendarSettingsId());
-            $this->categories_info[$row->cat_id]['accepted'] = false;
-            $this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
+            $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
+            $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
+            $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
+            $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
+            $this->categories_info[(int) $row->cat_id]['editable'] = (bool) $rbacsystem->checkAccess('edit_event', ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+            $this->categories_info[(int) $row->cat_id]['settings'] = (bool) $rbacsystem->checkAccess('write', ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+            $this->categories_info[(int) $row->cat_id]['accepted'] = false;
+            $this->categories_info[(int) $row->cat_id]['remote'] = (bool) ((int) $row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
         }
         
         return true;
@@ -785,7 +785,7 @@ class ilCalendarCategories
             "AND obj_id = " . $this->db->quote($ilUser->getId(), 'integer') . " " . $in;
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $cat_ids[] = $row->cat_id;
+            $cat_ids[] = (int) $row->cat_id;
         }
         
         // Read shared calendars
@@ -809,32 +809,32 @@ class ilCalendarCategories
             
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->categories[] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
-            $this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['title'] = $row->title;
-            $this->categories_info[$row->cat_id]['color'] = $row->color;
-            $this->categories_info[$row->cat_id]['type'] = $row->type;
+            $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
+            $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
+            $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
+            $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
             
             include_once './Services/Calendar/classes/class.ilCalendarShared.php';
-            if (in_array($row->cat_id, $accepted_ids)) {
-                $shared = new ilCalendarShared($row->cat_id);
+            if (in_array((int) $row->cat_id, $accepted_ids)) {
+                $shared = new ilCalendarShared((int) $row->cat_id);
                 if ($shared->isEditableForUser($ilUser->getId())) {
-                    $this->categories_info[$row->cat_id]['editable'] = true;
+                    $this->categories_info[(int) $row->cat_id]['editable'] = true;
                 } else {
-                    $this->categories_info[$row->cat_id]['editable'] = false;
+                    $this->categories_info[(int) $row->cat_id]['editable'] = false;
                 }
             } else {
-                $this->categories_info[$row->cat_id]['editable'] = true;
+                $this->categories_info[(int) $row->cat_id]['editable'] = true;
             }
-            if ($ilUser->getId() == $row->obj_id) {
-                $this->categories_info[$row->cat_id]['settings'] = true;
+            if ($ilUser->getId() == (int) $row->obj_id) {
+                $this->categories_info[(int) $row->cat_id]['settings'] = true;
             } else {
-                $this->categories_info[$row->cat_id]['settings'] = false;
+                $this->categories_info[(int) $row->cat_id]['settings'] = false;
             }
             
-            $this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
-            $this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
+            $this->categories_info[(int) $row->cat_id]['accepted'] = in_array((int) $row->cat_id, $accepted_ids);
+            $this->categories_info[(int) $row->cat_id]['remote'] = ((int) $row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
         }
     }
 
@@ -848,7 +848,6 @@ class ilCalendarCategories
         $obj_id = ilObject::_lookupObjId($a_container_ref_id);
         $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
         $users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
-        include_once 'Services/Booking/classes/class.ilBookingEntry.php';
         $users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
         $old_ch = $this->getCHUserId();
         foreach ($users as $user) {
@@ -893,8 +892,8 @@ class ilCalendarCategories
             $res = $ilDB->query($query);
             $categories = array();
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if ($a_cat_id == 0 || $row->cat_id == $a_cat_id) {
-                    $categories[] = $row->cat_id;
+                if ($a_cat_id == 0 || (int) $row->cat_id == $a_cat_id) {
+                    $categories[] = (int) $row->cat_id;
                 }
             }
 
@@ -903,16 +902,16 @@ class ilCalendarCategories
                         'WHERE ' . $ilDB->in('cat_id', $categories, false, 'integer');
                 $res = $ilDB->query($query);
                 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                    $this->categories[] = $row->cat_id;
-                    $this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
-                    $this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-                    $this->categories_info[$row->cat_id]['title'] = ilObjUser::_lookupFullname($row->obj_id);
-                    $this->categories_info[$row->cat_id]['color'] = $row->color;
-                    $this->categories_info[$row->cat_id]['type'] = $row->type;
-                    $this->categories_info[$row->cat_id]['editable'] = false;
-                    $this->categories_info[$row->cat_id]['settings'] = false;
-                    $this->categories_info[$row->cat_id]['accepted'] = false;
-                    $this->categories_info[$row->cat_id]['remote'] = false;
+                    $this->categories[] = (int) $row->cat_id;
+                    $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
+                    $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
+                    $this->categories_info[(int) $row->cat_id]['title'] = ilObjUser::_lookupFullname((int) $row->obj_id);
+                    $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
+                    $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
+                    $this->categories_info[(int) $row->cat_id]['editable'] = false;
+                    $this->categories_info[(int) $row->cat_id]['settings'] = false;
+                    $this->categories_info[(int) $row->cat_id]['accepted'] = false;
+                    $this->categories_info[(int) $row->cat_id]['remote'] = false;
                 }
             }
         } else { // no category given
@@ -924,16 +923,16 @@ class ilCalendarCategories
             "WHERE type = " . $ilDB->quote(ilCalendarCategory::TYPE_CH, 'integer') . ' ' . $filter;
             $res = $ilDB->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->categories[] = $row->cat_id;
-                $this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
-                $this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-                $this->categories_info[$row->cat_id]['title'] = $row->title;
-                $this->categories_info[$row->cat_id]['color'] = $row->color;
-                $this->categories_info[$row->cat_id]['type'] = $row->type;
-                $this->categories_info[$row->cat_id]['editable'] = false;
-                $this->categories_info[$row->cat_id]['settings'] = false;
-                $this->categories_info[$row->cat_id]['accepted'] = false;
-                $this->categories_info[$row->cat_id]['remote'] = false;
+                $this->categories[] = (int) $row->cat_id;
+                $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
+                $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
+                $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
+                $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
+                $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
+                $this->categories_info[(int) $row->cat_id]['editable'] = false;
+                $this->categories_info[(int) $row->cat_id]['settings'] = false;
+                $this->categories_info[(int) $row->cat_id]['accepted'] = false;
+                $this->categories_info[(int) $row->cat_id]['remote'] = false;
             }
         }
         return true;
@@ -959,16 +958,16 @@ class ilCalendarCategories
             "AND obj_id = " . $ilDB->quote($user_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->categories[] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
-            $this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['title'] = $row->title;
-            $this->categories_info[$row->cat_id]['color'] = $row->color;
-            $this->categories_info[$row->cat_id]['type'] = $row->type;
-            $this->categories_info[$row->cat_id]['editable'] = false;
-            $this->categories_info[$row->cat_id]['settings'] = false;
-            $this->categories_info[$row->cat_id]['accepted'] = false;
-            $this->categories_info[$row->cat_id]['remote'] = false;
+            $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
+            $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
+            $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
+            $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
+            $this->categories_info[(int) $row->cat_id]['editable'] = false;
+            $this->categories_info[(int) $row->cat_id]['settings'] = false;
+            $this->categories_info[(int) $row->cat_id]['accepted'] = false;
+            $this->categories_info[(int) $row->cat_id]['remote'] = false;
         }
     }
     
@@ -1000,9 +999,9 @@ class ilCalendarCategories
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // check activation/deactivation
-            $obj_type = ilObject::_lookupType($row->obj_id);
+            $obj_type = ilObject::_lookupType((int) $row->obj_id);
             if ($obj_type == 'crs' or $obj_type == 'grp') {
-                if (!ilCalendarSettings::_getInstance()->lookupCalendarActivated($row->obj_id)) {
+                if (!ilCalendarSettings::_getInstance()->lookupCalendarActivated((int) $row->obj_id)) {
                     continue;
                 }
             }
@@ -1010,7 +1009,7 @@ class ilCalendarCategories
             $editable = false;
             $exists = false;
             $settings = false;
-            foreach (ilObject::_getAllReferences($row->obj_id) as $ref_id) {
+            foreach (ilObject::_getAllReferences((int) $row->obj_id) as $ref_id) {
                 if ($ilAccess->checkAccess('edit_event', '', $ref_id)) {
                     $settings = true;
                 }
@@ -1025,19 +1024,19 @@ class ilCalendarCategories
             if (!$exists) {
                 continue;
             }
-            $this->categories_info[$row->cat_id]['editable'] = $editable;
-            $this->categories_info[$row->cat_id]['settings'] = $settings;
+            $this->categories_info[(int) $row->cat_id]['editable'] = $editable;
+            $this->categories_info[(int) $row->cat_id]['settings'] = $settings;
             
-            $this->categories[] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
-            $this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
-            $this->categories_info[$row->cat_id]['color'] = $row->color;
+            $this->categories[] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['obj_id'] = (int) $row->obj_id;
+            $this->categories_info[(int) $row->cat_id]['cat_id'] = (int) $row->cat_id;
+            $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
             #$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
-            $this->categories_info[$row->cat_id]['title'] = $row->title;
-            $this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
-            $this->categories_info[$row->cat_id]['type'] = $row->type;
-            $this->categories_info[$row->cat_id]['remote'] = false;
-            $this->categories_info[$row->cat_id]['source_ref_id'] = $a_source_ref_id;
+            $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
+            $this->categories_info[(int) $row->cat_id]['obj_type'] = ilObject::_lookupType((int) $row->obj_id);
+            $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
+            $this->categories_info[(int) $row->cat_id]['remote'] = false;
+            $this->categories_info[(int) $row->cat_id]['source_ref_id'] = (int) $a_source_ref_id;
         }
     }
     
@@ -1078,14 +1077,14 @@ class ilCalendarCategories
         $course_sessions = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (
-                !$access->checkAccessOfUser($this->user_id, 'read', '', $row->sess_ref_id) ||
-                !$access->checkAccessOfUser($this->user_id, 'visible', '', $row->sess_ref_id)
+                !$access->checkAccessOfUser($this->user_id, 'read', '', (int) $row->sess_ref_id) ||
+                !$access->checkAccessOfUser($this->user_id, 'visible', '', (int) $row->sess_ref_id)
             ) {
                 continue;
             }
-            $cat_ids[] = $row->cat_id;
-            $course_sessions[$row->crs_id][$row->sess_id] = $row->cat_id;
-            $this->subitem_categories[] = $row->cat_id;
+            $cat_ids[] = (int) $row->cat_id;
+            $course_sessions[(int) $row->crs_id][(int) $row->sess_id] = (int) $row->cat_id;
+            $this->subitem_categories[] = (int) $row->cat_id;
         }
         
         foreach ($this->categories as $cat_id) {

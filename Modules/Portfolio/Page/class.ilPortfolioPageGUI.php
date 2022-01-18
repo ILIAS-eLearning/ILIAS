@@ -909,7 +909,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         
         // see ilPDSelectedItemsBlockGUI
         
-        $items = ilParticipants::_getMembershipByType($a_user_id, 'crs');
+        $items = ilParticipants::_getMembershipByType($a_user_id, ['crs']);
         
         $repo_title = $tree->getNodeData(ROOT_FOLDER_ID);
         $repo_title = $repo_title["title"];

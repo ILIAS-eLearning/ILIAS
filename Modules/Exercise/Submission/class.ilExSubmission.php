@@ -861,7 +861,7 @@ class ilExSubmission
         $filename = $this->initStorage()->getAbsoluteSubmissionPath() .
             "/" . $storage_id . "/" . basename($filename);
 
-        ilUtil::deliverFile($filename, $filetitle);
+        ilFileDelivery::deliverFileLegacy($filename, $filetitle);
     }
 
     protected function downloadMultipleFiles(
@@ -952,7 +952,7 @@ class ilExSubmission
         ilUtil::delDir($tmpdir);
         
         chdir($cdir);
-        ilUtil::deliverFile($tmpzipfile, $orgDeliverFilename . ".zip", "", false, true);
+        ilFileDelivery::deliverFileLegacy($tmpzipfile, $orgDeliverFilename . ".zip", "", false, true);
         exit;
     }
 

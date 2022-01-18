@@ -800,7 +800,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         if ($this->glossary->getPublicExportFile($this->requested_export_type) != "") {
             $dir = $this->glossary->getExportDirectory($this->requested_export_type);
             if (is_file($dir . "/" . $file)) {
-                ilUtil::deliverFile($dir . "/" . $file, $file);
+                ilFileDelivery::deliverFileLegacy($dir . "/" . $file, $file);
                 exit;
             }
         }

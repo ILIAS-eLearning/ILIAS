@@ -87,6 +87,8 @@ class AchieveCommand extends Command
         }
 
         $this->executeAchieveObjective($io, $input);
+
+        return 0;
     }
 
     private function shouldListNamedObjectives(InputInterface $input) : bool

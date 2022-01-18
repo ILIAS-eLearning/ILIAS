@@ -1,9 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjSAHSLearningModuleListGUI
  *
@@ -28,7 +37,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *
     * this method should be overwritten by derived classes
     */
-    public function init()
+    public function init() : void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -38,13 +47,12 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "sahs";
         $this->gui_class_name = "ilobjsahslearningmodulegui";
-        include_once('./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
     }
 
     /**
      * @inheritdoc
      */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
+    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "") : void
     {
         // general commands array
         $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($a_obj_id);
@@ -60,32 +68,20 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     * @param	string		$a_cmd			command
     *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink($a_cmd) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $cmd_link = null;
         switch ($a_cmd) {
             case "view":
-                require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-                if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id)) {
-                    if ($this->offline_mode) {
-                        $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=offlineModeStart";
-                    } else {
-                        $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id;
-                    }
-                } else {
-                    $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id;
-                }
+                $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id;
 
                 break;
-            case "offlineModeView":
-                $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=offlineModeView";
-                break;
 
-            case "editContent":
-                $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=editContent";
-                break;
+//            case "editContent":
+//                $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=editContent";
+//                break;
 
             case "edit":
                 $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=" . $this->ref_id;
@@ -93,15 +89,6 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 
             case "infoScreen":
                 $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=infoScreen";
-                break;
-
-            case "offlineModeStart":
-                $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=offlineModeStart";
-//				$cmd_link = $ilCtrl->getLinkTargetByClass(array('ilsahspresentationgui', 'ilscormofflinemodegui'),'start&amp;ref_id='.$_GET["ref_id"]);
-                break;
-
-            case "offlineModeStop":
-                $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id . "&amp;cmdClass=ilSCORMOfflineModeGUI&amp;cmd=stop";
                 break;
 
             default:
@@ -122,14 +109,13 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame($a_cmd) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
+
         switch ($a_cmd) {
             case "view":
-                require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
                 $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
                 if ($this->offline_mode) {
                     $frame = ilFrameTargetInfo::_getFrame("MainContent");
@@ -142,10 +128,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
                 break;
 
             case "edit":
-            case "editContent":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-                
+//            case "editContent":
             case "infoScreen":
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
@@ -167,19 +150,12 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
         $props = parent::getProperties();
-        
-        $editable = ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id);
-        
-        if ($editable) {
-            $props[] = array("alert" => true,
-                "value" => $lng->txt("authoring_mode"));
-        }
 
         if ($rbacsystem->checkAccess("write", $this->ref_id)) {
             $props[] = array("alert" => false, "property" => $lng->txt("type"),
