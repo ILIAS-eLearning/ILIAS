@@ -209,12 +209,15 @@ class ilCtrl implements ilCtrlInterface
         // retrieve $_GET and $_POST parameters.
         $post_command = $this->getPostCommand();
         $get_command = $this->getQueryParam(self::PARAM_CMD);
+        $table_command = $this->getTableCommand();
+
         $is_post = (self::CMD_POST === $get_command);
 
         // if the $_GET command is 'post', either the $_POST
         // command or $_GETs fallback command is used.
+
         $command = ($is_post) ?
-            $post_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
+            $post_command ?? $table_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
             $get_command;
 
         // override the command that has been set during a
@@ -784,6 +787,32 @@ class ilCtrl implements ilCtrlInterface
                 $parameter_name,
                 $this->refinery->to()->string()
             );
+        }
+
+        return null;
+    }
+
+    /**
+     * @deprecated
+     */
+    private function getTableCommand(): ?string {
+        if ($this->post_parameters->has('table_top_cmd')) {
+            return $this->post_parameters->retrieve('table_top_cmd',
+                $this->refinery->custom()->transformation(function ($item) : ?string {
+                    return is_array($item) ? key($item) : null;
+                }));
+        }
+        // Button on top of the table
+        if ($this->post_parameters->has('select_cmd2')) {
+            return $this->post_parameters->has('selected_cmd2')
+                ? $this->post_parameters->retrieve('selected_cmd2', $this->refinery->to()->string())
+                : null;
+        }
+        // Button at bottom of the table
+        if ($this->post_parameters->has('select_cmd')) {
+            return $this->post_parameters->has('selected_cmd')
+                ? $this->post_parameters->retrieve('selected_cmd', $this->refinery->to()->string())
+                : null;
         }
 
         return null;

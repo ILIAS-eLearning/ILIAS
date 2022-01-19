@@ -21,6 +21,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
+    use ilTable2MultiCommandHelper;
     private Container $dic;
     protected int $confirm_change = 0;
     public $ctrl;
@@ -1022,7 +1023,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
         $access = $DIC->access();
 
-        if ($_POST["select_cmd_all"]) {
+        if ($this->isSelectCmdAllSelected()) {
             include_once("./Services/User/classes/class.ilUserTableGUI.php");
             $utab = new ilUserTableGUI(
                 $this,

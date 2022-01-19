@@ -15,6 +15,7 @@ use ILIAS\Data\Factory;
  */
 class ilObjStudyProgrammeMembersGUI
 {
+    use ilTable2MultiCommandHelper;
     const DEFAULT_CMD = "view";
 
     const ACTION_MARK_ACCREDITED = "mark_accredited";
@@ -407,7 +408,7 @@ class ilObjStudyProgrammeMembersGUI
      */
     protected function getPostPrgsIds() : array
     {
-        if ($_POST['select_cmd_all']) {
+        if ($this->isSelectCmdAllSelected()) {
             $prgrs_ids = $_POST[self::F_ALL_PROGRESS_IDS];
             $prgrs_ids = explode(',', $prgrs_ids);
         } else {
