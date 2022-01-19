@@ -43,11 +43,7 @@ class ilBuddySystemRelationStateFactory
      */
     public function getValidStates() : array
     {
-        if (null !== self::$validStates) {
-            return self::$validStates;
-        }
-
-        return (self::$validStates = [
+        return self::$validStates ?? (self::$validStates = [
             new ilBuddySystemUnlinkedRelationState(),
             new ilBuddySystemRequestedRelationState(),
             new ilBuddySystemIgnoredRequestRelationState(),
