@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Factory to create Skin classes holds an manages the basic data of a skin as provide by the template of the skin.
@@ -20,7 +22,7 @@ class ilSkinFactory
      * Create Skin classes holds an manages the basic data of a skin as provide by the template of the skin.
      * @throws ilSystemStyleException
      */
-    public function skinFromXML(string $path = "") : ilSkin
+    public function skinFromXML(string $path = ''): ilSkin
     {
         try {
             $xml = new SimpleXMLElement(file_get_contents($path));
@@ -29,8 +31,8 @@ class ilSkinFactory
         }
 
         $id = basename(dirname($path));
-        $skin = new ilSkin($id, (string) $xml->attributes()["name"]);
-        $skin->setVersion((string) $xml->attributes()["version"]);
+        $skin = new ilSkin($id, (string) $xml->attributes()['name']);
+        $skin->setVersion((string) $xml->attributes()['version']);
 
         /**
          * @var ilSkinStyle $last_style
@@ -43,7 +45,7 @@ class ilSkinFactory
             /**
              * @var SimpleXMLElement $style_xml
              */
-            if ($style_xml->getName() == "substyle") {
+            if ($style_xml->getName() == 'substyle') {
                 if (!$last_style) {
                     throw new ilSystemStyleException(ilSystemStyleException::NO_PARENT_STYLE, $style->getId());
                 }
@@ -64,18 +66,23 @@ class ilSkinFactory
     public function skinStyleContainerFromId(
         string $skin_id,
         ilSystemStyleMessageStack $message_stack = null
-    ) : ilSkinStyleContainer {
+    ): ilSkinStyleContainer {
         if (!$skin_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_SKIN_ID);
         }
 
-        if ($skin_id != "default") {
-            return new ilSkinStyleContainer($this->skinFromXML($this->config->getCustomizingSkinPath() . $skin_id . "/template.xml"),
-                $message_stack, $this->config);
-        } else {
-            return new ilSkinStyleContainer($this->skinFromXML($this->config->getDefaultTemplatePath()),
+        if ($skin_id != 'default') {
+            return new ilSkinStyleContainer(
+                $this->skinFromXML($this->config->getCustomizingSkinPath() . $skin_id . '/template.xml'),
                 $message_stack,
-                $this->config);
+                $this->config
+            );
+        } else {
+            return new ilSkinStyleContainer(
+                $this->skinFromXML($this->config->getDefaultTemplatePath()),
+                $message_stack,
+                $this->config
+            );
         }
     }
 
@@ -88,18 +95,18 @@ class ilSkinFactory
         string $name,
         ilSystemStyleMessageStack $message_stack = null,
         bool $uploaded = true
-    ) : ilSkinStyleContainer {
-        $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, ".zip"));
+    ): ilSkinStyleContainer {
+        $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, '.zip'));
 
         while (ilStyleDefinition::skinExists($skin_id, $this->config)) {
-            $skin_id .= "Copy";
+            $skin_id .= 'Copy';
         }
 
         $skin_path = $this->config->getCustomizingSkinPath() . $skin_id;
 
         mkdir($skin_path, 0775, true);
 
-        $temp_zip_path = $skin_path . "/" . $name;
+        $temp_zip_path = $skin_path . '/' . $name;
         if ($uploaded) {
             move_uploaded_file($import_zip_path, $temp_zip_path);
         } else {
@@ -118,24 +125,26 @@ class ilSkinFactory
     public function copyFromSkinStyleContainer(
         ilSkinStyleContainer $container,
         ilFileSystemHelper $file_system,
-        string $new_skin_txt_addon = "Copy"
-    ) : ilSkinStyleContainer {
-        $new_skin_id_addon = "";
-        $new_skin_name_addon = "";
+        string $new_skin_txt_addon = 'Copy'
+    ): ilSkinStyleContainer {
+        $new_skin_id_addon = '';
+        $new_skin_name_addon = '';
 
-        while (ilStyleDefinition::skinExists($container->getSkin()->getId() . $new_skin_id_addon,
-            $container->getSystemStylesConf())) {
+        while (ilStyleDefinition::skinExists(
+            $container->getSkin()->getId() . $new_skin_id_addon,
+            $container->getSystemStylesConf()
+        )) {
             $new_skin_id_addon .= $new_skin_txt_addon;
-            $new_skin_name_addon .= " " . $new_skin_txt_addon;
+            $new_skin_name_addon .= ' ' . $new_skin_txt_addon;
         }
 
-        $new_skin_path = rtrim($container->getSkinDirectory(), "/") . $new_skin_id_addon;
+        $new_skin_path = rtrim($container->getSkinDirectory(), '/') . $new_skin_id_addon;
 
         mkdir($new_skin_path, 0775, true);
         $file_system->recursiveCopy($container->getSkinDirectory(), $new_skin_path);
         $skin_container = $this->skinStyleContainerFromId($container->getSkin()->getId() . $new_skin_id_addon);
         $skin_container->getSkin()->setName($skin_container->getSkin()->getName() . $new_skin_name_addon);
-        $skin_container->getSkin()->setVersion("0.1");
+        $skin_container->getSkin()->setVersion('0.1');
         $skin_container->updateSkin($skin_container->getSkin());
         return $skin_container;
     }

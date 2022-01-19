@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilSystemStyleRootLoggerMock
 {
@@ -6,7 +8,7 @@ class ilSystemStyleRootLoggerMock
     {
     }
 
-    public function debug(string $message) : void
+    public function debug(string $message): void
     {
     }
 }

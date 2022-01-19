@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * ilSkin holds an manages the basic data of a skin as provide by the template of the skin. This class is also
@@ -8,17 +10,16 @@
  */
 class ilSkin implements Iterator, Countable
 {
-
     /**
      * ID of the skin, equals the name of the folder this skin is stored in
      */
-    protected string $id = "";
+    protected string $id = '';
 
 
     /**
      * Name of the skin, as provided in the template
      */
-    protected string $name = "";
+    protected string $name = '';
 
     /**
      * Styles that the xml of this string provides.
@@ -30,7 +31,7 @@ class ilSkin implements Iterator, Countable
     /**
      * Version of skin, as provided by the template
      */
-    protected string $version = "0.1";
+    protected string $version = '0.1';
 
     public function __construct(string $id, string $name)
     {
@@ -41,12 +42,12 @@ class ilSkin implements Iterator, Countable
     /**
      * Stores the skin and all it's styles as xml.
      */
-    public function asXML() : string
+    public function asXML(): string
     {
-        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><template/>');
-        $xml->addAttribute("xmlns", "http://www.w3.org");
-        $xml->addAttribute("version", $this->getVersion());
-        $xml->addAttribute("name", $this->getName());
+        $xml = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8'?><template/>");
+        $xml->addAttribute('xmlns', 'http://www.w3.org');
+        $xml->addAttribute('version', $this->getVersion());
+        $xml->addAttribute('name', $this->getName());
 
         $last_style = null;
 
@@ -69,20 +70,20 @@ class ilSkin implements Iterator, Countable
     /**
      * Used to generate the xml for styles contained by the skin
      */
-    protected function addChildToXML(SimpleXMLElement $xml, ilSkinStyle $style) : void
+    protected function addChildToXML(SimpleXMLElement $xml, ilSkinStyle $style): void
     {
         $xml_style = null;
         if ($style->isSubstyle()) {
-            $xml_style = $xml->addChild("substyle");
+            $xml_style = $xml->addChild('substyle');
         } else {
-            $xml_style = $xml->addChild("style");
+            $xml_style = $xml->addChild('style');
         }
-        $xml_style->addAttribute("id", $style->getId());
-        $xml_style->addAttribute("name", $style->getName());
-        $xml_style->addAttribute("image_directory", $style->getImageDirectory());
-        $xml_style->addAttribute("css_file", $style->getCssFile());
-        $xml_style->addAttribute("sound_directory", $style->getSoundDirectory());
-        $xml_style->addAttribute("font_directory", $style->getFontDirectory());
+        $xml_style->addAttribute('id', $style->getId());
+        $xml_style->addAttribute('name', $style->getName());
+        $xml_style->addAttribute('image_directory', $style->getImageDirectory());
+        $xml_style->addAttribute('css_file', $style->getCssFile());
+        $xml_style->addAttribute('sound_directory', $style->getSoundDirectory());
+        $xml_style->addAttribute('font_directory', $style->getFontDirectory());
     }
 
     public function writeToXMLFile(string $path)
@@ -90,7 +91,7 @@ class ilSkin implements Iterator, Countable
         file_put_contents($path, $this->asXML());
     }
 
-    public function addStyle(ilSkinStyle $style) : void
+    public function addStyle(ilSkinStyle $style): void
     {
         $this->styles[] = $style;
     }
@@ -112,7 +113,7 @@ class ilSkin implements Iterator, Countable
     /**
      * @throws ilSystemStyleException
      */
-    public function getStyle(string $id) : ilSkinStyle
+    public function getStyle(string $id): ilSkinStyle
     {
         foreach ($this->getStyles() as $style) {
             if ($style->getId() == $id) {
@@ -122,7 +123,7 @@ class ilSkin implements Iterator, Countable
         throw new ilSystemStyleException(ilSystemStyleException::INVALID_ID, $id);
     }
 
-    public function hasStyle(string $id) : bool
+    public function hasStyle(string $id): bool
     {
         foreach ($this->getStyles() as $style) {
             if ($style->getId() == $id) {
@@ -132,42 +133,42 @@ class ilSkin implements Iterator, Countable
         return false;
     }
 
-    public function getDefaultStyle() : ilSkinStyle
+    public function getDefaultStyle(): ilSkinStyle
     {
         return array_values($this->styles)[0];
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return current($this->styles) !== false;
     }
 
-    public function key() : int
+    public function key(): int
     {
         return key($this->styles);
     }
 
-    public function current() : ilSkinStyle
+    public function current(): ilSkinStyle
     {
         return current($this->styles);
     }
 
-    public function next() : void
+    public function next(): void
     {
         next($this->styles);
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         reset($this->styles);
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->styles);
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -175,20 +176,20 @@ class ilSkin implements Iterator, Countable
     /**
      * @throws ilSystemStyleException
      */
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         if (strpos($id, ' ') !== false) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_CHARACTERS_IN_ID, $id);
         }
-        $this->id = str_replace(" ", "_", $id);
+        $this->id = str_replace(' ', '_', $id);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -196,7 +197,7 @@ class ilSkin implements Iterator, Countable
     /**
      * @return ilSkinStyle[]
      */
-    public function getStyles() : array
+    public function getStyles(): array
     {
         return $this->styles;
     }
@@ -204,34 +205,34 @@ class ilSkin implements Iterator, Countable
     /**
      * @param ilSkinStyle[] $styles
      */
-    public function setStyles(array $styles) : void
+    public function setStyles(array $styles): void
     {
         $this->styles = $styles;
     }
 
-    public function getVersion() : string
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    public function setVersion(string $version) : void
+    public function setVersion(string $version): void
     {
         if ($version != null && $version != '' && $this->isVersionChangeable()) {
             $this->version = $version;
         }
     }
 
-    public function getVersionStep(string $version) : string
+    public function getVersionStep(string $version): string
     {
         if ($this->isVersionChangeable()) {
-            $v = explode('.', ($version == "" ? '0.1' : $version));
+            $v = explode('.', ($version == '' ? '0.1' : $version));
             $v[count($v) - 1] = ($v[count($v) - 1] + 1);
             $this->version = implode('.', $v);
         }
         return $this->version;
     }
 
-    public function isVersionChangeable() : bool
+    public function isVersionChangeable(): bool
     {
         return ($this->version != '$Id$');
     }
@@ -248,9 +249,9 @@ class ilSkin implements Iterator, Countable
     /**
      * @return ilSkinStyle[]
      */
-    public function getSubstylesOfStyle(string $style_id) : array
+    public function getSubstylesOfStyle(string $style_id): array
     {
-        $substyles = array();
+        $substyles = [];
 
         if ($this->getStyle($style_id)) {
             foreach ($this->getStyles() as $style) {
@@ -267,9 +268,9 @@ class ilSkin implements Iterator, Countable
     /**
      * Returns wheter a given style has substyles
      */
-    public function hasStyleSubstyles(string $style_id) : bool
+    public function hasStyleSubstyles(string $style_id): bool
     {
-        if ($style_id != "" && $this->getStyle($style_id)) {
+        if ($style_id != '' && $this->getStyle($style_id)) {
             foreach ($this->getStyles() as $style) {
                 if ($style->getId() != $style_id && $style->isSubstyle()) {
                     if ($style->getSubstyleOf() == $style_id) {
@@ -281,7 +282,7 @@ class ilSkin implements Iterator, Countable
         return false;
     }
 
-    public function hasStyles() : bool
+    public function hasStyles(): bool
     {
         return count($this->getStyles()) > 0;
     }

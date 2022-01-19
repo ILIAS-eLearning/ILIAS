@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /***
  * This data abstracts a complete less file. A less file is composed of categories, variables and random comments
@@ -30,7 +32,7 @@ class ilSystemStyleLessFile
     /**
      * Complete path the the variables file on the file system
      */
-    protected string $less_variables_file_path_name = "";
+    protected string $less_variables_file_path_name = '';
 
     public function __construct(string $less_variables_file_path_name)
     {
@@ -42,11 +44,11 @@ class ilSystemStyleLessFile
      * Reads the file from the file system
      * @throws ilSystemStyleException
      */
-    public function read() : void
+    public function read(): void
     {
-        $last_variable_comment = "";
-        $last_category_id = "";
-        $last_category_name = "";
+        $last_variable_comment = '';
+        $last_category_id = '';
+        $last_category_name = '';
 
         $regex_category = '/\/\/==\s(.*)/'; //Matches //== Category Name
         $regex_category_by_line = '/^\/\/[\s]?$/'; //Matches // at the end of the line with not comment
@@ -58,10 +60,12 @@ class ilSystemStyleLessFile
         $regex_variable_references = '/(?:@)([a-zA-Z0-9_-]*)/'; //Matches references in value
 
         try {
-            $handle = fopen($this->getLessVariablesFilePathName(), "r");
+            $handle = fopen($this->getLessVariablesFilePathName(), 'r');
         } catch (Exception $e) {
-            throw new ilSystemStyleException(ilSystemStyleException::FILE_OPENING_FAILED,
-                $this->getLessVariablesFilePathName());
+            throw new ilSystemStyleException(
+                ilSystemStyleException::FILE_OPENING_FAILED,
+                $this->getLessVariablesFilePathName()
+            );
         }
 
         if ($handle) {
@@ -77,7 +81,7 @@ class ilSystemStyleLessFile
                 if (preg_match($regex_category, $line, $out)) {
                     //Check Category
                     $last_category_id = $this->addItem(new ilSystemStyleLessCategory($out[1]));
-                    $last_category_name = $out[1] ? $out[1] : "";
+                    $last_category_name = $out[1] ? $out[1] : '';
                     $last_line_is_category = true;
                 } elseif (preg_match($regex_category_comment, $line, $out)) {
                     //Check Comment Category
@@ -100,7 +104,7 @@ class ilSystemStyleLessFile
                     $references = [];
                     while (preg_match($regex_variable_references, $temp_value, $reference)) {
                         $references[] = $reference[1];
-                        $temp_value = str_replace($reference, "", $temp_value);
+                        $temp_value = str_replace($reference, '', $temp_value);
                     }
 
                     $this->addItem(new ilSystemStyleLessVariable(
@@ -110,7 +114,7 @@ class ilSystemStyleLessFile
                         $last_category_name,
                         $references
                     ));
-                    $last_variable_comment = "";
+                    $last_variable_comment = '';
                 } else {
                     $this->addItem(new ilSystemStyleLessComment($line));
                 }
@@ -126,14 +130,14 @@ class ilSystemStyleLessFile
     /**
      * Write the complete file back to the file system (including comments and random content)
      */
-    public function write() : void
+    public function write(): void
     {
         file_put_contents($this->getLessVariablesFilePathName(), $this->getContent());
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
-        $output = "";
+        $output = '';
 
         foreach ($this->items as $item) {
             $output .= $item->__toString();
@@ -141,15 +145,15 @@ class ilSystemStyleLessFile
         return $output;
     }
 
-    public function addItem(ilSystemStyleLessItem $item) : int
+    public function addItem(ilSystemStyleLessItem $item): int
     {
         $id = array_push($this->items, $item) - 1;
 
-        if (get_class($item) == "ilSystemStyleLessComment") {
+        if (get_class($item) == 'ilSystemStyleLessComment') {
             $this->comments_ids[] = $id;
-        } elseif (get_class($item) == "ilSystemStyleLessCategory") {
+        } elseif (get_class($item) == 'ilSystemStyleLessCategory') {
             $this->categories_ids[] = $id;
-        } elseif (get_class($item) == "ilSystemStyleLessVariable") {
+        } elseif (get_class($item) == 'ilSystemStyleLessVariable') {
             $this->variables_ids[] = $id;
         }
 
@@ -159,9 +163,9 @@ class ilSystemStyleLessFile
     /**
      * @return ilSystemStyleLessCategory[]
      */
-    public function getCategories() : array
+    public function getCategories(): array
     {
-        $categories = array();
+        $categories = [];
 
         foreach ($this->categories_ids as $category_id) {
             $categories[] = $this->items[$category_id];
@@ -173,7 +177,7 @@ class ilSystemStyleLessFile
     /**
      * @return ilSystemStyleLessVariable[]
      */
-    public function getVariablesPerCategory(string $category = "") : array
+    public function getVariablesPerCategory(string $category = ''): array
     {
         $variables = [];
 
@@ -186,12 +190,12 @@ class ilSystemStyleLessFile
         return $variables;
     }
 
-    public function getItemById(int $id) : ilSystemStyleLessItem
+    public function getItemById(int $id): ilSystemStyleLessItem
     {
         return $this->items[$id];
     }
 
-    public function getVariableByName(string $name = "") : ?ilSystemStyleLessItem
+    public function getVariableByName(string $name = ''): ?ilSystemStyleLessItem
     {
         foreach ($this->variables_ids as $variables_id) {
             if ($this->items[$variables_id]->getName() == $name) {
@@ -201,7 +205,7 @@ class ilSystemStyleLessFile
         return null;
     }
 
-    public function getReferencesToVariable(string $variable_name) : array
+    public function getReferencesToVariable(string $variable_name): array
     {
         $references = [];
 
@@ -215,29 +219,29 @@ class ilSystemStyleLessFile
         return $references;
     }
 
-    public function getReferencesToVariableAsString(string $variable_name) : string
+    public function getReferencesToVariableAsString(string $variable_name): string
     {
-        $references_string = "";
+        $references_string = '';
         foreach ($this->getReferencesToVariable($variable_name) as $reference) {
             $references_string .= "$reference; ";
         }
         return $references_string;
     }
 
-    public function getRefAndCommentAsString(string $variable_name, string $refs_wording) : string
+    public function getRefAndCommentAsString(string $variable_name, string $refs_wording): string
     {
-        $references_string = "";
+        $references_string = '';
         foreach ($this->getReferencesToVariable($variable_name) as $reference) {
             $references_string .= "$reference; ";
         }
 
         $variable = $this->getVariableByName($variable_name);
 
-        if ($references_string != "") {
+        if ($references_string != '') {
             if ($variable->getComment()) {
-                $info = $variable->getComment() . "</br>" . $refs_wording . " " . $references_string;
+                $info = $variable->getComment() . '</br>' . $refs_wording . ' ' . $references_string;
             } else {
-                $info = $refs_wording . " " . $references_string;
+                $info = $refs_wording . ' ' . $references_string;
             }
         } else {
             $info = $variable->getComment();
@@ -246,12 +250,12 @@ class ilSystemStyleLessFile
         return $info;
     }
 
-    public function getLessVariablesFilePathName() : string
+    public function getLessVariablesFilePathName(): string
     {
         return $this->less_variables_file_path_name;
     }
 
-    public function setLessVariablesFilePathName(string $less_variables_file_path_name) : void
+    public function setLessVariablesFilePathName(string $less_variables_file_path_name): void
     {
         $this->less_variables_file_path_name = $less_variables_file_path_name;
     }
@@ -259,22 +263,22 @@ class ilSystemStyleLessFile
     /**
      * @return ilSystemStyleLessVariable[]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function getCommentsIds() : array
+    public function getCommentsIds(): array
     {
         return $this->comments_ids;
     }
 
-    public function getVariablesIds() : array
+    public function getVariablesIds(): array
     {
         return $this->variables_ids;
     }
 
-    public function getCategoriesIds() : array
+    public function getCategoriesIds(): array
     {
         return $this->categories_ids;
     }

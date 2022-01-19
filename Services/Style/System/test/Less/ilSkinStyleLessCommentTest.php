@@ -1,29 +1,31 @@
-<?php declare(strict_types=1);
+<?php
 
-require_once("libs/composer/vendor/autoload.php");
+declare(strict_types=1);
+
+require_once('libs/composer/vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
 
 class ilSkinStyleLessCommentTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
-        $comment = new ilSystemStyleLessComment("comment");
-        $this->assertEquals("comment", $comment->getComment());
+        $comment = new ilSystemStyleLessComment('comment');
+        $this->assertEquals('comment', $comment->getComment());
     }
 
-    public function testSetters() : void
+    public function testSetters(): void
     {
-        $comment = new ilSystemStyleLessComment("comment");
+        $comment = new ilSystemStyleLessComment('comment');
 
-        $comment->setComment("newComment");
-        $this->assertEquals("newComment", $comment->getComment());
+        $comment->setComment('newComment');
+        $this->assertEquals('newComment', $comment->getComment());
     }
 
-    public function testToString() : void
+    public function testToString(): void
     {
-        $comment = new ilSystemStyleLessComment("comment");
+        $comment = new ilSystemStyleLessComment('comment');
 
-        $this->assertEquals("comment\n", (string) $comment);
+        $this->assertEquals('comment\n', (string) $comment);
     }
 }

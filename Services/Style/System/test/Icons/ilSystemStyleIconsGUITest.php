@@ -1,12 +1,14 @@
-<?php declare(strict_types=1);
+<?php
 
-require_once("libs/composer/vendor/autoload.php");
-include_once("./tests/UI/UITestHelper.php");
+declare(strict_types=1);
+
+require_once('libs/composer/vendor/autoload.php');
+include_once('./tests/UI/UITestHelper.php');
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
-use \ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\FileUpload;
 
 class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
 {
@@ -14,13 +16,13 @@ class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
 
     protected ilCtrl $ctrl;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $ui_helper = new UITestHelper();
 
         $this->ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
-            "getFormAction","getCmd","getLinkTargetByClass"
+            'getFormAction','getCmd','getLinkTargetByClass'
         ])->getMock();
 
         $lng = new ilLanguageMock();
@@ -38,25 +40,38 @@ class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
 
         $factory = new ilSkinFactory($this->system_style_config);
 
-        $this->icons_gui = new ilSystemStyleIconsGUI($this->ctrl, $lng, $tpl, $ui_factory, $renderer, $request, $toolbar,
-            $refinery, $factory, $tabs, $upload, $this->container->getSkin()->getId(), $this->style->getId());
+        $this->icons_gui = new ilSystemStyleIconsGUI(
+            $this->ctrl,
+            $lng,
+            $tpl,
+            $ui_factory,
+            $renderer,
+            $request,
+            $toolbar,
+            $refinery,
+            $factory,
+            $tabs,
+            $upload,
+            $this->container->getSkin()->getId(),
+            $this->style->getId()
+        );
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
-        $this->ctrl->method("getCmd")->willReturn("");
+        $this->ctrl->method('getCmd')->willReturn('');
         $this->assertInstanceOf(ilSystemStyleIconsGUI::class, $this->icons_gui);
     }
 
-    public function tesGetIconsPreviewstPreview() : void
+    public function tesGetIconsPreviewstPreview(): void
     {
-        $this->assertInstanceOf(\ILIAS\UI\Component\Panel\Report::class,$this->icons_gui->getIconsPreviews());
+        $this->assertInstanceOf(\ILIAS\UI\Component\Panel\Report::class, $this->icons_gui->getIconsPreviews());
     }
 
     //this is only a smoke test
-    public function testPreview() : void
+    public function testPreview(): void
     {
-        $this->ctrl->method("getCmd")->willReturn("preview");
+        $this->ctrl->method('getCmd')->willReturn('preview');
         $this->icons_gui->executeCommand();
         $this->assertTrue(true);
     }

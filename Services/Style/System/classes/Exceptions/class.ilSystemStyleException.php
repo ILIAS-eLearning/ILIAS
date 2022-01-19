@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class for advanced editing exception handling in ILIAS.
@@ -37,86 +39,86 @@ class ilSystemStyleException extends ilSystemStyleExceptionBase
 
     public const SUBSTYLE_ASSIGNMENT_EXISTS = 7001;
 
-    protected function assignMessageToCode() : void
+    protected function assignMessageToCode(): void
     {
         switch ($this->code) {
             case self::EMPTY_ENTRY:
-                $this->message = "Empty Entry " . $this->add_info;
+                $this->message = 'Empty Entry ' . $this->add_info;
                 break;
             case self::PARSING_JSON_FAILED:
-                $this->message = "Parsing JSON Failed " . $this->add_info;
+                $this->message = 'Parsing JSON Failed ' . $this->add_info;
                 break;
             case self::INVALID_MANDATORY_ENTRY_ATTRIBUTE:
-                $this->message = "Invalid mandatory entry Attribute: " . $this->add_info;
+                $this->message = 'Invalid mandatory entry Attribute: ' . $this->add_info;
                 break;
             case self::DUPLICATE_ENTRY:
-                $this->message = "There are entries with the same ID. Duplicate: " . $this->add_info;
+                $this->message = 'There are entries with the same ID. Duplicate: ' . $this->add_info;
                 break;
             case self::DUPLICATE_ROOT_ENTRY:
-                $this->message = "There are multiple root entry. Duplicate: " . $this->add_info;
+                $this->message = 'There are multiple root entry. Duplicate: ' . $this->add_info;
                 break;
             case self::INVALID_ID:
-                $this->message = "No such ID found in list or tree: " . $this->add_info;
+                $this->message = 'No such ID found in list or tree: ' . $this->add_info;
                 break;
             case self::INVALID_CHARACTERS_IN_ID:
-                $this->message = "The ID given contains invalid characters: " . $this->add_info;
+                $this->message = 'The ID given contains invalid characters: ' . $this->add_info;
                 break;
             case self::INVALID_FILE_PATH:
-                $this->message = "Invalid file path or file not readable: " . $this->add_info;
+                $this->message = 'Invalid file path or file not readable: ' . $this->add_info;
                 break;
             case self::FILE_CREATION_FAILED:
-                $this->message = "File creation failed, path: " . $this->add_info;
+                $this->message = 'File creation failed, path: ' . $this->add_info;
                 break;
             case self::FOLDER_CREATION_FAILED:
-                $this->message = "Folder creation failed, path: " . $this->add_info;
+                $this->message = 'Folder creation failed, path: ' . $this->add_info;
                 break;
             case self::FOLDER_DELETION_FAILED:
-                $this->message = "Folder delation failed, path: " . $this->add_info;
+                $this->message = 'Folder delation failed, path: ' . $this->add_info;
                 break;
             case self::FILE_DELETION_FAILED:
-                $this->message = "File delation failed, path: " . $this->add_info;
+                $this->message = 'File delation failed, path: ' . $this->add_info;
                 break;
             case self::LESS_COMPILE_FAILED:
-                $this->message = "Compilation of less failed: " . $this->add_info;
+                $this->message = 'Compilation of less failed: ' . $this->add_info;
                 break;
             case self::FILE_OPENING_FAILED:
-                $this->message = "Failed to open file  : " . $this->add_info;
+                $this->message = 'Failed to open file  : ' . $this->add_info;
                 break;
             case self::SKIN_CSS_DOES_NOT_EXIST:
-                $this->message = "Skin CSS does not exist: " . $this->add_info;
+                $this->message = 'Skin CSS does not exist: ' . $this->add_info;
                 break;
             case self::SKIN_FOLDER_DOES_NOT_EXIST:
-                $this->message = "Skin folder does not exist: " . $this->add_info;
+                $this->message = 'Skin folder does not exist: ' . $this->add_info;
                 break;
             case self::INVALID_RULES_ENTRY:
-                $this->message = "Invalid rules entry: " . $this->add_info;
+                $this->message = 'Invalid rules entry: ' . $this->add_info;
                 break;
             case self::NO_STYLE_ID:
-                $this->message = "No Style ID is given.";
+                $this->message = 'No Style ID is given.';
                 break;
             case self::NO_SKIN_ID:
-                $this->message = "No Skin ID is given.";
+                $this->message = 'No Skin ID is given.';
                 break;
             case self::NOT_EXISTING_SKIN:
-                $this->message = "Skin does not exist: " . $this->add_info;
+                $this->message = 'Skin does not exist: ' . $this->add_info;
                 break;
             case self::NOT_EXISTING_STYLE:
-                $this->message = "Style does not exist: " . $this->add_info;
+                $this->message = 'Style does not exist: ' . $this->add_info;
                 break;
             case self::SKIN_ALREADY_EXISTS:
-                $this->message = "Skin already exists: " . $this->add_info;
+                $this->message = 'Skin already exists: ' . $this->add_info;
                 break;
             case self::NO_PARENT_STYLE:
-                $this->message = "No parent style defined for style: " . $this->add_info;
+                $this->message = 'No parent style defined for style: ' . $this->add_info;
                 break;
             case self::SUBSTYLE_ASSIGNMENT_EXISTS:
-                $this->message = "The assignment of this substyle already exists: " . $this->add_info;
+                $this->message = 'The assignment of this substyle already exists: ' . $this->add_info;
                 break;
             case self::LESSC_NOT_INSTALLED:
-                $this->message = "No less compiler is installed";
+                $this->message = 'No less compiler is installed';
                 break;
             default:
-                $this->message = "Unknown Exception " . $this->add_info;
+                $this->message = 'Unknown Exception ' . $this->add_info;
                 break;
         }
     }

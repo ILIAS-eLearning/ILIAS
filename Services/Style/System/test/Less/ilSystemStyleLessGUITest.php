@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
 
-require_once("libs/composer/vendor/autoload.php");
-include_once("./tests/UI/UITestHelper.php");
+declare(strict_types=1);
+
+require_once('libs/composer/vendor/autoload.php');
+include_once('./tests/UI/UITestHelper.php');
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Factory as DataFactory;
@@ -14,13 +16,13 @@ class ilSystemStyleLessGUITest extends ilSystemStyleBaseFSTest
 {
     protected ilSystemStyleLessGUI $less_gui;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $ui_helper = new UITestHelper();
 
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
-            "getFormAction"
+            'getFormAction'
         ])->getMock();
         $lng = new ilLanguageMock();
         $tpl = $ui_helper->mainTemplate();
@@ -35,26 +37,36 @@ class ilSystemStyleLessGUITest extends ilSystemStyleBaseFSTest
 
         $factory = new ilSkinFactory($this->system_style_config);
 
-        $this->less_gui = new ilSystemStyleLessGUI($ctrl, $lng, $tpl, $ui_factory, $renderer, $request, $toolbar,
-            $refinery, $factory, $this->container->getSkin()->getId(), $this->style->getId());
+        $this->less_gui = new ilSystemStyleLessGUI(
+            $ctrl,
+            $lng,
+            $tpl,
+            $ui_factory,
+            $renderer,
+            $request,
+            $toolbar,
+            $refinery,
+            $factory,
+            $this->container->getSkin()->getId(),
+            $this->style->getId()
+        );
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilSystemStyleLessGUI::class, $this->less_gui);
     }
 
-    public function testInitSystemStyleLessForm() : void
+    public function testInitSystemStyleLessForm(): void
     {
         $form = $this->less_gui->initSystemStyleLessForm();
 
         $this->assertInstanceOf(Form::class, $form);
-        $this->assertCount(1,$form->getInputs());
-        $this->assertInstanceOf(Section::class,$form->getInputs()[0]);
-        $this->assertCount(2,$form->getInputs()[0]->getInputs());
-        $this->assertInstanceOf(Section::class,$form->getInputs()[0]->getInputs()[0]);
-        $this->assertCount(3,$form->getInputs()[0]->getInputs()[0]->getInputs());
-        $this->assertInstanceOf(Text::class,$form->getInputs()[0]->getInputs()[0]->getInputs()[0]);
+        $this->assertCount(1, $form->getInputs());
+        $this->assertInstanceOf(Section::class, $form->getInputs()[0]);
+        $this->assertCount(2, $form->getInputs()[0]->getInputs());
+        $this->assertInstanceOf(Section::class, $form->getInputs()[0]->getInputs()[0]);
+        $this->assertCount(3, $form->getInputs()[0]->getInputs()[0]->getInputs());
+        $this->assertInstanceOf(Text::class, $form->getInputs()[0]->getInputs()[0]->getInputs()[0]);
     }
-
 }

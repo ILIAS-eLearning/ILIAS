@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilSystemStyleLoggerMock
 {
@@ -6,9 +8,8 @@ class ilSystemStyleLoggerMock
     {
     }
 
-    public function root() : ilSystemStyleRootLoggerMock
+    public function root(): ilSystemStyleRootLoggerMock
     {
         return new ilSystemStyleRootLoggerMock();
     }
 }
-

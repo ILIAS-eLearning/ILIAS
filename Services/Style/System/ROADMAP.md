@@ -15,6 +15,8 @@ and document the public interface. Especially refactor/get rid of the singleton 
   * Toolbar (Toolbar needed)
   * Code Preview in Examples (Component to show text as code needed)
 * Further extend testing coverage for GUI classes (usage of UI componentes needed)
+* Improve DIC handling. Currently this is all handled through constructors, making constructors large.
+maybe introduce a local DIC container, as done in study programe.
 
 ##Low Prio
 * Introduce the File System Service for file access for this component. Note that for

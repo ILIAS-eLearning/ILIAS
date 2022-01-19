@@ -1,60 +1,100 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 
 class ilSystemStyleSettingsGUI
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
-    protected \ILIAS\UI\Factory $f;
+    protected Factory $ui_factory;
+    protected Renderer $renderer;
     protected ilSkinFactory $skin_factory;
+    protected WrapperFactory $request_wrapper;
+    protected Refinery $refinery;
+    protected ilToolbarGUI $toolbar;
+    protected ilTree $tree;
+    protected string $style_id;
+    protected ilSkinStyleContainer $style_container;
 
-    public function __construct()
-    {
-        global $DIC;
+    public function __construct(
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
+        ilTabsGUI $tabs,
+        Factory $ui_factory,
+        Renderer $renderer,
+        ilSkinFactory $skin_factory,
+        WrapperFactory $request_wrapper,
+        Refinery $refinery,
+        ilToolbarGUI $toolbar,
+        ilTree $tree,
+        string $skin_id,
+        string $style_id
+    ) {
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->tabs = $tabs;
+        $this->ui_factory = $ui_factory;
+        $this->skin_factory = $skin_factory;
+        $this->request_wrapper = $request_wrapper;
+        $this->refinery = $refinery;
+        $this->toolbar = $toolbar;
+        $this->tree = $tree;
+        $this->style_id = $style_id;
+        $this->renderer = $renderer;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tabs = $DIC->tabs();
-        $this->f = $DIC->ui()->factory();
-        $this->tpl = $DIC["tpl"];
-        $this->skin_factory = new ilSkinFactory();
+        $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : "edit";
-        $system_style_conf = new ilSystemStyleConfig();
-        $skin = $this->skin_factory->skinFromXML($system_style_conf->getCustomizingSkinPath() . $_GET["skin_id"] . "/template.xml");
-        $style = $skin->getStyle($_GET["style_id"]);
+        $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : 'edit';
+        $style = $this->style_container->getSkin()->getStyle($this->style_id);
 
         if ($style->isSubstyle()) {
-            if ($cmd == "edit" || $cmd == "view") {
-                $this->setSubStyleSubTabs("edit");
+            if ($cmd == 'edit' || $cmd == 'view') {
+                $this->setSubStyleSubTabs('edit');
             } else {
-                $this->setSubStyleSubTabs("assignStyle");
+                $this->setSubStyleSubTabs('assignStyle');
             }
         }
 
+        $assign_gui = new ilSubStyleAssignmentGUI(
+            $this,
+            $this->ctrl,
+            $this->lng,
+            $this->tpl,
+            $this->toolbar,
+            $this->tree,
+            $this->request_wrapper,
+            $this->refinery,
+            $this->ui_factory
+        );
+
         switch ($cmd) {
-            case "deleteAssignments":
-                $assign_gui = new ilSubStyleAssignmentGUI($this);
-                $assign_gui->deleteAssignments($skin, $style);
+            case 'deleteAssignments':
+                $assign_gui->deleteAssignments($this->style_container->getSkin(), $style);
                 break;
-            case "saveAssignment":
-                $assign_gui = new ilSubStyleAssignmentGUI($this);
-                $assign_gui->saveAssignment($skin, $style);
+            case 'saveAssignment':
+                $assign_gui->saveAssignment($this->style_container->getSkin(), $style);
                 break;
-            case "addAssignment":
-                $assign_gui = new ilSubStyleAssignmentGUI($this);
+            case 'addAssignment':
                 $assign_gui->addAssignment();
                 break;
-            case "assignStyle":
-                $assign_gui = new ilSubStyleAssignmentGUI($this);
-                $assign_gui->assignStyle($skin, $style);
+            case 'assignStyle':
+                $assign_gui->assignStyle($this->style_container->getSkin(), $style);
                 break;
-            case "save":
-            case "edit":
+            case 'save':
+            case 'edit':
                 $this->$cmd();
                 break;
             default:
@@ -63,15 +103,18 @@ class ilSystemStyleSettingsGUI
         }
     }
 
-    /**
-     * @param string $active
-     */
-    protected function setSubStyleSubTabs($active = "")
+    protected function setSubStyleSubTabs(string $active = '')
     {
-        $this->tabs->addSubTab('edit', $this->lng->txt('settings'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
-        $this->tabs->addSubTab('assignStyle', $this->lng->txt('assignment'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui', "assignStyle"));
+        $this->tabs->addSubTab(
+            'edit',
+            $this->lng->txt('settings'),
+            $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui')
+        );
+        $this->tabs->addSubTab(
+            'assignStyle',
+            $this->lng->txt('assignment'),
+            $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui', 'assignStyle')
+        );
 
         $this->tabs->activateSubTab($active);
     }
@@ -79,8 +122,8 @@ class ilSystemStyleSettingsGUI
     protected function edit()
     {
         $form = $this->editSystemStyleForm();
-        $this->getPropertiesValues($form);
-        $this->tpl->setContent($form->getHTML());
+        //$this->getPropertiesValues($form);
+        $this->tpl->setContent($this->renderer->render($form));
     }
 
     /**
@@ -90,31 +133,25 @@ class ilSystemStyleSettingsGUI
     {
         global $DIC;
 
-        if (!$_GET["skin_id"]) {
-            throw new ilSystemStyleException(ilSystemStyleException::NO_SKIN_ID);
-        }
-        if (!$_GET["style_id"]) {
-            throw new ilSystemStyleException(ilSystemStyleException::NO_STYLE_ID);
-        }
-        $system_style_config = new ilSystemStyleConfig();
-        $skin = $this->skin_factory->skinFromXML($system_style_config->getCustomizingSkinPath() . $_GET["skin_id"] . "/template.xml");
-        $style = $skin->getStyle($_GET["style_id"]);
-        $values["skin_id"] = $skin->getId();
-        $values["skin_name"] = $skin->getName();
-        $values["style_id"] = $style->getId();
-        $values["style_name"] = $style->getName();
-        $values["image_dir"] = $style->getImageDirectory();
-        $values["font_dir"] = $style->getFontDirectory();
-        $values["sound_dir"] = $style->getSoundDirectory();
+        $skin = $this->style_container->getSkin();
+        $style = $skin->getStyle($this->style_id);
+
+        $values['skin_id'] = $skin->getId();
+        $values['skin_name'] = $skin->getName();
+        $values['style_id'] = $style->getId();
+        $values['style_name'] = $style->getName();
+        $values['image_dir'] = $style->getImageDirectory();
+        $values['font_dir'] = $style->getFontDirectory();
+        $values['sound_dir'] = $style->getSoundDirectory();
 
         if ($style->isSubstyle()) {
-            $values["parent_style"] = $style->getSubstyleOf();
+            $values['parent_style'] = $style->getSubstyleOf();
         } else {
-            $values["active"] = ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId());
-            $is_personal_style = $DIC->user()->getPref("skin") == $skin->getId() && $DIC->user()->getPref("style") == $style->getId();
-            $values["personal"] = $is_personal_style;
+            $values['active'] = ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId());
+            $is_personal_style = $DIC->user()->getPref('skin') == $skin->getId() && $DIC->user()->getPref('style') == $style->getId();
+            $values['personal'] = $is_personal_style;
             $is_default_style = ilSystemStyleSettings::getCurrentDefaultSkin() == $skin->getId() && ilSystemStyleSettings::getCurrentDefaultStyle() == $style->getId();
-            $values["default"] = $is_default_style;
+            $values['default'] = $is_default_style;
         }
 
         $form->setValuesByArray($values);
@@ -127,9 +164,8 @@ class ilSystemStyleSettingsGUI
         $message_stack = new ilSystemStyleMessageStack();
         if ($form->checkInput()) {
             try {
-                $system_style_conf = new ilSystemStyleConfig();
-                $skin = $this->skin_factory->skinFromXML($system_style_conf->getCustomizingSkinPath() . $_GET["skin_id"] . "/template.xml");
-                $style = $skin->getStyle($_GET["style_id"]);
+                $skin = $this->style_container->getSkin();
+                $style = $skin->getStyle($this->style_id);
 
                 if ($style->isSubstyle()) {
                     $this->saveSubStyle($message_stack);
@@ -137,16 +173,18 @@ class ilSystemStyleSettingsGUI
                     $this->saveStyle($message_stack);
                 }
 
-                $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("msg_sys_style_update")));
-                $message_stack->getUIComponentsMessages($this->f);
-                $this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
+                $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt('msg_sys_style_update')));
+                $message_stack->getUIComponentsMessages($this->ui_factory);
+                $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
             } catch (ilSystemStyleException $e) {
-                $message_stack->prependMessage(new ilSystemStyleMessage($e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR));
+                $message_stack->prependMessage(new ilSystemStyleMessage(
+                    $e->getMessage(),
+                    ilSystemStyleMessage::TYPE_ERROR
+                ));
             }
         }
 
-        $message_stack->getUIComponentsMessages($this->f);
+        $message_stack->getUIComponentsMessages($this->ui_factory);
 
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
@@ -160,28 +198,27 @@ class ilSystemStyleSettingsGUI
     {
         global $DIC;
 
-        $container = $this->skin_factory->skinStyleContainerFromId($_GET['skin_id'], $message_stack);
-        $old_skin = clone $container->getSkin();
-        $old_style = clone $old_skin->getStyle($_GET["style_id"]);
+        $old_skin = clone $this->style_container->getSkin();
+        $old_style = clone $old_skin->getStyle($this->style_id);
 
-        $new_skin = $container->getSkin();
-        $new_skin->setId($_POST["skin_id"]);
-        $new_skin->setName($_POST["skin_name"]);
+        $new_skin = $this->style_container->getSkin();
+        $new_skin->setId($_POST['skin_id']);
+        $new_skin->setName($_POST['skin_name']);
         $new_skin->getVersionStep($_POST['skin_version']);
 
-        $new_style_id = $_POST["style_id"];
+        $new_style_id = $_POST['style_id'];
         $new_skin->updateParentStyleOfSubstyles($old_style->getId(), $new_style_id);
 
-        $new_style = $new_skin->getStyle($_GET["style_id"]);
+        $new_style = $new_skin->getStyle($_GET['style_id']);
         $new_style->setId($new_style_id);
-        $new_style->setName($_POST["style_name"]);
-        $new_style->setCssFile($_POST["style_id"]);
-        $new_style->setImageDirectory($_POST["image_dir"]);
-        $new_style->setSoundDirectory($_POST["sound_dir"]);
-        $new_style->setFontDirectory($_POST["font_dir"]);
+        $new_style->setName($_POST['style_name']);
+        $new_style->setCssFile($_POST['style_id']);
+        $new_style->setImageDirectory($_POST['image_dir']);
+        $new_style->setSoundDirectory($_POST['sound_dir']);
+        $new_style->setFontDirectory($_POST['font_dir']);
 
-        $container->updateSkin($old_skin);
-        $container->updateStyle($new_style->getId(), $old_style);
+        $this->style_container->updateSkin($old_skin);
+        $this->style_container->updateStyle($new_style->getId(), $old_style);
 
         ilSystemStyleSettings::updateSkinIdAndStyleIDOfSubStyleCategoryAssignments(
             $old_skin->getId(),
@@ -190,26 +227,26 @@ class ilSystemStyleSettingsGUI
             $new_style->getId()
         );
 
-        if ($_POST["active"] == 1) {
+        if ($_POST['active'] == 1) {
             ilSystemStyleSettings::_activateStyle($new_skin->getId(), $new_style->getId());
-            if ($_POST["personal"] == 1) {
+            if ($_POST['personal'] == 1) {
                 ilSystemStyleSettings::setCurrentUserPrefStyle($new_skin->getId(), $new_style->getId());
             }
-            if ($_POST["default"] == 1) {
+            if ($_POST['default'] == 1) {
                 ilSystemStyleSettings::setCurrentDefaultStyle($new_skin->getId(), $new_style->getId());
             }
         } else {
             ilSystemStyleSettings::_deactivateStyle($new_skin->getId(), $new_style->getId());
-            $_POST["personal"] = 0;
-            $_POST["default"] = 0;
+            $_POST['personal'] = 0;
+            $_POST['default'] = 0;
         }
 
         $system_style_conf = new ilSystemStyleConfig();
 
         //If style has been unset as personal style
-        if (!$_POST["personal"] && $DIC->user()->getPref("skin") == $new_skin->getId()) {
+        if (!$_POST['personal'] && $DIC->user()->getPref('skin') == $new_skin->getId()) {
             //Reset to default if possible, else change to delos
-            if (!$_POST["default"]) {
+            if (!$_POST['default']) {
                 ilSystemStyleSettings::setCurrentUserPrefStyle(
                     ilSystemStyleSettings::getCurrentDefaultSkin(),
                     ilSystemStyleSettings::getCurrentDefaultStyle()
@@ -222,19 +259,19 @@ class ilSystemStyleSettingsGUI
             }
             $message_stack->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("personal_style_set_to") . " " . ilSystemStyleSettings::getCurrentUserPrefSkin() . ":" . ilSystemStyleSettings::getCurrentUserPrefStyle(),
+                    $this->lng->txt('personal_style_set_to') . ' ' . ilSystemStyleSettings::getCurrentUserPrefSkin() . ':' . ilSystemStyleSettings::getCurrentUserPrefStyle(),
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
         }
-        if (!$_POST["default"] && ilSystemStyleSettings::getCurrentDefaultSkin() == $new_skin->getId()) {
+        if (!$_POST['default'] && ilSystemStyleSettings::getCurrentDefaultSkin() == $new_skin->getId()) {
             ilSystemStyleSettings::setCurrentDefaultStyle(
                 $system_style_conf->getDefaultSkinId(),
                 $system_style_conf->getDefaultStyleId()
             );
             $message_stack->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("default_style_set_to") . " " . $system_style_conf->getDefaultSkinId() . ": " . $system_style_conf->getDefaultStyleId(),
+                    $this->lng->txt('default_style_set_to') . ' ' . $system_style_conf->getDefaultSkinId() . ': ' . $system_style_conf->getDefaultStyleId(),
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
@@ -249,24 +286,25 @@ class ilSystemStyleSettingsGUI
      */
     protected function saveSubStyle(ilSystemStyleMessageStack $message_stack)
     {
-        $container = $this->skin_factory->skinStyleContainerFromId($_GET['skin_id'], $message_stack);
-        $skin = $container->getSkin();
-        $old_substyle = clone $skin->getStyle($_GET["style_id"]);
+        $skin = $this->style_container->getSkin();
+        $old_substyle = clone $skin->getStyle($this->style_id);
 
-        $new_substyle = $skin->getStyle($_GET["style_id"]);
-        $new_substyle->setId($_POST["style_id"]);
-        $new_substyle->setName($_POST["style_name"]);
-        $new_substyle->setCssFile($_POST["style_id"]);
-        $new_substyle->setImageDirectory($_POST["image_dir"]);
-        $new_substyle->setSoundDirectory($_POST["sound_dir"]);
-        $new_substyle->setFontDirectory($_POST["font_dir"]);
+        $new_substyle = $skin->getStyle($this->style_id);
+        $new_substyle->setId($_POST['style_id']);
+        $new_substyle->setName($_POST['style_name']);
+        $new_substyle->setCssFile($_POST['style_id']);
+        $new_substyle->setImageDirectory($_POST['image_dir']);
+        $new_substyle->setSoundDirectory($_POST['sound_dir']);
+        $new_substyle->setFontDirectory($_POST['font_dir']);
         $new_substyle->setSubstyleOf($old_substyle->getSubstyleOf());
 
-        $container->updateSkin($skin);
-        $container->updateStyle($new_substyle->getId(), $old_substyle);
+        $this->style_container->updateSkin($skin);
+        $this->style_container->updateStyle($new_substyle->getId(), $old_substyle);
 
-        ilSystemStyleSettings::updateSubStyleIdfSubStyleCategoryAssignments($old_substyle->getId(),
-            $new_substyle->getId());
+        ilSystemStyleSettings::updateSubStyleIdfSubStyleCategoryAssignments(
+            $old_substyle->getId(),
+            $new_substyle->getId()
+        );
 
         $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
         $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $new_substyle->getId());
@@ -275,101 +313,68 @@ class ilSystemStyleSettingsGUI
     /**
      * @throws ilSystemStyleException
      */
-    protected function editSystemStyleForm() : ilPropertyFormGUI
+    protected function editSystemStyleForm(): Form
     {
-        $form = new ilPropertyFormGUI();
-        $system_style_conf = new ilSystemStyleConfig();
+        $f = $this->ui_factory->input();
+        $skin = $this->style_container->getSkin();
+        $style = $skin->getStyle($this->style_id);
 
-        $skin = $this->skin_factory->skinFromXML($system_style_conf->getCustomizingSkinPath() . $_GET["skin_id"] . "/template.xml");
-        $style = $skin->getStyle($_GET["style_id"]);
+        if (true) {//!$style->isSubstyle()) {
+            $skin_id = $f->field()->text($this->lng->txt('skin_id'), $this->lng->txt('skin_id_description'))
+                         ->withRequired(true)
+                         ->withValue('');
 
-        $form->setFormAction($this->ctrl->getFormActionByClass("ilsystemstylesettingsgui"));
+            $skin_name = $f->field()->text($this->lng->txt('skin_name'), $this->lng->txt('skin_name_description'))
+                           ->withRequired(true)
+                           ->withValue('');
 
-        if (!$style->isSubstyle()) {
-            $form->setTitle($this->lng->txt("skin"));
+            $skin_version = $f->field()->text(
+                $this->lng->txt('skin_version'),
+                $this->lng->txt('skin_version_description')
+            )
+                              ->withRequired(true)
+                              ->withDisabled(true)
+                              ->withValue('1');
+            $skin_section = $f->field()->section([$skin_id, $skin_name, $skin_version], $this->lng->txt('skin'));
 
-            $ti = new ilTextInputGUI($this->lng->txt("skin_id"), "skin_id");
-            $ti->setMaxLength(128);
-            $ti->setSize(40);
-            $ti->setRequired(true);
-            $ti->setInfo($this->lng->txt("skin_id_description"));
-            $form->addItem($ti);
+            $style_id = $f->field()->text($this->lng->txt('style_id'), $this->lng->txt('style_id_description'))
+                          ->withRequired(true)
+                          ->withValue('');
+            $style_name = $f->field()->text($this->lng->txt('style_name'), $this->lng->txt('style_name_description'))
+                            ->withRequired(true)
+                            ->withValue('');
+            $image_dir = $f->field()->text($this->lng->txt('image_dir'), $this->lng->txt('image_dir_description'))
+                           ->withValue('');
+            $font_dir = $f->field()->text($this->lng->txt('font_dir'), $this->lng->txt('font_dir_description'))
+                          ->withValue('');
+            $sound_dir = $f->field()->text($this->lng->txt('image_dir'), $this->lng->txt('sound_dir_description'))
+                           ->withValue('');
+            $style_section = $f->field()->section(
+                [$style_id, $style_name, $image_dir, $font_dir, $sound_dir],
+                $this->lng->txt('style')
+            );
 
-            $ti = new ilTextInputGUI($this->lng->txt("skin_name"), "skin_name");
-            $ti->setInfo($this->lng->txt("skin_name_description"));
-            $ti->setMaxLength(128);
-            $ti->setSize(40);
-            $ti->setRequired(true);
-            $form->addItem($ti);
+            $default = $f->field()->checkbox(
+                $this->lng->txt('default'),
+                $this->lng->txt('system_style_default_description')
+            );
 
-            if ($skin->isVersionChangeable()) {
-                $ti = new ilNonEditableValueGUI($this->lng->txt("skin_version"), "skin_version");
-                $ti->setInfo($this->lng->txt("skin_version_description"));
-                $ti->setValue($skin->getVersion());
-                $form->addItem($ti);
-            }
+            $personal = $f->field()->checkbox(
+                $this->lng->txt('personal'),
+                $this->lng->txt('system_style_personal_description')
+            );
 
-            $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->lng->txt("style"));
-            $form->addItem($section);
-        } else {
-            $form->setTitle($this->lng->txt("sub_style"));
+            $activation = $f->field()->optionalGroup(
+                ['default' => $default, $personal],
+                $this->lng->txt('system_style_activation'),
+                $this->lng->txt('system_style_activation_description')
+            );
+
+            $activation_section = $f->field()->section([$activation], $this->lng->txt('system_style_activation'));
         }
-
-        $ti = new ilTextInputGUI($this->lng->txt("style_id"), "style_id");
-        $ti->setMaxLength(128);
-        $ti->setSize(40);
-        $ti->setRequired(true);
-        $ti->setInfo($this->lng->txt("style_id_description"));
-        $form->addItem($ti);
-
-        $ti = new ilTextInputGUI($this->lng->txt("style_name"), "style_name");
-        $ti->setMaxLength(128);
-        $ti->setSize(40);
-        $ti->setRequired(true);
-        $ti->setInfo($this->lng->txt("style_name_description"));
-        $form->addItem($ti);
-
-        $ti = new ilTextInputGUI($this->lng->txt("image_dir"), "image_dir");
-        $ti->setMaxLength(128);
-        $ti->setSize(40);
-        $ti->setInfo($this->lng->txt("image_dir_description"));
-        $form->addItem($ti);
-
-        $ti = new ilTextInputGUI($this->lng->txt("font_dir"), "font_dir");
-        $ti->setMaxLength(128);
-        $ti->setSize(40);
-        $ti->setInfo($this->lng->txt("font_dir_description"));
-        $form->addItem($ti);
-
-        $ti = new ilTextInputGUI($this->lng->txt("sound_dir"), "sound_dir");
-        $ti->setMaxLength(128);
-        $ti->setSize(40);
-        $ti->setInfo($this->lng->txt("sound_dir_description"));
-        $form->addItem($ti);
-
-        if (!$style->isSubstyle()) {
-            $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->lng->txt("system_style_activation"));
-            $form->addItem($section);
-
-            $active = new ilCheckboxInputGUI($this->lng->txt("system_style_activation"), "active");
-            $active->setInfo($this->lng->txt("system_style_activation_description"));
-
-            $set_default = new ilCheckboxInputGUI($this->lng->txt("default"), "default");
-            $set_default->setInfo($this->lng->txt("system_style_default_description"));
-            $active->addSubItem($set_default);
-
-            $set_personal = new ilCheckboxInputGUI($this->lng->txt("personal"), "personal");
-            $set_personal->setInfo($this->lng->txt("system_style_personal_description"));
-            $active->addSubItem($set_personal);
-
-            $form->addItem($active);
-        }
-
-        $form->addCommandButton("save", $this->lng->txt("save"));
-        $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-        return $form;
+        return $f->container()->form()->standard(
+            $this->ctrl->getFormActionByClass('ilsystemstylesettingsgui'),
+            [$skin_section, $style_section, $activation_section]
+        );
     }
 }

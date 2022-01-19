@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Abstracts a folder containing a set of icons.
@@ -14,7 +16,7 @@ class ilSystemStyleIconFolder
     /**
      * Path to the root of the folder
      */
-    protected string $path = "";
+    protected string $path = '';
 
     /**
      * Complete color set of all icons contained in this folder
@@ -34,7 +36,7 @@ class ilSystemStyleIconFolder
      * Reads the folder recursively and sorts the icons by name and type
      * @throws ilSystemStyleException
      */
-    public function read() : void
+    public function read(): void
     {
         $this->readIconsFromFolder($this->getPath());
         $this->sortIcons();
@@ -43,28 +45,27 @@ class ilSystemStyleIconFolder
     /**
      * Sorts the Icons by name and type
      */
-    protected function sortIcons() : void
+    protected function sortIcons(): void
     {
-        usort($this->icons, array($this, 'compareIconsByName'));
+        usort($this->icons, [$this, 'compareIconsByName']);
     }
 
-    protected function compareIconsByName(ilSystemStyleIcon $a, ilSystemStyleIcon $b) : int
+    protected function compareIconsByName(ilSystemStyleIcon $a, ilSystemStyleIcon $b): int
     {
         if ($a->getType() == $b->getType()) {
             return strcmp($a->getName(), $b->getName());
-        } elseif ($a->getType() == "svg") {
+        } elseif ($a->getType() == 'svg') {
             return -1;
-        } elseif ($b->getType() == "svg") {
+        } elseif ($b->getType() == 'svg') {
             return 1;
         } else {
             return strcmp($a->getType(), $b->getType());
         }
-
     }
 
-    public function sortIconsByPath() : void
+    public function sortIconsByPath(): void
     {
-        usort($this->icons, static function (ilSystemStyleIcon $a, ilSystemStyleIcon $b) : int {
+        usort($this->icons, static function (ilSystemStyleIcon $a, ilSystemStyleIcon $b): int {
             return strcmp($a->getPath(), $b->getPath());
         });
     }
@@ -73,7 +74,7 @@ class ilSystemStyleIconFolder
      * @throws ilSystemStyleException
      * @throws ilSystemStyleIconException
      */
-    protected function readIconsFromFolder(string $src = "") : void
+    protected function readIconsFromFolder(string $src = ''): void
     {
         try {
             $dir_iterator = new RecursiveDirectoryIterator($src);
@@ -84,13 +85,12 @@ class ilSystemStyleIconFolder
         $rec_it = new RecursiveIteratorIterator($dir_iterator);
 
         foreach ($rec_it as $file) {
-
             if (!$file->isReadable()) {
                 throw new ilSystemStyleException(ilSystemStyleException::FILE_OPENING_FAILED, $file->getPathname());
             }
             if ($file->isFile()) {
                 $extension = $file->getExtension();
-                if ($extension == "gif" || $extension == "svg" || $extension == "png") {
+                if ($extension == 'gif' || $extension == 'svg' || $extension == 'png') {
                     $this->addIcon(new ilSystemStyleIcon($file->getFilename(), $file->getPathname(), $extension));
                 }
             }
@@ -100,7 +100,7 @@ class ilSystemStyleIconFolder
     /**
      * Changes a set of colors in all icons contained in the folder
      */
-    public function changeIconColors(array $color_changes) : void
+    public function changeIconColors(array $color_changes): void
     {
         foreach ($this->getIcons() as $icon) {
             $icon->changeColors($color_changes);
@@ -110,7 +110,7 @@ class ilSystemStyleIconFolder
     /**
      * Adds an icon to the folders abstraction
      */
-    public function addIcon(ilSystemStyleIcon $icon) : void
+    public function addIcon(ilSystemStyleIcon $icon): void
     {
         $this->icons[] = $icon;
     }
@@ -119,7 +119,7 @@ class ilSystemStyleIconFolder
      * Gets an Icon from the folders abstraction
      * @return ilSystemStyleIcon[]
      */
-    public function getIcons() : array
+    public function getIcons(): array
     {
         return $this->icons;
     }
@@ -127,7 +127,7 @@ class ilSystemStyleIconFolder
     /**
      * @throws ilSystemStyleIconException
      */
-    public function getIconByName(string $name) : ilSystemStyleIcon
+    public function getIconByName(string $name): ilSystemStyleIcon
     {
         foreach ($this->icons as $icon) {
             if ($icon->getName() == $name) {
@@ -140,7 +140,7 @@ class ilSystemStyleIconFolder
     /**
      * @throws ilSystemStyleIconException
      */
-    public function getIconByPath(string $path) : ilSystemStyleIcon
+    public function getIconByPath(string $path): ilSystemStyleIcon
     {
         foreach ($this->icons as $icon) {
             if ($icon->getPath() == $path) {
@@ -154,7 +154,7 @@ class ilSystemStyleIconFolder
      * Sorts all icons by their occurrence in folders
      * @return array array(folder_path_name => [$icons])
      */
-    public function getIconsSortedByFolder() : array
+    public function getIconsSortedByFolder(): array
     {
         $folders = [];
 
@@ -179,7 +179,7 @@ class ilSystemStyleIconFolder
         $this->icons = $icons;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -189,7 +189,7 @@ class ilSystemStyleIconFolder
         $this->path = $path;
     }
 
-    public function getColorSet() : ilSystemStyleIconColorSet
+    public function getColorSet(): ilSystemStyleIconColorSet
     {
         if (!isset($this->color_set)) {
             $this->extractColorSet();
@@ -200,7 +200,7 @@ class ilSystemStyleIconFolder
     /**
      * Gets the color sets of all icons an merges them into one
      */
-    protected function extractColorSet() : void
+    protected function extractColorSet(): void
     {
         $this->color_set = new ilSystemStyleIconColorSet();
         foreach ($this->getIcons() as $icon) {
@@ -212,7 +212,7 @@ class ilSystemStyleIconFolder
      * Gets the usages of a certain color
      * @return ilSystemStyleIcon[]
      */
-    public function getUsagesOfColor(string $color_id) : array
+    public function getUsagesOfColor(string $color_id): array
     {
         $icons = [];
         foreach ($this->getIcons() as $icon) {
@@ -226,16 +226,16 @@ class ilSystemStyleIconFolder
     /**
      * Gets the usages of a color as string
      */
-    public function getUsagesOfColorAsString(string $color_id) : string
+    public function getUsagesOfColorAsString(string $color_id): string
     {
-        $usage_string = "";
+        $usage_string = '';
         foreach ($this->getUsagesOfColor($color_id) as $icon) {
-            $usage_string .= rtrim($icon->getName(), ".svg") . "; ";
+            $usage_string .= rtrim($icon->getName(), '.svg') . '; ';
         }
         return $usage_string;
     }
 
-    public function setColorSet(ilSystemStyleIconColorSet $color_set) : void
+    public function setColorSet(ilSystemStyleIconColorSet $color_set): void
     {
         $this->color_set = $color_set;
     }

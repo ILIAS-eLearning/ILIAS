@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * ilStyleDefinition acts as a wrapper of style related actions. See Readme for Details.
@@ -38,9 +40,9 @@ class ilStyleDefinition
      * ilStyleDefinition constructor.
      * @throws ilSystemStyleException
      */
-    public function __construct(string $skin_id = "", ilSystemStyleConfig $system_style_config = null)
+    public function __construct(string $skin_id = '', ilSystemStyleConfig $system_style_config = null)
     {
-        if ($skin_id == "") {
+        if ($skin_id == '') {
             $skin_id = self::getCurrentSkin();
         }
 
@@ -53,7 +55,7 @@ class ilStyleDefinition
         $this->skin_factory = new ilSkinFactory($this->getSystemStylesConf());
 
         if ($skin_id != $this->getSystemStylesConf()->getDefaultSkinId()) {
-            $this->setSkin($this->skin_factory->skinFromXML($this->getSystemStylesConf()->getCustomizingSkinPath() . $skin_id . "/template.xml"));
+            $this->setSkin($this->skin_factory->skinFromXML($this->getSystemStylesConf()->getCustomizingSkinPath() . $skin_id . '/template.xml'));
         } else {
             $this->setSkin($this->skin_factory->skinFromXML($this->getSystemStylesConf()->getDefaultTemplatePath()));
         }
@@ -71,16 +73,18 @@ class ilStyleDefinition
         if (!$DIC) {
             return null;
         }
-        if ($DIC->isDependencyAvailable("systemStyle") && is_object($DIC->systemStyle()->getSkin())) {
+        if ($DIC->isDependencyAvailable('systemStyle') && is_object($DIC->systemStyle()->getSkin())) {
             return $DIC->systemStyle()->getSkin()->getId();
         } else {
             $system_style_conf = new ilSystemStyleConfig();
 
-            if ($DIC->isDependencyAvailable("user") && is_object($DIC->user()) && property_exists($DIC->user(),
-                    "skin")) {
+            if ($DIC->isDependencyAvailable('user') && is_object($DIC->user()) && property_exists(
+                    $DIC->user(),
+                    'skin'
+                )) {
                 $skin_id = $DIC->user()->skin;
                 if (!self::skinExists($skin_id)) {
-                    ilUtil::sendFailure($DIC->language()->txt("set_skin_does_not_exist") . " " . $skin_id);
+                    ilUtil::sendFailure($DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id);
                     $skin_id = $system_style_conf->getDefaultSkinId();
                 }
                 return $skin_id;
@@ -160,11 +164,13 @@ class ilStyleDefinition
             $skins[$system_style_config->getDefaultSkinId()] = $skin_factory->skinFromXML($system_style_config->getDefaultTemplatePath());
 
             if (is_dir($system_style_config->getCustomizingSkinPath())) {
-                $cust_skins_directory = new RecursiveDirectoryIterator($system_style_config->getCustomizingSkinPath(),
-                    FilesystemIterator::SKIP_DOTS);
+                $cust_skins_directory = new RecursiveDirectoryIterator(
+                    $system_style_config->getCustomizingSkinPath(),
+                    FilesystemIterator::SKIP_DOTS
+                );
                 foreach ($cust_skins_directory as $skin_folder) {
                     if ($skin_folder->isDir()) {
-                        $template_path = $skin_folder->getRealPath() . "/template.xml";
+                        $template_path = $skin_folder->getRealPath() . '/template.xml';
                         if (file_exists($template_path)) {
                             $skin = $skin_factory->skinFromXML($template_path);
                             $skins[$skin->getId()] = $skin;
@@ -192,7 +198,7 @@ class ilStyleDefinition
             if (is_file($system_style_config->getDefaultTemplatePath())) {
                 return true;
             }
-        } elseif (is_file($system_style_config->getCustomizingSkinPath() . $skin_id . "/template.xml")) {
+        } elseif (is_file($system_style_config->getCustomizingSkinPath() . $skin_id . '/template.xml')) {
             return true;
         }
         return false;
@@ -212,39 +218,45 @@ class ilStyleDefinition
             return self::$current_style;
         }
 
-        if (!$DIC || !$DIC->isDependencyAvailable("user")) {
+        if (!$DIC || !$DIC->isDependencyAvailable('user')) {
             return null;
         }
 
         self::setCurrentStyle($DIC->user()->prefs['style']);
 
-        if ($DIC->isDependencyAvailable("systemStyle") && self::styleExistsForCurrentSkin(self::$current_style)) {
+        if ($DIC->isDependencyAvailable('systemStyle') && self::styleExistsForCurrentSkin(self::$current_style)) {
             if ($DIC->systemStyle()->getSkin()->hasStyleSubstyles(self::$current_style)) {
                 // read assignments, if given
-                $assignments = ilSystemStyleSettings::getSystemStyleCategoryAssignments(self::getCurrentSkin(),
-                    self::$current_style);
+                $assignments = ilSystemStyleSettings::getSystemStyleCategoryAssignments(
+                    self::getCurrentSkin(),
+                    self::$current_style
+                );
                 if (count($assignments) > 0) {
                     $ref_ass = [];
                     foreach ($assignments as $a) {
-                        if ($DIC->systemStyle()->getSkin()->hasStyle($a["substyle"])) {
-                            $ref_ass[$a["ref_id"]] = $a["substyle"];
+                        if ($DIC->systemStyle()->getSkin()->hasStyle($a['substyle'])) {
+                            $ref_ass[$a['ref_id']] = $a['substyle'];
                         }
                     }
 
-                    $ref_id = "";
+                    $ref_id = '';
 
                     if ($DIC->http()->wrapper()->query()->has('ref_id')) {
-                        $ref_id = $DIC->http()->wrapper()->query()->retrieve('ref_id',
-                            $DIC->refinery()->kindlyTo()->string());
+                        $ref_id = $DIC->http()->wrapper()->query()->retrieve(
+                            'ref_id',
+                            $DIC->refinery()->kindlyTo()->string()
+                        );
                     } elseif ($DIC->http()->wrapper()->query()->has('target')) {
-                        $target = $DIC->http()->wrapper()->query()->retrieve('target',
-                            $DIC->refinery()->kindlyTo()->string());
-                        $target_arr = explode("_", $target);
+                        $target = $DIC->http()->wrapper()->query()->retrieve(
+                            'target',
+                            $DIC->refinery()->kindlyTo()->string()
+                        );
+                        $target_arr = explode('_', $target);
                         $ref_id = $target_arr[1];
                     }
 
                     // check whether any ref id assigns a new style
-                    if ($DIC->isDependencyAvailable("repositoryTree") && $ref_id && $DIC->repositoryTree()->isInTree($ref_id)) {
+                    if ($DIC->isDependencyAvailable('repositoryTree') && $ref_id && $DIC->repositoryTree()->isInTree($ref_id)) {
                         $path = $DIC->repositoryTree()->getPathId($ref_id);
                         for ($i = count($path) - 1; $i >= 0; $i--) {
                             if (isset($ref_ass[$path[$i]])) {
@@ -258,7 +270,7 @@ class ilStyleDefinition
         }
 
         if (!self::styleExistsForCurrentSkin(self::$current_style)) {
-            ilUtil::sendFailure($DIC->language()->txt("set_style_does_not_exist") . " " . self::$current_style);
+            ilUtil::sendFailure($DIC->language()->txt('set_style_does_not_exist') . ' ' . self::$current_style);
             $system_style_config = new ilSystemStyleConfig();
             self::setCurrentSkin($system_style_config->getDefaultSkinId());
             self::setCurrentStyle($system_style_config->getDefaultStyleId());
@@ -285,24 +297,24 @@ class ilStyleDefinition
                 foreach ($skin->getStyles() as $style) {
                     $num_users = ilObjUser::_getNumberOfUsersForStyle($skin->getId(), $style->getId());
 
-                    $parent_name = "";
+                    $parent_name = '';
                     if ($style->getSubstyleOf()) {
                         $parent_name = $skin->getStyle($style->getSubstyleOf())->getName();
                     }
 
                     // default selection list
-                    $all_styles[$skin->getId() . ":" . $style->getId()] = [
-                        "title" => $skin->getName() . " / " . $style->getName(),
-                        "id" => $skin->getId() . ":" . $style->getId(),
-                        "skin_id" => $skin->getId(),
-                        "skin_name" => $skin->getName(),
-                        "template_id" => $skin->getId(),
-                        "template_name" => $skin->getName(),
-                        "style_id" => $style->getId(),
-                        "style_name" => $style->getName(),
-                        "substyle_of" => $style->getSubstyleOf(),
-                        "substyle_of_name" => $parent_name,
-                        "users" => $num_users
+                    $all_styles[$skin->getId() . ':' . $style->getId()] = [
+                        'title' => $skin->getName() . ' / ' . $style->getName(),
+                        'id' => $skin->getId() . ':' . $style->getId(),
+                        'skin_id' => $skin->getId(),
+                        'skin_name' => $skin->getName(),
+                        'template_id' => $skin->getId(),
+                        'template_name' => $skin->getName(),
+                        'style_id' => $style->getId(),
+                        'style_name' => $style->getName(),
+                        'substyle_of' => $style->getSubstyleOf(),
+                        'substyle_of_name' => $parent_name,
+                        'users' => $num_users
                     ];
                 }
             }
@@ -319,7 +331,7 @@ class ilStyleDefinition
     {
         global $DIC;
 
-        if ($DIC->isDependencyAvailable("systemStyle") && $DIC->systemStyle()->getSkin()->getName() != $a_skin) {
+        if ($DIC->isDependencyAvailable('systemStyle') && $DIC->systemStyle()->getSkin()->getName() != $a_skin) {
             $styleDefinition = new ilStyleDefinition($a_skin);
             if (!self::styleExistsForCurrentSkin(self::$current_style)) {
                 $styleDefinition->setCurrentStyle($DIC->systemStyle()->getSkin()->getDefaultStyle()->getId());

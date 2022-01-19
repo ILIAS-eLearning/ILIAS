@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
 
-require_once("libs/composer/vendor/autoload.php");
-include_once("./tests/UI/UITestHelper.php");
+declare(strict_types=1);
+
+require_once('libs/composer/vendor/autoload.php');
+include_once('./tests/UI/UITestHelper.php');
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Data\Factory as DataFactory;
@@ -13,14 +15,14 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
 
     protected ilCtrl $ctrl;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $ui_helper = new UITestHelper();
 
         $this->ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
-            "getFormAction",
-            "getCmd"
+            'getFormAction',
+            'getCmd'
         ])->getMock();
 
         $lng = new ilLanguageMock();
@@ -39,13 +41,27 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
         $help = $this->getMockBuilder(ilHelpGUI::class)->disableOriginalConstructor()->onlyMethods([
         ])->getMock();
 
-        $this->overview_gui = new ilSystemStyleOverviewGUI($this->ctrl, $lng, $tpl, $ui_factory, $renderer, $request,
+        $this->overview_gui = new ilSystemStyleOverviewGUI(
+            $this->ctrl,
+            $lng,
+            $tpl,
+            $ui_factory,
+            $renderer,
+            $request,
             $toolbar,
-            $refinery, $factory, $tabs, $help, $this->container->getSkin()->getId(), $this->style->getId(), "1", false,
-            true);
+            $refinery,
+            $factory,
+            $tabs,
+            $help,
+            $this->container->getSkin()->getId(),
+            $this->style->getId(),
+            '1',
+            false,
+            true
+        );
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilSystemStyleOverviewGUI::class, $this->overview_gui);
     }

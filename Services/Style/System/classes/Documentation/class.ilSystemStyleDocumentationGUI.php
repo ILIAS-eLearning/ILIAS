@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 
@@ -12,9 +14,9 @@ class ilSystemStyleDocumentationGUI
     protected ILIAS\UI\Factory $f;
     protected ILIAS\UI\Renderer $r;
 
-    public const SHOW_TREE = "system_styles_show_tree";
-    public const DATA_PATH = "./Services/Style/System/data/data.php";
-    public const ROOT_FACTORY_PATH = "./Services/Style/System/data/abstractDataFactory.php";
+    public const SHOW_TREE = 'system_styles_show_tree';
+    public const DATA_PATH = './Services/Style/System/data/data.php';
+    public const ROOT_FACTORY_PATH = './Services/Style/System/data/abstractDataFactory.php';
 
     public function __construct(
         ilGlobalTemplateInterface $tpl,
@@ -31,7 +33,10 @@ class ilSystemStyleDocumentationGUI
     public function show(Entries $entries, string $current_opened_node_id)
     {
         $entry_gui = new ilKSDocumentationEntryGUI(
-            $this->f, $this->ctrl, $entries, $current_opened_node_id
+            $this->f,
+            $this->ctrl,
+            $entries,
+            $current_opened_node_id
         );
 
         $this->tpl->setContent($this->r->render($entry_gui->createUIComponentOfEntry()));

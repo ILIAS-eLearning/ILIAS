@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * File System Helper, to reduce deps. to ilUtil or wrap them properly. Should be replaced by src/Filesystem as soon
@@ -6,7 +8,6 @@
  */
 class ilFileSystemHelper
 {
-
     /**
      * Used to stack messages to be displayed to the user (mostly reports for failed actions)
      */
@@ -31,7 +32,7 @@ class ilFileSystemHelper
         rename($from, $to);
     }
 
-    public function delete(string $file_path) : void
+    public function delete(string $file_path): void
     {
         unlink($file_path);
     }
@@ -45,7 +46,7 @@ class ilFileSystemHelper
             unlink($file_path);
             $this->getMessageStack()->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("file_deleted") . " " . $file_path,
+                    $this->lng->txt('file_deleted') . ' ' . $file_path,
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
@@ -55,16 +56,16 @@ class ilFileSystemHelper
     /**
      * Recursive delete of a folder
      */
-    public function recursiveRemoveDir(string $dir) : void
+    public function recursiveRemoveDir(string $dir): void
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);
             foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (is_dir($dir . "/" . $object)) {
-                        $this->recursiveRemoveDir($dir . "/" . $object);
+                if ($object != '.' && $object != '..') {
+                    if (is_dir($dir . '/' . $object)) {
+                        $this->recursiveRemoveDir($dir . '/' . $object);
                     } else {
-                        unlink($dir . "/" . $object);
+                        unlink($dir . '/' . $object);
                     }
                 }
             }
@@ -84,14 +85,14 @@ class ilFileSystemHelper
                 self::recursiveRemoveDir($skin_dir . $dir);
                 $this->getMessageStack()->addMessage(
                     new ilSystemStyleMessage(
-                        $this->lng->txt("dir_deleted") . " " . $dir,
+                        $this->lng->txt('dir_deleted') . ' ' . $dir,
                         ilSystemStyleMessage::TYPE_SUCCESS
                     )
                 );
             } else {
                 $this->getMessageStack()->addMessage(
                     new ilSystemStyleMessage(
-                        $this->lng->txt("dir_preserved_linked") . " " . $dir,
+                        $this->lng->txt('dir_preserved_linked') . ' ' . $dir,
                         ilSystemStyleMessage::TYPE_SUCCESS
                     )
                 );
@@ -107,11 +108,11 @@ class ilFileSystemHelper
     {
         mkdir($target, 0775, true);
 
-        if ($source != "") {
+        if ($source != '') {
             $this->recursiveCopy($source, $target);
             $this->getMessageStack()->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("dir_created") . $target,
+                    $this->lng->txt('dir_created') . $target,
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
@@ -130,13 +131,13 @@ class ilFileSystemHelper
         if (file_exists($absolut_new_dir)) {
             $this->getMessageStack()->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("dir_changed_to") . " " . $absolut_new_dir,
+                    $this->lng->txt('dir_changed_to') . ' ' . $absolut_new_dir,
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
             $this->getMessageStack()->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("dir_preserved_backup") . " " . $absolut_old_dir,
+                    $this->lng->txt('dir_preserved_backup') . ' ' . $absolut_old_dir,
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
@@ -145,7 +146,7 @@ class ilFileSystemHelper
             $this->recursiveCopy($absolut_old_dir, $absolut_new_dir);
             $this->getMessageStack()->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("dir_copied_from") . " " . $absolut_old_dir . " " . $this->lng->txt("sty_copy_to") . " " . $absolut_new_dir,
+                    $this->lng->txt('dir_copied_from') . ' ' . $absolut_old_dir . ' ' . $this->lng->txt('sty_copy_to') . ' ' . $absolut_new_dir,
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
@@ -153,14 +154,14 @@ class ilFileSystemHelper
                 $this->recursiveRemoveDir($skin_dir . $old_dir);
                 $this->getMessageStack()->addMessage(
                     new ilSystemStyleMessage(
-                        $this->lng->txt("dir_deleted") . " " . $absolut_old_dir,
+                        $this->lng->txt('dir_deleted') . ' ' . $absolut_old_dir,
                         ilSystemStyleMessage::TYPE_SUCCESS
                     )
                 );
             } else {
                 $this->getMessageStack()->addMessage(
                     new ilSystemStyleMessage(
-                        $this->lng->txt("dir_preserved_linked") . " " . $absolut_old_dir,
+                        $this->lng->txt('dir_preserved_linked') . ' ' . $absolut_old_dir,
                         ilSystemStyleMessage::TYPE_SUCCESS
                     )
                 );
@@ -172,7 +173,7 @@ class ilFileSystemHelper
      * Recursive copy of a folder
      * @throws ilSystemStyleException
      */
-    public function recursiveCopy(string $src, string $dest) : void
+    public function recursiveCopy(string $src, string $dest): void
     {
         foreach (scandir($src) as $file) {
             $src_file = rtrim($src, '/') . '/' . $file;
@@ -180,14 +181,16 @@ class ilFileSystemHelper
             if (!is_readable($src_file)) {
                 throw new ilSystemStyleException(ilSystemStyleException::FILE_OPENING_FAILED, $src_file);
             }
-            if (substr($file, 0, 1) != ".") {
+            if (substr($file, 0, 1) != '.') {
                 if (is_dir($src_file)) {
                     if (!file_exists($dest_file)) {
                         try {
                             mkdir($dest_file);
                         } catch (Exception $e) {
-                            throw new ilSystemStyleException(ilSystemStyleException::FOLDER_CREATION_FAILED,
-                                "Copy " . $src_file . " to " . $dest_file . " Error: " . $e);
+                            throw new ilSystemStyleException(
+                                ilSystemStyleException::FOLDER_CREATION_FAILED,
+                                'Copy ' . $src_file . ' to ' . $dest_file . ' Error: ' . $e
+                            );
                         }
                     }
                     $this->recursiveCopy($src_file, $dest_file);
@@ -195,8 +198,10 @@ class ilFileSystemHelper
                     try {
                         copy($src_file, $dest_file);
                     } catch (Exception $e) {
-                        throw new ilSystemStyleException(ilSystemStyleException::FILE_CREATION_FAILED,
-                            "Copy " . $src_file . " to " . $dest_file . " Error: " . $e);
+                        throw new ilSystemStyleException(
+                            ilSystemStyleException::FILE_CREATION_FAILED,
+                            'Copy ' . $src_file . ' to ' . $dest_file . ' Error: ' . $e
+                        );
                     }
                 }
             }
@@ -205,12 +210,12 @@ class ilFileSystemHelper
 
 
 
-    public function getMessageStack() : ilSystemStyleMessageStack
+    public function getMessageStack(): ilSystemStyleMessageStack
     {
         return $this->message_stack;
     }
 
-    public function setMessageStack(ilSystemStyleMessageStack $message_stack) : void
+    public function setMessageStack(ilSystemStyleMessageStack $message_stack): void
     {
         $this->message_stack = $message_stack;
     }

@@ -1,68 +1,70 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilSkinStyle
 {
     /**
      * Id of the skin. Currently css and less files are named accordingely
      */
-    protected string $id = "";
+    protected string $id = '';
 
     /**
      * Name of the style visible in all UI elements
      */
-    protected string $name = "";
+    protected string $name = '';
 
     /**
      * Directory to store sound files into
      */
-    protected string $sound_directory = "";
+    protected string $sound_directory = '';
 
     /**
      * Directory to store image files into
      */
-    protected string $image_directory = "";
+    protected string $image_directory = '';
 
     /**
      * Directory to store fonts into
      */
-    protected string $font_directory = "";
+    protected string $font_directory = '';
 
     /**
      * Css file name of the skin
      */
-    protected string $css_file = "";
+    protected string $css_file = '';
 
     /**
      * Parent of the skin if set
      */
-    protected string $substyle_of = "";
+    protected string $substyle_of = '';
 
     public function __construct(
         string $id,
         string $name,
-        string $css_file = "",
-        string $image_directory = "",
-        string $font_directory = "",
-        string $sound_directory = "",
-        string $parent_style = ""
+        string $css_file = '',
+        string $image_directory = '',
+        string $font_directory = '',
+        string $sound_directory = '',
+        string $parent_style = ''
     ) {
         $this->setId($id);
         $this->setName($name);
 
-        if ($css_file == "") {
+        if ($css_file == '') {
             $css_file = $this->getId();
         }
 
-        if ($image_directory == "") {
-            $image_directory = "images";
+        if ($image_directory == '') {
+            $image_directory = 'images';
         }
 
-        if ($font_directory == "") {
-            $font_directory = "fonts";
+        if ($font_directory == '') {
+            $font_directory = 'fonts';
         }
 
-        if ($sound_directory == "") {
-            $sound_directory = "sound";
+        if ($sound_directory == '') {
+            $sound_directory = 'sound';
         }
 
         $this->setCssFile($css_file);
@@ -75,19 +77,19 @@ class ilSkinStyle
     /**
      * @throws ilSystemStyleException
      */
-    public static function parseFromXMLElement(SimpleXMLElement $xml_element) : ilSkinStyle
+    public static function parseFromXMLElement(SimpleXMLElement $xml_element): ilSkinStyle
     {
         return new self(
-            (string) $xml_element->attributes()["id"],
-            (string) $xml_element->attributes()["name"],
-            (string) $xml_element->attributes()["css_file"],
-            (string) $xml_element->attributes()["image_directory"],
-            (string) $xml_element->attributes()["font_directory"],
-            (string) $xml_element->attributes()["sound_directory"]
+            (string) $xml_element->attributes()['id'],
+            (string) $xml_element->attributes()['name'],
+            (string) $xml_element->attributes()['css_file'],
+            (string) $xml_element->attributes()['image_directory'],
+            (string) $xml_element->attributes()['font_directory'],
+            (string) $xml_element->attributes()['sound_directory']
         );
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -100,10 +102,10 @@ class ilSkinStyle
         if (strpos($id, ' ') !== false) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_CHARACTERS_IN_ID, $id);
         }
-        $this->id = str_replace(" ", "_", $id);
+        $this->id = str_replace(' ', '_', $id);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -113,7 +115,7 @@ class ilSkinStyle
         $this->name = $name;
     }
 
-    public function getSoundDirectory() : string
+    public function getSoundDirectory(): string
     {
         return $this->sound_directory;
     }
@@ -123,7 +125,7 @@ class ilSkinStyle
         $this->sound_directory = $sound_directory;
     }
 
-    public function getImageDirectory() : string
+    public function getImageDirectory(): string
     {
         return $this->image_directory;
     }
@@ -133,7 +135,7 @@ class ilSkinStyle
         $this->image_directory = $image_directory;
     }
 
-    public function getCssFile() : string
+    public function getCssFile(): string
     {
         return $this->css_file;
     }
@@ -143,7 +145,7 @@ class ilSkinStyle
         $this->css_file = $css_file;
     }
 
-    public function getFontDirectory() : string
+    public function getFontDirectory(): string
     {
         return $this->font_directory;
     }
@@ -156,7 +158,7 @@ class ilSkinStyle
     /**
      * Returns the parent style of this style if set
      */
-    public function getSubstyleOf() : string
+    public function getSubstyleOf(): string
     {
         return $this->substyle_of;
     }
@@ -172,15 +174,15 @@ class ilSkinStyle
     /**
      * Return wheter this style is a substyle of another
      */
-    public function isSubstyle() : bool
+    public function isSubstyle(): bool
     {
-        return $this->getSubstyleOf() != "";
+        return $this->getSubstyleOf() != '';
     }
 
     /**
      * Checks if a resource (folder) relative to the style is referenced by this style. Used to decide if folder can be deleted.
      */
-    public function referencesResource(string $resource) : bool
+    public function referencesResource(string $resource): bool
     {
         return $this->getCssFile() == $resource
             || $this->getImageDirectory() == $resource

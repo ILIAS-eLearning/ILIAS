@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-require_once("libs/composer/vendor/autoload.php");
+declare(strict_types=1);
+
+require_once('libs/composer/vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
 
@@ -20,26 +22,28 @@ class ilKSDocumentationGotoLinkTest extends TestCase
 
     public function testGenerateGotoLink() : void
     {
-        $link = $this->goto_link->generateGotoLink("nodeId", "skinId", "styleId");
-        $this->assertEquals("_nodeId_skinId_styleId", $link);
+        $link = $this->goto_link->generateGotoLink('nodeId', 'skinId', 'styleId');
+        $this->assertEquals('_nodeId_skinId_styleId', $link);
     }
 
     public function testRedirectWithGotoLink() : void
     {
         $ctrl_observer = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
-            "setParameterByClass","setTargetScript","redirectByClass"
+            'setParameterByClass',
+            'setTargetScript',
+            'redirectByClass'
         ])->getMock();
 
         $ctrl_observer->expects($this->once())
-                 ->method('redirectByClass')
-                 ->with([
-                     "ilAdministrationGUI",
-                     "ilObjStyleSettingsGUI",
-                     "ilSystemStyleMainGUI",
-                     'ilSystemStyleDocumentationGUI'
-                 ],"entries");
+                      ->method('redirectByClass')
+                      ->with([
+                          'ilAdministrationGUI',
+                          'ilObjStyleSettingsGUI',
+                          'FilSystemStyleMainGUI',
+                          'ilSystemStyleDocumentationGUI'
+                      ], 'entries');
 
-        $params = ["something","something","nodeId", "skinId", "styleId"];
-        $this->goto_link->redirectWithGotoLink("ref_id", $params, $ctrl_observer);
+        $params = ['something', 'something', 'nodeId', 'skinId', 'styleId'];
+        $this->goto_link->redirectWithGotoLink('ref_id', $params, $ctrl_observer);
     }
 }

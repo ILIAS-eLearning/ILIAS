@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class for advanced editing exception handling in ILIAS.
@@ -8,16 +10,16 @@ abstract class ilSystemStyleExceptionBase extends ilException
     /**
      * @var string
      */
-    protected $message = "";
+    protected $message = '';
 
     /**
      * @var int
      */
     protected $code = -1;
 
-    protected string $add_info = "";
+    protected string $add_info = '';
 
-    public function __construct(int $exception_code = -1, string $exception_info = "")
+    public function __construct(int $exception_code = -1, string $exception_info = '')
     {
         $this->code = $exception_code;
         $this->add_info = $exception_info;
@@ -25,11 +27,11 @@ abstract class ilSystemStyleExceptionBase extends ilException
         parent::__construct($this->message, $this->code);
     }
 
-    abstract protected function assignMessageToCode() : void;
+    abstract protected function assignMessageToCode(): void;
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
-        . "{$this->getTraceAsString()}";
+            . "{$this->getTraceAsString()}";
     }
 }
