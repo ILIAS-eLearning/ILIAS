@@ -1,20 +1,28 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
 use ILIAS\UI;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilHttpSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    protected \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
         Refinery\Factory $refinery
@@ -35,21 +43,18 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
+        return $this->refinery->custom()->transformation(function ($data) : \ilHttpSetupConfig {
             return new \ilHttpSetupConfig(
                 $data["path"],
-                (isset($data["https_autodetection"]) && $data["https_autodetection"])
-                    ? true
-                    : false,
+                isset($data["https_autodetection"]) && $data["https_autodetection"],
+                isset($data["forced"]) && $data["forced"],
                 (isset($data["https_autodetection"]) && $data["https_autodetection"])
                     ? $data["https_autodetection"]["header_name"]
                     : null,
                 (isset($data["https_autodetection"]) && $data["https_autodetection"])
                     ? $data["https_autodetection"]["header_value"]
                     : null,
-                (isset($data["proxy"]) && $data["proxy"])
-                    ? true
-                    : false,
+                isset($data["proxy"]) && $data["proxy"],
                 (isset($data["proxy"]) && $data["proxy"])
                     ? $data["proxy"]["host"]
                     : null,
@@ -72,7 +77,7 @@ class ilHttpSetupAgent implements Setup\Agent
         }
 
         return new Setup\Objective\ObjectiveWithPreconditions(
-            $http_config_stored, 
+            $http_config_stored,
             new ProxyConnectableCondition($config)
         );
     }

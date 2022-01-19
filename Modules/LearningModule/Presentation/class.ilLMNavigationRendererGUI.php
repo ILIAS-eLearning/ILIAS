@@ -106,10 +106,6 @@ class ilLMNavigationRendererGUI
             $tpl->setVariable("HREF_PREV", $back_href);
             $tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
             $tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
-            $tpl->setVariable(
-                "PREV_ACC_KEY",
-                ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS)
-            );
             $tpl->setVariable("SPACER_PREV", $this->offline
                 ? "images/spacer.png"
                 : ilUtil::getImagePath("spacer.png"));
@@ -161,10 +157,6 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("SPACER_PREV", $this->offline
                     ? "images/spacer.png"
                     : ilUtil::getImagePath("spacer.png"));
-                $tpl->setVariable(
-                    "PREV_ACC_KEY",
-                    ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS)
-                );
             }
 
             $succ_id = $this->navigation_status->getSuccessorPageId();
@@ -212,10 +204,6 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("SPACER_SUCC", $this->offline
                     ? "images/spacer.png"
                     : ilUtil::getImagePath("spacer.png"));
-                $tpl->setVariable(
-                    "NEXT_ACC_KEY",
-                    ilAccessKeyGUI::getAttribute(ilAccessKey::NEXT)
-                );
                 $tpl->parseCurrentBlock();
 
                 // check if successor page is not restricted

@@ -1,9 +1,17 @@
 <?php
-// declare(strict_types=1);
-
-require_once './Services/ActiveRecord/class.ActiveRecord.php';
-require_once './Services/WebAccessChecker/class.ilWACException.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilWACSecurePath
  *
@@ -14,7 +22,6 @@ class ilWACSecurePath extends ActiveRecord
 {
 
     /**
-     * @return string
      * @description Return the Name of your Database Table
      * @deprecated
      */
@@ -23,39 +30,41 @@ class ilWACSecurePath extends ActiveRecord
         return 'il_wac_secure_path';
     }
 
-
     /**
      * Searches a checking instance for the given wac path. If a checking instance is found, wac will try to create a instance of the found checker.
      * The path concatenation pattern for the inclusion is {ComponentDirectory}/classes/class.{CheckingClass}.php. Furthermore the included
      * class must implement the ilWACCeckingClass interface.
      *
-     * @param ilWACPath $ilWACPath  The wac path which should be used to search a checking instance.
+     * @param ilWACPath $ilWACPath The wac path which should be used to search a checking instance.
      *
      * @return ilWACCheckingClass The newly created checking instance.
      *
      * @throws ilWACException Thrown if the the checking instance is not found or if the concatenated path is not valid to the checking instance.
      */
-    public static function getCheckingInstance(ilWACPath $ilWACPath)
+    public static function getCheckingInstance(ilWACPath $ilWACPath) : ilWACCheckingClass
     {
         /**
          * @var $obj ilWACSecurePath
          */
         $obj = self::find($ilWACPath->getModuleType());
-        if (!$obj) {
-            throw new ilWACException(ilWACException::CODE_NO_PATH, 'No Checking Instance found for id: ' . $ilWACPath->getSecurePathId());
+        if ($obj === null) {
+            throw new ilWACException(
+                ilWACException::CODE_NO_PATH,
+                'No Checking Instance found for id: ' . $ilWACPath->getSecurePathId()
+            );
         }
 
         $secure_path_checking_class = $obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php';
         if (!file_exists($secure_path_checking_class)) {
-            throw new ilWACException(ilWACException::CODE_NO_PATH, 'Checking Instance not found in path: ' . $secure_path_checking_class);
+            throw new ilWACException(
+                ilWACException::CODE_NO_PATH,
+                'Checking Instance not found in path: ' . $secure_path_checking_class
+            );
         }
-
-        require_once($secure_path_checking_class);
         $class_name = $obj->getCheckingClass();
 
         return new $class_name();
     }
-
 
     /**
      * Searches a checking instance for the given wac path.
@@ -64,150 +73,84 @@ class ilWACSecurePath extends ActiveRecord
      *
      * @return bool true if a checking instance is found otherwise false.
      */
-    public static function hasCheckingInstanceRegistered(ilWACPath $ilWACPath)
+    public static function hasCheckingInstanceRegistered(ilWACPath $ilWACPath) : bool
     {
         $obj = self::find($ilWACPath->getModuleType());
         return !is_null($obj);
     }
 
-
-    /**
-     * @return bool
-     */
-    public function hasCheckingInstance()
+    public function hasCheckingInstance() : bool
     {
         return $this->has_checking_instance;
     }
 
-
     /**
-     * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected $path = '';
+    protected ?string $path = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $component_directory = '';
+    protected string $component_directory = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $checking_class = '';
+    protected string $checking_class = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $in_sec_folder = false;
-    /**
-     * @var bool
-     */
-    protected $has_checking_instance = false;
+    protected bool $in_sec_folder = false;
+    protected bool $has_checking_instance = false;
 
-
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath() : string
     {
         return (string) $this->path;
     }
 
-
-    /**
-     * @param string $path
-     * @return void
-     */
-    public function setPath($path)
+    public function setPath(string $path) : void
     {
-        assert(is_string($path));
         $this->path = $path;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getComponentDirectory()
+    public function getComponentDirectory() : string
     {
         preg_match("/[\\\|\\/](Services|Modules|Customizing)[\\\|\\/].*/u", $this->component_directory, $matches);
 
-        return (string) '.' . $matches[0];
+        return '.' . $matches[0];
     }
 
-
-    /**
-     * @param string $component_directory
-     * @return void
-     */
-    public function setComponentDirectory($component_directory)
+    public function setComponentDirectory(string $component_directory) : void
     {
-        assert(is_string($component_directory));
         $this->component_directory = $component_directory;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getCheckingClass()
+    public function getCheckingClass() : string
     {
-        return (string) $this->checking_class;
+        return $this->checking_class;
     }
 
-
-    /**
-     * @param string $checking_class
-     * @return void
-     */
-    public function setCheckingClass($checking_class)
+    public function setCheckingClass(string $checking_class) : void
     {
-        assert(is_string($checking_class));
         $this->checking_class = $checking_class;
     }
 
-
-    /**
-     * @param bool $has_checking_instance
-     * @return void
-     */
-    public function setHasCheckingInstance($has_checking_instance)
+    public function setHasCheckingInstance(bool $has_checking_instance) : void
     {
-        assert(is_bool($has_checking_instance));
         $this->has_checking_instance = $has_checking_instance;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getInSecFolder()
+    public function setInSecFolder(bool $in_sec_folder) : void
     {
-        return (string) $this->in_sec_folder;
-    }
-
-
-    /**
-     * @param string $in_sec_folder
-     */
-    public function setInSecFolder($in_sec_folder)
-    {
-        // assert(is_string($in_sec_folder));
         $this->in_sec_folder = $in_sec_folder;
     }
 }

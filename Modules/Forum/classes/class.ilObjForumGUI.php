@@ -788,9 +788,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if ($this->confirmation_gui_html === '' && !$this->user->isAnonymous()) {
             $this->toolbar->addButton(
                 $this->lng->txt('forums_mark_read'),
-                $this->ctrl->getLinkTarget($this, 'markAllRead'),
-                '',
-                ilAccessKey::MARK_ALL_READ
+                $this->ctrl->getLinkTarget($this, 'markAllRead')
             );
             $this->ctrl->clearParameters($this);
         }
@@ -3093,7 +3091,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $mark_thr_read_button = ilLinkButton::getInstance();
                 $mark_thr_read_button->setCaption('forums_mark_read');
                 $mark_thr_read_button->setUrl($this->ctrl->getLinkTarget($this, 'viewThread'));
-                $mark_thr_read_button->setAccessKey(ilAccessKey::MARK_ALL_READ);
 
                 $bottom_toolbar_split_button_items[] = $mark_thr_read_button;
 
