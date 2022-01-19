@@ -109,8 +109,8 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         )->withActionButtons([
             $this->ui_factory->button()
                 ->primary($this->lng->txt('save'), '#')
-                ->withOnLoadCode(function ($id) use ($form) {
-                    return "$('#{$id}').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
+                ->withOnLoadCode(function (string $id) use ($form) : string {
+                    return "$('#$id').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
                 })
         ]);
 

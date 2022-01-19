@@ -420,7 +420,7 @@ class ilForumNotificationTest extends TestCase
         $DIC['tree'] = ($this->tree = $this->mock(\ilTree::class));
     }
 
-    private function mock(string $className)
+    private function mock(string $className) : MockObject
     {
         return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
     }
