@@ -32,7 +32,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         return ilObjContentPage::class;
     }
 
-    protected function setObject(ilObject $object)
+    protected function setObject(ilObject $object) : void
     {
         global $DIC;
 
@@ -58,7 +58,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         return $empty_state;
     }
 
-    public function buildControls(State $state, ControlBuilder $builder)
+    public function buildControls(State $state, ControlBuilder $builder) : void
     {
         $this->buildLearningProgressToggleControl($builder);
     }
@@ -66,7 +66,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-        if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+        if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
             $this->lng->loadLanguageModule('copa');
@@ -99,7 +99,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
             self::CMD_LP_TO_INCOMPLETE
         ])) {
             $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+            if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
                 $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
 
                 $old_state = $marks->getCompleted();

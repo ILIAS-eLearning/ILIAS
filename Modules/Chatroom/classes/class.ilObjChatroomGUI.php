@@ -13,7 +13,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
@@ -118,6 +118,24 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         return $this->object->getRefId();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeGetCommands() : array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafePostCommands() : array
+    {
+        return [
+            'view-toggleAutoMessageDisplayState',
+        ];
+    }
+
     public function executeCommand()
     {
         global $DIC;
@@ -204,9 +222,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
 
             default:
                 try {
-                    $res = explode('-', $this->ctrl->getCmd('', [
-                        'view-toggleAutoMessageDisplayState'
-                    ]), 2);
+                    $res = explode('-', $this->ctrl->getCmd(''), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();

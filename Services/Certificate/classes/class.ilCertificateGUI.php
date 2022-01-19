@@ -267,7 +267,7 @@ class ilCertificateGUI
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
         } catch (Exception $exception) {
-            ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf', true));
+            ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
             $this->certificateEditor();
         }
     }

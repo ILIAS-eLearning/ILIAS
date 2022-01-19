@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Factory;
-use \PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilMailMimeTest
@@ -74,10 +74,10 @@ class ilMailTest extends ilMailBaseTest
                 ->disableOriginalConstructor()
                 ->onlyMethods(['getExternalEmailAddresses', 'getIncomingType'])
                 ->getMock();
-            $mailOptions->expects($this->any())->method('getExternalEmailAddresses')->willReturn([
+            $mailOptions->method('getExternalEmailAddresses')->willReturn([
                 'phpunit' . $usrId . '@ilias.de',
             ]);
-            $mailOptions->expects($this->any())->method('getIncomingType')->willReturn(ilMailOptions::INCOMING_EMAIL);
+            $mailOptions->method('getIncomingType')->willReturn(ilMailOptions::INCOMING_EMAIL);
             $mailOptionsById[$usrId] = $mailOptions;
         }
 
@@ -89,7 +89,7 @@ class ilMailTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->onlyMethods(['getByPrefix'])
             ->getMock();
-        $addressTypeFactory->expects($this->any())
+        $addressTypeFactory
             ->method('getByPrefix')
             ->willReturnCallback(function ($arg) use ($loginToIdMap) {
                 return new class($arg, $loginToIdMap) implements ilMailAddressType {
@@ -128,7 +128,7 @@ class ilMailTest extends ilMailBaseTest
 
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $nextId = 0;
-        $db->expects($this->any())->method('nextId')->willReturnCallback(function () use (&$nextId) : int {
+        $db->method('nextId')->willReturnCallback(function () use (&$nextId) : int {
             ++$nextId;
 
             return $nextId;
@@ -292,7 +292,7 @@ class ilMailTest extends ilMailBaseTest
     public function testGetMail() : void
     {
         $mailId = 7890;
-        $instance = $this->createAndExpectDatabaseCall($mailId, [], false);
+        $instance = $this->createAndExpectDatabaseCall($mailId, []);
         $instance->getMail($mailId);
     }
 
@@ -386,7 +386,7 @@ class ilMailTest extends ilMailBaseTest
             'm_message' => ['clob', $message],
             'use_placeholders' => ['integer', (int) $usePlaceholders],
             'tpl_ctx_id' => ['text', $contextId],
-            'tpl_ctx_params' => ['blob', json_encode($params)],
+            'tpl_ctx_params' => ['blob', json_encode($params, JSON_THROW_ON_ERROR)],
         ], [
             'mail_id' => ['integer', $draftId],
         ]);
@@ -420,7 +420,7 @@ class ilMailTest extends ilMailBaseTest
             'm_message' => ['clob', $message],
             'use_placeholders' => ['integer', (int) $usePlaceholders],
             'tpl_ctx_id' => ['text', $contextId],
-            'tpl_ctx_params' => ['blob', json_encode($params)],
+            'tpl_ctx_params' => ['blob', json_encode($params, JSON_THROW_ON_ERROR)],
         ]);
 
         $instance->savePostData(

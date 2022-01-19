@@ -64,7 +64,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
         $tree = $f->tree()
             ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
+            ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
 
         return $tree;

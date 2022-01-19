@@ -9,18 +9,20 @@
  */
 abstract class ilVerificationObject extends ilObject2
 {
-    protected $map = array();
-    protected $properties = array();
+    protected array $map = array();
+    protected array $properties = array();
 
-    const TYPE_STRING = 1;
-    const TYPE_BOOL = 2;
-    const TYPE_INT = 3;
-    const TYPE_DATE = 4;
-    const TYPE_RAW = 5;
-    const TYPE_ARRAY = 6;
+    public const TYPE_STRING = 1;
+    public const TYPE_BOOL = 2;
+    public const TYPE_INT = 3;
+    public const TYPE_DATE = 4;
+    public const TYPE_RAW = 5;
+    public const TYPE_ARRAY = 6;
 
-    public function __construct($a_id = 0, $a_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_reference = true
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -30,55 +32,45 @@ abstract class ilVerificationObject extends ilObject2
 
     /**
      * Return property map (name => type)
-     *
-     * @return array
      */
-    abstract protected function getPropertyMap();
+    abstract protected function getPropertyMap() : array;
 
     /**
      * Check if given property is valid
-     *
-     * @param string $a_name
-     * @return bool
      */
-    public function hasProperty($a_name)
+    public function hasProperty(string $a_name) : bool
     {
         return array_key_exists($a_name, $this->map);
     }
 
     /**
      * Get property data type
-     *
-     * @param string $a_name
-     * @return string
      */
-    public function getPropertyType($a_name)
+    public function getPropertyType(string $a_name) : ?int
     {
         if ($this->hasProperty($a_name)) {
-            return $this->map[$a_name];
+            return (int) $this->map[$a_name];
         }
+        return null;
     }
 
     /**
      * Get property value
-     *
-     * @param string $a_name
      * @return mixed
      */
-    public function getProperty($a_name)
+    public function getProperty(string $a_name)
     {
         if ($this->hasProperty($a_name)) {
             return $this->properties[$a_name];
         }
+        return null;
     }
 
     /**
      * Set property value
-     *
-     * @param string $a_name
-     * @return mixed
+     * @param mixed $a_value
      */
-    public function setProperty($a_name, $a_value)
+    public function setProperty(string $a_name, $a_value) : void
     {
         if ($this->hasProperty($a_name)) {
             $this->properties[$a_name] = $a_value;
@@ -89,11 +81,14 @@ abstract class ilVerificationObject extends ilObject2
      * Import property from database
      *
      * @param string $a_type
-     * @param array $a_data
-     * @param string $a_raw_data
+     * @param mixed $a_data
+     * @param ?string $a_raw_data
      */
-    protected function importProperty($a_type, $a_data = null, $a_raw_data = null)
-    {
+    protected function importProperty(
+        string $a_type,
+        $a_data = null,
+        ?string $a_raw_data = null
+    ) : void {
         $data_type = $this->getPropertyType($a_type);
         if ($data_type) {
             $value = null;
@@ -135,7 +130,7 @@ abstract class ilVerificationObject extends ilObject2
      *
      * @return array(parameters, raw_data)
      */
-    protected function exportProperty($a_name)
+    protected function exportProperty(string $a_name) : ?array
     {
         $data_type = $this->getPropertyType($a_name);
         if ($data_type) {
@@ -164,13 +159,9 @@ abstract class ilVerificationObject extends ilObject2
             return array("parameters" => $value,
                 "raw_data" => $raw_data);
         }
+        return null;
     }
 
-    /**
-     * Read database entry
-     *
-     * @return bool
-     */
     protected function doRead()
     {
         $ilDB = $this->db;
@@ -204,10 +195,8 @@ abstract class ilVerificationObject extends ilObject2
     
     /**
      * Save current properties to database
-     *
-     * @return bool
      */
-    protected function saveProperties()
+    protected function saveProperties() : bool
     {
         $ilDB = $this->db;
         
@@ -234,12 +223,6 @@ abstract class ilVerificationObject extends ilObject2
         return false;
     }
     
-
-    /**
-     * Delete entry from database
-     *
-     * @return bool
-     */
     public function doDelete()
     {
         $ilDB = $this->db;
@@ -258,7 +241,7 @@ abstract class ilVerificationObject extends ilObject2
         return false;
     }
     
-    public static function initStorage($a_id, $a_subdir = null)
+    public static function initStorage(int $a_id, string $a_subdir = null) : string
     {
         $storage = new ilVerificationStorageFile($a_id);
         $storage->create();
@@ -276,21 +259,22 @@ abstract class ilVerificationObject extends ilObject2
         return $path;
     }
     
-    public function getFilePath()
+    public function getFilePath() : string
     {
         $file = $this->getProperty("file");
         if ($file) {
             $path = $this->initStorage($this->getId(), "certificate");
             return $path . $file;
         }
+        return "";
     }
     
-    public function getOfflineFilename()
+    public function getOfflineFilename() : string
     {
         return ilUtil::getASCIIFilename($this->getTitle()) . ".pdf";
     }
     
-    protected function handleQuotaUpdate()
+    protected function handleQuotaUpdate() : void
     {
     }
 }

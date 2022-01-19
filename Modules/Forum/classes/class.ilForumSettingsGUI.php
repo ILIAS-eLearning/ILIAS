@@ -237,7 +237,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
                             'cmd',
-                            $this->dic->refinery()->string()
+                            $this->dic->refinery()->kindlyTo()->string()
                         );
                     }
 

@@ -71,7 +71,7 @@ class ilLoggerFactory
      * @param string $a_component_id
      * @return ilLogger
      */
-    public static function getLogger($a_component_id)
+    public static function getLogger($a_component_id) : ilLogger
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger($a_component_id);
@@ -81,7 +81,7 @@ class ilLoggerFactory
      * The unique root logger has a fixed error level
      * @return ilLogger
      */
-    public static function getRootLogger()
+    public static function getRootLogger() : ilLogger
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger(self::ROOT_LOGGER);
@@ -148,9 +148,9 @@ class ilLoggerFactory
     /**
      * Get component logger
      * @param type $a_component_id
-     * @return \Logger
+     * @return ilLogger
      */
-    public function getComponentLogger($a_component_id)
+    public function getComponentLogger($a_component_id) : ilLogger
     {
         if (isset($this->loggers[$a_component_id])) {
             return $this->loggers[$a_component_id];
