@@ -22,7 +22,7 @@ class ilCronManager implements \ilCronManagerInterface
         $this->logger->info('CRON - batch start');
 
         $ts = time();
-        $this->settings->set('last_cronjob_start_ts', $ts);
+        $this->settings->set('last_cronjob_start_ts', (string) $ts);
 
         $useRelativeDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
