@@ -34,7 +34,7 @@ class ilGlobalTemplate extends \ilGlobalTemplate
         );
     }
 
-    public function getMainMenu()
+    public function getMainMenu() : void
     {
         global $ilMainMenu;
         //$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
