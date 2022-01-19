@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -6,45 +7,38 @@
  * Handles calendar authentication tokens for external calendar subscriptions
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  * @ingroup ServicesCalendar
  */
 class ilCalendarAuthenticationToken
 {
-    const SELECTION_NONE = 0;
-    const SELECTION_PD = 1;
-    const SELECTION_CATEGORY = 2;
-    const SELECTION_CALENDAR = 3;
+    public const SELECTION_NONE = 0;
+    public const SELECTION_PD = 1;
+    public const SELECTION_CATEGORY = 2;
+    public const SELECTION_CALENDAR = 3;
     
-    private $user = null;
+    private int $user;
     
-    private $token = '';
-    private $selection_type = 0;
+    private string $token = '';
+    private int $selection_type = self::SELECTION_NONE;
     private $calendar = 0;
     
-    private $ical = null;
-    private $ical_ctime = null;
+    private ?string $ical = null;
+    private int $ical_ctime = 0;
+
+    protected ilDBInterface $db;
     
-    /**
-     * Constructor
-     * @param int $a_user_id
-     * @param string $a_hash
-     * @return ilCalendarAuthenticationKey
-     */
-    public function __construct($a_user_id, $a_token = '')
+    public function __construct(int $a_user_id, string $a_token = '')
     {
         $this->user = $a_user_id;
         $this->token = $a_token;
-        
         $this->read();
     }
     
-    public static function lookupAuthToken($a_user_id, $a_selection, $a_calendar = 0)
+    public static function lookupAuthToken(int $a_user_id, int $a_selection, int $a_calendar = 0) : string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM cal_auth_token " .
             "WHERE user_id = " . $ilDB->quote($a_user_id, 'integer') . ' ' .
             "AND selection = " . $ilDB->quote($a_selection, 'integer') . ' ' .
@@ -53,108 +47,68 @@ class ilCalendarAuthenticationToken
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->hash;
         }
-        return false;
+        return '';
     }
     
-    /**
-     * Lookup user by hash
-     * @param object $a_token
-     * @return
-     */
-    public static function lookupUser($a_token)
+    public static function lookupUser(string $a_token) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM cal_auth_token " .
             "WHERE hash = " . $ilDB->quote($a_token, 'text');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->user_id;
+            return (int) $row->user_id;
         }
         return 0;
     }
     
-    /**
-     * get selection type for key
-     * @return int selection type
-     */
-    public function getSelectionType()
+    public function getSelectionType() : int
     {
         return $this->selection_type;
     }
     
 
-    /**
-     * Get current user
-     * @return int user
-     */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user;
     }
     
-    /**
-     * set selection type
-     * @param int $a_type
-     * @return
-     */
-    public function setSelectionType($a_type)
+    public function setSelectionType(int $a_type) : void
     {
         $this->selection_type = $a_type;
     }
     
-    /**
-     * set calendar id
-     * @param object $a_cal
-     * @return
-     */
-    public function setCalendar($a_cal)
+    public function setCalendar(int $a_cal) : void
     {
         $this->calendar = $a_cal;
     }
-    
-    public function getCalendar()
+
+    public function getCalendar() : int
     {
         return $this->calendar;
     }
     
-    public function setIcal($ical)
+    public function setIcal(string $ical) : void
     {
         $this->ical = $ical;
     }
     
-    /**
-     * get stored ical
-     * @return
-     */
-    public function getIcal()
+    public function getIcal() : string
     {
         return $this->ical;
     }
     
     
-    /**
-     * get token
-     * @return
-     */
-    public function getToken()
+    public function getToken() : string
     {
         return $this->token;
     }
     
-    /**
-     * store ical
-     * @return
-     */
-    public function storeIcal()
+    public function storeIcal() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $ilDB->update(
+        $this->db->update(
             'cal_auth_token',
             array(
                 'ical' => array('clob',$this->getIcal()),
@@ -169,14 +123,12 @@ class ilCalendarAuthenticationToken
     
     /**
      * Check if cache is disabled or expired
-     * @return
+     *
      */
     public function isIcalExpired()
     {
         return true;
-
-        include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-        
+        /*
         if (!ilCalendarSettings::_getInstance()->isSynchronisationCacheEnabled()) {
             return true;
         }
@@ -184,68 +136,49 @@ class ilCalendarAuthenticationToken
             return true;
         }
         return time() > ($this->ical_ctime + 60 * ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes());
+         */
     }
     
-    /**
-     * Add token
-     * @return
-     */
-    public function add()
+    public function add() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $this->createToken();
-        
         $query = "INSERT INTO cal_auth_token (user_id,hash,selection,calendar) " .
             "VALUES ( " .
-            $ilDB->quote($this->getUserId(), 'integer') . ', ' .
-            $ilDB->quote($this->getToken(), 'text') . ', ' .
-            $ilDB->quote($this->getSelectionType(), 'integer') . ', ' .
-            $ilDB->quote($this->getCalendar(), 'integer') . ' ' .
+            $this->db->quote($this->getUserId(), 'integer') . ', ' .
+            $this->db->quote($this->getToken(), 'text') . ', ' .
+            $this->db->quote($this->getSelectionType(), 'integer') . ', ' .
+            $this->db->quote($this->getCalendar(), 'integer') . ' ' .
             ')';
-        $ilDB->manipulate($query);
-        
+        $this->db->manipulate($query);
         return $this->getToken();
     }
     
-    /**
-     * Create a new token
-     * @return
-     */
-    protected function createToken()
+    protected function createToken() : void
     {
         $random = new \ilRandom();
         $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
     }
     
     /**
-     * Read key
-     * @return
      */
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->getToken()) {
             $query = "SELECT * FROM cal_auth_token " .
-                "WHERE user_id = " . $ilDB->quote($this->getUserId(), 'integer');
+                "WHERE user_id = " . $this->db->quote($this->getUserId(), 'integer');
         } else {
             $query = 'SELECT * FROM cal_auth_token ' .
-                'WHERE user_id = ' . $ilDB->quote($this->getUserId(), 'integer') . ' ' .
-                'AND hash = ' . $ilDB->quote($this->getToken(), 'text');
+                'WHERE user_id = ' . $this->db->quote($this->getUserId(), 'integer') . ' ' .
+                'AND hash = ' . $this->db->quote($this->getToken(), 'text');
         }
             
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->token = $row->hash;
-            $this->selection_type = $row->selection;
-            $this->calendar = $row->calendar;
+            $this->selection_type = (int) $row->selection;
+            $this->calendar = (int) $row->calendar;
             $this->ical = $row->ical;
-            $this->ical_ctime = $row->c_time;
+            $this->ical_ctime = (int) $row->c_time;
         }
         return true;
     }

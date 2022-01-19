@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,46 +21,33 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesCalendar
 */
 class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 {
-    private $cat_id = 0;
-    private $categories = null;
-    private $is_editable = false;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_category_id)
+    private int $cat_id = 0;
+    private ilCalendarCategories $categories;
+    private bool $is_editable = false;
+
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_category_id)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        
         $this->categories = ilCalendarCategories::_getInstance();
         $this->cat_id = $a_category_id;
         $this->is_editable = $this->categories->isEditable($this->cat_id);
         
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('dateplaner');
-        $this->ctrl = $ilCtrl;
-        
+
         $this->setId('calcalapps');
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->lng->loadLanguageModule('dateplaner');
+
         $this->setFormName('appointments');
         $this->addColumn('', 'f', "1");
         $this->addColumn($this->lng->txt('cal_start'), 'dt_sort', "30%");
@@ -88,12 +75,6 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * fill row
-     * @access protected
-     * @param array set of data
-     * @return void
-     */
     protected function fillRow(array $a_set) : void
     {
         if ($a_set['deletable']) {
@@ -136,42 +117,29 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * Get
-     * @return ilDateTime
-     */
-    protected static function getToday()
-    {
-        // @fixme
-        //return $this->today;
-    }
 
     /**
      * set appointments
-     *
-     * @access public
-     * @return
+     * @param int[]
      */
-    public function setAppointments($a_apps)
+    public function setAppointments(array $a_apps) : void
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-
         $cat = new ilCalendarCategory($this->cat_id);
-            
+
+        $appointments = [];
         foreach ($a_apps as $cal_entry_id) {
             $entry = new ilCalendarEntry($cal_entry_id);
             $rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
 
             // booking
+            $title = '';
             if ($cat->getType() == ilCalendarCategory::TYPE_CH) {
                 $book = new ilBookingEntry($entry->getContextId());
                 if ($book) {
                     $title = $entry->getTitle();
                     if ($book->isOwner()) {
-                        $max = (int) $book->getNumberOfBookings();
-                        $current = (int) $book->getCurrentNumberOfBookings($entry->getEntryId());
+                        $max = $book->getNumberOfBookings();
+                        $current = $book->getCurrentNumberOfBookings($entry->getEntryId());
                         if ($max > 1) {
                             $title .= ' (' . $current . '/' . $max . ')';
                         } elseif ($current == $max) {
@@ -200,7 +168,6 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
                 $entry->getEnd()
             );
             
-            #$tmp_arr['duration'] = ($dur = $tmp_arr['end'] - $tmp_arr['begin']) ? $dur : 60 * 60 * 24;
             $tmp_arr['duration'] = $tmp_arr['end'] - $tmp_arr['begin'];
             if ($tmp_arr['fullday']) {
                 $tmp_arr['duration'] += (60 * 60 * 24);
@@ -214,6 +181,6 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
             
             $appointments[] = $tmp_arr;
         }
-        $this->setData($appointments ? $appointments : array());
+        $this->setData($appointments);
     }
 }

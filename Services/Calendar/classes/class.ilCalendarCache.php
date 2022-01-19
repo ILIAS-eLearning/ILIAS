@@ -84,7 +84,6 @@ class ilCalendarCache extends ilCache
     
     /**
      * Delete user entries in cache
-     * @param type $a_user_id
      */
     public function deleteUserEntries($a_user_id)
     {

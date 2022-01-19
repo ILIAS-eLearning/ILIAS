@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,90 +21,61 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-
 /**
 * GUI class for YUI appointment panels
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesCalendar
 */
 class ilCalendarAppointmentPanelGUI
 {
-    protected $seed = null;
+    protected ?ilDate $seed;
 
-    protected static $counter = 0;
-    protected static $instance = null;
+    protected static int $counter = 0;
+    protected static ?self $instance = null;
 
-    protected $settings = null;
+    protected ilCalendarSettings $settings;
     
-    protected $tpl = null;
-    protected $lng = null;
-    protected $ctrl = null;
+    protected ?ilTemplate $tpl = null;
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
+    protected ilTree $tree;
+    protected ilObjUser $user;
 
-    /**
-     * Singleton
-     *
-     * @access public
-     * @param
-     * @return
-     */
     protected function __construct(ilDate $seed = null)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->tree = $DIC->repositoryTree();
+        $this->user = $DIC->user();
         $this->settings = ilCalendarSettings::_getInstance();
-
         $this->seed = $seed;
     }
     
     /**
      * get singleton instance
-     *
-     * @access public
-     * @param
-     * @return
-     * @static
      */
-    public static function _getInstance(ilDate $seed)
+    public static function _getInstance(ilDate $seed) : self
     {
-        if (isset(self::$instance) and self::$instance) {
-            return self::$instance;
+        if (!self::$instance instanceof self) {
+            self::$instance = new self($seed);
         }
-        return self::$instance = new ilCalendarAppointmentPanelGUI($seed);
+        return self::$instance;
     }
 
-    /**
-     * Get seed date
-     */
-    public function getSeed()
+    public function getSeed() : ?ilDate
     {
         return $this->seed;
     }
     
     
-    /**
-     * get HTML
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function getHTML($a_app)
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-        
         self::$counter++;
         
         $this->tpl = new ilTemplate('tpl.appointment_panel.html', true, true, 'Services/Calendar');
@@ -132,7 +103,7 @@ class ilCalendarAppointmentPanelGUI
         }
         if ($a_app['event']->getLocation()) {
             $this->tpl->setVariable('PANEL_TXT_WHERE', $this->lng->txt('cal_where'));
-            $this->tpl->setVariable('PANEL_WHERE', ilUtil::makeClickable($a_app['event']->getLocation()), true);
+            $this->tpl->setVariable('PANEL_WHERE', ilUtil::makeClickable($a_app['event']->getLocation(), true));
         }
         if ($a_app['event']->getDescription()) {
             $this->tpl->setVariable('PANEL_TXT_DESC', $this->lng->txt('description'));
@@ -148,6 +119,7 @@ class ilCalendarAppointmentPanelGUI
             // users responsible
             $users = $a_app['event']->readResponsibleUsers();
             $delim = "";
+            $value = '';
             foreach ($users as $r) {
                 $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
@@ -161,9 +133,7 @@ class ilCalendarAppointmentPanelGUI
         include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_app['event']->getEntryId());
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-        $entry_obj_id = isset($cat_info['subitem_obj_ids'][$cat_id]) ?
-            $cat_info['subitem_obj_ids'][$cat_id] :
-            $cat_info['obj_id'];
+        $entry_obj_id = $cat_info['subitem_obj_ids'][$cat_id] ?? $cat_info['obj_id'];
 
         $this->tpl->setVariable('PANEL_TXT_CAL_TYPE', $this->lng->txt('cal_cal_type'));
         switch ($cat_info['type']) {
@@ -185,7 +155,7 @@ class ilCalendarAppointmentPanelGUI
                         include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
                         $reg = new ilCalendarRegistration($a_app['event']->getEntryId());
                         
-                        if ($reg->isRegistered($ilUser->getId(), new ilDateTime($a_app['dstart'], IL_CAL_UNIX), new ilDateTime($a_app['dend'], IL_CAL_UNIX))) {
+                        if ($reg->isRegistered($this->user->getId(), new ilDateTime($a_app['dstart'], IL_CAL_UNIX), new ilDateTime($a_app['dend'], IL_CAL_UNIX))) {
                             $this->tpl->setCurrentBlock('panel_cancel_book_link');
                             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->getSeed()->get(IL_CAL_DATE));
                             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $a_app['event']->getEntryId());
@@ -230,7 +200,7 @@ class ilCalendarAppointmentPanelGUI
                 $entry = new ilBookingEntry($a_app['event']->getContextId());
 
                 $is_owner = $entry->isOwner();
-                $user_entry = ($cat_info['obj_id'] == $ilUser->getId());
+                $user_entry = ($cat_info['obj_id'] == $this->user->getId());
 
                 if ($user_entry && !$is_owner) {
                     // find source calendar entry in owner calendar
@@ -361,11 +331,11 @@ class ilCalendarAppointmentPanelGUI
             $type = ilObject::_lookupType($entry_obj_id);
             $title = ilObject::_lookupTitle($entry_obj_id) ?
                 ilObject::_lookupTitle($entry_obj_id) :
-                $lng->txt('obj_' . $type);
+                $this->lng->txt('obj_' . $type);
 
             include_once('./Services/Link/classes/class.ilLink.php');
             $href = ilLink::_getStaticLink(current($refs), ilObject::_lookupType($entry_obj_id));
-            $parent = $tree->getParentId(current($refs));
+            $parent = $this->tree->getParentId(current($refs));
             $parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
             $this->tpl->setVariable('PANEL_TXT_LINK', $this->lng->txt('ext_link'));
             $this->tpl->setVariable('PANEL_LINK_HREF', $href);

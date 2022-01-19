@@ -121,7 +121,7 @@ class ilCalendarSettings
      * @static
      * @return ilCalendarSettings
      */
-    public static function _getInstance()
+    public static function _getInstance() : ilCalendarSettings
     {
         if (self::$instance) {
             return self::$instance;
