@@ -149,11 +149,10 @@ class ilCalendarEntry implements ilDatePeriod
     
     /**
      * get start
-     *
      * @access public
-     * @return
+     * @return ilDateTime
      */
-    public function getStart()
+    public function getStart():ilDateTime
     {
         return $this->start;
     }
@@ -174,7 +173,7 @@ class ilCalendarEntry implements ilDatePeriod
      * @access public
      * @return ilDateTime end
      */
-    public function getEnd()
+    public function getEnd() : ilDateTime
     {
         return $this->end;
     }
@@ -410,7 +409,7 @@ class ilCalendarEntry implements ilDatePeriod
      *
      * @access public
      */
-    public function isFullday()
+    public function isFullday() : bool
     {
         return (bool) $this->fullday;
     }

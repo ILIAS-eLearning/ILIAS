@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -6,6 +6,7 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\BackgroundTasks\Observer;
 
 /**
  * Description of class class
@@ -15,7 +16,7 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCalendarZipJob extends AbstractJob
 {
-    private $logger = null;
+    private ilLogger $logger;
     
     
     /**
@@ -23,7 +24,9 @@ class ilCalendarZipJob extends AbstractJob
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+
+        $this->logger = $DIC->logger()->cal();
     }
     
     /**
@@ -57,10 +60,9 @@ class ilCalendarZipJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, Observer $observer) : Value
     {
         $this->logger->debug('Start zipping input dir!');
-        $this->logger->dump($input);
         $tmpdir = $input[0]->getValue();
         $this->logger->debug('Zipping directory:' . $tmpdir);
         

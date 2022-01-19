@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -31,7 +31,6 @@ class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implem
                 $file_property = new ilFileProperty();
                 $file_property->setAbsolutePath($course_file->getAbsolutePath());
                 $file_property->setFileName($course_file->getFileName());
-
                 $files[] = $file_property;
             }
         }

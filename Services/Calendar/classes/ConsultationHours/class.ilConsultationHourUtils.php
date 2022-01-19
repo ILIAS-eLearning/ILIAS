@@ -1,15 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Description of class
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilConsultationHourUtils
 {
-    public static function getConsultationHourLinksForRepositoryObject(int $ref_id, int $current_user_id, array $ctrl_class_structure)
+    public static function getConsultationHourLinksForRepositoryObject(
+        int $ref_id,
+        int $current_user_id,
+        array $ctrl_class_structure
+    ) : array
     {
         global $DIC;
 
@@ -23,7 +26,7 @@ class ilConsultationHourUtils
             $participants->getAdmins(),
             $participants->getTutors()
         ));
-        $users = \ilBookingEntry::lookupBookableUsersForObject($obj_id, $candidates);
+        $users = \ilBookingEntry::lookupBookableUsersForObject([$obj_id], $candidates);
         $now = new \ilDateTime(time(), IL_CAL_UNIX);
         $links = [];
         foreach ($users as $user_id) {
@@ -64,13 +67,13 @@ class ilConsultationHourUtils
 
 
     /**
-     * @param ilBookingEntry $booking
-     * @param ilDateTime     $start
-     * @param ilDateTime     $end
      * @return int[]
-     * @throws ilDatabaseException
      */
-    public static function findCalendarAppointmentsForBooking(\ilBookingEntry $booking, \ilDateTime $start, \ilDateTime $end)
+    public static function findCalendarAppointmentsForBooking(
+        ilBookingEntry $booking,
+        ilDateTime $start,
+        ilDateTime $end
+    ) : array
     {
         global $DIC;
 
@@ -87,21 +90,22 @@ class ilConsultationHourUtils
 
         $calendar_apppointments = [];
         while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-            $calendar_apppointments[] = $row->cal_id;
+            $calendar_apppointments[] = (int) $row->cal_id;
         }
         return $calendar_apppointments;
     }
 
-
     /**
      * Book an appointment. All checks (assignment possible, max booking) must be done before
+     * @param int $a_usr_id
+     * @param int $a_app_id
      * @return bool
      */
-    public static function bookAppointment($a_usr_id, $a_app_id)
+    public static function bookAppointment(int $a_usr_id, int $a_app_id) : bool
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         // Create new default consultation hour calendar
         include_once './Services/Language/classes/class.ilLanguageFactory.php';
@@ -137,13 +141,11 @@ class ilConsultationHourUtils
     /**
      * Cancel a booking
      */
-    public static function cancelBooking($a_usr_id, $a_app_id, $a_send_notification = true)
+    public static function cancelBooking(int $a_usr_id, int $a_app_id, bool $a_send_notification = true) : bool
     {
         // Delete personal copy of appointment
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $app = new ilCalendarEntry($a_app_id);
         
-        include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
         $user_apps = ilConsultationHourAppointments::getAppointmentIds(
             $a_usr_id,
             $app->getContextId(),
@@ -174,20 +176,20 @@ class ilConsultationHourUtils
     
     /**
      * Lookup managed users
+     * @return int[]
      */
-    public static function lookupManagedUsers($a_usr_id)
+    public static function lookupManagedUsers($a_usr_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $query = 'SELECT user_id FROM cal_ch_settings ' .
                 'WHERE admin_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
         
         $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $users[] = $row->user_id;
+            $users[] = (int) $row->user_id;
         }
         return $users;
     }

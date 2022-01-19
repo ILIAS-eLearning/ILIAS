@@ -142,7 +142,8 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
      */
     protected static function getToday()
     {
-        return $this->today;
+        // @fixme
+        //return $this->today;
     }
 
     /**

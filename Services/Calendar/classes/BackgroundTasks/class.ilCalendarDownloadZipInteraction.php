@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
@@ -19,17 +19,16 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
 {
-    const OPTION_DOWNLOAD = 'download';
-    const OPTION_CANCEL = 'cancel';
-    /**
-     * @var \Monolog\Logger
-     */
-    private $logger = null;
+    protected const OPTION_DOWNLOAD = 'download';
+    protected const OPTION_CANCEL = 'cancel';
+
+    private ilLogger $logger;
 
 
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
     }
 
 
@@ -100,7 +99,8 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
                 $filesystem->deleteDir(dirname($path));
             }
 
-            return $input;
+            // @todo what kind of value is desired
+            return $download_name;
         }
 
         $this->logger->info("Delivering File.");
@@ -111,6 +111,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
             ilMimeTypeUtil::APPLICATION__ZIP
         );
 
-        return $input;
+        // @todo what kind of value is desired
+        return $download_name;
     }
 }
