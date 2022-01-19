@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -30,9 +30,12 @@
 */
 class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 {
-    public $ilias;
-    public $tpl;
-    public $lng;
+    protected $ilias;
+    protected $tpl;
+    protected $lng;
+    protected $ctrl;
+    protected $slm_gui;
+    protected int $refId;
 
     public function __construct()
     {
@@ -46,14 +49,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
         $this->ctrl->saveParameter($this, "ref_id");
+        $this->refId = (int) $_GET["ref_id"];
     }
     
     /**
     * execute command
     */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -67,10 +70,10 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
         
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $this->refId)) {
             $ilNavigationHistory->addItem(
-                $_GET["ref_id"],
-                "ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=" . $_GET["ref_id"],
+                $this->refId,
+                "ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=" . $this->refId,
                 "lm"
             );
         }
@@ -108,7 +111,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
         switch ($next_class) {
             case "ilinfoscreengui":
-                $ret = $this->outputInfoScreen();
+                $this->outputInfoScreen();
                 break;
 
             case "ilscorm13playergui":
@@ -149,58 +152,58 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
 
 
-    /**
-    * output table of content
-    */
-    public function explorer(string $a_target = "sahs_content"): void
-    {
-        global $DIC;
-        $ilBench = $DIC['ilBench'];
+//    /**
+//    * output table of content
+//    */
+//    public function explorer(string $a_target = "sahs_content") : void
+//    {
+//        global $DIC;
+//        $ilBench = $DIC['ilBench'];
+//
+//        $ilBench->start("SAHSExplorer", "initExplorer");
+//
+//        $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+//        $exp = new ilSCORMExplorer("ilias.php?baseClass=ilSAHSPresentationGUI&cmd=view&ref_id=" . $this->slm->getRefId(), $this->slm);
+//        $exp->setTargetGet("obj_id");
+//        $exp->setFrameTarget($a_target);
+//
+//        //$exp->setFiltered(true);
+//
+//        if ($_GET["scexpand"] == "") {
+//            $mtree = new ilSCORMTree($this->slm->getId());
+//            $expanded = $mtree->readRootId();
+//        } else {
+//            $expanded = $_GET["scexpand"];
+//        }
+//        $exp->setExpand($expanded);
+//
+//        $exp->forceExpandAll(true, false);
+//
+//        // build html-output
+//        $ilBench->stop("SAHSExplorer", "initExplorer");
+//
+//        // set output
+//        $ilBench->start("SAHSExplorer", "setOutput");
+//        $exp->setOutput(0);
+//        $ilBench->stop("SAHSExplorer", "setOutput");
+//
+//        $ilBench->start("SAHSExplorer", "getOutput");
+//        $output = $exp->getOutput();
+//        $ilBench->stop("SAHSExplorer", "getOutput");
+//
+//        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+//        $this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "Modules/ScormAicc");
+//        //$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
+//        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
+//        $this->tpl->setVariable("EXPLORER", $output);
+//        $this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=" . $_GET["cmd"] . "&frame=" . $_GET["frame"] .
+//            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $_GET["scexpand"]);
+//        $this->tpl->parseCurrentBlock();
+//        $this->tpl->printToStdout();
+//    }
 
-        $ilBench->start("SAHSExplorer", "initExplorer");
-        
-        $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
-        $exp = new ilSCORMExplorer("ilias.php?baseClass=ilSAHSPresentationGUI&cmd=view&ref_id=" . $this->slm->getRefId(), $this->slm);
-        $exp->setTargetGet("obj_id");
-        $exp->setFrameTarget($a_target);
-        
-        //$exp->setFiltered(true);
 
-        if ($_GET["scexpand"] == "") {
-            $mtree = new ilSCORMTree($this->slm->getId());
-            $expanded = $mtree->readRootId();
-        } else {
-            $expanded = $_GET["scexpand"];
-        }
-        $exp->setExpand($expanded);
-        
-        $exp->forceExpandAll(true, false);
-
-        // build html-output
-        $ilBench->stop("SAHSExplorer", "initExplorer");
-        
-        // set output
-        $ilBench->start("SAHSExplorer", "setOutput");
-        $exp->setOutput(0);
-        $ilBench->stop("SAHSExplorer", "setOutput");
-
-        $ilBench->start("SAHSExplorer", "getOutput");
-        $output = $exp->getOutput();
-        $ilBench->stop("SAHSExplorer", "getOutput");
-
-        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.sahs_explorer.html", "Modules/ScormAicc");
-        //$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_content"));
-        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $this->tpl->setVariable("EXPLORER", $output);
-        $this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=" . $_GET["cmd"] . "&frame=" . $_GET["frame"] .
-            "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $_GET["scexpand"]);
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->printToStdout();
-    }
-
-
-    public function view(): void
+    public function view() : void
     {
         $sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
 
@@ -218,14 +221,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     * not very nice to set cmdClass/Cmd manually, if everything
     * works through ilCtrl in the future this may be changed
     */
-    public function infoScreen(): void
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->outputInfoScreen();
     }
     
-    public function setInfoTabs($a_active): void
+    public function setInfoTabs($a_active) : void
     {
         global $DIC;
 
@@ -285,7 +288,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     /**
     * info screen
     */
-    public function outputInfoScreen(): void
+    public function outputInfoScreen() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -309,7 +312,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
+                $info->setBlockProperty("news", "settings", "");
             }
         }
 

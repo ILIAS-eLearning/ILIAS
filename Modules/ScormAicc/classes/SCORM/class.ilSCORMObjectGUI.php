@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -69,7 +69,8 @@ class ilSCORMObjectGUI
                 $srs_gui = new ilSCORMResourcesGUI($a_id);
                 return $srs_gui;
 
-            case "sre":					// resource
+            default:
+                case "sre":					// resource
                 $sre_gui = new ilSCORMResourceGUI($a_id);
                 return $sre_gui;
         }

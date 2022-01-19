@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -37,7 +37,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Get Obj id
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -45,7 +45,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Set current user id
      */
-    public function setUserId(int $a_usr_id): void
+    public function setUserId(int $a_usr_id) : void
     {
         $this->user_id = $a_usr_id;
     }
@@ -53,7 +53,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Get user id
      */
-    public function getUserId(): int
+    public function getUserId() : int
     {
         return $this->user_id;
     }
@@ -61,7 +61,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse(): void
+    public function parse() : void
     {
         $this->initTable();
 
@@ -97,7 +97,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable(): void
+    protected function initTable() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

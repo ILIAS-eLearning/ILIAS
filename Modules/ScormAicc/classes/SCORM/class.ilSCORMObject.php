@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -217,6 +217,7 @@ class ilSCORMObject
             case "srs":					$srs = new ilSCORMResources($a_id);
                 return $srs;
 
+            default:
             case "sre":					$sre = new ilSCORMResource($a_id);
                 return $sre;
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -184,8 +184,15 @@ class ilObjSCORMTracking
         //		self::ensureObjectDataCacheExistence();
         global $DIC;
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        ilChangeEvent::_recordReadEvent("sahs", (int) $_GET['ref_id'], $packageId, $userId, false, $attempts,
-            $totalTime);
+        ilChangeEvent::_recordReadEvent(
+            "sahs",
+            (int) $_GET['ref_id'],
+            $packageId,
+            $userId,
+            false,
+            $attempts,
+            $totalTime
+        );
 
         //end sync access number and time in read event table
 
@@ -237,8 +244,11 @@ class ilObjSCORMTracking
 			WHERE ' . $in . '
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like('rvalue', 'clob',
-                    'passed') . ')',
+			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like(
+                    'rvalue',
+                    'clob',
+                    'passed'
+                ) . ')',
                 array('integer', 'text'),
                 array($a_obj_id, 'cmi.core.lesson_status')
             );
@@ -248,8 +258,11 @@ class ilObjSCORMTracking
 			WHERE sco_id = %s
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like('rvalue', 'clob',
-                    'passed') . ')',
+			AND (' . $ilDB->like('rvalue', 'clob', 'completed') . ' OR ' . $ilDB->like(
+                    'rvalue',
+                    'clob',
+                    'passed'
+                ) . ')',
                 array('integer', 'integer', 'text'),
                 array($scorm_item_id, $a_obj_id, 'cmi.core.lesson_status')
             );
@@ -358,9 +371,10 @@ class ilObjSCORMTracking
 
     /**
      * Get all tracked users
-     * @return
+     * @param int $a_obj_id
+     * @return array
      */
-    public static function _getTrackedUsers(object $a_obj_id) : array
+    public static function _getTrackedUsers(int $a_obj_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -551,8 +565,10 @@ class ilObjSCORMTracking
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
             $last_visited = (string) $_GET['last_visited'];
-            $endDate = date('Y-m-d H:i:s',
-                mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
+            $endDate = date(
+                'Y-m-d H:i:s',
+                mktime((int) date('H'), (int) date('i') + 5, (int) date('s'), (int) date('m'), (int) date('d'), (int) date('Y'))
+            );
             $ilDB->manipulateF(
                 'UPDATE sahs_user 
 				SET last_visited = %s, hash_end =%s, last_access = %s

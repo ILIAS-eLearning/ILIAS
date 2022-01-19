@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -110,7 +110,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         // if no manifestfile
         if (!$check_for_manifest_file) {
             $this->ilias->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $this->ilias->error_obj->MESSAGE);
-            return;
+            return "";
         }
 
         if ($check_for_manifest_file) {
@@ -170,7 +170,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 if (!($check_disc_free > 1)) {
                     $this->ilias->raiseError($this->lng->txt("Not enough space left on device!"), $this->ilias->error_obj->MESSAGE);
                 }
-                return;
+                return "";
             }
         } else {
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
@@ -258,33 +258,33 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $items;
     }
     
-    /**
-    * Return the last access timestamp for a given user
-    *
-    * @param	int		$a_obj_id		object id
-    * @param	int		$user_id		user id
-    * @return timestamp
-    */
-    public static function _lookupLastAccess(int $a_obj_id, $a_usr_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            '
-		SELECT last_access FROM sahs_user 
-		WHERE  obj_id = %s
-		AND user_id = %s',
-            array('integer','integer'),
-            array($a_obj_id,$a_usr_id)
-        );
-        
-        if ($ilDB->numRows($result)) {
-            $row = $ilDB->fetchAssoc($result);
-            return $row["last_access"];
-        }
-        return "";
-    }
+//    /**
+//    * Return the last access timestamp for a given user
+//    *
+//    * @param	int		$a_obj_id		object id
+//    * @param	int		$user_id		user id
+//    * @return timestamp
+//    */
+//    public static function _lookupLastAccess(int $a_obj_id, $a_usr_id)
+//    {
+//        global $DIC;
+//        $ilDB = $DIC['ilDB'];
+//
+//        $result = $ilDB->queryF(
+//            '
+//		SELECT last_access FROM sahs_user
+//		WHERE  obj_id = %s
+//		AND user_id = %s',
+//            array('integer','integer'),
+//            array($a_obj_id,$a_usr_id)
+//        );
+//
+//        if ($ilDB->numRows($result)) {
+//            $row = $ilDB->fetchAssoc($result);
+//            return $row["last_access"];
+//        }
+//        return "";
+//    }
 
     public function getTrackedUsers($a_search)
     {
@@ -313,7 +313,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get attempts for all users
-     * @global ilDB $ilDB
      * @return array
      */
     public function getAttemptsForUsers()
@@ -355,9 +354,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get module version for users.
-     * @global ilDB $ilDB
      */
-    public function getModuleVersionForUsers()
+    public function getModuleVersionForUsers() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -395,7 +393,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get tracking data per user
-     * @global ilDB $ilDB
      * @return array
      */
     public function getTrackingDataPerUser(int $a_sco_id, int $a_user_id)
@@ -548,7 +545,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Export selected user tracking data
-     * @global ilDB $ilDB
      * @global ilObjUser $ilUser
      * @param mixed[] $a_users
      */
@@ -798,10 +794,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Parse il_usr_123_6 id
-     * @param <type> $il_id
-     * @return <type>
+     * @param string $il_id
+     * @return int
      */
-    private function parseUserId($il_id)
+    private function parseUserId(string $il_id) : int
     {
         global $DIC;
         $ilSetting = $DIC['ilSetting'];
@@ -817,16 +813,15 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         if ($parts[2] != $ilSetting->get('inst_id', $parts[2])) {
             return 0;
         }
-        return $parts[3];
+        return (int) $parts[3];
     }
 
     /**
      * Import raw data
-     * @global ilDB $ilDB
      * @global ilObjUser $ilUser
-     * @return void
+     * @return bool
      */
-    private function importRaw(string $a_file)
+    private function importRaw(string $a_file) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -978,7 +973,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             $this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
         }
 
-        return 0;
+        return true;
     }
 
 
@@ -1228,7 +1223,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     
     public function getCourseCompletionForUser($a_user)
     {
-        return $this->getStatusForUser($a_user, $this->getAllScoIds, true);
+        return $this->getStatusForUser($a_user, $this->getAllScoIds(), true);
     }
     
     //to be called from IlObjUser

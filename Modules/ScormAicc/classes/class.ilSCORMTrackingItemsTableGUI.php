@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -121,15 +121,15 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             case "exportSelectedObjectives":
                 $cols = ilSCORMTrackingItems::exportSelectedObjectivesColumns();
             break;
-            case "tracInteractionItem":
-                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
-            case "tracInteractionUser":
-                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
-            case "tracInteractionUserAnswers":
-                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
-            break;
+//            case "tracInteractionItem":
+//                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+//            break;
+//            case "tracInteractionUser":
+//                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+//            break;
+//            case "tracInteractionUserAnswers":
+//                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+//            break;
             case "exportSelectedSuccess":
                 $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
             break;
@@ -141,13 +141,13 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     /**
      * Get Obj id
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
 
-    public function getItems(): void
+    public function getItems() : void
     {
         global $DIC;
         $lng = $DIC['lng'];

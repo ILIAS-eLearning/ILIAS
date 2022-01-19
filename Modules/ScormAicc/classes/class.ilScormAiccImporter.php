@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -137,7 +137,7 @@ class ilScormAiccImporter extends ilXmlImporter
      * @param ilImportMapping $a_mapping import mapping object
      * @return bool success
      */
-    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping): bool
+    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping) : bool
     {
         // if editable...
         if (is_int(strpos($a_xml, "<Editable>1</Editable>"))) {
