@@ -4,7 +4,7 @@
 
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
-use \PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ilObjForumAdministrationTest extends TestCase
 {

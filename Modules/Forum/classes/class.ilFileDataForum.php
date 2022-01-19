@@ -123,7 +123,7 @@ class ilFileDataForum extends ilFileData
                 [$obj_id, $rest] = explode('_', $file->getFilename(), 2);
                 if ((int) $obj_id === $this->obj_id) {
                     [$pos_id, $rest] = explode('_', $rest, 2);
-                    if ($pos_id === $this->getPosId()) {
+                    if ((int) $pos_id === $this->getPosId()) {
                         ilFileUtils::rename(
                             $file->getPathname(),
                             $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest

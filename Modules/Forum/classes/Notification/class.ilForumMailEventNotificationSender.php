@@ -40,7 +40,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
     {
         $this->logger->debug(sprintf(
             'Delegating notification transport to mail service for recipient "%s" ...',
-            $a_rcp
+            json_encode($a_rcp, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
         parent::sendMail($a_rcp, $a_parse_recipients);
         $this->logger->debug('Notification transport delegated');

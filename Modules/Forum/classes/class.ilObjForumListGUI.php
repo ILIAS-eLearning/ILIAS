@@ -177,7 +177,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 
             case 'posting':
                 $thread_post = $this->getChildId();
-                // TODO PHP 8 This cannot be correct, a id which is used as an array ...
+                // TODO PHP 8 This cannot be correct, an id which is used as an array (don't know what is the correct code here) ...
                 return (
                     'ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;cmd=viewThread&amp;cmdClass=' .
                     ilObjForumGUI::class . '&amp;target=1&amp;ref_id=' . (int) $this->ref_id . '&amp;thr_pk=' .
