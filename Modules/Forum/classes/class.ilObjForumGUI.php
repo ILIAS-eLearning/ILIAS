@@ -4420,8 +4420,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             )->withActionButtons([
                 $this->uiFactory->button()
                                 ->primary($this->lng->txt('save'), '#')
-                                ->withOnLoadCode(function ($id) use ($form) {
-                                    return "$('#{$id}').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
+                                ->withOnLoadCode(function (string $id) use ($form) : string {
+                                    return "$('#$id').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
                                 })
             ]);
 
@@ -5286,11 +5286,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 }
                 ilSession::set('frm', $frm_session_values);
                 ilUtil::sendSuccess($this->lng->txt('save_draft_successfully'), true);
+                $this->ctrl->clearParameters($this);
+                $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+                $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+                $this->ctrl->setParameter($this, 'draft_id', $update_draft->getDraftId());
             }
-            $this->ctrl->clearParameters($this);
-            $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-            $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-            $this->ctrl->setParameter($this, 'draft_id', $update_draft->getDraftId());
         } else {
             $this->ctrl->clearParameters($this);
             $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
@@ -5672,7 +5672,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                             '#'
                         )->withOnLoadCode(
                             static function (string $id) use ($formID) : string {
-                                return "$('#{$id}').click(function() { $('#{$formID}').submit(); return false; });";
+                                return "$('#$id').click(function() { $('#$formID').submit(); return false; });";
                             }
                         );
                         $modal = $this->uiFactory->modal()->roundtrip(
@@ -5815,6 +5815,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $tpl->setVariable('REPLY_ANKER', 'reply_' . $this->objCurrentPost->getId());
         $oEditReplyForm = $this->getReplyEditForm();
+        $subject = '';
         if ($action !== 'editdraft') {
             switch ($this->objProperties->getSubjectSetting()) {
                 case 'add_re_to_subject':
@@ -5826,8 +5827,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     break;
 
                 case 'empty_subject':
-                default:
-                    $subject = null;
+                    $subject = '';
                     break;
             }
         }

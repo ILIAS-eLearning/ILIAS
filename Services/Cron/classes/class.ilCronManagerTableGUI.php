@@ -261,7 +261,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         } elseif ($a_set['last_run']) {
             $a_set['last_run'] = ilDatePresentation::formatDate(new ilDateTime($a_set['last_run'], IL_CAL_UNIX));
         }
-        $this->tpl->setVariable('VAL_LAST_RUN', $a_set['last_run'] ? $a_set['last_run'] : '-');
+        $this->tpl->setVariable('VAL_LAST_RUN', $a_set['last_run'] ?: '-');
 
         $actions = [];
         if ($this->mayWrite && !$a_set['running_ts']) {
