@@ -24,7 +24,7 @@ class ilPasswordUtils
 
         $rand = '';
         for ($i = 0; $i < $length; ++$i) {
-            $rand .= chr(mt_rand(0, 255));
+            $rand .= chr(random_int(0, 255));
         }
 
         return $rand;
