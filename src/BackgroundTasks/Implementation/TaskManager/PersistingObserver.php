@@ -32,7 +32,7 @@ class PersistingObserver implements Observer
     
     public function __construct(Bucket $bucket, Persistence $persistence)
     {
-        $this->bucket      = $bucket;
+        $this->bucket = $bucket;
         $this->persistence = $persistence;
     }
     

@@ -28,7 +28,6 @@ use ReflectionParameter;
  */
 class Injector
 {
-    
     protected \ILIAS\DI\Container $dic;
     protected \ILIAS\BackgroundTasks\Dependencies\DependencyMap\DependencyMap $dependencyMap;
     
@@ -38,7 +37,7 @@ class Injector
      */
     public function __construct(Container $dic, DependencyMap $dependencyMap)
     {
-        $this->dic           = $dic;
+        $this->dic = $dic;
         $this->dependencyMap = $dependencyMap;
     }
     
@@ -51,7 +50,7 @@ class Injector
     {
         // The reflection classes needed.
         $reflectionClass = new \ReflectionClass($fullyQualifiedClassName);
-        $constructor     = $reflectionClass->getConstructor();
+        $constructor = $reflectionClass->getConstructor();
         if ($constructor === null) {
             return $reflectionClass->newInstance();
         }

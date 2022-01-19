@@ -54,5 +54,4 @@ class NotFoundUserInteraction extends AbstractUserInteraction
     {
         return new BooleanValue();
     }
-    
 }

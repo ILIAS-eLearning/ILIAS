@@ -27,7 +27,6 @@ namespace ILIAS\BackgroundTasks\Types;
  */
 class ListType implements Type, Ancestors
 {
-    
     protected \ILIAS\BackgroundTasks\Types\Type $type;
     
     /**

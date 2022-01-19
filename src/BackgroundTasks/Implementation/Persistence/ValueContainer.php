@@ -196,5 +196,4 @@ class ValueContainer extends \ActiveRecord
     {
         $this->position = $position;
     }
-    
 }
