@@ -383,7 +383,9 @@ class ilCtrl implements ilCtrlInterface
      */
     public function clearParametersByClass(string $a_class) : void
     {
-        $this->structure->removePermanentParametersByClass($a_class);
+        // apparently permanent parameters should not be removable,
+        // therefore the line below stays commented:
+        // $this->structure->removePermanentParametersByClass($a_class);
         $this->structure->removeTemporaryParametersByClass($a_class);
     }
 
