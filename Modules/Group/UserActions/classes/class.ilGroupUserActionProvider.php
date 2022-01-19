@@ -15,7 +15,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritdoc
      */
-    public function getComponentId()
+    public function getComponentId() : string
     {
         return "grp";
     }
@@ -23,7 +23,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritdoc
      */
-    public function getActionTypes()
+    public function getActionTypes() : array
     {
         $this->lng->loadLanguageModule("grp");
 
@@ -52,7 +52,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function collectActionsForTargetUser($a_target_user)
+    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
     {
         global $DIC;
 
@@ -84,7 +84,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getJsScripts($a_action_type)
+    public function getJsScripts(string $a_action_type) : array
     {
         switch ($a_action_type) {
             case "add_to":
