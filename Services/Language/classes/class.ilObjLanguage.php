@@ -748,8 +748,9 @@ class ilObjLanguage extends ilObject
      *
      * $content   expecting an ILIAS lang-file
      * Return content without header info OR false if no valid header was found
+     * @return bool|array
      */
-    public static function cut_header(array $content) : bool | array
+    public static function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {
