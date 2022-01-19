@@ -71,7 +71,7 @@ class ilLoggerFactory
      * @param string $a_component_id
      * @return ilLogger
      */
-    public static function getLogger($a_component_id)
+    public static function getLogger($a_component_id) : ilLogger
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger($a_component_id);
