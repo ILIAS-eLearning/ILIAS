@@ -10,7 +10,7 @@ function restrict_max_files_and_file_size()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->standard(
-            (new \ilUIAsyncDemoFileUploadHandler()),
+            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
             '#'
         )
         ->withMaxFiles(2)

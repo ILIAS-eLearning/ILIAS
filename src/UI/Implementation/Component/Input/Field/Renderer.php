@@ -899,7 +899,7 @@ class Renderer extends AbstractComponentRenderer
     protected function replaceTemplateIds(string $template_html) : string
     {
         // regex matches anything between 'id="' and '"', hence the js_id.
-        preg_match_all('/(?<=id=")(.*?)(?=\s*")/', $template_html, $matches);
+        preg_match_all('/(?<=id=")(.*?)(<?>=\s*")/', $template_html, $matches);
         if (!empty($matches[0])) {
             foreach ($matches[0] as $index => $js_id) {
                 $template_html = str_replace(

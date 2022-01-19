@@ -10,7 +10,7 @@ function with_custom_file_metadata()
     $renderer = $DIC->ui()->renderer();
     $dropzone = $factory
         ->dropzone()->file()->standard(
-            (new \ilUIAsyncDemoFileUploadHandler()),
+            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
             '#'
         )
         ->withUploadButton(
