@@ -1518,13 +1518,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     */
     public function fillScreenReaderFocus()
     {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus")) {
-            $this->touchBlock("sr_focus");
-        }
+        // abandoned
     }
 
     /**

@@ -1572,9 +1572,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         $ilUser = $DIC->user();
 
+        /* abandoned
         if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus")) {
             $this->touchBlock("sr_focus");
-        }
+        }*/
     }
 
 

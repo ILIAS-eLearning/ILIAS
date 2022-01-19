@@ -253,12 +253,8 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $ilUser = $this->user;
 
-        if (!$ilUser->prefs["screen_reader_optimization"]) {
-            $this->tpl->setCurrentBlock('not_empty');
-        } else {
-            $this->tpl->setCurrentBlock('scrd_not_empty');
-        }
-        
+        $this->tpl->setCurrentBlock('not_empty');
+
         $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $a_app['event']->getEntryId());
 
@@ -279,9 +275,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $title = ($time != "")? $time . " " . $shy : $shy;
 
         $event_tpl->setCurrentBlock('event_cell_content');
-        if (!$ilUser->prefs["screen_reader_optimization"]) {
-            $event_tpl->setVariable("STYLE", $style);
-        }
+        $event_tpl->setVariable("STYLE", $style);
         $event_tpl->setVariable('EVENT_CONTENT', $title);
 
         if ($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title, $event_tpl)) {
@@ -293,23 +287,17 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->tpl->setVariable('GRID_CONTENT', $event_html);
 
-        if (!$ilUser->prefs["screen_reader_optimization"]) {
-            // provide table cell attributes
-            $this->tpl->parseCurrentBlock();
+        // provide table cell attributes
+        $this->tpl->parseCurrentBlock();
 
-            $this->tpl->setCurrentBlock('day_cell');
+        $this->tpl->setCurrentBlock('day_cell');
 
-            $this->tpl->setVariable('DAY_CELL_NUM', $this->num_appointments);
-            $this->tpl->setVariable('TD_ROWSPAN', $a_app['rowspan']);
-            $this->tpl->setVariable('TD_STYLE', $a_app['event']->getPresentationStyle());
-            $this->tpl->setVariable('TD_CLASS', 'calevent il_calevent');
+        $this->tpl->setVariable('DAY_CELL_NUM', $this->num_appointments);
+        $this->tpl->setVariable('TD_ROWSPAN', $a_app['rowspan']);
+        $this->tpl->setVariable('TD_STYLE', $a_app['event']->getPresentationStyle());
+        $this->tpl->setVariable('TD_CLASS', 'calevent il_calevent');
 
-            $this->tpl->parseCurrentBlock();
-        } else {
-            // screen reader: work on div attributes
-            $this->tpl->setVariable('DIV_STYLE', $style);
-            $this->tpl->parseCurrentBlock();
-        }
+        $this->tpl->parseCurrentBlock();
 
         $this->num_appointments++;
     }
@@ -388,11 +376,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
             #21132 #21636
             //$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
             
-            // set end to next hour for screen readers
-            if ($ilUser->prefs["screen_reader_optimization"]) {
-                $end = $start + $this->raster;
-            }
-            
+
             if ($start < $morning_aggr) {
                 $start = $morning_aggr;
             }
@@ -416,11 +400,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
             $first = true;
             for ($i = $start;$i < $end;$i += $this->raster) {
                 if ($first) {
-                    if (!$ilUser->prefs["screen_reader_optimization"]) {
-                        $app['rowspan'] = ceil(($end - $start) / $this->raster);
-                    } else {  	// screen readers get always a rowspan of 1
-                        $app['rowspan'] = 1;
-                    }
+                    $app['rowspan'] = ceil(($end - $start) / $this->raster);
                     $hours[$i][$num_day]['apps_start'][] = $app;
                     $first = false;
                 }
@@ -446,11 +426,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         foreach ($hours as $hour_num => $hours_per_day) {
             foreach ($hours_per_day as $num_day => $hour) {
                 $this->colspans[$num_day] = max($this->colspans[$num_day], $hour['apps_num']);
-                
-                // screen reader: always one col
-                if ($ilUser->prefs["screen_reader_optimization"]) {
-                    $this->colspans[$num_day] = 1;
-                }
             }
         }
     }
@@ -613,20 +588,13 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                     $this->showAppointment($app);
                 }
 
-                // screen reader: appointments are divs, now output cell
-                if ($this->user->prefs["screen_reader_optimization"]) {
-                    $this->tpl->setCurrentBlock('scrd_day_cell');
-                    $this->tpl->setVariable('TD_CLASS', 'calstd');
-                    $this->tpl->parseCurrentBlock();
-                }
-
                 #echo "NUMDAY: ".$num_day;
                 #echo "COLAPANS: ".max($colspans[$num_day],1).'<br />';
                 $num_apps = $hour['apps_num'];
                 $colspan = max($this->colspans[$num_day], 1);
 
                 // Show new apointment link
-                if (!$hour['apps_num'] && !$this->user->prefs["screen_reader_optimization"] && !$this->no_add) {
+                if (!$hour['apps_num'] && !$this->no_add) {
                     $this->tpl->setCurrentBlock('new_app_link');
 
                     $this->ctrl->clearParameterByClass('ilcalendarappointmentgui', 'app_id');
@@ -645,9 +613,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                 }
 
                 for ($i = $colspan;$i > $hour['apps_num'];$i--) {
-                    if ($this->user->prefs["screen_reader_optimization"]) {
-                        continue;
-                    }
                     $this->tpl->setCurrentBlock('day_cell');
 
                     // last "slot" of hour needs border
@@ -687,18 +652,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
             case ilCalendarSettings::TIME_FORMAT_12:
                 $time = $a_event->getStart()->get(IL_CAL_FKT_DATE, 'h:ia', $this->timezone);
                 break;
-        }
-        // add end time for screen readers
-        if ($this->user->prefs["screen_reader_optimization"]) {
-            switch ($this->user_settings->getTimeFormat()) {
-                case ilCalendarSettings::TIME_FORMAT_24:
-                    $time .= "-" . $a_event->getEnd()->get(IL_CAL_FKT_DATE, 'H:i', $this->timezone);
-                    break;
-
-                case ilCalendarSettings::TIME_FORMAT_12:
-                    $time .= "-" . $a_event->getEnd()->get(IL_CAL_FKT_DATE, 'h:ia', $this->timezone);
-                    break;
-            }
         }
 
         return $time;

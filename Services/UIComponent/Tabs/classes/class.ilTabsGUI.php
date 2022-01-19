@@ -476,12 +476,7 @@ class ilTabsGUI
                 // bs-patch: end
 
                 $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
-                if (!$this->getSetupMode()) {
-                    $hash = ($ilUser->getPref("screen_reader_optimization"))
-                        ? "#after_" . $sr_pre . "tabs"
-                        : "";
-                }
-                
+                $hash = "";
                 $tpl->setVariable($pre2 . "TAB_LINK", $target["link"] . $hash);
                 if ($target["dir_text"]) {
                     $tpl->setVariable($pre2 . "TAB_TEXT", $target["text"]);

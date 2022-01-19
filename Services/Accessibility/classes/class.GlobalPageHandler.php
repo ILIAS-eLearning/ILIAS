@@ -31,12 +31,5 @@ class GlobalPageHandler
      */
     public static function initPage(\ilGlobalTemplateInterface $page)
     {
-        global $DIC;
-
-        $user = $DIC->user();
-
-        if (is_object($user) && $user->getPref("screen_reader_optimization")) {
-            $page->addOnLoadCode("il.Util.setStdScreenReaderFocus();");
-        }
     }
 }

@@ -415,17 +415,8 @@ abstract class ilBlockGUI
         $this->fillFooter();
 
 
-        // for screen readers we first output the title and the commands
-        // (e.g. close icon afterwards), otherwise we first output the
-        // header commands, since we want to have the close icon top right
-        // and not floated after the title
-        if ($ilUser->getPref("screen_reader_optimization")) {
-            $this->fillHeaderTitleBlock();
-            $this->fillHeaderCommands();
-        } else {
-            $this->fillHeaderCommands();
-            $this->fillHeaderTitleBlock();
-        }
+        $this->fillHeaderCommands();
+        $this->fillHeaderTitleBlock();
 
         if ($this->getPresentation() === self::PRES_MAIN_LEG) {
             $this->tpl->touchBlock("hclassb");
