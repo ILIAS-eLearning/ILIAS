@@ -26,7 +26,7 @@ class ilObjSCORMVerification extends ilVerificationObject
     }
 
     /**
-     * @return array<string, int>
+     * @return array
      */
     protected function getPropertyMap() : array
     {

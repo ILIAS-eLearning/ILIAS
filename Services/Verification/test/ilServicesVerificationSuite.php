@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,25 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilVerificationStorageFile extends ilFileSystemStorage
+class ilServicesVerificationSuite extends TestSuite
 {
-    public function __construct(
-        int $a_container_id = 0
-    ) {
-        parent::__construct(self::STORAGE_DATA, true, $a_container_id);
-    }
-    
-    protected function getPathPostfix()
+    public static function suite()
     {
-        return 'vrfc';
-    }
-    
-    protected function getPathPrefix()
-    {
-        return 'ilVerification';
+        $suite = new self();
+
+        require_once("./Services/Verification/test/CertificateVerificationClassMapTest.php");
+        $suite->addTestSuite("CertificateVerificationClassMapTest");
+
+        return $suite;
     }
 }
