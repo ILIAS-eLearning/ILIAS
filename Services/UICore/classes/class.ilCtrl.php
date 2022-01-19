@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -13,98 +13,84 @@ use GuzzleHttp\Psr7\Response;
 /**
  * Class ilCtrl provides processing control methods. A global
  * instance is available through $DIC->ctrl() or $ilCtrl.
- *
  * @author Thibeau Fuhrer <thf@studer.raimann.ch>
  */
 class ilCtrl implements ilCtrlInterface
 {
     /**
      * Holds an instance of the http service's response sender.
-     *
      * @var ResponseSenderStrategy
      */
     private ResponseSenderStrategy $response_sender;
 
     /**
      * Holds an instance of the current server request.
-     *
      * @var ServerRequestInterface
      */
     private ServerRequestInterface $server_request;
 
     /**
      * Holds the current requests $_POST parameters.
-     *
      * @var RequestWrapper
      */
     private RequestWrapper $post_parameters;
 
     /**
      * Holds the current requests $_GET parameters.
-     *
      * @var RequestWrapper
      */
     private RequestWrapper $get_parameters;
 
     /**
      * Holds an instance of the refinery factory.
-     *
      * @var Refinery
      */
     private Refinery $refinery;
 
     /**
      * Holds an instance of the currently read control structure.
-     *
      * @var ilCtrlStructureInterface
      */
     private ilCtrlStructureInterface $structure;
 
     /**
      * Holds an instance of the token repository.
-     *
      * @var ilCtrlTokenRepositoryInterface
      */
     private ilCtrlTokenRepositoryInterface $token_repository;
 
     /**
      * Holds the current context information.
-     *
      * @var ilCtrlContextInterface
      */
     private ilCtrlContextInterface $context;
 
     /**
      * Holds an instance of the path factory.
-     *
      * @var ilCtrlPathFactoryInterface
      */
     private ilCtrlPathFactoryInterface $path_factory;
 
     /**
      * Holds an instance of the component factory.
-     *
      * @var ilComponentFactory
      */
     private ilComponentFactory $component_factory;
 
     /**
      * Holds a history of calls made with the current ilCtrl instance.
-     *
      * @var array<int, string[]>
      */
     private array $stacktrace = [];
 
     /**
      * Holds an instance of the object that is currently executed.
-     *
      * @var object|null
      */
     private ?object $exec_object = null;
 
     /**
      * ilCtrl Constructor
-     *
      * @param ilCtrlStructureInterface       $structure
      * @param ilCtrlTokenRepositoryInterface $token_repository
      * @param ilCtrlPathFactoryInterface     $path_factory
@@ -128,15 +114,15 @@ class ilCtrl implements ilCtrlInterface
         Refinery $refinery,
         ilComponentFactory $component_factory
     ) {
-        $this->structure        = $structure;
+        $this->structure = $structure;
         $this->token_repository = $token_repository;
-        $this->response_sender  = $response_sender;
-        $this->server_request   = $server_request;
-        $this->post_parameters  = $post_parameters;
-        $this->get_parameters   = $get_parameters;
-        $this->refinery         = $refinery;
-        $this->path_factory     = $path_factory;
-        $this->context          = $context;
+        $this->response_sender = $response_sender;
+        $this->server_request = $server_request;
+        $this->post_parameters = $post_parameters;
+        $this->get_parameters = $get_parameters;
+        $this->refinery = $refinery;
+        $this->path_factory = $path_factory;
+        $this->context = $context;
         $this->component_factory = $component_factory;
     }
 
@@ -187,8 +173,7 @@ class ilCtrl implements ilCtrlInterface
         // finding gets mixed up, as it can only be used in
         // getHTML() method calls.
         $this->context
-            ->setCmdMode(self::CMD_MODE_PROCESS)
-        ;
+            ->setCmdMode(self::CMD_MODE_PROCESS);
 
         return $a_gui_object->executeCommand();
     }
@@ -209,13 +194,11 @@ class ilCtrl implements ilCtrlInterface
         $this->populateCall($class_name, self::CMD_MODE_HTML);
         $this->context
             ->setCmdClass($class_name)
-            ->setCmdMode(self::CMD_MODE_HTML)
-        ;
+            ->setCmdMode(self::CMD_MODE_HTML);
 
         return (null !== $a_parameters) ?
             $a_gui_object->getHTML($a_parameters) :
-            $a_gui_object->getHTML()
-        ;
+            $a_gui_object->getHTML();
     }
 
     /**
@@ -225,15 +208,14 @@ class ilCtrl implements ilCtrlInterface
     {
         // retrieve $_GET and $_POST parameters.
         $post_command = $this->getPostCommand();
-        $get_command  = $this->getQueryParam(self::PARAM_CMD);
-        $is_post      = (self::CMD_POST === $get_command);
+        $get_command = $this->getQueryParam(self::PARAM_CMD);
+        $is_post = (self::CMD_POST === $get_command);
 
         // if the $_GET command is 'post', either the $_POST
         // command or $_GETs fallback command is used.
         $command = ($is_post) ?
             $post_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
-            $get_command
-        ;
+            $get_command;
 
         // override the command that has been set during a
         // request via ilCtrl::setCmd().
@@ -248,7 +230,7 @@ class ilCtrl implements ilCtrlInterface
             $cmd_class = $this->context->getCmdClass();
             if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
                 $stored_token = $this->token_repository->getToken();
-                $sent_token   = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
+                $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
 
                 if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
                     return $command;
@@ -401,7 +383,9 @@ class ilCtrl implements ilCtrlInterface
      */
     public function clearParametersByClass(string $a_class) : void
     {
-        $this->structure->removePermanentParametersByClass($a_class);
+        // apparently permanent parameters should not be removable,
+        // therefore the line below stays commented:
+        // $this->structure->removePermanentParametersByClass($a_class);
         $this->structure->removeTemporaryParametersByClass($a_class);
     }
 
@@ -443,12 +427,12 @@ class ilCtrl implements ilCtrlInterface
         bool $has_xml_style = false
     ) : string {
         return $this->getTargetUrl(
-            $a_class,
-            $a_cmd,
-            $a_anchor,
-            $is_async,
-            $has_xml_style
-        ) ?? '';
+                $a_class,
+                $a_cmd,
+                $a_anchor,
+                $is_async,
+                $has_xml_style
+            ) ?? '';
     }
 
     /**
@@ -481,13 +465,13 @@ class ilCtrl implements ilCtrlInterface
         bool $has_xml_style = false
     ) : string {
         return $this->getTargetUrl(
-            $a_class,
-            $a_fallback_cmd,
-            $a_anchor,
-            $is_async,
-            $has_xml_style,
-            true
-        ) ?? '';
+                $a_class,
+                $a_fallback_cmd,
+                $a_anchor,
+                $is_async,
+                $has_xml_style,
+                true
+            ) ?? '';
     }
 
     /**
@@ -581,8 +565,7 @@ class ilCtrl implements ilCtrlInterface
             if ('application/json' === $this->server_request->getHeaderLine('Accept')) {
                 $content = (null !== $response->getBody()) ?
                     $response->getBody()->getContents() :
-                    []
-                ;
+                    [];
 
                 echo json_encode($content, JSON_THROW_ON_ERROR);
             }
@@ -699,8 +682,6 @@ class ilCtrl implements ilCtrlInterface
         $class_name = $this->getClassByObject($a_gui_obj);
         $target_url = $this->getParentReturnByClass($class_name);
 
-        $component_factory = $DIC["component.factory"] ?? null;
-
         // append redirect source to target url.
         $target_url = $this->appendParameterString(
             $target_url,
@@ -795,7 +776,6 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Returns a parameter with the given name from the current GET
      * request.
-     *
      * @param string $parameter_name
      * @return string|null
      */
@@ -813,7 +793,6 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Returns the current $_POST command.
-     *
      * @return string|null
      */
     private function getPostCommand() : ?string
@@ -847,7 +826,6 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Helper function that returns a target URL string.
      * (that function is horrific, I'm sorry little one)
-     *
      * @param array|string $a_class
      * @param string|null  $a_cmd
      * @param string|null  $a_anchor
@@ -889,10 +867,9 @@ class ilCtrl implements ilCtrlInterface
             $is_escaped
         );
 
-        $cmd_class  = ($is_array) ?
+        $cmd_class = ($is_array) ?
             $a_class[array_key_last($a_class)] :
-            $a_class
-        ;
+            $a_class;
 
         // only append the cid path and command class params
         // if they exist.
@@ -980,7 +957,6 @@ class ilCtrl implements ilCtrlInterface
     /**
      * This helper function wraps the deprecated UI functionality that
      * modifies a URL target and "hacks into" existing HTML.
-     *
      * @param string $target_url
      * @return string
      */
@@ -996,8 +972,7 @@ class ilCtrl implements ilCtrlInterface
                     'Services/Utilities',
                     'redirect',
                     ["html" => $target_url]
-                )
-            ;
+                );
 
             if (ilUIHookPluginGUI::KEEP !== $html['mode']) {
                 $target_url = $plugin_instance
@@ -1005,8 +980,7 @@ class ilCtrl implements ilCtrlInterface
                     ->modifyHTML(
                         $target_url,
                         $html
-                    )
-                ;
+                    );
             }
         }
 
@@ -1015,7 +989,6 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Returns whether a given command is considered safe or not.
-     *
      * @param bool        $is_post
      * @param string      $cmd_class
      * @param string|null $cmd
@@ -1057,15 +1030,17 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Appends all parameters for a given class to the given URL.
-     *
      * @param string $class_name
      * @param string $target_url
      * @param bool   $is_escaped
      * @return string
      * @throws ilCtrlException
      */
-    private function appendParameterStringsByClass(string $class_name, string $target_url, bool $is_escaped = false) : string
-    {
+    private function appendParameterStringsByClass(
+        string $class_name,
+        string $target_url,
+        bool $is_escaped = false
+    ) : string {
         $class_parameters = $this->getParameterArrayByClass($class_name);
         if (!empty($class_parameters)) {
             foreach ($class_parameters as $key => $value) {
@@ -1083,15 +1058,18 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Appends a query parameter to the given URL and returns it.
-     *
      * @param string $url
      * @param string $parameter_name
      * @param mixed  $value
      * @param bool   $is_escaped
      * @return string
      */
-    private function appendParameterString(string $url, string $parameter_name, $value, bool $is_escaped = false) : string
-    {
+    private function appendParameterString(
+        string $url,
+        string $parameter_name,
+        $value,
+        bool $is_escaped = false
+    ) : string {
         // only append value if it exists and can be cast
         // to string.
         if (null !== $value && !is_array($value) && !is_object($value)) {
@@ -1111,8 +1089,7 @@ class ilCtrl implements ilCtrlInterface
                 // it's the first query param or not.
                 $url .= (str_contains($url, '?')) ?
                     $ampersand . $parameter_name . '=' . $value :
-                    '?' . $parameter_name . '=' . $value
-                ;
+                    '?' . $parameter_name . '=' . $value;
             }
         }
 
@@ -1121,7 +1098,6 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Helper function that populates a call in the current stacktrace.
-     *
      * @param string $class_name
      * @param string $cmd_mode
      */
@@ -1131,15 +1107,14 @@ class ilCtrl implements ilCtrlInterface
 
         $this->stacktrace[] = [
             self::PARAM_CMD_CLASS => $obj_name,
-            self::PARAM_CMD_MODE  => $cmd_mode,
-            self::PARAM_CMD       => $this->getCmd(),
+            self::PARAM_CMD_MODE => $cmd_mode,
+            self::PARAM_CMD => $this->getCmd(),
         ];
     }
 
     /**
      * Helper function that returns the class name of a mixed
      * (object or string) parameter.
-     *
      * @param object|string $object
      * @return string
      */
