@@ -761,7 +761,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $file = new ilSessionFile((int) $_GET['file_id']);
         
-        ilUtil::deliverFile($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
+        ilFileDelivery::deliverFileLegacy($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
         return true;
     }
     
@@ -1819,7 +1819,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->object->getFirstAppointment()->toggleFulltime($event->getStart() instanceof ilDate);
         }
 
-        $this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
+        $this->object->setTitle($this->form->getInput('title'));
         $this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
         $this->object->setLocation(ilUtil::stripSlashes($_POST['location']));
         $this->object->setName(ilUtil::stripSlashes($_POST['tutor_name']));

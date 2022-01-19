@@ -22,7 +22,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 
 /**
@@ -36,7 +35,8 @@ use ILIAS\Refinery\Factory;
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
     protected Factory $refinery;
-    protected WrapperFactory $httpWrapper;
+    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected \ILIAS\FileUpload\FileUpload $upload;
     protected ilAccessHandler $hierarchical_access;
     /**
      * @var ilRbacSystem
@@ -50,11 +50,12 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-        $this->httpWrapper = $DIC->http()->wrapper();
+        $this->httpState = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->upload = $DIC->upload();
         $this->type = 'cert';
-        $this->lng->loadLanguageModule("certificate");
-        $this->lng->loadLanguageModule("trac");
+        $this->lng->loadLanguageModule('certificate');
+        $this->lng->loadLanguageModule('trac');
 
         $this->access = $DIC['rbacsystem'];
         $this->error = $DIC['ilErr'];
@@ -81,7 +82,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
             default:
                 if (!$cmd || $cmd === 'view') {
-                    $cmd = "settings";
+                    $cmd = 'settings';
                 }
 
                 $this->$cmd();
@@ -93,18 +94,18 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs() : void
     {
-        if ($this->access->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->access->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                "settings",
-                $this->ctrl->getLinkTarget($this, "settings"),
-                ["settings", "view"]
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
+                ['settings', 'view']
             );
         }
 
         if ($this->access->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                "perm_settings",
-                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),
+                'perm_settings',
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'),
                 [],
                 strtolower(ilPermissionGUI::class)
             );
@@ -114,27 +115,39 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     public function settings() : void
     {
         $this->tabs_gui->setTabActive('settings');
-        $form_settings = new ilSetting("certificate");
+        $form_settings = new ilSetting('certificate');
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('certificate_settings'));
 
-        $active = new ilCheckboxInputGUI($this->lng->txt("active"), "active");
-        $active->setChecked((bool) $form_settings->get("active", '0'));
+        $active = new ilCheckboxInputGUI($this->lng->txt('active'), 'active');
+        $active->setChecked((bool) $form_settings->get('active', '0'));
         $form->addItem($active);
 
-        $info = new ilNonEditableValueGUI($this->lng->txt("info"), "info");
-        $info->setValue($this->lng->txt("certificate_usage"));
+        $info = new ilNonEditableValueGUI($this->lng->txt('info'), 'info');
+        $info->setValue($this->lng->txt('certificate_usage'));
         $form->addItem($info);
 
-        $bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
+        $bgimage = new ilImageFileInputGUI($this->lng->txt('certificate_background_image'), 'background');
         $bgimage->setRequired(false);
-        // handle the background upload
-        if (isset($_POST, $_FILES["background"]["tmp_name"]) && $bgimage->checkInput()) {
-            $result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
-            if ($result === false) {
-                $bgimage->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+
+        if (
+            $this->upload->hasUploads() &&
+            $this->httpState->request()->getMethod() === 'POST' &&
+            $bgimage->checkInput()
+        ) {
+            if (!$this->upload->hasBeenProcessed()) {
+                $this->upload->process();
+            }
+            
+            if (is_array($this->upload->getResults()) && $this->upload->getResults() !== []) {
+                $results = $this->upload->getResults();
+                $file = array_pop($results);
+                $result = $this->object->uploadBackgroundImage($file->getPath());
+                if ($result === false) {
+                    $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                }
             }
         }
 
@@ -142,16 +155,16 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
             $bgimage->setImage(ilWACSignedPath::signFile($this->object->getDefaultBackgroundImagePathWeb()));
         }
-        $bgimage->setInfo($this->lng->txt("default_background_info"));
+        $bgimage->setInfo($this->lng->txt('default_background_info'));
         $form->addItem($bgimage);
-        $format = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
+        $format = new ilSelectInputGUI($this->lng->txt('certificate_page_format'), 'pageformat');
         $defaultformats = [
-            "a4" => $this->lng->txt("certificate_a4"), // (297 mm x 210 mm)
-            "a4landscape" => $this->lng->txt("certificate_a4_landscape"), // (210 mm x 297 mm)",
-            "a5" => $this->lng->txt("certificate_a5"), // (210 mm x 148.5 mm)
-            "a5landscape" => $this->lng->txt("certificate_a5_landscape"), // (148.5 mm x 210 mm)
-            "letter" => $this->lng->txt("certificate_letter"), // (11 inch x 8.5 inch)
-            "letterlandscape" => $this->lng->txt("certificate_letter_landscape") // (11 inch x 8.5 inch)
+            'a4' => $this->lng->txt('certificate_a4'), // (297 mm x 210 mm)
+            'a4landscape' => $this->lng->txt('certificate_a4_landscape'), // (210 mm x 297 mm)',
+            'a5' => $this->lng->txt('certificate_a5'), // (210 mm x 148.5 mm)
+            'a5landscape' => $this->lng->txt('certificate_a5_landscape'), // (148.5 mm x 210 mm)
+            'letter' => $this->lng->txt('certificate_letter'), // (11 inch x 8.5 inch)
+            'letterlandscape' => $this->lng->txt('certificate_letter_landscape') // (11 inch x 8.5 inch)
         ];
         $format->setOptions($defaultformats);
         $format->setValue($form_settings->get("pageformat", ''));
@@ -200,9 +213,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $this->tpl->setContent($form->getHTML());
 
-        if (strcmp($this->ctrl->getCmd(), "save") == 0) {
-            $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve(
-                "background_delete",
+        if (strcmp($this->ctrl->getCmd(), 'save') === 0) {
+            $backgroundDelete = $this->httpState->wrapper()->post()->has('background_delete') && $this->httpState->wrapper()->post()->retrieve(
+                'background_delete',
                 $this->refinery->kindlyTo()->bool()
             );
             if ($backgroundDelete) {
@@ -215,8 +228,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     {
         $form_settings = new ilSetting("certificate");
 
-        $mode = $this->httpWrapper->post()->retrieve(
-            "persistent_certificate_mode",
+        $mode = $this->httpState->wrapper()->post()->retrieve(
+            'persistent_certificate_mode',
             $this->refinery->kindlyTo()->string()
         );
         $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
@@ -228,18 +241,18 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $form_settings->set(
             'pageformat',
-            $this->httpWrapper->post()->retrieve('pageformat', $this->refinery->kindlyTo()->string())
+            $this->httpState->wrapper()->post()->retrieve('pageformat', $this->refinery->kindlyTo()->string())
         );
         $form_settings->set(
             'active',
-            (string) ($this->httpWrapper->post()->has('active') && $this->httpWrapper->post()->retrieve(
+            (string) ($this->httpState->wrapper()->post()->has('active') && $this->httpState->wrapper()->post()->retrieve(
                 'active',
                 $this->refinery->kindlyTo()->bool()
             ))
         );
         $form_settings->set('persistent_certificate_mode', $mode);
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         $this->settings();
     }
 }

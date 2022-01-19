@@ -1149,7 +1149,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         
         $exporter->build();
 
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $exporter->getFinalZipFilePath(),
             $exporter->getDispoZipFileName(),
             $exporter->getZipFileMimeType(),

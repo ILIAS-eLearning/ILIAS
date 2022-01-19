@@ -65,10 +65,10 @@ class ilPersonalSkillsGUI
     protected int $obj_id = 0;
     protected array $obj_skills = [];
     protected int $profile_id = 0;
-    protected array $profile_levels;
-    protected array $user_profiles;
-    protected array $cont_profiles;
-    protected bool $use_materials;
+    protected array $profile_levels = [];
+    protected array $user_profiles = [];
+    protected array $cont_profiles = [];
+    protected bool $use_materials = false;
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
     protected ilBasicSkillTreeRepository $tree_repo;

@@ -70,7 +70,7 @@ class Conversation
                 SELECT osc_messages.*
                 FROM osc_messages
                 WHERE osc_messages.conversation_id = %s
-                AND {$inParticipants}
+                AND $inParticipants
                 ORDER BY osc_messages.timestamp DESC
             ";
             $msgRes = $this->db->queryF($query, ['text'], [$conversation->getId()]);

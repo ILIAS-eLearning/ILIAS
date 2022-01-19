@@ -45,9 +45,13 @@ class ContextCollection
     /**
      * @return ScreenContext
      */
-    public function getLast() : ScreenContext
+    public function getLast() : ?ScreenContext
     {
-        return end($this->stack);
+        $last = end($this->stack);
+        if ($last) {
+            return $last;
+        }
+        return null;
     }
     
     /**

@@ -1466,9 +1466,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         $ilUser = $DIC->user();
 
+        /* abandoned
         if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus")) {
             $this->touchBlock("sr_focus");
-        }
+        }*/
     }
 
     /**
@@ -1507,13 +1508,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             }
             $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
-            include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-            $this->setVariable(
-                "TREE_ACC_KEY",
-                ilAccessKeyGUI::getAttribute(($this->tree_flat_mode == "tree")
-                    ? ilAccessKey::TREE_ON
-                    : ilAccessKey::TREE_OFF)
-            );
             $this->parseCurrentBlock();
         }
 

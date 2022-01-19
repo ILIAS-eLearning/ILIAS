@@ -22,7 +22,7 @@ class ilCronManager implements \ilCronManagerInterface
         $this->logger->info('CRON - batch start');
 
         $ts = time();
-        $this->settings->set('last_cronjob_start_ts', $ts);
+        $this->settings->set('last_cronjob_start_ts', (string) $ts);
 
         $useRelativeDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
@@ -423,7 +423,9 @@ class ilCronManager implements \ilCronManagerInterface
     {
         global $DIC;
 
+        /** @var ilComponentRepository $component_repository */
         $component_repository = $DIC['component.repository'];
+        /** @var ilComponentFactory $component_factory */
         $component_factory = $DIC['component.factory'];
 
         $res = [];
@@ -432,7 +434,7 @@ class ilCronManager implements \ilCronManagerInterface
             if (!$pl->isActive()) {
                 continue;
             }
-            
+
             $plugin = $component_factory->getPlugin($pl->getId());
 
             if (!$plugin instanceof ilCronJobProvider) {
@@ -444,7 +446,7 @@ class ilCronManager implements \ilCronManagerInterface
                 $job_data = $jobs_data[0] ?? null;
                 if (!is_array($job_data) || $job_data === []) {
                     // as job is not "imported" from xml
-                    self::createDefaultEntry($job, $pluginData['name'], IL_COMP_PLUGIN, "");
+                    self::createDefaultEntry($job, $plugin->getPluginName(), IL_COMP_PLUGIN, '');
                 }
 
                 $jobs_data = self::getCronJobData($job->getId());

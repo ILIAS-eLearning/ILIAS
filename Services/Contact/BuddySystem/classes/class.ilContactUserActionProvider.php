@@ -26,7 +26,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getComponentId()
+    public function getComponentId() : string
     {
         return 'contact';
     }
@@ -34,7 +34,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getActionTypes()
+    public function getActionTypes() : array
     {
         $this->lng->loadLanguageModule('buddysystem');
         return [
@@ -45,7 +45,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function collectActionsForTargetUser($a_target_user)
+    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
     {
         $coll = ilUserActionCollection::getInstance();
 

@@ -25,7 +25,7 @@
 class ilSkillTemplateReference extends ilSkillTreeNode
 {
     protected ilDBInterface $db;
-    protected int $skill_template_id;
+    protected int $skill_template_id = 0;
 
     public function __construct(int $a_id = 0)
     {

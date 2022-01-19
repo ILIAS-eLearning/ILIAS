@@ -227,7 +227,6 @@ class ilCalendarAppointmentPanelGUI
             case ilCalendarCategory::TYPE_CH:
                 $this->tpl->setVariable('PANEL_CAL_TYPE', $this->lng->txt('cal_ch_ch'));
 
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilBookingEntry($a_app['event']->getContextId());
 
                 $is_owner = $entry->isOwner();

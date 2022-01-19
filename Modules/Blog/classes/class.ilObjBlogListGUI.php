@@ -1,20 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
  * Class ilObjBlogListGUI
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjBlogListGUI extends ilObjectListGUI
 {
-    /** @var null|\ILIAS\UI\Component\Modal\Modal */
-    private $comment_modal;
+    private ?Modal $comment_modal;
 
-    /**
-    * initialisation
-    */
     public function init()
     {
         $this->copy_enabled = true;
@@ -48,14 +56,6 @@ class ilObjBlogListGUI extends ilObjectListGUI
         return $commands;
     }
 
-    /**
-     * insert command button
-     *
-     * @access	private
-     * @param	string		$a_href		link url target
-     * @param	string		$a_text		link text
-     * @param	string		$a_frame	link frame target
-     */
     public function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
     {
         $ctrl = $this->ctrl;

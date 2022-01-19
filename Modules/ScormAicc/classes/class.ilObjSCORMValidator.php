@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Validation of SCORM-XML Files
 *
@@ -17,7 +27,7 @@ class ilObjSCORMValidator
     public $flag;
     public $summary;
 
-    public function validateXML($file)
+    public function validateXML($file) : void
     {
         // exec(ilUtil::getJavaPath()." -jar ".ilUtil::escapeShellArg(ILIAS_ABSOLUTE_PATH."/Modules/ScormAicc/validation/vali.jar")." ".ilUtil::escapeShellArg($file)." 2>&1", $error);
             // if (count($error) != 0)
@@ -32,7 +42,7 @@ class ilObjSCORMValidator
             // }
     }
 
-    public function searchDir($dir)
+    public function searchDir($dir) : void
     {
         if (is_dir($dir)) {
             if ($dh = opendir($dir)) {
@@ -74,7 +84,7 @@ class ilObjSCORMValidator
         }
     }
 
-    public function getSummary()
+    public function getSummary() : string
     {
         $summary = "";
 

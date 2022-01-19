@@ -49,7 +49,7 @@ class ilPageObjectGUI
     public string $page_back_title;
     protected int $notes_parent_id;
     protected ilPropertyFormGUI $form;
-    protected int $styleid;
+    protected int $styleid = 0;
     protected bool $enabledpagefocus;
     protected string $link_xml;
     protected int $old_nr = 0;

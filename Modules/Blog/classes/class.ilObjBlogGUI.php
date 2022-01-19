@@ -1,14 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \ILIAS\DI\HTTPServices;
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+use ILIAS\Blog\StandardGUIRequest;
 
 /**
  * Class ilObjBlogGUI
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
@@ -16,123 +26,39 @@ use \ILIAS\DI\HTTPServices;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
+    protected StandardGUIRequest $blog_request;
+    protected ilHelpGUI $help;
+    protected ilTabsGUI $tabs;
+    protected ilNavigationHistory $nav_history;
+    protected ilRbacAdmin $rbacadmin;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected string $month = "";
+    protected array $items = [];
+    protected string $keyword = "";
+    protected ?int $author = null;
+    protected bool $month_default = false;
+    protected int $gtp = 0;
+    protected string $edt;
+    protected int $blpg = 0;
+    protected int $old_nr = 0;
+    protected int $ppage = 0;
+    protected int $user_page = 0;
+    public bool $prtf_embed = false; // note: this is currently set in ilPortfolioPageGUI, should use getter/setter
+    protected string $prvm; //preview mode (fsc|emb)
+    protected int $ntf = 0;
+    protected int $apid = 0;
+    protected string $new_type = "";
+    protected int $prt_id = 0;
+    protected bool $disable_notes = false;
+    protected ContextServices $tool_context;
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-    
-
-    /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    protected $month; // [string]
-    protected $items; // [array]
-    protected $keyword; // [string]
-    protected $author; // [int]
-    protected $month_default; // [bool]
-
-    /**
-     * Goto link posting
-     * @var int
-     */
-    protected $gtp;
-
-    /**
-     * edit command
-     * @var string
-     */
-    protected $edt;
-
-    /**
-     * @var int
-     */
-    protected $blpg;
-
-    /**
-     * @var int
-     */
-    protected $old_nr;
-
-    /**
-     * user page? deprecated?
-     * @var int
-     */
-    protected $ppage;
-
-    /**
-     * user page (necessary?)
-     * @var int
-     */
-    protected $user_page;
-
-    /**
-     * @var bool		// note: this is currently set in ilPortfolioPageGUI, should use getter/setter
-     */
-    public $prtf_embed = false;
-
-    /**
-     * preview mode (fsc|emb)
-     *
-     * @var string
-     */
-    protected $prvm;
-
-    /**
-     * @var int
-     */
-    protected $ntf;
-
-    /**
-     * approved posting id
-     * @var int
-     */
-    protected $apid;
-
-    /**
-     * @var string
-     */
-    protected $new_type;
-
-    /**
-     * portfolio id (quick editing in portfolio)
-     * @var int
-     */
-    protected $prt_id;
-
-    /**
-     * @var bool
-     */
-    protected $disable_notes = false;
-
-    /**
-     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
-     */
-    protected $tool_context;
-
-    /**
-     * @var HTTPServices
-     */
-    protected $http;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_id_type = self::REPOSITORY_NODE_ID,
+        int $a_parent_node_id = 0
+    ) {
         global $DIC;
 
         $this->settings = $DIC->settings();
@@ -151,32 +77,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
-        $this->gtp = (int) ($_GET["gtp"] ?? 0);
-        $this->edt = $_GET["edt"] ?? "";
-        $this->blpg = (int) ($_REQUEST["blpg"] ?? 0);
-        ;
-        $this->old_nr = (int) ($_GET["old_nr"] ?? 0);
-        ;
-        $this->ppage = (int) ($_GET["ppage"] ?? 0);
-        ;
-        $this->user_page = (int) ($_REQUEST["user_page"] ?? 0);
-        ;
-        $this->new_type = ilUtil::stripSlashes($_REQUEST["new_type"] ?? "");
-        $this->prvm = ilUtil::stripSlashes($_REQUEST["prvm"] ?? "");
-        $this->ntf = (int) ($_GET["ntf"] ?? 0);
-        ;
-        $this->apid = (int) ($_GET["apid"] ?? 0);
-        ;
-        $this->month = ilUtil::stripSlashes($_REQUEST["bmn"] ?? "");
-        $this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"] ?? "");
-        $this->author = (int) ($_REQUEST["ath"] ?? 0);
-        $this->prt_id = (int) ($_REQUEST["prt_id"] ?? 0);
+        $this->blog_request = $DIC->blog()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+
+        $req = $this->blog_request;
+
+        $this->gtp = $req->getGotoPage();
+        $this->edt = $req->getEditing();
+        $this->blpg = $req->getBlogPage();
+        $this->old_nr = $req->getOldNr();
+        $this->ppage = $req->getPPage();
+        $this->user_page = $req->getUserPage();
+        $this->new_type = $req->getNewType();
+        $this->prvm = $req->getPreviewMode();
+        $this->ntf = $req->getNotification();
+        $this->apid = $req->getApId();
+        $this->month = $req->getMonth();
+        $this->keyword = $req->getKeyword();
+        $this->author = $req->getAuthor();
+        $this->prt_id = $req->getPrtId();
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-        
-        if (isset($_REQUEST["blpg"]) && $_REQUEST["blpg"] > 0 && ilBlogPosting::lookupBlogId($_REQUEST["blpg"]) != $this->object->getId()) {
+
+        $blog_page = $this->blog_request->getBlogPage();
+        if ($blog_page > 0 &&
+            ilBlogPosting::lookupBlogId($blog_page) != $this->object->getId()) {
             throw new ilException("Posting ID does not match blog.");
         }
 
@@ -186,8 +115,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             if ($this->items) {
                 // current month (if none given or empty)
                 if (!$this->month || !$this->items[$this->month]) {
-                    $this->month = array_keys($this->items);
-                    $this->month = array_shift($this->month);
+                    $m = array_keys($this->items);
+                    $this->month = array_shift($m);
                     $this->month_default = true;
                 }
             }
@@ -199,17 +128,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilCtrl->saveParameter($this, "prvm");
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "blog";
     }
 
-    /**
-     * Get items
-     *
-     * @return array
-     */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
@@ -235,7 +159,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ilCtrl->redirect($this, "");
     }
     
-    protected function setSettingsSubTabs($a_active)
+    protected function setSettingsSubTabs(string $a_active) : void
     {
         global $DIC;
 
@@ -260,7 +184,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
             $crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
 
-            if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
+            if ($grp_ref_id > 0 || $crs_ref_id > 0) {
                 if ($access->checkAccess('write', '', $this->ref_id)) {
                     $this->tabs_gui->addSubTab(
                         'notifications',
@@ -274,8 +198,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->tabs_gui->activateSubTab($a_active);
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
-    {
+    protected function initEditCustomForm(
+        ilPropertyFormGUI $a_form
+    ) : void {
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $obj_service = $this->getObjectService();
@@ -449,7 +374,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $abs_img->addSubItem($abs_img_height);
     }
 
-    protected function getEditFormCustomValues(array &$a_values)
+    protected function getEditFormCustomValues(array &$a_values) : void
     {
         if ($this->id_type == self::REPOSITORY_NODE_ID) {
             $a_values["approval"] = $this->object->hasApproval();
@@ -472,9 +397,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $a_values["ov_list_post_num"] = $this->object->getOverviewPostings();
         
         // #13420
-        $a_values["abssl"] = $this->object->getAbstractShortenLength() ? $this->object->getAbstractShortenLength() : ilObjBlog::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
-        $a_values["absiw"] = $this->object->getAbstractImageWidth() ? $this->object->getAbstractImageWidth() : ilObjBlog::ABSTRACT_DEFAULT_IMAGE_WIDTH;
-        $a_values["absih"] = $this->object->getAbstractImageHeight() ? $this->object->getAbstractImageHeight() : ilObjBlog::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
+        $a_values["abssl"] = $this->object->getAbstractShortenLength() ?: ilObjBlog::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
+        $a_values["absiw"] = $this->object->getAbstractImageWidth() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_WIDTH;
+        $a_values["absih"] = $this->object->getAbstractImageHeight() ?: ilObjBlog::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
     }
 
     protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -523,7 +448,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
 
-    protected function setTabs()
+    protected function setTabs() : void
     {
         $lng = $this->lng;
         $ilHelp = $this->help;
@@ -587,7 +512,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -635,7 +560,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
                 if (!$this->checkPermissionBool("read") && !$this->prtf_embed) {
                     ilUtil::sendInfo($lng->txt("no_permission"));
-                    return null;
+                    return;
                 }
 
                 // #9680
@@ -734,7 +659,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         case "previewEmbedded":
                             $this->filterInactivePostings();
                             $nav = $this->renderNavigation("gethtml", $cmd);
-                            return $this->buildEmbedded($ret, $nav);
+                            $this->buildEmbedded($ret, $nav);
+                            return;
                         
                         // ilias/editor
                         default:
@@ -766,7 +692,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             // revert to edit cmd to avoid confusion
                             $this->addHeaderActionForCommand("render");
                             $tpl->setContent($ret);
-                            $nav = $this->renderNavigation("render", $cmd, null, $is_owner);
+                            $nav = $this->renderNavigation("render", $cmd, "", $is_owner);
                             $tpl->setRightContent($nav);
                             break;
                     }
@@ -876,26 +802,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->addHeaderActionForCommand($cmd);
                 }
                 if (!$this->prtf_embed) {
-                    return parent::executeCommand();
+                    parent::executeCommand();
+                    return;
                 } else {
                     $this->setTabs();
 
                     if (!$cmd) {
                         $cmd = "render";
                     }
-                    return $this->$cmd();
+                    $this->$cmd();
                 }
         }
-        
-        return true;
     }
 
-    /**
-     * Trigger assignment tool
-     *
-     * @param
-     */
-    protected function triggerAssignmentTool()
+    protected function triggerAssignmentTool() : void
     {
         $be = new ilBlogExercise($this->node_id);
         $be_gui = new ilBlogExerciseGUI($this->node_id);
@@ -914,21 +834,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     }
 
     /**
-    * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
-    */
-    public function infoScreen()
+     * this one is called from the info button in the repository
+     */
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreenForward();
     }
     
-    /**
-    * show information screen
-    */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
         $ilTabs = $this->tabs;
         
@@ -971,12 +886,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Create new posting
      */
-    public function createPosting()
+    public function createPosting() : void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         
-        $title = trim(ilUtil::stripSlashes($_POST["title"]));
+        $title = $this->blog_request->getTitle();
         if ($title) {
             // create new posting
             $posting = new ilBlogPosting();
@@ -997,13 +912,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
     
-    // --- ObjectGUI End
-    
-    
     /**
      * Render object context
      */
-    public function render()
+    public function render() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -1066,8 +978,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         
         $list = $nav = "";
         if ($list_items) {
-            $list = $this->renderList($list_items, "preview", null, $is_owner);
-            $nav = $this->renderNavigation("render", "preview", null, $is_owner);
+            $list = $this->renderList($list_items, "preview", "", $is_owner);
+            $nav = $this->renderNavigation("render", "preview", "", $is_owner);
         }
         
         $this->setContentStyleSheet();
@@ -1078,8 +990,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Return embeddable HTML chunk
-     *
-     * @return string
      */
     public function getHTML() : string
     {
@@ -1126,18 +1036,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Filter blog postings by month, keyword or author
-     *
-     * @param bool $a_show_inactive
-     * @return array
      */
-    protected function getListItems($a_show_inactive = false)
-    {
+    protected function getListItems(
+        bool $a_show_inactive = false
+    ) : array {
         if ($this->author) {
             $list_items = array();
             foreach ($this->items as $month => $items) {
                 foreach ($items as $id => $item) {
                     if ($item["author"] == $this->author ||
-                        (is_array($item["editors"]) && in_array($this->author, $item["editors"]))) {
+                        (isset($item["editors"]) && in_array($this->author, $item["editors"]))) {
                         $list_items[$id] = $item;
                     }
                 }
@@ -1171,7 +1079,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Render fullscreen presentation
      */
-    public function preview()
+    public function preview() : void
     {
         global $DIC;
         
@@ -1201,10 +1109,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Build and deliver export file
      */
-    public function export($a_with_comments = false)
-    {
+    public function export(
+        bool $a_with_comments = false
+    ) : void {
         $zip = $this->buildExportFile($a_with_comments);
-        ilUtil::deliverFile($zip, $this->object->getTitle() . ".zip", '', false, true);
+        ilFileDelivery::deliverFileLegacy($zip, $this->object->getTitle() . ".zip", '', false, true);
     }
     
     
@@ -1212,13 +1121,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Combine content (list/posting) and navigation to html chunk
-     *
-     * @param string $a_content
-     * @param string $a_nav
-     * @return string
      */
-    protected function buildEmbedded($a_content, $a_nav)
-    {
+    protected function buildEmbedded(
+        string $a_content,
+        string $a_nav
+    ) : string {
         $wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
         $wtpl->setVariable("VAL_LIST", $a_content);
         $wtpl->setVariable("VAL_NAVIGATION", $a_nav);
@@ -1227,12 +1134,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Build fullscreen context
-     *
-     * @param string $a_content
-     * @param string $a_navigation
      */
-    public function renderFullScreen($a_content, $a_navigation)
-    {
+    public function renderFullScreen(
+        string $a_content,
+        string $a_navigation
+    ) : void {
         $tpl = $this->tpl;
         $ilUser = $this->user;
         $ilTabs = $this->tabs;
@@ -1303,13 +1209,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Render banner, user name
-     *
-     * @param object  $a_tpl
-     * @param int $a_user_id
-     * @param bool $a_export_path
      */
-    public function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
-    {
+    public function renderFullscreenHeader(
+        ilGlobalTemplateInterface $a_tpl,
+        int $a_user_id,
+        bool $a_export = false
+    ) : void {
         $ilUser = $this->user;
         
         if (!$a_export) {
@@ -1368,7 +1273,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
         
         $a_tpl->resetHeaderBlock(false);
-        $a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+        $a_tpl->setBanner($banner);
         $a_tpl->setTitleIcon($ppic);
         $a_tpl->setTitle($this->object->getTitle());
         $a_tpl->setDescription($name);
@@ -1379,12 +1284,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Gather all blog postings
-     *
-     * @param int $a_obj_id
-     * @return array
      */
-    protected function buildPostingList($a_obj_id)
-    {
+    protected function buildPostingList(
+        int $a_obj_id
+    ) : array {
         $author_found = false;
         
         $items = array();
@@ -1408,16 +1311,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Build posting month list
-     *
-     * @param array $items
-     * @param string $a_cmd
-     * @param bool $a_link_template
-     * @param bool $a_show_inactive
-     * @param string $a_export_directory
-     * @return string
      */
-    public function renderList(array $items, $a_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_export_directory = null) : string
-    {
+    public function renderList(
+        array $items,
+        string $a_cmd = "preview",
+        string $a_link_template = "",
+        bool $a_show_inactive = false,
+        string $a_export_directory = ""
+    ) : string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -1655,7 +1556,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $authors[] = ilUserUtil::getNamePresentation($author_id);
                 }
                 
-                if (is_array($item["editors"])) {
+                if (isset($item["editors"])) {
                     foreach ($item["editors"] as $editor_id) {
                         $authors[] = ilUserUtil::getNamePresentation($editor_id);
                     }
@@ -1704,28 +1605,27 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Build export link
-     *
-     * @param
-     * @return
      */
-    protected function buildExportLink($a_template, $a_type, $a_id)
-    {
+    protected function buildExportLink(
+        string $a_template,
+        string $a_type,
+        string $a_id
+    ) : string {
         return \ILIAS\Blog\Export\BlogHtmlExport::buildExportLink($a_template, $a_type, $a_id, $this->getKeywords(false));
     }
 
 
     /**
      * Build navigation by date block
-     *
-     * @param array $a_items
-     * @param string $a_list_cmd
-     * @param string $a_posting_cmd
-     * @param bool $a_link_template
-     * @param bool $a_show_inactive
-     * @return string
      */
-    protected function renderNavigationByDate(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_blpg = 0)
-    {
+    protected function renderNavigationByDate(
+        array $a_items,
+        string $a_list_cmd = "render",
+        string $a_posting_cmd = "preview",
+        string $a_link_template = "",
+        bool $a_show_inactive = false,
+        int $a_blpg = 0
+    ) : string {
         $ilCtrl = $this->ctrl;
 
         $blpg = ($a_blpg > 0)
@@ -1825,7 +1725,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $wtpl->setCurrentBlock("navigation_month_details");
                     $wtpl->setVariable("NAV_MONTH", $month_name);
                     $wtpl->setVariable("URL_MONTH", $month_url);
-                    $wtpl->parseCurrentBlock();
                 }
                 // summarized month
                 else {
@@ -1839,14 +1738,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $wtpl->setVariable("MONTH_NAME", $month_name);
                     $wtpl->setVariable("URL_MONTH", $month_url);
                     $wtpl->setVariable("MONTH_COUNT", sizeof($postings));
-                    $wtpl->parseCurrentBlock();
                 }
+                $wtpl->parseCurrentBlock();
             }
-
-            $ilCtrl->setParameter($this, "bmn", $this->month);
-            $ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
-
-            return $wtpl->get();
         }
         // single month
         else {
@@ -1915,27 +1809,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 
                 $wtpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, $a_list_cmd));
             }
-            
-            $ilCtrl->setParameter($this, "bmn", $this->month);
-            $ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
-            
-            return $wtpl->get();
         }
+        $ilCtrl->setParameter($this, "bmn", $this->month);
+        $ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
+        return $wtpl->get();
     }
     
     /**
      * Build navigation by keywords block
-     *
-     * @param string $a_list_cmd
-     * @param bool  $a_show_inactive
-     * @param bool  $a_link_template
-     * @param int    $a_blpg
-     * @return string
      */
     protected function renderNavigationByKeywords(
         string $a_list_cmd = "render",
         bool $a_show_inactive = false,
-        bool $a_link_template = false,
+        string $a_link_template = "",
         int $a_blpg = 0
     ) : string {
         $ilCtrl = $this->ctrl;
@@ -1971,8 +1857,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return "";
     }
         
-    protected function renderNavigationByAuthors(array $a_items, string $a_list_cmd = "render", bool $a_show_inactive = false) : string
-    {
+    protected function renderNavigationByAuthors(
+        array $a_items,
+        string $a_list_cmd = "render",
+        bool $a_show_inactive = false
+    ) : string {
         $ilCtrl = $this->ctrl;
         
         $authors = array();
@@ -1983,7 +1872,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         $authors[] = $item["author"];
                     }
                     
-                    if (is_array($item["editors"])) {
+                    if (isset($item["editors"])) {
                         foreach ($item["editors"] as $editor_id) {
                             if ($editor_id != $item["author"]) {
                                 $authors[] = $editor_id;
@@ -2027,8 +1916,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Toolbar navigation
      */
-    public function renderToolbarNavigation($a_items, $single_posting = false)
-    {
+    public function renderToolbarNavigation(
+        array $a_items,
+        bool $single_posting = false
+    ) : void {
         global $DIC;
 
         $toolbar = $DIC->toolbar();
@@ -2134,12 +2025,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Get next month
-     *
-     * @param array $a_items item array
-     * @return string
      */
-    public function getNextMonth($a_items)
-    {
+    public function getNextMonth(
+        array $a_items
+    ) : string {
         reset($a_items);
         $found = "";
         foreach ($a_items as $month => $items) {
@@ -2152,12 +2041,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Get next month
-     *
-     * @param array $a_items item array
-     * @return string
      */
-    public function getPreviousMonth($a_items)
-    {
+    public function getPreviousMonth(
+        array $a_items
+    ) : string {
         reset($a_items);
         $found = "";
         foreach ($a_items as $month => $items) {
@@ -2170,24 +2057,22 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Get next month
-     *
-     * @param array $a_items item array
-     * @return string
      */
-    public function getLatestMonth($a_items)
-    {
+    public function getLatestMonth(
+        array $a_items
+    ) : string {
         reset($a_items);
         return key($a_items);
     }
 
     /**
      * Get next posting
-     *
      * @param array $a_items item array
      * @return int page id
      */
-    public function getNextPosting($a_items)
-    {
+    public function getNextPosting(
+        array $a_items
+    ) : int {
         reset($a_items);
         $found = "";
         $next_blpg = 0;
@@ -2197,7 +2082,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $found = true;
                 }
                 if (!$found) {
-                    $next_blpg = $item["id"];
+                    $next_blpg = (int) $item["id"];
                 }
             }
         }
@@ -2206,19 +2091,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Get previous posting
-     *
      * @param array $a_items item array
      * @return int page id
      */
-    public function getPreviousPosting($a_items)
-    {
+    public function getPreviousPosting(
+        array $a_items
+    ) : int {
         reset($a_items);
         $found = "";
         $prev_blpg = 0;
         foreach ($a_items as $month => $items) {
             foreach ($items as $item) {
                 if ($found && $prev_blpg == "") {
-                    $prev_blpg = $item["id"];
+                    $prev_blpg = (int) $item["id"];
                 }
                 if ($item["id"] == $this->blpg) {
                     $found = true;
@@ -2230,33 +2115,30 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Get previous posting
-     *
      * @param array $a_items item array
      * @return int page id
      */
-    public function getLatestPosting($a_items)
-    {
+    public function getLatestPosting(
+        array $a_items
+    ) : int {
         reset($a_items);
         $month = current($a_items);
         if (is_array($month)) {
-            return current($month)["id"];
+            return (int) current($month)["id"];
         }
-        return false;
+        return 0;
     }
 
     /**
      * Build navigation blocks
-     *
-     * @param string $a_list_cmd
-     * @param string $a_posting_cmd
-     * @param bool $a_link_template
-     * @param bool $a_show_inactive
-     * @param int $a_blpg blog page id
-     * @return string
      */
-    public function renderNavigation($a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_blpg = 0)
-    {
-        $ilCtrl = $this->ctrl;
+    public function renderNavigation(
+        string $a_list_cmd = "render",
+        string $a_posting_cmd = "preview",
+        string $a_link_template = null,
+        bool $a_show_inactive = false,
+        int $a_blpg = 0
+    ) : string {
         $ilSetting = $this->settings;
         $a_items = $this->items;
 
@@ -2366,24 +2248,30 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Get keywords for single posting or complete blog
-     *
-     * @param bool $a_show_inactive
-     * @param int $a_posting_id
-     * @return array
      */
-    public function getKeywords($a_show_inactive, $a_posting_id = null)
-    {
+    public function getKeywords(
+        bool $a_show_inactive,
+        ?int $a_posting_id = null
+    ) : array {
         $keywords = array();
         if ($a_posting_id) {
             foreach (ilBlogPosting::getKeywords($this->obj_id, $a_posting_id) as $keyword) {
-                $keywords[$keyword]++;
+                if (isset($keywords[$keyword])) {
+                    $keywords[$keyword]++;
+                } else {
+                    $keywords[$keyword] = 1;
+                }
             }
         } else {
             foreach ($this->items as $month => $items) {
                 foreach ($items as $item) {
                     if ($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) {
                         foreach (ilBlogPosting::getKeywords($this->obj_id, $item["id"]) as $keyword) {
-                            $keywords[$keyword]++;
+                            if (isset($keywords[$keyword])) {
+                                $keywords[$keyword]++;
+                            } else {
+                                $keywords[$keyword] = 1;
+                            }
                         }
                     }
                 }
@@ -2406,13 +2294,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Build export file
-     *
-     * @return string
      */
-    public function buildExportFile($a_include_comments = false, $print_version = false)
-    {
+    public function buildExportFile(
+        bool $a_include_comments = false,
+        bool $print_version = false
+    ) : string {
         $type = "html";
-        $format = explode("_", $_POST["format"]);
+        $format = explode("_", $this->blog_request->getFormat());
         if ($format[1] == "comments" || $a_include_comments) {
             $a_include_comments = true;
             $type = "html_comments";
@@ -2433,18 +2321,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $blog_export->exportHTML();
     }
 
-    public function getNotesSubId()
+    public function getNotesSubId() : int
     {
         return $this->blpg;
     }
     
-    public function disableNotes($a_value = false)
+    public function disableNotes(bool $a_value = false) : void
     {
-        $this->disable_notes = (bool) $a_value;
+        $this->disable_notes = $a_value;
     }
         
-    protected function addHeaderActionForCommand($a_cmd)
-    {
+    protected function addHeaderActionForCommand(
+        string $a_cmd
+    ) : void {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         
@@ -2464,23 +2353,26 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             parent::addHeaderAction();
         }
     }
-    
-    protected function initHeaderAction($sub_type = null, $sub_id = null, $a_is_preview = false)
-    {
+
+    protected function initHeaderAction(
+        $a_sub_type = null,
+        $a_sub_id = null,
+        bool $a_is_preview = false
+    ) {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         
         if (!$this->obj_id) {
-            return false;
+            return null;
         }
 
-        $sub_type = $sub_id = null;
+        $a_sub_type = $a_sub_id = null;
         if ($this->blpg > 0) {
-            $sub_type = "blp";
-            $sub_id = $this->blpg;
+            $a_sub_type = "blp";
+            $a_sub_id = $this->blpg;
         }
                 
-        $lg = parent::initHeaderAction($sub_type, $sub_id);
+        $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         
         if ($a_is_preview) {
             $lg->enableComments(false);
@@ -2520,11 +2412,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ilCtrl->setParameter($this, "bmn", "");
                 $ilCtrl->setParameter($this, "blpg", "");
                 $link = $ilCtrl->getLinkTarget($this, "");
-                $ilCtrl->setParameter($this, "blpg", $sub_id);
+                $ilCtrl->setParameter($this, "blpg", $a_sub_id);
                 $ilCtrl->setParameter($this, "bmn", $this->month);
                 $lg->addCustomCommand($link, "blog_edit"); // #11868
                                 
-                if ($sub_id && $this->mayEditPosting($sub_id)) {
+                if ($a_sub_id && $this->mayEditPosting($a_sub_id)) {
                     $link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                     $lg->addCustomCommand($link, "blog_edit_posting");
                 }
@@ -2538,7 +2430,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $lg;
     }
     
-    protected function setNotification()
+    protected function setNotification() : void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -2558,13 +2450,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     /**
      * Get title for blog posting (used in ilNotesGUI)
-     *
-     * @param int $a_blog_id
-     * @param int $a_posting_id
-     * @return string
      */
-    public static function lookupSubObjectTitle(int $a_blog_id, int $a_posting_id) : string
-    {
+    public static function lookupSubObjectTitle(
+        int $a_blog_id,
+        int $a_posting_id
+    ) : string {
         // page might be deleted, so setting halt on errors to false
         $post = new ilBlogPosting($a_posting_id);
         if ($post->getBlogId() == $a_blog_id) {
@@ -2576,7 +2466,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Filter inactive items from items list
      */
-    protected function filterInactivePostings()
+    protected function filterInactivePostings() : void
     {
         foreach ($this->items as $month => $postings) {
             foreach ($postings as $id => $item) {
@@ -2597,8 +2487,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
         
-    public function filterItemsByKeyword(array $a_items, string $a_keyword) : array
-    {
+    public function filterItemsByKeyword(
+        array $a_items,
+        string $a_keyword
+    ) : array {
         $res = [];
         foreach ($a_items as $month => $items) {
             foreach ($items as $item) {
@@ -2615,10 +2507,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Check if user has admin access (approve, may edit & deactivate all postings)
-     *
-     * @return bool
      */
-    protected function isAdmin()
+    protected function isAdmin() : bool
     {
         return ($this->checkPermissionBool("redact") ||
                 $this->checkPermissionBool("write"));
@@ -2626,13 +2516,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Check if user may edit posting
-     *
-     * @param int $a_posting_id
-     * @param int $a_author_id
-     * @return bool
      */
-    protected function mayEditPosting($a_posting_id, $a_author_id = null) : bool
-    {
+    protected function mayEditPosting(
+        int $a_posting_id,
+        int $a_author_id = null
+    ) : bool {
         $ilUser = $this->user;
         
         // single author blog (owner) in personal workspace
@@ -2664,10 +2552,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Check if user may contribute at all
-     *
-     * @return bool
      */
-    protected function mayContribute()
+    protected function mayContribute() : bool
     {
         // single author blog (owner) in personal workspace
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
@@ -2678,7 +2564,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->checkPermissionBool("contribute"));
     }
     
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
         
@@ -2687,7 +2573,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
     
-    public function approve()
+    public function approve() : void
     {
         if ($this->isAdmin() && $this->apid > 0) {
             $post = new ilBlogPosting($this->apid);
@@ -2706,7 +2592,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     // contributors
     //
     
-    public function contributors()
+    public function contributors() : void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
@@ -2749,16 +2635,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Autocomplete submit
      */
-    public function addUserFromAutoComplete()
+    public function addUserFromAutoComplete() : void
     {
         $lng = $this->lng;
 
-        $user_login = ilUtil::stripSlashes($_POST['user_login']);
-        $user_type = ilUtil::stripSlashes($_POST["user_type"]);
+        $user_login = $this->blog_request->getUserLogin();
+        $user_type = $this->blog_request->getUserType();
 
         if (!strlen(trim($user_login))) {
             ilUtil::sendFailure($lng->txt('msg_no_search_string'));
-            return $this->contributors();
+            $this->contributors();
+            return;
         }
         $users = explode(',', $user_login);
                 
@@ -2768,22 +2655,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
             if (!$user_id) {
                 ilUtil::sendFailure($lng->txt('user_not_known'));
-                return $this->contributors();
+                $this->contributors();
+                return;
             }
             
-            $user_ids[] = $user_id;
+            $user_ids[] = (int) $user_id;
         }
     
-        return $this->addContributor($user_ids, $user_type);
+        $this->addContributor($user_ids, $user_type);
     }
         
     /**
      * Centralized method to add contributors
-     *
-     * @param array $a_user_ids
      */
-    public function addContributor(array $a_user_ids = array(), $a_user_type = null)
-    {
+    public function addContributor(
+        array $a_user_ids = array(),
+        ?string $a_user_type = null
+    ) {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $rbacreview = $this->rbacreview;
@@ -2820,11 +2708,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Used in ilContributorTableGUI
      */
-    public function confirmRemoveContributor()
+    public function confirmRemoveContributor() : void
     {
-        $ids = ilUtil::stripSlashesRecursive($_POST["id"]);
+        $ids = $this->blog_request->getIds();
         
-        if (!is_array($ids)) {
+        if (count($ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "contributors");
         }
@@ -2846,18 +2734,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->tpl->setContent($confirm->getHTML());
     }
     
-    /**
-     * Used in ilContributorTableGUI
-     */
-    public function removeContributor()
+    public function removeContributor() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $rbacadmin = $this->rbacadmin;
+
+        $ids = $this->blog_request->getIds();
         
-        $ids = ilUtil::stripSlashesRecursive($_POST["id"]);
-        
-        if (!is_array($ids)) {
+        if (count($ids) == 0) {
             ilUtil::sendFailure($lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "contributors");
         }
@@ -2867,7 +2752,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         if (!$local_roles) {
             ilUtil::sendFailure($lng->txt("missing_perm"));
             $this->contributors();
-            return null;
+            return;
         }
         
         foreach ($ids as $user_id) {
@@ -2880,7 +2765,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->ctrl->redirect($this, "contributors");
     }
 
-    public function deactivateAdmin()
+    public function deactivateAdmin() : void
     {
         if ($this->checkPermissionBool("write") && $this->apid > 0) {
             // ilBlogPostingGUI::deactivatePage()
@@ -2900,8 +2785,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     //// Style related functions
     ////
     
-    public function setContentStyleSheet($a_tpl = null)
-    {
+    public function setContentStyleSheet(
+        ilGlobalTemplateInterface $a_tpl = null
+    ) : void {
         $tpl = $this->tpl;
 
         if ($a_tpl != null) {
@@ -2918,7 +2804,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $ctpl->parseCurrentBlock();
     }
     
-    public function editStyleProperties()
+    public function editStyleProperties() : void
     {
         $this->checkPermission("write");
         
@@ -2929,7 +2815,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->tpl->setContent($form->getHTML());
     }
     
-    public function initStylePropertiesForm()
+    public function initStylePropertiesForm() : ilPropertyFormGUI
     {
         $ilSetting = $this->settings;
                         
@@ -2988,29 +2874,31 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         return $form;
     }
 
-    public function createStyle()
+    public function createStyle() : void
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
     }
         
-    public function editStyle()
+    public function editStyle() : void
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
     }
 
-    public function deleteStyle()
+    public function deleteStyle() : void
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "delete");
     }
 
-    public function saveStyleSettings()
+    public function saveStyleSettings() : void
     {
         $ilSetting = $this->settings;
     
         if ($ilSetting->get("fixed_content_style_id") <= 0 &&
             (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
             || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId((int) $_POST["style_id"]);
+            $this->object->setStyleSheetId(
+                $this->blog_request->getStyleId()
+            );
             $this->object->update();
             
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -3020,21 +2908,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     
     /**
      * Deep link
-     *
-     * @param string $a_target
      */
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
         $access = $DIC->access();
 
+        $id = explode("_", $a_target);
         if (substr($a_target, -3) == "wsp") {
-            $id = explode("_", $a_target);
-
-            $ilCtrl->setTargetScript("ilias.php");
-            $ilCtrl->initBaseClass("ilSharedResourceGUI");
             $ilCtrl->setParameterByClass("ilSharedResourceGUI", "wsp_id", $id[0]);
 
             if (sizeof($id) >= 2) {
@@ -3049,10 +2932,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
             $ilCtrl->redirectByClass("ilSharedResourceGUI", "");
         } else {
-            $id = explode("_", $a_target);
-
-            $ilCtrl->setTargetScript("ilias.php");
-            $ilCtrl->initBaseClass("ilRepositoryGUI");
             $ilCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $id[0]);
 
             if (sizeof($id) >= 2) {
@@ -3078,7 +2957,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     /**
      * Handle export choice
      */
-    protected function exportWithComments()
+    protected function exportWithComments() : void
     {
         $this->export(true);
     }
@@ -3094,14 +2973,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             "blog"
         );
 
+        /** @var ilObjBlog $blog */
+        $blog = $this->object;
         $provider = new \ILIAS\Blog\BlogPrintViewProviderGUI(
             $this->lng,
             $this->ctrl,
-            $this->object,
+            $blog,
             $this->node_id,
             $this->access_handler,
             $style_sheet_id,
-            $_POST["obj_id"] ?? null
+            $this->blog_request->getObjIds()
         );
 
         return new \ILIAS\Export\PrintProcessGUI(
@@ -3112,13 +2993,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         );
     }
 
-    public function printViewSelection()
+    public function printViewSelection() : void
     {
         $view = $this->getPrintView();
         $view->sendForm();
     }
 
-    public function printPostings()
+    public function printPostings() : void
     {
         $print_view = $this->getPrintView();
         $print_view->sendPrintView();

@@ -46,7 +46,7 @@ class ilObjLanguage extends ilObject
         $this->lang_default = $lng->lang_default;
         $this->lang_user = $lng->lang_user;
         $this->lang_path = $lng->lang_path;
-        $this->cust_lang_path = $lng->cust_lang_path;
+        $this->cust_lang_path = $lng->getCustomLangPath();
         $this->separator = $lng->separator;
         $this->comment_separator = $lng->comment_separator;
     }

@@ -38,14 +38,14 @@ class PrintProcessGUI
     /**
      * PrintViewGUI constructor.
      * @param PrintViewProvider $provider
-     * @param HTTPServices $http
+     * @param \ILIAS\HTTP\Services $http
      * @param UIServices   $ui
      * @param \ilLanguage  $lng
      * @param string|null  $body_class
      */
     public function __construct(
         PrintViewProvider $provider,
-        HTTPServices $http,
+        \ILIAS\HTTP\Services $http,
         UIServices $ui,
         \ilLanguage $lng,
         string $body_class = null

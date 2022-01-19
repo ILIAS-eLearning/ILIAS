@@ -6,6 +6,19 @@ use ILIAS\Filesystem\Finder\Finder;
 use ILIAS\Filesystem\MetadataType;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class FinderTest extends TestCase
 {
     /**
@@ -204,7 +217,7 @@ class FinderTest extends TestCase
         $fs
             ->expects($this->atLeast(1))
             ->method('getTimestamp')
-            ->will($this->returnCallback(function ($path) use ($now) {
+            ->will($this->returnCallback(function ($path) use ($now): \DateTimeImmutable {
                 switch ($path) {
                     case'file_1.txt':
                         return $now;
@@ -257,7 +270,7 @@ class FinderTest extends TestCase
 
         $fs->expects($this->atLeast(1))
             ->method('getSize')
-            ->will($this->returnCallback(function ($path) {
+            ->will($this->returnCallback(function ($path): \ILIAS\Data\DataSize {
                 switch ($path) {
                     case'file_1.txt':
                         return new DataSize(PHP_INT_MAX, DataSize::Byte);
@@ -317,7 +330,7 @@ class FinderTest extends TestCase
         $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
         $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
-        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) {
+        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right): int {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
                 return -1;
             }

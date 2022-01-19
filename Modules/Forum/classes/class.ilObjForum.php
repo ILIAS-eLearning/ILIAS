@@ -166,7 +166,7 @@ class ilObjForum extends ilObject
         }
         $unread = $num_posts - $count_read;
 
-        return $unread > 0 ? $unread : 0;
+        return max($unread, 0);
     }
 
     public function markThreadRead(int $a_usr_id, int $a_thread_id) : bool
@@ -232,7 +232,7 @@ class ilObjForum extends ilObject
 
     public function isRead($a_usr_id, $a_post_id) : bool
     {
-        $res = $this->db->query(
+        $res = $this->db->queryF(
             'SELECT * FROM frm_user_read WHERE usr_id = %s AND post_id = %s',
             ['integer', 'integer'],
             [$a_usr_id, $a_post_id]
@@ -626,7 +626,7 @@ class ilObjForum extends ilObject
         // news settings (public notifications yes/no)
         $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($ref_id);
         if ($default_visibility === 'public') {
-            ilBlockSetting::_write('news', 'public_notifications', 1, 0, $this->getId());
+            ilBlockSetting::_write('news', 'public_notifications', '1', 0, $this->getId());
         }
     }
 

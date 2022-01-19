@@ -86,7 +86,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
     protected function initFileName() : void
     {
         $this->file_name = basename($this->path);
-        if ($this->file_name === 'memory') { // in case the stream is ofString
+        if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
             $this->file_name = $this->getRevisionTitle();
         }
     }

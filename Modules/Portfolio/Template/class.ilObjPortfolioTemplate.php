@@ -1,25 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Portfolio
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjPortfolioTemplate extends ilObjPortfolioBase
 {
-    protected $activation_limited; // [bool]
-    protected $activation_visibility; // [bool]
-    protected $activation_starting_time; // [integer]
-    protected $activation_ending_time; // [integer]
+    protected bool $activation_limited;
+    protected bool $activation_visibility;
+    protected int $activation_starting_time;
+    protected int $activation_ending_time;
     
-    public function initType()
+    public function initType() : void
     {
         $this->type = "prtt";
     }
     
-    protected function doRead()
+    protected function doRead() : void
     {
         parent::doRead();
         
@@ -40,19 +49,19 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
         }
     }
     
-    protected function doCreate()
+    protected function doCreate() : void
     {
         parent::doCreate();
         $this->updateActivation();
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         parent::doUpdate();
         $this->updateActivation();
     }
     
-    protected function deleteAllPages()
+    protected function deleteAllPages() : void
     {
         // delete pages
         $pages = ilPortfolioTemplatePage::getAllPortfolioPages($this->id);
@@ -96,13 +105,13 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
     // ACTIVATION
     //
     
-    protected function updateActivation()
+    protected function updateActivation() : void
     {
         // moved activation to ilObjectActivation
         if ($this->ref_id) {
             ilObjectActivation::getItem($this->ref_id);
             
-            $item = new ilObjectActivation;
+            $item = new ilObjectActivation();
             if (!$this->isActivationLimited()) {
                 $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
             } else {
@@ -116,53 +125,53 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
         }
     }
     
-    public function isActivationLimited()
+    public function isActivationLimited() : bool
     {
-        return (bool) $this->activation_limited;
+        return $this->activation_limited;
     }
     
-    public function setActivationLimited($a_value)
+    public function setActivationLimited(bool $a_value) : void
     {
-        $this->activation_limited = (bool) $a_value;
+        $this->activation_limited = $a_value;
     }
     
-    public function setActivationVisibility($a_value)
+    public function setActivationVisibility(bool $a_value) : void
     {
-        $this->activation_visibility = (bool) $a_value;
+        $this->activation_visibility = $a_value;
     }
     
-    public function getActivationVisibility()
+    public function getActivationVisibility() : bool
     {
         return $this->activation_visibility;
     }
     
-    public function setActivationStartDate($starting_time = null)
+    public function setActivationStartDate(?int $starting_time = null) : void
     {
         $this->activation_starting_time = $starting_time;
     }
 
-    public function setActivationEndDate($ending_time = null)
+    public function setActivationEndDate(?int $ending_time = null) : void
     {
         $this->activation_ending_time = $ending_time;
     }
     
-    public function getActivationStartDate()
+    public function getActivationStartDate() : ?int
     {
         return (strlen($this->activation_starting_time)) ? $this->activation_starting_time : null;
     }
 
-    public function getActivationEndDate()
+    public function getActivationEndDate() : ?int
     {
         return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null;
     }
-    
     
     //
     // HELPER
     //
     
-    public static function getAvailablePortfolioTemplates($a_permission = "read")
-    {
+    public static function getAvailablePortfolioTemplates(
+        string $a_permission = "read"
+    ) : array {
         global $DIC;
 
         $ilUser = $DIC->user();

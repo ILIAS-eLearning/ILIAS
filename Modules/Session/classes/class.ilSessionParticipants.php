@@ -49,9 +49,9 @@ class ilSessionParticipants extends ilParticipants
     /**
      * Get instance
      * @param int $a_ref_id
-     * @return ilSessionParticipants
+     * @return ilParticipants
      */
-    public static function getInstance($a_ref_id)
+    public static function getInstance(int $a_ref_id) : ilParticipants
     {
         if (isset(self::$instances[$a_ref_id]) && self::$instances[$a_ref_id] instanceof self) {
             return self::$instances[$a_ref_id];
@@ -73,7 +73,7 @@ class ilSessionParticipants extends ilParticipants
      * @param int[] $a_usr_ids
      * @return boolean
      */
-    public function checkLastAdmin($a_usr_ids)
+    public function checkLastAdmin(array $a_usr_ids) : bool
     {
         return false;
     }
@@ -86,7 +86,7 @@ class ilSessionParticipants extends ilParticipants
      * @param int user id
      * @static
      */
-    public static function _isParticipant($a_ref_id, $a_usr_id)
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
     {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         return ilEventParticipants::_isRegistered($a_usr_id, $obj_id);
@@ -95,7 +95,7 @@ class ilSessionParticipants extends ilParticipants
     /**
      * read participant status
      */
-    public function readParticipantsStatus()
+    public function readParticipantsStatus() : void
     {
         $this->participants_status = array();
         foreach ($this->getMembers() as $mem_uid) {
@@ -111,7 +111,7 @@ class ilSessionParticipants extends ilParticipants
      * @param int $a_usr_id
      * @param int $a_role
      */
-    public function add($a_usr_id, $a_role = "")
+    public function add(int $a_usr_id, int $a_role = 0) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             return true;

@@ -11,12 +11,6 @@
 * @ingroup ServicesCalendar
 */
 
-include_once('./Services/Calendar/classes/class.ilDate.php');
-include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-include_once('./Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 
 class ilCalendarDayGUI extends ilCalendarViewGUI
@@ -24,44 +18,10 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
     protected $seed_info = array();
     protected $user_settings = null;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    
     protected $num_appointments = 1;
     
     protected $timezone = 'UTC';
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
 
     /**
      * Constructor
@@ -281,11 +241,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $this->showAppointment($app);
             }
             
-            if ($ilUser->prefs["screen_reader_optimization"]) {
-                // see #0022492
-                //$this->tpl->touchBlock('scrd_app_cell');
-            }
-            
             for ($i = ($colspan - 1);$i > $hour['apps_num'];$i--) {
                 $this->tpl->setCurrentBlock('empty_cell');
                 $this->tpl->setVariable('EMPTY_WIDTH', (100 / (int) ($colspan - 1)) . '%');
@@ -375,11 +330,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
         $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
 
-        if (!$ilUser->prefs["screen_reader_optimization"]) {
-            $event_tpl->setCurrentBlock('app');
-        } else {
-            $event_tpl->setCurrentBlock('scrd_app');
-        }
+        $event_tpl->setCurrentBlock('app');
 
         $this->tpl->setVariable('APP_ROWSPAN', $a_app['rowspan']);
         //$event_tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
@@ -394,18 +345,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 break;
         }
         
-        // add end time for screen readers
-        if ($ilUser->prefs["screen_reader_optimization"]) {
-            switch ($this->user_settings->getTimeFormat()) {
-                case ilCalendarSettings::TIME_FORMAT_24:
-                    $time .= "-" . $a_app['event']->getEnd()->get(IL_CAL_FKT_DATE, 'H:i', $this->timezone);
-                    break;
-                    
-                case ilCalendarSettings::TIME_FORMAT_12:
-                    $time .= "-" . $a_app['event']->getEnd()->get(IL_CAL_FKT_DATE, 'h:ia', $this->timezone);
-                    break;
-            }
-        }
 
         $shy = $this->getAppointmentShyButton($a_app['event'], $a_app['dstart'], "");
 
@@ -512,13 +451,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             } else {
                 $end = $app['end_info']['hours'] * 60 + $app['end_info']['minutes'];
             }
-            //$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
 
-            // set end to next hour for screen readers
-            if ($ilUser->prefs["screen_reader_optimization"]) {
-                $end = $start + $raster;
-            }
-            
             if ($start < $morning_aggr) {
                 $start = $morning_aggr;
             }
@@ -542,11 +475,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             $first = true;
             for ($i = $start;$i < $end;$i += $raster) {
                 if ($first) {
-                    if (!$ilUser->prefs["screen_reader_optimization"]) {
-                        $app['rowspan'] = ceil(($end - $start) / $raster);
-                    } else {  	// screen readers get always a rowspan of 1
-                        $app['rowspan'] = 1;
-                    }
+                    $app['rowspan'] = ceil(($end - $start) / $raster);
                     $hours[$i]['apps_start'][] = $app;
                     $first = false;
                 }
@@ -573,12 +502,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         foreach ($hours as $hour) {
             $colspan = max($colspan, $hour['apps_num'] + 1);
         }
-        
-        // screen reader: always two cols (time and event col)
-        if ($ilUser->prefs["screen_reader_optimization"]) {
-            $colspan = 2;
-        }
-        
+
         return max($colspan, 2);
     }
 }

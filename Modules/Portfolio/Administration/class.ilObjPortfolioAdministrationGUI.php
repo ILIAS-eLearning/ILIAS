@@ -1,39 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio Administration Settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilObjPortfolioAdministrationGUI: ilPermissionGUI, ilPortfolioRoleAssignmentGUI
  * @ilCtrl_IsCalledBy ilObjPortfolioAdministrationGUI: ilAdministrationGUI
  */
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilPortfolioDeclarationOfAuthorship$declaration_authorship;
 
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var ilPortfolioDeclarationOfAuthorship
-     */
-    protected $declaration_authorship;
-
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -51,13 +48,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("prtf");
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -85,16 +76,9 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $lng = $this->lng;
         $tabs = $this->tabs_gui;
@@ -127,39 +111,16 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         }
     }
 
-    
-    /**
-    * Edit settings.
-    */
-    public function editSettings($a_form = null)
+    public function editSettings($a_form = null) : void
     {
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
         $this->tabs_gui->activateTab('settings');
-        
-        /*
-        if ($ilSetting->get('user_portfolios'))
-        {
-            ilUtil::sendInfo($lng->txt("prtf_admin_toggle_info"));
-        }
-        else
-        {
-            ilUtil::sendInfo($lng->txt("prtf_admin_inactive_info"));
-        }
-        */
-        
         if (!$a_form) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
-        return true;
     }
 
-    /**
-    * Save settings
-    */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
@@ -181,46 +142,29 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
                 $ilCtrl->redirect($this, "editSettings");
             }
+            $form->setValuesByPost();
+            $this->editSettings($form);
         }
-        
-        $form->setValuesByPost();
-        $this->editSettings($form);
     }
 
-    /**
-    * Save settings
-    */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "view");
     }
 
-    /**
-     * Has write permission
-     * @return bool
-     */
-    protected function hasWritePermission()
+    protected function hasWritePermission() : bool
     {
         return $this->rbacsystem->checkAccess("write", $this->object->getRefId());
     }
 
-    /**
-     * Has read permission
-     * @return bool
-     */
-    protected function hasReadPermission()
+    protected function hasReadPermission() : bool
     {
         return $this->rbacsystem->checkAccess("read", $this->object->getRefId());
     }
 
-    /**
-     * Init settings property form
-     *
-     * @access protected
-     */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
@@ -288,7 +232,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         return $form;
     }
     
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(int $a_form_id) : array
     {
         $ilSetting = $this->settings;
         
@@ -299,16 +243,14 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 
                 return array(array("editSettings", $fields));
         }
+        return [];
     }
 
     //
     // Declaration of authorship
     //
 
-    /**
-     * Edit declaration of authorship
-     */
-    protected function editDeclarationOfAuthorship()
+    protected function editDeclarationOfAuthorship() : void
     {
         $main_tpl = $this->tpl;
         $renderer = $ui = $this->ui->renderer();
@@ -319,11 +261,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $main_tpl->setContent($renderer->render($form));
     }
 
-    /**
-     * Init authorship form.
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
-    public function initAuthorshipForm()
+    public function initAuthorshipForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -331,6 +269,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $lng = $this->lng;
 
         $lng->loadLanguageModule("meta");
+        $fields = [];
 
         foreach ($lng->getInstalledLanguages() as $l) {
             $txt = $lng->txt("meta_l_" . $l);
@@ -339,7 +278,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
             }
             $fields["decl_" . $l] = $f->input()->field()->textarea($txt)
                 ->withRequired(false)
-                ->withValue((string) $this->declaration_authorship->getForLanguage($l));
+                ->withValue($this->declaration_authorship->getForLanguage($l));
         }
 
         // section
@@ -349,10 +288,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    /**
-     * Save authorship
-     */
-    public function saveAuthorship()
+    public function saveAuthorship() : void
     {
         $request = $this->request;
         $form = $this->initAuthorshipForm();

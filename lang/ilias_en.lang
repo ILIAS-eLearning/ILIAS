@@ -2060,7 +2060,7 @@ common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -8003,8 +8003,6 @@ user#:#user_no_courses#:#No Courses Assigned
 user#:#user_no_groups#:#No Groups Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
 user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
-user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
@@ -14565,7 +14563,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
-common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.

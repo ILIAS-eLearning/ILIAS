@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -24,8 +24,6 @@
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 interface ilCalendarRecurrenceCalculation
@@ -33,68 +31,74 @@ interface ilCalendarRecurrenceCalculation
     /**
      * Get Frequence type of recurrence
      */
-    public function getFrequenceType();
+    public function getFrequenceType() : string;
 
     /**
      * Get timezone of recurrence
      */
-    public function getTimeZone();
+    public function getTimeZone() : string;
 
     /**
      * Get number of recurrences
      */
-    public function getFrequenceUntilCount();
+    public function getFrequenceUntilCount() : int;
 
 
     /**
      * Get end data of recurrence
      */
-    public function getFrequenceUntilDate();
+    public function getFrequenceUntilDate() : ?ilDate;
 
     /**
      * Get interval of recurrence
      */
-    public function getInterval();
+    public function getInterval() : int;
 
     /**
      * Get BYMONTHList
+     * @return int[] array of "by month" items: [1,12]
      */
-    public function getBYMONTHList();
+    public function getBYMONTHList() : array;
 
     /**
      * Get BYWEEKNOList
+     * @return int[] array of "by week no" items: [1,54]
      */
-    public function getBYWEEKNOList();
+    public function getBYWEEKNOList() : array;
 
     /**
      * Get BYYEARDAYLIST
+     * @return int[] array of "year day" items [1,365]
      */
-    public function getBYYEARDAYList();
+    public function getBYYEARDAYList() : array;
 
     /**
-     * GEt BYMONTHDAY List
+     * Get BYMONTHDAY List
+     * @return int[] array of "month day" items [1,31]
      */
-    public function getBYMONTHDAYList();
+    public function getBYMONTHDAYList() : array;
 
 
     /**
      * Get BYDAY List
+     * @return string[] array of "by month day" items: ['MO','TU']
      */
-    public function getBYDAYList();
+    public function getBYDAYList() : array;
 
     /**
      * Get BYSETPOS List
      */
-    public function getBYSETPOSList();
+    public function getBYSETPOSList() : array;
 
     /**
-     * Get exclusion dates
+     * Get exclusion date object
+     * @return ilCalendarRecurrenceExclusion[]
      */
-    public function getExclusionDates();
+    public function getExclusionDates() : array;
 
 
     /**
      * validate recurrence
      */
-    public function validate();
+    public function validate() : bool;
 }

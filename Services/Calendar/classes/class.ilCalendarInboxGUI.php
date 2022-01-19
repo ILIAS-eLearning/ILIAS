@@ -42,13 +42,6 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
     protected $user_settings = null;
-        
-    protected $lng;
-    protected $ctrl;
-    protected $tabs_gui;
-    protected $tpl;
-    protected $user;
-    protected $toolbar;
     protected $timezone = 'UTC';
 
     /**
@@ -77,7 +70,6 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
 
         $next_class = $ilCtrl->getNextClass();
         switch ($next_class) {
@@ -96,14 +88,14 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
                 $html = $this->ctrl->forwardCommand($cal_list);
                 // this fixes 0027035 since many methods ilCalendarAppointmentGUI set their own content.
                 if (strlen($html)) {
-                    $tpl->setContent($html);
+                    $this->main_tpl->setContent($html);
                 }
                 break;
 
             default:
                 $cmd = $this->ctrl->getCmd("inbox");
                 $this->$cmd();
-                $tpl->setContent($this->tpl->get());
+                $this->main_tpl->setContent($this->tpl->get());
                 break;
         }
         

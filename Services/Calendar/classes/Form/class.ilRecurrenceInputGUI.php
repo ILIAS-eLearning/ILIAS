@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -22,9 +22,6 @@
 */
 
 
-include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once './Services/Calendar/classes/class.ilCalendarRecurrence.php';
-
 /**
 * This class represents an input GUI for recurring events/appointments (course events or calendar appointments)
 *
@@ -36,13 +33,14 @@ include_once './Services/Calendar/classes/class.ilCalendarRecurrence.php';
 
 class ilRecurrenceInputGUI extends ilCustomInputGUI
 {
-    const REC_LIMITED = 2;
-    const REC_UNLIMITED = 1;
+    protected const REC_LIMITED = 2;
+    protected const REC_UNLIMITED = 1;
     
-    protected $recurrence;
-    protected $user_settings;
+    protected ilCalendarRecurrence $recurrence;
+    protected ilObjUser $user;
+    protected ilCalendarUserSettings $user_settings;
     
-    protected $allow_unlimited_recurrences = true;
+    protected bool $allow_unlimited_recurrences = true;
     
     protected $enabled_subforms = array(
         IL_CAL_FREQ_DAILY,
@@ -50,37 +48,21 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         IL_CAL_FREQ_MONTHLY,
         IL_CAL_FREQ_YEARLY);
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param string title
-     * @param string postvar
-     */
-    public function __construct($a_title, $a_postvar)
+
+    public function __construct(string $a_title, string $a_postvar)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilUser = $DIC['ilUser'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('dateplaner');
-
-        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-        $tpl->addJavascript("./Services/Calendar/js/recurrence_input.js");
-        
-        $this->setRecurrence(new ilCalendarRecurrence());
-        
+        $DIC->ui()->mainTemplate()->addJavaScript("./Services/Calendar/js/recurrence_input.js");
+        $this->user = $DIC->user();
+        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+        $this->recurrence = new ilCalendarRecurrence();
         parent::__construct($a_title, $a_postvar);
+        $this->lng->loadLanguageModule('dateplaner');
     }
-    
+
     /**
-     * check input
-     * @access public
-     * @param
-     * @return bool
+     * @inheritDoc
      */
     public function checkInput() : bool
     {
@@ -102,23 +84,14 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 return false;
             }
         }
-        
-
         return true;
     }
     
-    /**
-     * load recurrence settings
-     * @access protected
-     * @return
-     */
-    protected function loadRecurrence()
+    protected function loadRecurrence() : bool
     {
         if (!$this->getRecurrence() instanceof ilCalendarRecurrence) {
             return false;
         }
-        
-        
         switch ($_POST['frequence']) {
             case IL_CAL_FREQ_DAILY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
@@ -210,80 +183,50 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 }
                 break;
         }
-        
         return true;
     }
     
     
-    /**
-     * set recurrence object
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setRecurrence($a_rec)
+    public function setRecurrence(ilCalendarRecurrence $a_rec) : void
     {
         $this->recurrence = $a_rec;
     }
     
-    /**
-     * Get Recurrence
-     * @return ilCalendarRecurrence
-     */
-    public function getRecurrence()
+    public function getRecurrence() : ilCalendarRecurrence
     {
         return $this->recurrence;
     }
     
     /**
      * Allow unlimited recurrences
-     * @param object $a_status
-     * @return
      */
-    public function allowUnlimitedRecurrences($a_status)
+    public function allowUnlimitedRecurrences(bool $a_status) : void
     {
         $this->allow_unlimited_recurrences = $a_status;
     }
     
-    /**
-     * Check if unlimited recurrence is allowed
-     * @return
-     */
-    public function isUnlimitedRecurrenceAllowed()
+    public function isUnlimitedRecurrenceAllowed() : bool
     {
         return $this->allow_unlimited_recurrences;
     }
     
     /**
      * set enabled subforms
-     *
-     * @access public
      * @param array(IL_CAL_FREQ_DAILY,IL_CAL_FREQ_WEEKLY...)
-     * @return
+     * @return void
      */
-    public function setEnabledSubForms($a_sub_forms)
+    public function setEnabledSubForms(array $a_sub_forms) : void
     {
         $this->enabled_subforms = $a_sub_forms;
     }
     
-    /**
-     * get enabled subforms
-     *
-     * @access public
-     * @return
-     */
-    public function getEnabledSubForms()
+    public function getEnabledSubForms() : array
     {
         return $this->enabled_subforms;
     }
-    
+
     /**
-     * insert
-     *
-     * @access public
-     * @param
-     * @return
+     * @inheritDoc
      */
     public function insert(ilTemplate $a_tpl) : void
     {
@@ -359,11 +302,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     
     /**
      * build weekday checkboxes
-     *
-     * @access protected
-     * @param object tpl
      */
-    protected function buildWeekDaySelection($tpl)
+    protected function buildWeekDaySelection(ilTemplate $tpl) : void
     {
         $days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
         
@@ -374,7 +314,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             }
         }
         
-        for ($i = (int) $this->user_settings->getWeekStart();$i < 7 + (int) $this->user_settings->getWeekStart();$i++) {
+        for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $tpl->setCurrentBlock('byday_simple');
             
             if (in_array($days[$i], $checked_days)) {
@@ -390,12 +330,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     
     /**
      * build monthly by day list (e.g second monday)
-     *
-     * @access protected
-     * @param
-     * @return
      */
-    protected function buildMonthlyByDaySelection($tpl)
+    protected function buildMonthlyByDaySelection(ilTemplate $tpl) : void
     {
         $byday_list = $this->recurrence->getBYDAYList();
         $chosen_num_day = 1;
@@ -456,7 +392,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             
         $days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
         
-        for ($i = (int) $this->user_settings->getWeekStart();$i < 7 + (int) $this->user_settings->getWeekStart();$i++) {
+        for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $days_select[$days[$i]] = ilCalendarUtil::_numericDayToString($i);
         }
         $days_select[8] = $this->lng->txt('cal_weekday');
@@ -475,12 +411,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     
     /**
      * build monthly bymonthday selection
-     *
-     * @access protected
-     * @param
-     * @return
      */
-    protected function buildMonthlyByMonthDaySelection($tpl)
+    protected function buildMonthlyByMonthDaySelection(ilTemplate $tpl) : void
     {
         $tpl->setVariable('TXT_IN', $this->lng->txt('cal_in'));
         
@@ -498,7 +430,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         if ($chosen) {
             $tpl->setVariable('M_BYMONTHDAY_CHECKED', 'checked="checked"');
         }
-        
+        $options = [];
         for ($i = 1; $i < 32;$i++) {
             $options[$i] = $i;
         }
@@ -514,14 +446,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         ));
     }
     
-    /**
-     *
-     *
-     * @access protected
-     * @param objet tpl
-     * @return
-     */
-    protected function buildYearlyByMonthDaySelection($tpl)
+    protected function buildYearlyByMonthDaySelection(ilTemplate $tpl) : void
     {
         $tpl->setVariable('TXT_Y_EVERY', $this->lng->txt('cal_every'));
 
@@ -539,7 +464,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         foreach ($this->recurrence->getBYMONTHDAYList() as $day) {
             $chosen_day = $day;
         }
-            
+         $options = [];
         for ($i = 1; $i < 32;$i++) {
             $options[$i] = $i;
         }
@@ -575,14 +500,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         }
     }
     
-    /**
-     *
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function buildYearlyByDaySelection($tpl)
+    protected function buildYearlyByDaySelection(ilTemplate $tpl) : void
     {
         $tpl->setVariable('TXT_ON_THE', $this->lng->txt('cal_on_the'));
 
@@ -596,7 +514,6 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 $chosen_day = $parsed[2];
             }
         }
-
 
         $num_options = array(
             1 => $this->lng->txt('cal_first'),
@@ -619,7 +536,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             
         
         $days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
-        for ($i = (int) $this->user_settings->getWeekStart();$i < 7 + (int) $this->user_settings->getWeekStart();$i++) {
+        $days_select = [];
+        for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $days_select[$days[$i]] = ilCalendarUtil::_numericDayToString($i);
         }
         $tpl->setVariable('SELECT_BYDAY_DAY_YEARLY', ilUtil::formSelect(
@@ -661,12 +579,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     
     /**
      * build selection for ending date
-     *
-     * @access protected
-     * @param object tpl
-     * @return
      */
-    protected function buildUntilSelection($tpl)
+    protected function buildUntilSelection(ilTemplate $tpl) : void
     {
         if ($this->isUnlimitedRecurrenceAllowed()) {
             $tpl->setVariable('TXT_NO_ENDING', $this->lng->txt('cal_no_ending'));
@@ -675,8 +589,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         $tpl->setVariable('TXT_UNTIL_CREATE', $this->lng->txt('cal_create'));
         $tpl->setVariable('TXT_APPOINTMENTS', $this->lng->txt('cal_appointments'));
         
-        $tpl->setVariable('VAL_COUNT', $this->recurrence->getFrequenceUntilCount() ?
-            $this->recurrence->getFrequenceUntilCount() :
+        $tpl->setVariable('VAL_COUNT', $this->recurrence->getFrequenceUntilCount() ?:
             2);
             
         if ($this->recurrence->getFrequenceUntilDate()) {
@@ -692,7 +605,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         // no proper subform
         // $dt->setRequired(true);
         $dt->setDate(
-            $this->recurrence->getFrequenceUntilDate() ? $this->recurrence->getFrequenceUntilDate() : null
+            $this->recurrence->getFrequenceUntilDate() ?: null
         );
         $tpl->setVariable('UNTIL_END_DATE', $dt->getTableFilterHTML());
     }

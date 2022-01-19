@@ -1655,43 +1655,6 @@ class ilUtil
         exit;
     }
 
-    /**
-    *   deliver file for download via browser.
-    * @param $mime Mime of the file
-    * @param $isInline Set this to true, if the file shall be shown in browser
-    * @static
-    *
-    */
-    public static function deliverFile(
-        $a_file,
-        $a_filename,
-        $a_mime = '',
-        $isInline = false,
-        $removeAfterDelivery = false,
-        $a_exit_after = true
-    ) {
-        global $DIC;
-        // should we fail silently?
-        if (!file_exists($a_file)) {
-            return false;
-        }
-        $delivery = new ilFileDelivery($a_file);
-
-        if ($isInline) {
-            $delivery->setDisposition(ilFileDelivery::DISP_INLINE);
-        } else {
-            $delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
-        }
-
-        if (strlen($a_mime)) {
-            $delivery->setMimeType($a_mime);
-        }
-
-        $delivery->setDownloadFileName($a_filename);
-        $delivery->setConvertFileNameToAsci((bool) !$DIC->clientIni()->readVariable('file_access', 'disable_ascii'));
-        $delivery->setDeleteFile($removeAfterDelivery);
-        $delivery->deliver();
-    }
 
 
     // convert utf8 to ascii filename
@@ -3475,9 +3438,9 @@ class ilUtil
     * Return current timestamp in Y-m-d H:i:s format
     *
     * @static
-    *
+    * @deprecated
     */
-    public static function now()
+    public static function now() : string
     {
         return date("Y-m-d H:i:s");
     }

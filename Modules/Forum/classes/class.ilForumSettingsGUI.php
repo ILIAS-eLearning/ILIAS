@@ -43,7 +43,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
         $this->ref_id = $this->parent_obj->object->getRefId();
-        $this->http_wrapper = $DIC->http()->wrapper();
+        $this->http_wrapper = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('style');
@@ -73,10 +73,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     false
                 );
 
-                $new_type = '';
-                if (isset($this->http->request()->getQueryParams()['new_type'])) {
-                    $new_type = $this->http->request()->getQueryParams()['new_type'];
-                }
+                $new_type = (string) ($this->dic->http()->request()->getQueryParams()['new_type'] ?? '');
                 if ($cmd === 'create' || $new_type === 'sty') {
                     $style_gui->setCreationMode();
                 }
@@ -237,7 +234,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
                             'cmd',
-                            $this->dic->refinery()->string()
+                            $this->dic->refinery()->kindlyTo()->string()
                         );
                     }
 

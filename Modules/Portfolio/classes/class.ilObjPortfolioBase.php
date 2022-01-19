@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio base
@@ -9,16 +20,19 @@
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
-    /**
-     * @var \ilSetting
-     */
-    protected $setting;
+    protected ilSetting $setting;
+    protected bool $online;
+    protected bool $comments;
+    protected string $bg_color;
+    protected string $font_color;
+    protected string $img;
+    protected string $ppic;
+    protected bool $style;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_id = 0, $a_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_reference = true
+    ) {
         global $DIC;
         parent::__construct($a_id, $a_reference);
 
@@ -27,45 +41,22 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->db = $DIC->database();
     }
 
-    protected $online; // [bool]
-    protected $comments; // [bool]
-    protected $bg_color; // [string]
-    protected $font_color; // [string]
-    protected $img; // [string]
-    protected $ppic; // [string]
-    protected $style; // [bool]
-
 
     //
     // PROPERTIES
     //
 
-    /**
-     * Set online status
-     *
-     * @param bool $a_value
-     */
-    public function setOnline($a_value)
+    public function setOnline(bool $a_value) : void
     {
-        $this->online = (bool) $a_value;
+        $this->online = $a_value;
     }
 
-    /**
-     * Is online?
-     *
-     * @return bool
-     */
-    public function isOnline()
+    public function isOnline() : bool
     {
         return $this->online;
     }
     
-    /**
-     * Is online?
-     *
-     * @return bool
-     */
-    public static function lookupOnline($a_id)
+    public static function lookupOnline(int $a_id) : bool
     {
         global $DIC;
 
@@ -78,52 +69,27 @@ abstract class ilObjPortfolioBase extends ilObject2
         return  (bool) $row["is_online"];
     }
     
-    /**
-     * Set public comments status
-     *
-     * @param bool $a_value
-     */
-    public function setPublicComments($a_value)
+    public function setPublicComments(bool $a_value) : void
     {
-        $this->comments = (bool) $a_value;
+        $this->comments = $a_value;
     }
 
-    /**
-     * Active public comments?
-     *
-     * @return bool
-     */
-    public function hasPublicComments()
+    public function hasPublicComments() : bool
     {
         return $this->comments;
     }
-    
-    /**
-     * Get profile picture status
-     *
-     * @return bool
-     */
-    public function hasProfilePicture()
+
+    public function hasProfilePicture() : bool
     {
         return $this->ppic;
     }
 
-    /**
-     * Toggle profile picture status
-     *
-     * @param bool $a_status
-     */
-    public function setProfilePicture($a_status)
+    public function setProfilePicture(bool $a_status) : void
     {
-        $this->ppic = (bool) $a_status;
+        $this->ppic = $a_status;
     }
 
-    /**
-     * Get background color
-     *
-     * @return string
-     */
-    public function getBackgroundColor()
+    public function getBackgroundColor() : string
     {
         if (!$this->bg_color) {
             $this->bg_color = "ffffff";
@@ -132,21 +98,14 @@ abstract class ilObjPortfolioBase extends ilObject2
     }
 
     /**
-     * Set background color
-     *
-     * @param string $a_value
+     * Set background color, e.g. "efefef"
      */
-    public function setBackgroundColor($a_value)
+    public function setBackgroundColor(string $a_value) : void
     {
-        $this->bg_color = (string) $a_value;
+        $this->bg_color = $a_value;
     }
-    
-    /**
-     * Get font color
-     *
-     * @return string
-     */
-    public function getFontColor()
+
+    public function getFontColor() : string
     {
         if (!$this->font_color) {
             $this->font_color = "505050";
@@ -154,54 +113,35 @@ abstract class ilObjPortfolioBase extends ilObject2
         return $this->font_color;
     }
 
-    /**
-     * Set font color
-     *
-     * @param string $a_value
-     */
-    public function setFontColor($a_value)
+    public function setFontColor(string $a_value) : void
     {
-        $this->font_color = (string) $a_value;
+        $this->font_color = $a_value;
     }
     
     /**
      * Get banner image
-     *
-     * @return string
      */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->img;
     }
 
     /**
      * Set banner image
-     *
-     * @param string $a_value
      */
-    public function setImage($a_value)
+    public function setImage(string $a_value) : void
     {
-        $this->img = (string) $a_value;
+        $this->img = $a_value;
     }
     
-    /**
-     * Get style sheet id
-     *
-     * @return bool
-     */
-    public function getStyleSheetId()
+    public function getStyleSheetId() : int
     {
         return (int) $this->style;
     }
 
-    /**
-     * Set style sheet id
-     *
-     * @param int $a_style
-     */
-    public function setStyleSheetId($a_style)
+    public function setStyleSheetId(int $a_style) : void
     {
-        $this->style = (int) $a_style;
+        $this->style = $a_style;
     }
     
     
@@ -209,7 +149,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     // CRUD
     //
     
-    protected function doRead()
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -219,9 +159,9 @@ abstract class ilObjPortfolioBase extends ilObject2
         
         $this->setOnline((bool) $row["is_online"]);
         $this->setProfilePicture((bool) $row["ppic"]);
-        $this->setBackgroundColor($row["bg_color"]);
-        $this->setFontColor($row["font_color"]);
-        $this->setImage($row["img"]);
+        $this->setBackgroundColor((string) $row["bg_color"]);
+        $this->setFontColor((string) $row["font_color"]);
+        $this->setImage((string) $row["img"]);
         
         // #14661
         $this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
@@ -252,7 +192,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             "is_online" => array("integer", $this->isOnline()),
             "ppic" => array("integer", $this->hasProfilePicture()),
             "bg_color" => array("text", $this->getBackgroundColor()),
-            "font_color" => array("text", $this->getFontcolor()),
+            "font_color" => array("text", $this->getFontColor()),
             "img" => array("text", $this->getImage())
         );
         $this->doUpdateCustom($fields);
@@ -284,7 +224,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
     
-    abstract protected function deleteAllPages();
+    abstract protected function deleteAllPages() : void;
     
     
     //
@@ -293,11 +233,10 @@ abstract class ilObjPortfolioBase extends ilObject2
     
     /**
      * Get banner image incl. path
-     *
-     * @param bool $a_as_thumb
      */
-    public function getImageFullPath($a_as_thumb = false)
-    {
+    public function getImageFullPath(
+        bool $a_as_thumb = false
+    ) : string {
         if ($this->img) {
             $path = $this->initStorage($this->id);
             if (!$a_as_thumb) {
@@ -306,12 +245,13 @@ abstract class ilObjPortfolioBase extends ilObject2
                 return $path . "thb_" . $this->img;
             }
         }
+        return "";
     }
     
     /**
      * remove existing file
      */
-    public function deleteImage()
+    public function deleteImage() : void
     {
         if ($this->id) {
             $storage = new ilFSStoragePortfolio($this->id);
@@ -323,13 +263,11 @@ abstract class ilObjPortfolioBase extends ilObject2
         
     /**
      * Init file system storage
-     *
-     * @param type $a_id
-     * @param type $a_subdir
-     * @return string
      */
-    public static function initStorage($a_id, $a_subdir = null)
-    {
+    public static function initStorage(
+        int $a_id,
+        string $a_subdir = null
+    ) : string {
         $storage = new ilFSStoragePortfolio($a_id);
         $storage->create();
         
@@ -348,12 +286,10 @@ abstract class ilObjPortfolioBase extends ilObject2
     
     /**
      * Upload new image file
-     *
-     * @param array $a_upload
-     * @return bool
      */
-    public function uploadImage(array $a_upload)
-    {
+    public function uploadImage(
+        array $a_upload
+    ) : bool {
         if (!$this->id) {
             return false;
         }
@@ -404,8 +340,10 @@ abstract class ilObjPortfolioBase extends ilObject2
      * @param ilObjPortfolioBase $a_source
      * @param ilObjPortfolioBase $a_target
      */
-    protected static function cloneBasics(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target)
-    {
+    protected static function cloneBasics(
+        ilObjPortfolioBase $a_source,
+        ilObjPortfolioBase $a_target
+    ) : void {
         // copy portfolio properties
         $a_target->setPublicComments($a_source->hasPublicComments());
         $a_target->setProfilePicture($a_source->hasProfilePicture());
@@ -436,13 +374,13 @@ abstract class ilObjPortfolioBase extends ilObject2
 
     /**
      * Build template from portfolio and vice versa
-     *
-     * @param ilObjPortfolioBase $a_source
-     * @param ilObjPortfolioBase $a_target
-     * @param array $a_recipe
      */
-    public static function clonePagesAndSettings(ilObjPortfolioBase $a_source, ilObjPortfolioBase $a_target, array $a_recipe = null, $copy_all = false)
-    {
+    public static function clonePagesAndSettings(
+        ilObjPortfolioBase $a_source,
+        ilObjPortfolioBase $a_target,
+        ?array $a_recipe = null,
+        bool $copy_all = false
+    ) : void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -519,7 +457,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $valid = false;
             switch ($page_type) {
                 // blog => blog template
-                case ilPortfolioTemplatePage::TYPE_BLOG:
+                case ilPortfolioPage::TYPE_BLOG:
                     if ($direction == "p2t") {
                         $page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
                         $page_title = $lng->txt("obj_blog") . " " . (++$blog_count);
@@ -625,8 +563,12 @@ abstract class ilObjPortfolioBase extends ilObject2
         ilPortfolioPage::updateInternalLinks($page_map, $a_target);
     }
         
-    protected static function updateDomNodes($a_dom, $a_xpath, $a_attr_id, $a_attr_value)
-    {
+    protected static function updateDomNodes(
+        DOMDocument $a_dom,
+        string $a_xpath,
+        string $a_attr_id,
+        string $a_attr_value
+    ) : void {
         $xpath_temp = new DOMXPath($a_dom);
         $nodes = $xpath_temp->query($a_xpath);
         foreach ($nodes as $node) {
@@ -634,7 +576,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         }
     }
     
-    protected static function createBlogInPersonalWorkspace($a_title)
+    protected static function createBlogInPersonalWorkspace(string $a_title) : int
     {
         global $DIC;
 
@@ -666,11 +608,9 @@ abstract class ilObjPortfolioBase extends ilObject2
     }
 
     /**
-     * Fix internal portfolio links
-     *
-     * @param array
+     * Update internal portfolio links on title change
      */
-    public function fixLinksOnTitleChange($a_title_changes)
+    public function fixLinksOnTitleChange(array $a_title_changes) : void
     {
         foreach (ilPortfolioPage::getAllPortfolioPages($this->getId()) as $port_page) {
             if ($this->getType() == "prtt") {

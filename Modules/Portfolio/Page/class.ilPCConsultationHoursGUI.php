@@ -1,27 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCConsultationHoursGUI
- *
  * Handles user commands on consultation hour data
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPCConsultationHoursGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -31,10 +37,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -44,19 +47,15 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = &$this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
      * Insert consultation hours form
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function insert(ilPropertyFormGUI $a_form = null)
+    public function insert(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
 
@@ -70,10 +69,8 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 
     /**
      * Edit consultation hours form
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function edit(ilPropertyFormGUI $a_form = null)
+    public function edit(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
 
@@ -87,15 +84,13 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 
     /**
      * Init consultation hours form
-     *
-     * @param bool $a_insert
-     * @return ilPropertyFormGUI
      */
-    protected function initForm($a_insert = false)
+    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        $lng = $this->lng;
+
+        $groups = null;
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -157,10 +152,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         return $form;
     }
 
-    /**
-    * Create new consultation hours
-    */
-    public function create()
+    public function create() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -180,13 +172,10 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         }
 
         $form->setValuesByPost();
-        return $this->insert($form);
+        $this->insert($form);
     }
 
-    /**
-    * Update consultation hours
-    */
-    public function update()
+    public function update() : void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -205,6 +194,6 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 
         $this->pg_obj->addHierIDs();
         $form->setValuesByPost();
-        return $this->edit($form);
+        $this->edit($form);
     }
 }

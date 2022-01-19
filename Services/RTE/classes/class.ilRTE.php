@@ -111,10 +111,10 @@ class ilRTE
     {
         $editor = ilObjAdvancedEditing::_getRichTextEditor();
         if (strtolower($editor) === 'tinymce') {
-            return 'ilTinyMCE';
+            return ilTinyMCE::class;
         }
 
-        return 'ilRTE';
+        return self::class;
     }
 
     /**

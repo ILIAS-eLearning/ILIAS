@@ -31,29 +31,24 @@ use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 class Services
 {
     use SingletonTrait;
-    
+
     private static ?Services $instance = null;
- 
+
     private ProviderFactory $provider_factory;
-    
+
+    public string $resource_version = '';
+
     /**
      * Services constructor.
      * @param ProviderFactory $provider_factory
+     * @param string          $resource_version
      */
-    public function __construct(ProviderFactory $provider_factory)
+    public function __construct(ProviderFactory $provider_factory, string $resource_version = '')
     {
         $this->provider_factory = $provider_factory;
+        $this->resource_version = $resource_version;
     }
-    
-    public static function getInstance(ProviderFactory $provider_factory): Services
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self($provider_factory);
-        }
-        
-        return self::$instance;
-    }
-    
+
     /**
      * @return MainMenuItemFactory
      * @see MainMenuItemFactory
@@ -62,7 +57,7 @@ class Services
     {
         return $this->get(MainMenuItemFactory::class);
     }
-    
+
     /**
      * @return MetaBarItemFactory
      */
@@ -70,7 +65,7 @@ class Services
     {
         return $this->get(MetaBarItemFactory::class);
     }
-    
+
     /**
      * @return ToolServices
      * @see ToolServices
@@ -79,15 +74,15 @@ class Services
     {
         return $this->get(ToolServices::class);
     }
-    
+
     /**
      * @return LayoutServices
      */
     public function layout() : LayoutServices
     {
-        return $this->get(LayoutServices::class);
+        return $this->getWithArgument(LayoutServices::class, $this->resource_version);
     }
-    
+
     /**
      * @return NotificationServices
      */
@@ -95,7 +90,7 @@ class Services
     {
         return $this->get(NotificationServices::class);
     }
-    
+
     /**
      * @return CollectorFactory
      */
@@ -103,7 +98,7 @@ class Services
     {
         return $this->getWithArgument(CollectorFactory::class, $this->provider_factory);
     }
-    
+
     /**
      * @return IdentificationFactory
      * @see IdentificationFactory

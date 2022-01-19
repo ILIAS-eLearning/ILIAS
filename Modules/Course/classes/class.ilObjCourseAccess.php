@@ -81,7 +81,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         if ($a_user_id == "") {
             $a_user_id = $ilUser->getId();
         }
-        
         if ($ilUser->getId() == $a_user_id) {
             $participants = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $a_user_id);
         } else {
@@ -257,7 +256,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * Lookup view mode. This is placed here to the need that ilObjFolder must
      * always instantiate a Course object.
-     * @return
+     * @return int
      * @param int $a_id
      */
     public static function _lookupViewMode($a_id)
@@ -271,7 +270,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->view_mode;
         }
-        return false;
+        return ilContainer::VIEW_DEFAULT;
     }
     
     /**
@@ -462,7 +461,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         $lng->loadLanguageModule("crs");
         
-        ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
+        ilCourseWaitingList::_preloadOnListInfo([$ilUser->getId()], $a_obj_ids);
         
         $repository = new ilUserCertificateRepository();
         $coursePreload = new ilCertificateObjectsForUserPreloader($repository);

@@ -1517,6 +1517,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      */
     public function exportHTML($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
     {
+        throw new ilException("Deprecated Feature");
+        /*
         $this->exportHTMLScoObjects($a_inst, $a_target_dir, $expLog, $a_one_file);
 
         if ($a_one_file == "") {
@@ -1531,7 +1533,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $fs_gui->setSideFrameName("toc");
             $output = $fs_gui->get();
             fputs(fopen($a_target_dir . '/index.html', 'w+'), $output);
-            
+
             $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
             $xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
             $args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
@@ -1541,6 +1543,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             fputs(fopen($a_target_dir . '/toc.html', 'w+'), $output);
         }
         //		$a_xml_writer->_XmlWriter;
+        */
     }
 
     /**

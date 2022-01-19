@@ -228,7 +228,6 @@ class ilUserFormSettings
     
     /**
      * Delete all entries for prefix
-     * @param type $a_prefix
      */
     public static function deleteAllForPrefix($a_prefix)
     {

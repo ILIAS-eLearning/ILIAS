@@ -344,7 +344,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         if ($udf_ids) {
             $data = ilUserDefinedData::lookupData($ls_participants, $udf_ids);
             foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
+                if (!$this->checkAcceptance((int) $usr_id)) {
                     continue;
                 }
 

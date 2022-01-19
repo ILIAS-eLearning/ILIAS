@@ -1,27 +1,17 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Parent object for all SCORM objects, that are stored in table scorm_object
 *
@@ -212,41 +202,23 @@ class ilSCORMObject
         $sc_rec = $ilDB->fetchAssoc($sc_set);
             
         switch ($sc_rec["c_type"]) {
-            case "sit":					// item
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-                $item = new ilSCORMItem($a_id);
+            case "sit":					$item = new ilSCORMItem($a_id);
                 return $item;
-                break;
 
-            case "sos":					// organizations
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizations.php");
-                $sos = new ilSCORMOrganizations($a_id);
+            case "sos":					$sos = new ilSCORMOrganizations($a_id);
                 return $sos;
-                break;
 
-            case "sor":					// organization
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganization.php");
-                $sor = new ilSCORMOrganization($a_id);
+            case "sor":					$sor = new ilSCORMOrganization($a_id);
                 return $sor;
-                break;
 
-            case "sma":					// manifest
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMManifest.php");
-                $sma = new ilSCORMManifest($a_id);
+            case "sma":					$sma = new ilSCORMManifest($a_id);
                 return $sma;
-                break;
 
-            case "srs":					// resources
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResources.php");
-                $srs = new ilSCORMResources($a_id);
+            case "srs":					$srs = new ilSCORMResources($a_id);
                 return $srs;
-                break;
 
-            case "sre":					// resource
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-                $sre = new ilSCORMResource($a_id);
+            case "sre":					$sre = new ilSCORMResource($a_id);
                 return $sre;
-                break;
         }
     }
 }

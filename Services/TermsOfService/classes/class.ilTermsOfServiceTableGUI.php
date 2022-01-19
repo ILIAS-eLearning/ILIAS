@@ -18,7 +18,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
         $columns = $this->getColumnDefinition();
         $this->optionalColumns = $this->getSelectableColumns();
-        $this->visibleOptionalColumns = (array) $this->getSelectedColumns();
+        $this->visibleOptionalColumns = $this->getSelectedColumns();
 
         foreach ($columns as $index => $column) {
             if ($this->isColumnVisible($index)) {
@@ -153,7 +153,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         }
 
         $this->determineSelectedFilters();
-        $filter = (array) $this->filter;
+        $filter = $this->filter;
 
         foreach ($this->optional_filter as $key => $value) {
             if ($this->isFilterSelected($key)) {

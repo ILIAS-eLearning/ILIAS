@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiLrsTypesTableGUI
  *
@@ -16,7 +26,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
 {
     const TABLE_ID = 'cmix_lrs_types_table';
     
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -32,7 +42,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         $this->initColumns();
     }
     
-    protected function initColumns()
+    protected function initColumns(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -57,7 +67,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         return $DIC->language()->txt('conf_availability_' . $availability);
     }
     
-    protected function getActionsList($data)
+    protected function getActionsList($data): \ilAdvancedSelectionListGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

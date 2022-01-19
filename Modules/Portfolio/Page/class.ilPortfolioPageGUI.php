@@ -1,35 +1,47 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Portfolio page gui class
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilObjBlogGUI, ilBlogPostingGUI
  * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI, ilLearningHistoryGUI
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
+    public const EMBEDDED_NO_OUTPUT = -99;
+    protected bool $enable_comments;
+    protected int $portfolio_id;
+    protected \ILIAS\Portfolio\StandardGUIRequest $port_request;
+
     protected bool $embedded = false;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
-
-    const EMBEDDED_NO_OUTPUT = -99;
-    
     protected array $js_onload_code = array();
     protected array $additional = array();
     protected array $export_material = array("js" => array(), "images" => array(), "files" => array());
     protected static int $initialized = 0;
     protected int $requested_ppage;
     
-    /**
-     * Constructor
-     */
-    public function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0, $a_enable_comments = true)
-    {
+    public function __construct(
+        int $a_portfolio_id,
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        bool $a_enable_comments = true
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -40,9 +52,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
         $tpl = $DIC["tpl"];
+        $this->port_request = $DIC->portfolio()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
-        $this->portfolio_id = (int) $a_portfolio_id;
-        $this->enable_comments = (bool) $a_enable_comments;
+        $this->portfolio_id = $a_portfolio_id;
+        $this->enable_comments = $a_enable_comments;
         
         parent::__construct($this->getParentType(), $a_id, $a_old_nr);
         $this->getPageObject()->setPortfolioId($this->portfolio_id);
@@ -67,7 +83,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         );
         $tpl->parseCurrentBlock();
 
-        $this->requested_ppage = (int) $_GET["ppage"];
+        $this->requested_ppage = $this->port_request->getPortfolioPageId();
     }
     
     public function getParentType() : string
@@ -80,10 +96,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         // user id from content-xml
         return $a_user_id;
     }
+
+    protected function getPortfolioPage() : ilPortfolioPage
+    {
+        /** @var ilPortfolioPage $page */
+        $page = $this->getPageObject();
+        return $page;
+    }
     
-    /**
-     * execute command
-     */
     public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
@@ -99,7 +119,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 $blog_obj_id = (int) $this->getPageObject()->getTitle();
                 $blog_node_id = $wsp_tree->lookupNodeId($blog_obj_id);
                     
-                $blog_gui = new ilObjBlogGUI($blog_node_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
+                $blog_gui = new ilObjBlogGUI($blog_node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $blog_gui->disableNotes(!$this->enable_comments);
                 $blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
                 return $ilCtrl->forwardCommand($blog_gui);
@@ -109,14 +129,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 if ($cmd && $cmd != "preview") {
                     $categories = ilCalendarCategories::_getInstance();
                     if ($categories->getMode() == 0) {
-                        if ($_GET['chuid']) {
-                            $categories->setCHUserId((int) $_GET['chuid']);
+                        $chuid = $this->port_request->getConsultationHourUserId();
+                        if ($chuid > 0) {
+                            $categories->setCHUserId($chuid);
                         }
                         $categories->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
                     }
-                    
-                    if ($_GET['seed']) {
-                        $seed = new ilDate((string) $_GET['seed'], IL_CAL_DATE);
+
+                    $req_seed = $this->port_request->getCalendarSeed();
+                    if ($req_seed != "") {
+                        $seed = new ilDate($req_seed, IL_CAL_DATE);
                     } else {
                         $seed = new ilDate(time(), IL_CAL_UNIX);
                     }
@@ -137,10 +159,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
     }
     
-    /**
-     * Show page
-     * @return	string	page output
-     */
     public function showPage() : string
     {
         $ilUser = $this->user;
@@ -162,11 +180,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
     }
 
-    /**
-     * Set all tabs
-     * @param
-     * @return void
-     */
     public function getTabs(string $a_activate = "") : void
     {
         if (!$this->embedded) {
@@ -176,35 +189,29 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     
     /**
      * Set embedded mode: will suppress tabs
-     *
-     * @param bool $a_value
      */
-    public function setEmbedded($a_value)
+    public function setEmbedded(bool $a_value) : void
     {
-        $this->embedded = (bool) $a_value;
+        $this->embedded = $a_value;
     }
     
     /**
-    * Set Additonal Information.
-    *
-    * @param	array	$a_additional	Additonal Information
-    */
-    public function setAdditional($a_additional)
+     * Set Additonal Information.
+     */
+    public function setAdditional(array $a_additional) : void
     {
         $this->additional = $a_additional;
     }
 
     /**
-    * Get Additonal Information.
-    *
-    * @return	array	Additonal Information
-    */
-    public function getAdditional()
+     * Get Additonal Information.
+     */
+    public function getAdditional() : array
     {
         return $this->additional;
     }
     
-    public function getJsOnloadCode()
+    public function getJsOnloadCode() : array
     {
         return $this->js_onload_code;
     }
@@ -292,13 +299,18 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $a_output;
     }
     
-    protected function renderPageElement($a_type, $a_html)
-    {
+    protected function renderPageElement(
+        string $a_type,
+        string $a_html
+    ) : string {
         return trim($a_html);
     }
     
-    protected function renderTeaser($a_type, $a_title, $a_options = null)
-    {
+    protected function renderTeaser(
+        string $a_type,
+        string $a_title,
+        string $a_options = ""
+    ) : string {
         $options = "";
         if ($a_options) {
             $options = '<div class="il_Footer">' . $this->lng->txt("prtf_page_element_teaser_settings") .
@@ -310,23 +322,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $options . '</div>';
     }
     
-    protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
-    {
+    protected function renderProfile(
+        int $a_user_id,
+        string $a_type,
+        array $a_fields = null
+    ) : string {
         $ilCtrl = $this->ctrl;
         
         $user_id = $this->getPageContentUserId($a_user_id);
 
-        /*
-        if($this->getOutputMode() == "offline")
-        {
-            // profile picture is done in ilPortfolioHTMLExport
-
-            $this->export_material["js"][] = "http://maps.google.com/maps/api/js?sensor=false";
-            $this->export_material["js"][] = "./Services/Maps/js/ServiceGoogleMaps.js";
-            $this->export_material["js"][] = "./Services/Maps/js/OpenLayers.js";
-            $this->export_material["js"][] = "./Services/Maps/js/ServiceOpenLayers.js";
-        }*/
-        
         $pub_profile = new ilPublicUserProfileGUI($user_id);
         $pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
         
@@ -353,14 +357,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     }
 
     /**
-     * @param $a_user_id
-     * @param $a_type
-     * @param $a_id
-     * @return string
      * @throws ilException
      */
-    protected function renderVerification($a_user_id, $a_type, $a_id)
-    {
+    protected function renderVerification(
+        int $a_user_id,
+        string $a_type,
+        int $a_id
+    ) : string {
         $objDefinition = $this->obj_definition;
 
         $outputMode = $this->getOutputMode();
@@ -417,71 +420,74 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $verification->render(true, $url);
     }
     
-    protected function dltstv()
+    protected function dltstv() : void
     {
-        $id = $_GET["dlid"];
+        $id = $this->port_request->getVerificationId();
         if ($id) {
             $verification = new ilObjTestVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $verification->downloadFromPortfolioPage($this->getPageObject());
+            $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
     
-    protected function dlexcv()
+    protected function dlexcv() : void
     {
-        $id = $_GET["dlid"];
+        $id = $this->port_request->getVerificationId();
         if ($id) {
             $verification = new ilObjExerciseVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $verification->downloadFromPortfolioPage($this->getPageObject());
+            $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
     
-    protected function dlcrsv()
+    protected function dlcrsv() : void
     {
-        $id = $_GET["dlid"];
+        $id = $this->port_request->getVerificationId();
         if ($id) {
             $verification = new ilObjCourseVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $verification->downloadFromPortfolioPage($this->getPageObject());
+            $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
 
-    protected function dlcmxv()
+    protected function dlcmxv() : void
     {
-        $id = $_GET["dlid"];
+        $id = $this->port_request->getVerificationId();
         if ($id) {
             $verification = new ilObjCmiXapiVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $verification->downloadFromPortfolioPage($this->getPageObject());
+            $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
 
-    protected function dlltiv()
+    protected function dlltiv() : void
     {
-        $id = $_GET["dlid"];
+        $id = $this->port_request->getVerificationId();
         if ($id) {
             $verification = new ilObjLTIConsumerVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $verification->downloadFromPortfolioPage($this->getPageObject());
+            $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
 
-    protected function dlscov()
+    protected function dlscov() : void
     {
-        $id = $_GET["dlid"];
+        $id = $this->port_request->getVerificationId();
         if ($id) {
             $verification = new ilObjSCORMVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-            $verification->downloadFromPortfolioPage($this->getPageObject());
+            $verification->downloadFromPortfolioPage($this->getPortfolioPage());
         }
     }
 
-    protected function dlcrta()
+    protected function dlcrta() : void
     {
-        $objectId = $_GET["dlid"];
+        $objectId = $this->port_request->getVerificationId();
         if ($objectId) {
             $object = new ilObjPersistentCertificateVerificationGUI();
-            $object->downloadFromPortfolioPage($this->getPageObject(), $objectId, $this->user->getId());
+            $object->downloadFromPortfolioPage($this->getPortfolioPage(), $objectId, $this->user->getId());
         }
     }
 
-    protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
-    {
+    protected function renderBlog(
+        int $a_user_id,
+        int $a_blog_id,
+        array $a_posting_ids = null
+    ) : string {
         $ilCtrl = $this->ctrl;
                 
         // not used
@@ -490,7 +496,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         // full blog (separate tab/page)
         if (!$a_posting_ids) {
             if (ilObject::_lookupType($a_blog_id) != "blog") {
-                return;
+                return "";
             }
             $blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
             $blog->disableNotes(!$this->enable_comments);
@@ -498,7 +504,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             
             if ($this->getOutputMode() != "offline") {
                 return $ilCtrl->getHTML($blog);
-            } else {
             }
         }
         // embedded postings
@@ -519,10 +524,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             
             return implode("\n", $html);
         }
+        return "";
     }
     
-    protected function renderBlogTeaser($a_user_id, $a_blog_id, array $a_posting_ids = null)
-    {
+    protected function renderBlogTeaser(
+        int $a_user_id,
+        int $a_blog_id,
+        array $a_posting_ids = null
+    ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
         
@@ -542,8 +551,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             ilObject::_lookupTitle($a_blog_id) . '"', $postings);
     }
     
-    protected function renderSkills($a_user_id, $a_skills_id)
-    {
+    protected function renderSkills(
+        int $a_user_id,
+        int $a_skills_id
+    ) : string {
         if ($this->getOutputMode() == "preview") {
             return $this->renderSkillsTeaser($a_user_id, $a_skills_id);
         }
@@ -559,8 +570,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $html;
     }
     
-    protected function renderSkillsTeaser($a_user_id, $a_skills_id)
-    {
+    protected function renderSkillsTeaser(
+        int $a_user_id,
+        int $a_skills_id
+    ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
         
@@ -568,8 +581,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             ilSkillTreeNode::_lookupTitle($a_skills_id) . '"');
     }
     
-    protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
-    {
+    protected function renderConsultationHoursTeaser(
+        int $a_user_id,
+        string $a_mode,
+        array $a_group_ids
+    ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
         
@@ -594,8 +610,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         );
     }
     
-    protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
-    {
+    protected function renderConsultationHours(
+        int $a_user_id,
+        string $a_mode,
+        array $a_group_ids
+    ) : string {
         $ilUser = $this->user;
         
         if ($this->getOutputMode() == "preview") {
@@ -603,18 +622,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
         
         if ($this->getOutputMode() == "offline") {
-            return;
+            return "";
         }
 
         if ($this->getOutputMode() == "print") {
-            return;
+            return "";
         }
 
         $user_id = $this->getPageContentUserId($a_user_id);
         
         // only if not owner
         if ($ilUser->getId() != $user_id) {
-            $_GET["bkid"] = $user_id;
+            //$_GET["bkid"] = $user_id;
+            throw new ilException('Setting $_GET["bkid"] not supported.');
         }
         
         if ($a_mode != "manual") {
@@ -623,11 +643,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         
         ilCalendarCategories::_getInstance()->setCHUserId($user_id);
         ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
-        
-        if (!$_REQUEST["seed"]) {
+
+        $seed = $this->port_request->getCalendarSeed();
+        if ($seed == "") {
             $seed = new ilDate(time(), IL_CAL_UNIX);
         } else {
-            $seed = new ilDate($_REQUEST["seed"], IL_CAL_DATE);
+            $seed = new ilDate($seed, IL_CAL_DATE);
         }
         
         $month_gui = new ilCalendarMonthGUI($seed);
@@ -644,14 +665,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $this->ctrl->getHTML($month_gui);
     }
     
-    protected function isMyCoursesActive()
+    protected function isMyCoursesActive() : bool
     {
         $prfa_set = new ilSetting("prfa");
         return (bool) $prfa_set->get("mycrs", true);
     }
     
-    protected function renderMyCoursesTeaser($a_user_id, $a_default_sorting)
-    {
+    protected function renderMyCoursesTeaser(
+        int $a_user_id,
+        $a_default_sorting
+    ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
 
@@ -665,8 +688,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         );
     }
     
-    protected function renderMyCourses($a_user_id, $a_default_sorting)
-    {
+    protected function renderMyCourses(
+        int $a_user_id,
+        string $a_default_sorting
+    ) : string {
         $ilAccess = $this->access;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -676,7 +701,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
         
         if (!$this->isMyCoursesActive()) {
-            return;
+            return "";
         }
         
         $img_path = null;
@@ -684,9 +709,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $user_id = $this->getPageContentUserId($a_user_id);
         
         // sorting pref
-        if ($_POST["srt"] &&
-            in_array($_POST["srt"], array("alpha", "loc"))) {
-            $ilUser->writePref("prtf_mcrs_sort", $_POST["srt"]);
+        $req_sorting = $this->port_request->getCourseSorting();
+        if (in_array($req_sorting, array("alpha", "loc"))) {
+            $ilUser->writePref("prtf_mcrs_sort", $req_sorting);
         }
         $sorting = $ilUser->getPref("prtf_mcrs_sort");
         if (!$sorting) {
@@ -781,7 +806,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             
                             if (trim($objtv["desc"])) {
                                 $desc = nl2br($objtv["desc"]);
-                                $tt_id = "objtvtt_" . $objtv["id"] . "_" . ((int) self::$initialized);
+                                $tt_id = "objtvtt_" . $objtv["id"] . "_" . (self::$initialized);
 
                                 ilTooltipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
                                 
@@ -790,13 +815,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             
                             $tpl->setVariable("OBJECTIVE_LINK_URL", $url);
                             $tpl->setVariable("OBJECTIVE_LINK_TITLE", $objtv["title"]);
-                            $tpl->parseCurrentBlock();
                         } else {
                             $tpl->setCurrentBlock("objective_nolink_bl");
                             $tpl->setVariable("OBJECTIVE_NOLINK_TITLE", $objtv["title"]);
-                            $tpl->parseCurrentBlock();
                         }
-                        
+                        $tpl->parseCurrentBlock();
+
                         $objtv_icon = ilUtil::getTypeIconPath("lobj", $objtv["id"]);
                         if ($img_path) {
                             $objtv_icon = $img_path . basename($objtv_icon);
@@ -809,7 +833,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         if ($objtv["type"]) {
                             $tpl->setVariable(
                                 "LP_OBJTV_PROGRESS",
-                                ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true, false, (int) self::$initialized)
+                                ilContainerObjectiveGUI::buildObjectiveProgressBar(
+                                    $has_initial_test,
+                                    $objtv["id"],
+                                    $objtv,
+                                    true,
+                                    false,
+                                    self::$initialized
+                                )
                             );
                         }
                         
@@ -826,13 +857,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     $tpl->setCurrentBlock("course_link_bl");
                     $tpl->setVariable("COURSE_LINK_TITLE", $course["title"]);
                     $tpl->setVariable("COURSE_LINK_URL", ilLink::_getLink($course["ref_id"]));
-                    $tpl->parseCurrentBlock();
                 } else {
                     $tpl->setCurrentBlock("course_nolink_bl");
                     $tpl->setVariable("COURSE_NOLINK_TITLE", $course["title"]);
-                    $tpl->parseCurrentBlock();
                 }
-                
+                $tpl->parseCurrentBlock();
+
                 $crs_icon = ilUtil::getTypeIconPath("crs", $course["obj_id"]);
                 if ($img_path) {
                     $crs_icon = $img_path . basename($crs_icon);
@@ -860,27 +890,26 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             
             return $tpl->get();
         }
+        return "";
     }
 
     /**
      * Get course sort action
-     *
-     * @param ilCtrl $ctrl
-     * @return string
      */
-    protected function getCourseSortAction($ctrl)
+    protected function getCourseSortAction(ilCtrl $ctrl) : string
     {
         return $ctrl->getFormActionByClass("ilobjportfoliogui", "preview");
     }
 
-    
-    protected function getCoursesOfUser($a_user_id, $a_add_path = false)
-    {
+    protected function getCoursesOfUser(
+        int $a_user_id,
+        bool $a_add_path = false
+    ) : array {
         $tree = $this->tree;
         
         // see ilPDSelectedItemsBlockGUI
         
-        $items = ilParticipants::_getMembershipByType($a_user_id, 'crs');
+        $items = ilParticipants::_getMembershipByType($a_user_id, ['crs']);
         
         $repo_title = $tree->getNodeData(ROOT_FOLDER_ID);
         $repo_title = $repo_title["title"];
@@ -956,8 +985,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $references;
     }
     
-    protected function parseObjectives($a_obj_id, $a_user_id)
-    {
+    protected function parseObjectives(
+        int $a_obj_id,
+        int $a_user_id
+    ) : array {
         $res = array();
         
         // we need the collection for the correct order
@@ -972,6 +1003,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $tmp = array();
 
             foreach ($coll_objtv as $objective_id) {
+                /** @var array $title */
                 $title = ilCourseObjective::lookupObjectiveTitle($objective_id, true);
 
                 $tmp[$objective_id] = array(
@@ -1003,9 +1035,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     }
     
     // see ilContainerObjectiveGUI::parseLOUserResults()
-    protected function parseLOUserResults($a_course_obj_id, $a_user_id)
-    {
+    protected function parseLOUserResults(
+        int $a_course_obj_id,
+        int $a_user_id
+    ) : array {
         $res = array();
+        $initial_status = "";
         
         $lur = new ilLOUserResults($a_course_obj_id, $a_user_id);
         foreach ($lur->getCourseResultsForUserPresentation() as $objective_id => $types) {
@@ -1032,24 +1067,18 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $res;
     }
     
-    public function getExportMaterial()
+    public function getExportMaterial() : array
     {
         return $this->export_material;
     }
 
-    /**
-     * Modify page content after xsl
-     *
-     * @param string $a_html
-     * @return string
-     */
-    public function makePlaceHoldersClickable($a_html)
+    public function makePlaceHoldersClickable(string $a_html) : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilUser = $this->user;
 
-        $c_pos = 0;
+        $end = 0;
         $start = strpos($a_html, "{{{{{PlaceHolder#");
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);
@@ -1083,7 +1112,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 && $this->getOutputMode() == "presentation") {
                 switch ($param[2]) {
                     case "Text":
-                        $ilCtrl->setParameterByClass("ilportfoliopagegui", "prt_id", $_GET["prt_id"]);
+                        $ilCtrl->setParameterByClass("ilportfoliopagegui", "prt_id", $this->port_request->getPortfolioId());
                         $ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $this->getId());
                         $ilCtrl->setParameterByClass("ilportfoliopagegui", "pl_pc_id", $param[0]);
                         $ilCtrl->setParameterByClass("ilportfoliopagegui", "pl_hier_id", $param[1]);
@@ -1092,7 +1121,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         break;
 
                     case "Media":
-                        $ilCtrl->setParameterByClass("ilpcmediaobjectgui", "prt_id", $_GET["prt_id"]);
+                        $ilCtrl->setParameterByClass("ilpcmediaobjectgui", "prt_id", $this->port_request->getPortfolioId());
                         $ilCtrl->setParameterByClass("ilpcmediaobjectgui", "ppage", $this->getId());
                         $ilCtrl->setParameterByClass("ilpcmediaobjectgui", "pl_pc_id", $param[0]);
                         $ilCtrl->setParameterByClass("ilpcmediaobjectgui", "pl_hier_id", $param[1]);
@@ -1102,7 +1131,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         break;
 
                     case "Verification":
-                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "prt_id", $_GET["prt_id"]);
+                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "prt_id", $this->port_request->getPortfolioId());
                         $ilCtrl->setParameterByClass("ilPCVerificationGUI", "ppage", $this->getId());
                         $ilCtrl->setParameterByClass("ilPCVerificationGUI", "pl_pc_id", $param[0]);
                         $ilCtrl->setParameterByClass("ilPCVerificationGUI", "pl_hier_id", $param[1]);
@@ -1128,12 +1157,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $a_html;
     }
 
-    /**
-     * Get view page link
-     *
-     * @param
-     * @return
-     */
     public function getViewPageLink() : string
     {
         global $DIC;
@@ -1156,14 +1179,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $href;
     }
 
-    /**
-     * @param $a_id
-     * @param $userCertificateRepository
-     * @param $url
-     * @return string
-     */
-    private function createPersistentCertificateUrl($a_id, $userCertificateRepository, $url) : string
-    {
+    private function createPersistentCertificateUrl(
+        int $a_id,
+        ilUserCertificateRepository $userCertificateRepository,
+        string $url
+    ) : string {
         $presentation = $userCertificateRepository->fetchActiveCertificateForPresentation($this->user->getId(), $a_id);
         $caption = $this->lng->txt('certificate') . ': ';
         $caption .= $this->lng->txt($presentation->getUserCertificate()->getObjType()) . ' ';
@@ -1172,10 +1192,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return '<div><a href="' . $url . '">' . $caption . '</a></div>';
     }
 
-    /**
-     * @return string
-     */
-    public function getCommentsHTMLExport()
+    public function getCommentsHTMLExport() : string
     {
         $notes_gui = new ilNoteGUI(
             $this->portfolio_id,

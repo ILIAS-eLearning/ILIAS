@@ -319,7 +319,7 @@ class ilUserCertificateGUI
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
-            if ($userCertificate->getUserId() !== (int) $user->getId()) {
+            if ($userCertificate->getUserId() !== $user->getId()) {
                 throw new ilException(sprintf(
                     'User "%s" tried to access certificate: "%s"',
                     $user->getLogin(),

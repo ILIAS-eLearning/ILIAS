@@ -15,6 +15,8 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     protected bool $hasAccessToMailSystem = false;
     protected bool $isChatEnabled = false;
     protected ilObjUser $user;
+    /** @var array<string, mixed>  */
+    protected array $filter = [];
 
     /**
      * @param object $a_parent_obj
@@ -98,9 +100,6 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $this->filter['public_name'] = $public_name->getValue();
     }
 
-    /**
-     *
-     */
     public function populate() : void
     {
         $this->setExternalSorting(false);
@@ -110,15 +109,15 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $relations = ilBuddyList::getInstanceByGlobalUser()->getRelations();
 
-        $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter) {
-            return !strlen($state_filter) || strtolower(get_class($relation->getState())) == strtolower($state_filter);
+        $state_filter = (string) ($this->filter[self::STATE_FILTER_ELM_ID] ?? '');
+        $relations = $relations->filter(static function (ilBuddySystemRelation $relation) use ($state_filter) : bool {
+            return $state_filter === '' || strtolower(get_class($relation->getState())) === strtolower($state_filter);
         });
 
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
         $logins = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
 
-        $logins = array_map(function ($value) {
+        $logins = array_map(static function (string $value) : string {
             $matches = null;
             preg_match_all('/\[([^\[]+?)\]/', $value, $matches);
             return (
@@ -129,7 +128,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             ) ? $matches[1][count($matches[1]) - 1] : '';
         }, $logins);
 
-        $public_name_query = (string) $this->filter['public_name'];
+        $public_name_query = (string) ($this->filter['public_name'] ?? '');
         $relations = $relations->filter(static function (ilBuddySystemRelation $relation) use (
             $public_name_query,
             $relations,
@@ -210,7 +209,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $listener_tpl->setVariable('FILTER_ELM_ID', self::STATE_FILTER_ELM_ID);
         $listener_tpl->setVariable(
             'NO_ENTRIES_TEXT',
-            $this->getNoEntriesText() ? $this->getNoEntriesText() : $this->lng->txt('no_items')
+            $this->getNoEntriesText() ?: $this->lng->txt('no_items')
         );
 
         return parent::render() . $listener_tpl->get();

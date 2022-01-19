@@ -79,7 +79,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         foreach (ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING as $prop => $lv) {
             $up_prop = strtoupper($prop);
 
-            if (($prop != "searchable" && $a_set[$prop . "_hide"] != true) ||
+            if (($prop != "searchable" && ($a_set[$prop . "_hide"] ?? false) != true) ||
                 ($prop == "searchable" && ilUserSearchOptions::_isSearchable($field))) {
                 $this->tpl->setCurrentBlock($prop);
                 $this->tpl->setVariable(
@@ -147,7 +147,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         }
 
         // default
-        if ($a_set["default"] != "") {
+        if (($a_set["default"] ?? "") != "") {
             switch ($a_set["input"]) {
                 case "selection":
                 case "hitsperpage":
@@ -186,7 +186,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_GROUP", $lng->txt($a_set["group"]));
 
         // field name
-        $lv = ($a_set["lang_var"] == "")
+        $lv = (($a_set["lang_var"] ?? "") == "")
             ? $a_set["key"]
             : $a_set["lang_var"];
         if ($a_set["key"] == "country") {
