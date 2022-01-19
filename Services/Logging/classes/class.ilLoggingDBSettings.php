@@ -57,7 +57,7 @@ class ilLoggingDBSettings implements ilLoggingSettings
      * @param int $a_server_id
      * @return ilLoggingDBSettings
      */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         if (self::$instance) {
             return self::$instance;
