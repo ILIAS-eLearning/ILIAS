@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Preview/classes/class.ilPreview.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Factory that provides access to all available preview renderers.
  *
@@ -15,73 +24,56 @@ final class ilRendererFactory
 {
     /**
      * The available renderers.
-     * @var array
      */
-    private static $renderers = null;
-    
+    private static ?array $renderers = null;
+
     /**
      * Gets an array containing all available preview renderers.
      *
      * @return array All available preview renderers.
      */
-    public static function getRenderers()
+    public static function getRenderers() : array
     {
         self::loadAvailableRenderers();
-        return self::$renderers;
+        return self::$renderers ?? [];
     }
-    
+
     /**
      * Gets the renderer that is able to create a preview for the specified preview object.
      *
      * @param ilPReview $preview The preview to get the renderer for.
      * @return ilPreviewRenderer A renderer or null if no renderer matches the preview object.
      */
-    public static function getRenderer($preview)
+    public static function getRenderer(\ilPReview $preview) : ?ilPreviewRenderer
     {
         $renderers = self::getRenderers();
-        
+
         // check each renderer if it supports that preview object
         foreach ($renderers as $renderer) {
             if ($renderer->supports($preview)) {
                 return $renderer;
             }
         }
-        
+
         // no matching renderer was found
         return null;
     }
-    
-    /**
-     * Loads the available preview renderers. That is built in renderers and plugins.
-     *
-     * @return array The available renderers.
-     */
-    private static function loadAvailableRenderers()
+
+    private static function loadAvailableRenderers() : void
     {
         // already loaded?
         if (self::$renderers != null) {
             return;
         }
-        
-        $r = array();
-        
+
+        $r = [];
+
         // get registered and active plugins
-        global $DIC;
-        $component_factory = $DIC["component.factory"];
-        /* this slot seems to be non-existent
-        foreach ($component_factory->getActivePluginsInSlot("prve") as $plugin) {
-            $r[] = $plugin->getRendererClassInstance();
-        }*/
-        
-        // add default renderers
-        include_once("./Services/Preview/classes/class.ilImageMagickRenderer.php");
         $r[] = new ilImageMagickRenderer();
-        
-        include_once("./Services/Preview/classes/class.ilGhostscriptRenderer.php");
         if (ilGhostscriptRenderer::isGhostscriptInstalled()) {
             $r[] = new ilGhostscriptRenderer();
         }
-        
+
         self::$renderers = $r;
     }
 }

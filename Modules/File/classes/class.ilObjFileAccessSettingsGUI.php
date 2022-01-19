@@ -33,7 +33,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
     protected ilSetting $folderSettings;
     protected Services $http;
-    
+
     /**
      * Constructor
      *
@@ -55,7 +55,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -98,7 +98,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -118,7 +118,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function addFileObjectsSubTabs(): void
+    protected function addFileObjectsSubTabs() : void
     {
         $this->tabs_gui->addSubTabTarget(
             "settings",
@@ -136,7 +136,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    protected function initSettingsForm(): \ilPropertyFormGUI
+    protected function initSettingsForm() : \ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -206,7 +206,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    public function editSettings(ilPropertyFormGUI $a_form = null): void
+    public function editSettings(ilPropertyFormGUI $a_form = null) : void
     {
         global $DIC, $ilErr;
 
@@ -229,7 +229,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function saveSettings(): void
+    public function saveSettings() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -259,7 +259,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function showPreviewRenderers(): void
+    protected function showPreviewRenderers() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -281,10 +281,20 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
 
         $renderers = ilRendererFactory::getRenderers();
+        $array_wrapper = array_map(function (ilFilePreviewRenderer $renderer) : array {
+            return [
+                'name' => $renderer->getName(),
+                'is_plugin' => $renderer->isPlugin(),
+                'supported_repo_types' => $renderer->getSupportedRepositoryTypes(),
+                'supported_file_formats' => $renderer->getSupportedFileFormats(),
+                'object' => $renderer
+            ];
+        }, $renderers);
+
 
         $table = new ilRendererTableGUI($this, self::CMD_SHOW_PREVIEW_RENDERERS);
         $table->setMaxCount(sizeof($renderers));
-        $table->setData($renderers);
+        $table->setData($array_wrapper);
 
         // set content
         $tpl->setContent($table->getHTML());
@@ -294,7 +304,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * called by prepare output
      */
-    protected function setTitleAndDescription(): void
+    protected function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
