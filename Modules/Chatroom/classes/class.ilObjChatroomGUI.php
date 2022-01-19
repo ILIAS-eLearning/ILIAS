@@ -13,7 +13,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
@@ -116,6 +116,24 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
     public function getRefId() : int
     {
         return $this->object->getRefId();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeGetCommands() : array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafePostCommands() : array
+    {
+        return [
+            'view-toggleAutoMessageDisplayState',
+        ];
     }
 
     public function executeCommand()
