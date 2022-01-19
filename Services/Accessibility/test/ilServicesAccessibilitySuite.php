@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,10 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Class ilObjAccessibilitySettingsAccess
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjAccessibilitySettingsAccess extends ilObjectAccess
+class ilServicesAccessibilitySuite extends TestSuite
 {
+    public static function suite()
+    {
+        $suite = new self();
+
+        require_once("./Services/Accessibility/test/AccessibilityCriterionConfigTest.php");
+        $suite->addTestSuite("AccessibilityCriterionConfigTest");
+
+        return $suite;
+    }
 }

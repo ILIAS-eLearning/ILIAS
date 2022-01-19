@@ -1,42 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User action administration GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserActionAdminGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilUserActionContext $action_context;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilUserActionContext
-     */
-    protected $action_context;
-
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
@@ -50,30 +37,17 @@ class ilUserActionAdminGUI
         $this->lng->loadLanguageModule("usr");
     }
     
-    /**
-     * Set action context
-     *
-     * @param ilUserActionContext $a_val action context
-     */
-    public function setActionContext(ilUserActionContext $a_val = null)
+    public function setActionContext(ilUserActionContext $a_val = null) : void
     {
         $this->action_context = $a_val;
     }
     
-    /**
-     * Get action context
-     *
-     * @return ilUserActionContext action context
-     */
-    public function getActionContext()
+    public function getActionContext() : ilUserActionContext
     {
         return $this->action_context;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -86,13 +60,7 @@ class ilUserActionAdminGUI
         }
     }
 
-    /**
-     * Show
-     *
-     * @param
-     * @return
-     */
-    public function show()
+    public function show() : void
     {
         ilUtil::sendInfo($this->lng->txt("user_actions_activation_info"));
 
@@ -109,7 +77,7 @@ class ilUserActionAdminGUI
     /**
      * Save !!!! note in the future this must depend on the context, currently we only have one
      */
-    public function save()
+    public function save() : void
     {
         if (!$this->rbabsystem->checkAccess("write", $this->ref_id)) {
             $this->ctrl->redirect($this, "show");
@@ -132,11 +100,8 @@ class ilUserActionAdminGUI
 
     /**
      * Get actions, !!!! note in the future this must depend on the context, currently we only have one
-     *
-     * @param
-     * @return
      */
-    public function getActions()
+    public function getActions() : array
     {
         include_once("./Services/User/Actions/classes/class.ilUserActionProviderFactory.php");
         include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
@@ -156,7 +121,6 @@ class ilUserActionAdminGUI
                 );
             }
         }
-        //var_dump($data); exit;
         return $data;
     }
 }
