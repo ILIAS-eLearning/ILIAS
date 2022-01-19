@@ -3330,7 +3330,7 @@ class ilObjUser extends ilObject
                 $objects[] = array("id" => $obj["item_id"],
                     "type" => $obj["type"], "title" => $obj["title"],
                     "insert_time" => $obj["insert_time"]);
-	    }
+            }
         }
         return $objects;
     }
