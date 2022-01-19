@@ -218,19 +218,10 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
     public function getAdminTabs()
     {
         $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
         $ilTabs = $this->tabs;
 
         if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $ilTabs->addTab('acc_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editAccessibilitySettings'));
-        }
-
-        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
-            $ilTabs->addTarget(
-                "acc_access_keys",
-                $this->ctrl->getLinkTarget($this, "editAccessKeys"),
-                array("editAccessKeys", "view")
-            );
         }
 
         if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
@@ -249,35 +240,5 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 'ilpermissiongui'
             );
         }
-    }
-
-    /**
-    * Edit access keys
-    */
-    public function editAccessKeys()
-    {
-        $tpl = $this->tpl;
-
-        $this->tabs_gui->setTabActive('acc_access_keys');
-        
-        $table = new ilAccessKeyTableGUI($this, "editAccessKeys");
-        
-        $tpl->setContent($table->getHTML());
-    }
-    
-    /**
-    * Save access keys
-    */
-    public function saveAccessKeys()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            ilAccessKey::writeKeys(ilUtil::stripSlashesArray($_POST["acckey"]));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-        }
-        $ilCtrl->redirect($this, "editAccessKeys");
     }
 }

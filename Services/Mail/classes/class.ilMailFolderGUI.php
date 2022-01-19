@@ -622,7 +622,6 @@ class ilMailFolderGUI
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
             $replyBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
             $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-            $replyBtn->setAccessKey(ilAccessKey::REPLY);
             $replyBtn->setPrimary(true);
             $this->toolbar->addStickyItem($replyBtn);
         }
@@ -634,7 +633,6 @@ class ilMailFolderGUI
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
         $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-        $fwdBtn->setAccessKey(ilAccessKey::FORWARD_MAIL);
         if (!$replyBtn) {
             $fwdBtn->setPrimary(true);
             $this->toolbar->addStickyItem($fwdBtn);
@@ -654,7 +652,6 @@ class ilMailFolderGUI
         $deleteBtn = ilSubmitButton::getInstance();
         $deleteBtn->setCaption('delete');
         $deleteBtn->setCommand('deleteMails');
-        $deleteBtn->setAccessKey(ilAccessKey::DELETE);
         $this->toolbar->addButtonInstance($deleteBtn);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
