@@ -52,11 +52,6 @@ class ilLoggingDBSettings implements ilLoggingSettings
         $this->read();
     }
 
-    /**
-     * Get instance
-     * @param int $a_server_id
-     * @return ilLoggingDBSettings
-     */
     public static function getInstance() : self
     {
         if (self::$instance) {
