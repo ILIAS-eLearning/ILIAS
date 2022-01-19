@@ -69,11 +69,15 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         if ($room) {
             $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
-            if (!$room->isOwnerOfPrivateRoom($this->ilUser->getId(), $subRoomId)) {
-                if (!ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->ref_id)) {
-                    $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
-                    $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
-                }
+            if (
+                !ilChatroom::checkUserPermissions(['read', 'moderate'], $this->gui->ref_id) &&
+                !$room->isOwnerOfPrivateRoom(
+                    $this->ilUser->getId(),
+                    $subRoomId
+                )
+            ) {
+                $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+                $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
             }
 
             $roomId = $room->getRoomId();

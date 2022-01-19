@@ -37,7 +37,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         foreach ($copaMap as $oldCopaId => $newCopaId) {
             $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
-            ilContentPagePage::_writeParentId(self::OBJ_TYPE, (int) $newCopaId, $newCopaId);
+            ilContentPagePage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
 
             $translations = ilContentPagePage::lookupTranslations(self::OBJ_TYPE, $newCopaId);
             foreach ($translations as $language) {

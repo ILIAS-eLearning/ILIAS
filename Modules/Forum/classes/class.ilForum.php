@@ -734,8 +734,8 @@ class ilForum
             "SELECT COUNT(DISTINCT(thr_pk)) cnt
 			 FROM frm_threads
 			 {$cnt_join_type} JOIN frm_posts
-			 	ON pos_thr_fk = thr_pk {$cnt_active_pos_query}
-			 WHERE thr_top_fk = %s {$excluded_ids_condition}
+			 	ON pos_thr_fk = thr_pk $cnt_active_pos_query
+			 WHERE thr_top_fk = %s $excluded_ids_condition
 		";
         $res = $this->db->queryF($query, ['integer'], [$a_topic_id]);
         $cntData = $this->db->fetchAssoc($res);
@@ -817,7 +817,7 @@ class ilForum
             }
 
             $query .= " thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-					  {$optional_fields}
+					  $optional_fields
 					  FROM frm_threads
 					  
 					  LEFT JOIN frm_notification
@@ -833,11 +833,11 @@ class ilForum
 						AND postread.usr_id = %s";
 
             $query .= " WHERE thr_top_fk = %s
-						{$excluded_ids_condition}
+						$excluded_ids_condition
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-						{$optional_fields}
-						{$having}
-						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
+						$optional_fields
+						$having
+						ORDER BY is_sticky DESC $additional_sort, thr_date DESC";
 
             // data_types for new posts query and $active_inner_query
             if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
@@ -877,7 +877,7 @@ class ilForum
 					  COUNT(DISTINCT(pos_pk)) num_unread_posts,
 					  COUNT(DISTINCT(pos_pk)) num_new_posts,
 					  thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-					  {$optional_fields}
+					  $optional_fields
 					  FROM frm_threads
 					  
 					  LEFT JOIN frm_posts
@@ -887,11 +887,11 @@ class ilForum
 					";
 
             $query .= " WHERE thr_top_fk = %s
-						{$excluded_ids_condition}
+						$excluded_ids_condition
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-						{$optional_fields}
-						{$having}
-						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
+						$optional_fields
+						$having
+						ORDER BY is_sticky DESC $additional_sort, thr_date DESC";
 
             if ($is_post_activation_enabled && !$params['is_moderator']) {
                 array_push($data_types, 'integer', 'integer');
@@ -1248,7 +1248,7 @@ class ilForum
 
             $row = $this->db->fetchObject($res);
             if ($row instanceof stdClass) {
-                return (int) $res->depth;
+                return (int) $row->depth;
             }
         }
 

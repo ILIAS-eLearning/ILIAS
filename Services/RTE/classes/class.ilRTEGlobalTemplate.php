@@ -318,9 +318,9 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         return $this->template->get($part);
     }
 
-    public function setVariable($variable, $value = '')
+    public function setVariable($variable, $value = '') : void
     {
-        return $this->template->setVariable($variable, $value);
+        $this->template->setVariable($variable, $value);
     }
 
     private function variableExists($a_variablename) : bool

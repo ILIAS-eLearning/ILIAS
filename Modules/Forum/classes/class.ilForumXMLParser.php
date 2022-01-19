@@ -300,7 +300,12 @@ class ilForumXMLParser extends ilSaxParser
                     $this->mapping['frm'][$this->forumArray['Id']] = $id;
                     $this->lastHandledForumId = $id;
 
-                    $this->importMapping->addMapping('Modules/Forum', 'style', $this->forum->getId(), $newObjProp->getStyleSheetId());
+                    $this->importMapping->addMapping(
+                        'Modules/Forum',
+                        'style',
+                        (string) $this->forum->getId(),
+                        (string) $newObjProp->getStyleSheetId()
+                    );
                     $this->importMapping->addMapping(
                         'Services/COPage',
                         'pg',

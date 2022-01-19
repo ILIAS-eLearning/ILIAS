@@ -145,7 +145,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
             $lng_suffix = '_no_consent_yet';
         }
         $question = $this->lng->txt('withdrawal_sure_account' . $lng_suffix);
-        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion')) {
+        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', '0')) {
             $question = $this->lng->txt('withdrawal_sure_account_deletion' . $lng_suffix);
         }
 

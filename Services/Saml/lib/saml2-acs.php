@@ -6,7 +6,7 @@ $cookie_path = dirname(str_replace($_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF
 $_GET['client_id'] = substr(rtrim($_SERVER['PATH_INFO'], '/'), strrpos($_SERVER['PATH_INFO'], '/') + 1);
 $_SERVER['PATH_INFO'] = substr($_SERVER['PATH_INFO'], 0, strrpos(rtrim($_SERVER['PATH_INFO'], '/'), '/'));
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 
 $ilias_main_directory = './';
 
@@ -26,7 +26,7 @@ if (!is_file(getcwd() . '/ilias.ini.php')) {
 $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 
 if (isset($_GET["client_id"])) {
-    if ($cookie_path == "\\") {
+    if ($cookie_path === "\\") {
         $cookie_path = '/';
     }
 

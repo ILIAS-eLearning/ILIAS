@@ -552,7 +552,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     {
         $this->participants = new ilGroupParticipants($this->group_obj->getId());
         $this->participants->add($this->user->getId(), IL_GRP_ADMIN);
-        $this->participants->updateNotification($this->user->getId(), (int) $this->settings->get('mail_grp_admin_notification', "1"));
+        $this->participants->updateNotification($this->user->getId(), (bool) $this->settings->get('mail_grp_admin_notification', "1"));
         
         // attach ADMINs
         if (isset($this->group_data["admin"]["attach"]) && count($this->group_data["admin"]["attach"])) {

@@ -74,9 +74,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_category_row.html", "Services/Calendar");
         $this->disable('sort');
-        if (!$ilUser->prefs["screen_reader_optimization"]) {
-            $this->disable('header');
-        }
+        $this->disable('header');
 
         //$this->setShowRowsSelector(true);
         $this->disable('numinfo');

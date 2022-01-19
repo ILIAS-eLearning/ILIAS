@@ -114,9 +114,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
                             'del_file'
                         );
                         foreach ($draftFileData->getFilesOfPost() as $file) {
-                            $currentAttachment = new ilCheckboxInputGUI($file['name'], 'del_file');
-                            $currentAttachment->setValue($file['md5']);
-                            $existingFileSelection->addOption($currentAttachment);
+                            $existingFileSelection->addOption(new ilCheckboxOption($file['name'], $file['md5']));
                         }
                         $this->addItem($existingFileSelection);
                     }

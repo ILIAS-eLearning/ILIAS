@@ -4,7 +4,7 @@
 
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
-use \PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ilForumNotificationTest extends TestCase
 {
@@ -420,7 +420,7 @@ class ilForumNotificationTest extends TestCase
         $DIC['tree'] = ($this->tree = $this->mock(\ilTree::class));
     }
 
-    private function mock(string $className)
+    private function mock(string $className) : MockObject
     {
         return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
     }

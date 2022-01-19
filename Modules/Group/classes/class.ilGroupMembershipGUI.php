@@ -32,7 +32,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * @return ilAbstractMailMemberRoles | null
      */
-    protected function getMailMemberRoles()
+    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberGroupRoles();
     }
@@ -43,7 +43,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
     {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -152,7 +152,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         }
         foreach ($participants as $mem_id) {
             if ($this->getMembersObject()->isAdmin($mem_id)) {
-                $this->getMembersObject()->updateContact($mem_id, in_array($mem_id, $contact));
+                $this->getMembersObject()->updateContact($mem_id, in_array($mem_id, (bool) $contact));
                 $this->getMembersObject()->updateNotification($mem_id, in_array($mem_id, $notification));
             } else {
                 $this->getMembersObject()->updateContact($mem_id, false);
@@ -214,7 +214,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * @inheritDoc
      */
-    protected function getDefaultRole()
+    protected function getDefaultRole() : ?int
     {
         return $this->getParentGUI()->object->getDefaultMemberRole();
     }

@@ -319,8 +319,8 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 
         $ilUser = $DIC->user();
         
-        $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
-        $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
+        $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
+        $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
         
         $obj_ids = array_merge($grp_ids, $crs_ids);
         $obj_ids[] = $ilUser->getId();

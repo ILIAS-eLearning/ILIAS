@@ -1,11 +1,7 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
-
+<?php declare(strict_types=1);
 /**
  *
  * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
  *
  * @ilCtrl_IsCalledBy ilAppointmentPresentationBookingPoolGUI: ilCalendarAppointmentPresentationGUI
  *
@@ -13,7 +9,7 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         $a_app = $this->appointment;
         $cat_info = $this->getCatInfo();

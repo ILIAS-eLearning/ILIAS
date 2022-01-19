@@ -157,7 +157,7 @@ class ilTinyMCE extends ilRTE
 
         if (
             ilObjAdvancedEditing::_getRichTextEditorUserState() !== 0 &&
-            strcmp((string) ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
+            strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
         ) {
             $tpl = new ilTemplate(
                 ($cfg_template ?? "tpl.tinymce.js"),

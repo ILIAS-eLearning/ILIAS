@@ -81,7 +81,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         if ($a_user_id == "") {
             $a_user_id = $ilUser->getId();
         }
-        
         if ($ilUser->getId() == $a_user_id) {
             $participants = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $a_user_id);
         } else {
@@ -462,7 +461,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         $lng->loadLanguageModule("crs");
         
-        ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
+        ilCourseWaitingList::_preloadOnListInfo([$ilUser->getId()], $a_obj_ids);
         
         $repository = new ilUserCertificateRepository();
         $coursePreload = new ilCertificateObjectsForUserPreloader($repository);

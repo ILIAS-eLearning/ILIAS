@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,9 +20,6 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-
-include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
-
 
 /**
 * Represents a ical component.
@@ -55,8 +52,9 @@ class ilICalComponent extends ilICalItem
      * @param string name
      *
      */
-    public function getItemsByName($a_name, $a_recursive = true)
+    public function getItemsByName(string $a_name, bool $a_recursive = true) : array
     {
+        $found = [];
         foreach ($this->getItems() as $item) {
             if ($item->getName() == $a_name) {
                 $found[] = $item;
@@ -67,6 +65,6 @@ class ilICalComponent extends ilICalItem
                 }
             }
         }
-        return $found ? $found : array();
+        return $found;
     }
 }

@@ -79,7 +79,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         return $this->lng->txt('grp_registration');
     }
     
-    protected function fillInformations()
+    protected function fillInformations() : void
     {
         if ($this->container->getInformation()) {
             $imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'), '', true);
@@ -92,7 +92,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     /**
      * show informations about the registration period
      */
-    protected function fillRegistrationPeriod()
+    protected function fillRegistrationPeriod() : void
     {
         $now = new ilDateTime(time(), IL_CAL_UNIX, 'UTC');
 
@@ -100,7 +100,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             $reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_period'));
             $reg->setValue($this->lng->txt('mem_unlimited'));
             $this->form->addItem($reg);
-            return true;
+            return;
         }
         
         $start = $this->container->getRegistrationStart();
@@ -140,20 +140,18 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             ilUtil::sendFailure($warning);
         }
         $this->form->addItem($reg);
-        return true;
     }
     
     /**
      * fill max member informations
-     *
      * @access protected
-     * @return
+     * @return void
      */
-    protected function fillMaxMembers()
+    protected function fillMaxMembers():void
     {
         $alert = '';
         if (!$this->container->isMembershipLimited()) {
-            return true;
+            return;
         }
         
         $tpl = new ilTemplate('tpl.max_members_form.html', true, true, 'Services/Membership');
@@ -230,15 +228,14 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             ilUtil::sendFailure($alert);
         }
         $this->form->addItem($max);
-        return true;
     }
     
     /**
      */
-    protected function fillRegistrationType()
+    protected function fillRegistrationType() : void
     {
         if ($this->getWaitingList()->isOnList($this->user->getId())) {
-            return true;
+            return;
         }
         
         switch ($this->container->getRegistrationType()) {
@@ -273,7 +270,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 
                 // no "request" info if waiting list is active
                 if ($this->isWaitingListActive()) {
-                    return true;
+                    return;
                 }
                     
                 $txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
@@ -306,7 +303,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 
                 // no "direct registration" info if waiting list is active
                 if ($this->isWaitingListActive()) {
-                    return true;
+                    return;
                 }
 
                 $txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
@@ -315,18 +312,14 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 $this->form->addItem($txt);
                 break;
 
-            default:
-                return true;
         }
-        
-        return true;
     }
     
     /**
      * Add group specific command buttons
-     * @return
+     * @return void
      */
-    protected function addCommandButtons()
+    protected function addCommandButtons() : void
     {
         parent::addCommandButtons();
         switch ($this->container->getRegistrationType()) {
@@ -337,7 +330,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                     $this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('grp_cancel_subscr_request'));
                 } else {
                     if (!$this->isRegistrationPossible()) {
-                        return false;
+                        return;
                     }
                     $this->form->clearCommandButtons();
                     $this->form->addCommandButton('join', $this->lng->txt('grp_join_request'));
@@ -345,17 +338,15 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 }
                 break;
         }
-        return true;
     }
     
     
     /**
      * validate join request
-     *
      * @access protected
-     * @return
+     * @return bool
      */
-    protected function validate()
+    protected function validate():bool
     {
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
             $this->join_error = $this->lng->txt('permission_denied');
@@ -488,24 +479,26 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
      *
      * @access protected
      */
-    protected function initParticipants()
+    protected function initParticipants() : ilParticipants
     {
         $this->participants = ilGroupParticipants::_getInstanceByObjId($this->obj_id);
+        return $this->participants;
     }
     
     /**
      * @see ilRegistrationGUI::initWaitingList()
      * @access protected
      */
-    protected function initWaitingList()
+    protected function initWaitingList() : ilWaitingList
     {
         $this->waiting_list = new ilGroupWaitingList($this->container->getId());
+        return $this->waiting_list;
     }
     
     /**
      * @see ilRegistrationGUI::isWaitingListActive()
      */
-    protected function isWaitingListActive()
+    protected function isWaitingListActive() : bool
     {
         static $active = null;
         

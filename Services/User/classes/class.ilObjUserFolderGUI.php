@@ -22,6 +22,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjUserFolderGUI extends ilObjectGUI
 {
     private Container $dic;
+    protected int $confirm_change = 0;
     public $ctrl;
 
     protected $log;

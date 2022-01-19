@@ -7,11 +7,6 @@
  */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
-    public function __construct(string $quoted_term, string $term)
-    {
-        parent::__construct($quoted_term, $term);
-    }
-
     /**
      * @return array{login: string, firstname: string, lastname:string}
      */

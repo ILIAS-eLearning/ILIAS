@@ -54,7 +54,7 @@ include_once 'webservice/soap/include/inc.soap_functions.php';
 $mobs = ilSoapFunctions::getMobsOfObject(session_id() . '::' . CLIENT_ID, $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
 $preview = '';
 $mob_details = array();
-$img = isset($_POST['imglist']) ? $_POST['imglist'] : '';
+$img = $_POST['imglist'] ?? '';
 $_root = $installpath;
 
 // upload images
@@ -121,11 +121,11 @@ if (isset($_FILES['img_file']) && is_array($_FILES['img_file'])) {
     }
     if (!$errors->fields && !$errors->general) {
         include_once 'webservice/soap/include/inc.soap_functions.php';
-        $safefilename = preg_replace('/[^a-zA-z0-9_\.]/', '', $_FILES['img_file']['name']);
+        $safefilename = preg_replace('/[^a-zA-Z0-9_\.]/', '', $_FILES['img_file']['name']);
         $media_object = ilSoapFunctions::saveTempFileAsMediaObject(session_id() . '::' . CLIENT_ID, $safefilename, $_FILES['img_file']['tmp_name']);
         if (file_exists($iliasAbsolutePath . $iliasMobPath . 'mm_' . $media_object->getId() . '/' . $media_object->getTitle())) {
             // only save usage if the file was uploaded
-            $media_object->_saveUsage($media_object->getId(), $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
+            $media_object::_saveUsage($media_object->getId(), $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
             
             // Append file to array of existings mobs of this context (obj_type and obj_id)
             $mobs[$media_object->getId()] = $media_object->getId();
@@ -149,8 +149,7 @@ if ($_GET["update"] == 1) {
 $mob_details = array();
 foreach ($mobs as $mob) {
     $mobdir = $iliasAbsolutePath . $iliasMobPath . 'mm_' . $mob . '/';
-    $d = @dir($mobdir);
-    if ($d) {
+    if (is_dir($mobdir) && ($d = dir($mobdir))) {
         $i = 0;
         while (false !== ($entry = $d->read())) {
             $ext = strtolower(substr(strrchr($entry, '.'), 1));
@@ -170,8 +169,8 @@ if ($errors->fields || $errors->general) {
     $response[] = $errors;
 } elseif ($uploadedFile && $mob_details[$uploadedFile]) {
     $location = $mob_details[$uploadedFile]['http_dir'] . $mob_details[$uploadedFile]['file_name'];
-    $uploaded_file_desc['width'] = (int) $img_size[0];
-    $uploaded_file_desc['height'] = (int) $img_size[1];
+    $uploaded_file_desc['width'] = 0;
+    $uploaded_file_desc['height'] = 0;
     $uploaded_file_desc['location'] = $location;
 }
 $response = array(

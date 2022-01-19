@@ -130,8 +130,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $ilSetting = $this->settings;
         $ilUser = $this->user;
                 
-        $this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
-        $this->grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
+        $this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
+        $this->grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
                 
         $lng->loadLanguageModule("search");
         

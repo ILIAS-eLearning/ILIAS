@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Calendar\FileHandler\ilFileProperty;
 
-include_once("./Services/Calendar/interfaces/interface.ilAppointmentFileHandler.php");
-include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFileHandler.php");
 
 /**
  * Session appointment file handler
@@ -25,7 +23,6 @@ class ilAppointmentSessionFileHandler extends ilAppointmentBaseFileHandler imple
     {
         $cat_info = $this->getCatInfo();
 
-        include_once("./Services/Object/classes/class.ilObjectActivation.php");
         $eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
         $files = [];
         foreach ($eventItems as $obj) {
@@ -35,7 +32,6 @@ class ilAppointmentSessionFileHandler extends ilAppointmentBaseFileHandler imple
                     $file_property = new ilFileProperty();
                     $file_property->setAbsolutePath($file->getFile());
                     $file_property->setFileName($file->getFileName());
-
                     $files[] = $file_property;
                 }
             }

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPStan\Framework\TestSuite;
+use PHPUnit\Framework\TestSuite;
 
 /**
  * class ServicesCalendarSuite
@@ -10,13 +10,13 @@ use PHPStan\Framework\TestSuite;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 
-class ServicesCalendarSuite extends TestSuite
+class ilServicesCalendarSuite extends TestSuite
 {
     public static function suite()
     {
         $suite = new ilServicesCalendarSuite();
-
-        include_once './Services/Calendar/test/class.ilCalendarRecurrenceCalculatorTest.php';
-        $suite->addSuite('ilCalendarRecurrenceCalculatorTest');
+        include_once './Services/Calendar/test/class.ilCalendarRecurrenceCalculationTest.php';
+        $suite->addTestSuite(ilCalendarRecurrenceCalculationTest::class);
+        return $suite;
     }
 }

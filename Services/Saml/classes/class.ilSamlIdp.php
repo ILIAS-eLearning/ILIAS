@@ -66,7 +66,7 @@ class ilSamlIdp
     public function persist() : void
     {
         if (!$this->getIdpId()) {
-            $this->setIdpId((int) $this->db->nextId('saml_idp_settings'));
+            $this->setIdpId($this->db->nextId('saml_idp_settings'));
         }
 
         $this->db->replace(

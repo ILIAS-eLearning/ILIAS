@@ -64,11 +64,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
     
     /**
      * get form title
-     *
      * @access protected
      * @return string title
      */
-    protected function getFormTitle()
+    protected function getFormTitle():string
     {
         global $DIC;
 
@@ -82,12 +81,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
     
     /**
      * fill informations
-     *
      * @access protected
      * @param
-     * @return
+     * @return void
      */
-    protected function fillInformations()
+    protected function fillInformations():void
     {
         if ($this->container->getImportantInformation()) {
             $imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'), "", true);
@@ -109,7 +107,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      *
      * @access protected
      */
-    protected function fillRegistrationPeriod()
+    protected function fillRegistrationPeriod() : void
     {
         include_once('./Services/Calendar/classes/class.ilDateTime.php');
         $now = new ilDateTime(time(), IL_CAL_UNIX, 'UTC');
@@ -118,9 +116,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             $reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_period'));
             $reg->setValue($this->lng->txt('mem_unlimited'));
             $this->form->addItem($reg);
-            return true;
+            return;
         } elseif ($this->container->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED) {
-            return true;
+            return;
         }
         
         $start = new ilDateTime($this->container->getSubscriptionStart(), IL_CAL_UNIX, 'UTC');
@@ -160,25 +158,23 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             #$reg->setAlert($warning);
         }
         $this->form->addItem($reg);
-        return true;
     }
     
     
     /**
      * fill max members
-     *
      * @access protected
      * @param
-     * @return
+     * @return void
      */
-    protected function fillMaxMembers()
+    protected function fillMaxMembers():void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         
         if (!$this->container->isSubscriptionMembershipLimited()) {
-            return true;
+            return;
         }
         $tpl = new ilTemplate('tpl.max_members_form.html', true, true, 'Services/Membership');
         
@@ -258,16 +254,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             $max->setAlert($alert);
         }
         $this->form->addItem($max);
-        return true;
     }
     
     /**
      * fill registration type
-     *
      * @access protected
-     * @return
+     * @return void
      */
-    protected function fillRegistrationType()
+    protected function fillRegistrationType():void
     {
         global $DIC;
 
@@ -285,7 +279,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         
             // Disable registration
             $this->enableRegistration(false);
-            return true;
+            return;
         }
 
         switch ($this->container->getSubscriptionType()) {
@@ -293,7 +287,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
                 // no "request" info if waiting list is active
                 if ($this->isWaitingListActive()) {
-                    return true;
+                    return;
                 }
 
                 $txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
@@ -322,7 +316,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
                 // no "request" info if waiting list is active
                 if ($this->isWaitingListActive()) {
-                    return true;
+                    return;
                 }
 
                 $txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
@@ -346,17 +340,16 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 
 
             default:
-                return true;
+                return;
         }
-        
-        return true;
+
     }
     
     /**
      * Add group specific command buttons
-     * @return
+     * @return void
      */
-    protected function addCommandButtons()
+    protected function addCommandButtons() : void
     {
         global $DIC;
 
@@ -379,20 +372,18 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 break;
         }
         if (!$this->isRegistrationPossible()) {
-            return false;
+            return;
         }
 
-        return true;
     }
 
     /**
      * Validate subscription request
-     *
      * @access protected
      * @param
-     * @return
+     * @return bool
      */
-    protected function validate()
+    protected function validate():bool
     {
         global $DIC;
 
@@ -536,10 +527,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      *
      * @access protected
      */
-    protected function initParticipants()
+    protected function initParticipants() : ilParticipants
     {
-        include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
         $this->participants = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
+        return $this->participants;
     }
     
 
@@ -547,16 +538,17 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      * @see ilRegistrationGUI::initWaitingList()
      * @access protected
      */
-    protected function initWaitingList()
+    protected function initWaitingList() : ilWaitingList
     {
         include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
         $this->waiting_list = new ilCourseWaitingList($this->container->getId());
+        return $this->waiting_list;
     }
     
     /**
      * @see ilRegistrationGUI::isWaitingListActive()
      */
-    protected function isWaitingListActive()
+    protected function isWaitingListActive() : bool
     {
         global $DIC;
 

@@ -114,6 +114,7 @@ class ilChatroomServerConnector
      * @param int $scope
      * @param int $subScope
      * @param int $user
+     * @param string $title
      * @return string|false
      */
     public function sendCreatePrivateRoom(int $scope, int $subScope, int $user, string $title)

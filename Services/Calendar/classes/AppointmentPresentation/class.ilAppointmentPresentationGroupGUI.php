@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
 include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
@@ -13,21 +13,14 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
-        global $DIC;
-        
-        include_once "./Modules/Group/classes/class.ilObjGroup.php";
-
         $settings = ilCalendarSettings::_getInstance();
-        $user = $DIC->user();
-
         $app = $this->appointment;
 
         $this->lng->loadLanguageModule("grp");
 
         $cat_info = $this->getCatInfo();
-
         $grp = new ilObjGroup($cat_info['obj_id'], false);
 
         $refs = ilObject::_getAllReferences($cat_info['obj_id']);
@@ -52,7 +45,7 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
                 include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
                 $reg = new ilCalendarRegistration($app['event']->getEntryId());
 
-                if ($reg->isRegistered($user->getId(), new ilDateTime($app['dstart'], IL_CAL_UNIX), new ilDateTime($app['dend'], IL_CAL_UNIX))) {
+                if ($reg->isRegistered($this->user->getId(), new ilDateTime($app['dstart'], IL_CAL_UNIX), new ilDateTime($app['dend'], IL_CAL_UNIX))) {
                     //$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->getSeed()->get(IL_CAL_DATE));
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $app['event']->getEntryId());
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'dstart', $app['dstart']);

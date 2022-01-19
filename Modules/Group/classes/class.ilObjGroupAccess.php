@@ -190,7 +190,7 @@ class ilObjGroupAccess extends ilObjectAccess
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
         
-        ilGroupWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
+        ilGroupWaitingList::_preloadOnListInfo([$ilUser->getId()], $a_obj_ids);
     }
     
     public static function lookupRegistrationInfo(int $a_obj_id) : array

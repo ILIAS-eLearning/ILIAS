@@ -72,12 +72,11 @@ class ProviderMemberships implements Provider
     {
         $ilDB = $this->db;
 
-
-        $groups_and_courses_of_user = \ilParticipants::_getMembershipByType(
-            $this->user->getId(),
-            array("grp", "crs")
-        );
-        //$this->log->debug("user: " . $this->user->getId() . ", courses and groups: " . implode(",", $groups_and_courses_of_user));
+	$groups_and_courses_of_user = ilParticipants::_getMembershipByType(
+		$this->getUserId(), 
+		["grp", "crs"]
+	);
+        //$this->log->debug("user: " . $this->getUserId() . ", courses and groups: " . implode(",", $groups_and_courses_of_user));
 
         $set = $ilDB->query(
             "SELECT DISTINCT usr_id, obj_id FROM obj_members " .

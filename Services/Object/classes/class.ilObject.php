@@ -1439,11 +1439,14 @@ class ilObject
     {
         global $DIC;
 
-        $rbacadmin = $DIC["rbacadmin"];
-        $rbacreview = $DIC["rbacreview"];
+        $rbacadmin = $DIC->rbac()->admin();
+        $rbacreview = $DIC->rbac()->review();
         
         $parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
         foreach ((array) $parent_roles as $parent_role) {
+            if ($parent_role['obj_id'] == SYSTEM_ROLE_ID) {
+                continue;
+            }
             $operations = $rbacreview->getOperationsOfRole(
                 $parent_role['obj_id'],
                 $this->getType(),

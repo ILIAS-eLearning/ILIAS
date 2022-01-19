@@ -130,8 +130,11 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->getReachedScore($object, $userId));
         
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
-        if ($completionDate !== '') {
-            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
+        if ($completionDate !== false &&
+            $completionDate !== null &&
+            $completionDate !== ''
+        ) {
+        	$placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }
 
