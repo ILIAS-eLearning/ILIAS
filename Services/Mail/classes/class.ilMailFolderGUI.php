@@ -218,7 +218,7 @@ class ilMailFolderGUI
 
         $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
 
-        if ($isTrashFolder && 'deleteMails' === $this->parseCommand($this->ctrl->getCmd()) && !$this->errorDelete) {
+        if (!$this->errorDelete && $isTrashFolder && 'deleteMails' === $this->parseCommand($this->ctrl->getCmd())) {
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_sure_delete'));
             foreach ($this->getMailIdsFromRequest() as $mailId) {
@@ -270,7 +270,7 @@ class ilMailFolderGUI
             }
         }
 
-        if ($mailtable->isTrashFolder() && $mailtable->getNumberOfMails() > 0 && $this->confirmTrashDeletion) {
+        if ($this->confirmTrashDeletion && $mailtable->isTrashFolder() && $mailtable->getNumberOfMails() > 0) {
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_empty_trash_confirmation'));
             $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);

@@ -465,7 +465,7 @@ class ilMailFormGUI
             $template = $this->templateService->loadTemplateForId(
                 $this->http->wrapper()->query()->retrieve('template_id', $this->refinery->kindlyTo()->int())
             );
-            $context = ilMailTemplateContextService::getTemplateContextById((string) $template->getContext());
+            $context = ilMailTemplateContextService::getTemplateContextById($template->getContext());
 
             $this->http->saveResponse(
                 $this->http->response()
@@ -579,13 +579,11 @@ class ilMailFormGUI
                 $mailData['rcp_to'] = $mailData['rcp_cc'] = $mailData['rcp_bcc'] = '';
                 $mailData['m_subject'] = $this->umail->formatForwardSubject();
                 $mailData['m_message'] = $this->umail->prependSignature();
-                if (is_array($mailData['attachments']) && count($mailData['attachments'])) {
-                    if ($error = $this->mfile->adoptAttachments(
-                        $mailData['attachments'],
-                        $mailId
-                    )) {
-                        ilUtil::sendInfo($error);
-                    }
+                if (is_array($mailData['attachments']) && count($mailData['attachments']) && $error = $this->mfile->adoptAttachments(
+                    $mailData['attachments'],
+                    $mailId
+                )) {
+                    ilUtil::sendInfo($error);
                 }
                 break;
         

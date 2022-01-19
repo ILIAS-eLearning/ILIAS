@@ -123,8 +123,7 @@ class ilMailTemplateContextService
         }
         $class_file = $a_path . 'class.' . $a_class . '.php';
 
-
-        if (file_exists($class_file) && class_exists($a_class)) {
+        if (class_exists($a_class) && file_exists($class_file)) {
             if ($isCreationContext) {
                 $reflClass = new ReflectionClass($a_class);
                 $context = $reflClass->newInstanceWithoutConstructor();

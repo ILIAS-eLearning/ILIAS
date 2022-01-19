@@ -38,9 +38,9 @@ class ilMailCronOrphanedMailsNotifier
             0,
             0,
             0,
-            date('m', $ts_delete),
-            date('d', $ts_delete),
-            date('Y', $ts_delete)
+            (int) date('m', $ts_delete),
+            (int) date('d', $ts_delete),
+            (int) date('Y', $ts_delete)
         );
 
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {

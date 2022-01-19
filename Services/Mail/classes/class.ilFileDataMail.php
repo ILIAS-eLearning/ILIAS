@@ -410,7 +410,7 @@ class ilFileDataMail extends ilFileData
             }
 
             if ($cnt_mail_id === 1) {
-                $this->__deleteAttachmentDirectory($path);
+                $this->deleteAttachmentDirectory($path);
             }
         }
 
@@ -423,11 +423,9 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    public function __deleteAttachmentDirectory(string $a_rel_path) : bool
+    private function deleteAttachmentDirectory(string $a_rel_path) : void
     {
         ilUtil::delDir($this->mail_path . "/" . $a_rel_path);
-        
-        return true;
     }
     
     protected function initAttachmentMaxUploadSize() : void
