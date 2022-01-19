@@ -85,7 +85,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
                         $this->save();
                         break;
                     default:
-                        throw new Exception(__METHOD__ . ' :: Unknown command ' . $cmd);
+                        throw new RuntimeException(__METHOD__ . ' :: Unknown command ' . $cmd);
                 }
         }
     }
