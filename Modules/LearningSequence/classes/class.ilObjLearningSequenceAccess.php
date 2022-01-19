@@ -103,7 +103,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
                 $is_offine = $this->isOffline($ref_id);
 
                 if ($is_offine && !$has_any_administrative_permission) {
-                    $il_access->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $il_access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 return true;
