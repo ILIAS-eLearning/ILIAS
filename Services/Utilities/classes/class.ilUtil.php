@@ -3438,9 +3438,9 @@ class ilUtil
     * Return current timestamp in Y-m-d H:i:s format
     *
     * @static
-    *
+    * @deprecated
     */
-    public static function now()
+    public static function now() : string
     {
         return date("Y-m-d H:i:s");
     }
