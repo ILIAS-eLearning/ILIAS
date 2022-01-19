@@ -26,10 +26,7 @@ class GlobalPageHandler
     {
     }
 
-    /**
-     * @param \ilGlobalTemplateInterface $page
-     */
-    public static function initPage(\ilGlobalTemplateInterface $page)
+    public static function initPage(\ilGlobalTemplateInterface $page) : void
     {
     }
 }
