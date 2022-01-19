@@ -24,7 +24,7 @@ class ilSystemStyleDeleteGUI
         ];
     }
 
-    public function getDeleteStyleFormHTML(): string
+    public function getDeleteStyleFormHTML() : string
     {
         ilUtil::sendQuestion($this->lng->txt('info_delete_sure'), true);
 

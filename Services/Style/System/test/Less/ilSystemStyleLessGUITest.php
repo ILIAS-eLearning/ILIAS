@@ -16,7 +16,7 @@ class ilSystemStyleLessGUITest extends ilSystemStyleBaseFSTest
 {
     protected ilSystemStyleLessGUI $less_gui;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
         $ui_helper = new UITestHelper();
@@ -52,12 +52,12 @@ class ilSystemStyleLessGUITest extends ilSystemStyleBaseFSTest
         );
     }
 
-    public function testConstruct(): void
+    public function testConstruct() : void
     {
         $this->assertInstanceOf(ilSystemStyleLessGUI::class, $this->less_gui);
     }
 
-    public function testInitSystemStyleLessForm(): void
+    public function testInitSystemStyleLessForm() : void
     {
         $form = $this->less_gui->initSystemStyleLessForm();
 

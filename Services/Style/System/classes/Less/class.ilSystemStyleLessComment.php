@@ -25,12 +25,12 @@ class ilSystemStyleLessComment extends ilSystemStyleLessItem
         $this->setComment($comment);
     }
 
-    public function getComment(): string
+    public function getComment() : string
     {
         return $this->comment;
     }
 
-    public function setComment(string $comment): void
+    public function setComment(string $comment) : void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment = str_replace('\n', '', $comment);
@@ -40,7 +40,7 @@ class ilSystemStyleLessComment extends ilSystemStyleLessItem
      * This function will be needed to write the comment back to the less file and restore it's initial structure
      * in less.
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         return $this->getComment() . '\n';
     }

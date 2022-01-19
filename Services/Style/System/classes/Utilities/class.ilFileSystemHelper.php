@@ -32,7 +32,7 @@ class ilFileSystemHelper
         rename($from, $to);
     }
 
-    public function delete(string $file_path): void
+    public function delete(string $file_path) : void
     {
         unlink($file_path);
     }
@@ -56,7 +56,7 @@ class ilFileSystemHelper
     /**
      * Recursive delete of a folder
      */
-    public function recursiveRemoveDir(string $dir): void
+    public function recursiveRemoveDir(string $dir) : void
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);
@@ -173,7 +173,7 @@ class ilFileSystemHelper
      * Recursive copy of a folder
      * @throws ilSystemStyleException
      */
-    public function recursiveCopy(string $src, string $dest): void
+    public function recursiveCopy(string $src, string $dest) : void
     {
         foreach (scandir($src) as $file) {
             $src_file = rtrim($src, '/') . '/' . $file;
@@ -210,12 +210,12 @@ class ilFileSystemHelper
 
 
 
-    public function getMessageStack(): ilSystemStyleMessageStack
+    public function getMessageStack() : ilSystemStyleMessageStack
     {
         return $this->message_stack;
     }
 
-    public function setMessageStack(ilSystemStyleMessageStack $message_stack): void
+    public function setMessageStack(ilSystemStyleMessageStack $message_stack) : void
     {
         $this->message_stack = $message_stack;
     }

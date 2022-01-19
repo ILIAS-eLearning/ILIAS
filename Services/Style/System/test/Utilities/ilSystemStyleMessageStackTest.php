@@ -21,7 +21,7 @@ class ilSystemStyleMessageStackTest extends TestCase
     protected array $messages = [];
     protected ilSystemStyleMessageStack $ilSystemStyleMessageStack;
 
-    public function testPrependMessage(): void
+    public function testPrependMessage() : void
     {
         $this->createTestEnvironment();
 
@@ -50,7 +50,7 @@ class ilSystemStyleMessageStackTest extends TestCase
         $this->assertTrue($this->messages[2]->getTypeId() === ilSystemStyleMessage::TYPE_INFO);
     }
 
-    public function testAddMessage(): void
+    public function testAddMessage() : void
     {
         $this->createTestEnvironment();
 
@@ -79,7 +79,7 @@ class ilSystemStyleMessageStackTest extends TestCase
         $this->assertTrue($this->messages[0]->getTypeId() === ilSystemStyleMessage::TYPE_INFO);
     }
 
-    public function testJoinedMessages(): void
+    public function testJoinedMessages() : void
     {
         $this->createTestEnvironment();
 
@@ -175,7 +175,7 @@ class ilSystemStyleMessageStackTest extends TestCase
         $this->assertEquals('This is a message</br>', $message_components[0]->getMessageText());
     }
 
-    public function testGetAndSetMessages(): void
+    public function testGetAndSetMessages() : void
     {
         $this->createTestEnvironment();
 
@@ -192,7 +192,7 @@ class ilSystemStyleMessageStackTest extends TestCase
         $this->assertTrue($this->ilSystemStyleMessageStack->getMessages()[1]->getMessage() === 'Godzilla has NOT taken over the world.');
     }
 
-    public function testHasMessages(): void
+    public function testHasMessages() : void
     {
         $this->createTestEnvironment();
 
@@ -203,7 +203,7 @@ class ilSystemStyleMessageStackTest extends TestCase
         $this->assertTrue($this->ilSystemStyleMessageStack->hasMessages());
     }
 
-    protected function createTestEnvironment(): void
+    protected function createTestEnvironment() : void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage(
             $this->messageStringOne,

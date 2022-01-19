@@ -72,7 +72,7 @@ class ilSystemStyleMainGUI
      * Main routing of the system styles. Resets ilCtrl Parameter for all subsequent generation of links.
      * @throws ilCtrlException
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -239,7 +239,7 @@ class ilSystemStyleMainGUI
      * 'enable_system_styles_management' setting in the tools section of the ilias.ini.php
      * @throws ilObjectException
      */
-    public function checkPermission(string $a_perm, bool $a_throw_exc = true): bool
+    public function checkPermission(string $a_perm, bool $a_throw_exc = true) : bool
     {
         $has_perm = true;
 

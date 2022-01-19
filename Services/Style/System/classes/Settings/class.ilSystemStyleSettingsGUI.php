@@ -55,7 +55,7 @@ class ilSystemStyleSettingsGUI
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id);
     }
 
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : 'edit';
         $style = $this->style_container->getSkin()->getStyle($this->style_id);
@@ -313,7 +313,7 @@ class ilSystemStyleSettingsGUI
     /**
      * @throws ilSystemStyleException
      */
-    protected function editSystemStyleForm(): Form
+    protected function editSystemStyleForm() : Form
     {
         $f = $this->ui_factory->input();
         $skin = $this->style_container->getSkin();

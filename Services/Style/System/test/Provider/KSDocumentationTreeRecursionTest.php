@@ -21,7 +21,7 @@ class KSDocumentationTreeRecursionTest extends TestCase
     protected URI $test_uri;
     protected KSDocumentationTreeRecursion $tree_recursion;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->ui_helper = new UITestHelper();
 

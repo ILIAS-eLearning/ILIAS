@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class ilSkinStyleLessCommentTest extends TestCase
 {
-    public function testConstruct(): void
+    public function testConstruct() : void
     {
         $comment = new ilSystemStyleLessComment('comment');
         $this->assertEquals('comment', $comment->getComment());
     }
 
-    public function testSetters(): void
+    public function testSetters() : void
     {
         $comment = new ilSystemStyleLessComment('comment');
 
@@ -22,7 +22,7 @@ class ilSkinStyleLessCommentTest extends TestCase
         $this->assertEquals('newComment', $comment->getComment());
     }
 
-    public function testToString(): void
+    public function testToString() : void
     {
         $comment = new ilSystemStyleLessComment('comment');
 

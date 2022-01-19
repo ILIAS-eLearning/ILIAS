@@ -77,7 +77,7 @@ class ilSkinStyle
     /**
      * @throws ilSystemStyleException
      */
-    public static function parseFromXMLElement(SimpleXMLElement $xml_element): ilSkinStyle
+    public static function parseFromXMLElement(SimpleXMLElement $xml_element) : ilSkinStyle
     {
         return new self(
             (string) $xml_element->attributes()['id'],
@@ -89,7 +89,7 @@ class ilSkinStyle
         );
     }
 
-    public function getId(): string
+    public function getId() : string
     {
         return $this->id;
     }
@@ -105,7 +105,7 @@ class ilSkinStyle
         $this->id = str_replace(' ', '_', $id);
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -115,7 +115,7 @@ class ilSkinStyle
         $this->name = $name;
     }
 
-    public function getSoundDirectory(): string
+    public function getSoundDirectory() : string
     {
         return $this->sound_directory;
     }
@@ -125,7 +125,7 @@ class ilSkinStyle
         $this->sound_directory = $sound_directory;
     }
 
-    public function getImageDirectory(): string
+    public function getImageDirectory() : string
     {
         return $this->image_directory;
     }
@@ -135,7 +135,7 @@ class ilSkinStyle
         $this->image_directory = $image_directory;
     }
 
-    public function getCssFile(): string
+    public function getCssFile() : string
     {
         return $this->css_file;
     }
@@ -145,7 +145,7 @@ class ilSkinStyle
         $this->css_file = $css_file;
     }
 
-    public function getFontDirectory(): string
+    public function getFontDirectory() : string
     {
         return $this->font_directory;
     }
@@ -158,7 +158,7 @@ class ilSkinStyle
     /**
      * Returns the parent style of this style if set
      */
-    public function getSubstyleOf(): string
+    public function getSubstyleOf() : string
     {
         return $this->substyle_of;
     }
@@ -174,7 +174,7 @@ class ilSkinStyle
     /**
      * Return wheter this style is a substyle of another
      */
-    public function isSubstyle(): bool
+    public function isSubstyle() : bool
     {
         return $this->getSubstyleOf() != '';
     }
@@ -182,7 +182,7 @@ class ilSkinStyle
     /**
      * Checks if a resource (folder) relative to the style is referenced by this style. Used to decide if folder can be deleted.
      */
-    public function referencesResource(string $resource): bool
+    public function referencesResource(string $resource) : bool
     {
         return $this->getCssFile() == $resource
             || $this->getImageDirectory() == $resource

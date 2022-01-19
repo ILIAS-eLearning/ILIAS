@@ -8,7 +8,7 @@ class ilSystemStyleRootLoggerMock
     {
     }
 
-    public function debug(string $message): void
+    public function debug(string $message) : void
     {
     }
 }

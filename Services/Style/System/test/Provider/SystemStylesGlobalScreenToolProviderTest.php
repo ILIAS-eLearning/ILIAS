@@ -28,7 +28,7 @@ class SystemStylesGlobalScreenToolProviderTest extends TestCase
     protected SystemStylesGlobalScreenToolProvider $tool_provider;
     protected Container $dic;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         global $DIC;
 

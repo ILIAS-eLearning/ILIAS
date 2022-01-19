@@ -16,7 +16,7 @@ class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
 
     protected ilCtrl $ctrl;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
         $ui_helper = new UITestHelper();
@@ -57,19 +57,19 @@ class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
         );
     }
 
-    public function testConstruct(): void
+    public function testConstruct() : void
     {
         $this->ctrl->method('getCmd')->willReturn('');
         $this->assertInstanceOf(ilSystemStyleIconsGUI::class, $this->icons_gui);
     }
 
-    public function tesGetIconsPreviewstPreview(): void
+    public function tesGetIconsPreviewstPreview() : void
     {
         $this->assertInstanceOf(\ILIAS\UI\Component\Panel\Report::class, $this->icons_gui->getIconsPreviews());
     }
 
     //this is only a smoke test
-    public function testPreview(): void
+    public function testPreview() : void
     {
         $this->ctrl->method('getCmd')->willReturn('preview');
         $this->icons_gui->executeCommand();

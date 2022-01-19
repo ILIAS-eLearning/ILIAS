@@ -43,7 +43,7 @@ class ilSystemStyleIconColor
         $this->setDescription($description);
     }
 
-    public function getId(): string
+    public function getId() : string
     {
         return $this->id;
     }
@@ -53,7 +53,7 @@ class ilSystemStyleIconColor
         $this->id = $id;
     }
 
-    public function getColor(): string
+    public function getColor() : string
     {
         return $this->color;
     }
@@ -72,7 +72,7 @@ class ilSystemStyleIconColor
         $this->color = $color;
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -82,7 +82,7 @@ class ilSystemStyleIconColor
         $this->name = $name;
     }
 
-    public function getDescription(): string
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -96,7 +96,7 @@ class ilSystemStyleIconColor
      * Used to order the colors according to their dominant aspect. Due to the vast numbers of colors to be displayed
      * to the user, they must be ordered in some fashion, dominant aspect and brightness are possible values.
      */
-    public function getDominatAspect(): int
+    public function getDominatAspect() : int
     {
         $r = $this->getRedAspect();
         $g = $this->getGreenAspect();
@@ -116,7 +116,7 @@ class ilSystemStyleIconColor
     /**
      * Get red aspect from a color in hex format
      */
-    public function getRedAspect(): int
+    public function getRedAspect() : int
     {
         return hexdec(substr($this->getColor(), 0, 2));
     }
@@ -124,7 +124,7 @@ class ilSystemStyleIconColor
     /**
      * Get green aspect from a color in hex format
      */
-    public function getGreenAspect(): int
+    public function getGreenAspect() : int
     {
         return hexdec(substr($this->getColor(), 2, 2));
     }
@@ -132,7 +132,7 @@ class ilSystemStyleIconColor
     /**
      * Get blue aspect from a color in hex format
      */
-    public function getBlueAspect(): int
+    public function getBlueAspect() : int
     {
         return hexdec(substr($this->getColor(), 4, 2));
     }
@@ -142,7 +142,7 @@ class ilSystemStyleIconColor
      * to the user, they must be ordered in some fashion, dominant aspect and brightness are possible values.
      * See: https://en.wikipedia.org/wiki/YIQ
      */
-    public function getPerceivedBrightness(): float
+    public function getPerceivedBrightness() : float
     {
         $r = $this->getRedAspect();
         $g = $this->getGreenAspect();
@@ -158,7 +158,7 @@ class ilSystemStyleIconColor
     /**
      * Used to sort colors according to their brightness
      */
-    public static function compareColors(ilSystemStyleIconColor $color1, ilSystemStyleIconColor $color2): int
+    public static function compareColors(ilSystemStyleIconColor $color1, ilSystemStyleIconColor $color2) : int
     {
         $value1 = $color1->getPerceivedBrightness();
         $value2 = $color2->getPerceivedBrightness();

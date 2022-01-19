@@ -8,7 +8,7 @@ class ilSystemStyleLoggerMock
     {
     }
 
-    public function root(): ilSystemStyleRootLoggerMock
+    public function root() : ilSystemStyleRootLoggerMock
     {
         return new ilSystemStyleRootLoggerMock();
     }

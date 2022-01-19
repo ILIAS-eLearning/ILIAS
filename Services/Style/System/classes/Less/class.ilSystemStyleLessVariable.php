@@ -48,22 +48,22 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         $this->setReferences($references);
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
-    public function getValue(): string
+    public function getValue() : string
     {
         return $this->value;
     }
 
-    public function setValue(string $value): void
+    public function setValue(string $value) : void
     {
         if ($this->getName() == 'il-icon-font-path') {
             if ($value[0] != '\'') {
@@ -82,7 +82,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         $this->value = str_replace('\n', '', $value);
     }
 
-    public function getComment(): string
+    public function getComment() : string
     {
         return $this->comment;
     }
@@ -93,7 +93,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         $this->comment = str_replace('\n', '', $comment);
     }
 
-    public function getCategoryName(): string
+    public function getCategoryName() : string
     {
         return $this->category_name;
     }
@@ -103,7 +103,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         $this->category_name = $category_name;
     }
 
-    public function getReferences(): array
+    public function getReferences() : array
     {
         return $this->references;
     }
@@ -117,7 +117,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
      * This function will be needed to write the variable back to the less file and restore it's initial structure
      * in less.
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         $content = '';
         if ($this->getComment()) {

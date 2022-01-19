@@ -49,7 +49,7 @@ class ilSystemStyleHTMLExport
         ];
     }
 
-    public function export(): void
+    public function export() : void
     {
         $this->createDirectories();
 

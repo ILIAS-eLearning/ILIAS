@@ -22,7 +22,7 @@ class ilSkinFactory
      * Create Skin classes holds an manages the basic data of a skin as provide by the template of the skin.
      * @throws ilSystemStyleException
      */
-    public function skinFromXML(string $path = ''): ilSkin
+    public function skinFromXML(string $path = '') : ilSkin
     {
         try {
             $xml = new SimpleXMLElement(file_get_contents($path));
@@ -66,7 +66,7 @@ class ilSkinFactory
     public function skinStyleContainerFromId(
         string $skin_id,
         ilSystemStyleMessageStack $message_stack = null
-    ): ilSkinStyleContainer {
+    ) : ilSkinStyleContainer {
         if (!$skin_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_SKIN_ID);
         }
@@ -95,7 +95,7 @@ class ilSkinFactory
         string $name,
         ilSystemStyleMessageStack $message_stack = null,
         bool $uploaded = true
-    ): ilSkinStyleContainer {
+    ) : ilSkinStyleContainer {
         $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, '.zip'));
 
         while (ilStyleDefinition::skinExists($skin_id, $this->config)) {
@@ -126,7 +126,7 @@ class ilSkinFactory
         ilSkinStyleContainer $container,
         ilFileSystemHelper $file_system,
         string $new_skin_txt_addon = 'Copy'
-    ): ilSkinStyleContainer {
+    ) : ilSkinStyleContainer {
         $new_skin_id_addon = '';
         $new_skin_name_addon = '';
 

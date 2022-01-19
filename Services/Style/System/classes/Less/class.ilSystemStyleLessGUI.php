@@ -56,9 +56,9 @@ class ilSystemStyleLessGUI
         } catch (ilSystemStyleException $e) {
             $this->message_stack->addMessage(
                 new ilSystemStyleMessage(
-                $e->getMessage(),
-                ilSystemStyleMessage::TYPE_ERROR
-            )
+                    $e->getMessage(),
+                    ilSystemStyleMessage::TYPE_ERROR
+                )
             );
         }
     }
@@ -66,7 +66,7 @@ class ilSystemStyleLessGUI
     /**
      * Execute command
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $this->addResetToolbar();
         $form = null;
@@ -102,7 +102,7 @@ class ilSystemStyleLessGUI
         ));
     }
 
-    protected function reset(): void
+    protected function reset() : void
     {
         $style = $this->style_container->getSkin()->getStyle($this->style_id);
         $this->less_file = $this->style_container->copyVariablesFromDefault($style);
@@ -117,7 +117,7 @@ class ilSystemStyleLessGUI
         }
     }
 
-    protected function checkRequirements(): bool
+    protected function checkRequirements() : bool
     {
         $less_path = $this->style_container->getLessFilePath($this->style_id);
 
@@ -163,7 +163,7 @@ class ilSystemStyleLessGUI
         return $pass;
     }
 
-    protected function checkLessInstallation(): bool
+    protected function checkLessInstallation() : bool
     {
         $pass = true;
 
@@ -197,7 +197,7 @@ class ilSystemStyleLessGUI
         return $pass;
     }
 
-    protected function edit(): ?Form
+    protected function edit() : ?Form
     {
         $modify = true;
 
@@ -214,7 +214,7 @@ class ilSystemStyleLessGUI
         return null;
     }
 
-    public function initSystemStyleLessForm(bool $modify = true): Form
+    public function initSystemStyleLessForm(bool $modify = true) : Form
     {
         $f = $this->ui_factory->input();
         $category_section = [];
@@ -251,7 +251,7 @@ class ilSystemStyleLessGUI
         )->withSubmitCaption($this->lng->txt('update_variables'));
     }
 
-    public function update(): Form
+    public function update() : Form
     {
         $form = $this->initSystemStyleLessForm();
         $form = $form->withRequest($this->request);

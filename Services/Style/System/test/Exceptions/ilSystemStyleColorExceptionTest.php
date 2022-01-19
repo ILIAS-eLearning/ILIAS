@@ -7,7 +7,7 @@ include_once('Services/Style/System/test/Exceptions/ilSystemStyleExceptionBaseTe
 
 class ilSystemStyleColorExceptionTest extends ilSystemStyleExceptionBaseTest
 {
-    protected function getClassName(): string
+    protected function getClassName() : string
     {
         return 'ilSystemStyleColorException';
     }

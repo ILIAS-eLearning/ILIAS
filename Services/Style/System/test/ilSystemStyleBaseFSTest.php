@@ -14,7 +14,7 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
     protected ilFileSystemHelper $file_system;
     protected ?ILIAS\DI\Container $save_dic = null;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         global $DIC;
 
@@ -40,7 +40,7 @@ abstract class ilSystemStyleBaseFSTest extends TestCase
         $this->style = $this->container->getSkin()->getStyle('style1');
     }
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
         global $DIC;
         $DIC = $this->save_dic;

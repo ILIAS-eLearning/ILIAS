@@ -10,7 +10,7 @@ class ilSystemStyleLanguageMock extends ilLanguage
     {
     }
 
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = '') : string
     {
         $this->requested[] = $a_topic;
         return $a_topic;

@@ -13,7 +13,7 @@ class ilSystemStyleSettings
     /**
      * lookup if a style is activated
      */
-    public static function _lookupActivatedStyle(string $a_skin, string $a_style): bool
+    public static function _lookupActivatedStyle(string $a_skin, string $a_style) : bool
     {
         global $DIC;
 
@@ -34,7 +34,7 @@ class ilSystemStyleSettings
     /**
      * deactivate system style
      */
-    public static function _deactivateStyle(string $a_skin, string $a_style): void
+    public static function _deactivateStyle(string $a_skin, string $a_style) : void
     {
         global $DIC;
 
@@ -50,7 +50,7 @@ class ilSystemStyleSettings
     /**
      * activate system style
      */
-    public static function _activateStyle(string $a_skin, string $a_style): void
+    public static function _activateStyle(string $a_skin, string $a_style) : void
     {
         global $DIC;
 
@@ -66,7 +66,7 @@ class ilSystemStyleSettings
      * in a particular category.
      * @return array ('substyle' => substyle_id, 'ref id' => cat_ref_id)
      */
-    public static function getSystemStyleCategoryAssignments(string $a_skin_id, string $a_style_id): array
+    public static function getSystemStyleCategoryAssignments(string $a_skin_id, string $a_style_id) : array
     {
         global $DIC;
 
@@ -93,7 +93,7 @@ class ilSystemStyleSettings
         string $a_skin_id,
         string $a_style_id,
         string $a_sub_style_id
-    ): array {
+    ) : array {
         global $DIC;
 
         $assignmnts = [];
@@ -154,7 +154,7 @@ class ilSystemStyleSettings
         string $a_style_id,
         string $a_substyle,
         string $a_ref_id
-    ): void {
+    ) : void {
         global $DIC;
 
         $DIC->database()->manipulate('DELETE FROM syst_style_cat WHERE ' .
@@ -185,7 +185,7 @@ class ilSystemStyleSettings
         string $old_style_id,
         string $new_skin_id,
         string $new_style_id
-    ): void {
+    ) : void {
         global $DIC;
 
         $DIC->database()->manipulate('UPDATE syst_style_cat ' .
@@ -201,7 +201,7 @@ class ilSystemStyleSettings
     public static function updateSubStyleIdfSubStyleCategoryAssignments(
         string $old_substyle_id,
         string $new_substyle_id
-    ): void {
+    ) : void {
         global $DIC;
 
         $DIC->database()->manipulate('UPDATE syst_style_cat ' .
@@ -212,7 +212,7 @@ class ilSystemStyleSettings
     /**
      * Sets a users preferred system skin/style by using the user object.
      */
-    public static function setCurrentUserPrefStyle(string $skin_id, string $style_id): void
+    public static function setCurrentUserPrefStyle(string $skin_id, string $style_id) : void
     {
         global $DIC;
 
@@ -224,7 +224,7 @@ class ilSystemStyleSettings
     /**
      * Gets a users preferred skin by using the user object.
      */
-    public static function getCurrentUserPrefSkin(): bool
+    public static function getCurrentUserPrefSkin() : bool
     {
         global $DIC;
 
@@ -234,7 +234,7 @@ class ilSystemStyleSettings
     /**
      * Gets a users preferred style by using the user object.
      */
-    public static function getCurrentUserPrefStyle(): string
+    public static function getCurrentUserPrefStyle() : string
     {
         global $DIC;
 
@@ -267,7 +267,7 @@ class ilSystemStyleSettings
      * Gets default Skin of the System
      * @return string
      */
-    public static function getCurrentDefaultSkin(): string
+    public static function getCurrentDefaultSkin() : string
     {
         global $DIC;
 
@@ -284,7 +284,7 @@ class ilSystemStyleSettings
      * Gets default style of the system
      * @throws ilSystemStyleException
      */
-    public static function getCurrentDefaultStyle(): string
+    public static function getCurrentDefaultStyle() : string
     {
         global $DIC;
         $skin_id = $DIC->clientIni()->readVariable('layout', 'skin');
