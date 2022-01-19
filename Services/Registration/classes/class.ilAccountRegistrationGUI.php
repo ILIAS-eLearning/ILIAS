@@ -505,7 +505,7 @@ class ilAccountRegistrationGUI
                         
                         case "relative":
                             $rel = unserialize($code_data["alimitdt"]);
-                            $access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + time();
+                            $access_limit = $rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time();
                             break;
                     }
                 }
