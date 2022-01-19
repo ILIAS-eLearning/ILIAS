@@ -204,9 +204,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
 
             default:
                 try {
-                    $res = explode('-', $this->ctrl->getCmd('', [
-                        'view-toggleAutoMessageDisplayState'
-                    ]), 2);
+                    $res = explode('-', $this->ctrl->getCmd(''), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
