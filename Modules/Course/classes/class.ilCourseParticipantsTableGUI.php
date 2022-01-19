@@ -562,7 +562,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // consultation hours
         if ($this->isColumnSelected('consultation_hour')) {
-            include_once './Services/Booking/classes/class.ilBookingEntry.php';
             foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['DIC']['ilUser']->getId()) as $buser => $booking) {
                 if (isset($a_user_data[$buser])) {
                     $a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];

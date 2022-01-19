@@ -1,11 +1,7 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
+<?php declare(strict_types=1);
 
 /**
- *
  * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
  *
  * @ilCtrl_IsCalledBy ilAppointmentPresentationSessionGUI: ilCalendarAppointmentPresentationGUI
  *
@@ -13,7 +9,7 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         global $DIC;
 
@@ -21,14 +17,9 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
         $r = $DIC->ui()->renderer();
         $this->lng->loadLanguageModule("sess");
         $this->lng->loadLanguageModule("crs");
-        /**
-         * @var ilCalendarEntry
-         */
+
         $a_app = $this->appointment;
-        include_once "./Modules/Session/classes/class.ilObjSession.php";
-
         $cat_info = $this->getCatInfo();
-
         $refs = $this->getReadableRefIds($this->getObjIdForAppointment());
         $ref_id = current($refs);
 

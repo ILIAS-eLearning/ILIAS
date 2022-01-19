@@ -1,46 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
 
 /**
 * Consultation hours administration
 *
 * @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 class ilConsultationHoursTableGUI extends ilTable2GUI
 {
-    private $user_id = 0;
-    private $has_groups = false;
-    
-    /**
-     * Constructor
-     * @param object $a_gui
-     * @param object $a_cmd
-     * @param object $a_user_id
-     * @return
-     */
-    public function __construct($a_gui, $a_cmd, $a_user_id)
-    {
-        global $DIC;
+    private int $user_id = 0;
+    private bool $has_groups = false;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
+
+    public function __construct(object $a_gui, string $a_cmd, int $a_user_id)
+    {
         $this->user_id = $a_user_id;
         
-        include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php';
-        $this->has_groups = ilConsultationHourGroups::getCountGroupsOfUser($a_user_id);
+        $this->has_groups = (bool) ilConsultationHourGroups::getCountGroupsOfUser($a_user_id);
         
         $this->setId('chtg_' . $this->getUserId());
         parent::__construct($a_gui, $a_cmd);
         
-        $this->addColumn('', 'f', 1);
+        $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('appointment'), 'start');
         
         if ($this->hasGroups()) {
@@ -54,7 +37,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $this->addColumn('');
         
         $this->setRowTemplate('tpl.ch_upcoming_row.html', 'Services/Calendar');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->setTitle($this->lng->txt('cal_ch_ch'));
         
         $this->enable('sort');
@@ -69,33 +52,21 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
     }
     
-    /**
-     * get user id
-     * @return
-     */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
     
-    /**
-     * Check if user has created groups
-     */
-    public function hasGroups()
+    public function hasGroups() : bool
     {
         return $this->has_groups;
     }
-    
-    /**
-     * Fill row
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
-    {
-        global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        
+    /**
+     * @inheritDoc
+     */
+    protected function fillRow(array $a_set) : void
+    {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('START', $a_set['start_p']);
         $this->tpl->setVariable('TITLE', $a_set['title']);
@@ -117,12 +88,12 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
                 $user_profile_prefs = ilObjUser::_getPreferences($user_id);
                 if ($user_profile_prefs["public_profile"] == "y") {
                     $this->tpl->setCurrentBlock('booking_with_link');
-                    $ilCtrl->setParameter($this->getParentObject(), 'user', $user_id);
-                    $this->tpl->setVariable('URL_BOOKING', $ilCtrl->getLinkTarget($this->getParentObject(), 'showprofile'));
+                    $this->ctrl->setParameter($this->getParentObject(), 'user', $user_id);
+                    $this->tpl->setVariable('URL_BOOKING', $this->ctrl->getLinkTarget($this->getParentObject(), 'showprofile'));
                 } else {
                     $this->tpl->setCurrentBlock('booking_without_link');
                 }
-                $ilCtrl->setParameter($this->getParentObject(), 'user', '');
+                $this->ctrl->setParameter($this->getParentObject(), 'user', '');
                 $this->tpl->setVariable('TXT_BOOKING', $name);
                 $this->tpl->parseCurrentBlock();
             }
@@ -135,37 +106,27 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $list->setId('act_cht_' . $a_set['id']);
         $list->setListTitle($this->lng->txt('actions'));
 
-        $ilCtrl->setParameter($this->getParentObject(), 'apps', $a_set['id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'apps', $a_set['id']);
         $list->addItem(
             $this->lng->txt('edit'),
             '',
-            $ilCtrl->getLinkTarget($this->getParentObject(), 'edit')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'edit')
         );
         $list->addItem(
             $this->lng->txt('cal_ch_assign_participants'),
             '',
-            $ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
+            $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
         );
         $list->addItem(
             $this->lng->txt('delete'),
             '',
-            $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDelete')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete')
         );
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
     
-    /**
-     * Parse appointments
-     * @return
-     */
     public function parse()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-
         $data = array();
         $counter = 0;
         foreach (ilConsultationHourAppointments::getAppointments($this->getUserId()) as $app) {

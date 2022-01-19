@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
 include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
@@ -13,20 +13,14 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         global $DIC;
 
-        $user_id = $DIC->user()->getId();
-
         $this->lng->loadLanguageModule("exc");
-
-        include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
-        include_once('./Services/Link/classes/class.ilLink.php');
 
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();
-        $ctrl = $DIC->ctrl();
 
         $a_app = $this->appointment;
         $exc_obj = new ilObjExercise($this->getObjIdForAppointment(), false);
@@ -45,7 +39,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
         $ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
 
         $assignment = new ilExAssignment($ass_id);
-        $state = ilExcAssMemberState::getInstanceByIds($assignment->getId(), $user_id);
+        $state = ilExcAssMemberState::getInstanceByIds($assignment->getId(), $this->user->getId());
         if ($state->areInstructionsVisible()) {
             $assignment_instructions = trim($assignment->getInstruction());
             if ($assignment_instructions != "") {
@@ -61,16 +55,16 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
                 $this->has_files = true;
                 $str_files = array();
                 foreach ($files as $file) {
-                    $ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);
-                    $ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
-                    $ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
-                    $url = $ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI",
+                    $this->ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);
+                    $this->ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
+                    $this->ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
+                    $url = $this->ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI",
                                                              "ilobjexercisegui",
                                                              "ilexsubmissiongui"
                     ), "downloadFile");
-                    $ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
-                    $ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
-                    $ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
+                    $this->ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
+                    $this->ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
+                    $this->ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
                     $str_files[$file["name"]] = $r->render($f->button()->shy($file["name"], $url));
                 }
                 ksort($str_files, SORT_NATURAL | SORT_FLAG_CASE);
@@ -105,7 +99,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
     /**
      * @inheritdoc
      */
-    protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment = null)
+    protected function buildDirectLinkForAppointment(int $a_ref_id, ?array $a_appointment = null) : string
     {
         $ass_id = 0;
         if (is_array($a_appointment)) {

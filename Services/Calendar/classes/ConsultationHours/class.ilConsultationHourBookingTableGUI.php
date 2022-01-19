@@ -1,55 +1,42 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroup.php';
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilConsultationHourBookingTableGUI extends ilTable2GUI
 {
-    private $user_id = 0;
+    private int $user_id = 0;
     
-    private $today = null;
+    private ilDateTime $today;
     
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param type $a_user_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_user_id)
     {
         $this->user_id = $a_user_id;
         $this->setId('chboo_' . $this->user_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->initTable();
-        
-        
         $this->today = new ilDateTime(time(), IL_CAL_UNIX);
     }
     
     /**
      * Init table
      */
-    protected function initTable()
+    protected function initTable() : void
     {
         $this->setRowTemplate('tpl.ch_booking_row.html', 'Services/Calendar');
         
-        $this->setTitle($GLOBALS['DIC']['lng']->txt('cal_ch_bookings_tbl'));
-        $this->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this->getParentObject(), $this->getParentCmd()));
+        $this->setTitle($this->lng->txt('cal_ch_bookings_tbl'));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         
         $this->addColumn('', '', '1px');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('cal_start'), 'start');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('name'), 'name');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('cal_ch_booking_message_tbl'), 'comment');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('title'), 'title');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('actions'), '');
+        $this->addColumn($this->lng->txt('cal_start'), 'start');
+        $this->addColumn($this->lng->txt('name'), 'name');
+        $this->addColumn($this->lng->txt('cal_ch_booking_message_tbl'), 'comment');
+        $this->addColumn($this->lng->txt('title'), 'title');
+        $this->addColumn($this->lng->txt('actions'), '');
         
         $this->enable('sort');
         $this->enable('header');
@@ -63,40 +50,34 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     }
     
     /**
-     * Fill row
-     * @param array $a_set
+     * @inheritDoc
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        
         $this->tpl->setVariable('START', $a_set['start_str']);
         $this->tpl->setVariable('NAME', $a_set['name']);
         $this->tpl->setVariable('COMMENT', $a_set['comment']);
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
         $list->setId('act_chboo_' . $a_set['id']);
         $list->setListTitle($this->lng->txt('actions'));
 
-        $ilCtrl->setParameter($this->getParentObject(), 'bookuser', $a_set['id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'bookuser', $a_set['id']);
         
         $start = new ilDateTime($a_set['start'], IL_CAL_UNIX);
         if (ilDateTime::_after($start, $this->today, IL_CAL_DAY)) {
             $list->addItem(
                 $this->lng->txt('cal_ch_reject_booking'),
                 '',
-                $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmRejectBooking')
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmRejectBooking')
             );
         }
         $list->addItem(
             $this->lng->txt('cal_ch_delete_booking'),
             '',
-            $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteBooking')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteBooking')
         );
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
@@ -104,14 +85,10 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
 
     /**
      * Parse Groups
-     * @param array $groups
+     * @param int[]
      */
-    public function parse(array $appointments)
+    public function parse(array $appointments) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        
         $rows = array();
         $counter = 0;
         foreach ($appointments as $app) {
@@ -124,7 +101,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
                     $user_id,
                     true,
                     true,
-                    $ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd()),
+                    $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd()),
                     true,
                     true
                 );

@@ -11,12 +11,6 @@
 * @ingroup ServicesCalendar
 */
 
-include_once('./Services/Calendar/classes/class.ilDate.php');
-include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-include_once('./Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 
 class ilCalendarDayGUI extends ilCalendarViewGUI
@@ -24,44 +18,10 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
     protected $seed_info = array();
     protected $user_settings = null;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    
     protected $num_appointments = 1;
     
     protected $timezone = 'UTC';
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
 
     /**
      * Constructor

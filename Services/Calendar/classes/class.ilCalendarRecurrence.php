@@ -60,7 +60,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     private $freq_type = '';
     private $freq_until_type;
     private $freq_until_date = null;
-    private $freq_until_count;
+    private $freq_until_count = 0;
     
     private $interval = 0;
     private $byday = '';
@@ -277,7 +277,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getFrequenceType()
+    public function getFrequenceType() : string
     {
         return $this->freq_type;
     }
@@ -288,7 +288,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getFrequenceUntilDate()
+    public function getFrequenceUntilDate() : ?ilDate
     {
         return is_object($this->freq_until_date) ? $this->freq_until_date : null;
     }
@@ -323,7 +323,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @param
      *
      */
-    public function getFrequenceUntilCount()
+    public function getFrequenceUntilCount() : int
     {
         return $this->freq_until_count;
     }
@@ -346,7 +346,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getInterval()
+    public function getInterval() : int
     {
         return $this->interval ? $this->interval : 1;
     }
@@ -375,12 +375,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     }
     
     /**
-     * get BYDAY list
-     *
-     * @access public
-     * @return
+     * @inheritDoc
      */
-    public function getBYDAYList()
+    public function getBYDAYList(): array
     {
         if (!trim($this->getBYDAY())) {
             return array();
@@ -409,7 +406,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getBYWEEKNOList()
+    public function getBYWEEKNOList() : array
     {
         if (!trim($this->getBYWEEKNO())) {
             return array();
@@ -461,7 +458,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getBYMONTHList()
+    public function getBYMONTHList() : array
     {
         if (!trim($this->getBYMONTH())) {
             return array();
@@ -500,7 +497,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      *
      * @access public
      */
-    public function getBYMONTHDAYList()
+    public function getBYMONTHDAYList() : array
     {
         if (!trim($this->getBYMONTHDAY())) {
             return array();
@@ -541,7 +538,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getBYYEARDAYList()
+    public function getBYYEARDAYList() : array
     {
         if (!trim($this->getBYYEARDAY())) {
             return array();
@@ -581,7 +578,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getBYSETPOSList()
+    public function getBYSETPOSList() : array
     {
         if (!trim($this->getBYSETPOS())) {
             return array();
@@ -622,7 +619,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      *
      */
-    public function getTimeZone()
+    public function getTimeZone() : string
     {
         return $this->timezone;
     }
@@ -641,20 +638,19 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     
     /**
      * Get exclusion dates
-     * @return
+     * @return array
      */
-    public function getExclusionDates()
+    public function getExclusionDates() : array
     {
         return (array) $this->exclusion_dates;
     }
     
     /**
      * validate
-     *
      * @access public
      * @return bool
      */
-    public function validate()
+    public function validate():bool
     {
         $valid_frequences = array(IL_CAL_FREQ_DAILY,IL_CAL_FREQ_WEEKLY,IL_CAL_FREQ_MONTHLY,IL_CAL_FREQ_YEARLY);
         if (!in_array($this->getFrequenceType(), $valid_frequences)) {

@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\DI\UIServices;
+
 /**
  * @author Jesús López Reyes <lopez@leifos.com>
  * @version $Id$
@@ -9,109 +13,53 @@
  */
 class ilCalendarViewGUI
 {
-    const CAL_PRESENTATION_DAY = 1;
-    const CAL_PRESENTATION_WEEK = 2;
-    const CAL_PRESENTATION_MONTH = 3;
-    const CAL_PRESENTATION_AGENDA_LIST = 9;
+    public const CAL_PRESENTATION_UNDEFINED = 0;
+    public const CAL_PRESENTATION_DAY = 1;
+    public const CAL_PRESENTATION_WEEK = 2;
+    public const CAL_PRESENTATION_MONTH = 3;
+    public const CAL_PRESENTATION_AGENDA_LIST = 9;
 
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
+    protected int $presentation_type = self::CAL_PRESENTATION_UNDEFINED;
+    protected bool $view_with_appointments = false;
+    protected ilDate $seed;
+    protected int $ch_user_id = 0;
 
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_renderer;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilCtrlInterface $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLogger $logger;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ?ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilComponentFactory $component_factory;
+    protected ilTabsGUI $tabs_gui;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
 
-    /**
-     * @var integer
-     */
-    protected $presentation_type;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
-
-    /**
-     * @var \ILIAS\UI
-     */
-    protected $ui;
-
-    /**
-     * @var bool true if the displayed view contains appointments.
-     */
-    protected $view_with_appointments;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    
-    /**
-     * @var string
-     */
-    protected $seed;
-    
-    /**
-     * @var int
-     */
-    protected $ch_user_id = 0;
-
-    
-
-    /**
-     *
-     * @param ilDate $seed
-     * @param int $presentation_type
-     */
-    public function __construct(ilDate $seed, $presentation_type)
+    public function __construct(ilDate $seed, int $presentation_type)
     {
         $this->seed = $seed;
         $this->initialize($presentation_type);
     }
     
     
-    public function setConsulationHoursUserId($a_user_id)
+    public function setConsulationHoursUserId(int $a_user_id) : void
     {
         $this->ch_user_id = $a_user_id;
     }
     
-    /**
-     *
-     */
-    public function getConsultationHoursUserId()
+    public function getConsultationHoursUserId() : int
     {
         return $this->ch_user_id;
     }
 
-
-    
-    
-
-    /**
-     * View initialization
-     * @param integer $a_calendar_presentation_type
-     */
-    public function initialize($a_calendar_presentation_type)
+    public function initialize(int $a_calendar_presentation_type) : void
     {
         global $DIC;
+
+        $this->component_factory = $DIC['component.factory'];
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
@@ -119,27 +67,22 @@ class ilCalendarViewGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->tabs_gui = $DIC->tabs();
-        $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->presentation_type = $a_calendar_presentation_type;
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
-        //by default "download files" button is not displayed.
+        $this->logger = $DIC->logger()->cal();
         $this->view_with_appointments = false;
-
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         if ($this->presentation_type == self::CAL_PRESENTATION_DAY ||
             $this->presentation_type == self::CAL_PRESENTATION_WEEK) {
-            iljQueryUtil::initjQuery($this->tpl);
-            $this->tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
+            iljQueryUtil::initjQuery($this->main_tpl);
+            $this->main_tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
         }
     }
 
     /**
-     * Get app for id
-     *
-     * @param
-     * @return
+     * @todo refactor the GET usage
      */
-    public function getCurrentApp()
+    public function getCurrentApp() : ?array
     {
         // @todo: this needs optimization
         $events = $this->getEvents();
@@ -151,16 +94,11 @@ class ilCalendarViewGUI
         return null;
     }
 
-    /**
-     * Get events
-     * @todo public or protected
-     * @param
-     * @return
-     */
-    public function getEvents()
+    public function getEvents() : array
     {
         $user = $this->user->getId();
-        
+
+        $schedule = null;
         switch ($this->presentation_type) {
             case self::CAL_PRESENTATION_AGENDA_LIST:
 
@@ -220,18 +158,15 @@ class ilCalendarViewGUI
 
         $schedule->addSubitemCalendars(true);
         $schedule->calculate();
-        $ev = $schedule->getScheduledEvents();
-        return $ev;
+        return $schedule->getScheduledEvents();
     }
 
-
     /**
-     * Get start/end date for item
-     *
-     * @param array $item item
-     * @return array
+     * @param $item
+     * @return array<{start: ilDate|ilDateTime, end: ilDate|ilDateTime}>
+     * @throws ilDateTimeException
      */
-    public function getDatesForItem($item)
+    public function getDatesForItem($item) : array
     {
         $start = $item["dstart"];
         $end = $item["dend"];
@@ -247,13 +182,10 @@ class ilCalendarViewGUI
 
     /**
      * Get modal for appointment (see similar code in ilCalendarBlockGUI)
+     * @todo fix envent initialisation
      */
-    public function getModalForApp()
+    public function getModalForApp() : void
     {
-        $f = $this->ui_factory;
-        $r = $this->ui_renderer;
-        $ctrl = $this->ctrl;
-        
         // set return class
         $this->ctrl->setReturn($this, '');
 
@@ -267,31 +199,30 @@ class ilCalendarViewGUI
                 // content of modal
                 include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
-                $content = $ctrl->getHTML($next_gui);
+                $content = $this->ctrl->getHTML($next_gui);
 
                 //plugins can change the modal title.
-
                 $modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
                 $modal_title = $this->getModalTitleByPlugins($modal_title);
-                $modal = $f->modal()->roundtrip($modal_title, $f->legacy($content))->withCancelButtonLabel("close");
-
-                echo $r->renderAsync($modal);
+                $modal = $this->ui_factory->modal()->roundtrip($modal_title, $this->ui_factory->legacy($content))->withCancelButtonLabel("close");
+                echo $this->ui_renderer->renderAsync($modal);
             }
         }
         exit();
     }
 
     /**
-     * @param $a_calendar_entry
-     * @param $a_dstart
-     * @param string $a_title_forced  //used in plugins to rename the shy button title.
+     * @param ilCalendarEntry $a_calendar_entry
+     * @param string          $a_dstart
+     * @param string          $a_title_forced //used in plugins to rename the shy button title.
      * @return string  shy button html
      */
-    public function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "")
+    public function getAppointmentShyButton(
+        ilCalendarEntry $a_calendar_entry,
+        string $a_dstart,
+        string $a_title_forced = ""
+    ) : string
     {
-        $f = $this->ui_factory;
-        $r = $this->ui_renderer;
-        
         $this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
         
         if ($this->getConsultationHoursUserId()) {
@@ -304,7 +235,7 @@ class ilCalendarViewGUI
         $this->ctrl->setParameter($this, "dt", $_GET["dt"]);
         $this->ctrl->setParameter($this, 'seed', $_GET["seed"]);
 
-        $modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+        $modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
         //Day view presents the titles with the full length.(agenda:class.ilCalendarAgendaListGUI.php)
         if ($this->presentation_type == self::CAL_PRESENTATION_DAY) {
@@ -312,23 +243,20 @@ class ilCalendarViewGUI
         } else {
             $title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
         }
-
-
-        $comps = [$f->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
-
-        return $r->render($comps);
+        $comps = [$this->ui_factory->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
+        return $this->ui_renderer->render($comps);
     }
 
-    //get active plugins.
-    public function getActivePlugins($a_slot_id)
+    /**
+     * @param string $a_slot_id
+     * @return Iterator <ilPlugin>
+     */
+    public function getActivePlugins(string $a_slot_id) : Iterator
     {
-        global $DIC;
-
-        $component_factory = $DIC['component.factory'];
-        return $component_factory->getActivePluginsInSlot($a_slot_id);
+        return $this->component_factory->getActivePluginsInSlot($a_slot_id);
     }
 
-    public function getModalTitleByPlugins($a_current_title)
+    public function getModalTitleByPlugins(string $a_current_title) : string
     {
         $modal_title = $a_current_title;
         //demo of plugin execution.
@@ -340,13 +268,18 @@ class ilCalendarViewGUI
     }
 
     /**
-     * @param $a_cal_entry
-     * @param $a_start_date
-     * @param $a_content
-     * @param $a_tpl needed to adding elements in the template like extra content inside the event container
+     * @param ilCalendarEntry $a_cal_entry
+     * @param string          $a_start_date
+     * @param string          $a_content
+     * @param ilTemplate      $a_tpl needed to adding elements in the template like extra content inside the event container
      * @return string
      */
-    public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content, $a_tpl)
+    public function getContentByPlugins(
+        ilCalendarEntry $a_cal_entry,
+        string $a_start_date,
+        string $a_content,
+        ilTemplate $a_tpl
+    ) : string
     {
         $content = $a_content;
 
@@ -376,22 +309,18 @@ class ilCalendarViewGUI
         if ($content == $a_content) {
             return false;
         }
-
         return $content;
     }
 
     /**
      * Add download link to toolbar
-     *
-     * //TODO rename this method to something like addToolbarDonwloadFiles
-     * @param
-     * @return
      */
-    public function addToolbarActions()
+    public function addToolbarFileDownload() : void
     {
         $settings = ilCalendarSettings::_getInstance();
 
         if ($settings->isBatchFileDownloadsEnabled()) {
+            $num_events = 0;
             if ($this->presentation_type == self::CAL_PRESENTATION_AGENDA_LIST) {
                 $num_events = $this->countEventsInView();
             }
@@ -415,24 +344,21 @@ class ilCalendarViewGUI
     /**
      * Download files related to the appointments showed in the current calendar view (day,week,month,list). Not modals
      */
-    public function downloadFiles()
+    public function downloadFiles() : void
     {
-        include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
-        $download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
-
+        $download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
         $download_job->setBucketTitle($this->getBucketTitle());
         $download_job->setEvents($this->getEvents());
         if ($download_job->run()) {
             ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'), true);
         }
-        $GLOBALS['DIC']->ctrl()->redirect($this);
+        $this->ctrl->redirect($this);
     }
 
     /**
      * get proper label to add in the background task popover
-     * @return string
      */
-    public function getBucketTitle()
+    public function getBucketTitle() : string
     {
         //definition of bucket titles here: 21365
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
@@ -474,7 +400,6 @@ class ilCalendarViewGUI
                         break;
                 }
         }
-
         return $bucket_title;
     }
 
@@ -482,14 +407,13 @@ class ilCalendarViewGUI
      * get the events starting between 2 dates based in seed + view options.
      * @return int number of events in the calendar list view.
      */
-    public function countEventsInView()
+    public function countEventsInView() : int
     {
         $start = $this->seed;
         $end = clone $start;
         $get_list_option = ilCalendarAgendaListGUI::getPeriod();
         switch ($get_list_option) {
             case ilCalendarAgendaListGUI::PERIOD_DAY:
-                //$end->increment(IL_CAL_DAY,1);
                 break;
             case ilCalendarAgendaListGUI::PERIOD_MONTH:
                 $end->increment(IL_CAL_MONTH, 1);

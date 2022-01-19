@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
-
 /**
 * Used for storage og multiple values
 * E.g RRULE:FREQ=WEEKLY;COUNT=20;INTERVAL=2;BYDAY=TU
@@ -36,14 +34,9 @@ include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
 class ilICalValue extends ilICalItem
 {
     /**
-     * Constructor
-     *
-     * @access public
-     * @param string name
-     * @param string value
-     *
+     * ilICalValue constructor.
      */
-    public function __construct($a_name, $a_value)
+    public function __construct(string $a_name, string $a_value)
     {
         parent::__construct($a_name, $a_value);
     }

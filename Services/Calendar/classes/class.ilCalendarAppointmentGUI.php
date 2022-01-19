@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\RequestInterface;
@@ -11,36 +11,35 @@ use Psr\Http\Message\ServerRequestInterface;
 */
 class ilCalendarAppointmentGUI
 {
-    protected $seed = null;
-    protected $initialDate = null;
-    protected $default_fulltime = true;
+    private ilPropertyFormGUI $form;
+    private ilCalendarUserNotification $notification;
+
+    protected ilDate $seed;
+    protected ilDate $initialDate;
+    protected bool $default_fulltime = true;
+    protected ilCalendarEntry $app;
+    protected ilCalendarRecurrence $rec;
+    protected string $timezone;
     
-    protected $app = null;
-    protected $rec = null;
-    protected $timezone = null;
-    
-    protected $tpl;
-    protected $lng;
-    protected $ctrl;
-    
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
+    protected ilObjUser $user;
+    protected ilTabsGUI $tabs;
+    protected ilSetting $settings;
+    protected ilHelpGUI $help;
+    protected ilErrorHandling $error;
+    private ilLogger $logger;
+
     /**
      * @var RequestInterface|ServerRequestInterface
      */
     protected $request;
     
     /**
-     * @var \ilLogger
-     */
-    private $logger = null;
-
-    /**
      * @todo make appointment_id required and remove all GET request
-     *
-     * @access public
-     * @param ilDate seed
-     * @return
      */
-    public function __construct(ilDate $seed, ilDate $initialDate, $a_appointment_id = 0)
+    public function __construct(ilDate $seed, ilDate $initialDate, int $a_appointment_id = 0)
     {
         global $DIC;
 
@@ -48,7 +47,13 @@ class ilCalendarAppointmentGUI
         $this->lng->loadLanguageModule('dateplaner');
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        $this->logger = $DIC->logger()->cal();
+        $this->user = $DIC->user();
+        $this->settings = $DIC->settings();
+        $this->tabs = $DIC->tabs();
+        $this->help  = $DIC->help();
+        $this->error = $DIC['ilErr'];
+
         $this->request = $DIC->http()->request();
 
         $this->initTimeZone();
@@ -57,19 +62,11 @@ class ilCalendarAppointmentGUI
         $this->initAppointment($a_appointment_id);
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-        
-        
         // Clear tabs and set back target
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
             $this->lng->txt('cal_back_to_cal'),
             $this->ctrl->getLinkTarget($this, 'cancel')
         );
@@ -84,44 +81,23 @@ class ilCalendarAppointmentGUI
         }
     }
     
-    /**
-     * Get current appointment
-     * @return ilCalendarEntry
-     */
-    public function getAppointment()
+    public function getAppointment() : ilCalendarEntry
     {
         return $this->app;
     }
     
-    /**
-     * cancel editing
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
     
-    /**
-     * init form
-     *
-     * @access protected
-     * @param string mode ('edit' | 'create')
-     * @return
-     */
-    protected function initForm($a_mode, $a_as_milestone = false, $a_edit_single_app = false)
+    protected function initForm(
+        string $a_mode,
+        bool $a_as_milestone = false,
+        bool $a_edit_single_app = false
+    ) : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $tpl = $DIC['tpl'];
-        
         $this->form = new ilPropertyFormGUI();
-        
-        include_once('./Services/YUI/classes/class.ilYuiUtil.php');
         ilYuiUtil::initDomEvent();
         $resp_info = false;
         switch ($a_mode) {
@@ -189,16 +165,16 @@ class ilCalendarAppointmentGUI
             $obj_cal = ilObject::_lookupObjId($_GET['ref_id']);
             $calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
             $selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
-            $cats = ilCalendarCategories::_getInstance($ilUser->getId());
+            $cats = ilCalendarCategories::_getInstance($this->user->getId());
             $cats->readSingleCalendar($selected_calendar);
         } else {
-            $cats = ilCalendarCategories::_getInstance($ilUser->getId());
+            $cats = ilCalendarCategories::_getInstance($this->user->getId());
             $categories = $cats->prepareCategoriesOfUserForSelection();
             $selected_calendar = key((array) $categories);
             $calendar->setValue($selected_calendar);
         }
         $calendar->setRequired(true);
-        $cats = ilCalendarCategories::_getInstance($ilUser->getId());
+        $cats = ilCalendarCategories::_getInstance($this->user->getId());
         $calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
         
         include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
@@ -211,12 +187,12 @@ class ilCalendarAppointmentGUI
         
         if (!$a_as_milestone) {
             include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
-            $tpl->addJavaScript('./Services/Form/js/date_duration.js');
+            $this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
             $dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'), 'event');
             $dur->setRequired(true);
             $dur->enableToggleFullTime(
                 $this->lng->txt('cal_fullday_title'),
-                $this->app->isFullday() ? true : false
+                $this->app->isFullday()
             );
             $dur->setShowTime(true);
             $dur->setStart($this->app->getStart());
@@ -257,7 +233,7 @@ class ilCalendarAppointmentGUI
         }
         
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $desc->setValue($this->app->getDescription());
+        $desc->setValue((string) $this->app->getDescription());
         $desc->setRows(5);
         $this->form->addItem($desc);
 
@@ -266,6 +242,7 @@ class ilCalendarAppointmentGUI
             $users = $this->app->readResponsibleUsers();
             $resp = new ilNonEditableValueGUI($this->lng->txt('cal_responsible'), "", true);
             $delim = "";
+            $value = '';
             foreach ($users as $r) {
                 $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
@@ -278,7 +255,6 @@ class ilCalendarAppointmentGUI
 
             $this->form->addItem($resp);
         }
-        
 
         if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
             $notu = new ilTextWizardInputGUI($this->lng->txt('cal_user_notification'), 'notu');
@@ -317,82 +293,53 @@ class ilCalendarAppointmentGUI
                 }
             }
 
-            $tpl->addJavaScript('./Services/Calendar/js/toggle_notification.js');
+            $this->tpl->addJavaScript('./Services/Calendar/js/toggle_notification.js');
             $not = new ilCheckboxInputGUI($this->lng->txt('cal_cg_notification'), 'not');
             $not->setInfo($this->lng->txt('cal_notification_info'));
-            $not->setValue(1);
+            $not->setValue('1');
             $not->setChecked($this->app->isNotificationEnabled());
             $not->setDisabled($disabled);
             $this->form->addItem($not);
         }
+        return $this->form;
     }
     
     
     /**
      * add new appointment
-     *
-     * @param \ilPropertyFormGUI $form
-     * @access protected
-     * @return
      */
-    protected function add(ilPropertyFormGUI $form = null)
+    protected function add(?ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $ilHelp = $DIC->help();
-
-        $ilHelp->setScreenIdComponent("cal");
-        $ilHelp->setScreenId("app");
-        $ilHelp->setSubScreenId("create");
+        $this->help->setScreenIdComponent("cal");
+        $this->help->setScreenId("app");
+        $this->help->setSubScreenId("create");
         
         if (!$form instanceof ilPropertyFormGUI) {
-            $this->initForm('create');
+            $form = $this->initForm('create');
         }
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
     /**
      * add milestone
-     *
-     * @access protected
-     * @return
      */
-    protected function addMilestone()
+    protected function addMilestone() : void
     {
-        global $DIC;
+        $this->help->setScreenIdComponent("cal");
+        $this->help->setScreenId("app");
+        $this->help->setSubScreenId("create_milestone");
 
-        $tpl = $DIC['tpl'];
-        $ilHelp = $DIC['ilHelp'];
-
-        $ilHelp->setScreenIdComponent("cal");
-        $ilHelp->setScreenId("app");
-        $ilHelp->setSubScreenId("create_milestone");
-
-        $this->initForm('create', true);
-        $tpl->setContent($this->form->getHTML());
+        $form = $this->initForm('create', true);
+        $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * save milestone
-     *
-     * @access protected
-     */
-    protected function saveMilestone()
+    protected function saveMilestone() : void
     {
         $this->save(true);
     }
 
-    /**
-     * save appointment
-     *
-     * @access protected
-     */
-    protected function save($a_as_milestone = false)
+    protected function save(bool $a_as_milestone = false) : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        
         $this->load('create', $a_as_milestone);
         
         if ($this->app->validate() and $this->notification->validate()) {
@@ -428,7 +375,8 @@ class ilCalendarAppointmentGUI
             if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                 && ($type == "grp" || $type == "crs")) {
                 ilUtil::sendSuccess($this->lng->txt('cal_created_milestone_resp_q'), true);
-                return $this->showResponsibleUsersList($cat_info['obj_id']);
+                $this->showResponsibleUsersList($cat_info['obj_id']);
+                return;
             } elseif ($a_as_milestone) {
                 ilUtil::sendSuccess($this->lng->txt('cal_created_milestone'), true);
                 $this->ctrl->returnToParent($this);
@@ -438,8 +386,9 @@ class ilCalendarAppointmentGUI
             }
         } else {
             $this->form->setValuesByPost();
-            ilUtil::sendFailure($ilErr->getMessage());
-            return $this->add($this->form);
+            ilUtil::sendFailure($this->error->getMessage());
+            $this->add($this->form);
+            return;
         }
         if ($a_as_milestone) {
             $this->addMilestone();
@@ -450,15 +399,9 @@ class ilCalendarAppointmentGUI
 
     /**
      * Send mail to selected users
-     * @global ilObjUser $ilUser
      */
-    protected function distributeUserNotifications()
+    protected function distributeUserNotifications() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
         $notification = new ilCalendarMailNotification();
         $notification->setAppointmentId($this->app->getEntryId());
         
@@ -481,11 +424,7 @@ class ilCalendarAppointmentGUI
     }
 
 
-    /**
-     * Distribute mail notifications
-     * @return
-     */
-    protected function distributeNotifications($a_cat_id, $app_id, $a_new_appointment = true)
+    protected function distributeNotifications(int $a_cat_id, int $app_id, bool $a_new_appointment = true) : void
     {
         include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($a_cat_id);
@@ -522,20 +461,13 @@ class ilCalendarAppointmentGUI
                     }
                     break;
         }
-
         $notification->send();
     }
 
-    /**
-    * Edit responsible users
-    */
-    public function editResponsibleUsers()
+    public function editResponsibleUsers() : void
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-
         $this->showResponsibleUsersList($cat_info['obj_id']);
     }
     
@@ -543,59 +475,49 @@ class ilCalendarAppointmentGUI
     * Show responsible uses of a milestone (default set is participants
     * of group)
     */
-    public function showResponsibleUsersList($a_grp_id)
+    public function showResponsibleUsersList(int $a_grp_id) : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
-        include_once("./Services/Calendar/classes/class.ilMilestoneResponsiblesTableGUI.php");
         $table_gui = new ilMilestoneResponsiblesTableGUI(
             $this,
             "",
             $a_grp_id,
             $this->app->getEntryId()
         );
-        $tpl->setContent($table_gui->getHTML());
+        $this->tpl->setContent($table_gui->getHTML());
     }
     
     /**
     * Save milestone responsibilites
     */
-    public function saveMilestoneResponsibleUsers()
+    public function saveMilestoneResponsibleUsers() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->app->writeResponsibleUsers($_POST["user_id"]);
-        $ilCtrl->returnToParent($this);
+        $this->ctrl->returnToParent($this);
     }
     
     /**
      * Check edit single apppointment / edit all appointments for recurring appointments.
      * @todo works with milestones???
      */
-    protected function askEdit()
+    protected function askEdit() : void
     {
         // check for recurring entries
-        include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
         $rec = ilCalendarRecurrences::_getRecurrences($this->getAppointment()->getEntryId());
         if (!$rec) {
-            return $this->edit(true);
+            $this->edit(true);
+            return;
         }
         // Show edit single/all appointments
         $this->ctrl->saveParameter($this, array('seed','app_id','dt','idate'));
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
-        #$confirm->setHeaderText($this->lng->txt('cal_edit_app_sure'));
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
         $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
         $confirm->addButton($this->lng->txt('cal_edit_single'), 'editSingle');
         $confirm->setConfirm($this->lng->txt('cal_edit_recurrences'), 'edit');
 
-        $GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
+        $this->tpl->setContent($confirm->getHTML());
     }
     
     /**

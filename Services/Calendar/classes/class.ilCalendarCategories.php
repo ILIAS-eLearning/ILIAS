@@ -33,6 +33,7 @@
 
 class ilCalendarCategories
 {
+    const MODE_UNDEFINED = 0;
     const MODE_REPOSITORY = 2;						// course/group full calendar view (allows to select other calendars)
     const MODE_REMOTE_ACCESS = 3;
     const MODE_PERSONAL_DESKTOP_MEMBERSHIP = 4;
@@ -100,13 +101,8 @@ class ilCalendarCategories
 
     /**
      * get singleton instance
-     *
-     * @access public
-     * @param int $a_usr_id user id
-     * @return ilCalendarCategories
-     * @static
      */
-    public static function _getInstance($a_usr_id = 0)
+    public static function _getInstance($a_usr_id = 0) : ilCalendarCategories
     {
         if (self::$instance) {
             return self::$instance;
@@ -179,8 +175,6 @@ class ilCalendarCategories
     
     /**
      * Delete cache
-     * @param object $a_usr_id
-     * @return
      */
     public static function deleteRepositoryCache($a_usr_id)
     {

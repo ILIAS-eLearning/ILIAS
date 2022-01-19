@@ -1,6 +1,7 @@
-<?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
+<?php declare(strict_types=1);
+
+use ILIAS\DI\UIServices;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * @author Jesús López Reyes <lopez@leifos.com>
@@ -12,92 +13,43 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
  */
 class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    protected static $instance; // [ilCalendarAppointmentPresentationFactory]
+    protected static self $instance;
+
+    protected array $appointment;
+
+    protected ?ilToolbarGUI $toolbar;
+    protected ?ilInfoScreenGUI $infoscreen;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected UIServices $ui;
+    protected ilCtrlInterface $ctrl;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjUser $user;
+
+    protected ?Item $list_item = null;
+
+
+    protected $info_items = [];
+    protected $list_properties = [];
+    protected $actions = [];
 
     /**
-     * @var ilToolbarGUI
+     * @var int[] readable ref ids for an object id
      */
-    protected $toolbar;
+    protected array $readable_ref_ids;
 
-    /**
-     * @var
-     */
+    protected bool $has_files = false;
+    protected int $obj_id = 0;
 
-    protected $appointment;
-
-    /**
-     * @var ilInfoScreenGUI
-     */
-    protected $infoscreen;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ILIAS\UI\Component\Item\Standard
-     */
-    protected $list_item = null;
-
-    /**
-     * @var array
-     */
-    protected $info_items = array();
-
-    /**
-     * @var array
-     */
-    protected $list_properties = array();
-
-    /**
-     * @var array
-     */
-    protected $actions = array();
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var array readable ref ids for an object id
-     */
-    protected $readable_ref_ids;
-
-    /**
-     * @var bool if the appointment contains files.
-     */
-    protected $has_files = false;
-
-    /**
-     * @var int
-     */
-    protected $obj_id = 0;
-
-    /**
-     *
-     *
-     * @param
-     */
-    public function __construct($a_appointment, $a_info_screen, $a_toolbar, $a_list_item)
+    public function __construct(
+        array $a_appointment,
+        ?ilInfoScreenGUI $a_info_screen,
+        ?ilToolbarGUI $a_toolbar,
+        Item $a_list_item)
     {
         global $DIC;
+
         $this->appointment = $a_appointment;
         $this->infoscreen = $a_info_screen;
         $this->toolbar = $a_toolbar;
@@ -110,14 +62,10 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->user = $DIC->user();
-
         $this->readObjIdForAppointment();
     }
 
-    /**
-     * @return int
-     */
-    public function getObjIdForAppointment()
+    public function getObjIdForAppointment() : int
     {
         return $this->obj_id;
     }
@@ -125,7 +73,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     /**
      * read obj_id for appointment
      */
-    protected function readObjIdForAppointment()
+    protected function readObjIdForAppointment() : void
     {
         $cat_id = $this->getCatId($this->appointment['event']->getEntryId());
         $category = ilCalendarCategory::getInstanceByCategoryId($cat_id);
@@ -133,29 +81,26 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     }
     
     
-    /**
-     *
-     * @return self
-     */
-    public static function getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item)
+    public static function getInstance(
+        array $a_appointment,
+        ilInfoScreenGUI $a_info_screen,
+        ilToolbarGUI $a_toolbar,
+        Item $a_list_item
+    ) : ilCalendarAppointmentPresentation
     {
         return new static($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
     }
 
-    /**
-     * @return ilToolbarGUI
-     */
-    public function getToolbar()
+    public function getToolbar() : ?ilToolbarGUI
     {
         return $this->toolbar;
     }
 
     /**
      * Get list item
-     *
-     * @return \ILIAS\UI\Component\Item\Standard
+     * @return \ILIAS\UI\Component\Item\Item
      */
-    public function getListItem()
+    public function getListItem() : ?Item
     {
         return $this->list_item;
     }
@@ -164,44 +109,33 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     /**
      * @return ilInfoScreenGUI
      */
-    public function getInfoScreen()
+    public function getInfoScreen() : ?ilInfoScreenGUI
     {
         return $this->infoscreen;
     }
 
-    public function getCatId($a_entry_id)
+    public function getCatId(int $a_entry_id) : int
     {
         return ilCalendarCategoryAssignments::_lookupCategory($a_entry_id);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCatInfo()
+    public function getCatInfo() : array
     {
         $cat_id = $this->getCatId($this->appointment['event']->getEntryId());
         return ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
-        
+        $next_class = $this->ctrl->getNextClass();
+        $cmd = $this->ctrl->getCmd("getHTML");
         switch ($next_class) {
             default:
-                return $this->$cmd();
+                $this->$cmd();
         }
     }
 
-    /**
-     * Get HTML
-     */
-    public function getHTML()
+    public function getHTML() : void
     {
         $this->collectStandardPropertiesAndActions();
         $this->collectPropertiesAndActions();
@@ -268,18 +202,19 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
                 $properties[$lp["txt"]] = $lp["val"];
             }
 
-            $new_dd = $ui->factory()->dropdown()->standard($actions)
-                ->withLabel($label);
-            $this->list_item = $list_item->withActions($new_dd)->withProperties($properties);
+            $new_dd = $ui->factory()->dropdown()
+                                    ->standard($actions)
+                                    ->withLabel($label);
+            $this->list_item = $list_item
+                ->withActions($new_dd)
+                ->withProperties($properties);
         }
     }
 
     /**
      * Add course/group container info
-     *
-     * @param int $a_ref_id
      */
-    public function addContainerInfo($a_obj_id)
+    public function addContainerInfo(int $a_obj_id) : void
     {
         $refs = $this->getReadableRefIds($a_obj_id);
         $ref_id = current($refs);
@@ -306,32 +241,24 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Add info section
-     *
-     * @param string $a_txt
      */
-    public function addInfoSection($a_txt)
+    public function addInfoSection(string $a_txt) :void
     {
         $this->info_items[] = array("type" => "section", "txt" => $a_txt);
     }
 
     /**
      * Add info property
-     *
-     * @param string $a_txt
-     * @param string $a_val
      */
-    public function addInfoProperty($a_txt, $a_val)
+    public function addInfoProperty(string $a_txt, string $a_val) : void
     {
         $this->info_items[] = array("type" => "property", "txt" => $a_txt, "val" => $a_val);
     }
 
     /**
      * Add list item property
-     *
-     * @param string $a_txt
-     * @param string $a_val
      */
-    public function addListItemProperty($a_txt, $a_val)
+    public function addListItemProperty(string $a_txt, string $a_val) : void
     {
         #22638
         $this->list_properties[] = array("txt" => $a_txt, "val" => $a_val);
@@ -339,11 +266,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     
     /**
      * Add action
-     *
-     * @param string $a_txt
-     * @param string $a_link
      */
-    public function addAction($a_txt, $a_link)
+    public function addAction(string $a_txt, string $a_link) : void
     {
         $this->actions[] = array("txt" => $a_txt, "link" => $a_link);
     }
@@ -352,19 +276,19 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     /**
      * Collect properties and actions
      */
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
     }
     
     /**
      * Collect standard properties and actions
      */
-    public function collectStandardPropertiesAndActions()
+    public function collectStandardPropertiesAndActions() : void
     {
         $cat_info = $this->getCatInfo();
 
         //we can move this to the factory.
-        if ($cat_info['editable'] and !$this->appointment['event']->isAutoGenerated()) {
+        if ($cat_info['editable'] && !$this->appointment['event']->isAutoGenerated()) {
             $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
             //			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed', $this->getSeed()->get(IL_CAL_DATE));
             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $this->appointment['event']->getEntryId());
@@ -389,11 +313,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Add object link
-     *
-     * @param int $obj_id
-     * @param array $a_appointment
      */
-    public function addObjectLinks($obj_id, $a_appointment = null)
+    public function addObjectLinks(int $obj_id, ?array $a_appointment = null) : void
     {
         $refs = $this->getReadableRefIds($obj_id);
         reset($refs);
@@ -425,22 +346,17 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Build direct link for appointment
-     * @param int $a_ref_id
-     * @param array | null $a_appointment
-     * @return string
      */
-    protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment = null)
+    protected function buildDirectLinkForAppointment(int $a_ref_id, ?array $a_appointment = null) : string
     {
         return ilLink::_getStaticLink($a_ref_id);
     }
 
     /**
-     * Get readable ref ids
-     *
-     * @param
-     * @return
+     * @param int $a_obj_id
+     * @return int[]
      */
-    public function getReadableRefIds($a_obj_id)
+    public function getReadableRefIds(int $a_obj_id) : array
     {
         if (!isset($this->readable_ref_ids[$a_obj_id])) {
             $ref_ids = array();
@@ -456,10 +372,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Add event description
-     *
-     * @param array $a_app
      */
-    public function addEventDescription($a_app)
+    public function addEventDescription(array $a_app) : void
     {
         if ($a_app['event']->getDescription()) {
             $this->addInfoProperty($this->lng->txt("description"), ilUtil::makeClickable(nl2br($a_app['event']->getDescription())));
@@ -468,10 +382,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Add event location
-     *
-     * @param array $a_app
      */
-    public function addEventLocation($a_app)
+    public function addEventLocation(array $a_app) : void
     {
         if ($a_app['event']->getLocation()) {
             $this->addInfoProperty($this->lng->txt("cal_where"), $a_app['event']->getLocation());
@@ -481,21 +393,14 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Add last update
-     *
-     * @param array $a_app
      */
-    public function addLastUpdate($a_app)
+    public function addLastUpdate(array $a_app) : void
     {
         $update = new ilDateTime($a_app["event"]->getLastUpdate()->get(IL_CAL_UNIX), IL_CAL_UNIX, $this->user->getTimeZone());
         $this->addListItemProperty($this->lng->txt('last_update'), ilDatePresentation::formatDate($update));
     }
 
-    /**
-     * Add calendar info
-     *
-     * @param array $cat_info
-     */
-    public function addCalendarInfo($cat_info)
+    public function addCalendarInfo(array $cat_info) : void
     {
         $this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $cat_info["cat_id"]);
 
@@ -512,13 +417,12 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         $this->addListItemProperty($this->lng->txt("calendar"), $link);
     }
 
-    /**
-     * Add common section
-     *
-     * @param array $a_app
-     * @param int $a_obj_id
-     */
-    public function addCommonSection($a_app, $a_obj_id = 0, $cat_info = null, $a_container_info = false)
+    public function addCommonSection(
+        array $a_app,
+        int $a_obj_id = 0,
+        ?array $cat_info = null,
+        bool $a_container_info = false
+    ) : void
     {
         // event title
         $this->addInfoSection($a_app["event"]->getPresentationTitle(false));
@@ -545,10 +449,12 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         }
     }
 
-    /**
-     * Add metadata
-     */
-    public function addMetaData($a_obj_type, $a_obj_id, $a_sub_obj_type = null, $a_sub_obj_id = null)
+    public function addMetaData(
+        string $a_obj_type,
+        int $a_obj_id,
+        ?string $a_sub_obj_type = null,
+        ?int $a_sub_obj_id = null
+    ) : void
     {
         //TODO: Remove the hack in ilADTActiveRecordByType.php.
         $record_gui = new ilAdvancedMDRecordGUI(
@@ -569,11 +475,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     /**
      * Get (linked if possible) user name
-     *
-     * @param int $a_user_id
-     * @return string
      */
-    public function getUserName($a_user_id, $a_force_name = false)
+    public function getUserName(int $a_user_id, bool $a_force_name = false) : string
     {
         $type = ilObject::_lookupType((int) $_GET["ref_id"], true);
         $ctrl_path = array();
@@ -605,17 +508,15 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     /**
      * Download files from an appointment ( Modals )
      */
-    public function downloadFiles()
+    public function downloadFiles() : void
     {
-        $appointment = $this->appointment;
-
         //calendar in the sidebar (marginal calendar)
-        if (empty($appointment)) {
+        if (empty($this->appointment)) {
             $entry_id = (int) $_GET['app_id'];
             $entry = new ilCalendarEntry($entry_id);
             //if the entry exists
             if ($entry->getStart()) {
-                $appointment = array(
+                $this->appointment = array(
                     "event" => $entry,
                     "dstart" => $entry->getStart(),
                     "dend" => $entry->getEnd(),
@@ -626,12 +527,10 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
                 $this->ctrl->returnToParent($this);
             }
         }
-
-        include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
         $download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
 
-        $download_job->setBucketTitle($this->lng->txt("cal_calendar_download") . " " . $appointment['event']->getTitle());
-        $download_job->setEvents(array($appointment));
+        $download_job->setBucketTitle($this->lng->txt("cal_calendar_download") . " " . $this->appointment['event']->getTitle());
+        $download_job->setEvents(array($this->appointment));
         if ($download_job->run()) {
             ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'), true);
         }

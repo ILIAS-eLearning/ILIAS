@@ -27,7 +27,7 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
         );
     }
     
-    public function filterCategories(array $a_cats)
+    public function filterCategories(array $a_cats) : array
     {
         return $this->hidden_cat->filterHidden(
             $a_cats,
@@ -35,16 +35,20 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
         );
     }
     
-    public function modifyEvent(ilCalendarEntry $a_event)
+    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
         // the not is ok since isAppointmentVisible return false for visible appointments
         if (!$this->hidden_cat->isAppointmentVisible($a_event->getEntryId())) {
             return $a_event;
         }
-        return false;
+        return null;
     }
 
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories)
+    /**
+     * @inheritDoc
+     */
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
     {
+        return [];
     }
 }

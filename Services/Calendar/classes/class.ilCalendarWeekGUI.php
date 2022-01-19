@@ -17,14 +17,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
     protected $user_settings = null;
     protected $weekdays = array();
 
-    protected $lng;
-    protected $ctrl;
-    protected $tabs_gui;
-    protected $tpl;
-    
+
     protected $timezone = 'UTC';
 
-    protected $user;
     protected $cal_settings;
     protected $colspans;
 

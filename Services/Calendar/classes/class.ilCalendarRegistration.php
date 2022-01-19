@@ -83,7 +83,7 @@ class ilCalendarRegistration
     
     /**
      * Check if one user is registered
-     * @param object $a_usr_id
+     * @param int $a_usr_id
      * @return bool
      */
     public function isRegistered($a_usr_id, ilDateTime $start, ilDateTime $end)
