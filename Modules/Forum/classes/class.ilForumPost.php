@@ -567,7 +567,7 @@ class ilForumPost
         $this->censored_date = $censored_date;
     }
 
-    public function assignData($row) : void
+    public function assignData(array $row) : void
     {
         $this->setUserAlias((string) $row['pos_usr_alias']);
         $this->setSubject((string) $row['pos_subject']);
