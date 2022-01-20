@@ -82,7 +82,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
      */
     public function remove($key) : void
     {
-        if (!isset($this->elements[$key]) && !array_key_exists($key, $this->elements)) {
+        if (!array_key_exists($key, $this->elements)) {
             throw new InvalidArgumentException(sprintf('Could not find an element for key: %s', $key));
         }
         unset($this->elements[$key]);
@@ -105,7 +105,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
      */
     public function containsKey($key) : bool
     {
-        return isset($this->elements[$key]) || array_key_exists($key, $this->elements);
+        return array_key_exists($key, $this->elements);
     }
 
     /**
@@ -203,7 +203,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
         }
 
         $self = $this->toArray();
-        $other = $this->toArray();
+        $other = $other->toArray();
 
         sort($self);
         sort($other);
