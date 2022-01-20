@@ -32,7 +32,6 @@ class ilBuddySystemRelationStateNullFilterRuleTest extends ilBuddySystemBaseTest
 
     public function testGetStates() : void
     {
-
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
 
         $instance = new ilBuddySystemRelationStateNullFilterRule($relation);

@@ -82,7 +82,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
      */
     public function remove($key) : void
     {
-        if (!array_key_exists($key, $this->elements)) {
+        if (!$this->containsKey($key)) {
             throw new InvalidArgumentException(sprintf('Could not find an element for key: %s', $key));
         }
         unset($this->elements[$key]);
@@ -101,11 +101,14 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     }
 
     /**
+     * isset is used for performance reasons (array_key_exists is much slower).
+     * array_key_exists is only used in case of a null value (see https://www.php.net/manual/en/function.array-key-exists.php Example #2 array_key_exists() vs isset()).
+     *
      * @inheritDoc
      */
     public function containsKey($key) : bool
     {
-        return array_key_exists($key, $this->elements);
+        return isset($this->elements[$key]) || array_key_exists($key, $this->elements);
     }
 
     /**
