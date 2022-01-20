@@ -43,7 +43,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
         $this->ref_id = $this->parent_obj->object->getRefId();
-        $this->http_wrapper = $DIC->http();
+        $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('style');
