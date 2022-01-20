@@ -17,20 +17,20 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilVerificationStorageFile extends ilFileSystemStorage
+class ilVerificationStorageFile extends ilFileSystemAbstractionStorage
 {
     public function __construct(
         int $a_container_id = 0
     ) {
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
-    
-    protected function getPathPostfix()
+
+    protected function getPathPostfix():string
     {
         return 'vrfc';
     }
-    
-    protected function getPathPrefix()
+
+    protected function getPathPrefix():string
     {
         return 'ilVerification';
     }
