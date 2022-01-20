@@ -13,6 +13,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * SCORM to lp connector
  *
@@ -34,40 +35,51 @@ class ilScormLP extends ilObjectLP
             ilLPObjSettings::LP_MODE_SCORM_PACKAGE
         );
     }
-    
+
     public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
-    
+
     public function getValidModes()
     {
         $subtype = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
-        if ($subtype != "scorm2004") {
+        if ($subtype !== 'scorm2004') {
             if ($this->checkSCORMPreconditions()) {
-                return array(ilLPObjSettings::LP_MODE_SCORM);
+                return [ilLPObjSettings::LP_MODE_SCORM];
             }
+
             $collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);
-            if (sizeof($collection->getPossibleItems())) {
-                return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
-                    ilLPObjSettings::LP_MODE_SCORM);
+            if (count($collection->getPossibleItems()) > 0) {
+                return [
+                    ilLPObjSettings::LP_MODE_DEACTIVATED,
+                    ilLPObjSettings::LP_MODE_SCORM
+                ];
             }
-            return array(ilLPObjSettings::LP_MODE_DEACTIVATED);
-        } else {
-            if ($this->checkSCORMPreconditions()) {
-                return array(ilLPObjSettings::LP_MODE_SCORM,
-                    ilLPObjSettings::LP_MODE_SCORM_PACKAGE);
-            }
-            $collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);
-            if (sizeof($collection->getPossibleItems())) {
-                return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
-                    ilLPObjSettings::LP_MODE_SCORM_PACKAGE,
-                    ilLPObjSettings::LP_MODE_SCORM);
-            }
-            
-            return array(ilLPObjSettings::LP_MODE_DEACTIVATED,
-                ilLPObjSettings::LP_MODE_SCORM_PACKAGE);
+
+            return [ilLPObjSettings::LP_MODE_DEACTIVATED];
         }
+
+        if ($this->checkSCORMPreconditions()) {
+            return [
+                ilLPObjSettings::LP_MODE_SCORM,
+                ilLPObjSettings::LP_MODE_SCORM_PACKAGE
+            ];
+        }
+
+        $collection = new ilLPCollectionOfSCOs($this->obj_id, ilLPObjSettings::LP_MODE_SCORM);
+        if (count($collection->getPossibleItems()) > 0) {
+            return [
+                ilLPObjSettings::LP_MODE_DEACTIVATED,
+                ilLPObjSettings::LP_MODE_SCORM_PACKAGE,
+                ilLPObjSettings::LP_MODE_SCORM
+            ];
+        }
+
+        return [
+            ilLPObjSettings::LP_MODE_DEACTIVATED,
+            ilLPObjSettings::LP_MODE_SCORM_PACKAGE
+        ];
     }
 
     /**
@@ -97,37 +109,38 @@ class ilScormLP extends ilObjectLP
 
         return $this->precondition_cache;
     }
-    
+
     protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
+
+        $ilDB = $DIC->database();
+
         // subtype
         $types = array();
         $set = $ilDB->query("SELECT id,c_type" .
             " FROM sahs_lm" .
-            " WHERE " . $ilDB->in("id", $a_obj_ids, "", "integer"));
+            " WHERE " . $ilDB->in("id", $a_obj_ids, false, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $types[$row["c_type"]][] = $row["id"];
         }
-        
+
         // 2004
         if (isset($types["scorm2004"])) {
             $set = $ilDB->query("SELECT obj_id" .
                 " FROM sahs_user" .
-                " WHERE " . $ilDB->in("obj_id", $types["scorm2004"], "", "integer") .
+                " WHERE " . $ilDB->in("obj_id", $types["scorm2004"], false, "integer") .
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
                 $a_res[$row["obj_id"]] = true;
             }
         }
-        
+
         // 1.2
         if (isset($types["scorm"])) {
             $set = $ilDB->query("SELECT obj_id" .
                 " FROM scorm_tracking" .
-                " WHERE " . $ilDB->in("obj_id", $types["scorm"], "", "integer") .
+                " WHERE " . $ilDB->in("obj_id", $types["scorm"], false, "integer") .
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer") .
                 " AND lvalue = " . $ilDB->quote("cmi.core.lesson_status", "text"));
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -135,7 +148,7 @@ class ilScormLP extends ilObjectLP
             }
         }
     }
-    
+
     public function getMailTemplateId() : string
     {
         return ilScormMailTemplateLPContext::ID;
