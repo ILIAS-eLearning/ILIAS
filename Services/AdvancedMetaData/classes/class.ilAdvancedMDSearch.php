@@ -22,43 +22,40 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDSearch extends ilAbstractSearch
 {
     protected ?ilAdvancedMDFieldDefinition $definition = null;
     protected ?ilADTSearchBridge $adt = null;
-    
+
     public function __construct($query_parser)
     {
         parent::__construct($query_parser);
     }
-    
+
     public function setDefinition(ilAdvancedMDFieldDefinition $a_def) : void
     {
         $this->definition = $a_def;
     }
-    
+
     public function getDefinition() : ilAdvancedMDFieldDefinition
     {
         return $this->definition;
     }
-    
+
     public function setSearchElement(ilADTSearchBridge $a_adt) : void
     {
         $this->adt = $a_adt;
     }
-    
+
     public function getSearchElement() : ilADTSearchBridge
     {
         return $this->adt;
     }
-    
-    public function performSearch()
+
+    public function performSearch() : ilSearchResult
     {
         $this->query_parser->parse();
 
@@ -72,9 +69,9 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             );
             $locate = $this->__createLocateString();
         }
-        
+
         $search_type = strtolower(substr(get_class($this), 12, -6));
-        
+
         $res_field = $this->getDefinition()->searchObjects(
             $this->getSearchElement(),
             $this->query_parser,
@@ -90,6 +87,5 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             }
             return $this->search_result;
         }
-        return null;
     }
 }

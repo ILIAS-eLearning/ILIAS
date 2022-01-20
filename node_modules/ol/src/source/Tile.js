@@ -15,20 +15,29 @@ import {
 } from '../tilegrid.js';
 import {scale as scaleSize, toSize} from '../size.js';
 
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("../ObjectEventType").Types, import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").OnSignature<import("./TileEventType").TileSourceEventTypes, TileSourceEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("../ObjectEventType").Types|
+ *     import("./TileEventType").TileSourceEventTypes, Return>} TileSourceOnSignature
+ */
+
 /**
  * @typedef {Object} Options
- * @property {import("./Source.js").AttributionLike} [attributions]
+ * @property {import("./Source.js").AttributionLike} [attributions] Attributions.
  * @property {boolean} [attributionsCollapsible=true] Attributions are collapsible.
- * @property {number} [cacheSize]
+ * @property {number} [cacheSize] CacheSize.
  * @property {boolean} [opaque=false] Whether the layer is opaque.
- * @property {number} [tilePixelRatio]
- * @property {import("../proj.js").ProjectionLike} [projection]
- * @property {import("./State.js").default} [state]
- * @property {import("../tilegrid/TileGrid.js").default} [tileGrid]
- * @property {boolean} [wrapX=true]
- * @property {number} [transition]
- * @property {string} [key]
- * @property {number} [zDirection=0]
+ * @property {number} [tilePixelRatio] TilePixelRatio.
+ * @property {import("../proj.js").ProjectionLike} [projection] Projection.
+ * @property {import("./State.js").default} [state] State.
+ * @property {import("../tilegrid/TileGrid.js").default} [tileGrid] TileGrid.
+ * @property {boolean} [wrapX=true] WrapX.
+ * @property {number} [transition] Transition.
+ * @property {string} [key] Key.
+ * @property {number|import("../array.js").NearestDirectionFunction} [zDirection=0] ZDirection.
  */
 
 /**
@@ -51,6 +60,21 @@ class TileSource extends Source {
       state: options.state,
       wrapX: options.wrapX,
     });
+
+    /***
+     * @type {TileSourceOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {TileSourceOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {TileSourceOnSignature<void>}
+     */
+    this.un;
 
     /**
      * @private
@@ -106,7 +130,7 @@ class TileSource extends Source {
      * by a renderer if the views resolution does not match any resolution of the tile source.
      * If 0, the nearest resolution will be used. If 1, the nearest lower resolution
      * will be used. If -1, the nearest higher resolution will be used.
-     * @type {number}
+     * @type {number|import("../array.js").NearestDirectionFunction}
      */
     this.zDirection = options.zDirection ? options.zDirection : 0;
   }
@@ -151,9 +175,9 @@ class TileSource extends Source {
         tileCoordKey = getKeyZXY(z, x, y);
         loaded = false;
         if (tileCache.containsKey(tileCoordKey)) {
-          tile = /** @type {!import("../Tile.js").default} */ (tileCache.get(
-            tileCoordKey
-          ));
+          tile = /** @type {!import("../Tile.js").default} */ (
+            tileCache.get(tileCoordKey)
+          );
           loaded = tile.getState() === TileState.LOADED;
           if (loaded) {
             loaded = callback(tile) !== false;
@@ -291,7 +315,7 @@ class TileSource extends Source {
    * is outside the resolution and extent range of the tile grid, `null` will be
    * returned.
    * @param {import("../tilecoord.js").TileCoord} tileCoord Tile coordinate.
-   * @param {import("../proj/Projection.js").default=} opt_projection Projection.
+   * @param {import("../proj/Projection.js").default} [opt_projection] Projection.
    * @return {import("../tilecoord.js").TileCoord} Tile coordinate to be passed to the tileUrlFunction or
    *     null if no tile URL should be created for the passed `tileCoord`.
    */

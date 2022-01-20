@@ -58,4 +58,15 @@ class ilBuddySystemUnlinkedStateRelationTest extends ilBuddySystemBaseStateTest
         $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->ignore();
     }
+
+    public function testPossibleTargetStates() : void
+    {
+        $this->assertTrue(
+            $this->relation->getState()
+                ->getPossibleTargetStates()
+                ->equals(new ilBuddySystemRelationStateCollection([
+                    new ilBuddySystemRequestedRelationState(),
+                ]))
+        );
+    }
 }

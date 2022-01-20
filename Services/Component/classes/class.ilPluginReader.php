@@ -69,46 +69,6 @@ class ilPluginReader extends ilSaxParser
         $ilDB = $DIC->database();
 
         switch ($a_name) {
-            // base plugin info is still read from the plugin.php
-            case 'plugin_tag_analyzed_in_future':
-                
-                // check whether record exists
-                $q = "SELECT * FROM il_plugin WHERE " .
-                    " component_type = " . $ilDB->quote($this->ctype, "text") .
-                    " AND component_name = " . $ilDB->quote($this->cname, "text") .
-                    " AND slot_id = " . $ilDB->quote($this->slot_id, "text") .
-                    " AND name = " . $ilDB->quote($this->pname, "text");
-                $set = $ilDB->query($q);
-                if ($ilDB->numRows($set) == 0) {
-                    $q = "INSERT INTO il_plugin (component_type,component_name,slot_id," .
-                        "name, id, last_update_version, current_version, ilias_min_version," .
-                        " ilias_max_version, active) VALUES " .
-                        "(" . $ilDB->quote($this->ctype, "text") . "," .
-                        $ilDB->quote($this->cname, "text") . "," .
-                        $ilDB->quote($this->slot_id, "text") . "," .
-                        $ilDB->quote($this->pname, "text") . "," .
-                        $ilDB->quote($a_attribs["id"], "text") . "," .
-                        $ilDB->quote("0.0.0", "text") . "," .
-                        $ilDB->quote($a_attribs["version"], "text") . "," .
-                        $ilDB->quote($a_attribs["ilias_min_version"], "text") . "," .
-                        $ilDB->quote($a_attribs["ilias_max_version"], "text") . "," .
-                        $ilDB->quote(0, "integer") . ")";
-                    $ilDB->manipulate($q);
-                } else {
-                    $q = "UPDATE il_plugin SET " .
-                        " id = " . $ilDB->quote($a_attribs["id"], "text") . "," .
-                        " current_version = " . $ilDB->quote($a_attribs["version"], "text") . "," .
-                        " ilias_min_version = " . $ilDB->quote($a_attribs["ilias_min_version"], "text") . "," .
-                        " ilias_max_version = " . $ilDB->quote($a_attribs["ilias_max_version"], "text") .
-                        " WHERE " .
-                        " component_type = " . $ilDB->quote($this->ctype, "text") .
-                        " AND component_name = " . $ilDB->quote($this->cname, "text") .
-                        " AND slot_id = " . $ilDB->quote($this->slot_id, "text") .
-                        " AND name = " . $ilDB->quote($this->pname, "text");
-                    $ilDB->manipulate($q);
-                }
-                break;
-
             case "event":
                 $component = "Plugins/" . $this->pname;
                 $q = "INSERT INTO il_event_handling (component, type, id) VALUES (" .

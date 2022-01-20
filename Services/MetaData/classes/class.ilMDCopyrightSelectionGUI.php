@@ -38,8 +38,8 @@ class ilMDCopyrightSelectionGUI
     const MODE_QUICKEDIT = 1;
     const MODE_EDIT = 2;
 
-    protected $tpl;
-    protected $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
     protected $settings;
 
     private $mode;
@@ -55,12 +55,9 @@ class ilMDCopyrightSelectionGUI
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+
         $this->mode = $a_mode;
         $this->rbac_id = $a_rbac_id;
         $this->obj_id = $a_obj_id;

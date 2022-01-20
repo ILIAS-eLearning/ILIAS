@@ -44,15 +44,16 @@ class ValueTest extends TestCase
     {
         $list = new ListValue();
         $list->setValue([1, 2, 3]);
-
+    
+        $this->assertTrue($list->getType()->equals(new ListType(IntegerValue::class)));
+        
         $list2 = new ListValue();
         $integer1 = new IntegerValue();
         $integer1->setValue(1);
         $string = new StringValue();
         $string->setValue("1");
         $list2->setValue([$integer1, $string]);
-
-        $this->assertTrue($list->getType()->equals(new ListType(IntegerValue::class)));
+        
         $this->assertTrue($list2->getType()->equals(new ListType(ScalarValue::class)));
     }
 }

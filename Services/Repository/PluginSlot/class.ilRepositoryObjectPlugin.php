@@ -31,49 +31,27 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         $this->db = $DIC->database();
     }
 
-    public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    public function getComponentName()
-    {
-        return "Repository";
-    }
-
-    public function getSlot()
-    {
-        return "RepositoryObject";
-    }
-
-    public function getSlotId()
-    {
-        return "robj";
-    }
-
-    protected function slotInit()
-    {
-        // nothing to do here
-    }
-    
     public static function _getIcon(string $a_type) : string
     {
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
         return ilPlugin::_getImagePath(
             IL_COMP_SERVICE,
             "Repository",
             "robj",
-            ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type),
+            $component_repository->getPluginById($a_type)->getName(),
             "icon_" . $a_type . ".svg"
         );
     }
     
     public static function _getName(string $a_id) : string
     {
-        $name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_id);
-        if ($name != "") {
-            return $name;
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
+        if (!$component_repository->hasPluginId($a_id)) {
+            return "";
         }
-        return "";
+        return $component_repository->getPluginById($a_id)->getName();
     }
     
     protected function beforeActivation()

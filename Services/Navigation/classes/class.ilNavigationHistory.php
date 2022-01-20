@@ -1,47 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Navigation History of Repository Items
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNavigationHistory
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected \ILIAS\Navigation\NavigationSessionRepository $repo;
+    protected ilObjUser $user;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilObjectDefinition $obj_definition;
+    protected ilComponentRepository $component_repository;
+    private array $items;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-
-    private $items;
-
-    /**
-    * Constructor.
-    *
-    * @param	int	$a_id
-    */
     public function __construct()
     {
         global $DIC;
@@ -50,28 +36,24 @@ class ilNavigationHistory
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
         $this->obj_definition = $DIC["objDefinition"];
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->items = array();
-        $items = null;
-        if (isset($_SESSION["il_nav_history"])) {
-            $items = unserialize($_SESSION["il_nav_history"]);
-        }
-        if (is_array($items)) {
-            $this->items = $items;
-        }
+
+        $this->repo = new \ILIAS\Navigation\NavigationSessionRepository();
+        $this->items = $this->repo->getHistory();
+        $this->component_repository = $DIC["component.repository"];
     }
 
     /**
-    * Add an item to the stack. If ref_id is already used,
-    * the item is moved to the top.
-    */
+     * Add an item to the stack. If ref_id is already used,
+     * the item is moved to the top.
+     */
     public function addItem(
-        $a_ref_id,
-        $a_link,
-        $a_type,
-        $a_title = "",
-        $a_sub_obj_id = "",
-        $a_goto_link = ""
+        int $a_ref_id,
+        string $a_link,
+        string $a_type,
+        string $a_title = "",
+        ?int $a_sub_obj_id = null,
+        string $a_goto_link = ""
     ) {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -81,7 +63,7 @@ class ilNavigationHistory
             return;
         }
         
-        $a_sub_obj_id = $a_sub_obj_id . "";
+        $a_sub_obj_id = (string) $a_sub_obj_id;
         
         if ($a_title == "" && $a_ref_id > 0) {
             $obj_id = ilObject::_lookupObjId($a_ref_id);
@@ -106,10 +88,7 @@ class ilNavigationHistory
         // put items in session
         $this->items = $new_items;
 
-        $items = serialize($this->items);
-        $_SESSION["il_nav_history"] = $items;
-        //var_dump($this->getItems());
-
+        $this->repo->setHistory($this->items);
 
         // only store in session?
         if ($ilUser->prefs["store_last_visited"] == 1) {
@@ -128,29 +107,26 @@ class ilNavigationHistory
     }
     
     /**
-    * Get navigation item stack.
-    */
-    public function getItems()
+     * Get navigation item stack.
+     */
+    public function getItems() : array
     {
         $tree = $this->tree;
         $ilDB = $this->db;
         $ilUser = $this->user;
         $objDefinition = $this->obj_definition;
-        $ilPluginAdmin = $this->plugin_admin;
+        $component_repository = $this->component_repository;
         
         $items = array();
         
         foreach ($this->items as $it) {
-            if ($tree->isInTree($it["ref_id"]) &&
+            if (
+                $tree->isInTree($it["ref_id"]) &&
                 (
                     !$objDefinition->isPluginTypeName($it["type"]) ||
-                $ilPluginAdmin->isActive(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $it["type"])
+                    $component_repository->getPluginById($it["type"])->isActive()
                 )
-                )) {
+            ) {
                 $items[$it["ref_id"] . ":" . $it["sub_obj_id"]] = $it;
             }
         }
@@ -166,16 +142,13 @@ class ilNavigationHistory
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
                     if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]])) {
-                        if ($tree->isInTree($rec["ref_id"]) &&
+                        if (
+                            $tree->isInTree($rec["ref_id"]) &&
                             (
                                 !$objDefinition->isPluginTypeName($rec["type"]) ||
-                            $ilPluginAdmin->isActive(
-                                IL_COMP_SERVICE,
-                                "Repository",
-                                "robj",
-                                ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $rec["type"])
+                                $component_repository->getPluginById($it["type"])->isActive()
                             )
-                            )) {
+                        ) {
                             $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
                                 : ilLink::_getLink($rec["ref_id"]);
@@ -193,17 +166,10 @@ class ilNavigationHistory
                 }
             }
         }
-        //var_dump($items);
         return $items;
     }
     
-    /**
-     * Delete DB entries
-     *
-     * @param
-     * @return
-     */
-    public function deleteDBEntries()
+    public function deleteDBEntries() : void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -218,14 +184,8 @@ class ilNavigationHistory
         );
     }
 
-    /**
-     * Delete session entries
-     *
-     * @param
-     * @return
-     */
-    public function deleteSessionEntries()
+    public function deleteSessionEntries() : void
     {
-        $_SESSION["il_nav_history"] = serialize(array());
+        $this->repo->setHistory([]);
     }
 }

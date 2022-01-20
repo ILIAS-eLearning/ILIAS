@@ -152,9 +152,6 @@ class ilObjectGUI
      */
     protected $request;
 
-    /**
-     * @var int
-     */
     protected $admin_mode = self::ADMIN_MODE_NONE;
 
     protected int $requested_ref_id = 0;
@@ -283,6 +280,11 @@ class ilObjectGUI
         }
         $this->admin_mode = $mode;
     }
+
+    public function getAdminMode() : string
+    {
+        return $this->admin_mode;
+    }
     
     /**
      * Get object service
@@ -363,9 +365,7 @@ class ilObjectGUI
     */
     public function prepareOutput($a_show_subobjects = true)
     {
-        $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        $ilUser = $this->user;
 
         $this->tpl->loadStandardTemplate();
         // administration prepare output
@@ -418,7 +418,7 @@ class ilObjectGUI
 
             // fileupload support
             if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
-                $this->enableDragDropFileUpload();
+//                $this->enableDragDropFileUpload(); // curently disbaled due to refactoring
             }
         }
         

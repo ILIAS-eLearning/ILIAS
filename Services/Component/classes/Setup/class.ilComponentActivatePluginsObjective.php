@@ -47,13 +47,12 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $setup_config = $environment->getConfigFor('common');
-        $db_config = $environment->getConfigFor('database');
-
         return [
-            new \ilIniFilesPopulatedObjective($setup_config),
-            new \ilDatabasePopulatedObjective($db_config),
-            new \ilComponentPluginAdminInitObjective()
+            new \ilIniFilesLoadedObjective(),
+            new \ilDatabaseInitializedObjective(),
+            new \ilComponentPluginAdminInitObjective(),
+            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentFactoryExistsObjective()
         ];
     }
 
@@ -62,21 +61,25 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
+        $info = $component_repository->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (!is_null($plugin) && $plugin['activation_possible'] && $plugin['supports_cli_setup']) {
-            $pl = ilPlugin::getPluginObject(
-                $plugin['component_type'],
-                $plugin['component_name'],
-                $plugin['slot_id'],
-                $plugin['name']
+        if (!$info->supportsCLISetup()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name does not support command line setup."
             );
-
-            $pl->activate();
         }
 
+        if (!$info->isActivationPossible()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name can not be activated."
+            );
+        }
+
+        $ORIG_DIC = $this->initEnvironment($environment);
+        $plugin = $component_factory->getPlugin($info->getId());
+        $plugin->activate();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;
@@ -87,17 +90,10 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_repository->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (is_null($plugin) || !$plugin['supports_cli_setup']) {
-            return false;
-        }
-
-        $GLOBALS["DIC"] = $ORIG_DIC;
-
-        return $plugin['activation_possible'];
+        return $plugin->isActivationPossible($environment);
     }
 
     protected function initEnvironment(Setup\Environment $environment) : ?ILIAS\DI\Container

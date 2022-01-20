@@ -541,8 +541,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
         $this->content_obj->createMediaObject();
         $media_obj = $this->content_obj->getMediaObject();
-        
-        ilObjMediaObjectGUI::setObjectPerCreationForm($media_obj);
+
+        $mob_gui->setObjectPerCreationForm($media_obj);
 
         if ($a_create_alias) {
             // need a pcmediaobject here

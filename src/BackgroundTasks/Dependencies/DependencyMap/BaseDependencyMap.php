@@ -7,32 +7,41 @@ use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\DI\Container;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BaseDependencyMap
- *
  * @package ILIAS\BackgroundTasks\Dependencies
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 class BaseDependencyMap extends EmptyDependencyMap
 {
     protected $map;
-
-
+    
     public function __construct()
     {
-        $this->maps = [[$this, 'resolveBaseDependencies']];
+        $this->maps = [function (\ILIAS\DI\Container $DIC, $fullyQualifiedDomainName, $for) {
+            return $this->resolveBaseDependencies($DIC, $fullyQualifiedDomainName, $for);
+        }];
     }
-
-
+    
     protected function resolveBaseDependencies(Container $DIC, $fullyQualifiedDomainName, $for)
     {
         // wow, why a switch statement and not an array?
         // because we don't really want type unsafe array access on $DIC.
         switch ($fullyQualifiedDomainName) {
             case \ilDBInterface::class:
-                return $DIC->database();
-            case \ilDB::class:
                 return $DIC->database();
             case \ilRbacAdmin::class:
                 return $DIC->rbac()->admin();
@@ -73,5 +82,6 @@ class BaseDependencyMap extends EmptyDependencyMap
             case TaskFactory::class:
                 return $DIC->backgroundTasks()->taskFactory();
         }
+        return null;
     }
 }

@@ -34,9 +34,7 @@
 include_once('Services/Table/classes/class.ilTable2GUI.php');
 class ilSessionFileTableGUI extends ilTable2GUI
 {
-    protected $lng = null;
-    protected $ctrl;
-    
+
     /**
      * Constructor
      *
@@ -73,7 +71,7 @@ class ilSessionFileTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_FILENAME', $a_set['filename']);

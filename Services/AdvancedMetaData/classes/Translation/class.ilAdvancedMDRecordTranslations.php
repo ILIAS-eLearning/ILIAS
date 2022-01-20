@@ -66,7 +66,7 @@ class ilAdvancedMDRecordTranslations
             return null;
         }
         return $this->translations[$lang_key];
-   }
+    }
 
     /**
      * array<string, ilAdvancedMDRecordTranslation>
@@ -146,7 +146,7 @@ class ilAdvancedMDRecordTranslations
             return '';
         }
         $txt = '';
-        $txt = $this->lng->txt('md_adv_int_current'). ' ' . $this->lng->txt('meta_l_' . $active_language);
+        $txt = $this->lng->txt('md_adv_int_current') . ' ' . $this->lng->txt('meta_l_' . $active_language);
         $txt .= ', ';
         foreach ($this->translations as $translation) {
             if ($translation->getLangKey() == $this->default_language) {
@@ -157,8 +157,11 @@ class ilAdvancedMDRecordTranslations
         return $txt;
     }
 
-    public function modifyTranslationInfoForTitle(ilPropertyFormGUI $form, ilTextInputGUI $title, string $active_language) : void
-    {
+    public function modifyTranslationInfoForTitle(
+        ilPropertyFormGUI $form,
+        ilTextInputGUI $title,
+        string $active_language
+    ) : void {
         if (count($this->translations) <= 1) {
             return;
         }
@@ -171,8 +174,11 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    public function modifyTranslationInfoForDescription(ilPropertyFormGUI $form, ilTextAreaInputGUI $description, string $active_language) : void
-    {
+    public function modifyTranslationInfoForDescription(
+        ilPropertyFormGUI $form,
+        ilTextAreaInputGUI $description,
+        string $active_language
+    ) : void {
         if (count($this->translations) <= 1) {
             return;
         }

@@ -8,10 +8,7 @@
 class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
 {
 
-    /**
-     * @var \ilBiblTypeInterface
-     */
-    protected $type;
+    protected \ilBiblTypeInterface $type;
 
 
     /**
@@ -43,7 +40,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
          * @var $inst ilBiblField
          */
         $inst = ilBiblField::findOrFail($id);
-        if ($this->type->isStandardField($inst->getIdentifier()) != $inst->getisStandardField()) {
+        if ($this->type->isStandardField($inst->getIdentifier()) != $inst->isStandardField()) {
             $inst->setIsStandardField($this->type->isStandardField($inst->getIdentifier()));
             $inst->update();
         }
@@ -57,12 +54,12 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
      */
     public function getFieldByTypeAndIdentifier(int $type, string $identifier) : ilBiblFieldInterface
     {
-        $this->checkType($type);
         $inst = $this->getARInstance($type, $identifier);
         if (!$inst) {
             throw new ilException("bibliografic identifier {$identifier} not found");
         }
-
+    
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $inst;
     }
 
@@ -72,7 +69,6 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
      */
     public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier) : ilBiblFieldInterface
     {
-        $this->checkType($type);
         $inst = $this->getARInstance($type, $identifier);
         if (!$inst) {
             $inst = new ilBiblField();
@@ -97,7 +93,7 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     {
         global $DIC;
         $sql
-            = "SELECT DISTINCT(il_bibl_attribute.name), il_bibl_data.file_type FROM il_bibl_data 
+            = "SELECT DISTINCT(il_bibl_attribute.name), il_bibl_data.file_type FROM il_bibl_data
 					JOIN il_bibl_entry ON il_bibl_entry.data_id = il_bibl_data.id
 					JOIN il_bibl_attribute ON il_bibl_attribute.entry_id = il_bibl_entry.id
 				WHERE il_bibl_data.id = %s;";
@@ -201,42 +197,13 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     }
 
 
-    /**
-     * @param int    $type
-     * @param string $identifier
-     *
-     * @return \ilBiblField
-     */
-    private function getARInstance($type, $identifier)
+    private function getARInstance(int $type, string $identifier): ?\ilBiblField
     {
         return ilBiblField::where(["identifier" => $identifier, "data_type" => $type])->first();
     }
 
 
-    /**
-     * @param $type
-     *
-     * @throws \ilException
-     */
-    private function checkType($type)
-    {
-        switch ($type) {
-            case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
-            case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
-                break;
-            default:
-                throw new ilException("bibliografic type not found");
-        }
-    }
-
-
-    /**
-     * @param \ilBiblTypeInterface           $type
-     * @param \ilBiblTableQueryInfoInterface $queryInfo
-     *
-     * @return \ActiveRecordList
-     */
-    private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null)
+    private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): \ActiveRecordList
     {
         $collection = ilBiblField::getCollection();
 

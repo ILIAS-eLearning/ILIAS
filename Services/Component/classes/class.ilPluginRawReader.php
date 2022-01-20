@@ -5,16 +5,15 @@ declare(strict_types=1);
 
 class ilPluginRawReader
 {
-    const BASE_PLUGIN_PATH = 'Customizing/global/plugins';
     const SEARCH_PATTERN = 'plugin.php';
 
     public function getPluginNames() : ?\Iterator
     {
-        if (!@is_dir(self::BASE_PLUGIN_PATH)) {
-            throw new LogicException('Path not found: ' . self::BASE_PLUGIN_PATH);
+        if (!@is_dir(ilComponentRepository::PLUGIN_BASE_PATH)) {
+            throw new LogicException('Path not found: ' . ilComponentRepository::PLUGIN_BASE_PATH);
         }
 
-        $it = new RecursiveDirectoryIterator(self::BASE_PLUGIN_PATH);
+        $it = new RecursiveDirectoryIterator(ilComponentRepository::PLUGIN_BASE_PATH);
         foreach (new RecursiveIteratorIterator($it) as $file) {
             $path = $file->getPathName();
             if (is_file($path) && basename($path) === self::SEARCH_PATTERN) {

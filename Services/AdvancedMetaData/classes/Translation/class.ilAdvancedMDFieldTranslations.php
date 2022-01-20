@@ -28,7 +28,6 @@ class ilAdvancedMDFieldTranslations
     private ilAdvancedMDRecordTranslations $record_translations;
     private string $default_language = '';
 
-
     /**
      * @var ilDBInterface
      */
@@ -38,7 +37,6 @@ class ilAdvancedMDFieldTranslations
      * @var ilLanguage
      */
     private ilLanguage $lng;
-
 
     private function __construct(int $record_id)
     {
@@ -66,7 +64,6 @@ class ilAdvancedMDFieldTranslations
         return $this->record_id;
     }
 
-
     public function getDefaultLanguage() : string
     {
         return $this->default_language;
@@ -89,7 +86,6 @@ class ilAdvancedMDFieldTranslations
         return $activated;
     }
 
-
     public function isConfigured(int $field_id, string $lang_key) : bool
     {
         if (!$this->record_translations->isConfigured($lang_key)) {
@@ -97,7 +93,6 @@ class ilAdvancedMDFieldTranslations
         }
         return isset($this->translations[$field_id][$lang_key]);
     }
-
 
     public function getTranslation(int $field_id, string $lang_key) : ?ilAdvancedMDFieldTranslation
     {
@@ -180,8 +175,8 @@ class ilAdvancedMDFieldTranslations
         int $field_id,
         ilPropertyFormGUI $form,
         ilTextInputGUI $title,
-        string $active_language) : void
-    {
+        string $active_language
+    ) : void {
         if (!strlen($active_language)) {
             return;
         }
@@ -199,8 +194,8 @@ class ilAdvancedMDFieldTranslations
         int $field_id,
         ilPropertyFormGUI $form,
         ilTextAreaInputGUI $description,
-        string $active_language) : void
-    {
+        string $active_language
+    ) : void {
         if (!strlen($active_language)) {
             return;
         }
@@ -227,7 +222,8 @@ class ilAdvancedMDFieldTranslations
 
     public function getTitleForLanguage(int $field_id, string $language) : string
     {
-        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id, $language)->getTitle())) {
+        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id,
+                $language)->getTitle())) {
             return $this->getTranslation($field_id, $language)->getTitle();
         }
         if (
@@ -244,7 +240,8 @@ class ilAdvancedMDFieldTranslations
 
     public function getDescriptionForLanguage(int $field_id, string $language) : string
     {
-        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id, $language)->getDescription())) {
+        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id,
+                $language)->getDescription())) {
             return $this->getTranslation($field_id, $language)->getDescription();
         }
         if ($this->getTranslation($field_id, $this->getDefaultLanguage()) &&

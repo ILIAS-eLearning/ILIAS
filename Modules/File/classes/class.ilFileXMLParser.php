@@ -1,7 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * Exercise XML Parser which completes/updates a given file by an xml string.
  *
@@ -12,89 +10,61 @@
  *
  * @extends ilSaxParser
  */
-
 use ILIAS\Filesystem\Stream\Streams;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilFileXMLParser extends ilSaxParser
 {
-    public static $CONTENT_NOT_COMPRESSED = 0;
-    public static $CONTENT_GZ_COMPRESSED = 1;
-    public static $CONTENT_ZLIB_COMPRESSED = 2;
-    public static $CONTENT_COPY = 4;
+    public static int $CONTENT_NOT_COMPRESSED = 0;
+    public static int $CONTENT_GZ_COMPRESSED = 1;
+    public static int $CONTENT_ZLIB_COMPRESSED = 2;
+    public static int $CONTENT_COPY = 4;
     // begin-patch fm
-    public static $CONTENT_REST = 5;
+    public static int $CONTENT_REST = 5;
     // end-patch fm
     /**
      * Exercise object which has been parsed
-     *
-     * @var ilObjFile
      */
-    public $file;
+    public \ilObjFile $file;
     /**
      * this will be matched against the id in the xml
      * in case we want to update an exercise
-     *
-     * @var int
      */
-    public $obj_id;
+    public int $obj_id;
     /**
      * result of parsing and updating
-     *
-     * @var boolean
      */
-    public $result;
+    public bool $result;
     /**
      * Content compression mode, defaults to no compression
-     *
-     * @var int
      */
-    public $mode;
-    /**
-     * file contents, base64 encoded
-     *
-     * @var string
-     */
-    //var $content;
-
+    public int $mode;
     /**
      *    file of temporary file where we store the file content instead of in memory
-     *
-     * @var string
      */
-    public $tmpFilename;
-    /**
-     * file contents, base64 encoded
-     *
-     * @var string
-     */
-    //var $content;
-
-    /**
-     * @var int
-     */
-    protected $version = null;
-    /**
-     * @var string
-     */
-    protected $action = null;
-    /**
-     * @var int
-     */
-    protected $max_version = null;
-    /**
-     * @var int
-     */
-    protected $date = null;
-    /**
-     * @var int
-     */
-    protected $usr_id = null;
-    /**
-     * @var array
-     */
-    protected $versions = [];
-
-
+    public ?string $tmpFilename = null;
+    
+    protected ?int $version = null;
+    protected ?string $action = null;
+    protected ?int $max_version = null;
+    protected ?int $date = null;
+    protected ?int $usr_id = null;
+    protected array $versions = [];
+    protected ?string $import_directory = null;
+    protected ?string $cdata = null;
+    
     /**
      * Constructor
      *
@@ -120,20 +90,20 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @param string    import directory
      */
-    public function setImportDirectory($a_val)
+    public function setImportDirectory($a_val): void
     {
-        $this->importDirectory = $a_val;
+        $this->import_directory = $a_val;
     }
 
 
     /**
      * Get import directory
      *
-     * @return    string    import directory
+     * @return mixed|null import directory
      */
     public function getImportDirectory()
     {
-        return $this->importDirectory;
+        return $this->import_directory;
     }
 
 
@@ -144,7 +114,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @access    private
      */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -162,7 +132,7 @@ class ilFileXMLParser extends ilSaxParser
      * @throws   ilFileException   when obj id != - 1 and if it it does not match the id in the xml
      *                              or deflation mode is not supported
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -181,11 +151,7 @@ class ilFileXMLParser extends ilSaxParser
                         );
                     }
                 }
-                if (isset($a_attribs["type"])) {
-                    $this->file->setFileType($a_attribs["type"]);
-                }
-                $this->file->setVersion($a_attribs["version"]); // Selected version
-                $this->file->setMaxVersion($a_attribs["max_version"]);
+                
                 break;
             case 'Content': // Old import files
             case 'Version':
@@ -203,8 +169,6 @@ class ilFileXMLParser extends ilSaxParser
                 }
 
                 $this->mode = ilFileXMLParser::$CONTENT_NOT_COMPRESSED;
-                $this->isReadingFile = true;
-                $this->tmpFilename = ilUtil::ilTempnam();
                 #echo $a_attribs["mode"];
                 if (isset($a_attribs["mode"])) {
                     if ($a_attribs["mode"] == "GZIP") {
@@ -229,16 +193,11 @@ class ilFileXMLParser extends ilSaxParser
                 }
 
                 if ($a_name === "Version") {
-                    $this->version = $a_attribs["version"];
-                    $this->max_version = $a_attribs["max_version"];
-                    $this->date = $a_attribs["date"];
-                    $this->usr_id = $a_attribs["usr_id"];
-                    $this->action = $a_attribs["action"];
-                } else {
-                    // Old import files
-                    //$this->version = $this->file->getVersion();
-                    $this->version = 1;
-                    $this->file->setVersion($this->version);
+                    $this->version     = (int) $a_attribs["version"];
+                    $this->max_version = (int) $a_attribs["max_version"];
+                    $this->date        = (int) $a_attribs["date"];
+                    $this->usr_id      = (int) $a_attribs["usr_id"];
+                    $this->action      = (string) $a_attribs["action"];
                 }
         }
     }
@@ -250,7 +209,7 @@ class ilFileXMLParser extends ilSaxParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_name       element name
      */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
 
@@ -261,7 +220,7 @@ class ilFileXMLParser extends ilSaxParser
                 $this->result = true;
                 break;
             case 'Filename':
-                if (strlen($this->cdata) == 0) {
+                if (strlen($this->cdata) === 0) {
                     throw new ilFileException("Filename ist missing!");
                 }
 
@@ -284,9 +243,7 @@ class ilFileXMLParser extends ilSaxParser
                     // Old import files
                     break;
                 }
-
-                $GLOBALS['DIC']['ilLog']->write($this->mode);
-                $this->isReadingFile = false;
+                
                 $baseDecodedFilename = ilUtil::ilTempnam();
                 if ($this->mode == ilFileXMLParser::$CONTENT_COPY) {
                     $this->tmpFilename = $this->getImportDirectory() . "/" . self::normalizeRelativePath($this->cdata);
@@ -360,16 +317,14 @@ class ilFileXMLParser extends ilSaxParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data != "\n") {
             // begin-patch fm
-            if ($this->isReadingFile && $this->mode != ilFileXMLParser::$CONTENT_COPY
+            if ($this->mode != ilFileXMLParser::$CONTENT_COPY
                 && $this->mode != ilFileXMLParser::$CONTENT_REST
             ) { // begin-patch fm
-                $handle = fopen($this->tmpFilename, "a");
-                fwrite($handle, $a_data);
-                fclose($handle);
+                $this->cdata .= $a_data;
             } else {
                 $this->cdata .= $a_data;
             }
@@ -382,7 +337,7 @@ class ilFileXMLParser extends ilSaxParser
      * has to be called after (!) file save for new objects, since file storage will be initialised with obj id.
      *
      */
-    public function setFileContents()
+    public function setFileContents(): void
     {
         // Delete exists version 1 history
         ilHistory::_removeEntriesForObject($this->file->getId());
@@ -420,17 +375,9 @@ class ilFileXMLParser extends ilSaxParser
      * has to be called after (!) file save for new objects, since file storage will be initialised with obj id.
      *
      */
-    public function updateFileContents()
+    public function updateFileContents(): void
     {
-        if ($this->setFileContents()) {
-            if ($this->file->getAction() != "" and $this->file->getAction() != null) {
-                ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), [$this->file->getFilename()] . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
-            } else {
-                ilHistory::_createEntry($this->file->getId(), "replace", [$this->file->getFilename() . "," . $this->file->getVersion()] . "," . $this->file->getMaxVersion());
-            }
-
-            $this->file->notifyUpdate($this->file->getId(), $this->file->getDescription());
-        }
+        // removed
     }
 
 
@@ -441,7 +388,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @throws ilFileException when obj id != - 1 and if it it does not match the id in the xml
      */
-    public function start()
+    public function start(): bool
     {
         $this->startParsing();
 
@@ -455,13 +402,11 @@ class ilFileXMLParser extends ilSaxParser
      * Source: https://github.com/thephpleague/flysystem/blob/master/src/Util.php#L96
      *  Workaround until we have
      *
-     * @param string $path
      *
-     * @return string
      * @throws LogicException
      *
      */
-    public static function normalizeRelativePath($path)
+    public static function normalizeRelativePath(string $path): string
     {
         $path = str_replace('\\', '/', $path);
 

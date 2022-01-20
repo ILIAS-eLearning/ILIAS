@@ -5,6 +5,19 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 use DateTimeImmutable;
 use ILIAS\FileUpload\DTO\UploadResult;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class UploadInfoResolver
  * @package ILIAS\ResourceStorage\Resource\InfoResolver
@@ -12,30 +25,12 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class UploadInfoResolver extends AbstractInfoResolver implements InfoResolver
 {
-    /**
-     * @var UploadResult
-     */
-    protected $upload;
-    /**
-     * @var string
-     */
-    protected $path;
-    /**
-     * @var string
-     */
-    protected $file_name;
-    /**
-     * @var string
-     */
-    protected $suffix;
-    /**
-     * @var string
-     */
-    protected $mime_type;
-    /**
-     * @var DateTimeImmutable
-     */
-    protected $creation_date;
+    protected \ILIAS\FileUpload\DTO\UploadResult $upload;
+    protected string $path;
+    protected string $file_name;
+    protected string $suffix;
+    protected string $mime_type;
+    protected \DateTimeImmutable $creation_date;
 
     public function __construct(
         UploadResult $upload,

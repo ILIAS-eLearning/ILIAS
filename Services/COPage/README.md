@@ -92,6 +92,70 @@ Depending on where you want to use the presentation or editing features of the c
 
 A good example for how this can be done is `Modules/ContentPage/classes/class.ilContentPagePageCommandForwarder.php`.
 
+### Implementing new page components
+
+Please replace the string `BaseName` and `typeid` with your individual class base name and component type id in the following code.
+
+Add the definition for the new page component to your `module.xml` or `service.xml` file.
+
+```
+<copage>
+    ...
+    <pagecontent pc_type="typeid" name="BaseName" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="300"/>
+</copage>
+```
+
+Provide a class derived from `ilPageContent`.
+
+```
+class ilPCBaseName extends ilPageContent
+{
+    /**
+     * Init page content component.
+     */
+    public function init()
+    {
+        ...
+        $this->setType("typeid");
+        ...
+    }
+    ...
+}
+```
+
+Provide a class derived from `ilPageContentGUI`.
+
+```
+/**
+ * @ilCtrl_isCalledBy ilPCBaseNameGUI: ilPageEditorGUI
+ */
+class ilPCBaseNameGUI extends ilPageContentGUI
+{
+    /**
+     * Constructor
+     */
+    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+    {
+        ...
+        parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+    }
+    ...
+}
+
+```
+
+If your `module.xml` or `service.xml` does not enable the component per default `def_enabled="0"`, you will need to enable it in the PageConfig class of your target context.
+
+```
+class ilMyPageConfig extends ilPageConfig
+{
+    public function init()
+    {
+        $this->setEnablePCType("BaseName", true);
+    }
+}
+```
+
 
 ## [WIP] Internal Documentation
 

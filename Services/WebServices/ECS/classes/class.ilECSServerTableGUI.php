@@ -44,19 +44,19 @@ class ilECSServerTableGUI extends ilTable2GUI
     /**
      * Fill row
      * @staticvar int $counter
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
 
-        $ilCtrl->setParameter($this->getParentObject(), 'server_id', $set['server_id']);
-        $ilCtrl->setParameterByClass('ilecsmappingsettingsgui', 'server_id', $set['server_id']);
+        $ilCtrl->setParameter($this->getParentObject(), 'server_id', $a_set['server_id']);
+        $ilCtrl->setParameterByClass('ilecsmappingsettingsgui', 'server_id', $a_set['server_id']);
 
-        if ($set['active']) {
+        if ($a_set['active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_activated'));
         } else {
@@ -64,17 +64,17 @@ class ilECSServerTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_inactivated'));
         }
         
-        $this->tpl->setVariable('VAL_TITLE', ilECSSetting::getInstanceByServerId($set['server_id'])->getTitle());
+        $this->tpl->setVariable('VAL_TITLE', ilECSSetting::getInstanceByServerId($a_set['server_id'])->getTitle());
         $this->tpl->setVariable('LINK_EDIT', $ilCtrl->getLinkTarget($this->getParentObject(), 'edit'));
         $this->tpl->setVariable('TXT_SRV_ADDR', $this->lng->txt('ecs_server_addr'));
 
-        if (ilECSSetting::getInstanceByServerId($set['server_id'])->getServer()) {
-            $this->tpl->setVariable('VAL_DESC', ilECSSetting::getInstanceByServerId($set['server_id'])->getServer());
+        if (ilECSSetting::getInstanceByServerId($a_set['server_id'])->getServer()) {
+            $this->tpl->setVariable('VAL_DESC', ilECSSetting::getInstanceByServerId($a_set['server_id'])->getServer());
         } else {
             $this->tpl->setVariable('VAL_DESC', $this->lng->txt('ecs_not_configured'));
         }
 
-        $dt = ilECSSetting::getInstanceByServerId($set['server_id'])->fetchCertificateExpiration();
+        $dt = ilECSSetting::getInstanceByServerId($a_set['server_id'])->fetchCertificateExpiration();
         if ($dt != null) {
             $this->tpl->setVariable('TXT_CERT_VALID', $this->lng->txt('ecs_cert_valid_until'));
             
@@ -98,10 +98,10 @@ class ilECSServerTableGUI extends ilTable2GUI
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');
-            $list->setId('actl_' . $set['server_id']);
+            $list->setId('actl_' . $a_set['server_id']);
             $list->setListTitle($this->lng->txt('actions'));
 
-            if (ilECSSetting::getInstanceByServerId($set['server_id'])->isEnabled()) {
+            if (ilECSSetting::getInstanceByServerId($a_set['server_id'])->isEnabled()) {
                 $list->addItem($this->lng->txt('ecs_deactivate'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'deactivate'));
             } else {
                 $list->addItem($this->lng->txt('ecs_activate'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'activate'));

@@ -62,6 +62,7 @@ final class InitCtrlServiceTest extends TestCase
                 $this->createMock(ServerRequestInterface::class)
             )
         ;
+        $dic['component.factory'] = $this->createMock(ilComponentFactory::class);
 
         $this->assertFalse(isset($dic['ilCtrl']));
 

@@ -52,12 +52,9 @@ class ilMDLocation extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_location_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_location'));
+        $fields['meta_location_id'] = array('integer',$next_id = $this->db->nextId('il_meta_location'));
         
         if ($this->db->insert('il_meta_location', $fields)) {
             $this->setMetaId($next_id);
@@ -68,9 +65,6 @@ class ilMDLocation extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -86,14 +80,11 @@ class ilMDLocation extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_location " .
-                "WHERE meta_location_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_location_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             
             return true;
         }
@@ -114,15 +105,12 @@ class ilMDLocation extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_location " .
-                "WHERE meta_location_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_location_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -160,7 +148,7 @@ class ilMDLocation extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_location_id FROM il_meta_location " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

@@ -45,12 +45,9 @@ class ilMDEntity extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_entity_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_entity'));
+        $fields['meta_entity_id'] = array('integer',$next_id = $this->db->nextId('il_meta_entity'));
         
         if ($this->db->insert('il_meta_entity', $fields)) {
             $this->setMetaId($next_id);
@@ -61,9 +58,6 @@ class ilMDEntity extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -79,14 +73,11 @@ class ilMDEntity extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_entity " .
-                "WHERE meta_entity_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_entity_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             
             $this->db->query($query);
             
@@ -108,13 +99,10 @@ class ilMDEntity extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_entity " .
-                "WHERE meta_entity_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_entity_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -145,7 +133,7 @@ class ilMDEntity extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_entity_id FROM il_meta_entity " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

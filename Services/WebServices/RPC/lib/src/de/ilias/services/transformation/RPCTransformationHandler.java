@@ -24,11 +24,12 @@ package de.ilias.services.transformation;
 
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RPCTransformationHandler {
 
-    protected static Logger logger = Logger.getLogger(RPCTransformationHandler.class);
+    protected static Logger logger = LogManager.getLogger(RPCTransformationHandler.class);
 	
     public RPCTransformationHandler() {
         

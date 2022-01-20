@@ -93,7 +93,7 @@ class ilExportIDTableGUI extends ilTable2GUI
         return $this->online_help_mode;
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

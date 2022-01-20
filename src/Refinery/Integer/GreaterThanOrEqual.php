@@ -16,11 +16,11 @@ class GreaterThanOrEqual extends CustomConstraint implements Constraint
     {
         $this->min = $min;
         parent::__construct(
-            function ($value) {
+            function ($value) : bool {
                 return $value >= $this->min;
             },
-            function ($txt, $value) {
-                return $txt("not_greater_than_or_equal", $this->min);
+            function ($txt, $value) : string {
+                return (string) $txt("not_greater_than_or_equal", $this->min);
             },
             $data_factory,
             $lng

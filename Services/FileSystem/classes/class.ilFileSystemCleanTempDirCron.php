@@ -1,30 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\DI\Container;
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilFileSystemCleanTempDirCron
+ *
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  */
 class ilFileSystemCleanTempDirCron extends ilCronJob
 {
-    /**
-     * @var \ILIAS\Filesystem\Filesystem
-     */
-    protected $filesystem;
-    /**
-     * @var ilLanguage
-     */
-    protected $language;
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected \ILIAS\Filesystem\Filesystem $filesystem;
+
+    protected ilLanguage $language;
+
+    protected ilLogger $logger;
 
     /**
      * @inheritDoc
@@ -46,9 +49,8 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
         }
     }
 
-    private function initDependencies()
+    private function initDependencies() : void
     {
-
     }
 
     public function getId() : string
@@ -109,12 +111,10 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
 
         // the folders are sorted based on their path length to ensure that nested folders are deleted first
         // thereby preventing any issues due to deletion attempts on no longer existing folders.
-        $folders = $this->filesystem->finder()->in([""])->date($date)->directories()->sort(function (
+        $folders = $this->filesystem->finder()->in([""])->date($date)->directories()->sort(fn (
             Metadata $a,
             Metadata $b
-        ) {
-            return strlen($a->getPath()) - strlen($b->getPath());
-        })->reverseSorting();
+        ) : int => strlen($a->getPath()) - strlen($b->getPath()))->reverseSorting();
         $deleted_folders = [];
         foreach ($folders as $folder_match) {
             try {

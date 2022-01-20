@@ -124,7 +124,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return ($a_field == "percentage"); // #15041
     }
@@ -195,7 +195,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -297,7 +297,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("type"));
         $a_excel->setCell($a_row, 1, $this->lng->txt("trac_title"));
@@ -312,7 +312,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_excel->setBold("A" . $a_row . ":H" . $a_row);
     }
     
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
@@ -330,7 +330,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, 7, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $a_csv->addColumn($this->lng->txt("type"));
         $a_csv->addColumn($this->lng->txt("trac_title"));
@@ -344,7 +344,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn($this->lng->txt($a_set["type"]));
         $a_csv->addColumn($a_set["title"]);

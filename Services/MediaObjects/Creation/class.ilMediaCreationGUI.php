@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\MediaObjects\Creation\CreationGUIRequest;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilMediaCreationGUI: ilPropertyFormGUI
@@ -26,6 +28,7 @@ class ilMediaCreationGUI
     public const TYPE_ALL = 5;
     public const POOL_VIEW_FOLDER = "fold";
     public const POOL_VIEW_ALL = "all";
+    protected CreationGUIRequest $request;
 
     protected array $accept_types = [1,2,3,4];
     protected ilLanguage $lng;
@@ -65,12 +68,17 @@ class ilMediaCreationGUI
 
         $this->ctrl->saveParameter($this, ["mep", "pool_view"]);
 
-        $this->requested_mep = ((int) $_POST["mep"] > 0)
-            ? (int) $_POST["mep"]
-            : (int) $_GET["mep"];
+        $this->request = $DIC->mediaObjects()
+            ->internal()
+            ->gui()
+            ->creation()
+            ->request();
 
-        $this->pool_view = (in_array($_GET["pool_view"], [self::POOL_VIEW_FOLDER, self::POOL_VIEW_ALL]))
-            ? $_GET["pool_view"]
+        $this->requested_mep = $this->request->getMediaPoolId();
+
+        $pv = $this->request->getPoolView();
+        $this->pool_view = (in_array($pv, [self::POOL_VIEW_FOLDER, self::POOL_VIEW_ALL]))
+            ? $pv
             : self::POOL_VIEW_FOLDER;
     }
 
@@ -170,8 +178,8 @@ class ilMediaCreationGUI
             // move title from form to accordion
             $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
                 $form_title);
-            $cf->setTitle(null);
-            $cf->setTitleIcon(null);
+            $cf->setTitle("");
+            $cf->setTitleIcon("");
             $cf->setTableWidth("100%");
 
             $acc->addItem($htpl->get(), $cf->getHTML());
@@ -231,7 +239,12 @@ class ilMediaCreationGUI
 
         $form = new \ilPropertyFormGUI();
 
-        $mcst = new ilRepositorySelector2InputGUI($lng->txt("obj_mep"), "mep", false);
+        $mcst = new ilRepositorySelector2InputGUI(
+            $lng->txt("obj_mep"),
+            "mep",
+            false,
+            $form
+        );
         $exp = $mcst->getExplorerGUI();
         $exp->setSelectableTypes(["mep"]);
         $exp->setTypeWhiteList(["root", "mep", "cat", "crs", "grp", "fold"]);
@@ -450,7 +463,7 @@ class ilMediaCreationGUI
     {
         $ctrl = $this->ctrl;
 
-        $ctrl->setParameter($this, "mep", $_GET["mep_ref_id"]);
+        $ctrl->setParameter($this, "mep", $this->request->getSelectedMediaPoolRefId());
         $ctrl->redirect($this, "listPoolItems");
     }
 
@@ -477,13 +490,14 @@ class ilMediaCreationGUI
      */
     protected function insertFromPool() : void
     {
-        if (!is_array($_POST["id"])) {
+        $ids = $this->request->getIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"));
             $this->listPoolItems();
             return;
         }
         $mob_ids = [];
-        foreach ($_POST["id"] as $pool_entry_id) {
+        foreach ($ids as $pool_entry_id) {
             $id = ilMediaPoolItem::lookupForeignId($pool_entry_id);
             $mob = new ilObjMediaObject((int) $id);
             if (!in_array($mob->getMediaItem("Standard")->getFormat(), $this->getMimeTypes())) {

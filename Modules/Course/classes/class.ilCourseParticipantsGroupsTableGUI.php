@@ -141,7 +141,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -216,7 +216,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

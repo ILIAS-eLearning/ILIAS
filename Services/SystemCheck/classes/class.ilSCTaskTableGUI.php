@@ -30,7 +30,6 @@ class ilSCTaskTableGUI extends ilTable2GUI
 
     public function init() : void
     {
-
         $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
         $this->addColumn($this->lng->txt('last_update'), 'last_update_sort', '20%');
@@ -46,13 +45,13 @@ class ilSCTaskTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow($row)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
-        $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? ''));
+        $this->tpl->setVariable('VAL_TITLE', (string) ($a_set['title'] ?? ''));
+        $this->tpl->setVariable('VAL_DESC', (string) ($a_set['description'] ?? ''));
 
-        $status = (int) ($row['status'] ?? 0);
-        $text   = ilSCUtils::taskStatus2Text($status);
+        $status = (int) ($a_set['status'] ?? 0);
+        $text = ilSCUtils::taskStatus2Text($status);
         switch ($status) {
             case ilSCTask::STATUS_COMPLETED:
                 $this->tpl->setVariable('VAL_STATUS_SUCCESS', $text);
@@ -69,12 +68,11 @@ class ilSCTaskTableGUI extends ilTable2GUI
                 break;
         }
 
-        $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($row['last_update'] ?? ''));
+        $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($a_set['last_update'] ?? ''));
 
         // Actions
         if ($this->access->checkAccess('write', '', $this->parent_obj->object->getRefId())) {
-
-            $id   = (int) ($row['id'] ?? 0);
+            $id = (int) ($a_set['id'] ?? 0);
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');
@@ -104,20 +102,19 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $data = array();
 
         foreach (ilSCTasks::getInstanceByGroupId($this->getGroupId())->getTasks() as $task) {
-
             $task_handler = ilSCComponentTaskFactory::getComponentTask($task->getId());
 
             if (!$task->isActive()) {
                 continue;
             }
 
-            $item                     = array();
-            $item['id']               = $task->getId();
-            $item['title']            = $task_handler->getTitle();
-            $item['description']      = $task_handler->getDescription();
-            $item['last_update']      = ilDatePresentation::formatDate($task->getLastUpdate());
+            $item = array();
+            $item['id'] = $task->getId();
+            $item['title'] = $task_handler->getTitle();
+            $item['description'] = $task_handler->getDescription();
+            $item['last_update'] = ilDatePresentation::formatDate($task->getLastUpdate());
             $item['last_update_sort'] = $task->getLastUpdate()->get(IL_CAL_UNIX);
-            $item['status']           = $task->getStatus();
+            $item['status'] = $task->getStatus();
 
             $data[] = $item;
         }

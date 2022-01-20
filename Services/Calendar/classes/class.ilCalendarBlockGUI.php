@@ -361,7 +361,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
                     $a_tpl->setVariable('DAY_CLASS', 'calminiinactive');
                 } else {
                     $week_has_events = true;
-                    include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                     foreach ($events as $event) {
                         $booking = new ilBookingEntry($event['event']->getContextId());
                         if ($booking->hasBooked($event['event']->getEntryId())) {
@@ -509,7 +508,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
                 $users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
                 //$users = $participants->getParticipants();
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
                 foreach ($users as $user_id) {
                     if (!isset($_GET["bkid"])) {
@@ -526,7 +524,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
                             if (ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY)) {
                                 continue;
                             }
-                            include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                             $booking_entry = new ilBookingEntry($entry->getContextId());
                             if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
                                 continue;

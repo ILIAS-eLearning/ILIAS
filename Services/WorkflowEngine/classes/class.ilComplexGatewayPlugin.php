@@ -55,13 +55,6 @@ abstract class ilComplexGatewayPlugin extends ilPlugin
     }
 
     /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-    }
-
-    /**
      * This method is called by the workflow engine during the transition attempt.
      * Here, the plugin delivers the black box which is called "complex" as the gateway.
      * Return boolean to the engine, if the standard flow should be activated or the "else"-path.

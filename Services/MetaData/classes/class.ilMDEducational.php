@@ -309,12 +309,9 @@ class ilMDEducational extends ilMDBase
     
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
 
         $fields = $this->__getFields();
-        $fields['meta_educational_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_educational'));
+        $fields['meta_educational_id'] = array('integer',$next_id = $this->db->nextId('il_meta_educational'));
         
         if ($this->db->insert('il_meta_educational', $fields)) {
             $this->setMetaId($next_id);
@@ -325,9 +322,6 @@ class ilMDEducational extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -343,14 +337,11 @@ class ilMDEducational extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_educational " .
-                "WHERE meta_educational_id = " . $ilDB->quote($this->getMetaId());
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId());
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getTypicalAgeRangeIds() as $id) {
                 $typ = $this->getTypicalAgeRange($id);
@@ -389,13 +380,10 @@ class ilMDEducational extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_educational " .
-                "WHERE meta_educational_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
         
             $res = $this->db->query($query);
@@ -485,7 +473,7 @@ class ilMDEducational extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_educational_id FROM il_meta_educational " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
@@ -502,7 +490,7 @@ class ilMDEducational extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $a_obj_id = $a_obj_id ? $a_obj_id : $a_rbac_id;
 

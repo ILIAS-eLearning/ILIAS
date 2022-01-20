@@ -1439,11 +1439,14 @@ class ilObject
     {
         global $DIC;
 
-        $rbacadmin = $DIC["rbacadmin"];
-        $rbacreview = $DIC["rbacreview"];
+        $rbacadmin = $DIC->rbac()->admin();
+        $rbacreview = $DIC->rbac()->review();
         
         $parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
         foreach ((array) $parent_roles as $parent_role) {
+            if ($parent_role['obj_id'] == SYSTEM_ROLE_ID) {
+                continue;
+            }
             $operations = $rbacreview->getOperationsOfRole(
                 $parent_role['obj_id'],
                 $this->getType(),
@@ -1860,7 +1863,7 @@ class ilObject
             ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');
         }
         
-        ilAdvancedMDValues::_cloneValues($this->getId(), $new_obj->getId());
+        ilAdvancedMDValues::_cloneValues($a_copy_id, $this->getId(), $new_obj->getId());
 
         // BEGIN WebDAV: Clone WebDAV properties
         $query = "INSERT INTO dav_property (obj_id,node_id,ns,name,value) " .

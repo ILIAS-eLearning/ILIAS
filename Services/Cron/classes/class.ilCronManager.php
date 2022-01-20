@@ -6,7 +6,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCron
  */
-class ilCronManager implements \ilCronManagerInterface
+class ilCronManager implements ilCronManagerInterface
 {
     protected ilSetting $settings;
     protected ilLogger $logger;
@@ -22,7 +22,7 @@ class ilCronManager implements \ilCronManagerInterface
         $this->logger->info('CRON - batch start');
 
         $ts = time();
-        $this->settings->set('last_cronjob_start_ts', $ts);
+        $this->settings->set('last_cronjob_start_ts', (string) $ts);
 
         $useRelativeDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
@@ -54,7 +54,8 @@ class ilCronManager implements \ilCronManagerInterface
 
         // plugins
         foreach (self::getPluginJobs(true) as $item) {
-            self::runJob($item[0], $item[1]);
+            // #18411 - we are NOT using the initial job data as it might be outdated at this point
+            self::runJob($item[0]);
         }
 
         $this->logger->info('CRON - batch end');
@@ -190,7 +191,10 @@ class ilCronManager implements \ilCronManagerInterface
         global $DIC;
 
         $ilLog = $DIC->logger()->root();
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC['component.repository'];
+        /** @var ilComponentFactory $component_factory */
+        $component_factory = $DIC['component.factory'];
 
         // plugin
         if (strpos($a_job_id, 'pl__') === 0) {
@@ -198,17 +202,12 @@ class ilCronManager implements \ilCronManagerInterface
             $pl_name = $parts[1];
             $job_id = $parts[2];
 
-            foreach ($ilPluginAdmin->getActivePlugins() as $pluginData) {
-                if ($pluginData['name'] !== $pl_name) {
+            foreach ($component_repository->getPlugins() as $pl) {
+                if ($pl->getName() !== $pl_name || !$pl->isActive()) {
                     continue;
                 }
 
-                $plugin = $ilPluginAdmin->getPluginObject(
-                    $pluginData['component_type'],
-                    $pluginData['component_name'],
-                    $pluginData['slot_id'],
-                    $pluginData['name']
-                );
+                $plugin = $component_factory->getPlugin($pl->getId());
 
                 if (!$plugin instanceof ilCronJobProvider) {
                     continue;
@@ -426,18 +425,19 @@ class ilCronManager implements \ilCronManagerInterface
     {
         global $DIC;
 
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC['component.repository'];
+        /** @var ilComponentFactory $component_factory */
+        $component_factory = $DIC['component.factory'];
 
         $res = [];
 
-        foreach ($ilPluginAdmin::getActivePlugins() as $pluginData) {
-            $plugin = $ilPluginAdmin::getPluginObject(
-                $pluginData['component_type'],
-                $pluginData['component_name'],
-                $pluginData['slot_id'],
-                $pluginData['name']
-            );
+        foreach ($component_repository->getPlugins() as $pl) {
+            if (!$pl->isActive()) {
+                continue;
+            }
+
+            $plugin = $component_factory->getPlugin($pl->getId());
 
             if (!$plugin instanceof ilCronJobProvider) {
                 continue;
@@ -448,7 +448,7 @@ class ilCronManager implements \ilCronManagerInterface
                 $job_data = $jobs_data[0] ?? null;
                 if (!is_array($job_data) || $job_data === []) {
                     // as job is not "imported" from xml
-                    self::createDefaultEntry($job, $pluginData['name'], IL_COMP_PLUGIN, "");
+                    self::createDefaultEntry($job, $plugin->getPluginName(), IL_COMP_PLUGIN, '');
                 }
 
                 $jobs_data = self::getCronJobData($job->getId());

@@ -15,16 +15,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     const IDENTIFIER = 'tstRndPools';
 
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng = null;
-
-    /**
      * @var boolean
      */
     private $definitionEditModeEnabled = null;
@@ -89,28 +79,28 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     }
     // fau.
 
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         if ($this->isDefinitionEditModeEnabled()) {
             $this->tpl->setCurrentBlock('col_selection_checkbox');
-            $this->tpl->setVariable('SELECTION_CHECKBOX_HTML', $this->getSelectionCheckboxHTML($set['def_id']));
+            $this->tpl->setVariable('SELECTION_CHECKBOX_HTML', $this->getSelectionCheckboxHTML($a_set['def_id']));
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->setCurrentBlock('col_actions');
-            $this->tpl->setVariable('ACTIONS_HTML', $this->getActionsHTML($set['def_id']));
+            $this->tpl->setVariable('ACTIONS_HTML', $this->getActionsHTML($a_set['def_id']));
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->setCurrentBlock('col_order_checkbox');
             $this->tpl->setVariable('ORDER_INPUT_HTML', $this->getDefinitionOrderInputHTML(
-                $set['def_id'],
-                $this->getOrderNumberForSequencePosition($set['sequence_position'])
+                $a_set['def_id'],
+                $this->getOrderNumberForSequencePosition($a_set['sequence_position'])
             ));
             $this->tpl->parseCurrentBlock();
         }
         // fau: taxFilter/typeFilter - show sequence position to identify the filter in the database
         else {
             $this->tpl->setCurrentBlock('col_order_checkbox');
-            $this->tpl->setVariable('ORDER_INPUT_HTML', $set['sequence_position']);
+            $this->tpl->setVariable('ORDER_INPUT_HTML', $a_set['sequence_position']);
             $this->tpl->parseCurrentBlock();
         }
         // fau.
@@ -118,11 +108,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         if ($this->isQuestionAmountColumnEnabled()) {
             if ($this->isDefinitionEditModeEnabled()) {
                 $questionAmountHTML = $this->getQuestionAmountInputHTML(
-                    $set['def_id'],
-                    $set['question_amount']
+                    $a_set['def_id'],
+                    $a_set['question_amount']
                 );
             } else {
-                $questionAmountHTML = $set['question_amount'];
+                $questionAmountHTML = $a_set['question_amount'];
             }
 
             $this->tpl->setCurrentBlock('col_question_amount');
@@ -130,13 +120,13 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable('SOURCE_POOL_LABEL', $set['source_pool_label']);
+        $this->tpl->setVariable('SOURCE_POOL_LABEL', $a_set['source_pool_label']);
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
-        $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($set['taxonomy_filter'], '<br />'));
+        $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($a_set['taxonomy_filter'], '<br />'));
         #$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));
         #$this->tpl->setVariable('FILTER_TAX_NODE', $this->getTaxonomyNodeLabel($set['filter_tax_node']));
-        $this->tpl->setVariable('LIFECYCLE_FILTER', $this->taxonomyLabelTranslater->getLifecycleFilterLabel($set['lifecycle_filter']));
-        $this->tpl->setVariable('TYPE_FILTER', $this->taxonomyLabelTranslater->getTypeFilterLabel($set['type_filter']));
+        $this->tpl->setVariable('LIFECYCLE_FILTER', $this->taxonomyLabelTranslater->getLifecycleFilterLabel($a_set['lifecycle_filter']));
+        $this->tpl->setVariable('TYPE_FILTER', $this->taxonomyLabelTranslater->getTypeFilterLabel($a_set['type_filter']));
         // fau.
     }
 

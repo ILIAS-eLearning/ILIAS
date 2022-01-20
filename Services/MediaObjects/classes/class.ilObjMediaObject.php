@@ -103,7 +103,7 @@ class ilObjMediaObject extends ilObject
         }
     }
 
-    public function beforeMDUpdateListener(string $a_element) : bool
+    protected function beforeMDUpdateListener(string $a_element) : bool
     {
         switch ($a_element) {
             case 'General':
@@ -317,7 +317,7 @@ class ilObjMediaObject extends ilObject
 
         $j = 1;
         foreach ($media_items as $key => $val) {
-            $item = $media_items[$key];
+            $item = $val;
             if (is_object($item)) {
                 $item->setMobId($this->getId());
                 $item->setNr($j);
@@ -511,7 +511,7 @@ class ilObjMediaObject extends ilObject
         bool $a_sign_locals = false
     ) : string {
         $ilUser = $this->user;
-        
+        $xml = "";
         // TODO: full implementation of all parameters
         //echo "-".$a_mode."-";
         switch ($a_mode) {
@@ -720,7 +720,7 @@ class ilObjMediaObject extends ilObject
      */
     public function handleAmps(
         string $a_str
-    ) : strings {
+    ) : string {
         $a_str = str_replace("&amp;", "&", $a_str);
         $a_str = str_replace("&", "&amp;", $a_str);
         return $a_str;
@@ -750,57 +750,6 @@ class ilObjMediaObject extends ilObject
 
         $mobdir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->getId();
         ilUtil::rCopy($mobdir, $a_target_dir . "/objects/" . $subdir);
-    }
-
-    public function exportMediaFullscreen(
-        string $a_target_dir,
-        ilPageObject $pg_obj
-    ) : void {
-        $subdir = "il_" . IL_INST_ID . "_mob_" . $this->getId();
-        $a_target_dir = $a_target_dir . "/objects/" . $subdir;
-        ilUtil::makeDir($a_target_dir);
-        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
-        $tpl->setCurrentBlock("ilMedia");
-
-        //$int_links = $page_object->getInternalLinks();
-        $med_links = ilMediaItem::_getMapAreasIntLinks($this->getId());
-
-        // @todo
-        //$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
-
-        $xml = "<dummy>";
-        // todo: we get always the first alias now (problem if mob is used multiple
-        // times in page)
-        $xml .= $pg_obj->getMediaAliasElement($this->getId());
-        $xml .= $this->getXML(IL_MODE_OUTPUT);
-        //$xml.= $link_xml;
-        $xml .= "</dummy>";
-
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
-
-        $wb_path = "";
-        $enlarge_path = "";
-        $params = array('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,
-            'link_params' => "ref_id=" . $_GET["ref_id"],'fullscreen_link' => "",
-            'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        //echo xslt_error($xh);
-        xslt_free($xh);
-
-        // unmask user html
-        $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../../css/style.css");
-        $tpl->setVariable("LOCATION_STYLESHEET", "../../css/system.css");
-        $tpl->setVariable("MEDIA_CONTENT", $output);
-        $output = $tpl->get();
-        //$output = preg_replace("/\/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
-        $output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i", "$2", $output);
-        $output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i", "../../players", $output);
-        $output = preg_replace("/\.\/" . str_replace("/", "\/", ilPlayerUtil::getFlashVideoPlayerDirectory()) . "/i", "../../players", $output);
-        $output = preg_replace("/file=..\/..\/..\//i", "file=../objects/" . $subdir . "/", $output);
-        //die(htmlspecialchars($output));
-        fwrite(fopen($a_target_dir . '/fullscreen.html', 'w'), $output);
     }
 
     public function modifyExportIdentifier(
@@ -850,7 +799,7 @@ class ilObjMediaObject extends ilObject
         $ilDB = $DIC->database();
         
         $and_hist = "";
-        if ($a_usage_hist_nr !== false) {
+        if ($a_usage_hist_nr > 0) {
             $and_hist = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
         
@@ -891,7 +840,7 @@ class ilObjMediaObject extends ilObject
             $lstr = " AND usage_lang = " . $ilDB->quote($a_lang, "text");
         }
         $hist_str = "";
-        if ($a_usage_hist_nr !== false) {
+        if ($a_usage_hist_nr > 0) {
             $hist_str = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
 
@@ -902,8 +851,9 @@ class ilObjMediaObject extends ilObject
         $mobs = array();
         $mob_set = $ilDB->query($q);
         while ($mob_rec = $ilDB->fetchAssoc($mob_set)) {
-            if (ilObject::_lookupType($mob_rec["id"]) == "mob") {
-                $mobs[$mob_rec["id"]] = $mob_rec["id"];
+            $mob_id = (int) $mob_rec['id'];
+            if (ilObject::_lookupType($mob_id) === "mob") {
+                $mobs[$mob_id] = $mob_id;
             }
         }
 
@@ -927,11 +877,11 @@ class ilObjMediaObject extends ilObject
         $ilDB->replace(
             "mob_usage",
             array(
-                "id" => array("integer", (int) $a_mob_id),
+                "id" => array("integer", $a_mob_id),
                 "usage_type" => array("text", $a_type),
                 "usage_id" => array("integer", $a_id),
                 "usage_lang" => array("text", $a_lang),
-                "usage_hist_nr" => array("integer", (int) $a_usage_hist_nr)
+                "usage_hist_nr" => array("integer", $a_usage_hist_nr)
                 ),
             array()
         );
@@ -954,11 +904,11 @@ class ilObjMediaObject extends ilObject
         $ilDB = $DIC->database();
         
         $q = "DELETE FROM mob_usage WHERE " .
-            " id = " . $ilDB->quote((int) $a_mob_id, "integer") . " AND " .
+            " id = " . $ilDB->quote($a_mob_id, "integer") . " AND " .
             " usage_type = " . $ilDB->quote($a_type, "text") . " AND " .
-            " usage_id = " . $ilDB->quote((int) $a_id, "integer") . " AND " .
+            " usage_id = " . $ilDB->quote($a_id, "integer") . " AND " .
             " usage_lang = " . $ilDB->quote($a_lang, "text") . " AND " .
-            " usage_hist_nr = " . $ilDB->quote((int) $a_usage_hist_nr, "integer");
+            " usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         $ilDB->manipulate($q);
         
         self::handleQuotaUpdate(new self($a_mob_id));
@@ -1003,6 +953,7 @@ class ilObjMediaObject extends ilObject
         $ret = array();
         while ($us_rec = $ilDB->fetchAssoc($us_set)) {
             $ut = "";
+            $ct = 0;
             if (is_int(strpos($us_rec["usage_type"], ":"))) {
                 $us_arr = explode(":", $us_rec["usage_type"]);
                 $ut = $us_arr[1];
@@ -1072,6 +1023,7 @@ class ilObjMediaObject extends ilObject
         array $a_usage,
         bool $a_include_all_access_obj_ids = false
     ) : ?int {
+        $cont_type = "";
         if (is_int(strpos($a_usage["type"], ":"))) {
             $us_arr = explode(":", $a_usage["type"]);
             $type = $us_arr[1];
@@ -1200,7 +1152,7 @@ class ilObjMediaObject extends ilObject
                         
                     case "lm":
                         // learning modules
-                        $obj_id = (int) ilLMObject::_lookupContObjID($id);
+                        $obj_id = ilLMObject::_lookupContObjID($id);
                         break;
                 
                     case "gdf":
@@ -1222,17 +1174,17 @@ class ilObjMediaObject extends ilObject
                     
                     case "prtf":
                         // portfolio
-                        $obj_id = (int) ilPortfolioPage::findPortfolioForPage($id);
+                        $obj_id = ilPortfolioPage::findPortfolioForPage($id);
                         break;
                     
                     case "prtt":
                         // portfolio template
-                        $obj_id = (int) ilPortfolioTemplatePage::findPortfolioForPage($id);
+                        $obj_id = ilPortfolioTemplatePage::findPortfolioForPage($id);
                         break;
                     
                     case "blp":
                         // blog
-                        $obj_id = (int) ilPageObject::lookupParentId($id, 'blp');
+                        $obj_id = ilPageObject::lookupParentId($id, 'blp');
                         break;
                     
                     case "impr":
@@ -1286,8 +1238,8 @@ class ilObjMediaObject extends ilObject
         ilUtil::resizeImage(
             $a_file,
             $target_file,
-            (int) $a_width,
-            (int) $a_height,
+            $a_width,
+            $a_height,
             $a_constrain_prop
         );
 
@@ -1312,12 +1264,17 @@ class ilObjMediaObject extends ilObject
         string $a_reference,
         bool $a_constrain_proportions,
         bool $a_use_original,
-        int $a_user_width,
-        int $a_user_height
+        ?int $a_user_width = null,
+        ?int $a_user_height = null
     ) : array {
         global $DIC;
 
         $lng = $DIC->language();
+        $size = [];
+        $wr = 0;
+        $hr = 0;
+        $width = 0;
+        $height = 0;
         
         // determine width and height of known image types
         //$width = 640;
@@ -1347,8 +1304,8 @@ class ilObjMediaObject extends ilObject
                 $info = $lng->txt("cont_could_not_determine_resource_size");
             }
         } else {
-            $w = (int) $a_user_width;
-            $h = (int) $a_user_height;
+            $w = $a_user_width;
+            $h = $a_user_height;
             $width = $w;
             $height = $h;
             //echo "<br>C-$width-$height-";
@@ -1373,10 +1330,10 @@ class ilObjMediaObject extends ilObject
         }
         //echo "<br>E-$width-$height-";
 
-        if ($width == 0 && $a_user_width === "") {
+        if ($width == 0 && is_null($a_user_width)) {
             $width = "";
         }
-        if ($height == 0 && $a_user_height === "") {
+        if ($height == 0 && is_null($a_user_height)) {
             $height = "";
         }
 
@@ -1663,7 +1620,7 @@ class ilObjMediaObject extends ilObject
     }
     
     public function uploadVideoPreviewPic(
-        string $a_prevpic
+        array $a_prevpic
     ) : void {
         // remove old one
         if ($this->getVideoPreviewPic(true) != "") {
@@ -1782,7 +1739,7 @@ class ilObjMediaObject extends ilObject
      * Upload multi srt file
      */
     public function uploadMultipleSubtitleFile(
-        string $a_file
+        array $a_file
     ) : void {
         $lng = $this->lng;
 

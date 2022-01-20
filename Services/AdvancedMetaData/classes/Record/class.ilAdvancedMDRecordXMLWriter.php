@@ -22,22 +22,18 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesAdvancedMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
 {
     protected array $record_ids = [];
     protected ilSetting $settings;
-    
+
     /**
      * Constructor
-     *
      * @access public
      * @param
-     *
      */
     public function __construct(array $a_record_ids)
     {
@@ -58,10 +54,9 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
         }
         $this->xmlEndTag('AdvancedMetaDataRecords');
     }
-    
+
     /**
      * build header
-     *
      * @access protected
      */
     protected function buildHeader() : void

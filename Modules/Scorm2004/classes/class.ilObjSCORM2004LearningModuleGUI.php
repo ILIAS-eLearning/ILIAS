@@ -383,17 +383,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $cb->setInfo($this->lng->txt("cont_online_info"));
         $this->form->addItem($cb);
         
-        // offline Mode
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
-        $cb->setValue("y");
-        include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
-        if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
-            $cb->setDisabled(true);
-            $cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
-        } else {
-            $cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
-        }
-        $this->form->addItem($cb);
 
         //
         // presentation

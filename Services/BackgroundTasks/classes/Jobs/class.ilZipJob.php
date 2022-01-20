@@ -1,10 +1,23 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Description of class class
  *
@@ -13,7 +26,10 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilZipJob extends AbstractJob
 {
-    private $logger = null;
+    /**
+     * @var null
+     */
+    private $logger;
 
 
     /**
@@ -28,7 +44,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
             [
@@ -40,7 +56,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -49,7 +65,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
@@ -59,7 +75,7 @@ class ilZipJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
     {
         $this->logger->debug('Start zipping input dir!');
         $this->logger->dump($input);
@@ -81,7 +97,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

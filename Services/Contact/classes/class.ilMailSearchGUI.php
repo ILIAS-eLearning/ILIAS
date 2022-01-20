@@ -233,6 +233,7 @@ class ilMailSearchGUI
                 ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
         );
+        $this->http->sendResponse();
         $this->http->close();
     }
 
@@ -263,7 +264,7 @@ class ilMailSearchGUI
             $contacts_search_result = new ilSearchResult();
 
             $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
-            $query_parser->setCombination(QP_COMBINATION_AND);
+            $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
             $query_parser->setMinWordLength(3);
             $query_parser->parse();
 
@@ -361,7 +362,7 @@ class ilMailSearchGUI
         $all_results = new ilSearchResult();
 
         $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
 
@@ -457,7 +458,7 @@ class ilMailSearchGUI
         $group_results = new ilSearchResult();
 
         $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
 

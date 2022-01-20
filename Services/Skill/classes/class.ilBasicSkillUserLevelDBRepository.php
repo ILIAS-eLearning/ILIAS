@@ -184,10 +184,15 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         int $a_tref_id = 0,
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
-        float $a_next_level_fulfilment = 0.0
+        float $a_next_level_fulfilment = 0.0,
+        string $trigger_user_id = ""
     ) : void {
         $ilDB = $this->db;
         $a_status = ilBasicSkill::ACHIEVED;
+
+        if ($trigger_user_id == "") {
+            $trigger_user_id = "-";
+        }
 
         if ($update) {
             // this will only be set in self eval case, means this will always have a $rec
@@ -203,7 +208,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 " AND status = " . $ilDB->quote($a_status, "integer") .
                 " AND trigger_obj_id = " . $ilDB->quote($trigger_obj_id, "integer") .
                 " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
-                " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
+                " AND self_eval = " . $ilDB->quote($a_self_eval, "integer") .
+                " AND trigger_user_id = " . $ilDB->quote($trigger_user_id, "text")
             );
         } else {
             if ($a_unique_identifier != "") {
@@ -215,7 +221,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                     " AND trigger_ref_id = " . $ilDB->quote($trigger_ref_id, "integer") .
                     " AND trigger_obj_id = " . $ilDB->quote($trigger_obj_id, "integer") .
                     " AND self_eval = " . $ilDB->quote($a_self_eval, "integer") .
-                    " AND unique_identifier = " . $ilDB->quote($a_unique_identifier, "text")
+                    " AND unique_identifier = " . $ilDB->quote($a_unique_identifier, "text") .
+                    " AND trigger_user_id = " . $ilDB->quote($trigger_user_id, "text")
                 );
             }
 
@@ -223,7 +230,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $ilDB->manipulate("INSERT INTO skl_user_skill_level " .
                 "(level_id, user_id, tref_id, status_date, skill_id, status, valid, trigger_ref_id," .
                 "trigger_obj_id, trigger_obj_type, trigger_title, self_eval, unique_identifier," .
-                "next_level_fulfilment) VALUES (" .
+                "next_level_fulfilment, trigger_user_id) VALUES (" .
                 $ilDB->quote($a_level_id, "integer") . "," .
                 $ilDB->quote($a_user_id, "integer") . "," .
                 $ilDB->quote($a_tref_id, "integer") . "," .
@@ -237,7 +244,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 $ilDB->quote($trigger_title, "text") . "," .
                 $ilDB->quote($a_self_eval, "integer") . "," .
                 $ilDB->quote($a_unique_identifier, "text") . "," .
-                $ilDB->quote($a_next_level_fulfilment, "float") .
+                $ilDB->quote($a_next_level_fulfilment, "float") . "," .
+                $ilDB->quote($trigger_user_id, "text") .
                 ")");
         }
 
@@ -255,7 +263,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         if ($a_status == ilBasicSkill::ACHIEVED) {
             $ilDB->manipulate("INSERT INTO skl_user_has_level " .
                 "(level_id, user_id, tref_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_obj_type," .
-                "trigger_title, self_eval, next_level_fulfilment) VALUES (" .
+                "trigger_title, self_eval, next_level_fulfilment, trigger_user_id) VALUES (" .
                 $ilDB->quote($a_level_id, "integer") . "," .
                 $ilDB->quote($a_user_id, "integer") . "," .
                 $ilDB->quote($a_tref_id, "integer") . "," .
@@ -266,7 +274,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 $ilDB->quote($trigger_type, "text") . "," .
                 $ilDB->quote($trigger_title, "text") . "," .
                 $ilDB->quote($a_self_eval, "integer") . "," .
-                $ilDB->quote($a_next_level_fulfilment, "float") .
+                $ilDB->quote($a_next_level_fulfilment, "float") . "," .
+                $ilDB->quote($trigger_user_id, "text") .
                 ")");
         }
     }

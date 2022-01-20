@@ -21,7 +21,7 @@
 class ilMediaItem
 {
     protected string $tried_thumb = "";
-    protected string $text_representation;
+    protected string $text_representation = "";
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
@@ -46,7 +46,7 @@ class ilMediaItem
     public int $color1;            // map area line color 1
     public int $color2;            // map area line color 2
     protected int $duration = 0;
-    protected string $upload_hash;
+    protected string $upload_hash = '';
 
     public function __construct(
         int $a_id = 0
@@ -668,11 +668,11 @@ class ilMediaItem
      */
     public function createWorkDirectory() : void
     {
-        if (!@is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
+        if (!is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
             ilUtil::createDirectory(ilUtil::getDataDir() . "/map_workfiles");
         }
         $work_dir = $this->getWorkDirectory();
-        if (!@is_dir($work_dir)) {
+        if (!is_dir($work_dir)) {
             ilUtil::createDirectory($work_dir);
         }
     }
@@ -830,7 +830,6 @@ class ilMediaItem
                 $geom
             );
         }
-
         if (!is_file($this->getMapWorkCopyName())) {
             throw new ilMapEditingException($lng->txt("cont_map_file_not_generated"));
         }
@@ -943,16 +942,16 @@ class ilMediaItem
 
         switch ($im_type) {
             case "gif":
-                $this->map_image = ImageCreateFromGIF($this->getMapWorkCopyName());
+                $this->map_image = imagecreatefromgif($this->getMapWorkCopyName());
                 break;
 
             case "jpg":
             case "jpeg":
-                $this->map_image = ImageCreateFromJPEG($this->getMapWorkCopyName());
+                $this->map_image = imagecreatefromjpeg($this->getMapWorkCopyName());
                 break;
 
             case "png":
-                $this->map_image = ImageCreateFromPNG($this->getMapWorkCopyName());
+                $this->map_image = imagecreatefrompng($this->getMapWorkCopyName());
                 break;
         }
 
@@ -976,20 +975,20 @@ class ilMediaItem
         // save image work-copy and free memory
         switch ($im_type) {
             case "gif":
-                ImageGIF($this->map_image, $this->getMapWorkCopyName());
+                imagegif($this->map_image, $this->getMapWorkCopyName());
                 break;
 
             case "jpg":
             case "jpeg":
-                ImageJPEG($this->map_image, $this->getMapWorkCopyName());
+                imagejpeg($this->map_image, $this->getMapWorkCopyName());
                 break;
 
             case "png":
-                ImagePNG($this->map_image, $this->getMapWorkCopyName());
+                imagepng($this->map_image, $this->getMapWorkCopyName());
                 break;
         }
 
-        ImageDestroy($this->map_image);
+        imagedestroy($this->map_image);
     }
 
     /**
@@ -1118,7 +1117,7 @@ class ilMediaItem
         $ana = new ilMediaAnalyzer();
         $ana->setFile(ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation());
         $ana->analyzeFile();
-        $this->setDuration((int) $ana->getPlaytimeSeconds());
+        $this->setDuration($ana->getPlaytimeSeconds());
     }
 
     /**

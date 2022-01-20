@@ -214,6 +214,8 @@ class ilObjUser extends ilObject
             //style (css)
             $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
         }
+
+        $this->app_event_handler = $DIC['ilAppEventHandler'];
     }
 
     /**
@@ -608,7 +610,7 @@ class ilObjUser extends ilObject
             'inactivation_date' => array('timestamp', $this->inactivation_date)
             );
             
-        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null)) {
+        if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
             $update_array["agree_date"] = array("timestamp", $this->agree_date);
         }
         switch ($this->passwd_type) {
@@ -698,6 +700,7 @@ class ilObjUser extends ilObject
     {
         global $DIC;
 
+        $fullname = "";
         $ilDB = $DIC['ilDB'];
         
         $set = $ilDB->queryF(
@@ -774,12 +777,20 @@ class ilObjUser extends ilObject
             array("integer"),
             array($a_user_id)
         );
-        $user_rec = $ilDB->fetchAssoc($res);
-        return array("user_id" => $a_user_id,
-            "firstname" => $user_rec["firstname"],
-            "lastname" => $user_rec["lastname"],
-            "title" => $user_rec["title"],
-            "login" => $user_rec["login"]);
+        if ($user_rec = $ilDB->fetchAssoc($res)) {
+            return array("user_id" => $a_user_id,
+                         "firstname" => $user_rec["firstname"],
+                         "lastname" => $user_rec["lastname"],
+                         "title" => $user_rec["title"],
+                         "login" => $user_rec["login"]
+            );
+        }
+        return array("user_id" => 0,
+                     "firstname" => "",
+                     "lastname" => "",
+                     "title" => "",
+                     "login" => ""
+        );
     }
 
     /**
@@ -897,6 +908,11 @@ class ilObjUser extends ilObject
                 " WHERE usr_id = %s",
                 array("integer"),
                 array($this->id)
+            );
+            $this->app_event_handler->raise(
+                "Services/User",
+                "firstLogin",
+                array("user_obj" => $this)
             );
         }
     }
@@ -5042,7 +5058,7 @@ class ilObjUser extends ilObject
         $file = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data") .
             "/" . $this->getPersonalDataExportFile();
         if (is_file($file)) {
-            ilUtil::deliverFile($file, $this->getPersonalDataExportFile());
+            ilFileDelivery::deliverFileLegacy($file, $this->getPersonalDataExportFile());
         }
     }
     

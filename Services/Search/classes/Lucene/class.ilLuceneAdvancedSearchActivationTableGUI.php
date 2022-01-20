@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,36 +21,24 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
 
 /**
 * Activation of meta data fields
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup
 */
 class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
 {
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
+    protected ilAccess $access;
+
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->access = $DIC->access();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', 'id', '0px');
@@ -61,9 +49,8 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
         $this->setLimit(100);
         $this->setSelectAllCheckbox('fid');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        
-        $access = $GLOBALS['DIC']->access();
-        if ($access->checkAccess('write', '', $this->getParentObject()->object->getRefId())) {
+
+        if ($this->access->checkAccess('write', '', $this->getParentObject()->object->getRefId())) {
             $this->addMultiCommand('saveAdvancedLuceneSettings', $this->lng->txt('lucene_activate_field'));
         }
     }
@@ -71,7 +58,7 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
     /**
      * Fill template row
      */
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_CHECKED', $a_set['active'] ? 'checked="checked"' : '');
@@ -79,8 +66,9 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_TYPE', $a_set['type']);
     }
     
-    public function parse(ilLuceneAdvancedSearchSettings $settings)
+    public function parse(ilLuceneAdvancedSearchSettings $settings) : void
     {
+        $content = [];
         foreach (ilLuceneAdvancedSearchFields::getFields() as $field => $translation) {
             $tmp_arr['id'] = $field;
             $tmp_arr['active'] = $settings->isActive($field);
@@ -92,6 +80,6 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
             
             $content[] = $tmp_arr;
         }
-        $this->setData($content ? $content : array());
+        $this->setData($content);
     }
 }

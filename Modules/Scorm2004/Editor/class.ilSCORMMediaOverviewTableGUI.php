@@ -10,16 +10,6 @@ namespace ILIAS\Scorm2004\Editor;
 class ilSCORMMediaOverviewTableGUI extends \ilTable2GUI
 {
     /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
@@ -27,7 +17,7 @@ class ilSCORMMediaOverviewTableGUI extends \ilTable2GUI
     /**
      * Constructor
      */
-    function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, $a_parent_cmd)
     {
         global $DIC;
 
@@ -53,7 +43,7 @@ class ilSCORMMediaOverviewTableGUI extends \ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

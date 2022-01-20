@@ -7797,7 +7797,7 @@ ul.dropdown-menu > li > .btn:focus {
   grid-area: properties;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 8px;
+  gap: 6px;
 }
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
@@ -8842,7 +8842,7 @@ div.alert ul > li:before {
 }
 .il-tree {
   list-style-type: none;
-  padding: 0 3px 0 3px;
+  padding: 0 3px 0 calc(3px + 4px);
   margin-left: 0;
 }
 .il-tree ul {
@@ -8858,10 +8858,14 @@ div.alert ul > li:before {
   display: flex;
   flex-wrap: wrap;
 }
+.il-tree li.il-tree-node .node-line > .node-label {
+  padding-left: 4px;
+}
 .il-tree li.il-tree-node .node-line > .node-label .icon {
   vertical-align: text-bottom;
 }
 .il-tree li.il-tree-node .node-line > .node-byline {
+  padding-left: 4px;
   width: 100%;
 }
 .il-tree li.il-tree-node.highlighted > .node-line {
@@ -13510,6 +13514,9 @@ select.ilEditSelect {
 [data-copg-ed-type='add-area'] {
   height: 30px;
 }
+[data-protected='1'] [data-copg-ed-type='add-area'] {
+  display: none;
+}
 button.copg-add.dropdown-toggle.btn,
 button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
@@ -13575,6 +13582,10 @@ div.il_editarea_disabled {
 .copg-state-multi div.il_editarea_disabled:hover {
   border: 2px solid #4c6586;
 }
+.copg-state-page [data-protected='1'] div.il_editarea:hover,
+.copg-state-multi [data-protected='1'] div.il_editarea:hover {
+  border: 2px solid transparent;
+}
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
@@ -13595,6 +13606,10 @@ div.ilEditLabel {
 .copg-state-page .copg-ghost-wrapper div.ilEditLabel,
 .copg-state-multi .copg-ghost-wrapper div.ilEditLabel {
   display: block;
+}
+.copg-state-page [data-protected='1'] div.il_editarea:hover > div.ilEditLabel,
+.copg-state-multi [data-protected='1'] div.il_editarea:hover > div.ilEditLabel {
+  display: none;
 }
 div.il_editarea_selected:hover > div.ilEditLabel {
   background-color: #6ea03c;
@@ -14100,6 +14115,9 @@ p#copg-auto-save {
 }
 .copg-edit-container {
   border: 1px dashed #d0d0d0;
+}
+[data-protected='1'] .copg-edit-container {
+  border: none;
 }
 /* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
 #il_EditPage [data-copg-ed-type="add-area"] {

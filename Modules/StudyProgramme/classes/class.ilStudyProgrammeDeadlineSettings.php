@@ -62,7 +62,7 @@ class ilStudyProgrammeDeadlineSettings
                     '',
                     $lng->txt('prg_deadline_period_desc')
                 )
-                ->withAdditionalTransformation($refinery->int()->isGreaterThan(-1))
+                ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
                 ->withValue($this->getDeadlinePeriod() !== null ? $this->getDeadlinePeriod() : null)
             ],
             $lng->txt('prg_deadline_period')

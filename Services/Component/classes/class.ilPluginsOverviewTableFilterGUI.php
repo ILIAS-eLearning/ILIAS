@@ -36,12 +36,14 @@ class ilPluginsOverviewTableFilterGUI
             return $DIC->language()->txt($id);
         };
 
-        $all_slots = ilPluginSlot::getAllSlots();
-        array_walk($all_slots, static function (array $d) use (&$slots, &$components, &$slot_ids) {
-            $slots[$d['slot_name']] = $d['slot_name'];
-            $slot_ids[$d['slot_id']] = $d['slot_id'];
-            $components[$d['component_type'] . '/' . $d['component_name']] = $d['component_type'] . '/' . $d['component_name'];
-        });
+        $component_repository = $DIC["component.repository"];
+        $slots = [];
+        $components = [];
+        foreach ($component_repository->getPluginSlots() as $slot) {
+            $slots[$slot->getName()] = $slot->getName();
+            $component = $slot->getComponent();
+            $components[$component->getQualifiedName()] = $component->getQualifiedName();
+        }
 
         $inputs = [
             ilPluginsOverviewTableGUI::F_PLUGIN_NAME => $field_factory->text($txt('cmps_plugin')),

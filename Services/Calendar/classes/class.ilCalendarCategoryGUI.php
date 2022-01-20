@@ -621,7 +621,7 @@ class ilCalendarCategoryGUI
         $res_sum = new ilSearchResult();
         
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($query));
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
         
@@ -643,7 +643,7 @@ class ilCalendarCategoryGUI
                 $res = $search->performSearch();
                 $res_sum->mergeEntries($res);
                 
-                $res_sum->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+                $res_sum->filter(ROOT_FOLDER_ID, ilQueryParser::QP_COMBINATION_OR);
                 break;
                 
             case self::SEARCH_ROLE:
@@ -655,7 +655,7 @@ class ilCalendarCategoryGUI
                 $res = $search->performSearch();
                 $res_sum->mergeEntries($res);
                 
-                $res_sum->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+                $res_sum->filter(ROOT_FOLDER_ID, ilQueryParser::QP_COMBINATION_OR);
                 break;
         }
         

@@ -42,7 +42,7 @@ class ilDashboardLearningSequenceGUI
     protected function getAssignments() : array
     {
         if (is_null($this->assignments)) {
-            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), 'lso');
+            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), ['lso']);
         }
 
         return $this->assignments;

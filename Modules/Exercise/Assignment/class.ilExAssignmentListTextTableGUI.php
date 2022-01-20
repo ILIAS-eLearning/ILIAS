@@ -33,8 +33,10 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
     
-        $this->setTitle($lng->txt("exc_list_text_assignment") .
-            ": \"" . $this->ass->getTitle() . "\"");
+        $this->setTitle(
+            $lng->txt("exc_list_text_assignment") .
+                ": \"" . $this->ass->getTitle() . "\""
+        );
         
         // if you add pagination and disable the unlimited setting:
         // fix saving of ordering of single pages!
@@ -67,7 +69,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $this->parse();
     }
     
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         return ($a_field == "udate");
     }
@@ -97,7 +99,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($this->show_peer_review) {
             $peer_data = "&nbsp;";

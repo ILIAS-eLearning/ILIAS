@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Manifest parser for ILIAS standard export files
@@ -9,6 +20,10 @@
  */
 class ilDataSetImportParser extends ilSaxParser
 {
+    protected string $dspref;
+    protected string $schema_version;
+    protected string $top_entity;
+    protected ilDataSet $ds;
     protected ?ilImport $import = null;				// import object
     protected array $entities = array();			// types array
     protected string $current_entity = "";			// current entity
@@ -22,13 +37,6 @@ class ilDataSetImportParser extends ilSaxParser
     protected string $chr_data = "";
     protected ilImportMapping $mapping;
     
-    
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct(
         string $a_top_entity,
         string $a_schema_version,
@@ -49,24 +57,11 @@ class ilDataSetImportParser extends ilSaxParser
         $this->startParsing();
     }
 
-    /**
-     * Get current installation id
-     *
-     * @param
-     * @return
-     */
-    public function getCurrentInstallationId()
+    public function getCurrentInstallationId() : string
     {
         return $this->current_installation_id;
     }
 
-        
-    /**
-     * Set event handlers
-     *
-     * @param	resource	reference to the xml parser
-     * @access	private
-     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -74,20 +69,11 @@ class ilDataSetImportParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
     }
 
-    
-    /**
-     * Start parser
-     */
-    public function startParsing()
-    {
-        parent::startParsing();
-    }
-    
-    /**
-     * Begin Tag
-     */
-    public function handleBeginTag($a_xml_parser, $a_name, $a_attribs)
-    {
+    public function handleBeginTag(
+        $a_xml_parser,
+        string $a_name,
+        array $a_attribs
+    ) : void {
         switch ($a_name) {
             case $this->dspref . "DataSet":
 //				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
@@ -120,11 +106,10 @@ class ilDataSetImportParser extends ilSaxParser
         }
     }
     
-    /**
-     * End Tag
-     */
-    public function handleEndTag($a_xml_parser, $a_name)
-    {
+    public function handleEndTag(
+        $a_xml_parser,
+        string $a_name
+    ) : void {
         switch ($a_name) {
             case $this->dspref . "Types":
                 $this->entities[$this->current_entity] =
@@ -162,17 +147,10 @@ class ilDataSetImportParser extends ilSaxParser
         $this->chr_data = "";
     }
     
-    /**
-     * End Tag
-     */
-    public function handleCharacterData($a_xml_parser, $a_data)
-    {
-        //$a_data = str_replace("<","&lt;",$a_data);
-        //$a_data = str_replace(">","&gt;",$a_data);
-        // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-        //$a_data = preg_replace("/\n/","",$a_data);
-        //$a_data = preg_replace("/\t+/","",$a_data);
-
+    public function handleCharacterData(
+        $a_xml_parser,
+        string $a_data
+    ) : void {
         $this->chr_data .= $a_data;
     }
 }

@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiLrsTypeList
  *
@@ -21,7 +31,7 @@ class ilCmiXapiLrsTypeList
      * @param	mixed		required availability or null
      * @return	array		array of assoc data arrays
      */
-    public static function getTypesData($a_extended = false, $a_availability = null)
+    public static function getTypesData($a_extended = false, $a_availability = null): array
     {
         global $ilDB;
         
@@ -50,7 +60,7 @@ class ilCmiXapiLrsTypeList
      * @var		integer		type_id
      * @return	integer		number of references
      */
-    public static function countUntrashedUsages($a_type_id)
+    public static function countUntrashedUsages($a_type_id): int
     {
         global $ilDB;
         
@@ -74,7 +84,7 @@ class ilCmiXapiLrsTypeList
      * @param	mixed		required availability or null
      * @return	array		id => title
      */
-    public static function getTypeOptions($a_availability = null)
+    public static function getTypeOptions($a_availability = null): array
     {
         global $ilDB;
         
@@ -91,7 +101,10 @@ class ilCmiXapiLrsTypeList
         return $options;
     }
     
-    public static function getTypesStruct()
+    /**
+     * @return array<string, mixed[]>
+     */
+    public static function getTypesStruct(): array
     {
         $a_s = array(
             'type_name' => array('type' => 'text', 'maxlength' => 32)

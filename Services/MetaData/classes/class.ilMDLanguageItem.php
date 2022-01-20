@@ -78,7 +78,7 @@ class ilMDLanguageItem
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule("meta");
 

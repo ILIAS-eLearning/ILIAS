@@ -20,6 +20,7 @@
  */
 class ilMediaObjectsImporter extends ilXmlImporter
 {
+    protected ilImportConfig $config;
     protected ilMediaObjectDataSet $ds;
 
     public function init() : void

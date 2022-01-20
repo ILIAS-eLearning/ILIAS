@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * AMD field type date
- *
  * Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinition
@@ -13,8 +12,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
     {
         return self::TYPE_INTERNAL_LINK;
     }
-    
-    
+
     protected function initADTDefinition() : ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("InternalLink");
@@ -33,7 +31,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
     public function importValueFromXML(string $a_cdata) : void
     {
         $parsed_import_id = ilUtil::parseImportId($a_cdata);
-        
+
         if (
             (strcmp($parsed_import_id['inst_id'], IL_INST_ID) == 0) &&
             ilObject::_exists($parsed_import_id['id'], true, $parsed_import_id['type'])
@@ -41,19 +39,18 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
             $this->getADT()->setTargetRefId($parsed_import_id['id']);
         }
     }
-    
-    
+
     public function searchObjects(
         ilADTSearchBridge $a_adt_search,
         ilQueryParser $a_parser,
         array $a_object_types,
         string $a_locate,
         string $a_search_type
-    ):array
-    {
+    ) : array {
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition, $a_locate);
+            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(),
+                $condition, $a_locate);
             if (!is_null($objects) && count($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }

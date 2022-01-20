@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use \ILIAS\DI\HTTPServices;
+
 /**
  * Class ilWikiPage GUI class
  *
@@ -25,6 +27,7 @@
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Wiki\Editing\EditingGUIRequest $wiki_request;
     protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected bool $fill_on_load_code = false;
@@ -40,6 +43,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         global $DIC;
 
         $this->settings = $DIC->settings();
+        $this->http = $DIC->http();
 
         // needed for notifications
         $this->setWikiRefId($a_wiki_ref_id);
@@ -436,7 +440,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
     
     public function showPage() : string
     {
-        // content style
+        if ($this->getOutputMode() == ilPageObjectGUI::PRESENTATION) {
+            $this->initToolbar();
+        }
         $this->setTemplateOutput(false);
         
         if (!$this->getAbstractOnly()) {
@@ -448,8 +454,38 @@ class ilWikiPageGUI extends ilPageObjectGUI
     
         return parent::showPage();
     }
-    
-    protected function increaseViewCount() : void
+
+    protected function initToolbar() : void
+    {
+        $toolbar = $this->toolbar;
+
+        $print_view = $this->getPrintView();
+        $modal_elements = $print_view->getModalElements($this->ctrl->getLinkTarget(
+            $this,
+            "printViewSelection"
+        ));
+        $toolbar->addComponent($modal_elements->button);
+        $toolbar->addComponent($modal_elements->modal);
+    }
+
+    protected function getPrintView() : \ILIAS\Export\PrintProcessGUI
+    {
+        $provider = new \ILIAS\Wiki\WikiPrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->getWikiPage()->getWikiRefId(),
+            []
+        );
+
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
+    protected function increaseViewCount()
     {
         $ilUser = $this->user;
         
@@ -559,17 +595,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
             ),
             "whatLinksHere"
         );
-        //$ilTabs->addTarget("wiki_print_view",
-        //	$this->ctrl->getLinkTargetByClass("ilobjwikigui",
-        //	"printViewSelection"), "printViewSelection");
-        $ilTabs->addTarget(
-            "wiki_print_view",
-            $this->ctrl->getLinkTargetByClass(
-                "ilwikipagegui",
-                "printViewSelection"
-            ),
-            "printViewSelection"
-        );
     }
 
     public function deleteWikiPageConfirmationScreen() : void
@@ -667,61 +692,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
     //// Print view selection
     ////
 
-    public function printViewSelection() : void
+    public function printViewSelection()
     {
-        $tpl = $this->tpl;
-        $this->initPrintViewSelectionForm();
-        $tpl->setContent($this->form->getHTML());
-    }
-
-    public function initPrintViewSelectionForm() : void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $pages = ilWikiPage::getAllWikiPages(ilObject::_lookupObjId($this->getWikiRefId()));
-
-        $this->form = new ilPropertyFormGUI();
-        
-        // because of PDF export
-        $this->form->setPreventDoubleSubmission(false);
-        
-        //var_dump($pages);
-        // selection type
-        $radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");
-        $radg->setValue("page");
-        $op1 = new ilRadioOption($lng->txt("cont_current_page"), "page");
-        $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("wiki_whole_wiki")
-                . " (" . $lng->txt("wiki_pages") . ": " . count($pages) . ")", "wiki");
-        $radg->addOption($op2);
-        $op3 = new ilRadioOption($lng->txt("wiki_selected_pages"), "selection");
-        $radg->addOption($op3);
-
-        $nl = new ilNestedListInputGUI("", "obj_id");
-        $op3->addSubItem($nl);
-
-        foreach ($pages as $p) {
-            $nl->addListNode(
-                $p["id"],
-                $p["title"],
-                0,
-                false,
-                false,
-                ilUtil::getImagePath("icon_pg.svg"),
-                $lng->txt("wiki_page")
-            );
-        }
-
-        $this->form->addItem($radg);
-
-        $this->form->addCommandButton("printViewOrder", $lng->txt("wiki_show_print_view"));
-        $this->form->addCommandButton("pdfExportOrder", $lng->txt("wiki_show_pdf_export"));
-        //$this->form->setOpenTag(false);
-        //$this->form->setCloseTag(false);
-
-        $this->form->setTitle($lng->txt("cont_print_selection"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this, "printViewOrder"));
+        $view = $this->getPrintView();
+        $view->sendForm();
     }
 
     public function printViewOrder() : void
@@ -996,8 +970,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
         // :TODO:
         $form->setTitle($lng->txt("wiki_advmd_block_title") . ": " . $page->getTitle());
         
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'wiki', $page->getWikiId(),
-            'wpg', $page->getId());
+        $this->record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            'wiki',
+            $page->getWikiId(),
+            'wpg',
+            $page->getId()
+        );
         $this->record_gui->setPropertyForm($form);
         $this->record_gui->parse();
         
@@ -1266,7 +1245,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $title = ilObject::_lookupTitle($submitted["obj_id"]) . " - " .
                 $ass->getTitle() . " (Team " . $submission->getTeam()->getId() . ").zip";
 
-            ilUtil::deliverFile($submitted["filename"], $title);
+            ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
         }
     }
 

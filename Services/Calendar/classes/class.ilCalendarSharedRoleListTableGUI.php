@@ -74,11 +74,10 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         

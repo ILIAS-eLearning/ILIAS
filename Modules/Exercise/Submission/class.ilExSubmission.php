@@ -445,7 +445,8 @@ class ilExSubmission
     public function getFiles(
         array $a_file_ids = null,
         bool $a_only_valid = false,
-        string $a_min_timestamp = null
+        string $a_min_timestamp = null,
+        bool $print_versions = false
     ) : array {
         $ilDB = $this->db;
         
@@ -500,7 +501,18 @@ class ilExSubmission
                 }
             }
         }
-                
+
+        // filter print versions
+        if (in_array($this->assignment->getType(), [
+            ilExAssignment::TYPE_BLOG,
+            ilExAssignment::TYPE_PORTFOLIO,
+            ilExAssignment::TYPE_WIKI_TEAM
+        ])) {
+            $delivered_files = array_filter($delivered_files, function ($i) use ($print_versions) {
+                return ((substr($i["filetitle"], strlen($i["filetitle"]) - 5) == "print") == $print_versions);
+            });
+        }
+
         return $delivered_files;
     }
         
@@ -731,6 +743,7 @@ class ilExSubmission
         }
     
         $files = $this->getFiles($a_file_ids, false, $download_time);
+
         if ($files) {
             if (sizeof($files) == 1) {
                 $file = array_pop($files);
@@ -848,7 +861,7 @@ class ilExSubmission
         $filename = $this->initStorage()->getAbsoluteSubmissionPath() .
             "/" . $storage_id . "/" . basename($filename);
 
-        ilUtil::deliverFile($filename, $filetitle);
+        ilFileDelivery::deliverFileLegacy($filename, $filetitle);
     }
 
     protected function downloadMultipleFiles(
@@ -939,7 +952,7 @@ class ilExSubmission
         ilUtil::delDir($tmpdir);
         
         chdir($cdir);
-        ilUtil::deliverFile($tmpzipfile, $orgDeliverFilename . ".zip", "", false, true);
+        ilFileDelivery::deliverFileLegacy($tmpzipfile, $orgDeliverFilename . ".zip", "", false, true);
         exit;
     }
 

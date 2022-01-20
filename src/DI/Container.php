@@ -9,6 +9,7 @@ use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Repository;
+use ILIAS\BackgroundTasks\BackgroundTaskServices;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -160,11 +161,7 @@ class Container extends \Pimple\Container
         return $this['upload'];
     }
 
-
-    /**
-     * @return BackgroundTaskServices
-     */
-    public function backgroundTasks()
+    public function backgroundTasks() : BackgroundTaskServices
     {
         return new BackgroundTaskServices($this);
     }
@@ -307,14 +304,10 @@ class Container extends \Pimple\Container
     }
 
 
-    /**
-     * @return \ilBookingManagerService
-     */
-    public function bookingManager()
+    public function bookingManager() : \ILIAS\BookingManager\Service
     {
-        return new \ilBookingManagerService();
+        return new \ILIAS\BookingManager\Service($this);
     }
-
 
     /**
      * @return SkillService
@@ -372,6 +365,66 @@ class Container extends \Pimple\Container
     public function wiki() : \ILIAS\Wiki\Service
     {
         return new \ILIAS\Wiki\Service($this);
+    }
+
+    public function mediaObjects() : \ILIAS\MediaObjects\Service
+    {
+        return new \ILIAS\MediaObjects\Service($this);
+    }
+
+    public function survey() : \ILIAS\Survey\Service
+    {
+        return new \ILIAS\Survey\Service();
+    }
+
+    public function surveyQuestionPool() : \ILIAS\SurveyQuestionPool\Service
+    {
+        return new \ILIAS\SurveyQuestionPool\Service($this);
+    }
+
+    public function mediaPool() : \ILIAS\MediaPool\Service
+    {
+        return new \ILIAS\MediaPool\Service($this);
+    }
+
+    public function notes() : \ILIAS\Notes\Service
+    {
+        return new \ILIAS\Notes\Service($this);
+    }
+
+    public function glossary() : \ILIAS\Glossary\Service
+    {
+        return new \ILIAS\Glossary\Service($this);
+    }
+
+    public function portfolio() : \ILIAS\Portfolio\Service
+    {
+        return new \ILIAS\Portfolio\Service($this);
+    }
+
+    public function blog() : \ILIAS\Blog\Service
+    {
+        return new \ILIAS\Blog\Service($this);
+    }
+
+    public function mediaCast() : \ILIAS\MediaCast\Service
+    {
+        return new \ILIAS\MediaCast\Service($this);
+    }
+
+    public function itemGroup() : \ILIAS\ItemGroup\Service
+    {
+        return new \ILIAS\ItemGroup\Service($this);
+    }
+
+    public function htmlLearningModule() : \ILIAS\HTMLLearningModule\Service
+    {
+        return new \ILIAS\HTMLLearningModule\Service($this);
+    }
+
+    public function awareness() : \ILIAS\Awareness\Service
+    {
+        return new \ILIAS\Awareness\Service($this);
     }
 
     /**

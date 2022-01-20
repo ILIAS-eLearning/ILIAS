@@ -10,12 +10,12 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
  */
 interface NotificationProvider extends Provider
 {
-
+    
     /**
      * @return isItem[]
      */
     public function getNotifications() : array;
-
+    
     /**
      * @return AdministrativeNotification[]
      */

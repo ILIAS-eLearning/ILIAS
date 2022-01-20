@@ -4,7 +4,6 @@
 
 include_once 'Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php';
 include_once 'Services/Calendar/classes/class.ilCalendarCategories.php';
-include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 
 /**
  * Calendar schedule filter for consultation hour bookings
@@ -27,12 +26,12 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
         $this->cats = ilCalendarCategories::_getInstance();
     }
     
-    public function filterCategories(array $a_cats)
+    public function filterCategories(array $a_cats) : array
     {
         return $a_cats;
     }
     
-    public function modifyEvent(ilCalendarEntry $a_event)
+    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
         global $DIC;
 
@@ -42,7 +41,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
         
         // do not show bookings of foreign users
         if ($booking->getObjId() != $this->user_id) {
-            return false;
+            return null;
         }
 
         // portfolio embedded: filter by consultation hour groups?
@@ -59,11 +58,14 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
                 return $a_event;
             }
         }
-        
-        return false;
+        return null;
     }
-    
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories)
+
+    /**
+     * @inheritDoc
+     */
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
     {
+        return [];
     }
 }

@@ -24,7 +24,8 @@ package de.ilias.services.lucene.index.transform;
 
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -34,7 +35,7 @@ import org.apache.log4j.Logger;
  */
 public class LinefeedSanitizer implements ContentTransformer {
 
-	protected Logger logger = Logger.getLogger(LinefeedSanitizer.class);
+	protected Logger logger = LogManager.getLogger(LinefeedSanitizer.class);
 	
 	/**
 	 * @see de.ilias.services.lucene.index.transform.ContentTransformer#transform(java.lang.String)

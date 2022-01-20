@@ -1,14 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectLP.php";
 
 /**
  * Group to lp connector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
  * @package ModulesGroup
  */
 class ilGroupLP extends ilObjectLP
@@ -43,7 +40,6 @@ class ilGroupLP extends ilObjectLP
     
     public function getMembers($a_search = true)
     {
-        include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
         $member_obj = ilGroupParticipants::_getInstanceByObjId($this->obj_id);
         return $member_obj->getMembers();
     }
@@ -52,7 +48,7 @@ class ilGroupLP extends ilObjectLP
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
             
         // will only find objects with roles for user!
         // see ilParticipants::_getMembershipByType()
@@ -65,7 +61,7 @@ class ilGroupLP extends ilObjectLP
             " WHERE obd.type = " . $ilDB->quote("grp", "text") .
             " AND fa.assign = " . $ilDB->quote("y", "text") .
             " AND ua.usr_id = " . $ilDB->quote($a_usr_id, "integer") .
-            " AND " . $ilDB->in("obd.obj_id", $a_obj_ids, "", "integer");
+            " AND " . $ilDB->in("obd.obj_id", $a_obj_ids, false, "integer");
         $set = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($set)) {
             $role = $row["title"];
@@ -74,7 +70,6 @@ class ilGroupLP extends ilObjectLP
                 $a_res[$row["obj_id"]] = true;
             }
         }
-        
         return true;
     }
 }

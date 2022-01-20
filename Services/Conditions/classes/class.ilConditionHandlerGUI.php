@@ -1,114 +1,189 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
-* class ilConditionHandlerGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* This class is aggregated in folders, groups which have a parent course object
-* Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
-*
-* @ilCtrl_Calls ilConditionHandlerGUI:
-*/
+ * class ilConditionHandlerGUI
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @version      $Id$
+ * This class is aggregated in folders, groups which have a parent course object
+ * Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
+ * @ilCtrl_Calls ilConditionHandlerGUI:
+ */
 class ilConditionHandlerGUI
 {
-    public $ctrl = null;
+    private const LIST_MODE_UNDEFINED = 'undefined';
+    private const LIST_MODE_ALL = 'all';
+    private const LIST_MODE_SUBSET = 'subset';
 
-    public $lng;
-    public $tpl;
-    public $tree;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
+    protected ilToolbarGUI $toolbar;
+    protected ilConditionUtil $conditionUtil;
+    protected ilObjectDefinition $objectDefinition;
+    private GlobalHttpState $http;
+    private Factory $refinery;
 
-    public $ch_obj;
-    public $target_obj;
-    public $client_obj;
-    public $target_id;
-    public $target_type;
-    public $target_title;
-    public $target_ref_id;
+    protected ilConditionHandler $ch_obj;
+    protected ?ilObject $target_obj = null;
+    protected int $target_id = 0;
+    protected string $target_type = '';
+    protected string $target_title = '';
+    protected int $target_ref_id = 0;
 
-    public $automatic_validation = true;
+    protected bool $automatic_validation = true;
 
     /**
      * Constructor
-     * @global <type> $lng
-     * @global <type> $tpl
-     * @global <type> $tree
-     * @global <type> $ilCtrl
-     * @param <type> $gui_obj
-     * @param <type> $a_ref_id
      */
-    public function __construct($gui_obj, $a_ref_id = null)
+    public function __construct(int $a_ref_id = null)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $tree = $DIC['tree'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->ch_obj = new ilConditionHandler();
-
-        $this->ctrl = $ilCtrl;
-        $this->gui_obj = $gui_obj;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule('cond');
-        $this->tpl = $tpl;
-        $this->tree = $tree;
-        
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tree = $DIC->repositoryTree();
+        $this->access = $DIC->access();
+        $this->toolbar = $DIC->toolbar();
+        $this->conditionUtil = $DIC->conditions()->util();
+        $this->objectDefinition = $DIC['objDefinition'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         if ($a_ref_id) {
-            $this->target_obj = &ilObjectFactory::getInstanceByRefId($a_ref_id);
-        } else {
-            $this->target_obj = &$this->gui_obj->object;
+            $target_obj = ilObjectFactory::getInstanceByRefId($a_ref_id);
+            $this->setTargetId($target_obj->getId());
+            $this->setTargetRefId($target_obj->getRefId());
+            $this->setTargetType($target_obj->getType());
+            $this->setTargetTitle($target_obj->getTitle());
+        }
+    }
+
+    protected function initConditionIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('condition_id')) {
+            $this->http->wrapper()->query()->retrieve(
+                'condition_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initConditionsIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('conditions')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'conditions',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function initItemIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('item_ids')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'item_ids',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function initObligatoryItemsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('obl')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'obl',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function initListModeFromPost() : string
+    {
+        if ($this->http->wrapper()->post()->has('list_mode')) {
+            $this->http->wrapper()->post()->retrieve(
+                'list_mode',
+                $this->refinery->kindlyTo()->string()
+            );
         }
 
-        // this only works for ilObject derived objects (other objects
-        // should call set() methods manually
-        if (is_object($this->target_obj)) {
-            $this->setTargetId($this->target_obj->getId());
-            $this->setTargetRefId($this->target_obj->getRefId());
-            $this->setTargetType($this->target_obj->getType());
-            $this->setTargetTitle($this->target_obj->getTitle());
-        }
     }
-    
+
+    protected function initSourceIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('source_id')) {
+            $this->http->wrapper()->query()->retrieve(
+                'source_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
     /**
      * Translate operator
-     * @param type $a_operator
      */
-    public static function translateOperator($a_obj_id, $a_operator)
+    public static function translateOperator(int $a_obj_id, string $a_operator) : string
     {
+        global $DIC;
+
+        $lng = $DIC->language();
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_LP:
-                $GLOBALS['DIC']['lng']->loadLanguageModule('trac');
-                include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+                $lng->loadLanguageModule('trac');
+
                 $obj_settings = new ilLPObjSettings($a_obj_id);
                 return ilLPObjSettings::_mode2Text($obj_settings->getMode());
-            
+
             default:
-                $GLOBALS['DIC']['lng']->loadLanguageModule('rbac');
-                return $GLOBALS['DIC']['lng']->txt('condition_' . $a_operator);
+                $lng->loadLanguageModule('rbac');
+                return $lng->txt('condition_' . $a_operator);
         }
     }
-    
-    /**
-     * Get condition handler
-     * @return ilConditionHandler
-     */
-    protected function getConditionHandler()
+
+    protected function getConditionHandler() : ilConditionHandler
     {
         return $this->ch_obj;
     }
 
-    public function setBackButtons($a_btn_arr)
+    public function setBackButtons(array $a_btn_arr) : void
     {
-        $_SESSION['precon_btn'] = $a_btn_arr;
+        ilSession::set('precon_btn', $a_btn_arr);
     }
-    public function getBackButtons()
+
+    public function getBackButtons() : array
     {
-        return $_SESSION['precon_btn'] ? $_SESSION['precon_btn'] : array();
+        if (ilSession::has('precon_btn')) {
+            return ilSession::get('precon_btn');
+        }
+        return [];
     }
 
     public function executeCommand()
@@ -116,16 +191,13 @@ class ilConditionHandlerGUI
         global $DIC;
 
         $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->getTargetRefId())) {
-            $ilErr->raiseError($lng->txt('permission_denied'), $ilErr->WARNING);
+
+        if (!$this->access->checkAccess('write', '', $this->getTargetRefId())) {
+            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
         }
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
         switch ($next_class) {
             default:
                 if (empty($cmd)) {
@@ -136,68 +208,68 @@ class ilConditionHandlerGUI
         }
     }
 
-    public function setAutomaticValidation($a_status)
+    public function setAutomaticValidation(bool $a_status) : void
     {
         $this->automatic_validation = $a_status;
     }
-    public function getAutomaticValidation()
+
+    public function getAutomaticValidation() : bool
     {
         return $this->automatic_validation;
     }
 
-    
     /**
-    * set target id
-    */
-    public function setTargetId($a_target_id)
+     * set target id
+     */
+    public function setTargetId(int $a_target_id) : void
     {
         $this->target_id = $a_target_id;
     }
-    
+
     /**
-    * get target id
-    */
-    public function getTargetId()
+     * get target id
+     */
+    public function getTargetId() : int
     {
         return $this->target_id;
     }
 
     /**
-    * set target ref id
-    */
-    public function setTargetRefId($a_target_ref_id)
+     * set target ref id
+     */
+    public function setTargetRefId(int $a_target_ref_id) : void
     {
         $this->target_ref_id = $a_target_ref_id;
     }
-    
+
     /**
-    * get target ref id
-    */
-    public function getTargetRefId()
+     * get target ref id
+     */
+    public function getTargetRefId() : int
     {
         return $this->target_ref_id;
     }
 
     /**
-    * set target type
-    */
-    public function setTargetType($a_target_type)
+     * set target type
+     */
+    public function setTargetType(string $a_target_type) : void
     {
         $this->target_type = $a_target_type;
     }
-    
+
     /**
-    * get target type
-    */
-    public function getTargetType()
+     * get target type
+     */
+    public function getTargetType() : string
     {
         return $this->target_type;
     }
 
     /**
-    * set target title
-    */
-    public function setTargetTitle($a_target_title)
+     * set target title
+     */
+    public function setTargetTitle(string $a_target_title) : void
     {
         $this->target_title = $a_target_title;
     }
@@ -206,39 +278,34 @@ class ilConditionHandlerGUI
      * Check if target has refernce id
      * @return bool
      */
-    public function isTargetReferenced()
+    public function isTargetReferenced() : bool
     {
-        return $this->getTargetRefId() ? true : false;
+        return (bool) $this->getTargetRefId();
     }
-    
+
     /**
-    * get target title
-    */
-    public function getTargetTitle()
+     * get target title
+     */
+    public function getTargetTitle() : string
     {
         return $this->target_title;
     }
 
     /**
      * list conditions
-     * @global ilToolbar
      */
-    protected function listConditions()
+    protected function listConditions() : void
     {
-        global $DIC;
-
-        $util = $DIC->conditions()->util();
-
         // check if parent deals with conditions
-        if ($this->getTargetRefId() > 0 && $util->isUnderParentControl($this->getTargetRefId())) {
+        if (
+            $this->getTargetRefId() > 0 &&
+            $this->conditionUtil->isUnderParentControl($this->getTargetRefId())
+        ) {
             ilUtil::sendInfo($this->lng->txt("cond_under_parent_control"));
             return;
         }
 
-        $ilToolbar = $DIC['ilToolbar'];
-
-        $ilToolbar->addButton($this->lng->txt('add_condition'), $this->ctrl->getLinkTarget($this, 'selector'));
-        
+        $this->toolbar->addButton($this->lng->txt('add_condition'), $this->ctrl->getLinkTarget($this, 'selector'));
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.list_conditions.html', 'Services/AccessControl');
 
         $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
@@ -246,14 +313,15 @@ class ilConditionHandlerGUI
             $this->getTargetId(),
             $this->getTargetType()
         );
+        $list_mode = $this->initListModeFromPost();
         if (count($optional_conditions)) {
-            if (!$_REQUEST["list_mode"]) {
-                $_REQUEST["list_mode"] = "subset";
+            if ($list_mode == self::LIST_MODE_UNDEFINED) {
+                $list_mode = self::LIST_MODE_SUBSET;
             }
-        } elseif (!$_REQUEST["list_mode"]) {
-            $_REQUEST["list_mode"] = "all";
+        } elseif ($list_mode == self::LIST_MODE_UNDEFINED) {
+            $list_mode = self::LIST_MODE_ALL;
         }
-        
+
         // Show form only if conditions are availabe
         if (count(ilConditionHandler::_getPersistedConditionsOfTarget(
             $this->getTargetRefId(),
@@ -261,13 +329,13 @@ class ilConditionHandlerGUI
             $this->getTargetType()
         ))
         ) {
-            $form = $this->showObligatoryForm($optional_conditions);
+            $form = $this->showObligatoryForm($optional_conditions, $list_mode);
             if ($form instanceof ilPropertyFormGUI) {
                 $this->tpl->setVariable('TABLE_SETTINGS', $form->getHTML());
             }
         }
 
-        $table = new ilConditionHandlerTableGUI($this, 'listConditions', ($_REQUEST["list_mode"] != "all"));
+        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode == self::LIST_MODE_ALL);
         $table->setConditions(
             ilConditionHandler::_getPersistedConditionsOfTarget(
                 $this->getTargetRefId(),
@@ -278,13 +346,12 @@ class ilConditionHandlerGUI
 
         $h = $table->getHTML();
         $this->tpl->setVariable('TABLE_CONDITIONS', $h);
-        //$this->tpl->setContent($h);
     }
 
     /**
      * Save obligatory settings
      */
-    protected function saveObligatorySettings()
+    protected function saveObligatorySettings() : void
     {
         $form = $this->showObligatoryForm();
         if ($form->checkInput()) {
@@ -298,12 +365,12 @@ class ilConditionHandlerGUI
                             $this->getTargetType()
                         );
                         // Set all optional conditions to obligatory
-                        foreach ((array) $optional_conditions as $item) {
+                        foreach ($optional_conditions as $item) {
                             ilConditionHandler::updateObligatory($item["condition_id"], true);
                         }
                     }
                     break;
-                
+
                 case "subset":
                     $num_req = $form->getInput('required');
                     if ($old_mode != "subset") {
@@ -320,14 +387,14 @@ class ilConditionHandlerGUI
                         $this->getTargetRefId(),
                         $this->getTargetId(),
                         $num_req
-                                );
+                    );
                     break;
             }
-            
+
             $cond = new ilConditionHandler();
             $cond->setTargetRefId($this->getTargetRefId());
-            $cond->updateHiddenStatus((int) $form->getInput('hidden'));
-            
+            $cond->updateHiddenStatus((bool) $form->getInput('hidden'));
+
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'listConditions');
         }
@@ -336,54 +403,54 @@ class ilConditionHandlerGUI
         ilUtil::sendFailure($this->lng->txt('err_check_input'));
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     /**
      * Save obligatory settings
      */
-    protected function saveObligatoryList()
+    protected function saveObligatoryList() : void
     {
         $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
             $this->getTargetRefId(),
             $this->getTargetId(),
             $this->getTargetType()
-                        );
-        
-        if ($_POST["obl"] && sizeof($_POST["obl"]) > sizeof($all_conditions) - 2) {
+        );
+
+        $obligatory_ids = $this->initObligatoryItemsFromPost();
+        if (count($obligatory_ids) > count($all_conditions) - 2) {
             ilUtil::sendFailure($this->lng->txt("rbac_precondition_minimum_optional"), true);
             $this->ctrl->redirect($this, 'listConditions');
         }
-        
+
         foreach ($all_conditions as $item) {
             $status = false;
-            if ($_POST["obl"] && in_array($item["condition_id"], $_POST["obl"])) {
+            if (in_array($item['condition_id'], $obligatory_ids)) {
                 $status = true;
             }
             ilConditionHandler::updateObligatory($item["condition_id"], $status);
         }
-        
+
         // re-calculate
         ilConditionHandler::calculatePersistedRequiredTriggers(
             $this->getTargetRefId(),
             $this->getTargetId(),
             $this->getTargetType(),
             true
-            );
-        
+        );
+
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listConditions');
     }
 
     /**
      * Show obligatory form
-     * @return ilPropertyFormGUI
+     * @return ilPropertyFormGUI|null
      */
-    protected function showObligatoryForm($opt = array())
+    protected function showObligatoryForm($opt = array(), string $list_mode = self::LIST_MODE_ALL) : ?ilPropertyFormGUI
     {
-        if (!$GLOBALS['DIC']['objDefinition']->isRbacObject($this->getTargetType())) {
-            return;
+        if (!$this->objectDefinition->isRBACObject($this->getTargetType())) {
+            return null;
         }
-        
-        
+
         if (!$opt) {
             $opt = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
                 $this->getTargetRefId(),
@@ -391,30 +458,26 @@ class ilConditionHandlerGUI
                 $this->getTargetType()
             );
         }
-        
         $all = ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId());
-        
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this), 'listConditions');
+        $form->setFormAction($this->ctrl->getFormAction($this, 'listConditions'));
         $form->setTitle($this->lng->txt('precondition_obligatory_settings'));
         $form->addCommandButton('saveObligatorySettings', $this->lng->txt('save'));
-        
+
         $hide = new ilCheckboxInputGUI($this->lng->txt('rbac_precondition_hide'), 'hidden');
         $hide->setChecked(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
-        $hide->setValue(1);
+        $hide->setValue("1");
         $hide->setInfo($this->lng->txt('rbac_precondition_hide_info'));
         $form->addItem($hide);
-        
+
         $mode = new ilRadioGroupInputGUI($this->lng->txt("rbac_precondition_mode"), "list_mode");
         $form->addItem($mode);
-        $mode->setValue($_REQUEST["list_mode"]);
-        
+        $mode->setValue($list_mode);
+
         $mall = new ilRadioOption($this->lng->txt("rbac_precondition_mode_all"), "all");
         $mall->setInfo($this->lng->txt("rbac_precondition_mode_all_info"));
         $mode->addOption($mall);
-        
-        
+
         if (count($all) > 1) {
             $min = 1;
             $max = count($all) - 1;
@@ -425,8 +488,9 @@ class ilConditionHandlerGUI
 
             $obl = new ilNumberInputGUI($this->lng->txt('precondition_num_obligatory'), 'required');
             $obl->setInfo($this->lng->txt('precondition_num_optional_info'));
-            
-            $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget($this->getTargetRefId(), $this->getTargetId());
+
+            $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget($this->getTargetRefId(),
+                $this->getTargetId());
             $obl->setValue($num_required > 0 ? $num_required : null);
             $obl->setRequired(true);
             $obl->setSize(1);
@@ -434,65 +498,64 @@ class ilConditionHandlerGUI
             $obl->setMaxValue($max);
             $msubset->addSubItem($obl);
         }
-        
+
         $old_mode = new ilHiddenInputGUI("old_list_mode");
-        $old_mode->setValue($_REQUEST["list_mode"]);
+        $old_mode->setValue($list_mode);
         $form->addItem($old_mode);
 
         return $form;
     }
 
-
-    public function edit()
+    public function edit(?ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if (!$_GET['condition_id']) {
+        $condition_id = $this->initConditionIdFromQuery();
+        if (!$condition_id) {
             ilUtil::sendFailure("Missing id: condition_id");
             $this->listConditions();
-            return false;
+            return;
         }
-        $condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
+        $this->ctrl->setParameter($this, 'condition_id', $condition_id);
+        $condition = ilConditionHandler::_getCondition($condition_id);
 
-        $this->tpl->addBlockfile(
-            'ADM_CONTENT',
-            'adm_content',
-            'tpl.condition_handler_edit_condition.html',
-            "Services/AccessControl"
-        );
-        $this->ctrl->setParameter($this, 'condition_id', (int) $_GET['condition_id']);
-        
-        $this->initFormCondition($condition['trigger_ref_id'], (int) $_GET['condition_id'], 'edit');
-        $this->tpl->setVariable('CONDITION_TABLE', $this->form->getHTML());
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormCondition($condition['trigger_ref_id'], $condition_id, 'edit');
+        }
+        $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateCondition()
+    public function updateCondition() : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if (!$_GET['condition_id']) {
+        $condition_id = $this->initConditionIdFromQuery();
+        if (!$condition_id) {
             ilUtil::sendFailure("Missing id: condition_id");
             $this->listConditions();
-            return false;
+            return;
         }
-
         // Update condition
         $condition_handler = new ilConditionHandler();
+        $condition = ilConditionHandler::_getCondition($condition_id);
 
-        $condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
-        $condition_handler->setOperator($_POST['operator']);
-        $condition_handler->setObligatory((int) $_POST['obligatory']);
+        $form = $this->initFormCondition(
+            $condition['trigger_ref_id'],
+            $condition_id,
+            'edit'
+        );
+
+        if (!$form->checkInput()) {
+            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->edit($form);
+            return;
+        }
+
+        $condition_handler->setOperator((string) $form->getInput('operator'));
+        $condition_handler->setObligatory((string) $form->getInput('obligatory'));
         $condition_handler->setTargetRefId($this->getTargetRefId());
         $condition_handler->setValue('');
         switch ($this->getTargetType()) {
             case 'st':
-                $condition_handler->setReferenceHandlingType($_POST['ref_handling']);
+                $condition_handler->setReferenceHandlingType($form->getInput('ref_handling'));
                 break;
-            
+
             default:
                 $condition_handler->setReferenceHandlingType(ilConditionHandler::UNIQUE_CONDITIONS);
                 break;
@@ -501,35 +564,29 @@ class ilConditionHandlerGUI
 
         // Update relevant sco's
         if ($condition['trigger_type'] == 'sahs') {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
+
             $olp = ilObjectLP::getInstance($condition['trigger_obj_id']);
             $collection = $olp->getCollectionInstance();
             if ($collection) {
                 $collection->delete();
             }
-
-            if (is_array($_POST['item_ids'])) { // #12901
-                $collection->activateEntries($_POST['item_ids']);
+            $item_ids = $this->initItemIdsFromPost();
+            if (count($item_ids)) { // #12901
+                $collection->activateEntries($item_ids);
             }
-            
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_refreshStatus($condition['trigger_obj_id']);
         }
-
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listConditions');
     }
-    
-    public function askDelete()
-    {
-        global $DIC;
 
-        $tpl = $DIC['tpl'];
-        
-        if (!count($_POST['conditions'])) {
+    public function askDelete() : void
+    {
+        $condition_ids = $this->initConditionsIdsFromPost();
+        if (!count($condition_ids)) {
             ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
             $this->listConditions();
-            return true;
+            return;
         }
 
         // display confirmation message
@@ -540,39 +597,38 @@ class ilConditionHandlerGUI
         $cgui->setConfirm($this->lng->txt("delete"), "delete");
 
         // list conditions that should be deleted
-        foreach ($_POST['conditions'] as $condition_id) {
+        foreach ($condition_ids as $condition_id) {
             $condition = ilConditionHandler::_getCondition($condition_id);
-            
+
             $title = ilObject::_lookupTitle($condition['trigger_obj_id']) .
                 " (" . $this->lng->txt("condition") . ": " .
                 $this->lng->txt('condition_' . $condition['operator']) . ")";
             $icon = ilUtil::getImagePath('icon_' . $condition['trigger_type'] . '.svg');
             $alt = $this->lng->txt('obj_' . $condition['trigger_type']);
-                        
+
             $cgui->addItem("conditions[]", $condition_id, $title, $icon, $alt);
         }
 
-        $tpl->setContent($cgui->getHTML());
+        $this->tpl->setContent($cgui->getHTML());
     }
-        
-    public function delete()
+
+    public function delete() : void
     {
-        if (!count($_POST['conditions'])) {
+        $condition_ids = $this->initConditionsIdsFromPost();
+        if (!count($condition_ids)) {
             ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
             $this->listConditions();
-            return true;
+            return;
         }
 
-        foreach ($_POST['conditions'] as $condition_id) {
+        foreach ($condition_ids as $condition_id) {
             $this->ch_obj->deleteCondition($condition_id);
         }
         ilUtil::sendSuccess($this->lng->txt('condition_deleted'), true);
         $this->ctrl->redirect($this, 'listConditions');
-
-        return true;
     }
-    
-    public function selector()
+
+    public function selector() : void
     {
         ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
@@ -590,209 +646,159 @@ class ilConditionHandlerGUI
         }
     }
 
-    public function add()
+    public function add(?ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if (!$_GET['source_id']) {
+        $source_id = $this->initSourceIdFromQuery();
+        if (!$source_id) {
             ilUtil::sendFailure("Missing id: condition_id");
             $this->selector();
-            return false;
+            return;
         }
-        
-        $this->initFormCondition((int) $_GET['source_id'], 0, 'add');
-        $this->tpl->addBlockfile(
-            'ADM_CONTENT',
-            'adm_content',
-            'tpl.condition_handler_add.html',
-            "Services/AccessControl"
-        );
-        $this->tpl->setVariable('CONDITION_TABLE', $this->form->getHTML());
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormCondition($source_id, 0, 'add');
+        }
+        $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
-    * assign new trigger condition to target
-    */
-    public function assign()
+     * assign new trigger condition to target
+     */
+    public function assign() : void
     {
-        if (!isset($_GET['source_id'])) {
-            echo "class.ilConditionHandlerGUI: no source_id given";
-
-            return false;
+        $source_id = $this->initSourceIdFromQuery();
+        if (!$source_id) {
+            ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
+            $this->selector();
+            return;
         }
-        if (!$_POST['operator']) {
+
+        $form = $this->initFormCondition($source_id, 0, 'add');
+        if (!$form->checkInput()) {
             ilUtil::sendFailure($this->lng->txt('err_check_input'));
-            $this->add();
-            return false;
+            $this->add($form);
+            return;
         }
-
         $this->ch_obj->setTargetRefId($this->getTargetRefId());
         $this->ch_obj->setTargetObjId($this->getTargetId());
         $this->ch_obj->setTargetType($this->getTargetType());
-        
+
         switch ($this->getTargetType()) {
             case 'st':
-                $this->ch_obj->setReferenceHandlingType($_POST['ref_handling']);
+                $this->ch_obj->setReferenceHandlingType($form->getInput('ref_handling'));
                 break;
-            
+
             default:
                 $this->ch_obj->setReferenceHandlingType(ilConditionHandler::UNIQUE_CONDITIONS);
                 break;
         }
         // this has to be changed, if non referenced trigger are implemted
-        if (!$trigger_obj = &ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'], false)) {
-            echo 'ilConditionHandler: Trigger object does not exist';
-        }
+        $trigger_obj = ilObjectFactory::getInstanceByRefId($source_id);
         $this->ch_obj->setTriggerRefId($trigger_obj->getRefId());
         $this->ch_obj->setTriggerObjId($trigger_obj->getId());
         $this->ch_obj->setTriggerType($trigger_obj->getType());
-        $this->ch_obj->setOperator($_POST['operator']);
-        $this->ch_obj->setObligatory((int) $_POST['obligatory']);
+        $this->ch_obj->setOperator($form->getInput('operator'));
+        $this->ch_obj->setObligatory($form->getInput('obligatory'));
         $this->ch_obj->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
         $this->ch_obj->setValue('');
 
         // Save assigned sco's
         if ($this->ch_obj->getTriggerType() == 'sahs') {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($this->ch_obj->getTriggerObjId());
             $collection = $olp->getCollectionInstance();
             if ($collection) {
                 $collection->delete();
             }
-            
-            if (is_array($_POST['item_ids'])) { // #12901
-                $collection->activateEntries($_POST['item_ids']);
+
+            $items_ids = $this->initItemIdsFromPost();
+            if (count($items_ids)) { // #12901
+                $collection->activateEntries($items_ids);
             }
         }
-
         $this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
         if (!$this->ch_obj->storeCondition()) {
             ilUtil::sendFailure($this->ch_obj->getErrorMessage(), true);
         } else {
             ilUtil::sendSuccess($this->lng->txt('added_new_condition'), true);
         }
-
         $this->ctrl->redirect($this, 'listConditions');
-
-        return true;
     }
 
-    public function chi_update()
+    public function __getConditionsOfTarget() : array
     {
-        #if(in_array('',$_POST['operator']))
-        #{
-        #	ilUtil::sendInfo($this->lng->txt('select_one_operator'));
-
-        #	return false;
-        #}
-        foreach ($this->__getConditionsOfTarget() as $condition) {
-            $this->ch_obj->setOperator($_POST['operator'][$condition["id"]]);
-            $this->ch_obj->setValue($_POST['value'][$condition["id"]]);
-            $this->ch_obj->updateCondition($condition['id']);
-        }
-        ilUtil::sendSuccess($this->lng->txt('conditions_updated'));
-        
-        $this->ctrl->returnToParent($this);
-
-        return true;
-    }
-    public function __getConditionsOfTarget()
-    {
-        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId(), $this->getTargetType()) as $condition) {
+        $cond = [];
+        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId(),
+            $this->getTargetType()) as $condition) {
             if ($condition['operator'] == 'not_member') {
                 continue;
             } else {
                 $cond[] = $condition;
             }
         }
-        return $cond ? $cond : array();
+        return $cond;
     }
 
-    /**
-     * Init form for condition table
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function initFormCondition($a_source_id, $a_condition_id = 0, $a_mode = 'add')
-    {
+    private function initFormCondition(
+        int $a_source_id,
+        int $a_condition_id = 0,
+        string $a_mode = 'add'
+    ) : ilPropertyFormGUI {
         $trigger_obj_id = ilObject::_lookupObjId($a_source_id);
         $trigger_type = ilObject::_lookupType($trigger_obj_id);
-        
+
         $condition = ilConditionHandler::_getCondition($a_condition_id);
-        
-        if (is_object($this->form)) {
-            return true;
-        }
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
-        $this->form = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $this->ctrl->setParameter($this, 'source_id', $a_source_id);
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
-        
+        $form->setFormAction($this->ctrl->getFormAction($this));
+
         $info_source = new ilNonEditableValueGUI($this->lng->txt("rbac_precondition_source"));
         $info_source->setValue(ilObject::_lookupTitle(ilObject::_lookupObjId($a_source_id)));
-        $this->form->addItem($info_source);
-        
+        $form->addItem($info_source);
+
         $info_target = new ilNonEditableValueGUI($this->lng->txt("rbac_precondition_target"));
         $info_target->setValue($this->getTargetTitle());
-        $this->form->addItem($info_target);
-        
-        /* moved to list
-        $obl = new ilCheckboxInputGUI($this->lng->txt('precondition_obligatory'), 'obligatory');
-        $obl->setInfo($this->lng->txt('precondition_obligatory_info'));
-        $obl->setValue(1);
-        if($a_condition_id)
-        {
-            $obl->setChecked($condition['obligatory']);
-        }
-        else
-        {
-            $obl->setChecked(true);
-        }
-        $this->form->addItem($obl);
-        */
+        $form->addItem($info_target);
+
         $obl = new ilHiddenInputGUI('obligatory');
         if ($a_condition_id) {
             $obl->setValue($condition['obligatory']);
         } else {
-            $obl->setValue(1);
+            $obl->setValue("1");
         }
-        $this->form->addItem($obl);
-        
+        $form->addItem($obl);
+
         $sel = new ilSelectInputGUI($this->lng->txt('condition'), 'operator');
         $ch_obj = new ilConditionHandler();
         if ($a_mode == 'add') {
             $operators[0] = $this->lng->txt('select_one');
         }
+        $operators = [];
         foreach ($ch_obj->getOperatorsByTriggerType($trigger_type) as $operator) {
             $operators[$operator] = $this->lng->txt('condition_' . $operator);
         }
-        $sel->setValue(isset($condition['operator']) ? $condition['operator'] : 0);
+        $sel->setValue($condition['operator'] ?? 0);
         $sel->setOptions($operators);
         $sel->setRequired(true);
-        $this->form->addItem($sel);
-        
+        $form->addItem($sel);
+
         if (ilConditionHandler::_isReferenceHandlingOptional($this->getTargetType())) {
             $rad_opt = new ilRadioGroupInputGUI($this->lng->txt('cond_ref_handling'), 'ref_handling');
-            $rad_opt->setValue(isset($condition['ref_handling']) ? $condition['ref_handling'] : ilConditionHandler::SHARED_CONDITIONS);
-            
-            $opt2 = new ilRadioOption($this->lng->txt('cond_ref_shared'), ilConditionHandler::SHARED_CONDITIONS);
+            $rad_opt->setValue($condition['ref_handling'] ?? ilConditionHandler::SHARED_CONDITIONS);
+
+            $opt2 = new ilRadioOption($this->lng->txt('cond_ref_shared'),
+                (string) ilConditionHandler::SHARED_CONDITIONS);
             $rad_opt->addOption($opt2);
 
-            $opt1 = new ilRadioOption($this->lng->txt('cond_ref_unique'), ilConditionHandler::UNIQUE_CONDITIONS);
+            $opt1 = new ilRadioOption($this->lng->txt('cond_ref_unique'),
+                (string) ilConditionHandler::UNIQUE_CONDITIONS);
             $rad_opt->addOption($opt1);
-            
-            $this->form->addItem($rad_opt);
+
+            $form->addItem($rad_opt);
         }
-        
+
         // Additional settings for SCO's
         if ($trigger_type == 'sahs') {
             $this->lng->loadLanguageModule('trac');
-            
+
             $cus = new ilCustomInputGUI($this->lng->txt('trac_sahs_relevant_items'), 'item_ids[]');
             $cus->setRequired(true);
 
@@ -804,7 +810,6 @@ class ilConditionHandlerGUI
             );
             $counter = 0;
 
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($trigger_obj_id);
             $collection = $olp->getCollectionInstance();
             if ($collection) {
@@ -818,25 +823,24 @@ class ilConditionHandlerGUI
                 }
             }
             $tpl->setVariable('INFO_SEL', $this->lng->txt('trac_lp_determination_info_sco'));
-            $cus->setHTML($tpl->get());
-            $this->form->addItem($cus);
+            $cus->setHtml($tpl->get());
+            $form->addItem($cus);
         }
         switch ($a_mode) {
             case 'edit':
-                $this->form->setTitleIcon(ilUtil::getImagePath('icon_' . $this->getTargetType() . '.svg'));
-                $this->form->setTitle($this->lng->txt('rbac_edit_condition'));
-                $this->form->addCommandButton('updateCondition', $this->lng->txt('save'));
-                $this->form->addCommandButton('listConditions', $this->lng->txt('cancel'));
+                $form->setTitleIcon(ilUtil::getImagePath('icon_' . $this->getTargetType() . '.svg'));
+                $form->setTitle($this->lng->txt('rbac_edit_condition'));
+                $form->addCommandButton('updateCondition', $this->lng->txt('save'));
+                $form->addCommandButton('listConditions', $this->lng->txt('cancel'));
                 break;
-                
-            
+
             case 'add':
-                $this->form->setTitleIcon(ilUtil::getImagePath('icon_' . $this->getTargetType() . '.svg'));
-                $this->form->setTitle($this->lng->txt('add_condition'));
-                $this->form->addCommandButton('assign', $this->lng->txt('save'));
-                $this->form->addCommandButton('selector', $this->lng->txt('back'));
+                $form->setTitleIcon(ilUtil::getImagePath('icon_' . $this->getTargetType() . '.svg'));
+                $form->setTitle($this->lng->txt('add_condition'));
+                $form->addCommandButton('assign', $this->lng->txt('save'));
+                $form->addCommandButton('selector', $this->lng->txt('back'));
                 break;
         }
-        return true;
+        return $form;
     }
 }

@@ -167,11 +167,10 @@ class ilUserTableGUI extends ilTable2GUI
 
     /**
      * Get selectable columns
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -439,7 +438,7 @@ class ilUserTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -660,7 +659,7 @@ class ilUserTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($user)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -672,34 +671,34 @@ class ilUserTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if ($c == "access_until") {
                 $this->tpl->setCurrentBlock("access_until");
-                $this->tpl->setVariable("VAL_ACCESS_UNTIL", $user["access_until"]);
-                $this->tpl->setVariable("CLASS_ACCESS_UNTIL", $user["access_class"]);
+                $this->tpl->setVariable("VAL_ACCESS_UNTIL", $a_set["access_until"]);
+                $this->tpl->setVariable("CLASS_ACCESS_UNTIL", $a_set["access_class"]);
             } elseif ($c == "last_login") {
                 $this->tpl->setCurrentBlock("last_login");
                 $this->tpl->setVariable(
                     "VAL_LAST_LOGIN",
-                    ilDatePresentation::formatDate(new ilDateTime($user['last_login'], IL_CAL_DATETIME))
+                    ilDatePresentation::formatDate(new ilDateTime($a_set['last_login'], IL_CAL_DATETIME))
                 );
             } elseif (in_array($c, array("firstname", "lastname"))) {
                 $this->tpl->setCurrentBlock($c);
-                $this->tpl->setVariable("VAL_" . strtoupper($c), (string) $user[$c]);
+                $this->tpl->setVariable("VAL_" . strtoupper($c), (string) $a_set[$c]);
             } elseif ($c == 'auth_mode') {
                 $this->tpl->setCurrentBlock('user_field');
-                $this->tpl->setVariable('VAL_UF', ilAuthUtils::getAuthModeTranslation(ilAuthUtils::_getAuthMode($user['auth_mode'])));
+                $this->tpl->setVariable('VAL_UF', ilAuthUtils::getAuthModeTranslation(ilAuthUtils::_getAuthMode($a_set['auth_mode'])));
                 $this->tpl->parseCurrentBlock();
             } else {	// all other fields
                 $this->tpl->setCurrentBlock("user_field");
-                $val = (trim($user[$c]) == "")
+                $val = (trim($a_set[$c]) == "")
                     ? " "
-                    : $user[$c];
-                if ($user[$c] != "") {
+                    : $a_set[$c];
+                if ($a_set[$c] != "") {
                     switch ($c) {
                         case "birthday":
                             $val = ilDatePresentation::formatDate(new ilDate($val, IL_CAL_DATE));
                             break;
                         
                         case "gender":
-                            $val = $lng->txt("gender_" . $user[$c]);
+                            $val = $lng->txt("gender_" . $a_set[$c]);
                             break;
                         
                         case "create_date":
@@ -716,33 +715,33 @@ class ilUserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($user["usr_id"] != 6) {
-            if ($this->getMode() == self::MODE_USER_FOLDER or $user['time_limit_owner'] == $this->getUserFolderId()) {
+        if ($a_set["usr_id"] != 6) {
+            if ($this->getMode() == self::MODE_USER_FOLDER or $a_set['time_limit_owner'] == $this->getUserFolderId()) {
                 $this->tpl->setCurrentBlock("checkb");
-                $this->tpl->setVariable("ID", $user["usr_id"]);
+                $this->tpl->setVariable("ID", $a_set["usr_id"]);
                 $this->tpl->parseCurrentBlock();
             }
         }
 
-        if ($this->getMode() == self::MODE_USER_FOLDER or $user['time_limit_owner'] == $this->getUserFolderId()) {
-            $this->tpl->setVariable("VAL_LOGIN", $user["login"]);
-            $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
+        if ($this->getMode() == self::MODE_USER_FOLDER or $a_set['time_limit_owner'] == $this->getUserFolderId()) {
+            $this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
+            $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
             $this->tpl->setVariable(
                 "HREF_LOGIN",
                 $ilCtrl->getLinkTargetByClass("ilobjusergui", "view")
             );
             $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", "");
         } else {
-            $this->tpl->setVariable('VAL_LOGIN_PLAIN', $user['login']);
+            $this->tpl->setVariable('VAL_LOGIN_PLAIN', $a_set['login']);
         }
 
         if ($this->getMode() == self::MODE_LOCAL_USER) {
             $this->tpl->setCurrentBlock('context');
-            $this->tpl->setVariable('VAL_CONTEXT', (string) ilObject::_lookupTitle(ilObject::_lookupObjId($user['time_limit_owner'])));
+            $this->tpl->setVariable('VAL_CONTEXT', (string) ilObject::_lookupTitle(ilObject::_lookupObjId($a_set['time_limit_owner'])));
             $this->tpl->parseCurrentBlock();
             
             $this->tpl->setCurrentBlock('roles');
-            $ilCtrl->setParameter($this->getParentObject(), 'obj_id', $user['usr_id']);
+            $ilCtrl->setParameter($this->getParentObject(), 'obj_id', $a_set['usr_id']);
             $this->tpl->setVariable('ROLE_LINK', $ilCtrl->getLinkTarget($this->getParentObject(), 'assignRoles'));
             $this->tpl->setVariable('TXT_ROLES', $this->lng->txt('edit'));
             $ilCtrl->clearParameters($this->getParentObject());

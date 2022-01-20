@@ -20,6 +20,11 @@
  */
 abstract class ilPageConfig
 {
+    // section protection
+    public const SEC_PROTECT_NONE = 0;          // page does not support section protection
+    public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
+    public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
+
     protected $int_link_def_id_is_ref = false;
     protected ilLanguage $lng;
     protected array $int_link_filter = array("File", "PortfolioPage", "PortfolioTemplatePage");
@@ -57,7 +62,9 @@ abstract class ilPageConfig
     protected string $page_obj_key = "";
     protected bool $link_filter_white_list = false;
     protected string $localization_lang = "";
-    
+    protected int $section_protection = self::SEC_PROTECT_NONE;
+    protected string $section_protection_info;
+
     final public function __construct()
     {
         global $DIC;
@@ -437,5 +444,25 @@ abstract class ilPageConfig
     public function getUsePageContainer() : bool
     {
         return $this->use_page_container;
+    }
+
+    public function setSectionProtection(int $a_val) : void
+    {
+        $this->section_protection = $a_val;
+    }
+
+    public function getSectionProtection() : int
+    {
+        return $this->section_protection;
+    }
+
+    public function setSectionProtectionInfo(string $a_val) : void
+    {
+        $this->section_protection_info = $a_val;
+    }
+
+    public function getSectionProtectionInfo() : string
+    {
+        return $this->section_protection_info;
     }
 }

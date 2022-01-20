@@ -61,19 +61,19 @@ class ilMediaObjectsExporter extends ilXmlExporter
     ) : array {
         return array(
             "5.1.0" => array(
-                "namespace" => "http://www.ilias.de/Services/MediaObjects/mob/5_1",
+                "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/5_1",
                 "xsd_file" => "ilias_mob_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
                 "max" => ""),
             "4.3.0" => array(
-                "namespace" => "http://www.ilias.de/Services/MediaObjects/mob/4_3",
+                "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/4_3",
                 "xsd_file" => "ilias_mob_4_3.xsd",
                 "uses_dataset" => true,
                 "min" => "4.3.0",
                 "max" => ""),
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Services/MediaObjects/mob/4_1",
+                "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/4_1",
                 "xsd_file" => "ilias_mob_4_1.xsd",
                 "uses_dataset" => true,
                 "min" => "4.1.0",

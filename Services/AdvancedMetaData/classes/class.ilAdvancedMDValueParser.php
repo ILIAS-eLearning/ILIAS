@@ -22,15 +22,10 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDValueParser implements ilSaxSubsetParser
 {
     protected string $cdata = '';
@@ -38,12 +33,12 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
     protected array $values_records = array();
     protected array $values = array();
     protected ?ilAdvancedMDFieldDefinition $current_value = null;
-    
+
     public function __construct(int $a_new_obj_id = 0)
     {
         $this->obj_id = $a_new_obj_id;
     }
-    
+
     /**
      * Set object id (id of new created object)
      */
@@ -51,11 +46,10 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
     {
         $this->obj_id = $a_obj_id;
     }
-    
+
     /**
      * Save values
      * @access public
-     *
      */
     public function save() : bool
     {
@@ -64,15 +58,13 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
         }
         return true;
     }
-    
+
     /**
      * Start element handler
-     *
      * @access public
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_name				element name
-     * @param	array		$a_attribs			element attributes array
-     *
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_name       element name
+     * @param array    $a_attribs    element attributes array
      */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
@@ -82,13 +74,13 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
                 foreach ($this->values_records as $values_record) {
                     // init ADTGroup before definitions to bind definitions to group
                     $values_record->getADTGroup();
-            
+
                     foreach ($values_record->getDefinitions() as $def) {
                         $this->values[$def->getImportId()] = $def;
                     }
                 }
                 break;
-                
+
             case 'Value':
                 $this->initValue($a_attribs['id']);
                 break;
@@ -97,18 +89,16 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
 
     /**
      * End element handler
-     *
      * @access public
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_name				element name
-     *
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_name       element name
      */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
                 break;
-                
+
             case 'Value':
                 $value = trim($this->cdata);
                 if (is_object($this->current_value) && $value) {
@@ -118,13 +108,12 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
         }
         $this->cdata = '';
     }
-    
+
     /**
      * Character data handler
-     *
      * @access public
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_data				character data
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_data       character data
      */
     public function handlerCharacterData($a_xml_parser, $a_data)
     {
@@ -135,7 +124,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
             $this->cdata .= $a_data;
         }
     }
-    
+
     /**
      * init new value object
      */

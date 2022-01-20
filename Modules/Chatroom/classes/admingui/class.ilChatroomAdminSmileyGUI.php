@@ -346,9 +346,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->mainTpl->setContent($confirmation->getHTML());
     }
 
-    /**
-     * Deletes a smiley by $_REQUEST['chatroom_smiley_id']
-     */
     public function deleteSmileyObject() : void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
@@ -368,11 +365,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
 
-    /**
-     * Updates a smiley and/or its keywords
-     * Updates a smiley icon and/or its keywords by $_REQUEST['chatroom_smiley_id']
-     * and gets keywords from $_REQUEST['chatroom_smiley_keywords'].
-     */
     public function updateSmiliesObject() : void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
@@ -483,9 +475,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->mainTpl->setContent($confirmation->getHTML());
     }
 
-    /**
-     * Deletes multiple smilies by $_REQUEST['sel_ids']
-     */
     public function confirmedDeleteMultipleObject() : void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {
@@ -512,10 +501,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
 
-    /**
-     * Uploads and stores a new smiley with keywords from
-     * $_REQUEST['chatroom_smiley_keywords']
-     */
     public function uploadSmileyObject() : void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->ref_id)) {

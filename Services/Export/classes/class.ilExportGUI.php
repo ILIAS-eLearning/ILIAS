@@ -363,7 +363,7 @@ class ilExportGUI
         
         $file[1] = basename($file[1]);
         
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $file[1],
             $file[1]
         );

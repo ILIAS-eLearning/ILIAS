@@ -3,27 +3,22 @@
 
 /**
  * AMD field type select
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinitionSelect
 {
     protected const XML_SEPARATOR = "~|~";
-    
+
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return $a_adt_search->getADT()->getSelections()[0] ?? "";
     }
 
-    
     public function getType() : int
     {
         return self::TYPE_SELECT_MULTI;
     }
-    
-    
 
     protected function initADTDefinition() : ilADTDefinition
     {
@@ -49,17 +44,16 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
             $language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
         }
 
-
         $old = $this->getOptionTranslation($language);
         $new = $a_form->getInput("opts");
-
 
         $missing = array_diff_assoc($old, $new);
 
         if (sizeof($missing)) {
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
             if (!is_array($this->confirmed_objects)) {
-                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(), false, false);
+                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(),
+                    false, false);
                 foreach ($missing as $missing_idx => $missing_value) {
                     $in_use = $this->findBySingleValue($search, $missing_idx);
                     if (is_array($in_use)) {
@@ -71,28 +65,27 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
                 }
             }
         }
-        
+
         $this->old_options = $old;
         $this->setOptionTranslationsForLanguage($new, $language);
     }
 
-    
     public function getValueForXML(ilADT $element) : string
     {
         return self::XML_SEPARATOR .
             implode(self::XML_SEPARATOR, $element->getSelections()) .
             self::XML_SEPARATOR;
     }
-    
+
     public function importValueFromXML(string $a_cdata) : void
     {
         $this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));
     }
-    
+
     public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
     {
         assert($a_bridge instanceof ilADTMultiEnumFormBridge);
-        
+
         $a_bridge->setAutoSort(false);
     }
 }

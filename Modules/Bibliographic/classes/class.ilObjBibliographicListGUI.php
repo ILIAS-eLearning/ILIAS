@@ -1,8 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
 /**
  * Class ilObjDataCollectionListGUI
  *
@@ -17,7 +14,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init()
+    public function init(): void
     {
         $this->lng->loadLanguageModule('bibl');
         $this->copy_enabled = true;
@@ -28,8 +25,6 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "bibl";
         $this->gui_class_name = "ilobjbibliographicgui";
-        // general commands array
-        include_once('./Modules/Bibliographic/classes/class.ilObjBibliographicAccess.php');
         $this->commands = ilObjBibliographicAccess::_getCommands();
     }
 
@@ -42,7 +37,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -58,8 +53,6 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
                 "propertyNameVisible" => false,
             ];
         }
-
-        include_once("./Modules/Bibliographic/classes/class.ilObjBibliographicAccess.php");
         if (!ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {
             $props[] = array(
                 "alert" => true,

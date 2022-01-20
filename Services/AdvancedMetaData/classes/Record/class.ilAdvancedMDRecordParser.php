@@ -22,12 +22,11 @@
 */
 
 /**
-* SAX based XML parser for record import files
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ServicesAdvancedMetaData
- * @todo remove update mode completely
-*/
+ * SAX based XML parser for record import files
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ * @todo    remove update mode completely
+ */
 class ilAdvancedMDRecordParser extends ilSaxParser
 {
     public const MODE_UNDEFINED = 0;
@@ -36,11 +35,11 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     // update is not supported anymore
     public const MODE_UPDATE_VALIDATION = 3;
     public const MODE_INSERT_VALIDATION = 4;
-    
+
     private int $mode = self::MODE_UNDEFINED;
-    
+
     private array $fields = [];
-    
+
     private bool $is_error = false;
     private array $error_msg = [];
     private string $field_value_id = '';
@@ -66,18 +65,17 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         parent::__construct($a_file, true);
         $this->log = ilLoggerFactory::getLogger('amet');
     }
-    
+
     public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    
+
     public function getMode() : int
     {
         return $this->mode;
     }
-    
-    
+
     public function startParsing()
     {
         parent::startParsing();
@@ -85,23 +83,21 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             throw new ilSaxParserException(implode('<br/>', $this->error_msg));
         }
     }
-    
+
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
+     * set event handlers
+     * @param resource    reference to the xml parser
+     * @access    private
+     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
-    
+
     /**
      * Handler for start tags
-     *
      * @access protected
      */
     protected function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
@@ -112,11 +108,11 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 $this->error_msg = array();
                 // Nothing to do
                 break;
-            
+
             case 'Scope':
                 $this->scopes = [];
                 break;
-            
+
             case 'ScopeEntry':
                 $parsed_id = ilUtil::parseImportId($a_attribs['id']);
                 if (
@@ -128,8 +124,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                     $this->scopes[] = $scope;
                 }
                 break;
-                
-            
+
             case 'Record':
                 $this->fields = array();
                 $this->current_field = null;
@@ -187,7 +182,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 $this->getCurrentField()->setImportId($a_attribs['id']);
                 $this->getCurrentField()->setSearchable($a_attribs['searchable'] == 'Yes');
                 break;
-                
+
             case 'FieldTitle':
             case 'FieldDescription':
             case 'FieldPosition':
@@ -196,10 +191,9 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 break;
         }
     }
-    
+
     /**
      * Handler for end tags
-     *
      * @access protected
      */
     protected function handlerEndTag($a_xml_parser, $a_name)
@@ -207,23 +201,23 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         switch ($a_name) {
             case 'AdvancedMetaDataRecords':
                 break;
-                
+
             case 'Record':
                 $this->storeRecords();
                 break;
-            
+
             case 'Scope':
                 $this->getCurrentRecord()->setScopes($this->scopes);
                 break;
-                
+
             case 'Title':
                 $this->getCurrentRecord()->setTitle(trim($this->cdata));
                 break;
-                
+
             case 'Description':
                 $this->getCurrentRecord()->setDescription(trim($this->cdata));
                 break;
-                
+
             case 'ObjectType':
                 // #12980
                 $parts = explode(":", trim($this->cdata));
@@ -252,28 +246,27 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             case 'FieldTitle':
                 $this->getCurrentField()->setTitle(trim($this->cdata));
                 break;
-            
+
             case 'FieldDescription':
                 $this->getCurrentField()->setDescription(trim($this->cdata));
                 break;
-                
+
             case 'FieldPosition':
                 $this->getCurrentField()->setPosition((int) trim($this->cdata));
                 break;
-                
+
             case 'FieldValue':
                 $this->getCurrentField()->importXMLProperty($this->field_value_id, trim($this->cdata));
                 break;
         }
         $this->cdata = '';
     }
-    
+
     /**
-    * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
-    */
+     * handler for character data
+     * @param resource $a_xml_parser xml parser
+     * @param string   $a_data       character data
+     */
     protected function handlerCharacterData($a_xml_parser, $a_data)
     {
         if ($a_data != "\n") {
@@ -283,7 +276,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             $this->cdata .= $a_data;
         }
     }
-    
+
     private function initRecordObject(string $a_id) : bool
     {
         switch ($this->getMode()) {
@@ -291,13 +284,13 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             case self::MODE_INSERT_VALIDATION:
                 $this->current_record = new ilAdvancedMDRecord(0);
                 return true;
-            
+
             default:
                 $this->current_record = ilAdvancedMDRecord::_getInstanceByRecordId($this->extractRecordId($a_id));
                 return true;
         }
     }
-    
+
     /**
      * Init field definition object
      */
@@ -309,7 +302,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 $this->current_field = ilAdvancedMDFieldDefinition::getInstanceByTypeString($a_type);
                 $this->fields[] = $this->current_field;
                 return true;
-            
+
             default:
                 throw new InvalidArgumentException('Current parsing mode is not supported. Mode: ' . (string) $this->getMode());
         }
@@ -319,12 +312,12 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     {
         return $this->current_record;
     }
-    
+
     private function getCurrentField() : ?ilAdvancedMDFieldDefinition
     {
         return $this->current_field;
     }
-    
+
     private function extractRecordId(string $a_id_string) : int
     {
         // first lookup import id
@@ -333,22 +326,20 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
         return 0;
     }
-    
-    
-    
+
     private function appendErrorMessage(string $a_msg) : void
     {
         $this->is_error = true;
         $this->error_msg[] = $a_msg;
     }
-    
+
     private function storeRecords() : void
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT_VALIDATION:
             case self::MODE_UPDATE_VALIDATION:
                 return;
-            
+
             case self::MODE_INSERT:
                 // set local context
                 if (is_array($this->context)) {
@@ -358,9 +349,10 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                             "obj_type" => $this->context["obj_type"],
                             "sub_type" => $this->context["sub_type"],
                             "optional" => false
-                    )));
+                        )
+                    ));
                 }
-                
+
                 $this->getCurrentRecord()->save();
                 break;
         }
@@ -383,7 +375,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                             $translation->insert();
                         }
                     }
-                    
+
                     // see getRecordMap()
                     $this->log->debug("add to record map, rec id: " . $this->getCurrentRecord()->getRecordId() .
                         ", import id: " . $field->getImportId() . ", field id:" . $field->getFieldId());
@@ -410,20 +402,20 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             );
         }
     }
-    
+
     public function setContext(int $a_obj_id, string $a_obj_type, ?string $a_sub_type = null) : void
     {
         if (!$a_sub_type) {
             $a_sub_type = "-";
         }
-        
+
         $this->context = array(
             "obj_id" => $a_obj_id,
             "obj_type" => $a_obj_type,
             "sub_type" => $a_sub_type
         );
     }
-    
+
     public function getRecordMap() : array
     {
         return $this->rec_map;

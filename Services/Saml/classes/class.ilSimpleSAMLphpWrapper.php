@@ -81,9 +81,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
 
-        $value = $session->getData('ilias', $key);
-
-        return $value;
+        return $session->getData('ilias', $key);
     }
 
     /**

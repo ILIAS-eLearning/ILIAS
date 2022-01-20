@@ -17,11 +17,13 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill root GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillRootGUI extends ilSkillTreeNodeGUI
 {
@@ -31,7 +33,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
 
-    public function __construct(int $a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
 
@@ -42,9 +44,9 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, "node_id");
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     public function getType() : string
@@ -85,14 +87,14 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->getParentGUI()->showTree(true, $this, "listTemplates");
         $ilTabs->activateTab("skill_templates");
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             ilSkillTemplateCategoryGUI::addCreationButtons();
         }
 
         $table = new ilSkillCatTableGUI(
             $this,
             "listTemplates",
-            $this->requested_obj_id,
+            $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCTP
         );
         
@@ -116,14 +118,14 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->getParentGUI()->showTree(false, $this, "listSkills");
         $ilTabs->activateTab("skills");
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             ilSkillCategoryGUI::addCreationButtons();
         }
 
         $table = new ilSkillCatTableGUI(
             $this,
             "listSkills",
-            $this->requested_obj_id,
+            $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
         
@@ -145,6 +147,13 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $ilTabs->setBackTarget(
+            $lng->txt("back"),
+            $ctrl->getLinkTarget($this, "listSkills")
+        );
 
         $ilTabs->activateTab("skills");
         $tpl->setContent($this->initInputForm()->getHTML());
@@ -182,6 +191,8 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
+            $conf = $imp->getConfig("Services/Skill");
+            $conf->setSkillTreeId($this->skill_tree_id);
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

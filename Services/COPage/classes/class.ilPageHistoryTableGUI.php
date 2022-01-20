@@ -55,10 +55,9 @@ class ilPageHistoryTableGUI extends ilTable2GUI
     
     /**
     * Should this field be sorted numeric?
-    *
     * @return    bool        numeric ordering; default is false
     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "sortkey") {
             return true;
@@ -70,7 +69,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

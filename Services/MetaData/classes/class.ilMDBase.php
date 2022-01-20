@@ -59,6 +59,8 @@ class ilMDBase
      */
     protected $log;
 
+    protected ilDBInterface $db;
+
     /*
      * constructor
      *
@@ -75,13 +77,12 @@ class ilMDBase
     ) {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $this->db = $DIC->database();
 
         if ($a_obj_id == 0) {
             $a_obj_id = $a_rbac_id;
         }
 
-        $this->db = $ilDB;
         $this->log = ilLoggerFactory::getLogger("meta");
 
         $this->rbac_id = $a_rbac_id;

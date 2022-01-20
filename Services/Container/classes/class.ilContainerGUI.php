@@ -36,7 +36,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected ilPropertyFormGUI $form;
     protected ilLogger $log;
     protected ilObjectDataCache $obj_data_cache;
-    protected ilPluginAdmin $plugin_admin;
     protected Services $global_screen;
     protected ilAppEventHandler $app_event_handler;
     public int $bl_cnt = 1;        // block counter
@@ -52,6 +51,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected ClipboardManager $clipboard;
     protected StandardGUIRequest $std_request;
     protected ViewManager $view_manager;
+    protected ilComponentFactory $component_factory;
 
     public function __construct(
         $a_data,
@@ -77,10 +77,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->log = $DIC["ilLog"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->toolbar = $DIC->toolbar();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->ui = $DIC->ui();
         $this->global_screen = $DIC->globalScreen();
+        $this->component_factory = $DIC["component.factory"];
         $rbacsystem = $DIC->rbac()->system();
         $lng = $DIC->language();
 
@@ -92,9 +92,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // prepare output things should generally be made in executeCommand
         // method (maybe dependent on current class/command
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-
-        $this->container_filter_service = new ilContainerFilterService();
-        $this->initFilter();
 
         $this->clipboard = $DIC
             ->repository()
@@ -113,6 +110,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ->domain()
             ->content()
             ->view();
+
+        $this->container_filter_service = new ilContainerFilterService();
+        $this->initFilter();
     }
 
     public function executeCommand()
@@ -2279,11 +2279,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         );
 
         // include plugin slot for async item list
-        $ilPluginAdmin = $this->plugin_admin;
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-            $gui_class = $ui_plugin->getUIClassInstance();
+        foreach ($this->component_factory->getActivePluginsInSlot("uihk") as $plugin) {
+            $gui_class = $plugin->getUIClassInstance();
             $resp = $gui_class->getHTML("Services/Container", "async_item_list", array("html" => $html));
             if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
                 $html = $gui_class->modifyHTML($html, $resp);

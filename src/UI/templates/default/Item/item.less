@@ -123,7 +123,7 @@
 
 .il-item-shy{
 	display: flex;
-	gap: 10px;
+	gap: @il-item-gap-large;
 
 	.content {
 		width: 100%;
@@ -133,7 +133,7 @@
 			"description description"
 			"divider divider"
 			"properties properties";
-		grid-auto-columns: auto 12px;
+		grid-auto-columns: auto @font-size-small;
 
 		.il-item-title {
 			grid-area: title;
@@ -151,7 +151,7 @@
 			grid-area: properties;
 			display: grid;
 			grid-template-columns: auto 1fr;
-			gap: 8px;
+			gap: @il-item-gap-base;
 		}
 	}
 }

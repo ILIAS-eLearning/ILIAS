@@ -371,7 +371,7 @@ class ilCalendarSchedule
     {
         foreach ($this->filters as $filter) {
             $res = $filter->modifyEvent($event);
-            if (!$res) {
+            if ($res === false) {
                 $this->logger->info('filtering failed for ' . get_class($filter));
                 return false;
             }

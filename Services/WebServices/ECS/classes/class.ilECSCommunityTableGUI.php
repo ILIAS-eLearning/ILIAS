@@ -34,10 +34,6 @@ include_once('Services/WebServices/ECS/classes/class.ilECSParticipantSettings.ph
 */
 class ilECSCommunityTableGUI extends ilTable2GUI
 {
-    protected $lng;
-    protected $ctrl;
-    
-
     protected $server = null;
     protected $cid = 0;
     
@@ -98,7 +94,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
      * @param array row data
      *
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

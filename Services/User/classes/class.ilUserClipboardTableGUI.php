@@ -21,9 +21,6 @@ class ilUserClipboardTableGUI extends ilTable2GUI
     
     /**
      * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param int $a_id
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_id)
     {
@@ -66,9 +63,9 @@ class ilUserClipboardTableGUI extends ilTable2GUI
 
     /**
      * Fill row
-     * @param type $a_set
+     * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'uids');
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);

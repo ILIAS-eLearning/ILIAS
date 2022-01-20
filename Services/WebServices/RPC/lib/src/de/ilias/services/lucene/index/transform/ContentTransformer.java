@@ -24,7 +24,8 @@ package de.ilias.services.lucene.index.transform;
 
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Interface for all transformer classes.
@@ -34,7 +35,7 @@ import org.apache.log4j.Logger;
  */
 public interface ContentTransformer {
 
-	public static Logger logger = Logger.getLogger(ContentTransformer.class);
+	public static Logger logger = LogManager.getLogger(ContentTransformer.class);
 	
 	/**
 	 * String which will be filtered

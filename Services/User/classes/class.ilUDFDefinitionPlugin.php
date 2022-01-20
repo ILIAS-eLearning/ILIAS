@@ -63,49 +63,4 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
      * @return array
      */
     abstract public function lookupUserData($a_user_ids, $a_field_ids);
-    
-    
-    /**
-     * Get component name
-     * @return string
-     */
-    final public function getComponentName()
-    {
-        return self::UDF_C_NAME;
-    }
-
-    /**
-     * get component type
-     * @return string
-     */
-    final public function getComponentType()
-    {
-        return self::UDF_C_TYPE;
-    }
-    
-
-    /**
-     * Get slot
-     * @return string
-     */
-    public function getSlot()
-    {
-        return self::UDF_SLOT;
-    }
-
-    /**
-     * Get slot id
-     * @return string
-     */
-    public function getSlotId()
-    {
-        return self::UDF_SLOT_ID;
-    }
-    
-    /**
-     * implemented
-     */
-    public function slotInit()
-    {
-    }
 }

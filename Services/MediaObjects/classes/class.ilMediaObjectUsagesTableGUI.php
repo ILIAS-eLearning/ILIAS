@@ -109,15 +109,12 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-
+        $cont_type = "";
         $usage = $a_set;
-        
-        //var_dump($usage);
+        $item = [];
 
         if (is_int(strpos($usage["type"], ":"))) {
             $us_arr = explode(":", $usage["type"]);
@@ -160,7 +157,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 
                     case "gdf":
                         $term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
-                        $glo_id = ilGlossaryTerm::_lookGlossaryId($term_id);
+                        $glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         $item["obj_type_txt"] = $this->lng->txt("obj_glo");
                         $item["obj_title"] = ilObject::_lookupTitle($glo_id);
                         $item["sub_txt"] = $this->lng->txt("cont_term");
@@ -241,12 +238,11 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 
             $this->tpl->setCurrentBlock("versions");
             $this->tpl->setVariable("VAL_VERSIONS", $ver);
-            $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("versions");
             $this->tpl->setVariable("VAL_VERSIONS", " ");
-            $this->tpl->parseCurrentBlock();
         }
+        $this->tpl->parseCurrentBlock();
 
         if ($item["obj_type_txt"] != "") {
             $this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);

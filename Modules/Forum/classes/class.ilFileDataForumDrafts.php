@@ -260,7 +260,7 @@ class ilFileDataForumDrafts extends ilFileData
     public function deliverFile(string $file) : void
     {
         if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
-            ilUtil::deliverFile($path['path'], $path['clean_filename']);
+            ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
         } else {
             ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
         }
@@ -277,7 +277,7 @@ class ilFileDataForumDrafts extends ilFileData
         }
 
         $post = ilForumPostDraft::newInstanceByDraftId($this->getDraftId());
-        ilUtil::deliverFile($zip_file, $post->getPostSubject() . '.zip', '', false, true, false);
+        ilFileDelivery::deliverFileLegacy($zip_file, $post->getPostSubject() . '.zip', '', false, true, false);
         ilUtil::delDir($this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId());
         $DIC->http()->close();
         return true; // never

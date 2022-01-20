@@ -98,4 +98,10 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
      * @return array
      */
     public function toArray() : array;
+
+    /**
+     * @param mixed $other
+     * @return bool
+     */
+    public function equals($other) : bool;
 }

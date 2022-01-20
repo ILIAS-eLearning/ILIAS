@@ -218,7 +218,7 @@ class ilMailFolderGUI
 
         $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
 
-        if ($isTrashFolder && 'deleteMails' === $this->parseCommand($this->ctrl->getCmd()) && !$this->errorDelete) {
+        if (!$this->errorDelete && $isTrashFolder && 'deleteMails' === $this->parseCommand($this->ctrl->getCmd())) {
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_sure_delete'));
             foreach ($this->getMailIdsFromRequest() as $mailId) {
@@ -270,7 +270,7 @@ class ilMailFolderGUI
             }
         }
 
-        if ($mailtable->isTrashFolder() && $mailtable->getNumberOfMails() > 0 && $this->confirmTrashDeletion) {
+        if ($this->confirmTrashDeletion && $mailtable->isTrashFolder() && $mailtable->getNumberOfMails() > 0) {
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_empty_trash_confirmation'));
             $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -622,7 +622,6 @@ class ilMailFolderGUI
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
             $replyBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
             $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-            $replyBtn->setAccessKey(ilAccessKey::REPLY);
             $replyBtn->setPrimary(true);
             $this->toolbar->addStickyItem($replyBtn);
         }
@@ -634,7 +633,6 @@ class ilMailFolderGUI
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
         $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-        $fwdBtn->setAccessKey(ilAccessKey::FORWARD_MAIL);
         if (!$replyBtn) {
             $fwdBtn->setPrimary(true);
             $this->toolbar->addStickyItem($fwdBtn);
@@ -654,7 +652,6 @@ class ilMailFolderGUI
         $deleteBtn = ilSubmitButton::getInstance();
         $deleteBtn->setCaption('delete');
         $deleteBtn->setCommand('deleteMails');
-        $deleteBtn->setAccessKey(ilAccessKey::DELETE);
         $this->toolbar->addButtonInstance($deleteBtn);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
@@ -924,7 +921,7 @@ class ilMailFolderGUI
                 $mailFileData = new ilFileDataMail($this->user->getId());
                 try {
                     $file = $mailFileData->getAttachmentPathAndFilenameByMd5Hash($filename, (int) $mailId);
-                    ilUtil::deliverFile($file['path'], $file['filename']);
+                    ilFileDelivery::deliverFileLegacy($file['path'], $file['filename']);
                 } catch (OutOfBoundsException $e) {
                     throw new ilException('mail_error_reading_attachment');
                 }
@@ -976,7 +973,7 @@ class ilMailFolderGUI
                         $pathToFile = $file['path'];
                         $fileName = $file['filename'];
                     }
-                    ilUtil::deliverFile($pathToFile, $fileName);
+                    ilFileDelivery::deliverFileLegacy($pathToFile, $fileName);
                 } catch (OutOfBoundsException $e) {
                     throw new ilException('mail_error_reading_attachment');
                 }
@@ -997,18 +994,15 @@ class ilMailFolderGUI
     
     protected function getMailFolderTable() : ilMailFolderTableGUI
     {
-        $sentFolderId = $this->mbox->getSentFolder();
-        $draftsFolderId = $this->mbox->getDraftsFolder();
-
-        $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
-        $isSentFolder = $this->currentFolderId === $sentFolderId;
-        $isDraftFolder = $this->currentFolderId === $draftsFolderId;
-
-        $table = new ilMailFolderTableGUI($this, $this->currentFolderId, 'showFolder');
-        $table->isSentFolder($isSentFolder)
-            ->isDraftFolder($isDraftFolder)
-            ->isTrashFolder($isTrashFolder)
-            ->initFilter();
+        $table = new ilMailFolderTableGUI(
+            $this,
+            $this->currentFolderId,
+            'showFolder',
+            $this->currentFolderId === $this->mbox->getTrashFolder(),
+            $this->currentFolderId === $this->mbox->getSentFolder(),
+            $this->currentFolderId === $this->mbox->getDraftsFolder()
+        );
+        $table->initFilter();
         
         return $table;
     }

@@ -55,7 +55,7 @@ class ilCalendarMailNotification extends ilMailNotification
     
     /**
      * Set calendar appointment id
-     * @param object $a_id
+     * @param int $a_id
      * @return
      */
     public function setAppointmentId($a_id)
@@ -283,7 +283,6 @@ class ilCalendarMailNotification extends ilMailNotification
 
                 $user_id = array_pop($this->getRecipients());
                 include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilCalendarEntry($this->getAppointmentId());
                 $booking = new ilBookingEntry($entry->getContextId());
 
@@ -323,7 +322,6 @@ class ilCalendarMailNotification extends ilMailNotification
 
                 $user_id = array_pop($this->getRecipients());
                 include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilCalendarEntry($this->getAppointmentId());
                 $booking = new ilBookingEntry($entry->getContextId());
 
@@ -359,7 +357,6 @@ class ilCalendarMailNotification extends ilMailNotification
                 $user_id = array_pop($this->getRecipients());
                 
                 include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilCalendarEntry($this->getAppointmentId());
                 $booking = new ilBookingEntry($entry->getContextId());
 

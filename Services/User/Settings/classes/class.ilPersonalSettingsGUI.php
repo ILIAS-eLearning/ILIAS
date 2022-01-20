@@ -483,15 +483,6 @@ class ilPersonalSettingsGUI
             }
         }
 
-        // screen reader optimization
-        if ($this->userSettingVisible("screen_reader_optimization")) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt("user_screen_reader_optimization"), "screen_reader_optimization");
-            $cb->setChecked((bool) $ilUser->prefs["screen_reader_optimization"]);
-            $cb->setDisabled((bool) $ilSetting->get("usr_settings_disable_screen_reader_optimization"));
-            $cb->setInfo($this->lng->txt("user_screen_reader_optimization_info"));
-            $this->form->addItem($cb);
-        }
-
         // help tooltips
         $module_id = (int) $ilSetting->get("help_module");
         if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
@@ -741,11 +732,6 @@ class ilPersonalSettingsGUI
                 }
             }
 
-            // set show users online
-            if ($this->workWithUserSetting("screen_reader_optimization")) {
-                $ilUser->setPref("screen_reader_optimization", $_POST["screen_reader_optimization"]);
-            }
-            
             // session reminder
             include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
             if (ilSessionReminder::isGloballyActivated()) {

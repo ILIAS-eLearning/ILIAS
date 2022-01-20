@@ -1,6 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * Class ilObjPoll
@@ -9,33 +24,33 @@
 */
 class ilObjPoll extends ilObject2
 {
-    protected $access_type; // [int]
-    protected $access_begin; // [timestamp]
-    protected $access_end; // [timestamp]
-    protected $access_visibility; // [bool]
-    protected $question; // [string]
-    protected $image; // [string]
-    protected $view_results; // [int]
-    protected $period; // [bool]
-    protected $period_begin; // [timestamp]
-    protected $period_end; // [timestamp]
+    protected int $access_type = 0;
+    protected int $access_begin = 0;
+    protected int $access_end = 0;
+    protected bool $access_visibility = false;
+    protected string $question = "";
+    protected string $image = "";
+    protected int $view_results = 0;
+    protected bool $period = false;
+    protected int $period_begin = 0;
+    protected int $period_end = 0;
     
     // 4.5
-    protected $max_number_answers = 1; // [int]
-    protected $result_sort_by_votes = false; // [bool]
-    protected $mode_non_anonymous = false; // [bool]
-    protected $show_comments = false; //[bool]
-    protected $show_results_as = 1; //[int]
+    protected int $max_number_answers = 1;
+    protected bool $result_sort_by_votes = false;
+    protected bool $mode_non_anonymous = false;
+    protected bool $show_comments = false;
+    protected int $show_results_as = 1;
     
-    const VIEW_RESULTS_ALWAYS = 1;
-    const VIEW_RESULTS_NEVER = 2;
-    const VIEW_RESULTS_AFTER_VOTE = 3;
-    const VIEW_RESULTS_AFTER_PERIOD = 4;
+    public const VIEW_RESULTS_ALWAYS = 1;
+    public const VIEW_RESULTS_NEVER = 2;
+    public const VIEW_RESULTS_AFTER_VOTE = 3;
+    public const VIEW_RESULTS_AFTER_PERIOD = 4;
 
-    const SHOW_RESULTS_AS_BARCHART = 1;
-    const SHOW_RESULTS_AS_PIECHART = 2;
+    public const SHOW_RESULTS_AS_BARCHART = 1;
+    public const SHOW_RESULTS_AS_PIECHART = 2;
     
-    public function __construct($a_id = 0, $a_reference = true)
+    public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         global $DIC;
 
@@ -48,162 +63,162 @@ class ilObjPoll extends ilObject2
         parent::__construct($a_id, $a_reference);
     }
     
-    public function initType()
+    protected function initType() : void
     {
         $this->type = "poll";
     }
     
-    public function setAccessType($a_value)
+    public function setAccessType(int $a_value) : void
     {
-        $this->access_type = (int) $a_value;
+        $this->access_type = $a_value;
     }
     
-    public function getAccessType()
+    public function getAccessType() : int
     {
         return $this->access_type;
     }
     
-    public function setAccessBegin($a_value)
+    public function setAccessBegin(int $a_value) : void
     {
-        $this->access_begin = (int) $a_value;
+        $this->access_begin = $a_value;
     }
     
-    public function getAccessBegin()
+    public function getAccessBegin() : int
     {
         return $this->access_begin;
     }
     
-    public function setAccessEnd($a_value)
+    public function setAccessEnd(int $a_value) : void
     {
-        $this->access_end = (int) $a_value;
+        $this->access_end = $a_value;
     }
     
-    public function getAccessEnd()
+    public function getAccessEnd() : int
     {
         return $this->access_end;
     }
     
-    public function setAccessVisibility($a_value)
+    public function setAccessVisibility(bool $a_value) : void
     {
-        $this->access_visibility = (bool) $a_value;
+        $this->access_visibility = $a_value;
     }
     
-    public function getAccessVisibility()
+    public function getAccessVisibility() : bool
     {
         return $this->access_visibility;
     }
     
-    public function setQuestion($a_value)
+    public function setQuestion(string $a_value) : void
     {
-        $this->question = (string) $a_value;
+        $this->question = $a_value;
     }
     
-    public function getQuestion()
+    public function getQuestion() : string
     {
         return $this->question;
     }
     
-    public function setImage($a_value)
+    public function setImage(string $a_value) : void
     {
-        $this->image = (string) $a_value;
+        $this->image = $a_value;
     }
     
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }
     
-    public function setViewResults($a_value)
+    public function setViewResults(int $a_value) : void
     {
-        $this->view_results = (int) $a_value;
+        $this->view_results = $a_value;
     }
     
-    public function getViewResults()
+    public function getViewResults() : int
     {
         return $this->view_results;
     }
     
-    public function setVotingPeriod($a_value)
+    public function setVotingPeriod(bool $a_value) : void
     {
-        $this->period = (bool) $a_value;
+        $this->period = $a_value;
     }
     
-    public function getVotingPeriod()
+    public function getVotingPeriod() : bool
     {
         return $this->period;
     }
     
-    public function setVotingPeriodBegin($a_value)
+    public function setVotingPeriodBegin(int $a_value) : void
     {
-        $this->period_begin = (int) $a_value;
+        $this->period_begin = $a_value;
     }
     
-    public function getVotingPeriodBegin()
+    public function getVotingPeriodBegin() : int
     {
         return $this->period_begin;
     }
     
-    public function setVotingPeriodEnd($a_value)
+    public function setVotingPeriodEnd(int $a_value) : void
     {
-        $this->period_end = (int) $a_value;
+        $this->period_end = $a_value;
     }
     
-    public function getVotingPeriodEnd()
+    public function getVotingPeriodEnd() : int
     {
         return $this->period_end;
     }
     
-    public function setMaxNumberOfAnswers($a_value)
+    public function setMaxNumberOfAnswers(int $a_value) : void
     {
-        $this->max_number_answers = (int) $a_value;
+        $this->max_number_answers = $a_value;
     }
     
-    public function getMaxNumberOfAnswers()
+    public function getMaxNumberOfAnswers() : int
     {
         return $this->max_number_answers;
     }
     
-    public function setSortResultByVotes($a_value)
+    public function setSortResultByVotes(bool $a_value) : void
     {
-        $this->result_sort_by_votes = (bool) $a_value;
+        $this->result_sort_by_votes = $a_value;
     }
     
-    public function getSortResultByVotes()
+    public function getSortResultByVotes() : bool
     {
         return $this->result_sort_by_votes;
     }
     
-    public function setNonAnonymous($a_value)
+    public function setNonAnonymous(bool $a_value) : void
     {
-        $this->mode_non_anonymous = (bool) $a_value;
+        $this->mode_non_anonymous = $a_value;
     }
     
-    public function getNonAnonymous()
+    public function getNonAnonymous() : bool
     {
         return $this->mode_non_anonymous;
     }
 
-    public function setShowComments($a_value)
+    public function setShowComments(bool $a_value) : void
     {
-        $this->show_comments = (bool) $a_value;
+        $this->show_comments = $a_value;
     }
 
-    public function getShowComments()
+    public function getShowComments() : bool
     {
         return $this->show_comments;
     }
 
-    public function setShowResultsAs($a_value)
+    public function setShowResultsAs(int $a_value) : void
     {
-        $this->show_results_as = (int) $a_value;
+        $this->show_results_as = $a_value;
     }
 
-    public function getShowResultsAs()
+    public function getShowResultsAs() : int
     {
         return $this->show_results_as;
     }
 
-    protected function doRead()
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -236,7 +251,7 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    protected function propertiesToDB()
+    protected function propertiesToDB() : array
     {
         $fields = array(
             "question" => array("text", $this->getQuestion()),
@@ -254,7 +269,7 @@ class ilObjPoll extends ilObject2
         return $fields;
     }
 
-    protected function doCreate()
+    protected function doCreate() : void
     {
         $ilDB = $this->db;
         
@@ -277,7 +292,7 @@ class ilObjPoll extends ilObject2
         }
     }
         
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
     
@@ -304,7 +319,7 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         
@@ -322,14 +337,12 @@ class ilObjPoll extends ilObject2
     }
     
     /**
-     * Clone poll
-     *
      * @param ilObjPoll new object
      * @param int target ref_id
      * @param int copy id
      * @return ilObjPoll
      */
-    public function doCloneObject($new_obj, $a_target_id, $a_copy_id = 0)
+    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = 0) : ilObjPoll
     {
         assert($new_obj instanceof ilObjPoll);
         
@@ -374,7 +387,7 @@ class ilObjPoll extends ilObject2
     {
         $img = $this->getImage();
         if ($img) {
-            $path = $this->initStorage($this->id);
+            $path = $this->initStorage((int) $this->id);
             if (!$a_as_thumb) {
                 return $path . $img;
             } else {
@@ -384,26 +397,18 @@ class ilObjPoll extends ilObject2
 
         return null;
     }
-    
-    /**
-     * remove existing file
-     */
-    public function deleteImage()
+
+    public function deleteImage() : void
     {
         if ($this->id) {
-            $storage = new ilFSStoragePoll($this->id);
+            $storage = new ilFSStoragePoll((int) $this->id);
             $storage->delete();
-            
-            $this->setImage(null);
+
+            $this->setImage("");
         }
     }
 
-    /**
-     * Init file system storage
-     *
-     * @return string
-     */
-    public static function initStorage(int $a_id, string $a_subdir = null)
+    public static function initStorage(int $a_id, ?string $a_subdir = null) : string
     {
         $storage = new ilFSStoragePoll($a_id);
         $storage->create();
@@ -420,13 +425,8 @@ class ilObjPoll extends ilObject2
                 
         return $path;
     }
-    
-    /**
-     * Upload new image file
-     *
-     * @return bool
-     */
-    public function uploadImage(array $a_upload, bool $a_clone = false)
+
+    public function uploadImage(array $a_upload, bool $a_clone = false) : bool
     {
         if (!$this->id) {
             return false;
@@ -439,7 +439,7 @@ class ilObjPoll extends ilObject2
         $tmp_name = (string) ($a_upload['tmp_name'] ?? '');
         $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $name);
     
-        $path = $this->initStorage($this->id);
+        $path = $this->initStorage((int) $this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
@@ -468,7 +468,7 @@ class ilObjPoll extends ilObject2
 
             $convert_300 = $original_file . "[0] -geometry \"" . self::getImageSize() . ">\" -quality 100 PNG:" . $processed_file;
             $escaped_convert_300 = ilUtil::escapeShellCmd($convert_300);
-            $escaped_convert_300 = str_replace('-geometry "' . self::getImageSize() . '\>"', '-geometry "' . self::getImageSize() .'>"', $escaped_convert_300);
+            $escaped_convert_300 = str_replace('-geometry "' . self::getImageSize() . '\>"', '-geometry "' . self::getImageSize() . '>"', $escaped_convert_300);
             ilUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_300);
             
             $this->setImage($processed);
@@ -477,7 +477,7 @@ class ilObjPoll extends ilObject2
         return false;
     }
     
-    public static function getImageSize()
+    public static function getImageSize() : string
     {
         // :TODO:
         return "300x300";
@@ -488,11 +488,11 @@ class ilObjPoll extends ilObject2
     // Answer
     //
     
-    public function getAnswers()
+    public function getAnswers() : array
     {
         $ilDB = $this->db;
         
-        $res = array();
+        $res = [];
         
         $sql = "SELECT * FROM il_poll_answer" .
             " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer") .
@@ -504,7 +504,7 @@ class ilObjPoll extends ilObject2
         return $res;
     }
     
-    public function getAnswer($a_id)
+    public function getAnswer(int $a_id) : array
     {
         $ilDB = $this->db;
         
@@ -514,7 +514,7 @@ class ilObjPoll extends ilObject2
         return (array) $ilDB->fetchAssoc($set);
     }
 
-    public function saveAnswer($a_text, $a_pos = null) : ?int
+    public function saveAnswer(string $a_text, ?int $a_pos = null) : ?int
     {
         $ilDB = $this->db;
         
@@ -545,7 +545,7 @@ class ilObjPoll extends ilObject2
         return $id;
     }
     
-    public function updateAnswer($a_id, $a_text)
+    public function updateAnswer(int $a_id, string $a_text) : void
     {
         $ilDB = $this->db;
                     
@@ -556,11 +556,11 @@ class ilObjPoll extends ilObject2
         );
     }
     
-    public function rebuildAnswerPositions()
+    public function rebuildAnswerPositions() : void
     {
         $answers = $this->getAnswers();
         
-        $pos = array();
+        $pos = [];
         foreach ($answers as $item) {
             $id = (int) ($item['id'] ?? 0);
             $pos[$id] = (int) ($item["pos"] ?? 10);
@@ -569,7 +569,7 @@ class ilObjPoll extends ilObject2
         $this->updateAnswerPositions($pos);
     }
     
-    public function updateAnswerPositions(array $a_pos)
+    public function updateAnswerPositions(array $a_pos) : void
     {
         $ilDB = $this->db;
         
@@ -587,7 +587,7 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    public function deleteAnswer($a_id)
+    public function deleteAnswer(int $a_id) : void
     {
         $ilDB = $this->db;
         
@@ -600,7 +600,7 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    protected function deleteAllAnswers()
+    protected function deleteAllAnswers() : void
     {
         $ilDB = $this->db;
         
@@ -612,7 +612,7 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    public function deleteAllVotes()
+    public function deleteAllVotes() : void
     {
         $ilDB = $this->db;
         
@@ -622,11 +622,11 @@ class ilObjPoll extends ilObject2
         }
     }
         
-    public function saveAnswers(array $a_answers)
+    public function saveAnswers(array $a_answers) : int
     {
         $existing = $this->getAnswers();
                         
-        $ids = array();
+        $ids = [];
         $pos = 0;
         $id = null;
         foreach ($a_answers as $answer) {
@@ -657,8 +657,8 @@ class ilObjPoll extends ilObject2
         // remove obsolete answers
         if (sizeof($existing)) {
             foreach ($existing as $item) {
-                if (isset($item["id"]) && is_int($item["id"])) {
-                    $this->deleteAnswer($item["id"]);
+                if (isset($item["id"])) {
+                    $this->deleteAnswer((int) $item["id"]);
                 }
             }
         }
@@ -676,14 +676,10 @@ class ilObjPoll extends ilObject2
     // votes
     //
     
-    public function saveVote($a_user_id, $a_answers)
+    public function saveVote(int $a_user_id, array $a_answers) : void
     {
         if ($this->hasUserVoted($a_user_id)) {
             return;
-        }
-        
-        if (!is_array($a_answers)) {
-            $a_answers = array($a_answers);
         }
         
         foreach ($a_answers as $answer_id) {
@@ -694,7 +690,7 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    public function hasUserVoted($a_user_id)
+    public function hasUserVoted(int $a_user_id) : bool
     {
         $sql = "SELECT user_id" .
             " FROM il_poll_vote" .
@@ -705,7 +701,7 @@ class ilObjPoll extends ilObject2
         return (bool) $this->db->numRows($set);
     }
     
-    public function countVotes()
+    public function countVotes() : int
     {
         $sql = "SELECT COUNT(DISTINCT(user_id)) cnt" .
             " FROM il_poll_vote" .
@@ -715,9 +711,9 @@ class ilObjPoll extends ilObject2
         return (int) $row["cnt"];
     }
     
-    public function getVotePercentages()
+    public function getVotePercentages() : array
     {
-        $res = array();
+        $res = [];
         $cnt = 0;
         
         $sql = "SELECT answer_id, count(*) cnt" .
@@ -743,11 +739,11 @@ class ilObjPoll extends ilObject2
         return array("perc" => $res, "total" => $this->countVotes());
     }
     
-    public function getVotesByUsers()
+    public function getVotesByUsers() : array
     {
         $ilDB = $this->db;
         
-        $res = array();
+        $res = [];
         
         $sql = "SELECT answer_id, user_id, firstname, lastname, login" .
             " FROM il_poll_vote" .

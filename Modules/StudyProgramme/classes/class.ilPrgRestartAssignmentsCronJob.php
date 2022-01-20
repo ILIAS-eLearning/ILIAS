@@ -15,7 +15,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
     const ACTING_USR_ID = -1;
 
     protected ilStudyProgrammeAssignmentDBRepository $user_assignments_db;
-    protected ilLog $log;
+    protected ilLogger $log;
     protected ilLanguage $lng;
     protected Container $dic;
 

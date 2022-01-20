@@ -1,74 +1,58 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-include_once('Services/Membership/classes/class.ilMemberAgreement.php');
-include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
-include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls ilMemberAgreementGUI:
-* @ingroup ModulesCourse
-*/
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @ilCtrl_Calls ilMemberAgreementGUI:
+ * @ingroup      ModulesCourse
+ */
 class ilMemberAgreementGUI
 {
-    private $ref_id;
-    private $obj_id;
-    private $type;
-    
-    private $db;
-    private $ctrl;
-    private $lng;
-    private $tpl;
-    
-    private $privacy;
-    private $agreement;
-    
-    private $required_fullfilled = false;
-    private $agrement_required = false;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
+    private int $ref_id;
+    private int $obj_id;
+    private string $type;
+
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
+    private ilDBInterface $db;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $tpl;
+    private ilObjUser $user;
+
+    private ilPrivacySettings $privacy;
+    private ilMemberAgreement $agreement;
+
+    private bool $required_fullfilled = false;
+    private bool $agreement_required = false;
+
     public function __construct($a_ref_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilUser = $DIC['ilUser'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->ref_id = $a_ref_id;
-        $this->obj_id = $ilObjDataCache->lookupObjId($this->ref_id);
+        $this->obj_id = ilObject::_lookupObjId($this->ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('ps');
-        
+        $this->user = $DIC->user();
+
         $this->privacy = ilPrivacySettings::getInstance();
-        $this->agreement = new ilMemberAgreement($ilUser->getId(), $this->obj_id);
+        $this->agreement = new ilMemberAgreement($DIC->user()->getId(), $this->obj_id);
         $this->init();
     }
-    
-    /**
-     * Execute Command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -83,78 +67,53 @@ class ilMemberAgreementGUI
         }
     }
 
-    /**
-     * Get privycy settings
-     * @return ilPrivacySettings
-     */
-    public function getPrivacy()
+    public function getPrivacy() : ilPrivacySettings
     {
         return $this->privacy;
     }
-    
-    /**
-     * @return ilMemberAgreement
-     */
-    public function getAgreement()
+
+    public function getAgreement() : ilMemberAgreement
     {
         return $this->agreement;
     }
-    
+
     /**
      * Show agreement form
-     * @param ilPropertyFormGUI $form
-     * @return bool
      */
-    protected function showAgreement(ilPropertyFormGUI $form = null)
+    protected function showAgreement(?ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
         if (!$form instanceof ilPropertyFormGUI) {
-            $form = $this->initFormAgreement($form);
-            self::setCourseDefinedFieldValues($form, $this->obj_id, $ilUser->getId());
+            $form = $this->initFormAgreement();
+            self::setCourseDefinedFieldValues($form, $this->obj_id, $this->user->getId());
         }
-        
         $this->tpl->setContent($form->getHTML());
-        return true;
     }
-    
-    
-    
-    protected function initFormAgreement()
+
+    protected function initFormAgreement() : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt($this->type . '_agreement_header'));
-        $form->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this));
         $form->addCommandButton('save', $this->lng->txt('save'));
-        
+
         $form = self::addExportFieldInfo($form, $this->obj_id, $this->type);
         $form = self::addCustomFields($form, $this->obj_id, $this->type);
-        
+
         if ($this->getPrivacy()->confirmationRequired($this->type)) {
             $form = self::addAgreement($form, $this->obj_id, $this->type);
         }
-        
         return $form;
     }
-    
-    /**
-     * Add export field info to form
-     * @global type $lng
-     * @param type $form
-     * @param type $a_obj_id
-     * @param type $a_type
-     * @return type
-     */
-    public static function addExportFieldInfo($form, $a_obj_id, $a_type)
-    {
+
+    public static function addExportFieldInfo(
+        ilPropertyFormGUI $form,
+        int $a_obj_id,
+        string $a_type
+    ) : ilPropertyFormGUI {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+        $lng = $DIC->language();
+
         $fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($a_obj_id));
 
         $fields = new ilCustomInputGUI($lng->txt($a_type . '_user_agreement'), '');
@@ -165,90 +124,77 @@ class ilMemberAgreementGUI
             $tpl->setVariable('FIELD_NAME', $lng->txt($field));
             $tpl->parseCurrentBlock();
         }
-        
+
         // #17609 - not part of ilExportFieldsInfo::getExportableFields()
         // see ilExportFieldsInfo::getSelectableFieldsInfo()
-        include_once('Services/User/classes/class.ilUserDefinedFields.php');
         foreach (ilUserDefinedFields::_getInstance()->getExportableFields($a_obj_id) as $field) {
             $tpl->setCurrentBlock('field_item');
             $tpl->setVariable('FIELD_NAME', $field['field_name']);
             $tpl->parseCurrentBlock();
         }
-        
         $fields->setHtml($tpl->get());
         $form->addItem($fields);
-        
         return $form;
     }
-    
-    /**
-     * Add agreement to form
-     * @param type $form
-     * @param type $a_obj_id
-     * @param type $a_type
-     */
-    public static function addAgreement($form, $a_obj_id, $a_type)
+
+    public static function addAgreement(ilPropertyFormGUI $form, int $a_obj_id, string $a_type) : ilPropertyFormGUI
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $agreement = new ilCheckboxInputGUI($lng->txt($a_type . '_agree'), 'agreement');
         $agreement->setRequired(true);
         $agreement->setOptionTitle($lng->txt($a_type . '_info_agree'));
-        $agreement->setValue(1);
+        $agreement->setValue('1');
         $form->addItem($agreement);
-        
+
         return $form;
     }
-    
-    /**
-     * Add custom course fields
-     * @param type $form
-     * @param type $a_obj_id
-     * @param type $a_type
-     */
-    public static function addCustomFields($form, $a_obj_id, $a_type, $a_mode = 'user')
-    {
+
+    public static function addCustomFields(
+        ilPropertyFormGUI $form,
+        int $a_obj_id,
+        string $a_type,
+        string $a_mode = 'user'
+    ) : ilPropertyFormGUI {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
-        include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 
         if (!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($a_obj_id))) {
             return $form;
         }
-        
+
         if ($a_mode == 'user') {
             $cdf = new ilNonEditableValueGUI($lng->txt('ps_' . $a_type . '_user_fields'));
             $cdf->setValue($lng->txt($a_type . '_ps_cdf_info'));
             $cdf->setRequired(true);
         }
-        
+
         foreach ($cdf_fields as $field_obj) {
             switch ($field_obj->getType()) {
                 case IL_CDF_TYPE_SELECT:
-                    
+
                     if ($field_obj->getValueOptions()) {
                         // Show as radio group
                         $option_radios = new ilRadioGroupInputGUI($field_obj->getName(), 'cdf_' . $field_obj->getId());
                         if ($field_obj->isRequired()) {
                             $option_radios->setRequired(true);
                         }
-                        
-                        $open_answer_indexes = (array) $field_obj->getValueOptions();
+
+                        $open_answer_indexes = $field_obj->getValueOptions();
                         foreach ($field_obj->getValues() as $key => $val) {
                             $option_radio = new ilRadioOption($val, $field_obj->getId() . '_' . $key);
-                            
+
                             // open answers
                             if (in_array($key, $open_answer_indexes)) {
-                                $open_answer = new ilTextInputGUI($lng->txt("form_open_answer"), 'cdf_oa_' . $field_obj->getId() . '_' . $key);
+                                $open_answer = new ilTextInputGUI($lng->txt("form_open_answer"),
+                                    'cdf_oa_' . $field_obj->getId() . '_' . $key);
                                 $open_answer->setRequired(true);
                                 $option_radio->addSubItem($open_answer);
                             }
-                            
+
                             $option_radios->addOption($option_radio);
                         }
                         if ($a_mode == 'user') {
@@ -258,7 +204,6 @@ class ilMemberAgreementGUI
                         }
                     } else {
                         $select = new ilSelectInputGUI($field_obj->getName(), 'cdf_' . $field_obj->getId());
-                        #$select->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
                         $select->setOptions($field_obj->prepareSelectBox());
                         if ($field_obj->isRequired()) {
                             $select->setRequired(true);
@@ -273,7 +218,6 @@ class ilMemberAgreementGUI
 
                 case IL_CDF_TYPE_TEXT:
                     $text = new ilTextInputGUI($field_obj->getName(), 'cdf_' . $field_obj->getId());
-                    #$text->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
                     $text->setSize(32);
                     $text->setMaxLength(255);
                     if ($field_obj->isRequired()) {
@@ -293,23 +237,10 @@ class ilMemberAgreementGUI
         return $form;
     }
 
-
-    
-    /**
-     * Save
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function save()
+    private function save() : bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
         $form = $this->initFormAgreement();
-        
+
         // #14715 - checkInput() does not work for checkboxes
         if ($this->checkAgreement() && $form->checkInput()) {
             self::saveCourseDefinedFields($form, $this->obj_id);
@@ -317,13 +248,12 @@ class ilMemberAgreementGUI
             $this->getAgreement()->setAccepted(true);
             $this->getAgreement()->setAcceptanceTime(time());
             $this->getAgreement()->save();
-            
-            include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-            $history = new ilObjectCustomUserFieldHistory($this->obj_id, $ilUser->getId());
-            $history->setUpdateUser($ilUser->getId());
+
+            $history = new ilObjectCustomUserFieldHistory($this->obj_id, $this->user->getId());
+            $history->setUpdateUser($this->user->getId());
             $history->setEditingTime(new ilDateTime(time(), IL_CAL_UNIX));
             $history->save();
-            
+
             $this->ctrl->returnToParent($this);
         } elseif (!$this->checkAgreement()) {
             ilUtil::sendFailure($this->lng->txt($this->type . '_agreement_required'));
@@ -336,31 +266,35 @@ class ilMemberAgreementGUI
             $this->showAgreement($form);
             return false;
         }
+        return true;
     }
-    
-    public static function setCourseDefinedFieldValues(ilPropertyFormGUI $form, $a_obj_id, $a_usr_id = 0)
-    {
+
+    public static function setCourseDefinedFieldValues(
+        ilPropertyFormGUI $form,
+        int $a_obj_id,
+        int $a_usr_id = 0
+    ) : void {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         if (!$a_usr_id) {
             $a_usr_id = $ilUser->getId();
         }
-        
+
         $ud = ilCourseUserData::_getValuesByObjId($a_obj_id);
-        
+
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_obj_id) as $field_obj) {
             $current_value = $ud[$a_usr_id][$field_obj->getId()];
             if (!$current_value) {
                 continue;
             }
-            
+
             switch ($field_obj->getType()) {
                 case IL_CDF_TYPE_SELECT:
-                    
+
                     $id = $field_obj->getIdByValue($current_value);
-                    
+
                     if ($id >= 0) {
                         $item = $form->getItemByPostVar('cdf_' . $field_obj->getId());
                         $item->setValue($field_obj->getId() . '_' . $id);
@@ -376,7 +310,7 @@ class ilMemberAgreementGUI
                         }
                     }
                     break;
-                    
+
                 case IL_CDF_TYPE_TEXT:
                     $item = $form->getItemByPostVar('cdf_' . $field_obj->getId());
                     $item->setValue($current_value);
@@ -384,61 +318,50 @@ class ilMemberAgreementGUI
             }
         }
     }
-    
-    
-    /**
-     * Save course defined fields
-     * @param ilPropertyFormGUI $form
-     */
-    public static function saveCourseDefinedFields(ilPropertyFormGUI $form, $a_obj_id, $a_usr_id = 0)
+
+    public static function saveCourseDefinedFields(ilPropertyFormGUI $form, int $a_obj_id, int $a_usr_id = 0) : void
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
         if (!$a_usr_id) {
             $a_usr_id = $ilUser->getId();
         }
-        
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_obj_id) as $field_obj) {
+            $value = '';
             switch ($field_obj->getType()) {
                 case IL_CDF_TYPE_SELECT:
-                    
                     // Split value id from post
                     list($field_id, $option_id) = explode('_', $form->getInput('cdf_' . $field_obj->getId()));
-                    $open_answer_indexes = (array) $field_obj->getValueOptions();
+                    $open_answer_indexes = $field_obj->getValueOptions();
                     if (in_array($option_id, $open_answer_indexes)) {
                         $value = $form->getInput('cdf_oa_' . $field_obj->getId() . '_' . $option_id);
                     } else {
                         $value = $field_obj->getValueById($option_id);
                     }
                     break;
-                    
+
                 case IL_CDF_TYPE_TEXT:
                     $value = $form->getInput('cdf_' . $field_obj->getId());
                     break;
             }
-            
+
             $course_user_data = new ilCourseUserData($a_usr_id, $field_obj->getId());
             $course_user_data->setValue($value);
             $course_user_data->update();
         }
     }
-    
-    
-    /**
-     * Check Agreement
-     *
-     * @access private
-     *
-     */
-    private function checkAgreement()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        if ($_POST['agreement']) {
+    private function checkAgreement() : bool
+    {
+        $agrement = false;
+        if ($this->http->wrapper()->post()->has('agreement')) {
+            $agreement = $this->http->wrapper()->post()->retrieve(
+                'agreement',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+        if ($agreement) {
             return true;
         }
         if ($this->privacy->confirmationRequired($this->type)) {
@@ -446,31 +369,14 @@ class ilMemberAgreementGUI
         }
         return true;
     }
-    
-    
-    
-    /**
-     * Read setting
-     *
-     * @access private
-     * @return void
-     */
-    private function init()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        $this->required_fullfilled = ilCourseUserData::_checkRequired($ilUser->getId(), $this->obj_id);
+    private function init() : void
+    {
+        $this->required_fullfilled = ilCourseUserData::_checkRequired($this->user->getId(), $this->obj_id);
         $this->agreement_required = $this->getAgreement()->agreementRequired();
     }
-    
-    /**
-     * Send info message
-     *
-     * @access private
-     */
-    private function sendInfoMessage()
+
+    private function sendInfoMessage() : void
     {
         $message = '';
         if ($this->agreement_required) {
@@ -482,7 +388,6 @@ class ilMemberAgreementGUI
             }
             $message .= $this->lng->txt($this->type . '_ps_required_info');
         }
-        
         if (strlen($message)) {
             ilUtil::sendFailure($message);
         }

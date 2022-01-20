@@ -145,9 +145,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     }
 
 
-    public function numericOrdering($field)
+    public function numericOrdering(string $a_field) : bool
     {
-        return in_array($field, $this->numeric_fields);
+        return in_array($a_field, $this->numeric_fields);
     }
 
 
@@ -219,13 +219,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
 
     /**
-     * @param array $record_data
-     *
-     * @return bool|void
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($record_data)
+    public function fillRow(array $a_set) : void
     {
-        $record_obj = $record_data['_record'];
+        $record_obj = $a_set['_record'];
 
         /**
          * @var $record_obj ilDclBaseRecordModel
@@ -234,7 +233,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         foreach ($this->tableview->getVisibleFields() as $field) {
             $title = $field->getTitle();
             $this->tpl->setCurrentBlock("field");
-            $content = $record_data[$title];
+            $content = $a_set[$title];
             if ($content === false || $content === null) {
                 $content = '';
             } // SW - This ensures to display also zeros in the table...
@@ -244,18 +243,18 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             if ($field->getProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
                 $this->tpl->setCurrentBlock("field");
-                $this->tpl->setVariable("CONTENT", $record_data["_status_" . $title]);
+                $this->tpl->setVariable("CONTENT", $a_set["_status_" . $title]);
                 $this->tpl->parseCurrentBlock();
             }
         }
 
-        if ($record_data["_front"]) {
+        if ($a_set["_front"]) {
             $this->tpl->setCurrentBlock('view');
-            $this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
+            $this->tpl->setVariable("VIEW_IMAGE_LINK", $a_set["_front"]);
             $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt')));
             $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
+        $this->tpl->setVariable("ACTIONS", $a_set["_actions"]);
 
         if ($this->mode == ilDclRecordListGUI::MODE_MANAGE) {
             if ($record_obj->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id)) {
@@ -266,8 +265,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $this->tpl->touchBlock('mode_manage_no_owner');
             }
         }
-
-        return true;
     }
 
 
@@ -322,7 +319,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * normally initialize filters - used by applyFilter and resetFilter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
             $field = $field_set->getFieldObject();
@@ -357,10 +354,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
     /**
      * @param string $type
-     *
-     * @return mixed
+     * @return string
      */
-    public function loadProperty($type)
+    public function loadProperty(string $type) : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -393,12 +389,13 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      *
      * @param int         $format
      * @param bool|false  $send
-     * @param null|string $filepath
      *
      * @return null|string
      */
-    public function exportData($format, $send = false, $filepath = null)
-    {
+    public function exportData(
+        string $format,
+        bool $send = false
+    ) : void {
         if ($this->dataExists()) {
             // #9640: sort
             /*if (!$this->getExternalSorting() && $this->enabled["sort"]) {

@@ -163,7 +163,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
             case 'blp:pg':
                 // special check for blog pages
-                if ($this->checkAccessBlogPage($oid, $usage['id'])) {
+                if ($this->checkAccessBlogPage($oid)) {
                     return true;
                 }
                 break;
@@ -254,7 +254,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
      * This checks also learning modules linking the term
      * @param    int         object id (glossary)
      * @param    int         page id (definition)
-     * @return   boolean     access given (true/false)
+     * @return   bool     access given (true/false)
      */
     protected function checkAccessGlossaryTerm(
         int $obj_id,
@@ -296,6 +296,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                 }
             }
         }
+        return false;
     }
 
 

@@ -25,6 +25,7 @@ class ilModulesTableGUI extends ilTable2GUI
     protected ilPluginAdmin $plugin_admin;
     protected array $pos_group_options;
     protected int $old_grp_id;
+    protected ilComponentRepository $component_repository;
     
     public function __construct(
         object $a_parent_obj,
@@ -38,6 +39,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->obj_definition = $DIC["objDefinition"];
         $this->settings = $DIC->settings();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_repository = $DIC["component.repository"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
                 
@@ -77,7 +79,6 @@ class ilModulesTableGUI extends ilTable2GUI
         $objDefinition = $this->obj_definition;
         $ilSetting = $this->settings;
         $lng = $this->lng;
-        $ilPluginAdmin = $this->plugin_admin;
         
         // unassigned objects should be last
         $this->pos_group_options = array(0 => $lng->txt("rep_new_item_group_unassigned"));
@@ -165,7 +166,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set["pos_group"] != $this->old_grp_id) {
             $this->tpl->setCurrentBlock("pos_grp_bl");
@@ -232,20 +233,16 @@ class ilModulesTableGUI extends ilTable2GUI
         string $slotName,
         string $slotId
     ) : array {
-        $ilPluginAdmin = $this->plugin_admin;
         $lng = $this->lng;
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
-        foreach ($pl_names as $pl_name) {
-            $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
-            if ($pl_id) {
-                $obj_types[$pl_id] = array(
-                    "object" => $pl_name,
-                    "caption" => ilObjectPlugin::lookupTxtById($pl_id, "obj_" . $pl_id),
-                    "subdir" => $lng->txt("cmps_plugin"),
-                    "grp" => "",
-                    "default_pos" => 2000
-                );
-            }
+        $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $obj_types[$plugin->getId()] = array(
+                "object" => $plugin->getName(),
+                "caption" => ilObjectPlugin::lookupTxtById($plugin->getId(), "obj_" . $plugin->getId()),
+                "subdir" => $lng->txt("cmps_plugin"),
+                "grp" => "",
+                "default_pos" => 2000
+            );
         }
         return $obj_types;
     }

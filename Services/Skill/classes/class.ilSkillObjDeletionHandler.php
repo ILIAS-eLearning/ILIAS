@@ -25,8 +25,8 @@
  */
 class ilSkillObjDeletionHandler
 {
-    protected int $obj_id;
-    protected string $obj_type;
+    protected int $obj_id = 0;
+    protected string $obj_type = "";
 
     public function __construct(int $obj_id, string $obj_type)
     {

@@ -3,8 +3,7 @@
 
 /**
  * AMD field type select
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
@@ -19,8 +18,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     protected array $option_translations = [];
 
-
-    
     public function getType() : int
     {
         return self::TYPE_SELECT;
@@ -44,7 +41,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $def->setOptions(array_replace($options, $translated_options));
         return $def;
     }
-    
+
     public function setOptions(array $a_values = null) : void
     {
         if ($a_values !== null) {
@@ -97,7 +94,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         return [];
     }
-    
+
     public function getFieldDefinitionForTableGUI(string $content_language) : array
     {
         global $DIC;
@@ -114,8 +111,11 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         ];
     }
 
-    protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, bool $a_disabled = false, string $language = '') : void
-    {
+    protected function addCustomFieldToDefinitionForm(
+        ilPropertyFormGUI $a_form,
+        bool $a_disabled = false,
+        string $language = ''
+    ) : void {
         if (!$this->useDefaultLanguageMode($language)) {
             $this->addCustomFieldToDefinitionFormInTranslationMode($a_form, $a_disabled, $language);
             return;
@@ -127,13 +127,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $field->setMulti(true, true);
         $field->setMaxLength(255); // :TODO:
         $a_form->addItem($field);
-        
+
         $options = $this->getOptions();
         if ($options) {
             $field->setMultiValues($options);
             $field->setValue(array_shift($options));
         }
-        
+
         if ($a_disabled) {
             $field->setDisabled(true);
         }
@@ -143,8 +143,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         ilPropertyFormGUI $form,
         bool $disabled,
         string $language = ''
-    ) : void
-    {
+    ) : void {
         $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->record_id)->getDefaultLanguage();
 
         $translation = $this->getOptionTranslation($language);
@@ -158,7 +157,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $text = new ilTextInputGUI($title, 'opts__' . $language . '__' . (string) $index);
             if (isset($translation[$index])) {
                 $text->setValue($translation[$index]);
-            };
+            }
             $text->setInfo($default_language . ': ' . $option);
             $text->setMaxLength(255);
             $text->setRequired(true);
@@ -167,7 +166,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $form->addItem($text);
         }
     }
-    
+
     /**
      * Process custom post values from definition form
      */
@@ -181,18 +180,18 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $sum = $sum[$this->getFieldId()];
             $sgl = $a_form->getInput("conf");
             $sgl = $sgl[$this->getFieldId()];
-                        
+
             $res = array();
             foreach ($recipes as $old_option => $recipe) {
                 $sum_act = $sum[$old_option];
                 $sgl_act = $sgl[$old_option];
-                
+
                 if ($recipe == "sum") {
                     // #18885
                     if (!$sum_act) {
                         return null;
                     }
-                    
+
                     foreach (array_keys($sgl_act) as $obj_idx) {
                         if ($sum_act == self::REMOVE_ACTION_ID) {
                             $sum_act = "";
@@ -216,7 +215,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                             $sgl_act[$sgl_index] = $parts[1];
                         }
                     }
-                    
+
                     $res[$old_option] = $sgl_act;
                 }
             }
@@ -238,16 +237,18 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
         $old = $this->getOptionTranslation($language);
         $new = $a_form->getInput("opts");
-        
 
         $missing = array_diff_assoc($old, $new);
-
 
         if (sizeof($missing)) {
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
 
             if (!is_array($this->confirmed_objects)) {
-                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(), false, true);
+                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                    $this->getADTDefinition(),
+                    false,
+                    true
+                );
                 foreach ($missing as $missing_idx => $missing_value) {
                     $in_use = $this->findBySingleValue($search, $missing_idx);
                     if (is_array($in_use)) {
@@ -289,7 +290,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         return $res;
     }
 
-
     protected function importTranslatedFormPostValues(ilPropertyFormGUI $form, string $language) : void
     {
         $translated_options = [];
@@ -301,42 +301,45 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $translations[$language] = $translated_options;
         $this->setOptionTranslations($translations);
     }
-    
+
     public function importDefinitionFormPostValuesNeedsConfirmation() : bool
     {
         return is_array($this->confirm_objects) && count($this->confirm_objects) > 0;
     }
-    
+
     public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $objDefinition = $DIC['objDefinition'];
-                
+
         $a_form->getItemByPostVar("opts")->setDisabled(true);
         if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
             $new_options = $a_form->getInput("opts");
-            
+
             $sec = new ilFormSectionHeaderGUI();
             $sec->setTitle($lng->txt("md_adv_confirm_definition_select_section"));
             $a_form->addItem($sec);
-                                    
+
             foreach ($this->confirm_objects as $old_option => $items) {
                 $old_option_value = $this->confirm_objects_values[$old_option];
-                $details = new ilRadioGroupInputGUI($lng->txt("md_adv_confirm_definition_select_option") . ': "' . $old_option_value . '"', "conf_det[" . $this->getFieldId() . "][" . $old_option . "]");
+                $details = new ilRadioGroupInputGUI(
+                    $lng->txt("md_adv_confirm_definition_select_option") . ': "' . $old_option_value . '"',
+                    "conf_det[" . $this->getFieldId() . "][" . $old_option . "]"
+                );
                 $details->setRequired(true);
                 $details->setValue("sum");
                 $a_form->addItem($details);
-                                
+
                 // automatic reload does not work
                 if (isset($_POST["conf_det"][$this->getFieldId()][$old_option])) {
                     $details->setValue($_POST["conf_det"][$this->getFieldId()][$old_option]);
                 }
-                
+
                 $sum = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_all"), "sum");
                 $details->addOption($sum);
-                
+
                 $sel = new ilSelectInputGUI(
                     $lng->txt("md_adv_confirm_definition_select_option_all_action"),
                     "conf_det_act[" . $this->getFieldId() . "][" . $old_option . "]"
@@ -351,7 +354,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 }
                 $sel->setOptions($options);
                 $sum->addSubItem($sel);
-                
+
                 // automatic reload does not work
                 if (isset($_POST["conf_det_act"][$this->getFieldId()][$old_option])) {
                     if ($_POST["conf_det_act"][$this->getFieldId()][$old_option]) {
@@ -367,13 +370,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     $obj_id = $item[0];
                     $sub_type = $item[1];
                     $sub_id = $item[2];
-                    
+
                     $item_id = $obj_id . "_" . $sub_type . "_" . $sub_id;
-                    
+
                     $type = ilObject::_lookupType($obj_id);
                     $type_title = $lng->txt("obj_" . $type);
                     $title = ' "' . ilObject::_lookupTitle($obj_id) . '"';
-                    
+
                     if ($sub_id) {
                         $class = "ilObj" . $objDefinition->getClassName($type);
                         $class_path = $objDefinition->getLocation($type);
@@ -386,7 +389,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                             }
                         }
                     }
-                    
+
                     $sel = new ilSelectInputGUI(
                         $type_title . ' ' . $title,
                         "conf[" . $this->getFieldId() . "][" . $old_option . "][" . $item_id . "]"
@@ -400,7 +403,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         $options['idx_' . $new_option_index] = $lng->txt("md_adv_confirm_definition_select_option_overwrite") . ': "' . $new_option . '"';
                     }
                     $sel->setOptions($options);
-                    
+
                     // automatic reload does not work
                     if (isset($_POST["conf"][$this->getFieldId()][$old_option][$item_id])) {
                         if ($_POST["conf"][$this->getFieldId()][$old_option][$item_id]) {
@@ -410,13 +413,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                             ilUtil::sendFailure($lng->txt("form_input_not_valid"));
                         }
                     }
-                    
+
                     $single->addSubItem($sel);
                 }
             }
         }
     }
-    
+
     public function delete() : void
     {
         $this->deleteOptionTranslations();
@@ -452,12 +455,12 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     $this->db->quote($lang_key, ilDBConstants::T_TEXT) . ', ' .
                     $this->db->quote($idx, ilDBConstants::T_INTEGER) . ', ' .
                     $this->db->quote($option, ilDBConstants::T_TEXT) .
-                    ')' ;
+                    ')';
                 $this->db->manipulate($query);
             }
         }
     }
-    
+
     public function update() : void
     {
         if (is_array($this->confirmed_objects) && count($this->confirmed_objects) > 0) {
@@ -475,7 +478,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     $old_values[$item[0] . "_" . $item[1] . "_" . $item[2]] = $item[3];
                 }
 
-
                 foreach ($item_ids as $item => $new_option) {
                     $parts = explode("_", $item);
                     $obj_id = $parts[0];
@@ -491,16 +493,15 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         //array_shift($old_value);
                         //array_pop($old_value);
 
-
                         //$old_idx = array_keys($old_value, $old_option);
                         $old_idx = $old_value;
                         if (isset($old_idx)) {
                             $primary = array(
-                            "obj_id" => array("integer", $obj_id),
-                            "sub_type" => array("text", $sub_type),
-                            "sub_id" => array("integer", $sub_id),
-                            "field_id" => array("integer", $this->getFieldId())
-                        );
+                                "obj_id" => array("integer", $obj_id),
+                                "sub_type" => array("text", $sub_type),
+                                "sub_id" => array("integer", $sub_id),
+                                "field_id" => array("integer", $this->getFieldId())
+                            );
 
                             $index_old = array_merge(
                                 $primary,
@@ -523,7 +524,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                             }
                         }
                     }
-                    
+
                     if ($sub_type == "wpg") {
                         // #15763 - adapt advmd page lists
                         ilPCAMDPageList::migrateField($obj_id, $this->getFieldId(), $old_option, $new_option, true);
@@ -537,8 +538,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         parent::update();
         $this->updateOptionTranslations();
     }
-    
-    
+
     protected function addPropertiesToXML(ilXmlWriter $a_writer) : void
     {
         foreach ($this->getOptions() as $value) {
@@ -550,7 +550,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             }
         }
     }
-    
+
     public function importXMLProperty(string $a_key, string $a_value) : void
     {
         if (!$a_key) {
@@ -559,29 +559,26 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $this->option_translations[$a_key][] = $a_value;
         }
     }
-    
-    
+
     public function getValueForXML(ilADT $element) : string
     {
         return $element->getSelection();
     }
-    
+
     public function importValueFromXML(string $a_cdata) : void
     {
         $this->getADT()->setSelection($a_cdata);
     }
-    
-    
+
     public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
     {
         assert($a_bridge instanceof ilADTEnumFormBridge);
-        
+
         $a_bridge->setAutoSort(false);
     }
 
     protected function import(array $a_data) : void
     {
-
         parent::import($a_data);
 
         $query = 'select * from adv_mdf_enum ' .

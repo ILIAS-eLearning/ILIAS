@@ -37,11 +37,9 @@ class ilRis implements ilBiblTypeInterface
 
 
     /**
-     * @var array
-     *
      * @source https://en.wikipedia.org/wiki/RIS_(file_format)
      */
-    protected static $standard_fields
+    protected static array $standard_fields
         = array(
             'A1',
             // First Author
@@ -200,10 +198,7 @@ class ilRis implements ilBiblTypeInterface
             'Y2',
             // Access Date
         );
-    /**
-     * @var array
-     */
-    protected static $entry_types
+    protected static array $entry_types
         = array(
             'ABST',
             'ADVS',

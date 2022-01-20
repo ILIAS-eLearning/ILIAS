@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,15 +10,8 @@ class ilLanguageSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
-
-    /**
-     * @var \ilSetupLanguage
-     */
-    protected $il_setup_language;
+    protected Refinery\Factory $refinery;
+    protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
         Refinery\Factory $refinery,

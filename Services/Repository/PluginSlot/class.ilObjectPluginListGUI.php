@@ -22,9 +22,13 @@
  */
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
+    protected ilComponentFactory $component_factory;
+
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
+
+        $this->component_factory = $DIC["component.factory"];
 
         parent::__construct($a_context);
 
@@ -57,15 +61,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     protected function getPlugin() : ?ilObjectPlugin
     {
         if (!$this->plugin) {
-            /** @var $p ilObjectPlugin */
-            $p =
-                ilPlugin::getPluginObject(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType())
-                );
-            $this->plugin = $p;
+            $this->plugin = $this->component_factory->getPlugin($this->getType());
         }
         return $this->plugin;
     }

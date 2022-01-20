@@ -1,33 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Class ilObjBookingPoolAccess
-*
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjCategoryAccess.php 20139 2009-06-08 09:45:39Z akill $
-*
-* @ingroup ModulesBookingManager
-*/
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClass
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilRbacSystem $rbacsystem;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -36,19 +29,6 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         $this->rbacsystem = $DIC->rbac()->system();
     }
 
-
-    /**
-     * get commands
-     *
-     * this method returns an array of all possible commands/permission combinations
-     *
-     * example:
-     * $commands = array
-     *	(
-     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-     *	);
-     */
     public static function _getCommands()
     {
         $commands = array();
@@ -59,10 +39,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         return $commands;
     }
     
-    /**
-    * check whether goto script will succeed
-    */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
 
@@ -91,7 +68,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         }
 
         // add no access info item and return false if access is not granted
-        // $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
+        // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
         //
         // for all RBAC checks use checkAccessOfUser instead the normal checkAccess-method:
         // $rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id)
@@ -109,11 +86,10 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
     }
 
     /**
-     * Check wether booking pool is online (legacy version)
-     *
+     * Check whether booking pool is online (legacy version)
      * @deprecated
      */
-    public static function _lookupOnlineStatus($a_ids)
+    public static function _lookupOnlineStatus(array $a_ids) : array
     {
         global $DIC;
 
@@ -129,12 +105,6 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
         return $status;
     }
 
-
-    /**
-     * @param ilWACPath $ilWACPath
-     *
-     * @return bool
-     */
     public function canBeDelivered(ilWACPath $ilWACPath)
     {
 

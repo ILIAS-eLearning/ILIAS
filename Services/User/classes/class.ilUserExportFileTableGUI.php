@@ -68,7 +68,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'size_sort':
@@ -79,14 +79,14 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    protected function fillRow($row)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('CHECKBOX_ID', $row['file']);
-        $this->tpl->setVariable('TXT_FILENAME', $row['file']);
-        $this->tpl->setVariable('TXT_SIZE', $row['size']);
-        $this->tpl->setVariable('TXT_DATE', $row['date']);
+        $this->tpl->setVariable('CHECKBOX_ID', $a_set['file']);
+        $this->tpl->setVariable('TXT_FILENAME', $a_set['file']);
+        $this->tpl->setVariable('TXT_SIZE', $a_set['size']);
+        $this->tpl->setVariable('TXT_DATE', $a_set['date']);
     }
 
     /**

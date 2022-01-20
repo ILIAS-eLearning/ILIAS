@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * @author Jesús López <lopez@leifos.com>
  * @version $Id$
@@ -14,12 +17,9 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
      */
     protected $copyright_id;
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    protected $lng;
+    protected ilDBInterface $db;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
 
     protected $filter;
     protected $objects;
@@ -33,13 +33,16 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     {
         global $DIC;
 
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         $this->db = $DIC->database();
         $this->copyright_id = $a_parent_obj->getEntryId();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
         $this->setId("mdcopusage" . $this->copyright_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
 
@@ -78,7 +81,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     /**
      * Init Filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $title = $this->addFilterItemByMetaType(
             "title",
@@ -115,15 +118,11 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         return $filter;
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
-        global $DIC;
 
-        $f = $DIC->ui()->factory();
-        $r = $DIC->ui()->renderer();
-
-        $icon = $f->symbol()->icon()->standard($a_set['type'], $this->lng->txt($a_set['type']), "medium");
-        $this->tpl->setVariable('OBJ_TYPE_ICON', $r->render($icon));
+        $icon = $this->ui_factory->symbol()->icon()->standard($a_set['type'], $this->lng->txt($a_set['type']), "medium");
+        $this->tpl->setVariable('OBJ_TYPE_ICON', $this->ui_renderer->render($icon));
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable("DESCRIPTION", $a_set['desc']);
         if ($a_set['references']) {

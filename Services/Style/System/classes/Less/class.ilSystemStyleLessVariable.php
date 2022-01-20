@@ -95,7 +95,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
      */
     public function setValue($value)
     {
-        if ($this->getName() == "icon-font-path") {
+        if ($this->getName() == "il-icon-font-path" ) {
             if ($value[0] != "\"") {
                 $value = "\"" . $value;
                 ;

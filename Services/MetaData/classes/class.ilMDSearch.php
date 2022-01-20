@@ -35,30 +35,25 @@
 
 class ilMDSearch
 {
-    public $mode = '';
+    private string $mode = '';
 
     /*
      * instance of query parser
      */
-    public $query_parser = null;
-
-    public $db = null;
+    private ilQueryParser $query_parser;
+    private ilDBInterface $db;
+    private ilSearchResult $search_result;
 
     /**
     * Constructor
     * @access public
     */
-    public function __construct($qp_obj)
+    public function __construct(ilQueryParser $qp_obj)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
         $this->query_parser = $qp_obj;
-        $this->db = $ilDB;
-
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
-
+        $this->db = $DIC->database();
         $this->search_result = new ilSearchResult();
     }
 
@@ -106,7 +101,7 @@ class ilMDSearch
                 $where .= strtoupper($this->query_parser->getCombination());
             }
             $where .= $field;
-            $where .= ("LIKE (" . $ilDB->quote("%" . $word . "%") . ")");
+            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%") . ")");
         }
 
         $query = "SELECT * FROM il_meta_keyword" .
@@ -117,7 +112,6 @@ class ilMDSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->obj_id, $row->obj_type, $row->rbac_id);
         }
-
         return $this->search_result;
     }
 }

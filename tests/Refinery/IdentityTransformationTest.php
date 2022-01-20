@@ -3,7 +3,7 @@
 /**
  * @author  Lukas Scharmer <lscharmer@databay.de>
  */
-namespace ILIAS\Tests\Refinery\Random\Transformation;
+namespace ILIAS\Tests\Refinery;
 
 use ILIAS\Data\NotOKException;
 use ILIAS\Data\Result\Ok;

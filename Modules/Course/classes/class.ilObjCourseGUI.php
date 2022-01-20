@@ -103,7 +103,7 @@ class ilObjCourseGUI extends ilContainerGUI
         include_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $part = ilCourseParticipants::_getInstanceByObjId($a_new_object->getId());
         $part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
-        $part->updateNotification($ilUser->getId(), $ilSetting->get('mail_crs_admin_notification', true));
+        $part->updateNotification($ilUser->getId(), (bool) $ilSetting->get('mail_crs_admin_notification', '1'));
 
         parent::afterImport($a_new_object);
     }
@@ -1549,7 +1549,7 @@ class ilObjCourseGUI extends ilContainerGUI
     {
         include_once 'Modules/Course/classes/class.ilCourseFile.php';
         $file = new ilCourseFile((int) $_GET['file_id']);
-        ilUtil::deliverFile($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
+        ilFileDelivery::deliverFileLegacy($file->getAbsolutePath(), $file->getFileName(), $file->getFileType());
         return true;
     }
 
@@ -2359,7 +2359,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateTab('settings');
                 $this->tabs_gui->activateSubTab('preconditions');
-                $new_gui = new ilConditionHandlerGUI($this);
+                $new_gui = new ilConditionHandlerGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
                 break;
 

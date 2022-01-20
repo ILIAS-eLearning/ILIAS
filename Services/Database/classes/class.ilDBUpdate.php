@@ -257,7 +257,10 @@ class ilDBUpdate
         } elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
             $ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
         } else {
-            $ilCtrlStructureReader = new ilCtrlStructureReader($this->ctrl_structure_iterator);
+            $ilCtrlStructureReader = new ilCtrlStructureReader(
+                $this->ctrl_structure_iterator,
+                new ilCtrlStructureCidGenerator()
+            );
             $DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
         }
 

@@ -34,6 +34,7 @@ class ilNestedSetTree implements ilTreeImplementation
 
     /**
      * Get subtree ids
+     * @retutn int[]
      */
     public function getSubTreeIds(int $a_node_id) : array
     {
@@ -52,7 +53,7 @@ class ilNestedSetTree implements ilTreeImplementation
         );
         $childs = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $childs[] = $row->child;
+            $childs[] = (int) $row->child;
         }
         return $childs;
     }
@@ -239,8 +240,8 @@ class ilNestedSetTree implements ilTreeImplementation
                             ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR);
                             throw new ilInvalidTreeStructureException('Parent with id ' . $a_parent_id . ' not found in tree');
                         }
-                        $parentRgt = $r['rgt'];
-                        $parentLft = $r['lft'];
+                        $parentRgt = (int) $r['rgt'];
+                        $parentLft = (int) $r['lft'];
 
                         // Get the available space, without taking children into account yet
                         $availableSpace = $parentRgt - $parentLft;
@@ -671,7 +672,7 @@ class ilNestedSetTree implements ilTreeImplementation
             for ($i = $nodeDepth - 4; $i >= 0; $i--) {
                 $takeId = $takeId || $row['c' . $i] == $a_startnode_id;
                 if ($takeId) {
-                    $pathIds[] = $row['c' . $i];
+                    $pathIds[] = (int) $row['c' . $i];
                 }
             }
             $takeId = $takeId || $parentId == $a_startnode_id;
@@ -729,7 +730,7 @@ class ilNestedSetTree implements ilTreeImplementation
         while ($row = $this->db->fetchAssoc($res)) {
             if ($takeId || $row['child'] == $a_startnode_id) {
                 $takeId = true;
-                $pathIds[] = $row['child'];
+                $pathIds[] = (int) $row['child'];
             }
         }
         return $pathIds;
@@ -886,6 +887,10 @@ class ilNestedSetTree implements ilTreeImplementation
         }
     }
 
+    /**
+     * @param int $a_endnode_id
+     * @return array<int, array{lft: int, rgt: int, child: int, type: string}>
+     */
     public function getSubtreeInfo(int $a_endnode_id) : array
     {
         $query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type " .
@@ -903,16 +908,18 @@ class ilNestedSetTree implements ilTreeImplementation
         $res = $this->db->query($query);
         $nodes = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $nodes[$row->child]['lft'] = $row->lft;
-            $nodes[$row->child]['rgt'] = $row->rgt;
-            $nodes[$row->child]['child'] = $row->child;
-            $nodes[$row->child]['type'] = $row->type;
+            $nodes[(int) $row->child]['lft'] = (int) $row->lft;
+            $nodes[(int) $row->child]['rgt'] = (int) $row->rgt;
+            $nodes[(int) $row->child]['child'] = (int) $row->child;
+            $nodes[(int) $row->child]['type'] = (string) $row->type;
         }
         return (array) $nodes;
     }
 
     /**
      * @inheritdoc
+     * @todo add unit test; check failure result
+     * @fixme fix $row access
      */
     public function validateParentRelations() : array
     {

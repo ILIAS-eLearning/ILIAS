@@ -25,8 +25,10 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
             if (trim($name["login"])) {
                 $this->user = new ilObjUser($a_item_id);
 
-                $this->setTitle($lng->txt("exc_participant") . ": " .
-                    $name["lastname"] . ", " . $name["firstname"] . " [" . $name["login"] . "]");
+                $this->setTitle(
+                    $lng->txt("exc_participant") . ": " .
+                        $name["lastname"] . ", " . $name["firstname"] . " [" . $name["login"] . "]"
+                );
             }
         }
 
@@ -138,7 +140,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());
@@ -155,7 +157,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
         $ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, ["order_nr"])) {
             return true;

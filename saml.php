@@ -17,7 +17,10 @@ ilContext::init(ilContext::CONTEXT_SAML);
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
-$DIC->ctrl()->initBaseClass('ilStartUpGUI');
-$DIC->ctrl()->setCmd('doSamlAuthentication');
 $DIC->ctrl()->setTargetScript('ilias.php');
-$DIC->ctrl()->callBaseClass();
+$DIC->ctrl()->redirectToURL(
+    $DIC->ctrl()->getLinkTargetByClass(
+        ilStartUpGUI::class,
+        'doSamlAuthentication',
+    )
+);

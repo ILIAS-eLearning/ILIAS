@@ -2,8 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDRecordObjectOrderings
@@ -18,7 +17,6 @@ class ilAdvancedMDRecordObjectOrderings
         $this->db = $DIC->database();
     }
 
-
     /**
      * Delete entries by obj_id
      */
@@ -31,7 +29,7 @@ class ilAdvancedMDRecordObjectOrderings
 
     /**
      * @param ilAdvancedMDRecord[] $records
-     * @param ?int $obj_id
+     * @param ?int                 $obj_id
      * @return ilAdvancedMDRecord[]
      */
     public function sortRecords(array $records, int $obj_id = null) : array

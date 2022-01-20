@@ -14,7 +14,7 @@ class ilMailingListsTableGUI extends ilTable2GUI
         $this->setId('show_mlng_lists_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj), 'showForm');
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'showForm'));
         $this->setTitle($this->lng->txt('mail_mailing_lists'));
         $this->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');
         $this->setDefaultOrderField('title');

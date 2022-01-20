@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Imprint\StandardGUIRequest;
 
 /**
  * Class ilImprintGUI
@@ -12,19 +25,9 @@
  */
 class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
+    protected StandardGUIRequest $imprint_request;
+    protected ilLocatorGUI $locator;
 
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,8 +36,12 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
         $this->locator = $DIC["ilLocator"];
         $this->lng = $DIC->language();
-        $this->main_menu = $DIC["ilMainMenu"];
         $tpl = $DIC["tpl"];
+
+        $this->imprint_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
         
         if (!ilImprint::_exists("impr", 1)) {
             $page = new ilImprint("impr");
@@ -61,16 +68,13 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         $tpl->parseCurrentBlock();
     }
     
-    /**
-    * execute command
-    */
     public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
         $lng = $this->lng;
-        
-        if ($_REQUEST["baseClass"] == "ilImprintGUI") {
+
+        if ($this->imprint_request->getBaseClass() == "ilImprintGUI") {
             $this->renderFullscreen();
         }
         
@@ -105,7 +109,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         return $a_output;
     }
 
-    protected function renderFullscreen()
+    protected function renderFullscreen() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

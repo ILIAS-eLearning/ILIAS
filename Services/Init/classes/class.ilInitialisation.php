@@ -374,10 +374,9 @@ class ilInitialisation
      */
     protected static function buildHTTPPath()
     {
-        include_once './Services/Http/classes/class.ilHTTPS.php';
-        $https = new ilHTTPS();
+        global $DIC;
 
-        if ($https->isDetected()) {
+        if ($DIC['https']->isDetected()) {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
@@ -508,8 +507,8 @@ class ilInitialisation
         define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
         define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
-        define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
-        define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
+        define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
+        define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
@@ -640,14 +639,13 @@ class ilInitialisation
      */
     protected static function setSessionCookieParams()
     {
-        global $ilSetting;
+        global $ilSetting, $DIC;
 
         if (!defined('IL_COOKIE_SECURE')) {
             // If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
             // \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-            include_once './Services/Http/classes/class.ilHTTPS.php';
-            $cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+            $cookie_secure = !$ilSetting->get('https', 0) && $DIC['https']->isDetected();
             define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
             session_set_cookie_params(
@@ -808,7 +806,8 @@ class ilInitialisation
      */
     protected static function initStyle()
     {
-        global $DIC, $ilPluginAdmin;
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
 
         // load style definitions
         self::initGlobal(
@@ -818,9 +817,7 @@ class ilInitialisation
         );
 
         // add user interface hook for style initialisation
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
             $gui_class = $ui_plugin->getUIClassInstance();
             $gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
         }
@@ -1198,6 +1195,7 @@ class ilInitialisation
 
         self::requireCommonIncludes();
 
+        $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory)->version(ILIAS_VERSION_NUMERIC);
 
         // error handler
         self::initGlobal(
@@ -1248,6 +1246,8 @@ class ilInitialisation
 
         self::initDatabase();
 
+        self::initComponentService($DIC);
+
         // init dafault language
         self::initLanguage(false);
 
@@ -1272,7 +1272,7 @@ class ilInitialisation
                 "./Services/Component/classes/class.ilPluginAdmin.php"
             );
         }
-
+        self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
         self::initSettings();
         self::setSessionHandler();
         self::initMail($GLOBALS['DIC']);
@@ -1287,10 +1287,8 @@ class ilInitialisation
         self::initLocale();
 
         if (ilContext::usesHTTP()) {
-            // $https
-            self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
             $https->enableSecureCookies();
-            $https->checkPort();
+            $https->checkProtocolAndRedirectIfNeeded();
         }
 
 
@@ -1440,7 +1438,7 @@ class ilInitialisation
     private static function initGlobalScreen(\ILIAS\DI\Container $c)
     {
         $c['global_screen'] = function () use ($c) {
-            return new Services(new ilGSProviderFactory($c));
+            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace(" ", "_", ILIAS_VERSION)));
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
@@ -1456,10 +1454,13 @@ class ilInitialisation
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
 
-        $plugins = ilPluginAdmin::getActivePlugins();
-        foreach ($plugins as $plugin_data) {
-            $plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"], $plugin_data["component_name"], $plugin_data["slot_id"], $plugin_data["name"]);
-
+        $component_repository = $c["component.repository"];
+        $component_factory = $c["component.factory"];
+        foreach ($component_repository->getPlugins() as $pl) {
+            if (!$pl->isActive()) {
+                continue;
+            }
+            $plugin = $component_factory->getPlugin($pl->getId());
             $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
 
             foreach ($c->keys() as $key) {
@@ -1492,6 +1493,12 @@ class ilInitialisation
         $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
         $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
         $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
+    }
+
+    protected static function initComponentService(\ILIAS\DI\Container $container)
+    {
+        $init = new InitComponentService();
+        $init->init($container);
     }
 
     /**
@@ -1555,13 +1562,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-            include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-            $ilMainMenu = new ilMainMenuGUI("_top");
-
-            self::initGlobal("ilMainMenu", $ilMainMenu);
-            unset($ilMainMenu);
-
-            // :TODO: tableGUI related
 
             // set hits per page for all lists using table module
             $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');

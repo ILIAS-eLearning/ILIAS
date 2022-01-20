@@ -20,7 +20,6 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 
 /**
 *
@@ -29,10 +28,10 @@ include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 *
 *
 */
-class ilFSStorageSession extends ilFileSystemStorage
+class ilFSStorageSession extends ilFileSystemAbstractionStorage
 {
     private $log;
-    
+
     /**
      * Constructor
      *
@@ -44,11 +43,11 @@ class ilFSStorageSession extends ilFileSystemStorage
         global $DIC;
 
         $log = $DIC['log'];
-        
+
         $this->log = $log;
         parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $a_event_id);
     }
-    
+
     /**
      * Create directory
      *
@@ -60,26 +59,26 @@ class ilFSStorageSession extends ilFileSystemStorage
     {
         return ilUtil::makeDirParents($this->getAbsolutePath());
     }
-    
-    
+
+
     /**
      * Implementation of abstract method
      *
      * @access protected
      *
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix(): string
     {
         return 'sess';
     }
-    
+
     /**
      * Implementation of abstract method
      *
      * @access protected
      *
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix(): string
     {
         return 'ilSession';
     }

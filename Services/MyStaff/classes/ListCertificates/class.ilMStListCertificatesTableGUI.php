@@ -105,7 +105,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     }
 
 
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -231,22 +231,22 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
 
     /**
-     * @param UserCertificateDto $user_certificate_dto
+     * @param array $a_set
      */
-    public function fillRow($user_certificate_dto)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $user_certificate_dto, $user_certificate_dto);
+        }, $a_set, $a_set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId())));
+                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUserId())));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'issuedOnTimestamp':
@@ -273,8 +273,8 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
         $actions->setAsynch(false);
-        $actions->setId($user_certificate_dto->getCertificateId());
-        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $user_certificate_dto->getDownloadLink());
+        $actions->setId($a_set->getCertificateId());
+        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $a_set->getDownloadLink());
 
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
@@ -282,14 +282,14 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilExcel            $a_excel excel wrapper
-     * @param int                $a_row
-     * @param UserCertificateDto $user_certificate_dto
+     * @param ilExcel $a_excel excel wrapper
+     * @param int     $a_row
+     * @param array   $a_set
      */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $user_certificate_dto)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
-        foreach ($this->getFieldValuesForExport($user_certificate_dto) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -297,12 +297,12 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilCSVWriter        $a_csv
-     * @param UserCertificateDto $user_certificate_dto
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
      */
-    protected function fillRowCSV($a_csv, $user_certificate_dto)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        foreach ($this->getFieldValuesForExport($user_certificate_dto) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

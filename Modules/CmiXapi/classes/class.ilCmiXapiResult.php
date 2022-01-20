@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiResult
  *
@@ -81,7 +91,7 @@ class ilCmiXapiResult
     /**
      * @param int $id
      */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -97,7 +107,7 @@ class ilCmiXapiResult
     /**
      * @param int $objId
      */
-    public function setObjId(int $objId)
+    public function setObjId(int $objId): void
     {
         $this->objId = $objId;
     }
@@ -113,7 +123,7 @@ class ilCmiXapiResult
     /**
      * @param int $usrId
      */
-    public function setUsrId(int $usrId)
+    public function setUsrId(int $usrId): void
     {
         $this->usrId = $usrId;
     }
@@ -129,7 +139,7 @@ class ilCmiXapiResult
     /**
      * @param int $version
      */
-    public function setVersion(int $version)
+    public function setVersion(int $version): void
     {
         $this->version = $version;
     }
@@ -145,7 +155,7 @@ class ilCmiXapiResult
     /**
      * @param float $score
      */
-    public function setScore(float $score)
+    public function setScore(float $score): void
     {
         $this->score = $score;
     }
@@ -161,7 +171,7 @@ class ilCmiXapiResult
     /**
      * @param string $status
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }
@@ -177,12 +187,12 @@ class ilCmiXapiResult
     /**
      * @param string $lastUpdate
      */
-    public function setLastUpdate(string $lastUpdate)
+    public function setLastUpdate(string $lastUpdate): void
     {
         $this->lastUpdate = $lastUpdate;
     }
     
-    public function save()
+    public function save(): void
     {
         if ($this->getId()) {
             $this->update();
@@ -191,7 +201,7 @@ class ilCmiXapiResult
         }
     }
     
-    protected function update()
+    protected function update(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -207,7 +217,7 @@ class ilCmiXapiResult
         ));
     }
     
-    protected function insert()
+    protected function insert(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -228,7 +238,7 @@ class ilCmiXapiResult
      * @param ilCmiXapiResult $result
      * @param $row
      */
-    protected function assignFromDbRow($row)
+    protected function assignFromDbRow($row): void
     {
         $this->setId($row['id']);
         $this->setObjId($row['obj_id']);
@@ -239,7 +249,7 @@ class ilCmiXapiResult
         $this->setLastUpdate($row['last_update']);
     }
     
-    public static function getInstanceByObjIdAndUsrId($objId, $usrId)
+    public static function getInstanceByObjIdAndUsrId($objId, $usrId): \ilCmiXapiResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -262,7 +272,7 @@ class ilCmiXapiResult
         );
     }
     
-    public static function getEmptyInstance()
+    public static function getEmptyInstance(): \ilCmiXapiResult
     {
         return new self();
     }
@@ -271,7 +281,7 @@ class ilCmiXapiResult
      * @param $objId
      * @return ilCmiXapiResult[]
      */
-    public static function getResultsForObject($objId)
+    public static function getResultsForObject($objId): array
     {
         global $DIC;
         

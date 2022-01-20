@@ -100,7 +100,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->setData($triggers);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

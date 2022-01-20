@@ -303,8 +303,8 @@ class ilWorkspaceAccessHandler
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         
-        $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
-        $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
+        $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
+        $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
         
         $obj_ids = array_merge($grp_ids, $crs_ids);
         $obj_ids[] = $ilUser->getId();

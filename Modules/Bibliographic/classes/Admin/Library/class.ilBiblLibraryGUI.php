@@ -7,16 +7,13 @@
  */
 class ilBiblLibraryGUI
 {
-    const F_LIB_ID = 'lib_id';
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
+    const F_LIB_ID = 'lib_id';
     const CMD_DELETE = 'delete';
     const CMD_EDIT = 'edit';
     const CMD_INDEX = 'index';
     const CMD_ADD = 'add';
-    /**
-     * @var \ilBiblAdminLibraryFacadeInterface
-     */
-    protected $facade;
+    protected \ilBiblAdminLibraryFacadeInterface $facade;
 
 
     /**
@@ -36,7 +33,7 @@ class ilBiblLibraryGUI
      * @access public
      *
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         switch ($this->ctrl()->getNextClass()) {
             case null:
@@ -48,11 +45,10 @@ class ilBiblLibraryGUI
 
 
     /**
-     * @return bool
      * @global $ilToolbar ilToolbarGUI;
      *
      */
-    public function index()
+    public function index(): bool
     {
         if ($this->checkPermissionBoolAndReturn('write')) {
             $b = ilLinkButton::getInstance();
@@ -70,10 +66,7 @@ class ilBiblLibraryGUI
     }
 
 
-    /**
-     * @return \ilBiblLibraryTableGUI
-     */
-    protected function initTable()
+    protected function initTable(): \ilBiblLibraryTableGUI
     {
         $table = new ilBiblLibraryTableGUI($this, $this->checkPermissionBoolAndReturn('write'));
         $settings = $this->facade->libraryFactory()->getAll();
@@ -95,7 +88,7 @@ class ilBiblLibraryGUI
     /**
      * add library
      */
-    public function add()
+    public function add(): void
     {
         $this->checkPermissionAndFail('write');
         $form = new ilBiblLibraryFormGUI($this->facade->libraryFactory()->getEmptyInstance());
@@ -106,7 +99,7 @@ class ilBiblLibraryGUI
     /**
      * delete library
      */
-    public function delete()
+    public function delete(): void
     {
         $this->checkPermissionAndFail('write');
         $ilBibliographicSetting = $this->getInstanceFromRequest();
@@ -118,7 +111,7 @@ class ilBiblLibraryGUI
     /**
      * cancel
      */
-    public function cancel()
+    public function cancel(): void
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
@@ -127,7 +120,7 @@ class ilBiblLibraryGUI
     /**
      * save changes in library
      */
-    public function update()
+    public function update(): void
     {
         $this->checkPermissionAndFail('write');
         $ilBibliographicSetting = $this->getInstanceFromRequest();
@@ -144,7 +137,7 @@ class ilBiblLibraryGUI
     /**
      * create library
      */
-    public function create()
+    public function create(): void
     {
         $this->checkPermissionAndFail('write');
         $form = new ilBiblLibraryFormGUI($this->facade->libraryFactory()->getEmptyInstance());
@@ -160,7 +153,7 @@ class ilBiblLibraryGUI
     /**
      * edit library
      */
-    public function edit()
+    public function edit(): void
     {
         $this->checkPermissionAndFail('write');
         $this->ctrl()->saveParameter($this, self::F_LIB_ID);
@@ -170,10 +163,7 @@ class ilBiblLibraryGUI
     }
 
 
-    /**
-     * @return \ilBiblLibraryInterface
-     */
-    private function getInstanceFromRequest()
+    private function getInstanceFromRequest(): \ilBiblLibraryInterface
     {
         $ilBibliographicSetting = $this->facade->libraryFactory()
             ->findById($_REQUEST[self::F_LIB_ID]);

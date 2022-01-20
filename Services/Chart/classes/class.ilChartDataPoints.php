@@ -1,66 +1,53 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChartData.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Chart data points series
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 class ilChartDataPoints extends ilChartData
 {
-    protected $line_width; // [int]
-    protected $radius; // [int] points
+    protected ?int $line_width = null;
+    protected ?int $radius = null;
     
-    protected function getTypeString()
+    protected function getTypeString() : string
     {
         return "points";
     }
     
-    /**
-     * Set line width
-     *
-     * @param int $a_value
-     */
-    public function setLineWidth($a_value)
+    public function setLineWidth(?int $a_value) : void
     {
-        $this->line_width = (int) $a_value;
+        $this->line_width = $a_value;
     }
 
-    /**
-     * Get line width
-     *
-     * @return int
-     */
-    public function getLineWidth()
+    public function getLineWidth() : ?int
     {
         return $this->line_width;
     }
     
-    /**
-     * Set radius
-     *
-     * @param int $a_value
-     */
-    public function setPointRadius($a_value)
+    public function setPointRadius(int $a_value) : void
     {
-        $this->radius = (int) $a_value;
+        $this->radius = $a_value;
     }
 
-    /**
-     * Get radius
-     *
-     * @return int
-     */
-    public function getPointRadius()
+    public function getPointRadius() : ?int
     {
         return $this->radius;
     }
     
-    protected function parseDataOptions(array &$a_options)
+    protected function parseDataOptions(array &$a_options) : void
     {
         $width = $this->getLineWidth();
         if ($width !== null) {

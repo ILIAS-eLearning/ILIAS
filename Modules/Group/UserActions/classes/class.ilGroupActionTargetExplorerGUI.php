@@ -1,27 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 
 /**
  * Action target explorer
  *
  * @author Alex Killing <killing@leifos.de>
- * @version $Id$
- *
  * @ingroup ModulesGroup
  */
 class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 {
-    /**
-     * @var bool
-     */
-    protected $select_parent = false;
+    protected bool $select_parent = false;
+    private string $clickable_type = '';
 
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_select_parent = false)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, bool $a_select_parent = false)
     {
         global $DIC;
 
@@ -41,38 +36,21 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
         }
     }
 
-    /**
-     * Set clickable type
-     *
-     * @param string $a_val clickable type
-     */
-    public function setClickableType($a_val)
+    public function setClickableType(string $a_val)
     {
         $this->clickable_type = $a_val;
     }
     
-    /**
-     * Get clickable type
-     *
-     * @return string clickable type
-     */
-    public function getClickableType()
+    public function getClickableType() : string
     {
         return $this->clickable_type;
     }
 
-    /**
-     * @param
-     * @return string
-     */
     public function getNodeHref($a_node) : string
     {
         return "#";
     }
 
-    /**
-     * Get onclick attribute
-     */
     public function getNodeOnClick($a_node) : string
     {
         if ($this->select_parent) {
@@ -88,7 +66,7 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * Is node clickable?
      * @param array $a_node node data
-     * @return boolean node clickable true/false
+     * @return bool node clickable true/false
      */
     public function isNodeClickable($a_node) : bool
     {
@@ -96,11 +74,9 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
             if ($this->access->checkAccess("create", "", $a_node["child"], "grp")) {
                 return true;
             }
-        } else {
-            if ($a_node["type"] == $this->getClickableType() &&
-                $this->access->checkAccess("manage_members", "", $a_node["child"])) {
-                return true;
-            }
+        } elseif ($a_node["type"] == $this->getClickableType() &&
+            $this->access->checkAccess("manage_members", "", $a_node["child"])) {
+            return true;
         }
         return false;
     }

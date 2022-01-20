@@ -79,7 +79,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $row[$column];
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
