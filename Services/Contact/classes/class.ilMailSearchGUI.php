@@ -233,6 +233,7 @@ class ilMailSearchGUI
                 ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
         );
+        $this->http->sendResponse();
         $this->http->close();
     }
 
