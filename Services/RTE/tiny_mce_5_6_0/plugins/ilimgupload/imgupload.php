@@ -1,28 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-chdir('../../../../../');
+use ILIAS\HTTP\Response\ResponseHeader;
+
+chdir('../../../../../'); // In node_modules content: chdir('../../../../');
 
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
 /**
- * @var $ilIliasIniFile ilIniFile
- * @var $lng ilLanguage
- * @var $ilUser ilObjUser
- * @var $https ilHttps
+ * @var ilIniFile $ilIliasIniFile
+ * @var ilLanguage $lng
+ * @var ilObjUser $ilUser
+ * @var ilHttps $https
  */
 global $DIC;
+
 $ilIliasIniFile = $DIC['ilIliasIniFile'];
 $lng = $DIC['lng'];
 $ilUser = $DIC['ilUser'];
 $https = $DIC['https'];
 
-$lng->loadLanguageModule("form");
+$lng->loadLanguageModule('form');
 
 $htdocs = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
 $weburl = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
 if (defined('ILIAS_HTTP_PATH')) {
+    // In node_modules content: $weburl = substr(ILIAS_HTTP_PATH, 0, strrpos(ILIAS_HTTP_PATH, '/node_modules')) . '/';
     $weburl = substr(ILIAS_HTTP_PATH, 0, strrpos(ILIAS_HTTP_PATH, '/Services')) . '/';
 }
 
@@ -38,7 +42,7 @@ $tinyMCE_base_url = $weburl;
 $tinyMCE_DOC_url = $installpath;
 
 // allowed extentions for uploaded image files
-$tinyMCE_valid_imgs = array('gif', 'jpg', 'jpeg', 'png');
+$tinyMCE_valid_imgs = ['gif', 'jpg', 'jpeg', 'png'];
 
 // allow upload in image library
 $tinyMCE_upload_allowed = true;
@@ -47,106 +51,148 @@ $tinyMCE_upload_allowed = true;
 $tinyMCE_img_delete_allowed = false;
 
 $errors = new stdClass();
-$errors->general = array();
-$errors->fields = array();
+$errors->general = [];
+$errors->fields = [];
 
 include_once 'webservice/soap/include/inc.soap_functions.php';
-$mobs = ilSoapFunctions::getMobsOfObject(session_id() . '::' . CLIENT_ID, $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
+$mobs = ilSoapFunctions::getMobsOfObject(
+    session_id() . '::' . CLIENT_ID,
+    $DIC->http()->wrapper()->query()->retrieve(
+        'obj_type',
+        $DIC->refinery()->kindlyTo()->string()
+    ) . ':html',
+    $DIC->http()->wrapper()->query()->retrieve(
+        'obj_id',
+        $DIC->refinery()->kindlyTo()->int()
+    )
+);
 $preview = '';
-$mob_details = array();
-$img = $_POST['imglist'] ?? '';
+$mob_details = [];
+$img = '';
+if ($DIC->http()->wrapper()->post()->has('imglist')) {
+    $img = $DIC->http()->wrapper()->post()->retrieve(
+        'imglist',
+        $DIC->refinery()->kindlyTo()->string()
+    );
+}
 $_root = $installpath;
+
+$update = false;
+if ($DIC->http()->wrapper()->query()->has('update')) {
+    $update = $DIC->http()->wrapper()->query()->retrieve(
+        'update',
+        $DIC->refinery()->kindlyTo()->bool()
+    );
+}
 
 // upload images
 $uploadedFile = false;
 if (isset($_FILES['img_file']) && is_array($_FILES['img_file'])) {
-    // remove trailing '/'
-    while (substr($_FILES['img_file']['name'], -1) == '/') {
+    while (substr($_FILES['img_file']['name'], -1) === '/') {
         $_FILES['img_file']['name'] = substr($_FILES['img_file']['name'], 0, -1);
     }
 
     $error = $_FILES['img_file']['error'];
     switch ($error) {
         case UPLOAD_ERR_INI_SIZE:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt('form_msg_file_size_exceeds'));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt('form_msg_file_size_exceeds')];
             break;
 
         case UPLOAD_ERR_FORM_SIZE:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_size_exceeds"));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_size_exceeds")];
             break;
 
         case UPLOAD_ERR_PARTIAL:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_partially_uploaded"));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_partially_uploaded")];
             break;
 
         case UPLOAD_ERR_NO_FILE:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_no_upload"));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_no_upload")];
             break;
 
         case UPLOAD_ERR_NO_TMP_DIR:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_missing_tmp_dir"));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_missing_tmp_dir")];
             break;
 
         case UPLOAD_ERR_CANT_WRITE:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_cannot_write_to_disk"));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_cannot_write_to_disk")];
             break;
 
         case UPLOAD_ERR_EXTENSION:
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_upload_stopped_ext"));
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_upload_stopped_ext")];
             break;
     }
     
     // check suffixes
     if (!$errors->fields && !$errors->general) {
         $finfo = pathinfo($_FILES['img_file']['name']);
-        require_once 'Services/Utilities/classes/class.ilMimeTypeUtil.php';
-        $mime_type = ilMimeTypeUtil::getMimeType($_FILES['img_file']['tmp_name'], $_FILES['img_file']['name'], $_FILES['img_file']['type']);
-        if (!in_array(strtolower($finfo['extension']), $tinyMCE_valid_imgs) || !in_array($mime_type, array(
-            'image/gif',
-            'image/jpeg',
-            'image/png'
-        ))) {
-            $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_wrong_file_type"));
+        $mime_type = ilMimeTypeUtil::getMimeType(
+            $_FILES['img_file']['tmp_name'],
+            $_FILES['img_file']['name'],
+            $_FILES['img_file']['type']
+        );
+        if (
+            !in_array($mime_type, ['image/gif', 'image/jpeg', 'image/png'], true) ||
+            !in_array(strtolower($finfo['extension']), $tinyMCE_valid_imgs, true)
+        ) {
+            $errors->fields[] = ['name' => 'img_file', 'message' => $lng->txt("form_msg_file_wrong_file_type")];
         }
     }
 
     // virus handling
-    if (!$errors->fields && !$errors->general) {
-        if ($_FILES['img_file']["tmp_name"] != "") {
-            $vir = ilUtil::virusHandling($_FILES['img_file']["tmp_name"], $_FILES['img_file']["name"]);
-            if ($vir[0] == false) {
-                $errors->fields[] = array('name' => 'img_file', 'message' => $lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
-            }
+    if (
+        !$errors->fields &&
+        !$errors->general &&
+        $_FILES['img_file']['tmp_name'] !== ''
+    ) {
+        $vir = ilUtil::virusHandling($_FILES['img_file']['tmp_name'], $_FILES['img_file']['name']);
+        if ($vir[0] === false) {
+            $errors->fields[] = [
+                'name' => 'img_file',
+                'message' => $lng->txt('form_msg_file_virus_found') . '<br />' . $vir[1]
+            ];
         }
     }
     if (!$errors->fields && !$errors->general) {
-        include_once 'webservice/soap/include/inc.soap_functions.php';
         $safefilename = preg_replace('/[^a-zA-Z0-9_\.]/', '', $_FILES['img_file']['name']);
-        $media_object = ilSoapFunctions::saveTempFileAsMediaObject(session_id() . '::' . CLIENT_ID, $safefilename, $_FILES['img_file']['tmp_name']);
+        $media_object = ilSoapFunctions::saveTempFileAsMediaObject(
+            session_id() . '::' . CLIENT_ID,
+            $safefilename,
+            $_FILES['img_file']['tmp_name']
+        );
         if (file_exists($iliasAbsolutePath . $iliasMobPath . 'mm_' . $media_object->getId() . '/' . $media_object->getTitle())) {
             // only save usage if the file was uploaded
-            $media_object::_saveUsage($media_object->getId(), $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
+            $media_object::_saveUsage(
+                $media_object->getId(),
+                $DIC->http()->wrapper()->query()->retrieve(
+                    'obj_type',
+                    $DIC->refinery()->kindlyTo()->string()
+                ) . ':html',
+                $DIC->http()->wrapper()->query()->retrieve(
+                    'obj_id',
+                    $DIC->refinery()->kindlyTo()->int()
+                )
+            );
             
             // Append file to array of existings mobs of this context (obj_type and obj_id)
             $mobs[$media_object->getId()] = $media_object->getId();
     
             $uploadedFile = $media_object->getId();
-            $_GET['update'] = 1;
+            $update = true;
         }
     }
 }
-$panel = array();
-if ($_GET["update"] == 1) {
+
+$panel = ['img_insert_command' => "ilimgupload.insert"];
+if ($update) {
     $panel["img_url_tab_desc"] = "ilimgupload.edit_image";
     $panel["img_from_url_desc"] = "ilimgupload.edit_image_desc";
-    $panel['img_insert_command'] = "ilimgupload.insert";
 } else {
     $panel["img_url_tab_desc"] = "ilimgupload.upload_image_from_url";
     $panel["img_from_url_desc"] = "ilimgupload.upload_image_from_url_desc";
-    $panel['img_insert_command'] = "ilimgupload.insert";
 }
 
-$mob_details = array();
+$mob_details = [];
 foreach ($mobs as $mob) {
     $mobdir = $iliasAbsolutePath . $iliasMobPath . 'mm_' . $mob . '/';
     if (is_dir($mobdir) && ($d = dir($mobdir))) {
@@ -164,7 +210,7 @@ foreach ($mobs as $mob) {
 }
 
 $response = [];
-$uploaded_file_desc = array();
+$uploaded_file_desc = [];
 if ($errors->fields || $errors->general) {
     $response[] = $errors;
 } elseif ($uploadedFile && $mob_details[$uploadedFile]) {
@@ -173,10 +219,16 @@ if ($errors->fields || $errors->general) {
     $uploaded_file_desc['height'] = 0;
     $uploaded_file_desc['location'] = $location;
 }
-$response = array(
+$response = [
     'uploaded_file' => $uploaded_file_desc,
     'errors' => $errors,
     'panel' => $panel
-);
+];
 
-echo json_encode(array('response' => $response));
+$DIC->http()->saveResponse(
+    $DIC->http()->response()
+        ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
+        ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode(['response' => $response], JSON_THROW_ON_ERROR)))
+);
+$DIC->http()->sendResponse();
+$DIC->http()->close();
