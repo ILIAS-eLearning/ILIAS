@@ -35,18 +35,18 @@ use PHPUnit\Framework\TestCase;
 class FileDeliveryTypeFactoryTest extends TestCase
 {
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    private \Mockery\LegacyMockInterface $http;
     private \ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory $subject;
+    /**
+     * @var Services|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private Services $http;
 
     protected function setUp() : void
     {
         parent::setUp();
 
-        $this->http = Mockery::mock(Services::class);
-
-        //the factory should not interact with the service.
-        $this->http->shouldNotReceive();
-
+        $this->http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
+//        $this->http->expects($this->never());
         $this->subject = new FileDeliveryTypeFactory($this->http);
     }
 
@@ -77,7 +77,6 @@ class FileDeliveryTypeFactoryTest extends TestCase
      */
     public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance(): void
     {
-
         //fetch the php file delivery type two times to check that only one instance is created.
         $firstResult = $this->subject->getInstance(DeliveryMethod::PHP);
         $secondResult = $this->subject->getInstance(DeliveryMethod::PHP);
@@ -90,7 +89,6 @@ class FileDeliveryTypeFactoryTest extends TestCase
      */
     public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail(): void
     {
-
         //get instance should throw an exception if the file delivery type is not known.
         $type = 'unknown file delivery type';
         $this->expectException(ilException::class);
