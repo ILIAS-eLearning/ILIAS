@@ -1098,7 +1098,7 @@ html {
 }
 body {
   font-family: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   color: #161616;
   background-color: #f0f0f0;
@@ -1164,8 +1164,8 @@ img {
   border-radius: 50%;
 }
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border: 0;
   border-top: 1px solid #eeeeee;
 }
@@ -1242,8 +1242,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 h1 small,
 .h1 small,
@@ -1265,8 +1265,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 h4 small,
 .h4 small,
@@ -1284,40 +1284,40 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 22px;
+  font-size: 1.75rem;
 }
 h2,
 .h2 {
-  font-size: 19px;
+  font-size: 1.5rem;
 }
 h3,
 .h3 {
-  font-size: 19px;
+  font-size: 1.25rem;
 }
 h4,
 .h4 {
-  font-size: 17px;
+  font-size: 1rem;
 }
 h5,
 .h5 {
-  font-size: 16px;
+  font-size: 0.875rem;
 }
 h6,
 .h6 {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 p {
-  margin: 0 0 10px;
+  margin: 0 0 0.5rem;
 }
 .lead {
-  margin-bottom: 20px;
-  font-size: 16px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   font-weight: 300;
   line-height: 1.4;
 }
 @media (min-width: 768px) {
   .lead {
-    font-size: 21px;
+    font-size: 1.3125rem;
   }
 }
 small,
@@ -1428,14 +1428,14 @@ a.bg-danger:focus {
   background-color: #e4b9b9;
 }
 .page-header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px;
+  padding-bottom: -0.5rem;
+  margin: 2rem 0 1rem;
   border-bottom: 1px solid #eeeeee;
 }
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
 }
 ul ul,
 ol ul,
@@ -1459,7 +1459,7 @@ ol ol {
 }
 dl {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 dt,
 dd {
@@ -1494,9 +1494,9 @@ abbr[data-original-title] {
   text-transform: uppercase;
 }
 blockquote {
-  padding: 10px 20px;
-  margin: 0 0 20px;
-  font-size: 17.5px;
+  padding: 0.5rem 1rem;
+  margin: 0 0 1rem;
+  font-size: 1.09375rem;
   border-left: 5px solid #eeeeee;
 }
 blockquote p:last-child,
@@ -1542,7 +1542,7 @@ blockquote.pull-right .small:after {
   content: "\00A0 \2014";
 }
 address {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   font-style: normal;
   line-height: 1.42857143;
 }
@@ -1575,9 +1575,9 @@ kbd kbd {
 }
 pre {
   display: block;
-  padding: 9.5px;
-  margin: 0 0 10px;
-  font-size: 13px;
+  padding: 0rem;
+  margin: 0 0 0.5rem;
+  font-size: -0.125rem;
   line-height: 1.42857143;
   color: #333333;
   word-break: break-all;
@@ -2444,7 +2444,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -2616,7 +2616,7 @@ th {
 @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 0.75rem;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid #ddd;
@@ -2668,8 +2668,8 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 20px;
-  font-size: 21px;
+  margin-bottom: 1rem;
+  font-size: 1.3125rem;
   line-height: inherit;
   color: #333333;
   border: 0;
@@ -2729,16 +2729,16 @@ input[type="checkbox"]:focus:focus-visible {
 output {
   display: block;
   padding-top: 4px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   color: #555555;
 }
 .form-control {
   display: block;
   width: 100%;
-  height: 25px;
+  height: 9rem;
   padding: 3px 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   color: #555555;
   background-color: #fff;
@@ -2789,7 +2789,7 @@ textarea.form-control {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 25px;
+    line-height: 9rem;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2799,7 +2799,7 @@ textarea.form-control {
   .input-group-sm input[type="time"],
   .input-group-sm input[type="datetime-local"],
   .input-group-sm input[type="month"] {
-    line-height: 26px;
+    line-height: 9rem;
   }
   input[type="date"].input-lg,
   input[type="time"].input-lg,
@@ -2809,7 +2809,7 @@ textarea.form-control {
   .input-group-lg input[type="time"],
   .input-group-lg input[type="datetime-local"],
   .input-group-lg input[type="month"] {
-    line-height: 38px;
+    line-height: 16rem;
   }
 }
 .form-group {
@@ -2830,7 +2830,7 @@ fieldset[disabled] .checkbox label {
 }
 .radio label,
 .checkbox label {
-  min-height: 20px;
+  min-height: 1rem;
   padding-left: 20px;
   margin-bottom: 0;
   font-weight: 400;
@@ -2870,7 +2870,7 @@ fieldset[disabled] .checkbox-inline {
   margin-left: 10px;
 }
 .form-control-static {
-  min-height: 34px;
+  min-height: 1.875rem;
   padding-top: 4px;
   padding-bottom: 4px;
   margin-bottom: 0;
@@ -2881,84 +2881,84 @@ fieldset[disabled] .checkbox-inline {
   padding-left: 0;
 }
 .input-sm {
-  height: 26px;
+  height: 9rem;
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0px;
 }
 select.input-sm {
-  height: 26px;
-  line-height: 26px;
+  height: 9rem;
+  line-height: 9rem;
 }
 textarea.input-sm,
 select[multiple].input-sm {
   height: auto;
 }
 .form-group-sm .form-control {
-  height: 26px;
+  height: 9rem;
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0px;
 }
 .form-group-sm select.form-control {
-  height: 26px;
-  line-height: 26px;
+  height: 9rem;
+  line-height: 9rem;
 }
 .form-group-sm textarea.form-control,
 .form-group-sm select[multiple].form-control {
   height: auto;
 }
 .form-group-sm .form-control-static {
-  height: 26px;
-  min-height: 32px;
+  height: 9rem;
+  min-height: 1.75rem;
   padding: 4px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 .input-lg {
-  height: 38px;
+  height: 16rem;
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.33;
   border-radius: 0px;
 }
 select.input-lg {
-  height: 38px;
-  line-height: 38px;
+  height: 16rem;
+  line-height: 16rem;
 }
 textarea.input-lg,
 select[multiple].input-lg {
   height: auto;
 }
 .form-group-lg .form-control {
-  height: 38px;
+  height: 16rem;
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.33;
   border-radius: 0px;
 }
 .form-group-lg select.form-control {
-  height: 38px;
-  line-height: 38px;
+  height: 16rem;
+  line-height: 16rem;
 }
 .form-group-lg textarea.form-control,
 .form-group-lg select[multiple].form-control {
   height: auto;
 }
 .form-group-lg .form-control-static {
-  height: 38px;
-  min-height: 38px;
+  height: 16rem;
+  min-height: 2rem;
   padding: 7px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.33;
 }
 .has-feedback {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 31.25px;
+  padding-right: 11.25rem;
 }
 .form-control-feedback {
   position: absolute;
@@ -2966,25 +2966,25 @@ select[multiple].input-lg {
   right: 0;
   z-index: 2;
   display: block;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
+  width: 9rem;
+  height: 9rem;
+  line-height: 9rem;
   text-align: center;
   pointer-events: none;
 }
 .input-lg + .form-control-feedback,
 .input-group-lg + .form-control-feedback,
 .form-group-lg .form-control + .form-control-feedback {
-  width: 38px;
-  height: 38px;
-  line-height: 38px;
+  width: 16rem;
+  height: 16rem;
+  line-height: 16rem;
 }
 .input-sm + .form-control-feedback,
 .input-group-sm + .form-control-feedback,
 .form-group-sm .form-control + .form-control-feedback {
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
+  width: 9rem;
+  height: 9rem;
+  line-height: 9rem;
 }
 .has-success .help-block,
 .has-success .control-label,
@@ -3077,7 +3077,7 @@ select[multiple].input-lg {
   color: #a94442;
 }
 .has-feedback label ~ .form-control-feedback {
-  top: 25px;
+  top: 6rem;
 }
 .has-feedback label.sr-only ~ .form-control-feedback {
   top: 0;
@@ -3148,7 +3148,7 @@ select[multiple].input-lg {
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
-  min-height: 24px;
+  min-height: 5rem;
 }
 .form-horizontal .form-group {
   margin-right: -15px;
@@ -3167,13 +3167,13 @@ select[multiple].input-lg {
 @media (min-width: 768px) {
   .form-horizontal .form-group-lg .control-label {
     padding-top: 7px;
-    font-size: 18px;
+    font-size: 1rem;
   }
 }
 @media (min-width: 768px) {
   .form-horizontal .form-group-sm .control-label {
     padding-top: 4px;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }
 .btn {
@@ -3188,7 +3188,7 @@ select[multiple].input-lg {
   background-image: none;
   border: 1px solid transparent;
   padding: 3px 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   border-radius: 0px;
   -webkit-user-select: none;
@@ -3595,21 +3595,21 @@ fieldset[disabled] .btn-link:focus {
 .btn-lg,
 .btn-group-lg > .btn {
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.33;
   border-radius: 0px;
 }
 .btn-sm,
 .btn-group-sm > .btn {
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0px;
 }
 .btn-xs,
 .btn-group-xs > .btn {
   padding: 1px 5px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0px;
 }
@@ -3686,7 +3686,7 @@ tbody.collapse.in {
   min-width: 160px;
   padding: 5px 0;
   margin: 2px 0 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-align: left;
   list-style: none;
   background-color: white;
@@ -3703,7 +3703,7 @@ tbody.collapse.in {
 }
 .dropdown-menu .divider {
   height: 1px;
-  margin: 9px 0;
+  margin: -0.5rem 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -3760,7 +3760,7 @@ tbody.collapse.in {
 .dropdown-header {
   display: block;
   padding: 3px 20px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.42857143;
   color: #777777;
   white-space: nowrap;
@@ -3994,17 +3994,17 @@ tbody.collapse.in {
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
-  height: 38px;
+  height: 16rem;
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.33;
   border-radius: 0px;
 }
 select.input-group-lg > .form-control,
 select.input-group-lg > .input-group-addon,
 select.input-group-lg > .input-group-btn > .btn {
-  height: 38px;
-  line-height: 38px;
+  height: 16rem;
+  line-height: 16rem;
 }
 textarea.input-group-lg > .form-control,
 textarea.input-group-lg > .input-group-addon,
@@ -4017,17 +4017,17 @@ select[multiple].input-group-lg > .input-group-btn > .btn {
 .input-group-sm > .form-control,
 .input-group-sm > .input-group-addon,
 .input-group-sm > .input-group-btn > .btn {
-  height: 26px;
+  height: 9rem;
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0px;
 }
 select.input-group-sm > .form-control,
 select.input-group-sm > .input-group-addon,
 select.input-group-sm > .input-group-btn > .btn {
-  height: 26px;
-  line-height: 26px;
+  height: 9rem;
+  line-height: 9rem;
 }
 textarea.input-group-sm > .form-control,
 textarea.input-group-sm > .input-group-addon,
@@ -4055,7 +4055,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon {
   padding: 3px 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1;
   color: #555555;
@@ -4066,12 +4066,12 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon.input-sm {
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   border-radius: 0px;
 }
 .input-group-addon.input-lg {
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   border-radius: 0px;
 }
 .input-group-addon input[type="radio"],
@@ -4166,7 +4166,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav .nav-divider {
   height: 1px;
-  margin: 9px 0;
+  margin: -0.5rem 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -4324,7 +4324,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -4430,9 +4430,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-brand {
   float: left;
   height: 40px;
-  padding: 10px 15px;
-  font-size: 18px;
-  line-height: 20px;
+  padding: 19.5px 15px;
+  font-size: 1rem;
+  line-height: 1rem;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -4477,12 +4477,12 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-nav {
-  margin: 5px -15px;
+  margin: 9.75px -15px;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
-  line-height: 20px;
+  line-height: 1rem;
 }
 @media (max-width: 768px) {
   .navbar-nav .open .dropdown-menu {
@@ -4499,7 +4499,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     padding: 5px 15px 5px 25px;
   }
   .navbar-nav .open .dropdown-menu > li > a {
-    line-height: 20px;
+    line-height: 1rem;
   }
   .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -4515,8 +4515,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 19.5px;
+    padding-bottom: 19.5px;
   }
 }
 .navbar-form {
@@ -4527,8 +4527,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 7.5px;
-  margin-bottom: 7.5px;
+  margin-top: 15.5px;
+  margin-bottom: 15.5px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4613,20 +4613,20 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 7.5px;
-  margin-bottom: 7.5px;
+  margin-top: 15.5px;
+  margin-bottom: 15.5px;
 }
 .navbar-btn.btn-sm {
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: 15.5px;
+  margin-bottom: 15.5px;
 }
 .navbar-btn.btn-xs {
   margin-top: 9px;
   margin-bottom: 9px;
 }
 .navbar-text {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 19.5px;
+  margin-bottom: 19.5px;
 }
 @media (min-width: 768px) {
   .navbar-text {
@@ -4848,7 +4848,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 20px 0;
+  margin: 1rem 0;
   border-radius: 0px;
 }
 .pagination > li {
@@ -4912,7 +4912,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination-lg > li > a,
 .pagination-lg > li > span {
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 1.33;
 }
 .pagination-lg > li:first-child > a,
@@ -4928,7 +4928,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination-sm > li > a,
 .pagination-sm > li > span {
   padding: 3px 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 .pagination-sm > li:first-child > a,
@@ -4943,7 +4943,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .pager {
   padding-left: 0;
-  margin: 20px 0;
+  margin: 1rem 0;
   text-align: center;
   list-style: none;
 }
@@ -5050,7 +5050,7 @@ a.label:focus {
   display: inline-block;
   min-width: 10px;
   padding: 3px 7px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: bold;
   line-height: 1;
   color: #fff;
@@ -5105,7 +5105,7 @@ a.badge:focus {
 }
 .jumbotron p {
   margin-bottom: 15px;
-  font-size: 21px;
+  font-size: 2rem;
   font-weight: 200;
 }
 .jumbotron > hr {
@@ -5132,13 +5132,13 @@ a.badge:focus {
   }
   .jumbotron h1,
   .jumbotron .h1 {
-    font-size: 63px;
+    font-size: 4rem;
   }
 }
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   line-height: 1.42857143;
   background-color: #f0f0f0;
   border: 1px solid #ddd;
@@ -5163,7 +5163,7 @@ a.thumbnail.active {
 }
 .alert {
   padding: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: 0px;
 }
@@ -5253,8 +5253,8 @@ a.thumbnail.active {
   }
 }
 .progress {
-  height: 20px;
-  margin-bottom: 20px;
+  height: 1rem;
+  margin-bottom: 1rem;
   overflow: hidden;
   background-color: #bbb;
   border-radius: 0px;
@@ -5265,8 +5265,8 @@ a.thumbnail.active {
   float: left;
   width: 0%;
   height: 100%;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 0.75rem;
+  line-height: 1rem;
   color: #fff;
   text-align: center;
   background-color: #4c6586;
@@ -5576,7 +5576,7 @@ button.list-group-item-danger.active:focus {
   line-height: 1.3;
 }
 .panel {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   background-color: white;
   border: 1px solid transparent;
   border-radius: 0px;
@@ -5598,7 +5598,7 @@ button.list-group-item-danger.active:focus {
 .panel-title {
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 16px;
+  font-size: 1rem;
   color: inherit;
 }
 .panel-title > a,
@@ -5788,7 +5788,7 @@ button.list-group-item-danger.active:focus {
   border: 0;
 }
 .panel-group {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 .panel-group .panel {
   margin-bottom: 0;
@@ -5966,9 +5966,35 @@ button.list-group-item-danger.active:focus {
   padding: 9px;
   border-radius: 0px;
 }
+.close {
+  float: right;
+  font-size: 1.3125rem;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+button.close {
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
 .breadcrumb {
   padding: 0 15px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   list-style: none;
   background-color: transparent;
   border-radius: 0px;
@@ -6126,7 +6152,7 @@ button.list-group-item-danger.active:focus {
   word-spacing: normal;
   word-wrap: normal;
   white-space: normal;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0;
   filter: alpha(opacity=0);
 }
@@ -6244,7 +6270,7 @@ button.list-group-item-danger.active:focus {
   word-spacing: normal;
   word-wrap: normal;
   white-space: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   background-color: #f9f9f9;
   background-clip: padding-box;
   border: 1px solid #ccc;
@@ -6344,7 +6370,7 @@ button.list-group-item-danger.active:focus {
 .popover-title {
   padding: 8px 14px;
   margin: 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   background-color: #f9f9f9;
   border-bottom: 1px solid #ececec;
   border-radius: -1px -1px 0 0;
@@ -6876,7 +6902,7 @@ button.list-group-item-danger.active:focus {
   }
 }
 .badge {
-  font-size: 9px;
+  font-size: 0.625rem;
   margin-left: -4px;
   position: absolute;
 }
@@ -6909,7 +6935,7 @@ button.list-group-item-danger.active:focus {
 .panel .panel-heading.ilBlockHeader h2.ilHeader {
   margin: 0;
   color: #161616;
-  font-size: 19px;
+  font-size: 1.5rem;
   line-height: 1.33;
   font-weight: 600;
 }
@@ -6919,7 +6945,7 @@ button.list-group-item-danger.active:focus {
 .panel .panel-heading.ilBlockHeader h3.ilHeader {
   margin: 0;
   color: #161616;
-  font-size: 17px;
+  font-size: 1rem;
 }
 .panel .panel-heading.ilHeader h4,
 .panel .panel-heading.ilBlockHeader h4,
@@ -6927,7 +6953,7 @@ button.list-group-item-danger.active:focus {
 .panel .panel-heading.ilBlockHeader h4.ilBlockHeader {
   margin: 0;
   color: #161616;
-  font-size: 16px;
+  font-size: 0.875rem;
 }
 .panel .panel-heading.ilHeader .dropdown > button.dropdown-toggle,
 .panel .panel-heading.ilBlockHeader .dropdown > button.dropdown-toggle {
@@ -6948,7 +6974,7 @@ button.list-group-item-danger.active:focus {
 .panel-flex h3.ilHeader {
   flex-grow: 99;
   flex-shrink: 1;
-  line-height: 21px;
+  line-height: 2rem;
   order: 1;
 }
 .panel-flex .ilBlockHeader h4,
@@ -6988,10 +7014,10 @@ button.list-group-item-danger.active:focus {
   padding-bottom: 3px;
 }
 .panel-secondary .panel-heading.ilHeader h2.ilHeader {
-  font-size: 17px;
+  font-size: 1rem;
 }
 .panel-secondary .panel-heading.ilHeader h3.ilHeader {
-  font-size: 17px;
+  font-size: 1rem;
 }
 .panel-secondary .panel-body .il-item-group {
   margin: 0 -12px;
@@ -7015,7 +7041,7 @@ button.list-group-item-danger.active:focus {
 .panel-secondary .panel-body h4 {
   display: block;
   padding: 6px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #161616;
   margin: 0;
 }
@@ -7046,7 +7072,7 @@ button.list-group-item-danger.active:focus {
 }
 .il-panel-listing-std-container > h2 {
   color: #161616;
-  font-size: 19px;
+  font-size: 1.25rem;
   font-weight: 600;
   float: left;
   padding: 9px 12px;
@@ -7207,7 +7233,7 @@ button.list-group-item-danger.active:focus {
   padding: 3px 8px;
   line-height: 1.42857143;
   border-radius: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   border: 1px solid transparent;
   color: #161616;
   display: inline-block;
@@ -7231,7 +7257,7 @@ button.list-group-item-danger.active:focus {
   padding: 3px 8px;
   line-height: 1.42857143;
   border-radius: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   border: 1px solid transparent;
   color: #757575;
   display: inline-block;
@@ -7263,7 +7289,7 @@ button.list-group-item-danger.active:focus {
   background-color: #FFF9BC;
 }
 .btn {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .btn:focus-visible {
   outline: 3px solid #0078D7;
@@ -7582,7 +7608,7 @@ button.close {
   top: 0;
   left: 5px;
   font-weight: 600;
-  font-size: 0.9em;
+  font-size: 0.75rem;
   color: white;
 }
 .il-toggle-button.on .il-toggle-switch {
@@ -7599,7 +7625,7 @@ button.close {
   top: 0;
   left: 23px;
   font-weight: 600;
-  font-size: 0.9em;
+  font-size: 0.75rem;
 }
 .il-toggle-button.off .il-toggle-switch {
   background: #f9f9f9;
@@ -7617,14 +7643,14 @@ button.close {
   bottom: 3px;
 }
 .ilToolbar label {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
   background-color: white;
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   color: #161616;
 }
@@ -7661,7 +7687,7 @@ ul.dropdown-menu > li > .btn {
   clear: both;
   padding: 3px 10px;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   background-color: transparent;
   color: #161616;
@@ -7686,7 +7712,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding: 12px;
 }
 .il-item .il-item-title {
-  font-size: 14px;
+  font-size: 0.875rem;
   display: inline-block;
 }
 .il-item .il-item-title .btn-link,
@@ -7708,16 +7734,16 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-item .il-item-description {
   padding: 10px 0 0 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   clear: both;
 }
 .il-item .il-item-property-name {
-  font-size: 12px;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
   overflow: hidden;
 }
 .il-item .il-item-property-value {
-  font-size: 12px;
+  font-size: 0.75rem;
   overflow: hidden;
 }
 .il-item .il-chart-progressmeter-viewbox {
@@ -7745,7 +7771,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item-group > h3 {
   float: left;
   color: #161616;
-  font-size: 17px;
+  font-size: 1rem;
   font-weight: normal;
   padding: 9px 12px;
   margin: 0;
@@ -7773,7 +7799,7 @@ ul.dropdown-menu > li > .btn:focus {
   margin-right: 0px;
 }
 .il-notification-item .dropdown {
-  margin-top: -20px;
+  margin-top: -6.875rem;
 }
 .il-item-shy {
   display: flex;
@@ -7813,7 +7839,7 @@ ul.dropdown-menu > li > .btn:focus {
   }
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
-    font-size: 11px;
+    font-size: 0.625rem;
     word-break: break-word;
   }
   .panel-secondary .il-item .col-sm-3 {
@@ -7910,9 +7936,9 @@ ul.dropdown-menu > li > .btn:focus {
   text-align: left;
   margin: 0;
   font-weight: 600;
-  font-size: 12px;
-  padding: 6px;
-  padding-left: 20px;
+  font-size: 0.75rem;
+  padding: 3px;
+  padding-left: 100px;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a {
   color: #4c6586;
@@ -7928,8 +7954,8 @@ ul.dropdown-menu > li > .btn:focus {
 }
 /* Breadcrumb */
 .breadcrumb {
-  margin: 0.8em 0 20px 0;
-  font-size: 90%;
+  margin: 0.8em 0 1rem 0;
+  font-size: 0.75rem;
 }
 .breadcrumb > li + li:before {
   font-family: 'il-icons';
@@ -7961,7 +7987,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-left: 0;
 }
 .il-chart-scale-bar-item {
-  font-size: 11px;
+  font-size: 0.625rem;
   padding: 1px 5px;
   color: #161616;
   text-align: center;
@@ -8029,7 +8055,7 @@ ul.dropdown-menu > li > .btn:focus {
   text-anchor: middle;
 }
 .il-chart-progressmeter-box .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-text .text-score {
-  font-size: 7.5px;
+  font-size: 0.625rem;
   font-weight: bold;
   fill: #000000;
 }
@@ -8112,16 +8138,16 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-standard-form .il-standard-form-header h2,
 .il-standard-form .il-section-input-header h2 {
-  font-size: 19px;
+  font-size: 1.25rem;
   padding-top: 12px;
   padding-bottom: 3px;
 }
 .il-standard-form .il-standar-form-header-byline,
 .il-standard-form .il-section-input-header-byline {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .il-standard-form .il-standard-form-header + .il-section-input {
-  margin-top: -21.14285715px;
+  margin-top: -5.07142857rem;
   padding: 0;
 }
 .il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h2 {
@@ -8142,7 +8168,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .input-group-addon {
   padding: 3px 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1;
   color: #161616;
@@ -8153,7 +8179,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .form-horizontal .help-block {
   color: #161616;
-  font-size: 85%;
+  font-size: 0.75rem;
   margin: 2px 0 4px;
   padding: 0;
   clear: both;
@@ -8234,7 +8260,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-left: 0px;
 }
 .il-standard-form textarea {
-  height: 76px;
+  height: 13rem;
 }
 .il-filter .col-md-4,
 .il-filter .col-md-6 {
@@ -8288,7 +8314,7 @@ ul.dropdown-menu > li > .btn:focus {
   display: inline-flex;
   width: 100%;
   background-color: initial;
-  font-size: 1.2em;
+  font-size: 1rem;
 }
 .il-filter-bar .il-filter-bar-opener .btn-bulky .glyph {
   padding-right: 0.3em;
@@ -8306,7 +8332,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-filter-controls .btn-bulky {
   width: auto;
   background-color: initial;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 .il-filter-inputs-active {
   background-color: #f9f9f9;
@@ -8318,11 +8344,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding: 0 8px;
   float: left;
   background-color: white;
-  font-size: 0.8em;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 90vw;
+  font-size: 0.75rem;
 }
 .il-filter-input-section {
   border-top: 1px solid #dddddd;
@@ -8626,7 +8648,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   margin: 5px 0;
 }
 .il-table-presentation-row .il-table-presentation-row-header h4 {
-  font-size: 17px;
+  font-size: 1rem;
   font-weight: normal;
   padding: 0;
   margin: 0;
@@ -8685,7 +8707,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields blockquote {
   border-color: #ddd;
@@ -8882,8 +8904,8 @@ div.alert ul {
   margin-top: 15px;
   background-color: #f9f9f9;
   padding: 6px 12px;
-  font-size: 12px;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
   list-style-type: none;
 }
 div.alert ul > li:before {
@@ -8897,7 +8919,7 @@ div.alert ul > li:before {
   transition-delay: 0s;
 }
 .modal.fade .modal-title {
-  font-size: 18px;
+  font-size: 1rem;
 }
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform 0.15s ease-out;
@@ -8923,14 +8945,14 @@ div.alert ul > li:before {
   margin-left: 0;
 }
 .il-tree ul {
-  padding-left: 14px;
+  padding-left: 0.875rem;
   list-style-type: none;
 }
 .il-tree li.il-tree-node {
   padding: 0;
 }
 .il-tree li.il-tree-node .node-line {
-  padding: 3px 0 3px 14px;
+  padding: 3px 0 3px 0.875rem;
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
@@ -8951,7 +8973,7 @@ div.alert ul > li:before {
 .il-tree li.il-tree-node.expandable > .node-line:before {
   color: #737373;
   position: absolute;
-  margin-left: -14px;
+  margin-left: -0.875rem;
 }
 .il-tree li.il-tree-node[aria-expanded="false"] > ul {
   display: none;
@@ -9077,7 +9099,7 @@ div.il-system-infos {
 .il-pagetitle {
   font-weight: 600;
   display: flex;
-  font-size: 15.988px;
+  font-size: 1rem;
   align-items: flex-end;
   padding-left: 35px;
 }
@@ -9430,10 +9452,10 @@ footer {
 .il-maincontrols-slate .btn-bulky.disengaged:after,
 .il-maincontrols-slate .link-bulky.disengaged:after {
   font-family: "il-icons";
-  font-size: 1.7rem;
+  font-size: 1rem;
   position: absolute;
   right: 10px;
-  top: 20px;
+  top: 15px;
 }
 .il-maincontrols-slate .btn-bulky.engaged:after,
 .il-maincontrols-slate .link-bulky.engaged:after {
@@ -9469,8 +9491,8 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
-  font-size: 1.5rem;
-  line-height: 1.95rem;
+  font-size: 1rem;
+  line-height: 1.0625rem;
   text-align: left;
   word-break: normal;
 }
@@ -9612,7 +9634,7 @@ footer {
 .il-maincontrols-metabar .glyphicon {
   filter: invert(50%);
   font-family: 'il-icons';
-  font-size: 2rem;
+  font-size: 1rem;
   margin-right: 5px;
   position: relative;
 }
@@ -9734,7 +9756,7 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 1.7rem;
+    font-size: 0.85rem;
     position: absolute;
     right: 10px;
     top: 20px;
@@ -9760,8 +9782,8 @@ footer {
 .il-maincontrols-metabar .btn-bulky,
 .il-maincontrols-mainbar .il-link.link-bulky,
 .il-maincontrols-metabar .il-link.link-bulky {
-  font-size: 0.9rem;
-  line-height: 1.197rem;
+  font-size: 0.625rem;
+  line-height: 0.83125rem;
 }
 .il-maincontrols-mainbar .btn-bulky:focus,
 .il-maincontrols-metabar .btn-bulky:focus,
@@ -10055,7 +10077,7 @@ footer {
   content: " \e605";
   display: block;
   font-family: "il-icons";
-  font-size: 2.1rem;
+  font-size: 1.5rem;
 }
 .il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
   display: none;
@@ -10135,7 +10157,7 @@ footer {
 }
 .il-maincontrols-footer {
   color: white;
-  font-size: 0.9em;
+  font-size: 0.75rem;
   padding: 2px 10px;
 }
 .il-maincontrols-footer .il-footer-content div {
@@ -10209,7 +10231,7 @@ footer {
 }
 .il-mode-info span {
   color: white;
-  font-size: 18px;
+  font-size: 1rem;
 }
 @media only screen and (max-width: 768px) {
   .il-mode-info {
@@ -10237,10 +10259,10 @@ footer {
 **************************************************************
 */
 .il-system-info {
-  line-height: 20px;
+  line-height: 1rem;
   padding-top: 6px;
   padding-bottom: 6px;
-  height: calc(6px + 6px + 20px);
+  height: calc(6px + 6px + 1rem);
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -10304,7 +10326,7 @@ footer {
   margin-right: 8px;
 }
 .il-system-info div.il-system-info-actions {
-  font-size: 18px;
+  font-size: 1rem;
   flex-grow: 0;
   flex-shrink: 0;
   text-align: right;
@@ -10526,7 +10548,7 @@ footer {
 }
 .glyph .il-counter-spacer {
   margin-left: -4px;
-  font-size: 9px;
+  font-size: 0.625rem;
   padding: 2px 4px;
   visibility: hidden;
 }
@@ -11285,7 +11307,7 @@ the il- variable in your less code and not the boostrap variable in your less co
   background-color: #F0F0F0;
 }
 .il-popover .il-popover-title-container h4.il-popover-title {
-  font-size: 17px;
+  font-size: 1rem;
   font-weight: normal;
   padding: 8px 14px;
   background-color: transparent;
@@ -11800,7 +11822,7 @@ span.ilAlert {
   clear: both;
   padding: 3px 10px;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   background-color: transparent;
   color: #161616;
@@ -11916,7 +11938,7 @@ ol ol {
 small,
 sub,
 sup {
-  font-size: 0.8em;
+  font-size: 0.625rem;
 }
 em,
 i {
@@ -11960,7 +11982,7 @@ hr {
   border-top: 1px solid #dddddd;
 }
 table {
-  font-size: 100%;
+  font-size: 0.875rem;
 }
 img {
   vertical-align: middle;
@@ -11984,8 +12006,8 @@ td {
 }
 code {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
-  font-size: 90%;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
 }
 ::selection {
   background: #e2e8ef;
@@ -12107,7 +12129,7 @@ div.input {
   border: 1px solid #757575;
   padding: 3px;
   text-decoration: none;
-  font-size: 90%;
+  font-size: 0.75rem;
   background-color: white;
   overflow: auto;
 }
@@ -12275,7 +12297,7 @@ a.il_ContainerItemCommand2:link,
 a.il_ContainerItemCommand2:visited,
 a.il_ContainerItemCommand:link,
 a.il_ContainerItemCommand:visited {
-  font-size: 80%;
+  font-size: 0.625rem;
   text-decoration: none;
   margin: 0 3px 0 0;
   white-space: nowrap;
@@ -12305,7 +12327,7 @@ h3.il_ContainerItemTitle {
   padding: 0;
   margin: 0;
   font-weight: normal;
-  font-size: 100%;
+  font-size: 0.875rem;
   display: inline;
 }
 div.il_ContainerItemTitle {
@@ -12320,7 +12342,7 @@ div.il_ItemProperties {
   margin: 2px 0 5px;
   text-align: left;
   font-weight: normal;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 [dir="rtl"] div.il_ItemProperties {
   text-align: right;
@@ -12329,7 +12351,7 @@ div.il_ItemNotice {
   margin: 2px 0 5px;
   text-align: left;
   font-weight: normal;
-  font-size: 90%;
+  font-size: 0.75rem;
   color: green;
 }
 [dir="rtl"] div.il_ItemNotice {
@@ -12351,7 +12373,7 @@ span.il_ItemAlertProperty {
 div.il_Description,
 td.il_Description {
   margin: 2px 0 5px;
-  font-size: 90%;
+  font-size: 0.75rem;
   font-weight: normal;
   text-align: left;
 }
@@ -12361,7 +12383,7 @@ td.il_Description {
 }
 div.il_Description_no_margin,
 td.il_Description_no_margin {
-  font-size: 90%;
+  font-size: 0.75rem;
   font-style: italic;
   text-align: left;
 }
@@ -12370,7 +12392,7 @@ td.il_Description_no_margin {
   text-align: right;
 }
 div.il_info {
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: left;
 }
 [dir="rtl"] div.il_info {
@@ -12380,12 +12402,12 @@ div.il_info {
 a#il_mhead_t_focus {
   color: #3b5620;
   vertical-align: middle;
-  font-size: 26px;
+  font-size: 1.75rem;
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
   a#il_mhead_t_focus {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 }
 a#il_mhead_t_focus[href] {
@@ -12404,7 +12426,7 @@ h2.ilHeader {
   padding: 0;
   margin: 0;
   display: inline;
-  font-size: 19px;
+  font-size: 1.25rem;
   color: #2c2c2c;
 }
 #headerimage {
@@ -12450,13 +12472,13 @@ div.ilHeadAction ul.dropdown-menu button {
   font-size: 80%;
 }
 div.ilHeaderDesc {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 0;
   color: #161616;
   font-weight: 300;
 }
 div.ilHeaderAlert {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 0;
   font-weight: 300;
   color: #B54F00;
@@ -12486,7 +12508,7 @@ div.il_TreeIcons {
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
   color: #161616;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 a.permalink_label > span.glyphicon {
   display: none;
@@ -12533,6 +12555,72 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer .btn-group {
 div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
   width: 28px;
 }
+div.il_Footer {
+  padding: 10px 0;
+  font-size: 0.75rem;
+  text-align: center;
+}
+footer.ilFooter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px !important;
+  font-size: 0.75rem;
+  height: 70px;
+  margin: 0 auto;
+  padding: 20px 0 0;
+  text-align: left;
+  background-color: #4c6586;
+  color: white;
+}
+@media only screen and (max-width: 768px) {
+  footer.ilFooter {
+    height: auto;
+  }
+}
+footer.ilFooter div.ilFooterContainer {
+  color: white;
+  line-height: 1.75;
+  padding: 0 15px;
+}
+footer.ilFooter a.permalink_label,
+footer.ilFooter div.ilFooterContainer > a {
+  color: white;
+  white-space: nowrap;
+}
+footer.ilFooter a.permalink_label:hover,
+footer.ilFooter div.ilFooterContainer > a:hover {
+  color: white;
+}
+@media only screen and (max-width: 768px) {
+  footer.ilFooter a.permalink_label > span.glyphicon {
+    display: inline;
+  }
+}
+footer.ilFooter .ilPermalinkContainer {
+  width: auto;
+  padding-right: 5px;
+  line-height: 22px;
+}
+footer.ilFooter .ilPermalinkContainer > label {
+  display: table-cell;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+@media only screen and (max-width: 768px) {
+  footer.ilFooter .ilPermalinkContainer > label {
+    padding-right: 0;
+    width: 24px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  footer.ilFooter .ilPermalinkContainer {
+    padding-right: 0;
+  }
+}
+[dir="rtl"] footer.ilFooter {
+  text-align: right;
+}
 /* ----------------- invisible border ------------- */
 div.invisible_border {
   margin: 15px;
@@ -12542,26 +12630,26 @@ div.invisible_border {
 }
 /* ------- Helptext --------- */
 span.il_Helptext {
-  font-size: 90%;
+  font-size: 0.75rem;
   font-weight: normal;
 }
 /* ----------------- alternative text styles ------------- */
 .small {
   text-decoration: none;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .xsmall {
   text-decoration: none;
-  font-size: 80%;
+  font-size: 0.625rem;
 }
 .smallgreen {
   text-decoration: none;
-  font-size: 90%;
+  font-size: 0.75rem;
   color: green;
 }
 .smallred {
   text-decoration: none;
-  font-size: 90%;
+  font-size: 0.75rem;
   color: #d00;
 }
 .obligatory {
@@ -12582,7 +12670,7 @@ div.Access {
 }
 .asterisk {
   color: #d00;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .default {
   text-decoration: none;
@@ -12595,7 +12683,7 @@ div.Access {
 .subtitle {
   font-style: italic;
   font-weight: normal;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .questiontext {
   font-weight: bold;
@@ -12793,7 +12881,7 @@ div.ilSideBarHead {
 }
 div.ilSideBarHead h3,
 div.ilSideBarHead h1 {
-  font-size: 110%;
+  font-size: 1rem;
   color: #161616;
   display: inline;
   padding: 0;
@@ -12810,7 +12898,7 @@ div.ilSideBarContent {
   float: left;
   background-color: white;
   border: 1px solid #dddddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   -webkit-box-shadow: 2px 2px 4px #c0c0c0;
   box-shadow: 2px 2px 4px #c0c0c0;
 }
@@ -12922,7 +13010,7 @@ span.ilIcalIcon {
   text-align: left;
   cursor: pointer;
   color: #4c6586;
-  font-size: 110%;
+  font-size: 1rem;
   background-image: url("images/tree_col.svg");
   background-repeat: no-repeat;
   background-color: #f9f9f9;
@@ -12984,7 +13072,7 @@ select {
   cursor: pointer;
 }
 .form-control {
-  font-size: 12px;
+  font-size: 0.875rem;
   color: #161616;
   border: 1px solid #757575;
 }
@@ -13025,14 +13113,14 @@ select.form-control {
 }
 .form-horizontal label {
   color: #161616;
-  font-size: 100%;
+  font-size: 0.875rem;
 }
 .form-control-static {
   display: block;
 }
 .form-horizontal .control-label {
   padding-bottom: 4px;
-  min-height: 34px;
+  min-height: 1.875rem;
 }
 @media only screen and (max-width: 768px) {
   .form-horizontal .control-label {
@@ -13053,7 +13141,7 @@ select.form-control {
   line-height: normal;
 }
 .form-horizontal div.radio label.radio-inline {
-  line-height: 25px;
+  line-height: 9rem;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
@@ -13272,10 +13360,10 @@ h1.ilExplorerHead {
   vertical-align: top;
   text-align: left;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 div.il_ExplorerTree {
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 ul.il_Explorer {
   margin: 0 0 0 10px;
@@ -13314,7 +13402,7 @@ div.il_ExplorerItemDescription {
   cursor: default !important;
 }
 .jstree.jstree-default a {
-  font-size: 100%;
+  font-size: 0.875rem;
   min-height: 22px;
 }
 .jstree li,
@@ -13384,7 +13472,7 @@ img.il_ExplorerIcon {
   margin-left: 0;
 }
 .il-maincontrols-slate-content .jstree-default li.jstree-node {
-  margin-left: 14px;
+  margin-left: 0.875rem;
   padding: 0 3px;
 }
 /* Modules/Forum */
@@ -13405,11 +13493,11 @@ blockquote.ilForumQuote {
   margin: 0 20px 10px;
   padding: 5px;
   border: 1px solid #b6b6b6;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 div.ilForumQuoteHead {
   font-weight: bold;
-  font-size: 90%;
+  font-size: 0.75rem;
   margin: 0 0 10px;
 }
 /* Modules/Forum */
@@ -13444,12 +13532,12 @@ div.ilForumQuoteHead {
 }
 .ilFrmPostTitle {
   margin-top: 15px;
-  font-size: 120%;
+  font-size: 1rem;
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostTitle {
     margin-top: 5px;
-    font-size: 100%;
+    font-size: 0.875rem;
   }
 }
 div.ilFrmPostHeader span.small {
@@ -13597,7 +13685,7 @@ a.ilEditSubmit {
   border-bottom-color: #737373;
   border-right-color: #737373;
   text-decoration: none;
-  font-size: 80%;
+  font-size: 0.625rem;
   line-height: 14px;
   cursor: pointer;
 }
@@ -13605,7 +13693,7 @@ input.ilEditSubmit {
   color: #2255a0;
   padding: 1px;
   margin: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 14px;
   cursor: pointer;
   background: url("images/ButtonsBack.png") repeat-x bottom white;
@@ -13619,7 +13707,7 @@ input.ilEditSubmit:hover {
 div.ilEditHelpline {
   margin: 3px 0;
   padding: 0;
-  font-size: 80%;
+  font-size: 0.625rem;
   background-color: white;
   color: black;
 }
@@ -13628,7 +13716,7 @@ select.ilEditSelect {
   border: 1px solid #bbb;
   padding: 1px;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 [data-copg-ed-type='add-area'] {
   height: 30px;
@@ -13641,7 +13729,7 @@ button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
   padding: 1px 5px;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   background-color: transparent;
   cursor: pointer;
   width: 100%;
@@ -13657,7 +13745,7 @@ button.copg-add.dropdown-toggle.btn:focus .il-copg-add-text,
 button.copg-add.dropdown-toggle.btn:hover .il-copg-add-text,
 #copg-editor-help .il-copg-add-text {
   color: #4c6586;
-  font-size: 18px;
+  font-size: 1rem;
 }
 button.copg-add.dropdown-toggle.btn:hover {
   background-color: #e2e8ef;
@@ -13675,7 +13763,7 @@ div.il_droparea {
   border: 1px dashed #d0d0d0;
   color: #d0d0d0;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   background-color: #fffed1;
   cursor: pointer;
   height: 30px;
@@ -13713,7 +13801,7 @@ div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
   color: #f0f0f0;
-  font-size: 70%;
+  font-size: 0.75rem;
   padding: 1px 3px;
   margin-top: -15px;
   margin-left: -2px;
@@ -13747,7 +13835,7 @@ div.il_editarea_disabled {
 .ilCopgDisabledText {
   color: #B54F00;
   position: absolute;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: -22px;
   padding: 2px 5px;
   background-color: #f9f9f9;
@@ -13777,7 +13865,7 @@ div.il_editarea_active_selected {
   text-align: left;
   font-style: normal;
   text-indent: 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   z-index: 5000;
 }
 table.il_editmenu td {
@@ -13925,7 +14013,7 @@ a.ilTinyMenuDropDown {
 }
 /* Page TOC */
 div.ilc_page_toc_PageTOC {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 5px 5px 10px;
   background-color: #f9f9f9;
   border: 1px solid #f0f0f0;
@@ -13933,7 +14021,7 @@ div.ilc_page_toc_PageTOC {
 }
 h1.ilc_page_toc_PageTOCHead {
   margin: 0;
-  font-size: 100%;
+  font-size: 0.875rem;
   padding: 0;
   font-weight: bold;
   text-align: center;
@@ -14019,7 +14107,7 @@ table.ilc_media {
 }
 h1.il_LMHead {
   margin: 12px 15px 6px;
-  font-size: 120%;
+  font-size: 1rem;
   font-weight: normal;
 }
 table.ilc_Table {
@@ -14094,7 +14182,7 @@ a.nostyle:hover {
   border: 1px solid #d0d0d0;
   height: 21px;
   display: inline-block;
-  font-size: 12px;
+  font-size: 0.75rem;
   padding: 1px 5px;
   text-align: center;
 }
@@ -14222,7 +14310,7 @@ div.ilCOPGMediaPrint {
   padding: 10px;
 }
 #copg-editor-slate-content form .ilFormHeader h3.ilHeader {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 #copg-editor-slate-content form .col-sm-3,
 #copg-editor-slate-content form .col-sm-9 {
@@ -14324,11 +14412,11 @@ div#block_cal_sel_0 div.ilBlockContent {
   padding: 0;
 }
 div.ilCalSelAct {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 2px 2px 3px 0;
 }
 div.ilCalSelSelAll {
-  font-size: 80%;
+  font-size: 0.625rem;
   padding: 3px 2px 2px 0;
 }
 div.ilCalSelList {
@@ -14363,17 +14451,17 @@ ul.ilCalSel li > div > div.ilCalColSpan {
 }
 div.ilCalSelList h6 {
   padding-left: 5px;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: 16px;
   margin-bottom: 8px;
 }
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 table.calmini {
   width: 100%;
-  font-size: 90%;
+  font-size: 0.75rem;
   border-collapse: collapse;
   background-color: #f9f9f9;
   border: none;
@@ -14404,7 +14492,7 @@ table.calmini tr:nth-child(even) {
 table.calmini th.calmini,
 table.calmini th.calminiweek {
   font-weight: 600;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 table.calmini td.calminitoday {
   background-color: #B54F00;
@@ -14429,14 +14517,14 @@ a.callink:visited {
 .cal_modal_infoscreen .il_InfoScreenPropertyValue .btn-link {
   text-align: left;
   vertical-align: top;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 table.calstd {
   margin-top: 6px;
   color: #161616;
   width: 100%;
   border: none;
-  font-size: 100%;
+  font-size: 0.875rem;
 }
 .calheader {
   color: #161616;
@@ -14465,7 +14553,7 @@ td.calheadertime {
   width: 6em;
   text-align: center;
   background-color: #f0f0f0;
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 3px;
 }
 tr.calstdtime:first-of-type td {
@@ -14572,7 +14660,7 @@ p.il_calevent {
   margin: 2px 0 0 0;
   padding: 2px;
   border-spacing: 0px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 p.il_calevent .btn-link {
   margin: 0 auto;
@@ -14587,11 +14675,11 @@ td.calevent {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   /*background-color:white;*/
 }
 div.calevent {
-  font-size: 90%;
+  font-size: 0.75rem;
   padding: 3px;
   margin: 3px;
 }
@@ -14617,7 +14705,7 @@ table.calmini {
 }
 th.calmini {
   text-align: center;
-  font-size: 90%;
+  font-size: 0.75rem;
   font-weight: normal;
   background-color: white;
 }
@@ -14637,7 +14725,7 @@ td.calministd {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -14647,7 +14735,7 @@ td.calminitoday {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -14657,7 +14745,7 @@ td.calmininow {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -14667,7 +14755,7 @@ td.calmininext {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -14677,7 +14765,7 @@ td.calminiprev {
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
-  font-size: 90%;
+  font-size: 0.75rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -14685,7 +14773,7 @@ td.calminiweek,
 th.calminiweek {
   vertical-align: top;
   background-color: white;
-  font-size: 60%;
+  font-size: 0.625rem;
   text-align: center;
   vertical-align: middle;
 }
@@ -14726,11 +14814,451 @@ li.ilWikiBlockItem {
 .nav-tabs > li {
   margin: 0 4px 0 0;
 }
+#ilTopNav.navbar > .navbar-collapse {
+  margin: 0;
+  padding: 0 0 0 5px;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav.navbar > .navbar-collapse:empty + div.navbar-header button.navbar-toggle {
+    display: none;
+  }
+}
+#ilTopNav.navbar-default {
+  background-color: transparent;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  border: 0 none;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav.navbar-default {
+    background-color: #f9f9f9;
+  }
+}
+#ilTopNav .dropdown-menu {
+  float: left;
+  right: auto;
+  left: 0;
+  min-width: 100%;
+  background-color: white;
+}
+#ilTopNav .dropdown-menu li a {
+  background-color: transparent;
+  color: #464646;
+}
+#ilTopNav .dropdown-menu li a:hover {
+  background-color: #e2e8ef;
+  color: #1f1f1f;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav .dropdown-menu {
+    float: none;
+    left: auto;
+    right: auto;
+  }
+}
+#ilTopNav .navbar-nav {
+  float: left;
+  margin-left: 5px;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav .navbar-nav {
+    float: none;
+    margin-left: 0;
+  }
+}
+#ilTopNav .navbar-nav > li {
+  margin: 0 0 0 10px;
+}
+#ilTopNav .navbar-nav > li > a {
+  margin: 0;
+  padding: 5px 10px 6px;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  border-top: 4px solid white;
+  background-color: transparent;
+  color: #808080;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav .navbar-nav > li > a {
+    margin: 0 10px 0 0;
+    padding: 5px 10px 6px;
+    border-top: 0;
+    color: #808080;
+  }
+}
+#ilTopNav .navbar-nav > li > a:hover,
+#ilTopNav .navbar-nav > li > a:active,
+#ilTopNav .navbar-nav > li > a:focus {
+  background-color: transparent;
+  color: #808080;
+}
+#ilTopNav .navbar-nav > .active > a,
+#ilTopNav .navbar-nav > .open > a,
+#ilTopNav .navbar-nav > .active > a:hover,
+#ilTopNav .navbar-nav > .open > a:hover,
+#ilTopNav .navbar-nav > .active > a:active,
+#ilTopNav .navbar-nav > .open > a:active,
+#ilTopNav .navbar-nav > .active > a:focus,
+#ilTopNav .navbar-nav > .open > a:focus {
+  outline: 0 none;
+  border-top: 4px solid #4c6586;
+  background-color: #fafafa;
+  color: #808080;
+  -webkit-box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
+  box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav .navbar-nav > .active > a,
+  #ilTopNav .navbar-nav > .open > a,
+  #ilTopNav .navbar-nav > .active > a:hover,
+  #ilTopNav .navbar-nav > .open > a:hover,
+  #ilTopNav .navbar-nav > .active > a:active,
+  #ilTopNav .navbar-nav > .open > a:active,
+  #ilTopNav .navbar-nav > .active > a:focus,
+  #ilTopNav .navbar-nav > .open > a:focus {
+    border-top: 0 none;
+    background-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav button.navbar-toggle {
+    position: fixed;
+    top: 0;
+    left: 40px;
+    height: 40px;
+    border-radius: 0;
+    border-width: 0;
+    background-color: #5f5f5f;
+    color: #dfdfdf;
+    margin: 0;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav button.navbar-toggle .icon-bar {
+    background-color: #dfdfdf;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav button.navbar-toggle:hover {
+    background-color: #979797;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #ilTopNav button.navbar-toggle:hover .icon-bar {
+    background-color: white;
+  }
+}
+[dir="rtl"] #ilTopNav .dropdown-menu {
+  float: right;
+  left: auto;
+  right: 0;
+  padding: 5px 0;
+  text-align: right;
+}
+[dir="rtl"] #ilTopNav .navbar-nav {
+  float: right;
+  margin-left: 0;
+  margin-right: 70px;
+}
+@media only screen and (max-width: 768px) {
+  [dir="rtl"] #ilTopNav .navbar-nav {
+    margin-right: 0;
+    padding-right: 0;
+  }
+}
+[dir="rtl"] #ilTopNav .navbar-nav > li {
+  margin: 0 10px 0 0;
+}
+@media only screen and (max-width: 768px) {
+  [dir="rtl"] #ilTopNav .navbar-nav > li > a {
+    float: right;
+    width: 100%;
+    margin: 0;
+  }
+}
+[dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
+  padding: 0 5px 0 0;
+}
+@media only screen and (max-width: 768px) {
+  [dir="rtl"] #ilTopNav button.navbar-toggle {
+    left: auto;
+    right: 40px;
+  }
+}
+/* Main Menu Top Title */
+.ilTopTitle {
+  float: left;
+  font-weight: 600;
+  padding: 0 0 0 15px;
+  white-space: nowrap;
+  line-height: 40px;
+}
+@media only screen and (max-width: 768px) {
+  .ilTopTitle {
+    display: none;
+  }
+}
+[dir="rtl"] .ilTopTitle {
+  float: right;
+  padding: 0 15px 0 0;
+}
+@media only screen and (max-width: 768px) {
+  .ilTopTitleVisible {
+    display: block;
+  }
+}
+input.ilOpenIDBox {
+  background: url("images/openid.png") no-repeat 1px 2px white;
+  padding-left: 20px;
+}
+[dir="rtl"] input.ilOpenIDBox {
+  background-position: 2px 1px;
+  padding-left: 0;
+  padding-right: 20px;
+}
+#ilTopBar.ilTopBar {
+  padding: 0;
+  height: 40px;
+  top: 0;
+  z-index: 1040;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopBar.ilTopBar {
+    z-index: 1030;
+  }
+}
+.ilTopFixed {
+  z-index: 1030;
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+}
+#ilTopBarNav {
+  float: right;
+  margin: 0;
+  padding: 0;
+  margin-right: 14px;
+  list-style: none outside none;
+}
+@media only screen and (max-width: 768px) {
+  #ilTopBarNav {
+    margin-right: 0;
+  }
+}
+#ilTopBarNav .dropdown-menu {
+  background-color: #979797;
+  border-radius: 0;
+  margin: 0;
+  color: #dfdfdf;
+}
+#ilTopBarNav .dropdown-menu a {
+  background-color: transparent;
+  color: #dfdfdf;
+}
+#ilTopBarNav .dropdown-menu a:hover,
+#ilTopBarNav .dropdown-menu a:active,
+#ilTopBarNav .dropdown-menu a:focus {
+  background-color: #e2e8ef;
+  color: #979797;
+}
+#ilTopBarNav > li {
+  float: left;
+  display: block;
+  position: relative;
+}
+#ilTopBarNav > li > a {
+  margin-right: 1px;
+  display: block;
+  padding: 10px;
+  position: relative;
+  min-width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: #5f5f5f;
+  color: #dfdfdf;
+}
+#ilTopBarNav > li > a:hover,
+#ilTopBarNav > li > a:active,
+#ilTopBarNav > li > a:focus {
+  outline: 0 none;
+  color: white;
+  text-decoration: none;
+  background-color: #979797;
+}
+#ilTopBarNav > .active > a,
+#ilTopBarNav > .open > a,
+#ilTopBarNav > .active > a:hover,
+#ilTopBarNav > .open > a:hover,
+#ilTopBarNav > .active > a:active,
+#ilTopBarNav > .open > a:active,
+#ilTopBarNav > .active > a:focus,
+#ilTopBarNav > .open > a:focus {
+  outline: 0 none;
+  color: white;
+  text-decoration: none;
+  background-color: #979797;
+}
+#ilTopBarNav #userlog > a {
+  padding: 0 10px 0 0;
+}
+#ilTopBarNav #userlog > a img {
+  height: 40px;
+  width: 40px;
+  margin-right: 0px;
+  padding: 5px;
+}
+#ilTopBarNav #userlog .dropdown-menu {
+  min-width: 100%;
+}
+#ilTopBarNav #userlog .dropdown-menu > li > a {
+  padding-left: 50px;
+}
+[dir="rtl"] #ilTopBarNav {
+  float: left;
+  margin: 0;
+  margin-left: 14px;
+  text-align: right;
+}
+[dir="rtl"] #ilTopBarNav .badge {
+  margin-left: 0;
+  margin-right: -5px;
+}
+[dir="rtl"] #ilTopBarNav .dropdown-menu a {
+  text-align: right;
+}
+[dir="rtl"] #ilTopBarNav > li {
+  float: right;
+}
+[dir="rtl"] #ilTopBarNav > li > a {
+  margin-right: 1px;
+}
+[dir="rtl"] #ilTopBarNav #userlog > a {
+  padding: 0 0 0 10px;
+}
+[dir="rtl"] #ilTopBarNav #userlog > a img {
+  margin-left: 0;
+}
+.ilMainHeader {
+  background-color: white;
+  height: 80px;
+  border-bottom: 3px solid #737373;
+}
+@media only screen and (max-width: 768px) {
+  .ilMainHeader {
+    height: auto;
+    border-bottom: 0 none;
+  }
+}
+.ilMainHeader.ilTopFixed {
+  top: 40px;
+}
+@media only screen and (max-width: 768px) {
+  .ilMainHeader.ilTopFixed {
+    height: 0;
+  }
+}
+.ilMainHeader > header > .row > a.navbar-brand {
+  height: auto;
+  display: inline-block;
+  padding: 0;
+  margin: 15px 15px 0;
+}
+@media only screen and (max-width: 768px) {
+  .ilMainHeader > header > .row > a.navbar-brand {
+    height: 0;
+    padding: 0;
+    margin: 0;
+  }
+}
+.ilMainHeader > header > .row > a.navbar-brand > img {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+}
+@media only screen and (max-width: 768px) {
+  .ilMainHeader > header > .row > a.navbar-brand > img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  [dir="rtl"] .ilMainHeader > header > .row > a.navbar-brand > img {
+    left: auto;
+    right: 0;
+  }
+}
+.ilMainMenu {
+  background-color: white;
+}
+.ilMainMenu.ilTopFixed {
+  top: 110px;
+}
+@media only screen and (max-width: 768px) {
+  .ilMainMenu.ilTopFixed {
+    position: fixed;
+    top: 40px;
+    border-bottom: 0 none;
+  }
+}
+.ilMainMenuEntries {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+div.ilMemberViewMainHeader {
+  background-color: #981a0a;
+}
+div.ilTopMemberView {
+  text-align: center;
+}
+div.ilTopMemberView h3 {
+  padding: 0;
+  margin: 0;
+  line-height: 40px;
+}
+@media only screen and (max-width: 768px) {
+  div.ilTopMemberView {
+    display: none;
+  }
+}
+.ilFixedTopSpacer {
+  padding-top: 117px;
+}
+@media only screen and (max-width: 768px) {
+  .ilFixedTopSpacer {
+    margin-top: 40px;
+    padding-top: 0;
+  }
+}
+.ilFixedTopSpacerBarOnly {
+  padding-top: 40px;
+}
+@media only screen and (max-width: 768px) {
+  .ilFixedTopSpacerBarOnly {
+    margin-top: 40px;
+    padding-top: 0;
+  }
+}
+ul.il-mm-selfloading {
+  width: 768px;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+/* Services/UIComponent/Tabs */
+.nav-tabs > li {
+  margin: 0 4px 0 0;
+}
 .nav-tabs > li > a {
   border-radius: 0;
   border: 0 none;
   padding: 6px 12px 3px;
-  font-size: 13px;
+  font-size: 0.875rem;
   margin: 0;
 }
 .nav-tabs > li.active > a,
@@ -14764,7 +15292,7 @@ li.ilWikiBlockItem {
 #ilSubTab > li > a {
   border-radius: 0;
   padding: 3px 7px;
-  font-size: 11.64px;
+  font-size: 0.75rem;
   /* font-weight: 600; */
 }
 #ilSubTab > li > a:hover {
@@ -14790,7 +15318,7 @@ div.ilGroupedListSep {
 a.ilGroupedListLE {
   display: block;
   padding: 5px 10px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 a.ilGroupedListLE:hover {
   background-color: #ffffd9;
@@ -14804,13 +15332,13 @@ div.tblfooter {
   font-weight: normal;
   background-color: #f9f9f9;
   padding: 3px;
-  font-size: 80%;
+  font-size: 0.625rem;
   text-align: right;
 }
 div.ilTableNav {
   font-weight: normal;
   padding: 0 3px;
-  font-size: 80%;
+  font-size: 0.625rem;
   text-align: right;
 }
 div.ilTableNav table {
@@ -14830,7 +15358,7 @@ td.submit {
 div.ilTableHeaderTitleBlock {
   font-weight: bold;
   padding: 3px;
-  font-size: 90%;
+  font-size: 0.75rem;
   color: #161616;
   border-bottom: 1px solid #dddddd;
 }
@@ -14843,7 +15371,7 @@ div.ilTableHeaderTitle + .ilHeaderDesc {
 }
 h3.ilTableHeaderTitleBlock {
   font-weight: bold;
-  font-size: 100%;
+  font-size: 0.875rem;
   display: inline;
   padding: 0;
   margin: 0;
@@ -14858,7 +15386,7 @@ div.ilTableOuter {
 div.ilTableSelectAll {
   background-color: white;
   padding: 6px 8px;
-  font-size: 90%;
+  font-size: 0.75rem;
   border-top: 1px solid #dddddd;
 }
 div.ilTableSelectAll label {
@@ -14868,7 +15396,7 @@ div.ilTableCommandRow,
 div.ilTableCommandRowTop {
   background-color: #f9f9f9;
   padding: 5px 8px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 span.ilTableFootLight {
   color: #161616;
@@ -14884,7 +15412,7 @@ div.ilTableFilter {
   margin: 0;
 }
 legend.ilTableFilter {
-  font-size: 80%;
+  font-size: 0.625rem;
   border: none;
   padding: 2px 5px;
   margin: -12px 0 0;
@@ -14923,13 +15451,13 @@ div.ilTableFilterInput .checkbox {
 td.ilFilterOption {
   text-align: left;
   vertical-align: top;
-  font-size: 80%;
+  font-size: 0.625rem;
   white-space: nowrap;
   padding: 0 10px 10px 0;
   min-width: 150px;
 }
 td.ilFilterType {
-  font-size: 80%;
+  font-size: 0.625rem;
   font-weight: bold;
   text-align: left;
   white-space: nowrap;
@@ -14944,7 +15472,7 @@ div.ilTableContainer {
 tr.tblheader {
   font-weight: normal;
   background-color: #f9f9f9;
-  font-size: 90%;
+  font-size: 0.75rem;
   border-bottom: 1px solid #d6d6d6;
 }
 /* ---------------- alternating tablerowcolors ----------------- */
@@ -15036,7 +15564,7 @@ div.ilNotesUImage img {
   height: 40px;
 }
 div.ilNoteText {
-  font-size: 95%;
+  font-size: 0.75rem;
   margin-top: 5px;
 }
 div.ilNotesHeader {
@@ -15055,12 +15583,12 @@ div.ilNotesHeader h3 img {
   padding: 5px;
 }
 h3.ilNotesHeader {
-  font-size: 110%;
+  font-size: 1rem;
   color: #161616;
   display: inline;
 }
 h4.ilNoteTitle {
-  font-size: 100%;
+  font-size: 0.875rem;
   margin: 0;
   padding: 0;
 }
@@ -15102,8 +15630,8 @@ div.ilBlogListItemTitle h3 {
 }
 div.ilBlogListItemSubTitle {
   margin-top: 5px;
-  color: #6f6f6f;
-  font-size: 80%;
+  color: #7c7c7c;
+  font-size: 0.75rem;
   text-align: right;
 }
 div.ilBlogListItemSnippet {
@@ -15120,7 +15648,7 @@ div.ilBlogListItemMore {
 }
 div.ilBlogListItemCommtensPerma {
   text-align: right;
-  font-size: 90%;
+  font-size: 0.75rem;
   margin-top: 15px;
   min-height: 15px;
 }
@@ -15128,8 +15656,8 @@ td.ilBlogSideBlockContent {
   padding: 10px;
 }
 td.ilBlogSideBlockCommand {
-  font-size: 75%;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
   border-bottom: 1px solid #dddddd;
   padding: 1px 3px;
   background-color: #f9f9f9;
@@ -15151,7 +15679,7 @@ div.ilBlogSideBlockNavigationSelection {
 .ilBlogDraftText {
   color: #B54F00;
   position: absolute;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: -19px;
   padding: 2px 5px;
   background-color: white;
@@ -15182,14 +15710,14 @@ div.ilSkill {
 div.ilSkill > h3 {
   margin: 10px 0;
   padding: 0;
-  font-size: 1.2em;
+  font-size: 1rem;
   float: left;
 }
 div.ilSkill > h4 {
   margin: 10px 0;
   padding: 0;
-  font-size: 1em;
-  color: #6f6f6f;
+  font-size: 0.875rem;
+  color: #7c7c7c;
   float: left;
   clear: left;
 }
@@ -15215,7 +15743,7 @@ table.ilSkill {
 }
 td.ilSkill,
 th.ilSkill {
-  font-size: 0.8em;
+  font-size: 0.625rem;
   padding: 4px;
   min-width: 50px;
 }
@@ -15300,14 +15828,14 @@ th.ilSkillEntryHead {
 /* Modules/Poll */
 .ilPollDescription {
   margin: 5px;
-  font-size: 80%;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
 }
 .ilPollQuestion {
   display: inline-block;
   width: 97%;
   margin: 1.5%;
-  font-size: 90%;
+  font-size: 0.75rem;
   font-style: italic;
 }
 img.ilPollQuestionImage {
@@ -15316,14 +15844,14 @@ img.ilPollQuestionImage {
 }
 .ilPollQuestionAnswers {
   margin: 5px;
-  font-size: 80%;
+  font-size: 0.75rem;
 }
 .ilPollQuestionAnswer {
   margin-bottom: 5px;
 }
 .ilPollQuestionResults {
   margin: 10px;
-  font-size: 80%;
+  font-size: 0.75rem;
 }
 .ilPollQuestionResult {
   margin-bottom: 5px;
@@ -15348,7 +15876,7 @@ img.ilPollQuestionImage {
   margin-bottom: 5px;
 }
 .ilPollLegend td.legendLabel {
-  font-size: 120%;
+  font-size: 1rem;
 }
 #ilMMSearch ul li {
   padding: 5px;
@@ -15359,7 +15887,7 @@ img.ilPollQuestionImage {
 #ilMMSearchMenu legend {
   margin-bottom: 0;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 1rem;
   border-bottom: 0;
 }
 #ilMMSearchMenu p {
@@ -15389,7 +15917,7 @@ input.ilMainMenuSearch {
 #mm_search_menu_head {
   background-color: #f9f9f9;
   padding: 5px;
-  font-size: 85%;
+  font-size: 0.625rem;
 }
 #mm_search_menu_head p {
   margin: 0;
@@ -15418,7 +15946,7 @@ span.ilSearchHighlight {
 }
 div.il_SearchFragment {
   margin: 2px 0 5px;
-  font-size: 80%;
+  font-size: 0.625rem;
   font-weight: normal;
   text-align: left;
 }
@@ -15440,7 +15968,7 @@ div.il_SearchFragment {
 }
 #ilHelpText {
   clear: both;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 #ilHelpText .ilc_list_o_NumberedList,
 #ilHelpText .ilc_list_u_BulletedList {
@@ -15461,7 +15989,7 @@ a#ilHelpClose {
 #ilHelpPanel .il_VAccordionHead {
   background-position: 3px 3px;
   padding: 5px 5px 5px 30px;
-  font-size: 90%;
+  font-size: 0.75rem;
   font-weight: bold;
   border: none;
 }
@@ -15492,11 +16020,11 @@ td.dcl_actions {
 .dcl_record_list td,
 .dcl_field_list td {
   padding: 10px 7px;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .ilDclTableDescription {
   padding: 15px 0;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .ilDclRecordViewNavWrapper {
   margin-bottom: 40px;
@@ -15504,7 +16032,7 @@ td.dcl_actions {
 .ilDclRecordViewNav {
   font-weight: normal;
   padding: 3px;
-  font-size: 80%;
+  font-size: 0.75rem;
   width: 80%;
   float: left;
 }
@@ -15542,7 +16070,7 @@ span.bibl_text_inline_Emph {
 }
 .ilPlayerPreviewDescription {
   padding: 7px;
-  font-size: 85%;
+  font-size: 0.75rem;
   position: absolute;
   width: 100%;
   color: #f0f0f0;
@@ -15584,6 +16112,33 @@ td.legendLabel {
 div.ilChartWrapper {
   max-width: 100%;
 }
+/* Services/Captcha */
+div.iosCaptchaInfoContainer {
+  margin: 10px 0 0 0;
+}
+div.iosCaptchaInputCommandContainer {
+  margin: 10px 0 0 0;
+}
+div.iosCaptchaInputCommandContainer .reload {
+  width: 19px;
+  height: 19px !important;
+  font-size: 0.875rem;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+}
+div.iosCaptchaInputCommandContainer .reload img {
+  width: 19px;
+  height: 19px;
+  margin: 0;
+  padding: 3;
+}
+div.iosCaptchaInputCommandContainer .audio {
+  width: 19px;
+  height: 19px;
+  margin: 0 10px 0 12px;
+  vertical-align: middle;
+}
 /* Services/User */
 div.ilProfile {
   max-width: 450px;
@@ -15604,18 +16159,18 @@ h3.ilProfileName {
   margin: 0 0 10px;
   padding: 0;
   font-weight: normal;
-  font-size: 130%;
+  font-size: 1.25rem;
 }
 div.ilProfileSection {
   margin-top: 20px;
-  font-size: 90%;
+  font-size: 0.75rem;
   color: #606060;
 }
 h3.ilProfileSectionHead {
   margin: 0 0 3px;
   padding: 0;
   font-weight: normal;
-  font-size: 110%;
+  font-size: 1rem;
   color: #202020;
 }
 table.il_user_quota_disk_usage_overview {
@@ -15629,7 +16184,7 @@ img.ilUserXXSmall {
   margin: 0 0 20px;
   background-color: white;
   padding: 20px 0;
-  font-size: 100%;
+  font-size: 0.875rem;
   width: 100%;
   height: auto;
   text-align: center;
@@ -15644,7 +16199,7 @@ img.ilUserXXSmall {
   text-overflow: ellipsis;
   padding: 5px;
   margin: 20px 0;
-  font-size: 1.6rem !important;
+  font-size: 1rem !important;
 }
 .ilUsersGalleryContainer div.ilUser .action {
   width: 100%;
@@ -15661,7 +16216,7 @@ img.ilUserXXSmall {
 }
 .ilUsersGalleryContainer div.ilUser .action .mailBtn {
   height: 37px;
-  font-size: 16px;
+  font-size: 1rem;
   padding: 0 15px;
   line-height: 30px;
   margin: 2px 0 0 0;
@@ -15701,7 +16256,7 @@ div.ilc_PredTextPlaceHolderThumb {
   margin: 1px;
   padding: 5px 2px 5px 0;
   border: 1px solid #2c2c2c;
-  font-size: 10px;
+  font-size: 0.625rem;
   background: url("images/question_placeholder_thumb.png") no-repeat center;
   font-weight: bold;
 }
@@ -15715,7 +16270,7 @@ div.ilc_PredTextPlaceHolderThumb {
   background-image: url("images/pred_text_placeholder_thumb.png");
 }
 div.ilc_HeadlineThumb {
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: bold;
   width: 100%;
   border-bottom: 1px solid #2c2c2c;
@@ -15762,10 +16317,10 @@ li.smallPad {
   padding-top: 10px;
 }
 .ilCourseObjectiveAccResult {
-  font-size: 80%;
+  font-size: 0.75rem;
 }
 .ilCourseObjectiveAccSummary {
-  font-size: 120%;
+  font-size: 1rem;
   padding-top: 15px;
 }
 .ilCourseObjectiveProgressBarContainer .text-comparision {
@@ -15889,7 +16444,7 @@ td.chatroom {
 .ilChatroomUser .media-body h4,
 .ilChatroomUser .media-body p {
   color: #a0a0a0;
-  font-size: 12px;
+  font-size: 0.75rem;
   padding: 5px 3px 0 3px;
   line-height: 1em;
   margin: 0;
@@ -15904,7 +16459,7 @@ td.chatroom {
 .ilChatroomUser .dropdown-menu {
   background-color: #f0f0f0;
   padding: 10px 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .ilChatroomUser .dropdown-menu a {
   color: #606060;
@@ -15959,7 +16514,7 @@ div.il_Preconditions {
 div.il_PreconditionsTitel {
   margin-top: 3px;
   text-align: left;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 [dir="rtl"] div.il_PreconditionsTitel {
   text-align: right;
@@ -15976,7 +16531,7 @@ div.ilContainerListItemOuter {
   display: table;
 }
 div.tblfooter.ilContainerListFooter {
-  font-size: 100%;
+  font-size: 0.875rem;
   padding: 3px 0 0 10px;
   text-align: left;
 }
@@ -16329,7 +16884,7 @@ div[id^="ilAdvSelListTable_"] {
   height: 18px;
 }
 .il_ItemProperty .badge {
-  font-size: 8px;
+  font-size: 0.625rem;
   padding: 2px 4px;
   margin-top: -1px;
   margin-left: -5px;
@@ -16362,7 +16917,7 @@ form.ilNavHistoryForm {
   padding: 5px 5px 2px;
   border: 0 none;
   display: inline;
-  font-size: 80%;
+  font-size: 0.625rem;
 }
 input.ilNavHistorySubmit {
   color: #2255a0;
@@ -16417,31 +16972,31 @@ td.ilBlockHeaderBig {
 }
 div.ilBlockHeaderBig,
 td.ilBlockHeaderBig {
-  font-size: 100%;
+  font-size: 0.875rem;
 }
 h2.ilBlockHeader {
   font-weight: 600;
   margin: 0;
   padding: 0;
-  font-size: 100%;
+  font-size: 0.875rem;
   display: inline;
 }
 h3.ilBlockHeader {
   font-weight: 600;
   margin: 0;
   padding: 0;
-  font-size: 100%;
+  font-size: 0.875rem;
   display: inline;
 }
 /* possibly deprecated */
 .il_BlockInfo {
-  font-size: 80%;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
 }
 /* new class */
 div.ilBlockInfo {
-  font-size: 75%;
-  color: #6f6f6f;
+  font-size: 0.75rem;
+  color: #7c7c7c;
   padding: 1px 3px;
   background-color: #f9f9f9;
   text-align: right;
@@ -16474,7 +17029,7 @@ a.ilMediaLightboxClose {
   margin: 5px 0 10px 10px;
   cursor: pointer;
   color: #161616;
-  font-size: 140%;
+  font-size: 1.25rem;
 }
 a.ilMediaLightboxClose:hover {
   color: #000000;
@@ -16686,7 +17241,7 @@ div.ilStartupSection form.form-horizontal {
 }
 /* Services/UIComponent/Tooltip */
 .qtip-default {
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   background-color: #4c6586;
   border-color: #4c6586;
@@ -16727,7 +17282,7 @@ div.ilRatingOverlay {
 .ilExcAssignmentHead .ilAssignmentHeader {
   padding: 0;
   margin: 1px 0 0 25px;
-  font-size: 16px;
+  font-size: 1rem;
 }
 .ilExcAssignmentHead,
 .ilAssignmentHeader {
@@ -16735,7 +17290,7 @@ div.ilRatingOverlay {
 }
 .ilExAssignmentHeadProperty {
   margin: 4px 0 0 25px;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .ilExcOverview .ilExcAssImageContainer {
   max-width: 300px;
@@ -16795,7 +17350,7 @@ div.ilRatingOverlay {
   min-width: 100px;
 }
 .progress-bar {
-  font-size: 11px;
+  font-size: 0.75rem;
   line-height: 15px;
   min-width: 30px;
 }
@@ -16828,7 +17383,7 @@ span.ilNewsRssIcon {
   background-color: #B54F00;
   color: white;
   min-width: 36px;
-  font-size: 10px;
+  font-size: 0.625rem;
   text-align: center;
   display: inline-block;
   padding: 0 5px;
@@ -16926,7 +17481,7 @@ span.ilNewsRssIcon:hover {
   height: 50px;
   padding-top: 8px;
   line-height: 1.2em;
-  font-size: 1em;
+  font-size: 0.875rem;
   text-align: center;
   position: absolute;
   top: 16px;
@@ -16944,10 +17499,10 @@ span.ilNewsRssIcon:hover {
   }
 }
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
-  font-size: 1.3em;
+  font-size: 0.875rem;
 }
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineMonth {
-  font-size: 0.8em;
+  font-size: 0.625rem;
 }
 .ilTimeline > li > .ilTimelineBadge > p {
   padding: 0;
@@ -17252,7 +17807,7 @@ div.ilSurveyPageEditActionMenu {
 }
 /* Services/Tags */
 .ilTagCloud {
-  font-size: 12px;
+  font-size: 0.75rem;
   padding: 6px 12px;
 }
 .ilTag {
@@ -17301,7 +17856,7 @@ div.ilChecklist ul {
 }
 div.ilChecklist ul li {
   padding: 0;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 div.ilChecklist ul li a,
 div.ilChecklist ul li span {
@@ -17318,8 +17873,8 @@ div.ilChecklist ul li a:hover {
 }
 div.ilChecklist ul li p,
 div.ilChecklist ul li p:hover {
-  color: #6f6f6f;
-  font-size: 85%;
+  color: #7c7c7c;
+  font-size: 0.625rem;
   text-decoration: none;
   padding: 0;
   margin-top: 0;
@@ -17343,10 +17898,10 @@ div.ilChecklist ul li img {
 }
 /* Services/FileUpload */
 .ilFileUploadEntryProgressPercent {
-  font-size: 75%;
+  font-size: 0.625rem;
 }
 .ilFileUploadEntryOptions {
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .ilFileUploadEntryOptions label.control-label {
   padding-top: 3px;
@@ -17368,7 +17923,7 @@ a.ilPCMyCoursesToggle {
 }
 div.ilPCMyCoursesPath {
   margin-bottom: 10px;
-  font-size: 90%;
+  font-size: 0.75rem;
   /* font-style: italic; */
 }
 div.ilPrtfSignature {
@@ -17476,8 +18031,8 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .media-body h4,
 #awareness-content .media-body p {
-  color: #161616;
-  font-size: 12px;
+  color: #7c7c7c;
+  font-size: 0.75rem;
   padding: 5px 3px 0 3px;
   line-height: 1em;
   margin: 0;
@@ -17492,7 +18047,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #awareness-content .dropdown-menu {
   background-color: #f9f9f9;
   padding: 10px 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 #awareness-content .dropdown-menu a {
   color: #161616;
@@ -17731,7 +18286,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   background-color: #f9f9f9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator p {
-  font-size: 0.9em;
+  font-size: 0.75rem;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.header,
 #onscreenchat-container .chat-window-wrapper .chat li.message {
@@ -17748,12 +18303,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   width: 85%;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
-  font-size: 0.8em;
+  font-size: 0.625rem;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
   color: #777;
-  font-size: 0.9em;
+  font-size: 0.75rem;
 }
 #onscreenchat-container .chat-window-wrapper .panel {
   pointer-events: auto;
@@ -17761,7 +18316,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   border: 1px solid #dcdcdc;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-heading {
-  font-size: 80%;
+  font-size: 0.625rem;
   display: block;
   padding: 5px 5px 5px 15px;
   pointer-events: auto;
@@ -18015,7 +18570,7 @@ span.ilProfileBadge .modal .img-responsive {
 .bootstrap-datetimepicker-widget .timepicker-second {
   width: 54px;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1rem;
   margin: 0;
 }
 .bootstrap-datetimepicker-widget button[data-action] {
@@ -18204,7 +18759,7 @@ span.ilProfileBadge .modal .img-responsive {
   width: 54px;
 }
 .bootstrap-datetimepicker-widget table td.cw {
-  font-size: 0.8em;
+  font-size: 0.75rem;
   height: 20px;
   line-height: 20px;
   color: #737373;
@@ -18376,7 +18931,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilLike .il-counter-spacer {
   margin-left: 0px;
-  font-size: 9px;
+  font-size: 0.625rem;
   padding: 0;
   visibility: hidden;
 }
@@ -18441,7 +18996,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 /* ilPreview classes */
 .il_ContainerItemPreview {
-  font-size: 11px;
+  font-size: 0.75rem;
   margin-left: 10px;
 }
 .ilPreviewList {
@@ -18460,7 +19015,7 @@ span.ilProfileBadge .modal .img-responsive {
   box-shadow: 0 0 5px #D2D5D8;
 }
 .ilPreviewText {
-  font-size: 90%;
+  font-size: 0.75rem;
   margin-top: -20px;
   color: #2c2c2c;
 }
@@ -18491,7 +19046,7 @@ span.ilProfileBadge .modal .img-responsive {
   box-shadow: rgba(0, 0, 0, 0.47) 0 0 7px 0;
   background-color: white;
   border-collapse: separate;
-  font-size: 14px;
+  font-size: 0.875rem;
   padding: 0;
   border: 1px solid #D1D1D1;
 }
@@ -18615,7 +19170,7 @@ span.ilProfileBadge .modal .img-responsive {
   box-shadow: none;
 }
 .ilPreviewInlineContent .ilPreviewText {
-  font-size: 100%;
+  font-size: 0.875rem;
   margin-top: 0;
 }
 .noMargin {
@@ -18638,7 +19193,7 @@ img[src$="icon_checked.svg"] {
   margin: 0 5px 0 6px;
 }
 .glyphicon-ok {
-  font-size: 11px;
+  font-size: 0.75rem;
   text-align: center;
 }
 div.ilNewObjectSelector {
@@ -18895,4 +19450,34 @@ table.mceToolbar td {
   a[href]:after {
     content: "";
   }
+}
+.read-more-state {
+  display: none;
+}
+.read-more-target {
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: 0.25s ease;
+}
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+  opacity: 1;
+  font-size: inherit;
+  max-height: 999em;
+}
+.read-more-state ~ .read-more-trigger:before {
+  content: 'Show more';
+}
+.read-more-state:checked ~ .read-more-trigger:before {
+  content: 'Show less';
+}
+.read-more-trigger {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 0.5em;
+  color: #737373;
+  font-size: 0.75rem;
+  line-height: 2;
+  border: 1px solid #dddddd;
+  border-radius: 0.25em;
 }
