@@ -21,7 +21,7 @@
 class ilMediaItem
 {
     protected string $tried_thumb = "";
-    protected string $text_representation;
+    protected string $text_representation = "";
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
