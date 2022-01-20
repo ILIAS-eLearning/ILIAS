@@ -50,12 +50,14 @@ class ilSystemStyleIconFolderTest extends TestCase
     {
         global $DIC;
 
-        $this->save_dic = $DIC;
+        $this->save_dic = clone $DIC;
         $DIC = new ilSystemStyleDICMock();
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
-        mkdir($this->system_style_config->test_skin_temp_path);
+        if(!file_exists($this->system_style_config->test_skin_temp_path)) {
+            mkdir($this->system_style_config->test_skin_temp_path);
+        }
         ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path, $this->system_style_config->test_skin_temp_path);
 
         $this->container = ilSystemStyleSkinContainer::generateFromId("skin1", null, $this->system_style_config);

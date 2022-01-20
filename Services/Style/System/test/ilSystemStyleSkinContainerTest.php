@@ -46,7 +46,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
     {
         global $DIC;
 
-        $this->save_dic = $DIC;
+        $this->save_dic = clone $DIC;
         $DIC = new ilSystemStyleDICMock();
 
         if (!defined('PATH_TO_LESSC')) {
@@ -293,12 +293,26 @@ class ilSystemStyleSkinContainerTest extends TestCase
 
         //Only perform this test, if an unzip path has been found.
         if (PATH_TO_UNZIP != "") {
-            $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
+            global $DIC;
+            $DIC->logger()->root()->expects('debug');
+            $container = ilSystemStyleSkinContainer::generateFromId(
+                $this->skin->getId(),
+                null,
+                $this->system_style_config
+            );
+
             $skin = $container->getSkin();
 
             $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
 
-            $container_import = $container->import($container->createTempZip(), $this->skin->getId() . ".zip", null, $this->system_style_config, false);
+            $container_import = $container->import(
+                $container->createTempZip(),
+                $this->skin->getId() . ".zip",
+                null,
+                $this->system_style_config,
+                false
+            );
+
             $skin_copy = $container_import->getSkin();
 
             $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
