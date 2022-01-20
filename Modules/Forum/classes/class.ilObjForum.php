@@ -12,7 +12,7 @@
  */
 class ilObjForum extends ilObject
 {
-    private const NEWS_NEW_CONSIDERATION_WEEKS = 8;
+    public const NEWS_NEW_CONSIDERATION_WEEKS = 8;
     
     public ilForum $Forum;
     /** @var array<int, int>  */

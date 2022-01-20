@@ -4252,14 +4252,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public function setColumnSettings(ilColumnGUI $column_gui) : void
     {
         $column_gui->setBlockProperty('news', 'title', $this->lng->txt('frm_latest_postings'));
-        $column_gui->setBlockProperty('news', 'prevent_aggregation', true);
+        $column_gui->setBlockProperty('news', 'prevent_aggregation', '1');
         $column_gui->setRepositoryMode(true);
 
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             $news_set = new ilSetting('news');
             if ($news_set->get('enable_rss_for_internal')) {
-                $column_gui->setBlockProperty('news', 'settings', true);
-                $column_gui->setBlockProperty('news', 'public_notifications_option', true);
+                $column_gui->setBlockProperty('news', 'settings', '1');
+                $column_gui->setBlockProperty('news', 'public_notifications_option', '1');
             }
         }
     }
