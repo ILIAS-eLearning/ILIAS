@@ -10402,7 +10402,7 @@ dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
-dcl#:#dcl_save_order#:#Sortierung Speichern
+dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Eintrag wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
