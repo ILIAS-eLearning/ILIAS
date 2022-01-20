@@ -3326,10 +3326,13 @@ class ilObjUser extends ilObject
                 include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
                 $obj["title"] = ilMediaPoolPage::lookupTitle($obj["item_id"]);
             }
-            if($obj["title"] != "") {
-                $objects[] = array("id" => $obj["item_id"],
-                    "type" => $obj["type"], "title" => $obj["title"],
-                    "insert_time" => $obj["insert_time"]);
+            if ($obj["title"] != "") {
+                $objects[] = array(
+                    "id" => $obj["item_id"],
+                    "type" => $obj["type"],
+                    "title" => $obj["title"],
+                    "insert_time" => $obj["insert_time"]
+                );
             }
         }
         return $objects;
