@@ -1522,6 +1522,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $lng = $DIC->language();
         $ilErr = $DIC['ilErr'];
 
+        $a_target = is_numeric($a_target) ? (int) $a_target : 0;
         if ($ilAccess->checkAccess('read', '', $a_target)) {
             if ($a_thread !== 0) {
                 $objTopic = new ilForumTopic($a_thread);
