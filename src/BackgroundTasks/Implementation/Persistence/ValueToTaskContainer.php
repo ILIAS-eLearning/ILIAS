@@ -105,5 +105,4 @@ class ValueToTaskContainer extends \ActiveRecord
     {
         $this->position = $position;
     }
-    
 }

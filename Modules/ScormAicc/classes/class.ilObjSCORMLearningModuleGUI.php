@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -30,13 +30,13 @@
 */
 class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 {
-    const EXPORT_UNDEF = 0;
-    const EXPORT_ALL = 1;
-    const EXPORT_SELECTED = 2;
-
-    const EXPORT_TYPE_RAW = 1;
-    const EXPORT_TYPE_SUCCESS = 2;
-
+//    const EXPORT_UNDEF = 0;
+//    const EXPORT_ALL = 1;
+//    const EXPORT_SELECTED = 2;
+//
+//    const EXPORT_TYPE_RAW = 1;
+//    const EXPORT_TYPE_SUCCESS = 2;
+    protected int $refId;
     /**
      * @var ilCtrl
      */
@@ -56,6 +56,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $this->lng->loadLanguageModule("content");
         $this->lng->loadLanguageModule("search");
+
+        $this->refId = (int) $_GET["ref_id"];
 
         $this->type = "sahs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -471,7 +473,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $tocheck = "imsmanifest.xml";
 
         // check create permission before because the uploaded file will be copied
-        if (!$rbacsystem->checkAccess("write", $_GET["ref_id"])) {
+        if (!$rbacsystem->checkAccess("write", $this->refId)) {
             $this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
         } elseif ($_FILES["scormfile"]["name"]) {
             // check if file was uploaded
@@ -509,7 +511,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $unzipcmd = $unzip . " -o " . ilUtil::escapeShellArg($source) . " " . $tocheck;
         exec($unzipcmd);
         chdir($cdir);
-        $tmp_file = $dir . "/" . $_GET["ref_id"] . "." . $tocheck;
+        $tmp_file = $dir . "/" . $this->refId . "." . $tocheck;
 
         ilFileUtils::rename($dir . "/" . $tocheck, $tmp_file);
         $new_manifest = file_get_contents($tmp_file);
@@ -556,7 +558,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
             //redirect to properties and display success
             ilUtil::sendInfo($this->lng->txt("cont_new_module_added"), true);
-            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $_GET["ref_id"]);
+            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $this->refId);
             exit;
         } else {
             if ($source_is_copy) {
@@ -689,8 +691,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Show tracking table
-     * @global ilTabs $ilTabs
-     * $global ilToolbar $ilToolbar
      */
     public function showTrackingItems()
     {
@@ -700,7 +700,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $ilTabs->setTabActive('cont_tracking_data');
 
-        if ($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
             ilObjSCORMLearningModuleGUI::setSubTabs();
             $ilTabs->setSubTabActive('cont_tracking_byuser');
 
@@ -747,7 +747,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 $tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
                 $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
             }
-        } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+        } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
             $this->modifyTrackingItems();
         }
         return true;
@@ -756,7 +756,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        if ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
             $privacy = ilPrivacySettings::getInstance();
             if (!$privacy->enabledSahsProtocolData()) {
                 $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
@@ -926,7 +926,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function exportAll()
     {
-        $this->object->exportSelected(1);
+        $this->object->exportSelected(true);
     }
 
     /**
@@ -939,19 +939,19 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
         } else {
-            $this->object->exportSelected(0, $_POST["user"]);
+            $this->object->exportSelected(false, $_POST["user"]);
         }
     }
 
 
-    public function decreaseAttempts()
-    {
-        if (!isset($_POST["user"])) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-        }
-        $this->object->decreaseAttemptsForUser($_POST["user"]);
-        $this->ctrl->redirect($this, "modifyTrackingItems");
-    }
+//    public function decreaseAttempts()
+//    {
+//        if (!isset($_POST["user"])) {
+//            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+//        }
+//        $this->object->decreaseAttemptsForUser($_POST["user"]);
+//        $this->ctrl->redirect($this, "modifyTrackingItems");
+//    }
 
 
     /**
@@ -1021,7 +1021,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
             $ilTabs->addSubTabTarget(
                 "cont_tracking_byuser",
                 $this->ctrl->getLinkTarget($this, "showTrackingItems"),
@@ -1036,7 +1036,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 get_class($this)
             );
         }
-        if ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
             $ilTabs->addSubTabTarget(
                 "cont_tracking_modify",
                 $this->ctrl->getLinkTarget($this, "modifyTrackingItems"),
@@ -1045,9 +1045,5 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             );
         }
     }
-
-
-
-
 }
 // END class.ilObjSCORMLearningModule

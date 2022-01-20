@@ -8,9 +8,9 @@ require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php
 /**
 * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id$
-* @ilCtrl_Calls ilSCORM13Player:
+* @ilCtrl_Calls ilSCORM13PlayerGUI:
 */
-class ilSCORM13Player
+class ilSCORM13PlayerGUI
 {
     const ENABLE_GZIP = 0;
     
@@ -470,7 +470,7 @@ class ilSCORM13Player
         }
 
         //set icons path
-        $this->tpl->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
+        $this->tpl->setVariable('INLINE_CSS', ilSCORM13PlayerGUI::getInlineCss());
 
         //include scripts
         if ($this->slm->getCacheDeactivated()) {
@@ -488,13 +488,13 @@ class ilSCORM13Player
 
 
         //check for max_attempts and raise error if max_attempts is exceeded
-        if ($this->get_max_attempts() != 0) {
-            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
-                header('Content-Type: text/html; charset=utf-8');
-                echo($lng->txt("cont_sc_max_attempt_exceed"));
-                exit;
-            }
-        }
+//        if ($this->get_max_attempts() != 0) {
+//            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
+//                header('Content-Type: text/html; charset=utf-8');
+//                echo($lng->txt("cont_sc_max_attempt_exceed"));
+//                exit;
+//            }
+//        }
         
         //count attempt
         $this->increase_attemptAndsave_module_version();
@@ -1204,11 +1204,11 @@ class ilSCORM13Player
     /**
     * Get max. number of attempts allowed for this package
     */
-    public function get_max_attempts()
-    {
-        include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
-        return ilObjSCORMInitData::get_max_attempts($this->packageId);
-    }
+//    public function get_max_attempts()
+//    {
+//        include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+//        return ilObjSCORMInitData::get_max_attempts($this->packageId);
+//    }
     
     public function get_Module_Version()
     {

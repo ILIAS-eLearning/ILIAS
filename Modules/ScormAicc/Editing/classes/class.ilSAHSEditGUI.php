@@ -20,8 +20,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id: class.ilSAHSPresentationGUI.php 11714 2006-07-30 17:15:55Z akill $
 *
-* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilSAHSEditGUI: ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
+* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI, ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -50,7 +49,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
     /**
     * execute command
     */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -84,14 +83,15 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
         switch ($type) {
-            
+
+            case "scorm":
+                $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $_GET["ref_id"], true, false);
+                break;
+
             case "scorm2004":
                 $this->slm_gui = new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"], true, false);
                 break;
                 
-            case "scorm":
-                $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
-                break;
         }
 
         if ($next_class == "") {
@@ -124,7 +124,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 $ftmp = explode(":", $file);
                 $fileName = $ftmp[1];
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-                ilUtil::deliverFile($exportDir . "/" . $fileName, $fileName);
+                ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName);
             } elseif ($cmd == "confirmDeletion") {
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 foreach ($_POST["file"] as $file) {

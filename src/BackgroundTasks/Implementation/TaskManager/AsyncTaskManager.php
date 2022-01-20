@@ -45,7 +45,7 @@ class AsyncTaskManager extends BasicTaskManager
         $soap_client->enableWSDL(true);
         $soap_client->init();
         $session_id = session_id();
-        $client_id  = $_COOKIE['ilClientId'];
+        $client_id = $_COOKIE['ilClientId'];
         try {
             $soap_client->call(self::CMD_START_WORKER, array(
                 $session_id . '::' . $client_id,
@@ -86,9 +86,9 @@ class AsyncTaskManager extends BasicTaskManager
                 break;
             }
             
-            $bucket   = $persistence->loadBucket(array_shift($ids));
+            $bucket = $persistence->loadBucket(array_shift($ids));
             $observer = new PersistingObserver($bucket, $persistence);
-            $task     = $bucket->getTask();
+            $task = $bucket->getTask();
             
             try {
                 $this->executeTask($task, $observer);

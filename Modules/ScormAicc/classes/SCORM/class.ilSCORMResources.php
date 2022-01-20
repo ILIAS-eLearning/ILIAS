@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -47,12 +47,12 @@ class ilSCORMResources extends ilSCORMObject
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base): void
+    public function setXmlBase($a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function read(): void
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -68,7 +68,7 @@ class ilSCORMResources extends ilSCORMObject
         $this->setXmlBase($obj_rec['xml_base']);
     }
 
-    public function create(): void
+    public function create() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -82,7 +82,7 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    public function update(): void
+    public function update() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -97,7 +97,7 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    public function delete(): void
+    public function delete() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

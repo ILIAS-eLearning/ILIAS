@@ -24,7 +24,6 @@ use ILIAS\BackgroundTasks\Value;
  *****************************************************************************/
 class BasicBucket implements Bucket
 {
-    
     protected int $user_id;
     protected Task $root_task;
     protected Task $current_task;
@@ -68,9 +67,9 @@ class BasicBucket implements Bucket
     
     public function setTask(Task $task) : void
     {
-        $this->tasks                 = $task->unfoldTask();
+        $this->tasks = $task->unfoldTask();
         $this->total_number_of_tasks = count($this->tasks);
-        $this->root_task             = $task;
+        $this->root_task = $task;
         foreach ($this->tasks as $subTask) {
             $this->percentages[spl_object_hash($subTask)] = 0;
         }
@@ -153,7 +152,7 @@ class BasicBucket implements Bucket
         }
         
         // From the current task we do the interaction.
-        $inputs          = $currentTask->getInput();
+        $inputs = $currentTask->getInput();
         $resulting_value = $currentTask->interaction($inputs, $option, $this);
         
         if ($currentTask === $this->root_task) {
@@ -211,7 +210,7 @@ class BasicBucket implements Bucket
      */
     public function heartbeat() : void
     {
-        $now                  = new \DateTime('now', new \DateTimeZone('UTC'));
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->last_heartbeat = $now->getTimestamp();
     }
     

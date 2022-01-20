@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,13 +25,13 @@
 */
 class ilObjSCORMInitData
 {
-    public static function encodeURIComponent($str): string
+    public static function encodeURIComponent($str) : string
     {
         $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')', '%7E' => '~');
         return strtr(rawurlencode($str), $revert);
     }
 
-    public static function getIliasScormVars($slm_obj): string
+    public static function getIliasScormVars($slm_obj) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -305,7 +305,7 @@ class ilObjSCORMInitData
     /**
      * @return array<string, mixed>
      */
-    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType = "1.2"): array
+    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType = "1.2") : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -351,12 +351,12 @@ class ilObjSCORMInitData
         return $status;
     }
     // hash for storing data without session
-    private static function setHash($a_packageId, $a_user_id): int
+    private static function setHash($a_packageId, $a_user_id) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $hash = mt_rand(1_000_000_000, 2_147_483_647);
-        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d') + 1, date('Y')));
+        $endDate = date('Y-m-d H:i:s', mktime((int) date("H"), (int) date("i"), (int) date("s"), (int) date("m"), (int) date("d") + 1, (int) date("Y")));
 
         $res = $ilDB->queryF(
             'SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
@@ -392,7 +392,7 @@ class ilObjSCORMInitData
     /**
     * Get max. number of attempts allowed for this package
     */
-    public static function get_max_attempts($a_packageId): int
+    public static function get_max_attempts($a_packageId) : int
     {
         //erased in 5.1
         return 0;

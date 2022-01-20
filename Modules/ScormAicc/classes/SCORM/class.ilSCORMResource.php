@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -50,7 +50,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id): void
+    public function setImportId($a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
@@ -60,7 +60,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->resourcetype;
     }
 
-    public function setResourceType($a_type): void
+    public function setResourceType($a_type) : void
     {
         $this->resourcetype = $a_type;
     }
@@ -70,7 +70,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->scormtype;
     }
 
-    public function setScormType($a_scormtype): void
+    public function setScormType($a_scormtype) : void
     {
         $this->scormtype = $a_scormtype;
     }
@@ -80,7 +80,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->href;
     }
 
-    public function setHRef($a_href): void
+    public function setHRef($a_href) : void
     {
         $this->href = $a_href;
         $this->setTitle($a_href);
@@ -91,38 +91,38 @@ class ilSCORMResource extends ilSCORMObject
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base): void
+    public function setXmlBase($a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function addFile(&$a_file_obj): void
+    public function addFile(&$a_file_obj) : void
     {
         $this->files[] = &$a_file_obj;
     }
 
     /**
-				 * @return mixed[]
-				 */
-				public function &getFiles(): array
+                 * @return mixed[]
+                 */
+    public function &getFiles() : array
     {
         return $this->files;
     }
 
-    public function addDependency(&$a_dependency): void
+    public function addDependency(&$a_dependency) : void
     {
         $this->dependencies[] = &$a_dependency;
     }
 
     /**
-				 * @return mixed[]
-				 */
-				public function &getDependencies(): array
+                 * @return mixed[]
+                 */
+    public function &getDependencies() : array
     {
         return $this->dependencies;
     }
 
-    public function read(): void
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -166,7 +166,7 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function readByIdRef($a_id_ref, $a_slm_id): void
+    public function readByIdRef($a_id_ref, $a_slm_id) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -228,7 +228,7 @@ class ilSCORMResource extends ilSCORMObject
         return "";
     }
 
-    public function create(): void
+    public function create() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -277,7 +277,7 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function update(): void
+    public function update() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -340,7 +340,7 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function delete(): void
+    public function delete() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

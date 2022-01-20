@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -133,7 +133,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $news_set = new ilSetting("news");
                     $enable_internal_rss = $news_set->get("enable_rss_for_internal");
                     if ($enable_internal_rss) {
-                        $info->setBlockProperty("news", "settings", true);
+                        $info->setBlockProperty("news", "settings", "");
                     }
                 }
                 // show standard meta data section
@@ -327,7 +327,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
 
         // check create permission
-        if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs")) {
+        if (!$rbacsystem->checkAccess("create", (int) $_GET["ref_id"], "sahs")) {
             $this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
         } elseif ($_FILES["scormfile"]["name"]) {
             // check if file was uploaded
@@ -382,9 +382,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         switch ($subType) {
         case "scorm2004":
             $newObj = new ilObjSCORM2004LearningModule();
-            $newObj->setEditable($_POST["editable"] == 'y');
-            $newObj->setImportSequencing($_POST["import_sequencing"]);
-            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+            $newObj->setEditable(false);//$_POST["editable"] == 'y');
+//            $newObj->setImportSequencing($_POST["import_sequencing"]);
+//            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
             break;
 
         case "scorm":
@@ -409,7 +409,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $zar->close();
                 $importer = new ilScormAiccImporter();
                 $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, strlen($_FILES["scormfile"]["name"]) - 4);
-                if ($importer->importXmlRepresentation("sahs", null, $import_dirname, "") == true) {
+                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
                     $importFromXml = true;
                 }
                 $mprops = [];
@@ -516,21 +516,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
 
-    /**
-    * permission form
-    */
-    public function info()
-    {
-        $this->infoObject();
-    }
+//    /**
+//    * permission form
+//    */
+//    public function info()
+//    {
+//        $this->infoObject();
+//    }
 
-    /**
-    * show owner of learning module
-    */
-    public function owner()
-    {
-        $this->ownerObject();
-    }
+//    /**
+//    * show owner of learning module
+//    */
+//    public function owner()
+//    {
+//        $this->ownerObject();
+//    }
 
     /**
     * output main header (title and locator)
@@ -625,17 +625,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             get_class($this)
         );
         // if (ilLearningProgressAccess::checkAccess($this->object->getRefId()) || $rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId())) {
-            // //if scorm && offline_mode activated
-            // if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
-                // if ($this->object->getOfflineMode() == true) {
-                    // $this->tabs_gui->addTarget(
-                        // "offline_mode_manager",
-                        // $this->ctrl->getLinkTarget($this, "offlineModeManager"),
-                        // "offlineModeManager",
-                        // "ilobjscormlearningmodulegui"
-                    // );
-                // }
-            // }
+        // //if scorm && offline_mode activated
+        // if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
+        // if ($this->object->getOfflineMode() == true) {
+        // $this->tabs_gui->addTarget(
+        // "offline_mode_manager",
+        // $this->ctrl->getLinkTarget($this, "offlineModeManager"),
+        // "offlineModeManager",
+        // "ilobjscormlearningmodulegui"
+        // );
+        // }
+        // }
         // }
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -739,7 +739,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $this->object->getTitle(),
                 $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
                 "",
-                $_GET["ref_id"]
+                (int) $_GET["ref_id"]
             );
         }
     }
@@ -750,17 +750,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @param
      * @return
      */
-    public function editContent()
-    {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        if (!$this->object->getEditable()) {
-            $ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
-        } else {
-            $ilCtrl->redirectByClass("ilobjscorm2004learningmodulegui", "editOrganization");
-        }
-    }
+//    public function editContent()
+//    {
+//        global $DIC;
+//        $ilCtrl = $DIC['ilCtrl'];
+//
+//        if (!$this->object->getEditable()) {
+//            $ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
+//        } else {
+//            $ilCtrl->redirectByClass("ilobjscorm2004learningmodulegui", "editOrganization");
+//        }
+//    }
 
     /**
      * set Tabs for settings

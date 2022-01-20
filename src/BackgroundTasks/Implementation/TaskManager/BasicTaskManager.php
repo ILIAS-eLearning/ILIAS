@@ -60,12 +60,12 @@ abstract class BasicTaskManager implements TaskManager
     {
         $observer->notifyState(State::RUNNING);
         /** @var Value[] $values */
-        $values               = $task->getInput();
-        $final_values         = [];
+        $values = $task->getInput();
+        $final_values = [];
         $replace_thunk_values = false;
         foreach ($values as $value) {
             if (is_a($value, ThunkValue::class)) {
-                $value                = $this->executeTask($value->getParentTask(), $observer);
+                $value = $this->executeTask($value->getParentTask(), $observer);
                 $replace_thunk_values = true;
             }
             $final_values[] = $value;

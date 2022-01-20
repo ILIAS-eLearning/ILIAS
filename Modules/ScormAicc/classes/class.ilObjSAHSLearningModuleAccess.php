@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -92,7 +92,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         // if(!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id)
         // && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
         // {
-        // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+        // $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
         // return false;
         // }
         // break;
@@ -104,7 +104,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         // if (!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id) &&
         // (!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
         // {
-        // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+        // $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
         // return false;
         // }
         // break;

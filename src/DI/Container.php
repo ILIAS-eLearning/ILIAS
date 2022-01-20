@@ -9,6 +9,7 @@ use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Repository;
+use ILIAS\BackgroundTasks\BackgroundTaskServices;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -160,11 +161,7 @@ class Container extends \Pimple\Container
         return $this['upload'];
     }
 
-
-    /**
-     * @return BackgroundTaskServices
-     */
-    public function backgroundTasks()
+    public function backgroundTasks() : BackgroundTaskServices
     {
         return new BackgroundTaskServices($this);
     }

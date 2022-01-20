@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,7 +27,7 @@ class ilScormLP extends ilObjectLP
     /**
      * @return int[]
      */
-    public static function getDefaultModes($a_lp_active): array
+    public static function getDefaultModes($a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -35,7 +35,7 @@ class ilScormLP extends ilObjectLP
         );
     }
     
-    public function getDefaultMode(): int
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
@@ -98,7 +98,7 @@ class ilScormLP extends ilObjectLP
         return $this->precondition_cache;
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids): void
+    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -136,7 +136,7 @@ class ilScormLP extends ilObjectLP
         }
     }
     
-    public function getMailTemplateId(): string
+    public function getMailTemplateId() : string
     {
         return ilScormMailTemplateLPContext::ID;
     }

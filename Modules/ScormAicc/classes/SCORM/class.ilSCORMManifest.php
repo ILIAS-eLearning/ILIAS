@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -44,7 +44,7 @@ class ilSCORMManifest extends ilSCORMObject
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id): void
+    public function setImportId($a_import_id) : void
     {
         $this->import_id = $a_import_id;
         $this->setTitle($a_import_id);
@@ -55,7 +55,7 @@ class ilSCORMManifest extends ilSCORMObject
         return $this->version;
     }
 
-    public function setVersion($a_version): void
+    public function setVersion($a_version) : void
     {
         $this->version = $a_version;
     }
@@ -65,12 +65,12 @@ class ilSCORMManifest extends ilSCORMObject
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base): void
+    public function setXmlBase($a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function read(): void
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -89,7 +89,7 @@ class ilSCORMManifest extends ilSCORMObject
         $this->setXmlBase($obj_rec["xml_base"]);
     }
 
-    public function create(): void
+    public function create() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -105,7 +105,7 @@ class ilSCORMManifest extends ilSCORMObject
         );
     }
 
-    public function update(): void
+    public function update() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -124,7 +124,7 @@ class ilSCORMManifest extends ilSCORMObject
         );
     }
 
-    public function delete(): void
+    public function delete() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
