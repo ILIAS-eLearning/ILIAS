@@ -949,7 +949,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             )
         ) {
             $this->properties->setStyleSheetId(
-                (int) ($this->http->request()->getQueryParams()['style_id'] ?? 0)
+                (int) ($this->dic->http()->request()->getQueryParams()['style_id'] ?? 0)
             );
             $this->properties->update();
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
