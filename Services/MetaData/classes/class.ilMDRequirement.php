@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDRequirement extends ilMDBase
 {
@@ -125,7 +125,7 @@ class ilMDRequirement extends ilMDBase
         return $this->browser_maximum_version;
     }
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -135,7 +135,7 @@ class ilMDRequirement extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -187,7 +187,7 @@ class ilMDRequirement extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_requirement " .
@@ -195,10 +195,10 @@ class ilMDRequirement extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setOperatingSystemName($row->operating_system_name);
                 $this->setOperatingSystemMinimumVersion($row->os_min_version);
@@ -206,7 +206,7 @@ class ilMDRequirement extends ilMDBase
                 $this->setBrowserName($row->browser_name);
                 $this->setBrowserMinimumVersion($row->browser_minimum_version);
                 $this->setBrowserMaximumVersion($row->browser_maximum_version);
-                $this->setOrCompositeId($row->or_composite_id);
+                $this->setOrCompositeId((int) $row->or_composite_id);
             }
         }
         return true;
@@ -260,9 +260,10 @@ class ilMDRequirement extends ilMDBase
             "AND or_composite_id = " . $ilDB->quote($a_or_composite_id, 'integer');
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_requirement_id;
+            $ids[] = (int) $row->meta_requirement_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

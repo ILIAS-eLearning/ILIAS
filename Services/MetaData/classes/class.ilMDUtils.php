@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -87,7 +87,7 @@ class ilMDUtils
         $tpl = $DIC['tpl'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
-        include_once('Services/MetaData/classes/class.ilMDKeyword.php');
+        
         foreach (ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $key_string) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'keywords');
@@ -95,7 +95,7 @@ class ilMDUtils
             $tpl->setVariable('MH_META_CONTENT', $key_string);
             $tpl->parseCurrentBlock();
         }
-        include_once('Services/MetaData/classes/class.ilMDContribute.php');
+        
         foreach (ilMDContribute::_lookupAuthors($a_rbac_id, $a_obj_id, $a_type) as $author) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'author');
@@ -108,12 +108,12 @@ class ilMDUtils
 
     public static function _parseCopyright(string $a_copyright) : string
     {
-        include_once('Services/MetaData/classes/class.ilMDSettings.php');
+        
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
             return $a_copyright;
         }
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
     }
 }

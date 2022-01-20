@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -42,7 +42,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         if ($this->has_write) {
-            $this->addColumn('', 'f', 1);
+            $this->addColumn('', 'f', '1');
             $this->addColumn($this->lng->txt("position"), "order");
             $this->addCommandButton("saveCopyrightPosition", $this->lng->txt("meta_save_order"));
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -31,8 +31,8 @@
 * @version $Id$
 */
 
-include_once 'Services/MetaData/classes/class.ilMDSaxParser.php';
-include_once 'Services/MetaData/classes/class.ilMD.php';
+
+
 
 class ilMDXMLCopier extends ilMDSaxParser
 {

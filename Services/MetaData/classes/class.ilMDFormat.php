@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,7 +29,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDFormat extends ilMDBase
 {
@@ -46,7 +46,7 @@ class ilMDFormat extends ilMDBase
         return $this->format;
     }
 
-    public function save() : bool
+    public function save() : int
     {
 
         $fields = $this->__getFields();
@@ -56,7 +56,7 @@ class ilMDFormat extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -101,7 +101,7 @@ class ilMDFormat extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_format " .
@@ -109,8 +109,8 @@ class ilMDFormat extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setFormat($row->format);
             }
@@ -142,9 +142,10 @@ class ilMDFormat extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_format_id;
+            $ids[] = (int) $row->meta_format_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

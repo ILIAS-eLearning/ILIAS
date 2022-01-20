@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDRights extends ilMDBase
 {
@@ -121,7 +121,7 @@ class ilMDRights extends ilMDBase
         return is_object($this->description_language) ? $this->description_language->getLanguageCode() : '';
     }
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -131,7 +131,7 @@ class ilMDRights extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -180,7 +180,7 @@ class ilMDRights extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
 
         if ($this->getMetaId()) {
@@ -190,8 +190,8 @@ class ilMDRights extends ilMDBase
         
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setDescription($row->description);
                 $this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
@@ -212,7 +212,7 @@ class ilMDRights extends ilMDBase
                                             'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
                                             ? $this->getCopyrightAndOtherRestrictions()
                                             : 'No'));
-        include_once './Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php';
+        
         $writer->xmlElement(
             'Description',
             [
@@ -264,7 +264,7 @@ class ilMDRights extends ilMDBase
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->meta_rights_id;
+            return (int) $row->meta_rights_id;
         }
         return 0;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDEducational extends ilMDBase
 {
@@ -48,13 +48,13 @@ class ilMDEducational extends ilMDBase
      */
     public function getTypicalAgeRangeIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+        
 
         return ilMDTypicalAgeRange::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
     public function getTypicalAgeRange(int $a_typical_age_range_id) : ?ilMDTypicalAgeRange
     {
-        include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+        
 
         if (!$a_typical_age_range_id) {
             return null;
@@ -66,7 +66,7 @@ class ilMDEducational extends ilMDBase
     }
     public function addTypicalAgeRange() : ilMDTypicalAgeRange
     {
-        include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+        
 
         $typ = new ilMDTypicalAgeRange($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $typ->setParentId($this->getMetaId());
@@ -80,13 +80,13 @@ class ilMDEducational extends ilMDBase
      */
     public function getDescriptionIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
     public function getDescription(int $a_description_id) : ?ilMDDescription
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
         if (!$a_description_id) {
             return null;
@@ -98,7 +98,7 @@ class ilMDEducational extends ilMDBase
     }
     public function addDescription() : ilMDDescription
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
@@ -112,13 +112,13 @@ class ilMDEducational extends ilMDBase
      */
     public function getLanguageIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+        
 
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
     public function getLanguage(int $a_language_id) : ?ilMDLanguage
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+        
 
         if (!$a_language_id) {
             return null;
@@ -130,7 +130,7 @@ class ilMDEducational extends ilMDBase
     }
     public function addLanguage() : ilMDLanguage
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+        
         
         $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $lan->setParentId($this->getMetaId());
@@ -186,7 +186,7 @@ class ilMDEducational extends ilMDBase
     {
         return $this->learning_resource_type;
     }
-    public function setInteractivityLevel($a_iat)
+    public function setInteractivityLevel(string $a_iat) : bool
     {
         switch ($a_iat) {
             case 'VeryLow':
@@ -321,14 +321,14 @@ class ilMDEducational extends ilMDBase
 
     public function getTypicalLearningTimeSeconds() : int
     {
-        include_once './Services/MetaData/classes/class.ilMDUtils.php';
+        
 
         $time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
 
         return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
     }
     
-    public function save() : bool
+    public function save() : int
     {
 
         $fields = $this->__getFields();
@@ -338,7 +338,7 @@ class ilMDEducational extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -411,8 +411,8 @@ class ilMDEducational extends ilMDBase
         
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setInteractivityType($row->interactivity_type);
                 $this->setLearningResourceType($row->learning_resource_type);
@@ -466,7 +466,7 @@ class ilMDEducational extends ilMDBase
             }
         }
         if (!count($typ_ages)) {
-            include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+            
             $typ = new ilMDTypicalAgeRange($this->getRBACId(), $this->getObjId());
             $typ->toXML($writer);
         }
@@ -487,7 +487,7 @@ class ilMDEducational extends ilMDBase
         $writer->xmlEndTag('Educational');
     }
     // STATIC
-    public static function _getId(int $a_rbac_id, int $a_obj_id) : bool
+    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
     {
         global $DIC;
 
@@ -499,9 +499,9 @@ class ilMDEducational extends ilMDBase
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->meta_educational_id;
+            return (int) $row->meta_educational_id;
         }
-        return false;
+        return 0;
     }
 
     public static function _getTypicalLearningTimeSeconds(int $a_rbac_id, int $a_obj_id = 0) : int
@@ -517,7 +517,7 @@ class ilMDEducational extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            include_once './Services/MetaData/classes/class.ilMDUtils.php';
+            
 
             $time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
 

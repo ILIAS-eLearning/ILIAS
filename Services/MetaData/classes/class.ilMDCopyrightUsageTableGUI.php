@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
@@ -142,6 +142,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     /**
      * @param string[] $filters
      * @return array<string, mixed>
+     * @noinspection PhpParamsInspection
      */
     public function collectData(array $filters) : array
     {

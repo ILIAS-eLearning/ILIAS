@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 
 /*
@@ -63,7 +63,7 @@ class ilMDCreator
 
     public function __construct(int $a_rbac_id, int $a_obj_id, string $a_type)
     {
-        include_once 'Services/MetaData/classes/class.ilMD.php';
+        
 
         if ($a_obj_id == 0) {
             $a_obj_id = $a_rbac_id;
@@ -99,7 +99,7 @@ class ilMDCreator
     }
     public function getTitleLanguage() : ilMDLanguageItem
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         return new ilMDLanguageItem($this->title_lng);
     }
@@ -109,7 +109,7 @@ class ilMDCreator
     }
     public function getDescriptionLanguage() : ilMDLanguageItem
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         return new ilMDLanguageItem($this->title_lng);
     }
@@ -119,7 +119,7 @@ class ilMDCreator
     }
     public function getLanguage() : ilMDLanguageItem
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         return new ilMDLanguageItem($this->title_lng);
     }
@@ -151,7 +151,7 @@ class ilMDCreator
     }
     public function getKeywordLanguage() : ilMDLanguageItem
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         return new ilMDLanguageItem($this->title_lng);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDDescription extends ilMDBase
 {
@@ -61,7 +61,7 @@ class ilMDDescription extends ilMDBase
         return is_object($this->description_language) ? $this->description_language->getLanguageCode() : '';
     }
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -71,7 +71,7 @@ class ilMDDescription extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -119,7 +119,7 @@ class ilMDDescription extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_description " .
@@ -127,10 +127,10 @@ class ilMDDescription extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setDescription($row->description);
                 $this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));

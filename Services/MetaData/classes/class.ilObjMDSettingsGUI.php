@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,7 +20,7 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+
 
 
 /**
@@ -73,7 +73,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -166,7 +166,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 
         $this->tabs_gui->setTabActive('md_general_settings');
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        
         $this->form = new ilPropertyFormGUI();
     
         $ti = new ilTextInputGUI($this->lng->txt("md_delimiter"), "delimiter");
@@ -215,7 +215,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         
         $has_write = $this->access->checkAccess('write', '', $this->object->getRefId());
         
-        include_once("./Services/MetaData/classes/class.ilMDCopyrightTableGUI.php");
+        
         $table_gui = new ilMDCopyrightTableGUI($this, 'showCopyrightSettings', $has_write);
         $table_gui->setTitle($this->lng->txt("md_copyright_selection"));
         $table_gui->parseSelections();
@@ -236,7 +236,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             $this->ctrl->redirect($this, "showCopyrightSettings");
         }
         
-        $this->md_settings->activateCopyrightSelection((int) $_POST['active']);
+        $this->md_settings->activateCopyrightSelection((bool) $_POST['active']);
         $this->md_settings->save();
         ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         $this->showCopyrightSettings();
@@ -268,7 +268,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     public function saveEntry() : bool
     {
 
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
         $this->entry = new ilMDCopyrightSelectionEntry(0);
     
         $this->entry->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -277,7 +277,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->entry->setLanguage('en');
         $this->entry->setCopyrightAndOtherRestrictions(true);
         $this->entry->setCosts(false);
-        $this->entry->setOutdated((int) $_POST['outdated']);
+        $this->entry->setOutdated((bool) $_POST['outdated']);
         
         if (!$this->entry->validate()) {
             ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
@@ -307,7 +307,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $c_gui->setCancel($this->lng->txt("cancel"), "showCopyrightSettings");
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteEntries");
 
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
 
         // add items to delete
         foreach ($_POST["entry_id"] as $entry_id) {
@@ -326,7 +326,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             return true;
         }
 
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
         foreach ($_POST["entry_id"] as $entry_id) {
             $entry = new ilMDCopyrightSelectionEntry($entry_id);
             $entry->delete();
@@ -340,13 +340,13 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     public function updateEntry() : bool
     {
 
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
         $this->entry = new ilMDCopyrightSelectionEntry((int) $_REQUEST['entry_id']);
     
         $this->entry->setTitle(ilUtil::stripSlashes($_POST['title']));
         $this->entry->setDescription(ilUtil::stripSlashes($_POST['description']));
         $this->entry->setCopyright($this->stripSlashes($_POST['copyright']));
-        $this->entry->setOutdated((int) $_POST['outdated']);
+        $this->entry->setOutdated((bool) $_POST['outdated']);
         
         if (!$this->entry->validate()) {
             ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
@@ -367,7 +367,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         if (is_object($this->form)) {
             return;
         }
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt('md_copyright_settings'));
@@ -380,7 +380,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         
         $check = new ilCheckboxInputGUI($this->lng->txt('md_copyright_enabled'), 'active');
         $check->setChecked($this->md_settings->isCopyrightSelectionActive());
-        $check->setValue(1);
+        $check->setValue('1');
         $check->setInfo($this->lng->txt('md_copyright_enable_info'));
         $this->form->addItem($check);
 
@@ -398,11 +398,11 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             return;
         }
         if (!is_object($this->entry)) {
-            include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+            
             $this->entry = new ilMDCopyrightSelectionEntry((int) $_REQUEST['entry_id']);
         }
         
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         
@@ -424,11 +424,11 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->form->addItem($cop);
 
         $usage = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright_usage'), 'outdated');
-        $use = new ilRadioOption($this->lng->txt('meta_copyright_in_use'), 0);
-        $out = new ilRadioOption($this->lng->txt('meta_copyright_outdated'), 1);
+        $use = new ilRadioOption($this->lng->txt('meta_copyright_in_use'), '0');
+        $out = new ilRadioOption($this->lng->txt('meta_copyright_outdated'), '1');
         $usage->addOption($use);
         $usage->addOption($out);
-        $usage->setValue($this->entry->getOutdated());
+        $usage->setValue((string) $this->entry->getOutdated());
         $this->form->addItem($usage);
         
         switch ($a_mode) {
@@ -449,7 +449,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 
     protected function initMDSettings() : void
     {
-        include_once('Services/MetaData/classes/class.ilMDSettings.php');
+        
         $this->md_settings = ilMDSettings::_getInstance();
     }
     

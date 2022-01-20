@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -166,9 +166,9 @@ class ilMDBase
         return false;
     }
 
-    public function save() : bool
+    public function save() : int
     {
-        return false;
+        return 0;
     }
 
     public function delete() : bool

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDClassification extends ilMDBase
 {
@@ -45,13 +45,13 @@ class ilMDClassification extends ilMDBase
      */
     public function getTaxonPathIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
+        
 
         return ilMDTaxonPath::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_classification');
     }
     public function getTaxonPath(int $a_taxon_path_id) : ?ilMDTaxonPath
     {
-        include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
+        
 
         if (!$a_taxon_path_id) {
             return null;
@@ -63,7 +63,7 @@ class ilMDClassification extends ilMDBase
     }
     public function addTaxonPath() : ilMDTaxonPath
     {
-        include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
+        
 
         $tax = new ilMDTaxonPath($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $tax->setParentId($this->getMetaId());
@@ -74,13 +74,13 @@ class ilMDClassification extends ilMDBase
 
     public function getKeywordIds() : ?array
     {
-        include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+        
 
         return ilMDKeyword::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_classification');
     }
     public function getKeyword(int $a_keyword_id) : ?ilMDKeyword
     {
-        include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+        
         
         if (!$a_keyword_id) {
             return null;
@@ -92,7 +92,7 @@ class ilMDClassification extends ilMDBase
     }
     public function addKeyword() : ilMDKeyword
     {
-        include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+        
 
         $key = new ilMDKeyword($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $key->setParentId($this->getMetaId());
@@ -149,7 +149,7 @@ class ilMDClassification extends ilMDBase
     }
 
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -159,7 +159,7 @@ class ilMDClassification extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -215,7 +215,7 @@ class ilMDClassification extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_classification " .
@@ -223,8 +223,8 @@ class ilMDClassification extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setPurpose($row->purpose);
                 $this->setDescription($row->description);
@@ -248,7 +248,7 @@ class ilMDClassification extends ilMDBase
             $tax->toXML($writer);
         }
         if (!count($taxs)) {
-            include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
+            
             $tax = new ilMDTaxonPath($this->getRBACId(), $this->getObjId());
             $tax->toXML($writer);
         }
@@ -269,7 +269,7 @@ class ilMDClassification extends ilMDBase
             $key->toXML($writer);
         }
         if (!count($keys)) {
-            include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+            
             $key = new ilMDKeyword($this->getRBACId(), $this->getObjId());
             $key->toXML($writer);
         }
@@ -295,9 +295,10 @@ class ilMDClassification extends ilMDBase
 
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_classification_id;
+            $ids[] = (int) $row->meta_classification_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

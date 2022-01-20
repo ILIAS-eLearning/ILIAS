@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDAnnotation extends ilMDBase
 {
@@ -36,7 +36,7 @@ class ilMDAnnotation extends ilMDBase
     private string $entity = '';
     private string $date = '';
     private string $description = '';
-    private ?ilMDLanguageItem $description_language;
+    private ?ilMDLanguageItem $description_language = null;
 
     // SET/GET
     public function setEntity(string $a_entity) : void
@@ -81,7 +81,7 @@ class ilMDAnnotation extends ilMDBase
         return '';
     }
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -91,7 +91,7 @@ class ilMDAnnotation extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -121,9 +121,11 @@ class ilMDAnnotation extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -134,10 +136,10 @@ class ilMDAnnotation extends ilMDBase
                      'description_language' => array('text',$this->getDescriptionLanguageCode()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_annotation " .
@@ -145,8 +147,8 @@ class ilMDAnnotation extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setEntity($row->entity);
                 $this->setDate($row->a_date);
@@ -191,9 +193,10 @@ class ilMDAnnotation extends ilMDBase
 
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = (int) $row->meta_annotation_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

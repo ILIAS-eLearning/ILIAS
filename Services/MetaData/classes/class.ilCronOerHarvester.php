@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -114,7 +114,7 @@ class ilCronOerHarvester extends ilCronJob
         foreach (ilMDCopyrightSelectionEntry::_getEntries() as $copyright_entry) {
             $copyright_checkox = new ilCheckboxOption(
                 $copyright_entry->getTitle(),
-                $copyright_entry->getEntryId(),
+                (string) $copyright_entry->getEntryId(),
                 $copyright_entry->getDescription()
             );
             $checkbox_group->addOption($copyright_checkox);

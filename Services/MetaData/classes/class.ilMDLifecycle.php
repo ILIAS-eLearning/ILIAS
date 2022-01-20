@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,7 +29,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDLifecycle extends ilMDBase
 {
@@ -52,13 +52,13 @@ class ilMDLifecycle extends ilMDBase
      */
     public function getContributeIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+        
 
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_lifecycle');
     }
     public function getContribute(int $a_contribute_id) : ?ilMDContribute
     {
-        include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+        
         
         if (!$a_contribute_id) {
             return null;
@@ -70,7 +70,7 @@ class ilMDLifecycle extends ilMDBase
     }
     public function addContribute() : ilMDContribute
     {
-        include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+        
 
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
@@ -119,7 +119,7 @@ class ilMDLifecycle extends ilMDBase
         return is_object($this->version_language) ? $this->version_language->getLanguageCode() : '';
     }
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -129,7 +129,7 @@ class ilMDLifecycle extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -182,7 +182,7 @@ class ilMDLifecycle extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_lifecycle " .
@@ -190,11 +190,11 @@ class ilMDLifecycle extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setStatus($row->lifecycle_status);
-                $this->setVersion((string) $row->meta_version);
+                $this->setVersion($row->meta_version);
                 $this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
             }
         }
@@ -222,7 +222,7 @@ class ilMDLifecycle extends ilMDBase
             $con->toXML($writer);
         }
         if (!count($contributes)) {
-            include_once 'Services/MetaData/classes/class.ilMDContribute.php';
+            
             $con = new ilMDContribute($this->getRBACId(), $this->getObjId());
             $con->toXML($writer);
         }
@@ -245,7 +245,7 @@ class ilMDLifecycle extends ilMDBase
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->meta_lifecycle_id;
+            return (int) $row->meta_lifecycle_id;
         }
         return 0;
     }

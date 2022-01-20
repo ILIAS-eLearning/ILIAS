@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,8 +28,8 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once './Services/Xml/classes/class.ilXmlWriter.php';
-include_once 'Services/MetaData/classes/class.ilMD.php';
+
+
 
 class ilMD2XML extends ilXmlWriter
 {

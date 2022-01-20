@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -38,13 +38,13 @@ class ilMDCopyrightSelectionEntry
     private string $title = '';
     private string $description = '';
     private string $copyright = '';
-    private int $costs = 0;
+    private bool $costs = false;
     private string $language = '';
-    private bool $copyright_and_other_restrictions = false;
-    private int $usage = 0;
+    private bool $copyright_and_other_restrictions = true;
+    private bool $usage = false;
 
 
-    protected int $outdated = 0;
+    protected bool $outdated = false;
 
 
     protected int $order_position = 0;
@@ -76,7 +76,7 @@ class ilMDCopyrightSelectionEntry
 
         $entries = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $entries[] = new ilMDCopyrightSelectionEntry($row->entry_id);
+            $entries[] = new ilMDCopyrightSelectionEntry((int) $row->entry_id);
         }
         return $entries;
     }
@@ -142,11 +142,11 @@ class ilMDCopyrightSelectionEntry
         if ($matches[1] != IL_INST_ID) {
             return 0;
         }
-        return $matches[2] ? $matches[2] : 0;
+        return (int) ($matches[2] ?? 0);
     }
     
 
-    public function getUsage() : int
+    public function getUsage() : bool
     {
         return $this->usage;
     }
@@ -169,17 +169,17 @@ class ilMDCopyrightSelectionEntry
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
         
-        return $row['is_default'];
+        return (bool) $row['is_default'];
     }
 
 
-    public function setOutdated(int $a_value) : void
+    public function setOutdated(bool $a_value) : void
     {
         $this->outdated = $a_value;
     }
 
 
-    public function getOutdated() : int
+    public function getOutdated() : bool
     {
         return $this->outdated;
     }
@@ -197,7 +197,7 @@ class ilMDCopyrightSelectionEntry
         $res = $db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_DEFAULT);
 
-        return $row['entry_id'];
+        return (int) $row['entry_id'];
     }
     
 
@@ -237,13 +237,13 @@ class ilMDCopyrightSelectionEntry
     }
     
 
-    public function setCosts(int $a_costs) : void
+    public function setCosts(bool $a_costs) : void
     {
         $this->costs = $a_costs;
     }
     
 
-    public function getCosts() : int
+    public function getCosts() : bool
     {
         return $this->costs;
     }
@@ -269,8 +269,7 @@ class ilMDCopyrightSelectionEntry
 
     public function getCopyrightAndOtherRestrictions() : bool
     {
-        // Fixed
-        return true;
+        return $this->copyright_and_other_restrictions;
     }
 
 
@@ -365,9 +364,9 @@ class ilMDCopyrightSelectionEntry
             $this->setDescription($row->description);
             $this->setCopyright($row->copyright);
             $this->setLanguage($row->language);
-            $this->setCosts($row->costs);
-            $this->setOutdated($row->outdated);
-            $this->setOrderPosition($row->position);
+            $this->setCosts((bool) $row->costs);
+            $this->setOutdated((bool) $row->outdated);
+            $this->setOrderPosition((int) $row->position);
             // Fixed
             $this->setCopyrightAndOtherRestrictions(true);
         }
@@ -377,7 +376,7 @@ class ilMDCopyrightSelectionEntry
         
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        $this->usage = $row->used;
+        $this->usage = (bool) $row->used;
     }
 
 

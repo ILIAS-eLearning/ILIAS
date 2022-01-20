@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,8 +29,8 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
-include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+
+
 
 class ilMDOrComposite extends ilMDRequirement
 {
@@ -64,7 +64,7 @@ class ilMDOrComposite extends ilMDRequirement
      */
     public function getRequirementIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+        
 
         return ilMDRequirement::_getIds(
             $this->getRBACId(),
@@ -77,7 +77,7 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
     {
-        include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+        
 
         if (!$a_requirement_id) {
             return null;
@@ -90,7 +90,7 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function addRequirement() : ilMDRequirement
     {
-        include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+        
 
         $req = new ilMDRequirement($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $req->setParentId($this->getParentId());
@@ -101,10 +101,10 @@ class ilMDOrComposite extends ilMDRequirement
     }
 
 
-    public function save() : bool
+    public function save() : int
     {
         echo 'Use ilMDOrcomposite::addRequirement()';
-        return false;
+        return 0;
     }
 
     public function delete() : bool
@@ -127,7 +127,7 @@ class ilMDOrComposite extends ilMDRequirement
             $req->toXML($writer);
         }
         if (!count($reqs)) {
-            include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+            
             $req = new ilMDRequirement($this->getRBACId(), $this->getObjId());
             $req->toXML($writer);
         }
@@ -154,9 +154,10 @@ class ilMDOrComposite extends ilMDRequirement
             "AND or_composite_id > 0 ";
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->or_composite_id;
+            $ids[] = (int) $row->or_composite_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

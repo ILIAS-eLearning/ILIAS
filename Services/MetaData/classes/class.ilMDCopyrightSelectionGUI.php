@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,8 +30,8 @@
 * @ingroup ServicesMetaData
 */
 
-include_once('Services/MetaData/classes/class.ilMDSettings.php');
-include_once('Services/MetaData/classes/class.ilMDRights.php');
+
+
 
 class ilMDCopyrightSelectionGUI
 {
@@ -42,7 +42,6 @@ class ilMDCopyrightSelectionGUI
     protected ilLanguage $lng;
     protected ilMDSettings $settings;
 
-    private int $mode;
     private int $rbac_id;
     private int $obj_id;
 
@@ -54,7 +53,6 @@ class ilMDCopyrightSelectionGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
 
-        $this->mode = $a_mode;
         $this->rbac_id = $a_rbac_id;
         $this->obj_id = $a_obj_id;
         
@@ -64,7 +62,7 @@ class ilMDCopyrightSelectionGUI
 
     public function fillTemplate() : bool
     {
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
         
         $desc = ilMDRights::_lookupDescription($this->rbac_id, $this->obj_id);
         
@@ -80,7 +78,7 @@ class ilMDCopyrightSelectionGUI
         
         $default_id = ilMDCopyrightSelectionEntry::_extractEntryId($desc);
         
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+        
         $found = false;
         foreach ($entries as $entry) {
             $this->tpl->setCurrentBlock('copyright_selection');

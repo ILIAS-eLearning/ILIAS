@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+
 
 /**
  * This class represents a typical learning time property in a property form.
@@ -38,7 +38,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $this->lom_duration = $a_value;
         $this->valid = true;
         
-        include_once 'Services/MetaData/classes/class.ilMDUtils.php';
+        
         $tlt = ilMDUtils::_LOMDurationToArray($a_value);
         
         if (!$tlt) {
@@ -111,8 +111,8 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $val = $this->getValue();
         
         $ttpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-        $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($val[0]));
-        $ttpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($val[1]));
+        $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) $val[0]));
+        $ttpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) $val[1]));
         
         $ttpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $ttpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
@@ -125,7 +125,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
             $val[4],
             false
         ));
-        $ttpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
+        $ttpl->setVariable("TLT_HINT", $val[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$this->valid) {
             $ttpl->setCurrentBlock("tlt_not_valid");

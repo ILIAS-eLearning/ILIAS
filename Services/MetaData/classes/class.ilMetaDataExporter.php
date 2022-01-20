@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+
 
 /**
  * Exporter class for meta data
@@ -19,7 +19,7 @@ class ilMetaDataExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        include_once("./Services/MetaData/classes/class.ilMD2XML.php");
+        
         $id = explode(":", $a_id);
         $mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
         $mdxml->setExportMode();

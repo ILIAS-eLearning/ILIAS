@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
 
 /**
 * Class ilObjMDSettings

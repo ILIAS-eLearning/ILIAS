@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDKeyword extends ilMDBase
 {
@@ -60,7 +60,7 @@ class ilMDKeyword extends ilMDBase
         return is_object($this->keyword_language) ? $this->keyword_language->getLanguageCode() : '';
     }
 
-    public function save() : bool
+    public function save() : int
     {
         $fields = $this->__getFields();
         $fields['meta_keyword_id'] = array('integer',$next_id = $this->db->nextId('il_meta_keyword'));
@@ -69,7 +69,7 @@ class ilMDKeyword extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -169,7 +169,7 @@ class ilMDKeyword extends ilMDBase
         $res = $ilDB->query($query);
         $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_keyword_id;
+            $ids[] = (int) $row->meta_keyword_id;
         }
         return $ids;
     }

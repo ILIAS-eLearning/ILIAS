@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -83,7 +83,7 @@ class ilMDSettings
 
     public function save() : void
     {
-        $this->settings->set('copyright_selection_active', (int) $this->isCopyrightSelectionActive());
+        $this->settings->set('copyright_selection_active', (string) $this->isCopyrightSelectionActive());
         $this->settings->set('delimiter', $this->getDelimiter());
     }
     
@@ -92,7 +92,7 @@ class ilMDSettings
     {
         $this->settings = new ilSetting('md_settings');
         
-        $this->copyright_selection_active = $this->settings->get('copyright_selection_active', 0);
+        $this->copyright_selection_active = (bool) $this->settings->get('copyright_selection_active', '0');
         $this->delimiter = $this->settings->get('delimiter', ",");
     }
 }

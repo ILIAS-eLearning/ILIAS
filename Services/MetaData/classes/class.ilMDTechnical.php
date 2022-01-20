@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDTechnical extends ilMDBase
 {
@@ -64,13 +64,13 @@ class ilMDTechnical extends ilMDBase
      */
     public function getFormatIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDFormat.php';
+        
 
         return ilMDFormat::_getIds($this->getRBACId(), $this->getObjId());
     }
     public function getFormat(int $a_format_id) : ?ilMDFormat
     {
-        include_once 'Services/MetaData/classes/class.ilMDFormat.php';
+        
 
         if (!$a_format_id) {
             return null;
@@ -82,7 +82,7 @@ class ilMDTechnical extends ilMDBase
     }
     public function addFormat() : ilMDFormat
     {
-        include_once 'Services/MetaData/classes/class.ilMDFormat.php';
+        
 
         $for = new ilMDFormat($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
@@ -94,13 +94,13 @@ class ilMDTechnical extends ilMDBase
      */
     public function getLocationIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDLocation.php';
+        
 
         return ilMDLocation::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
     public function getLocation(int $a_location_id) : ?ilMDLocation
     {
-        include_once 'Services/MetaData/classes/class.ilMDLocation.php';
+        
 
         if (!$a_location_id) {
             return null;
@@ -112,7 +112,7 @@ class ilMDTechnical extends ilMDBase
     }
     public function addLocation() : ilMDLocation
     {
-        include_once 'Services/MetaData/classes/class.ilMDLocation.php';
+        
 
         $loc = new ilMDLocation($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $loc->setParentId($this->getMetaId());
@@ -126,13 +126,13 @@ class ilMDTechnical extends ilMDBase
      */
     public function getRequirementIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+        
 
         return ilMDRequirement::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
     public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
     {
-        include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+        
 
         if (!$a_requirement_id) {
             return null;
@@ -144,7 +144,7 @@ class ilMDTechnical extends ilMDBase
     }
     public function addRequirement() : ilMDRequirement
     {
-        include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
+        
 
         $rec = new ilMDRequirement($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $rec->setParentId($this->getMetaId());
@@ -158,13 +158,13 @@ class ilMDTechnical extends ilMDBase
      */
     public function getOrCompositeIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
+        
 
         return ilMDOrComposite::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
     public function getOrComposite(int $a_or_composite_id) : ?ilMDOrComposite
     {
-        include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
+        
 
         if (!$a_or_composite_id) {
             return null;
@@ -178,7 +178,7 @@ class ilMDTechnical extends ilMDBase
     }
     public function addOrComposite() : ilMDOrComposite
     {
-        include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
+        
 
         $orc = new ilMDOrComposite($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $orc->setParentId($this->getMetaId());
@@ -253,7 +253,7 @@ class ilMDTechnical extends ilMDBase
     
     
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -263,7 +263,7 @@ class ilMDTechnical extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -290,20 +290,20 @@ class ilMDTechnical extends ilMDBase
             $res = $this->db->manipulate($query);
             
             foreach ($this->getFormatIds() as $id) {
-                $for = &$this->getFormat($id);
+                $for = $this->getFormat($id);
                 $for->delete();
             }
 
             foreach ($this->getLocationIds() as $id) {
-                $loc = &$this->getLocation($id);
+                $loc = $this->getLocation($id);
                 $loc->delete();
             }
             foreach ($this->getRequirementIds() as $id) {
-                $req = &$this->getRequirement($id);
+                $req = $this->getRequirement($id);
                 $req->delete();
             }
             foreach ($this->getOrCompositeIds() as $id) {
-                $orc = &$this->getOrComposite($id);
+                $orc = $this->getOrComposite($id);
                 $orc->delete();
             }
 
@@ -331,7 +331,7 @@ class ilMDTechnical extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_technical " .
@@ -339,8 +339,8 @@ class ilMDTechnical extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setSize($row->t_size);
                 $this->setInstallationRemarks($row->ir);
@@ -361,7 +361,7 @@ class ilMDTechnical extends ilMDBase
 
         // Format
         foreach ($this->getFormatIds() as $id) {
-            $for = &$this->getFormat($id);
+            $for = $this->getFormat($id);
             $for->toXML($writer);
         }
 
@@ -372,19 +372,19 @@ class ilMDTechnical extends ilMDBase
         
         // Location
         foreach ($this->getLocationIds() as $id) {
-            $loc = &$this->getLocation($id);
+            $loc = $this->getLocation($id);
             $loc->toXML($writer);
         }
 
         // Requirement
         foreach ($this->getRequirementIds() as $id) {
-            $req = &$this->getRequirement($id);
+            $req = $this->getRequirement($id);
             $req->toXML($writer);
         }
 
         // OrComposite
         foreach ($this->getOrCompositeIds() as $id) {
-            $orc = &$this->getOrComposite($id);
+            $orc = $this->getOrComposite($id);
             $orc->toXML($writer);
         }
         
@@ -429,7 +429,7 @@ class ilMDTechnical extends ilMDBase
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->meta_technical_id;
+            return (int) $row->meta_technical_id;
         }
         return 0;
     }

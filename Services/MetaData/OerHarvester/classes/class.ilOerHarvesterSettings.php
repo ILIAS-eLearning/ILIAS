@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -115,7 +115,7 @@ class ilOerHarvesterSettings
 
         $lom_entries = [];
         foreach ($this->getCopyrightTemplates() as $copyright_id) {
-            $lom_entries[] = 'il_copyright_entry__' . $this->settings->get('inst_id', 0) . '__' . $copyright_id;
+            $lom_entries[] = 'il_copyright_entry__' . $this->settings->get('inst_id', '0') . '__' . $copyright_id;
         }
         return $lom_entries;
     }
@@ -124,14 +124,14 @@ class ilOerHarvesterSettings
 
     public function save() : void
     {
-        $this->storage->set('target', $this->getTarget());
+        $this->storage->set('target', (string) $this->getTarget());
         $this->storage->set('templates', serialize($this->copyright_templates));
     }
 
 
     public function read() : void
     {
-        $this->setTarget($this->storage->get('target', 0));
+        $this->setTarget((int) $this->storage->get('target', '0'));
         $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([]))));
     }
 }

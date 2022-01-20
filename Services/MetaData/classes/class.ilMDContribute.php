@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,7 +29,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDContribute extends ilMDBase
 {
@@ -42,13 +42,13 @@ class ilMDContribute extends ilMDBase
      */
     public function getEntityIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDEntity.php';
+        
 
         return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_contribute');
     }
     public function getEntity(int $a_entity_id) : ?ilMDEntity
     {
-        include_once 'Services/MetaData/classes/class.ilMDEntity.php';
+        
         
         if (!$a_entity_id) {
             return null;
@@ -60,7 +60,7 @@ class ilMDContribute extends ilMDBase
     }
     public function addEntity() : ilMDEntity
     {
-        include_once 'Services/MetaData/classes/class.ilMDEntity.php';
+        
 
         $ent = new ilMDEntity($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ent->setParentId($this->getMetaId());
@@ -111,7 +111,7 @@ class ilMDContribute extends ilMDBase
     }
 
 
-    public function save() : bool
+    public function save() : int
     {
 
         $fields = $this->__getFields();
@@ -121,7 +121,7 @@ class ilMDContribute extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -173,7 +173,7 @@ class ilMDContribute extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_contribute " .
@@ -181,13 +181,13 @@ class ilMDContribute extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setRole($row->role);
-                $this->setDate((string) $row->c_date);
+                $this->setDate($row->c_date);
             }
         }
         return true;
@@ -207,7 +207,7 @@ class ilMDContribute extends ilMDBase
             $ent->toXML($writer);
         }
         if (!count($entities)) {
-            include_once 'Services/MetaData/classes/class.ilMDEntity.php';
+            
             $ent = new ilMDEntity($this->getRBACId(), $this->getObjId());
             $ent->toXML($writer);
         }
@@ -235,10 +235,11 @@ class ilMDContribute extends ilMDBase
             "AND parent_type = " . $ilDB->quote($a_parent_type, 'text');
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_contribute_id;
+            $ids[] = (int) $row->meta_contribute_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 
     /**

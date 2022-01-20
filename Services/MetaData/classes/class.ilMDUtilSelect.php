@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -40,7 +40,7 @@ class ilMDUtilSelect
     public static function _getLanguageSelect(string $a_selected, string $a_name, array $prepend = array(), bool $a_options_only = false)
     // END PATCH Lucene Search
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         global $DIC;
 

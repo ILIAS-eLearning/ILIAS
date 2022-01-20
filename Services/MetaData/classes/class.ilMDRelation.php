@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDRelation extends ilMDBase
 {
@@ -42,13 +42,13 @@ class ilMDRelation extends ilMDBase
      */
     public function getIdentifier_Ids() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
+        
 
         return ilMDIdentifier_::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
     public function getIdentifier_(int $a_identifier__id) : ?ilMDIdentifier_
     {
-        include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
+        
 
         if (!$a_identifier__id) {
             return null;
@@ -60,7 +60,7 @@ class ilMDRelation extends ilMDBase
     }
     public function addIdentifier_() : ilMDIdentifier_
     {
-        include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
+        
 
         $ide = new ilMDIdentifier_($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
@@ -74,13 +74,13 @@ class ilMDRelation extends ilMDBase
      */
     public function getDescriptionIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
-        return ilMdDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
+        return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
     public function getDescription(int $a_description_id) : ?ilMDDescription
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
         
         if (!$a_description_id) {
             return null;
@@ -92,7 +92,7 @@ class ilMDRelation extends ilMDBase
     }
     public function addDescription() : ilMDDescription
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
         
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
@@ -129,7 +129,7 @@ class ilMDRelation extends ilMDBase
     }
 
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -139,7 +139,7 @@ class ilMDRelation extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -199,8 +199,8 @@ class ilMDRelation extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setKind($row->kind);
             }
@@ -223,7 +223,7 @@ class ilMDRelation extends ilMDBase
             $ide->toXML($writer);
         }
         if (!count($ides)) {
-            include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
+            
             $ide = new ilMDIdentifier_($this->getRBACId(), $this->getObjId());
             $ide->toXML($writer);
         }
@@ -235,7 +235,7 @@ class ilMDRelation extends ilMDBase
             $des->toXML($writer);
         }
         if (!count($dess)) {
-            include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+            
             $des = new ilMDDescription($this->getRBACId(), $this->getObjId());
             $des->toXML($writer);
         }
@@ -262,9 +262,10 @@ class ilMDRelation extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = (int) $row->meta_relation_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

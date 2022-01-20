@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,7 +29,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDEntity extends ilMDBase
 {
@@ -37,16 +37,16 @@ class ilMDEntity extends ilMDBase
     private string $entity = '';
 
     // SET/GET
-    public function setEntity($a_entity)
+    public function setEntity(string $a_entity) : void
     {
         $this->entity = $a_entity;
     }
-    public function getEntity()
+    public function getEntity() : string
     {
         return $this->entity;
     }
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -56,7 +56,7 @@ class ilMDEntity extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -88,9 +88,11 @@ class ilMDEntity extends ilMDBase
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields() : array
     {
         return array('rbac_id' => array('integer',$this->getRBACId()),
                      'obj_id' => array('integer',$this->getObjId()),
@@ -100,7 +102,7 @@ class ilMDEntity extends ilMDBase
                      'entity' => array('text',$this->getEntity()));
     }
 
-    public function read()
+    public function read() : bool
     {
         
         if ($this->getMetaId()) {
@@ -109,22 +111,17 @@ class ilMDEntity extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setEntity($row->entity);
             }
         }
         return true;
     }
-                
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
+
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement('Entity', null, $this->getEntity());
@@ -132,7 +129,11 @@ class ilMDEntity extends ilMDBase
 
 
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id, $a_parent_id, $a_parent_type)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
@@ -146,9 +147,10 @@ class ilMDEntity extends ilMDBase
             "ORDER BY meta_entity_id ";
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_entity_id;
+            $ids[] = (int) $row->meta_entity_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

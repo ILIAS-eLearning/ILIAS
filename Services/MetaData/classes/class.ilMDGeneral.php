@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,11 +29,11 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDGeneral extends ilMDBase
 {
-    protected ?ilMDLanguageItem $coverage_language;
+    protected ?ilMDLanguageItem $coverage_language = null;
 
     private string $coverage = '';
     private string $structure = '';
@@ -61,13 +61,13 @@ class ilMDGeneral extends ilMDBase
      */
     public function getIdentifierIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
+        
 
         return ilMDIdentifier::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
     public function getIdentifier(int $a_identifier_id) : ?ilMDIdentifier
     {
-        include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
+        
         
         if (!$a_identifier_id) {
             return null;
@@ -79,7 +79,7 @@ class ilMDGeneral extends ilMDBase
     }
     public function addIdentifier() : ilMDIdentifier
     {
-        include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
+        
 
         $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
@@ -93,13 +93,13 @@ class ilMDGeneral extends ilMDBase
      */
     public function getLanguageIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+        
 
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
     public function getLanguage(int $a_language_id) : ?ilMDLanguage
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+        
 
         if (!$a_language_id) {
             return null;
@@ -111,7 +111,7 @@ class ilMDGeneral extends ilMDBase
     }
     public function addLanguage() : ilMDLanguage
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+        
         
         $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $lan->setParentId($this->getMetaId());
@@ -125,13 +125,13 @@ class ilMDGeneral extends ilMDBase
      */
     public function getDescriptionIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
     public function getDescription(int $a_description_id) : ?ilMDDescription
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
 
         if (!$a_description_id) {
@@ -144,7 +144,7 @@ class ilMDGeneral extends ilMDBase
     }
     public function addDescription() : ilMDDescription
     {
-        include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+        
 
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
@@ -158,13 +158,13 @@ class ilMDGeneral extends ilMDBase
      */
     public function getKeywordIds() : array
     {
-        include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+        
 
         return ilMDKeyword::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
     public function getKeyword(int $a_keyword_id) : ?ilMDKeyword
     {
-        include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+        
         
         if (!$a_keyword_id) {
             return null;
@@ -176,7 +176,7 @@ class ilMDGeneral extends ilMDBase
     }
     public function addKeyword() : ilMDKeyword
     {
-        include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+        
 
         $key = new ilMDKeyword($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $key->setParentId($this->getMetaId());
@@ -255,7 +255,7 @@ class ilMDGeneral extends ilMDBase
     }
 
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -269,7 +269,7 @@ class ilMDGeneral extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -346,7 +346,7 @@ class ilMDGeneral extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_general " .
@@ -354,8 +354,8 @@ class ilMDGeneral extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setStructure($row->general_structure);
                 $this->setTitle($row->title);
@@ -385,7 +385,7 @@ class ilMDGeneral extends ilMDBase
             $first = false;
         }
         if (!count($identifiers)) {
-            include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
+            
             $ide = new ilMDIdentifier(
                 $this->getRBACId(),
                 $this->getObjId(),
@@ -412,7 +412,7 @@ class ilMDGeneral extends ilMDBase
         }
         if (!count($languages)) {
             // Default
-            include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
+            
             $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId());
             $lan->toXML($writer);
         }
@@ -425,7 +425,7 @@ class ilMDGeneral extends ilMDBase
         }
         if (!count($descriptions)) {
             // Default
-            include_once 'Services/MetaData/classes/class.ilMDDescription.php';
+            
             $des = new ilMDDescription($this->getRBACId(), $this->getObjId());
             $des->toXML($writer);
         }
@@ -439,7 +439,7 @@ class ilMDGeneral extends ilMDBase
         }
         if (!count($keywords)) {
             // Default
-            include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
+            
             $key = new ilMDKeyword($this->getRBACId(), $this->getObjId());
             $key->toXML($writer);
         }
@@ -473,7 +473,7 @@ class ilMDGeneral extends ilMDBase
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->meta_general_id;
+            return (int) $row->meta_general_id;
         }
         return 0;
     }

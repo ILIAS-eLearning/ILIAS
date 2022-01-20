@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +28,7 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDTypicalAgeRange extends ilMDBase
 {
@@ -80,7 +80,7 @@ class ilMDTypicalAgeRange extends ilMDBase
     }
 
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -90,7 +90,7 @@ class ilMDTypicalAgeRange extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -140,7 +140,7 @@ class ilMDTypicalAgeRange extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_tar " .
@@ -148,10 +148,10 @@ class ilMDTypicalAgeRange extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setTypicalAgeRange($row->typical_age_range);
                 $this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->tar_language));
@@ -193,10 +193,11 @@ class ilMDTypicalAgeRange extends ilMDBase
             "AND parent_type = " . $ilDB->quote($a_parent_type, 'text');
             
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_tar_id;
+            $ids[] = (int) $row->meta_tar_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 
     // PRIVATE
@@ -212,15 +213,15 @@ class ilMDTypicalAgeRange extends ilMDBase
                 $min = $matches[1];
                 $max = $matches[3];
             }
-            $this->setTypicalAgeRangeMaximum($max);
-            $this->setTypicalAgeRangeMinimum($min);
+            $this->setTypicalAgeRangeMaximum((string) $max);
+            $this->setTypicalAgeRangeMinimum((string) $min);
 
             return true;
         }
 
         if (!$this->getTypicalAgeRange()) {
-            $this->setTypicalAgeRangeMinimum(-1);
-            $this->setTypicalAgeRangeMaximum(-1);
+            $this->setTypicalAgeRangeMinimum('-1');
+            $this->setTypicalAgeRangeMaximum('-1');
         }
         return true;
     }

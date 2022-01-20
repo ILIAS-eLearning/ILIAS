@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,13 +28,13 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+
 
 class ilMDTaxon extends ilMDBase
 {
     private string $taxon = '';
     private ?ilMDLanguageItem $taxon_language = null;
-    private int $taxon_id = 0;
+    private string $taxon_id = '';
 
 
     // SET/GET
@@ -60,17 +60,17 @@ class ilMDTaxon extends ilMDBase
     {
         return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : '';
     }
-    public function setTaxonId(int $a_taxon_id) : void
+    public function setTaxonId(string $a_taxon_id) : void
     {
         $this->taxon_id = $a_taxon_id;
     }
-    public function getTaxonId() : int
+    public function getTaxonId() : string
     {
         return $this->taxon_id;
     }
     
 
-    public function save() : bool
+    public function save() : int
     {
         
         $fields = $this->__getFields();
@@ -80,7 +80,7 @@ class ilMDTaxon extends ilMDBase
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
     public function update() : bool
@@ -130,7 +130,7 @@ class ilMDTaxon extends ilMDBase
     public function read() : bool
     {
         
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+        
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_taxon " .
@@ -138,10 +138,10 @@ class ilMDTaxon extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
-                $this->setParentId($row->parent_id);
+                $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setTaxon($row->taxon);
                 $this->taxon_language = new ilMDLanguageItem($row->taxon_language);
@@ -186,9 +186,10 @@ class ilMDTaxon extends ilMDBase
 
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_taxon_id;
+            $ids[] = (int) $row->meta_taxon_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }
