@@ -215,7 +215,9 @@ class ilCtrl implements ilCtrlInterface
 
         // if the $_GET command is 'post', either the $_POST
         // command or $_GETs fallback command is used.
-
+        // for now, the table command is used as fallback as well,
+        // but this will be removed once the implementation of
+        // table actions change.
         $command = ($is_post) ?
             $post_command ?? $table_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
             $get_command;
@@ -795,7 +797,8 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @deprecated
      */
-    private function getTableCommand(): ?string {
+    private function getTableCommand() : ?string
+    {
         if ($this->post_parameters->has('table_top_cmd')) {
             return $this->post_parameters->retrieve('table_top_cmd',
                 $this->refinery->custom()->transformation(function ($item) : ?string {

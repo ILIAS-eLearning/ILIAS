@@ -21,7 +21,8 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
-    use ilTable2MultiCommandHelper;
+    use ilTableCommandHelper;
+
     private Container $dic;
     protected int $confirm_change = 0;
     public $ctrl;
@@ -260,9 +261,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         exit();
 
         if (!$rbacsystem->checkAccess(
-            "read",
-            $this->object->getRefId()
-        ) ||
+                "read",
+                $this->object->getRefId()
+            ) ||
             !ilObjUserTracking::_enabledLearningProgress() ||
             !ilObjUserTracking::_enabledUserRelatedData()) {
             $this->ilias->raiseError(
@@ -357,9 +358,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
         if ($rbacsystem->checkAccess(
-            'create_usr',
-            $this->object->getRefId()
-        ) ||
+                'create_usr',
+                $this->object->getRefId()
+            ) ||
             $rbacsystem->checkAccess(
                 'cat_administrate_users',
                 $this->object->getRefId()
@@ -538,9 +539,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             foreach ($operations as $val) {
                 $select .= "<option value=\"" . $val["name"] . "\"";
                 if (strcmp(
-                    $_POST["selectedAction"],
-                    $val["name"]
-                ) == 0) {
+                        $_POST["selectedAction"],
+                        $val["name"]
+                    ) == 0) {
                     $select .= " selected=\"selected\"";
                 }
                 $select .= ">";
@@ -1023,7 +1024,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
         $access = $DIC->access();
 
-        if ($this->isSelectCmdAllSelected()) {
+        if ($this->getSelectAllPostArray()['select_cmd_all']) {
             include_once("./Services/User/classes/class.ilUserTableGUI.php");
             $utab = new ilUserTableGUI(
                 $this,
@@ -1033,10 +1034,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
 
             if (!$access->checkAccess(
-                'read_users',
-                '',
-                USER_FOLDER_ID
-            ) &&
+                    'read_users',
+                    '',
+                    USER_FOLDER_ID
+                ) &&
                 $access->checkRbacOrPositionPermissionAccess(
                     'read_users',
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
@@ -1107,18 +1108,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         if (strcmp(
-            $action,
-            "accessRestrict"
-        ) == 0) {
+                $action,
+                "accessRestrict"
+            ) == 0) {
             return $this->setAccessRestrictionObject(
                 null,
                 $a_from_search
             );
         }
         if (strcmp(
-            $action,
-            "mail"
-        ) == 0) {
+                $action,
+                "mail"
+            ) == 0) {
             return $this->mailObject();
         }
 
@@ -1424,9 +1425,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             // check assignment permission if called from local admin
             if ($this->object->getRefId() != USER_FOLDER_ID) {
                 if (!in_array(
-                    SYSTEM_ROLE_ID,
-                    $roles_of_user
-                ) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id'])) {
+                        SYSTEM_ROLE_ID,
+                        $roles_of_user
+                    ) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id'])) {
                     continue;
                 }
             }
@@ -1434,9 +1435,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID) {
                 // do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
                 if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(
-                    SYSTEM_ROLE_ID,
-                    $roles_of_user
-                )) {
+                        SYSTEM_ROLE_ID,
+                        $roles_of_user
+                    )) {
                     $gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
                 }
             }
@@ -1547,10 +1548,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 foreach ($roles as $role_id => $role) {
                     if ($role["type"] == "Local") {
                         $searchName = (substr(
-                            $role['name'],
-                            0,
-                            1
-                        ) == '#') ? $role['name'] : '#' . $role['name'];
+                                $role['name'],
+                                0,
+                                1
+                            ) == '#') ? $role['name'] : '#' . $role['name'];
                         $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                         foreach ($matching_role_ids as $mid) {
                             if (!in_array(
@@ -1640,10 +1641,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     /*$this->tpl->setCurrentBlock("local_role");
                     $this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);*/
                     $searchName = (substr(
-                        $role['name'],
-                        0,
-                        1
-                    ) == '#') ? $role['name'] : '#' . $role['name'];
+                            $role['name'],
+                            0,
+                            1
+                        ) == '#') ? $role['name'] : '#' . $role['name'];
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
@@ -1816,8 +1817,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             // handle zip file
             if ($single_file_upload->getMimeType() == "application/zip") {
                 // Workaround: unzip function needs full path to file. Should be replaced once Filesystem has own unzip implementation
-                $full_path = ilUtil::getDataDir() . '/user_import/usr_' . $ilUser->getId() . '_' . session_id(
-                    ) . "/" . $file_name;
+                $full_path = ilUtil::getDataDir() . '/user_import/usr_' . $ilUser->getId() . '_' . session_id() . "/" . $file_name;
                 ilUtil::unzip($full_path);
 
                 $xml_file = null;
@@ -1825,9 +1825,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                 foreach ($file_list as $key => $a_file) {
                     if (substr(
-                        $a_file->getPath(),
-                        -4
-                    ) == '.xml') {
+                            $a_file->getPath(),
+                            -4
+                        ) == '.xml') {
                         unset($file_list[$key]);
                         $xml_file = $a_file->getPath();
                         break;
@@ -1998,9 +1998,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             $roles_of_user
                         )) {
                             if ($role_id == SYSTEM_ROLE_ID && !in_array(
-                                SYSTEM_ROLE_ID,
-                                $roles_of_user
-                            )
+                                    SYSTEM_ROLE_ID,
+                                    $roles_of_user
+                                )
                                 || ($this->object->getRefId() != USER_FOLDER_ID
                                     && !ilObjRole::_getAssignUsersStatus($role_id))
                             ) {
@@ -2248,8 +2248,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     (int) $this->form->getInput('reuse_of_loginnames')
                 );
                 $save_blocking_time_in_seconds = (int) ($this->form->getInput(
-                    'loginname_change_blocking_time'
-                ) * 86400);
+                        'loginname_change_blocking_time'
+                    ) * 86400);
                 $ilSetting->set(
                     'loginname_change_blocking_time',
                     (int) $save_blocking_time_in_seconds
@@ -2293,14 +2293,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         $this->form->getInput('session_reminder_enabled')
                     );
                 } elseif ($this->form->getInput(
-                    'session_handling_type'
-                ) == ilSession::SESSION_HANDLING_LOAD_DEPENDENT) {
+                        'session_handling_type'
+                    ) == ilSession::SESSION_HANDLING_LOAD_DEPENDENT) {
                     require_once 'Services/Authentication/classes/class.ilSessionControl.php';
                     if (
-                    $ilSetting->get(
-                        'session_allow_client_maintenance',
-                        ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
-                    )
+                        $ilSetting->get(
+                            'session_allow_client_maintenance',
+                            ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
+                        )
                     ) {
                         // has to be done BEFORE updating the setting!
                         include_once "Services/Authentication/classes/class.ilSessionStatistics.php";
@@ -2893,8 +2893,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $action != "save") {
             foreach ($profile_fields as $field) {
                 if (!$ilias->getSetting(
-                    "usr_settings_course_export_" . $field
-                ) && $_POST["chb"]["course_export_" . $field] == "1") {
+                        "usr_settings_course_export_" . $field
+                    ) && $_POST["chb"]["course_export_" . $field] == "1") {
                     #ilUtil::sendQuestion($this->lng->txt('confirm_message_course_export'));
                     #$this->confirm_change = 1;
                     #$this->settingsObject();
@@ -3933,8 +3933,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
             if ($valid) {
                 $save_blocking_time_in_seconds = (int) $this->loginSettingsForm->getInput(
-                    'loginname_change_blocking_time'
-                ) * 86400;
+                        'loginname_change_blocking_time'
+                    ) * 86400;
 
                 $ilSetting->set(
                     'allow_change_loginname',
@@ -4362,12 +4362,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $fields = array();
 
                 $subitems = array(
-                    'ps_password_change_on_first_login_enabled' => array($security->isPasswordChangeOnFirstLoginEnabled(
-                    ),
+                    'ps_password_change_on_first_login_enabled' => array($security->isPasswordChangeOnFirstLoginEnabled(),
                                                                          ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ),
-                    'ps_password_must_not_contain_loginame' => array((bool) $security->getPasswordMustNotContainLoginnameStatus(
-                    ),
+                    'ps_password_must_not_contain_loginame' => array((bool) $security->getPasswordMustNotContainLoginnameStatus(),
                                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ),
                     'ps_password_chars_and_numbers_enabled' => array($security->isPasswordCharsAndNumbersEnabled(),
@@ -4393,11 +4391,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $fields['ps_security_protection'] = array(null, null, $subitems);
 
                 return array(array("generalSettings", $fields));
-                
+
             case ilAdministrationSettingsFormHandler::FORM_TOS:
                 return [
                     [
-                        'generalSettings', [
+                        'generalSettings',
+                        [
                             'tos_withdrawal_usr_deletion' => $DIC->settings()->get(
                                 'tos_withdrawal_usr_deletion',
                                 false
