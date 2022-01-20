@@ -517,8 +517,8 @@ class ilCtrl implements ilCtrlInterface
     {
         // prepend the ILIAS HTTP path if it wasn't already.
         if (defined("ILIAS_HTTP_PATH") &&
-            !str_contains($target_url, "://") &&
-            !str_starts_with($target_url, "/")
+            strpos($target_url, "://") === false &&
+            strpos($target_url, "/") !== 0
         ) {
             $target_url = ILIAS_HTTP_PATH . "/" . $target_url;
         }
@@ -750,10 +750,10 @@ class ilCtrl implements ilCtrlInterface
             return false;
         }
 
-        return str_contains(
+        return strpos(
             $this->context->getPath()->getCidPath() ?? '',
             $class_cid
-        );
+        ) !== false;
     }
 
     /**
@@ -1087,7 +1087,7 @@ class ilCtrl implements ilCtrlInterface
                 // append the parameter key => value pair and prepend
                 // a question mark or ampersand, determined by whether
                 // it's the first query param or not.
-                $url .= (str_contains($url, '?')) ?
+                $url .= (strpos($url, '?') !== false) ?
                     $ampersand . $parameter_name . '=' . $value :
                     '?' . $parameter_name . '=' . $value;
             }
