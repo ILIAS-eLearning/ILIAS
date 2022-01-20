@@ -15,7 +15,6 @@
 
 /**
  * Trait ilTable2MultiCommandHelper
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait ilTable2MultiCommandHelper
@@ -25,7 +24,8 @@ trait ilTable2MultiCommandHelper
         return $this->getSelectCmdAll()['select_cmd_all'];
     }
 
-    protected function getMultiCommandArray():array {
+    protected function getMultiCommandArray() : array
+    {
         global $DIC;
         $post = $DIC->http()->wrapper()->post();
         $fake_post = [];
@@ -37,8 +37,8 @@ trait ilTable2MultiCommandHelper
                 }));
             $cmd_sv = $post->retrieve(
                 'cmd_sv',
-                $refinery->custom()->transformation(function ($item) : ?string {
-                    return is_array($item) ? current($item) : null;
+                $refinery->custom()->transformation(function ($item) use ($cmd) : ?string {
+                    return is_array($item) ? $item[$cmd] : null;
                 })
             );
 
