@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element meta_data)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element meta_data)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDMetaMetadata extends ilMDBase
 {
 
@@ -55,14 +51,15 @@ class ilMDMetaMetadata extends ilMDBase
      */
     public function getIdentifierIds() : array
     {
-        
+
 
         return ilMDIdentifier::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
+
     public function getIdentifier(int $a_identifier_id) : ?ilMDIdentifier
     {
-        
-        
+
+
         if (!$a_identifier_id) {
             return null;
         }
@@ -71,9 +68,10 @@ class ilMDMetaMetadata extends ilMDBase
 
         return $ide;
     }
+
     public function addIdentifier() : ilMDIdentifier
     {
-        
+
 
         $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
@@ -87,14 +85,15 @@ class ilMDMetaMetadata extends ilMDBase
      */
     public function getContributeIds() : array
     {
-        
+
 
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
+
     public function getContribute(int $a_contribute_id) : ?ilMDContribute
     {
-        
-        
+
+
         if (!$a_contribute_id) {
             return null;
         }
@@ -103,9 +102,10 @@ class ilMDMetaMetadata extends ilMDBase
 
         return $con;
     }
+
     public function addContribute() : ilMDContribute
     {
-        
+
 
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
@@ -122,33 +122,36 @@ class ilMDMetaMetadata extends ilMDBase
     {
         $this->meta_data_scheme = $a_val;
     }
+
     public function getMetaDataScheme() : string
     {
         // Fixed attribute
         return 'LOM v 1.0';
     }
+
     public function setLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->language = $lng_obj;
         }
     }
+
     public function getLanguage() : ?ilMDLanguageItem
     {
         return is_object($this->language) ? $this->language : null;
     }
+
     public function getLanguageCode() : string
     {
         return is_object($this->language) ? $this->language->getLanguageCode() : '';
     }
-    
 
     public function save() : int
     {
-        
-        $fields = $this->__getFields();
-        $fields['meta_meta_data_id'] = array('integer',$next_id = $this->db->nextId('il_meta_meta_data'));
-        
+
+        $fields                      = $this->__getFields();
+        $fields['meta_meta_data_id'] = array('integer', $next_id = $this->db->nextId('il_meta_meta_data'));
+
         if ($this->db->insert('il_meta_meta_data', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -158,12 +161,12 @@ class ilMDMetaMetadata extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_meta_data',
                 $this->__getFields(),
-                array("meta_meta_data_id" => array('integer',$this->getMetaId()))
+                array("meta_meta_data_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -173,18 +176,17 @@ class ilMDMetaMetadata extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_meta_data " .
                 "WHERE meta_meta_data_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res = $this->db->manipulate($query);
-            
+            $res   = $this->db->manipulate($query);
 
             foreach ($this->getIdentifierIds() as $id) {
                 $ide = $this->getIdentifier($id);
                 $ide->delete();
             }
-        
+
             foreach ($this->getContributeIds() as $id) {
                 $con = $this->getContribute($id);
                 $con->delete();
@@ -200,24 +202,23 @@ class ilMDMetaMetadata extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'meta_data_scheme' => array('text',$this->getMetaDataScheme()),
-                     'language' => array('text',$this->getLanguageCode()));
+        return array(
+            'rbac_id'          => array('integer', $this->getRBACId()),
+            'obj_id'           => array('integer', $this->getObjId()),
+            'obj_type'         => array('text', $this->getObjType()),
+            'meta_data_scheme' => array('text', $this->getMetaDataScheme()),
+            'language'         => array('text', $this->getLanguageCode())
+        );
     }
 
     public function read() : bool
     {
-        
-        
 
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_meta_data " .
                 "WHERE meta_meta_data_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
-        
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
@@ -230,7 +231,6 @@ class ilMDMetaMetadata extends ilMDBase
         }
         return false;
     }
-                
 
     public function toXML(ilXmlWriter $writer) : void
     {
@@ -249,11 +249,11 @@ class ilMDMetaMetadata extends ilMDBase
             $ide->toXML($writer);
         }
         if (!count($identifiers)) {
-            
+
             $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId());
             $ide->toXML($writer);
         }
-        
+
         // ELEMETN Contribute
         $contributes = $this->getContributeIds();
         foreach ($contributes as $id) {
@@ -261,7 +261,7 @@ class ilMDMetaMetadata extends ilMDBase
             $con->toXML($writer);
         }
         if (!count($contributes)) {
-            
+
             $con = new ilMDContribute($this->getRBACId(), $this->getObjId());
             $con->toXML($writer);
         }

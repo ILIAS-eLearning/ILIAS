@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Importer class for media pools
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
  * @ingroup ModulesMediaPool
  */
@@ -18,8 +15,8 @@ class ilMetaDataImporter extends ilXmlImporter
         $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
 
         if ($new_id != "") {
-            
-            $id = explode(":", $new_id);
+
+            $id         = explode(":", $new_id);
             $xml_copier = new ilMDXMLCopier($a_xml, $id[0], $id[1], $id[2]);
             $xml_copier->startParsing();
         }

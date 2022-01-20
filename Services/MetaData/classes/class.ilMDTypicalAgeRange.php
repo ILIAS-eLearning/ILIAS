@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element typicalagerange)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element typicalagerange)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDTypicalAgeRange extends ilMDBase
 {
 
@@ -43,20 +39,24 @@ class ilMDTypicalAgeRange extends ilMDBase
     {
         $this->typical_age_range = $a_typical_age_range;
     }
+
     public function getTypicalAgeRange() : string
     {
         return $this->typical_age_range;
     }
+
     public function setTypicalAgeRangeLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->typical_age_range_language = $lng_obj;
         }
     }
+
     public function getTypicalAgeRangeLanguage() : ?ilMDLanguageItem
     {
         return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : null;
     }
+
     public function getTypicalAgeRangeLanguageCode() : string
     {
         return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : '';
@@ -66,26 +66,28 @@ class ilMDTypicalAgeRange extends ilMDBase
     {
         $this->typical_age_range_minimum = $a_min;
     }
+
     public function getTypicalAgeRangeMinimum() : string
     {
         return $this->typical_age_range_minimum;
     }
+
     public function setTypicalAgeRangeMaximum(string $a_max) : void
     {
         $this->typical_age_range_maximum = $a_max;
     }
+
     public function getTypicalAgeRangeMaximum() : string
     {
         return $this->typical_age_range_maximum;
     }
 
-
     public function save() : int
     {
-        
-        $fields = $this->__getFields();
-        $fields['meta_tar_id'] = array('integer',$next_id = $this->db->nextId('il_meta_tar'));
-        
+
+        $fields                = $this->__getFields();
+        $fields['meta_tar_id'] = array('integer', $next_id = $this->db->nextId('il_meta_tar'));
+
         if ($this->db->insert('il_meta_tar', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -95,13 +97,13 @@ class ilMDTypicalAgeRange extends ilMDBase
 
     public function update() : bool
     {
-        
+
         $this->__parseTypicalAgeRange();
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_tar',
                 $this->__getFields(),
-                array("meta_tar_id" => array('integer',$this->getMetaId()))
+                array("meta_tar_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -111,11 +113,11 @@ class ilMDTypicalAgeRange extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_tar " .
                 "WHERE meta_tar_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res = $this->db->manipulate($query);
+            $res   = $this->db->manipulate($query);
             return true;
         }
         return false;
@@ -126,21 +128,22 @@ class ilMDTypicalAgeRange extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'parent_type' => array('text',$this->getParentType()),
-                     'parent_id' => array('integer',$this->getParentId()),
-                     'typical_age_range' => array('text',$this->getTypicalAgeRange()),
-                     'tar_language' => array('text',$this->getTypicalAgeRangeLanguageCode()),
-                     'tar_min' => array('text',$this->getTypicalAgeRangeMinimum()),
-                     'tar_max' => array('text',$this->getTypicalAgeRangeMaximum()));
+        return array(
+            'rbac_id'           => array('integer', $this->getRBACId()),
+            'obj_id'            => array('integer', $this->getObjId()),
+            'obj_type'          => array('text', $this->getObjType()),
+            'parent_type'       => array('text', $this->getParentType()),
+            'parent_id'         => array('integer', $this->getParentId()),
+            'typical_age_range' => array('text', $this->getTypicalAgeRange()),
+            'tar_language'      => array('text', $this->getTypicalAgeRangeLanguageCode()),
+            'tar_min'           => array('text', $this->getTypicalAgeRangeMinimum()),
+            'tar_max'           => array('text', $this->getTypicalAgeRangeMaximum())
+        );
     }
 
     public function read() : bool
     {
-        
-        
+
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_tar " .
@@ -161,15 +164,16 @@ class ilMDTypicalAgeRange extends ilMDBase
         }
         return true;
     }
-                
 
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'TypicalAgeRange',
-            array('Language' => $this->getTypicalAgeRangeLanguageCode()
-                                                    ? $this->getTypicalAgeRangeLanguageCode()
-                                                    : 'en'),
+            array(
+                'Language' => $this->getTypicalAgeRangeLanguageCode()
+                    ? $this->getTypicalAgeRangeLanguageCode()
+                    : 'en'
+            ),
             $this->getTypicalAgeRange()
         );
     }
@@ -191,7 +195,7 @@ class ilMDTypicalAgeRange extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND parent_id = " . $ilDB->quote($a_parent_id, 'integer') . " " .
             "AND parent_type = " . $ilDB->quote($a_parent_type, 'text');
-            
+
         $res = $ilDB->query($query);
         $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -23,16 +22,13 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Base class for creating meta data sets for object types
-* If you need special element values, inherit from this class. E.g class.ilMDCourseCreator extends class.ilMDCreator
-*
-* @package ilias-core
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*/
-
+ * Base class for creating meta data sets for object types
+ * If you need special element values, inherit from this class. E.g class.ilMDCourseCreator extends class.ilMDCreator
+ * @package ilias-core
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ */
 class ilMDCreator
 {
     protected ilMD $md_obj;
@@ -60,17 +56,16 @@ class ilMDCreator
     private string $description = '';
     private string $title_lng = '';
 
-
     public function __construct(int $a_rbac_id, int $a_obj_id, string $a_type)
     {
-        
+
 
         if ($a_obj_id == 0) {
             $a_obj_id = $a_rbac_id;
         }
 
-        $this->rbac_id = $a_rbac_id;
-        $this->obj_id = $a_obj_id;
+        $this->rbac_id  = $a_rbac_id;
+        $this->obj_id   = $a_obj_id;
         $this->obj_type = $a_type;
 
         $this->md_obj = new ilMD($a_rbac_id, $a_obj_id, $a_type);
@@ -81,106 +76,124 @@ class ilMDCreator
     {
         $this->title = $a_title;
     }
+
     public function getTitle() : string
     {
         return $this->title;
     }
+
     public function setDescription(string $a_desc) : void
     {
         $this->description = $a_desc;
     }
+
     public function getDescription() : string
     {
         return $this->description;
     }
+
     public function setTitleLanguage(string $a_lng) : void
     {
         $this->title_lng = $a_lng;
     }
+
     public function getTitleLanguage() : ilMDLanguageItem
     {
-        
+
 
         return new ilMDLanguageItem($this->title_lng);
     }
+
     public function setDescriptionLanguage(string $a_lng) : void
     {
         $this->title_lng = $a_lng;
     }
+
     public function getDescriptionLanguage() : ilMDLanguageItem
     {
-        
+
 
         return new ilMDLanguageItem($this->title_lng);
     }
+
     public function setLanguage(string $a_lng) : void
     {
         $this->title_lng = $a_lng;
     }
+
     public function getLanguage() : ilMDLanguageItem
     {
-        
+
 
         return new ilMDLanguageItem($this->title_lng);
     }
+
     public function setKeyword(string $a_key) : void
     {
         $this->keyword = $a_key;
     }
+
     public function getKeyword() : string
     {
         return $this->keyword;
     }
 
-
     public function getRBACId() : int
     {
         return $this->rbac_id;
     }
+
     public function getObjId() : int
     {
         return $this->obj_id;
     }
+
     public function getObjType() : string
     {
         return $this->obj_type;
     }
+
     public function setKeywordLanguage(string $a_lng) : void
     {
         $this->title_lng = $a_lng;
     }
+
     public function getKeywordLanguage() : ilMDLanguageItem
     {
-        
+
 
         return new ilMDLanguageItem($this->title_lng);
     }
+
     public function setCatalog(string $a_cat) : void
     {
         $this->catalog = $a_cat;
     }
+
     public function getCatalog() : string
     {
         return $this->catalog ? $this->catalog : 'ILIAS';
     }
+
     public function setEntry(string $a_entry) : void
     {
         $this->entry = $a_entry;
     }
+
     public function getEntry() : string
     {
         return $this->entry ? $this->entry : 'il__' . $this->getObjType() . '_' . $this->getObjId();
     }
+
     public function setStructure($a_structure)
     {
         $this->structure = $a_structure;
     }
+
     public function getStructure()
     {
         return $this->structure ? $this->structure : 'Hierarchical';
     }
-
-
 
     public function create() : void
     {

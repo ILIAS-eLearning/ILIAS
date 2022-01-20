@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element educational)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element educational)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDEducational extends ilMDBase
 {
 
@@ -42,19 +38,19 @@ class ilMDEducational extends ilMDBase
     private string $difficulty = '';
     private string $typical_learning_time = '';
 
-
     /**
      * @return int[]
      */
     public function getTypicalAgeRangeIds() : array
     {
-        
+
 
         return ilMDTypicalAgeRange::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
+
     public function getTypicalAgeRange(int $a_typical_age_range_id) : ?ilMDTypicalAgeRange
     {
-        
+
 
         if (!$a_typical_age_range_id) {
             return null;
@@ -64,9 +60,10 @@ class ilMDEducational extends ilMDBase
 
         return $typ;
     }
+
     public function addTypicalAgeRange() : ilMDTypicalAgeRange
     {
-        
+
 
         $typ = new ilMDTypicalAgeRange($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $typ->setParentId($this->getMetaId());
@@ -80,13 +77,14 @@ class ilMDEducational extends ilMDBase
      */
     public function getDescriptionIds() : array
     {
-        
+
 
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
+
     public function getDescription(int $a_description_id) : ?ilMDDescription
     {
-        
+
 
         if (!$a_description_id) {
             return null;
@@ -96,9 +94,10 @@ class ilMDEducational extends ilMDBase
 
         return $des;
     }
+
     public function addDescription() : ilMDDescription
     {
-        
+
 
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
@@ -112,13 +111,14 @@ class ilMDEducational extends ilMDBase
      */
     public function getLanguageIds() : array
     {
-        
+
 
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
+
     public function getLanguage(int $a_language_id) : ?ilMDLanguage
     {
-        
+
 
         if (!$a_language_id) {
             return null;
@@ -128,10 +128,11 @@ class ilMDEducational extends ilMDBase
 
         return $lan;
     }
+
     public function addLanguage() : ilMDLanguage
     {
-        
-        
+
+
         $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $lan->setParentId($this->getMetaId());
         $lan->setParentType('meta_educational');
@@ -153,10 +154,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getInteractivityType() : string
     {
         return $this->interactivity_type;
     }
+
     public function setLearningResourceType(string $a_lrt) : bool
     {
         switch ($a_lrt) {
@@ -182,10 +185,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getLearningResourceType() : string
     {
         return $this->learning_resource_type;
     }
+
     public function setInteractivityLevel(string $a_iat) : bool
     {
         switch ($a_iat) {
@@ -201,10 +206,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getInteractivityLevel() : string
     {
         return $this->interactivity_level;
     }
+
     public function setSemanticDensity(string $a_sd) : bool
     {
         switch ($a_sd) {
@@ -220,10 +227,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getSemanticDensity() : string
     {
         return $this->semantic_density;
     }
+
     public function setIntendedEndUserRole(string $a_ieur) : bool
     {
         switch ($a_ieur) {
@@ -238,10 +247,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getIntendedEndUserRole() : string
     {
         return $this->intended_end_user_role;
     }
+
     public function setContext(string $a_context) : bool
     {
         switch ($a_context) {
@@ -256,10 +267,12 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getContext() : string
     {
         return $this->context;
     }
+
     public function setDifficulty(string $a_difficulty) : bool
     {
         switch ($a_difficulty) {
@@ -275,6 +288,7 @@ class ilMDEducational extends ilMDBase
                 return false;
         }
     }
+
     public function getDifficulty() : string
     {
         return $this->difficulty;
@@ -309,11 +323,11 @@ class ilMDEducational extends ilMDBase
         return true;
     }
 
-
     public function setTypicalLearningTime(string $a_tlt) : void
     {
         $this->typical_learning_time = $a_tlt;
     }
+
     public function getTypicalLearningTime() : string
     {
         return $this->typical_learning_time;
@@ -321,19 +335,19 @@ class ilMDEducational extends ilMDBase
 
     public function getTypicalLearningTimeSeconds() : int
     {
-        
+
 
         $time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
 
         return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
     }
-    
+
     public function save() : int
     {
 
-        $fields = $this->__getFields();
-        $fields['meta_educational_id'] = array('integer',$next_id = $this->db->nextId('il_meta_educational'));
-        
+        $fields                        = $this->__getFields();
+        $fields['meta_educational_id'] = array('integer', $next_id = $this->db->nextId('il_meta_educational'));
+
         if ($this->db->insert('il_meta_educational', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -343,12 +357,12 @@ class ilMDEducational extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_educational',
                 $this->__getFields(),
-                array("meta_educational_id" => array('integer',$this->getMetaId()))
+                array("meta_educational_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -358,11 +372,11 @@ class ilMDEducational extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_educational " .
                 "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId());
-            $res = $this->db->manipulate($query);
+            $res   = $this->db->manipulate($query);
 
             foreach ($this->getTypicalAgeRangeIds() as $id) {
                 $typ = $this->getTypicalAgeRange($id);
@@ -377,7 +391,6 @@ class ilMDEducational extends ilMDBase
                 $lan->delete();
             }
 
-            
             return true;
         }
         return false;
@@ -388,27 +401,28 @@ class ilMDEducational extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'interactivity_type' => array('text',$this->getInteractivityType()),
-                     'learning_resource_type' => array('text',$this->getLearningResourceType()),
-                     'interactivity_level' => array('text',$this->getInteractivityLevel()),
-                     'semantic_density' => array('text',$this->getSemanticDensity()),
-                     'intended_end_user_role' => array('text',$this->getIntendedEndUserRole()),
-                     'context' => array('text',$this->getContext()),
-                     'difficulty' => array('text',$this->getDifficulty()),
-                     'typical_learning_time' => array('text',$this->getTypicalLearningTime()));
+        return array(
+            'rbac_id'                => array('integer', $this->getRBACId()),
+            'obj_id'                 => array('integer', $this->getObjId()),
+            'obj_type'               => array('text', $this->getObjType()),
+            'interactivity_type'     => array('text', $this->getInteractivityType()),
+            'learning_resource_type' => array('text', $this->getLearningResourceType()),
+            'interactivity_level'    => array('text', $this->getInteractivityLevel()),
+            'semantic_density'       => array('text', $this->getSemanticDensity()),
+            'intended_end_user_role' => array('text', $this->getIntendedEndUserRole()),
+            'context'                => array('text', $this->getContext()),
+            'difficulty'             => array('text', $this->getDifficulty()),
+            'typical_learning_time'  => array('text', $this->getTypicalLearningTime())
+        );
     }
 
     public function read() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_educational " .
                 "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
-        
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
@@ -432,41 +446,43 @@ class ilMDEducational extends ilMDBase
     {
         $writer->xmlStartTag(
             'Educational',
-            array('InteractivityType' => $this->getInteractivityType()
-                                   ? $this->getInteractivityType()
-                                   : 'Active',
-                                   'LearningResourceType' => $this->getLearningResourceType()
-                                   ? $this->getLearningResourceType()
-                                   : 'Exercise',
-                                   'InteractivityLevel' => $this->getInteractivityLevel()
-                                   ? $this->getInteractivityLevel()
-                                   : 'Medium',
-                                   'SemanticDensity' => $this->getSemanticDensity()
-                                   ? $this->getSemanticDensity()
-                                   : 'Medium',
-                                   'IntendedEndUserRole' => $this->getIntendedEndUserRole()
-                                   ? $this->getIntendedEndUserRole()
-                                   : 'Learner',
-                                   'Context' => $this->getContext()
-                                   ? $this->getContext()
-                                   : 'Other',
-                                   'Difficulty' => $this->getDifficulty()
-                                   ? $this->getDifficulty()
-                                   : 'Medium')
+            array(
+                'InteractivityType'    => $this->getInteractivityType()
+                    ? $this->getInteractivityType()
+                    : 'Active',
+                'LearningResourceType' => $this->getLearningResourceType()
+                    ? $this->getLearningResourceType()
+                    : 'Exercise',
+                'InteractivityLevel'   => $this->getInteractivityLevel()
+                    ? $this->getInteractivityLevel()
+                    : 'Medium',
+                'SemanticDensity'      => $this->getSemanticDensity()
+                    ? $this->getSemanticDensity()
+                    : 'Medium',
+                'IntendedEndUserRole'  => $this->getIntendedEndUserRole()
+                    ? $this->getIntendedEndUserRole()
+                    : 'Learner',
+                'Context'              => $this->getContext()
+                    ? $this->getContext()
+                    : 'Other',
+                'Difficulty'           => $this->getDifficulty()
+                    ? $this->getDifficulty()
+                    : 'Medium'
+            )
         );
-                             
+
         // TypicalAgeRange
         $typ_ages = $this->getTypicalAgeRangeIds();
         foreach ($typ_ages as $id) {
             $key = $this->getTypicalAgeRange($id);
-            
+
             // extra test due to bug 5316 (may be due to eLaix import)
             if (is_object($key)) {
                 $key->toXML($writer);
             }
         }
         if (!count($typ_ages)) {
-            
+
             $typ = new ilMDTypicalAgeRange($this->getRBACId(), $this->getObjId());
             $typ->toXML($writer);
         }
@@ -486,6 +502,7 @@ class ilMDEducational extends ilMDBase
         }
         $writer->xmlEndTag('Educational');
     }
+
     // STATIC
     public static function _getId(int $a_rbac_id, int $a_obj_id) : int
     {
@@ -515,9 +532,9 @@ class ilMDEducational extends ilMDBase
         $query = "SELECT typical_learning_time FROM il_meta_educational " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
-        $res = $ilDB->query($query);
+        $res   = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            
+
 
             $time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
 

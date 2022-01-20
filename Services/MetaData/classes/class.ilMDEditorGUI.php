@@ -10,14 +10,12 @@ use ILIAS\UI\Component\Modal\Interruptive;
 use ILIAS\UI\Component\Signal;
 
 /**
-* Meta Data class (element general)
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @package ilias-core
-* @version $Id$
-*
-* @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
-*/
+ * Meta Data class (element general)
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
+ * @package      ilias-core
+ * @version      $Id$
+ * @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
+ */
 class ilMDEditorGUI
 {
     protected ilCtrl $ctrl;
@@ -48,22 +46,21 @@ class ilMDEditorGUI
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->tabs_gui = $DIC->tabs();
-        $this->ctrl = $DIC->ctrl();
+        $this->lng         = $DIC->language();
+        $this->tpl         = $DIC->ui()->mainTemplate();
+        $this->tabs_gui    = $DIC->tabs();
+        $this->ctrl        = $DIC->ctrl();
         $this->rbac_system = $DIC->rbac()->system();
-        $this->tree = $DIC->repositoryTree();
-        $this->toolbarGUI = $DIC->toolbar();
+        $this->tree        = $DIC->repositoryTree();
+        $this->toolbarGUI  = $DIC->toolbar();
 
-        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_factory  = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->md_obj = new ilMD($a_rbac_id, $a_obj_id, $a_obj_type);
 
         $this->lng->loadLanguageModule('meta');
-        
-        
+
         $this->md_settings = ilMDSettings::_getInstance();
     }
 
@@ -74,7 +71,7 @@ class ilMDEditorGUI
 
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
-            
+
             default:
                 if (!$cmd) {
                     $cmd = "listSection";
@@ -84,17 +81,15 @@ class ilMDEditorGUI
         }
     }
 
-
     public function debug() : bool
     {
-        
 
 
         $xml_writer = new ilMD2XML($this->md_obj->getRBACId(), $this->md_obj->getObjId(), $this->md_obj->getObjType());
         $xml_writer->startExport();
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
-        
+
         $this->__setTabs('meta_general');
 
         $this->tpl->setVariable("MD_CONTENT", htmlentities($xml_writer->getXML()));
@@ -113,7 +108,7 @@ class ilMDEditorGUI
         }
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
-        
+
         $this->__setTabs('meta_quickedit');
 
         $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_quick_edit_scorm.html', 'Services/MetaData');
@@ -132,7 +127,7 @@ class ilMDEditorGUI
         $first = true;
         foreach ($ids = $this->md_section->getLanguageIds() as $id) {
             $md_lan = $this->md_section->getLanguage($id);
-            
+
             if ($first) {
                 $this->tpl->setCurrentBlock("language_head");
                 $this->tpl->setVariable("ROWSPAN_LANG", count($ids));
@@ -207,14 +202,14 @@ class ilMDEditorGUI
         }
 
         // KEYWORD
-        $first = true;
+        $first    = true;
         $keywords = array();
         foreach ($ids = $this->md_section->getKeywordIds() as $id) {
             $md_key = $this->md_section->getKeyword($id);
             $keywords[$md_key->getKeywordLanguageCode()][]
-                = $md_key->getKeyword();
+                    = $md_key->getKeyword();
         }
-        
+
         foreach ($keywords as $lang => $keyword_set) {
             if ($first) {
                 $this->tpl->setCurrentBlock("keyword_head");
@@ -249,7 +244,7 @@ class ilMDEditorGUI
                 $lang
             ));
         }
-        
+
         // Lifecycle...
         // experts
         $this->tpl->setVariable("TXT_EXPERTS", $this->lng->txt('meta_subjectmatterexpert'));
@@ -261,9 +256,9 @@ class ilMDEditorGUI
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "SubjectMatterExpert") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
-                        $md_ent = $md_con->getEntity($ent_id);
+                        $md_ent  = $md_con->getEntity($ent_id);
                         $ent_str = $ent_str . $sep . $md_ent->getEntity();
-                        $sep = ", ";
+                        $sep     = ", ";
                     }
                 }
             }
@@ -278,9 +273,9 @@ class ilMDEditorGUI
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "InstructionalDesigner") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
-                        $md_ent = $md_con->getEntity($ent_id);
+                        $md_ent  = $md_con->getEntity($ent_id);
                         $ent_str = $ent_str . $sep . $md_ent->getEntity();
-                        $sep = ", ";
+                        $sep     = ", ";
                     }
                 }
             }
@@ -295,15 +290,15 @@ class ilMDEditorGUI
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "PointOfContact") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
-                        $md_ent = $md_con->getEntity($ent_id);
+                        $md_ent  = $md_con->getEntity($ent_id);
                         $ent_str = $ent_str . $sep . $md_ent->getEntity();
-                        $sep = ", ";
+                        $sep     = ", ";
                     }
                 }
             }
             $this->tpl->setVariable("POC_VAL", ilUtil::prepareFormOutput($ent_str));
         }
-        
+
         $this->tpl->setVariable("TXT_STATUS", $this->lng->txt('meta_status'));
         if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $this->md_section = $this->md_obj->addLifecycle();
@@ -321,14 +316,14 @@ class ilMDEditorGUI
         // Copyright
         // smeyer 2018-09-14 not supported
 
-        $tlt = array(0,0,0,0,0);
+        $tlt   = array(0, 0, 0, 0, 0);
         $valid = true;
         if (is_object($this->md_section = $this->md_obj->getEducational())) {
-            
-            
+
+
             if (!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime())) {
                 if (strlen($this->md_section->getTypicalLearningTime())) {
-                    $tlt = array(0,0,0,0,0);
+                    $tlt   = array(0, 0, 0, 0, 0);
                     $valid = false;
                 }
             }
@@ -336,7 +331,7 @@ class ilMDEditorGUI
         $this->tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
         $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) ($tlt[0] ?? '')));
         $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) ($tlt[1] ?? '')));
-        
+
         $this->tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
@@ -358,11 +353,10 @@ class ilMDEditorGUI
             $this->tpl->setVariable("INFO_TLT_NOT_VALID", $this->lng->txt('meta_info_tlt_not_valid'));
             $this->tpl->parseCurrentBlock();
         }
-        
-    
+
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
     }
-    
+
     public function listQuickEdit() : void
     {
 
@@ -370,16 +364,15 @@ class ilMDEditorGUI
             $this->md_section = $this->md_obj->addGeneral();
             $this->md_section->save();
         }
-        
+
         $this->__setTabs('meta_quickedit');
 
-
-        $interruptive_modal = $this->getChangeCopyrightModal();
+        $interruptive_modal  = $this->getChangeCopyrightModal();
         $interruptive_signal = null;
-        $modal_content = '';
+        $modal_content       = '';
         if ($interruptive_modal != null) {
             $interruptive_signal = $interruptive_modal->getShowSignal();
-            $modal_content = $this->ui_renderer->render($interruptive_modal);
+            $modal_content       = $this->ui_renderer->render($interruptive_modal);
         }
         $form = $this->initQuickEditForm($interruptive_signal);
 
@@ -388,15 +381,14 @@ class ilMDEditorGUI
         );
     }
 
-
     public function initQuickEditForm(?Signal $a_signal_id) : ilPropertyFormGUI
     {
-    
-        
+
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setId('ilquickeditform');
         $this->form->setShowTopButtons(false);
-    
+
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "gen_title");
         $ti->setMaxLength(200);
@@ -406,11 +398,11 @@ class ilMDEditorGUI
         }
         $ti->setValue($this->md_section->getTitle());
         $this->form->addItem($ti);
-        
+
         // description(s)
         foreach ($ids = $this->md_section->getDescriptionIds() as $id) {
             $md_des = $this->md_section->getDescription($id);
-            
+
             $ta = new ilTextAreaInputGUI($this->lng->txt("meta_description"), "gen_description[" . $id . "][description]");
             $ta->setCols(50);
             $ta->setRows(4);
@@ -423,12 +415,12 @@ class ilMDEditorGUI
         }
 
         // language(s)
-        $first = "";
+        $first   = "";
         $options = ilMDLanguageItem::_getLanguages();
         foreach ($ids = $this->md_section->getLanguageIds() as $id) {
-            $md_lan = $this->md_section->getLanguage($id);
+            $md_lan     = $this->md_section->getLanguage($id);
             $first_lang = $md_lan->getLanguageCode();
-            $si = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language[" . $id . "][language]");
+            $si         = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language[" . $id . "][language]");
             $si->setOptions($options);
             $si->setValue($md_lan->getLanguageCode());
             $this->form->addItem($si);
@@ -439,9 +431,9 @@ class ilMDEditorGUI
             $si->setOptions($options);
             $this->form->addItem($si);
         }
-        
+
         // keyword(s)
-        $first = true;
+        $first    = true;
         $keywords = array();
         foreach ($ids = $this->md_section->getKeywordIds() as $id) {
             $md_key = $this->md_section->getKeyword($id);
@@ -493,9 +485,9 @@ class ilMDEditorGUI
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "Author") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
-                        $md_ent = $md_con->getEntity($ent_id);
+                        $md_ent  = $md_con->getEntity($ent_id);
                         $ent_str = $ent_str . $sep . $md_ent->getEntity();
-                        $sep = $this->md_settings->getDelimiter() . " ";
+                        $sep     = $this->md_settings->getDelimiter() . " ";
                     }
                 }
             }
@@ -506,9 +498,8 @@ class ilMDEditorGUI
         // copyright
         $this->listQuickEditCopyright($this->form);
 
-
         // typical learning time
-        
+
         $tlt = new ilTypicalLearningTimeInputGUI($this->lng->txt("meta_typical_learning_time"), "tlt");
         $edu = $this->md_obj->getEducational();
         if (is_object($edu)) {
@@ -520,7 +511,6 @@ class ilMDEditorGUI
         $this->form->setTitle($this->lng->txt("meta_quickedit"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-
         if (ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
             $this->tpl->addJavaScript(
                 'Services/MetaData/js/ilMetaCopyrightListener.js'
@@ -531,18 +521,15 @@ class ilMDEditorGUI
             );
         }
 
-
-
         return $this->form;
     }
 
-
     protected function listQuickEditCopyright(ilPropertyFormGUI $form) : bool
     {
-        $md_settings = ilMDSettings::_getInstance();
+        $md_settings  = ilMDSettings::_getInstance();
         $oer_settings = ilOerHarvesterSettings::getInstance();
 
-        $cp_entries = ilMDCopyrightSelectionEntry::_getEntries();
+        $cp_entries  = ilMDCopyrightSelectionEntry::_getEntries();
         $description = ilMDRights::_lookupDescription(
             $this->md_obj->getRBACId(),
             $this->md_obj->getObjId()
@@ -565,7 +552,6 @@ class ilMDEditorGUI
 
         $copyright = new ilRadioGroupInputGUI($this->lng->txt('meta_copyright'), 'copyright');
         $copyright->setValue((string) $current_id);
-
 
         foreach ($cp_entries as $copyright_entry) {
             $radio_entry = new ilRadioOption(
@@ -597,7 +583,6 @@ class ilMDEditorGUI
                 $radio_entry->addSubItem($blocked);
             }
 
-
             $copyright->addOption($radio_entry);
         }
 
@@ -622,34 +607,30 @@ class ilMDEditorGUI
         return true;
     }
 
-
     public function keywordAutocomplete() : void
     {
-        
+
         $res = ilMDKeyword::_getMatchingKeywords(
             ilUtil::stripSlashes($_GET["term"]),
             $this->md_obj->getObjType(),
             $this->md_obj->getRBACId()
         );
-        
+
         $result = array();
-        $cnt = 0;
+        $cnt    = 0;
         foreach ($res as $r) {
             if ($cnt++ > 19) {
                 continue;
             }
-            $entry = new stdClass();
+            $entry        = new stdClass();
             $entry->value = $r;
             $entry->label = $r;
-            $result[] = $entry;
+            $result[]     = $entry;
         }
 
-        
         echo ilJsonUtil::encode($result);
         exit;
     }
-    
-    
 
     public function updateQuickEdit() : bool
     {
@@ -692,14 +673,14 @@ class ilMDEditorGUI
                 $md_des->update();
             }
         }
-        
+
         // Keyword
         if (is_array($_POST["keywords"]["value"])) {
-            
+
             ilMDKeyword::updateKeywords($this->md_section, $_POST["keywords"]["value"]);
         }
         $this->callListeners('General');
-        
+
         // Copyright
         if ($_POST['copyright'] || $_POST['copyright_text']) {
             if (!is_object($this->md_section = $this->md_obj->getRights())) {
@@ -737,7 +718,7 @@ class ilMDEditorGUI
         //Educational...
         // Typical Learning Time
         if ($_POST['tlt']['mo'] or $_POST['tlt']['d'] or
-           $_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s']) {
+            $_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s']) {
             if (!is_object($this->md_section = $this->md_obj->getEducational())) {
                 $this->md_section = $this->md_obj->addEducational();
                 $this->md_section->save();
@@ -764,22 +745,22 @@ class ilMDEditorGUI
                 $this->md_section = $this->md_obj->addLifecycle();
                 $this->md_section->save();
             }
-            
+
             // determine all entered authors
             $auth_arr = explode($this->md_settings->getDelimiter(), $_POST["life_authors"]);
             for ($i = 0; $i < count($auth_arr); $i++) {
                 $auth_arr[$i] = trim($auth_arr[$i]);
             }
-            
+
             $md_con_author = "";
-            
+
             // update existing author entries (delete if not entered)
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "Author") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                         $md_ent = $md_con->getEntity($ent_id);
-                        
+
                         // entered author already exists
                         if (in_array($md_ent->getEntity(), $auth_arr)) {
                             unset($auth_arr[array_search($md_ent->getEntity(), $auth_arr)]);
@@ -790,7 +771,7 @@ class ilMDEditorGUI
                     $md_con_author = $md_con;
                 }
             }
-            
+
             // insert enterd, but not existing authors
             if (count($auth_arr) > 0) {
                 if (!is_object($md_con_author)) {
@@ -804,7 +785,7 @@ class ilMDEditorGUI
                     $md_ent->save();
                 }
             }
-        } else {	// nothing has been entered: delete all author contribs
+        } else {    // nothing has been entered: delete all author contribs
             if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                     $md_con = $this->md_section->getContribute($con_id);
@@ -815,7 +796,7 @@ class ilMDEditorGUI
             }
         }
         $this->callListeners('Lifecycle');
-        
+
         // #18563
         /*
         if(!$_REQUEST["wsp_id"])
@@ -825,7 +806,7 @@ class ilMDEditorGUI
             $tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
             $tax_gui->updateFromMDForm();
         }*/
-        
+
         // Redirect here to read new title and description
         // Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
@@ -854,16 +835,16 @@ class ilMDEditorGUI
                 for ($i = 0; $i < count($auth_arr); $i++) {
                     $auth_arr[$i] = trim($auth_arr[$i]);
                 }
-                
+
                 $md_con_author = "";
-                    
+
                 // update existing author entries (delete if not entered)
                 foreach (($ids = $sco_md_section->getContributeIds()) as $con_id) {
                     $md_con = $sco_md_section->getContribute($con_id);
                     if ($md_con->getRole() == $type) {
                         foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                             $md_ent = $md_con->getEntity($ent_id);
-    
+
                             // entered author already exists
                             if (in_array($md_ent->getEntity(), $auth_arr)) {
                                 unset($auth_arr[array_search($md_ent->getEntity(), $auth_arr)]);
@@ -874,7 +855,7 @@ class ilMDEditorGUI
                         $md_con_author = $md_con;
                     }
                 }
-                
+
                 // insert enterd, but not existing authors
                 if (count($auth_arr) > 0) {
                     if (!is_object($md_con_author)) {
@@ -888,7 +869,7 @@ class ilMDEditorGUI
                         $md_ent->save();
                     }
                 }
-            } else {	// nothing has been entered: delete all author contribs
+            } else {    // nothing has been entered: delete all author contribs
                 if (is_object($sco_md_section = $sco_md->getLifecycle())) {
                     foreach (($ids = $sco_md_section->getContributeIds()) as $con_id) {
                         $md_con = $sco_md_section->getContribute($con_id);
@@ -902,15 +883,17 @@ class ilMDEditorGUI
         }
         $this->updateQuickEdit_scorm();
     }
-    
+
     public function updateQuickEdit_scorm_prop_expert() : void
     {
         $this->updateQuickEdit_scorm_propagate("life_experts", "SubjectMatterExpert");
     }
+
     public function updateQuickEdit_scorm_prop_designer() : void
     {
         $this->updateQuickEdit_scorm_propagate("life_designers", "InstructionalDesigner");
     }
+
     public function updateQuickEdit_scorm_prop_poc() : void
     {
         $this->updateQuickEdit_scorm_propagate("life_poc", "PointOfContact");
@@ -918,7 +901,7 @@ class ilMDEditorGUI
 
     public function updateQuickEdit_scorm() : void
     {
-        
+
 
         // General values
         $this->md_section = $this->md_obj->getGeneral();
@@ -949,8 +932,7 @@ class ilMDEditorGUI
                 $md_des->update();
             }
         }
-        
-        
+
         // Keyword
         if (is_array($_POST["keywords"]["value"])) {
             $new_keywords = array();
@@ -961,13 +943,13 @@ class ilMDEditorGUI
                     $new_keywords[$language][] = trim($keyword);
                 }
             }
-            
+
             // update existing author entries (delete if not entered)
             foreach ($ids = $this->md_section->getKeywordIds() as $id) {
                 $md_key = $this->md_section->getKeyword($id);
 
                 $lang = $md_key->getKeywordLanguageCode();
-                
+
                 // entered keyword already exists
                 if (is_array($new_keywords[$lang]) &&
                     in_array($md_key->getKeyword(), $new_keywords[$lang])) {
@@ -977,7 +959,7 @@ class ilMDEditorGUI
                     $md_key->delete();
                 }
             }
-            
+
             // insert entered, but not existing keywords
             foreach ($new_keywords as $lang => $key_arr) {
                 foreach ($key_arr as $keyword) {
@@ -991,7 +973,7 @@ class ilMDEditorGUI
             }
         }
         $this->callListeners('General');
-        
+
         // Copyright
         if ($_POST['copyright_id'] or $_POST['rights_copyright']) {
             if (!is_object($this->md_section = $this->md_obj->getRights())) {
@@ -1018,7 +1000,7 @@ class ilMDEditorGUI
         //Educational...
         // Typical Learning Time
         if ($_POST['tlt']['mo'] or $_POST['tlt']['d'] or
-           $_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s']) {
+            $_POST["tlt"]['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s']) {
             if (!is_object($this->md_section = $this->md_obj->getEducational())) {
                 $this->md_section = $this->md_obj->addEducational();
                 $this->md_section->save();
@@ -1045,22 +1027,22 @@ class ilMDEditorGUI
                 $this->md_section = $this->md_obj->addLifecycle();
                 $this->md_section->save();
             }
-            
+
             // determine all entered authors
             $auth_arr = explode(",", $_POST["life_experts"]);
             for ($i = 0; $i < count($auth_arr); $i++) {
                 $auth_arr[$i] = trim($auth_arr[$i]);
             }
-            
+
             $md_con_author = "";
-            
+
             // update existing author entries (delete if not entered)
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "SubjectMatterExpert") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                         $md_ent = $md_con->getEntity($ent_id);
-                        
+
                         // entered author already exists
                         if (in_array($md_ent->getEntity(), $auth_arr)) {
                             unset($auth_arr[array_search($md_ent->getEntity(), $auth_arr)]);
@@ -1071,7 +1053,7 @@ class ilMDEditorGUI
                     $md_con_author = $md_con;
                 }
             }
-            
+
             // insert enterd, but not existing authors
             if (count($auth_arr) > 0) {
                 if (!is_object($md_con_author)) {
@@ -1085,7 +1067,7 @@ class ilMDEditorGUI
                     $md_ent->save();
                 }
             }
-        } else {	// nothing has been entered: delete all author contribs
+        } else {    // nothing has been entered: delete all author contribs
             if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                     $md_con = $this->md_section->getContribute($con_id);
@@ -1095,29 +1077,29 @@ class ilMDEditorGUI
                 }
             }
         }
-        
+
         // InstructionalDesigner
         if ($_POST["life_designers"] != "") {
             if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 $this->md_section = $this->md_obj->addLifecycle();
                 $this->md_section->save();
             }
-            
+
             // determine all entered authors
             $auth_arr = explode(",", $_POST["life_designers"]);
             for ($i = 0; $i < count($auth_arr); $i++) {
                 $auth_arr[$i] = trim($auth_arr[$i]);
             }
-            
+
             $md_con_author = "";
-            
+
             // update existing author entries (delete if not entered)
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "InstructionalDesigner") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                         $md_ent = $md_con->getEntity($ent_id);
-                        
+
                         // entered author already exists
                         if (in_array($md_ent->getEntity(), $auth_arr)) {
                             unset($auth_arr[array_search($md_ent->getEntity(), $auth_arr)]);
@@ -1128,7 +1110,7 @@ class ilMDEditorGUI
                     $md_con_author = $md_con;
                 }
             }
-            
+
             // insert enterd, but not existing authors
             if (count($auth_arr) > 0) {
                 if (!is_object($md_con_author)) {
@@ -1142,7 +1124,7 @@ class ilMDEditorGUI
                     $md_ent->save();
                 }
             }
-        } else {	// nothing has been entered: delete all author contribs
+        } else {    // nothing has been entered: delete all author contribs
             if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                     $md_con = $this->md_section->getContribute($con_id);
@@ -1152,29 +1134,29 @@ class ilMDEditorGUI
                 }
             }
         }
-        
+
         // Point of Contact
         if ($_POST["life_poc"] != "") {
             if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 $this->md_section = $this->md_obj->addLifecycle();
                 $this->md_section->save();
             }
-            
+
             // determine all entered authors
             $auth_arr = explode(",", $_POST["life_poc"]);
             for ($i = 0; $i < count($auth_arr); $i++) {
                 $auth_arr[$i] = trim($auth_arr[$i]);
             }
-            
+
             $md_con_author = "";
-            
+
             // update existing author entries (delete if not entered)
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                 $md_con = $this->md_section->getContribute($con_id);
                 if ($md_con->getRole() == "PointOfContact") {
                     foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                         $md_ent = $md_con->getEntity($ent_id);
-                        
+
                         // entered author already exists
                         if (in_array($md_ent->getEntity(), $auth_arr)) {
                             unset($auth_arr[array_search($md_ent->getEntity(), $auth_arr)]);
@@ -1185,7 +1167,7 @@ class ilMDEditorGUI
                     $md_con_author = $md_con;
                 }
             }
-            
+
             // insert enterd, but not existing authors
             if (count($auth_arr) > 0) {
                 if (!is_object($md_con_author)) {
@@ -1199,7 +1181,7 @@ class ilMDEditorGUI
                     $md_ent->save();
                 }
             }
-        } else {	// nothing has been entered: delete all author contribs
+        } else {    // nothing has been entered: delete all author contribs
             if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
                 foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
                     $md_con = $this->md_section->getContribute($con_id);
@@ -1209,22 +1191,20 @@ class ilMDEditorGUI
                 }
             }
         }
-        
+
         $this->md_section = $this->md_obj->getLifecycle();
         $this->md_section->setVersionLanguage(new ilMDLanguageItem($_POST['lif_language']));
         $this->md_section->setVersion(ilUtil::stripSlashes($_POST['lif_version']));
         $this->md_section->setStatus($_POST['lif_status']);
         $this->md_section->update();
 
-        
         $this->callListeners('Lifecycle');
-        
+
         // Redirect here to read new title and description
         // Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
         $this->ctrl->redirect($this, 'listSection');
     }
-    
 
     public function listGeneral() : void
     {
@@ -1234,7 +1214,7 @@ class ilMDEditorGUI
         }
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
-        
+
         $this->__setTabs('meta_general');
 
         $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_general.html', 'Services/MetaData');
@@ -1244,7 +1224,7 @@ class ilMDEditorGUI
         $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
 
         $this->__fillSubelements();
-        
+
         $this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
         $this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
         $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
@@ -1276,7 +1256,7 @@ class ilMDEditorGUI
                 $this->tpl->parseCurrentBlock();
                 $first = false;
             }
-            
+
             if (count($ids) > 1) {
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_identifier');
@@ -1305,12 +1285,11 @@ class ilMDEditorGUI
             $this->tpl->parseCurrentBlock();
         }
 
-
         // Language
         $first = true;
         foreach ($ids = $this->md_section->getLanguageIds() as $id) {
             $md_lan = $this->md_section->getLanguage($id);
-            
+
             if ($first) {
                 $this->tpl->setCurrentBlock("language_head");
                 $this->tpl->setVariable("ROWSPAN_LANG", count($ids));
@@ -1344,7 +1323,6 @@ class ilMDEditorGUI
             $this->md_section->getTitleLanguageCode()
         ));
 
-
         // DESCRIPTION
         foreach ($ids = $this->md_section->getDescriptionIds() as $id) {
             $md_des = $this->md_section->getDescription($id);
@@ -1376,7 +1354,7 @@ class ilMDEditorGUI
         $first = true;
         foreach ($ids = $this->md_section->getKeywordIds() as $id) {
             $md_key = $this->md_section->getKeyword($id);
-            
+
             if ($first) {
                 $this->tpl->setCurrentBlock("keyword_head");
                 $this->tpl->setVariable("ROWSPAN_KEYWORD", count($ids));
@@ -1384,7 +1362,6 @@ class ilMDEditorGUI
                 $this->tpl->parseCurrentBlock();
                 $first = false;
             }
-
 
             if (count($ids) > 1) {
                 $this->ctrl->setParameter($this, 'meta_index', $id);
@@ -1395,7 +1372,7 @@ class ilMDEditorGUI
                 $this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock("keyword_loop");
             $this->tpl->setVariable("KEYWORD_LOOP_NO", $id);
             $this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
@@ -1421,11 +1398,10 @@ class ilMDEditorGUI
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
     }
 
-
     public function updateGeneral() : bool
     {
-        
-        
+
+
         if (!strlen(trim($_POST['gen_title']))) {
             if ($this->md_obj->getObjType() != 'sess') {
                 ilUtil::sendFailure($this->lng->txt('title_required'));
@@ -1433,7 +1409,7 @@ class ilMDEditorGUI
                 return false;
             }
         }
-        
+
         // General values
         $this->md_section = $this->md_obj->getGeneral();
         $this->md_section->setStructure($_POST['gen_structure']);
@@ -1492,7 +1468,7 @@ class ilMDEditorGUI
 
     public function updateTechnical() : bool
     {
-        
+
 
         // update technical section
         $this->md_section = $this->md_obj->getTechnical();
@@ -1539,15 +1515,12 @@ class ilMDEditorGUI
         $this->listSection();
         return true;
     }
-        
-
 
     public function listTechnical() : bool
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_technical');
         $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_technical.html', 'Services/MetaData');
-
 
         $this->ctrl->setParameter($this, "section", "meta_technical");
         if (!is_object($this->md_section = $this->md_obj->getTechnical())) {
@@ -1663,7 +1636,7 @@ class ilMDEditorGUI
                 "REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
             );
-            
+
             $this->tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
@@ -1673,7 +1646,7 @@ class ilMDEditorGUI
                 "REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
             );
-            
+
             $this->tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
@@ -1723,7 +1696,7 @@ class ilMDEditorGUI
                     "ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
                 );
-            
+
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
@@ -1733,7 +1706,7 @@ class ilMDEditorGUI
                     "ORREQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
                 );
-            
+
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
@@ -1793,15 +1766,12 @@ class ilMDEditorGUI
         $this->tpl->parseCurrentBlock();
         return true;
     }
-    
-
 
     public function listLifecycle() : bool
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_lifecycle');
         $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_lifecycle.html', 'Services/MetaData');
-
 
         $this->ctrl->setParameter($this, "section", "meta_lifecycle");
         if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
@@ -1853,7 +1823,7 @@ class ilMDEditorGUI
             if (count($ids) > 1) {
                 $this->ctrl->setParameter($this, 'meta_index', $con_id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_contribute');
-                
+
                 $this->tpl->setCurrentBlock("contribute_delete");
                 $this->tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
                 $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
@@ -1862,18 +1832,18 @@ class ilMDEditorGUI
             // Entities
             foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                 $md_ent = $md_con->getEntity($ent_id);
-                
+
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_entity');
-                
+
                 if (count($ent_ids) > 1) {
                     $this->tpl->setCurrentBlock("contribute_entity_delete");
-                    
+
                     $this->ctrl->setParameter($this, 'meta_index', $ent_id);
                     $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
                     $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE", $this->lng->txt('delete'));
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("contribute_entity_loop");
 
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
@@ -1883,7 +1853,7 @@ class ilMDEditorGUI
                 $this->tpl->parseCurrentBlock();
             }
             $this->tpl->setCurrentBlock("contribute_loop");
-            
+
             $this->ctrl->setParameter($this, 'section_element', 'meta_entity');
             $this->ctrl->setParameter($this, 'meta_index', $con_id);
             $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $this->ctrl->getLinkTarget($this, 'addSectionElement'));
@@ -1903,7 +1873,7 @@ class ilMDEditorGUI
             $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
             $this->tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
             $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
-            
+
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
@@ -1912,7 +1882,7 @@ class ilMDEditorGUI
 
     public function updateLifecycle() : bool
     {
-        
+
 
         // update metametadata section
         $this->md_section = $this->md_obj->getLifecycle();
@@ -1953,16 +1923,11 @@ class ilMDEditorGUI
         return true;
     }
 
-
-
-
-
     public function listMetaMetaData() : bool
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_meta_metadata');
         $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_meta_metadata.html', 'Services/MetaData');
-
 
         $this->ctrl->setParameter($this, "section", "meta_meta_metadata");
         if (!is_object($this->md_section = $this->md_obj->getMetaMetadata())) {
@@ -1996,7 +1961,6 @@ class ilMDEditorGUI
         $this->tpl->setVariable("TXT_METADATASCHEME", $this->lng->txt('meta_metadatascheme'));
         $this->tpl->setVariable("VAL_METADATASCHEME", $this->md_section->getMetaDataScheme());
 
-
         // Identifier
         foreach ($ids = $this->md_section->getIdentifierIds() as $id) {
             $md_ide = $this->md_section->getIdentifier($id);
@@ -2004,7 +1968,7 @@ class ilMDEditorGUI
             if (count($ids) > 1) {
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_identifier');
-                
+
                 $this->tpl->setCurrentBlock("identifier_delete");
                 $this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
                 $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt('delete'));
@@ -2034,7 +1998,7 @@ class ilMDEditorGUI
             if (count($ids) > 1) {
                 $this->ctrl->setParameter($this, 'meta_index', $con_id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_contribute');
-                
+
                 $this->tpl->setCurrentBlock("contribute_delete");
                 $this->tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
                 $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
@@ -2043,25 +2007,24 @@ class ilMDEditorGUI
             // Entities
             foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
                 $md_ent = $md_con->getEntity($ent_id);
-                
+
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_entity');
-                
+
                 if (count($ent_ids) > 1) {
                     $this->tpl->setCurrentBlock("contribute_entity_delete");
-                    
+
                     $this->ctrl->setParameter($this, 'meta_index', $ent_id);
                     $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
                     $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE", $this->lng->txt('delete'));
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("contribute_entity_loop");
 
                 $this->ctrl->setParameter($this, 'section_element', 'meta_entity');
                 $this->ctrl->setParameter($this, 'meta_index', $con_id);
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $this->ctrl->getLinkTarget($this, 'addSectionElement'));
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD", $this->lng->txt('add'));
-
 
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
                 $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
@@ -2081,17 +2044,16 @@ class ilMDEditorGUI
             $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
             $this->tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
             $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
-            
+
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
         return true;
     }
 
-
     public function updateMetaMetaData() : bool
     {
-        
+
 
         // update metametadata section
         $this->md_section = $this->md_obj->getMetaMetadata();
@@ -2129,8 +2091,6 @@ class ilMDEditorGUI
         $this->listSection();
         return true;
     }
-
-
 
     public function listRights() : void
     {
@@ -2186,7 +2146,7 @@ class ilMDEditorGUI
             );
 
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-    
+
             $this->tpl->setCurrentBlock("rights");
             $this->tpl->parseCurrentBlock();
         }
@@ -2194,7 +2154,7 @@ class ilMDEditorGUI
 
     public function updateRights() : void
     {
-        
+
 
         // update rights section
         $this->md_section = $this->md_obj->getRights();
@@ -2203,12 +2163,11 @@ class ilMDEditorGUI
         $this->md_section->setDescriptionLanguage(new ilMDLanguageItem($_POST['rights']['DescriptionLanguage']));
         $this->md_section->setDescription(ilUtil::stripSlashes($_POST['rights']['Description']));
         $this->md_section->update();
-        
+
         $this->callListeners('Rights');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
         $this->listSection();
     }
-
 
     public function listEducational() : void
     {
@@ -2253,7 +2212,7 @@ class ilMDEditorGUI
             $this->tpl->setVariable("TXT_INTENDEDENDUSERROLE", $this->lng->txt("meta_intended_end_user_role"));
             $this->tpl->setVariable("TXT_CONTEXT", $this->lng->txt("meta_context"));
             $this->tpl->setVariable("TXT_DIFFICULTY", $this->lng->txt("meta_difficulty"));
-            
+
             $this->tpl->setVariable("VAL_INTERACTIVITYTYPE_" . strtoupper($this->md_section->getInteractivityType()), " selected");
             $this->tpl->setVariable("VAL_LEARNINGRESOURCETYPE_" . strtoupper($this->md_section->getLearningResourceType()), " selected");
             $this->tpl->setVariable("VAL_INTERACTIVITYLEVEL_" . strtoupper($this->md_section->getInteractivityLevel()), " selected");
@@ -2262,7 +2221,7 @@ class ilMDEditorGUI
             $this->tpl->setVariable("VAL_CONTEXT_" . strtoupper($this->md_section->getContext()), " selected");
             $this->tpl->setVariable("VAL_DIFFICULTY_" . strtoupper($this->md_section->getDifficulty()), " selected");
             #$this->tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
-            
+
             $this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("meta_active"));
             $this->tpl->setVariable("TXT_EXPOSITIVE", $this->lng->txt("meta_expositive"));
             $this->tpl->setVariable("TXT_MIXED", $this->lng->txt("meta_mixed"));
@@ -2300,16 +2259,13 @@ class ilMDEditorGUI
             $this->tpl->setVariable("TXT_VERYDIFFICULT", $this->lng->txt("meta_very_difficult"));
             $this->tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
 
-
             // Typical learning time
-            $tlt = array(0,0,0,0,0);
+            $tlt   = array(0, 0, 0, 0, 0);
             $valid = true;
 
-            
-            
             if (!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime())) {
                 if (strlen($this->md_section->getTypicalLearningTime())) {
-                    $tlt = array(0,0,0,0,0);
+                    $tlt   = array(0, 0, 0, 0, 0);
                     $valid = false;
                 }
             }
@@ -2317,7 +2273,7 @@ class ilMDEditorGUI
             $this->tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
             $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) ($tlt[0] ?? '')));
             $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) ($tlt[1] ?? '')));
-        
+
             $this->tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
             $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
@@ -2340,12 +2296,11 @@ class ilMDEditorGUI
                 $this->tpl->parseCurrentBlock();
             }
 
-
             /* TypicalAgeRange */
             $first = true;
             foreach ($ids = $this->md_section->getTypicalAgeRangeIds() as $id) {
                 $md_age = $this->md_section->getTypicalAgeRange($id);
-                
+
                 // extra test due to bug 5316 (may be due to eLaix import)
                 if (is_object($md_age)) {
                     if ($first) {
@@ -2358,11 +2313,10 @@ class ilMDEditorGUI
                         $this->tpl->parseCurrentBlock();
                         $first = false;
                     }
-                        
-                    
+
                     $this->ctrl->setParameter($this, 'meta_index', $id);
                     $this->ctrl->setParameter($this, 'meta_path', 'educational_typical_age_range');
-        
+
                     $this->tpl->setCurrentBlock("typicalagerange_delete");
                     $this->tpl->setVariable(
                         "TYPICALAGERANGE_LOOP_ACTION_DELETE",
@@ -2370,7 +2324,7 @@ class ilMDEditorGUI
                     );
                     $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
                     $this->tpl->parseCurrentBlock();
-    
+
                     $this->tpl->setCurrentBlock("typicalagerange_loop");
                     $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
                     $this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
@@ -2405,10 +2359,10 @@ class ilMDEditorGUI
                 }
 
                 $md_des = $this->md_section->getDescription($id);
-                
+
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'educational_description');
-                
+
                 $this->tpl->setCurrentBlock("description_loop");
                 $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
                 $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
@@ -2435,7 +2389,6 @@ class ilMDEditorGUI
                 $this->tpl->parseCurrentBlock();
             }
 
-
             /* Language */
             $first = true;
             foreach ($ids = $this->md_section->getLanguageIds() as $id) {
@@ -2446,9 +2399,9 @@ class ilMDEditorGUI
                     $this->tpl->parseCurrentBlock();
                     $first = false;
                 }
-                
+
                 $md_lang = $this->md_section->getLanguage($id);
-                
+
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'educational_language');
 
@@ -2484,7 +2437,7 @@ class ilMDEditorGUI
 
     public function updateEducational() : void
     {
-        
+
 
         // update rights section
         $this->md_section = $this->md_obj->getEducational();
@@ -2496,11 +2449,10 @@ class ilMDEditorGUI
         $this->md_section->setContext($_POST['educational']['Context']);
         $this->md_section->setDifficulty($_POST['educational']['Difficulty']);
 
-
         // TLT
-        
+
         if ($_POST['tlt']['mo'] or $_POST['tlt']['d'] or
-           $_POST['tlt']['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s']) {
+            $_POST['tlt']['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s']) {
             $this->md_section->setPhysicalTypicalLearningTime(
                 (int) $_POST['tlt']['mo'],
                 (int) $_POST['tlt']['d'],
@@ -2512,7 +2464,6 @@ class ilMDEditorGUI
             $this->md_section->setTypicalLearningTime('');
         }
         $this->callListeners('Educational');
-
 
         /* TypicalAgeRange */
         foreach ($ids = $this->md_section->getTypicalAgeRangeIds() as $id) {
@@ -2542,9 +2493,9 @@ class ilMDEditorGUI
             );
             $md_lang->update();
         }
-        
+
         $this->md_section->update();
-        
+
         $this->callListeners('Educational');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
         $this->listSection();
@@ -2570,10 +2521,10 @@ class ilMDEditorGUI
         } else {
             foreach ($rel_ids as $rel_id) {
                 $this->md_section = $this->md_obj->getRelation($rel_id);
-                
+
                 $this->ctrl->setParameter($this, 'meta_index', $rel_id);
                 $this->ctrl->setParameter($this, "section", "meta_relation");
-                
+
                 /* Identifier_ */
                 $res_ids = $this->md_section->getIdentifier_Ids();
                 foreach ($res_ids as $res_id) {
@@ -2614,7 +2565,7 @@ class ilMDEditorGUI
                     );
                     $this->tpl->parseCurrentBlock();
                 }
-    
+
                 /* Description */
                 $res_dess = $this->md_section->getDescriptionIds();
                 foreach ($res_dess as $res_des) {
@@ -2631,7 +2582,7 @@ class ilMDEditorGUI
                         $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
                         $this->tpl->parseCurrentBlock();
                     }
-    
+
                     $this->tpl->setCurrentBlock("description_loop");
                     $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $res_des);
                     $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
@@ -2657,7 +2608,7 @@ class ilMDEditorGUI
                     );
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("relation_loop");
                 $this->tpl->setVariable("REL_ID", $rel_id);
                 $this->tpl->setVariable("TXT_RELATION", $this->lng->txt("meta_relation"));
@@ -2692,7 +2643,7 @@ class ilMDEditorGUI
                 $this->tpl->setVariable("VAL_KIND_" . strtoupper($this->md_section->getKind()), " selected");
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock("relation");
             $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -2702,16 +2653,16 @@ class ilMDEditorGUI
 
     public function updateRelation() : void
     {
-        
+
 
         // relation
         foreach ($ids = $this->md_obj->getRelationIds() as $id) {
             // kind
             $relation = $this->md_obj->getRelation($id);
             $relation->setKind((string) ($_POST['relation'][$id]['Kind'] ?? ''));
-            
+
             $relation->update();
-            
+
             // identifiers
             $res_idents = $relation->getIdentifier_Ids();
             foreach ($res_idents as $res_id) {
@@ -2720,7 +2671,7 @@ class ilMDEditorGUI
                 $ident->setEntry(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id]['Entry']));
                 $ident->update();
             }
-            
+
             // descriptions
             $res_dess = $relation->getDescriptionIds();
             foreach ($res_dess as $res_des) {
@@ -2732,12 +2683,11 @@ class ilMDEditorGUI
                 $des->update();
             }
         }
-        
+
         $this->callListeners('Relation');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
         $this->listSection();
     }
-
 
     public function listAnnotation() : void
     {
@@ -2762,7 +2712,7 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, "section", "meta_annotation");
 
                 $this->md_section = $this->md_obj->getAnnotation($anno_id);
-                                
+
                 $this->tpl->setCurrentBlock("annotation_loop");
                 $this->tpl->setVariable("ANNOTATION_ID", $anno_id);
                 $this->tpl->setVariable("TXT_ANNOTATION", $this->lng->txt("meta_annotation"));
@@ -2778,12 +2728,12 @@ class ilMDEditorGUI
                 );
                 $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
                 $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
-                
+
                 $this->tpl->setVariable("TXT_ENTITY", $this->lng->txt("meta_entity"));
                 $this->tpl->setVariable("VAL_ENTITY", ilUtil::prepareFormOutput($this->md_section->getEntity()));
                 $this->tpl->setVariable("TXT_DATE", $this->lng->txt("meta_date"));
                 $this->tpl->setVariable("VAL_DATE", ilUtil::prepareFormOutput($this->md_section->getDate()));
-    
+
                 /* Description */
                 $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
                 $this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
@@ -2796,10 +2746,10 @@ class ilMDEditorGUI
                         $this->md_section->getDescriptionLanguageCode()
                     )
                 );
-                
+
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock("annotation");
             $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -2809,7 +2759,7 @@ class ilMDEditorGUI
 
     public function updateAnnotation() : void
     {
-        
+
 
         // relation
         foreach ($ids = $this->md_obj->getAnnotationIds() as $id) {
@@ -2824,12 +2774,11 @@ class ilMDEditorGUI
 
             $annotation->update();
         }
-        
+
         $this->callListeners('Annotation');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
         $this->listSection();
     }
-    
 
     public function listClassification() : void
     {
@@ -2852,17 +2801,17 @@ class ilMDEditorGUI
             foreach ($class_ids as $class_id) {
                 $this->md_section = $this->md_obj->getClassification($class_id);
                 $this->ctrl->setParameter($this, "section", "meta_classification");
-                
+
                 /* TaxonPath */
                 $tp_ids = $this->md_section->getTaxonPathIds();
                 foreach ($tp_ids as $tp_id) {
                     $tax_path = $this->md_section->getTaxonPath($tp_id);
-                    
+
                     $tax_ids = $tax_path->getTaxonIds();
-                    
+
                     foreach ($tax_ids as $tax_id) {
                         $taxon = $tax_path->getTaxon($tax_id);
-                        
+
                         if (count($tax_ids) > 1) {
                             $this->tpl->setCurrentBlock("taxon_delete");
                             $this->ctrl->setParameter($this, "meta_index", $tax_id);
@@ -2969,7 +2918,7 @@ class ilMDEditorGUI
                         $this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
                         $this->tpl->parseCurrentBlock();
                     }
-                    
+
                     $keyword = $this->md_section->getKeyword($key_id);
                     $this->tpl->setCurrentBlock("keyword_loop");
                     $this->tpl->setVariable("KEYWORD_LOOP_NO", $key_id);
@@ -2996,7 +2945,7 @@ class ilMDEditorGUI
                     $this->tpl->setVariable("KEYWORD_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("classification_loop");
                 $this->tpl->setVariable("TXT_CLASSIFICATION", $this->lng->txt("meta_classification"));
                 $this->ctrl->setParameter($this, "meta_index", $class_id);
@@ -3010,12 +2959,12 @@ class ilMDEditorGUI
                     $this->ctrl->getLinkTarget($this, "addSection")
                 );
                 $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
-    
+
                 $this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
                 $this->tpl->setVariable("TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
                 $this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
                 $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
-                
+
                 $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
                 $this->tpl->setVariable("CLASS_ID", $class_id);
                 $this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("meta_purpose"));
@@ -3031,7 +2980,7 @@ class ilMDEditorGUI
                 $this->tpl->setVariable("VAL_PURPOSE_" . strtoupper($this->md_section->getPurpose()), " selected");
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock("classification");
             $this->tpl->setVariable(
                 "EDIT_ACTION",
@@ -3050,14 +2999,14 @@ class ilMDEditorGUI
             // entity
             $classification = $this->md_obj->getClassification($id);
             $classification->setPurpose($_POST['classification'][$id]['Purpose']);
-            
+
             $classification->setDescription(ilUtil::stripSlashes($_POST['classification'][$id]['Description']));
             $classification->setDescriptionLanguage(
                 new ilMDLanguageItem($_POST['classification'][$id]['Language'])
             );
 
             $classification->update();
-            
+
             $key_ids = $classification->getKeywordIds();
             foreach ($key_ids as $key_id) {
                 $keyword = $classification->getKeyword($key_id);
@@ -3067,7 +3016,7 @@ class ilMDEditorGUI
                 );
                 $keyword->update();
             }
-            
+
             $tp_ids = $classification->getTaxonPathIds();
             foreach ($tp_ids as $tp_id) {
                 $tax_path = $classification->getTaxonPath($tp_id);
@@ -3078,7 +3027,7 @@ class ilMDEditorGUI
                 $tax_path->update();
 
                 $tax_ids = $tax_path->getTaxonIds();
-                    
+
                 foreach ($tax_ids as $tax_id) {
                     $taxon = $tax_path->getTaxon($tax_id);
                     $taxon->setTaxon(ilUtil::stripSlashes($_POST['classification']['TaxonPath']['Taxon'][$tax_id]['Value']));
@@ -3090,7 +3039,7 @@ class ilMDEditorGUI
                 }
             }
         }
-        
+
         $this->callListeners('Classification');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
         $this->listSection();
@@ -3098,28 +3047,28 @@ class ilMDEditorGUI
 
     public function deleteElement() : bool
     {
-        
+
 
         $md_element = ilMDFactory::_getInstance($_GET['meta_path'], $_GET['meta_index'], $_GET['meta_technical']);
         $md_element->delete();
-        
+
         $this->listSection();
 
         return true;
     }
-    
+
     public function deleteSection() : bool
     {
-        
+
 
         $md_element = ilMDFactory::_getInstance($_GET['section'], $_GET['meta_index']);
         $md_element->delete();
-        
+
         $this->listSection();
 
         return true;
     }
-    
+
     public function addSection() : bool
     {
         // Switch section
@@ -3128,7 +3077,6 @@ class ilMDEditorGUI
                 $this->md_section = $this->md_obj->addTechnical();
                 $this->md_section->save();
                 break;
-
 
             case 'meta_lifecycle':
                 $this->md_section = $this->md_obj->addLifecycle();
@@ -3158,12 +3106,12 @@ class ilMDEditorGUI
                 $this->md_section = $this->md_obj->addRights();
                 $this->md_section->save();
                 break;
-                
+
             case 'meta_educational':
                 $this->md_section = $this->md_obj->addEducational();
                 $this->md_section->save();
                 break;
-                
+
             case 'meta_relation':
                 $this->md_section = $this->md_obj->addRelation();
                 $this->md_section->save();
@@ -3172,7 +3120,7 @@ class ilMDEditorGUI
                 $des = $this->md_section->addDescription();
                 $des->save();
                 break;
-                
+
             case 'meta_annotation':
                 $this->md_section = $this->md_obj->addAnnotation();
                 $this->md_section->save();
@@ -3193,7 +3141,7 @@ class ilMDEditorGUI
                 break;
 
         }
-        
+
         $this->listSection();
         return true;
     }
@@ -3203,7 +3151,6 @@ class ilMDEditorGUI
         $section_element = (empty($_POST['section_element']))
             ? $_GET['section_element']
             : $_POST['section_element'];
-            
 
         // Switch section
         switch ($_GET['section']) {
@@ -3222,14 +3169,14 @@ class ilMDEditorGUI
             case 'meta_general':
                 $this->md_section = $this->md_obj->getGeneral();
                 break;
-                
+
             case 'meta_educational':
                 $this->md_section = $this->md_obj->getEducational();
                 break;
 
             case 'meta_classification':
-                $arr = explode("_", $section_element);
-                $section_element = $arr[0];
+                $arr              = explode("_", $section_element);
+                $section_element  = $arr[0];
                 $this->md_section = $this->md_obj->getClassification((int) ($arr[1] ?? 0));
                 break;
         }
@@ -3286,26 +3233,26 @@ class ilMDEditorGUI
             case 'educational_typical_age_range':
                 $md_new = $this->md_section->addTypicalAgeRange();
                 break;
-                
+
             case 'relation_resource_identifier':
-                $rel = $this->md_obj->getRelation($_GET['meta_index']);
+                $rel    = $this->md_obj->getRelation($_GET['meta_index']);
                 $md_new = $rel->addIdentifier_();
                 break;
-                
+
             case 'relation_resource_description':
-                $rel = $this->md_obj->getRelation($_GET['meta_index']);
+                $rel    = $this->md_obj->getRelation($_GET['meta_index']);
                 $md_new = $rel->addDescription();
                 break;
-                
+
             case 'TaxonPath':
                 $md_new = $this->md_section->addTaxonPath();
                 $md_new->save();
                 $md_new = $md_new->addTaxon();
                 break;
-                
+
             case 'Taxon':
                 $tax_path = $this->md_section->getTaxonPath($_GET['meta_index']);
-                $md_new = $tax_path->addTaxon();
+                $md_new   = $tax_path->addTaxon();
                 break;
         }
 
@@ -3334,15 +3281,15 @@ class ilMDEditorGUI
             case 'meta_meta_metadata':
                 $this->listMetaMetadata();
                 break;
-                
+
             case 'debug':
                 $this->debug();
                 break;
-                
+
             case 'meta_rights':
                 $this->listRights();
                 break;
-                
+
             case 'meta_educational':
                 $this->listEducational();
                 break;
@@ -3370,7 +3317,6 @@ class ilMDEditorGUI
         }
     }
 
-
     // PRIVATE
     public function __fillSubelements() : void
     {
@@ -3386,27 +3332,26 @@ class ilMDEditorGUI
         }
     }
 
-
-
     public function __setTabs(string $a_active) : void
     {
-        
-        $tabs = array('meta_quickedit' => 'listQuickEdit',
-                      'meta_general' => 'listGeneral',
-                      'meta_lifecycle' => 'listLifecycle',
-                      'meta_meta_metadata' => 'listMetaMetadata',
-                      'meta_technical' => 'listTechnical',
-                      'meta_educational' => 'listEducational',
-                      'meta_rights' => 'listRights',
-                      'meta_relation' => 'listRelation',
-                      'meta_annotation' => 'listAnnotation',
-                      'meta_classification' => 'listClassification');
+
+        $tabs = array(
+            'meta_quickedit'      => 'listQuickEdit',
+            'meta_general'        => 'listGeneral',
+            'meta_lifecycle'      => 'listLifecycle',
+            'meta_meta_metadata'  => 'listMetaMetadata',
+            'meta_technical'      => 'listTechnical',
+            'meta_educational'    => 'listEducational',
+            'meta_rights'         => 'listRights',
+            'meta_relation'       => 'listRelation',
+            'meta_annotation'     => 'listAnnotation',
+            'meta_classification' => 'listClassification'
+        );
 
         if (DEVMODE) {
             $tabs['debug'] = 'debug';
         }
 
-        
         $section = new ilSelectInputGUI($this->lng->txt("meta_section"), "section");
 
         $options = array();
@@ -3417,22 +3362,19 @@ class ilMDEditorGUI
         $section->setValue($a_active);
 
         $this->toolbarGUI->addStickyItem($section, true);
-        
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("show");
         $button->setCommand("listSection");
         $this->toolbarGUI->addStickyItem($button);
-                
+
         $this->toolbarGUI->setFormAction($this->ctrl->getFormAction($this, "listSection"));
 
     }
 
-
-
     public function __showLanguageSelect(string $a_name, string $a_value = "") : string
     {
-        
+
 
         $tpl = new ilTemplate(
             "tpl.lang_selection.html",
@@ -3464,27 +3406,24 @@ class ilMDEditorGUI
 
     public function __buildMonthsSelect(string $sel_month) : string
     {
-        for ($i = 0;$i <= 24;$i++) {
+        for ($i = 0; $i <= 24; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
         return ilUtil::formSelect($sel_month, 'tlt[mo]', $options, false, true);
     }
 
-
     public function __buildDaysSelect(string $sel_day) : string
     {
-        for ($i = 0;$i <= 31;$i++) {
+        for ($i = 0; $i <= 31; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
         return ilUtil::formSelect($sel_day, 'tlt[d]', $options, false, true);
     }
-                
-        
 
     // Observer methods
     public function addObserver(object $a_class, string $a_method, string $a_element) : bool
     {
-        $this->observers[$a_element]['class'] = $a_class;
+        $this->observers[$a_element]['class']  = $a_class;
         $this->observers[$a_element]['method'] = $a_method;
 
         return true;
@@ -3496,7 +3435,7 @@ class ilMDEditorGUI
     public function callListeners(string $a_element)
     {
         if (isset($this->observers[$a_element])) {
-            $class = &$this->observers[$a_element]['class'];
+            $class  = &$this->observers[$a_element]['class'];
             $method = $this->observers[$a_element]['method'];
 
             return $class->$method($a_element);
@@ -3504,8 +3443,7 @@ class ilMDEditorGUI
         return '';
     }
 
-
-    protected function getChangeCopyrightModal(): ?Interruptive
+    protected function getChangeCopyrightModal() : ?Interruptive
     {
         $md_settings = ilMDSettings::_getInstance();
         if (!$md_settings->isCopyrightSelectionActive()) {

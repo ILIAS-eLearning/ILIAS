@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element keyword)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element keyword)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDKeyword extends ilMDBase
 {
 
@@ -41,20 +37,24 @@ class ilMDKeyword extends ilMDBase
     {
         $this->keyword = $a_keyword;
     }
+
     public function getKeyword() : string
     {
         return $this->keyword;
     }
+
     public function setKeywordLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->keyword_language = $lng_obj;
         }
     }
+
     public function getKeywordLanguage() : ?ilMDLanguageItem
     {
         return is_object($this->keyword_language) ? $this->keyword_language : null;
     }
+
     public function getKeywordLanguageCode() : string
     {
         return is_object($this->keyword_language) ? $this->keyword_language->getLanguageCode() : '';
@@ -62,9 +62,9 @@ class ilMDKeyword extends ilMDBase
 
     public function save() : int
     {
-        $fields = $this->__getFields();
-        $fields['meta_keyword_id'] = array('integer',$next_id = $this->db->nextId('il_meta_keyword'));
-        
+        $fields                    = $this->__getFields();
+        $fields['meta_keyword_id'] = array('integer', $next_id = $this->db->nextId('il_meta_keyword'));
+
         if ($this->db->insert('il_meta_keyword', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -74,12 +74,12 @@ class ilMDKeyword extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_keyword',
                 $this->__getFields(),
-                array("meta_keyword_id" => array('integer',$this->getMetaId()))
+                array("meta_keyword_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -89,12 +89,12 @@ class ilMDKeyword extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_keyword " .
                 "WHERE meta_keyword_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res = $this->db->manipulate($query);
-            
+            $res   = $this->db->manipulate($query);
+
             return true;
         }
         return false;
@@ -105,13 +105,15 @@ class ilMDKeyword extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer', $this->getObjId()),
-                     'obj_type' => array('text', $this->getObjType()),
-                     'parent_type' => array('text', $this->getParentType()),
-                     'parent_id' => array('integer', $this->getParentId()),
-                     'keyword' => array('text', $this->getKeyword()),
-                     'keyword_language' => array('text', $this->getKeywordLanguageCode()));
+        return array(
+            'rbac_id'          => array('integer', $this->getRBACId()),
+            'obj_id'           => array('integer', $this->getObjId()),
+            'obj_type'         => array('text', $this->getObjType()),
+            'parent_type'      => array('text', $this->getParentType()),
+            'parent_id'        => array('integer', $this->getParentId()),
+            'keyword'          => array('text', $this->getKeyword()),
+            'keyword_language' => array('text', $this->getKeywordLanguageCode())
+        );
     }
 
     public function read() : bool
@@ -134,15 +136,16 @@ class ilMDKeyword extends ilMDBase
         }
         return true;
     }
-                
 
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'Keyword',
-            array('Language' => $this->getKeywordLanguageCode() ?
-                                            $this->getKeywordLanguageCode() :
-                                            'en'),
+            array(
+                'Language' => $this->getKeywordLanguageCode() ?
+                    $this->getKeywordLanguageCode() :
+                    'en'
+            ),
             $this->getKeyword()
         );
     }
@@ -181,15 +184,15 @@ class ilMDKeyword extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
+        $ilDB           = $DIC->database();
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
+
         $query = "SELECT keyword,keyword_language " .
             "FROM il_meta_keyword " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND obj_type = " . $ilDB->quote($a_type, 'text') . " ";
-        $res = $ilDB->query($query);
+        $res   = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($row->keyword) {
                 $keywords[$row->keyword_language][] = $row->keyword;
@@ -217,8 +220,8 @@ class ilMDKeyword extends ilMDBase
         global $DIC;
 
         $ilDB = $DIC->database();
-                
-        $qs = 'AND ';
+
+        $qs      = 'AND ';
         $counter = 0;
         foreach ((array) explode(' ', $a_query) as $part) {
             if ($counter++) {
@@ -242,7 +245,7 @@ class ilMDKeyword extends ilMDBase
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $obj_ids[] = $row->obj_id;
         }
-        
+
         return (array) $obj_ids;
     }
 
@@ -254,15 +257,15 @@ class ilMDKeyword extends ilMDBase
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT DISTINCT keyword FROM il_meta_keyword " .
-                'WHERE obj_type = ' . $ilDB->quote($a_type, 'text') . ' ' .
-                'AND ' . $ilDB->like('keyword', 'text', '%' . trim($a_query) . '%') . ' ';
-        
+            'WHERE obj_type = ' . $ilDB->quote($a_type, 'text') . ' ' .
+            'AND ' . $ilDB->like('keyword', 'text', '%' . trim($a_query) . '%') . ' ';
+
         if ($a_rbac_id) {
             $query .= "AND rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . ' ';
         }
-                        
+
         $res = $ilDB->query($query);
         $kws = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -276,12 +279,12 @@ class ilMDKeyword extends ilMDBase
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT * FROM il_meta_keyword " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . ' ' .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . ' ';
-        $res = $ilDB->query($query);
-        $kws = [];
+        $res   = $ilDB->query($query);
+        $kws   = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (!$a_return_ids) {
                 if (strlen($row->keyword)) {
@@ -293,7 +296,6 @@ class ilMDKeyword extends ilMDBase
         }
         return $kws;
     }
-    
 
     public static function updateKeywords(ilMDGeneral $a_md_section, array $a_keywords) : void
     {
@@ -308,11 +310,11 @@ class ilMDKeyword extends ilMDBase
                 }
             }
         }
-        
+
         // update existing author entries (delete if not entered)
         foreach ($ids = $a_md_section->getKeywordIds() as $id) {
             $md_key = $a_md_section->getKeyword($id);
-            $lang = $md_key->getKeywordLanguageCode();
+            $lang   = $md_key->getKeywordLanguageCode();
 
             // entered keyword already exists
             if (is_array($new_keywords[$lang]) &&

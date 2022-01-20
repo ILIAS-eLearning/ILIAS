@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element rights)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element rights)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDRights extends ilMDBase
 {
 
@@ -52,7 +48,7 @@ class ilMDRights extends ilMDBase
         $query = 'SELECT rbac_id FROM il_meta_rights ' .
             'WHERE ' . $db->in('obj_type', $a_types, false, 'text') . ' ' .
             'AND ' . $db->in('description', $a_copyright, false, 'text');
-        $res = $db->query($query);
+        $res   = $db->query($query);
 
         ilLoggerFactory::getLogger('meta')->info($query);
 
@@ -62,9 +58,7 @@ class ilMDRights extends ilMDBase
         }
         return $obj_ids;
     }
-    
-    
-    
+
     // SET/GET
     public function setCosts(string $a_costs) : bool
     {
@@ -78,10 +72,12 @@ class ilMDRights extends ilMDBase
                 return false;
         }
     }
+
     public function getCosts() : string
     {
         return $this->costs;
     }
+
     public function setCopyrightAndOtherRestrictions(string $a_caor) : bool
     {
         switch ($a_caor) {
@@ -94,28 +90,34 @@ class ilMDRights extends ilMDBase
                 return false;
         }
     }
+
     public function getCopyrightAndOtherRestrictions() : string
     {
         return $this->caor;
     }
+
     public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
+
     public function getDescription() : string
     {
         return $this->description;
     }
+
     public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
     {
         if (is_object($lng_obj)) {
             $this->description_language = $lng_obj;
         }
     }
+
     public function getDescriptionLanguage() : ?ilMDLanguageItem
     {
         return is_object($this->description_language) ? $this->description_language : null;
     }
+
     public function getDescriptionLanguageCode() : string
     {
         return is_object($this->description_language) ? $this->description_language->getLanguageCode() : '';
@@ -123,10 +125,10 @@ class ilMDRights extends ilMDBase
 
     public function save() : int
     {
-        
-        $fields = $this->__getFields();
-        $fields['meta_rights_id'] = array('integer',$next_id = $this->db->nextId('il_meta_rights'));
-        
+
+        $fields                   = $this->__getFields();
+        $fields['meta_rights_id'] = array('integer', $next_id = $this->db->nextId('il_meta_rights'));
+
         if ($this->db->insert('il_meta_rights', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -136,12 +138,12 @@ class ilMDRights extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_rights',
                 $this->__getFields(),
-                array("meta_rights_id" => array('integer',$this->getMetaId()))
+                array("meta_rights_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -151,13 +153,13 @@ class ilMDRights extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_rights " .
                 "WHERE meta_rights_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            
+
             $this->db->query($query);
-            
+
             return true;
         }
         return false;
@@ -168,26 +170,25 @@ class ilMDRights extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'costs' => array('text',$this->getCosts()),
-                     'cpr_and_or' => array('text',$this->getCopyrightAndOtherRestrictions()),
-                     'description' => array('text',$this->getDescription()),
-                     'description_language' => array('text',$this->getDescriptionLanguageCode()));
+        return array(
+            'rbac_id'              => array('integer', $this->getRBACId()),
+            'obj_id'               => array('integer', $this->getObjId()),
+            'obj_type'             => array('text', $this->getObjType()),
+            'costs'                => array('text', $this->getCosts()),
+            'cpr_and_or'           => array('text', $this->getCopyrightAndOtherRestrictions()),
+            'description'          => array('text', $this->getDescription()),
+            'description_language' => array('text', $this->getDescriptionLanguageCode())
+        );
     }
 
     public function read() : bool
     {
-        
-        
 
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_rights " .
                 "WHERE meta_rights_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
-        
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
@@ -202,17 +203,18 @@ class ilMDRights extends ilMDBase
         }
         return false;
     }
-                
 
     public function toXML(ilXmlWriter $writer) : void
     {
-        $writer->xmlStartTag('Rights', array('Cost' => $this->getCosts()
-                                            ? $this->getCosts()
-                                            : 'No',
-                                            'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
-                                            ? $this->getCopyrightAndOtherRestrictions()
-                                            : 'No'));
-        
+        $writer->xmlStartTag('Rights', array(
+            'Cost'                          => $this->getCosts()
+                ? $this->getCosts()
+                : 'No',
+            'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
+                ? $this->getCopyrightAndOtherRestrictions()
+                : 'No'
+        ));
+
         $writer->xmlElement(
             'Description',
             [
@@ -225,7 +227,6 @@ class ilMDRights extends ilMDBase
         $writer->xmlEndTag('Rights');
     }
 
-
     public function parseDescriptionFromImport(string $a_description) : void
     {
         $entry_id = ilMDCopyrightSelectionEntry::lookupCopyrightByText($a_description);
@@ -235,19 +236,18 @@ class ilMDRights extends ilMDBase
             $this->setDescription(ilMDCopyrightSelectionEntry::createIdentifier($entry_id));
         }
     }
-    
 
     public static function _lookupDescription(int $a_rbac_id, int $a_obj_id) : string
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT description FROM il_meta_rights " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        $res   = $ilDB->query($query);
+        $row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->description ? $row->description : '';
     }
 

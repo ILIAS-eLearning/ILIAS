@@ -22,17 +22,10 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesMetaData
-*/
-
-
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesMetaData
+ */
 class ilMDCopyrightSelectionGUI
 {
     const MODE_QUICKEDIT = 1;
@@ -45,7 +38,6 @@ class ilMDCopyrightSelectionGUI
     private int $rbac_id;
     private int $obj_id;
 
-
     public function __construct(int $a_mode, int $a_rbac_id, int $a_obj_id)
     {
         global $DIC;
@@ -54,18 +46,17 @@ class ilMDCopyrightSelectionGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->rbac_id = $a_rbac_id;
-        $this->obj_id = $a_obj_id;
-        
+        $this->obj_id  = $a_obj_id;
+
         $this->settings = ilMDSettings::_getInstance();
     }
-    
 
     public function fillTemplate() : bool
     {
-        
-        
+
+
         $desc = ilMDRights::_lookupDescription($this->rbac_id, $this->obj_id);
-        
+
         if (!$this->settings->isCopyrightSelectionActive() or
             !count($entries = ilMDCopyrightSelectionEntry::_getEntries())) {
             $this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt('meta_copyright'));
@@ -75,14 +66,13 @@ class ilMDCopyrightSelectionGUI
             );
             return true;
         }
-        
+
         $default_id = ilMDCopyrightSelectionEntry::_extractEntryId($desc);
-        
-        
+
         $found = false;
         foreach ($entries as $entry) {
             $this->tpl->setCurrentBlock('copyright_selection');
-            
+
             if ($entry->getEntryId() == $default_id) {
                 $found = true;
                 $this->tpl->setVariable('COPYRIGHT_CHECKED', 'checked="checked"');
@@ -92,14 +82,14 @@ class ilMDCopyrightSelectionGUI
             $this->tpl->setVariable('COPYRIGHT_DESCRIPTION', $entry->getDescription());
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setCurrentBlock('copyright_selection');
         if (!$found) {
             $this->tpl->setVariable('COPYRIGHT_CHECKED', 'checked="checked"');
         }
         $this->tpl->setVariable('COPYRIGHT_ID', 0);
         $this->tpl->setVariable('COPYRIGHT_TITLE', $this->lng->txt('meta_cp_own'));
-        
+
         $this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt('meta_copyright'));
         if (!$found) {
             $this->tpl->setVariable('COPYRIGHT_VAL', $desc);

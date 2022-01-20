@@ -21,14 +21,12 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Utility class for meta data handling
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @package ilias-core
-* @version $Id$
-*/
+ * Utility class for meta data handling
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDUtils
 {
     /**
@@ -54,7 +52,7 @@ class ilMDUtils
             #var_dump("<pre>",$matches,"<pre>");
             $days = $matches[1];
         }
-        
+
         if (preg_match('/(\d+)+H/i', $a_string, $matches)) {
             #var_dump("<pre>",$matches,"<pre>");
             $hours = $matches[1];
@@ -67,15 +65,14 @@ class ilMDUtils
             #var_dump("<pre>",$matches,"<pre>");
             $sec = $matches[1];
         }
-        
+
         // Hack for zero values
         if (!$months and !$days and !$hours and !$min and !$sec) {
             return [];
         }
-        
-        return array($months,$days,$hours,$min,$sec);
+
+        return array($months, $days, $hours, $min, $sec);
     }
-    
 
     public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type) : bool
     {
@@ -84,10 +81,9 @@ class ilMDUtils
         // currently disabled due to mantis 0026864
         return true;
 
-        $tpl = $DIC['tpl'];
+        $tpl            = $DIC['tpl'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        
+
         foreach (ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $key_string) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'keywords');
@@ -95,7 +91,7 @@ class ilMDUtils
             $tpl->setVariable('MH_META_CONTENT', $key_string);
             $tpl->parseCurrentBlock();
         }
-        
+
         foreach (ilMDContribute::_lookupAuthors($a_rbac_id, $a_obj_id, $a_type) as $author) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'author');
@@ -105,15 +101,14 @@ class ilMDUtils
         return true;
     }
 
-
     public static function _parseCopyright(string $a_copyright) : string
     {
-        
+
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
             return $a_copyright;
         }
-        
+
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
     }
 }

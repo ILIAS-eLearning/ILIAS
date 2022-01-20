@@ -22,14 +22,11 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ilCtrl_Calls
+ * @ingroup ServicesMetaData
+ */
 class ilMDSettings
 {
     protected static $instance = null;
@@ -38,12 +35,10 @@ class ilMDSettings
     private bool $copyright_selection_active = false;
     private string $delimiter = '';
 
-
     private function __construct()
     {
         $this->read();
     }
-    
 
     public static function _getInstance() : ilMDSettings
     {
@@ -52,25 +47,21 @@ class ilMDSettings
         }
         return self::$instance = new ilMDSettings();
     }
-    
 
     public function isCopyrightSelectionActive() : bool
     {
         return $this->copyright_selection_active ? true : false;
     }
-    
 
     public function activateCopyrightSelection(bool $a_status) : void
     {
         $this->copyright_selection_active = $a_status;
     }
-    
 
     public function setDelimiter(string $a_val) : void
     {
         $this->delimiter = $a_val;
     }
-    
 
     public function getDelimiter() : string
     {
@@ -79,20 +70,18 @@ class ilMDSettings
         }
         return $this->delimiter;
     }
-    
 
     public function save() : void
     {
         $this->settings->set('copyright_selection_active', (string) $this->isCopyrightSelectionActive());
         $this->settings->set('delimiter', $this->getDelimiter());
     }
-    
 
     private function read() : void
     {
         $this->settings = new ilSetting('md_settings');
-        
+
         $this->copyright_selection_active = (bool) $this->settings->get('copyright_selection_active', '0');
-        $this->delimiter = $this->settings->get('delimiter', ",");
+        $this->delimiter                  = $this->settings->get('delimiter', ",");
     }
 }

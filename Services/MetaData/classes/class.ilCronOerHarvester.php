@@ -4,9 +4,7 @@
 
 /**
  * Cron job for definition for oer harvesting
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCronOerHarvester extends ilCronJob
 {
@@ -25,13 +23,12 @@ class ilCronOerHarvester extends ilCronJob
 
     private ilOerHarvesterSettings $settings;
 
-
     public function __construct()
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->meta();
-        $this->lng = $DIC->language();
+        $this->lng    = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
         $this->settings = ilOerHarvesterSettings::getInstance();
@@ -99,7 +96,6 @@ class ilCronOerHarvester extends ilCronJob
         $target->setRequired(true);
         $a_form->addItem($target);
 
-
         // copyright selection
         $checkbox_group = new ilCheckboxGroupInputGUI(
             $this->lng->txt('meta_oer_copyright_selection'),
@@ -122,7 +118,6 @@ class ilCronOerHarvester extends ilCronJob
         $a_form->addItem($checkbox_group);
     }
 
-
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->settings->setTarget($a_form->getInput('target'));
@@ -136,7 +131,7 @@ class ilCronOerHarvester extends ilCronJob
     {
         $this->logger->info('Started cron oer harvester.');
         $harvester = new ilOerHarvester(new ilCronJobResult());
-        $res = $harvester->run();
+        $res       = $harvester->run();
         $this->logger->info('cron oer harvester finished');
 
         return $res;
@@ -149,7 +144,7 @@ class ilCronOerHarvester extends ilCronJob
 
                 $a_fields['meta_oer_harvester'] =
                     (
-                        $a_is_active ?
+                    $a_is_active ?
                         $this->lng->txt('enabled') :
                         $this->lng->txt('disabled')
                     );

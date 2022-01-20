@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element requirement)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element requirement)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDRequirement extends ilMDBase
 {
 
@@ -46,11 +42,11 @@ class ilMDRequirement extends ilMDBase
     {
         $this->or_composite_id = $a_or_composite_id;
     }
+
     public function getOrCompositeId() : int
     {
         return $this->or_composite_id;
     }
-
 
     public function setOperatingSystemName(string $a_val) : bool
     {
@@ -68,26 +64,32 @@ class ilMDRequirement extends ilMDBase
                 return false;
         }
     }
+
     public function getOperatingSystemName() : string
     {
         return $this->operating_system_name;
     }
+
     public function setOperatingSystemMinimumVersion(string $a_val) : void
     {
         $this->operating_system_minimum_version = $a_val;
     }
+
     public function getOperatingSystemMinimumVersion() : string
     {
         return $this->operating_system_minimum_version;
     }
+
     public function setOperatingSystemMaximumVersion(string $a_val) : void
     {
         $this->operating_system_maximum_version = $a_val;
     }
+
     public function getOperatingSystemMaximumVersion() : string
     {
         return $this->operating_system_maximum_version;
     }
+
     public function setBrowserName(string $a_val) : bool
     {
         switch ($a_val) {
@@ -104,22 +106,27 @@ class ilMDRequirement extends ilMDBase
                 return false;
         }
     }
+
     public function getBrowserName() : string
     {
         return $this->browser_name;
     }
+
     public function setBrowserMinimumVersion(string $a_val) : void
     {
         $this->browser_minimum_version = $a_val;
     }
+
     public function getBrowserMinimumVersion() : string
     {
         return $this->browser_minimum_version;
     }
+
     public function setBrowserMaximumVersion(string $a_val) : void
     {
         $this->browser_maximum_version = $a_val;
     }
+
     public function getBrowserMaximumVersion() : string
     {
         return $this->browser_maximum_version;
@@ -127,10 +134,10 @@ class ilMDRequirement extends ilMDBase
 
     public function save() : int
     {
-        
-        $fields = $this->__getFields();
-        $fields['meta_requirement_id'] = array('integer',$next_id = $this->db->nextId('il_meta_requirement'));
-        
+
+        $fields                        = $this->__getFields();
+        $fields['meta_requirement_id'] = array('integer', $next_id = $this->db->nextId('il_meta_requirement'));
+
         if ($this->db->insert('il_meta_requirement', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -140,12 +147,12 @@ class ilMDRequirement extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_requirement',
                 $this->__getFields(),
-                array("meta_requirement_id" => array('integer',$this->getMetaId()))
+                array("meta_requirement_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -155,11 +162,11 @@ class ilMDRequirement extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_requirement " .
                 "WHERE meta_requirement_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res = $this->db->manipulate($query);
+            $res   = $this->db->manipulate($query);
             return true;
         }
         return false;
@@ -170,24 +177,25 @@ class ilMDRequirement extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'parent_type' => array('text',$this->getParentType()),
-                     'parent_id' => array('integer',$this->getParentId()),
-                     'operating_system_name' => array('text',$this->getOperatingSystemName()),
-                     'os_min_version' => array('text',$this->getOperatingSystemMinimumVersion()),
-                     'os_max_version' => array('text',$this->getOperatingSystemMaximumVersion()),
-                     'browser_name' => array('text',$this->getBrowserName()),
-                     'browser_minimum_version' => array('text',$this->getBrowserMinimumVersion()),
-                     'browser_maximum_version' => array('text',$this->getBrowserMaximumVersion()),
-                     'or_composite_id' => array('integer',$this->getOrCompositeId()));
+        return array(
+            'rbac_id'                 => array('integer', $this->getRBACId()),
+            'obj_id'                  => array('integer', $this->getObjId()),
+            'obj_type'                => array('text', $this->getObjType()),
+            'parent_type'             => array('text', $this->getParentType()),
+            'parent_id'               => array('integer', $this->getParentId()),
+            'operating_system_name'   => array('text', $this->getOperatingSystemName()),
+            'os_min_version'          => array('text', $this->getOperatingSystemMinimumVersion()),
+            'os_max_version'          => array('text', $this->getOperatingSystemMaximumVersion()),
+            'browser_name'            => array('text', $this->getBrowserName()),
+            'browser_minimum_version' => array('text', $this->getBrowserMinimumVersion()),
+            'browser_maximum_version' => array('text', $this->getBrowserMaximumVersion()),
+            'or_composite_id'         => array('integer', $this->getOrCompositeId())
+        );
     }
 
     public function read() : bool
     {
-        
-        
+
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_requirement " .
@@ -211,7 +219,7 @@ class ilMDRequirement extends ilMDBase
         }
         return true;
     }
-                
+
     /*
      * XML Export of all meta data
      * @param object (xml writer) see class.ilMD2XML.php
@@ -221,20 +229,24 @@ class ilMDRequirement extends ilMDBase
     {
         $writer->xmlStartTag('Requirement');
         $writer->xmlStartTag('Type');
-            
+
         if (strlen($this->getOperatingSystemName())) {
-            $writer->xmlElement('OperatingSystem', array('Name' => $this->getOperatingSystemName()
-                                                        ? $this->getOperatingSystemName()
-                                                        : 'None',
-                                                        'MinimumVersion' => $this->getOperatingSystemMinimumVersion(),
-                                                        'MaximumVersion' => $this->getOperatingSystemMaximumVersion()));
+            $writer->xmlElement('OperatingSystem', array(
+                'Name'           => $this->getOperatingSystemName()
+                    ? $this->getOperatingSystemName()
+                    : 'None',
+                'MinimumVersion' => $this->getOperatingSystemMinimumVersion(),
+                'MaximumVersion' => $this->getOperatingSystemMaximumVersion()
+            ));
         }
         if (strlen($this->getBrowserName())) {
-            $writer->xmlElement('Browser', array('Name' => $this->getBrowserName()
-                                                ? $this->getBrowserName()
-                                                : 'Any',
-                                                'MinimumVersion' => $this->getBrowserMinimumVersion(),
-                                                'MaximumVersion' => $this->getBrowserMaximumVersion()));
+            $writer->xmlElement('Browser', array(
+                'Name'           => $this->getBrowserName()
+                    ? $this->getBrowserName()
+                    : 'Any',
+                'MinimumVersion' => $this->getBrowserMinimumVersion(),
+                'MaximumVersion' => $this->getBrowserMaximumVersion()
+            ));
         }
         $writer->xmlEndTag('Type');
         $writer->xmlEndTag('Requirement');

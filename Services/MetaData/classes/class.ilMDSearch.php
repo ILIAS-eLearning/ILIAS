@@ -22,46 +22,38 @@
 */
 
 /**
-* Class ilMDSearch
-*
-* Base class for searching meta
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id
-*
-* @package ilias-search
-*
-*/
-
+ * Class ilMDSearch
+ * Base class for searching meta
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id
+ * @package ilias-search
+ */
 class ilMDSearch
 {
     private string $mode = '';
-
 
     private ilQueryParser $query_parser;
     private ilDBInterface $db;
     private ilSearchResult $search_result;
 
-
     public function __construct(ilQueryParser $qp_obj)
     {
         global $DIC;
 
-        $this->query_parser = $qp_obj;
-        $this->db = $DIC->database();
+        $this->query_parser  = $qp_obj;
+        $this->db            = $DIC->database();
         $this->search_result = new ilSearchResult();
     }
-
 
     public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
+
     public function getMode() : string
     {
         return $this->mode;
     }
-
 
     public function performSearch() : ?ilSearchResult
     {
@@ -79,12 +71,10 @@ class ilMDSearch
         return null;
     }
 
-
-    
     public function __searchKeywordsOnly() : ilSearchResult
     {
-        $where = " WHERE ";
-        $field = " keyword ";
+        $where   = " WHERE ";
+        $field   = " keyword ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {

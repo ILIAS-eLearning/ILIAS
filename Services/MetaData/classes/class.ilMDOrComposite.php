@@ -21,17 +21,12 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element orComposite)
-* Extends MDRequirement
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
-
+ * Meta Data class (element orComposite)
+ * Extends MDRequirement
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDOrComposite extends ilMDRequirement
 {
 
@@ -42,9 +37,10 @@ class ilMDOrComposite extends ilMDRequirement
     {
         $this->or_composite_id = $a_or_composite_id;
     }
+
     public function getOrCompositeId() : int
     {
-        
+
         if (!$this->or_composite_id) {
             $query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement " .
                 "WHERE rbac_id = " . $this->db->quote($this->getRBACId(), 'integer') . " " .
@@ -64,7 +60,7 @@ class ilMDOrComposite extends ilMDRequirement
      */
     public function getRequirementIds() : array
     {
-        
+
 
         return ilMDRequirement::_getIds(
             $this->getRBACId(),
@@ -77,7 +73,7 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
     {
-        
+
 
         if (!$a_requirement_id) {
             return null;
@@ -90,7 +86,7 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function addRequirement() : ilMDRequirement
     {
-        
+
 
         $req = new ilMDRequirement($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $req->setParentId($this->getParentId());
@@ -99,7 +95,6 @@ class ilMDOrComposite extends ilMDRequirement
 
         return $req;
     }
-
 
     public function save() : int
     {
@@ -127,7 +122,7 @@ class ilMDOrComposite extends ilMDRequirement
             $req->toXML($writer);
         }
         if (!count($reqs)) {
-            
+
             $req = new ilMDRequirement($this->getRBACId(), $this->getObjId());
             $req->toXML($writer);
         }

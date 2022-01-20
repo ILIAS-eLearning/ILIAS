@@ -21,16 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data to XML class
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
-
+ * Meta Data to XML class
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMD2XML extends ilXmlWriter
 {
     public ilMD $md_obj;
@@ -41,12 +36,12 @@ class ilMD2XML extends ilXmlWriter
         $this->md_obj = new ilMD($a_rbac_id, $a_obj_id, $a_type);
         parent::__construct();
     }
-    
+
     public function setExportMode(bool $a_export_mode = true) : void
     {
         $this->export_mode = $a_export_mode;
     }
-    
+
     public function getExportMode() : bool
     {
         return $this->export_mode;

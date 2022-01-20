@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element language)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element language)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDLanguage extends ilMDBase
 {
 
@@ -40,8 +36,8 @@ class ilMDLanguage extends ilMDBase
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        $lang = '';
+
+        $lang  = '';
         $query = "SELECT language FROM il_meta_language " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
@@ -63,10 +59,12 @@ class ilMDLanguage extends ilMDBase
             $this->language = $lng_obj;
         }
     }
+
     public function getLanguage() : ?ilMDLanguageItem
     {
         return is_object($this->language) ? $this->language : null;
     }
+
     public function getLanguageCode() : string
     {
         return is_object($this->language) ? $this->language->getLanguageCode() : '';
@@ -74,9 +72,9 @@ class ilMDLanguage extends ilMDBase
 
     public function save() : int
     {
-        
-        $fields = $this->__getFields();
-        $fields['meta_language_id'] = array('integer',$next_id = $this->db->nextId('il_meta_language'));
+
+        $fields                     = $this->__getFields();
+        $fields['meta_language_id'] = array('integer', $next_id = $this->db->nextId('il_meta_language'));
         if ($this->db->insert('il_meta_language', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -86,12 +84,12 @@ class ilMDLanguage extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_language',
                 $this->__getFields(),
-                array("meta_language_id" => array('integer',$this->getMetaId()))
+                array("meta_language_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -101,12 +99,12 @@ class ilMDLanguage extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_language " .
                 "WHERE meta_language_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res = $this->db->manipulate($query);
-            
+            $res   = $this->db->manipulate($query);
+
             return true;
         }
         return false;
@@ -117,18 +115,19 @@ class ilMDLanguage extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'parent_type' => array('text',$this->getParentType()),
-                     'parent_id' => array('integer',$this->getParentId()),
-                     'language' => array('text',$this->getLanguageCode()));
+        return array(
+            'rbac_id'     => array('integer', $this->getRBACId()),
+            'obj_id'      => array('integer', $this->getObjId()),
+            'obj_type'    => array('text', $this->getObjType()),
+            'parent_type' => array('text', $this->getParentType()),
+            'parent_id'   => array('integer', $this->getParentId()),
+            'language'    => array('text', $this->getLanguageCode())
+        );
     }
 
     public function read() : bool
     {
-        
-        
+
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_language " .
@@ -146,15 +145,16 @@ class ilMDLanguage extends ilMDBase
         }
         return true;
     }
-                
 
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'Language',
-            array('Language' => $this->getLanguageCode() ?
-                                             $this->getLanguageCode() :
-                                             'en'),
+            array(
+                'Language' => $this->getLanguageCode() ?
+                    $this->getLanguageCode() :
+                    'en'
+            ),
             $this->getLanguage()
         );
     }

@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element location)
-*
-* @package ilias-core
-* @version $Id$
-*/
-
-
+ * Meta Data class (element location)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDLocation extends ilMDBase
 {
 
@@ -41,14 +37,17 @@ class ilMDLocation extends ilMDBase
     {
         $this->location = $a_location;
     }
+
     public function getLocation() : string
     {
         return $this->location;
     }
+
     public function setLocationType(string $a_location_type) : void
     {
         $this->location_type = $a_location_type;
     }
+
     public function getLocationType() : string
     {
         return $this->location_type;
@@ -56,10 +55,10 @@ class ilMDLocation extends ilMDBase
 
     public function save() : int
     {
-        
-        $fields = $this->__getFields();
-        $fields['meta_location_id'] = array('integer',$next_id = $this->db->nextId('il_meta_location'));
-        
+
+        $fields                     = $this->__getFields();
+        $fields['meta_location_id'] = array('integer', $next_id = $this->db->nextId('il_meta_location'));
+
         if ($this->db->insert('il_meta_location', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
@@ -69,12 +68,12 @@ class ilMDLocation extends ilMDBase
 
     public function update() : bool
     {
-        
+
         if ($this->getMetaId()) {
             if ($this->db->update(
                 'il_meta_location',
                 $this->__getFields(),
-                array("meta_location_id" => array('integer',$this->getMetaId()))
+                array("meta_location_id" => array('integer', $this->getMetaId()))
             )) {
                 return true;
             }
@@ -84,12 +83,12 @@ class ilMDLocation extends ilMDBase
 
     public function delete() : bool
     {
-        
+
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_location " .
                 "WHERE meta_location_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res = $this->db->manipulate($query);
-            
+            $res   = $this->db->manipulate($query);
+
             return true;
         }
         return false;
@@ -100,19 +99,20 @@ class ilMDLocation extends ilMDBase
      */
     public function __getFields() : array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'parent_type' => array('text',$this->getParentType()),
-                     'parent_id' => array('integer',$this->getParentId()),
-                     'location' => array('text',$this->getLocation()),
-                     'location_type' => array('text',$this->getLocationType()));
+        return array(
+            'rbac_id'       => array('integer', $this->getRBACId()),
+            'obj_id'        => array('integer', $this->getObjId()),
+            'obj_type'      => array('text', $this->getObjType()),
+            'parent_type'   => array('text', $this->getParentType()),
+            'parent_id'     => array('integer', $this->getParentId()),
+            'location'      => array('text', $this->getLocation()),
+            'location_type' => array('text', $this->getLocationType())
+        );
     }
 
     public function read() : bool
     {
-        
-        
+
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_location " .
@@ -131,15 +131,16 @@ class ilMDLocation extends ilMDBase
         }
         return true;
     }
-                
 
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlElement(
             'Location',
-            array('Type' => $this->getLocationType()
-                                             ? $this->getLocationType()
-                                             : 'LocalFile'),
+            array(
+                'Type' => $this->getLocationType()
+                    ? $this->getLocationType()
+                    : 'LocalFile'
+            ),
             $this->getLocation()
         );
     }

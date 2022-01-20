@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Exporter class for meta data
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
  * @ingroup ServicesMetaData
  */
@@ -19,12 +16,12 @@ class ilMetaDataExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        
-        $id = explode(":", $a_id);
+
+        $id    = explode(":", $a_id);
         $mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
         $mdxml->setExportMode();
         $mdxml->startExport();
-        
+
         return $mdxml->getXml();
     }
 
@@ -39,9 +36,10 @@ class ilMetaDataExporter extends ilXmlExporter
         return array(
             "4.1.0" => array(
                 "namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
-                "xsd_file" => "ilias_md_4_1.xsd",
-                "min" => "4.1.0",
-                "max" => "")
+                "xsd_file"  => "ilias_md_4_1.xsd",
+                "min"       => "4.1.0",
+                "max"       => ""
+            )
         );
     }
 }

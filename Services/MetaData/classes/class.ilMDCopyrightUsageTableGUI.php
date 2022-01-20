@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
 /**
- * @author Jesús López <lopez@leifos.com>
+ * @author  Jesús López <lopez@leifos.com>
  * @version $Id$
- *
  * @ingroup ServicesMetaData
  */
 class ilMDCopyrightUsageTableGUI extends ilTable2GUI
@@ -22,24 +22,21 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     protected array $filter = [];
     protected array $objects = [];
 
-
     public function __construct(ilMDCopyrightUsageGUI $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->db = $DIC->database();
+        $this->ui_factory   = $DIC->ui()->factory();
+        $this->ui_renderer  = $DIC->ui()->renderer();
+        $this->db           = $DIC->database();
         $this->copyright_id = $a_parent_obj->getEntryId();
-        $this->lng = $DIC->language();
+        $this->lng          = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
         $this->setId("mdcopusage" . $this->copyright_id);
     }
-
-
 
     public function init() : void
     {
@@ -67,10 +64,9 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
     public function initFilter() : void
     {
-        $title = $this->addFilterItemByMetaType(
+        $title                 = $this->addFilterItemByMetaType(
             "title",
             ilTable2GUI::FILTER_TEXT,
             false,
@@ -162,17 +158,17 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
                 }
             }
             $data[] = array(
-                "obj_id" => $obj_id,
-                "type" => ilObject::_lookupType($obj_id),
-                "title" => ilObject::_lookupTitle($obj_id),
-                "desc" => ilObject::_lookupDescription($obj_id),
+                "obj_id"     => $obj_id,
+                "type"       => ilObject::_lookupType($obj_id),
+                "title"      => ilObject::_lookupTitle($obj_id),
+                "desc"       => ilObject::_lookupDescription($obj_id),
                 "references" => ilObject::_getAllReferences($obj_id),
                 "owner_name" => ilUserUtil::getNamePresentation(ilObject::_lookupOwner($obj_id)),
                 "owner_link" => ilUserUtil::getProfileLink(ilObject::_lookupOwner($obj_id)),
-                "sub_items" => $this->getCountSubItemsFromDB($obj_id)
+                "sub_items"  => $this->getCountSubItemsFromDB($obj_id)
             );
         }
-        
+
         return $data;
     }
 
@@ -181,11 +177,11 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
      */
     public function getObjTypesAvailable() : array
     {
-        $query = "SELECT DISTINCT obj_type FROM il_meta_rights " .
+        $query  = "SELECT DISTINCT obj_type FROM il_meta_rights " .
             "WHERE description = " . $this->db->quote('il_copyright_entry__' . IL_INST_ID . '__' . $this->copyright_id, 'text') .
             " AND rbac_id = obj_id";
         $result = $this->db->query($query);
-        $data = array();
+        $data   = array();
         while ($row = $this->db->fetchAssoc($result)) {
             array_push($data, $row['obj_type']);
         }
@@ -203,10 +199,10 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
             " GROUP BY rbac_id";
 
         $result = $this->db->query($query);
-        $data = array();
+        $data   = array();
         while ($row = $this->db->fetchAssoc($result)) {
             $data[] = array(
-                "obj_id" => (int) $row['rbac_id'],
+                "obj_id"   => (int) $row['rbac_id'],
                 "obj_type" => (string) $row['obj_type']
             );
         }
@@ -220,7 +216,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
             " AND rbac_id <> obj_id";
 
         $result = $this->db->query($query);
-        $row = $this->db->fetchAssoc($result);
+        $row    = $this->db->fetchAssoc($result);
 
         return $row['total'];
     }

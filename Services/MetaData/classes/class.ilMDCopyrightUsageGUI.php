@@ -2,16 +2,13 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author Jesús López <lopez@leifos.com>
- *
+ * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
- *
- * @ingroup ServicesMetaData
+ * @ingroup      ServicesMetaData
  */
 class ilMDCopyrightUsageGUI
 {
     const DEFAULT_CMD = 'showUsageTable';
-
 
     protected int $entry_id;
 
@@ -20,7 +17,6 @@ class ilMDCopyrightUsageGUI
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
 
-
     public function __construct(int $a_entry_id)
     {
         global $DIC;
@@ -28,12 +24,11 @@ class ilMDCopyrightUsageGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
+        $this->lng  = $DIC->language();
         $this->tabs = $DIC->tabs();
 
         $this->entry_id = $a_entry_id;
     }
-
 
     public function executeCommand() : void
     {
@@ -77,12 +72,10 @@ class ilMDCopyrightUsageGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-
     public function getEntryId() : int
     {
         return $this->entry_id;
     }
-
 
     protected function applyUsageFilter() : void
     {
@@ -92,12 +85,11 @@ class ilMDCopyrightUsageGUI
             $this->entry_id
         );
         $table_gui->init();
-        $table_gui->resetOffset();		// sets record offset to 0 (first page)
-        $table_gui->writeFilterToSession();	// writes filter to session
+        $table_gui->resetOffset();        // sets record offset to 0 (first page)
+        $table_gui->writeFilterToSession();    // writes filter to session
 
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
-
 
     protected function resetUsageFilter() : void
     {
@@ -107,12 +99,11 @@ class ilMDCopyrightUsageGUI
             $this->entry_id
         );
         $table_gui->init();
-        $table_gui->resetOffset();		// sets record offest to 0 (first page)
-        $table_gui->resetFilter();		// clears filter
+        $table_gui->resetOffset();        // sets record offest to 0 (first page)
+        $table_gui->resetFilter();        // clears filter
 
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
-
 
     protected function setTabs() : void
     {

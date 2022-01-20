@@ -21,19 +21,13 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Base class for copying meta data from xml
-* It is possible to overwrite single elements. See handling of identifier tag
-*
-* @package ilias-core
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*/
-
-
-
-
+ * Base class for copying meta data from xml
+ * It is possible to overwrite single elements. See handling of identifier tag
+ * @package ilias-core
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ */
 class ilMDXMLCopier extends ilMDSaxParser
 {
     private array $filter = [];
@@ -49,8 +43,9 @@ class ilMDXMLCopier extends ilMDSaxParser
         // set filter of tags which are handled in this class
         $this->__setFilter();
     }
+
     /**
-     * @param	resource $a_xml_parser reference to the xml parser
+     * @param resource $a_xml_parser reference to the xml parser
      */
     public function setHandlers($a_xml_parser)
     {
@@ -60,7 +55,7 @@ class ilMDXMLCopier extends ilMDSaxParser
     }
 
     /**
-     * @param	resource $a_xml_parser reference to the xml parser
+     * @param resource $a_xml_parser reference to the xml parser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
@@ -68,7 +63,6 @@ class ilMDXMLCopier extends ilMDSaxParser
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
             return;
         }
-            
 
         switch ($a_name) {
             case 'MetaData':
@@ -77,7 +71,7 @@ class ilMDXMLCopier extends ilMDSaxParser
                 break;
 
             case 'Identifier':
-                $par = $this->__getParent();
+                $par          = $this->__getParent();
                 $this->md_ide = $par->addIdentifier();
                 $this->md_ide->setCatalog($a_attribs['Catalog']);
                 $this->md_ide->setEntry('il__' . $this->md->getObjType() . '_' . $this->md->getObjId());
@@ -86,8 +80,9 @@ class ilMDXMLCopier extends ilMDSaxParser
                 break;
         }
     }
+
     /**
-     * @param	resource $a_xml_parser reference to the xml parser
+     * @param resource $a_xml_parser reference to the xml parser
      */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
@@ -101,7 +96,6 @@ class ilMDXMLCopier extends ilMDSaxParser
                 $par->update();
                 $this->__popParent();
                 break;
-                
 
             case 'MetaData':
                 $this->in_meta_data = false;
@@ -111,7 +105,7 @@ class ilMDXMLCopier extends ilMDSaxParser
     }
 
     /**
-     * @param	resource $a_xml_parser reference to the xml parser
+     * @param resource $a_xml_parser reference to the xml parser
      */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
