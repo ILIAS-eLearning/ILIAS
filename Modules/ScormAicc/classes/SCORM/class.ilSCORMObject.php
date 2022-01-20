@@ -36,10 +36,6 @@ class ilSCORMObject
     */
     public function __construct($a_id = 0)
     {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-
-        $this->ilias = $ilias;
         $this->id = $a_id;
         if ($a_id > 0) {
             $this->read();
@@ -89,7 +85,7 @@ class ilSCORMObject
     public function read()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $obj_set = $ilDB->queryF(
             'SELECT * FROM scorm_object WHERE obj_id = %s',
@@ -108,7 +104,7 @@ class ilSCORMObject
     public static function _lookupPresentableItems($a_slm_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $set = $ilDB->queryF(
             "
@@ -135,7 +131,7 @@ class ilSCORMObject
     public function create()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
       
         $nextId = $ilDB->nextId('scorm_object');
         $this->setId($nextId);
@@ -156,7 +152,7 @@ class ilSCORMObject
     public function update()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $ilDB->manipulateF(
             '
@@ -173,7 +169,7 @@ class ilSCORMObject
     public function delete()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $ilDB->manipulateF(
             'DELETE FROM scorm_object WHERE obj_id = %s',
             array('integer'),
@@ -189,7 +185,7 @@ class ilSCORMObject
     public static function &_getInstance($a_id, $a_slm_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $sc_set = $ilDB->queryF(
             '

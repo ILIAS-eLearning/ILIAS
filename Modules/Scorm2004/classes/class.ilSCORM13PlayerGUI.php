@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -125,9 +125,9 @@ class ilSCORM13PlayerGUI
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
 
         //erase next?
         // if ($_REQUEST['learnerId']) {
@@ -163,8 +163,8 @@ class ilSCORM13PlayerGUI
     public function &executeCommand()
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
         $ilErr = $DIC['ilErr'];
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -295,7 +295,7 @@ class ilSCORM13PlayerGUI
     public function getConfigForPlayer()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
 
         $initSuspendData = null;
         $config = array(
@@ -341,8 +341,8 @@ class ilSCORM13PlayerGUI
     public function getPlayer()
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
+        $lng = $DIC->language();
+        $ilSetting = $DIC->settings();
         
         //WAC
         require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
@@ -367,7 +367,7 @@ class ilSCORM13PlayerGUI
             if ($session_timeout > $max_idle) {
                 $session_timeout = $max_idle;
             }
-            $min_idle = (int) $ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE) * 60;
+            $min_idle = (int) $ilSetting->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE) * 60;
             if ($session_timeout > $min_idle) {
                 $session_timeout = $min_idle;
             }
@@ -449,7 +449,7 @@ class ilSCORM13PlayerGUI
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "./Modules/Scorm2004/scripts/ilNestedList.js");
-        $this->tpl->setVariable($langstrings);
+        $this->tpl->setVariable((string) $langstrings);
         $this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
@@ -535,7 +535,7 @@ class ilSCORM13PlayerGUI
     public function getCPDataInit()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
             'SELECT jsdata FROM cp_package WHERE obj_id = %s',
@@ -556,7 +556,7 @@ class ilSCORM13PlayerGUI
     public function getADLActDataInit()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
             'SELECT activitytree FROM cp_package WHERE obj_id = %s',
@@ -599,8 +599,8 @@ class ilSCORM13PlayerGUI
     public function getScope()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         $res = $ilDB->queryF(
             'SELECT global_to_system FROM cp_package WHERE obj_id = %s',
@@ -622,8 +622,8 @@ class ilSCORM13PlayerGUI
     public function getSuspendDataInit()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         
         $res = $ilDB->queryF(
             'SELECT data FROM cp_suspend WHERE obj_id = %s AND user_id = %s',
@@ -657,8 +657,8 @@ class ilSCORM13PlayerGUI
     public function suspendADLActData()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         $res = $ilDB->queryF(
             'SELECT * FROM cp_suspend WHERE obj_id = %s	AND user_id = %s',
@@ -689,8 +689,8 @@ class ilSCORM13PlayerGUI
     public function readGObjectiveInit()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         
         //get json string
         $g_data = [];
@@ -789,8 +789,8 @@ class ilSCORM13PlayerGUI
     public function readSharedData($sco_node_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         $dataStores = array( "data" => array(),
                              "permissions" => array());
         $readPermissions = array();
@@ -877,8 +877,8 @@ class ilSCORM13PlayerGUI
     public function writeSharedData($sco_node_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         $g_data = json_decode(file_get_contents('php://input'));
             
         //Step 1: Get the writeable stores for this SCO that already have values
@@ -925,7 +925,7 @@ class ilSCORM13PlayerGUI
                     $query,
                     array('text', 'integer', 'text', 'integer'),
                     array($dataStores[$key], $this->userId, $key, $this->packageId)
-                    );
+                );
             } else {
                 //Check for writability
                 $res = $ilDB->queryF(
@@ -958,7 +958,7 @@ class ilSCORM13PlayerGUI
     public function specialPage()
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
         $specialpages = array(
             "_COURSECOMPLETE_" => "seq_coursecomplete",
@@ -1016,7 +1016,7 @@ class ilSCORM13PlayerGUI
     public function getCMIData($userId, $packageId)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $i_check = 0;
         $result = array(
@@ -1170,7 +1170,7 @@ class ilSCORM13PlayerGUI
     public function quoteJSONArray($a_array)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (!is_array($a_array) or !count($a_array)) {
             return array("''");
@@ -1187,18 +1187,18 @@ class ilSCORM13PlayerGUI
         return $a_array;
     }
     
-    /**
-     * estimate content type for a filename by extension
-     * first do it for common static web files from external list
-     * if not found peek into file by slow php function mime_content_type()
-     * @param $filename required
-     * @return string mimetype name e.g. image/jpeg
-     */
-    public function getMimetype($filename)
-    {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        return ilObjMediaObject::getMimeType($filename);
-    }
+//    /**
+//     * estimate content type for a filename by extension
+//     * first do it for common static web files from external list
+//     * if not found peek into file by slow php function mime_content_type()
+//     * @param $filename required
+//     * @return string mimetype name e.g. image/jpeg
+//     */
+//    public function getMimetype($filename)
+//    {
+//        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+//        return ilObjMediaObject::getMimeType($filename);
+//    }
 
 
     /**
@@ -1213,7 +1213,7 @@ class ilSCORM13PlayerGUI
     public function get_Module_Version()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
             'SELECT module_version FROM sahs_lm WHERE id = %s',
@@ -1231,8 +1231,8 @@ class ilSCORM13PlayerGUI
     public function get_actual_attempts()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         $val_set = $ilDB->queryF(
             'SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
             array('integer','integer'),
@@ -1252,8 +1252,8 @@ class ilSCORM13PlayerGUI
     public function increase_attemptAndsave_module_version()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         $res = $ilDB->queryF(
             'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s GROUP BY package_attempts',
             array('integer','integer'),
@@ -1284,7 +1284,7 @@ class ilSCORM13PlayerGUI
     public function resetSharedData()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         //Reset the shared data stores if sharedDataGlobalToSystem is false
         $res = $ilDB->queryF(
             ' 
@@ -1293,7 +1293,7 @@ class ilSCORM13PlayerGUI
 			          WHERE obj_id = %s',
             array('integer'),
             array($this->packageId)
-                );
+        );
 
         $shared_global_to_sys = $ilDB->fetchObject($res)->shared_data_global_to_system;
         
@@ -1305,7 +1305,7 @@ class ilSCORM13PlayerGUI
 					  AND user_id = %s',
             array('integer', 'integer'),
             array($this->packageId, $this->userId)
-               );
+        );
         
         $suspended = false;
         
@@ -1331,8 +1331,8 @@ class ilSCORM13PlayerGUI
     private function getNodeData($sco_id, $fh)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
         
         $fieldList = "cmi_node.cp_node_id, cmi_node.completion_threshold, cmi_node.c_exit, cmi_node.completion_status, cmi_node.progress_measure, cmi_node.success_status, cmi_node.scaled, cmi_node.session_time," .
                      "cmi_node.c_min, cmi_node.c_max, cmi_node.c_raw, cmi_node.location, cmi_node.suspend_data, cmi_node.scaled_passing_score, cmi_node.total_time";
@@ -1349,7 +1349,7 @@ class ilSCORM13PlayerGUI
 					  AND cmi_node.user_id = %s',
             array('integer','text','integer'),
             array($this->packageId, $sco_id, $this->userId)
-                );
+        );
         $row = $ilDB->fetchAssoc($res);
         $ilLog->write("DEBUG SQL" . $row);
         return $row;
@@ -1391,7 +1391,7 @@ class ilSCORM13PlayerGUI
     private function logFileName()
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormdebug");
 
         $filename = $this->logDirectory() . "/" . $this->packageId . "_" . $this->get_actual_attempts();
@@ -1633,7 +1633,7 @@ class ilSCORM13PlayerGUI
     public function debugGUI()
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormdebug");
 
         /*		if ($_POST['password'] == $this->slm->getDebugPw()) {
@@ -1682,8 +1682,8 @@ class ilSCORM13PlayerGUI
     private function getDebugValues($test_sco = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
         $ini_array = null;
         $dvalues = array();
         /*
@@ -1715,8 +1715,8 @@ class ilSCORM13PlayerGUI
     public function postLogEntry()
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $lng = $DIC['lng'];
+        $ilLog = ilLoggerFactory::getLogger('sc13');
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormdebug");
         
         $logdata = json_decode(file_get_contents('php://input'));
@@ -2049,7 +2049,7 @@ class ilSCORM13PlayerGUI
     private function createSummary($api_data)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $csv_data = null;
         //csv columns
@@ -2121,7 +2121,7 @@ class ilSCORM13PlayerGUI
     // function get_last_visited($a_obj_id, $a_user_id)
     // {
         // global $DIC;
-        // $ilDB = $DIC['ilDB'];
+        // $ilDB = $DIC->database();
         // $val_set = $ilDB->queryF('SELECT last_visited FROM sahs_user WHERE obj_id = %s AND user_id = %s',
         // array('integer','integer'),
         // array($a_obj_id,$a_user_id));

@@ -25,23 +25,18 @@
 */
 class ilSCORMPresentationGUI
 {
-    public $ilias;
     public $slm;
     public $tpl;
     public $lng;
     protected int $refId;
+    protected $ctrl;
 
     public function __construct()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ilias = $ilias;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
+        $ilCtrl = $DIC->ctrl();
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC->language();
         $this->ctrl = $ilCtrl;
 
         $this->lng->loadLanguageModule('cert');
@@ -57,10 +52,10 @@ class ilSCORMPresentationGUI
     public function executeCommand() : void
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $ilLog = $DIC['ilLog'];
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
+        $ilAccess = $DIC->access();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+        $lng = $DIC->language();
+        $ilErr = $DIC["ilErr"];
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("frameset");
@@ -68,7 +63,7 @@ class ilSCORMPresentationGUI
         if (!$ilAccess->checkAccess("write", "", $this->refId) &&
             (!$ilAccess->checkAccess("read", "", $this->refId) ||
             $this->slm->getOfflineStatus())) {
-            $ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
+            $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
         }
 
         switch ($next_class) {
@@ -100,7 +95,7 @@ class ilSCORMPresentationGUI
     public function frameset() : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $javascriptAPI = true;
         $items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
         
@@ -143,7 +138,7 @@ class ilSCORMPresentationGUI
         }
         $api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
         $this->tpl->setVariable("API_LINK", $api_link);
-        $this->tpl->printToStdout("DEFAULT", false);
+        $this->tpl->printToStdout("DEFAULT", false, true);
 
         
         exit;
@@ -163,8 +158,8 @@ class ilSCORMPresentationGUI
     public function get_actual_attempts()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         $val_set = $ilDB->queryF(
             'SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
             array('integer','integer'),
@@ -179,8 +174,8 @@ class ilSCORMPresentationGUI
     }
     // function get_actual_attempts() {
     // global $DIC;
-    // $ilDB = $DIC['ilDB'];
-    // $ilUser = $DIC['ilUser'];
+    // $ilDB = $DIC->database();
+    // $ilUser = $DIC->user();
     // $val_set = $ilDB->queryF('
     // SELECT * FROM scorm_tracking
     // WHERE user_id =  %s
@@ -205,8 +200,8 @@ class ilSCORMPresentationGUI
     */
     // function increase_attempt() {
     // global $DIC;
-    // $ilDB = $DIC['ilDB'];
-    // $ilUser = $DIC['ilUser'];
+    // $ilDB = $DIC->database();
+    // $ilUser = $DIC->user();
         
     // //get existing account - sco id is always 0
     // $val_set = $ilDB->queryF('
@@ -265,8 +260,8 @@ class ilSCORMPresentationGUI
     public function increase_attemptAndsave_module_version() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
         $res = $ilDB->queryF(
             'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s GROUP BY package_attempts',
             array('integer','integer'),
@@ -300,8 +295,8 @@ class ilSCORMPresentationGUI
     */
     // function save_module_version() {
     // global $DIC;
-    // $ilDB = $DIC['ilDB'];
-    // $ilUser = $DIC['ilUser'];
+    // $ilDB = $DIC->database();
+    // $ilUser = $DIC->user();
 
     // $val_set = $ilDB->queryF('
     // SELECT * FROM scorm_tracking
@@ -353,7 +348,7 @@ class ilSCORMPresentationGUI
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilLog = $DIC['ilLog'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         $ilBench->start("SCORMExplorer", "initExplorer");
         
@@ -419,7 +414,7 @@ class ilSCORMPresentationGUI
     public function contentSelect() : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $this->tpl = new ilGlobalTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('TXT_SPECIALPAGE', $lng->txt("seq_toc"));
@@ -433,10 +428,10 @@ class ilSCORMPresentationGUI
     {
         //		global $DIC;
         //		$ilias = $DIC['ilias'];
-        //		$ilLog = $DIC['ilLog'];
-        //		$ilUser = $DIC['ilUser'];
-        //		$lng = $DIC['lng'];
-        //		$ilDB = $DIC['ilDB'];
+        //		$ilLog = ilLoggerFactory::getLogger('sahs');
+        //		$ilUser = $DIC->user();
+        //		$lng = $DIC->language();
+        //		$ilDB = $DIC->database();
 
         if ($_GET["ref_id"] == "") {
             print('alert("no start without ref_id");');
@@ -481,7 +476,7 @@ class ilSCORMPresentationGUI
     public function logMessage() : void
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $logString = file_get_contents('php://input');
         $ilLog->write("ScormAicc: ApiLog: Message: " . $logString);
     }
@@ -489,7 +484,7 @@ class ilSCORMPresentationGUI
     public function logWarning() : void
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $logString = file_get_contents('php://input');
         $ilLog->write("ScormAicc: ApiLog: Warning: " . $logString, 20);
     }

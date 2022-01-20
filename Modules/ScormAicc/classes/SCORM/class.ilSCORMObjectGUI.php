@@ -31,7 +31,7 @@ class ilSCORMObjectGUI
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         if ($a_id != 0) {
             $this->sc_object = new ilSCORMItem($a_id);

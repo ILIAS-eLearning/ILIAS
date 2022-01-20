@@ -93,7 +93,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->tpl->setVariable('CHECKBOX_ID', $a_set['user']);
         $this->tpl->setVariable('VAL_USERNAME', $a_set['name']);
@@ -112,7 +112,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     protected function initTable() : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->setFilterCommand('applyUserTableFilter');
         $this->setResetCommand('resetUserTableFilter');

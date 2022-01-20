@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -117,7 +117,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
     /*function preview()
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $wtpl = new ilTemplate("tpl....html",
             true, true, "Modules/Scorm2004");

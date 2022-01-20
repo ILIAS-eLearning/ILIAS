@@ -149,7 +149,7 @@ class ilSCORMItem extends ilSCORMObject
     public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -179,7 +179,7 @@ class ilSCORMItem extends ilSCORMObject
     public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -203,7 +203,7 @@ class ilSCORMItem extends ilSCORMObject
     public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::update();
         
@@ -238,8 +238,8 @@ class ilSCORMItem extends ilSCORMObject
     public function getTrackingDataOfUser($a_user_id = 0) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
@@ -269,8 +269,8 @@ class ilSCORMItem extends ilSCORMObject
     public static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
@@ -297,8 +297,8 @@ class ilSCORMItem extends ilSCORMObject
     public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         parent::delete();
 
@@ -329,7 +329,7 @@ class ilSCORMItem extends ilSCORMObject
     public static function _getItems($a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
             '
@@ -348,7 +348,7 @@ class ilSCORMItem extends ilSCORMObject
     public static function _lookupTitle($a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
             'SELECT title FROM scorm_object WHERE obj_id = %s',

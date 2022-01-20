@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -340,9 +340,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     // function getTrackedUsers($a_search)
     // {
     // global $DIC;
-    // $ilUser = $DIC['ilUser'];
-    // $ilDB = $DIC['ilDB'];
-    // $ilUser = $DIC['ilUser'];
+    // $ilUser = $DIC->user();
+    // $ilDB = $DIC->database();
+    // $ilUser = $DIC->user();
 
     // $sco_set = $ilDB->queryF('
     // SELECT DISTINCT user_id,MAX(c_timestamp) last_access
@@ -1100,208 +1100,208 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return true;
     }
 
-    /**
-    * Execute Drag Drop Action
-    *
-    * @param	string	$source_id		Source element ID
-    * @param	string	$target_id		Target element ID
-    * @param	string	$first_child	Insert as first child of target
-    * @param	string	$movecopy		Position ("move" | "copy")
-    */
-    public function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
-    {
-        $this->slm_tree = new ilTree($this->getId());
-        $this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $this->slm_tree->setTreeTablePK("slm_id");
-        
-        $source_obj = ilSCORM2004NodeFactory::getInstance($this, $source_id, true);
-        //$source_obj->setLMId($this->getId());
-
-        if (!$first_child) {
-            $target_obj = ilSCORM2004NodeFactory::getInstance($this, $target_id, true);
-            //$target_obj->setLMId($this->getId());
-            $target_parent = $this->slm_tree->getParentId($target_id);
-        }
-        //echo "-".$source_obj->getType()."-";
-        // handle pages
-        if ($source_obj->getType() == "page") {
-            if ($this->slm_tree->isInTree($source_obj->getId())) {
-                $node_data = $this->slm_tree->getNodeData($source_obj->getId());
-
-                // cut on move
-                if ($movecopy == "move") {
-                    $parent_id = $this->slm_tree->getParentId($source_obj->getId());
-                    $this->slm_tree->deleteTree($node_data);
-
-                    // write history entry
-/*
-                    ilHistory::_createEntry($source_obj->getId(), "cut",
-                        array(ilLMObject::_lookupTitle($parent_id), $parent_id),
-                        $this->getType().":pg");
-                    ilHistory::_createEntry($parent_id, "cut_page",
-                        array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
-                        $this->getType().":st");
-*/
-                }
-                /*				else			// this is not implemented here
-                                {
-                                    // copy page
-                                    $new_page =& $source_obj->copy();
-                                    $source_id = $new_page->getId();
-                                    $source_obj =& $new_page;
-                                }
-                */
-
-                // paste page
-                if (!$this->slm_tree->isInTree($source_obj->getId())) {
-                    if ($first_child) {			// as first child
-                        $target_pos = ilTree::POS_FIRST_NODE;
-                        $parent = $target_id;
-                    } elseif ($as_subitem) {		// as last child
-                        $parent = $target_id;
-                        $target_pos = ilTree::POS_FIRST_NODE;
-                        $pg_childs = $this->slm_tree->getChildsByType($parent, "page");
-                        if (count($pg_childs) != 0) {
-                            $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
-                        }
-                    } else {						// at position
-                        $target_pos = $target_id;
-                        $parent = $target_parent;
-                    }
-
-                    // insert page into tree
-                    $this->slm_tree->insertNode(
-                        $source_obj->getId(),
-                        $parent,
-                        $target_pos
-                    );
-                }
-            }
-        }
-
-        // handle scos
-        if ($source_obj->getType() == "sco" || $source_obj->getType() == "ass") {
-            //echo "2";
-            $source_node = $this->slm_tree->getNodeData($source_id);
-            $subnodes = $this->slm_tree->getSubtree($source_node);
-
-            // check, if target is within subtree
-            foreach ($subnodes as $subnode) {
-                if ($subnode["obj_id"] == $target_id) {
-                    return;
-                }
-            }
-
-            $target_pos = $target_id;
-
-            if ($first_child) {		// as first sco
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $target_parent = $target_id;
-                
-                $pg_childs = $this->slm_tree->getChildsByType($target_parent, "page");
-                if (count($pg_childs) != 0) {
-                    $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
-                }
-            } elseif ($as_subitem) {		// as last sco
-                $target_parent = $target_id;
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $childs = $this->slm_tree->getChilds($target_parent);
-                if (count($childs) != 0) {
-                    $target_pos = $childs[count($childs) - 1]["obj_id"];
-                }
-            }
-
-            // delete source tree
-            if ($movecopy == "move") {
-                $this->slm_tree->deleteTree($source_node);
-            }
-            /*			else
-                        {
-                            // copy chapter (incl. subcontents)
-                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
-                        }
-            */
-
-            if (!$this->slm_tree->isInTree($source_id)) {
-                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
-
-                // insert moved tree
-                if ($movecopy == "move") {
-                    foreach ($subnodes as $node) {
-                        if ($node["obj_id"] != $source_id) {
-                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
-                        }
-                    }
-                }
-            }
-
-            // check the tree
-//			$this->checkTree();
-        }
-
-        // handle chapters
-        if ($source_obj->getType() == "chap") {
-            //echo "2";
-            $source_node = $this->slm_tree->getNodeData($source_id);
-            $subnodes = $this->slm_tree->getSubtree($source_node);
-
-            // check, if target is within subtree
-            foreach ($subnodes as $subnode) {
-                if ($subnode["obj_id"] == $target_id) {
-                    return;
-                }
-            }
-
-            $target_pos = $target_id;
-
-            if ($first_child) {		// as first chapter
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $target_parent = $target_id;
-                
-            //$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
-                //if (count($sco_childs) != 0)
-                //{
-                //	$target_pos = $sco_childs[count($sco_childs) - 1]["obj_id"];
-                //}
-            } elseif ($as_subitem) {		// as last chapter
-                $target_parent = $target_id;
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $childs = $this->slm_tree->getChilds($target_parent);
-                if (count($childs) != 0) {
-                    $target_pos = $childs[count($childs) - 1]["obj_id"];
-                }
-            }
-
-            // delete source tree
-            if ($movecopy == "move") {
-                $this->slm_tree->deleteTree($source_node);
-            }
-            /*			else
-                        {
-                            // copy chapter (incl. subcontents)
-                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
-                        }
-            */
-
-            if (!$this->slm_tree->isInTree($source_id)) {
-                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
-
-                // insert moved tree
-                if ($movecopy == "move") {
-                    foreach ($subnodes as $node) {
-                        if ($node["obj_id"] != $source_id) {
-                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
-                        }
-                    }
-                }
-            }
-
-            // check the tree
-//			$this->checkTree();
-        }
-
-        //		$this->checkTree();
-    }
+//    /**
+//    * Execute Drag Drop Action
+//    *
+//    * @param	string	$source_id		Source element ID
+//    * @param	string	$target_id		Target element ID
+//    * @param	string	$first_child	Insert as first child of target
+//    * @param	string	$movecopy		Position ("move" | "copy")
+//    */
+//    public function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
+//    {
+//        $this->slm_tree = new ilTree($this->getId());
+//        $this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $this->slm_tree->setTreeTablePK("slm_id");
+//
+//        $source_obj = ilSCORM2004NodeFactory::getInstance($this, $source_id, true);
+//        //$source_obj->setLMId($this->getId());
+//
+//        if (!$first_child) {
+//            $target_obj = ilSCORM2004NodeFactory::getInstance($this, $target_id, true);
+//            //$target_obj->setLMId($this->getId());
+//            $target_parent = $this->slm_tree->getParentId($target_id);
+//        }
+//        //echo "-".$source_obj->getType()."-";
+//        // handle pages
+//        if ($source_obj->getType() == "page") {
+//            if ($this->slm_tree->isInTree($source_obj->getId())) {
+//                $node_data = $this->slm_tree->getNodeData($source_obj->getId());
+//
+//                // cut on move
+//                if ($movecopy == "move") {
+//                    $parent_id = $this->slm_tree->getParentId($source_obj->getId());
+//                    $this->slm_tree->deleteTree($node_data);
+//
+//                    // write history entry
+///*
+//                    ilHistory::_createEntry($source_obj->getId(), "cut",
+//                        array(ilLMObject::_lookupTitle($parent_id), $parent_id),
+//                        $this->getType().":pg");
+//                    ilHistory::_createEntry($parent_id, "cut_page",
+//                        array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
+//                        $this->getType().":st");
+//*/
+//                }
+//                /*				else			// this is not implemented here
+//                                {
+//                                    // copy page
+//                                    $new_page =& $source_obj->copy();
+//                                    $source_id = $new_page->getId();
+//                                    $source_obj =& $new_page;
+//                                }
+//                */
+//
+//                // paste page
+//                if (!$this->slm_tree->isInTree($source_obj->getId())) {
+//                    if ($first_child) {			// as first child
+//                        $target_pos = ilTree::POS_FIRST_NODE;
+//                        $parent = $target_id;
+//                    } elseif ($as_subitem) {		// as last child
+//                        $parent = $target_id;
+//                        $target_pos = ilTree::POS_FIRST_NODE;
+//                        $pg_childs = $this->slm_tree->getChildsByType($parent, "page");
+//                        if (count($pg_childs) != 0) {
+//                            $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+//                        }
+//                    } else {						// at position
+//                        $target_pos = $target_id;
+//                        $parent = $target_parent;
+//                    }
+//
+//                    // insert page into tree
+//                    $this->slm_tree->insertNode(
+//                        $source_obj->getId(),
+//                        $parent,
+//                        $target_pos
+//                    );
+//                }
+//            }
+//        }
+//
+//        // handle scos
+//        if ($source_obj->getType() == "sco" || $source_obj->getType() == "ass") {
+//            //echo "2";
+//            $source_node = $this->slm_tree->getNodeData($source_id);
+//            $subnodes = $this->slm_tree->getSubtree($source_node);
+//
+//            // check, if target is within subtree
+//            foreach ($subnodes as $subnode) {
+//                if ($subnode["obj_id"] == $target_id) {
+//                    return;
+//                }
+//            }
+//
+//            $target_pos = $target_id;
+//
+//            if ($first_child) {		// as first sco
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $target_parent = $target_id;
+//
+//                $pg_childs = $this->slm_tree->getChildsByType($target_parent, "page");
+//                if (count($pg_childs) != 0) {
+//                    $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+//                }
+//            } elseif ($as_subitem) {		// as last sco
+//                $target_parent = $target_id;
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $childs = $this->slm_tree->getChilds($target_parent);
+//                if (count($childs) != 0) {
+//                    $target_pos = $childs[count($childs) - 1]["obj_id"];
+//                }
+//            }
+//
+//            // delete source tree
+//            if ($movecopy == "move") {
+//                $this->slm_tree->deleteTree($source_node);
+//            }
+//            /*			else
+//                        {
+//                            // copy chapter (incl. subcontents)
+//                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
+//                        }
+//            */
+//
+//            if (!$this->slm_tree->isInTree($source_id)) {
+//                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
+//
+//                // insert moved tree
+//                if ($movecopy == "move") {
+//                    foreach ($subnodes as $node) {
+//                        if ($node["obj_id"] != $source_id) {
+//                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // check the tree
+////			$this->checkTree();
+//        }
+//
+//        // handle chapters
+//        if ($source_obj->getType() == "chap") {
+//            //echo "2";
+//            $source_node = $this->slm_tree->getNodeData($source_id);
+//            $subnodes = $this->slm_tree->getSubtree($source_node);
+//
+//            // check, if target is within subtree
+//            foreach ($subnodes as $subnode) {
+//                if ($subnode["obj_id"] == $target_id) {
+//                    return;
+//                }
+//            }
+//
+//            $target_pos = $target_id;
+//
+//            if ($first_child) {		// as first chapter
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $target_parent = $target_id;
+//
+//            //$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
+//                //if (count($sco_childs) != 0)
+//                //{
+//                //	$target_pos = $sco_childs[count($sco_childs) - 1]["obj_id"];
+//                //}
+//            } elseif ($as_subitem) {		// as last chapter
+//                $target_parent = $target_id;
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $childs = $this->slm_tree->getChilds($target_parent);
+//                if (count($childs) != 0) {
+//                    $target_pos = $childs[count($childs) - 1]["obj_id"];
+//                }
+//            }
+//
+//            // delete source tree
+//            if ($movecopy == "move") {
+//                $this->slm_tree->deleteTree($source_node);
+//            }
+//            /*			else
+//                        {
+//                            // copy chapter (incl. subcontents)
+//                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
+//                        }
+//            */
+//
+//            if (!$this->slm_tree->isInTree($source_id)) {
+//                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
+//
+//                // insert moved tree
+//                if ($movecopy == "move") {
+//                    foreach ($subnodes as $node) {
+//                        if ($node["obj_id"] != $source_id) {
+//                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // check the tree
+////			$this->checkTree();
+//        }
+//
+//        //		$this->checkTree();
+//    }
     
     public function getExportFiles()
     {
@@ -1460,50 +1460,50 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         }
     }
     
-    public function exportPDF($a_inst, $a_target_dir, &$expLog)
-    {
-        $a_xml_writer = new ilXmlWriter;
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
-        $this->exportXMLMetaData($a_xml_writer);
-        $tree = new ilTree($this->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
-            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
-            ilUtil::makeDir($sco_folder);
-            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
-            $node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
-        }
-        if ($this->getAssignedGlossary() != 0) {
-            ilUtil::makeDir($a_target_dir . "/glossary");
-            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
-            $glos_export = new ilGlossaryExport($glos, "xml");
-            $glos->exportXML($a_xml_writer, $glos_export->getInstId(), $a_target_dir . "/glossary", $expLog);
-        }
-        $a_xml_writer->xmlEndTag("ContentObject");
-        $xml2FO = new ilXML2FO();
-        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
-        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
-        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
-        $xml2FO->transform();
-        $fo_string = $xml2FO->getFOString();
-        $fo_xml = simplexml_load_string($fo_string);
-        $fo_ext = $fo_xml->xpath("//fo:declarations");
-        $fo_ext = $fo_ext[0];
-        $results = array();
-        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
-        if (is_array($results["file"])) {
-            foreach ($results["file"] as $key => $value) {
-                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
-                $e->addAttribute("src", $results[path][$key] . $value);
-                $e->addAttribute("name", $value);
-                $e->addAttribute("desc", "");
-            }
-        }
-        $fo_string = $fo_xml->asXML();
-        $a_xml_writer->_XmlWriter;
-        return $fo_string;
-    }
+//    public function exportPDF($a_inst, $a_target_dir, &$expLog)
+//    {
+//        $a_xml_writer = new ilXmlWriter;
+//        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
+//        $this->exportXMLMetaData($a_xml_writer);
+//        $tree = new ilTree($this->getId());
+//        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $tree->setTreeTablePK("slm_id");
+//        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
+//            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
+//            ilUtil::makeDir($sco_folder);
+//            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
+//            $node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
+//        }
+//        if ($this->getAssignedGlossary() != 0) {
+//            ilUtil::makeDir($a_target_dir . "/glossary");
+//            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+//            $glos_export = new ilGlossaryExport($glos, "xml");
+//            $glos->exportXML($a_xml_writer, $glos_export->getInstId(), $a_target_dir . "/glossary", $expLog);
+//        }
+//        $a_xml_writer->xmlEndTag("ContentObject");
+//        $xml2FO = new ilXML2FO();
+//        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+//        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+//        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
+//        $xml2FO->transform();
+//        $fo_string = $xml2FO->getFOString();
+//        $fo_xml = simplexml_load_string($fo_string);
+//        $fo_ext = $fo_xml->xpath("//fo:declarations");
+//        $fo_ext = $fo_ext[0];
+//        $results = array();
+//        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
+//        if (is_array($results["file"])) {
+//            foreach ($results["file"] as $key => $value) {
+//                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
+//                $e->addAttribute("src", $results[path][$key] . $value);
+//                $e->addAttribute("name", $value);
+//                $e->addAttribute("desc", "");
+//            }
+//        }
+//        $fo_string = $fo_xml->asXML();
+//        $a_xml_writer->_XmlWriter;
+//        return $fo_string;
+//    }
     
     public function exportHTMLOne($a_inst, $a_target_dir, &$expLog)
     {
