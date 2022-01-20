@@ -21,6 +21,9 @@
     +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+
 /**
  * Meta Data Settings.
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -34,13 +37,30 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     protected ?ilPropertyFormGUI $form = null;
     protected ?ilMDSettings $md_settings = null;
     protected ?ilMDCopyrightSelectionEntry $entry = null;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
+        global $DIC;
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->type = 'mds';
         $this->lng->loadLanguageModule("meta");
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+    }
+
+    protected function initEntryIdFromQuery() : int
+    {
+        $entry_id = 0;
+        if($this->http->wrapper()->query()->has('entry_id')) {
+            $entry_id = $this->http->wrapper()->query()->retrieve(
+                'entry_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $entry_id;
     }
 
     public function executeCommand()
@@ -74,8 +94,8 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             case 'ilmdcopyrightusagegui':
                 // this command is used if copyrightUsageGUI calls getParentReturn (see ...UsageGUI->setTabs)
                 $this->ctrl->setReturn($this, 'showCopyrightSettings');
-                $copyright_id = $_GET['entry_id'];
-                $gui          = new ilMDCopyrightUsageGUI((int) $copyright_id);
+                $copyright_id = $this->initEntryIdFromQuery();
+                $gui          = new ilMDCopyrightUsageGUI($copyright_id);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -226,7 +246,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 
     public function showCopyrightUsages()
     {
-        $this->ctrl->setParameterByClass('ilmdcopyrightusagegui', 'entry_id', $_GET['entry_id']);
+        $this->ctrl->setParameterByClass('ilmdcopyrightusagegui', 'entry_id', $this->initEntryIdFromQuery());
         $this->ctrl->redirectByClass('ilmdcopyrightusagegui', "showUsageTable");
     }
 

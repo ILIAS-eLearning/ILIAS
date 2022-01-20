@@ -8,6 +8,8 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Modal\Interruptive;
 use ILIAS\UI\Component\Signal;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Meta Data class (element general)
@@ -28,6 +30,8 @@ class ilMDEditorGUI
     protected ilTree $tree;
     protected ilToolbarGUI $toolbarGUI;
     protected ilMDSettings $md_settings;
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
     /**
      * @var ilMDTechnical|ilMDGeneral|ilMDLifecycle|ilMDEducational|ilMDRights|ilMDMetaMetadata|ilMDRelation|ilMDAnnotation|ilMDClassification $md_section
      */
@@ -56,12 +60,39 @@ class ilMDEditorGUI
 
         $this->ui_factory  = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http        = $DIC->http();
+        $this->refinery    = $DIC->refinery();
 
         $this->md_obj = new ilMD($a_rbac_id, $a_obj_id, $a_obj_type);
 
         $this->lng->loadLanguageModule('meta');
 
         $this->md_settings = ilMDSettings::_getInstance();
+    }
+
+    protected function initMetaIndexFromQuery() : int
+    {
+        $meta_index = 0;
+        if($this->http->wrapper()->query()->has('meta_index')) {
+            $meta_index = $this->http->wrapper()->query()->retrieve(
+                'meta_index',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $meta_index;
+    }
+
+    protected function initSectionFromQuery() : string
+    {
+        $section = '';
+        if($this->http->wrapper()->query()->has('section')) {
+            $section = $this->http->wrapper()->query()->retrieve(
+                'section',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        return $section;
     }
 
     public function executeCommand() : void
@@ -609,9 +640,16 @@ class ilMDEditorGUI
 
     public function keywordAutocomplete() : void
     {
+        $term = '';
+        if($this->http->wrapper()->query()->has('term')) {
+            $term = $this->http->wrapper()->query()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
         $res = ilMDKeyword::_getMatchingKeywords(
-            ilUtil::stripSlashes($_GET["term"]),
+            ilUtil::stripSlashes($term),
             $this->md_obj->getObjType(),
             $this->md_obj->getRBACId()
         );
@@ -3047,9 +3085,24 @@ class ilMDEditorGUI
 
     public function deleteElement() : bool
     {
+        $meta_path = '';
+        if($this->http->wrapper()->query()->has('meta_path')) {
+            $meta_path = $this->http->wrapper()->query()->retrieve(
+                'meta_path',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $meta_technical = 0;
+        if($this->http->wrapper()->query()->has('meta_technical')) {
+            $meta_technical = $this->http->wrapper()->query()->retrieve(
+                'meta_technical',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
 
 
-        $md_element = ilMDFactory::_getInstance($_GET['meta_path'], $_GET['meta_index'], $_GET['meta_technical']);
+        $md_element = ilMDFactory::_getInstance($meta_path, $this->initMetaIndexFromQuery(), $meta_technical);
         $md_element->delete();
 
         $this->listSection();
@@ -3061,7 +3114,7 @@ class ilMDEditorGUI
     {
 
 
-        $md_element = ilMDFactory::_getInstance($_GET['section'], $_GET['meta_index']);
+        $md_element = ilMDFactory::_getInstance($this->initSectionFromQuery(), $this->initMetaIndexFromQuery());
         $md_element->delete();
 
         $this->listSection();
@@ -3072,7 +3125,7 @@ class ilMDEditorGUI
     public function addSection() : bool
     {
         // Switch section
-        switch ($_GET['section']) {
+        switch ($this->initSectionFromQuery()) {
             case 'meta_technical':
                 $this->md_section = $this->md_obj->addTechnical();
                 $this->md_section->save();
@@ -3148,12 +3201,20 @@ class ilMDEditorGUI
 
     public function addSectionElement() : bool
     {
+        $section_element_get = '';
+        if($this->http->wrapper()->query()->has('section_element')) {
+            $section_element_get = $this->http->wrapper()->query()->retrieve(
+                'section_element',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
         $section_element = (empty($_POST['section_element']))
-            ? $_GET['section_element']
+            ? $section_element_get
             : $_POST['section_element'];
 
         // Switch section
-        switch ($_GET['section']) {
+        switch ($this->initSectionFromQuery()) {
             case 'meta_technical':
                 $this->md_section = $this->md_obj->getTechnical();
                 break;
@@ -3201,7 +3262,7 @@ class ilMDEditorGUI
                 break;
 
             case 'meta_entity':
-                $md_new = $this->md_section->getContribute((int) $_GET['meta_index']);
+                $md_new = $this->md_section->getContribute($this->initMetaIndexFromQuery());
                 $md_new = $md_new->addEntity();
                 break;
 
@@ -3235,12 +3296,12 @@ class ilMDEditorGUI
                 break;
 
             case 'relation_resource_identifier':
-                $rel    = $this->md_obj->getRelation($_GET['meta_index']);
+                $rel    = $this->md_obj->getRelation($this->initMetaIndexFromQuery());
                 $md_new = $rel->addIdentifier_();
                 break;
 
             case 'relation_resource_description':
-                $rel    = $this->md_obj->getRelation($_GET['meta_index']);
+                $rel    = $this->md_obj->getRelation($this->initMetaIndexFromQuery());
                 $md_new = $rel->addDescription();
                 break;
 
@@ -3251,7 +3312,7 @@ class ilMDEditorGUI
                 break;
 
             case 'Taxon':
-                $tax_path = $this->md_section->getTaxonPath($_GET['meta_index']);
+                $tax_path = $this->md_section->getTaxonPath($this->initMetaIndexFromQuery());
                 $md_new   = $tax_path->addTaxon();
                 break;
         }

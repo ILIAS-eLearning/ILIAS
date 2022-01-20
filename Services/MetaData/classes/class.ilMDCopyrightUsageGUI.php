@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 /**
  * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
@@ -16,16 +17,19 @@ class ilMDCopyrightUsageGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
 
     public function __construct(int $a_entry_id)
     {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
-
+        $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
         $this->lng  = $DIC->language();
         $this->tabs = $DIC->tabs();
+        $this->refinery = $DIC->refinery();
 
         $this->entry_id = $a_entry_id;
     }
@@ -35,11 +39,19 @@ class ilMDCopyrightUsageGUI
         // save usage id for all request
         $this->ctrl->saveParameter($this, 'entry_id');
 
+        $user = '';
+        if($this->http->wrapper()->query()->has('user')) {
+            $user = $this->http->wrapper()->query()->retrieve(
+                'user',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
         $this->setTabs();
         $next_class = $this->ctrl->getNextClass($this);
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($_GET['user']));
+                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($user));
                 $profile_gui->setBackUrl(
                     $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD)
                 );
