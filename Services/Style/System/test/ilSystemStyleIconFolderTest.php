@@ -51,7 +51,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         global $DIC;
 
         $this->save_dic = clone $DIC;
-        $DIC = new ilSystemStyleDICMock();
+        $DIC = new ilSystemStyleDICMock($this);
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 

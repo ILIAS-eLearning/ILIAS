@@ -1,6 +1,8 @@
 <?php
 
 use ILIAS\DI\LoggingServices;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -15,27 +17,24 @@ require_once("ilSystemStyleLoggerMock.php");
 class ilSystemStyleDICMock extends ILIAS\DI\Container
 {
     /**
-     * @var ilLanguage|\Mockery\LegacyMockInterface|\Mockery\MockInterface
+     * @var ilLanguage|MockObject
      */
     protected ilLanguage $lng;
     /**
-     * @var LoggingServices|\Mockery\LegacyMockInterface|\Mockery\MockInterface
+     * @var LoggingServices|MockObject
      */
     protected LoggingServices $logger;
     /**
-     * @var ilLog|\Mockery\LegacyMockInterface|\Mockery\MockInterface
+     * @var ilLog|MockObject
      */
     protected ilLogger $log;
 
-    public function __construct(array $values = [])
+    public function __construct(TestCase $test_case, array $values = [])
     {
         parent::__construct($values);
-        $this->lng = Mockery::mock(ilLanguage::class);
-        $this->lng->expects('txt')->atMost(5);
-        $this->logger =  Mockery::mock(LoggingServices::class);
-        $this->log = Mockery::mock(ilLogger::class);
-        $this->logger->expects('root')->andReturn($this->log);
-        $this->logger->expects('debug');
+        $this->lng = $test_case->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $this->logger =  $test_case->getMockBuilder(LoggingServices::class)->disableOriginalConstructor()->getMock();
+        $this->log = $test_case->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
     }
 
     /**

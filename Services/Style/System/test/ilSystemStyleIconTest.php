@@ -52,7 +52,7 @@ class ilSystemStyleIconTest extends TestCase
 
         $this->save_dic = $DIC;
 
-        $DIC = new ilSystemStyleDICMock();
+        $DIC = new ilSystemStyleDICMock($this);
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 

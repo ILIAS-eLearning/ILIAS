@@ -6,13 +6,15 @@ include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessFile.p
 include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
 
 use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestCase;
+use function ILIAS\UI\examples\Symbol\Glyph\Close\close;
 
 /**
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessFileTest extends TestSuite
+class ilSkinStyleLessFileTest extends TestCase
 {
 
 
@@ -35,7 +37,8 @@ class ilSkinStyleLessFileTest extends TestSuite
     {
         global $DIC;
 
-        $DIC = new ilSystemStyleDICMock();
+        $this->dic_backup = clone $DIC;
+        $DIC = new ilSystemStyleDICMock($this);
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
@@ -48,6 +51,9 @@ class ilSkinStyleLessFileTest extends TestSuite
 
     protected function tearDown() : void
     {
+        global $DIC;
+        $DIC = $this->dic_backup;
+
         ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 

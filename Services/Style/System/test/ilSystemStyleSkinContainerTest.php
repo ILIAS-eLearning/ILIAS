@@ -47,7 +47,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         global $DIC;
 
         $this->save_dic = clone $DIC;
-        $DIC = new ilSystemStyleDICMock();
+        $DIC = new ilSystemStyleDICMock($this);
 
         if (!defined('PATH_TO_LESSC')) {
             if (file_exists("ilias.ini.php")) {
@@ -293,8 +293,6 @@ class ilSystemStyleSkinContainerTest extends TestCase
 
         //Only perform this test, if an unzip path has been found.
         if (PATH_TO_UNZIP != "") {
-            global $DIC;
-            $DIC->logger()->root()->expects('debug');
             $container = ilSystemStyleSkinContainer::generateFromId(
                 $this->skin->getId(),
                 null,
