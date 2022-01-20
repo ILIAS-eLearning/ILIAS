@@ -146,7 +146,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         /** @var ilForumTopic $thread */
-        $thread = $a_set['object'];
+        $thread = $a_set['thread'];
 
         $this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
         global $DIC;
@@ -314,22 +314,22 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $data = $this->getMapper()->getAllThreads(
             $this->topicData->getTopPk(),
             $params,
-            (int) $this->getLimit(),
-            (int) $this->getOffset()
+            $this->getLimit(),
+            $this->getOffset()
         );
         if (!count($data['items']) && $this->getOffset() > 0) {
             $this->resetOffset();
             $data = $this->getMapper()->getAllThreads(
                 $this->topicData->getTopPk(),
                 $params,
-                (int) $this->getLimit(),
-                (int) $this->getOffset()
+                $this->getLimit(),
+                $this->getOffset()
             );
         }
 
         $this->setMaxCount($data['cnt']);
         $this->setData(array_map(static function (ilForumTopic $thread) : array {
-            return ['object' => $thread];
+            return ['thread' => $thread];
         }, $data['items']));
 
         $thread_ids = [];
