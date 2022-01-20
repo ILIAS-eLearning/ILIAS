@@ -9455,7 +9455,7 @@ footer {
   font-size: 1rem;
   position: absolute;
   right: 10px;
-  top: 15px;
+  top: 17px;
 }
 .il-maincontrols-slate .btn-bulky.engaged:after,
 .il-maincontrols-slate .link-bulky.engaged:after {
@@ -9685,7 +9685,7 @@ footer {
 }
 .il-maincontrols-metabar .btn-bulky .glyphicon {
   color: #737373;
-  font-size: 2.3rem;
+  font-size: 1.4375rem;
 }
 .il-maincontrols-metabar .bulky-label {
   white-space: normal;
@@ -11864,6 +11864,10 @@ html,
 body {
   height: 100%;
   overflow: hidden;
+}
+html {
+  font-size: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 @media only screen and (max-width: 768px) {
   html {
