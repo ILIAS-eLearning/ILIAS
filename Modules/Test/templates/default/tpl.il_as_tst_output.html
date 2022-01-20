@@ -3,7 +3,7 @@
 {KIOSK_HEAD}
 <!-- END kiosk_options -->
 <div id="tst_output">
-<form role="form" id="taForm" class="form-horizontal preventDoubleSubmission" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<form role="form" id="taForm" class="form-horizontal" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <div id="tst_left">{LIST_OF_QUESTIONS}</div>
 <div id="tst_right">
 <!-- BEGIN enableprocessingtime -->
@@ -111,6 +111,9 @@
 	{
 		//return;
 		$('#taForm').on('keyup keydown keypress', function(event) {
+			if( event.which == 13  && $(event.target).prop("tagName").toLowerCase() == "a" ) {
+				return;
+			}
 			if (event.which == 13) {
 				if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
 					(
