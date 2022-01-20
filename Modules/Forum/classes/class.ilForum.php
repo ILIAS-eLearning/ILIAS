@@ -733,7 +733,7 @@ class ilForum
         $query =
             "SELECT COUNT(DISTINCT(thr_pk)) cnt
 			 FROM frm_threads
-			 {$cnt_join_type} JOIN frm_posts
+			 $cnt_join_type JOIN frm_posts
 			 	ON pos_thr_fk = thr_pk $cnt_active_pos_query
 			 WHERE thr_top_fk = %s $excluded_ids_condition
 		";
