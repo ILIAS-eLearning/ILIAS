@@ -10,10 +10,10 @@
 *
 * @ingroup ModulesGroup
 */
-class ilFSStorageGroup extends ilFileSystemStorage
+class ilFSStorageGroup extends ilFileSystemAbstractionStorage
 {
     protected const MEMBER_EXPORT_DIR = 'memberExport';
-    
+
     private ilLogger $logger;
 
     public function __construct($a_container_id = 0)
@@ -23,7 +23,7 @@ class ilFSStorageGroup extends ilFileSystemStorage
         $this->logger = $DIC->logger()->grp();
         parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $a_container_id);
     }
-    
+
     /**
      * Init export directory and create it if it does not exist
      */
@@ -31,7 +31,7 @@ class ilFSStorageGroup extends ilFileSystemStorage
     {
         ilUtil::makeDirParents($this->getMemberExportDirectory());
     }
-    
+
     /**
      * Get path of export directory
      */
@@ -39,7 +39,7 @@ class ilFSStorageGroup extends ilFileSystemStorage
     {
         return $this->getAbsolutePath() . '/' . self::MEMBER_EXPORT_DIR;
     }
-    
+
     public function addMemberExportFile(string $a_data, string $a_rel_name) : bool
     {
         $this->initMemberExportDirectory();
@@ -58,14 +58,14 @@ class ilFSStorageGroup extends ilFileSystemStorage
         if (!@is_dir($this->getMemberExportDirectory())) {
             return [];
         }
-        
+
         $dp = @opendir($this->getMemberExportDirectory());
         $files = [];
         while ($file = readdir($dp)) {
             if (is_dir($file)) {
                 continue;
             }
-            
+
             if (
                 preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file, $matches) &&
                 $matches[3] == $this->getContainerId()) {
@@ -75,14 +75,14 @@ class ilFSStorageGroup extends ilFileSystemStorage
                 $file_info['type'] = $matches[2];
                 $file_info['id'] = $matches[3];
                 $file_info['size'] = filesize($this->getMemberExportDirectory() . '/' . $file);
-                
+
                 $files[$timest] = $file_info;
             }
         }
         closedir($dp);
         return $files;
     }
-    
+
     public function getMemberExportFile(string $a_name) : string
     {
         $file_name = $this->getMemberExportDirectory() . '/' . $a_name;
@@ -91,7 +91,7 @@ class ilFSStorageGroup extends ilFileSystemStorage
         }
         return '';
     }
-    
+
     public function deleteMemberExportFile(string $a_export_name) : bool
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
@@ -100,7 +100,7 @@ class ilFSStorageGroup extends ilFileSystemStorage
     /**
      * @inheritDoc
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix():string
     {
         return 'grp';
     }
@@ -108,7 +108,7 @@ class ilFSStorageGroup extends ilFileSystemStorage
     /**
      * @inheritDoc
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix():string
     {
         return 'ilGroup';
     }

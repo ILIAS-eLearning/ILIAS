@@ -16,18 +16,18 @@
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilFSStoragePortfolio extends ilFileSystemStorage
+class ilFSStoragePortfolio extends ilFileSystemAbstractionStorage
 {
     public function __construct(int $a_container_id = 0)
     {
         parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
     }
-    
+
     protected function getPathPostfix() : string
     {
         return 'prtf';
     }
-    
+
     protected function getPathPrefix() : string
     {
         return 'ilPortfolio';

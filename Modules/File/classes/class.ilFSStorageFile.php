@@ -40,7 +40,7 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
     /**
      * @return string
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix(): string
     {
         return 'ilFile';
     }

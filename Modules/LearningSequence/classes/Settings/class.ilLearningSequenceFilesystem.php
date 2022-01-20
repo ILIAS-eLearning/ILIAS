@@ -5,7 +5,7 @@
 /**
  * Storage of images in settings.
  */
-class ilLearningSequenceFilesystem extends ilFileSystemStorage
+class ilLearningSequenceFilesystem extends ilFileSystemAbstractionStorage
 {
     const IMG_ABSTRACT = 'abstract';
     const IMG_EXTRO = 'extro';
@@ -81,7 +81,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
     /**
      * @inheritdoc
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix():string
     {
         return self::PATH_PRE;
     }
@@ -89,7 +89,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
     /**
      * @inheritdoc
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix():string
     {
         return self::PATH_POST;
     }
