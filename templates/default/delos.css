@@ -1288,11 +1288,11 @@ h1,
 }
 h2,
 .h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 h3,
 .h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 h4,
 .h4 {
@@ -6935,7 +6935,7 @@ button.close {
 .panel .panel-heading.ilBlockHeader h2.ilHeader {
   margin: 0;
   color: #161616;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1.33;
   font-weight: 600;
 }
@@ -6945,7 +6945,7 @@ button.close {
 .panel .panel-heading.ilBlockHeader h3.ilHeader {
   margin: 0;
   color: #161616;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 .panel .panel-heading.ilHeader h4,
 .panel .panel-heading.ilBlockHeader h4,
@@ -6953,7 +6953,7 @@ button.close {
 .panel .panel-heading.ilBlockHeader h4.ilBlockHeader {
   margin: 0;
   color: #161616;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 .panel .panel-heading.ilHeader .dropdown > button.dropdown-toggle,
 .panel .panel-heading.ilBlockHeader .dropdown > button.dropdown-toggle {
@@ -7072,7 +7072,7 @@ button.close {
 }
 .il-panel-listing-std-container > h2 {
   color: #161616;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 600;
   float: left;
   padding: 9px 12px;
@@ -7231,9 +7231,10 @@ button.close {
 }
 .il-upload-file-item.standard .file-info {
   padding: 3px 8px;
+  font-size: 0.75rem;
   line-height: 1.42857143;
   border-radius: 0;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   border: 1px solid transparent;
   color: #161616;
   display: inline-block;
@@ -7255,9 +7256,10 @@ button.close {
 }
 .il-dropzone.standard .dz-message {
   padding: 3px 8px;
+  font-size: 0.75rem;
   line-height: 1.42857143;
   border-radius: 0;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   border: 1px solid transparent;
   color: #757575;
   display: inline-block;
@@ -8138,7 +8140,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-standard-form .il-standard-form-header h2,
 .il-standard-form .il-section-input-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   padding-top: 12px;
   padding-bottom: 3px;
 }
@@ -8733,7 +8735,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
 .il-workflow-header .il-workflow-title {
   background-color: #f0f0f0;
   color: #4c6586;
-  font-size: 2.6rem;
+  font-size: 1.4rem;
   font-weight: 300;
   margin-bottom: 30px;
   margin-top: 0;
@@ -9310,7 +9312,7 @@ footer {
     background-color: transparent;
     border: none;
     color: #2c2c2c;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     max-width: 220px;
     white-space: nowrap;
     overflow: hidden;
@@ -9452,7 +9454,7 @@ footer {
 .il-maincontrols-slate .btn-bulky.disengaged:after,
 .il-maincontrols-slate .link-bulky.disengaged:after {
   font-family: "il-icons";
-  font-size: 1rem;
+  font-size: 1.0625rem;
   position: absolute;
   right: 10px;
   top: 17px;
@@ -9491,8 +9493,8 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
-  font-size: 1rem;
-  line-height: 1.0625rem;
+  font-size: 0.9375rem;
+  line-height: 0.99609375rem;
   text-align: left;
   word-break: normal;
 }
@@ -9516,7 +9518,7 @@ footer {
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {
   content: " \e605";
   font-family: "il-icons";
-  font-size: 1.7rem;
+  font-size: 1.0625rem;
   margin-right: 10px;
 }
 .il-maincontrols-slate #il-tag-slate-container .btn-bulky,
@@ -9529,7 +9531,7 @@ footer {
 .il-maincontrols-slate #ilHelpPanel .btn-bulky .glyph :before {
   content: " \e605";
   font-family: "il-icons";
-  font-size: 1.7rem;
+  font-size: 1.0625rem;
   margin-right: 10px;
 }
 .il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label,
@@ -9634,7 +9636,7 @@ footer {
 .il-maincontrols-metabar .glyphicon {
   filter: invert(50%);
   font-family: 'il-icons';
-  font-size: 1rem;
+  font-size: 1.0625rem;
   margin-right: 5px;
   position: relative;
 }
@@ -9756,7 +9758,7 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 0.85rem;
+    font-size: 0.903125rem;
     position: absolute;
     right: 10px;
     top: 20px;
@@ -10048,7 +10050,7 @@ footer {
 }
 .il-mainbar-remove-tool .close {
   color: #4c6586;
-  font-size: 4.5rem;
+  font-size: 2.8125rem;
   font-weight: 300;
   height: 80px;
   padding: 0 20px;
@@ -10138,7 +10140,7 @@ footer {
     top: 0;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
-    font-size: 4rem;
+    font-size: 2.5rem;
     height: 50px;
   }
 }
@@ -12411,7 +12413,7 @@ a#il_mhead_t_focus {
 }
 @media only screen and (max-width: 768px) {
   a#il_mhead_t_focus {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 }
 a#il_mhead_t_focus[href] {
@@ -12430,7 +12432,7 @@ h2.ilHeader {
   padding: 0;
   margin: 0;
   display: inline;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #2c2c2c;
 }
 #headerimage {
@@ -13078,7 +13080,8 @@ select {
 .form-control {
   font-size: 0.875rem;
   color: #161616;
-  border: 1px solid #757575;
+  border: 1px solid #A8A8A8;
+  height: 1.5625rem;
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -16163,7 +16166,7 @@ h3.ilProfileName {
   margin: 0 0 10px;
   padding: 0;
   font-weight: normal;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 div.ilProfileSection {
   margin-top: 20px;
@@ -17033,7 +17036,7 @@ a.ilMediaLightboxClose {
   margin: 5px 0 10px 10px;
   cursor: pointer;
   color: #161616;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 a.ilMediaLightboxClose:hover {
   color: #000000;
