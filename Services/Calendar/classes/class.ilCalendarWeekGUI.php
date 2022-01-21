@@ -299,7 +299,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
             $this->tpl->setCurrentBlock('day_cell');
 
-            $this->tpl->setVariable('DAY_CELL_NUM', $this->num_appointments);
+            $this->tpl->setVariable('DAY_ID', 'a'.$this->num_appointments);
             $this->tpl->setVariable('TD_ROWSPAN', $a_app['rowspan']);
             $this->tpl->setVariable('TD_STYLE',$a_app['event']->getPresentationStyle());
             $this->tpl->setVariable('TD_CLASS', 'calevent il_calevent');
@@ -582,6 +582,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $renderer = $DIC->ui()->renderer();
 
         $new_link_counter = 0;
+        $day_id_counter = 0;
         foreach ($hours as $num_hour => $hours_per_day) {
             $first = true;
             foreach ($hours_per_day as $num_day => $hour) {
@@ -660,9 +661,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
                     $this->tpl->setVariable('TD_CLASS', 'calempty createhover' . $empty_border);
 
-                    if (!$hour['apps_num']) {
-                        $this->tpl->setVariable('DAY_ID', $new_link_counter);
-                    }
+                    $this->tpl->setVariable('DAY_ID', ++$day_id_counter);
                     $this->tpl->setVariable('TD_ROWSPAN', 1);
                     $this->tpl->parseCurrentBlock();
                 }
