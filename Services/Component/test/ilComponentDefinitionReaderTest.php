@@ -27,9 +27,9 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->processor2 = $this->createMock(ilComponentDefinitionProcessorMock2::class);
 
         $this->reader = new class($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
-            protected function getComponents() : array
+            protected function getComponents() : Iterator
             {
-                return ilComponentDefinitionReaderTest::$components;
+                return new ArrayIterator(ilComponentDefinitionReaderTest::$components);
             }
             public $read_files = [];
             protected function readFile(string $path) : string
@@ -78,7 +78,7 @@ class ilComponentDefinitionReaderTest extends TestCase
             }
             public function _getComponents() : array
             {
-                return $this->getComponents();
+                return iterator_to_array($this->getComponents());
             }
         };
 
