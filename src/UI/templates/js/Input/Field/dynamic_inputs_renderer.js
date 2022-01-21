@@ -10,7 +10,6 @@ il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
 (function ($, Input) {
   Input.DynamicInputsRenderer = (function ($) {
-    const INPUT_INDEX_PLACEHOLDER = 'DYNAMIC_INPUT_INDEX';
     const INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
     const SELECTORS = {
       dynamic_inputs_list: '.ui-input-dynamic-inputs-list',
@@ -35,7 +34,6 @@ il.UI.Input = il.UI.Input || {};
 
       let template = dynamic_inputs[input_id].template_html;
 
-      template = addInputTemplateIndexes(template, dynamic_inputs[input_id].index++);
       template = addInputTemplateIds(template, dynamic_inputs[input_id].sub_input_count);
 
       template = $(template);
@@ -98,16 +96,6 @@ il.UI.Input = il.UI.Input || {};
       }
 
       return template_html;
-    }
-
-    /**
-     * @param {string} template_html
-     * @param {int} index
-     */
-    let addInputTemplateIndexes = function (template_html, index) {
-      // indexes will be all the same, therefore we don't need
-      // to distinguish inputs with multiple sub inputs.
-      return replaceAll(template_html, INPUT_INDEX_PLACEHOLDER, String(index));
     }
 
     /**

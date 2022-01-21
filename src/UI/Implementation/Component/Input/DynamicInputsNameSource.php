@@ -5,20 +5,23 @@
 namespace ILIAS\UI\Implementation\Component\Input;
 
 /**
+ * Other than the FormInputNameSource this name source is for inputs
+ * that can be dynamically added multiple times on clientside,
+ * therefore it must provide a name that is stacked when submitted to
+ * the backend.
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class DynamicInputsNameSource extends DynamicInputsTemplateNameSource
+class DynamicInputsNameSource extends FormInputNameSource
 {
-    protected int $absolute_input_count;
+    protected string $parent_input_name;
 
-    public function __construct(string $parent_input_name, int $absolute_input_count)
+    public function __construct(string $parent_input_name)
     {
-        parent::__construct($parent_input_name);
-        $this->absolute_input_count = $absolute_input_count;
+        $this->parent_input_name = $parent_input_name;
     }
 
     public function getNewName() : string
     {
-        return "$this->parent_input_name[$this->absolute_input_count][dynamic_input_" . $this->input_count++ . ']';
+        return "$this->parent_input_name[" . parent::getNewName() . "][]";
     }
 }

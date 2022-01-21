@@ -4,27 +4,25 @@
 
 namespace ILIAS\Tests\UI\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
+use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class DynamicInputsNameSourceTest extends TestCase
+class FormInputNameSourceTest extends TestCase
 {
     public function testNewNameGeneration() : void
     {
-        $expected_parent_name = 'parent_input_name_xyz';
-
-        $name_source = new DynamicInputsNameSource($expected_parent_name);
+        $name_source = new FormInputNameSource();
 
         $this->assertEquals(
-            $expected_parent_name . "[form_input_0][]",
+            'form_input_0',
             $name_source->getNewName()
         );
 
         $this->assertEquals(
-            $expected_parent_name . "[form_input_1][]",
+            'form_input_1',
             $name_source->getNewName()
         );
     }

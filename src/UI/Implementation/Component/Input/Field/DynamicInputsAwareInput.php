@@ -4,8 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\Container\Form\ArrayInputData;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -13,7 +12,6 @@ use ILIAS\UI\Component\Input\Field\Input as InputInterface;
 use ILIAS\UI\Component\Input\Field\DynamicInputsAware;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Data\Result\Ok;
 use InvalidArgumentException;
 use LogicException;
 use ilLanguage;
@@ -31,7 +29,7 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
      * @var InputInterface[]
      */
     protected array $dynamic_inputs = [];
-    protected ?InputInterface $dynamic_input_template = null;
+    protected InputInterface $dynamic_input_template;
     protected ilLanguage $language;
 
     public function __construct(
@@ -39,29 +37,19 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
         DataFactory $data_factory,
         Refinery $refinery,
         string $label,
+        InputInterface $template,
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->dynamic_input_template = $template;
         $this->language = $language;
-    }
-
-    /**
-     * Provides an instance of Input, which is used to generate dynamic
-     * inputs on clientside.
-     */
-    public function withTemplateForDynamicInputs(InputInterface $template) : self
-    {
-        $clone = clone $this;
-        $clone->dynamic_input_template = $template;
-
-        return $clone;
     }
 
     /**
      * Returns the instance of Input which should be used to generate
      * dynamic inputs on clientside.
      */
-    public function getTemplateForDynamicInputs() : ?InputInterface
+    public function getTemplateForDynamicInputs() : InputInterface
     {
         return $this->dynamic_input_template;
     }
@@ -89,12 +77,6 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
      */
     public function withValue($value) : self
     {
-        // apply default behaviour if this input was not provided
-        // with an actual input template.
-        if (null === $this->getTemplateForDynamicInputs()) {
-            return parent::withValue($value);
-        }
-
         if (!$this->isDynamicInputsValueOk($value)) {
             throw new InvalidArgumentException("Display value does not match input(-template) type.");
         }
@@ -111,10 +93,7 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
     public function withDisabled(bool $is_disabled) : self
     {
         $clone = parent::withDisabled($is_disabled);
-
-        if (null !== $clone->dynamic_input_template) {
-            $clone->dynamic_input_template = $clone->dynamic_input_template->withDisabled($is_disabled);
-        }
+        $clone->dynamic_input_template = $clone->dynamic_input_template->withDisabled($is_disabled);
 
         foreach ($clone->dynamic_inputs as $key => $input) {
             $clone->dynamic_inputs[$key] = $input->withDisabled($is_disabled);
@@ -127,16 +106,13 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
     {
         $clone = parent::withNameFrom($source);
 
-        if (null !== $clone->dynamic_input_template) {
-            $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
-                new DynamicInputsTemplateNameSource($clone->getName())
-            );
-        }
+        $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
+            new DynamicInputsNameSource($clone->getName())
+        );
 
-        $count = 0;
         foreach ($clone->dynamic_inputs as $key => $input) {
             $clone->dynamic_inputs[$key] = $input->withNameFrom(
-                new DynamicInputsNameSource($clone->getName(), $count++)
+                new DynamicInputsNameSource($clone->getName())
             );
         }
 
@@ -150,35 +126,13 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
         }
 
         $clone = clone $this;
-        $post_data = $post_data->getOr($clone->getName(), null);
-        $template = $clone->getTemplateForDynamicInputs();
         $contains_error = false;
         $contents = [];
 
-        if (null === $post_data || null === $template) {
-            $clone->content = $clone->applyOperationsTo(new Ok(null));
-            if ($clone->content->isError()) {
-                $clone = $clone->withError((string) $clone->content->error());
-            }
-
-            return $clone;
-        }
-
-        $t = $this->overridePostInputNames($post_data, $clone->getName());
-
-        foreach ($this->overridePostInputNames($post_data, $clone->getName()) as $index => $input_data) {
-            $result = $template->withInput(new ArrayInputData($input_data))->getContent();
-            if ($result->isOk()) {
-                $content = $result->value();
-                // keeps the content mapped to the input name, if e.g. a group
-                // or inputs with multiple values are the provided template.
-                if (is_array($content)) {
-                    foreach ($content as $key => $val) {
-                        $contents[$index][$key] = $val;
-                    }
-                } else {
-                    $contents[] = $content;
-                }
+        foreach ((new DynamicInputDataIterator($post_data, $clone->getName())) as $index => $input_data) {
+            $clone->dynamic_inputs[$index] = $this->dynamic_input_template->withInput($input_data);
+            if ($clone->dynamic_inputs[$index]->getContent()->isOk()) {
+                $contents[] = $clone->dynamic_inputs[$index]->getContent()->value();
             } else {
                 $contains_error = true;
             }
@@ -199,10 +153,6 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
 
     public function getValue() : array
     {
-        if (null === $this->getTemplateForDynamicInputs()) {
-            return parent::getValue();
-        }
-
         $values = [];
         foreach ($this->getDynamicInputs() as $key => $input) {
             $values[$key] = $input->getValue();
@@ -214,22 +164,6 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
     // ==========================================
     // END OVERWRITTEN METHODS OF Input
     // ==========================================
-
-    protected function overridePostInputNames(array $post_data, string $parent_input_name) : array
-    {
-        $processable_data = [];
-        $dynamic_input_index = DynamicInputsTemplateNameSource::INDEX_PLACEHOLDER;
-        foreach ($post_data as $index => $input_data) {
-            $current_input_data = [];
-            foreach ($input_data as $input_name => $value) {
-                $current_input_data[$parent_input_name . "[$dynamic_input_index][$input_name]"] = $value;
-            }
-
-            $processable_data[$index] = $current_input_data;
-        }
-
-        return $processable_data;
-    }
 
     /**
      * @param mixed $value
