@@ -32,8 +32,8 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
     
-    private ?Closure $content_wrapper;
-    private ?Component $content;
+    private ?Closure $content_wrapper = null;
+    private ?Component $content = null;
     private string $title = '';
     private bool $supports_async_loading = false;
     
@@ -42,7 +42,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
-        $clone                  = clone($this);
+        $clone = clone($this);
         $clone->content_wrapper = $content_wrapper;
         
         return $clone;
@@ -53,7 +53,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withContent(Component $ui_component) : hasContent
     {
-        $clone          = clone($this);
+        $clone = clone($this);
         $clone->content = $ui_component;
         
         return $clone;
@@ -79,7 +79,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -98,7 +98,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone                         = clone($this);
+        $clone = clone($this);
         $clone->supports_async_loading = $supported;
         
         return $clone;
