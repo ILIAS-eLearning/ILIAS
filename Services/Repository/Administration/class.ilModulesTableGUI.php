@@ -93,10 +93,13 @@ class ilModulesTableGUI extends ilTable2GUI
         $obj_types = array();
         
         // parse modules
-        foreach (ilModule::getAvailableCoreModules() as $mod) {
+        foreach ($this->component_repository->getComponents() as $mod) {
+            if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
+                continue;
+            }
             $has_repo = false;
             $rep_types =
-                $objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $mod["subdir"]);
+                $objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $mod->getName());
             if (sizeof($rep_types) > 0) {
                 foreach ($rep_types as $ridx => $rt) {
                     // we only want to display repository modules
@@ -112,7 +115,7 @@ class ilModulesTableGUI extends ilTable2GUI
                     $obj_types[$rt["id"]] = array(
                         "object" => $rt["class_name"],
                         "caption" => $lng->txt("obj_" . $rt["id"]),
-                        "subdir" => $mod["subdir"],
+                        "subdir" => $mod->getName(),
                         "grp" => $rt["grp"],
                         "default_pos" => $rt["default_pos"]
                     );

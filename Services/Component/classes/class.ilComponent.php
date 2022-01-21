@@ -95,34 +95,6 @@ abstract class ilComponent
         return $pluginslots;
     }
 
-    /**
-    * Get component object.
-    *
-    * @param	string	$a_ctype	IL_COMP_MODULE | IL_COMP_SERVICE
-    * @param	string	$a_cname	component name
-    */
-    final public static function getComponentObject($a_ctype, $a_cname)
-    {
-        global $DIC;
-        $component_repository = $DIC["component.repository"];
-
-        if (!$component_repository->hasComponent($a_ctype, $a_cname)) {
-            return null;
-        }
-        
-        switch ($a_ctype) {
-            case IL_COMP_MODULE:
-                return new ilModule($a_cname);
-            case IL_COMP_SERVICE:
-                return new ilService($a_cname);
-            default:
-                throw new \UnexpectedValueException(
-                    "Unknown component type: $a_ctype"
-                );
-        }
-        
-        return null;
-    }
 
     /**
     * Set Sub Directory.
