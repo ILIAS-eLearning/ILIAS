@@ -20,7 +20,6 @@
  */
 interface ilShibbolethAuthenticationPluginInt
 {
-
     public function beforeLogin(ilObjUser $user) : ilObjUser;
 
 

@@ -14,7 +14,7 @@
  *****************************************************************************/
 /**
  * Class shibServerData
- *
+ * @deprecated
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class shibServerData extends shibConfig

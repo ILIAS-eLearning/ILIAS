@@ -35,7 +35,7 @@ class ilShibbolethRoleAssignmentRules
         $ilDB = $DIC['ilDB'];
         $rules = array();
         /**
-         * @var $ilDB ilDB
+         * @var $ilDB ilDBInterface
          */
         $query = "SELECT rule_id FROM shib_role_assignment ORDER BY rule_id";
         $res = $ilDB->query($query);
@@ -79,7 +79,8 @@ class ilShibbolethRoleAssignmentRules
         }
         // check if is assigned to minimum one global role
         if (!array_intersect($rbacreview->assignedRoles($a_usr_id), $rbacreview->getGlobalRoles())) {
-            $default_role = shibConfig::getInstance()->getUserDefaultRole();
+            $settings = new ilShibbolethSettings();
+            $default_role = $settings->getDefaultRole();
             $ilLog->write(__METHOD__ . ': Assigned to default role ' . ilObject::_lookupTitle($default_role));
             $rbacadmin->assignUser($default_role, $a_usr_id);
         }
@@ -106,7 +107,8 @@ class ilShibbolethRoleAssignmentRules
         }
         // Assign to default if no matching found
         if ($num_matches === 0) {
-            $default_role = shibConfig::getInstance()->getUserDefaultRole();
+            $settings = new ilShibbolethSettings();
+            $default_role = $settings->getDefaultRole();
             $ilLog->write(__METHOD__ . ': Assigned to default role ' . ilObject::_lookupTitle($default_role));
             $rbacadmin->assignUser($default_role, $a_usr_id);
         }

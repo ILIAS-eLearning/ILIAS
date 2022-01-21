@@ -69,11 +69,13 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
                 ilShibbolethRoleAssignmentRules::updateAssignments($shibUser->getId(), $_SERVER);
             }
 
-            $c = shibConfig::getInstance();
-            if (($newUser && !$c->isActivateNew()) || !$newUser) {
+            $settings = new ilShibbolethSettings();
+
+
+            if (($newUser && !$settings->adminMustActivate()) || !$newUser) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
                 $status->setAuthenticatedUserId(ilObjUser::_lookupId($shibUser->getLogin()));
-            } elseif ($newUser && $c->isActivateNew()) {
+            } elseif ($newUser && $settings->adminMustActivate()) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $status->setReason('err_inactive');
             }

@@ -15,7 +15,6 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-
 /**
  * Class ShibbolethWAYF
  *
@@ -46,7 +45,8 @@ class ilShibbolethWAYF
         $this->is_selection = $this->wrapper->post()->has('home_organization_selection');
         $this->lng = $DIC->isDependencyAvailable('language')
             ? $DIC->language()
-            : new ilLanguage($this->wrapper->query()->has('lang')
+            : new ilLanguage(
+                $this->wrapper->query()->has('lang')
                 ? $this->wrapper->query()->retrieve('lang', $DIC->refinery()->to()->string())
                 : null
             );
