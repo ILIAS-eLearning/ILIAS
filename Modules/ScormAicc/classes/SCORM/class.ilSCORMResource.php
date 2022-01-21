@@ -125,7 +125,7 @@ class ilSCORMResource extends ilSCORMObject
     public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
     
@@ -170,7 +170,7 @@ class ilSCORMResource extends ilSCORMObject
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $ilBench->start("SCORMResource", "readByIdRef_Query");
         
@@ -195,7 +195,7 @@ class ilSCORMResource extends ilSCORMObject
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $id_set = $ilDB->queryF(
             'SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
@@ -215,7 +215,7 @@ class ilSCORMResource extends ilSCORMObject
     public static function _lookupScormType($a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $st_set = $ilDB->queryF(
             'SELECT scormtype FROM sc_resource WHERE obj_id = %s',
@@ -231,7 +231,7 @@ class ilSCORMResource extends ilSCORMObject
     public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -280,7 +280,7 @@ class ilSCORMResource extends ilSCORMObject
     public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -343,7 +343,7 @@ class ilSCORMResource extends ilSCORMObject
     public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

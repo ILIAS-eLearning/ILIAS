@@ -48,7 +48,7 @@ class ilSCORMTree extends ilTree
     public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         if (!isset($a_node_id)) {
             $message = "No node_id given!";

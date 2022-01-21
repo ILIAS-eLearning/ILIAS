@@ -3987,7 +3987,6 @@ common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
 common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
-common#:#time_limit_owner#:#Owner (time limit)
 common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)

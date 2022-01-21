@@ -239,22 +239,22 @@
         }
 
         private function setStatus($obj): void {
-            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
-                $verb = $obj->verb->id;
-                $score = 'NOT_SET';
-                if (array_key_exists($verb, $this->sniffVerbs)) {
-                    // check context
-                    if ($this->isSubStatementCheck($obj)) {
-                        $this->log()->debug($this->msg("statement is sub-statement, ignore status verb " . $verb));
-                        return;
-                    }
-                    if (isset($obj->result) && isset($obj->result->score) && isset($obj->result->score->scaled)) {
-                        $score = $obj->result->score->scaled;
-                    }
-                    $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
-                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
-                }
-            }
+//            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
+//                $verb = $obj->verb->id;
+//                $score = 'NOT_SET';
+//                if (array_key_exists($verb, $this->sniffVerbs)) {
+//                    // check context
+//                    if ($this->isSubStatementCheck($obj)) {
+//                        $this->log()->debug($this->msg("statement is sub-statement, ignore status verb " . $verb));
+//                        return;
+//                    }
+//                    if (isset($obj->result) && isset($obj->result->score) && isset($obj->result->score->scaled)) {
+//                        $score = $obj->result->score->scaled;
+//                    }
+//                    $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
+//                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
+//                }
+//            }
         }
 
         private function isSubStatementCheck($obj) {

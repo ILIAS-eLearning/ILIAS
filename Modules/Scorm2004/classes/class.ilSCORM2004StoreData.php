@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -28,7 +28,7 @@ class ilSCORM2004StoreData
         if ($data->last != "") {
             $last_visited = $data->last;
         }
-        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
+        $endDate = date('Y-m-d H:i:s', mktime((int) date('H'), (int) date('i') + 5, (int) date('s'), (int) date('m'), (int) date('d'), (int) date('Y')));
         $total_time_sec = null;
         if ($data->total_time_sec != "") {
             $total_time_sec = $data->total_time_sec;
@@ -567,7 +567,7 @@ class ilSCORM2004StoreData
                                            $vals["score_min"], $vals["score_max"],
                                            $vals["completion_status"], $vals["progress_measure"],
                                            $obj_id, $dbuser, $scope_id)
-                 );
+                );
             } else {
                 $ilDB->manipulateF(
                     "INSERT INTO cmi_gobjective

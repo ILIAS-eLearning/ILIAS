@@ -19,11 +19,10 @@
  */
 class shibUser extends ilObjUser
 {
-
     protected shibServerData $shibServerData;
 
 
-    public static function buildInstance(shibServerData $shibServerData): \shibUser
+    public static function buildInstance(shibServerData $shibServerData) : \shibUser
     {
         $shibUser = new self();
         $shibUser->shibServerData = $shibServerData;
@@ -40,7 +39,7 @@ class shibUser extends ilObjUser
     }
 
 
-    public function updateFields(): void
+    public function updateFields() : void
     {
         $shibConfig = shibConfig::getInstance();
         if ($shibConfig->getUpdateFirstname()) {
@@ -98,7 +97,7 @@ class shibUser extends ilObjUser
     }
 
 
-    public function createFields(): void
+    public function createFields() : void
     {
         $this->setFirstname($this->shibServerData->getFirstname());
         $this->setLastname($this->shibServerData->getLastname());
@@ -131,7 +130,7 @@ class shibUser extends ilObjUser
     }
 
 
-    public function create(): void
+    public function create() : void
     {
         $c = shibConfig::getInstance();
         if ($c->isActivateNew()) {
@@ -152,7 +151,7 @@ class shibUser extends ilObjUser
     }
 
 
-    protected function returnNewLoginName(): ?string
+    protected function returnNewLoginName() : ?string
     {
         $login = substr(self::cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
         //remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
@@ -168,7 +167,7 @@ class shibUser extends ilObjUser
     }
 
 
-    public function isNew(): bool
+    public function isNew() : bool
     {
         return $this->getId() == 0;
     }
@@ -179,7 +178,7 @@ class shibUser extends ilObjUser
      *
      * @return mixed
      */
-    protected static function cleanName($name): string
+    protected static function cleanName($name) : string
     {
         return strtolower(strtr(utf8_decode($name), utf8_decode('ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ'), 'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'));
     }
@@ -189,7 +188,7 @@ class shibUser extends ilObjUser
      * @param $login
      * @param $usr_id
      */
-    private static function loginExists($login, $usr_id): bool
+    private static function loginExists($login, $usr_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

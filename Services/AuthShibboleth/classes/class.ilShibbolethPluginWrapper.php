@@ -33,7 +33,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public static function getInstance(): \ilShibbolethPluginWrapper
+    public static function getInstance() : \ilShibbolethPluginWrapper
     {
         if (!self::$cache instanceof ilShibbolethPluginWrapper) {
             self::$cache = new self();
@@ -46,13 +46,13 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     /**
      * @return ilShibbolethAuthenticationPlugin[]
      */
-    protected function getPluginObjects(): \Iterator
+    protected function getPluginObjects() : \Iterator
     {
         return $this->component_factory->getActivePluginsInSlot('shibhk');
     }
 
 
-    public function beforeLogin(ilObjUser $user): ilObjUser
+    public function beforeLogin(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->beforeLogin($user);
@@ -62,7 +62,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function afterLogin(ilObjUser $user): ilObjUser
+    public function afterLogin(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->afterLogin($user);
@@ -72,7 +72,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function beforeCreateUser(ilObjUser $user): ilObjUser
+    public function beforeCreateUser(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->beforeCreateUser($user);
@@ -82,7 +82,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function afterCreateUser(ilObjUser $user): ilObjUser
+    public function afterCreateUser(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->afterCreateUser($user);
@@ -92,7 +92,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function beforeLogout(ilObjUser $user): ilObjUser
+    public function beforeLogout(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->beforeLogout($user);
@@ -102,7 +102,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function afterLogout(ilObjUser $user): ilObjUser
+    public function afterLogout(ilObjUser $user) : ilObjUser
     {
         $this->log->write('afterlogout');
         foreach ($this->getPluginObjects() as $pl) {
@@ -113,7 +113,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function beforeUpdateUser(ilObjUser $user): ilObjUser
+    public function beforeUpdateUser(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->beforeUpdateUser($user);
@@ -123,7 +123,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     }
 
 
-    public function afterUpdateUser(ilObjUser $user): ilObjUser
+    public function afterUpdateUser(ilObjUser $user) : ilObjUser
     {
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->afterUpdateUser($user);

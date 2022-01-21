@@ -34,8 +34,8 @@ class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
     public function parse($scoSelected, $report, $reports) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));

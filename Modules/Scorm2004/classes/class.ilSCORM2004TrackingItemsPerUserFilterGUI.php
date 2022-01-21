@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -25,8 +25,8 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
     public function parse($userSelected, $report, $reports)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));

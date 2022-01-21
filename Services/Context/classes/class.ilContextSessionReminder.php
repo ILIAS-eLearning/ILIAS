@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,11 +13,6 @@
  * https://github.com/ILIAS-eLearning
  */
 
-/**
- * Service context for session reminder
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
 class ilContextSessionReminder implements ilContextTemplate
 {
     public static function supportsRedirects() : bool

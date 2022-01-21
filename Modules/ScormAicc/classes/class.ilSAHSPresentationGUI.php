@@ -30,7 +30,6 @@
 */
 class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 {
-    protected $ilias;
     protected $tpl;
     protected $lng;
     protected $ctrl;
@@ -40,15 +39,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     public function __construct()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ilias = $ilias;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
         $this->ctrl->saveParameter($this, "ref_id");
         $this->refId = (int) $_GET["ref_id"];
     }
@@ -59,10 +52,10 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     public function executeCommand() : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
         $ilLocator = $DIC['ilLocator'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
@@ -291,7 +284,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     public function outputInfoScreen() : void
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
 
         //$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 

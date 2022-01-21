@@ -12,7 +12,6 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-
 /**
  * Shibboleth role assignment rule
  *
@@ -185,8 +184,10 @@ class ilShibbolethRoleAssignmentRule
 
     public function delete() : bool
     {
-        $query = 'DELETE FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(),
-                'integer');
+        $query = 'DELETE FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote(
+            $this->getRuleId(),
+            'integer'
+        );
         $this->db->manipulate($query);
 
         return true;
@@ -198,8 +199,10 @@ class ilShibbolethRoleAssignmentRule
         $query = 'INSERT INTO ' . self::TABLE_NAME . ' (rule_id,role_id,name,value,plugin,plugin_id,add_on_update,remove_on_update ) ' . 'VALUES( '
             . $this->db->quote($next_id, 'integer') . ', ' . $this->db->quote($this->getRoleId(), 'integer') . ', '
             . $this->db->quote($this->getName(), 'text') . ', ' . $this->db->quote($this->getValue(), 'text') . ', '
-            . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . $this->db->quote($this->getPluginId(),
-                'integer') . ', '
+            . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . $this->db->quote(
+                $this->getPluginId(),
+                'integer'
+            ) . ', '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', '
             . $this->db->quote((int) $this->isRemoveOnUpdateEnabled(), 'integer') . ') ';
         $this->db->manipulate($query);
@@ -210,10 +213,14 @@ class ilShibbolethRoleAssignmentRule
 
     public function update() : bool
     {
-        $query = 'UPDATE ' . self::TABLE_NAME . ' ' . 'SET role_id = ' . $this->db->quote($this->getRoleId(),
-                'integer') . ', ' . 'name = '
-            . $this->db->quote($this->getName(), 'text') . ', ' . 'value = ' . $this->db->quote($this->getValue(),
-                'text') . ', ' . 'plugin = '
+        $query = 'UPDATE ' . self::TABLE_NAME . ' ' . 'SET role_id = ' . $this->db->quote(
+            $this->getRoleId(),
+            'integer'
+        ) . ', ' . 'name = '
+            . $this->db->quote($this->getName(), 'text') . ', ' . 'value = ' . $this->db->quote(
+                $this->getValue(),
+                'text'
+            ) . ', ' . 'plugin = '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . 'plugin_id = '
             . $this->db->quote($this->getPluginId(), 'integer') . ', ' . 'add_on_update = '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', ' . 'remove_on_update = '
@@ -289,8 +296,10 @@ class ilShibbolethRoleAssignmentRule
         if ($this->getRuleId() === 0) {
             return true;
         }
-        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(),
-                'integer');
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote(
+            $this->getRuleId(),
+            'integer'
+        );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setRoleId($row->role_id);

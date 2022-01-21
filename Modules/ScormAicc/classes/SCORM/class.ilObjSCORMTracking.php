@@ -43,8 +43,8 @@ class ilObjSCORMTracking
     public static function storeJsApiCmi($user_id, $obj_id, $data) : bool
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $ilDB = $DIC['ilDB'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+        $ilDB = $DIC->database();
 
         $b_updateStatus = false;
         $i_score_max = 0;
@@ -143,8 +143,8 @@ class ilObjSCORMTracking
     public static function syncGlobalStatus($userId, $packageId, $data, $new_global_status) : bool
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $saved_global_status = $data->saved_global_status;
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
@@ -208,8 +208,8 @@ class ilObjSCORMTracking
     public static function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         $ilDB->insert('scorm_tracking', array(
             'obj_id' => array('integer', $a_obj_id),
@@ -234,7 +234,7 @@ class ilObjSCORMTracking
     public static function _getCompleted(object $scorm_item_id, object $a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (is_array($scorm_item_id)) {
             $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
@@ -277,7 +277,7 @@ class ilObjSCORMTracking
     public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id) : string
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $status = "not_attempted";
 
@@ -322,7 +322,7 @@ class ilObjSCORMTracking
     public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (is_array($a_scos)) {
             $in = $ilDB->in('sco_id', $a_scos, false, 'integer');
@@ -354,7 +354,7 @@ class ilObjSCORMTracking
     public static function lookupLastAccessTimes(int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT user_id, MAX(c_timestamp) tst ' .
             'FROM scorm_tracking ' .
@@ -377,8 +377,8 @@ class ilObjSCORMTracking
     public static function _getTrackedUsers(int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         $res = $ilDB->queryF(
             'SELECT DISTINCT user_id FROM scorm_tracking 
@@ -402,7 +402,7 @@ class ilObjSCORMTracking
     public static function _getFailed(object $scorm_item_id, object $a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (is_array($scorm_item_id)) {
             $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
@@ -440,10 +440,10 @@ class ilObjSCORMTracking
      * Get users who have status completed or passed.
      * @return
      */
-    public static function _getCountCompletedPerUser(object $a_scorm_item_ids, object $a_obj_id)
+    public static function _getCountCompletedPerUser(array $a_scorm_item_ids, object $a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer');
 
@@ -471,10 +471,10 @@ class ilObjSCORMTracking
      * Get info about
      * @return
      */
-    public static function _getProgressInfo(object $sco_item_ids, object $a_obj_id) : array
+    public static function _getProgressInfo(array $sco_item_ids, int $a_obj_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $in = $ilDB->in('sco_id', $sco_item_ids, false, 'integer');
 
@@ -515,10 +515,10 @@ class ilObjSCORMTracking
      * @param array $a_blocked_user_ids
      * @return
      */
-    public static function _getInProgress(object $scorm_item_id, object $a_obj_id, $a_blocked_user_ids = null) : array
+    public static function _getInProgress(array $scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         if (is_array($scorm_item_id)) {
             $in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer');
@@ -557,7 +557,7 @@ class ilObjSCORMTracking
     public static function scorm12PlayerUnload() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $user_id = (int) $_GET["p"];
         $ref_id = (int) $_GET["ref_id"];
         $obj_id = (int) $_GET["package_id"];
@@ -587,7 +587,7 @@ class ilObjSCORMTracking
     public static function checkIfAllowed($packageId, $userId, $hash) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $res = $ilDB->queryF(
             'select hash from sahs_user where obj_id=%s AND user_id=%s AND hash_end>%s',
             array('integer', 'integer', 'timestamp'),
@@ -604,8 +604,8 @@ class ilObjSCORMTracking
     public function store($obj_id = 0, $sahs_id = 0, $extractData = 1) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         $ref_id = $_GET["ref_id"];
         if (empty($obj_id)) {
@@ -737,8 +737,8 @@ class ilObjSCORMTracking
     public static function _syncReadEvent(int $a_obj_id, int $a_user_id, string $a_type, int $a_ref_id) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         $val_set = $ilDB->queryF(
             'SELECT package_attempts, total_time_sec, sco_total_time_sec, time_from_lms FROM sahs_user, sahs_lm '
             . 'WHERE sahs_user.obj_id = %s AND sahs_user.user_id = %s AND sahs_user.obj_id = sahs_lm.id',

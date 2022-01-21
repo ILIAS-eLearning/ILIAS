@@ -23,7 +23,6 @@
  */
 class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 {
-
     public function __construct(ilAuthShibbolethSettingsGUI $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
@@ -70,7 +69,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
     }
 
 
-    public function parse(array $rule_objs): void
+    public function parse(array $rule_objs) : void
     {
         $records_arr = [];
         foreach ($rule_objs as $rule) {

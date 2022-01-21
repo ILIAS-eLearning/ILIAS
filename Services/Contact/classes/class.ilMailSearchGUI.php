@@ -492,8 +492,9 @@ class ilMailSearchGUI
                     $members = [];
                     $roles = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
                     foreach ($roles as $role) {
-                        if (str_starts_with($role['title'], 'il_grp_member_') ||
-                            str_starts_with($role['title'], 'il_grp_admin_')
+                        if (
+                            strpos($role['title'], 'il_grp_member_') === 0 ||
+                            strpos($role['title'], 'il_grp_admin_') === 0
                         ) {
                             // FIX for Mantis: 7523
                             $members[] = '#' . $role['title'];

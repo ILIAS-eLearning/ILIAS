@@ -76,10 +76,10 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0) : bool //UK weg?
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilAccess = $DIC['ilAccess'];
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
+        $rbacsystem = $DIC->rbac();
+        $ilAccess = $DIC->access();
 
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
@@ -153,23 +153,23 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     //
 
     
-    /**
-    * Lookup editable
-    */
-    public static function _lookupEditable($a_obj_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        $set = $ilDB->queryF(
-            'SELECT * FROM sahs_lm WHERE id = %s',
-            array('integer'),
-            array($a_obj_id)
-        );
-        $rec = $ilDB->fetchAssoc($set);
-
-        return $rec["editable"];
-    }
+//    /**
+//    * Lookup editable
+//    */
+//    public static function _lookupEditable($a_obj_id)
+//    {
+//        global $DIC;
+//        $ilDB = $DIC->database();
+//
+//        $set = $ilDB->queryF(
+//            'SELECT * FROM sahs_lm WHERE id = %s',
+//            array('integer'),
+//            array($a_obj_id)
+//        );
+//        $rec = $ilDB->fetchAssoc($set);
+//
+//        return $rec["editable"];
+//    }
     
 
     /**
@@ -178,7 +178,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     public static function _checkGoto($a_target) : bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
         
         $t_arr = explode("_", $a_target);
 
@@ -212,8 +212,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     public static function _lookupUserIsOfflineMode($a_obj_id) : bool
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         $user_id = $ilUser->getId();
 
@@ -235,7 +235,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     public static function _lookupOfflineModeAvailable($a_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $set = $ilDB->queryF(
             'SELECT offline_mode FROM sahs_lm WHERE id = %s',

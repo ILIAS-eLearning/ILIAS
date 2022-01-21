@@ -4509,7 +4509,6 @@ common#:#time_limit_from#:#Von (Zeitlimit)
 common#:#time_limit_message#:#Nachricht (Zeitlimit)
 common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
 common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
-common#:#time_limit_owner#:#Eigentümer (Zeitlimit)
 common#:#time_limit_reached#:#Ihr Zugang ist nicht aktiv.
 common#:#time_limit_unlimited#:#Unlimitiert (Zeitlimit)
 common#:#time_limit_until#:#Bis (Zeitlimit)

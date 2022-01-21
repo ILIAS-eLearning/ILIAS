@@ -80,7 +80,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable(
