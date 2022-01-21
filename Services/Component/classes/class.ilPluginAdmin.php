@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Component/classes/class.ilComponent.php");
-
 /**
  * Administration class for plugins. Handles basic data from plugin.php files.
  *
