@@ -192,4 +192,9 @@ class IOWrapper implements AdminInteraction
             || $this->out->isVeryVerbose()
             || $this->out->isDebug();
     }
+
+    public function isVerbose() : bool
+    {
+        return $this->out->isVerbose();
+    }
 }
