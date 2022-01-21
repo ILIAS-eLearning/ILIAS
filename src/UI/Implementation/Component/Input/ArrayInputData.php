@@ -2,9 +2,8 @@
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\InputData;
 use LogicException;
 
 /**

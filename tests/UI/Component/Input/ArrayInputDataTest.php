@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\UI\Component\Input\Field;
+namespace ILIAS\Tests\UI\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\Field\ArrayInputData;
+use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 use PHPUnit\Framework\TestCase;
 use LogicException;
 
@@ -18,7 +18,7 @@ class ArrayInputDataTest extends TestCase
         $test_key = 'test_key_1';
         $input_data = new ArrayInputData([]);
         $this->expectException(LogicException::class);
-        $this->expectException("'$test_key' is not contained in provided data.");
+        $this->expectExceptionMessage("'$test_key' is not contained in provided data.");
         $input_data->get($test_key);
     }
 

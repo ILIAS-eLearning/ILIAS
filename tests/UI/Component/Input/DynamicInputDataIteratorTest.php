@@ -4,7 +4,7 @@
 
 namespace ILIAS\Tests\UI\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\Field\DynamicInputDataIterator;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use PHPUnit\Framework\TestCase;
 use LogicException;

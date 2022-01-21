@@ -2,10 +2,8 @@
 
 /* Copyright (c) 2022 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
 use Iterator;
 
 /**
