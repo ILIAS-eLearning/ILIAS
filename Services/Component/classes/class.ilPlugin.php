@@ -461,23 +461,8 @@ abstract class ilPlugin
     // Global Screen
     // ------------------------------------------
 
-    /**
-     * @deprecate
-     * @see getGlobalScreenProviderCollection instead
-     */
-    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
-    {
-        global $DIC;
-
-        return new ilPluginGlobalScreenNullProvider($DIC, $this);
-    }
-
     final public function getGlobalScreenProviderCollection() : PluginProviderCollection
     {
-        if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
-            $this->provider_collection->setMainBarProvider($this->promoteGlobalScreenProvider());
-        }
-
         return $this->provider_collection;
     }
 

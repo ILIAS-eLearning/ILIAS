@@ -209,42 +209,6 @@ class ilGSProviderFactory implements ProviderFactory
     }
     
     /**
-     * @param array  $array_of_core_providers
-     * @param string $interface
-     */
-    private function appendPlugins(array &$array_of_core_providers, string $interface) : void
-    {
-        // Plugins
-        static $plugin_providers = null;
-        
-        $plugin_providers = $plugin_providers ?? $this->getGlobalScreenProvidersFromActivePlugins();
-        
-        foreach ($plugin_providers as $provider) {
-            if (is_a($provider, $interface)) {
-                $array_of_core_providers[] = $provider;
-            }
-        }
-    }
-    
-    /**
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider[]
-     */
-    private function getGlobalScreenProvidersFromActivePlugins() : array
-    {
-        $providers = array();
-        foreach ($this->component_repository->getPlugins() as $plugin) {
-            if (!$plugin->isActive()) {
-                continue;
-            }
-            
-            $pl          = $this->component_factory->getPlugin($plugin->getId());
-            $providers[] = $pl->promoteGlobalScreenProvider();
-        }
-        
-        return $providers;
-    }
-    
-    /**
      * @param array  $array_of_providers
      * @param string $interface
      */
