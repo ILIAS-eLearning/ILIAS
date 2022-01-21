@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjAdvancedEditing
@@ -9,16 +20,12 @@
  */
 class ilObjAdvancedEditing extends ilObject
 {
-    public $setting;
+    public ilSetting $setting;
     
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -28,50 +35,11 @@ class ilObjAdvancedEditing extends ilObject
     }
 
     /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
-    {
-        if (!parent::update()) {
-            return false;
-        }
-
-        // put here object specific stuff
-
-        return true;
-    }
-
-
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
-    {
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-
-        //put here your module specific stuff
-
-        return true;
-    }
-
-    /**
-    * Returns an array of all allowed HTML tags for text editing
-    *
-    * Returns an array of all allowed HTML tags for text editing
-    *
-    * @param string $a_module Name of the module or object which uses the tags
-    * @return array HTML tags
-    */
-    public static function _getUsedHTMLTags($a_module = "")
+     * Returns an array of all allowed HTML tags for text editing
+     * @param string $a_module Name of the module or object which uses the tags
+     * @return array HTML tags
+     */
+    public static function _getUsedHTMLTags(string $a_module = "") : array
     {
         $setting = new ilSetting("advanced_editing");
         $tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);
@@ -146,14 +114,11 @@ class ilObjAdvancedEditing extends ilObject
     }
 
     /**
-    * Returns a string of all allowed HTML tags for text editing
-    *
-    * Returns a string of all allowed HTML tags for text editing
-    *
-    * @param string $a_module Name of the module or object which uses the tags
-    * @return string Used HTML tags
-    */
-    public static function _getUsedHTMLTagsAsString($a_module = "")
+     * Returns a string of all allowed HTML tags for text editing
+     * @param string $a_module Name of the module or object which uses the tags
+     * @return string Used HTML tags
+     */
+    public static function _getUsedHTMLTagsAsString(string $a_module = "") : string
     {
         $result = "";
         $tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
@@ -164,44 +129,32 @@ class ilObjAdvancedEditing extends ilObject
     }
     
     /**
-    * Returns the identifier for the Rich Text Editor
-    *
-    * Returns the identifier for the Rich Text Editor
-    *
-    * @return string Identifier for the Rich Text Editor
-    */
-    public static function _getRichTextEditor()
+     * Returns the identifier for the Rich Text Editor
+     * @return string Identifier for the Rich Text Editor
+     */
+    public static function _getRichTextEditor() : string
     {
         $setting = new ilSetting("advanced_editing");
-        $js = $setting->get("advanced_editing_javascript_editor");
+        $js = $setting->get("advanced_editing_javascript_editor", "0");
         return $js;
     }
     
-    /**
-    * Sets wheather a Rich Text Editor should be used or not
-    *
-    * Sets wheather a Rich Text Editor should be used or not
-    *
-    * @param boolean $a_js_editor A boolean indicating if the JS editor should be used or not
-    */
-    public function setRichTextEditor($a_js_editor)
+    public function setRichTextEditor(string $a_js_editor) : void
     {
         $setting = new ilSetting("advanced_editing");
         $setting->set("advanced_editing_javascript_editor", $a_js_editor);
     }
     
     /**
-    * Writes an array with allowed HTML tags to the ILIAS settings
-    *
-    * Writes an array with allowed HTML tags to the ILIAS settings
-    *
-    * @param array $a_html_tags An array containing the allowed HTML tags
-    * @param string $a_module The name of the module or object which uses the tags
-    * @throws ilAdvancedEditingRequiredTagsException
-    *
-    */
-    public function setUsedHTMLTags($a_html_tags, $a_module)
-    {
+     * Writes an array with allowed HTML tags to the ILIAS settings
+     * @param array $a_html_tags An array containing the allowed HTML tags
+     * @param string $a_module The name of the module or object which uses the tags
+     * @throws ilAdvancedEditingRequiredTagsException
+     */
+    public function setUsedHTMLTags(
+        array $a_html_tags,
+        string $a_module
+    ) : void {
         $lng = $this->lng;
         
         if (strlen($a_module)) {
@@ -219,7 +172,7 @@ class ilObjAdvancedEditing extends ilObject
             }
             
             $setting = new ilSetting("advanced_editing");
-            $setting->set("advanced_editing_used_html_tags_" . $a_module, serialize(array_merge((array) $a_html_tags, $auto_added_tags)));
+            $setting->set("advanced_editing_used_html_tags_" . $a_module, serialize(array_merge($a_html_tags, $auto_added_tags)));
             
             if (count($auto_added_tags)) {
                 throw new ilAdvancedEditingRequiredTagsException(
@@ -233,13 +186,10 @@ class ilObjAdvancedEditing extends ilObject
     }
     
     /**
-    * Returns an array of all possible HTML tags for text editing
-    *
-    * Returns an array of all possible HTML tags for text editing
-    *
-    * @return array HTML tags
-    */
-    public function &getHTMLTags()
+     * Returns an array of all possible HTML tags for text editing
+     * @return array HTML tags
+     */
+    public function &getHTMLTags() : array
     {
         $tags = array(
             "a",
@@ -287,13 +237,10 @@ class ilObjAdvancedEditing extends ilObject
     }
 
     /**
-    * Returns an array of all possible HTML tags for text editing
-    *
-    * Returns an array of all possible HTML tags for text editing
-    *
-    * @return array HTML tags
-    */
-    public static function _getAllHTMLTags()
+     * Returns an array of all possible HTML tags for text editing
+     * @return array HTML tags
+     */
+    public static function _getAllHTMLTags() : array
     {
         $tags = array(
             "a",
@@ -387,28 +334,20 @@ class ilObjAdvancedEditing extends ilObject
     }
 
     /**
-    * Sets the state of the rich text editor visibility for the current user
-    *
-    * Sets the state of the rich text editor visibility for the current user
-    * @static
-    * @param integer $a_state 0 if the RTE should be disabled, 1 otherwise
-    */
-    public static function _setRichTextEditorUserState($a_state)
+     * Sets the state of the rich text editor visibility for the current user
+     */
+    public static function _setRichTextEditorUserState(int $a_state) : void
     {
         global $DIC;
 
         $ilUser = $DIC->user();
-        $ilUser->writePref("show_rte", $a_state);
+        $ilUser->writePref("show_rte", (string) $a_state);
     }
 
     /**
-    * Gets the state of the rich text editor visibility for the current user
-    *
-    * Gets the state of the rich text editor visibility for the current user
-    *
-    * @static
-    * @return integer 0 if the RTE should be disabled, 1 otherwise
-    */
+     * Gets the state of the rich text editor visibility for the current user
+     * @return int 0 if the RTE should be disabled, 1 otherwise
+     */
     public static function _getRichTextEditorUserState() : int
     {
         global $DIC;
@@ -419,4 +358,4 @@ class ilObjAdvancedEditing extends ilObject
         }
         return 1;
     }
-} // END class.ilObjAdvancedEditing
+}

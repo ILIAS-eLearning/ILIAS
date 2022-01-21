@@ -1,26 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Importer class for files
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
- * @ingroup ModulesLearningModule
  */
 class ilLearningModuleImporter extends ilXmlImporter
 {
-    protected $config;
+    protected array $qtis;
+    protected ilLearningModuleDataSet $ds;
+    protected ilImportConfig $config;
+    protected ilLogger $log;
 
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
         $this->ds = new ilLearningModuleDataSet();
@@ -45,14 +49,12 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
     }
 
-
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         $this->log->debug("import XML Representation");
 
         // case i container
@@ -71,11 +73,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         // for single lms the processing in ilObjContentObjectGUI->importFileObject is used
         // (this should be streamlined, see glossary)
         if (file_exists($xml_file)) {
-            $newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(), '/')));
-            $mess = $newObj->importFromDirectory($this->getImportDirectory(), true, $a_mapping);
-            $this->log->debug("imported from directory ($mess)");
-            $a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
-            $a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());
+            throw new ilLMOldExportFileException("This file seems to be from ILIAS version 5.0.x or lower. Import is not supported anymore.");
         } else {	// new import version (does mapping, too)
             $this->log->debug("create ilDataSetIportParser instance");
             $parser = new ilDataSetImportParser(
@@ -110,11 +108,6 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
     }
 
-    /**
-     * Final processing
-     *
-     * @param	array		mapping array
-     */
     public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $pg_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "pg");

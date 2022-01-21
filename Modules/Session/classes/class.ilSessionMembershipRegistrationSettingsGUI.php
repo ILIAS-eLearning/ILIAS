@@ -26,7 +26,7 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
         $GLOBALS['DIC']['lng']->loadLanguageModule('sess');
     }
     
-    public function setFormValues(ilPropertyFormGUI $form)
+    public function setFormValues(ilPropertyFormGUI $form) : void
     {
         $form->getItemByPostVar('registration_type')->setValue($this->getCurrentObject()->getRegistrationType());
 

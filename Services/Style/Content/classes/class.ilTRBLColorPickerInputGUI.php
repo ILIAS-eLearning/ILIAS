@@ -195,11 +195,10 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 
     /**
      * check input
-     *
      * @access public
-     * @return
+     * @return bool
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         foreach ($this->dirs as $dir) {
             $value = $_POST[$this->getPostVar()][$dir]["value"] =
@@ -220,10 +219,9 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
     
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         

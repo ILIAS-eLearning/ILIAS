@@ -1,39 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Panel\Listing;
 
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Component\Dropdown;
+
 /**
  * Interface Appointment
  * @package ILIAS\UI\Component\Panel\Listing
  */
-interface Listing extends \ILIAS\UI\Component\Component
+interface Listing extends Component
 {
     /**
      * Gets the title of the appointment listing
-     *
-     * @return string
      */
-    public function getTitle();
+    public function getTitle() : string;
 
     /**
      * Get item list
      *
-     * @return \ILIAS\UI\Component\Item\Group[]
+     * @return Group[]
      */
-    public function getItemGroups();
+    public function getItemGroups() : array;
 
     /**
-     * Sets the action drop down to be displayed on the right of the title
-     * @param \ILIAS\UI\Component\Dropdown\Standard $actions
-     * @return Listing
+     * Sets the action dropdown to be displayed on the right of the title
      */
-    public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions);
+    public function withActions(Dropdown\Standard $actions) : Listing;
 
     /**
-     * Gets the action drop down to be displayed on the right of the title
-     * @return \ILIAS\UI\Component\Dropdown\Standard|null
+     * Gets the action dropdown to be displayed on the right of the title
      */
-    public function getActions();
+    public function getActions() : ?Dropdown\Standard;
 }

@@ -1,12 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilForumStatisticsTableGUI
- *
- * @author	Michael Jansen <mjansen@databay.de>
- * @version	$Id$
- *
+ * @author Michael Jansen <mjansen@databay.de>
  * @ingroup ModulesForum
  */
 class ilForumStatisticsTableGUI extends ilTable2GUI
@@ -38,7 +35,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
                 ((string) ceil((100 / count($columns)))) . '%s'
             );
         }
-        
+
         if ($this->hasActiveLp) {
             $this->lng->loadLanguageModule('trac');
             $this->completed = ilLPStatusWrapper::_lookupCompletedForObject($forum->getId());
@@ -48,7 +45,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField('ranking');
         $this->setDefaultOrderDirection('desc');
-        
+
         $this->enable('hits');
         $this->enable('sort');
     }
@@ -90,11 +87,10 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
             ];
         }
 
-
         return $columns;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         parent::fillRow($a_set);
 
@@ -125,13 +121,12 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         }
     }
 
-
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'ranking':
                 return true;
-            
+
             default:
                 return false;
         }

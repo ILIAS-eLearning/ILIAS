@@ -1,199 +1,142 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ADT DB bridge base class
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesADT
  */
 abstract class ilADTDBBridge
 {
-    protected $adt; // [ilADT]
-    protected $table; // [string]
-    protected $id; // [string]
-    protected $primary = []; // [array]
-    
+    protected ilADT $adt;
+    protected string $table;
+    protected string $id;
+    protected array $primary = [];
+
+    protected ilDBInterface $db;
+
     /**
      * Constructor
-     *
      * @param ilADT $a_adt
-     * @return self
      */
     public function __construct(ilADT $a_adt)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
         $this->setADT($a_adt);
     }
-    
-    //
-    // properties
-    //
-    
-    /**
-     * Check if given ADT is valid
-     *
-     * :TODO: This could be avoided with type-specifc constructors
-     * :TODO: bridge base class?
-     *
-     * @param ilADT $a_adt
-     */
-    abstract protected function isValidADT(ilADT $a_adt);
-    
-    /**
-     * Set ADT
-     *
-     * @throws Exception
-     * @param ilADT $a_adt
-     */
-    protected function setADT(ilADT $a_adt)
+
+    abstract protected function isValidADT(ilADT $a_adt) : bool;
+
+    protected function setADT(ilADT $a_adt) : void
     {
         if (!$this->isValidADT($a_adt)) {
-            throw new Exception('ADTDBBridge Type mismatch.');
+            throw new \InvalidArgumentException('ADTDBBridge Type mismatch.');
         }
-        
         $this->adt = $a_adt;
     }
-    
-    /**
-     * Get ADT
-     *
-     * @return ilADT
-     */
-    public function getADT()
+
+    public function getADT() : ilADT
     {
         return $this->adt;
     }
-    
-    /**
-     * Set table name
-     *
-     * @param string $a_table
-     */
-    public function setTable($a_table)
+
+    public function setTable(string $a_table) : void
     {
-        $this->table = (string) $a_table;
+        $this->table = $a_table;
     }
-    
-    /**
-     * Get table name
-     *
-     * @return string
-     */
-    public function getTable()
+
+    public function getTable() : ?string
     {
         return $this->table;
     }
-    
+
     /**
      * Set element id (aka DB column[s] [prefix])
-     *
      * @param string $a_value
      */
-    public function setElementId($a_value)
+    public function setElementId(string $a_value) : void
     {
-        $this->id = (string) $a_value;
+        $this->id = $a_value;
     }
-    
+
     /**
      * Get element id
-     *
-     * @return string
+     * @return string | null
      */
-    public function getElementId()
+    public function getElementId() : ?string
     {
         return $this->id;
     }
-    
+
     /**
      * Set primary fields (in MDB2 format)
-     *
      * @param array $a_value
      */
-    public function setPrimary(array $a_value)
+    public function setPrimary(array $a_value) : void
     {
         $this->primary = $a_value;
     }
-    
+
     /**
      * Get primary fields
-     *
      * @return array
      */
-    public function getPrimary()
+    public function getPrimary() : array
     {
         return $this->primary;
     }
-    
+
     /**
      * Convert primary keys array to sql string
-     *
-     * @see ilADTActiveRecord (:TODO: needed for multi)
      * @return string
+     * @see ilADTActiveRecord (:TODO: needed for multi)
      */
-    public function buildPrimaryWhere()
+    public function buildPrimaryWhere() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-                
-        $sql = array();
-        
+        $sql = [];
         foreach ($this->primary as $field => $def) {
-            $sql[] = $field . "=" . $ilDB->quote($def[1], $def[0]);
+            $sql[] = $field . "=" . $this->db->quote($def[1], $def[0]);
         }
-        
         return implode(" AND ", $sql);
     }
-    
-    
-    //
-    // CRUD
-    //
-    
+
     /**
      * Import DB values to ADT
-     *
      * @param array $a_row
      */
-    abstract public function readRecord(array $a_row);
-    
+    abstract public function readRecord(array $a_row) : void;
+
     /**
      * Prepare ADT values for insert
-     *
      * @param array &$a_fields
      */
-    abstract public function prepareInsert(array &$a_fields);
-    
+    abstract public function prepareInsert(array &$a_fields) : void;
+
     /**
      * After insert hook to enable sub-tables
      */
-    public function afterInsert()
+    public function afterInsert() : void
     {
     }
-    
-    /**
-     * Prepare ADT values for update
-     *
-     * @see prepareInsert()
-     * @param array &$a_fields
-     */
-    public function prepareUpdate(array &$a_fields)
+
+    public function prepareUpdate(array &$a_fields) : void
     {
         $this->prepareInsert($a_fields);
     }
-    
+
     /**
      * After update hook to enable sub-tables
      */
-    public function afterUpdate()
+    public function afterUpdate() : void
     {
     }
 
     /**
      * After delete hook to enable sub-tables
      */
-    public function afterDelete()
+    public function afterDelete() : void
     {
     }
 

@@ -56,7 +56,6 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
             $this->addCommandButton('listStructure', $this->lng->txt('cancel'));
             
             $this->setDefaultOrderField('title');
-            $this->setDefaultOrderDirection('asc');
         }
         // list
         else {
@@ -65,9 +64,9 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
             $this->addCommandButton('saveSorting', $this->lng->txt('sorting_save'));
             
             $this->setDefaultOrderField('pos');
-            $this->setDefaultOrderDirection('asc');
         }
-             
+        $this->setDefaultOrderDirection('asc');
+
         $this->setRowTemplate("tpl.start_objects_row.html", "Services/Container");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setSelectAllCheckbox('starter');
@@ -128,7 +127,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         return $data;
     }
 
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->getParentCmd() == 'listStructure') {
             $this->tpl->setCurrentBlock('pos_bl');

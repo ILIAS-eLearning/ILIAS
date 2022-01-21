@@ -1,54 +1,72 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User interface class for advanced drop-down selection lists
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
+ * @deprecated use KS Dropdowns instead
  */
 class ilAdvancedSelectionListGUI implements ilToolbarItem
 {
-    private $items = array();
-    private $id = "asl";
-    private $asynch = false;
+    private array $items = array();
+    private string $id = "asl";
+    private bool $asynch = false;
 
-    const DOWN_ARROW_DARK = "down_arrow_dark";
-    const ICON_ARROW = "caret";
-    const ICON_CONFIG = "glyphicon glyphicon-cog";
-    const NO_ICON = "";
-    
-    const MODE_LINKS = "links";
-    const MODE_FORM_SELECT = "select";
-    
-    const ON_ITEM_CLICK_HREF = "href";
-    const ON_ITEM_CLICK_FORM_SUBMIT = "submit";
-    const ON_ITEM_CLICK_FORM_SELECT = "select";
-    const ON_ITEM_CLICK_NOP = "nop";
+    public const DOWN_ARROW_DARK = "down_arrow_dark";
+    public const ICON_ARROW = "caret";
+    public const ICON_CONFIG = "glyphicon glyphicon-cog";
+    public const NO_ICON = "";
 
-    const STYLE_DEFAULT = 0;
-    const STYLE_LINK = 1;
-    const STYLE_EMPH = 2;
-    const STYLE_LINK_BUTTON = 3;
-    
-    protected $css_row = "";
-    protected $access_key = false;
-    protected $toggle = false;
-    protected $asynch_url = false;
-    protected $selected_value = "";
-    protected $trigger_event = "click";
-    protected $auto_hide = false;
-    protected $grouped_list = null;
-    protected $style = 0;
-    private $dd_pullright = true;
+    public const MODE_LINKS = "links";
+    public const MODE_FORM_SELECT = "select";
 
-    protected $listtitle;
-    protected $aria_listtitle;
-    protected $useimages;
-    protected $itemlinkclass = '';
+    public const ON_ITEM_CLICK_HREF = "href";
+    public const ON_ITEM_CLICK_FORM_SUBMIT = "submit";
+    public const ON_ITEM_CLICK_FORM_SELECT = "select";
+    public const ON_ITEM_CLICK_NOP = "nop";
+
+    public const STYLE_DEFAULT = 0;
+    public const STYLE_LINK = 1;
+    public const STYLE_EMPH = 2;
+    public const STYLE_LINK_BUTTON = 3;
+    
+    protected string $css_row = "";
+    protected bool $access_key = false;
+    protected ?array $toggle = null;
+    protected bool $asynch_url = false;
+    protected string $selected_value = "";
+    protected string $trigger_event = "click";
+    protected bool $auto_hide = false;
+    protected ?ilGroupedListGUI $grouped_list = null;
+    protected int $style = 0;
+    private bool $dd_pullright = true;
+
+    protected string $listtitle;
+    protected string $aria_listtitle = "";
+    protected bool $useimages = false;
+    protected string $itemlinkclass = '';
+    protected string $mode = "";
+    protected array $links_mode = [];
+    protected string $selectionheaderclass = "";
+    protected string $headericon = "";
+    protected string $nojslinkclass = "";
+    protected string $on_click = "";
 
     /** @var array<string, mixed>  */
-    protected $form_mode = [
+    protected array $form_mode = [
         "select_name" => '',
         "select_class" => '',
         "include_form_tag" => false,
@@ -61,13 +79,12 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         "button_cmd" => ''
     ];
 
-    /** @var string */
-    protected $select_callback = '';
-
-    /** @var string */
-    protected $sel_head_span_class = '';
-
+    protected string $select_callback = '';
+    protected string $sel_head_span_class = '';
     private \ILIAS\UI\Renderer $renderer;
+    protected ilLanguage $lng;
+    protected string $on_click_form_id;
+    protected ilGlobalPageTemplate $global_tpl;
 
     /*
 
@@ -89,12 +106,9 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
     */
 
-    /**
-    * Constructor.
-    *
-    */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->renderer = $DIC->ui()->renderer();
@@ -102,35 +116,36 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
         $this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $this->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF);
+        $this->global_tpl = $DIC['tpl'];
     }
 
     /**
-    * Set links mode (for no js fallback)
-    */
-    public function setLinksMode($a_link_class = "")
-    {
+     * Set links mode (for no js fallback)
+     */
+    public function setLinksMode(
+        string $a_link_class = ""
+    ) : void {
         $this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
         $this->links_mode = array(
             "link_class" => $a_link_class);
     }
 
     /**
-    * Set form mode (for no js fallback)
-    *
-    * Outputs form selection including sourrounding form
-    */
+     * Set form mode (for no js fallback)
+     * Outputs form selection including surrounding form
+     */
     public function setFormSelectMode(
-        $a_select_name,
-        $a_select_class = "",
-        $a_include_form_tag = false,
-        $a_form_action = "",
-        $a_form_id = "",
-        $a_form_class = "",
-        $a_form_target = "_top",
-        $a_button_text = "",
-        $a_button_class = "",
-        $a_button_cmd = ""
-    ) {
+        string $a_select_name,
+        string $a_select_class = "",
+        bool $a_include_form_tag = false,
+        string $a_form_action = "",
+        string $a_form_id = "",
+        string $a_form_class = "",
+        string $a_form_target = "_top",
+        string $a_button_text = "",
+        string $a_button_class = "",
+        string $a_button_cmd = ""
+    ) : void {
         $this->mode = ilAdvancedSelectionListGUI::MODE_FORM_SELECT;
         $this->form_mode = array(
             "select_name" => $a_select_name,
@@ -146,33 +161,22 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             );
     }
 
-    /**
-    * Add an item
-    *
-    * @param	string		item title
-    * @param	string		value (used for select input)
-    * @param	link		href for the item
-    * @param	string		image href attribute
-    * @param	string		image alt attribute
-    * @param	string		frame target
-    * @param	string		item html (is used instead of title if js is active)
-    */
     public function addItem(
-        $a_title,
-        $a_value = "",
-        $a_link = "",
-        $a_img = "",
-        $a_alt = "",
-        $a_frame = "",
-        $a_html = "",
-        $a_prevent_background_click = false,
-        $a_onclick = "",
-        $a_ttip = "",
-        $a_tt_my = "right center",
-        $a_tt_at = "left center",
-        $a_tt_use_htmlspecialchars = true,
-        $a_data = array()
-    ) {
+        string $a_title,
+        string $a_value = "",
+        string $a_link = "",
+        string $a_img = "",
+        string $a_alt = "",
+        string $a_frame = "",
+        string $a_html = "",
+        bool $a_prevent_background_click = false,
+        string $a_onclick = "",
+        string $a_ttip = "",
+        string $a_tt_my = "right center",
+        string $a_tt_at = "left center",
+        bool $a_tt_use_htmlspecialchars = true,
+        array $a_data = array()
+    ) : void {
         $this->items[] = array("title" => $a_title, "value" => $a_value,
             "link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
             "html" => $a_html, "prevent_background_click" => $a_prevent_background_click,
@@ -187,370 +191,219 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         ];
     }
 
-    /**
-     * Set Grouped List
-     *
-     * @param ilGroupedListGUI $a_val grouped list object
-     */
-    public function setGroupedList($a_val)
+    public function setGroupedList(ilGroupedListGUI $a_val) : void
     {
         $this->grouped_list = $a_val;
     }
     
-    /**
-     * Get Grouped List
-     *
-     * @return ilGroupedListGUI grouped list object
-     */
-    public function getGroupedList()
+    public function getGroupedList() : ?ilGroupedListGUI
     {
         return $this->grouped_list;
     }
 
-    public function flush()
+    public function flush() : void
     {
         $this->items = array();
     }
     
-    /**
-    * Get items
-    *
-    * @return	array	array of items
-    */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
     
-    /**
-    * Set List Title.
-    *
-    * @param	string	$a_listtitle	List Title
-    */
-    public function setListTitle($a_listtitle)
+    public function setListTitle(string $a_listtitle) : void
     {
         $this->listtitle = $a_listtitle;
     }
 
-    /**
-    * Get List Title.
-    *
-    * @return	string	List Title
-    */
-    public function getListTitle()
+    public function getListTitle() : string
     {
         return $this->listtitle;
     }
 
-    /**
-    * Set List Title.
-    *
-    * @param	string	$a_listtitle	List Title
-    */
-    public function setAriaListTitle($a_listtitle)
+    public function setAriaListTitle(string $a_listtitle) : void
     {
         $this->aria_listtitle = $a_listtitle;
     }
 
-    /**
-    * Get List Title.
-    *
-    * @return	string	List Title
-    */
-    public function getAriaListTitle()
+    public function getAriaListTitle() : string
     {
         return $this->aria_listtitle;
     }
 
     /**
-     * Set Selection Header Class.
-     *
      * DEPRECATED use set style instead
-     *
-     * @param	string	$a_selectionheaderclass	Selection Header Class
+     * @deprecated
      */
-    public function setSelectionHeaderClass($a_selectionheaderclass)
+    public function setSelectionHeaderClass(string $a_selectionheaderclass) : void
     {
         $this->selectionheaderclass = $a_selectionheaderclass;
     }
 
-    /**
-    * Get Selection Header Class.
-    *
-    * @return	string	Selection Header Class
-    */
-    public function getSelectionHeaderClass()
+    public function getSelectionHeaderClass() : string
     {
         return $this->selectionheaderclass;
     }
     
     /**
-     * Set style
-     *
      * @param int $a_val button style STYLE_DEFAULT, STYLE_LINK, STYLE_EMPH
      */
-    public function setStyle($a_val)
+    public function setStyle(int $a_val) : void
     {
         $this->style = $a_val;
     }
     
     /**
-     * Get style
-     *
      * @return int button style STYLE_DEFAULT, STYLE_LINK, STYLE_EMPH
      */
-    public function getStyle()
+    public function getStyle() : int
     {
         return $this->style;
     }
     
-    
-    
-    /**
-     * Set selection header span class
-     *
-     * @param string $a_val header span class
-     */
-    public function setSelectionHeaderSpanClass($a_val)
+    public function setSelectionHeaderSpanClass(string $a_val) : void
     {
         $this->sel_head_span_class = $a_val;
     }
     
-    /**
-     * Get selection header span class
-     *
-     * @return string header span class
-     */
-    public function getSelectionHeaderSpanClass()
+    public function getSelectionHeaderSpanClass() : string
     {
         return $this->sel_head_span_class;
     }
 
-    /**
-    * Set Header Icon.
-    *
-    * @param	string	$a_headericon	Header Icon
-    */
-    public function setHeaderIcon($a_headericon)
+    public function setHeaderIcon(string $a_headericon) : void
     {
         $this->headericon = $a_headericon;
     }
 
-    /**
-    * Get Header Icon.
-    *
-    * @return	string	Header Icon
-    */
-    public function getHeaderIcon()
+    public function getHeaderIcon() : string
     {
         return $this->headericon;
     }
 
-    /**
-    * Set No Javascript Link Style Class.
-    *
-    * @param	string	$a_nojslinkclass	No Javascript Link Style Class
-    */
-    public function setNoJSLinkClass($a_nojslinkclass)
+    public function setNoJSLinkClass(string $a_nojslinkclass) : void
     {
         $this->nojslinkclass = $a_nojslinkclass;
     }
 
-    /**
-    * Get No Javascript Link Style Class.
-    *
-    * @return	string	No Javascript Link Style Class
-    */
-    public function getNoJSLinkClass()
+    public function getNoJSLinkClass() : string
     {
         return $this->nojslinkclass;
     }
 
-    /**
-    * Set Item Link Class.
-    *
-    * @param	string	$a_itemlinkclass	Item Link Class
-    */
-    public function setItemLinkClass($a_itemlinkclass)
+    public function setItemLinkClass(string $a_itemlinkclass) : void
     {
         $this->itemlinkclass = $a_itemlinkclass;
     }
 
-    /**
-    * Get Item Link Class.
-    *
-    * @return	string	Item Link Class
-    */
-    public function getItemLinkClass()
+    public function getItemLinkClass() : string
     {
         return $this->itemlinkclass;
     }
 
-    /**
-    * Set Id.
-    *
-    * @param	string	$a_id	Id
-    */
-    public function setId($a_id)
+    public function setId(string $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-    * Get Id.
-    *
-    * @return	string	Id
-    */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-    * Set Use Images.
-    *
-    * @param	boolean	$a_useimages	Use Images
-    */
-    public function setUseImages($a_useimages)
+    public function setUseImages(bool $a_useimages) : void
     {
         $this->useimages = $a_useimages;
     }
 
-    /**
-    * Get Use Images.
-    *
-    * @return	boolean	Use Images
-    */
-    public function getUseImages()
+    public function getUseImages() : bool
     {
         return $this->useimages;
     }
 
     /**
-    * Set access key
-    *
-    * @param	integer		access function id
-    */
-    public function setAccessKey($a_val)
+     * @param int $a_val access function id
+     */
+    public function setAccessKey(int $a_val) : void
     {
         $this->access_key = $a_val;
     }
     
-    /**
-    * Get access key
-    *
-    * @return	integer		access key function id
-    */
-    public function getAccessKey()
+    public function getAccessKey() : int
     {
         return $this->access_key;
     }
 
-    /**
-     * Set trigger event
-     */
-    public function setTriggerEvent($a_val)
+    public function setTriggerEvent(string $a_val) : void
     {
         $this->trigger_event = $a_val;
     }
 
-    /**
-     * Get trigger event
-     */
-    public function getTriggerEvent()
+    public function getTriggerEvent() : string
     {
         return $this->trigger_event;
     }
 
-    /**
-     * Set auto hide
-     */
-    public function setAutoHide($a_val)
+    public function setAutoHide(bool $a_val) : void
     {
         $this->auto_hide = $a_val;
     }
 
-    /**
-     * Get auto hide
-     */
-    public function getAutoHide()
+    public function getAutoHide() : bool
     {
         return $this->auto_hide;
     }
 
     /**
-    * Set "onClick"- Mode
-    *
-    * Valid values are:
-    * ilAdvancedSelectionList::ON_ITEM_CLICK_HREF or
-    * ilAdvancedSelectionList::ON_ITEM_CLICK_FORM_SUBMIT
-    * ilAdvancedSelectionList::ON_ITEM_CLICK_FORM_SELECT
-    *
-    * @param	string		mode
-    */
-    public function setOnClickMode($a_val, $a_onclick_form_id = "")
-    {
+     * Set "onClick"- Mode
+     *
+     * Valid values are:
+     * ilAdvancedSelectionList::ON_ITEM_CLICK_HREF or
+     * ilAdvancedSelectionList::ON_ITEM_CLICK_FORM_SUBMIT
+     * ilAdvancedSelectionList::ON_ITEM_CLICK_FORM_SELECT
+     */
+    public function setOnClickMode(
+        string $a_val,
+        string $a_onclick_form_id = ""
+    ) : void {
         $this->on_click = $a_val;
         $this->on_click_form_id = $a_onclick_form_id;
     }
     
-    /**
-    * Get "onClick"-Mode
-    *
-    * @return
-    */
-    public function getOnClickMode()
+    public function getOnClickMode() : string
     {
         return $this->on_click;
     }
     
-    /**
-    * Set selected value
-    *
-    * @param	string		selected value
-    */
-    public function setSelectedValue($a_val)
+    public function setSelectedValue(string $a_val) : void
     {
         $this->selected_value = $a_val;
     }
     
-    /**
-    * Get selected value
-    *
-    * @return	string		selected value
-    */
-    public function getSelectedValue()
+    public function getSelectedValue() : string
     {
         return $this->selected_value;
     }
     
     /**
-    * Set additional toggle element
-    *
-    * @param	string		element id
-    * @param	string		class for "on"
-    */
-    public function setAdditionalToggleElement($a_el, $a_on)
+     * Set additional toggle element
+     * @param string $a_el element id
+     * @param string $a_on class for "on"
+     */
+    public function setAdditionalToggleElement(string $a_el, string $a_on) : void
     {
         $this->toggle = array("el" => $a_el, "class_on" => $a_on);
     }
     
     /**
-    * Get additional toggle element
-    *
-    * @return	array
-    */
-    public function getAdditionalToggleElement()
+     * Get additional toggle element
+     */
+    public function getAdditionalToggleElement() : ?array
     {
         return $this->toggle;
     }
     
-    /**
-    * Set asynch mode (this is set to true, if list should get items asynchronously)
-    *
-    * @param	boolean		turn asynch mode on/off
-    */
-    public function setAsynch($a_val)
+    public function setAsynch(bool $a_val) : void
     {
         if ($a_val) {
             ilYuiUtil::initConnection();
@@ -558,85 +411,47 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $this->asynch = $a_val;
     }
     
-    /**
-    * Get asynch mode
-    *
-    * @return	boolean		turn asynch mode on/off
-    */
-    public function getAsynch()
+    public function getAsynch() : bool
     {
         return $this->asynch;
     }
     
-    /**
-    * Set asynch url
-    *
-    * @param	string		asynch url
-    */
-    public function setAsynchUrl($a_val)
+    public function setAsynchUrl(string $a_val) : void
     {
         $this->asynch_url = $a_val;
     }
     
-    /**
-    * Get asynch url
-    *
-    * @return	string		asynch url
-    */
-    public function getAsynchUrl()
+    public function getAsynchUrl() : string
     {
         return $this->asynch_url;
     }
 
-    /**
-     * Set select callback
-     */
-    public function setSelectCallback($a_val)
+    public function setSelectCallback(string $a_val) : void
     {
         $this->select_callback = $a_val;
     }
 
-    /**
-     * Get select callback
-     */
-    public function getSelectCallback()
+    public function getSelectCallback() : string
     {
         return $this->select_callback;
     }
 
-    /**
-     * Set pull right
-     *
-     * @param bool $a_val pull right
-     */
-    public function setPullRight($a_val)
+    public function setPullRight(bool $a_val) : void
     {
         $this->dd_pullright = $a_val;
     }
 
-    /**
-     * Get pull right
-     *
-     * @return bool pull right
-     */
-    public function getPullRight()
+    public function getPullRight() : bool
     {
         return $this->dd_pullright;
     }
 
-    /**
-     *
-     * @return string
-     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         return $this->getHTML();
     }
 
-    /**
-    * Get selection list HTML
-    */
-    public function getHTML($a_only_cmd_list_asynch = false)
+    public function getHTML(bool $a_only_cmd_list_asynch = false) : string
     {
         $items = $this->getItems();
 
@@ -645,8 +460,18 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             return "";
         }
 
-        $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
-        
+        $this->global_tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+
+        $js_tpl = new ilTemplate(
+            "tpl.adv_selection_list_js_init.js",
+            true,
+            true,
+            "Services/UIComponent/AdvancedSelectionList",
+            "DEFAULT",
+            false,
+            true
+        );
+
         $tpl = new ilTemplate(
             "tpl.adv_selection_list.html",
             true,
@@ -806,12 +631,13 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     $tpl->parseCurrentBlock();
 
                     // add item to js object
-                    $tpl->setCurrentBlock("js_item");
-                    $tpl->setVariable("IT_ID", $this->getId());
-                    $tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
-                    $tpl->setVariable("IT_HID_VAL", $item["value"]);
-                    $tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
-                    $tpl->parseCurrentBlock();
+                    $js_tpl->setCurrentBlock("js_item");
+                    $js_tpl->setVariable("IT_ID", $this->getId());
+                    $js_tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
+
+                    $js_tpl->setVariable("IT_HID_VAL", $item["value"]);
+                    $js_tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
+                    $js_tpl->parseCurrentBlock();
                 }
 
                 // output hidden input, if click mode is form submission
@@ -819,6 +645,10 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     $tpl->setCurrentBlock("hidden_input");
                     $tpl->setVariable("HID", $this->getId());
                     $tpl->parseCurrentBlock();
+
+                    $js_tpl->setCurrentBlock("hidden_input");
+                    $js_tpl->setVariable("HID", $this->getId());
+                    $js_tpl->parseCurrentBlock();
                 }
 
                 // output hidden input and initialize
@@ -828,11 +658,11 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     $tpl->parseCurrentBlock();
 
                     // init hidden input with selected value
-                    $tpl->setCurrentBlock("init_hidden_input");
-                    $tpl->setVariable("H2ID", $this->getId());
-                    $tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
-                    $tpl->setVariable("HID_VALUE", $this->getSelectedValue());
-                    $tpl->parseCurrentBlock();
+                    $js_tpl->setCurrentBlock("init_hidden_input");
+                    $js_tpl->setVariable("H2ID", $this->getId());
+                    $js_tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
+                    $js_tpl->setVariable("HID_VALUE", $this->getSelectedValue());
+                    $js_tpl->parseCurrentBlock();
                 }
             }
         }
@@ -879,9 +709,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     
         // js section
         $tpl->setCurrentBlock("js_section");
-        if ($this->getAccessKey() > 0) {
-            $tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
-        }
 
         $cfg["trigger_event"] = $this->getTriggerEvent();
         $cfg["auto_hide"] = $this->getAutoHide();
@@ -890,9 +717,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $cfg["select_callback"] = $this->getSelectCallback();
         }
         $cfg["anchor_id"] = "ilAdvSelListAnchorElement_" . $this->getId();
-        $cfg["asynch"] = $this->getAsynch()
-            ? true
-            : false;
+        $cfg["asynch"] = $this->getAsynch();
         $cfg["asynch_url"] = $this->getAsynchUrl();
         $toggle = $this->getAdditionalToggleElement();
         if (is_array($toggle)) {
@@ -907,12 +732,14 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ? $this->getAriaListTitle() != ""
+                ? $this->getAriaListTitle()
                 : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }
         $tpl->setVariable("ID", $this->getId());
-        
+
+        $js_tpl->setVariable("ID", $this->getId());
+
         //$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
         switch ($this->getStyle()) {
             case self::STYLE_DEFAULT:
@@ -949,6 +776,10 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         // $tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
 
         $tpl->parseCurrentBlock();
+
+        $this->global_tpl->addOnloadCode(
+            $js_tpl->get()
+        );
 
         return $tpl->get();
     }

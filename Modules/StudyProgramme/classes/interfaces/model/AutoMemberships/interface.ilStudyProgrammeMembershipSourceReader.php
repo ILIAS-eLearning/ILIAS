@@ -1,12 +1,9 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Get members of a certain source. While, e.g., groups and courses share the
  * common participant-mechanism, roles and orgus have differnt concepts.
  * This is to provide a facade for StudyProgrammes.
- *
  */
 interface ilStudyProgrammeMembershipSourceReader
 {

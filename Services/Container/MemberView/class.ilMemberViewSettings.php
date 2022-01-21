@@ -115,7 +115,7 @@ class ilMemberViewSettings
      */
     public function isActiveForRefId(int $a_ref_id) : bool
     {
-        if (!$this->active || !(int) $a_ref_id) {
+        if (!$this->active || !$a_ref_id) {
             return false;
         }
         
@@ -160,7 +160,7 @@ class ilMemberViewSettings
      */
     public function isEnabled() : bool
     {
-        return (bool) $this->enabled;
+        return $this->enabled;
     }
     
     /**
@@ -208,7 +208,7 @@ class ilMemberViewSettings
         }
         $target_str = (string) ($this->request->getQueryParams()['target'] ?? '');
         if (strlen($target_str)) {
-            $target_arr = explode('_', (string) $target_str);
+            $target_arr = explode('_', $target_str);
             if (isset($target_arr[1]) && (int) $target_arr[1]) {
                 $this->current_ref_id = (int) $target_arr[1];
             }

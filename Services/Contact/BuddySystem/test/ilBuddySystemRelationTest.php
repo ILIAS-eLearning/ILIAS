@@ -13,9 +13,6 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     private const RELATION_OWNER_ID = -1;
     private const RELATION_BUDDY_ID = -2;
 
-    /**
-     *
-     */
     public function testPriorStateIsEmptyAfterInstanceWasCreated() : void
     {
         $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
@@ -29,15 +26,12 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
         $this->assertNull($relation->getPriorState());
     }
 
-    /**
-     *
-     */
     public function testPriorStateCanBeRetrievedAfterSubsequentTransitions() : void
     {
         $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
         $furtherStateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
         $finishStateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
-        $stateMock->expects($this->any())->method('link');
+        $stateMock->method('link');
 
         $relation = new ilBuddySystemRelation(
             $stateMock,
@@ -52,9 +46,6 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
         $this->assertEquals($stateMock, $relation->getPriorState());
     }
 
-    /**
-     *
-     */
     public function testValuesCanBeFetchedByGettersWhenSetBySetters() : void
     {
         $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
@@ -75,11 +66,11 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 
         $relation = $relation->withTimestamp($ts + 1);
         $this->assertEquals($ts + 1, $relation->getTimestamp());
+
+        $relation = $relation->withIsOwnedByActor(true);
+        $this->assertEquals(true, $relation->isOwnedByActor());
     }
 
-    /**
-     *
-     */
     public function testUsersAreNotAbleToRequestThemselves() : void
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
@@ -92,15 +83,12 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
             time()
         );
 
-        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->request();
     }
 
-    /**
-     *
-     */
     public function testUsersAreNotAbleToUnlinkThemselves() : void
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
@@ -112,15 +100,12 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
             false,
             time()
         );
-        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->unlink();
     }
 
-    /**
-     *
-     */
     public function testUsersAreNotAbleToLinkThemselves() : void
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
@@ -132,15 +117,12 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
             false,
             time()
         );
-        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->link();
     }
 
-    /**
-     *
-     */
     public function testUsersAreNotAbleToIgnoreThemselves() : void
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
@@ -152,8 +134,8 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
             false,
             time()
         );
-        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->ignore();
     }

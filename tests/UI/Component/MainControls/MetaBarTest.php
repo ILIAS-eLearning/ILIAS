@@ -1,24 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
-use \ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy;
-use \ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy;
+use ILIAS\UI\Component\Signal;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests for the Meta Bar.
  */
 class MetaBarTest extends ILIAS_UI_TestBase
 {
+    protected I\Component\Button\Factory $button_factory;
+    protected I\Component\Symbol\Icon\Factory $icon_factory;
+    protected I\Component\Counter\Factory $counter_factory;
+    protected I\Component\MainControls\Factory $factory;
+    protected C\MainControls\MetaBar $metabar;
+
     public function setUp() : void
     {
         $sig_gen = new I\Component\SignalGenerator();
-        $this->button_factory = new I\Component\Button\Factory($sig_gen);
+        $this->button_factory = new I\Component\Button\Factory();
         $this->icon_factory = new I\Component\Symbol\Icon\Factory();
         $this->counter_factory = new I\Component\Counter\Factory();
 
@@ -36,7 +43,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $this->metabar = $this->factory->metabar();
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\MainControls\\MetaBar",
@@ -44,24 +51,25 @@ class MetaBarTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getButton()
+    protected function getButton() : C\Button\Bulky
     {
         $symbol = $this->icon_factory->custom('', '');
         return $this->button_factory->bulky($symbol, 'TestEntry', '#');
     }
 
+    /**
+     * @return Legacy|mixed|MockObject
+     */
     protected function getSlate()
     {
         $mock = $this->getMockBuilder(Legacy::class)
             ->disableOriginalConstructor()
-            ->setMethods(["transformToLegacyComponent"])
             ->getMock();
 
-        $mock->method('transformToLegacyComponent')->willReturn('content');
         return $mock;
     }
 
-    public function testAddEntry()
+    public function testAddEntry() : void
     {
         $button = $this->getButton();
         $slate = $this->getSlate();
@@ -73,21 +81,25 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($slate, $entries['slate']);
     }
 
-    public function testDisallowedEntry()
+    public function testDisallowedEntry() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $mb = $this->metabar->withAdditionalEntry('test', 'wrong_param');
+        $this->expectException(InvalidArgumentException::class);
+        $this->metabar->withAdditionalEntry('test', 'wrong_param');
     }
 
-    public function testSignalsPresent()
+    public function testSignalsPresent() : void
     {
         $this->assertInstanceOf(Signal::class, $this->metabar->getEntryClickSignal());
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function button()
+            public C\Button\Factory $button_factory;
+            public C\MainControls\Factory $mc_factory;
+            public C\Counter\Factory $counter_factory;
+
+            public function button() : C\Button\Factory
             {
                 return $this->button_factory;
             }
@@ -114,7 +126,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function brutallyTrimHTML($html)
+    public function brutallyTrimHTML(string $html) : string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
@@ -123,12 +135,11 @@ class MetaBarTest extends ILIAS_UI_TestBase
         return trim($html);
     }
 
-    public function testRendering()
+    public function testRendering() : void
     {
         $r = $this->getDefaultRenderer();
 
         $button = $this->getButton();
-        $slate = $this->getSlate();
         $mb = $this->metabar
             ->withAdditionalEntry('button', $button)
             ->withAdditionalEntry('button2', $button);

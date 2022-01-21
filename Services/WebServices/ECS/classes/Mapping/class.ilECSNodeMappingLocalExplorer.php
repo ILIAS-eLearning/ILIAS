@@ -69,12 +69,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
     /**
      * no item is clickable
-     * @param <type> $a_type
+     * @param string $a_type
      * @param <type> $a_ref_id
-     * @param <type> $a_obj_id
-     * @return <type>
+     * @return bool
      */
-    public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return false;
     }
@@ -252,7 +251,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     * @param	integer array options
     * @return	string
     */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
 
@@ -293,20 +292,20 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     
     /**
      * Format title (bold for direct mappings, italic for child mappings)
-     * @param type $title
-     * @param type $a_obj_id
-     * @param type $a_type
-     * @return type
+     * @param string $a_title
+     * @param type   $a_id
+     * @param string $a_type
+     * @return string
      */
-    public function buildTitle($title, $a_obj_id, $a_type)
+    public function buildTitle(string $a_title, $a_id, string $a_type) : string
     {
-        if ($this->isMapped($a_obj_id)) {
-            return '<font style="font-weight: bold">' . $title . '</font>';
+        if ($this->isMapped($a_id)) {
+            return '<font style="font-weight: bold">' . $a_title . '</font>';
         }
-        if ($this->hasParentMapping($a_obj_id)) {
-            return '<font style="font-style: italic">' . $title . '</font>';
+        if ($this->hasParentMapping($a_id)) {
+            return '<font style="font-style: italic">' . $a_title . '</font>';
         }
-        return $title;
+        return $a_title;
     }
     
     /**

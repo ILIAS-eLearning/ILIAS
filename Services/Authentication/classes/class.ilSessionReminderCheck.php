@@ -1,17 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- * @ingroup ServicesAuthentication
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 class ilSessionReminderCheck
 {
-    /**
-     * @param string $sessionIdHash
-     * @return string
-     */
     public function getJsonResponse(string $sessionIdHash) : string
     {
         /**
@@ -30,7 +34,7 @@ class ilSessionReminderCheck
         // disable session writing and extension of expiration time
         ilSession::enableWebAccessWithoutSession(true);
 
-        $response = array('remind' => false);
+        $response = ['remind' => false];
 
         $res = $ilDB->queryF(
             '
@@ -42,37 +46,37 @@ class ilSessionReminderCheck
             [$sessionIdHash]
         );
 
-        $num = (int) $ilDB->numRows($res);
+        $num = $ilDB->numRows($res);
 
         if (0 === $num) {
             $response['message'] = 'ILIAS could not determine the session data.';
-            return json_encode($response);
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
         if ($num > 1) {
             $response['message'] = 'The determined session data is not unique.';
-            return json_encode($response);
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
         $data = $ilDB->fetchAssoc($res);
         if (!$this->isAuthenticatedUsrSession($data)) {
             $response['message'] = 'ILIAS could not fetch the session data or the corresponding user is no more authenticated.';
-            return json_encode($response);
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
-        $expirationTime = $data['expires'];
+        $expirationTime = (int) $data['expires'];
         if (null === $expirationTime) {
             $response['message'] = 'ILIAS could not determine the expiration time from the session data.';
-            return json_encode($response);
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
-        if ($this->isSessionAlreadyExpired((int) $expirationTime)) {
+        if ($this->isSessionAlreadyExpired($expirationTime)) {
             $response['message'] = 'The session is already expired. The client should have received a remind command before.';
-            return json_encode($response);
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
         /** @var $user ilObjUser */
-        $ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
+        $ilUser = ilObjectFactory::getInstanceByObjId((int) $data['user_id']);
 
         $reminderTime = $expirationTime - ((int) max(
             ilSessionReminder::MIN_LEAD_TIME,
@@ -82,7 +86,7 @@ class ilSessionReminderCheck
             // session will expire in <lead_time> minutes
             $response['message'] = 'Lead time not reached, yet. Current time: ' .
                 date('Y-m-d H:i:s', time()) . ', Reminder time: ' . date('Y-m-d H:i:s', $reminderTime);
-            return json_encode($response);
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
         $dateTime = new ilDateTime($expirationTime, IL_CAL_UNIX);
@@ -97,7 +101,7 @@ class ilSessionReminderCheck
                 break;
         }
 
-        $response = array(
+        $response = [
             'extend_url' => './ilias.php?baseClass=ilDashboardGUI',
             'txt' => str_replace(
                 "\\n",
@@ -110,31 +114,23 @@ class ilSessionReminderCheck
                 )
             ),
             'remind' => true
-        );
+        ];
 
-        return json_encode($response);
+        return json_encode($response, JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @param int $expirationTime
-     * @return bool
-     */
     protected function isSessionAlreadyExpired(int $expirationTime) : bool
     {
         return $expirationTime < time();
     }
 
-    /**
-     * @param array|null $data
-     * @return bool
-     */
     protected function isAuthenticatedUsrSession(?array $data) : bool
     {
         return (
             is_array($data) &&
             isset($data['user_id']) &&
             (int) $data['user_id'] > 0 &&
-            (int) $data['user_id'] !== (int) ANONYMOUS_USER_ID
+            (int) $data['user_id'] !== ANONYMOUS_USER_ID
         );
     }
 }

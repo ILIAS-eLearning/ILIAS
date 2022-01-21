@@ -33,7 +33,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $certificateSettings->method('get')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
             ->disableOriginalConstructor()
@@ -166,7 +166,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $certificateSettings->method('get')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
             ->disableOriginalConstructor()
@@ -275,7 +275,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $certificateSettings->method('get')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $uiFactory = $this->getMockBuilder(ILIAS\UI\Factory::class)
             ->disableOriginalConstructor()

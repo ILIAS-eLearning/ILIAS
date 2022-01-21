@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -9,20 +9,10 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
-    /** @var PHPMailer */
-    protected $mailer;
+    protected PHPMailer $mailer;
+    protected ilSetting $settings;
+    private ilAppEventHandler $eventHandler;
 
-    /** @var ilSetting $settings */
-    protected $settings;
-
-    /** @var ilAppEventHandler */
-    private $eventHandler;
-
-    /**
-     * ilMailMimeTransportBase constructor.
-     * @param ilSetting $settings
-     * @param ilAppEventHandler $eventHandler
-     */
     public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
     {
         $this->settings = $settings;
@@ -32,17 +22,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->setMailer($mail);
     }
 
-    /**
-     * @return PHPMailer
-     */
     protected function getMailer() : PHPMailer
     {
         return $this->mailer;
     }
 
-    /**
-     * @param PHPMailer $mailer
-     */
     protected function setMailer(PHPMailer $mailer) : void
     {
         $this->mailer = $mailer;
@@ -56,16 +40,10 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->ErrorInfo = '';
     }
 
-    /**
-     *
-     */
     protected function onBeforeSend() : void
     {
     }
 
-    /**
-     * @inheritdoc
-     */
     final public function send(ilMimeMail $mail) : bool
     {
         $this->resetMailer();
@@ -114,12 +92,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         if ($mail->getFinalBodyAlt()) {
             $this->getMailer()->isHTML(true);
             $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
-            $this->getMailer()->Body = $mail->getFinalBody();
         } else {
             $this->getMailer()->isHTML(false);
             $this->getMailer()->AltBody = '';
-            $this->getMailer()->Body = $mail->getFinalBody();
         }
+        $this->getMailer()->Body = $mail->getFinalBody();
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             "Trying to delegate external email delivery:" .
@@ -141,15 +118,17 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             $mail->getFrom()->getEnvelopFromAddress()
         ));
 
-        ilLoggerFactory::getLogger('mail')->debug(sprintf("Mail Alternative Body: %s", $this->getMailer()->AltBody));
-        ilLoggerFactory::getLogger('mail')->debug(sprintf("Mail Body: %s", $this->getMailer()->Body));
+        ilLoggerFactory::getLogger('mail')
+                       ->debug(sprintf("Mail Alternative Body: %s", $this->getMailer()->AltBody));
+        ilLoggerFactory::getLogger('mail')
+                       ->debug(sprintf("Mail Body: %s", $this->getMailer()->Body));
 
         $this->getMailer()->CharSet = 'utf-8';
 
         $this->mailer->Debugoutput = static function (string $message, $level) : void {
             if (
-                strpos($message, 'Invalid address') !== false ||
-                strpos($message, 'Message body empty') !== false
+                strpos($message, 'Invalid address') ||
+                strpos($message, 'Message body empty')
             ) {
                 ilLoggerFactory::getLogger('mail')->warning($message);
             } else {
@@ -160,11 +139,10 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->onBeforeSend();
         $result = $this->getMailer()->send();
         if ($result) {
-            ilLoggerFactory::getLogger('mail')->info(sprintf(
-                'Successfully delegated external mail delivery'
-            ));
+            ilLoggerFactory::getLogger('mail')
+                           ->info('Successfully delegated external mail delivery');
 
-            if (strlen($this->getMailer()->ErrorInfo) > 0) {
+            if ($this->getMailer()->ErrorInfo !== '') {
                 ilLoggerFactory::getLogger('mail')->warning(sprintf(
                     '... with most recent errors: %s',
                     $this->getMailer()->ErrorInfo
@@ -179,9 +157,9 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->eventHandler->raise('Services/Mail', 'externalEmailDelegated', [
             'mail' => $mail,
-            'result' => (bool) $result
+            'result' => $result,
         ]);
 
-        return (bool) $result;
+        return $result;
     }
 }

@@ -32,7 +32,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ingroup ModulesTestQuestionPool
  *
  */
-class ilObjQuestionPoolGUI extends ilObjectGUI
+class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjQuestionPool
@@ -92,6 +92,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $ilDB = $DIC['ilDB'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $ilias = $DIC['ilias'];
+        $randomGroup = $DIC->refinery()->random();
         
         $writeAccess = $ilAccess->checkAccess("write", "", $_GET["ref_id"]);
         
@@ -162,7 +163,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $this->ctrl->saveParameter($this, "q_id");
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
+                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
                 
                 $gui->initQuestion((int) $_GET['q_id'], $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());
@@ -613,10 +614,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             
             if (strcmp($type, "-" . $item["type"] . "-") == 0) {
                 global $DIC;
-                $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                $component_factory = $DIC['component.factory'];
+                $plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
+                foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                     if (strcmp($pl->getQuestionType(), $item["type"]) == 0) {
                         $type = $pl->getQuestionTypeTranslation();
                     }
@@ -949,7 +949,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             $filename = $export_file;
             $filename = preg_replace("/.*\//", "", $filename);
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::deliverFile($export_file, $filename);
+            ilFileDelivery::deliverFileLegacy($export_file, $filename);
             exit();
         } else {
             ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"), true);

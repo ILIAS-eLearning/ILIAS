@@ -20,7 +20,7 @@ class ilTestExportGUI extends ilExportGUI
     public function __construct($a_parent_gui, $a_main_obj = null)
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_factory = $DIC["component.factory"];
 
         parent::__construct($a_parent_gui, $a_main_obj);
 
@@ -29,12 +29,7 @@ class ilTestExportGUI extends ilExportGUI
         $this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
         $this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
         $this->addFormat('arc', $a_parent_gui->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
-        foreach ($pl_names as $pl) {
-            /**
-             * @var $plugin ilTestExportPlugin
-             */
-            $plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'texp', $pl);
+        foreach ($component_factory->getActivePluginsInSlot("texp") as $plugin) {
             $plugin->setTest($this->obj);
             $this->addFormat(
                 $plugin->getFormat(),
@@ -265,11 +260,11 @@ class ilTestExportGUI extends ilExportGUI
         $archiveFile = $archiver->getZipExportDirectory() . '/' . $filename;
 
         if (file_exists($exportFile)) {
-            ilUtil::deliverFile($exportFile, $filename);
+            ilFileDelivery::deliverFileLegacy($exportFile, $filename);
         }
 
         if (file_exists($archiveFile)) {
-            ilUtil::deliverFile($archiveFile, $filename);
+            ilFileDelivery::deliverFileLegacy($archiveFile, $filename);
         }
 
         $ilCtrl->redirect($this, 'listExportFiles');

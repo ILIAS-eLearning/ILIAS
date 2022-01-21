@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddressListTest
@@ -8,21 +8,18 @@
  */
 class ilMailAddressListTest extends ilMailBaseTest
 {
-    /**
-     * @return array
-     */
-    public function addressProvider() : array
+    public function addressTestProvider() : array
     {
         return [
-           'Username Addresses' => [
+            'Username Addresses' => [
                 [
                     new ilMailAddress('phpunit', 'ilias'),
                 ],
                 [
                     new ilMailAddress('user', 'ilias'),
-                    new ilMailAddress('max.mustermann', 'ilias.de')
+                    new ilMailAddress('max.mustermann', 'ilias.de'),
                 ],
-                1
+                1,
             ],
             'Role Addresses' => [
                 [
@@ -33,18 +30,15 @@ class ilMailAddressListTest extends ilMailBaseTest
                 [
                     new ilMailAddress('#il_ml_4713', 'ilias'),
                     new ilMailAddress('#il_role_1000', 'ilias'),
-                    new ilMailAddress('#admin', '[Math Course]')
+                    new ilMailAddress('#admin', '[Math Course]'),
                 ],
-                2
-            ]
+                2,
+            ],
         ];
     }
 
     /**
-     * @param array $leftAddresses
-     * @param array $rightAddresses
-     * @param int $numberOfExpectedItems
-     * @dataProvider addressProvider
+     * @dataProvider addressTestProvider
      */
     public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(
         array $leftAddresses,
@@ -56,5 +50,56 @@ class ilMailAddressListTest extends ilMailBaseTest
 
         $list = new ilMailDiffAddressList($left, $right);
         $this->assertCount($numberOfExpectedItems, $list->value());
+    }
+
+    public function externalAddressTestProvider() : array
+    {
+        return [
+            'Username' => [
+                new ilMailAddress('user', 'ilias'),
+                0
+            ],
+            'Email Address exists as Username' => [
+                new ilMailAddress('max.mustermann', 'ilias.de'),
+                0
+            ],
+            'Email Address' => [
+                new ilMailAddress('phpunit', 'gmail.com'),
+                1
+            ],
+            'Mailing List' => [
+                new ilMailAddress('#il_ml_4713', 'ilias'),
+                0
+            ],
+            'Role (technical)' => [
+                new ilMailAddress('#il_role_1000', 'ilias'),
+                0
+            ],
+            'Role (human readable)' => [
+                new ilMailAddress('#admin', '[Math Course]'),
+                0
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider externalAddressTestProvider
+     * @param ilMailAddress $address
+     * @param int $numberOfExpectedItems
+     */
+    public function testExternalAddressListDecoratorFiltersExternalAddresses(
+        ilMailAddress $address,
+        int $numberOfExpectedItems
+    ) : void {
+        $list = new ilMailAddressListImpl([$address]);
+        $externalList = new ilMailOnlyExternalAddressList($list, 'ilias', static function (string $address) : int {
+            if ('max.mustermann@ilias.de' === $address) {
+                return 4711;
+            }
+
+            return 0;
+        });
+
+        $this->assertCount($numberOfExpectedItems, $externalList->value());
     }
 }

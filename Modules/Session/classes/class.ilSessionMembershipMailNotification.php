@@ -332,7 +332,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
      * @param object $a_usr_id
      * @return
      */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('sess');

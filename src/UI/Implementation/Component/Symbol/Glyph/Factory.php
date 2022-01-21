@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -368,5 +367,13 @@ class Factory implements G\Factory
     public function filter(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::FILTER, "filter", $action);
+    }    
+
+    /**
+     * @inheritdoc
+     */
+    public function collapseHorizontal(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::COLLAPSE_HORIZONTAL, "collapse/back", $action);
     }
 }

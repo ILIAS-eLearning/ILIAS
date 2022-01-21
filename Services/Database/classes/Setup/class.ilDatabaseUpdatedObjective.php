@@ -106,13 +106,13 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             define("ILIAS_LOG_ENABLED", false);
         }
         if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
+            define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
         }
         if (!defined("ROLE_FOLDER_ID")) {
-            define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
+            define("ROLE_FOLDER_ID", (int) $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
         }
         if (!defined("SYSTEM_FOLDER_ID")) {
-            define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
+            define("SYSTEM_FOLDER_ID", (int) $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
         }
 
         $db_update = new ilDBUpdate($db);

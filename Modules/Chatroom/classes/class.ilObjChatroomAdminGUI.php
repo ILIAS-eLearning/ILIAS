@@ -11,7 +11,7 @@
  * @ilCtrl_IsCalledBy ilObjChatroomAdminGUI: ilRepositoryGUI, ilAdministrationGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
+class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {

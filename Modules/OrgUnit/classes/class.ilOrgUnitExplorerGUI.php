@@ -17,10 +17,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      * @var array
      */
     protected $stay_with_command = array('', 'render', 'view', 'infoScreen', 'showStaff', 'performPaste', 'cut');
-    /**
-     * @var ilTree
-     */
-    protected $tree;
 
 
     /**
@@ -39,21 +35,20 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
 
     /**
-     * @param mixed $node
-     *
+     * @param mixed $a_node
      * @return string
      */
-    public function getNodeContent($node) : ?string
+    public function getNodeContent($a_node) : string
     {
         global $DIC;
-        if ($node['title'] === '__OrgUnitAdministration') {
-            $node['title'] = $DIC->language()->txt('objs_orgu');
+        if ($a_node['title'] === '__OrgUnitAdministration') {
+            $a_node['title'] = $DIC->language()->txt('objs_orgu');
         }
-        if ((int) $node['child'] === (int) $_GET['ref_id']) {
-            return "<span class='ilExp2NodeContent ilHighlighted'>" . $node['title'] . '</span>';
+        if ((int) $a_node['child'] === (int) $_GET['ref_id']) {
+            return "<span class='ilExp2NodeContent ilHighlighted'>" . $a_node['title'] . '</span>';
         }
 
-        return $node['title'];
+        return $a_node['title'];
     }
 
 
@@ -69,9 +64,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     /**
      * Get node icon
      * Return custom icon of OrgUnit type if existing
-     *
      * @param array $a_node
-     *
      * @return string
      */
     public function getNodeIcon($a_node) : string
@@ -91,11 +84,10 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
 
     /**
-     * @param array $node
-     *
+     * @param array $a_node
      * @return string
      */
-    public function getNodeHref($node) : string
+    public function getNodeHref($a_node) : string
     {
         global $DIC;
 
@@ -104,15 +96,15 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         }
 
         if ($DIC->ctrl()->getCmd() === 'performPaste') {
-            $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'target_node', $node['child']);
+            $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'target_node', $a_node['child']);
         }
         $array = $DIC->ctrl()->getParameterArrayByClass(ilObjOrgUnitGUI::class);
         $temp = $array['ref_id'];
 
-        $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $node['child']);
-        $DIC->ctrl()->setParameterByClass(ilObjPluginDispatchGUI::class, 'ref_id', $node['child']);
+        $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $a_node['child']);
+        $DIC->ctrl()->setParameterByClass(ilObjPluginDispatchGUI::class, 'ref_id', $a_node['child']);
 
-        $link_target = ($node['type'] === self::ORGU) ? $this->getLinkTarget() : $this->getPluginLinkTarget();
+        $link_target = ($a_node['type'] === self::ORGU) ? $this->getLinkTarget() : $this->getPluginLinkTarget();
         $DIC->ctrl()->setParameterByClass(ilObjOrgUnitGUI::class, 'ref_id', $temp);
 
         return $link_target;
@@ -146,7 +138,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
     /**
      * @param array $a_node
-     *
      * @return bool
      */
     public function isNodeClickable($a_node) : bool
@@ -164,7 +155,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 
     /**
      * @param array $a_node
-     *
      * @return bool
      */
     public function isNodeSelectable($a_node) : bool

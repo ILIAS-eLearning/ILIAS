@@ -29,6 +29,47 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
+survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
+survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
+survey#:#svy_select_rater#:#Feedbackgeber auswählen
+survey#:#svy_all_raters#:#Alle Feedbackgeber
+survey#:#svy_privacy_info#:#Persönliche Daten
+survey#:#svy_rater_see_app_info#:#Feedbackgebende werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
+survey#:#svy_app_see_rater_info#:#Feedbacknehemde können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
+survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
+survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
+content#:#cont_sec_protected_text#:#Der folgende Block ist geschützt und kann nicht bearbeitet werden.
+content#:#cont_sec_protected#:#Geschützt
+prtf#:#prtf_sec_protected_info#:#Geschützte Blöcke können im Portfolio nicht bearbeitet werden.
+prtf#:#prtf_role_assignment#:#Rollenzuordnung
+prtf#:#prtf_add_assignment#:#Zuordnung hinzufügen
+prtf#:#prtf_role_title#:#Rolle
+prtf#:#prtf_template_title#:#Portfoliovorlage
+prtf#:#prtf_delete_assignment#:#Zuordnungen löschen
+prtf#:#prtf_delete_assignment_sure#:#Wollen Sie wirklich die folgende(n) Zuordnung(en) löschen?
+survey#:#svy_rater#:#Feedback-Geber
+survey#:#svy_dont_send#:#Keine Nachricht senden
+survey#:#svy_save_and_continue#:#Speichern und Fortfahren
+survey#:#svy_external_rater#:#Externen Feedback-Geber hinzufügen
+survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben keinen Nutzer-Account auf der Plattform.
+survey#:#svy_search_user#:#Benutzer suchen
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen.
+survey#:#svy_add_internal_user#:#Benutzer hinzufügen
+survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen einen Benutzer-Account auf der Plattform.
+survey#:#svy_type_of_rater#:#Art Feedback-Geber
+survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
+survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
+survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feebdack-Geber.
+exc#:#exc_print_pdf#:#Drucken/PDF
+exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
+exp#:#exp_show_print_view#:#Druckansicht anzeigen
+exp#:#exp_print_pdf#:#Drucken/PDF
+prtf#:#prtf_edit_data#:#Daten bearbeiten
+content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
+prtt#:#prtt_select_datasets#:#Datensätze auswählen
+prtt#:#prtt_pfpg#:#Portfolioseite
 meta#:#md_adv_field_list#:#Datenfelder
 meta#:#md_adv_record_lng_table#:#Sprachenverwaltung
 meta#:#md_adv_record_lng_table_lng#:#Sprache
@@ -78,7 +119,7 @@ common#:#tools#:#Tools
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
 administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
-note#:#note_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
+note#:#note_enable_comments_del_user#:#Kommentare können von der Person gelöscht werden, die sie erstellt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
 note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
@@ -172,8 +213,8 @@ meta#:#meta_copyright_usage#:#Usage
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
-meta#:#meta_copyright_change_warning_title#:#Änderung der Copyright-Einstellungen
-meta#:#meta_copyright_change_info#:#Sie wollen die Lizenz für dieses Objekt ändern. Dies sollte nur in Übereinstimmung mit dem Inhaber des Urheberrechts erfolgen. Bitte fahren Sie nur fort, wenn die neue Lizenz nicht restriktiver ist als die zuvor verwendete.
+meta#:#meta_copyright_change_warning_title#:#Lizenz ändern###Modified as part of gender mainstreaming activities for ILIAS 8
+meta#:#meta_copyright_change_info#:#Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden.###Modified as part of gender mainstreaming activities for ILIAS 8
 survey#:#svy_export_pdf#:#Export PDF
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
@@ -181,6 +222,7 @@ survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein End
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
+content#:#cont_lpe_saml_login#:#SAML-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#msg_to_many_files#:#Zu viele Dateien ausgewählt, erlaubte Anzahl Dateien:
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
@@ -322,6 +364,7 @@ forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
+adve#:#adve_grp_frm#:#Foren
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
 itgr#:#itgr_behaviour#:#Verhalten
@@ -905,7 +948,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#enlarge#:#vergrößern
-assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
+assessment#:#enter_anonymous_code#:#Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
 assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
@@ -1066,7 +1109,7 @@ assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der B
 assessment#:#ass_lac_expression#:#Ausdruck
 assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht validiert werden.
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
-assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenz-Ausprägung beitragen.
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenzstufe beitragen.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#qpl_qst_skl_usg_skill_col#:#Kompetenz
 assessment#:#qpl_qst_skl_usg_numq_col#:#Fragenanzahl im gesamten Pool, welche die Kompetenz adressieren
@@ -1339,7 +1382,7 @@ assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#obligatory#:#Verpflichtend
 assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
 assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
-assessment#:#tst_setting_enable_obligations_info#:#Nur wenn alle verpflichtenden Fragen beantwortet wurden, kann ein Test abgegeben werden. Autoren definieren verpflichtende Fragen in der 'Listenansicht'. Für Teilnehmer sollte die Option "Fragenliste und Bearbeitungstand anzeigen" aktiviert sein.
+assessment#:#tst_setting_enable_obligations_info#:#Verpflichtende Fragen werden in der „Listenansicht“ definiert. Erst nach Beantwortung aller verpflichtender Fragen kann ein Test abgegeben werden. Dazu sollte die Option „Fragenliste und Bearbeitungsstand anzeigen“ aktiviert sein.###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle verpflichtenden Fragen (*) beantworten.
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
@@ -1426,7 +1469,7 @@ assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hoc
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#true#:#Wahr
-assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
+assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
@@ -1475,7 +1518,7 @@ assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#Benachrichtigung
-assessment#:#tst_finish_notification_desc#:#Pro Teilnehmer, der einen Test beendet, erhält der Besitzer des Tests eine E-Mail mit folgenden Informationen.
+assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine E-Mail versendet. Die E-Mail wird an den Benutzer versendet, welcher im Reiter "Rechte" unter "Im Besitz von" eingetragen ist. Die E-Mail enthält die folgenden Informationen:###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
 assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Benutzername und Datum des Beendens
@@ -1872,7 +1915,7 @@ assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_num_questions#:#Anzahl Fragen
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
-assessment#:#tst_level#:#Kompetenz-Ausprägung
+assessment#:#tst_level#:#Kompetenzstufe
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
@@ -1975,7 +2018,7 @@ auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
 auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_provider#:#Provider-Url
+auth#:#auth_oidc_settings_provider#:#Provider-URL
 auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
 auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
 auth#:#auth_oidc_settings_session_duration#:#Dauer
@@ -2206,7 +2249,7 @@ chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzern
 chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt.
-chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen.
+chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_ban#:#Sperren
@@ -2251,7 +2294,7 @@ chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
 chatroom#:#history_byday_title#:#Tageshistorie
 chatroom#:#history_bysession_title#:#Sitzungshistorie
-chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch einen Moderator gelöscht.
+chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch die Moderation gelöscht.###Modified as part of gender mainstreaming activities for ILIAS 8
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
 chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
@@ -2400,28 +2443,29 @@ cntr#:#cntr_view_sessions#:#Sitzungsansicht
 cntr#:#cntr_view_simple#:#Einfache Liste
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
-common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
-common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein um den Widerrufsvorgang abzuschließen.
-common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück und loggen Sie sich erneut ein um den Widerrufsvorgang abzuschließen.
+common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
+common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
 common#:#withdraw_consent#:#Einverständnis widerrufen
-common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen wird Ihr Account gelöscht.
-common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Authorisierungssystem und teilen Sie Ihre Absicht mit.
-common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen
+common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr Account gelöscht.
+common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
+common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
 common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
 common#:#withdraw_usr_agreement#:#Widerrufen
 common#:#accept_usr_agreement_btn#:#Zustimmen
 common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
 common#:#deny_usr_agreement_btn#:#Ablehnen
 common#:#withdrawal_complete#:#Widerrufsvorgang abgeschlossen.
-common#:#withdrawal_complete_deleted#:#Widerrufsvorgang abgeschlossen. Der Nutzeraccount wurde gelöscht.
-common#:#withdrawal_complete_redirect#:#Widerrufsvorgang abgeschlossen. Zur Löschung des Accounts bitte Kontakt zu Ihrer Organisation aufnehmen.
+common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der Nutzeraccount wurde gelöscht.
+common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des Accounts nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
-common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis in die Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
+common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
+common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis zu den Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#access#:#Zugriff
 common#:#access_expired#:#abgelaufen
@@ -2536,7 +2580,7 @@ common#:#assessment_log_for_test#:#Für den Test
 common#:#assessment_log_log_entries#:#Protokolleinträge
 common#:#assessment_log_logging#:#Protokolldaten
 common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für
-common#:#assessment_log_manual_scoring_desc#:#Wenn die manuelle Bewertung für einen Fragetyp aktiviert ist, können alle Fragen dieses Fragetyps vom Testautor manuell bewertet werden. Seien Sie bitte vorsichtig mit diesen Einstellungen, da das nachträgliche Ändern von Fragenergebnissen eventuell zu rechtlichen Problemen führen kann!
+common#:#assessment_log_manual_scoring_desc#:#Alle Fragen des gewählten Fragetyps können manuell bewertet werden. Achtung: Das nachträgliche Ändern von Ergebnissen kann rechtliche Auswirkungen haben!###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#assessment_log_question#:#Frage
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
@@ -2718,7 +2762,7 @@ rbac#:#change_existing_prefix_single#:#&nbsp;
 rbac#:#change_existing_suffix#:#ändern
 rbac#:#change_existing_suffix_single#:#anpassen
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
-common#:#change_owner#:#Besitzer ändern
+common#:#change_owner#:#Speichern###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
@@ -2750,7 +2794,7 @@ common#:#chg_ilias_password#:#ILIAS-Passwort ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
-common#:#chown_warning#:#Achtung! Das Ändern des Besitzers eines Objektes kann dazu führen, dass diese Person alle Zugriffsrechte an dem Objekt verliert.
+common#:#chown_warning#:#Achtung! Wenn Sie den Eintrag ändern, kann es sein, dass diese Person alle Zugriffsrechte an dem Objekt verliert.###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#chtr_copy#:#Chatraum kopieren
 rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_edit_permission#:#Rechteeinstellungen für Chatraum ändern
@@ -2978,8 +3022,8 @@ common#:#enable_download_folder_info#:#Aktiviert eine Herunterladen-Option im Ak
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
 common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
-common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
-common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu Ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
+common#:#enable_hist_user_comments#:#Überarbeitungskommentare###Modified as part of gender mainstreaming activities for ILIAS 8
+common#:#enable_hist_user_comments_desc#:#Sie können Überarbeitungskommentare zu Seiten hinterlegen. Die Kommentare werden im Reiter „Inhalt“, Unterreiter „Verlauf“ des Lernmoduls angezeigt und unterstützen gemeinsames Editieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
 common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM)
@@ -3159,8 +3203,8 @@ common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
-common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
-common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
+common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Forum beenden
+common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
@@ -3183,11 +3227,11 @@ common#:#frm_new#:#Neues Forum anlegen
 rbac#:#frm_read#:#Forum und Beiträge lesen
 common#:#frm_statistics_ranking#:#Rangliste
 rbac#:#frm_visible#:#Forum ist sichtbar
-rbac#:#frm_write#:#Foreneinstellungen bearbeiten und Moderatoren verwalten
+rbac#:#frm_write#:#Einstellungen des Forums bearbeiten und Moderation verwalten###Modified as part of gender mainstreaming activities for ILIAS 8
 rbac#:#frma_edit_permission#:#Rechteeinstellungen für Administration ändern
-rbac#:#frma_read#:#Lesezugriff auf globale Foreneinstellungen
-rbac#:#frma_visible#:#Globale Foreneinstellungen sind sichtbar
-rbac#:#frma_write#:#Globale Foreneinstellungen können bearbeitet werden
+rbac#:#frma_read#:#Lesezugriff auf globale Einstellungen für Foren###Modified as part of gender mainstreaming activities for ILIAS 8
+rbac#:#frma_visible#:#Globale Einstellungen für Foren sind sichtbar###Modified as part of gender mainstreaming activities for ILIAS 8
+rbac#:#frma_write#:#Globale Einstellungen für Foren können bearbeitet werden###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
@@ -3289,6 +3333,7 @@ common#:#hint#:#Hinweis
 common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_lm_pg_create#:#Seite erstellt.
+common#:#hist_lm_pg_update#:#Seite geändert.
 common#:#hist_lm_st_create#:#Kapitel erstellt.
 common#:#hist_webr_add#:#Neuer Weblink angelegt mit Titel: "%1"
 common#:#hist_webr_delete#:#Weblink wurde gelöscht. Titel: "%1"
@@ -3323,12 +3368,12 @@ common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdesse
 common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
 common#:#ignore_required_fields#:#Benutzerpflichtfelder ignorieren
 common#:#ignore_required_fields_info#:#Falls aktiviert, werden Pflichtangaben beim Absenden dieses Formulars nicht mehr überprüft (sofern möglich). Auswirkung dessen ist, dass der Benutzer nach der nächsten Anmeldung sein Profil vervollständigen muss.
-common#:#il_chat_moderator#:#Chat-Moderator
+common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_crs_admin#:#Kursadministrator
 common#:#il_crs_member#:#Kursmitglied
 common#:#il_crs_non_member#:#Kein Kursmitglied
 common#:#il_crs_tutor#:#Kurstutor
-common#:#il_frm_moderator#:#Forenmoderator
+common#:#il_frm_moderator#:#Forenmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_grp_admin#:#Gruppenadministrator
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
@@ -3378,7 +3423,7 @@ common#:#info_is_member#:#Benutzer ist Mitglied
 common#:#info_is_not_member#:#Benutzer ist kein Mitglied
 common#:#info_message#:#Informationsmeldung
 common#:#info_not_assigned#:#nicht zugewiesen
-common#:#info_owner_of_object#:#Besitzer des Objektes
+common#:#info_owner_of_object#:#Objekt im Besitz von###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#info_permission_origin#:#Absolute Position
 common#:#info_permission_source#:#wirksam von*
 common#:#info_remark_interrupted#:#Rolle wurde an dieser Position unterbrochen. Es gelten die eingestellten Rechtevorgaben an dieser Position für diese Rolle.
@@ -3634,7 +3679,7 @@ rbac#:#mobs_edit_permission#:#Rechteeinstellungen in Administration für Medieno
 rbac#:#mobs_read#:#Lesezugriff auf Administration für Medienobjekte und -pools
 rbac#:#mobs_visible#:#Administration für Medienobjekte und -pools ist sichtbar
 rbac#:#mobs_write#:#Einstellungen für Medienobjekte und -pools bearbeiten
-common#:#moderators#:#Moderatoren
+common#:#moderators#:#Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#month#:#Monat
@@ -3983,7 +4028,7 @@ common#:#organization#:#Anbieter
 common#:#other#:#Andere
 common#:#overview#:#Übersicht
 common#:#overwrite#:#Überschreiben
-common#:#owner#:#Besitzer
+common#:#owner#:#Im Besitz von###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#owner_updated#:#Die Daten wurden aktualisiert.
 common#:#page#:#Seite
 common#:#page_layout#:#Seitenlayout
@@ -4612,6 +4657,7 @@ common#:#usr_settings_changeable_lua#:#Änderbar in lokaler Benutzerverwaltung
 common#:#usr_settings_explanation_profile#:#Bestimmen Sie in der folgenden Tabelle, welche Felder für einen Benutzer sichtbar und welche änderbar sind. Ist ein Datenfeld 'Sichtbar', werden die Daten angezeigt, können aber nicht geändert werden. Ist ein Datenfeld 'Änderbar' kann der Benutzer die Daten nachträglich ändern. Bei der Einstellung 'Erforderliche Angabe' ist die Eingabe verpflichtend. Unabhängig von diesen Einstellungen können Systemadministratoren alle Daten in der Benutzeradministration ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
+common#:#usr_field_change_components_listening#:#Es gibt mindestens eine Komponente, die sich für die getätigten Änderungen interessiert. Möchten Sie die Änderungen samt der von den Komponenten beschriebenen Konsequenzen final durchführen?
 common#:#usr_settings_visib_lua#:#Sichtbar in lokaler Benutzerverwaltung
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
@@ -4729,7 +4775,7 @@ rbac#:#wiki_visible#:#Wiki ist sichtbar
 rbac#:#wiki_write#:#Einstellungen des Wikis bearbeiten
 common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
-common#:#wizard_title_info#:#Geben Sie bitte den Titel oder Teile des Titels ein, um das Objekt zu suchen, das Sie kopieren wollen. Klicken Sie auf "Weiter", um passende Suchergebnisse angezeigt zu bekommen.
+common#:#wizard_title_info#:#    Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr
@@ -5193,13 +5239,13 @@ content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werd
 content#:#cont_no_text#:#Kein Text
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_none#:#Keine
-content#:#cont_nr_col_footer#:#Fuß (Spalten)
-content#:#cont_nr_col_header#:#Kopf (Spalten)
+content#:#cont_nr_col_footer#:#Fußspalten
+content#:#cont_nr_col_header#:#Kopfspalten
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_of_tries_exceeded#:#Sie haben keine Versuche mehr.
-content#:#cont_nr_row_footer#:#Fuß (Zeilen)
-content#:#cont_nr_row_header#:#Kopf (Zeilen)
+content#:#cont_nr_row_footer#:#Fußzeilen
+content#:#cont_nr_row_header#:#Kopfzeilen
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_number_of_tabs#:#Anzahl der Fächer
 content#:#cont_number_std#:#Standard
@@ -5749,11 +5795,11 @@ crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erfo
 crs#:#crs_pdf#:#PDF
 crs#:#crs_presentation_type#:#Ansicht
 crs#:#crs_print_list#:#Liste erstellen
-crs#:#crs_reg#:#Selbständiger Beitritt durch Benutzer
+crs#:#crs_reg#:#Selbstständiger Beitritt durch Benutzer
 crs#:#crs_reg_code#:#Beitritt per Link
 crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren und den Kursrechten ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 crs#:#crs_reg_code_link#:#Link für direkten Beitritt
-crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
+crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
@@ -6217,7 +6263,7 @@ didactic#:#didactic_confirm_apply_new_template#:#Sind Sie sicher, dass Sie diese
 didactic#:#didactic_confirm_delete_msg#:#Sind Sie sicher, dass die folgenden didaktischen Vorlagen gelöscht werden sollen?
 didactic#:#didactic_copy_suc_message#:#Die didaktische Vorlage wurde kopiert
 didactic#:#didactic_deactivated_msg#:#Die ausgewählten didaktischen Vorlagen wurden deaktiviert.
-didactic#:#didactic_default_type_info#:#Es werden die Standardeinstellungen für Rechte verwendet.
+didactic#:#didactic_default_type_info#:#Es werden die Rechtevorgaben für die jeweiligen Rollen angewendet.
 didactic#:#didactic_delete_msg#:#Die ausgewählten didaktischen Vorlagen wurden gelöscht.
 didactic#:#didactic_do_export#:#Exportieren
 didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
@@ -6296,7 +6342,7 @@ ecs#:#ecs_field_credits#:#Credits
 ecs#:#ecs_field_cycle#:#Zyklus
 ecs#:#ecs_field_day#:#Tag
 ecs#:#ecs_field_end#:#Endtermin
-ecs#:#ecs_field_lecturer#:#Dozent(en)
+ecs#:#ecs_field_lecturer#:#Leitung###Modified as part of gender mainstreaming activities for ILIAS 8
 ecs#:#ecs_field_part_id#:#Teilnehmer-ID
 ecs#:#ecs_field_room#:#Raum
 ecs#:#ecs_field_semester_hours#:#Semesterwochenstunden
@@ -6564,14 +6610,14 @@ forum#:#forum_add_quote#:#Zitieren
 forum#:#forums_all_threads_marked_read#:#Alle Themen wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
 forum#:#forums_attachments_add#:#Datei anhängen
-forum#:#forums_censor_comment#:#Bemerkung des Zensors
+forum#:#forums_censor_comment#:#Bemerkung der Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
-forum#:#forums_disable_notification#:#Benachrichtigung für Thema beenden
+forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung für Thema starten
+forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
@@ -6582,12 +6628,12 @@ forum#:#forums_notification_disabled#:#Benachrichtigung inaktiv
 forum#:#forums_notification_enabled#:#Benachrichtigung aktiv
 forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 forum#:#forums_notification_show_post#:#Zum Beitrag gehen: %s
-forum#:#forums_post_activation_mail#:#Solange der folgende Beitrag nicht aktiviert ist, ist er für andere Forenteilnehmer nicht sichtbar. Sie erhalten diese Mail, da Sie als Moderator eingetragen sind und die Berechtigung besitzen, diesen Beitrag zu aktivieren.
+forum#:#forums_post_activation_mail#:#In einem von Ihnen moderierten Forum wurde der nachfolgende Eintrag erstellt. Der Beitrag bleibt solange unsichtbar, bis Sie ihn freischalten.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
-forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde eingetragen, muss aber von einem Moderator aktiviert werden.
-forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-forum#:#forums_post_was_activated#:#Der Beitrag wurde aktiviert.
+forum#:#forums_post_needs_to_be_activated#:#Der Beitrag wurde erstellt,, muss aber von der Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#forums_post_was_activated#:#Der Beitrag wurde freigeschaltet.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Beiträge verfügbar
 forum#:#forums_print_thread#:#Thema drucken
@@ -6599,20 +6645,20 @@ forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
-forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben. Sollte die Option "Moderatoren-Beiträge markieren" ebenfalls aktiviert sein, können Moderatoren kein Pseudonym verwenden.
+forum#:#frm_anonymous_posting_desc#:#Alle Forenbeiträge werden mit einem Pseudonym bzw. ohne Nennung des Namens erstellt. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_default_view#:#Standardansicht
-forum#:#frm_detach_moderator_role#:#Moderatorenrolle entziehen
 forum#:#frm_edit_title#:#Titel bearbeiten
+forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
 forum#:#frm_moderator_f#:#Moderatorin
 forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
-forum#:#frm_moderator_role_added_successfully#:#Der Benutzer wurde als Moderator hinzugefügt.
-forum#:#frm_moderators#:#Moderatoren
-forum#:#frm_moderators_detached_role_successfully#:#Für die ausgewählten Benutzer wurde die Moderatorenrolle erfolgreich entfernt.
-forum#:#frm_moderators_not_exist_yet#:#Bitte wählen Sie einen Moderator aus.
-forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens einen Moderator aus.
-forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie die Moderatorenrolle zuweisen möchten.
-forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
+forum#:#frm_moderator_role_added_successfully#:#Die Person hat jetzt das Recht zu moderieren.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators#:#Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators_detached_role_successfully#:#Das Recht zu moderieren wurde den ausgewählten Personen entzogen.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators_not_exist_yet#:#Bitte fügen Sie eine Person für die Moderation hinzu.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens eine Person aus.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer für die Moderation.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht freigeschaltet.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_posts#:#Forenbeiträge
 forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Reiniger für den Typ %s implementiert.
@@ -6627,13 +6673,13 @@ forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
 forum#:#is_read#:#Gelesen
 forum#:#make_topics_non_sticky#:#"Top-Thema"-Einstufung aufheben
 forum#:#make_topics_sticky#:#Thema zu "Top-Thema" machen
-forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
-forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Beiträge der Benutzer farblich hervorgehoben, die die Moderatorenrolle in diesem Forum inne haben.
+forum#:#mark_moderator_posts#:#Beiträge der Moderation markieren###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#mark_moderator_posts_desc#:#Beiträge der Moderation werden farblich hervorgehoben.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
 forum#:#new_post#:#Neuer Beitrag
-forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
-forum#:#post_activation_desc#:#Ist diese Option eingeschaltet, müssen alle Beiträge durch einen Moderator freigeschaltet werden.
-forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert, Bemerkung des Moderators
+forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt!###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#post_activation_desc#:#Alle Beiträge durch die Moderation freigeschaltet werden.###Modified as part of gender mainstreaming activities for ILIAS 8
+forum#:#post_censored_comment_by_moderator#:#Beitrag zensiert! Bemerkung des Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
 forum#:#reopen_topics#:#Wiedereröffnen
@@ -6731,10 +6777,10 @@ grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct#:#Direkter Beitritt
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
-grp#:#grp_reg_no_selfreg#:#Kein selbständiger Beitritt
+grp#:#grp_reg_no_selfreg#:#Kein selbstständiger Beitritt
 grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Benutzer in die Gruppe aufnehmen.
 grp#:#grp_reg_limited#:#Zeitlich begrenzter Beitritt
-grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
+grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können.
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
@@ -6747,7 +6793,7 @@ grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
 grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie werden dann von der Gruppenleitung benachrichtigt, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 grp#:#grp_setting_header_presentation#:#Darstellung
-grp#:#grp_setting_header_registration#:#Selbständiger Beitritt durch Benutzer
+grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_typ#:#Typ
 grp#:#grp_unsubscribe#:#Gruppenmitgliedschaft beenden
@@ -7093,7 +7139,7 @@ mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mail#:#mail_tbl_head_attachments#:#Anhang
-mail#:#mail_firstname_last_name_superior#:#Kommaseparierte Liste mit den Vor- und Nachnamen der Vorgesetzten eines Benutzers
+mail#:#mail_firstname_last_name_superior#:#Kommagetrennte Liste mit den Vor- und Nachnamen der vorgesetzten Führungskraft einer Person###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_email_usr_subject#:#Test-E-Mail „Benutzer-Mail”
 mail#:#mail_email_usr_body#:#Dies ist eine Test-E-Mail um den Versand einer von einem Benutzer initiierten E-Mail an externe E-Mail-Adressen zu testen.
 mail#:#mail_email_sys_subject#:#Test-E-Mail „System-Mail”
@@ -7220,7 +7266,7 @@ meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
 meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_delimiter#:#Trennzeichen
-meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um Angaben zu mehreren Schlagwörtern und Autoren zu trennen. Standardzeichen ist ','.
+meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#md_fields#:#Felder
 meta#:#md_general_settings#:#Einstellungen
 meta#:#md_months#:#Monate:
@@ -7487,7 +7533,7 @@ meta#:#meta_catalog#:#Katalog
 meta#:#meta_classification#:#Klassifizierung
 meta#:#meta_collection#:#Sammlung
 meta#:#meta_competency#:#Kompetenz
-meta#:#meta_contentprovider#:#Content-Provider
+meta#:#meta_contentprovider#:#Content angeboten von###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_context#:#Kontext
 meta#:#meta_contribute#:#Beitrag
 meta#:#meta_copyright#:#Copyright
@@ -8153,8 +8199,8 @@ rbac#:#rbac_keep_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugri
 rbac#:#rbac_local_policies#:#Lokale Zugriffsregelungen
 rbac#:#rbac_local_policy#:#Lokale Zugriffsregelung
 rbac#:#rbac_log#:#Log
-rbac#:#rbac_log_change_owner#:#Besitzer eines Objekts ändern
-rbac#:#rbac_log_changed_owner#:#Besitzer geändert zu
+rbac#:#rbac_log_change_owner#:#Besitz ändern###Modified as part of gender mainstreaming activities for ILIAS 8
+rbac#:#rbac_log_changed_owner#:#Objekt jetzt im Besitz von###Modified as part of gender mainstreaming activities for ILIAS 8
 rbac#:#rbac_log_copy_object#:#Objekt kopieren
 rbac#:#rbac_log_create_object#:#Objekt anlegen
 rbac#:#rbac_log_edit_permissions#:#Rechteinstellungen verändern
@@ -8627,10 +8673,8 @@ search#:#search_for_crs_members#:#Nach Kursen suchen
 search#:#search_for_grp_members#:#Nach Gruppen suchen
 search#:#search_for_role_members#:#Nach Rollen suchen
 search#:#search_for_users#:#Nach Benutzern suchen
-search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
 search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
-search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
@@ -8697,7 +8741,7 @@ skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
 skmg#:#skmg_assign_materials#:#Materialien zuordnen
-skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
+skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzstufe
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
@@ -8737,7 +8781,7 @@ skmg#:#skmg_order_nr#:#Nummer
 skmg#:#skmg_please_select_self_skill#:#Neue Selbsteinschätzung
 skmg#:#skmg_please_select_your_skill_levels#:#Bitte wählen Sie Ihre Fähigkeiten
 skmg#:#skmg_previous_step#:#Voriger Schritt
-skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzausprägungen wirklich gelöscht werden?
+skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzstufen wirklich gelöscht werden?
 skmg#:#skmg_really_remove_skills#:#Möchten Sie die folgenden Kompetenzen wirklich entfernen?
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_skills#:#Kompetenz entfernen
@@ -8755,10 +8799,10 @@ skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
 skmg#:#skmg_skill#:#Kompetenz
-skmg#:#skmg_skill_level#:#Kompetenzausprägung
+skmg#:#skmg_skill_level#:#Kompetenzstufe
 skmg#:#skmg_skill_level_trigger#:#Auslöser
-skmg#:#skmg_skill_levels#:#Kompetenzausprägungen
-skmg#:#skmg_target_levels#:#Zielausprägungen
+skmg#:#skmg_skill_levels#:#Kompetenzstufen
+skmg#:#skmg_target_levels#:#Kompetenzziele
 skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
 skmg#:#skmg_skill_template#:#Vorlage
 skmg#:#skmg_skill_templates#:#Vorlagen
@@ -9644,7 +9688,7 @@ trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_registered#:#Angemeldet
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen
 trac#:#trac_report_date#:#Datum des Reports
-trac#:#trac_report_owner#:#Ersteller des Reports
+trac#:#trac_report_owner#:#Report erstellt von###Modified as part of gender mainstreaming activities for ILIAS 8
 trac#:#trac_show_repository_views#:#Anzahl Zugriffe anzeigen
 trac#:#trac_show_repository_views_info#:#Wenn eingeschaltet werden die Anzahl Zugriffe auf der Info-Seite angezeigt.
 trac#:#trac_required_visits#:#Anzahl benötigter Besuche
@@ -10006,7 +10050,7 @@ assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
 assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
 assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzausprägungen.
+assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen zu Kompetenzen , sowie die Definition von Schwellenwerten für die Erreichung bestimmter Kompetenzstufen.
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
@@ -10133,7 +10177,7 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard Tab
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden RBAC Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard Ansicht der Tabellen:
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
-forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
+forum#:#frm_at_least_one_moderator#:#Es muss mindestens eine Person für die Moderation zuständig sein.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
 common#:#shib_matriculation#:#Attribut für Matrikelnummer
 common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
@@ -10167,8 +10211,8 @@ rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
 book#:#booking_nr_of_items#:#Anzahl
-book#:#book_schedule_type_fixed#:#Belegungen zu Terminen
-book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
+book#:#book_schedule_type_fixed#:#Buchung zu Terminen
+book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
@@ -10603,7 +10647,7 @@ common#:#search_globally#:#Im gesamten Magazin
 common#:#search_at_current_position#:#An der aktuellen Position
 common#:#label_search_options#:#Suchbereich
 survey#:#svy_copy#:#Umfrage kopieren
-blog#:#blog_authors#:#Autoren
+blog#:#blog_authors#:#Beitragende Personen###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
 blog#:#blog_enable_approval_info#:#Alle Beiträge müssen durch einen Benutzer mit dem Recht "Einstellungen bearbeiten" freigeschaltet werden, bevor sie für andere Benutzer sichtbar werden.
@@ -10653,7 +10697,7 @@ dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine T
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#add_value#:#Neuen Eintrag hinzufügen
 rating#:#rating_number_votes#:#%s Bewertungen
-administration#:#system_check_no_owner#:#Objekte ohne Besitzer
+administration#:#system_check_no_owner#:#Objekte ohne Angabe zum Besitz###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_import#:#Blog importieren
 poll#:#poll_import#:#Abstimmung importieren
 user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
@@ -10998,9 +11042,9 @@ dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt geändert wurde.
-dcl#:#dcl_owner#:#Besitzer
+dcl#:#dcl_owner#:#Eigener Eintrag von ###Modified as part of gender mainstreaming activities for ILIAS 8
 dcl#:#dcl_owner_name#:#Besitzer (Name)
-dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
+dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.###Modified as part of gender mainstreaming activities for ILIAS 8
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edit_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer, der diesen Eintrag zuletzt geändert hat.
@@ -11020,6 +11064,7 @@ common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
 common#:#obj_bibs#:#Literaturliste
 common#:#obj_bibs_desc#:#Literaturlisten-Administration
+bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Wenden Sie sich an die Administratoren der Plattform.
 bibl#:#bibl_new#:#Neue Literaturliste
 bibl#:#bibl_link_online#:#Bestandsabfrage
 bibl#:#bibl_add#:#Literaturliste hinzufügen
@@ -11133,7 +11178,7 @@ survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschl
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
 survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
-survey#:#survey_360_self_appraisee#:#Offenes 360°-Feedback
+survey#:#survey_360_self_appraisee#:#Offenes Feedback
 survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
 survey#:#survey_360_results_none#:#Kein Zugang
 survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber
@@ -11153,12 +11198,12 @@ skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
-skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Zielausprägungen
+skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Kompetenzziele
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
-skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzausprägungen aus dem Profil entfernen?
+skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzstufen aus dem Profil entfernen?
 skmg#:#skmg_assigned_users#:#Zugeordnete Rollen und Benutzer
 skmg#:#skmg_assign_user#:#Benutzer zuordnen
 skmg#:#skmg_add_assignment#:#Rollen / Mitglieder zuordnen
@@ -11173,18 +11218,19 @@ survey#:#survey_skill#:#Kompetenz
 survey#:#survey_assign_competence#:#Kompetenz zuordnen
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
-survey#:#survey_skill_level#:#Kompetenzausprägung
+survey#:#survey_skill_level#:#Kompetenzstufe
 survey#:#survey_up_to_x_points#:#Bis zu x Punkten
 survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_max_scale_points#:#Max. Skalenpunkte
 survey#:#survey_reached_level#:#Erreichte Ausprägung
 survey#:#survey_sum_of_means#:#Summe des arithm. Mittels der Frage
-survey#:#survey_calc_skills#:#Kompetenzausprägungen bestimmen
-skmg#:#skmg_target_level#:#Profil-Zielausprägung
+survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
+skmg#:#skmg_target_level#:#Kompetenzziel
 skmg#:#skmg_360_survey#:#360°-Umfrage
-skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial welches Ihrer Ziel-Kompetenzausprägung entspricht.
-skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial welches Ihrer Ziel-Kompetenzausprägung entspricht.
-skmg#:#skmg_skill_no_needs_impr#:#Ihre Kompetenzausprägungen sind für dieses Profil ausreichend.
+skmg#:#skmg_skill_needs_impr_res#:#Sie müssen diese Kompetenz verbessern. Die folgenden Ressourcen bieten Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_needs_impr_no_res#:#Sie müssen diese Kompetenz verbessern. Leider gibt es momentan kein passendes Lernmaterial, welches Ihrem Kompetenzziel entspricht.
+skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
+skmg#:#skmg_skill_no_needs_impr_info#:#Sie haben das Ziel für diese Kompetenz erfüllt.
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
 survey#:#survey_360_rater_message_content_registered#:#Inhalt (Registrierte Benutzer)
 survey#:#survey_360_rater_message_content_anonymous#:#Inhalt (Anonym)
@@ -11203,7 +11249,7 @@ survey#:#survey_360_appraisee_info#:#Info über Feedback-Nehmer
 survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
 survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
 survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.
-survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzausprägungen werden aktualisiert.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzstufen werden aktualisiert.
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
 survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
@@ -11368,7 +11414,7 @@ cld#:#cld_new#:#Neues Cloud Objekt hinzufügen
 cld#:#cld_no_service_active#:#Leider ist kein Cloud-Plugin aktiviert
 cld#:#cld_no_service_selected#:#Es wurde kein Cloud-Dienst ausgewählt.
 cld#:#cld_not_authenticated_offline#:#Nicht authentifiziert - offline
-cld#:#cld_only_owner_has_permission_to_change_root_path#:#Um die Privatsphäre des Besitzers des Cloud-Ordners zu schützen, kann nur der Ersteller eines Cloud-Objektes dessen Basisverzeichnis ändern.
+cld#:#cld_only_owner_has_permission_to_change_root_path#:#Diese Angabe zum Basisverzeichnis des Cloud-Objektes kann ausschließlich die Person ändern, die das Objekt angelegt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Pfad existiert in der Session nicht:
 cld#:#cld_permission_denied#:#Zugriff verweigert
 cld#:#cld_permission_to_change_root_folder_denied#:#Zugriff für das Ändern des Basisiverzeichnis wurde verweigert.
@@ -11558,7 +11604,7 @@ common#:#org_units#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#il_orgu_employee#:#Mitarbeiter
-common#:#il_orgu_superior#:#Vorgesetzte
+common#:#il_orgu_superior#:#Vorgesetzte Führungskraft###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#view_learning_progress#:#Zeige Lernfortschritt
 common#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#rbac_info_only_position_access#:#Ihnen werden nur die Mitglieder angezeigt, auf die Sie aufgrund Ihrer Mitgliedschaften in Organisationseinheiten Zugriff haben.
@@ -11875,6 +11921,7 @@ mail#:#mail_filter_attach#:#Anhänge
 mail#:#mail_filter_field_placeholder#:#Nachrichten durchsuchen ...
 mail#:#mail_filter_txt#:#Suchen in
 mail#:#mail_filter_only_unread#:#Ungelesen
+mail#:#mail_filter_only_user_mails#:#Systemnachrichten ausblenden
 mail#:#mail_filter_only_with_attachments#:#Anhänge
 mail#:#mail_filter_period#:#Zeitraum
 mail#:#mail_filter_period_from#:#Von
@@ -12100,7 +12147,7 @@ cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cro
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
-crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
+crs#:#crs_reg_no_selfreg#:#Kein selbstständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
 cat#:#cat_more_translations#:#Weitere Übersetzungen
 content#:#cont_finish_editing#:#Bearbeitung beenden
@@ -12227,7 +12274,7 @@ content#:#cont_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
 prtf#:#prtf_page_element_my_courses_title#:#Kurs-Mitgliedschaften
-prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
+prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzstufe.
 prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog aus Ihren persönlichen Ressourcen.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
 prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
@@ -12309,7 +12356,7 @@ blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
 blog#:#blog_enable_keywords#:#Schlagwörter
-blog#:#blog_enable_keywords_info#:#Autoren können Beiträge mit Schlagwörtern versehen. Vergebene Schlagwörter werden im Seitenblock zum Filtern der Beiträge angeboten.
+blog#:#blog_enable_keywords_info#:#Beiträge können mit Schlagwörtern versehen werden, um im Seitenblock Beiträge zu filtern.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_enable_nav_authors#:#Nach Autoren filtern
 blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit allen Autorennamen eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieses Autoren an.
 blog#:#blog_nav_sortorder#:#Reihenfolge der Seitenblöcke
@@ -12812,12 +12859,12 @@ survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearb
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
-survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein.
+survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbstständig ein.
 survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
 survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen.
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
 survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen.
-survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzausprägungen gesetzt.
+survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
@@ -12960,8 +13007,8 @@ notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
 orgu#:#ou_more_than_one_match_found#:#Mehr als ein Treffer wurde gefunden.
-blog#:#blog_profile_picture_repository_info#:#Profilbilder der Autoren werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.
-blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Autoren ihre Rolle entziehen?
+blog#:#blog_profile_picture_repository_info#:#Profilbilder werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.###Modified as part of gender mainstreaming activities for ILIAS 8
+blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Personen ihre Rolle entziehen?###Modified as part of gender mainstreaming activities for ILIAS 8
 news#:#news_rss#:#RSS
 mob#:#mob_object#:#Objekt
 content#:#cont_qtries_info#:#Standardwert "Anzahl der Versuche" für neu angelegte Fragen.
@@ -13063,9 +13110,10 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewählten Foren erlauben" ausgewählt ist, können Moderatoren das Anhängen von Dateien in den jeweiligen Foren-Einstellungen gezielt aktivieren. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
+forum#:#file_upload_option_allow_desc#:#In allen Foren können Dateien an Beiträge angehangen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
 forum#:#file_upload_allowed#:#Dateien anhängen
 forum#:#allow_file_upload_desc#:#Wenn aktiviert, können in diesem Forum Dateien an Forenbeiträge angehängt werden.
@@ -13294,8 +13342,8 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
 sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Anmeldeverfahren "Teilnahme beantragen" benutzt werden, da die Bestätigung so umgangen wird.
-grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
-crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
+grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Gruppenmitgliedschaft beenden.
+crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Kursmitgliedschaft beenden.
 crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll.
 meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
@@ -13643,7 +13691,7 @@ forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgef�
 forum#:#frm_settings_form_header#:#Einstellungen des Forums
 forum#:#frm_settings_presentation_header#:#Darstellung
 forum#:#frm_settings_user_functions_header#:#Funktionen für Teilnehmer
-forum#:#frm_settings_mod_functions_header#:#Funktionen für Moderatoren
+forum#:#frm_settings_mod_functions_header#:#Funktionen für Moderation###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_settings_privacy_header#:#Datenschutz
 meta#:#meta_advmd_select_options#:#Einträge
 trac#:#trac_lp_settings_info_parent_legend#:#Der Lernfortschrittsstatus des Objekts wird durch "%s" beeinflusst.
@@ -13791,8 +13839,8 @@ wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
-book#:#book_reservation_filter_period#:#Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Datumsbereich-Filter in Tagen ab dem aktuellem Datum.
+book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
+book#:#book_reservation_filter_period_info#:#Im Reiter Reservierungen wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
 book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
@@ -13881,11 +13929,11 @@ survey#:#svy_anonymous_participants_svy_info#:#Wenn aktiviert ist eine Teilnehme
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenz-Ausprägungen in aufsteigender Reihenfolge definiert werden müssen.
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen.
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
-common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#grpr_new#:#Neuen Gruppenlink anlegen
 common#:#obj_grpr#:#Gruppenlink
 common#:#objs_grpr#:#Gruppenlinks
 rbac#:#grpr_copy#:#Gruppenlinks kopieren
@@ -13913,8 +13961,8 @@ badge#:#badge_obi_salt#:#Salt
 badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr.
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
-badge#:#badge_activity_badges#:#Activity Badges
-badge#:#badge_crs_merit#:#Verdienst
+badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
+badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_manual#:#Manuelle Vergabe
 badge#:#badge_user_profile#:#Benutzerprofil
 badge#:#badge_badge#:#Badge
@@ -13957,7 +14005,7 @@ badge#:#badge_remove_from_profile#:#Aus Profil entfernen
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
 badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Es können keine neuen Badges erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
-badge#:#badge_course_lp#:#Course LP
+badge#:#badge_course_lp#:#Nach Leistung vergebenes Badge
 badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_less#:#Weniger zeigen
 badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen Ihres Mozilla Backpacks.
@@ -14191,7 +14239,7 @@ rbac#:#news_add_news#:#Neuigkeiten erstellen
 rbac#:#grp_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
 news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
-obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
+obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
 cont#:#cont_news_settings#:#Neuigkeiten
 cont#:#cont_news_timeline_landing_page#:#Startseite
@@ -14506,15 +14554,15 @@ common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
-auth#:#auth_saml_add_idp_btn#:#Identity Provider hinzufügen
-auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiderruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
-auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
-auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
-auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadaten
-auth#:#auth_saml_idp_selection_table_title#:#Identity Provider
-auth#:#auth_saml_idp_selection_table_desc#:#Please select the Identity Provider that you wish to log in with.
-auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity Provider als XML-formatierte Zeichenkette ein.
-auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity Provider enthält.
+auth#:#auth_saml_add_idp_btn#:#Identity - hinzufügen
+auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity-Provider unwiderruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
+auth#:#auth_saml_deleted_idp#:#Der Identity -rovider wurde gelöscht.
+auth#:#auth_saml_unknow_idp#:#Der Identity-Provider existiert nicht.
+auth#:#auth_saml_add_idp_md_label#:#Identity-Provider-SAML-Metadaten
+auth#:#auth_saml_idp_selection_table_title#:#Identity-Provider
+auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity-Provider aus, mit dem Sie sich einloggen möchten.
+auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity-Provider als XML-formatierte Zeichenkette ein.
+auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity-Provider enthält.
 auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
 auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Benutzerkonten auf SAML-Authentifizierung umzustellen.
 auth#:#auth_saml_migration#:#Account-Migration:
@@ -14533,7 +14581,7 @@ auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. B
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
 auth#:#auth_saml_idps#:#SAML IDP Liste
-auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity-Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
@@ -14571,6 +14619,7 @@ dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
 dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunde %1
 dateplaner#:#cal_open_calendar#:#Kalender öffnen
 dateplaner#:#cal_delete_cal#:#Kalender löschen
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut "%s" im Feld "%s" verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Benutzerkonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -14581,9 +14630,9 @@ iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
-skmg#:#skmg_selected_skills#:#Kompetenzeinträge
-skmg#:#skmg_hide_profile_self_eval#:#Profil-Zielausprägung nach Selbsteinschätzung anzeigen
-skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird die Profil-Zielausprägung erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
+skmg#:#skmg_hide_profile_self_eval#:#Kompetenzziel nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird das Kompetenzziel erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
@@ -14637,7 +14686,7 @@ exc#:#exc_template#:#Vorlage
 exc#:#exc_portfolio_template#:#Portfoliovorlage bestimmen
 exc#:#exc_without_template#:#Ohne Portfoliovorlage
 exc#:#exc_with_template#:#Mit Portfoliovorlage
-exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbständig ohne Vorlage.
+exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbstständig ohne Vorlage.
 exc#:#exc_with_template_info#:#Ein leeres Portfolio wird automatisch aus einer bestimmten Portfoliovorlage abgeleitet.
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
 exc#:#exc_go_to_exercise#:#Zur Übung
@@ -14703,8 +14752,8 @@ cont#:#cont_skill_members#:#Mitglieder
 cont#:#cont_skill_show#:#Anzeigen
 cont#:#cont_skill_publish#:#Veröffentlichung
 cont#:#cont_skill_publish_manual#:#Manuell
-cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
-cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzausprägungen zu Mitgliedern werden für diese sofort sichtbar.
+cont#:#cont_skill_publish_manual_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese erst sichtbar, wenn diese veröffentlicht werden.
+cont#:#cont_skill_publish_auto_info#:#Zuweisungen von Kompetenzstufen zu Mitgliedern werden für diese sofort sichtbar.
 cont#:#cont_skill_publish_auto#:#Automatisch
 cont#:#cont_add_skill#:#Kompetenz hinzufügen
 cont#:#cont_cont_skills#:#Kompetenzen der Mitglieder
@@ -14731,17 +14780,17 @@ cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
 cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
 cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
 cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzzuweisungen des Benutzers zurücksetzen?
-skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzausprägungen im Zeitraum %1$s bis %2$s erreicht:
+skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzstufen im Zeitraum %1$s bis %2$s erreicht:
 skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
-skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzausprägungen benachrichtigt.
+skll#:#skll_skill_notification_desc#:#Benutzer werden über geänderte Kompetenzstufen benachrichtigt.
 skll#:#skll_competence_achievements#:#Neue Kompetenzbewertungen und -einschätzungen
 common#:#grade#:#Bewerten
 rbac#:#grp_grade#:#Gruppenmitglieder bewerten
 rbac#:#crs_grade#:#Kursmitglieder bewerten
 grp#:#grp_no_perm_to_add_create_first#:#Sie müssen zunächst eine neue Gruppe erstellen. Bitte wählen Sie den Ort, an dem die neue Gruppe erstellt werden soll.
 grp#:#grp_create_new_grp_in#:#Neue Gruppe in '%1' erstellen.
-obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzausprägungen zuzuweisen.
+obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzstufen zuzuweisen.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
 grp#:#grp_user_already_in_group#:#Der ausgewählte Benutzer ist bereits Mitglied der Gruppe.
@@ -14899,13 +14948,14 @@ copa#:#copa_new#:#Neue Inhaltsseite anlegen
 copa#:#copa_import#:#Inhaltsseite importieren
 copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
-copa#:#copa_edit#:#Inhaltsseite bearbeiten
+copa#:#copa_edit#:#Einstellungen der Inhaltsseite
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
+copa#:#copa_activation_online_info#:#Nur wenn die Inhaltsseite online geschaltet ist, können Benutzer auf die Inhaltsseite zugreifen. Wenn nicht, ist die Inhaltsseite nur für Administratoren verfügbar.
 common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
@@ -15085,10 +15135,10 @@ book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen
 book#:#book_your_reservations#:#Ihre Reservierungen
 book#:#book_reservation_overview#:#Reservierungen anderer Benutzer
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
-book#:#book_reminder_setting#:#Reminder
-book#:#book_reminder_day#:#Vor der Reservierung
+book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
+book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
-book#:#book_reminder_days#:#Tag(e)
+book#:#book_reminder_days#:#Tage vor der Reservierung
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
@@ -15117,7 +15167,7 @@ user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
 lhist#:#lhist_first_login#:#Erstes Login
-prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
+prtf#:#prtf_decl_authorship#:#Selbstständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
@@ -15686,9 +15736,9 @@ lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als a
 lti#:#lti_form_section_appearance#:#Optionen für den Start
 lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
-lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider (Anbieter) übermittelt wurden.
+lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider übermittelt wurden.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider
-lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Ein externer Provider ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider (Anbieter). Dies ist z.B. der Fall, wenn es keine Rechte zum Löschen von Daten gibt.
+lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Auf externe Provider haben Sie als Betreiber der ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten, zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_select_provider#:#Provider auswählen
 lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
 lti#:#lti_copy#:#LTI-Konsument kopieren
@@ -15709,7 +15759,7 @@ lti#:#field_provider_xml#:#XML-Datei
 lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.
 lti#:#lti_add_own_provider#:#Eigenen LTI-Provider hinzufügen (nicht für alle Benutzer)
 lti#:#tbl_provider_header#:#LTI-Provider
-lti#:#lti_form_provider_create#:#Providereinstellungen anlegen
+lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_privacy_settings#:#Datenschutzeinstellungen
 lti#:#lti_con_prov_learning_progress_options#:#Optionen für den Lernfortschritt
@@ -15722,14 +15772,14 @@ lti#:#tbl_lti_prov_availability#:#Verfügbarkeit
 lti#:#tbl_lti_prov_usages#:#Verwendung
 lti#:#tbl_lti_prov_usages_trashed#:#Im Papierkorb
 lti#:#tbl_lti_prov_usages_untrashed#:#Nicht im Papierkorb
-lti#:#tbl_lti_prov_provider_creator#:#Ersteller
+lti#:#tbl_lti_prov_provider_creator#:#Erstellt von###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#tbl_lti_prov_own_provider#:#Eigener Provider
 lti#:#lti_action_delete_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
 lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
 lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider löschen möchten?
-lti#:#lti_success_accept_as_global#:#Erfolgreich als Global Provider für alle Anwender übernommen
-lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global Provider für alle Anwender übernommen
+lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider für alle Anwender übernommen
+lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider für alle Anwender übernommen
 lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
 lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
 lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
@@ -15763,7 +15813,7 @@ lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS au
 lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
 lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-Id mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
-lti#:#lti_con_prov_xapi_activity_id_info#:#Die Activity ID ist notwendig, um Daten aus dem Learning Record Store anzufordern. Geben Sie hier nur dann etwas ein, wenn die Zuordnung der Ressource des Providers zu einer Activity Id eindeutig ist! Wenn hier nichts eingetragen ist, kann die Activity Id beim LTI-Konsumenten eingetragen werden. Die Activity Id kann beim LTI-Provider angefordert werden.
+lti#:#lti_con_prov_xapi_activity_id_info#:#Diese ID wird benötigt, um die Daten aus dem LRS in ILIAS anzeigen zu können. Sie erhalten diese ID von der Organisation, die diese Ressource anbietet.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
 lti#:#lti_con_prov_keywords#:#Schlagwörter
 lti#:#lti_con_prov_keywords_info#:#Die Schlagwörter müssen durch ein Semikolon (;) getrennt sein. Die Schlagwörter werden automatisch als Schlagwörter in die Metadaten übernommen.
@@ -15820,7 +15870,7 @@ lti#:#tab_info#:#Info
 lti#:#tab_content#:#Inhalt
 lti#:#tab_settings#:#Einstellungen
 lti#:#tab_statements#:#Lernerfahrungen
-lti#:#lti_provider_not_avail_msg#:#LTI Provider ist auf 'Nicht verfügbar' gesetzt.
+lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
 lti#:#subtab_object_settings#:#Objekteinstellungen
 lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
@@ -15831,7 +15881,7 @@ lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
 lti#:#launch_method#:#Optionen für den Start
 lti#:#use_xapi#:#xAPI-Unterstützung verwenden
-lti#:#use_xapi_info#:#Dieser LTI Provider unterstützt die Abfrage von xAPI-Statements.
+lti#:#use_xapi_info#:#Dieser LTI-Provider unterstützt die Abfrage von xAPI-Statements.
 lti#:#activity_id#:#Activity-ID
 lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
 lti#:#show_statements#:#Lernerfahrungen anzeigen
@@ -15990,7 +16040,7 @@ cmix#:#launch_options#:#Optionen für den Start
 cmix#:#launch_url#:#URL der Ressource
 cmix#:#launch_url_info#:#Geben Sie hier die Internetadresse ein und fügen Sie http:// oder https:// hinzu. Optionen zum Datenschutz sind auch für externe Ressourcen relevant.
 cmix#:#activity_id#:#Activity-ID
-cmix#:#activity_id_info#:#Diese ID wird für die Anzeige von Daten aus dem LRS benötigt. Diese ID erhalten Sie vom Anbieter der Ressource.
+cmix#:#activity_id_info#:#Diese ID wird benötigt, um die Daten aus dem LRS in ILIAS anzuzeigen. Sie erhalten diese ID von der Organisation, die diese Ressource anbietet.###Modified as part of gender mainstreaming activities for ILIAS 8
 cmix#:#use_fetch#:#Autorisierung durch Fetch-URL
 cmix#:#use_fetch_info#:#Solange die Ressource diese Option unterstützt, sollten Sie diese Option verwenden um die Datensicherheit zu erhöhen.
 cmix#:#privacy_options#:#Optionen zum Datenschutz
@@ -16090,8 +16140,8 @@ prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#category#:#Kategorie
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
-prg#:#prgr_new#:#Neuer Link zum Studienprogramm
-prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
+common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
@@ -16345,7 +16395,7 @@ common#:#obj_peusr#:#Benutzer
 survey#:#svy_compress_view#:#Komprimierte Sicht
 survey#:#svy_compress_view_info#:#Alle Single-Choice Fragen eines Fragenblocks mit gleicher Antwortskalierung werden matrixartig dargestellt.
 cmix#:#only_moveon_label#:#Nur Daten zum Lernerfolg speichern
-cmix#:#only_moveon_info#:#Mit dieser nur für den ILIAS-LRS-Proxy zur Verfügung stehenden Option werden nur Statements mit definierten Verben im Learning Record Store gespeichert (WhiteList). Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären. Das sichert in der Regel die Ablauffähigkeit, sollte jedoch mit dem Content-Anbieter abgesprochen sein.
+cmix#:#only_moveon_info#:#Diese Option steht nur für den ILIAS-LRS-Proxy zur Verfügung! Es werden ausschließlich Statements mit definierten Verben im Learning Record Store gespeichert (WhiteList). <br />Der Ressource wird der Eindruck vermittelt, dass alle Statements vom LRS gespeichert worden sind. Das sichert in der Regel die Ablauffähigkeit, sollte jedoch mit der Organisation, welche diese Ressource anbietet, abgesprochen werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 cmix#:#achieved_label#:#Statements mit dem Verb 'achieved'
 cmix#:#achieved_info#:#Erfolgreich ein gewünschtes Ziel, Niveau oder Ergebnis durch Anstrengung, Geschicklichkeit oder Mut herbeiführen oder erreichen.
 cmix#:#answered_label#:#Statements mit dem Verb 'answered'
@@ -16359,7 +16409,7 @@ cmix#:#initialized_info#:#Die Aktivität wurde erfolgreich begonnen.
 cmix#:#passed_label#:#Statements mit dem Verb 'passed'
 cmix#:#passed_info#:#Die Aktivität wurde bis zu einem vorher festgelegten Grad der Zufriedenheit erfolgreich bestanden.
 cmix#:#progressed_label#:#Statements mit dem Verb 'progressed'
-cmix#:#progressed_info#:#Bezeichnet einen Wert, der angibt, wie weit ein Akteur in einer Aktivität fortgeschritten ist oder sich durch eine Aktivität bewegt hat.
+cmix#:#progressed_info#:#Bezeichnet einen Wert, der angibt, wie weit eine Aktivität fortgeschritten ist oder sich jemand durch eine Aktivität bewegt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 cmix#:#satisfied_label#:#Statements mit dem Verb 'satisfied'
 cmix#:#satisfied_info#:#Zeigt an, dass die Kriterien des Objekts oder der Aktivität erfüllt wurden.
 cmix#:#terminated_label#:#Statements mit dem Verb 'terminated'
@@ -16367,7 +16417,7 @@ cmix#:#terminated_info#:#Die Aktivität wurde erfolgreich beendet.
 cmix#:#hide_data_label#:#Daten schwärzen
 cmix#:#hide_data_info#:#Mit dieser nur für den ILIAS-LRS-Proxy zur Verfügung stehenden Option werden bestimmte Daten in Statements mit unkenntlich gemachten Werten im Learning Record Store gespeichert.
 cmix#:#timestamp_label#:#Zeitstempel 'timestamp'
-cmix#:#timestamp_info#:#Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann.
+cmix#:#timestamp_info#:#Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbstständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann.
 cmix#:#duration_label#:#Zeitdauer 'duration'
 cmix#:#duration_info#:#Die Zeitdauer kann z.B. für die Beantwortung einer Aufgabe erfasst werden. Die Zeitdauer 'duration' wird durch diese Option auf den Standardwert 0 Sekunden (PT00.000S) gesetzt.
 cmix#:#no_substatements_label#:#Substatements nicht speichern
@@ -16379,7 +16429,7 @@ content#:#cont_edit_comp#:#Bearbeitungsmodus
 content#:#cont_edit_multi#:#Mehrfachauswahl
 content#:#cont_block_format#:#Blockformat
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_add_url#:#URL angeben
+content#:#cont_add_url#:#Über URL einbinden
 content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
 content#:#cont_choose_from_pool#:#Aus Medienpool
 content#:#cont_choose_media_pool#:#Medienpool auswählen
@@ -16642,5 +16692,31 @@ prg#:#mail_assignments#:#Mail an zugewiesene Benutzer
 prg#:#manage_assignments#:#Zuweisungen verwalten
 prg#:#prg_manage_members_short#:#Zuweisungen verwalten
 prg#:#will_not_modify_relevant_progress#:#bereits relevant
-prg#:#will_not_modify_validity_on_non_successful_progress#:#Gültigkeit kann nur geändert werden wenn abgeschlossen oder akkreditiert
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Gültigkeit kann nur geändert werden, wenn abgeschlossen oder akkreditiert
 prg#:#status_unchanged#:#Status unverändert
+common#:#file_system_clean_temp_dir_cron#:#Temporäres Verzeichnis aufräumen
+common#:#file_system_clean_temp_dir_cron_info#:#Dieser Cronjob räumt das temp-Verzeichnis von ILIAS auf und löscht Dateien, die älter als 10 Tage sind. Damit wird eine Anhäufung ungenutzter Dateien und ein entsprechend erhöhter Speicherplatzverbrauch durch das temp-Verzeichnis verhindert.
+violation#:#not_a_string#:#Wert ist keine Zeichenkette
+common#:#actions_for#:#Aktionen für %s
+validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
+validation#:#not_an_array#:#Wert ist kein Feld
+validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich '%s'.
+skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
+skmg#:#skmg_skill_tree#:#Kompetenzbaum
+skmg#:#skmg_skill_trees#:#Kompetenzbäume
+skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
+rbac#:#obj_skee#:#Kompetenzbaum
+rbac#:#read_comp#:#Lesezugriff auf Kompetenzen und Kompetenzvorlagen
+rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
+rbac#:#manage_comp#:#Kompetenzen bearbeiten
+rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
+rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten
+forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
+skmg#:#skmg_custom_image_alt#:#Benutzerdefiniertes Bild für Kompetenzprofil
+skmg#:#skmg_form_presentation#:#Darstellung
+skll#:#skll_lhist_skill_profile_fulfilled#:#Kompetenzprofil $3$ wurde erfüllt.
+skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinschätzung durch, damit Ihr Kompetenzziel angezeigt wird. Klicken Sie hierzu auf die Schaltfläche "Aktionen".
+skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
+skmg#:#skmg_recommended_learning_material#:#Lerninhalte zur Zielerreichung
+skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der folgenden Lerninhalte aus. Bearbeiten Sie ihn um das Kompetenzziel zu erreichen.
+skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen und sie hier angezeigt zu bekommen. Sie können beliebig viele Kompetenzen hinzufügen.

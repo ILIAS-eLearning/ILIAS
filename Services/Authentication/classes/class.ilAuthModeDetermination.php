@@ -215,11 +215,11 @@ class ilAuthModeDetermination
         // begin-patch ldap_multiple
         include_once('Services/LDAP/classes/class.ilLDAPServer.php');
         // end-patch ldap_multiple
-        
+
         include_once('Services/Radius/classes/class.ilRadiusSettings.php');
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
-        
+
         $soap_active = $ilSetting->get('soap_auth_active', false);
 
         // apache settings
@@ -230,8 +230,8 @@ class ilAuthModeDetermination
         // begin-patch ldap_multiple
         $i = 0;
         while (true) {
-            $auth_mode = $this->settings->get((string) $i++, false);
-            if ($auth_mode === false) {
+            $auth_mode = $this->settings->get((string) $i++, null);
+            if ($auth_mode === null) {
                 break;
             }
             if ($auth_mode) {

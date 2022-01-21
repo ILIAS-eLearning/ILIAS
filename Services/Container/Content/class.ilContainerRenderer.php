@@ -20,7 +20,7 @@
  */
 class ilContainerRenderer
 {
-    const UNIQUE_SEPARATOR = "-";
+    protected const UNIQUE_SEPARATOR = "-";
 
     protected ilLanguage $lng;
     protected ilSetting $settings;
@@ -69,9 +69,9 @@ class ilContainerRenderer
         $this->settings = $DIC->settings();
         $this->ui = $DIC->ui();
         $this->obj_definition = $DIC["objDefinition"];
-        $this->enable_manage_select_all = (bool) $a_enable_manage_select_all;
-        $this->enable_multi_download = (bool) $a_enable_multi_download;
-        $this->active_block_ordering = (bool) $a_active_block_ordering;
+        $this->enable_manage_select_all = $a_enable_manage_select_all;
+        $this->enable_multi_download = $a_enable_multi_download;
+        $this->active_block_ordering = $a_active_block_ordering;
         $this->block_custom_pos = $a_block_custom_positions;
         $this->view_mode = $a_view_mode;
         /** @var $obj ilContainerGUI */
@@ -272,7 +272,7 @@ class ilContainerRenderer
     ) : void {
         $this->details[$a_level] = array(
             "url" => $a_url
-            ,"active" => (bool) $a_active
+            ,"active" => $a_active
         );
     }
     
@@ -476,7 +476,7 @@ class ilContainerRenderer
                     }
                 }
 
-                if (is_array($this->block_items[$a_block_id])) {
+                if (isset($this->block_items[$a_block_id])) {
                     foreach ($this->block_items[$a_block_id] as $item_id) {
                         if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
                             $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], (int) $item_id);

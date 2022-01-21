@@ -263,8 +263,7 @@ class ilECSUtils
     {
         $res = array();
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-                                
+
         // getting all records
         foreach (ilAdvancedMDValues::getInstancesForObjectId($a_obj_id) as $a_values) {
             // this correctly binds group and definitions

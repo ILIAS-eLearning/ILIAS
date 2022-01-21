@@ -1,11 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
@@ -13,34 +14,28 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class SortationTest extends ILIAS_UI_TestBase
 {
-    protected $options = array(
+    protected array $options = [
         'internal_rating' => 'Best',
         'date_desc' => 'Most Recent',
         'date_asc' => 'Oldest',
-    );
+    ];
 
-    private function getFactory()
+    private function getFactory() : I\Component\ViewControl\Factory
     {
         return new I\Component\ViewControl\Factory(
             new SignalGenerator()
         );
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $f = $this->getFactory();
         $sortation = $f->sortation($this->options);
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\ViewControl\\Sortation",
-            $sortation
-        );
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\Signal",
-            $sortation->getSelectSignal()
-        );
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Sortation", $sortation);
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $sortation->getSelectSignal());
     }
 
-    public function testAttributes()
+    public function testAttributes() : void
     {
         $f = $this->getFactory();
         $s = $f->sortation($this->options);
@@ -56,26 +51,20 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertEquals(array(), $s->getTriggeredSignals());
         $generator = new SignalGenerator();
         $signal = $generator->create();
-        $this->assertEquals(
-            $signal,
-            $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal()
-        );
+        $this->assertEquals($signal, $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal());
     }
 
-    public function testRendering()
+    public function testRendering() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
         $s = $f->sortation($this->options);
 
         $html = $this->normalizeHTML($r->render($s));
-        $this->assertEquals(
-            $this->getSortationExpectedHTML(true),
-            $html
-        );
+        $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
-    public function testRenderingWithJsBinding()
+    public function testRenderingWithJsBinding() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -84,13 +73,10 @@ class SortationTest extends ILIAS_UI_TestBase
         });
 
         $html = $this->normalizeHTML($r->render($s));
-        $this->assertEquals(
-            $this->getSortationExpectedHTML(true),
-            $html
-        );
+        $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
-    protected function getSortationExpectedHTML(bool $with_id = false)
+    protected function getSortationExpectedHTML(bool $with_id = false) : string
     {
         $id = "";
         $button1_id = "id_1";
@@ -114,18 +100,17 @@ EOT;
         return $this->normalizeHTML($expected);
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function button()
+        return new class extends NoUIFactory {
+            public function button() : C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
-            public function dropdown()
+            public function dropdown() : C\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }
         };
-        return $factory;
     }
 }

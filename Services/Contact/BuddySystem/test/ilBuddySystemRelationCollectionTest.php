@@ -11,11 +11,6 @@ require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
 class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 {
     /**
-     * @var bool
-     */
-    protected $backupGlobals = false;
-
-    /**
      * @dataProvider provideElements
      * @param array $elements
      */
@@ -96,15 +91,12 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $collection = new ilBuddySystemRelationCollection($elements);
         $iterations = 0;
         foreach ($collection->getIterator() as $key => $item) {
-            $this->assertSame($elements[$key], $item, "Item {$key} not match");
+            $this->assertSame($elements[$key], $item, "Item $key not match");
             $iterations++;
         }
         $this->assertCount($iterations, $elements, 'Number of iterations not match');
     }
 
-    /**
-     *
-     */
     public function testRemovingAnNonExistingElementRaisesAnException() : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -112,9 +104,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $collection->removeElement(5);
     }
 
-    /**
-     *
-     */
     public function testRemovingAnNonExistingElementByKeyRaisesAnException() : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -122,9 +111,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $collection->remove('phpunit');
     }
 
-    /**
-     *
-     */
     public function testElementsCanBeSliced() : void
     {
         $collection = new ilBuddySystemRelationCollection();
@@ -138,9 +124,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         })->toArray());
     }
 
-    /**
-     *
-     */
     public function testElementsCanBeFiltered() : void
     {
         $collection = new ilBuddySystemRelationCollection();
@@ -152,9 +135,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $this->assertSame([3], $collection->slice(2, 1)->getValues());
     }
 
-    /**
-     * @return array
-     */
     public function provideElements() : array
     {
         $relation1 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Listing;
 
 /**
@@ -6,7 +7,6 @@ namespace ILIAS\UI\Component\Listing;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -18,7 +18,7 @@ interface Factory
      * @param array $items Set of elements to be rendered (string|Component)[]
      * @return  \ILIAS\UI\Component\Listing\Unordered
      */
-    public function unordered(array $items);
+    public function unordered(array $items) : Unordered;
 
     /**
      * ---
@@ -32,7 +32,7 @@ interface Factory
      * @param array $items Set of elements to be rendered (string|Component)[]
      * @return  \ILIAS\UI\Component\Listing\Ordered
      */
-    public function ordered(array $items);
+    public function ordered(array $items) : Ordered;
 
     /**
      * ---
@@ -46,7 +46,7 @@ interface Factory
      * @param array $items string (key) => (string|Component)[] (value)
      * @return  \ILIAS\UI\Component\Listing\Descriptive
      */
-    public function descriptive(array $items);
+    public function descriptive(array $items) : Descriptive;
 
     /**
      * ---
@@ -67,10 +67,9 @@ interface Factory
      *        respective views.
      *
      * ----
-     *
      * @return  \ILIAS\UI\Component\Listing\Workflow\Factory
      */
-    public function workflow();
+    public function workflow() : Workflow\Factory;
 
     /**
      * ---
@@ -86,8 +85,7 @@ interface Factory
      *        The items for a descriptive listing consists of a key as a title
      *        and a value describing the key.
      * ----
-     *
      * @return \ILIAS\UI\Component\Listing\CharacteristicValue\Factory
      */
-    public function characteristicValue() : \ILIAS\UI\Component\Listing\CharacteristicValue\Factory;
+    public function characteristicValue() : CharacteristicValue\Factory;
 }

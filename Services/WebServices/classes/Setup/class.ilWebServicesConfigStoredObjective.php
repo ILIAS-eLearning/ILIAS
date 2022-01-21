@@ -52,9 +52,9 @@ class ilWebServicesConfigStoredObjective implements Setup\Objective
             $this->bool2string($this->config->isSOAPUserAdministration())
         );
         $settings->set("soap_wsdl_path", $this->config->getSOAPWsdlPath());
-        $settings->set("soap_connect_timeout", (int) $this->config->getSOAPConnectTimeout());
+        $settings->set("soap_connect_timeout", (string) $this->config->getSOAPConnectTimeout());
         $settings->set("rpc_server_host", $this->config->getRPCServerHost());
-        $settings->set("rpc_server_port", $this->config->getRPCServerPort());
+        $settings->set("rpc_server_port", (string) $this->config->getRPCServerPort());
 
         return $environment;
     }

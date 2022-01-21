@@ -1,49 +1,32 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMemberSearchDataProvider
- *
  * @author Nadia Matuschek <nmatuschek@databay.de>
- *
- **/
+ */
 class ilMailMemberSearchDataProvider
 {
-    /** @var ilAccessHandler */
-    protected $access;
-
-    /** @var int */
-    protected $ref_id;
-
-    /** @var string */
-    protected $type = 'crs';
-
-    /** @var array */
-    protected $data = [];
-
-    /** @var null */
-    protected $objParticipants = null;
-
-    /** @var ilObjectDataCache */
-    protected $dataCache;
-
-    /** @var array */
-    protected $roleSortWeightMap = [
+    protected ilAccessHandler $access;
+    protected int $ref_id;
+    protected string $type = 'crs';
+    protected array $data = [];
+    protected ilParticipants $objParticipants;
+    protected ilObjectDataCache $dataCache;
+    /**
+     * @var array<string, int>
+     */
+    protected array $roleSortWeightMap = [
         'il_crs_a' => 10,
         'il_grp_a' => 10,
         'il_crs_t' => 9,
         'il_crs_m' => 8,
         'il_grp_m' => 8,
     ];
+    protected ilLanguage $lng;
 
-    /** @var ilLanguage */
-    protected $lng;
-
-    /**
-     * @param ilParticipants $objParticipants
-     * @param int $a_ref_id
-     */
-    public function __construct($objParticipants, $a_ref_id)
+    
+    public function __construct(ilParticipants $objParticipants, int $a_ref_id)
     {
         global $DIC;
 
@@ -114,7 +97,7 @@ class ilMailMemberSearchDataProvider
     }
 
     /**
-     * @param string[] $roleTitles
+     * @param string[]
      * @return string[]
      */
     private function sortRoles(array $roleTitles) : array

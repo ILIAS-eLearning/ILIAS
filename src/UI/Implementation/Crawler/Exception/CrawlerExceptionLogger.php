@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 /**
@@ -7,22 +8,22 @@ namespace ILIAS\UI\Implementation\Crawler\Exception;
  */
 class CrawlerExceptionLogger implements CrawlerExceptionHandler
 {
-    protected $exceptions = array();
+    protected array $exceptions = array();
 
     /**
      *	@inheritdoc
      */
-    public function handleException(CrawlerException $ex)
+    public function handleException(CrawlerException $ex) : void
     {
         $this->exceptions[] = $ex;
     }
 
     /**
-     * Get all exception thrown sofar and reset the logger.
+     * Get all exception thrown so far and reset the logger.
      *
      * @return	CrawlerException[]	$return
      */
-    public function exceptions()
+    public function exceptions() : array
     {
         $return = $this->exceptions;
         $this->exceptions = array();

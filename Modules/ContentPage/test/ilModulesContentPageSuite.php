@@ -42,7 +42,7 @@ class ilModulesContentPageSuite extends TestSuite
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
 
-            $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
+            $className = 'ILIAS\\ContentPage\\' . preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);
                 if (

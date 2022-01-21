@@ -382,19 +382,19 @@ class ilOpenIdConnectSettingsGUI
             return;
         }
 
-        if(!empty($form->getInput('scopes'))) {
+        if (!empty($form->getInput('scopes'))) {
             $scopes = $form->getInput('scopes');
             foreach ($scopes as $key => $value) {
-                if(empty($value)) {
+                if (empty($value)) {
                     array_splice($scopes, $key, 1);
                 }
             }
         }
 
         $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
-        if(!empty($invalid_scopes)) {
+        if (!empty($invalid_scopes)) {
             ilUtil::sendFailure(
-                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'),implode(",", $invalid_scopes))
+                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
             );
             $form->setValuesByPost();
             $this->settings($form);
@@ -443,7 +443,7 @@ class ilOpenIdConnectSettingsGUI
                 $upload->process();
             }
             foreach ($upload->getResults() as $single_file_upload) {
-                if ($single_file_upload->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                if ($single_file_upload->isOK()) {
                     $this->settings->deleteImageFile();
                     $upload->moveFilesTo(
                         ilOpenIdConnectSettings::FILE_STORAGE,

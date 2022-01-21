@@ -6,6 +6,8 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 
 /**
  * Class StandardTopItemsProvider
@@ -14,45 +16,28 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 {
+    
+    private static StandardTopItemsProvider $instance;
 
-    /**
-     * @var StandardTopItemsProvider
-     */
-    private static $instance;
-    /**
-     * @var BasicAccessCheckClosures
-     */
-    private $basic_access_helper;
-    /**
-     * @var IdentificationInterface
-     */
-    private $administration_identification;
-    /**
-     * @var IdentificationInterface
-     */
-    private $organisation_identification;
-    /**
-     * @var IdentificationInterface
-     */
-    private $communication_identification;
-    /**
-     * @var IdentificationInterface
-     */
-    private $achievements_identification;
-    /**
-     * @var IdentificationInterface
-     */
-    private $personal_workspace_identification;
-    /**
-     * @var IdentificationInterface
-     */
-    private $repository_identification;
+    private BasicAccessCheckClosures $basic_access_helper;
+
+    private IdentificationInterface $administration_identification;
+
+    private IdentificationInterface $organisation_identification;
+
+    private IdentificationInterface $communication_identification;
+
+    private IdentificationInterface $achievements_identification;
+
+    private IdentificationInterface $personal_workspace_identification;
+
+    private IdentificationInterface $repository_identification;
 
 
     /**
      * @return StandardTopItemsProvider
      */
-    public static function getInstance()
+    public static function getInstance():StandardTopItemsProvider
     {
         global $DIC;
         if (!isset(self::$instance)) {
@@ -87,7 +72,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $f = function ($id) {
             return $this->dic->language()->txt($id);
         };
-        $dic = $this->dic;
 
         // Dashboard
         $title = $this->dic->language()->txt("mm_dashboard");
@@ -99,10 +83,8 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
-                function () use ($dic) {
+                function () {
                     return true;
-
-                    return $dic->settings()->get('disable_my_memberships', 0) == 0;
                 }
             )
             ->withVisibilityCallable(
@@ -149,26 +131,34 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_orga.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () {
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () : bool {
                 return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
             }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                static function () {
+                static function () : bool {
                     return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-                });
+                }
+            );
 
         $title = $f("mm_administration");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
-            ->withSupportsAsynchronousLoading(true)
+            ->withSupportsAsynchronousLoading(false)
+            ->withAvailableCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(70)
             ->withVisibilityCallable($this->basic_access_helper->hasAdministrationAccess());
+
+        $dd_renderer = new TopParentItemDrilldownRenderer();
+        $ti = new TypeInformation(get_class($administration), get_class($administration));
+        $ti->setRenderer($dd_renderer);
+        $administration = $administration->setTypeInformation($ti);
+
 
         return [
             $dashboard,
@@ -177,7 +167,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $achievements,
             $communication,
             $organisation,
-            $administration,
+            $administration
         ];
     }
 

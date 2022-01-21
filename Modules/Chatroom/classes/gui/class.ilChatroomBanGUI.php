@@ -40,17 +40,13 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         parent::__construct($gui);
     }
 
-    /**
-     * Unbans users fetched from $_REQUEST['banned_user_id'].
-     */
     public function delete() : void
     {
         $userTrafo = $this->refinery->kindlyTo()->listOf(
             $this->refinery->kindlyTo()->int()
         );
-
-        $users = $userTrafo->transform($this->getRequestValue('banned_user_id', []));
-
+        
+        $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
         if ($users === []) {
             ilUtil::sendInfo($this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
@@ -107,9 +103,6 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $this->gui->tpl->setVariable('ADM_CONTENT', $table->getHTML());
     }
 
-    /**
-     * Kicks and bans user, fetched from $_REQUEST['user'] and adds history entry.
-     */
     public function active() : void
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
@@ -117,8 +110,8 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         $this->exitIfNoRoomExists($room);
 
-        $userToBan = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('user'));
-        $subRoomId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
+        $userToBan = $this->getRequestValue('user', $this->refinery->kindlyTo()->int());
+        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
 
         $connector = $this->gui->getConnector();
         $response = $connector->sendBan($room->getRoomId(), $subRoomId, $userToBan);

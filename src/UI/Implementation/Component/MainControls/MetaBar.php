@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -21,29 +21,17 @@ class MetaBar implements MainControls\MetaBar
     use ComponentHelper;
     use JavaScriptBindable;
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    private $signal_generator;
-
-    /**
-     * @var Signal
-     */
-    private $entry_click_signal;
-
-    /**
-     * @var Signal
-     */
-    private $disengage_all_signal;
+    private SignalGeneratorInterface $signal_generator;
+    private Signal $entry_click_signal;
+    private Signal $disengage_all_signal;
 
     /**
      * @var array<string, Bulky|Prompt>
      */
-    protected $entries;
+    protected array $entries;
 
-    public function __construct(
-        SignalGeneratorInterface $signal_generator
-    ) {
+    public function __construct(SignalGeneratorInterface $signal_generator)
+    {
         $this->signal_generator = $signal_generator;
         $this->initSignals();
     }
@@ -89,7 +77,7 @@ class MetaBar implements MainControls\MetaBar
     /**
      * Set the signals for this component
      */
-    protected function initSignals()
+    protected function initSignals() : void
     {
         $this->entry_click_signal = $this->signal_generator->create();
         $this->disengage_all_signal = $this->signal_generator->create();

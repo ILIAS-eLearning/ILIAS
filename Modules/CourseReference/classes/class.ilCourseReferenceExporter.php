@@ -16,9 +16,9 @@ class ilCourseReferenceExporter extends ilContainerReferenceExporter
     /**
      * Init xml writer
      * @param ilContainerReference $ref
-     * @return ilCategoryXmlWriter
+     * @return ilContainerReferenceXmlWriter
      */
-    protected function initWriter(ilContainerReference $ref)
+    protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter
     {
         include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlWriter.php';
         return new ilCourseReferenceXmlWriter($ref);

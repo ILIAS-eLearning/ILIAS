@@ -100,8 +100,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     {
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValueParser.php');
         $this->sax_controller->setElementHandler(
             $this->adv_md_handler = new ilAdvancedMDValueParser($this->course_obj->getId()),
             'AdvancedMetaData'

@@ -10,7 +10,7 @@ class ilObjectAppEventListener implements \ilAppEventListener
     /**
      * @inheritdoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 

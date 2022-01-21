@@ -610,7 +610,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $choiceKeys = array_keys($this->object->answers);
         
         if ($this->object->getShuffle()) {
-            $choiceKeys = $this->object->getShuffler()->shuffle($choiceKeys);
+            $choiceKeys = $this->object->getShuffler()->transform($choiceKeys);
         }
         
         return $choiceKeys;

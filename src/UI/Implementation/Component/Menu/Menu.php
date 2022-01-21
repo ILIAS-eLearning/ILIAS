@@ -21,9 +21,9 @@ abstract class Menu implements IMenu\Menu
     protected $label;
 
     /**
-     * @var Component[]
+     * @var Component\Component[]
      */
-    protected $items = [];
+    protected array $items = [];
 
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ abstract class Menu implements IMenu\Menu
         return $this->items;
     }
 
-    protected function checkItemParameter(array $items)
+    protected function checkItemParameter(array $items) : void
     {
         $classes = [
             Sub::class,

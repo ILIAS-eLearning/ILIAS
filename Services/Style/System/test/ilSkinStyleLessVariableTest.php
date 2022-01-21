@@ -40,7 +40,7 @@ class ilSkinStyleLessVariableTest extends TestCase
 
     public function testIconFontPathUpdate()
     {
-        $variable = new ilSystemStyleLessVariable("icon-font-path", "value", "comment", "category_name", ["references_id"]);
+        $variable = new ilSystemStyleLessVariable("il-icon-font-path", "value", "comment", "category_name", ["references_id"]);
 
         $variable->setValue("\"../../node_modules/bootstrap/fonts/\"");
         $this->assertEquals("\"../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
@@ -48,7 +48,7 @@ class ilSkinStyleLessVariableTest extends TestCase
 
     public function testIconFontPathQuotation()
     {
-        $variable = new ilSystemStyleLessVariable("icon-font-path", "value", "comment", "category_name", ["references_id"]);
+        $variable = new ilSystemStyleLessVariable("il-icon-font-path", "value", "comment", "category_name", ["references_id"]);
 
         $variable->setValue("\"somePath\"");
         $this->assertEquals("\"somePath\"", $variable->getValue());

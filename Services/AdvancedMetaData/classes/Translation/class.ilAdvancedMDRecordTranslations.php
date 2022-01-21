@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,40 +8,22 @@
 class ilAdvancedMDRecordTranslations
 {
     /**
-     * @var null | array
+     * @var array<int, ilAdvancedMDRecordTranslations>
      */
     private static $instances = null;
 
-    /**
-     * @var int
-     */
-    private $record_id;
+    private int $record_id;
+    private ilAdvancedMDRecord $record;
 
     /**
-     * @var ilAdvancedMDRecord
-     */
-    private $record;
-
-    /**
-     * @var ilAdvancedMDRecordTranslation[]
+     * @var array<string, ilAdvancedMDRecordTranslation>
      */
     private $translations = [];
 
-    /**
-     * @var string
-     */
-    private $default_language = '';
+    private string $default_language = '';
 
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
+    private ilDBInterface $db;
+    private ilLanguage $lng;
 
     private function __construct(int $record_id)
     {
@@ -55,11 +37,7 @@ class ilAdvancedMDRecordTranslations
         $this->read();
     }
 
-    /**
-     * @param int $record_id
-     * @return ilAdvancedMDRecordTranslations
-     */
-    public static function getInstanceByRecordId(int $record_id)
+    public static function getInstanceByRecordId(int $record_id) : ilAdvancedMDRecordTranslations
     {
         if (!isset(self::$instances[$record_id])) {
             self::$instances[$record_id] = new self($record_id);
@@ -67,36 +45,22 @@ class ilAdvancedMDRecordTranslations
         return self::$instances[$record_id];
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultLanguage() : string
     {
         return $this->default_language;
     }
 
-    /**
-     * @return int
-     */
     public function getRecordId() : int
     {
         return $this->record_id;
     }
 
-    /**
-     * @param string $lang_key
-     * @return bool
-     */
-    public function isConfigured(string $lang_key)
+    public function isConfigured(string $lang_key) : bool
     {
         return isset($this->translations[$lang_key]);
     }
 
-    /**
-     * @param string $lang_key
-     * @return ilAdvancedMDRecordTranslation|null
-     */
-    public function getTranslation(string $lang_key) : ? ilAdvancedMDRecordTranslation
+    public function getTranslation(string $lang_key) : ?ilAdvancedMDRecordTranslation
     {
         if (!$this->isConfigured($lang_key)) {
             return null;
@@ -105,16 +69,13 @@ class ilAdvancedMDRecordTranslations
     }
 
     /**
-     * @return ilAdvancedMDRecordTranslation[]
+     * array<string, ilAdvancedMDRecordTranslation>
      */
-    public function getTranslations()
+    public function getTranslations() : array
     {
         return $this->translations;
     }
 
-    /**
-     * @return ilAdvancedMDRecordTranslation|null
-     */
     public function getDefaultTranslation() : ?ilAdvancedMDRecordTranslation
     {
         foreach ($this->getTranslations() as $translation) {
@@ -125,7 +86,15 @@ class ilAdvancedMDRecordTranslations
         return null;
     }
 
-    private function read()
+    public function cloneRecord(int $new_record_id) : void
+    {
+        foreach ($this->getTranslations() as $recordTranslation) {
+            $recordTranslation->setRecordId($new_record_id);
+            $recordTranslation->insert();
+        }
+    }
+
+    private function read() : void
     {
         $query = 'select * from ' . ilAdvancedMDRecordTranslation::TABLE_NAME . ' ' .
             'where record_id = ' . $this->db->quote($this->getRecordId(), ilDBConstants::T_INTEGER);
@@ -133,7 +102,7 @@ class ilAdvancedMDRecordTranslations
 
         $this->translations = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->translations[$row->lang_code] = new ilAdvancedMDRecordTranslation(
+            $this->translations[(string) $row->lang_code] = new ilAdvancedMDRecordTranslation(
                 (int) $row->record_id,
                 (string) $row->title,
                 (string) $row->description,
@@ -145,7 +114,7 @@ class ilAdvancedMDRecordTranslations
         $this->default_language = $this->record->getDefaultLanguage();
     }
 
-    public function addTranslationEntry(string $language_code, bool $default = false)
+    public function addTranslationEntry(string $language_code, bool $default = false) : void
     {
         $this->translations[$language_code] = new ilAdvancedMDRecordTranslation(
             $this->record_id,
@@ -157,10 +126,7 @@ class ilAdvancedMDRecordTranslations
         $this->translations[$language_code]->insert();
     }
 
-    /**
-     *
-     */
-    public function updateDefault(string $default)
+    public function updateDefault(string $default) : void
     {
         foreach ($this->getTranslations() as $translation) {
             if ($translation->getLangKey() != $default) {
@@ -174,9 +140,6 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    /**
-     * @return string
-     */
     public function getFormTranslationInfo(string $active_language) : string
     {
         if (count($this->translations) <= 1) {
@@ -194,12 +157,11 @@ class ilAdvancedMDRecordTranslations
         return $txt;
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param ilTextInputGUI    $title
-     */
-    public function modifyTranslationInfoForTitle(ilPropertyFormGUI $form, ilTextInputGUI $title, string $active_language)
-    {
+    public function modifyTranslationInfoForTitle(
+        ilPropertyFormGUI $form,
+        ilTextInputGUI $title,
+        string $active_language
+    ) : void {
         if (count($this->translations) <= 1) {
             return;
         }
@@ -212,12 +174,11 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param ilTextInputGUI    $title
-     */
-    public function modifyTranslationInfoForDescription(ilPropertyFormGUI $form, ilTextAreaInputGUI $description, string $active_language)
-    {
+    public function modifyTranslationInfoForDescription(
+        ilPropertyFormGUI $form,
+        ilTextAreaInputGUI $description,
+        string $active_language
+    ) : void {
         if (count($this->translations) <= 1) {
             return;
         }
@@ -230,38 +191,26 @@ class ilAdvancedMDRecordTranslations
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param string            $active_language
-     * @return bool
-     */
-    public function updateTranslations(string $active_language, string $title, string $description)
+    public function updateTranslations(string $active_language, string $title, string $description) : void
     {
         $translation = $this->getTranslation($active_language);
         if (!$translation instanceof ilAdvancedMDRecordTranslation) {
-            return false;
+            return;
         }
         $translation->setTitle($title);
         $translation->setDescription($description);
         $translation->update();
     }
 
-    /**
-     * @param string $language
-     * @return string
-     */
-    public function getTitleForLanguage(string $language)
+    public function getTitleForLanguage(string $language) : string
     {
         if ($this->getTranslation($language) && strlen($this->getTranslation($language)->getTitle())) {
             return $this->getTranslation($language)->getTitle();
         }
         return $this->record->getTitle();
     }
-    /**
-     * @param string $language
-     * @return string
-     */
-    public function getDescriptionForLanguage(string $language)
+
+    public function getDescriptionForLanguage(string $language) : string
     {
         if ($this->getTranslation($language) && strlen($this->getTranslation($language)->getDescription())) {
             return $this->getTranslation($language)->getDescription();
@@ -269,10 +218,6 @@ class ilAdvancedMDRecordTranslations
         return $this->record->getDescription();
     }
 
-    /**
-     * @param ilXmlWriter $writer
-     * @return ilXmlWriter
-     */
     public function toXML(ilXmlWriter $writer) : ilXmlWriter
     {
         if (!count($this->getTranslations())) {

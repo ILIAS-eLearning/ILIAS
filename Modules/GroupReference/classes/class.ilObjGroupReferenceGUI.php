@@ -8,12 +8,8 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  * @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  * @ingroup ModulesGroupReference
  */
-class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
+class ilObjGroupReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {
-    /** @var string */
-    protected $target_type = 'grp';
-    /** @var string */
-    protected $reference_type = 'grpr';
 
     /**
      * ilObjGroupReferenceGUI constructor.
@@ -24,6 +20,8 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = false)
     {
+        $this->target_type = 'grp';
+        $this->reference_type = 'grpr';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
     }
 

@@ -301,7 +301,7 @@ class ilLTIConsumeProviderList implements Iterator
                     $conditions[] = "availability = " . $DIC->database()->quote(
                         $this->getAvailabilityFilter(),
                         'integer'
-                        );
+                    );
             }
         }
         

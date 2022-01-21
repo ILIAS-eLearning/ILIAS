@@ -31,8 +31,6 @@ final class RootFolderTest extends TestCase
         'login.php',
         'logout.php',
         'lti.php',
-        'objects.dtd',
-        'objects.xml',
         'openidconnect.php',
         'package-lock.json',
         'package.json',

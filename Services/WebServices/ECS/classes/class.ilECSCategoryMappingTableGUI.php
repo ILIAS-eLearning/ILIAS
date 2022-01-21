@@ -63,11 +63,10 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
     }
     
     /**
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('TXT_ID', $this->lng->txt('ecs_import_id'));

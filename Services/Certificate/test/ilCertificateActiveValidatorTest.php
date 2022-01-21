@@ -14,7 +14,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 
         $settings->method('get')
             ->with('active')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
@@ -38,7 +38,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 
         $settings->method('get')
             ->with('active')
-            ->willReturn(false);
+            ->willReturn('0');
 
         $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
@@ -64,7 +64,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 
         $settings->method('get')
             ->with('active')
-            ->willReturn(true);
+            ->willReturn('1');
 
         $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()

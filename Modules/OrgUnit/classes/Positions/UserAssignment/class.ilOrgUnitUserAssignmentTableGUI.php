@@ -13,15 +13,6 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
      * @var ilOrgUnitPosition
      */
     protected $ilOrgUnitPosition;
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    protected $parent_obj;
-
 
     /**
      * ilOrgUnitUserAssignmentTableGUI constructor.
@@ -107,30 +98,30 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
 
 
     /**
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
-        $this->tpl->setVariable("LOGIN", $set["login"]);
-        $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
-        $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
+        $this->tpl->setVariable("LOGIN", $a_set["login"]);
+        $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
+        $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
         //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
         //		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $set["user_id"]);
+        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($lng->txt("Actions"));
-        $selection->setId("selection_list_user_lp_" . $set["user_id"]);
+        $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
 
         if ($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"])
             && ilObjUserTracking::_enabledLearningProgress()
             && ilObjUserTracking::_enabledUserRelatedData()
         ) {
-            $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $set["user_id"]);
+            $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $a_set["user_id"]);
             $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array(
                 ilAdministrationGUI::class,
                 ilObjOrgUnitGUI::class,

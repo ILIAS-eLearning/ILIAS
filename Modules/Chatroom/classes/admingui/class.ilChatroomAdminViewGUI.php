@@ -30,7 +30,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     private function defaultActions() : void
     {
         $chatSettings = new ilSetting('chatroom');
-        if ($chatSettings->get('chat_enabled', false)) {
+        if ($chatSettings->get('chat_enabled', '0')) {
             $this->forcePublicRoom();
         }
     }
@@ -44,7 +44,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $instance = ilObjectFactory::getInstanceByRefId($ref_id, false);
-        if (!$instance || (!$instance instanceof ilObjChatroom)) {
+        if (!($instance instanceof ilObjChatroom)) {
             $this->createPublicRoom();
             return;
         }
@@ -127,15 +127,15 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $notificationSettings = new ilSetting('notifications');
-        $notificationSettings->set('osd_polling_intervall', (int) $form->getInput('osd_intervall'));
-        $notificationSettings->set('enable_osd', (bool) $form->getInput('enable_osd'));
+        $notificationSettings->set('osd_polling_intervall', (string) ((int) $form->getInput('osd_intervall')));
+        $notificationSettings->set('enable_osd', (string) ((bool) $form->getInput('enable_osd')));
 
         $chatSettings = new ilSetting('chatroom');
-        $chatSettings->set('chat_enabled', $settings['chat_enabled']);
-        $chatSettings->set('enable_browser_notifications', $settings['enable_browser_notifications']);
-        $chatSettings->set('conversation_idle_state_in_minutes', $convIdleStateTime);
-        $chatSettings->set('enable_osc', $settings['enable_osc']);
-        $chatSettings->set('play_invitation_sound', (bool) $form->getInput('play_invitation_sound'));
+        $chatSettings->set('chat_enabled', (string) $settings['chat_enabled']);
+        $chatSettings->set('enable_browser_notifications', (string) $settings['enable_browser_notifications']);
+        $chatSettings->set('conversation_idle_state_in_minutes', (string) $convIdleStateTime);
+        $chatSettings->set('enable_osc', (string) $settings['enable_osc']);
+        $chatSettings->set('play_invitation_sound', (string) ((bool) $form->getInput('play_invitation_sound')));
 
         $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
         $adminSettings->saveClientSettings((object) $settings);

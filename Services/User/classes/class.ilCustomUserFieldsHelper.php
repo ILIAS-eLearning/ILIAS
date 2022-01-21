@@ -27,6 +27,9 @@ class ilCustomUserFieldsHelper
      * @var ilLogger
      */
     private $logger = null;
+
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
     
     public function __construct()
     {
@@ -34,7 +37,8 @@ class ilCustomUserFieldsHelper
         
         $this->lng = $DIC->language();
         $this->logger = $DIC->logger()->usr();
-        $this->plugin_admin = $DIC['ilPluginAdmin'];
+        $this->component_repository = $DIC['component.repository'];
+        $this->component_factory = $DIC['component.factory'];
     }
     
     /**
@@ -88,27 +92,7 @@ class ilCustomUserFieldsHelper
      */
     public function getActivePlugins()
     {
-        $plugins = array();
-        
-        include_once './Services/User/classes/class.ilUDFDefinitionPlugin.php';
-        foreach (
-            $this->plugin_admin->getActivePluginsForSlot(
-                ilUDFDefinitionPlugin::UDF_C_TYPE,
-                ilUDFDefinitionPlugin::UDF_C_NAME,
-                ilUDFDefinitionPlugin::UDF_SLOT_ID
-            )
-            as $plugin) {
-            $plug = $this->plugin_admin->getPluginObject(
-                ilUDFDefinitionPlugin::UDF_C_TYPE,
-                ilUDFDefinitionPlugin::UDF_C_NAME,
-                ilUDFDefinitionPlugin::UDF_SLOT_ID,
-                $plugin
-            );
-            if ($plug instanceof ilUDFDefinitionPlugin) {
-                $plugins[] = $plug;
-            }
-        }
-        return $plugins;
+        return $this->getActivePluginsInSlot(ilUDFDefinitionPlugin::UDF_SLOT_ID);
     }
     
     /**

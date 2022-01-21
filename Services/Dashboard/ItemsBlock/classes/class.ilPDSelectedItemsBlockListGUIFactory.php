@@ -1,28 +1,26 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilPDSelectedItemsBlockListGUIFactory
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
+
 class ilPDSelectedItemsBlockListGUIFactory
 {
     /** @var ilObjectListGUI[] */
-    protected static $list_by_type = [];
+    protected static array $list_by_type = [];
+    protected ilObjectDefinition $objDefinition;
+    protected ilPDSelectedItemsBlockGUI $block;
+    protected ilPDSelectedItemsBlockViewGUI $blockView;
 
-    /** @var ilObjectDefinition */
-    protected $objDefinition;
-
-    /** @var ilPDSelectedItemsBlockGUI */
-    protected $block;
-
-    /** @var ilPDSelectedItemsBlockGUI */
-    protected $blockView;
-
-    /**
-     * ilPDSelectedItemsBlockListGUIFactory constructor.
-     * @param ilPDSelectedItemsBlockGUI $block
-     * @param ilPDSelectedItemsBlockViewGUI $blockView
-     */
     public function __construct(
         ilPDSelectedItemsBlockGUI $block,
         ilPDSelectedItemsBlockViewGUI $blockView
@@ -35,8 +33,6 @@ class ilPDSelectedItemsBlockListGUIFactory
     }
 
     /**
-     * @param string $a_type
-     * @return ilObjectListGUI
      * @throws ilException
      */
     public function byType(string $a_type) : \ilObjectListGUI

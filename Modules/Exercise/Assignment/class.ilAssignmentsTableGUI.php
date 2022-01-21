@@ -96,7 +96,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         // #12000
         if (in_array($a_field, array("order_val", "deadline", "start_time"))) {
@@ -108,7 +108,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
     /**
      * @throws ilDateTimeException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

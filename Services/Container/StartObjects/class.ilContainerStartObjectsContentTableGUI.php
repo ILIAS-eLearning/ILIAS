@@ -48,7 +48,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         
         $this->start_object = $a_start_objects;
-        $this->enable_desktop = (bool) $a_enable_desktop;
+        $this->enable_desktop = $a_enable_desktop;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
             
@@ -99,7 +99,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             
             // add/remove desktop
             $actions = array();
-            if ((bool) $this->enable_desktop) {
+            if ($this->enable_desktop) {
                 // add to desktop link
                 if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {
                     if ($ilAccess->checkAccess('read', '', $ref_id)) {
@@ -234,8 +234,8 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         }
         return "";
     }
-    
-    public function fillRow($a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
         

@@ -1,39 +1,52 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
 /**
  * Export IDs table
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExportIDTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    public $online_help_mode = false;
+    protected bool $dup_info_given;
+    protected array $cnt_exp_ids;
+    protected bool $validation = false;
+    protected ilAccessHandler $access;
+    public bool $online_help_mode = false;
+    protected EditingGUIRequest $request;
     
-    
-    /**
-     * Constructor
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_validation = false,
-        $a_oh_mode = false
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        bool $a_validation = false,
+        bool $a_oh_mode = false
     ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -70,30 +83,17 @@ class ilExportIDTableGUI extends ilTable2GUI
         $this->addCommandButton("saveExportIDs", $lng->txt("save"));
     }
 
-    /**
-     * Set online help mode
-     *
-     * @param bool $a_val online help mode
-     */
-    public function setOnlineHelpMode($a_val)
+    public function setOnlineHelpMode(bool $a_val) : void
     {
         $this->online_help_mode = $a_val;
     }
     
-    /**
-     * Get online help mode
-     *
-     * @return bool online help mode
-     */
-    public function getOnlineHelpMode()
+    public function getOnlineHelpMode() : bool
     {
         return $this->online_help_mode;
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 
@@ -106,10 +106,11 @@ class ilExportIDTableGUI extends ilTable2GUI
             $a_set["type"]
         );
 
+        $req_export_ids = $this->request->getExportIds();
         if ($this->validation) {
             if (!preg_match(
                 "/^[a-zA-Z_]*$/",
-                trim($_POST["exportid"][$a_set["obj_id"]])
+                trim($req_export_ids[$a_set["obj_id"]])
             )) {
                 // @todo: move to style
                 $this->tpl->setVariable(
@@ -127,7 +128,7 @@ class ilExportIDTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "EXPORT_ID",
                 ilUtil::prepareFormOutput(
-                    ilUtil::stripSlashes($_POST["exportid"][$a_set["obj_id"]])
+                    ilUtil::stripSlashes($req_export_ids[$a_set["obj_id"]])
                 )
             );
         } else {

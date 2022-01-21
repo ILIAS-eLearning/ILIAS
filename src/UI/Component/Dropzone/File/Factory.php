@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
@@ -16,7 +16,6 @@ use ILIAS\UI\Component\Component;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -54,11 +53,10 @@ interface Factory
      *        manually from the computer.
      *
      * ---
-     *
      * @param string $url The url where the dropped files are being uploaded
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
-    public function standard($url);
+    public function standard(string $url) : Standard;
 
 
     /**
@@ -103,8 +101,7 @@ interface Factory
      *
      * @param string $url The url where the dropped files are being uploaded
      * @param Component[]|Component $content Component(s) wrapped by the dropzone
-     *
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
-    public function wrapper($url, $content);
+    public function wrapper(string $url, $content) : Wrapper;
 }

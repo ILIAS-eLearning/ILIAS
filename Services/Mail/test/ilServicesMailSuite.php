@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
-
-require_once __DIR__ . '/bootstrap.php';
 
 /**
  * Class ilServicesMailSuite
@@ -14,7 +12,6 @@ require_once __DIR__ . '/bootstrap.php';
 class ilServicesMailSuite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
     public static function suite() : self

@@ -13,7 +13,7 @@ interface File extends FormInput
 
     public function withMaxFileSize(int $size_in_bytes) : File;
 
-    public function getMaxFileFize() : int;
+    public function getMaxFileSize() : int;
 
     public function getUploadHandler() : UploadHandler;
 }

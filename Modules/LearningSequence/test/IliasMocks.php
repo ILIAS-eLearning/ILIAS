@@ -24,7 +24,7 @@ trait IliasMocks
         );
 
         $ui_factory = $this->getMockBuilder(UIFactory::class)
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->getMock();
 
         $signal_generator = new SignalGenerator();
@@ -62,7 +62,7 @@ trait IliasMocks
     {
         $lng = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['txt'])
+            ->onlyMethods(['txt'])
             ->getMock();
         $lng->method('txt')
             ->willReturn('');

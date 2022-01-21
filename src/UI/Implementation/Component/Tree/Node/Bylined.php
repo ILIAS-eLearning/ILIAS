@@ -1,22 +1,20 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\UI\Component\Tree\Node\Bylined as BylinedInterface;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
-class Bylined extends \ILIAS\UI\Implementation\Component\Tree\Node\Simple implements BylinedInterface
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
+class Bylined extends Simple implements BylinedInterface
 {
-    /**
-     * @var string
-     */
-    private $byline;
+    private string $byline;
 
-    public function __construct(string $label, string $byline, \ILIAS\UI\Component\Symbol\Icon\Icon $icon = null)
+    public function __construct(string $label, string $byline, Icon $icon = null)
     {
         parent::__construct($label, $icon);
 

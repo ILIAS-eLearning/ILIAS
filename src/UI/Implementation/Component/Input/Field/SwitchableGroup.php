@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component as C;
-use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field;
+use ilLanguage;
+use LogicException;
+use InvalidArgumentException;
 
 /**
  * This implements the switchable group.
@@ -24,18 +24,11 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
 
     /**
      * Only adds a check to the original group-constructor.
-     *
-     * @param DataFactory             $data_factory
-     * @param \ILIAS\Refinery\Factory $refinery
-     * @param \ilLanguage             $lng
-     * @param InputInternal[]         $inputs
-     * @param                         $label
-     * @param                         $byline
      */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         array $inputs,
         string $label,
         string $byline = null
@@ -47,7 +40,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return null;
     }
@@ -63,7 +56,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         return array_key_exists($value, $this->inputs);
     }
 
-    public function withRequired($is_required)
+    public function withRequired($is_required) : Field\Input
     {
         return Input::withRequired($is_required);
     }
@@ -71,13 +64,13 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withValue($value)
+    public function withValue($value) : Field\Input
     {
         if (is_string($value) || is_int($value)) {
             return Input::withValue($value);
         }
         if (!is_array($value) || count($value) !== 2) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Expected one key and a group value or one key only as value."
                 ." got '" .print_r($value,true) ."' instead."
             );
@@ -100,17 +93,16 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         return [$key, $this->inputs[$key]->getValue()];
     }
 
-
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $post_input)
+    public function withInput(InputData $input) : Field\Input
     {
         if ($this->getName() === null) {
-            throw new \LogicException("Can only collect if input has a name.");
+            throw new LogicException("Can only collect if input has a name.");
         }
 
-        $key = $post_input->getOr($this->getName(), "");
+        $key = $input->getOr($this->getName(), "");
         $clone = clone $this;
 
         if($key === "") {
@@ -125,7 +117,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
 
         if (!$this->isDisabled()) {
             $clone = $clone->withValue($key);
-            $clone->inputs[$key] = $clone->inputs[$key]->withInput($post_input);
+            $clone->inputs[$key] = $clone->inputs[$key]->withInput($input);
         }
 
         if (array_key_exists($key, $clone->inputs) && $clone->inputs[$key]->getContent()->isError()) {

@@ -15,7 +15,7 @@
 
 namespace ILIAS\Repository\Administration;
 
-use \ILIAS\Repository;
+use ILIAS\Repository;
 
 class AdministrationGUIRequest
 {

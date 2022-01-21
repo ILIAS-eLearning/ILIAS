@@ -1,38 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Signal;
+use ILIAS\Refinery\Constraint;
+use Closure;
+use ILIAS\Refinery\ConstraintViolationException;
 
 /**
  * This implements the numeric input.
  */
 class Numeric extends Input implements C\Input\Field\Numeric
 {
-    /**
-     * @var bool
-     */
-    private $complex = false;
+    private bool $complex = false;
 
-    /**
-     * Numeric constructor.
-     *
-     * @param DataFactory $data_factory
-     * @param \ILIAS\Refinery\Factory $refinery
-     * @param             $label
-     * @param             $byline
-     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        $label,
-        $byline
+        string $label,
+        ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
 
@@ -43,7 +33,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
             $this->refinery->kindlyTo()->null(),
             $this->refinery->kindlyTo()->int()
         ])
-        ->withProblemBuilder(function ($txt, $value) {
+        ->withProblemBuilder(function ($txt) {
             return $txt("ui_numeric_only");
         });
 
@@ -61,22 +51,21 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
-        return $this->refinery->kindlyTo()->int();
+        return $this->refinery->to()->int();
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
         return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+            return "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-            return $code;
         };
     }
 

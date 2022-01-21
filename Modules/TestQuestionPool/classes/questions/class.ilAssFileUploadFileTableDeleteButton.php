@@ -23,7 +23,7 @@ class ilAssFileUploadFileTableDeleteButton extends ilAssFileUploadFileTableComma
         $this->setCaption($this->lng()->txt('delete'), false);
     }
     
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_SUBMIT);
     }

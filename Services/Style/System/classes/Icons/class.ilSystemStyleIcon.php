@@ -59,7 +59,7 @@ class ilSystemStyleIcon
         if ($this->getType() == "svg") {
             $icon = file_get_contents($this->getPath());
             foreach ($color_changes as $old_color => $new_color) {
-                $icon = preg_replace('/' . $old_color . '/i', $new_color, $icon, -1);
+                $icon = preg_replace('/#' . $old_color . '/i', "#".$new_color, $icon, -1);
             }
             file_put_contents($this->getPath(), $icon);
         }
@@ -149,7 +149,7 @@ class ilSystemStyleIcon
      */
     protected function extractColorSet()
     {
-        $regex_for_extracting_color = '/(?<=#)[\dabcdef]{6}/i';
+        $regex_for_extracting_color = '/((?<=#)[\dabcdef]{6})|((?<=#)[\dabcdef]{3})/i';
 
         $this->color_set = new ilSystemStyleIconColorSet();
         if ($this->getType() == "svg") {

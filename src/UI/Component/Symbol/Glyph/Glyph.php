@@ -1,21 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Symbol\Glyph;
 
-use \ILIAS\UI\Component\Counter\Counter;
+use ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
+interface Glyph extends Symbol, Clickable
 {
     // Types of glyphs:
     public const SETTINGS = "settings";
     public const EXPAND = "expand";
     public const COLLAPSE = "collapse";
+    public const COLLAPSE_HORIZONTAL = "collapsehorizontal";
     public const ADD = "add";
     public const REMOVE = "remove";
     public const UP = "up";
@@ -61,74 +63,54 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
 
     /**
      * Get the type of the glyph.
-     *
-     * @return	string
      */
-    public function getType();
+    public function getType() : string;
 
     /**
      * Get the action on the glyph.
-     *
-     * @return	string|null
      */
-    public function getAction();
+    public function getAction() : ?string;
 
     /**
      * Get all counters attached to this glyph.
      *
      * @return	Counter[]
      */
-    public function getCounters();
+    public function getCounters() : array;
 
     /**
      * Get a glyph like this, but with a counter on it.
      *
      * If there already is a counter of the given counter type, replace that
      * counter by the new one.
-     *
-     * @param	Counter $counter
-     * @return	Glyph
      */
-    public function withCounter(Counter $counter);
-
+    public function withCounter(Counter $counter) : Glyph;
 
     /**
      * Returns whether the Glyph is highlighted.
-     *
-     * @return bool
      */
-    public function isHighlighted();
+    public function isHighlighted() : bool;
 
     /**
      * Get a Glyph like this with a highlight.
-     *
-     * @param bool|true $highlighted
-     * @return mixed
      */
-    public function withHighlight();
+    public function withHighlight() : Glyph;
 
     /**
      * Get to know if the glyph is activated.
-     *
-     * @return 	bool
      */
-    public function isActive();
+    public function isActive() : bool;
 
     /**
      * Get a glyph like this, but action should be unavailable atm.
      *
      * The glyph will still have an action afterwards, this might be useful
      * at some point where we want to reactivate the glyph client side.
-     *
-     * @return Glyph
      */
-    public function withUnavailableAction();
+    public function withUnavailableAction() : Glyph;
 
     /**
     * Get a Glyph like this with an action.
-    *
-    * @param string $action
-    * @return mixed
     */
-    public function withAction($action);
+    public function withAction(string $action) : Glyph;
 }

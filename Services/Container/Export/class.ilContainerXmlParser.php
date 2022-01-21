@@ -26,7 +26,6 @@ class ilContainerXmlParser
     private int $source = 0;
     private ?ilImportMapping $mapping = null;
     private string $xml = '';
-    private ?SimpleXMLElement $sxml = null;
     private int $root_id = 0;
     public static array $style_map = array();
 
@@ -50,9 +49,9 @@ class ilContainerXmlParser
     
     public function parse(string $a_root_id) : void
     {
-        $this->sxml = simplexml_load_string($this->xml);
+        $sxml = simplexml_load_string($this->xml);
         $this->root_id = $a_root_id;
-        foreach ($this->sxml->Item as $item) {
+        foreach ($sxml->Item as $item) {
             $this->initItem($item, (int) $this->mapping->getTargetId());
         }
     }
@@ -136,7 +135,7 @@ class ilContainerXmlParser
         $crs_item->toggleChangeable((bool) $changeable);
         
         foreach ($timing->children() as $sub) {
-            switch ((string) $sub->getName()) {
+            switch ($sub->getName()) {
                 case 'Start':
                     $dt = new ilDateTime((string) $sub, IL_CAL_DATETIME, ilTimeZone::UTC);
                     $crs_item->setTimingStart($dt->get(IL_CAL_UNIX));

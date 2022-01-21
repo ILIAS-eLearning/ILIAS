@@ -8,15 +8,8 @@ use ILIAS\Setup\Config;
 
 trait HasNoNamedObjective
 {
-    /**
-     * Get a named objective from this agent.
-     *
-     * @throw InvalidArgumentException if there is no such objective.
-     */
-    public function getNamedObjective(string $name, Config $config = null) : Objective
+    public function getNamedObjectives(?Config $config = null) : array
     {
-        throw new \InvalidArgumentException(
-            "There is no named objective '$name'."
-        );
+        return [];
     }
 }

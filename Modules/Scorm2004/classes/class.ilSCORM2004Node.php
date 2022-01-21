@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -570,7 +570,7 @@ class ilSCORM2004Node
             $childs = $tree->getChilds($parent_id);
 
             if (count($childs) == 0) {
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -598,428 +598,428 @@ class ilSCORM2004Node
         return $tree;
     }
 
-    /**
-    * Copy a set of chapters/pages/scos into the clipboard
-    */
-    public static function clipboardCopy($a_slm_obj_id, $a_ids)
-    {
-        global $DIC;
+//    /**
+//    * Copy a set of chapters/pages/scos into the clipboard
+//    */
+//    public static function clipboardCopy($a_slm_obj_id, $a_ids)
+//    {
+//        global $DIC;
+//
+//        $ilUser = $DIC->user();
+//
+//        $tree = ilSCORM2004Node::getTree($a_slm_obj_id);
+//
+//        $ilUser->clipboardDeleteObjectsOfType("page");
+//        $ilUser->clipboardDeleteObjectsOfType("chap");
+//        $ilUser->clipboardDeleteObjectsOfType("sco");
+//        $ilUser->clipboardDeleteObjectsOfType("ass");
+//
+//        // put them into the clipboard
+//        $time = date("Y-m-d H:i:s", time());
+//        foreach ($a_ids as $id) {
+//            $curnode = "";
+//            if ($tree->isInTree($id)) {
+//                $curnode = $tree->getNodeData($id);
+//                $subnodes = $tree->getSubTree($curnode);
+//                foreach ($subnodes as $subnode) {
+//                    if ($subnode["child"] != $id) {
+//                        $ilUser->addObjectToClipboard(
+//                            $subnode["child"],
+//                            $subnode["type"],
+//                            $subnode["title"],
+//                            $subnode["parent"],
+//                            $time,
+//                            $subnode["lft"]
+//                        );
+//                    }
+//                }
+//            }
+//            $order = ($curnode["lft"] > 0)
+//                ? $curnode["lft"]
+//                : (int) ($order + 1);
+//            $ilUser->addObjectToClipboard(
+//                $id,
+//                ilSCORM2004Node::_lookupType($id),
+//                ilSCORM2004Node::_lookupTitle($id),
+//                0,
+//                $time,
+//                $order
+//            );
+//        }
+//    }
+//
+//    /**
+//    * Cut and copy a set of chapters/pages into the clipboard
+//    */
+//    public static function clipboardCut($a_slm_obj_id, $a_ids)
+//    {
+//        $tree = ilSCORM2004Node::getTree($a_slm_obj_id);
+//
+//        if (!is_array($a_ids)) {
+//            return false;
+//        } else {
+//            // get all "top" ids, i.e. remove ids, that have a selected parent
+//            foreach ($a_ids as $id) {
+//                $path = $tree->getPathId($id);
+//                $take = true;
+//                foreach ($path as $path_id) {
+//                    if ($path_id != $id && in_array($path_id, $a_ids)) {
+//                        $take = false;
+//                    }
+//                }
+//                if ($take) {
+//                    $cut_ids[] = $id;
+//                }
+//            }
+//        }
+//
+//        ilSCORM2004Node::clipboardCopy($a_slm_obj_id, $cut_ids);
+//
+//        // remove the objects from the tree
+//        // note: we are getting chapters, scos and pages which are *not* in the tree
+//        // we do not delete any pages/chapters here
+//        foreach ($cut_ids as $id) {
+//            $curnode = $tree->getNodeData($id);
+//            if ($tree->isInTree($id)) {
+//                $tree->deleteTree($curnode);
+//            }
+//        }
+//    }
+//
+//    /**
+//    * Check for unique types (all pages or all chapters or all scos)
+//    */
+//    public static function uniqueTypesCheck($a_items)
+//    {
+//        $types = array();
+//        if (is_array($a_items)) {
+//            foreach ($a_items as $item) {
+//                $type = ilSCORM2004Node::_lookupType($item);
+//                $types[$type] = $type;
+//            }
+//        }
+//
+//        if (count($types) > 1) {
+//            return false;
+//        }
+//        return true;
+//    }
 
-        $ilUser = $DIC->user();
-        
-        $tree = ilSCORM2004Node::getTree($a_slm_obj_id);
-        
-        $ilUser->clipboardDeleteObjectsOfType("page");
-        $ilUser->clipboardDeleteObjectsOfType("chap");
-        $ilUser->clipboardDeleteObjectsOfType("sco");
-        $ilUser->clipboardDeleteObjectsOfType("ass");
-        
-        // put them into the clipboard
-        $time = date("Y-m-d H:i:s", time());
-        foreach ($a_ids as $id) {
-            $curnode = "";
-            if ($tree->isInTree($id)) {
-                $curnode = $tree->getNodeData($id);
-                $subnodes = $tree->getSubTree($curnode);
-                foreach ($subnodes as $subnode) {
-                    if ($subnode["child"] != $id) {
-                        $ilUser->addObjectToClipboard(
-                            $subnode["child"],
-                            $subnode["type"],
-                            $subnode["title"],
-                            $subnode["parent"],
-                            $time,
-                            $subnode["lft"]
-                        );
-                    }
-                }
-            }
-            $order = ($curnode["lft"] > 0)
-                ? $curnode["lft"]
-                : (int) ($order + 1);
-            $ilUser->addObjectToClipboard(
-                $id,
-                ilSCORM2004Node::_lookupType($id),
-                ilSCORM2004Node::_lookupTitle($id),
-                0,
-                $time,
-                $order
-            );
-        }
-    }
+//    /**
+//    * Insert pages from clipboard
+//    */
+//    public static function insertPageClip($a_slm_obj)
+//    {
+//        global $DIC;
+//
+//        $ilUser = $DIC->user();
+//
+//        // @todo: move this to a service since it can be used here, too
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+//
+//        $tree = ilSCORM2004Node::getTree($a_slm_obj->getId());
+//
+//        if (!$first_child) {	// insert after node id
+//            $parent_id = $tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {													// insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//
+//        // cut and paste
+//        $source_parent_type = "";
+//        if ($ilUser->getClipboardObjects("page")) {
+//            $pages = $ilUser->getClipboardObjects("page");
+//        } elseif ($ilUser->getClipboardObjects("pg")) {
+//            $source_parent_type = "lm";
+//            $pages = $ilUser->getClipboardObjects("pg");
+//        }
+//        $copied_nodes = array();
+//
+//        foreach ($pages as $pg) {
+//            $cid = ilSCORM2004Node::pasteTree(
+//                $a_slm_obj,
+//                $pg["id"],
+//                $parent_id,
+//                $target,
+//                $pg["insert_time"],
+//                $copied_nodes,
+//                (ilEditClipboard::getAction() == "copy"),
+//                true,
+//                $source_parent_type
+//            );
+//            $target = $cid;
+//        }
+//        //ilLMObject::updateInternalLinks($copied_nodes);
+//
+//        if (ilEditClipboard::getAction() == "cut") {
+//            $ilUser->clipboardDeleteObjectsOfType("page");
+//            $ilUser->clipboardDeleteObjectsOfType("chap");
+//            $ilUser->clipboardDeleteObjectsOfType("sco");
+//            $ilUser->clipboardDeleteObjectsOfType("ass");
+//            $ilUser->clipboardDeleteObjectsOfType("pg");
+//            ilEditClipboard::clear();
+//        }
+//    }
 
-    /**
-    * Cut and copy a set of chapters/pages into the clipboard
-    */
-    public static function clipboardCut($a_slm_obj_id, $a_ids)
-    {
-        $tree = ilSCORM2004Node::getTree($a_slm_obj_id);
-        
-        if (!is_array($a_ids)) {
-            return false;
-        } else {
-            // get all "top" ids, i.e. remove ids, that have a selected parent
-            foreach ($a_ids as $id) {
-                $path = $tree->getPathId($id);
-                $take = true;
-                foreach ($path as $path_id) {
-                    if ($path_id != $id && in_array($path_id, $a_ids)) {
-                        $take = false;
-                    }
-                }
-                if ($take) {
-                    $cut_ids[] = $id;
-                }
-            }
-        }
-        
-        ilSCORM2004Node::clipboardCopy($a_slm_obj_id, $cut_ids);
-        
-        // remove the objects from the tree
-        // note: we are getting chapters, scos and pages which are *not* in the tree
-        // we do not delete any pages/chapters here
-        foreach ($cut_ids as $id) {
-            $curnode = $tree->getNodeData($id);
-            if ($tree->isInTree($id)) {
-                $tree->deleteTree($curnode);
-            }
-        }
-    }
+//    /**
+//     * Insert assets from clipboard
+//     */
+//    public static function insertAssetClip($a_slm_obj, $a_type = "ass")
+//    {
+//        global $DIC;
+//
+//        $ilCtrl = $DIC->ctrl();
+//        $ilUser = $DIC->user();
+//
+//        // @todo: move this to a service since it can be used here, too
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+//
+//        $tree = ilSCORM2004Node::getTree($a_slm_obj->getId());
+//
+//        if (!$first_child) {	// insert after node id
+//            $parent_id = $tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {													// insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//
+//        // cut and paste
+//        $scos = $ilUser->getClipboardObjects($a_type);
+//        $copied_nodes = array();
+//        foreach ($scos as $sco) {
+//            $cid = ilSCORM2004Node::pasteTree(
+//                $a_slm_obj,
+//                $sco["id"],
+//                $parent_id,
+//                $target,
+//                $sco["insert_time"],
+//                $copied_nodes,
+//                (ilEditClipboard::getAction() == "copy")
+//            );
+//            $target = $cid;
+//        }
+//        //ilLMObject::updateInternalLinks($copied_nodes);
+//
+//        if (ilEditClipboard::getAction() == "cut") {
+//            $ilUser->clipboardDeleteObjectsOfType("page");
+//            $ilUser->clipboardDeleteObjectsOfType("chap");
+//            $ilUser->clipboardDeleteObjectsOfType("sco");
+//            $ilUser->clipboardDeleteObjectsOfType("ass");
+//            ilEditClipboard::clear();
+//        }
+//    }
 
-    /**
-    * Check for unique types (all pages or all chapters or all scos)
-    */
-    public static function uniqueTypesCheck($a_items)
-    {
-        $types = array();
-        if (is_array($a_items)) {
-            foreach ($a_items as $item) {
-                $type = ilSCORM2004Node::_lookupType($item);
-                $types[$type] = $type;
-            }
-        }
+//    /**
+//     * Insert scos from clipboard
+//     */
+//    public static function insertScoClip($a_slm_obj)
+//    {
+//        self::insertAssetClip($a_slm_obj, "sco");
+//    }
+//
+//
+//    /**
+//    * Insert Chapter from clipboard
+//    */
+//    public static function insertChapterClip($a_slm_obj, $a_as_sub = false)
+//    {
+//        global $DIC;
+//
+//        $ilUser = $DIC->user();
+//
+//        // @todo: move this to a service since it can be used here, too
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+//
+//        $tree = ilSCORM2004Node::getTree($a_slm_obj->getId());
+//
+//        if ($a_as_sub) {		// as subchapter
+//            if (!$first_child) {	// insert under parent
+//                $parent_id = $node_id;
+//                $target = "";
+//            } else {													// we shouldnt end up here
+//                return;
+//            }
+//        } else {	// as chapter
+//            if (!$first_child) {	// insert after node id
+//                $parent_id = $tree->getParentId($node_id);
+//                $target = $node_id;
+//            } else {													// insert as first child
+//                $parent_id = $node_id;
+//                $target = ilTree::POS_FIRST_NODE;
+//
+//                // do not move a chapter in front of a sco (maybe never needed)
+//                $childs = $tree->getChildsByType($parent_id, "sco");
+//                if (count($childs) != 0) {
+//                    $target = $childs[count($childs) - 1]["obj_id"];
+//                }
+//            }
+//        }
+//
+//        // copy and paste
+//        $chapters = $ilUser->getClipboardObjects("chap", true);
+//        $copied_nodes = array();
+//        foreach ($chapters as $chap) {
+//            $cid = ilSCORM2004Node::pasteTree(
+//                $a_slm_obj,
+//                $chap["id"],
+//                $parent_id,
+//                $target,
+//                $chap["insert_time"],
+//                $copied_nodes,
+//                (ilEditClipboard::getAction() == "copy")
+//            );
+//            $target = $cid;
+//        }
+//        //ilLMObject::updateInternalLinks($copied_nodes);
+//
+//        if (ilEditClipboard::getAction() == "cut") {
+//            $ilUser->clipboardDeleteObjectsOfType("page");
+//            $ilUser->clipboardDeleteObjectsOfType("chap");
+//            $ilUser->clipboardDeleteObjectsOfType("sco");
+//            $ilUser->clipboardDeleteObjectsOfType("ass");
+//            ilEditClipboard::clear();
+//        }
+//    }
 
-        if (count($types) > 1) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-    * Insert pages from clipboard
-    */
-    public static function insertPageClip($a_slm_obj)
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-        
-        // @todo: move this to a service since it can be used here, too
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-        
-        $tree = ilSCORM2004Node::getTree($a_slm_obj->getId());
-        
-        if (!$first_child) {	// insert after node id
-            $parent_id = $tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        // cut and paste
-        $source_parent_type = "";
-        if ($ilUser->getClipboardObjects("page")) {
-            $pages = $ilUser->getClipboardObjects("page");
-        } elseif ($ilUser->getClipboardObjects("pg")) {
-            $source_parent_type = "lm";
-            $pages = $ilUser->getClipboardObjects("pg");
-        }
-        $copied_nodes = array();
-
-        foreach ($pages as $pg) {
-            $cid = ilSCORM2004Node::pasteTree(
-                $a_slm_obj,
-                $pg["id"],
-                $parent_id,
-                $target,
-                $pg["insert_time"],
-                $copied_nodes,
-                (ilEditClipboard::getAction() == "copy"),
-                true,
-                $source_parent_type
-            );
-            $target = $cid;
-        }
-        //ilLMObject::updateInternalLinks($copied_nodes);
-
-        if (ilEditClipboard::getAction() == "cut") {
-            $ilUser->clipboardDeleteObjectsOfType("page");
-            $ilUser->clipboardDeleteObjectsOfType("chap");
-            $ilUser->clipboardDeleteObjectsOfType("sco");
-            $ilUser->clipboardDeleteObjectsOfType("ass");
-            $ilUser->clipboardDeleteObjectsOfType("pg");
-            ilEditClipboard::clear();
-        }
-    }
-
-    /**
-     * Insert assets from clipboard
-     */
-    public static function insertAssetClip($a_slm_obj, $a_type = "ass")
-    {
-        global $DIC;
-
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
-        
-        // @todo: move this to a service since it can be used here, too
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-        
-        $tree = ilSCORM2004Node::getTree($a_slm_obj->getId());
-        
-        if (!$first_child) {	// insert after node id
-            $parent_id = $tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        // cut and paste
-        $scos = $ilUser->getClipboardObjects($a_type);
-        $copied_nodes = array();
-        foreach ($scos as $sco) {
-            $cid = ilSCORM2004Node::pasteTree(
-                $a_slm_obj,
-                $sco["id"],
-                $parent_id,
-                $target,
-                $sco["insert_time"],
-                $copied_nodes,
-                (ilEditClipboard::getAction() == "copy")
-            );
-            $target = $cid;
-        }
-        //ilLMObject::updateInternalLinks($copied_nodes);
-
-        if (ilEditClipboard::getAction() == "cut") {
-            $ilUser->clipboardDeleteObjectsOfType("page");
-            $ilUser->clipboardDeleteObjectsOfType("chap");
-            $ilUser->clipboardDeleteObjectsOfType("sco");
-            $ilUser->clipboardDeleteObjectsOfType("ass");
-            ilEditClipboard::clear();
-        }
-    }
-
-    /**
-     * Insert scos from clipboard
-     */
-    public static function insertScoClip($a_slm_obj)
-    {
-        self::insertAssetClip($a_slm_obj, "sco");
-    }
-
-
-    /**
-    * Insert Chapter from clipboard
-    */
-    public static function insertChapterClip($a_slm_obj, $a_as_sub = false)
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        // @todo: move this to a service since it can be used here, too
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-        
-        $tree = ilSCORM2004Node::getTree($a_slm_obj->getId());
-        
-        if ($a_as_sub) {		// as subchapter
-            if (!$first_child) {	// insert under parent
-                $parent_id = $node_id;
-                $target = "";
-            } else {													// we shouldnt end up here
-                return;
-            }
-        } else {	// as chapter
-            if (!$first_child) {	// insert after node id
-                $parent_id = $tree->getParentId($node_id);
-                $target = $node_id;
-            } else {													// insert as first child
-                $parent_id = $node_id;
-                $target = IL_FIRST_NODE;
-                
-                // do not move a chapter in front of a sco (maybe never needed)
-                $childs = $tree->getChildsByType($parent_id, "sco");
-                if (count($childs) != 0) {
-                    $target = $childs[count($childs) - 1]["obj_id"];
-                }
-            }
-        }
-        
-        // copy and paste
-        $chapters = $ilUser->getClipboardObjects("chap", true);
-        $copied_nodes = array();
-        foreach ($chapters as $chap) {
-            $cid = ilSCORM2004Node::pasteTree(
-                $a_slm_obj,
-                $chap["id"],
-                $parent_id,
-                $target,
-                $chap["insert_time"],
-                $copied_nodes,
-                (ilEditClipboard::getAction() == "copy")
-            );
-            $target = $cid;
-        }
-        //ilLMObject::updateInternalLinks($copied_nodes);
-
-        if (ilEditClipboard::getAction() == "cut") {
-            $ilUser->clipboardDeleteObjectsOfType("page");
-            $ilUser->clipboardDeleteObjectsOfType("chap");
-            $ilUser->clipboardDeleteObjectsOfType("sco");
-            $ilUser->clipboardDeleteObjectsOfType("ass");
-            ilEditClipboard::clear();
-        }
-    }
-
-    /**
-     * Paste item (tree) from clipboard or other learning module to target scorm learning module
-     *
-     * @param object $a_target_slm target scorm 2004 learning module object
-     * @param int $a_item_id id of item that should be pasted
-     * @param int $a_parent_id parent id in target tree,
-     * @param int $a_target predecessor target node, no ID means: last child
-     * @param string $a_insert_time cliboard insert time (not needed, if $a_from_cliboard is false)
-     * @param array $a_copied_nodes array of IDs od copied nodes, key is ID of source node, value is ID of copied node
-     * @param bool $a_as_copy if true, items are copied otherwise they are moved
-     * @param bool $a_from_clipboard if true, child node information is read from clipboard, otherwise from source tree
-     */
-    public static function pasteTree(
-        $a_target_slm,
-        $a_item_id,
-        $a_parent_id,
-        $a_target,
-        $a_insert_time,
-        &$a_copied_nodes,
-        $a_as_copy = false,
-        $a_from_clipboard = true,
-        $a_source_parent_type = ""
-    ) {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-        $ilLog = $DIC["ilLog"];
-
-        $item_type = "";
-
-        if (in_array($a_source_parent_type, array("", "sahs"))) {
-            // source lm id, item type and lm object
-            $item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
-            $item_type = ilSCORM2004Node::_lookupType($a_item_id);
-
-            $slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);
-
-            $ilLog->write("Getting from clipboard type " . $item_type . ", " .
-                "Item ID: " . $a_item_id . ", of original SLM: " . $item_slm_id);
-        } elseif (in_array($a_source_parent_type, array("lm"))) {
-            $item_lm_id = ilLMObject::_lookupContObjId($a_item_id);
-            $item_type = ilLMObject::_lookupType($a_item_id, $item_lm_id);
-
-            $lm_obj = new ilObjLearningModule($item_lm_id, false);
-
-            $ilLog->write("Getting from clipboard type " . $item_type . ", " .
-                "Item ID: " . $a_item_id . ", of original SLM: " . $item_lm_id);
-        }
-
-
-
-        if ($item_type == "chap") {
-            $item = new ilSCORM2004Chapter($slm_obj, $a_item_id);
-        } elseif ($item_type == "page") {
-            $item = new ilSCORM2004PageNode($slm_obj, $a_item_id);
-        } elseif ($item_type == "sco") {
-            $item = new ilSCORM2004Sco($slm_obj, $a_item_id);
-        } elseif ($item_type == "ass") {
-            $item = new ilSCORM2004Asset($slm_obj, $a_item_id);
-        } elseif ($item_type == "pg") {
-            $item = new ilLMPageObject($lm_obj, $a_item_id);
-        }
-
-
-        if ($item_slm_id != $a_target_slm->getId() && !$a_as_copy) {
-            // @todo: check whether st is NOT in tree
-            
-            // "move" metadata to new lm
-            $md = new ilMD($item_slm_id, $item->getId(), $item->getType());
-            $new_md = $md->cloneMD($a_target_slm->getId(), $item->getId(), $item->getType());
-            
-            // update lm object
-            $item->setSLMId($a_target_slm->getId());
-            $item->setSLMObject($a_target_slm);
-            $item->update();
-            
-            // delete old meta data set
-            $md->deleteAll();
-            
-            if ($item_type == "page") {
-                $page = $item->getPageObject();
-                $page->buildDom($a_from_clipboard);
-                $page->setParentId($a_target_slm->getId());
-                $page->update();
-            }
-        }
-
-        if ($a_as_copy) {
-            if ($a_source_parent_type == "lm") {
-                if ($item_type = "pg") {
-                    $target_item = ilSCORM2004PageNode::copyPageFromLM($a_target_slm, $item);
-                }
-            } else {
-                $target_item = $item->copy($a_target_slm);
-            }
-            $a_copied_nodes[$item->getId()] = $target_item->getId();
-        } else {
-            $target_item = $item;
-        }
-        
-        $ilLog->write("Putting into tree type " . $target_item->getType() .
-            "Item ID: " . $target_item->getId() . ", Parent: " . $a_parent_id . ", " .
-            "Target: " . $a_target . ", Item LM:" . $target_item->getContentObject()->getId());
-        
-        ilSCORM2004Node::putInTree($target_item, $a_parent_id, $a_target);
-        
-        if ($a_from_clipboard) {
-            $childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
-        } else {
-            // get childs of source tree
-            $source_tree = $slm_obj->getTree();
-            $childs = $source_tree->getChilds($a_item_id);
-        }
-
-        foreach ($childs as $child) {
-            $child_id = ($a_from_clipboard)
-                ? $child["id"]
-                : $child["child"];
-            ilSCORM2004Node::pasteTree(
-                $a_target_slm,
-                $child_id,
-                $target_item->getId(),
-                IL_LAST_NODE,
-                $a_insert_time,
-                $a_copied_nodes,
-                $a_as_copy,
-                $a_from_clipboard,
-                $a_source_parent_type
-            );
-        }
-        
-        return $target_item->getId();
-    }
+//    /**
+//     * Paste item (tree) from clipboard or other learning module to target scorm learning module
+//     *
+//     * @param object $a_target_slm target scorm 2004 learning module object
+//     * @param int $a_item_id id of item that should be pasted
+//     * @param int $a_parent_id parent id in target tree,
+//     * @param int $a_target predecessor target node, no ID means: last child
+//     * @param string $a_insert_time cliboard insert time (not needed, if $a_from_cliboard is false)
+//     * @param array $a_copied_nodes array of IDs od copied nodes, key is ID of source node, value is ID of copied node
+//     * @param bool $a_as_copy if true, items are copied otherwise they are moved
+//     * @param bool $a_from_clipboard if true, child node information is read from clipboard, otherwise from source tree
+//     */
+//    public static function pasteTree(
+//        $a_target_slm,
+//        $a_item_id,
+//        $a_parent_id,
+//        $a_target,
+//        $a_insert_time,
+//        &$a_copied_nodes,
+//        $a_as_copy = false,
+//        $a_from_clipboard = true,
+//        $a_source_parent_type = ""
+//    ) {
+//        global $DIC;
+//
+//        $ilUser = $DIC->user();
+//        $ilLog = $DIC["ilLog"];
+//
+//        $item_type = "";
+//
+//        if (in_array($a_source_parent_type, array("", "sahs"))) {
+//            // source lm id, item type and lm object
+//            $item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
+//            $item_type = ilSCORM2004Node::_lookupType($a_item_id);
+//
+//            $slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);
+//
+//            $ilLog->write("Getting from clipboard type " . $item_type . ", " .
+//                "Item ID: " . $a_item_id . ", of original SLM: " . $item_slm_id);
+//        } elseif (in_array($a_source_parent_type, array("lm"))) {
+//            $item_lm_id = ilLMObject::_lookupContObjId($a_item_id);
+//            $item_type = ilLMObject::_lookupType($a_item_id, $item_lm_id);
+//
+//            $lm_obj = new ilObjLearningModule($item_lm_id, false);
+//
+//            $ilLog->write("Getting from clipboard type " . $item_type . ", " .
+//                "Item ID: " . $a_item_id . ", of original SLM: " . $item_lm_id);
+//        }
+//
+//
+//
+//        if ($item_type == "chap") {
+//            $item = new ilSCORM2004Chapter($slm_obj, $a_item_id);
+//        } elseif ($item_type == "page") {
+//            $item = new ilSCORM2004PageNode($slm_obj, $a_item_id);
+//        } elseif ($item_type == "sco") {
+//            $item = new ilSCORM2004Sco($slm_obj, $a_item_id);
+//        } elseif ($item_type == "ass") {
+//            $item = new ilSCORM2004Asset($slm_obj, $a_item_id);
+//        } elseif ($item_type == "pg") {
+//            $item = new ilLMPageObject($lm_obj, $a_item_id);
+//        }
+//
+//
+//        if ($item_slm_id != $a_target_slm->getId() && !$a_as_copy) {
+//            // @todo: check whether st is NOT in tree
+//
+//            // "move" metadata to new lm
+//            $md = new ilMD($item_slm_id, $item->getId(), $item->getType());
+//            $new_md = $md->cloneMD($a_target_slm->getId(), $item->getId(), $item->getType());
+//
+//            // update lm object
+//            $item->setSLMId($a_target_slm->getId());
+//            $item->setSLMObject($a_target_slm);
+//            $item->update();
+//
+//            // delete old meta data set
+//            $md->deleteAll();
+//
+//            if ($item_type == "page") {
+//                $page = $item->getPageObject();
+//                $page->buildDom($a_from_clipboard);
+//                $page->setParentId($a_target_slm->getId());
+//                $page->update();
+//            }
+//        }
+//
+//        if ($a_as_copy) {
+//            if ($a_source_parent_type == "lm") {
+//                if ($item_type = "pg") {
+//                    $target_item = ilSCORM2004PageNode::copyPageFromLM($a_target_slm, $item);
+//                }
+//            } else {
+//                $target_item = $item->copy($a_target_slm);
+//            }
+//            $a_copied_nodes[$item->getId()] = $target_item->getId();
+//        } else {
+//            $target_item = $item;
+//        }
+//
+//        $ilLog->write("Putting into tree type " . $target_item->getType() .
+//            "Item ID: " . $target_item->getId() . ", Parent: " . $a_parent_id . ", " .
+//            "Target: " . $a_target . ", Item LM:" . $target_item->getContentObject()->getId());
+//
+//        ilSCORM2004Node::putInTree($target_item, $a_parent_id, $a_target);
+//
+//        if ($a_from_clipboard) {
+//            $childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
+//        } else {
+//            // get childs of source tree
+//            $source_tree = $slm_obj->getTree();
+//            $childs = $source_tree->getChilds($a_item_id);
+//        }
+//
+//        foreach ($childs as $child) {
+//            $child_id = ($a_from_clipboard)
+//                ? $child["id"]
+//                : $child["child"];
+//            ilSCORM2004Node::pasteTree(
+//                $a_target_slm,
+//                $child_id,
+//                $target_item->getId(),
+//                ilTree::POS_LAST_NODE,
+//                $a_insert_time,
+//                $a_copied_nodes,
+//                $a_as_copy,
+//                $a_from_clipboard,
+//                $a_source_parent_type
+//            );
+//        }
+//
+//        return $target_item->getId();
+//    }
     
     //Methods for Sequencing
     

@@ -214,6 +214,8 @@ class ilObjUser extends ilObject
             //style (css)
             $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
         }
+
+        $this->app_event_handler = $DIC['ilAppEventHandler'];
     }
 
     /**
@@ -608,7 +610,7 @@ class ilObjUser extends ilObject
             'inactivation_date' => array('timestamp', $this->inactivation_date)
             );
             
-        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null)) {
+        if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
             $update_array["agree_date"] = array("timestamp", $this->agree_date);
         }
         switch ($this->passwd_type) {
@@ -698,6 +700,7 @@ class ilObjUser extends ilObject
     {
         global $DIC;
 
+        $fullname = "";
         $ilDB = $DIC['ilDB'];
         
         $set = $ilDB->queryF(
@@ -774,12 +777,20 @@ class ilObjUser extends ilObject
             array("integer"),
             array($a_user_id)
         );
-        $user_rec = $ilDB->fetchAssoc($res);
-        return array("user_id" => $a_user_id,
-            "firstname" => $user_rec["firstname"],
-            "lastname" => $user_rec["lastname"],
-            "title" => $user_rec["title"],
-            "login" => $user_rec["login"]);
+        if ($user_rec = $ilDB->fetchAssoc($res)) {
+            return array("user_id" => $a_user_id,
+                         "firstname" => $user_rec["firstname"],
+                         "lastname" => $user_rec["lastname"],
+                         "title" => $user_rec["title"],
+                         "login" => $user_rec["login"]
+            );
+        }
+        return array("user_id" => 0,
+                     "firstname" => "",
+                     "lastname" => "",
+                     "title" => "",
+                     "login" => ""
+        );
     }
 
     /**
@@ -817,7 +828,8 @@ class ilObjUser extends ilObject
     }
 
     /**
-     * Lookup id by login
+     * @param string|string[] $a_user_str
+     * @return int|null|int[]
      */
     public static function _lookupId($a_user_str)
     {
@@ -831,19 +843,26 @@ class ilObjUser extends ilObject
                 array("text"),
                 array($a_user_str)
             );
+
             $user_rec = $ilDB->fetchAssoc($res);
-            return $user_rec["usr_id"] ?? null;
-        } else {
-            $set = $ilDB->query(
-                "SELECT usr_id FROM usr_data " .
-                " WHERE " . $ilDB->in("login", $a_user_str, false, "text")
-            );
-            $ids = array();
-            while ($rec = $ilDB->fetchAssoc($set)) {
-                $ids[] = ($rec["usr_id"] ?? null);
+            if (is_array($user_rec)) {
+                return (int) $user_rec["usr_id"];
             }
-            return $ids;
+
+            return null;
         }
+
+        $set = $ilDB->query(
+            "SELECT usr_id FROM usr_data " .
+            " WHERE " . $ilDB->in("login", $a_user_str, false, "text")
+        );
+
+        $ids = [];
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $ids[] = (int) $rec['usr_id'];
+        }
+
+        return $ids;
     }
 
     /**
@@ -889,6 +908,11 @@ class ilObjUser extends ilObject
                 " WHERE usr_id = %s",
                 array("integer"),
                 array($this->id)
+            );
+            $this->app_event_handler->raise(
+                "Services/User",
+                "firstLogin",
+                array("user_obj" => $this)
             );
         }
     }
@@ -4778,19 +4802,18 @@ class ilObjUser extends ilObject
     /**
      * Get ids of all users that have been inactive for at least the given period
      * @param int $periodInDays
-     * @param bool $includeNeverLoggedIn
-     * @return array
-     * @throws \ilException
+     * @return int[]
+     * @throws ilException
      */
     public static function getUserIdsByInactivityPeriod(int $periodInDays) : array
     {
         global $DIC;
 
-        if (!is_numeric($periodInDays) && $periodInDays < 1) {
-            throw new \ilException('Invalid period given');
+        if ($periodInDays < 1) {
+            throw new ilException('Invalid period given');
         }
 
-        $date = date('Y-m-d H:i:s', (time() - ((int) $periodInDays * 24 * 60 * 60)));
+        $date = date('Y-m-d H:i:s', (time() - ($periodInDays * 24 * 60 * 60)));
 
         $query = "SELECT usr_id FROM usr_data WHERE last_login IS NOT NULL AND last_login < %s";
 
@@ -4801,7 +4824,7 @@ class ilObjUser extends ilObject
 
         $res = $DIC->database()->queryF($query, $types, $values);
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $ids[] = $row['usr_id'];
+            $ids[] = (int) $row['usr_id'];
         }
 
         return $ids;
@@ -4810,7 +4833,7 @@ class ilObjUser extends ilObject
     /**
      * Get ids of all users that have never logged in
      * @param int $thresholdInDays
-     * @return array
+     * @return int[]
      */
     public static function getUserIdsNeverLoggedIn(int $thresholdInDays) : array
     {
@@ -4827,7 +4850,7 @@ class ilObjUser extends ilObject
 
         $res = $DIC->database()->queryF($query, $types, $values);
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $ids[] = $row['usr_id'];
+            $ids[] = (int) $row['usr_id'];
         }
 
         return $ids;
@@ -5035,7 +5058,7 @@ class ilObjUser extends ilObject
         $file = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data") .
             "/" . $this->getPersonalDataExportFile();
         if (is_file($file)) {
-            ilUtil::deliverFile($file, $this->getPersonalDataExportFile());
+            ilFileDelivery::deliverFileLegacy($file, $this->getPersonalDataExportFile());
         }
     }
     

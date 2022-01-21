@@ -118,7 +118,7 @@ class ilContainerStartObjects
             " AND item_ref_id = " . $ilDB->quote($a_item_ref_id, 'integer');
         $res = $ilDB->query($query);
 
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
 
     public function add(int $a_item_ref_id) : bool
@@ -161,7 +161,7 @@ class ilContainerStartObjects
     ) : void {
         $ilDB = $this->db;
         
-        if (!(int) $a_start_id || !(int) $a_pos) {
+        if (!$a_start_id || !$a_pos) {
             return;
         }
         
@@ -218,14 +218,9 @@ class ilContainerStartObjects
                     return false;
                 }
                 break;
-                
-            case 'sahs':
-                if (!ilLPStatus::_hasUserCompleted($obj_id, $a_user_id)) {
-                    return false;
-                }
-                break;
 
             case 'copa':
+            case 'sahs':
                 if (!ilLPStatus::_hasUserCompleted($obj_id, $a_user_id)) {
                     return false;
                 }

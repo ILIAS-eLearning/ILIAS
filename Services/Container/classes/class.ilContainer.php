@@ -23,32 +23,31 @@
 class ilContainer extends ilObject
 {
     // container view constants
-    const VIEW_SESSIONS = 0;
-    const VIEW_OBJECTIVE = 1;
-    const VIEW_TIMING = 2;
-    const VIEW_ARCHIVE = 3;
-    const VIEW_SIMPLE = 4;
-    const VIEW_BY_TYPE = 5;
-    const VIEW_INHERIT = 6;
+    public const VIEW_SESSIONS = 0;
+    public const VIEW_OBJECTIVE = 1;
+    public const VIEW_TIMING = 2;
+    public const VIEW_ARCHIVE = 3;
+    public const VIEW_SIMPLE = 4;
+    public const VIEW_BY_TYPE = 5;
+    public const VIEW_INHERIT = 6;
 
-    const VIEW_DEFAULT = self::VIEW_BY_TYPE;
+    public const VIEW_DEFAULT = self::VIEW_BY_TYPE;
 
+    public const SORT_TITLE = 0;
+    public const SORT_MANUAL = 1;
+    public const SORT_ACTIVATION = 2;
+    public const SORT_INHERIT = 3;
+    public const SORT_CREATION = 4;
 
-    const SORT_TITLE = 0;
-    const SORT_MANUAL = 1;
-    const SORT_ACTIVATION = 2;
-    const SORT_INHERIT = 3;
-    const SORT_CREATION = 4;
+    public const SORT_DIRECTION_ASC = 0;
+    public const SORT_DIRECTION_DESC = 1;
 
-    const SORT_DIRECTION_ASC = 0;
-    const SORT_DIRECTION_DESC = 1;
+    public const SORT_NEW_ITEMS_POSITION_TOP = 0;
+    public const SORT_NEW_ITEMS_POSITION_BOTTOM = 1;
 
-    const SORT_NEW_ITEMS_POSITION_TOP = 0;
-    const SORT_NEW_ITEMS_POSITION_BOTTOM = 1;
-
-    const SORT_NEW_ITEMS_ORDER_TITLE = 0;
-    const SORT_NEW_ITEMS_ORDER_CREATION = 1;
-    const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
+    public const SORT_NEW_ITEMS_ORDER_TITLE = 0;
+    public const SORT_NEW_ITEMS_ORDER_CREATION = 1;
+    public const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
     public static bool $data_preloaded = false;
 
@@ -522,7 +521,7 @@ class ilContainer extends ilObject
     /**
      * delete category and all related data
      *
-     * @return	boolean	true if all object data were removed; false if only a references were removed
+     * @return    bool    true if all object data were removed; false if only a references were removed
      */
     public function delete()
     {
@@ -783,7 +782,7 @@ class ilContainer extends ilObject
             true
         );
 
-        if (((int) $this->getStyleSheetId()) > 0) {
+        if (($this->getStyleSheetId()) > 0) {
             ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
         }
 
@@ -841,7 +840,7 @@ class ilContainer extends ilObject
 
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
         
-        $this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
+        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         $this->readContainerSettings();
         $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
@@ -1086,7 +1085,7 @@ class ilContainer extends ilObject
                         $obj_ids = array_intersect($obj_ids, $result_obj_ids);
                     } else {
                         #$query_parser->setCombination($this->options['title_ao']);
-                        $query_parser->setCombination(QP_COMBINATION_OR);
+                        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
                         $query_parser->parse();
                         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
 
@@ -1109,7 +1108,7 @@ class ilContainer extends ilObject
                         $result = $meta_search->performSearch();
                     }
                 } else {        // advanced metadata search
-                    $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+                    $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
 
                     $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
                         $field->getADTDefinition(),

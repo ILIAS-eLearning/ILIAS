@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -15,21 +15,19 @@ class ilSCORM2004Page extends ilPageObject
     
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return "sahs";
     }
 
     /**
      * After constructor
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function afterConstructor()
+    public function afterConstructor() : void
     {
         $this->getPageConfig()->configureByObjectId($this->getParentId());
     }
@@ -77,15 +75,16 @@ class ilSCORM2004Page extends ilPageObject
     
     /**
     * Create new scorm 2004
-    */
-    public function create()
+     * @param bool $a_import
+     */
+    public function create(bool $a_import = false) : void
     {
         $ilDB = $this->db;
         
         // maybe we need an additional table here?
         
         // create page object
-        parent::create();
+        parent::create($a_import);
     }
     
     
@@ -99,7 +98,7 @@ class ilSCORM2004Page extends ilPageObject
         
         parent::setXMLContent($layout_obj->getXMLContent());
         // create page object
-        parent::create();
+        parent::create(false);
     }
 
     /**
@@ -108,7 +107,7 @@ class ilSCORM2004Page extends ilPageObject
     * @access	public
     * @return	boolean
     */
-    public function update($a_validate = true, $a_no_history = false)
+    public function update(bool $a_validate = true, bool $a_no_history = false)
     {
         $ilDB = $this->db;
 
@@ -118,39 +117,6 @@ class ilSCORM2004Page extends ilPageObject
 
         return true;
     }
-    
-    /**
-    * Read wiki data
-    */
-    public function read()
-    {
-        $ilDB = $this->db;
-        
-        // maybe we need an additional table here?
-        
-        // get co page
-        parent::read();
-    }
-
-
-    /**
-    * delete page and al related data
-    *
-    * @access	public
-    */
-    public function delete()
-    {
-        $ilDB = $this->db;
-        
-        // maybe we need an additional table here?
-        
-        // delete co page
-        parent::delete();
-        
-        return true;
-    }
-
-    
     
     /**
      * export page object to xml (see ilias_co.dtd)
@@ -234,7 +200,7 @@ class ilSCORM2004Page extends ilPageObject
     *
     * note: this method must be called afer exportXMLPageContent
     */
-    public function getFileItemIds()
+    public function getFileItemIds() : array
     {
         return $this->files_contained;
     }
@@ -242,7 +208,7 @@ class ilSCORM2004Page extends ilPageObject
     /**
      * Perform automatic modifications (may be overwritten by sub classes)
      */
-    public function performAutomaticModifications()
+    public function performAutomaticModifications() : void
     {
         // disabled this due to #0011195
         // this does not really work well. Besides creating duplicates, it does not ensure that all

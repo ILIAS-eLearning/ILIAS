@@ -34,7 +34,7 @@ class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
         $this->value = $a_value;
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         return true;
     }

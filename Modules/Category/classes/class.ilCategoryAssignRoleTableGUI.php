@@ -49,7 +49,7 @@ class ilCategoryAssignRoleTableGUI extends ilTable2GUI
         $this->setLimit(999999);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("INPUT_CHCKBX", $a_set["checkbox"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Administration\AdminGUIRequest;
 
 /**
  * Class ilObjRecoveryFolderGUI
@@ -10,39 +23,30 @@
  */
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected AdminGUIRequest $admin_request;
 
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference
+    ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacadmin = $DIC->rbac()->admin();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->type = "recf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+
+        $this->admin_request = new AdminGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
     
-    /**
-    * save object
-    * @access	public
-    */
     public function saveObject()
     {
-        $rbacadmin = $this->rbacadmin;
-
-        // create and insert forum in objecttree
-        $newObj = parent::saveObject();
-
-        // put here object specific stuff
-            
-        // always send a message
+        parent::saveObject();
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);
         exit();
     }
@@ -50,11 +54,11 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
     public function removeFromSystemObject() : void
     {
         $ru = new ilRepositoryTrashGUI($this);
-        $ru->removeObjectsFromSystem($_POST["id"], true);
+        $ru->removeObjectsFromSystem($this->admin_request->getSelectedIds(), true);
         $this->ctrl->redirect($this, "view");
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -63,7 +67,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -72,22 +76,16 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
                 }
                 $cmd .= "Object";
                 $this->$cmd();
-
                 break;
         }
-        return true;
     }
 
-    
-    public function showPossibleSubObjects()
+    protected function showPossibleSubObjects()
     {
         $this->sub_objects = "";
     }
     
-    /**
-    * Get Actions
-    */
-    public function getActions()
+    public function getActions() : array
     {
         // standard actions for container
         return array(
@@ -96,4 +94,4 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
             "removeFromSystem" => array("name" => "removeFromSystem", "lng" => "btn_remove_system")
         );
     }
-} // END class.ilObjRecoveryFolderGUI
+}

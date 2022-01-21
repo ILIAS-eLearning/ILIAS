@@ -239,7 +239,7 @@ class ilCalendarPresentationGUI
                 if ($this->showToolbarAndSidebar()) {
                     $this->showViewSelection("cal_list");
                     $this->showSideBlocks();
-                    $inbox_gui->addToolbarActions();
+                    $inbox_gui->addToolbarFileDownload();
                 }
 
                 break;
@@ -269,7 +269,7 @@ class ilCalendarPresentationGUI
                 if ($this->showToolbarAndSidebar()) {
                     $this->showViewSelection("app_month");
                     $this->showSideBlocks();
-                    $month_gui->addToolbarActions();
+                    $month_gui->addToolbarFileDownload();
                 }
                 break;
                 
@@ -279,7 +279,7 @@ class ilCalendarPresentationGUI
                 if ($this->showToolbarAndSidebar()) {
                     $this->showViewSelection("app_week");
                     $this->showSideBlocks();
-                    $week_gui->addToolbarActions();
+                    $week_gui->addToolbarFileDownload();
                 }
 
                 break;
@@ -290,7 +290,7 @@ class ilCalendarPresentationGUI
                 if ($this->showToolbarAndSidebar()) {
                     $this->showViewSelection("app_day");
                     $this->showSideBlocks();
-                    $day_gui->addToolbarActions();
+                    $day_gui->addToolbarFileDownload();
                 }
                 break;
 
@@ -848,7 +848,10 @@ class ilCalendarPresentationGUI
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
                 
-                if (ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)) {
+                if (
+                    $category->getRemoteSyncLastExecution()->isNull() ||
+                    ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)
+                ) {
                     // update in any case to avoid multiple updates of invalid calendar sources.
                     $category->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
                     $category->update();

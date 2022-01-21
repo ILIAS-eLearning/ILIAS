@@ -1,12 +1,12 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Provides adapters to read member-ids from a specific source.
  */
 class ilStudyProgrammeMembershipSourceReaderParticipants implements ilStudyProgrammeMembershipSourceReader
 {
+    protected ilParticipants $participants;
+
     public function __construct(ilParticipants $participants)
     {
         $this->participants = $participants;

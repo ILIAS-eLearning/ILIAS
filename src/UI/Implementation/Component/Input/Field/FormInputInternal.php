@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -15,9 +15,7 @@ interface FormInputInternal extends InputInternal, FormInput
     /**
      * Get an input like this one, with a different name.
      *
-     * @param    NameSource $source
-     *
-     * @return    Input
+     * @return static
      */
     public function withNameFrom(NameSource $source);
 }

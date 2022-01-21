@@ -1,5 +1,5 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class ilMailDeliveryJob
@@ -14,10 +16,7 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilMailDeliveryJob extends AbstractJob
 {
-    /**
-     * @inheritdoc
-     */
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer) : Value
     {
         global $DIC;
 
@@ -36,7 +35,7 @@ class ilMailDeliveryJob extends AbstractJob
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
-            ->withContextParameters((array) unserialize($input[10]->getValue()));
+            ->withContextParameters((array) unserialize($input[10]->getValue(), ['allowed_classes' => false]));
 
         $mail->sendMail(
             (string) $input[1]->getValue(), // To
@@ -44,7 +43,7 @@ class ilMailDeliveryJob extends AbstractJob
             (string) $input[3]->getValue(),  // Bcc
             (string) $input[4]->getValue(),  // Subject
             (string) $input[5]->getValue(),  // Message
-            (array) unserialize($input[6]->getValue()),  // Attachments
+            (array) unserialize($input[6]->getValue(), ['allowed_classes' => false]),  // Attachments
             (bool) $input[7]->getValue() // Use Placeholders
         );
 
@@ -56,10 +55,7 @@ class ilMailDeliveryJob extends AbstractJob
         return $output;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return [
             new SingleType(IntegerValue::class), // 0. User Id
@@ -76,26 +72,17 @@ class ilMailDeliveryJob extends AbstractJob
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new SingleType(BooleanValue::class);
     }

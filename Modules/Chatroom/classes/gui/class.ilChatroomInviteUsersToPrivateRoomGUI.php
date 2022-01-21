@@ -16,7 +16,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
 
     public function byLogin() : void
     {
-        $user = $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('user'));
+        $user = $this->getRequestValue('user', $this->refinery->kindlyTo()->string());
         $this->inviteById((int) ilObjUser::_lookupId($user));
     }
 
@@ -28,7 +28,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $subRoomId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
+        $subRoomId = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
         $this->exitIfNoRoomModeratePermission($room, $subRoomId, $chat_user);
 
         if (!$this->isMainRoom($subRoomId)) {
@@ -50,7 +50,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
 
     public function byId() : void
     {
-        $this->inviteById($this->refinery->kindlyTo()->int()->transform($this->getRequestValue('user')));
+        $this->inviteById($this->getRequestValue('user', $this->refinery->kindlyTo()->int()));
     }
 
     public function getUserList() : void
@@ -63,7 +63,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         }
         
         $query = ilUtil::stripSlashes(
-            $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('q'))
+            $this->getRequestValue('q', $this->refinery->kindlyTo()->string(), '')
         );
 
         if ($this->http->wrapper()->query()->has('fetchall')) {

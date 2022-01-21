@@ -1,26 +1,13 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Provides adapters to read member-ids from a specific source.
  */
 class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMembershipSourceReader
 {
-    /**
-     * @var ilObjOrgUnitTree
-     */
-    protected $orgu_tree;
-
-    /**
-     * @var ilOrgUnitUserAssignment
-     */
-    protected $orgu_assignment;
-
-    /**
-     * @var int
-     */
-    protected $src_id;
+    protected ilObjOrgUnitTree $orgu_tree;
+    protected ilOrgUnitUserAssignment $orgu_assignment;
+    protected int $src_id;
 
     public function __construct(
         ilObjOrgUnitTree $orgu_tree,

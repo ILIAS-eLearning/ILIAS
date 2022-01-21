@@ -54,12 +54,11 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
     /**
      * no item is clickable
-     * @param <type> $a_type
+     * @param string $a_type
      * @param <type> $a_ref_id
-     * @param <type> $a_obj_id
-     * @return <type>
+     * @return bool
      */
-    public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return false;
     }
@@ -245,7 +244,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     * @param	integer array options
     * @return	string
     */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
 
@@ -274,9 +273,9 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
         $tpl->setVariable('OBJ_TITLE', $this->buildTitle($title, $a_obj_id, ''));
     }
 
-    public function buildTitle($title, $a_obj_id, $a_type)
+    public function buildTitle(string $a_title, $a_id, string $a_type) : string
     {
-        if (strlen($title) >= 22) {
+        if (strlen($a_title) >= 22) {
             #$title = substr($title, 0,22).'...';
         }
         
@@ -285,29 +284,29 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
             $this->server_id,
             $this->mid,
             $this->tree_id,
-            $a_obj_id
+            $a_id
         );
         
         
 
         switch ($status) {
             case ilECSCmsData::MAPPING_UNMAPPED:
-                return '<font style="font-weight: bold">' . $title . '</font>';
+                return '<font style="font-weight: bold">' . $a_title . '</font>';
 
             case ilECSCmsData::MAPPING_PENDING_DISCONNECTABLE:
-                return '<font style="font-weight: bold;font-style: italic">' . $title . '</font>';
+                return '<font style="font-weight: bold;font-style: italic">' . $a_title . '</font>';
 
             case ilECSCmsData::MAPPING_PENDING_NOT_DISCONNECTABLE:
-                return '<font style="font-style: italic">' . $title . '</font>';
+                return '<font style="font-style: italic">' . $a_title . '</font>';
 
             case ilECSCmsData::MAPPING_MAPPED:
-                return $title;
+                return $a_title;
 
             case ilECSCmsData::MAPPING_DELETED:
-                return '<font class="warning">' . $title . '</font>';
+                return '<font class="warning">' . $a_title . '</font>';
 
             default:
-                return $title;
+                return $a_title;
         }
     }
 }

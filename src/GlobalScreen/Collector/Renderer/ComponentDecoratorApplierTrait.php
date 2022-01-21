@@ -7,7 +7,6 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Trait ComponentDecoratorApplierTrait
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait ComponentDecoratorApplierTrait
@@ -18,7 +17,7 @@ trait ComponentDecoratorApplierTrait
         if ($c !== null) {
             return $c($component);
         }
-
+        
         return $component;
     }
 }

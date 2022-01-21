@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -25,15 +25,7 @@ interface Toggle extends Button
      */
     public function getActionOff();
 
-    /**
-     * @param Signal $signal
-     * @return Toggle
-     */
     public function withAdditionalToggleOnSignal(Signal $signal) : Toggle;
 
-    /**
-     * @param Signal $signal
-     * @return Toggle
-     */
     public function withAdditionalToggleOffSignal(Signal $signal) : Toggle;
 }

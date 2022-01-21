@@ -10,8 +10,6 @@ use ILIAS\UI\Component\Component;
 use ILIAS\HTTP\GlobalHttpState;
 
 /**
- * Class ilObjContentPageAdministrationGUI
- * @author Michael Jansen <mjansen@databay.de>
  * @ilCtrl_Calls ilObjContentPageAdministrationGUI: ilPermissionGUI
  */
 class ilObjContentPageAdministrationGUI extends ilObjectGUI
@@ -28,10 +26,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private Storage $settingsStorage;
     private ilErrorHandling $error;
 
-    /**
-     * @ineritdoc
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 
@@ -47,10 +42,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->settingsStorage = new StorageImpl($DIC->settings());
     }
 
-    /**
-     * @ineritdoc
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
@@ -66,9 +58,6 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @ineritdoc
-     */
     public function executeCommand()
     {
         if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
@@ -96,7 +85,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
                         $this->save();
                         break;
                     default:
-                        throw new Exception(__METHOD__ . ' :: Unknown command ' . $cmd);
+                        throw new RuntimeException(__METHOD__ . ' :: Unknown command ' . $cmd);
                 }
         }
     }

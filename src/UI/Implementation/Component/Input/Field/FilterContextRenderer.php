@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -6,13 +6,15 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Input\Field as F;
-use ILIAS\UI\Component\Input\Field as FI;
-
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Implementation\Component\Input\Container\Filter\ProxyFilterField;
+use LogicException;
+use Closure;
+use ILIAS\UI\Component\Input\Field\FilterInput;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class FilterContextRenderer
@@ -23,7 +25,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var $component Input
@@ -51,7 +53,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
                 return $this->renderMultiSelectField($component, $default_renderer);
 
             default:
-                throw new \LogicException("Cannot render '" . get_class($component) . "'");
+                throw new LogicException("Cannot render '" . get_class($component) . "'");
         }
     }
 
@@ -77,11 +79,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $links = array();
         foreach ($input_labels as $label) {
             $links[] = $f->button()->shy($label, "")->withAdditionalOnLoadCode(function ($id) {
-                $code = "$('#$id').on('click', function(event) {
+                return "$('#$id').on('click', function(event) {
 						il.UI.filter.onAddClick(event, '$id');
 						return false; // stop event propagation
 				});";
-                return $code;
             });
         }
         $add_tpl->setVariable("LIST", $default_renderer->render($f->listing()->unordered($links)));
@@ -98,7 +99,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     }
 
     protected function wrapInFilterContext(
-        FI\FilterInput $component,
+        FilterInput $component,
         string $input_html,
         RendererInterface $default_renderer,
         string $id_pointing_to_input = ''
@@ -110,11 +111,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
          * @var $remove_glyph Component\Symbol\Glyph\Glyph
          */
         $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(function ($id) {
-            $code = "$('#$id').on('click', function(event) {
+            return "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
 					});";
-            return $code;
         });
 
         $tpl->setCurrentBlock("addon_left");
@@ -125,7 +125,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("filter_field");
         if ($component->isComplex()) {
-            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($component, $input_html, $default_renderer));
+            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_html, $default_renderer));
         } else {
             $tpl->setVariable("FILTER_FIELD", $input_html);
         }
@@ -138,7 +138,6 @@ class FilterContextRenderer extends AbstractComponentRenderer
     }
 
     protected function renderProxyField(
-        FI\FilterInput $component,
         string $input_html,
         RendererInterface $default_renderer
     ) : string {
@@ -152,11 +151,11 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $prox = $prox->withOnClick($popover->getShowSignal());
         $tpl->touchBlock("tabindex");
 
-        $id = $this->bindJSandApplyId($prox, $tpl);
+        $this->bindJSandApplyId($prox, $tpl);
         return $tpl->get();
     }
 
-    protected function applyName(FI\FilterInput $component, Template $tpl) : ?string
+    protected function applyName(FilterInput $component, Template $tpl) : ?string
     {
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
@@ -178,7 +177,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
      * for this specific component and the placement of {VALUE} in its template.
      * Please note: this may not work for customized templates!
      */
-    protected function applyValue(FI\FilterInput $component, Template $tpl, callable $escape = null)
+    protected function applyValue(FilterInput $component, Template $tpl, callable $escape = null) : void
     {
         $value = $component->getValue();
         if (!is_null($escape)) {
@@ -189,10 +188,13 @@ class FilterContextRenderer extends AbstractComponentRenderer
         }
     }
 
-    protected function escapeSpecialChars() : \Closure
+    protected function escapeSpecialChars() : Closure
     {
         return function ($v) {
-            return htmlspecialchars($v, ENT_QUOTES);
+            // with declare(strict_types=1) in place,
+            // htmlspecialchars will not silently convert to string anymore;
+            // therefore, the typecast must be explicit
+            return htmlspecialchars((string) $v, ENT_QUOTES);
         };
     }
 
@@ -283,7 +285,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Input/Container/dist/filter.js');
@@ -293,7 +295,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
     /**
      * @param Input $input
-     * @return FI\FilterInput|\ILIAS\UI\Implementation\Component\JavaScriptBindable
+     * @return FilterInput|JavaScriptBindable
      */
     protected function setSignals(Input $input)
     {
@@ -309,11 +311,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
             $signals = json_encode($signals);
 
             /**
-             * @var $input FI\FilterInput
+             * @var $input FilterInput
              */
             $input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
-                $code = "il.UI.input.setSignalsForId('$id', $signals);";
-                return $code;
+                return "il.UI.input.setSignalsForId('$id', $signals);";
             });
 
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
@@ -324,7 +325,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [
             Component\Input\Field\Text::class,

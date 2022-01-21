@@ -3,6 +3,8 @@
   <coverage>
     <include>
       <directory suffix=".php">classes</directory>
+      <directory suffix=".php">exceptions</directory>
+      <directory suffix=".php">interfaces</directory>
     </include>
     <report>
       <html outputDirectory="build/coverage" highLowerBound="80"/>

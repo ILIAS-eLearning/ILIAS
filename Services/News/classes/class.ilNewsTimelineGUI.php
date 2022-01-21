@@ -1,71 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\News\StandardGUIRequest;
 
 /**
  * Timeline for news
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilNewsTimelineGUI: ilLikeGUI, ilNoteGUI
- *
- * @ingroup ServicesNews
  */
 class ilNewsTimelineGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected int $news_id;
+    protected bool $include_auto_entries;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected int $ref_id;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected static int $items_per_load = 10;
+    protected bool $user_edit_all = false;
+    protected StandardGUIRequest $std_request;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var int
-     */
-    protected static $items_per_load = 10;
-
-    /**
-     * @var bool
-     */
-    protected $user_edit_all = false;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_ref_id reference id
-     */
-    protected function __construct($a_ref_id, $a_include_auto_entries)
-    {
+    protected function __construct(
+        int $a_ref_id,
+        bool $a_include_auto_entries
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -77,49 +51,43 @@ class ilNewsTimelineGUI
         $this->include_auto_entries = $a_include_auto_entries;
         $this->access = $DIC->access();
 
-        $this->news_id = (int) $_GET["news_id"];
+        $this->std_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
 
+        $this->news_id = $this->std_request->getNewsId();
 
         $this->lng->loadLanguageModule("news");
     }
 
     /**
      * Set user can edit other users postings
-     *
-     * @param bool $a_val user can edit all postings
      */
-    public function setUserEditAll($a_val)
+    public function setUserEditAll(bool $a_val) : void
     {
         $this->user_edit_all = $a_val;
     }
 
     /**
      * Get user can edit other users postings
-     *
-     * @return bool user can edit all postings
      */
-    public function getUserEditAll()
+    public function getUserEditAll() : bool
     {
         return $this->user_edit_all;
     }
 
-    /**
-     * Get instance
-     *
-     * @param int $a_ref_id reference id
-     * @return ilNewsTimelineGUI
-     */
-    public static function getInstance($a_ref_id, $a_include_auto_entries)
-    {
+    public static function getInstance(
+        int $a_ref_id,
+        bool $a_include_auto_entries
+    ) : ilNewsTimelineGUI {
         return new self($a_ref_id, $a_include_auto_entries);
     }
 
     /**
-     * Execute command
-     *
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -129,7 +97,6 @@ class ilNewsTimelineGUI
         switch ($next_class) {
             case "illikegui":
                 $i = new ilNewsItem($this->news_id);
-                include_once("./Services/Like/classes/class.ilLikeFactoryGUI.php");
                 $likef = new ilLikeFactoryGUI();
                 $like_gui = $likef->widget(array($i->getContextObjId()));
                 $ctrl->saveParameter($this, "news_id");
@@ -166,13 +133,7 @@ class ilNewsTimelineGUI
         }
     }
 
-    /**
-     * Show
-     *
-     * @param
-     * @return
-     */
-    public function show($form = null)
+    public function show(ilPropertyFormGUI $form = null) : void
     {
         // toolbar
         if ($this->access->checkAccess("news_add_news", "", $this->ref_id)) {
@@ -183,7 +144,6 @@ class ilNewsTimelineGUI
             $this->toolbar->addButtonInstance($b);
         }
 
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         $news_item = new ilNewsItem();
         $news_item->setContextObjId($this->ctrl->getContextObjId());
         $news_item->setContextObjType($this->ctrl->getContextObjType());
@@ -201,15 +161,12 @@ class ilNewsTimelineGUI
             self::$items_per_load
         );
 
-        include_once("./Services/News/Timeline/classes/class.ilTimelineGUI.php");
-        include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
         $obj_ids = array_unique(array_map(function ($a) {
             return $a["context_obj_id"];
         }, $news_data));
-        include_once("./Services/Like/classes/class.ilLikeFactoryGUI.php");
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
@@ -232,9 +189,8 @@ class ilNewsTimelineGUI
             );
         }
 
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
-        $this->tpl->addOnloadCode("il.News.setItems(" . ilJsonUtil::encode($js_items) . ");");
-        $this->tpl->addOnloadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
+        $this->tpl->addOnLoadCode("il.News.setItems(" . ilJsonUtil::encode($js_items) . ");");
+        $this->tpl->addOnLoadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
 
         if (count($news_data) > 0) {
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
@@ -254,24 +210,16 @@ class ilNewsTimelineGUI
         $this->lng->toJS("save");
 
         $this->tpl->addJavaScript("./Services/News/js/News.js");
-        include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
         ilMediaPlayerGUI::initJavascript($this->tpl);
     }
 
-    /**
-     * Load more
-     *
-     * @param
-     * @return
-     */
-    public function loadMore()
+    public function loadMore() : void
     {
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         $news_item = new ilNewsItem();
         $news_item->setContextObjId($this->ctrl->getContextObjId());
         $news_item->setContextObjType($this->ctrl->getContextObjType());
 
-        $excluded = $_POST["rendered_news"];
+        $excluded = $this->std_request->getRenderedNews();
 
         $news_data = $news_item->getNewsForRefId(
             $this->ref_id,
@@ -287,15 +235,12 @@ class ilNewsTimelineGUI
             $excluded
         );
 
-        include_once("./Services/News/Timeline/classes/class.ilTimelineGUI.php");
-        include_once("./Services/News/classes/class.ilNewsTimelineItemGUI.php");
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
         $obj_ids = array_unique(array_map(function ($a) {
             return $a["context_obj_id"];
         }, $news_data));
-        include_once("./Services/Like/classes/class.ilLikeFactoryGUI.php");
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
@@ -318,7 +263,6 @@ class ilNewsTimelineGUI
             );
         }
 
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
         $obj = new stdClass();
         $obj->data = $js_items;
         $obj->html = $timeline->render(true);
@@ -327,36 +271,26 @@ class ilNewsTimelineGUI
         exit;
     }
 
-    
-    /**
-     *
-     *
-     * @param
-     */
-    protected function updateNewsItem()
+    protected function updateNewsItem() : void
     {
-        if ($_POST["news_action"] == "save") {
+        if ($this->std_request->getNewsAction() == "save") {
             $this->save();
         }
-        if ($_POST["news_action"] == "update") {
+        if ($this->std_request->getNewsAction() == "update") {
             $this->update();
         }
     }
     
 
-    /**
-     * Save (ajax)
-     */
-    public function save()
+    // Save (ajax)
+    public function save() : void
     {
-        include_once("./Services/News/classes/class.ilNewsItemGUI.php");
         $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         if ($form->checkInput()) {
             $news_item = new ilNewsItem();
             $news_item->setTitle($form->getInput("news_title"));
             $news_item->setContent($form->getInput("news_content"));
             $news_item->setVisibility($form->getInput("news_visibility"));
-            include_once("./Services/News/classes/class.ilNewsItemGUI.php");
             if (ilNewsItemGUI::isRteActivated()) {
                 $news_item->setContentHtml(true);
             }
@@ -390,20 +324,16 @@ class ilNewsTimelineGUI
 
 
 
-    /**
-     * Update (ajax)
-     */
-    public function update()
+    // Update (ajax)
+    public function update() : void
     {
-        include_once("./Services/News/classes/class.ilNewsItemGUI.php");
         $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         if ($form->checkInput()) {
-            $news_item = new ilNewsItem((int) $_POST["id"]);
+            $news_item = new ilNewsItem($this->std_request->getId());
             $news_item->setTitle($form->getInput("news_title"));
             $news_item->setContent($form->getInput("news_content"));
             $news_item->setVisibility($form->getInput("news_visibility"));
             //$news_item->setContentLong($form->getInput("news_content_long"));
-            include_once("./Services/News/classes/class.ilNewsItemGUI.php");
             if (ilNewsItemGUI::isRteActivated()) {
                 $news_item->setContentHtml(true);
             }
@@ -413,7 +343,7 @@ class ilNewsTimelineGUI
             $old_mob_id = 0;
 
             // delete old media object
-            if ($media["name"] != "" || $_POST["media_delete"] != "") {
+            if ($media["name"] != "" || $this->std_request->getDeleteMedia() > 0) {
                 if ($news_item->getMobId() > 0 && ilObject::_lookupType($news_item->getMobId()) == "mob") {
                     $old_mob_id = $news_item->getMobId();
                 }
@@ -432,7 +362,6 @@ class ilNewsTimelineGUI
                 $news_item->update();
 
                 if ($old_mob_id > 0) {
-                    include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                     $old_mob = new ilObjMediaObject($old_mob_id);
                     $old_mob->delete();
                 }
@@ -441,37 +370,27 @@ class ilNewsTimelineGUI
         } else {
             $form->setValuesByPost();
             $this->show($form);
-            $this->tpl->addOnLoadCode("il.News.edit(" . (int) $_POST["id"] . ", true);");
+            $this->tpl->addOnLoadCode("il.News.edit(" . $this->std_request->getNewsId() . ", true);");
         }
     }
 
-    /**
-     * Remove (ajax)
-     */
-    public function remove()
+    // Remove (ajax)
+    public function remove() : void
     {
-        include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-        $news_item = new ilNewsItem((int) $_POST["id"]);
+        $news_item = new ilNewsItem($this->std_request->getNewsId());
         if ($this->user->getId() == $news_item->getUserId() || $this->getUserEditAll()) {
             $news_item->delete();
         }
         exit;
     }
 
-    /**
-     * Get edit modal
-     *
-     * @return string modal html
-     */
-    protected function getEditModal($form = null)
+    protected function getEditModal($form = null) : string
     {
-        include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($this->lng->txt("edit"));
         $modal->setId("ilNewsEditModal");
         $modal->setType(ilModalGUI::TYPE_LARGE);
 
-        include_once("./Services/News/classes/class.ilNewsItemGUI.php");
         if (is_null($form)) {
             $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         }
@@ -491,20 +410,13 @@ class ilNewsTimelineGUI
         return $modal->getHTML();
     }
 
-    /**
-     * Get delete modal
-     *
-     * @return string modal html
-     */
-    protected function getDeleteModal()
+    protected function getDeleteModal() : string
     {
-        include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($this->lng->txt("delete"));
         $modal->setId("ilNewsDeleteModal");
         $modal->setType(ilModalGUI::TYPE_LARGE);
 
-        require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
         $confirm = ilSubmitButton::getInstance();
         $confirm->setCaption("delete");
         $confirm->setId("news_btn_delete");

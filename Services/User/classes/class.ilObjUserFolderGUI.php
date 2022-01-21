@@ -1,6 +1,11 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+use ILIAS\Services\User\UserFieldAttributesChangeListener;
+use ILIAS\Services\User\InterestedUserFieldChangeListener;
+use ILIAS\Services\User\ChangedUserFieldAttribute;
+
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
@@ -16,6 +21,8 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
+    private Container $dic;
+    protected int $confirm_change = 0;
     public $ctrl;
 
     protected $log;
@@ -23,10 +30,25 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /** @var ilObjUserFolder */
     public $object;
 
+    public const USER_FIELD_TRANSLATION_MAPPING = [
+        "visible" => "user_visible_in_profile",
+        "changeable" => "changeable",
+        "searchable" => "header_searchable",
+        "required" => "required_field",
+        "export" => "export",
+        "course_export" => "course_export",
+        'group_export' => 'group_export',
+        "visib_reg" => "header_visible_registration",
+        'visib_lua' => 'usr_settings_visib_lua',
+        'changeable_lua' => 'usr_settings_changeable_lua'
+    ];
+
     /**
      * @var ilUserSettingsConfig
      */
     protected $user_settings_config;
+
+    private bool $usrFieldChangeListenersAccepted = false;
 
     /**
      * Constructor
@@ -35,7 +57,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         global $DIC;
-
+        $this->dic = $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
         $this->type = "usrf";
@@ -57,6 +79,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->user_settings_config = new ilUserSettingsConfig();
 
         $this->log = ilLoggerFactory::getLogger("user");
+    }
+
+    private function getTranslationForField(string $fieldName, array $properties) : string
+    {
+        $translation = (!isset($properties["lang_var"]) || $properties["lang_var"] === "")
+            ? $fieldName
+            : $properties["lang_var"];
+
+        if ($fieldName === "country") {
+            $translation = "country_free_text";
+        }
+        if ($fieldName === "sel_country") {
+            $translation = "country_selection";
+        }
+
+        return $this->lng->txt($translation);
     }
 
     public function setUserOwnerId($a_id)
@@ -384,7 +422,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this,
                 "chooseLetter"
             );
-            $ai->setHighlighted($_GET["letter"] ?? null);
+            $ai->setHighlighted($_GET["letter"] ?? "");
             $ilToolbar->addInputItem(
                 $ai,
                 true
@@ -1760,7 +1798,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $parts = pathinfo($file_name);
 
             //check if upload status is ok
-            if ($single_file_upload->getStatus() != \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+            if (!$single_file_upload->isOK()) {
                 $filesystem->deleteDir($import_dir);
                 $this->ilias->raiseError(
                     $this->lng->txt("no_import_file_found"),
@@ -2848,7 +2886,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
 
         // check if a course export state of any field has been added
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledCourseExport() == true &&
             $privacy->courseConfirmationRequired() == true &&
             $action != "save") {
@@ -2867,6 +2905,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if ($action == 'save') {
             include_once('Services/Membership/classes/class.ilMemberAgreement.php');
             ilMemberAgreement::_reset();
+        }
+
+        $changedFields = $this->collectChangedFields();
+        if ($this->handleChangeListeners($changedFields, $field_properties)) {
+            return;
         }
 
         foreach ($profile_fields as $field) {
@@ -3024,8 +3067,168 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilUtil::stripSlashes($_POST['select']['default_hide_own_online_status'])
         );
 
+        if ($this->usrFieldChangeListenersAccepted && count($changedFields) > 0) {
+            $this->dic->event()->raise(
+                "Services/User",
+                "onUserFieldAttributesChanged",
+                $changedFields
+            );
+        }
+
         ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
         $this->settingsObject();
+    }
+
+    public function confirmUsrFieldChangeListenersObject() : void
+    {
+        $this->usrFieldChangeListenersAccepted = true;
+        $this->confirmSavedObject();
+    }
+
+    /**
+     * @param InterestedUserFieldChangeListener[] $interestedChangeListeners
+     */
+    public function showFieldChangeComponentsListeningConfirmDialog(array $interestedChangeListeners) : void
+    {
+        $post = $this->dic->http()->request()->getParsedBody();
+        $confirmDialog = new ilConfirmationGUI();
+        $confirmDialog->setHeaderText($this->lng->txt("usr_field_change_components_listening"));
+        $confirmDialog->setFormAction($this->ctrl->getFormActionByClass(
+            [self::class],
+            "settings"
+        ));
+        $confirmDialog->addButton($this->lng->txt("confirm"), "confirmUsrFieldChangeListeners");
+        $confirmDialog->addButton($this->lng->txt("cancel"), "settings");
+
+        $tpl = new ilTemplate(
+            "tpl.usr_field_change_listener_confirm.html",
+            true,
+            true,
+            "Services/User"
+        );
+
+        foreach ($interestedChangeListeners as $interestedChangeListener) {
+            $tpl->setVariable("FIELD_NAME", $interestedChangeListener->getName());
+            foreach ($interestedChangeListener->getAttributes() as $attribute) {
+                $tpl->setVariable("ATTRIBUTE_NAME", $attribute->getName());
+                foreach ($attribute->getComponents() as $component) {
+                    $tpl->setVariable("COMPONENT_NAME", $component->getComponentName());
+                    $tpl->setVariable("DESCRIPTION", $component->getDescription());
+                    $tpl->setCurrentBlock("component");
+                    $tpl->parseCurrentBlock("component");
+                }
+                $tpl->setCurrentBlock("attribute");
+                $tpl->parseCurrentBlock("attribute");
+            }
+            $tpl->setCurrentBlock("field");
+            $tpl->parseCurrentBlock("field");
+        }
+
+        $confirmDialog->addItem("", 0, $tpl->get());
+
+        foreach ($post["chb"] as $postVar => $value) {
+            $confirmDialog->addHiddenItem("chb[$postVar]", $value);
+        }
+        foreach ($post["select"] as $postVar => $value) {
+            $confirmDialog->addHiddenItem("select[$postVar]", $value);
+        }
+        foreach ($post["current"] as $postVar => $value) {
+            $confirmDialog->addHiddenItem("current[$postVar]", $value);
+        }
+        $this->tpl->setContent($confirmDialog->getHTML());
+    }
+
+    /**
+     * @param array<string, ChangedUserFieldAttribute> $changedFields
+     * @param array<string, array>                     $fieldProperties => See ilUserProfile::getStandardFields()
+     * @return bool
+     */
+    public function handleChangeListeners(array $changedFields, array $fieldProperties) : bool
+    {
+        if (count($changedFields) > 0) {
+            $interestedChangeListeners = [];
+            foreach ($fieldProperties as $fieldName => $properties) {
+                if (!isset($properties["change_listeners"]) && !is_array($properties["change_listeners"])) {
+                    continue;
+                }
+
+                foreach ($properties["change_listeners"] as $changeListenerClassName) {
+                    /**
+                     * @var UserFieldAttributesChangeListener $listener
+                     */
+                    $listener = new $changeListenerClassName($this->dic);
+                    foreach ($changedFields as $changedField) {
+                        $attributeName = $changedField->getAttributeName();
+                        $descriptionForField = $listener->getDescriptionForField($fieldName, $attributeName);
+                        if ($descriptionForField !== null && $descriptionForField !== "") {
+                            $interestedChangeListener = null;
+                            foreach ($interestedChangeListeners as $interestedListener) {
+                                if ($interestedListener->getFieldName() === $fieldName) {
+                                    $interestedChangeListener = $interestedListener;
+                                    break;
+                                }
+                            }
+
+                            if ($interestedChangeListener === null) {
+                                $interestedChangeListener = new InterestedUserFieldChangeListener(
+                                    $this->getTranslationForField($fieldName, $properties),
+                                    $fieldName
+                                );
+                                $interestedChangeListeners[] = $interestedChangeListener;
+                            }
+
+                            $interestedAttribute = $interestedChangeListener->addAttribute($attributeName);
+                            $interestedAttribute->addComponent(
+                                $listener->getComponentName(),
+                                $descriptionForField
+                            );
+                        }
+                    }
+                }
+            }
+
+            if (!$this->usrFieldChangeListenersAccepted && count($interestedChangeListeners) > 0) {
+                $this->showFieldChangeComponentsListeningConfirmDialog($interestedChangeListeners);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array<string, ChangedUserFieldAttribute>
+     */
+    private function collectChangedFields() : array
+    {
+        $changedFields = [];
+        $post = $this->dic->http()->request()->getParsedBody();
+        if (
+            !isset($post["chb"])
+            && !is_array($post["chb"])
+            && !isset($post["current"])
+            && !is_array($post["current"])
+        ) {
+            return $changedFields;
+        }
+
+        $old = $post["current"];
+        $new = $post["chb"];
+
+        foreach ($old as $key => $oldValue) {
+            if (!isset($new[$key])) {
+                $isBoolean = filter_var($oldValue, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+                $new[$key] = $isBoolean ? "0" : $oldValue;
+            }
+        }
+
+        $oldToNewDiff = array_diff_assoc($old, $new);
+
+        foreach ($oldToNewDiff as $key => $oldValue) {
+            $changedFields[$key] = new ChangedUserFieldAttribute($key, $oldValue, $new[$key]);
+        }
+
+        return $changedFields;
     }
 
     /**
@@ -3075,7 +3278,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $file = basename($_POST["file"][0]);
 
         $export_dir = $this->object->getExportDirectory();
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $file,
             $file
         );
@@ -3974,7 +4177,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname . '.xlsx',
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_EXCEL) . '.xlsx',
                 '',
@@ -4016,7 +4219,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname,
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_CSV),
                 '',
@@ -4057,7 +4260,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname,
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_XML),
                 '',
@@ -4123,11 +4326,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,
-            // $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
-            $mail_data['m_type'],
-            $mail_data['m_email'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
             $mail_data['use_placeholders'],

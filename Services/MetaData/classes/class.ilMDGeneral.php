@@ -33,6 +33,9 @@ include_once 'class.ilMDBase.php';
 
 class ilMDGeneral extends ilMDBase
 {
+    protected ?string $coverage = '';
+    protected $coverage_language;
+
     public function getPossibleSubelements()
     {
         $subs['Keyword'] = 'meta_keyword';
@@ -231,12 +234,9 @@ class ilMDGeneral extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_general_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_general'));
+        $fields['meta_general_id'] = array('integer',$next_id = $this->db->nextId('il_meta_general'));
 
         $this->log->debug("Insert General " . print_r($fields, true));
         $this->log->logStack(ilLogLevel::DEBUG);
@@ -251,9 +251,6 @@ class ilMDGeneral extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -269,9 +266,6 @@ class ilMDGeneral extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if (!$this->getMetaId()) {
             return false;
@@ -302,8 +296,8 @@ class ilMDGeneral extends ilMDBase
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_general " .
-                "WHERE meta_general_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_general_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             return true;
         }
 
@@ -326,15 +320,12 @@ class ilMDGeneral extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_general " .
-                "WHERE meta_general_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_general_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -453,7 +444,7 @@ class ilMDGeneral extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_general_id FROM il_meta_general " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

@@ -440,7 +440,7 @@
 				"data-toggle":           "tooltip",
 				"data-placement":        "auto"
 			});
-			$template.find('.close').attr({
+			$template.find('.minimize').attr({
 				"title":                   il.Language.txt('close'),
 				"data-onscreenchat-close": conversation.id,
 				"data-toggle":             "tooltip",

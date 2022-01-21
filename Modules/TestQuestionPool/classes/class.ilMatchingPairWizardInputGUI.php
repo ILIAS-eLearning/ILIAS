@@ -30,10 +30,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
     /**
     * Set Value.
-    *
-    * @param	string	$a_value	Value
+    * @param    $a_value Value
     */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->pairs = array();
         $this->terms = array();
@@ -110,10 +109,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -168,10 +166,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -7,7 +7,7 @@
  */
 class ilDclTextInputGUI extends ilTextInputGUI
 {
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         parent::setValueByArray($a_values);
         foreach ($this->getSubItems() as $item) {
@@ -16,7 +16,7 @@ class ilDclTextInputGUI extends ilTextInputGUI
     }
 
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         // validate regex
         if ($this->getPostVar() == 'prop_' . ilDclBaseFieldModel::PROP_REGEX && $_POST[$this->getPostVar()]) {

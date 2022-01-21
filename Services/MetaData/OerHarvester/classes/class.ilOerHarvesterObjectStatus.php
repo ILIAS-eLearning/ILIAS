@@ -16,7 +16,7 @@ class ilOerHarvesterObjectStatus
 
     private $blocked = false;
 
-    private $db = null;
+    protected ilDBInterface $db;
 
 
     /**

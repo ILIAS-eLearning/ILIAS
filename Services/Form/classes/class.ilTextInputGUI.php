@@ -1,41 +1,49 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a text property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem, ilMultiValuesItem
 {
-    protected $value;
-    protected $maxlength = 200;
-    protected $size = 40;
-    protected $validationRegexp;
-    protected $validationFailureMessage = '';
-    protected $suffix;
-    protected $style_css;
-    protected $css_class;
-    protected $ajax_datasource;
-    protected $ajax_datasource_delimiter;
-    protected $ajax_datasource_commit = false;
-    protected $ajax_datasource_commit_url;
-    protected $submit_form_on_enter = false;
-
     /**
-     * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
+     * @var string|array
      */
-    protected $autocomplete_disabled = false;
+    protected $value = null;
+    protected int $maxlength = 200;
+    protected int $size = 40;
+    protected string $validationRegexp = "";
+    protected string $validationFailureMessage = '';
+    protected string $suffix = "";
+    protected string $style_css = "";
+    protected string $css_class = "";
+    protected string $ajax_datasource = "";
+    protected ?string $ajax_datasource_delimiter = null;
+    protected bool $ajax_datasource_commit = false;
+    protected string $ajax_datasource_commit_url = "";
+    protected bool $submit_form_on_enter = false;
+    // Flag whether the html autocomplete attribute should be set to "off" or not
+    protected bool $autocomplete_disabled = false;
+    protected string $input_type = "";
 
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -46,11 +54,9 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     }
 
     /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+     * @param string|array $a_value
+     */
+    public function setValue($a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -60,238 +66,137 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     }
 
     /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
+     * @return array|string
+     */
     public function getValue()
     {
         return $this->value;
     }
-    
 
-    /**
-     * Set message string for validation failure
-     * @return
-     * @param string $a_msg
-     */
-    public function setValidationFailureMessage($a_msg)
+    public function setValidationFailureMessage(string $a_msg) : void
     {
         $this->validationFailureMessage = $a_msg;
     }
     
-    public function getValidationFailureMessage()
+    public function getValidationFailureMessage() : string
     {
         return $this->validationFailureMessage;
     }
 
-    /**
-    * Set validation regexp.
-    *
-    * @param	string	$a_value	regexp
-    */
-    public function setValidationRegexp($a_value)
+    public function setValidationRegexp(string $a_value) : void
     {
         $this->validationRegexp = $a_value;
     }
 
-    /**
-    * Get validation regexp.
-    *
-    * @return	string	regexp
-    */
-    public function getValidationRegexp()
+    public function getValidationRegexp() : string
     {
         return $this->validationRegexp;
     }
 
-    /**
-    * Set Max Length.
-    *
-    * @param	int	$a_maxlength	Max Length
-    */
-    public function setMaxLength($a_maxlength)
+    public function setMaxLength(int $a_maxlength) : void
     {
         $this->maxlength = $a_maxlength;
     }
 
-    /**
-    * Get Max Length.
-    *
-    * @return	int	Max Length
-    */
-    public function getMaxLength()
+    public function getMaxLength() : int
     {
         return $this->maxlength;
     }
 
-    /**
-    * Set Size.
-    *
-    * @param	int	$a_size	Size
-    */
-    public function setSize($a_size)
+    public function setSize(int $a_size) : void
     {
         $this->size = $a_size;
     }
 
-    /**
-    * Set inline style.
-    *
-    * @param	string	$a_style	style
-    */
-    public function setInlineStyle($a_style)
+    public function setInlineStyle(string $a_style) : void
     {
         $this->style_css = $a_style;
     }
     
-    /**
-    * Get inline style.
-    *
-    * @return	string	style
-    */
-    public function getInlineStyle()
+    public function getInlineStyle() : string
     {
         return $this->style_css;
     }
     
-    public function setCssClass($a_class)
+    public function setCssClass(string $a_class) : void
     {
         $this->css_class = $a_class;
     }
     
-    public function getCssClass()
+    public function getCssClass() : string
     {
         return $this->css_class;
     }
-    
-    
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+
+    public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
-    /**
-    * Get Size.
-    *
-    * @return	int	Size
-    */
-    public function getSize()
+    public function getSize() : int
     {
         return $this->size;
     }
-    
-    /**
-    * Set suffix.
-    *
-    * @param	string	$a_value	suffix
-    */
-    public function setSuffix($a_value)
+
+    public function setSuffix(string $a_value) : void
     {
         $this->suffix = $a_value;
     }
 
-    /**
-    * Get suffix.
-    *
-    * @return	string	suffix
-    */
-    public function getSuffix()
+    public function getSuffix() : string
     {
         return $this->suffix;
     }
 
     /**
      * set input type
-     *
-     * @access public
-     * @param string input type password | text
-     *
+     * @param string $a_type input type password | text
      */
-    public function setInputType($a_type)
+    public function setInputType(string $a_type) : void
     {
         $this->input_type = $a_type;
     }
-    
-    /**
-     * get input type
-     *
-     * @access public
-     */
-    public function getInputType()
+
+    public function getInputType() : string
     {
         return $this->input_type;
     }
-    
-    /**
-     * Set submit form on enter
-     *
-     * @param	boolean
-     */
-    public function setSubmitFormOnEnter($a_val)
+
+    public function setSubmitFormOnEnter(bool $a_val) : void
     {
         $this->submit_form_on_enter = $a_val;
     }
     
-    /**
-     * Get submit form on enter
-     *
-     * @return	boolean
-     */
-    public function getSubmitFormOnEnter()
+    public function getSubmitFormOnEnter() : bool
     {
         return $this->submit_form_on_enter;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
         if (!$this->getMulti()) {
-            //$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-            $_POST[$this->getPostVar()] = $this->stripSlashesAddSpaceFallback($_POST[$this->getPostVar()]);
-            if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+            if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
                 $this->setAlert($lng->txt("msg_input_is_required"));
-
                 return false;
             } elseif (strlen($this->getValidationRegexp())) {
-                if (!preg_match($this->getValidationRegexp(), $_POST[$this->getPostVar()])) {
+                if (!preg_match($this->getValidationRegexp(), $this->str($this->getPostVar()))) {
                     $this->setAlert(
-                        $this->getValidationFailureMessage() ?
-                        $this->getValidationFailureMessage() :
+                        $this->getValidationFailureMessage() ?:
                         $lng->txt('msg_wrong_format')
                     );
                     return false;
                 }
             }
         } else {
-            // #17296
-            if (!is_array($_POST[$this->getPostVar()])) {
-                $_POST[$this->getPostVar()] = array();
-            }
-            foreach ($_POST[$this->getPostVar()] as $idx => $value) {
-                //$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
-                $_POST[$this->getPostVar()][$idx] = $this->stripSlashesAddSpaceFallback($value);
-            }
-            $_POST[$this->getPostVar()] = array_unique($_POST[$this->getPostVar()]);
-            
-            if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()]))) {
+            if ($this->getRequired() &&
+                !trim(implode("", $this->strArray($this->getPostVar())))) {
                 $this->setAlert($lng->txt("msg_input_is_required"));
-
                 return false;
             } elseif (strlen($this->getValidationRegexp())) {
                 $reg_valid = true;
-                foreach ($_POST[$this->getPostVar()] as $value) {
+                foreach ($this->strArray($this->getPostVar()) as $value) {
                     if (!preg_match($this->getValidationRegexp(), $value)) {
                         $reg_valid = false;
                         break;
@@ -299,8 +204,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 }
                 if (!$reg_valid) {
                     $this->setAlert(
-                        $this->getValidationFailureMessage() ?
-                        $this->getValidationFailureMessage() :
+                        $this->getValidationFailureMessage() ?:
                         $lng->txt('msg_wrong_format')
                     );
                     return false;
@@ -312,45 +216,51 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     }
 
     /**
-     * get datasource link for js autocomplete
-     * @return	String	link to data generation script
+     * @return string|string[]
      */
-    public function getDataSource()
+    public function getInput()
+    {
+        if (!$this->getMulti()) {
+            return $this->str($this->getPostVar());
+        }
+        return $this->strArray($this->getPostVar());
+    }
+
+    public function getDataSource() : string
     {
         return $this->ajax_datasource;
     }
 
-    /**
-     * set datasource link for js autocomplete
-     * @param	String	link to data generation script
-     */
-    public function setDataSource($href, $a_delimiter = null)
-    {
+    public function setDataSource(
+        string $href,
+        string $a_delimiter = null
+    ) : void {
         $this->ajax_datasource = $href;
         $this->ajax_datasource_delimiter = $a_delimiter;
     }
     
-    public function setDataSourceSubmitOnSelection($a_stat)
+    public function setDataSourceSubmitOnSelection(bool $a_stat) : void
     {
         $this->ajax_datasource_commit = $a_stat;
     }
     
-    public function getDataSourceSubmitOnSelection()
+    public function getDataSourceSubmitOnSelection() : bool
     {
         return $this->ajax_datasource_commit;
     }
     
-    public function setDataSourceSubmitUrl($a_url)
+    public function setDataSourceSubmitUrl(string $a_url) : void
     {
         $this->ajax_datasource_commit_url = $a_url;
     }
-    public function getDataSourceSubmitUrl()
+
+    public function getDataSourceSubmitUrl() : string
     {
         return $this->ajax_datasource_commit_url;
     }
     
     
-    public function setMultiValues(array $a_values)
+    public function setMultiValues(array $a_values) : void
     {
         foreach ($a_values as $idx => $value) {
             $a_values[$idx] = trim($value);
@@ -361,10 +271,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         parent::setMultiValues($a_values);
     }
     
-    /**
-    * Render item
-    */
-    public function render($a_mode = "")
+    public function render(string $a_mode = "") : string
     {
         /**
          * @var $lng ilLanguage
@@ -500,12 +407,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         return $tpl->get();
     }
     
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $html = $this->render();
 
@@ -514,36 +416,24 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         $a_tpl->parseCurrentBlock();
     }
     
-    /**
-    * Get HTML for table filter
-    */
-    public function getTableFilterHTML()
+    public function getTableFilterHTML() : string
     {
         $html = $this->render();
         return $html;
     }
 
-    /**
-    * Get HTML for toolbar
-    */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $html = $this->render("toolbar");
         return $html;
     }
 
-    /**
-     * @param boolean $autocomplete
-     */
-    public function setDisableHtmlAutoComplete($autocomplete)
+    public function setDisableHtmlAutoComplete(bool $autocomplete) : void
     {
         $this->autocomplete_disabled = $autocomplete;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isHtmlAutoCompleteDisabled()
+    public function isHtmlAutoCompleteDisabled() : bool
     {
         return $this->autocomplete_disabled;
     }

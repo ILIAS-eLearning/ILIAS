@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -100,7 +100,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testCrc32()
+    public function testCrc32() : void
     {
         // test mechanism (crc32)
         $f = $this->getAvatarFactory();
@@ -130,7 +130,7 @@ class AvatarTest extends ILIAS_UI_TestBase
                                              ->getAlternativeText());
     }
 
-    public function testRenderingLetter()
+    public function testRenderingLetter() : void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -144,7 +144,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingPicture()
+    public function testRenderingPicture() : void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -159,7 +159,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingPictureWithSomeAlternativeText()
+    public function testRenderingPictureWithSomeAlternativeText() : void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -181,7 +181,14 @@ class AvatarTest extends ILIAS_UI_TestBase
     public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 2) : Generator
     {
         $sh = static function ($length = 10) {
-            return substr(str_shuffle(str_repeat($x = 'abcdefghijklmnopqrstuvwxyz', (int) ceil($length / strlen($x)))), 1, $length);
+            return substr(
+                str_shuffle(str_repeat(
+                $x = 'abcdefghijklmnopqrstuvwxyz',
+                (int) ceil($length / strlen($x))
+            )),
+                1,
+                $length
+            );
         };
 
         $strings = [];

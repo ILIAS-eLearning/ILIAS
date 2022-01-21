@@ -6,7 +6,6 @@ import WebGLPointsLayerRenderer from '../renderer/webgl/PointsLayer.js';
 import {assign} from '../obj.js';
 import {clamp} from '../math.js';
 import {createCanvasContext2D} from '../dom.js';
-import {getChangeEventType} from '../Object.js';
 
 /**
  * @typedef {Object} Options
@@ -35,6 +34,7 @@ import {getChangeEventType} from '../Object.js';
  * attribute to use for the weight or a function that returns a weight from a feature. Weight values
  * should range from 0 to 1 (and values outside will be clamped to that range).
  * @property {import("../source/Vector.js").default} [source] Source.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
@@ -61,11 +61,12 @@ const DEFAULT_GRADIENT = ['#00f', '#0ff', '#0f0', '#ff0', '#f00'];
  * options means that `title` is observable, and has get/set accessors.
  *
  * @fires import("../render/Event.js").RenderEvent
+ * @extends {VectorLayer<import("../source/Vector.js").default>}
  * @api
  */
 class Heatmap extends VectorLayer {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
@@ -84,10 +85,7 @@ class Heatmap extends VectorLayer {
      */
     this.gradient_ = null;
 
-    this.addEventListener(
-      getChangeEventType(Property.GRADIENT),
-      this.handleGradientChanged_
-    );
+    this.addChangeListener(Property.GRADIENT, this.handleGradientChanged_);
 
     this.setGradient(options.gradient ? options.gradient : DEFAULT_GRADIENT);
 

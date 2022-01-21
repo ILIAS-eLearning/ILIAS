@@ -372,6 +372,7 @@ class ilPasswordAssistanceGUI
         $form->addItem($username);
 
         $password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
+        $password->setInfo(\ilUtil::getPasswordRequirementsInfo());
         $password->setRequired(true);
         $form->addItem($password);
 

@@ -1,15 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Card;
+
+use ILIAS\UI\Component\Image\Image;
 
 /**
  * This is how the factory for UI elements looks.
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -31,7 +32,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\Standard
      */
-    public function standard($title, $image = null);
+    public function standard(string $title, Image $image = null) : Standard;
 
 
     /**
@@ -65,5 +66,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\RepositoryObject
      */
-    public function repositoryObject($title, $image);
+    public function repositoryObject(string $title, Image $image) : RepositoryObject;
 }

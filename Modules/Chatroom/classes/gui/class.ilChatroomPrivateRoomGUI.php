@@ -44,7 +44,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomSubscription($room, $chat_user);
 
         $title = $room->getUniquePrivateRoomTitle(ilUtil::stripSlashes(
-            $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('title'))
+            $this->getRequestValue('title', $this->refinery->kindlyTo()->string())
         ));
         $subRoomId = $room->addPrivateRoom($title, $chat_user, ['public' => false]);
 
@@ -69,7 +69,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 
         $this->exitIfNoRoomExists($room);
 
-        $subRoom = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
+        $subRoom = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $this->exitIfNoRoomSubscription($room, $chat_user);
 
@@ -81,7 +81,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function leave()
+    public function leave() : void
     {
         $this->redirectIfNoPermission('read');
 
@@ -89,7 +89,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 
         $this->exitIfNoRoomExists($room);
         
-        $subRoom = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
+        $subRoom = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $this->exitIfNoRoomSubscription($room, $chat_user);
 
@@ -110,7 +110,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         $this->exitIfNoRoomExists($room);
 
-        $subRoom = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
+        $subRoom = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $this->exitIfEnterRoomIsNotAllowed($room, $subRoom, $chat_user);
 
@@ -132,7 +132,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $response = $room->listUsersInPrivateRoom(
-            $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'))
+            $this->getRequestValue('sub', $this->refinery->kindlyTo()->int())
         );
         $this->sendResponse($response);
     }

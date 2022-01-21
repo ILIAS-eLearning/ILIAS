@@ -50,12 +50,12 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         $this->originalPresentationTitle = $originalPresentationTitle;
     }
 
-    protected function isPageContainerToBeRendered()
+    protected function isPageContainerToBeRendered() : bool
     {
         return $this->getRenderPageContainer();
     }
     
-    public function showPage()
+    public function showPage() : string
     {
         $this->setOriginalPresentationTitle($this->getPresentationTitle());
         
@@ -69,17 +69,17 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    public function postOutputProcessing($output)
+    public function postOutputProcessing(string $a_output) : string
     {
-        $output = str_replace(
+        $a_output = str_replace(
             self::TEMP_PRESENTATION_TITLE_PLACEHOLDER,
             $this->getOriginalPresentationTitle(),
-            $output
+            $a_output
         );
 
-        $output = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $output);
+        $a_output = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $a_output);
         
-        return $output;
+        return $a_output;
     }
 
     // fau: testNav - support the addition of question info and actions below the title
@@ -106,11 +106,8 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Replace page toc placeholder with question info and actions
      * @todo: 	support question info and actions in the page XSL directly
      * 			the current workaround avoids changing the COPage service
-     *
-     * @param $a_output
-     * @return mixed
      */
-    public function insertPageToc($a_output)
+    public function insertPageToc(string $a_output) : string
     {
         if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML)) {
             $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');

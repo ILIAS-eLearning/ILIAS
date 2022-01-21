@@ -20,8 +20,8 @@
  */
 class ilObjRepositorySettings extends ilObject
 {
-    const NEW_ITEM_GROUP_TYPE_GROUP = 1;
-    const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
+    public const NEW_ITEM_GROUP_TYPE_GROUP = 1;
+    public const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
     
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
@@ -177,7 +177,7 @@ class ilObjRepositorySettings extends ilObject
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
+        $component_repository = $DIC["component.repository"];
         $objDefinition = $DIC["objDefinition"];
         
         $res = array();
@@ -204,12 +204,9 @@ class ilObjRepositorySettings extends ilObject
         }
         
         // parse plugins
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-        foreach ($pl_names as $pl_name) {
-            $pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
-            if ($pl_id) {
-                $res[] = $pl_id;
-            }
+        $pl_names = $component_repository->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($pl_names as $plugin) {
+            $res[] = $plugin->getId();
         }
         
         return $res;

@@ -17,9 +17,9 @@ class ilGroupReferenceExporter extends ilContainerReferenceExporter
     /**
      * Init xml writer
      * @param ilContainerReference $ref
-     * @return ilGroupReferenceXmlWriter
+     * @return ilContainerReferenceXmlWriter
      */
-    protected function initWriter(ilContainerReference $ref)
+    protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter
     {
         include_once './Modules/GroupReference/classes/class.ilGroupReferenceXmlWriter.php';
         return new ilGroupReferenceXmlWriter($ref);

@@ -1,5 +1,18 @@
 <?php namespace ILIAS\Administration;
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -12,30 +25,28 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
  */
 class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
-        $logged_in = $access_helper->isUserLoggedIn();
-        if (!$logged_in()) {
+
+        if (!$access_helper->isUserLoggedIn()() || !$access_helper->hasAdministrationAccess()()) {
             return [];
         }
 
         $entries = [];
         $this->dic->language()->loadLanguageModule('administration');
+
+        $admin_request = new AdminGUIRequest(
+            $this->dic->http(),
+            $this->dic->refinery()
+        );
 
         list($groups, $titems) = $this->getGroups();
         $position = 1;
@@ -53,7 +64,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withIsOutlined(true);
                     
                     $ref_id = $titems[$group_item]["ref_id"];
-                    if (isset($_GET["admin_mode"]) && $_GET["admin_mode"] != 'repository' && $ref_id == ROOT_FOLDER_ID) {
+                    if ($admin_request->getAdminMode() != 'repository' && $ref_id == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');
                         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&admin_mode=repository";
                     } else {
@@ -67,7 +78,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withTitle($titems[$group_item]["title"])
                         ->withAction($action)
                         ->withSymbol($icon)
-                        ->withVisibilityCallable(function() use($ref_id){
+                        ->withVisibilityCallable(function () use ($ref_id) {
                             return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
                         });
                 }
@@ -114,18 +125,19 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 
-
-    /**
-     * @return array
-     */
     private function getGroups() : array
     {
         if (!$this->dic->offsetExists('tree')) { // isDependencyAvailable does not work, Fatal error: Uncaught Error: Call to undefined method ILIAS\DI\Container::tree() in /var/www/html/src/DI/Container.php on line 294
             return [[], []];
         }
         $tree = $this->dic->repositoryTree();
-        $rbacsystem = $this->dic->rbac()->system();
         $lng = $this->dic->language();
+
+        $admin_request = new AdminGUIRequest(
+            $this->dic->http(),
+            $this->dic->refinery()
+        );
+
 
         $objects = $tree->getChilds(SYSTEM_FOLDER_ID);
 
@@ -168,7 +180,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         foreach ($new_objects as $c) {
             // check visibility
             if ($tree->getParentId($c["ref_id"]) == ROOT_FOLDER_ID && $c["type"] != "adm"
-                && $_GET["admin_mode"] != "repository"
+                && $admin_request->getAdminMode() != "repository"
             ) {
                 continue;
             }
@@ -178,19 +190,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 || $c["type"] == "xxx"
             ) {
                 continue;
-            }/*
-            $accessible = $rbacsystem->checkAccess('visible,read', $c["ref_id"]);
-            if (!$accessible) {
-                continue;
             }
-            if ($c["ref_id"] == ROOT_FOLDER_ID
-                && !$rbacsystem->checkAccess('write', $c["ref_id"])
-            ) {
-                continue;
-            }
-            if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID) {
-                continue;
-            }*/
             $items[] = $c;
         }
 
@@ -219,7 +219,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
             "repository_and_objects" =>
                 array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
-                    "mcts", "mobs", "svyf", "assf", "wbrs", "wiks", 'lsos'),
+                    "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
         );
         $groups = [];
         // now get all items and groups that are accessible

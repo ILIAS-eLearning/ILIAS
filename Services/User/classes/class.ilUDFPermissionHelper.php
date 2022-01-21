@@ -116,20 +116,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
     protected function getActivePlugins()
     {
         global $DIC;
-
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        $res = array();
-        
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "User", "udfc") as $plugin_name) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "User",
-                "udfc",
-                $plugin_name
-            );
-        }
-        
-        return $res;
+        $component_factory = $DIC["component.factory"];
+        return iterator_to_array($component_factory->getActivePluginsInSlot("udfc"));
     }
 }

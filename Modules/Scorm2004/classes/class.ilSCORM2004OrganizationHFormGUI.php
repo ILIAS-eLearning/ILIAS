@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -38,7 +38,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
     /**
     * Get menu items
     */
-    public function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
+    public function getMenuItems(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null) : array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -266,7 +266,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
     /**
     * Which nodes allow child nodes?
     */
-    public function nodeAllowsChilds($a_node)
+    public function nodeAllowsChilds(array $a_node) : bool
     {
         if ($a_node["type"] == "pg" || $a_node["type"] == "page") {
             return false;
@@ -276,10 +276,9 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 
     /**
     * Makes nodes drag and drop content and targets.
-    *
-    * @param	object	$a_node		node array
+    * @param	array $a_node node array
     */
-    public function manageDragAndDrop($a_node, $a_depth, $a_first_child_drop_area = false, $a_next_sibling = null, $a_childs = null)
+    public function manageDragAndDrop(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null) : void
     {
         $lng = $this->lng;
         
@@ -289,7 +288,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
             $this->makeDragContent($a_node["node_id"], "grp_" . $a_node["type"]);
         }
         
-        if (!$a_first_child_drop_area) {
+        if (!$a_first_child) {
             // page targets
             if ($a_node["type"] == "page" || ($a_node["type"] == "sco" && count($a_childs) == 0)
                 || ($a_node["type"] == "ass" && count($a_childs) == 0)) {
@@ -297,7 +296,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                     $this->makeDragTarget(
                         $a_node["node_id"],
                         "grp_page",
-                        $a_first_child_drop_area,
+                        $a_first_child,
                         true,
                         ""
                     );
@@ -305,7 +304,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                     $this->makeDragTarget(
                         $a_node["node_id"],
                         "grp_page",
-                        $a_first_child_drop_area,
+                        $a_first_child,
                         false,
                         ""
                     );
@@ -316,7 +315,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_sco",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true,
                     $lng->txt("cont_insert_into_chap")
                 );
@@ -327,7 +326,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_sco",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     false,
                     $lng->txt("cont_insert_after_" . $a_node["type"])
                 );
@@ -344,7 +343,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_chap",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     false,
                     $lng->txt("sahs_insert_as_chapter")
                 );
@@ -356,13 +355,13 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_chap",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true
                 );
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_sco",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true
                 );
             }
@@ -370,7 +369,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_sco",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true
                 );
             }
@@ -378,7 +377,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_page",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true
                 );
             }
@@ -464,7 +463,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
      * @param	array		item array
      * @return	string		icon alt text
      */
-    public function getChildIconAlt($a_item)
+    public function getChildIconAlt(array $a_item) : string
     {
         $lng = $this->lng;
 

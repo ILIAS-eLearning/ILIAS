@@ -32,19 +32,19 @@ class ilBuddySystem
 
     /**
      * @param string $keyword
-     * @param mixed $value
+     * @param string $value
      */
-    public function setSetting(string $keyword, $value) : void
+    public function setSetting(string $keyword, string $value) : void
     {
         $this->settings->set($keyword, $value);
     }
 
     /**
      * @param string $keyword
-     * @param bool|false $default
-     * @return string|bool
+     * @param string|null $default
+     * @return string|null
      */
-    public function getSetting(string $keyword, bool $default = false)
+    public function getSetting(string $keyword, ?string $default = null) : ?string
     {
         return $this->settings->get($keyword, $default);
     }
@@ -60,7 +60,7 @@ class ilBuddySystem
             return false;
         }
 
-        self::$isEnabled = (bool) $this->settings->get('enabled');
+        self::$isEnabled = (bool) $this->settings->get('enabled', '0');
         return self::$isEnabled;
     }
 }

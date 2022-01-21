@@ -1,15 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilObjContentPageAccess
- */
 class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObjectConstants, ilConditionHandling
 {
-    /**
-     * @inheritdoc
-     */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = [
             [
@@ -28,10 +22,7 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return $commands;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         $targetAttributes = explode('_', $a_target);
 
@@ -42,18 +33,12 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return parent::_checkGoto($a_target);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         return false;
     }

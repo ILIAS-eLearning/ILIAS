@@ -12,10 +12,7 @@
 class ilDclCreateViewDefinition extends ilPageObject
 {
     const PARENT_TYPE = 'dclf';
-    /**
-     * @var bool
-     */
-    protected $active = false;
+    protected bool $active = false;
     /**
      * @var int
      */
@@ -28,10 +25,9 @@ class ilDclCreateViewDefinition extends ilPageObject
 
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return self::PARENT_TYPE;
     }

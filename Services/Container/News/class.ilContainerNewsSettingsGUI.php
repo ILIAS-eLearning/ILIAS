@@ -21,16 +21,16 @@
 class ilContainerNewsSettingsGUI
 {
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilSetting $setting;
     protected ilObjectGUI $parent_gui;
     protected ilObject $object;
-    protected bool $has_timeline;
-    protected bool $has_cron_notifications;
-    protected bool $has_hide_by_date;
-    protected bool $has_public_notification;
-    protected bool $has_block_forced;
+    protected bool $has_timeline = false;
+    protected bool $has_cron_notifications = false;
+    protected bool $has_hide_by_date = false;
+    protected bool $has_public_notification = false;
+    protected bool $has_block_forced = false;
 
     public function __construct(ilObjectGUI $a_parent_gui)
     {

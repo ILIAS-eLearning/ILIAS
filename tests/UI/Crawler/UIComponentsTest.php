@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
@@ -12,17 +13,8 @@ use PHPUnit\Framework\TestCase;
  */
 class UIComponentsTest extends TestCase
 {
-
-
-    /**
-     * @var Crawler\FactoriesCrawler
-     */
-    protected $crawler;
-
-    /**
-     * @var string
-     */
-    protected $path_to_base_factory = "src/UI/Factory.php";
+    protected Crawler\FactoriesCrawler $crawler;
+    protected string $path_to_base_factory = "src/UI/Factory.php";
 
 
     protected function setUp() : void
@@ -33,7 +25,7 @@ class UIComponentsTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testAllUIComponentsFactoriesForNotThrowingErrors()
+    public function testAllUIComponentsFactoriesForNotThrowingErrors() : void
     {
         $this->crawler->crawlFactory($this->path_to_base_factory);
         /**

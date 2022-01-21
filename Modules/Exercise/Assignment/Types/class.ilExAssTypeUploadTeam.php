@@ -72,4 +72,9 @@ class ilExAssTypeUploadTeam implements ilExAssignmentTypeInterface
         // TODO: Implement getSubmissionStringIdentifier() method.
         return "";
     }
+
+    public function getExportObjIdForResourceId(int $resource_id) : int
+    {
+        return 0;
+    }
 }

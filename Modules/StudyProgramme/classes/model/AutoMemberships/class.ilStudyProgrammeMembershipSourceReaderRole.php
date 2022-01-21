@@ -1,12 +1,13 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Provides adapters to read member-ids from a specific source.
  */
 class ilStudyProgrammeMembershipSourceReaderRole implements ilStudyProgrammeMembershipSourceReader
 {
+    protected int $src_id;
+    protected ilRbacReview $rbac_review;
+
     public function __construct(ilRbacReview $rbac_review, int $src_id)
     {
         $this->src_id = $src_id;

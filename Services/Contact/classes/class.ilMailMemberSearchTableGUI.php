@@ -1,34 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-
 /**
- *
  * @author Nadia Matuschek <nmatuschek@databay.de>
- * @version $Id$
  */
 class ilMailMemberSearchTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+    public function __construct(ilMailMemberSearchGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
-
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
 
         $obj_id = ilObject::_lookupObjectId($a_parent_obj->ref_id);
         $this->setId('mmsearch_' . $obj_id);
@@ -54,10 +34,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

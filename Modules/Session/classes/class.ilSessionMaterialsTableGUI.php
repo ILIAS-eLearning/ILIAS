@@ -165,7 +165,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon('', 'tiny', $a_set['type']));
         $this->tpl->setVariable('IMG_ALT', $this->lng->txt('obj_' . $a_set['type']));
@@ -188,7 +188,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         $path = new ilPathGUI();
         $path->enableDisplayCut(true);
         $path->enableTextOnly(false);
-        $this->tpl->setVariable("COLL_PATH", $path->getPath($this->getContainerRefId(), $a_set['ref_id']));
+        $this->tpl->setVariable("COLL_PATH", $path->getPath($this->getContainerRefId(), (int) $a_set['ref_id']));
     }
 
     /**
@@ -245,7 +245,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
     /**
      * Filters initialization.
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");

@@ -1,39 +1,39 @@
 <?php declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\Data;
 
 /**
  * Class ilObjLearningSequenceGUI
- *
  * @ilCtrl_isCalledBy ilObjLearningSequenceGUI: ilRepositoryGUI
  * @ilCtrl_isCalledBy ilObjLearningSequenceGUI: ilAdministrationGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilColumnGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilExportGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilLearningSequenceMembershipGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilLearningProgressGUI
- *
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningModuleGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjFileBasedLMGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSAHSLearningModuleGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjContentPageGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjExerciseGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjFileGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjTestGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSurveyGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilColumnGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjectCopyGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilExportGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningSequenceLPPollingGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilLearningSequenceMembershipGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjLearningModuleGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileBasedLMGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSAHSLearningModuleGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjContentPageGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjExerciseGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjIndividualAssessmentGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjTestGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
  */
-class ilObjLearningSequenceGUI extends ilContainerGUI
+class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
     const CMD_VIEW = "view";
     const CMD_LEARNER_VIEW = "learnerView";
@@ -142,10 +142,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
     protected static function isAccessible(int $id) : bool
     {
         return $id > 0 && (
-            self::hasAccess(self::ACCESS_READ, $id) ||
+                self::hasAccess(self::ACCESS_READ, $id) ||
                 self::hasAccess(self::ACCESS_VISIBLE, $id) ||
                 self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)
-        );
+            );
     }
 
     protected static function hasAccess(string $mode, int $id) : bool
@@ -161,12 +161,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $target_class = end($classes);
 
         $ctrl->setTargetScript('ilias.php');
-        $ctrl->initBaseClass($base_class);
-
         foreach ($params as $key => $value) {
             $ctrl->setParameterByClass($target_class, $key, $value);
         }
 
+        // insert the baseclass to the first position.
+        array_splice($classes, 0, 0, $base_class);
         $ctrl->redirectByClass($classes, $cmd);
     }
 
@@ -268,15 +268,20 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
             case 'ilobjindividualassessmentgui':
-                $struct = ['ilrepositorygui','ilobjindividualassessmentgui'];
+                $struct = ['ilrepositorygui', 'ilobjindividualassessmentgui'];
                 if ($cmd === 'edit') {
                     $struct[] = 'ilindividualassessmentsettingsgui';
                 }
                 $this->ctrl->redirectByClass($struct, $cmd);
                 break;
             case 'ilobjtestgui':
-                $struct = ['ilrepositorygui','ilobjtestgui'];
+                $struct = ['ilrepositorygui', 'ilobjtestgui'];
                 $this->ctrl->redirectByClass($struct, $cmd);
+                break;
+            case 'ilobjlearningsequencelppollinggui':
+                $gui = $this->object->getLocalDI()["gui.learner.lp"];
+                $this->ctrl->setCmd($cmd);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case false:
@@ -472,7 +477,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this,
             $this->getObject(),
             $this->getTrackingObject(),
-            ilPrivacySettings::_getInstance(),
+            ilPrivacySettings::getInstance(),
             $this->rbac_review,
             $this->settings,
             $this->toolbar
@@ -540,8 +545,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         );
 
         $participant->add($this->user->getId(), IL_LSO_ADMIN);
-        $participant->updateNotification($this->user->getId(), $this->settings->get('mail_lso_admin_notification', true));
-
+        $participant->updateNotification($this->user->getId(),
+            (bool) $this->settings->get('mail_lso_admin_notification', "1"));
 
         $settings = new ilContainerSortingSettings($new_object->getId());
         $settings->setSortMode(ilContainer::SORT_MANUAL);

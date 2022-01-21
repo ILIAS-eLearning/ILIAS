@@ -15,7 +15,7 @@
 
 namespace ILIAS\Repository\PluginSlot;
 
-use \ILIAS\Repository;
+use ILIAS\Repository;
 
 class PluginSlotGUIRequest
 {

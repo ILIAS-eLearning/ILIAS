@@ -174,7 +174,6 @@ class ilCourseXMLWriter extends ilXmlWriter
      */
     private function __buildAdvancedMetaData()
     {
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         ilAdvancedMDValues::_appendXMLByObjId($this, $this->course_obj->getId());
     }
     

@@ -26,7 +26,7 @@ class ilSamlSettings
 
     public function isDisplayedOnLoginPage() : bool
     {
-        return (bool) $this->settings->get('login_form', 0);
+        return (bool) $this->settings->get('login_form', '0');
     }
 
     public function setLoginFormStatus(bool $displayed_on_login_page) : void

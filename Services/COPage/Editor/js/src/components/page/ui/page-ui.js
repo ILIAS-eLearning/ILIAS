@@ -148,6 +148,10 @@ export default class PageUI {
     // init add buttons
     document.querySelectorAll(selector).forEach(area => {
 
+      if (this.isProtectedElement(area)) {
+        return;
+      }
+
       const uiModel = this.uiModel;
       let li, li_templ, ul;
       area.innerHTML = this.droparea + uiModel.dropdown;
@@ -303,7 +307,7 @@ export default class PageUI {
         this.log("*** Component click event");
         // start editing from page state
         if (this.model.getState() === this.model.STATE_PAGE) {
-          if (area.dataset.cname !== "ContentInclude") {
+          if (area.dataset.cname !== "ContentInclude" && !this.isProtectedPC(area.dataset.pcid)) {
             dispatch.dispatch(action.page().editor().componentEdit(area.dataset.cname,
                 area.dataset.pcid,
                 area.dataset.hierid));
@@ -352,6 +356,7 @@ export default class PageUI {
 
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
+    const pageUI = this;
 
     if (!draggableSelector) {
       draggableSelector = ".il_editarea, .il_editarea_disabled";
@@ -361,7 +366,10 @@ export default class PageUI {
       droppableSelector = ".il_droparea";
     }
 
-    $(draggableSelector).draggable({
+
+    $(draggableSelector).filter(function (index) {
+      return !pageUI.isProtectedElement(this);
+    }).draggable({
         cursor: 'move',
         revert: false,
         scroll: true,
@@ -429,6 +437,36 @@ export default class PageUI {
         dispatch.dispatch(action.page().editor().multiToggle(ctype, pcid, hierid));
       });
     });
+  }
+
+  /**
+   * Check if an element is itself or within a protected section
+   * @param pcid
+   * @return {boolean}
+   */
+  isProtectedPC(pcid) {
+    return this.isProtectedElement(document.querySelector("[data-pcid='" + pcid + "']"));
+  }
+
+  /**
+   * Check if an element is itself or within a protected section
+   * @param curElement
+   * @return {boolean}
+   */
+  isProtectedElement(curElement) {
+    if (!this.uiModel.config.activatedProtection) {
+      return false;
+    }
+    do {
+      if (curElement && curElement.dataset.cname == "Section") {
+        let secModel = this.model.getPCModel(curElement.dataset.pcid);
+        if (secModel && secModel.protected) {
+          return true;
+        }
+        curElement = curElement.parentNode;
+      }
+    } while (curElement && (curElement = curElement.closest("[data-cname='Section']")));
+    return false;
   }
 
   initMultiButtons() {
@@ -617,11 +655,17 @@ export default class PageUI {
   //
 
   enableDragDrop() {
-    $('.il_editarea').draggable("enable");
+    const pageUI = this;
+    $('.il_editarea').filter(function (index) {
+      return !pageUI.isProtectedElement(this);
+    }).draggable("enable");
   }
 
   disableDragDrop() {
-    $('.il_editarea').draggable("disable");
+    const pageUI = this;
+    $('.il_editarea').filter(function (index) {
+      return !pageUI.isProtectedElement(this);
+    }).draggable("disable");
   }
 
   showAddButtons() {
@@ -753,7 +797,6 @@ export default class PageUI {
     const model = this.model;
 
     let content = this.model.getCurrentPCName();
-
     if (this.uiModel.components[this.model.getCurrentPCName()] &&
       this.uiModel.components[this.model.getCurrentPCName()].icon) {
       content = "<div class='copg-new-content-placeholder'>" + this.uiModel.components[this.model.getCurrentPCName()].icon +

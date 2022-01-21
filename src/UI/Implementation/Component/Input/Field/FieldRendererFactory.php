@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -9,7 +9,7 @@ use ILIAS\UI\Component;
 
 class FieldRendererFactory extends Render\DefaultRendererFactory
 {
-    public function getRendererInContext(Component\Component $component, array $contexts)
+    public function getRendererInContext(Component\Component $component, array $contexts) : Render\AbstractComponentRenderer
     {
         if (in_array('StandardFilterContainerInput', $contexts)) {
             return new FilterContextRenderer(

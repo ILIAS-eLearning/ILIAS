@@ -76,6 +76,13 @@ class ilSystemStyleIconFolder
         });
     }
 
+    public function sortIconsByPath() : void
+    {
+        usort($this->icons, static function (ilSystemStyleIcon $a, ilSystemStyleIcon $b) : int {
+            return strcmp($a->getPath(), $b->getPath());
+        });
+    }
+
     /**
      * @param string $src
      * @param string $rel_path
@@ -152,6 +159,21 @@ class ilSystemStyleIconFolder
             }
         }
         throw new ilSystemStyleIconException(ilSystemStyleIconException::ICON_DOES_NOT_EXIST, $name);
+    }
+
+    /**
+     * @param $path
+     * @return ilSystemStyleIcon
+     * @throws ilSystemStyleIconException
+     */
+    public function getIconByPath($path)
+    {
+        foreach ($this->icons as $icon) {
+            if ($icon->getPath() == $path) {
+                return $icon;
+            }
+        }
+        throw new ilSystemStyleIconException(ilSystemStyleIconException::ICON_DOES_NOT_EXIST, $path);
     }
 
     /**

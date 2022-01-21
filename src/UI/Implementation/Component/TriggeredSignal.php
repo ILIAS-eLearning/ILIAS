@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Component as C;
@@ -11,22 +12,10 @@ use ILIAS\UI\Component as C;
  */
 class TriggeredSignal
 {
+    private C\Signal $signal;
+    private string $event;
 
-    /**
-     * @var C\Signal
-     */
-    private $signal;
-
-    /**
-     * @var string
-     */
-    private $event;
-
-    /**
-     * @param C\Signal $signal
-     * @param string $event
-     */
-    public function __construct(C\Signal $signal, $event)
+    public function __construct(C\Signal $signal, string $event)
     {
         $this->signal = $signal;
         $this->event = $event;
@@ -35,7 +24,7 @@ class TriggeredSignal
     /**
      * @inheritdoc
      */
-    public function getSignal()
+    public function getSignal() : C\Signal
     {
         return $this->signal;
     }
@@ -43,7 +32,7 @@ class TriggeredSignal
     /**
      * @inheritdoc
      */
-    public function getEvent()
+    public function getEvent() : string
     {
         return $this->event;
     }

@@ -11,11 +11,6 @@
 class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var string
      */
     protected $cancelCmd;

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * HTML export class for pages
@@ -9,77 +20,37 @@
  */
 class ilCOPageHTMLExport
 {
-    /**
-     * @var array
-     */
-    protected $mobs = [];
+    protected string $mp3_dir = "";
+    protected string $flv_dir = "";
+    protected string $css_dir = "";
+    protected string $js_yahoo_dir = "";
+    protected string $js_dir = "";
+    protected string $media_service_dir = "";
+    protected string $services_dir = "";
+    protected string $content_style_img_dir = "";
+    protected string $content_style_dir = "";
+    protected string $tex_dir = "";
+    protected string $files_dir = "";
+    protected string $mobs_dir = "";
+    protected array $mobs = [];
+    protected array $glossary_terms = [];
+    protected array $files = [];
+    protected array $files_direct = [];
+    protected array $int_links = [];
+    protected array $q_ids = [];
+    protected string $exp_dir = "";
+    protected int $content_style_id = 0;
+    protected ilObjUser $user;
+    protected ilLogger $log;
+    protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected \ILIAS\COPage\PageLinker $page_linker;
+    protected int $ref_id;
 
-    /**
-     * @var array
-     */
-    protected $glossary_terms = [];
-
-    /**
-     * @var array
-     */
-    protected $files = [];
-
-    /**
-     * @var array
-     */
-    protected $files_direct = [];
-
-    /**
-     * @var array
-     */
-    protected $int_links = [];
-
-    /**
-     * @var array
-     */
-    protected $q_ids = [];
-
-    /**
-     * @var string
-     */
-    protected $exp_dir = "";
-
-    /**
-     * @var int
-     */
-    protected $content_style_id = 0;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    protected $global_screen;
-
-    /**
-     * @var \ILIAS\COPage\PageLinker
-     */
-    protected $page_linker;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * ilCOPageHTMLExport constructor.
-     * @param $a_exp_dir
-     */
-    public function __construct($a_exp_dir, \ILIAS\COPage\PageLinker $linker = null, $ref_id = 0)
-    {
+    public function __construct(
+        string $a_exp_dir,
+        \ILIAS\COPage\PageLinker $linker = null,
+        int $ref_id = 0
+    ) {
         global $DIC;
 
         $this->log = ilLoggerFactory::getLogger('copg');
@@ -107,33 +78,17 @@ class ilCOPageHTMLExport
         $this->css_dir = $a_exp_dir . '/css';
     }
 
-    /**
-     * Set content style id
-     *
-     * @param int $a_val content style id
-     */
-    public function setContentStyleId($a_val)
+    public function setContentStyleId(int $a_val) : void
     {
         $this->content_style_id = $a_val;
     }
     
-    /**
-     * Get content style id
-     *
-     * @return int content style id
-     */
-    public function getContentStyleId()
+    public function getContentStyleId() : int
     {
         return $this->content_style_id;
     }
     
-    /**
-     * Create directories
-     *
-     * @param
-     * @return
-     */
-    public function createDirectories()
+    public function createDirectories() : void
     {
         ilUtil::makeDir($this->mobs_dir);
         ilUtil::makeDir($this->files_dir);
@@ -144,7 +99,7 @@ class ilCOPageHTMLExport
         ilUtil::makeDir($this->media_service_dir);
         ilUtil::makeDir($this->flv_dir);
         ilUtil::makeDir($this->mp3_dir);
-        
+
         ilUtil::makeDir($this->js_dir);
         ilUtil::makeDir($this->js_yahoo_dir);
         ilUtil::makeDir($this->css_dir);
@@ -153,12 +108,11 @@ class ilCOPageHTMLExport
     
     /**
      * Export content style
-     *
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function exportStyles()
+    public function exportStyles() : void
     {
         $this->log->debug("export styles");
 
@@ -179,17 +133,18 @@ class ilCOPageHTMLExport
         // export syntax highlighting style
         $syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
         $this->exportResourceFile($this->exp_dir, $syn_stylesheet);
+
+        // export print style
+        $print_stylesheet = ilObjStyleSheet::getContentPrintStyle();
+        $this->exportResourceFile($this->exp_dir, $print_stylesheet);
     }
     
     /**
      * Export support scripts
      *
      * @todo: use ilPageContent js/css functions here (problem: currently they need a page object for init)
-     *
-     * @param
-     * @return
      */
-    public function exportSupportScripts()
+    public function exportSupportScripts() : void
     {
         $this->log->debug("export scripts");
 
@@ -202,50 +157,14 @@ class ilCOPageHTMLExport
         foreach ($collector->getCssFiles() as $css) {
             $this->exportResourceFile($this->exp_dir, $css);
         }
-
-        //copy('./Services/UIComponent/Overlay/js/ilOverlay.js', $this->js_dir . '/ilOverlay.js');
-        
-
-        // yui stuff we use
-        /*
-        copy(
-            ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
-            $this->js_yahoo_dir . '/yahoo-min.js'
-        );
-        copy(
-            ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
-            $this->js_yahoo_dir . '/yahoo-dom-event.js'
-        );
-        copy(
-            ilYuiUtil::getLocalPath('animation/animation-min.js'),
-            $this->js_yahoo_dir . '/animation-min.js'
-        );
-        copy(
-            ilYuiUtil::getLocalPath('container/container-min.js'),
-            $this->js_yahoo_dir . '/container-min.js'
-        );
-        copy(
-            ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
-            $this->css_dir . '/container.css'
-        );
-        copy(
-            ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
-            $this->css_dir . '/yahoo/container.css'
-        );*/        // see #23083
-
-
         // mediaelement.js
         ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
     }
 
-    /**
-     * Export resource file
-     *
-     * @param string $target_dir
-     * @param string $file
-     */
-    protected function exportResourceFile(string $target_dir, string $file)
-    {
+    protected function exportResourceFile(
+        string $target_dir,
+        string $file
+    ) : void {
         if (is_int(strpos($file, "?"))) {
             $file = substr($file, 0, strpos($file, "?"));
         }
@@ -258,15 +177,9 @@ class ilCOPageHTMLExport
         }
     }
 
-
-    /**
-     * Get prepared main template
-     *
-     * @param
-     * @return
-     */
-    public function getPreparedMainTemplate($a_tpl = "")
-    {
+    public function getPreparedMainTemplate(
+        ilGlobalTemplateInterface $a_tpl = null
+    ) : ilGlobalTemplateInterface {
         global $DIC;
         $this->log->debug("get main template");
 
@@ -274,18 +187,15 @@ class ilCOPageHTMLExport
         $resource_collector = new \ILIAS\COPage\ResourcesCollector(ilPageObjectGUI::OFFLINE);
         $resource_injector = new \ILIAS\COPage\ResourcesInjector($resource_collector);
 
-        if ($a_tpl != "") {
+        if (!is_null($a_tpl)) {
             $tpl = $a_tpl;
         } else {
             // template workaround: reset of template
             $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
         }
+
         // scripts needed
-        /*
-        $scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
-            "./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
-            "./js/ilOverlay.js",
-            "./js/ilTooltip.js",);*/
+        /* @todo check
         $scripts = [];
         $scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
@@ -294,6 +204,7 @@ class ilCOPageHTMLExport
         if ($use_mathjax) {
             $scripts[] = $mathJaxSetting->get("path_to_mathjax");
         }
+        */
 
         $tpl->addCss(\ilUtil::getStyleSheetLocation());
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
@@ -306,12 +217,12 @@ class ilCOPageHTMLExport
     
     /**
      * Collect page elements (that need to be exported separately)
-     *
-     * @param string $a_pg_type page type
-     * @param int $a_pg_id page id
      */
-    public function collectPageElements($a_type, $a_id, $lang = "")
-    {
+    public function collectPageElements(
+        string $a_type,
+        int $a_id,
+        string $lang = ""
+    ) : void {
         $this->log->debug("collect page elements");
 
         // collect all dependent pages (only one level deep)
@@ -481,12 +392,10 @@ class ilCOPageHTMLExport
     
     /**
      * Export page elements
-     *
-     * @param
-     * @return
      */
-    public function exportPageElements($a_update_callback = null)
-    {
+    public function exportPageElements(
+        callable $a_update_callback = null
+    ) : void {
         $this->log->debug("export page elements");
 
         $total = count($this->mobs) + count($this->files) + count($this->files_direct);
@@ -534,14 +443,12 @@ class ilCOPageHTMLExport
 
     /**
      * Get resource template
-     *
-     * @param
-     * @return
      */
-    protected function initResourceTemplate($tempalate_file)
-    {
+    protected function initResourceTemplate(
+        string $template_file
+    ) : ilGlobalTemplateInterface {
         $this->global_screen->layout()->meta()->reset();
-        $tpl = new ilGlobalTemplate($tempalate_file, true, true, "Services/COPage");
+        $tpl = new ilGlobalTemplate($template_file, true, true, "Services/COPage");
         $this->getPreparedMainTemplate($tpl);
         $tpl->addCss(\ilUtil::getStyleSheetLocation());
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
@@ -552,8 +459,10 @@ class ilCOPageHTMLExport
     /**
      * Export media object to html
      */
-    public function exportHTMLMOB($a_mob_id, &$a_linked_mobs)
-    {
+    public function exportHTMLMOB(
+        int $a_mob_id,
+        array &$a_linked_mobs
+    ) : void {
         $this->log->debug("export html mobs");
 
         $source_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $a_mob_id;
@@ -571,7 +480,7 @@ class ilCOPageHTMLExport
         $params = [
             "mode" => "media",
             'enlarge_path' => ilUtil::getImagePath("enlarge.svg", false, "output", true),
-            'fullscreen_link' => $this->page_linker->getFullScreenLink("fullscreen")
+            'fullscreen_link' => $this->page_linker->getFullScreenLink()
         ];
         if ($this->ref_id > 0) {
             $params["ref_id"] = $this->ref_id;
@@ -604,13 +513,12 @@ class ilCOPageHTMLExport
 
     /**
      * Render Mob
-     * @param ilObjMediaObject $mob_obj
-     * @param string $link_xml
-     * @param array $params
-     * @return false|string
      */
-    protected function renderMob(\ilObjMediaObject $mob_obj, string $link_xml, array $params)
-    {
+    protected function renderMob(
+        \ilObjMediaObject $mob_obj,
+        string $link_xml,
+        array $params
+    ) : string {
         // render media object html
         $xh = xslt_create();
         $output = xslt_process(
@@ -638,7 +546,7 @@ class ilCOPageHTMLExport
     /**
      * Export file object
      */
-    public function exportHTMLFile($a_file_id)
+    public function exportHTMLFile(string $a_file_id) : void
     {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
         ilUtil::makeDir($file_dir);
@@ -656,8 +564,11 @@ class ilCOPageHTMLExport
     /**
      * Export file from path
      */
-    public function exportHTMLFileDirect($a_file_id, $a_source_file, $a_file_name)
-    {
+    public function exportHTMLFileDirect(
+        string $a_file_id,
+        string $a_source_file,
+        string $a_file_name
+    ) : void {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
         ilUtil::makeDir($file_dir);
                                 
@@ -672,7 +583,7 @@ class ilCOPageHTMLExport
     /**
      * Export question images
      */
-    protected function exportQuestionFiles()
+    protected function exportQuestionFiles() : void
     {
         // export questions (images)
         if (count($this->q_ids) > 0) {
@@ -686,11 +597,7 @@ class ilCOPageHTMLExport
         }
     }
 
-    /**
-     * Export glossary terms
-     * @throws \ilTemplateException
-     */
-    public function exportHTMLGlossaryTerms()
+    public function exportHTMLGlossaryTerms() : void
     {
         foreach ($this->glossary_terms as $term_id) {
             $tpl = $this->initResourceTemplate("tpl.glossary_term_output.html");

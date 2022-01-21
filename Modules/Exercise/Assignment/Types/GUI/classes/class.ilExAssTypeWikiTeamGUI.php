@@ -140,13 +140,14 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
      *
      * @param array $par parameter
      */
-    public function getHTML($par)
+    public function getHTML($par) : string
     {
         switch ($par["mode"]) {
             case self::MODE_OVERVIEW:
                 $this->renderOverviewContent($par["info"], $par["submission"]);
                 break;
         }
+        return "";
     }
 
     /**

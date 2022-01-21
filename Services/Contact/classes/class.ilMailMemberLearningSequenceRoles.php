@@ -1,5 +1,4 @@
 <?php declare(strict_types=1);
-
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
@@ -15,23 +14,17 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
         $this->rbacreview = $DIC->rbac()->review();
     }
 
-    /**
-     * @return string
-     */
-    public function getRadioOptionTitle()
+    
+    public function getRadioOptionTitle() : string
     {
         return $this->lng->txt('mail_lso_roles');
     }
 
-    /**
-     * @param $ref_id
-     * @return array sorted_roles
-     */
-    public function getMailRoles($ref_id)
+    public function getMailRoles(int $ref_id) : array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 
-        $sorted_role_ids = array();
+        $sorted_role_ids = [];
         $counter = 2;
 
         foreach ($role_ids as $role_id) {

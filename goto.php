@@ -31,19 +31,15 @@ $orig_target = $_GET['target'];
 
 // user interface plugin slot hook
 if (is_object($ilPluginAdmin)) {
-    // get user interface plugins
-    $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-
     // search
-    foreach ($pl_names as $pl) {
-        $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+    foreach ($DIC["component.factory"]->getActivePluginsInSlot("uihk") as $ui_plugin) {
         $gui_class = $ui_plugin->getUIClassInstance();
         $gui_class->gotoHook();
     }
 }
 
 $r_pos = strpos($_GET["target"], "_");
-$rest = substr($_GET["target"], $r_pos+1);
+$rest = substr($_GET["target"], $r_pos + 1);
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];
@@ -117,8 +113,8 @@ switch ($target_type) {
     // please migrate to default branch implementation
     case "frm":
         require_once("./Modules/Forum/classes/class.ilObjForumGUI.php");
-        $target_thread = $target_arr[2];
-        $target_posting = $target_arr[3];
+        $target_thread = isset($target_arr[2]) ? $target_arr[2] : 0;
+        $target_posting = isset($target_arr[3]) ? $target_arr[3] : 0;
         ilObjForumGUI::_goto($target_id, $target_thread, $target_posting);
         break;
         

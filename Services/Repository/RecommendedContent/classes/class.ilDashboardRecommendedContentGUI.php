@@ -32,6 +32,8 @@ class ilDashboardRecommendedContentGUI
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilFavouritesManager $fav_manager;
+    protected ilObjectDefinition $objDefinition;
+    protected int $requested_item_ref_id;
 
     public function __construct()
     {

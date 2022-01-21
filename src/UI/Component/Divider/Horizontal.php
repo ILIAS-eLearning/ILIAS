@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -13,16 +13,11 @@ interface Horizontal extends Component
 {
     /**
      * Get the label of the divider
-     *
-     * @return	string
      */
-    public function getLabel();
+    public function getLabel() : ?string;
 
     /**
      * Get a divider like this, but with another label
-     *
-     * @param	string	$label
-     * @return	Horizontal
      */
-    public function withLabel($label);
+    public function withLabel(string $label) : Horizontal;
 }

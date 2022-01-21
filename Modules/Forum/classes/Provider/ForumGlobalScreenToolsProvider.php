@@ -6,7 +6,6 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Class ForumGlobalScreenToolsProvider
- *
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
@@ -18,20 +17,14 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
     public const FORUM_BASE_CONTROLLER = 'frm_base_controller';
     public const PAGE = 'frm_thread_page';
 
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : \ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection
     {
         return $this->context_collection->main()->repository()->administration();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getToolsForContextStack(\ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts) : array
-    {
+    public function getToolsForContextStack(
+        \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
+    ) : array {
         $iff = function (string $id) : IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
@@ -48,14 +41,14 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
             $root = $additionalData->get(self::FORUM_THREAD_ROOT);
 
             if ($root instanceof ilForumPost) {
-                $title = $this->dic->language()->txt('tree');
+                $title = $this->dic->language()->txt('forums_articles');
                 $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
 
                 $tools[] = $this->factory
                     ->tool($iff('Forum|Tree'))
                     ->withTitle($title)
                     ->withSymbol($icon)
-                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) {
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) : Component {
                         $exp = new ilForumExplorerGUI(
                             'frm_exp_' . $thread->getId(),
                             $controller,
@@ -63,7 +56,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $thread,
                             $root
                         );
-                        
+
                         $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
 
                         return $l($exp->getHTML(true));

@@ -20,7 +20,7 @@ class ilCourseReferenceImporter extends ilContainerReferenceImporter
     /**
      * Get reference type
      */
-    protected function getType()
+    protected function getType() : string
     {
         return 'crsr';
     }
@@ -28,7 +28,7 @@ class ilCourseReferenceImporter extends ilContainerReferenceImporter
     /**
      * Init xml parser
      */
-    protected function initParser($a_xml)
+    protected function initParser($a_xml) : ilContainerReferenceXmlParser
     {
         include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlParser.php';
         return new ilCourseReferenceXmlParser($a_xml);

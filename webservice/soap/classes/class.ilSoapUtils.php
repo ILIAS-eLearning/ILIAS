@@ -118,15 +118,13 @@ class ilSoapUtils extends ilSoapAdministration
             }
             $mail_obj->savePostData(
                 $ilUser->getId(),
-                array(),
+                [],
                 '',
                 '',
                 '',
                 '',
                 '',
-                '',
-                '',
-                ''
+                false
             );
         }
         return true;
@@ -167,8 +165,7 @@ class ilSoapUtils extends ilSoapAdministration
      */
     public function ilCloneDependencies($sid, $copy_identifier, $is_initialized = false)
     {
-        if(!$is_initialized) {
-
+        if (!$is_initialized) {
             $this->initAuth($sid);
             $this->initIlias();
 
@@ -192,7 +189,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         
         // Fetch first node
-        if (($node = $cp_options->fetchFirstDependenciesNode()) === false) {
+        if (($node = $cp_options->fetchFirstDependenciesNode()) === null) {
             $cp_options->deleteAll();
             ilLoggerFactory::getLogger('obj')->info('Finished copy step 2. Copy completed');
             return true;
@@ -259,7 +256,7 @@ class ilSoapUtils extends ilSoapAdministration
         
         
         // Fetch first node
-        if (($node = $cp_options->fetchFirstNode()) === false) {
+        if (($node = $cp_options->fetchFirstNode()) === null) {
             ilLoggerFactory::getLogger('obj')->info('Finished copy step 1. Starting copying of object dependencies...');
             return $this->ilCloneDependencies($sid, $copy_identifier, true);
         }
@@ -324,7 +321,6 @@ class ilSoapUtils extends ilSoapAdministration
         }
 
         if ($this->findMappedReferenceForNode($cpo, $node)) {
-
             if ($default_mode == \ilCopyWizardOptions::COPY_WIZARD_COPY) {
                 return \ilCopyWizardOptions::COPY_WIZARD_LINK_TO_TARGET;
             }
@@ -348,11 +344,10 @@ class ilSoapUtils extends ilSoapAdministration
 
         $mappings = $cpo->getMappings();
         foreach (\ilObject::_getAllReferences($obj_id) as $ref_id => $also_ref_id) {
+            $logger->debug('Validating node: ' . $ref_id . ' and root ' . $root);
+            $logger->dump($DIC->repositoryTree()->getRelation($ref_id, $root));
 
-            $logger->debug('Validating node: ' . $ref_id . ' and root ' . $root );
-            $logger->dump($DIC->repositoryTree()->getRelation($ref_id , $root));
-
-            if($DIC->repositoryTree()->getRelation($ref_id , $root) != \ilTree::RELATION_CHILD) {
+            if ($DIC->repositoryTree()->getRelation($ref_id, $root) != \ilTree::RELATION_CHILD) {
                 $logger->debug('Ignoring non child relation');
                 continue;
             }
@@ -530,12 +525,11 @@ class ilSoapUtils extends ilSoapAdministration
         $source_id = $this->findMappedReferenceForNode($cp_options, $node);
         try {
             $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
-            if(!$orig instanceof \ilObject) {
+            if (!$orig instanceof \ilObject) {
                 $logger->error('Cannot create object instance.');
                 return false;
             }
-        }
-        catch (\ilObjectNotFoundException $e) {
+        } catch (\ilObjectNotFoundException $e) {
             $logger->error('Cannot create object instance for ref_id: ' . $source_id);
             $logger->error($e->getMessage());
             return false;
@@ -637,7 +631,7 @@ class ilSoapUtils extends ilSoapAdministration
             $msg = array();
             if (is_array($error)) {
                 foreach ($error as $err) {
-                    $msg []= "(" . $err["line"] . "," . $err["col"] . "): " . $err["errormessage"];
+                    $msg [] = "(" . $err["line"] . "," . $err["col"] . "): " . $err["errormessage"];
                 }
             } else {
                 $msg[] = $error;

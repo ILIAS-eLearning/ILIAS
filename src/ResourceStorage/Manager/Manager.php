@@ -11,26 +11,40 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StorageManager
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Manager
 {
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
 
     /**
      * Manager constructor.
-     * @param ResourceBuilder $b
      */
     public function __construct(
-        ResourceBuilder $b
+        ResourceBuilder $b,
+        RepositoryPreloader $l
     ) {
         $this->resource_builder = $b;
+        $this->preloader = $l;
     }
 
     public function upload(
@@ -97,6 +111,7 @@ class Manager
 
     public function getResource(ResourceIdentification $i) : StorableResource
     {
+        $this->preloader->preload([$i->serialize()]);
         return $this->resource_builder->get($i);
     }
 
@@ -268,5 +283,4 @@ class Manager
 
         return true;
     }
-
 }

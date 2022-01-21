@@ -1,7 +1,7 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="src">
 	<baseclasses>
-		<baseclass name="ilSearchController" dir="classes" />
+		<baseclass name="ilSearchControllerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="seas" class_name="SearchSettings" dir="classes"

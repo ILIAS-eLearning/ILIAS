@@ -25,7 +25,7 @@ class StorageImpl implements Storage
     {
         $settings = new Settings();
 
-        if ($this->globalSettings->get(self::P_READING_TIME_STATUS, false)) {
+        if ($this->globalSettings->get(self::P_READING_TIME_STATUS, '0')) {
             $settings = $settings->withEnabledReadingTime();
         } else {
             $settings = $settings->withDisabledReadingTime();

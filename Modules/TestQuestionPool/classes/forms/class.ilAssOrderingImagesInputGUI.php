@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilMultipleImagesInputGUI.php';
-
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$

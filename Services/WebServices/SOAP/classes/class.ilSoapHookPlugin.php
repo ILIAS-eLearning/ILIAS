@@ -7,39 +7,6 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
  */
 abstract class ilSoapHookPlugin extends ilPlugin
 {
-
-    /**
-     * @inheritdoc
-     */
-    public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getComponentName()
-    {
-        return 'WebServices';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSlot()
-    {
-        return 'SoapHook';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSlotId()
-    {
-        return 'soaphk';
-    }
-
     /**
      * Get all soap methods which will be made available to the SOAP webservice
      *
@@ -56,11 +23,4 @@ abstract class ilSoapHookPlugin extends ilPlugin
      * @return ilWsdlType[]
      */
     abstract public function getWsdlTypes();
-
-    /**
-     * @inheritdoc
-     */
-    protected function slotInit()
-    {
-    }
 }

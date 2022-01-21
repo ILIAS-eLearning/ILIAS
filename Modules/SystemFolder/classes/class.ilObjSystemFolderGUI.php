@@ -1248,7 +1248,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $cb->addSubItem($cb_prop);
 
         // search engine
-        $robot_settings = ilRobotSettings::_getInstance();
+        $robot_settings = ilRobotSettings::getInstance();
         $cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
         $cb2->setInfo($this->lng->txt("enable_search_engine"));
         $this->form->addItem($cb2);

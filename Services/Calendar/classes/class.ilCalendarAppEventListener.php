@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,37 +21,32 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/EventHandling/interfaces/interface.ilAppEventListener.php');
 
 /**
 * Handles events (create,update,delete) for autmatic generated calendar
 * events from course, groups, ...
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 class ilCalendarAppEventListener implements ilAppEventListener
 {
     /**
      * Handle events like create, update, delete
-     *
      * @access public
-     * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)	 *
+     * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
+     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)	 *
      * @static
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 
         $logger = $DIC->logger()->cal();
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         
         $delete_cache = false;
-        
         switch ($a_component) {
             case 'Modules/Session':
             case 'Modules/Group':
@@ -132,26 +127,19 @@ class ilCalendarAppEventListener implements ilAppEventListener
     
     /**
      * Create a category for a new object (crs,grp, ...)
-     *
-     * @access public
-     * @param object ilias object ('crs','grp',...)
-     * @static
      */
-    public static function createCategory($a_obj, $a_check_existing = false)
+    public static function createCategory(ilObject $a_obj, bool $a_check_existing = false) : int
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+        $lng = $DIC->language();
         
         // already existing?  do update instead
         if ($a_check_existing &&
             ilCalendarCategory::_getInstanceByObjId($a_obj->getId())) {
             return self::updateCategory($a_obj);
+
         }
-        
         $cat = new ilCalendarCategory();
         $cat->setTitle($a_obj->getTitle() ? $a_obj->getTitle() : $lng->txt('obj_' . $a_obj->getType()));
         $cat->setType(ilCalendarCategory::TYPE_OBJ);
@@ -161,42 +149,30 @@ class ilCalendarAppEventListener implements ilAppEventListener
     }
     
     /**
-     * Create a category for a new object (crs,grp, ...)
-     *
-     * @access public
-     * @param object ilias object ('crs','grp',...)
-     * @static
+     * Update category for a object (crs,grp, ...)
      */
-    public static function updateCategory($a_obj)
+    public static function updateCategory(ilObject $a_obj) : int
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-        
         if ($cat = ilCalendarCategory::_getInstanceByObjId($a_obj->getId())) {
             $cat->setTitle($a_obj->getTitle());
             $cat->update();
+            return $cat->getCategoryID();
         }
-        return true;
+        return 0;
     }
 
     /**
      * Create appointments
-     *
-     * @access public
-     * @param
-     * @return
-     * @static
+     * @param ilObject
+     * @param ilCalendarAppointmentTemplate[]
+     * @return void
      */
-    public static function createAppointments($a_obj, $a_appointments)
+    public static function createAppointments(ilObject $a_obj, array $a_appointments) : void
     {
         global $DIC;
 
         $logger = $DIC->logger()->cal();
 
-        include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-        
         if (!$cat_id = ilCalendarCategories::_lookupCategoryIdByObjId($a_obj->getId())) {
             $logger->warning('Cannot find calendar category for obj_id ' . $a_obj->getId());
             $cat_id = self::createCategory($a_obj);
@@ -225,17 +201,9 @@ class ilCalendarAppEventListener implements ilAppEventListener
     
     /**
      * Delete automatic generated appointments
-     *
-     * @access public
-     * @param int obj_id
-     * @param array context ids
-     * @static
      */
-    public static function deleteAppointments($a_obj_id, array $a_context_ids = null)
+    public static function deleteAppointments(int $a_obj_id, ?array $a_context_ids = null)
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-        
         foreach (ilCalendarCategoryAssignments::_getAutoGeneratedAppointmentsByObjId($a_obj_id) as $app_id) {
             // delete only selected entries
             if (is_array($a_context_ids)) {
@@ -244,7 +212,6 @@ class ilCalendarAppEventListener implements ilAppEventListener
                     continue;
                 }
             }
-            
             ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
             ilCalendarEntry::_delete($app_id);
         }
@@ -252,13 +219,8 @@ class ilCalendarAppEventListener implements ilAppEventListener
     
     /**
      * delete category
-     *
-     * @access public
-     * @param
-     * @return
-     * @static
      */
-    public static function deleteCategory($a_obj_id)
+    public static function deleteCategory(int $a_obj_id) : void
     {
         global $DIC;
 
@@ -268,7 +230,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
         
         if (!$cat_id = ilCalendarCategories::_lookupCategoryIdByObjId($a_obj_id)) {
             $logger->warning('Cannot find calendar category for obj_id ' . $a_obj_id);
-            return false;
+            return;
         }
         
         $category = new ilCalendarCategory($cat_id);

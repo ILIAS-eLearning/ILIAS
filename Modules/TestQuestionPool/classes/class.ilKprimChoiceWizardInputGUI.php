@@ -14,10 +14,6 @@ require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
     const CUSTOM_UPLOAD_ERR = 99;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
     /**
      * @var ilTemplate
@@ -69,7 +65,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         return $this->ignoreMissingUploadsEnabled;
     }
     
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = array();
         
@@ -96,7 +92,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         #vd($this->values);
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -145,7 +141,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     /**
      * @param $a_tpl ilTemplate
      */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "Modules/TestQuestionPool");
 

@@ -1,25 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class PanelFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-            "standard" => array(
-                    "context" => false,
-            ),
-            "sub" => array(
-                    "context" => false,
-            ),
-            "report" => array(
-                    "context" => false,
-                    "rules" => false
-            ),
-            "secondary" => array(
-                "context" => false
-            )
-    );
+    public array $kitchensink_info_settings = [
+        "standard" => [
+                "context" => false,
+        ],
+        "sub" => [
+                "context" => false,
+        ],
+        "report" => [
+                "context" => false,
+                "rules" => false
+        ],
+        "secondary" => [
+            "context" => false
+        ]
+    ];
 
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Panel\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Panel\\Factory';
 }

@@ -24,9 +24,6 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<crons>
-		<cron id="lm_link_check" class="ilLearningModuleCronLinkCheck" />
-	</crons>
 	<copage>
 		<pageobject parent_type="lm" class_name="ilLMPage" directory="classes"/>
 	</copage>

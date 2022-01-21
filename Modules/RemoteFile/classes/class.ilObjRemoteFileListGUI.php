@@ -61,7 +61,6 @@ class ilObjRemoteFileListGUI extends ilObjectListGUI
         $this->type = 'rwik';
         $this->gui_class_name = 'ilobjremotefilegui';
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;

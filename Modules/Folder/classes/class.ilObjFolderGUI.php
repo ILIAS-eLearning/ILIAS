@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Folder\StandardGUIRequest;
 
 /**
  * Class ilObjFolderGUI
@@ -16,19 +29,17 @@
  */
 class ilObjFolderGUI extends ilContainerGUI
 {
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
+    protected ilHelpGUI $help;
+    public ilTree $folder_tree;
+    protected StandardGUIRequest $folder_request;
 
-    public $folder_tree;		// folder tree
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id = 0,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = false
+    ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -43,24 +54,22 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->tpl = $DIC["tpl"];
         $this->settings = $DIC->settings();
         $this->type = "fold";
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
-
+        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule("obj");
+        $this->folder_request = $DIC
+            ->folder()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
 
-    /**
-    * View folder
-    */
     public function viewObject()
     {
-        $tree = $this->tree;
-        
         $this->checkPermission('read');
-
-        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
+        if (strtolower($this->folder_request->getBaseClass()) == "iladministrationgui") {
             parent::viewObject();
-            return true;
+            return;
         }
         
         // Trac access - see ilObjCourseGUI
@@ -73,12 +82,8 @@ class ilObjFolderGUI extends ilContainerGUI
         
         $this->renderObject();
         $this->tabs_gui->setTabActive('view_content');
-        return true;
     }
         
-    /**
-    * Render folder
-    */
     public function renderObject() : void
     {
         $ilTabs = $this->tabs;
@@ -89,11 +94,9 @@ class ilObjFolderGUI extends ilContainerGUI
         parent::renderObject();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilUser = $this->user;
-        $ilCtrl = $this->ctrl;
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         
@@ -124,7 +127,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
-                    $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
+                    $this->folder_request->getUserId() ?: $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('learning_progress');
@@ -208,35 +211,21 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->addHeaderAction();
     }
 
-    /**
-    * set tree
-    */
-    public function setFolderTree($a_tree)
+    public function setFolderTree(ilTree $a_tree) : void
     {
-        $this->folder_tree = &$a_tree;
+        $this->folder_tree = $a_tree;
     }
 
-    /**
-     * Import file object
-     * @global type $lng
-     * @param type $parent_id
-     * @param type $a_catch_errors
-     */
-    public function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
         $lng = $this->lng;
         
-        if (parent::importFileObject($parent_id, $a_catch_errors)) {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-            $this->ctrl->returnToParent($this);
-        }
+        parent::importFileObject($parent_id, $a_catch_errors);
+
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * Init object edit form
-     *
-     * @return ilPropertyFormGUI
-     */
     protected function initEditForm()
     {
         $lng = $this->lng;
@@ -329,13 +318,12 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->saveSortingSettings($a_form);
     }
     
-    // BEGIN ChangeEvent show info screen on folder object
     /**
-    * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
-    */
-    public function showSummaryObject()
+     * this one is called from the info button in the repository
+     * not very nice to set cmdClass/Cmd manually, if everything
+     * works through ilCtrl in the future this may be changed
+     */
+    public function showSummaryObject() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -359,7 +347,7 @@ class ilObjFolderGUI extends ilContainerGUI
     * not very nice to set cmdClass/Cmd manually, if everything
     * works through ilCtrl in the future this may be changed
     */
-    public function infoScreenObject()
+    public function infoScreenObject() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -367,14 +355,14 @@ class ilObjFolderGUI extends ilContainerGUI
     }
 
     /**
-    * show information screen
-    */
-    public function infoScreen()
+     * @throws ilPermissionException
+     */
+    public function infoScreen() : void
     {
         $ilAccess = $this->access;
 
         if (!$ilAccess->checkAccess("visible", "", $this->ref_id)) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
+            throw new ilPermissionException($this->lng->txt("msg_no_perm_read"));
         }
 
         $info = new ilInfoScreenGUI($this);
@@ -383,13 +371,13 @@ class ilObjFolderGUI extends ilContainerGUI
 
         $info->enablePrivateNotes();
         
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $info->enableNews();
         }
 
         // no news editing for files, just notifications
         $info->enableNewsEditing(false);
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
             
@@ -406,12 +394,8 @@ class ilObjFolderGUI extends ilContainerGUI
         // forward the command
         $this->ctrl->forwardCommand($info);
     }
-    // END ChangeEvent show info screen on folder object
 
-    /**
-    * Get tabs
-    */
-    public function getTabs()
+    protected function getTabs()
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -432,10 +416,8 @@ class ilObjFolderGUI extends ilContainerGUI
             );
 
             //BEGIN ChangeEvent add info tab to category object
-            $force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
-                || strtolower($_GET["cmdClass"]) == "ilnotegui")
-                ? true
-                : false;
+            $force_active = $this->ctrl->getNextClass() == "ilinfoscreengui"
+                || strtolower($this->ctrl->getCmdClass()) == "ilnotegui";
             $this->tabs_gui->addTarget(
                 "info_short",
                 $this->ctrl->getLinkTargetByClass(
@@ -524,12 +506,6 @@ class ilObjFolderGUI extends ilContainerGUI
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
     }
     
-    /**
-     * Modify Item ListGUI for presentation in container
-     * @param ilObjectListGUI $a_item_list_gui
-     * @param array           $a_item_data
-     *@global type            $tree
-     */
     public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data) : void
     {
         $tree = $this->tree;
@@ -541,7 +517,6 @@ class ilObjFolderGUI extends ilContainerGUI
                 $a_item_list_gui,
                 'ilcoursecontentgui',
                 $a_item_data,
-                $a_show_path,
                 ilObjCourse::_lookupAboStatus($course_obj_id),
                 $course_ref_id,
                 $course_obj_id,
@@ -550,36 +525,29 @@ class ilObjFolderGUI extends ilContainerGUI
         }
     }
     
-    protected function forwardToTimingsView()
+    protected function forwardToTimingsView() : void
     {
         $tree = $this->tree;
         
         if (!$crs_ref = $tree->checkForParentType($this->ref_id, 'crs')) {
-            return false;
+            return;
         }
         if (!$this->ctrl->getCmd() and ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($crs_ref)) == ilContainer::VIEW_TIMING) {
-            if (!isset($_SESSION['crs_timings'])) {
-                $_SESSION['crs_timings'] = true;
+            if (!ilSession::has('crs_timings')) {
+                ilSession::set('crs_timings', true);
             }
             
-            if ($_SESSION['crs_timings'] == true) {
+            if (ilSession::get('crs_timings') == true) {
                 $course_content_obj = new ilCourseContentGUI($this);
                 $this->ctrl->setCmdClass(get_class($course_content_obj));
                 $this->ctrl->setCmd('editUserTimings');
                 $this->ctrl->forwardCommand($course_content_obj);
-                return true;
+                return;
             }
         }
-        $_SESSION['crs_timings'] = false;
-        return false;
+        ilSession::set('crs_timings', false);
     }
     
-    /**
-     * Edit
-     *
-     * @param
-     * @return
-     */
     public function editObject()
     {
         $ilTabs = $this->tabs;
@@ -600,11 +568,7 @@ class ilObjFolderGUI extends ilContainerGUI
         $GLOBALS['tpl']->setContent($form->getHTML());
     }
     
-    
-    /**
-     * Set sub tabs
-     */
-    public function setSubTabs($a_tab)
+    public function setSubTabs(string $a_tab) : void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -624,4 +588,4 @@ class ilObjFolderGUI extends ilContainerGUI
         $ilTabs->activateSubTab($a_tab);
         $ilTabs->activateTab("settings");
     }
-} // END class.ilObjFolderGUI
+}

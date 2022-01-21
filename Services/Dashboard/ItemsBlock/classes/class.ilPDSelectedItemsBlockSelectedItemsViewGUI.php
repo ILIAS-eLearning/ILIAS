@@ -1,15 +1,20 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
- * Class ilPDSelectedItemsBlockSelectedItemsViewGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
+
 class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockViewGUI
 {
-    /**
-     * @inheritdoc
-     */
     public function getGroups() : array
     {
         if ($this->viewSettings->isSortedByLocation()) {
@@ -19,33 +24,21 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
         return $this->groupItemsByType();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getScreenId() : string
     {
         return 'sel_items';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTitle() : string
     {
         return $this->lng->txt('dash_favourites');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function supportsSelectAll() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIntroductionHtml() : string
     {
         $tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');

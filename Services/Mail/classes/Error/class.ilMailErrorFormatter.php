@@ -1,5 +1,5 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailErrorFormatter
@@ -7,14 +7,9 @@
  */
 class ilMailErrorFormatter
 {
-    /** @var \ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
-    /**
-     * ilMailErrorFormatter constructor.
-     * @param ilLanguage $lng
-     */
-    public function __construct(\ilLanguage $lng)
+    public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
     }
@@ -22,8 +17,7 @@ class ilMailErrorFormatter
     /**
      * Formats an error string based on the passed list of errors. If the list contains > 1 elements, the 1st error
      * will be used as a headline for the list of errors.
-     * @param $errors \ilMailError[]
-     * @return string
+     * @param $errors ilMailError[]
      */
     public function format(array $errors) : string
     {
@@ -34,7 +28,7 @@ class ilMailErrorFormatter
         $errorsToDisplay = [];
         foreach ($errors as $error) {
             $translation = $this->lng->txt($error->getLanguageVariable());
-            if ($translation === '-' . $this->lng->txt($error->getLanguageVariable()) . '-') {
+            if ($translation === '-' . $error->getLanguageVariable() . '-') {
                 $translation = $error->getLanguageVariable();
             }
 
@@ -49,19 +43,19 @@ class ilMailErrorFormatter
                 }, $error->getPlaceholderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);
-                $errorsToDisplay[] = call_user_func_array('sprintf', $escapedPlaceholderValues);
+                $errorsToDisplay[] = sprintf(...$escapedPlaceholderValues);
             }
         }
 
-        if (0 === count($errorsToDisplay)) {
-            return '';
-        }
-
-        $tpl = new \ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
+        $tpl = new ilTemplate(
+            'tpl.mail_new_submission_errors.html',
+            true,
+            true,
+            'Services/Mail'
+        );
         if (1 === count($errorsToDisplay)) {
             $tpl->setCurrentBlock('single_error');
             $tpl->setVariable('SINGLE_ERROR', current($errorsToDisplay));
-            $tpl->parseCurrentBlock();
         } else {
             $firstError = array_shift($errorsToDisplay);
 
@@ -73,8 +67,8 @@ class ilMailErrorFormatter
 
             $tpl->setCurrentBlock('multiple_errors');
             $tpl->setVariable('FIRST_ERROR', $firstError);
-            $tpl->parseCurrentBlock();
         }
+        $tpl->parseCurrentBlock();
 
         return $tpl->get();
     }

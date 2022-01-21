@@ -107,12 +107,11 @@ class ilLOEditorGUI
                 );
 
                 include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-                $cond = new ilConditionHandlerGUI($this);
+                $cond = new ilConditionHandlerGUI();
                 $cond->setBackButtons(array());
                 $cond->setAutomaticValidation(false);
                 $cond->setTargetType("lobj");
                 $cond->setTargetRefId($this->getParentObject()->getRefId());
-                
                 $cond->setTargetId((int) $_REQUEST['objective_id']);
                 
                 // objecitve

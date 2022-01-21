@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridge.php";
-
+/**
+ * Class ilADTSearchBridgeRange
+ */
 abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
 {
-    protected $adt_lower; // [ilADT]
-    protected $adt_upper; // [ilADT]
-    
-    protected function setDefinition(ilADTDefinition $a_adt_def)
+    protected ilADT $adt_lower;
+    protected ilADT $adt_upper;
+
+    protected function setDefinition(ilADTDefinition $a_adt_def) : void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
             $factory = ilADTFactory::getInstance();
@@ -15,66 +16,71 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
             $this->adt_upper = $factory->getInstanceByDefinition($a_adt_def);
             return;
         }
-                
-        throw new Exception('ilADTSearchBridge type mismatch.');
+
+        throw new InvalidArgumentException('ilADTSearchBridge type mismatch.');
     }
-    
+
     /**
      * Get lower ADT
-     *
-     * @return ilADT
+     * @return ilADT | null
      */
-    public function getLowerADT()
+    public function getLowerADT() : ?ilADT
     {
         return $this->adt_lower;
     }
-    
+
     /**
-     * Get lower ADT
-     *
-     * @return ilADT
+     * Get upper ADT
+     * @return ilADT | null
      */
-    public function getUpperADT()
+    public function getUpperADT() : ?ilADT
     {
         return $this->adt_upper;
     }
-    
-    public function isNull()
+
+    public function isNull() : bool
     {
+        if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
+            return false;
+        }
         return ($this->getLowerADT()->isNull() && $this->getUpperADT()->isNull());
     }
-    
-    public function isValid()
+
+    public function isValid() : bool
     {
+        if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
+            return false;
+        }
         return ($this->getLowerADT()->isValid() && $this->getUpperADT()->isValid());
     }
-    
-    public function validate()
+
+    public function validate() : bool
     {
+        if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
+            return false;
+        }
         if (!$this->isValid()) {
-            $tmp = array();
+            $tmp = [];
             $mess = $this->getLowerADT()->getValidationErrors();
             foreach ($mess as $error_code) {
                 $tmp[] = $this->getLowerADT()->translateErrorCode($error_code);
             }
             if ($tmp) {
-                $field = $this->getForm()->getItemByPostvar($this->addToElementId("lower"));
+                $field = $this->getForm()->getItemByPostVar($this->addToElementId("lower"));
                 $field->setAlert(implode("<br />", $tmp));
             }
-            
-            $tmp = array();
+
+            $tmp = [];
             $mess = $this->getUpperADT()->getValidationErrors();
             foreach ($mess as $error_code) {
                 $tmp[] = $this->getUpperADT()->translateErrorCode($error_code);
             }
             if ($tmp) {
-                $field = $this->getForm()->getItemByPostvar($this->addToElementId("upper"));
+                $field = $this->getForm()->getItemByPostVar($this->addToElementId("upper"));
                 $field->setAlert(implode("<br />", $tmp));
             }
-            
             return false;
         }
-        
         return true;
     }
 }

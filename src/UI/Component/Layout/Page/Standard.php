@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Layout\Page;
@@ -21,66 +22,27 @@ interface Standard extends Page, JavaScriptBindable
     public const LTR = 'ltr';
     public const RTL = 'rtl';
 
-    /**
-     * @param MetaBar $meta_bar
-     *
-     * @return Standard
-     */
     public function withMetabar(MetaBar $meta_bar) : Standard;
 
-    /**
-     * @param Mainbar $main_bar
-     *
-     * @return Standard
-     */
     public function withMainbar(MainBar $main_bar) : Standard;
 
-    /**
-     * @param Image $logo
-     *
-     * @return Standard
-     */
     public function withLogo(Image $logo) : Standard;
 
-    /**
-     * @return bool
-     */
     public function hasMetabar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasMainbar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasLogo() : bool;
 
-    /**
-     * @return Metabar|null
-     */
-    public function getMetabar();
+    public function getMetabar() : ?MetaBar;
 
-    /**
-     * @return Mainbar|null
-     */
-    public function getMainbar();
+    public function getMainbar() : ?MainBar;
 
-    /**
-     * @return Breadcrumbs|null
-     */
-    public function getBreadcrumbs();
+    public function getBreadcrumbs() : ?Breadcrumbs;
 
-    /**
-     * @return Image|null
-     */
-    public function getLogo();
+    public function getLogo() : ?Image;
 
-    /**
-     * @return Footer|null
-     */
-    public function getFooter();
+    public function getFooter() : ?Footer;
 
     public function withTitle(string $title) : Standard;
 
@@ -94,12 +56,9 @@ interface Standard extends Page, JavaScriptBindable
 
     public function getViewTitle() : string;
 
-
     public function withModeInfo(ModeInfo $mode_info) : Standard;
 
-
     public function getModeInfo() : ?ModeInfo;
-
 
     public function hasModeInfo() : bool;
 
@@ -112,7 +71,6 @@ interface Standard extends Page, JavaScriptBindable
      * @return SystemInfo[]
      */
     public function getSystemInfos() : array;
-
 
     public function hasSystemInfos() : bool;
 

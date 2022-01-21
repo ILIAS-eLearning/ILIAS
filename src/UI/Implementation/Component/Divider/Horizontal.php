@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -14,10 +14,7 @@ class Horizontal implements C\Divider\Horizontal
 {
     use ComponentHelper;
 
-    /**
-     * @var string
-     */
-    protected $label;
+    protected ?string $label = null;
 
     public function __construct()
     {
@@ -26,7 +23,7 @@ class Horizontal implements C\Divider\Horizontal
     /**
      * @inheritdoc
      */
-    public function getLabel()
+    public function getLabel() : ?string
     {
         return $this->label;
     }
@@ -34,7 +31,7 @@ class Horizontal implements C\Divider\Horizontal
     /**
      * @inheritdoc
      */
-    public function withLabel($label)
+    public function withLabel(string $label) : C\Divider\Horizontal
     {
         $this->checkStringArg("label", $label);
         $clone = clone $this;

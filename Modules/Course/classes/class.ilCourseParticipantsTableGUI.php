@@ -77,7 +77,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->ctrl = $ilCtrl;
 
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $this->privacy = ilPrivacySettings::_getInstance();
+        $this->privacy = ilPrivacySettings::getInstance();
         
         include_once './Services/Membership/classes/class.ilParticipants.php';
         $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
@@ -161,12 +161,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -458,7 +457,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         );
         $a_user_data = array();
         foreach ((array) $usr_data['set'] as $ud) {
-            $user_id = $ud['usr_id'];
+            $user_id = (int) $ud['usr_id'];
             
             if (!in_array($user_id, $usr_ids)) {
                 continue;
@@ -510,7 +509,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             include_once './Services/User/classes/class.ilUserDefinedData.php';
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
+                if (!$this->checkAcceptance((int) $usr_id)) {
                     continue;
                 }
 
@@ -524,6 +523,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
+                $usr_id = (int) $usr_id;
                 // #7264: as we get data for all course members filter against user data
                 if (!$this->checkAcceptance($usr_id) || !in_array($usr_id, $usr_ids)) {
                     continue;
@@ -546,7 +546,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                 if ($usr_id == $edit_info['update_user']) {
                     $a_user_data[$usr_id]['odf_last_update'] = '';
                     $a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');
-                    if (ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType())) {
+                    if (ilPrivacySettings::getInstance()->enabledAccessTimesByType($this->getRepositoryObject()->getType())) {
                         $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
                         $a_user_data[$usr_id]['odf_info_txt'] .= (', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                     }
@@ -562,7 +562,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // consultation hours
         if ($this->isColumnSelected('consultation_hour')) {
-            include_once './Services/Booking/classes/class.ilBookingEntry.php';
             foreach (ilBookingEntry::lookupManagedBookingsForObject($this->getRepositoryObject()->getId(), $GLOBALS['DIC']['ilUser']->getId()) as $buser => $booking) {
                 if (isset($a_user_data[$buser])) {
                     $a_user_data[$buser]['consultation_hour'] = $booking[0]['dt'];

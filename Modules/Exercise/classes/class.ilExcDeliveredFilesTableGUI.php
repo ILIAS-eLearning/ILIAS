@@ -24,8 +24,10 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
         $lng = $this->lng;
 
         $this->setData($this->submission->getFiles());
-        $this->setTitle($this->lng->txt("already_delivered_files") . " - " .
-            $this->submission->getAssignment()->getTitle());
+        $this->setTitle(
+            $this->lng->txt("already_delivered_files") . " - " .
+                $this->submission->getAssignment()->getTitle()
+        );
         $this->setLimit(9999);
         
         $this->addColumn($this->lng->txt(""), "", "1", 1);
@@ -61,7 +63,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
     /**
      * @throws ilDateTimeException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 

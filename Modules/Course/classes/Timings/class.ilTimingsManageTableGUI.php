@@ -104,57 +104,57 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     
     /**
      * Fill table row
-     * @param type $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
-        if ($set['error'] == true) {
+        if ($a_set['error'] == true) {
             $this->tpl->setVariable('TD_CLASS', 'warning');
         } else {
             $this->tpl->setVariable('TD_CLASS', 'std');
         }
         
         // title
-        if (strlen($set['title_link'])) {
+        if (strlen($a_set['title_link'])) {
             $this->tpl->setCurrentBlock('title_link');
-            $this->tpl->setVariable('TITLE_LINK', $set['title_link']);
-            $this->tpl->setVariable('TITLE_LINK_NAME', $set['title']);
+            $this->tpl->setVariable('TITLE_LINK', $a_set['title_link']);
+            $this->tpl->setVariable('TITLE_LINK_NAME', $a_set['title']);
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('title_plain');
-            $this->tpl->setVariable('TITLE', $set['title']);
+            $this->tpl->setVariable('TITLE', $a_set['title']);
             $this->tpl->parseCurrentBlock();
         }
-        if (strlen($set['desc'])) {
+        if (strlen($a_set['desc'])) {
             $this->tpl->setCurrentBlock('item_description');
-            $this->tpl->setVariable('DESC', $set['desc']);
+            $this->tpl->setVariable('DESC', $a_set['desc']);
             $this->tpl->parseCurrentBlock();
         }
         
-        if ($set['failure']) {
+        if ($a_set['failure']) {
             $this->tpl->setCurrentBlock('alert');
             $this->tpl->setVariable('IMG_ALERT', ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable('ALT_ALERT', $this->lng->txt("alert"));
-            $this->tpl->setVariable("TXT_ALERT", $this->lng->txt($set['failure']));
+            $this->tpl->setVariable("TXT_ALERT", $this->lng->txt($a_set['failure']));
             $this->tpl->parseCurrentBlock();
         }
         
         // active
-        $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $set['ref_id'] . '][active]');
+        $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . print_r($_POST, true));
         if ($this->getFailureStatus()) {
-            $this->tpl->setVariable('CHECKED_ACTIVE', $_POST['item'][$set['ref_id']]['active'] ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CHECKED_ACTIVE', $_POST['item'][$a_set['ref_id']]['active'] ? 'checked="checked"' : '');
         } else {
-            $this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CHECKED_ACTIVE', ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
         }
         
         // start
         if ($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE) {
             include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
-            $dt_input = new ilDateTimeInputGUI('', 'item[' . $set['ref_id'] . '][sug_start]');
-            $dt_input->setDate(new ilDate($set['item']['suggestion_start'], IL_CAL_UNIX));
+            $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
+            $dt_input->setDate(new ilDate($a_set['item']['suggestion_start'], IL_CAL_UNIX));
             if ($this->getFailureStatus()) {
-                $dt_input->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_start'], IL_CAL_DATE));
+                $dt_input->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_start'], IL_CAL_DATE));
             }
             
             $this->tpl->setVariable('start_abs');
@@ -162,30 +162,30 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('start_rel');
-            $this->tpl->setVariable('START_REL_VAL', (int) $set['item']['suggestion_start_rel']);
+            $this->tpl->setVariable('START_REL_VAL', (int) $a_set['item']['suggestion_start_rel']);
             if ($this->getFailureStatus()) {
-                $this->tpl->setVariable('START_REL_VAL', $_POST['item'][$set['ref_id']]['sug_start_rel']);
+                $this->tpl->setVariable('START_REL_VAL', $_POST['item'][$a_set['ref_id']]['sug_start_rel']);
             } else {
-                $this->tpl->setVariable('START_REL_VAL', (int) $set['item']['suggestion_start_rel']);
+                $this->tpl->setVariable('START_REL_VAL', (int) $a_set['item']['suggestion_start_rel']);
             }
-            $this->tpl->setVariable('START_REL_NAME', 'item[' . $set['ref_id'] . '][sug_start_rel]');
+            $this->tpl->setVariable('START_REL_NAME', 'item[' . $a_set['ref_id'] . '][sug_start_rel]');
             $this->tpl->parseCurrentBlock();
         }
             
         if ($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE) {
             if ($this->getFailureStatus()) {
-                $this->tpl->setVariable('VAL_DURATION_A', $_POST['item'][$set['ref_id']]['duration_a']);
+                $this->tpl->setVariable('VAL_DURATION_A', $_POST['item'][$a_set['ref_id']]['duration_a']);
             } else {
-                $duration = $set['item']['suggestion_end_rel'] - $set['item']['suggestion_start_rel'];
+                $duration = $a_set['item']['suggestion_end_rel'] - $a_set['item']['suggestion_start_rel'];
                 $this->tpl->setVariable('VAL_DURATION_A', (int) $duration);
             }
-            $this->tpl->setVariable('NAME_DURATION_A', 'item[' . $set['ref_id'] . '][duration_a]');
+            $this->tpl->setVariable('NAME_DURATION_A', 'item[' . $a_set['ref_id'] . '][duration_a]');
         } else {
             include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
-            $dt_end = new ilDateTimeInputGUI('', 'item[' . $set['ref_id'] . '][sug_end]');
-            $dt_end->setDate(new ilDate($set['item']['suggestion_end'], IL_CAL_UNIX));
+            $dt_end = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_end]');
+            $dt_end->setDate(new ilDate($a_set['item']['suggestion_end'], IL_CAL_UNIX));
             if ($this->getFailureStatus()) {
-                $dt_end->setDate(new ilDate($_POST['item'][$set['ref_id']]['sug_end'], IL_CAL_DATE));
+                $dt_end->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_end'], IL_CAL_DATE));
             }
             
             $this->tpl->setVariable('end_abs');
@@ -194,12 +194,12 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         }
         
         // changeable
-        $this->tpl->setVariable('NAME_CHANGE', 'item[' . $set['ref_id'] . '][change]');
-        $this->tpl->setVariable('CHECKED_CHANGE', $set['item']['changeable'] ? 'checked="checked"' : '');
+        $this->tpl->setVariable('NAME_CHANGE', 'item[' . $a_set['ref_id'] . '][change]');
+        $this->tpl->setVariable('CHECKED_CHANGE', $a_set['item']['changeable'] ? 'checked="checked"' : '');
         if ($this->getFailureStatus()) {
-            $this->tpl->setVariable('CHECKED_CHANGE', $_POST['item'][$set['ref_id']]['change'] ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CHECKED_CHANGE', $_POST['item'][$a_set['ref_id']]['change'] ? 'checked="checked"' : '');
         } else {
-            $this->tpl->setVariable('CHECKED_CHANGE', $set['item']['changeable'] ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CHECKED_CHANGE', $a_set['item']['changeable'] ? 'checked="checked"' : '');
         }
     }
     

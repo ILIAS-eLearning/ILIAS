@@ -28,14 +28,8 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
      */
     public function __construct($a_title = "", $a_postvar = "")
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule("meta");
-        
         parent::__construct($a_title, $a_postvar);
+        $this->lng->loadLanguageModule("meta");
         $this->setType("copyright");
         $this->settings = ilMDSettings::_getInstance();
     }
@@ -112,14 +106,10 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     *
      * @return	boolean		Input ok, true/false
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         
         if ($this->usePurifier() && $this->getPurifier()) {
             $_POST[$this->getPostVar()]["ta"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["ta"]);

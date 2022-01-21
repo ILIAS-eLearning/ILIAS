@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
@@ -11,13 +11,6 @@ use OrgUnit\User\ilOrgUnitUser;
  */
 class ilMailTemplateContextTest extends ilMailBaseTest
 {
-    /**
-     * @param OrgUnitUserService $orgUnitUserService
-     * @param ilMailEnvironmentHelper $envHelper
-     * @param ilMailUserHelper $usernameHelper
-     * @param ilMailLanguageHelper $languageHelper
-     * @return ilMailTemplateContext
-     */
     public function getAnonymousTemplateContext(
         OrgUnitUserService $orgUnitUserService,
         ilMailEnvironmentHelper $envHelper,
@@ -57,8 +50,6 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     }
 
     /**
-     * @param int $amount
-     * @return array
      * @throws ReflectionException
      */
     private function generateOrgUnitUsers(int $amount) : array
@@ -79,7 +70,6 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     }
 
     /**
-     * @return array
      * @throws ReflectionException
      */
     public function userProvider() : array
@@ -90,7 +80,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
                      ['gender' => 'm', 'num_superiors' => 2,],
                      ['gender' => 'n', 'num_superiors' => 1,],
                      ['gender' => 'f', 'num_superiors' => 0,],
-                     ['gender' => '', 'num_superiors' => 3,]
+                     ['gender' => '', 'num_superiors' => 3,],
                  ] as $definition) {
             $user = $this->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()
@@ -133,8 +123,6 @@ class ilMailTemplateContextTest extends ilMailBaseTest
 
     /**
      * @dataProvider userProvider
-     * @param ilObjUser $user
-     * @param ilOrgUnitUser $ouUser
      * @param ilOrgUnitUser[] $superiors
      * @throws ReflectionException
      */
@@ -184,7 +172,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         }
 
         $firstAndLastnames = array_map(static function (ilOrgUnitUser $user, int $key) : string {
-            return "PhpSup{$key} UnitSup{$key}";
+            return "PhpSup$key UnitSup$key";
         }, $superiors, array_keys($superiors));
 
         $userHelper->expects($this->atLeastOnce())->method('getUsernameMapForIds')

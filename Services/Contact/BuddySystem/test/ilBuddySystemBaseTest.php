@@ -26,7 +26,7 @@ class ilBuddySystemBaseTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = function ($c) use ($name) {
+        $DIC[$name] = static function ($c) use ($name) {
             return $GLOBALS[$name];
         };
     }

@@ -148,4 +148,15 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
 
         $this->assertFalse($evaluator->evaluate($doc));
     }
+
+    public function testMutatingTheContextUserResultsInANewInstance() : void
+    {
+        $evaluator = new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
+            $this->getCriterionTypeFactoryMock(),
+            $this->getUserMock(),
+            $this->getLogMock()
+        );
+
+        $this->assertNotSame($evaluator, $evaluator->withContextUser($this->getUserMock()));
+    }
 }

@@ -1,6 +1,11 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
+use ILIAS\Refinery\Random\Seed\GivenSeed;
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilTestPlayerCommands.php';
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
@@ -61,6 +66,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected $testSequence = null;
 
+    private RandomGroup $randomGroup;
+
     /**
     * ilTestOutputGUI constructor
     *
@@ -81,6 +88,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->processLocker = null;
         $this->testSession = null;
         $this->assSettings = null;
+        $this->randomGroup = $DIC->refinery()->random();
     }
 
     protected function checkReadAccess()
@@ -882,14 +890,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $activePlugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
-
-        if (!count($activePlugins)) {
-            return false;
-        }
-        
-        return true;
+        $component_repository = $DIC["component.repository"];
+        return $component_repository->getPluginSlotById("tsig")->hasActivePlugins();
     }
 
     /**
@@ -2534,17 +2536,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     /**
      * @param $questionId
-     * @return ilArrayElementShuffler
+     * @return Transformation
      */
     protected function buildQuestionAnswerShuffler($questionId)
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
         $fixedSeed = $this->buildFixedShufflerSeed($questionId);
-        $shuffler->setSeed($fixedSeed);
-        
-        return $shuffler;
+
+        return $this->randomGroup->shuffleArray(new GivenSeed($fixedSeed));
     }
 
     /**

@@ -5,19 +5,13 @@ use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 
-/**
- * Class ilObjContentPage
- */
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
     protected int $styleId = 0;
     protected ?ilObjectTranslation $objTrans = null;
     private PageMetricsService $pageMetricsService;
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct($a_id = 0, $a_reference = true)
+    public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         global $DIC;
 
@@ -46,10 +40,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         return $this->objTrans;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = self::OBJ_TYPE;
     }
@@ -79,10 +70,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $this->setStyleSheetId($styleId);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
+    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null) : void
     {
         /** @var self $new_obj */
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
@@ -134,12 +122,18 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 
         $lpSettings = new ilLPObjSettings($this->getId());
         $lpSettings->cloneSettings($new_obj->getId());
+
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        //copy online status if object is not the root copy object
+        if (!$cwo->isRootNode($this->getRefId())) {
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
+        } else {
+            $new_obj->setOfflineStatus(true);
+        }
+        $new_obj->update();
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doRead()
+    protected function doRead() : void
     {
         parent::doRead();
 
@@ -156,10 +150,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doCreate()
+    protected function doCreate() : void
     {
         parent::doCreate();
 
@@ -170,13 +161,12 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             ['integer', 'integer'],
             [$this->getId(), 0]
         );
+
+        $this->setOfflineStatus(true);
+        $this->update();
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         parent::doUpdate();
 
@@ -194,10 +184,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function doDelete()
+    protected function doDelete() : void
     {
         parent::doDelete();
 
@@ -237,7 +224,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $pageObjIds[] = $row['page_id'];
+            $pageObjIds[] = (int) $row['page_id'];
         }
 
         return $pageObjIds;

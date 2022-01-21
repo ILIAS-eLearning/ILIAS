@@ -1,12 +1,22 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCVerificationGUI
  * Handles user commands on verifications
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $I$
- * @ingroup ServicesCOPage
  */
 class ilPCVerificationGUI extends ilPageContentGUI
 {
@@ -25,10 +35,10 @@ class ilPCVerificationGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
-        return $this->$cmd();
+        $this->$cmd();
     }
 
     public function insert(?ilPropertyFormGUI $a_form = null) : void
@@ -74,13 +84,14 @@ class ilPCVerificationGUI extends ilPageContentGUI
 
     /**
      * @return array<int, ilUserCertificatePresentation>
+     * @throws JsonException
      */
     private function getValidCertificateByIdMap() : array
     {
         $certificates = [];
 
         $repository = new ilUserCertificateRepository();
-        $activeCertificates = $repository->fetchActiveCertificates((int) $this->user->getId());
+        $activeCertificates = $repository->fetchActiveCertificates($this->user->getId());
         foreach ($activeCertificates as $certificate) {
             $certificates[$certificate->getObjId()] = $certificate;
         }
@@ -214,6 +225,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
     }
 
     /**
+     * @throws JsonException
      * @throws ilDateTimeException
      */
     public function update() : void
@@ -247,10 +259,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
                         );
                         $this->content_obj->setData('crta', $objectId);
                     }
-                } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-                    ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
-                    $this->log->warning($e->getMessage());
-                } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
+                } catch (\ILIAS\Filesystem\Exception\FileNotFoundException | \ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
                     ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
                     $this->log->warning($e->getMessage());
                 } catch (\ILIAS\Filesystem\Exception\IOException $e) {

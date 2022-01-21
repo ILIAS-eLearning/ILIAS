@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -51,7 +51,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
         if ($this->chap > 0) {
             $nodes = $this->tree->getChilds($this->chap);
         } else {
-            $nodes = $this->tree->getSubTree($this->tree->getNodeData($this->tree->root_id), true, array('sco'));
+            $nodes = $this->tree->getSubTree($this->tree->getNodeData($this->tree->getRootId()), true, array('sco'));
         }
 
         $scos = array();
@@ -73,7 +73,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

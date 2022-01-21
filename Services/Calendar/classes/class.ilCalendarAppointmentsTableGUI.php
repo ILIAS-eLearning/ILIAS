@@ -90,12 +90,11 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array set of data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['deletable']) {
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -143,7 +142,8 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
      */
     protected static function getToday()
     {
-        return $this->today;
+        // @fixme
+        //return $this->today;
     }
 
     /**
@@ -166,7 +166,6 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 
             // booking
             if ($cat->getType() == ilCalendarCategory::TYPE_CH) {
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $book = new ilBookingEntry($entry->getContextId());
                 if ($book) {
                     $title = $entry->getTitle();

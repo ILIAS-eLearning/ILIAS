@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
@@ -85,13 +87,13 @@ class assClozeGap
     /**
      * Gets the items of a cloze gap
      *
-     * @param ilRandomArrayElementProvider $shuffler
+     * @param Transformation $shuffler
      * @return assAnswerCloze[] The list of items
      */
-    public function getItems(ilRandomArrayElementProvider $shuffler)
+    public function getItems(Transformation $shuffler) : array
     {
         if ($this->getShuffle()) {
-            return $shuffler->shuffle($this->items);
+            return $shuffler->transform($this->items);
         }
         
         return $this->items;
@@ -334,11 +336,11 @@ class assClozeGap
     }
 
     /**
-     * @param ilRandomArrayElementProvider $shuffler
+     * @param Transformation $shuffler
      * @param null | array $combinations
      * @return string
      */
-    public function getBestSolutionOutput(ilRandomArrayElementProvider $shuffler, $combinations = null)
+    public function getBestSolutionOutput(Transformation $shuffler, $combinations = null)
     {
         global $DIC;
         $lng = $DIC['lng'];

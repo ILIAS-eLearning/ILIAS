@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Block/classes/class.ilBlockGUI.php';
 
 /**
  * Class ilRepositoryObjectSearchBlockGUI
@@ -9,23 +8,17 @@ include_once './Services/Block/classes/class.ilBlockGUI.php';
  *
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  *
  * @package ServicesSearch
  *
  */
 class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 {
-    public static $block_type = "objectsearch";
+    public static string $block_type = "objectsearch";
     public static $st_data;
 
-    
-    /**
-     * Constructor
-     * @global type $ilCtrl
-     * @global type $lng
-     */
-    public function __construct($a_title)
+
+    public function __construct(string $a_title)
     {
         parent::__construct();
         
@@ -54,15 +47,12 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -71,22 +61,16 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 
         switch ($next_class) {
             default:
-                return $this->$cmd();
+                $this->$cmd();
         }
     }
 
-    /**
-     * Get bloch HTML code.
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML();
     }
 
-    /**
-     * Fill data section
-     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -103,15 +87,13 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
      */
     protected function getLegacyContent() : string
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
 
         $tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'Services/Search');
 
-        $lng->loadLanguageModule('search');
-        $tpl->setVariable("TXT_SEARCH_INPUT_LABEL", $lng->txt('search_field'));
-        $tpl->setVariable("TXT_PERFORM", $lng->txt('btn_search'));
-        $tpl->setVariable("FORMACTION", $ilCtrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
+        $this->lng->loadLanguageModule('search');
+        $tpl->setVariable("TXT_SEARCH_INPUT_LABEL", $this->lng->txt('search_field'));
+        $tpl->setVariable("TXT_PERFORM", $this->lng->txt('btn_search'));
+        $tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
         $tpl->setVariable("SEARCH_TERM", ilUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"])));
 
         return $tpl->get();

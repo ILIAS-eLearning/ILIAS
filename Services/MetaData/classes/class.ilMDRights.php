@@ -117,12 +117,9 @@ class ilMDRights extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_rights_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_rights'));
+        $fields['meta_rights_id'] = array('integer',$next_id = $this->db->nextId('il_meta_rights'));
         
         if ($this->db->insert('il_meta_rights', $fields)) {
             $this->setMetaId($next_id);
@@ -133,9 +130,6 @@ class ilMDRights extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -151,13 +145,10 @@ class ilMDRights extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_rights " .
-                "WHERE meta_rights_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_rights_id = " . $this->db->quote($this->getMetaId(), 'integer');
             
             $this->db->query($query);
             
@@ -180,16 +171,13 @@ class ilMDRights extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_rights " .
-                "WHERE meta_rights_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_rights_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
         
             $res = $this->db->query($query);
@@ -259,7 +247,7 @@ class ilMDRights extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = "SELECT description FROM il_meta_rights " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
@@ -274,7 +262,7 @@ class ilMDRights extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_rights_id FROM il_meta_rights " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

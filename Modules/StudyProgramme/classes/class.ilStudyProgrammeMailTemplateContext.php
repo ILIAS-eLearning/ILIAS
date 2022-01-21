@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -24,10 +22,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 
     const DATE_FORMAT = 'd-m-Y H:i:s';
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
@@ -48,25 +43,16 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         $this->lng->loadLanguageModule('prg');
     }
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         return $this->lng->txt('prg_mail_context_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         return $this->lng->txt('prg_mail_context_info');
@@ -74,76 +60,75 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 
     /**
      * Return an array of placeholders
-     * @return array
      */
     public function getSpecificPlaceholders() : array
     {
-        $placeholders = array();
+        $placeholders = [];
 
-        $placeholders[self::TITLE] = array(
+        $placeholders[self::TITLE] = [
             'placeholder' => 'STUDY_PROGRAMME_TITLE',
             'label' => $this->lng->txt(self::TITLE)
-        );
+        ];
 
-        $placeholders[self::DESCRIPTION] = array(
+        $placeholders[self::DESCRIPTION] = [
             'placeholder' => 'STUDY_PROGRAMME_DESCRIPTION',
             'label' => $this->lng->txt(self::DESCRIPTION)
-        );
+        ];
 
-        $placeholders[self::TYPE] = array(
+        $placeholders[self::TYPE] = [
             'placeholder' => 'STUDY_PROGRAMME_TYPE',
             'label' => $this->lng->txt(self::TYPE)
-        );
+        ];
 
-        $placeholders[self::LINK] = array(
+        $placeholders[self::LINK] = [
             'placeholder' => 'STUDY_PROGRAMME_LINK',
             'label' => $this->lng->txt(self::LINK)
-        );
+        ];
 
-        $placeholders[self::ORG_UNIT] = array(
+        $placeholders[self::ORG_UNIT] = [
             'placeholder' => 'STUDY_PROGRAMME_ORG_UNITS',
             'label' => $this->lng->txt(self::ORG_UNIT)
-        );
+        ];
 
-        $placeholders[self::STATUS] = array(
+        $placeholders[self::STATUS] = [
             'placeholder' => 'STUDY_PROGRAMME_STATUS',
             'label' => $this->lng->txt(self::STATUS)
-        );
+        ];
 
-        $placeholders[self::COMPLETION_DATE] = array(
+        $placeholders[self::COMPLETION_DATE] = [
             'placeholder' => 'STUDY_PROGRAMME_COMPLETION_DATE',
             'label' => $this->lng->txt(self::COMPLETION_DATE)
-        );
+        ];
 
-        $placeholders[self::COMPLETED_BY] = array(
+        $placeholders[self::COMPLETED_BY] = [
             'placeholder' => 'STUDY_PROGRAMME_COMPLETED_BY',
             'label' => $this->lng->txt(self::COMPLETED_BY)
-        );
+        ];
 
-        $placeholders[self::POINTS_REQUIRED] = array(
+        $placeholders[self::POINTS_REQUIRED] = [
             'placeholder' => 'STUDY_PROGRAMME_POINTS_REQUIRED',
             'label' => $this->lng->txt(self::POINTS_REQUIRED)
-        );
+        ];
 
-        $placeholders[self::POINTS_CURRENT] = array(
+        $placeholders[self::POINTS_CURRENT] = [
             'placeholder' => 'STUDY_PROGRAMME_POINTS_CURRENT',
             'label' => $this->lng->txt(self::POINTS_CURRENT)
-        );
+        ];
 
-        $placeholders[self::DEADLINE] = array(
+        $placeholders[self::DEADLINE] = [
             'placeholder' => 'STUDY_PROGRAMME_DEADLINE',
             'label' => $this->lng->txt(self::DEADLINE)
-        );
+        ];
 
-        $placeholders[self::EXPIRE_DATE] = array(
+        $placeholders[self::EXPIRE_DATE] = [
             'placeholder' => 'STUDY_PROGRAMME_EXPIRE_DATE',
             'label' => $this->lng->txt(self::EXPIRE_DATE)
-        );
+        ];
 
-        $placeholders[self::VALIDITY] = array(
+        $placeholders[self::VALIDITY] = [
             'placeholder' => 'STUDY_PROGRAMME_VALIDITY',
             'label' => $this->lng->txt(self::VALIDITY)
-        );
+        ];
 
         return $placeholders;
     }
@@ -196,7 +181,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             case self::TYPE:
                 $string = '';
                 if (!is_null($obj->getSubType())) {
-                    $string = (string) $obj->getSubType()->getTitle();
+                    $string = $obj->getSubType()->getTitle();
                 }
                 break;
             case self::LINK:

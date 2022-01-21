@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
-use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\Counter\Factory as CounterFactory;
@@ -16,10 +15,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 abstract class Prompt extends Slate implements ISlate\Prompt
 {
-    /**
-     * @var \ILIAS\UI\Component\Counter\Factory
-     */
-    protected $counter_factory;
+    protected CounterFactory $counter_factory;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,

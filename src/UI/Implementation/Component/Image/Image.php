@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -20,41 +20,18 @@ class Image implements C\Image\Image
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var	string
-     */
-    private $type;
-
-    /**
-     * @var	string
-     */
-    private $src;
-
-    /**
-     * @var	string
-     */
-    private $alt;
-
-    /**
-     * @var string
-     */
-    protected $action = '';
-
-    /**
-     * @var []
-     */
-    private static $types = [
+    private static array $types = [
             self::STANDARD,
             self::RESPONSIVE
     ];
 
-    /**
-     * @inheritdoc
-     */
-    public function __construct($type, $source, $alt)
+    private string $type;
+    private string $src;
+    private string $alt;
+    protected ?string $action = '';
+
+    public function __construct(string $type, string $source, string $alt)
     {
-        $this->checkStringArg("src", $source);
-        $this->checkStringArg("alt", $alt);
         $this->checkArgIsElement("type", $type, self::$types, "image type");
 
         $this->type = $type;
@@ -65,7 +42,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
@@ -73,10 +50,8 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withSource($source)
+    public function withSource(string $source) : C\Image\Image
     {
-        $this->checkStringArg("src", $source);
-
         $clone = clone $this;
         $clone->src = $source;
         return $clone;
@@ -85,7 +60,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getSource()
+    public function getSource() : string
     {
         return $this->src;
     }
@@ -93,10 +68,8 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAlt($alt)
+    public function withAlt(string $alt) : C\Image\Image
     {
-        $this->checkStringArg("alt", $alt);
-
         $clone = clone $this;
         $clone->alt = $alt;
         return $clone;
@@ -105,7 +78,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getAlt()
+    public function getAlt() : string
     {
         return $this->alt;
     }
@@ -113,7 +86,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAction($action)
+    public function withAction($action) : C\Image\Image
     {
         $this->checkStringOrSignalArg("action", $action);
         $clone = clone $this;
@@ -144,7 +117,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal)
+    public function withOnClick(Signal $signal) : C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -152,7 +125,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal)
+    public function appendOnClick(Signal $signal) : C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

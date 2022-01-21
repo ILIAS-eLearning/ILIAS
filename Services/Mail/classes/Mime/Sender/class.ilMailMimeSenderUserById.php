@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMimeSenderUserById
@@ -8,13 +8,8 @@
 class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 {
     /** @var ilObjUser[] */
-    protected static $userInstances = [];
+    protected static array $userInstances = [];
 
-    /**
-     * ilMailMimeSenderUserById constructor.
-     * @param ilSetting $settings
-     * @param int $usrId
-     */
     public function __construct(ilSetting $settings, int $usrId)
     {
         if (!array_key_exists($usrId, self::$userInstances)) {
@@ -24,11 +19,7 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
         parent::__construct($settings, self::$userInstances[$usrId]);
     }
 
-    /**
-     * @param int $usrId
-     * @param ilObjUser $user
-     */
-    public static function addUserToCache(int $usrId, ilObjUser $user)
+    public static function addUserToCache(int $usrId, ilObjUser $user) : void
     {
         self::$userInstances[$usrId] = $user;
     }

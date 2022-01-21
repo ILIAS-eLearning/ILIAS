@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -79,7 +79,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                         $this->node_object->getSLMObject(),
                         $this->node_object->tree->getParentId(
                             $this->node_object->getId()
-                                )
+                        )
                     );
                     if (count($sco->getGlossaryTermIds()) > 1) {
                         $page_gui->setGlossaryOverviewInfo(
@@ -93,16 +93,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                     "ilobjscorm2004learningmodulegui",
                     "active_node",
                     $_GET["obj_id"]
-                );
-                $page_gui->setExplorerUpdater(
-                    "tree",
-                    "tree_div",
-                    $ilCtrl->getLinkTargetByClass(
-                        "ilobjscorm2004learningmodulegui",
-                        "showTree",
-                        "",
-                        true
-                    )
                 );
                 $ilCtrl->setParameterByClass(
                     "ilobjscorm2004learningmodulegui",

@@ -58,28 +58,28 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         $this->addColumn($DIC->language()->txt('tbl_lti_prov_used_by'), 'used_by');
     }
 
-    protected function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         // TITLE
-        $this->tpl->setVariable('TITLE', $data['title']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
 
         // TRASHED
         $this->tpl->setCurrentBlock('usages_trashed');
-        $usagesTrashed = $data['usedByIsTrashed'] && $this->isTrashEnabled() ? $DIC->language()->txt('yes') : '';
+        $usagesTrashed = $a_set['usedByIsTrashed'] && $this->isTrashEnabled() ? $DIC->language()->txt('yes') : '';
         $this->tpl->setVariable('USAGES_TRASHED', $usagesTrashed);
         $this->tpl->parseCurrentBlock();
 
         // USED BY
         $this->tpl->setCurrentBlock('used_by');
-        $tree = $this->buildLinkToUsedBy($data['usedByObjId'], $data['usedByRefId'], (string) $data['usedByTitle'], (bool) $usagesTrashed);
+        $tree = $this->buildLinkToUsedBy($a_set['usedByObjId'], $a_set['usedByRefId'], (string) $a_set['usedByTitle'], (bool) $usagesTrashed);
         $this->tpl->setVariable('TREE_TO_USED_BY', $tree['tree']);
         $this->tpl->parseCurrentBlock();
 
         // ICON
-        if ($data['icon']) {
-            $this->tpl->setVariable('ICON_SRC', $data['icon']);
-            $this->tpl->setVariable('ICON_ALT', basename($data['icon']));
+        if ($a_set['icon']) {
+            $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
+            $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
         } else {
             $icon = ilObject::_getIcon("", "small", "lti");
             $this->tpl->setVariable('ICON_SRC', $icon);

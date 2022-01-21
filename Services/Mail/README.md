@@ -733,16 +733,16 @@ placeholder string and a label which is used
 in the user interfaced.
 
 ```php
-return array(
-    'crs_title' => array(
+return [
+    'crs_title' => [
         'placeholder' => 'CRS_TITLE',
         'label' => $lng->txt('crs_title')
-    ),
-    'crs_link' => array(
+    ],
+    'crs_link' => [
         'placeholder' => 'CRS_LINK',
         'label' => $lng->txt('crs_mail_permanent_link')
-    )
-);
+    ]
+];
 ```
 
 Supposing the context registration succeeded and you
@@ -775,16 +775,16 @@ $DIC->ctrl()->redirectToUrl(
     \ilMailFormCall::getRedirectTarget(
         $this, // The referring ILIAS controller aka. GUI when redirecting back to the referrer
         'participants', // The desired command aka. the method to be called when redirecting back to the referrer
-        array(), // Key/Value array for parameters important for the ilCtrl/GUI context when when redirecting back to the referrer, e.g. a ref_id
-        array(
+        [], // Key/Value array for parameters important for the ilCtrl/GUI context when when redirecting back to the referrer, e.g. a ref_id
+        [
            'type' => 'new', // Could also be 'reply' with an additional 'mail_id' paremter provided here
-        ),
-        array(
+        ],
+        [
             \ilMailFormCall::CONTEXT_KEY => \ilCourseMailTemplateTutorContext::ID, // don't forget this!
             'ref_id' => $courseRefId,
             'ts'     => time(),
             // further parameters which will be later automatically passed to your context class 
-        )
+        ]
     )
 );
 ```

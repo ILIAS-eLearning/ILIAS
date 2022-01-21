@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddress
@@ -7,58 +7,36 @@
  */
 class ilMailAddress
 {
-    /** @var string */
-    protected $mailbox = '';
+    protected string $mailbox = '';
+    protected string $host = '';
 
-    /** @var string */
-    protected $host = '';
-
-    /**
-     * ilMailAddress constructor.
-     * @param string $mailbox
-     * @param string $host
-     */
     public function __construct(string $mailbox, string $host)
     {
         $this->mailbox = $mailbox;
         $this->host = $host;
     }
 
-    /**
-     * @param string $host
-     */
-    public function setHost(string $host)
+    public function setHost(string $host) : void
     {
         $this->host = $host;
     }
 
-    /**
-     * @param string $mailbox
-     */
-    public function setMailbox(string $mailbox)
+    public function setMailbox(string $mailbox) : void
     {
         $this->mailbox = $mailbox;
     }
 
-    /**
-     * @return string
-     */
     public function getHost() : string
     {
         return $this->host;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getMailbox() : string
     {
         return $this->mailbox;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return implode('@', [

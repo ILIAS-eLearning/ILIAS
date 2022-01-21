@@ -1,11 +1,24 @@
 <?php declare(strict_types=1);
 
-require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
-require_once(__DIR__ . "/../prg_mocks.php");
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
-
-class ilStudyProgrammeCronAboutToExpireTest extends \PHPUnit\Framework\TestCase
+class ilStudyProgrammeCronAboutToExpireTest extends TestCase
 {
+    /**
+     * @var ilPrgUserNotRestartedCronJob|mixed|MockObject
+     */
+    protected $job;
+    /**
+     * @var ilStudyProgrammeSettingsDBRepository|mixed|MockObject
+     */
+    protected $settings_repo;
+    /**
+     * @var ilStudyProgrammeProgressDBRepository|mixed|MockObject
+     */
+    protected $progress_repo;
+    protected ProgrammeEventsMock $events;
+
     public function setUp() : void
     {
         $this->job = $this
@@ -48,7 +61,7 @@ class ilStudyProgrammeCronAboutToExpireTest extends \PHPUnit\Framework\TestCase
         $this->job->run();
     }
 
-    public function testRiskyToFailNoRepos()
+    public function testRiskyToFailNoRepos() : void
     {
         $this->settings_repo
             ->expects($this->once())
@@ -77,7 +90,7 @@ class ilStudyProgrammeCronAboutToExpireTest extends \PHPUnit\Framework\TestCase
         $this->job->run();
     }
 
-    public function testRiskyToFail()
+    public function testRiskyToFail() : void
     {
         $this->settings_repo
             ->expects($this->once())

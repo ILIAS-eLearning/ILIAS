@@ -1,4 +1,19 @@
-<?php namespace ILIAS\PersonalDesktop;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+namespace ILIAS\PersonalDesktop;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -11,19 +26,11 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class PDMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;

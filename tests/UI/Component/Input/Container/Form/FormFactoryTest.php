@@ -1,38 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
-use \ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\Data;
-use ILIAS\Refinery;
+use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Input as I;
+use ILIAS\Refinery\Factory;
 
 class FormFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-        "standard" => array(
+    public array $kitchensink_info_settings = [
+        "standard" => [
             "context" => false,
-        ),
-    );
-    public $factory_title = 'ILIAS\\UI\\Component\\Input\\Container\\Form\\Factory';
+        ],
+    ];
 
+    public string $factory_title = 'ILIAS\\UI\\Component\\Input\\Container\\Form\\Factory';
 
-    final public function buildFactory()
+    final public function buildFactory() : I\Container\Form\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
-        return new \ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
-            new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
+        $language = $this->createMock(ilLanguage::class);
+        return new I\Container\Form\Factory(
+            new I\Field\Factory(
                 new SignalGenerator(),
                 $df,
-                new \ILIAS\Refinery\Factory($df, $language),
+                new Factory($df, $language),
                 $language
             )
         );
     }
 
-
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->buildFactory();
 

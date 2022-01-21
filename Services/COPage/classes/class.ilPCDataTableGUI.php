@@ -1,34 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCTableGUI
- *
  * User Interface for Data Table Editing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -41,11 +40,12 @@ class ilPCDataTableGUI extends ilPCTableGUI
     }
 
     /**
-    * execute command
-    */
+     * execute command
+     * @return mixed
+     */
     public function executeCommand()
     {
-        $this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
+        $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
         
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -70,12 +70,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
     * Edit data of table. (classic version)
     */
-    public function editDataCl()
+    public function editDataCl() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        //var_dump($_GET);
-        //var_dump($_POST);
 
         $this->setTabs();
 
@@ -89,8 +87,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         ilYuiUtil::initDragDrop();
         ilYuiUtil::initConnection();
-        $this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-        $this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
+        $this->tpl->addJavaScript("./Services/COPage/phpBB/3_0_5/editor.js");
+        $this->tpl->addJavaScript("./Services/COPage/js/paragraph_editing.js");
 
         // get all rows
         $xpc = xpath_new_context($this->dom);
@@ -159,8 +157,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 // cell
                 if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
                     $dtpl->setCurrentBlock("cell");
-                    
-                    if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
+
+                    $cmd = $ilCtrl->getCmd();
+                    if ($cmd == "update") {
                         $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
                     } else {
                         $s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
@@ -243,16 +242,15 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update table data in dom and update page in db
      */
-    public function update($a_redirect = true)
+    public function update(bool $a_redirect = true) : void
     {
         $lng = $this->lng;
 
         // handle input data
         $data = array();
-        //var_dump($_POST["cell"]);
-        //var_dump($_GET);
-        if (is_array($_POST["cell"])) {
-            foreach ($_POST["cell"] as $i => $row) {
+        $cell = $this->request->getArrayArray("cell");
+        if (is_array($cell)) {
+            foreach ($cell as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {
                         $data[$i][$j] =
@@ -283,12 +281,12 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update via JavaScript
      */
-    public function updateJS()
+    public function updateJS() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
                 
-        if ($_POST["cancel_update"]) {
+        if ($this->request->getString("cancel_update") != "") {
             //			$this->ctrl->redirect($this, "editData");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         }
@@ -334,18 +332,20 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         $this->updated = $this->pg_obj->update();
 
-        
+        $tab_cmd_id = $this->request->getInt("tab_cmd_id");
+        $tab_cmd_type = $this->request->getString("tab_cmd_type");
+        $tab_cmd = $this->request->getString("tab_cmd");
+
         // perform table action? (move...?)
         //$this->update(false);
         $this->pg_obj->addHierIDs();
         $failed = false;
-        if ($_POST["tab_cmd"] != "") {
-            $cell_hier_id = ($_POST["tab_cmd_type"] == "col")
-                ? $this->hier_id . "_1_" . ($_POST["tab_cmd_id"] + 1)
-                : $this->hier_id . "_" . ($_POST["tab_cmd_id"] + 1) . "_1";
+        if ($tab_cmd != "") {
+            $cell_hier_id = ($tab_cmd_type == "col")
+                ? $this->hier_id . "_1_" . ($tab_cmd_id + 1)
+                : $this->hier_id . "_" . ($tab_cmd_id + 1) . "_1";
             $cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
             if (is_object($cell_obj)) {
-                $tab_cmd = $_POST["tab_cmd"];
                 $cell_obj->$tab_cmd();
                 $ret = $this->pg_obj->update();
                 if ($ret !== true) {
@@ -358,7 +358,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         if (!$failed) {
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
-        if ($_POST["save_return"]) {
+        if ($this->request->getString("save_return") != "") {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
             $this->ctrl->redirect($this, "editData");
@@ -367,17 +367,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 
     /**
-    * Get new table object
-    */
-    public function getNewTableObject()
+     * Get new table object
+     */
+    public function getNewTableObject() : ilPCDataTable
     {
         return new ilPCDataTable($this->getPage());
     }
     
     /**
-    * After creation processing
-    */
-    public function afterCreation()
+     * After creation processing
+     */
+    public function afterCreation() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -389,35 +389,35 @@ class ilPCDataTableGUI extends ilPCTableGUI
     }
     
     /**
-    * Perform operation on table (adding, moving, deleting rows/cols)
-    */
-    public function tableAction()
+     * Perform operation on table (adding, moving, deleting rows/cols)
+     */
+    public function tableAction() : void
     {
         $ilCtrl = $this->ctrl;
 
         $this->update(false);
         $this->pg_obj->addHierIDs();
 
-        $cell_hier_id = ($_POST["type"] == "col")
-            ? $this->hier_id . "_1_" . ($_POST["id"] + 1)
-            : $this->hier_id . "_" . ($_POST["id"] + 1) . "_1";
+        $type = $this->request->getString("type");
+        $action = $this->request->getString("action");
+        $id = $this->request->getInt("id");
+
+        $cell_hier_id = ($type == "col")
+            ? $this->hier_id . "_1_" . ($id + 1)
+            : $this->hier_id . "_" . ($id + 1) . "_1";
         $cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
         if (is_object($cell_obj)) {
-            $action = (string) ($_POST["action"]);
             $cell_obj->$action();
-            $_SESSION["il_pg_error"] = $this->pg_obj->update();
+            $this->edit_repo->setPageError($this->pg_obj->update());
         }
         $ilCtrl->redirect($this, "editData");
     }
     
     /**
-    * Set tabs
-    */
-    public function setTabs($data_tab_txt_key = "")
+     * Set tabs
+     */
+    public function setTabs(string $data_tab_txt_key = "") : void
     {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        
         parent::setTabs("cont_ed_edit_data");
     }
 }

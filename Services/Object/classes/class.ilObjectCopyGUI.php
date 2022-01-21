@@ -392,8 +392,8 @@ class ilObjectCopyGUI
         $cgs->init();
         $cgs->setObjects(
             array_merge(
-                ilParticipants::_getMembershipByType($user->getId(), 'crs', false),
-                ilParticipants::_getMembershipByType($user->getId(), 'grp', false)
+                ilParticipants::_getMembershipByType($user->getId(), ['crs'], false),
+                ilParticipants::_getMembershipByType($user->getId(), ['grp'], false)
             )
         );
         $cgs->parse();
@@ -797,8 +797,8 @@ class ilObjectCopyGUI
         }
         
         $query_parser = new ilQueryParser($this->form->getInput('tit'));
-        $query_parser->setMinWordLength(1, true);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setMinWordLength(1);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             ilUtil::sendFailure($query_parser->getMessage(), true);

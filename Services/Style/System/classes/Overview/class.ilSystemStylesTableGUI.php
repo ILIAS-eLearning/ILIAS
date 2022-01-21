@@ -18,16 +18,6 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilSystemStylesTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var bool
      */
     protected $with_actions = false;
@@ -133,7 +123,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

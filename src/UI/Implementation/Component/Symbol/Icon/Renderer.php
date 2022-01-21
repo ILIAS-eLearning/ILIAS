@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -17,7 +17,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var Component\Symbol\Icon\Icon $component
@@ -63,7 +63,6 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
     protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon) : string
     {
         $name = $icon->getName();
@@ -82,7 +81,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(Component\Symbol\Icon\Icon::class);
     }

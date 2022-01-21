@@ -59,6 +59,9 @@ import {jsonp as requestJSONP} from '../net.js';
  * @property {boolean} [wrapX=true] Whether to wrap the world horizontally.
  * @property {number} [transition] Duration of the opacity transition for rendering.
  * To disable the opacity transition, pass `transition: 0`.
+ * @property {number|import("../array.js").NearestDirectionFunction} [zDirection=0]
+ * Choose whether to use tiles with a higher or lower zoom level when between integer
+ * zoom levels. See {@link module:ol/tilegrid/TileGrid~TileGrid#getZForResolution}.
  */
 
 /**
@@ -82,6 +85,7 @@ class TileJSON extends TileImage {
       tileLoadFunction: options.tileLoadFunction,
       wrapX: options.wrapX !== undefined ? options.wrapX : true,
       transition: options.transition,
+      zDirection: options.zDirection,
     });
 
     /**
@@ -171,10 +175,11 @@ class TileJSON extends TileImage {
       extent = applyTransform(tileJSON['bounds'], transform);
     }
 
+    const gridExtent = extentFromProjection(sourceProjection);
     const minZoom = tileJSON['minzoom'] || 0;
     const maxZoom = tileJSON['maxzoom'] || 22;
     const tileGrid = createXYZ({
-      extent: extentFromProjection(sourceProjection),
+      extent: gridExtent,
       maxZoom: maxZoom,
       minZoom: minZoom,
       tileSize: this.tileSize_,
@@ -184,9 +189,7 @@ class TileJSON extends TileImage {
     this.tileUrlFunction = createFromTemplates(tileJSON['tiles'], tileGrid);
 
     if (tileJSON['attribution'] !== undefined && !this.getAttributions()) {
-      const attributionExtent =
-        extent !== undefined ? extent : epsg4326Projection.getExtent();
-
+      const attributionExtent = extent !== undefined ? extent : gridExtent;
       this.setAttributions(function (frameState) {
         if (intersects(attributionExtent, frameState.extent)) {
           return [tileJSON['attribution']];

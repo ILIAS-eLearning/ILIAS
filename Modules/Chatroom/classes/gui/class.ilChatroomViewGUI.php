@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
  * Class ilChatroomViewGUI
@@ -11,12 +12,6 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
-    /**
-     * Joins user to chatroom with custom username, fetched from
-     * $_REQUEST['custom_username_text'] or by calling buld method.
-     * If sucessful, $this->showRoom method is called, otherwise
-     * $this->showNameSelection.
-     */
     public function joinWithCustomName() : void
     {
         $this->redirectIfNoPermission('read');
@@ -31,24 +26,18 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($this->hasRequestValue('custom_username_radio')) {
             if (
                 $this->hasRequestValue('custom_username_text') &&
-                $this->getRequestValue('custom_username_radio') === 'custom_username'
+                $this->getRequestValue('custom_username_radio', $this->refinery->kindlyTo()->string()) === 'custom_username'
             ) {
-                $username = $this->refinery->kindlyTo()->string()->transform(
-                    $this->getRequestValue('custom_username_text')
-                );
+                $username = $this->getRequestValue('custom_username_text', $this->refinery->kindlyTo()->string());
                 $failure = false;
             } elseif (
                 method_exists(
                     $chat_user,
-                    'build' . $this->refinery->kindlyTo()->string()->transform(
-                        $this->getRequestValue('custom_username_radio')
-                    )
+                    'build' . $this->getRequestValue('custom_username_radio', $this->refinery->kindlyTo()->string())
                 )
             ) {
                 $username = $chat_user->{
-                    'build' . $this->refinery->kindlyTo()->string()->transform(
-                        $this->getRequestValue('custom_username_radio')
-                    )
+                    'build' . $this->getRequestValue('custom_username_radio', $this->refinery->kindlyTo()->string())
                 }();
                 $failure = false;
             }
@@ -90,7 +79,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $user_id = $chat_user->getUserId();
 
-        $ref_id = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('ref_id'));
+        $ref_id = $this->getRequestValue('ref_id', $this->refinery->kindlyTo()->int());
         $this->navigationHistory->addItem(
             $ref_id,
             $this->ilCtrl->getLinkTargetByClass(ilRepositoryGUI::class, 'view'),
@@ -122,7 +111,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
 
-        $connection_info = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
         $settings = $connector->getSettings();
         $known_private_room = $room->getActivePrivateRooms($this->ilUser->getId());
 
@@ -175,9 +163,12 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $initial->messages = [];
 
-        $sub = $this->getRequestValue('sub');
+        $sub = null;
+        if ($this->hasRequestValue('sub')) {
+            $sub = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
+        }
+
         if ($sub !== null) {
-            $sub = $this->refinery->kindlyTo()->int()->transform($sub);
             if ($known_private_room[$sub]) {
                 if (!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $sub)) {
                     $initial->messages[] = array(
@@ -325,13 +316,13 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         
         ilObjUser::_writePref($this->ilUser->getId(), 'chat_hide_automsg_' . $room->getRoomId(), (int) (!(bool) $state));
 
-        $DIC->http()->saveResponse(
-            $DIC->http()->response()
-                ->withHeader('Content-Type', 'application/json')
+        $this->http->saveResponse(
+            $this->http->response()
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(Streams::ofString(json_encode(['success' => true], JSON_THROW_ON_ERROR)))
         );
-        $DIC->http()->sendResponse();
-        $DIC->http()->close();
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**
@@ -444,7 +435,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->setupTemplate();
 
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
             exit;
         }
@@ -474,13 +465,15 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     public function invitePD() : void
     {
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
 
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $user_id = $_REQUEST['usr_id'];
+
+        $user_id = $this->getRequestValue('usr_id', $this->refinery->kindlyTo()->int());
+        
         $connector = $this->gui->getConnector();
         $title = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
         $subRoomId = $room->addPrivateRoom($title, $chat_user, ['public' => false]);
@@ -491,9 +484,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $room->sendInvitationNotification($this->gui, $chat_user, $user_id, $subRoomId);
 
-        $_REQUEST['sub'] = $subRoomId;
-
-        $_SESSION['show_invitation_message'] = $user_id;
+        ilSession::set('show_invitation_message', $user_id);
 
         $this->ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
         $this->ilCtrl->redirect($this->gui, 'view');
@@ -539,13 +530,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->sendResponse($response);
         }
 
-        $usr_ids = $this->getRequestValue('usr_ids');
-        if (null === $usr_ids) {
-            $this->sendResponse($response);
+        $usr_ids = null;
+        if ($this->hasRequestValue('usr_ids')) {
+            $usr_ids = $this->getRequestValue('usr_ids', $this->refinery->kindlyTo()->string());
         }
-
-        $usr_ids = $this->refinery->kindlyTo()->string()->transform($usr_ids);
-        if ($usr_ids === '') {
+        if (null === $usr_ids || '' === $usr_ids) {
             $this->sendResponse($response);
         }
 

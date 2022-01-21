@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use org\bovigo\vfs;
@@ -19,53 +19,32 @@ require_once 'Services/User/test/ilUserBaseTest.php';
  */
 class ilObjUserPasswordTest extends ilUserBaseTest
 {
-    /** @var string */
-    const PASSWORD = 'password';
+    private const PASSWORD = 'password';
+    private const ENCODED_PASSWORD = 'encoded';
 
-    /** @var string */
-    const ENCODED_PASSWORD = 'encoded';
+    protected vfs\vfsStreamDirectory  $testDirectory;
+    protected string $testDirectoryUrl;
 
-    /** @var vfs\vfsStreamDirectory */
-    protected $testDirectory;
-
-    /** @var string */
-    protected $testDirectoryUrl;
-
-    /**
-     * @return vfs\vfsStreamDirectory
-     */
     public function getTestDirectory() : vfs\vfsStreamDirectory
     {
         return $this->testDirectory;
     }
 
-    /**
-     * @param vfs\vfsStreamDirectory $testDirectory
-     */
     public function setTestDirectory(vfs\vfsStreamDirectory $testDirectory) : void
     {
         $this->testDirectory = $testDirectory;
     }
 
-    /**
-     * @return string
-     */
     public function getTestDirectoryUrl() : string
     {
         return $this->testDirectoryUrl;
     }
 
-    /**
-     * @param string $testDirectoryUrl
-     */
     public function setTestDirectoryUrl(string $testDirectoryUrl) : void
     {
         $this->testDirectoryUrl = $testDirectoryUrl;
     }
 
-    /**
-     * Setup
-     */
     protected function setUp() : void
     {
         vfs\vfsStream::setup();
@@ -155,22 +134,22 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
         $user_mock->expects($this->once())->method('setPasswordSalt')->with($this->isType('string'));
-        $user_mock->expects($this->once())->method('getPasswordSalt')->will($this->returnValue('asuperrandomsalt'));
+        $user_mock->expects($this->once())->method('getPasswordSalt')->willReturn('asuperrandomsalt');
         $user_mock->expects($this->once())->method('setPasswordEncodingType')->with($this->equalTo('mockencoder'));
         $user_mock->expects($this->once())->method('setPasswd')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(IL_PASSWD_CRYPTED)
         );
 
-        $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
-        $encoder->expects($this->once())->method('requiresSalt')->will($this->returnValue(true));
+        $encoder->expects($this->once())->method('getName')->willReturn('mockencoder');
+        $encoder->expects($this->once())->method('requiresSalt')->willReturn(true);
         $encoder->expects($this->once())->method('encodePassword')
                 ->with(
                     $this->equalTo(self::PASSWORD),
                     $this->isType('string')
-                )->will($this->returnValue(self::ENCODED_PASSWORD));
+                )->willReturn(self::ENCODED_PASSWORD);
 
-        $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
+        $factory_mock->expects($this->once())->method('getEncoderByName')->willReturn($encoder);
 
         $password_manager = new ilUserPasswordManager([
             'password_encoder' => 'mockencoder',
@@ -192,21 +171,21 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
         $user_mock->expects($this->once())->method('setPasswordSalt')->with($this->equalTo(null));
-        $user_mock->expects($this->once())->method('getPasswordSalt')->will($this->returnValue(null));
+        $user_mock->expects($this->once())->method('getPasswordSalt')->willReturn(null);
         $user_mock->expects($this->once())->method('setPasswordEncodingType')->with($this->equalTo('mockencoder'));
         $user_mock->expects($this->once())->method('setPasswd')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(IL_PASSWD_CRYPTED)
         );
 
-        $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
-        $encoder->expects($this->once())->method('requiresSalt')->will($this->returnValue(false));
+        $encoder->expects($this->once())->method('getName')->willReturn('mockencoder');
+        $encoder->expects($this->once())->method('requiresSalt')->willReturn(false);
         $encoder->expects($this->once())->method('encodePassword')->with(
             $this->equalTo(self::PASSWORD),
             $this->equalTo(null)
-        )->will($this->returnValue(self::ENCODED_PASSWORD));
+        )->willReturn(self::ENCODED_PASSWORD);
 
-        $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
+        $factory_mock->expects($this->once())->method('getEncoderByName')->willReturn($encoder);
 
         $password_manager = new ilUserPasswordManager([
             'password_encoder' => 'mockencoder',
@@ -227,22 +206,22 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
-        $user_mock->expects($this->atLeast(1))->method('getPasswordSalt')->will($this->returnValue('asuperrandomsalt'));
-        $user_mock->expects($this->atLeast(1))->method('getPasswordEncodingType')->will($this->returnValue('mockencoder'));
-        $user_mock->expects($this->atLeast(1))->method('getPasswd')->will($this->returnValue(self::ENCODED_PASSWORD));
+        $user_mock->expects($this->atLeast(1))->method('getPasswordSalt')->willReturn('asuperrandomsalt');
+        $user_mock->expects($this->atLeast(1))->method('getPasswordEncodingType')->willReturn('mockencoder');
+        $user_mock->expects($this->atLeast(1))->method('getPasswd')->willReturn(self::ENCODED_PASSWORD);
         $user_mock->expects($this->never())->method('resetPassword');
 
-        $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
+        $encoder->expects($this->once())->method('getName')->willReturn('mockencoder');
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(self::PASSWORD),
             $this->isType('string')
-        )->will($this->returnValue(true));
+        )->willReturn(true);
         $encoder->expects($this->once())->method('requiresReencoding')
                 ->with($this->equalTo(self::ENCODED_PASSWORD))
-                ->will($this->returnValue(false));
+                ->willReturn(false);
 
-        $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
+        $factory_mock->expects($this->once())->method('getEncoderByName')->willReturn($encoder);
 
         $password_manager = new ilUserPasswordManager([
             'password_encoder' => 'mockencoder',
@@ -263,25 +242,25 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
-        $user_mock->expects($this->once())->method('getPasswordSalt')->will($this->returnValue('asuperrandomsalt'));
-        $user_mock->expects($this->once())->method('getPasswordEncodingType')->will($this->returnValue('second_mockencoder'));
-        $user_mock->expects($this->once())->method('getPasswd')->will($this->returnValue(self::ENCODED_PASSWORD));
+        $user_mock->expects($this->once())->method('getPasswordSalt')->willReturn('asuperrandomsalt');
+        $user_mock->expects($this->once())->method('getPasswordEncodingType')->willReturn('second_mockencoder');
+        $user_mock->expects($this->once())->method('getPasswd')->willReturn(self::ENCODED_PASSWORD);
         $user_mock->expects($this->once())->method('resetPassword')->with(
             $this->equalTo(self::PASSWORD),
             $this->equalTo(self::PASSWORD)
         );
 
-        $encoder->expects($this->once())->method('getName')->will($this->returnValue('second_mockencoder'));
+        $encoder->expects($this->once())->method('getName')->willReturn('second_mockencoder');
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(self::PASSWORD),
             $this->isType('string')
-        )->will($this->returnValue(true));
+        )->willReturn(true);
         $encoder->expects($this->never())->method('requiresReencoding')
                 ->with($this->equalTo(self::ENCODED_PASSWORD))
-                ->will($this->returnValue(false));
+                ->willReturn(false);
 
-        $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
+        $factory_mock->expects($this->once())->method('getEncoderByName')->willReturn($encoder);
 
         $password_manager = new ilUserPasswordManager([
             'password_encoder' => 'mockencoder',
@@ -302,25 +281,25 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
-        $user_mock->expects($this->once())->method('getPasswordSalt')->will($this->returnValue('asuperrandomsalt'));
-        $user_mock->expects($this->once())->method('getPasswordEncodingType')->will($this->returnValue('mockencoder'));
-        $user_mock->expects($this->exactly(2))->method('getPasswd')->will($this->returnValue(self::ENCODED_PASSWORD));
+        $user_mock->expects($this->once())->method('getPasswordSalt')->willReturn('asuperrandomsalt');
+        $user_mock->expects($this->once())->method('getPasswordEncodingType')->willReturn('mockencoder');
+        $user_mock->expects($this->exactly(2))->method('getPasswd')->willReturn(self::ENCODED_PASSWORD);
         $user_mock->expects($this->once())->method('resetPassword')->with(
             $this->equalTo(self::PASSWORD),
             $this->equalTo(self::PASSWORD)
         );
 
-        $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
+        $encoder->expects($this->once())->method('getName')->willReturn('mockencoder');
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
             $this->equalTo(self::PASSWORD),
             $this->isType('string')
-        )->will($this->returnValue(true));
+        )->willReturn(true);
         $encoder->expects($this->once())->method('requiresReencoding')
                 ->with($this->equalTo(self::ENCODED_PASSWORD))
-                ->will($this->returnValue(true));
+                ->willReturn(true);
 
-        $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
+        $factory_mock->expects($this->once())->method('getEncoderByName')->willReturn($encoder);
 
         $password_manager = new ilUserPasswordManager([
             'password_encoder' => 'mockencoder',
@@ -341,21 +320,21 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
 
-        $user_mock->expects($this->once())->method('getPasswordSalt')->will($this->returnValue('asuperrandomsalt'));
-        $user_mock->expects($this->once())->method('getPasswordEncodingType')->will($this->returnValue('second_mockencoder'));
-        $user_mock->expects($this->once())->method('getPasswd')->will($this->returnValue(self::ENCODED_PASSWORD));
+        $user_mock->expects($this->once())->method('getPasswordSalt')->willReturn('asuperrandomsalt');
+        $user_mock->expects($this->once())->method('getPasswordEncodingType')->willReturn('second_mockencoder');
+        $user_mock->expects($this->once())->method('getPasswd')->willReturn(self::ENCODED_PASSWORD);
         $user_mock->expects($this->never())->method('resetPassword');
 
-        $encoder->expects($this->once())->method('getName')->will($this->returnValue('second_mockencoder'));
+        $encoder->expects($this->once())->method('getName')->willReturn('second_mockencoder');
         $encoder->expects($this->never())->method('requiresReencoding');
         $encoder->expects($this->once())->method('isPasswordValid')
                 ->with(
                     $this->equalTo(self::ENCODED_PASSWORD),
                     $this->equalTo(self::PASSWORD),
                     $this->isType('string')
-                )->will($this->returnValue(false));
+                )->willReturn(false);
 
-        $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
+        $factory_mock->expects($this->once())->method('getEncoderByName')->willReturn($encoder);
 
         $password_manager = new ilUserPasswordManager([
             'password_encoder' => 'mockencoder',
@@ -391,10 +370,10 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $this->assertEquals('md5', $factory->getDefaultEncoder());
 
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
-        $encoder->expects($this->atLeastOnce())->method('getName')->will($this->returnValue('mockencoder'));
+        $encoder->expects($this->atLeastOnce())->method('getName')->willReturn('mockencoder');
 
         $second_mockencoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
-        $second_mockencoder->expects($this->atLeastOnce())->method('getName')->will($this->returnValue('second_mockencoder'));
+        $second_mockencoder->expects($this->atLeastOnce())->method('getName')->willReturn('second_mockencoder');
 
         $factory->setEncoders([$encoder, $second_mockencoder]);
         $this->assertCount(2, $factory->getEncoders());
@@ -471,7 +450,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     public function testFactoryReturnsTheDefaultEncoderIfAnUnsupportedEncoderIsRequestedAndASupportedDefaultEncoderWasSpecifiedInFallbackMode() : void
     {
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
-        $encoder->expects($this->atLeastOnce())->method('getName')->will($this->returnValue('mockencoder'));
+        $encoder->expects($this->atLeastOnce())->method('getName')->willReturn('mockencoder');
 
         $factory = new ilUserPasswordEncoderFactory([
             'default_password_encoder' => $encoder->getName(),
@@ -489,7 +468,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     public function testFactoryReturnsCorrectEncoderIfAMatchingEncoderWasFound() : void
     {
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
-        $encoder->expects($this->atLeastOnce())->method('getName')->will($this->returnValue('mockencoder'));
+        $encoder->expects($this->atLeastOnce())->method('getName')->willReturn('mockencoder');
 
         $factory = new ilUserPasswordEncoderFactory([
             'default_password_encoder' => $encoder->getName(),

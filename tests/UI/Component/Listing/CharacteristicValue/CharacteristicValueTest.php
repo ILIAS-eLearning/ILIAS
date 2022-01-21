@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once('tests/UI/Base.php');
 
@@ -6,7 +6,7 @@ use ILIAS\UI\Implementation\Component\Listing\CharacteristicValue\Factory as Cha
 
 class CharacteristicValueTest extends ILIAS_UI_TestBase
 {
-    public function test_interfaces()
+    public function test_interfaces() : void
     {
         $f = $this->getCharacteristicValueFactory();
 
@@ -29,7 +29,9 @@ class CharacteristicValueTest extends ILIAS_UI_TestBase
     protected function getTextItemsMock() : array
     {
         return [
-            'label1' => 'item1', 'label2' => 'item2', 'label3' => 'item3'
+            'label1' => 'item1',
+            'label2' => 'item2',
+            'label3' => 'item3'
         ];
     }
 

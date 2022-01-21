@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -72,7 +72,7 @@ class ilSCORM13Package
     public function load($packageId)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         if (!is_numeric($packageId)) {
             return false;
@@ -111,7 +111,7 @@ class ilSCORM13Package
     public function exportXML()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         header('content-type: text/xml');
         header('content-disposition: attachment; filename="manifest.xml"');
@@ -136,8 +136,8 @@ class ilSCORM13Package
     public function il_import($packageFolder, $packageId, $ilias, $validate, $reimport = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
         $ilErr = $DIC['ilErr'];
         
         $title = "";
@@ -284,8 +284,8 @@ class ilSCORM13Package
     public function il_importSco($packageId, $sco_id, $packageFolder)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
         
         $this->packageFolder = $packageFolder;
         $this->packageId = $packageId;
@@ -345,8 +345,8 @@ class ilSCORM13Package
     public function il_importAss($packageId, $sco_id, $packageFolder)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
         
         $this->packageFolder = $packageFolder;
         $this->packageId = $packageId;
@@ -409,8 +409,8 @@ class ilSCORM13Package
     public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
 
         $this->packageFolder = $packageFolder;
         $this->packageId = $slm->getId();
@@ -859,7 +859,7 @@ class ilSCORM13Package
     public function dbImport($node, &$lft = 1, $depth = 1, $parent = 0)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         switch ($node->nodeType) {
             case XML_DOCUMENT_NODE:
@@ -1066,8 +1066,8 @@ class ilSCORM13Package
     public function removeCPData()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sc13');
         
         //get relevant nodes
         $cp_nodes = array();

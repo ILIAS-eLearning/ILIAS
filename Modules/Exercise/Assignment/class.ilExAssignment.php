@@ -38,7 +38,7 @@ class ilExAssignment
 
     public const DEADLINE_ABSOLUTE = 0;
     public const DEADLINE_RELATIVE = 1;
-
+    protected \ILIAS\Refinery\String\Group $string_transform;
 
     protected ilDBInterface $db;
     protected ilLanguage $lng;
@@ -108,6 +108,8 @@ class ilExAssignment
             $this->setId($a_id);
             $this->read();
         }
+        $this->string_transform = $DIC->refinery()
+            ->string();
     }
 
     /**
@@ -315,7 +317,9 @@ class ilExAssignment
         if (trim($inst)) {
             $is_html = (strlen($inst) != strlen(strip_tags($inst)));
             if (!$is_html) {
-                $inst = nl2br(ilUtil::makeClickable($inst, true));
+                $inst = nl2br(
+                    $this->string_transform->makeClickable()->transform($inst)
+                );
             }
         }
         return $inst;
@@ -1334,7 +1338,7 @@ class ilExAssignment
         chdir($cdir);
         
 
-        ilUtil::deliverFile($tmpzipfile, $deliverFilename . ".zip", "", false, true);
+        ilFileDelivery::deliverFileLegacy($tmpzipfile, $deliverFilename . ".zip", "", false, true);
     }
 
     /**

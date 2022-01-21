@@ -76,7 +76,6 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
      */
     public function execute() : void
     {
-        $this->ctrl->initBaseClass('ildashboardgui');
         $this->ctrl->redirectByClass(
             ['ildashboardgui', 'ilpersonalsettingsgui'],
             'showPassword'

@@ -1,27 +1,33 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* This class represents an image file property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * This class represents an image file property in a property form.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilImageFileInputGUI extends ilFileInputGUI
 {
-    protected $cache;
+    protected bool $cache = false;
     protected string $alt = "";
     protected string $image = "";
 
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -29,96 +35,59 @@ class ilImageFileInputGUI extends ilFileInputGUI
 
         parent::__construct($a_title, $a_postvar);
         $this->setType("image_file");
-        $this->setAllowDeletion(true);
+        $this->setALlowDeletion(true);
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setHiddenTitle("(" . $lng->txt("form_image_file_input") . ")");
         $this->cache = true;
     }
 
-    /**
-     * Set allow deletion
-     *
-     * @param boolean $a_val allow deletion
-     */
-    public function setALlowDeletion($a_val)
+    public function setAllowDeletion(bool $a_val) : void
     {
         $this->allow_deletion = $a_val;
     }
     
-    /**
-     * Get allow deletion
-     *
-     * @return boolean allow deletion
-     */
-    public function getALlowDeletion()
+    public function getALlowDeletion() : bool
     {
         return $this->allow_deletion;
     }
+
     /**
-    * Set cache
-    *
-    * @param	boolean	$a_cache	If false, the image will be forced to reload in the browser
-    * by adding an URL parameter with the actual timestamp
-    */
-    public function setUseCache($a_cache)
+     * Set cache
+     *
+     * @param bool $a_cache If false, the image will be forced to reload in the browser
+     * by adding an URL parameter with the actual timestamp
+     */
+    public function setUseCache(bool $a_cache) : void
     {
-        $this->cache = ($a_cache) ? true : false;
+        $this->cache = $a_cache;
     }
     
-    /**
-    * Get cache
-    *
-    * @return boolean
-    */
-    public function getUseCache()
+    public function getUseCache() : bool
     {
         return $this->cache;
     }
 
-    /**
-    * Set Image.
-    *
-    * @param	string	$a_image	Image
-    */
-    public function setImage($a_image)
+    public function setImage(string $a_image) : void
     {
         $this->image = $a_image;
     }
 
-    /**
-    * Get Image.
-    *
-    * @return	string	Image
-    */
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }
 
-    /**
-    * Set Alternative Text.
-    *
-    * @param	string	$a_alt	Alternative Text
-    */
-    public function setAlt($a_alt)
+    public function setAlt(string $a_alt) : void
     {
         $this->alt = $a_alt;
     }
 
-    /**
-    * Get Alternative Text.
-    *
-    * @return	string	Alternative Text
-    */
-    public function getAlt()
+    public function getAlt() : string
     {
         return $this->alt;
     }
 
-    /**
-    * Insert property html
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         
@@ -193,12 +162,9 @@ class ilImageFileInputGUI extends ilFileInputGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Get deletion flag
-    */
-    public function getDeletionFlag()
+    public function getDeletionFlag() : bool
     {
-        if ($_POST[$this->getPostVar() . "_delete"] ?? false) {
+        if ($this->str($this->getPostVar() . "_delete") != "") {
             return true;
         }
         return false;

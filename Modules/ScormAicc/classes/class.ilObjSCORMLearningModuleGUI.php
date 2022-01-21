@@ -1,14 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-require_once("Services/User/classes/class.ilObjUser.php");
-
-require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php");
-require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilObjSCORMLearningModuleGUI
 *
@@ -26,13 +30,13 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 */
 class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 {
-    const EXPORT_UNDEF = 0;
-    const EXPORT_ALL = 1;
-    const EXPORT_SELECTED = 2;
-
-    const EXPORT_TYPE_RAW = 1;
-    const EXPORT_TYPE_SUCCESS = 2;
-
+//    const EXPORT_UNDEF = 0;
+//    const EXPORT_ALL = 1;
+//    const EXPORT_SELECTED = 2;
+//
+//    const EXPORT_TYPE_RAW = 1;
+//    const EXPORT_TYPE_SUCCESS = 2;
+    protected int $refId;
     /**
      * @var ilCtrl
      */
@@ -46,13 +50,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         global $DIC;
-        $this->lng = $DIC['lng'];
+        $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
 
         $this->lng->loadLanguageModule("content");
         $this->lng->loadLanguageModule("search");
-        
+
+        $this->refId = (int) $_GET["ref_id"];
+
         $this->type = "sahs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
@@ -77,8 +83,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     public function properties()
     {
         global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilTabs = $DIC['ilTabs'];
+        $ilToolbar = $DIC->toolbar();
+        $ilTabs = $DIC->tabs();
 
 //        $lng->loadLanguageModule("style");
 
@@ -99,11 +105,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     public function initPropertiesForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $obj_service = $this->object_service;
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt("cont_lm_properties"));
-        
+
         //check/select only once
         $this->object->checkMasteryScoreValues();
 
@@ -111,7 +116,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ti = new ilTextInputGUI($this->lng->txt("title"), "Fobject_title");
         $ti->setMaxLength(200);
         $this->form->addItem($ti);
-        
+
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
         $this->form->addItem($ti);
@@ -139,17 +144,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cb->setInfo($this->lng->txt("cont_online_info"));
         $this->form->addItem($cb);
 
-        // offline Mode
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
-        $cb->setValue("y");
-        include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
-        if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
-            $cb->setDisabled(true);
-            $cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
-        } else {
-            $cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
-        }
-        $this->form->addItem($cb);
 
         //
         // presentation
@@ -157,7 +151,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt("cont_presentation"));
         $this->form->addItem($sh);
-        
+
         $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_open"), "open_mode");
         $op0 = new ilRadioOption($this->lng->txt("cont_open_normal"), "0");
         $radg->addOption($op0);
@@ -188,7 +182,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $op2->addSubItem($ni);
 
         $this->form->addItem($radg);
-        
+
         // auto navigation to last visited item
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_last_visited"), "cobj_auto_last_visited");
         $cb->setValue("y");
@@ -210,14 +204,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt("cont_scorm_options"));
         $this->form->addItem($sh);
-        
+
         // lesson mode
         $options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
                 "browse" => $this->lng->txt("cont_sc_less_mode_browse"));
         $si = new ilSelectInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
         $si->setOptions($options);
         $this->form->addItem($si);
-        
+
         // credit mode
         $options = array("credit" => $this->lng->txt("cont_credit_on"),
             "no_credit" => $this->lng->txt("cont_credit_off"));
@@ -225,7 +219,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $si->setOptions($options);
         $si->setInfo($this->lng->txt("cont_credit_mode_info"));
         $this->form->addItem($si);
-        
+
         // set lesson mode review when completed
         $options = array(
             "n" => $this->lng->txt("cont_sc_auto_review_no"),
@@ -256,19 +250,19 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt("cont_rte_settings"));
         $this->form->addItem($sh);
-        
+
         // unlimited session timeout
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_usession"), "cobj_session");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_sc_usession_info"));
         $this->form->addItem($cb);
-        
+
         // storage of interactions
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_interactions"), "cobj_interactions");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_interactions_info_12"));
         $this->form->addItem($cb);
-        
+
         // objectives
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_objectives"), "cobj_objectives");
         $cb->setValue("y");
@@ -292,7 +286,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_auto_suspend_info"));
         $this->form->addItem($cb);
-        
+
         // settings for student_id
         $options = array(
             0 => $this->lng->txt("cont_sc_id_setting_user_id"),
@@ -384,25 +378,22 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     public function newModuleVersion()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
         ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_sc_new_version');
 
         $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         //title
         $this->form->setTitle($this->lng->txt("import_sahs"));
-        
+
         // SCORM-type
         $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
         $ne->setValue($this->lng->txt("lm_type_" . ilObjSAHSLearningModule::_lookupSubType($this->object->getID())));
         $this->form->addItem($ne);
-        
+
         $options = array();
-        include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
         if (ilUploadFiles::_getUploadDirectory()) {
             $options[""] = $this->lng->txt("cont_select_from_upload_dir");
             $files = ilUploadFiles::_getUploadFiles();
@@ -427,7 +418,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $si = new ilSelectInputGUI($this->lng->txt("cont_uploaded_file"), "uploaded_file");
             $si->setOptions($options);
             $op1->addSubItem($si);
-   
+
             $this->form->addItem($radg);
         } else {
             $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
@@ -436,7 +427,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         }
         $this->form->addCommandButton("newModuleVersionUpload", $this->lng->txt("upload"));
         $this->form->addCommandButton("cancel", $this->lng->txt("cancel"));
-        $this->form->setFormAction($DIC['ilCtrl']->getFormAction($this, "newModuleVersionUpload"));
+        $this->form->setFormAction($DIC->ctrl()->getFormAction($this, "newModuleVersionUpload"));
         $DIC['tpl']->setContent($this->form->getHTML());
     }
 
@@ -447,7 +438,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $umf = get_cfg_var("upload_max_filesize");
         // get the value for the maximal post data from the php.ini (if available)
         $pms = get_cfg_var("post_max_size");
-     
+
         //convert from short-string representation to "real" bytes
         $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
 
@@ -460,7 +451,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         if (count($pms_parts) == 2) {
             $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
-     
+
         // use the smaller one as limit
         $max_filesize = min($umf, $pms);
 
@@ -471,21 +462,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //format for display in mega-bytes
         return $max_filesize = sprintf("%.1f MB", $max_filesize / 1024 / 1024);
     }
-    
-    
+
+
     public function newModuleVersionUpload()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
+        $rbacsystem = $DIC->access();
+        $ilErr = $DIC["ilErr"];
 
         $unzip = PATH_TO_UNZIP;
         $tocheck = "imsmanifest.xml";
-        
-        include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 
         // check create permission before because the uploaded file will be copied
-        if (!$rbacsystem->checkAccess("write", $_GET["ref_id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
+        if (!$rbacsystem->checkAccess("write", "", $this->refId)) {
+            $ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->WARNING);
         } elseif ($_FILES["scormfile"]["name"]) {
             // check if file was uploaded
             $source = $_FILES["scormfile"]["tmp_name"];
@@ -497,7 +487,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         } elseif ($_POST["uploaded_file"]) {
             // check if the file is in the ftp directory and readable
             if (!ilUploadFiles::_checkUploadFile($_POST["uploaded_file"])) {
-                $this->ilias->raiseError($this->lng->txt("upload_error_file_not_found"), $this->ilias->error_obj->MESSAGE);
+                $ilErr->raiseError($this->lng->txt("upload_error_file_not_found"), $ilErr->MESSAGE);
             }
             // copy the uploaded file to the client web dir to analyze the imsmanifest
             // the copy will be moved to the lm directory or deleted
@@ -522,7 +512,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $unzipcmd = $unzip . " -o " . ilUtil::escapeShellArg($source) . " " . $tocheck;
         exec($unzipcmd);
         chdir($cdir);
-        $tmp_file = $dir . "/" . $_GET["ref_id"] . "." . $tocheck;
+        $tmp_file = $dir . "/" . $this->refId . "." . $tocheck;
 
         ilFileUtils::rename($dir . "/" . $tocheck, $tmp_file);
         $new_manifest = file_get_contents($tmp_file);
@@ -558,24 +548,24 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 // move the already copied file to the lm_data directory
                 ilFileUtils::rename($source, $file_path);
             }
-            
+
             //unzip and replace old extracted files
             ilUtil::unzip($file_path, true);
             ilUtil::renameExecutables($this->object->getDataDirectory()); //(security)
-            
+
             //increase module version
             $this->object->setModuleVersion($module_version);
             $this->object->update();
-            
+
             //redirect to properties and display success
             ilUtil::sendInfo($this->lng->txt("cont_new_module_added"), true);
-            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $_GET["ref_id"]);
+            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $this->refId);
             exit;
         } else {
             if ($source_is_copy) {
                 unlink($source);
             }
-            
+
             ilUtil::sendInfo($this->lng->txt("cont_invalid_new_module"), true);
             $this->newModuleVersion();
         }
@@ -654,7 +644,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     protected function showTrackingItemsBySco()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
 
         ilObjSCORMLearningModuleGUI::setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
@@ -678,8 +668,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $report = ilUtil::stripSlashes($_POST["report"]);
         }
         $this->ctrl->setParameter($this, 'report', $report);
-
-        include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php';
         $filter = new ilSCORMTrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
         $filter->parse($scoSelected, $report, $reports);
         if ($report == "choose") {
@@ -694,11 +682,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                     $scosSelected[] = (int) $row->getId();
                 }
             }
-            //with check for course ...
-            include_once "Services/Tracking/classes/class.ilTrQuery.php";
             $a_users = ilTrQuery::getParticipantsForObject($this->ref_id);
-            //			var_dump($this->object->getTrackedUsers(""));
-            include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
             $tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco', $a_users, $scosSelected, $report);
             $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
         }
@@ -708,18 +692,16 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
     /**
      * Show tracking table
-     * @global ilTabs $ilTabs
-     * $global ilToolbar $ilToolbar
      */
     public function showTrackingItems()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-        $ilAccess = $DIC['ilAccess'];
+        $ilTabs = $DIC->tabs();
+        $ilAccess = $DIC->access();
 
         $ilTabs->setTabActive('cont_tracking_data');
 
-        if ($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
             ilObjSCORMLearningModuleGUI::setSubTabs();
             $ilTabs->setSubTabActive('cont_tracking_byuser');
 
@@ -742,8 +724,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 $report = ilUtil::stripSlashes($_POST["report"]);
             }
             $this->ctrl->setParameter($this, 'report', $report);
-
-            include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php';
             $filter = new ilSCORMTrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
             $filter->parse($userSelected, $report, $reports);
             if ($report == "choose") {
@@ -753,7 +733,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 if ($userSelected != "all") {
                     $usersSelected[] = $userSelected;
                 } else {
-                    include_once "Services/Tracking/classes/class.ilTrQuery.php";
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
                         if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
@@ -766,16 +745,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 foreach ($scos as $row) {
                     $scosSelected[] = (int) $row->getId();
                 }
-
-                //with check for course ...
-                // include_once "Services/Tracking/classes/class.ilTrQuery.php";
-                // $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
-                //			var_dump($this->object->getTrackedUsers(""));
-                include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
                 $tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
                 $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
             }
-        } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+        } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
             $this->modifyTrackingItems();
         }
         return true;
@@ -783,19 +756,17 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     protected function modifyTrackingItems()
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        if ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
-            include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-            $privacy = ilPrivacySettings::_getInstance();
+        $ilAccess = $DIC->access();
+        $ilErr = $DIC["ilErr"];
+        if ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
+            $privacy = ilPrivacySettings::getInstance();
             if (!$privacy->enabledSahsProtocolData()) {
-                $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+                $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
             }
 
             global $DIC;
-            $ilTabs = $DIC['ilTabs'];
-            $ilToolbar = $DIC['ilToolbar'];
-
-            include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+            $ilTabs = $DIC->tabs();
+            $ilToolbar = $DIC->toolbar();
             $ilToolbar->addButton(
                 $this->lng->txt('import'),
                 $this->ctrl->getLinkTarget($this, 'importForm')
@@ -808,21 +779,18 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             ilObjSCORMLearningModuleGUI::setSubTabs();
             $ilTabs->setTabActive('cont_tracking_data');
             $ilTabs->setSubTabActive('cont_tracking_modify');
-
-            include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
             $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
             $tbl->parse();
             $this->tpl->setContent($tbl->getHTML());
         }
     }
 
-    
+
     /**
      * Apply table filter
      */
     protected function applyUserTableFilter()
     {
-        include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
         $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
         $tbl->writeFilterToSession();
         $tbl->resetOffset();
@@ -834,7 +802,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function resetUserTableFilter()
     {
-        include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
         $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
         $tbl->resetFilter();
         $tbl->resetOffset();
@@ -846,10 +813,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     public function deleteTrackingForUser()
     {
+        global $DIC;
+        $ilErr = $DIC["ilErr"];
+
         if (!isset($_POST["user"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
-    
+
         // display confirmation message
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -928,7 +898,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     protected function importForm()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
 
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showTrackingItems'));
@@ -942,7 +912,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function initImportForm($a_new_type)
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('cont_import_tracking'));
@@ -962,7 +931,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function exportAll()
     {
-        $this->object->exportSelected(1);
+        $this->object->exportSelected(true);
     }
 
     /**
@@ -975,36 +944,32 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
         } else {
-            $this->object->exportSelected(0, $_POST["user"]);
+            $this->object->exportSelected(false, $_POST["user"]);
         }
     }
 
 
-    public function decreaseAttempts()
-    {
-        if (!isset($_POST["user"])) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-        }
-        $this->object->decreaseAttemptsForUser($_POST["user"]);
-        $this->ctrl->redirect($this, "modifyTrackingItems");
-    }
-    
-    
+//    public function decreaseAttempts()
+//    {
+//        if (!isset($_POST["user"])) {
+//            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+//        }
+//        $this->object->decreaseAttemptsForUser($_POST["user"]);
+//        $this->ctrl->redirect($this, "modifyTrackingItems");
+//    }
+
+
     /**
      * show tracking data of item
      */
     protected function showTrackingItem()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
+        $ilTabs = $DIC->tabs();
 
         $this->setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
         $ilTabs->setSubTabActive("cont_tracking_byuser");
-
-        include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserTableGUI.php';
         $tbl = new ilSCORMTrackingItemsPerUserTableGUI($this->object->getId(), $this, 'showTrackingItem');
         $tbl->setUserId((int) $_REQUEST['user_id']);
         $tbl->parse();
@@ -1018,15 +983,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     protected function showTrackingItemSco()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
+        $ilTabs = $DIC->tabs();
 
         $this->setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
         $ilTabs->setSubTabActive("cont_tracking_bysco");
-
-        include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsScoTableGUI.php';
         $tbl = new ilSCORMTrackingItemsScoTableGUI($this->object->getId(), $this, 'showTrackingItemSco');
         $tbl->setScoId((int) $_GET['obj_id']);
         $tbl->parse();
@@ -1040,9 +1001,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     protected function showTrackingItemPerUser()
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
+        $ilTabs = $DIC->tabs();
 
         $this->setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
@@ -1050,8 +1009,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
         $this->ctrl->setParameter($this, 'obj_id', (int) $_REQUEST['obj_id']);
         $this->ctrl->setParameter($this, 'user_id', (int) $_REQUEST['user_id']);
-
-        include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemPerUserTableGUI.php';
         $tbl = new ilSCORMTrackingItemPerUserTableGUI($this->object->getId(), $this, 'showTrackingItemPerUser');
         $tbl->setUserId((int) $_REQUEST['user_id']);
         $tbl->setScoId((int) $_REQUEST['obj_id']);
@@ -1064,12 +1021,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     public function setSubTabs()
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
+        $lng = $DIC->language();
+        $ilTabs = $DIC->tabs();
+        $ilCtrl = $DIC->ctrl();
+        $ilAccess = $DIC->access();
 
-        if ($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read_learning_progress", "", $this->refId)) {
             $ilTabs->addSubTabTarget(
                 "cont_tracking_byuser",
                 $this->ctrl->getLinkTarget($this, "showTrackingItems"),
@@ -1084,7 +1041,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 get_class($this)
             );
         }
-        if ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("edit_learning_progress", "", $this->refId)) {
             $ilTabs->addSubTabTarget(
                 "cont_tracking_modify",
                 $this->ctrl->getLinkTarget($this, "modifyTrackingItems"),
@@ -1092,76 +1049,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 get_class($this)
             );
         }
-    }
-
-    
-    /**
-     * Manage offline mode for users
-     * @global ilTabs $ilTabs
-     * $global ilToolbar $ilToolbar
-     */
-    protected function offlineModeManager()
-    {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilSetting = $DIC['ilSetting'];
-
-        include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-        if (!ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !$rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-        }
-
-        include_once './Modules/ScormAicc/classes/class.ilSCORMOfflineModeUsersTableGUI.php';
-        $tbl = new ilSCORMOfflineModeUsersTableGUI($this->object->getId(), $this, 'offlineModeManager');
-        $tbl->parse();
-        $this->tpl->setContent($tbl->getHTML());
-    }
-    /**
-     * Stop offline mode for selected users
-     */
-    protected function stopUserOfflineMode()
-    {
-        if (!count((array) $_POST['user'])) {
-            ilUtil::sendFailure($this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this, 'offlineModeManager');
-        }
-        // display confirmation message
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt("info_stop_offline_mode_sure"));
-        $cgui->setCancel($this->lng->txt("cancel"), "cancelStopUserOfflineMode");
-        $cgui->setConfirm($this->lng->txt("confirm"), "confirmedStopUserOfflineMode");
-        foreach ($_POST["user"] as $id) {
-            if (ilObject::_exists($id) && ilObject::_lookUpType($id) == "usr") {
-                $user = new ilObjUser($id);
-                $caption = ilUtil::getImageTagByType("sahs_offline", $this->tpl->tplPath) .
-                    " " . $this->lng->txt("stop_user_offline_mode_for_user") .
-                    ": " . $user->getLastname() . ", " . $user->getFirstname();
-                $cgui->addItem("user[]", $id, $caption);
-            }
-        }
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    public function cancelStopUserOfflineMode()
-    {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
-        $this->ctrl->redirect($this, "offlineModeManager");
-    }
-
-    public function confirmedStopUserOfflineMode()
-    {
-        include_once './Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php';
-        foreach ($_POST["user"] as $id) {
-            ilSCORMOfflineMode::stopOfflineModeForUser($this->object->getId(), $id);
-        }
-
-        $this->offlineModeManager();
     }
 }
 // END class.ilObjSCORMLearningModule

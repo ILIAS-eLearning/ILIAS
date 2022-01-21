@@ -11,15 +11,7 @@ use ILIAS\UI\Implementation\Crawler as Crawler;
  */
 class ilKSDocumentationExplorerGUI extends ilExplorerBaseGUI
 {
-    /**
-     * @var ilCtrl $ctrl
-     */
-    protected $ctrl;
-
-    /**
-     *
-     */
-    protected $id = "ksDocumentationExplorer";
+    protected string $id = "ksDocumentationExplorer";
 
     /**
      * @var string
@@ -93,7 +85,7 @@ class ilKSDocumentationExplorerGUI extends ilExplorerBaseGUI
      * @param $a_parent_node_id
      * @return Entry\ComponentEntry[]
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $entry = $this->getEntries()->getEntryById($a_parent_node_id);
 
@@ -118,30 +110,30 @@ class ilKSDocumentationExplorerGUI extends ilExplorerBaseGUI
     }
 
     /**
-     * @param mixed $entry
-     * @return Entry\ComponentEntry
-     */
-    public function getNodeContent($entry)
-    {
-        return $entry->getTitle();
-    }
-
-    /**
-     * @param Entry\ComponentEntry $entry
+     * @param mixed $a_node
      * @return string
      */
-    public function getNodeHref($entry)
+    public function getNodeContent($a_node) : string
     {
-        return $this->getParentLink() . "&node_id=" . $entry->getId();
+        return $a_node->getTitle();
     }
 
     /**
-     * @param Entry\ComponentEntry $entry
+     * @param Entry\ComponentEntry $a_node
+     * @return string
+     */
+    public function getNodeHref($a_node) : string
+    {
+        return $this->getParentLink() . "&node_id=" . $a_node->getId();
+    }
+
+    /**
+     * @param Entry\ComponentEntry $a_node
      * @return bool
      */
-    public function isNodeHighlighted($entry)
+    public function isNodeHighlighted($a_node) : bool
     {
-        return $entry->getId() == $this->getCurrentOpenedNode()->getId();
+        return $a_node->getId() == $this->getCurrentOpenedNode()->getId();
     }
     /**
      * @param Entry\ComponentEntry $entry

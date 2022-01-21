@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal;
 
@@ -7,39 +7,27 @@ use ILIAS\UI\Component\Image\Image;
 /**
  * Interface InterruptiveItem
  *
- * Represents a item to be displayed inside an interruptive modal
+ * Represents an item to be displayed inside an interruptive modal
  */
 interface InterruptiveItem
 {
-
     /**
      * Return an ID of the item
-     *
-     * @return string
      */
-    public function getId();
-
+    public function getId() : string;
 
     /**
      * Get the title of the item
-     *
-     * @return string
      */
-    public function getTitle();
-
+    public function getTitle() : string;
 
     /**
      * Get the description of a title
-     *
-     * @return string
      */
-    public function getDescription();
-
+    public function getDescription() : string;
 
     /**
      * Get the icon of the item
-     *
-     * @return Image
      */
-    public function getIcon();
+    public function getIcon() : ?Image;
 }

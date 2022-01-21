@@ -1,29 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\MainControls as IMainControls;
-use ILIAS\UI\Component\MainControls\SystemInfo;
-use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements IMainControls\Factory
 {
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
+    protected SignalGeneratorInterface $signal_generator;
+    protected Slate\Factory $slate_factory;
 
-    /**
-     * @var Slate\Factory
-     */
-    protected $slate_factory;
-
-    /**
-     * @param SignalGeneratorInterface $signal_generator
-     */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         Slate\Factory $slate_factory
@@ -64,20 +53,23 @@ class Factory implements IMainControls\Factory
         return new Footer($links, $text);
     }
 
-
     /**
      * @inheritDoc
      */
-    public function modeInfo(string $title, URI $close_action) : ModeInfo
+    public function modeInfo(string $title, URI $close_action) : IMainControls\ModeInfo
     {
-        return new \ILIAS\UI\Implementation\Component\MainControls\ModeInfo($title, $close_action);
+        return new ModeInfo($title, $close_action);
     }
 
     /**
      * @inheritDoc
      */
-    public function systemInfo(string $headline, string $information_text) : SystemInfo
+    public function systemInfo(string $headline, string $information_text) : IMainControls\SystemInfo
     {
-        return new \ILIAS\UI\Implementation\Component\MainControls\SystemInfo($this->signal_generator, $headline, $information_text);
+        return new SystemInfo(
+            $this->signal_generator,
+            $headline,
+            $information_text
+        );
     }
 }

@@ -7,7 +7,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilDerivedTasksGUI
+class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var \ILIAS\DI\Container

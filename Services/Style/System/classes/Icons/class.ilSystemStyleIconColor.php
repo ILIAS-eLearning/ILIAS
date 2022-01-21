@@ -97,7 +97,7 @@ class ilSystemStyleIconColor
     {
         $color = strtoupper($color);
 
-        if (!ctype_xdigit($color) || strlen($color) != 6) {
+        if (!ctype_xdigit($color) || (strlen($color) != 6 && strlen($color) != 3)) {
             throw new ilSystemStyleColorException(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $color);
         }
 

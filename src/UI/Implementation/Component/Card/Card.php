@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Amstutz Timon <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -9,6 +9,10 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Clickable;
 
 class Card implements C\Card
 {
@@ -16,43 +20,28 @@ class Card implements C\Card
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
+    protected Component $header_section;
 
     /**
-     * @var \ILIAS\UI\Component\Component
+     * @var Component[]|[]
      */
-    protected $header_section;
-
-    /**
-     * @var \ILIAS\UI\Component\Component[]
-     */
-    protected $content_sections;
-
-    /**
-     * @var \ILIAS\UI\Component\Image\Image
-     */
-    protected $image;
+    protected array $content_sections = [];
+    protected ?Image $image;
 
     /**
      * @var string|Signal[]
      */
     protected $title_action = '';
+    protected bool $highlight = false;
 
     /**
-     * @var bool
+     * @param string|Shy$title
+     * @param Image|null $image
      */
-    protected $highlight = false;
-
-    /**
-     * @param $title
-     * @param \ILIAS\UI\Component\Image\Image|null $image
-     */
-    public function __construct($title, \ILIAS\UI\Component\Image\Image $image = null)
+    public function __construct($title, Image $image = null)
     {
-        if (!$title instanceof \ILIAS\UI\Component\Button\Shy) {
+        if (!$title instanceof Shy) {
             $this->checkStringArg("title", $title);
         }
 
@@ -63,9 +52,9 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withTitle($title)
+    public function withTitle($title) : C\Card
     {
-        if (!$title instanceof \ILIAS\UI\Component\Button\Shy) {
+        if (!$title instanceof Shy) {
             $this->checkStringArg("title", $title);
         }
 
@@ -86,7 +75,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withImage(\ILIAS\UI\Component\Image\Image $image)
+    public function withImage(Image $image) : C\Card
     {
         $clone = clone $this;
         $clone->image = $image;
@@ -96,7 +85,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function getImage()
+    public function getImage() : ?Image
     {
         return $this->image;
     }
@@ -104,9 +93,9 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withSections(array $sections)
+    public function withSections(array $sections) : C\Card
     {
-        $classes = [\ILIAS\UI\Component\Component::class];
+        $classes = [Component::class];
         $this->checkArgListElements("sections", $sections, $classes);
 
         $clone = clone $this;
@@ -117,7 +106,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function getSections()
+    public function getSections() : array
     {
         return $this->content_sections;
     }
@@ -125,7 +114,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withTitleAction($action)
+    public function withTitleAction($action) : C\Card
     {
         $this->checkStringOrSignalArg("title_action", $action);
 
@@ -157,7 +146,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withHighlight($status)
+    public function withHighlight(bool $status) : Card
     {
         $clone = clone $this;
         $clone->highlight = $status;
@@ -168,7 +157,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function isHighlighted()
+    public function isHighlighted() : bool
     {
         return $this->highlight;
     }
@@ -176,14 +165,14 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal)
+    public function withOnClick(Signal $signal) : Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal)
+    public function appendOnClick(Signal $signal) : Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

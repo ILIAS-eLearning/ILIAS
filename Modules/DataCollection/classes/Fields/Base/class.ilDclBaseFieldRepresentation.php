@@ -19,6 +19,9 @@ abstract class ilDclBaseFieldRepresentation
      */
     protected $ctrl;
 
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
+
 
     public function __construct(ilDclBaseFieldModel $field)
     {
@@ -28,6 +31,8 @@ abstract class ilDclBaseFieldRepresentation
         $this->field = $field;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+        $this->component_repository = $DIC["component.repository"];
+        $this->component_factory = $DIC["component.factory"];
     }
 
 

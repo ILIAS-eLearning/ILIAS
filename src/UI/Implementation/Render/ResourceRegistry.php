@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,9 +13,6 @@ interface ResourceRegistry
 {
     /**
      * Add a dependency.
-     *
-     * @param	$name	string
-     * @return	self
      */
-    public function register($name);
+    public function register(string $name) : void;
 }

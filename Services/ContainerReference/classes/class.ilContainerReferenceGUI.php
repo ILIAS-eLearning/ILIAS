@@ -1,97 +1,41 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-include_once('./Services/Object/classes/class.ilObjectGUI.php');
 
 /**
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesContainerReference
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\ContainerReference\StandardGUIRequest;
+
+/**
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerReferenceGUI extends ilObjectGUI
 {
-    const MAX_SELECTION_ENTRIES = 50;
+    public const MAX_SELECTION_ENTRIES = 50;
+    public const MODE_CREATE = 1;
+    public  const MODE_EDIT = 2;
 
-    const MODE_CREATE = 1;
-    const MODE_EDIT = 2;
+    protected ilTabsGUI $tabs;
+    protected ilErrorHandling $error;
+    protected array $existing_objects = array();
 
-    /**
-     * @var \ilTabsGUI
-     */
-    protected $tabs;
+    protected string $target_type;
+    protected string $reference_type;
+    protected ilPropertyFormGUI $form;
+    protected StandardGUIRequest $cont_request;
 
-    /**
-     * @var \ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var \ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
-
-
-    protected $existing_objects = array();
-
-    /**
-     * @var string
-     */
-    protected $target_type;
-    /**
-     * @var string
-     */
-    protected $reference_type;
-
-    /**
-     * @var \ilPropertyFormGUI
-     */
-    protected $form;
-
-    /**
-     * Constructor
-     * @param
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -106,23 +50,19 @@ class ilContainerReferenceGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $lng->loadLanguageModule('objref');
+        $this->cont_request = $DIC
+            ->containerReference()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     * @return bool|mixed
-     * @throws ilCtrlException
-     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
 
-
-        if (isset($_GET['creation_mode']) && $_GET['creation_mode'] == self::MODE_CREATE) {
+        if ($this->cont_request->getCreationMode() == self::MODE_CREATE) {
             $this->setCreationMode(true);
         }
 
@@ -151,11 +91,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
-    /**
-     * Add locator item
-     */
+
     protected function addLocatorItems()
     {
         $ilLocator = $this->locator;
@@ -165,11 +102,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
     }
     
-    /**
-     * redirect to target
-     * @param
-     */
-    public function redirectObject()
+    public function redirectObject() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -177,20 +110,18 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ilCtrl->redirectByClass("ilrepositorygui", "");
     }
     
-    /**
-     * Create object
-     *
-     * @return void
-     */
     public function createObject()
     {
-        $ilUser = $this->user;
         $ilAccess = $this->access;
         $ilErr = $this->error;
-        $ilSetting = $this->settings;
-        
-        $new_type = $_REQUEST["new_type"];
-        if (!$ilAccess->checkAccess("create_" . $this->getReferenceType(), '', $_GET["ref_id"], $new_type)) {
+
+        $new_type = $this->cont_request->getNewType();
+        if (!$ilAccess->checkAccess(
+            "create_" . $this->getReferenceType(),
+            '',
+            $this->cont_request->getRefId(),
+            $new_type
+        )) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
         $form = $this->initForm(self::MODE_CREATE);
@@ -198,26 +129,23 @@ class ilContainerReferenceGUI extends ilObjectGUI
     }
     
     
-    /**
-     * save object
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function saveObject()
     {
         $ilAccess = $this->access;
         
-        if (!(int) $_REQUEST['target_id']) {
+        if ($this->cont_request->getTargetId() == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->createObject();
-            return false;
+            return;
         }
-        if (!$ilAccess->checkAccess('visible', '', (int) $_REQUEST['target_id'])) {
+        if (!$ilAccess->checkAccess(
+            'visible',
+            '',
+            $this->cont_request->getTargetId()
+        )) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'));
             $this->createObject();
-            return false;
+            return;
         }
         
         parent::saveObject();
@@ -228,9 +156,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $this->initForm(self::MODE_CREATE);
     }
 
-    /**
-     * @param ilObject $a_new_object
-     */
     protected function afterSave(ilObject $a_new_object)
     {
         $target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
@@ -249,24 +174,16 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'firstEdit');
     }
     
-    /**
-     * show edit screen without info message
-     */
-    protected function firstEditObject()
+    protected function firstEditObject() : void
     {
         $this->editObject();
     }
 
-    public function editReferenceObject()
+    public function editReferenceObject() : void
     {
         $this->editObject();
     }
     
-    /**
-     * edit title
-     *
-     * @param ilPropertyFormGUI $form
-     */
     public function editObject(ilPropertyFormGUI $form = null)
     {
         global $DIC;
@@ -283,22 +200,19 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $main_tpl->setContent($form->getHTML());
     }
     
-    /**
-     * Init title form
-     * @param int $a_mode
-     * @return ilPropertyFormGUI
-     */
-    protected function initForm($a_mode = self::MODE_EDIT)
+    protected function initForm($a_mode = self::MODE_EDIT) : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-        include_once './Services/ContainerReference/classes/class.ilContainerReference.php';
         $form = new ilPropertyFormGUI();
 
         if ($a_mode == self::MODE_CREATE) {
             $form->setTitle($this->lng->txt($this->getReferenceType() . '_new'));
 
             $this->ctrl->setParameter($this, 'creation_mode', $a_mode);
-            $this->ctrl->setParameter($this, 'new_type', $_REQUEST['new_type']);
+            $this->ctrl->setParameter(
+                $this,
+                'new_type',
+                $this->cont_request->getNewType()
+            );
         } else {
             $form->setTitle($this->lng->txt('edit'));
         }
@@ -363,11 +277,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $form;
     }
 
-
-    /**
-     * @param \ilPropertyFormGUI $form
-     * @return bool
-     */
     protected function loadPropertiesFromSettingsForm(\ilPropertyFormGUI $form) : bool
     {
         global $DIC;
@@ -404,15 +313,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $ok;
     }
 
-    
-    /**
-     * update title
-     */
     public function updateObject()
     {
         $this->checkPermission('write');
 
-        $ilAccess = $this->access;
         $form = $this->initForm();
         if (
             $form->checkInput() &&
@@ -428,35 +332,17 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return true;
     }
 
-    /**
-     * get target type
-     *
-     * @access public
-     * @return string
-     */
-    public function getTargetType()
+    public function getTargetType() : string
     {
         return $this->target_type;
     }
     
-    /**
-     * get reference type
-     *
-     * @access public
-     * @return string
-     */
-    public function getReferenceType()
+    public function getReferenceType() : string
     {
         return $this->reference_type;
     }
 
-    /**
-     * get tabs
-     *
-     * @access public
-     * @param	object	tabs gui object
-     */
-    public function getTabs()
+    protected function getTabs()
     {
         global $DIC;
 
@@ -481,10 +367,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->obj_id;
     }

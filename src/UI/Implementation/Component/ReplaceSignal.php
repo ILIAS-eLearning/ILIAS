@@ -1,9 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component;
-
-use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * Replace Signal
@@ -17,20 +14,18 @@ class ReplaceSignal extends Signal implements \ILIAS\UI\Component\ReplaceSignal
     /**
      * @inheritdoc
      */
-    public function withAsyncRenderUrl($url)
+    public function withAsyncRenderUrl(string $url) : ReplaceSignal
     {
-        $this->checkStringArg('url', $url);
         $clone = clone $this;
         $clone->addOption('url', $url);
 
         return $clone;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getAsyncRenderUrl()
+    public function getAsyncRenderUrl() : string
     {
         return (string) $this->getOption('url');
     }

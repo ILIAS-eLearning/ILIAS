@@ -119,7 +119,7 @@ class ilCertificateBackgroundImageUpload
             $backgroundImageTempFilePath,
             $backgroundImageThumbnailPath,
             'JPEG',
-            (string) 100
+            "100"
         );
 
         $convert_filename = self::BACKGROUND_IMAGE_NAME;

@@ -44,10 +44,10 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_ID', $row['id']);
-        $this->tpl->setVariable('TITLE', $row['title']);
+        $this->tpl->setVariable('VAL_ID', $a_set['id']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
     }
 
     public function parse()

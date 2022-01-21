@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Input\Field\Group;
 
 /**
@@ -49,7 +49,7 @@ function disabled()
         if ($group->getError()) {
             $result = $group->getError();
         } else {
-            //The result is sumarized through the transformation
+            //The result is summarized through the transformation
             $result = $form->getData();
         }
     } else {

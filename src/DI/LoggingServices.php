@@ -36,6 +36,6 @@ class LoggingServices
     public function __call($method_name, $args)
     {
         assert(count($args) === 0);
-        return $this->container["ilLoggerFactory"]->getLogger($method_name);
+        return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
     }
 }

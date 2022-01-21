@@ -1,13 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Modal;
 
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\UI\Component\Modal\LightboxTextPage as ILightboxTextPage;
+use ILIAS\UI\Component\Modal\LightboxTextPage as ILightboxTextPage;
 
 /**
  * Class LightboxTextPage
@@ -18,29 +20,19 @@ class LightboxTextPage implements LightboxPage, ILightboxTextPage
 {
     use ComponentHelper;
 
-    /** @var string */
-    protected $text = '';
+    protected string $text;
+    protected string $title;
 
-    /** @var string */
-    protected $title = '';
-
-    /**
-     * @param string $text
-     * @param string $title
-     */
     public function __construct(string $text, string $title)
     {
-        $this->checkStringArg('text', $text);
-        $this->checkStringArg('title', $title);
         $this->text = $text;
         $this->title = $title;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -48,7 +40,7 @@ class LightboxTextPage implements LightboxPage, ILightboxTextPage
     /**
      * @inheritdoc
      */
-    public function getComponent()
+    public function getComponent() : C\Legacy\Legacy
     {
         return new Legacy($this->text, new SignalGenerator());
     }

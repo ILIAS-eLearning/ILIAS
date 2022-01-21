@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -12,30 +12,19 @@ use ILIAS\UI\Implementation\Component\Input;
  */
 class Standard extends Form implements C\Input\Container\Form\Standard
 {
+    protected ?string $submit_caption = null;
+    protected string $post_url;
 
-    /**
-     * @var ?string
-     */
-    protected $submit_caption;
-
-    /**
-     * @var string
-     */
-    protected $post_url;
-
-
-    public function __construct(Input\Field\Factory $input_factory, $post_url, array $inputs)
+    public function __construct(Input\Field\Factory $input_factory, string $post_url, array $inputs)
     {
         parent::__construct($input_factory, $inputs);
-        $this->checkStringArg("post_url", $post_url);
         $this->post_url = $post_url;
     }
-
 
     /**
      * @inheritdoc
      */
-    public function getPostURL()
+    public function getPostURL() : string
     {
         return $this->post_url;
     }
@@ -47,7 +36,6 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     {
         $clone = clone $this;
         $clone->submit_caption = $caption;
-
         return $clone;
     }
 

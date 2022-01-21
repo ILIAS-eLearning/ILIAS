@@ -26,6 +26,8 @@ class ilOerHarvester
      */
     private $settings = null;
 
+    protected ilTree $tree;
+
     /**
      * ilOerHarvester constructor.
      * @param \ilCronJobResult $result
@@ -34,6 +36,7 @@ class ilOerHarvester
     {
         global $DIC;
 
+        $this->tree = $DIC->repositoryTree();
         $this->logger = $DIC->logger()->meta();
         $this->cronresult = $result;
         $this->settings = ilOerHarvesterSettings::getInstance();
@@ -95,9 +98,6 @@ class ilOerHarvester
      */
     protected function filter($a_collectable_obj_ids)
     {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
 
         $filtered = [];
         foreach ($a_collectable_obj_ids as $obj_id) {
@@ -113,7 +113,7 @@ class ilOerHarvester
 
             $exists = false;
             foreach (ilObject::_getAllReferences($obj_id) as $ref_id => $tmp) {
-                if (!$tree->isDeleted($ref_id)) {
+                if (!$this->tree->isDeleted($ref_id)) {
                     $exists = true;
                 }
             }

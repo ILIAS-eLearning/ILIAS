@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilXapiStatementEvaluation
  *
@@ -16,12 +26,19 @@ class ilXapiStatementEvaluation
 {
     /**
      * @var array
+     * http://adlnet.gov/expapi/verbs/satisfied: should never be sent by AU
+     * https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#939-satisfied
      */
     protected $resultStatusByXapiVerbMap = array(
-        "http://adlnet.gov/expapi/verbs/completed" => "completed",
-        "http://adlnet.gov/expapi/verbs/passed" => "passed",
-        "http://adlnet.gov/expapi/verbs/failed" => "failed",
-        "http://adlnet.gov/expapi/verbs/satisfied" => "passed"
+        ilCmiXapiVerbList::COMPLETED => "completed",
+        ilCmiXapiVerbList::PASSED => "passed",
+        ilCmiXapiVerbList::FAILED => "failed",
+        ilCmiXapiVerbList::SATISFIED => "passed"
+    );
+
+    protected array $resultProgressByXapiVerbMap = array(
+        ilCmiXapiVerbList::PROGRESSED => "progressed",
+        ilCmiXapiVerbList::EXPERIENCED => "experienced"
     );
     
     /**
@@ -37,9 +54,9 @@ class ilXapiStatementEvaluation
     /**
      * ilXapiStatementEvaluation constructor.
      * @param ilLogger $log
-     * @param ilObjCmiXapi $object
+     * @param ilObject $object
      */
-    public function __construct(ilLogger $log, ilObjCmiXapi $object)
+    public function __construct(ilLogger $log, ilObject $object)
     {
         $this->log = $log;
         $this->object = $object;
@@ -48,7 +65,7 @@ class ilXapiStatementEvaluation
         $this->lpMode = $objLP->getCurrentMode();
     }
     
-    public function evaluateReport(ilCmiXapiStatementsReport $report)
+    public function evaluateReport(ilCmiXapiStatementsReport $report): void
     {
         foreach ($report->getStatements() as $xapiStatement) {
             #$this->log->debug(
@@ -57,12 +74,8 @@ class ilXapiStatementEvaluation
             
             // ensure json decoded non assoc
             $xapiStatement = json_decode(json_encode($xapiStatement));
-            
-            $cmixUser = ilCmiXapiUser::getInstanceByObjectIdAndUsrIdent(
-                $this->object->getId(),
-                str_replace('mailto:', '', $xapiStatement->actor->mbox)
-            );
-            
+            $cmixUser = $this->getCmixUser($xapiStatement);
+
             $this->evaluateStatement($xapiStatement, $cmixUser->getUsrId());
 
             $this->log->debug('update lp for object (' . $this->object->getId() . ')');
@@ -70,42 +83,86 @@ class ilXapiStatementEvaluation
         }
     }
     
-    public function evaluateStatement($xapiStatement, $usrId)
+    public function getCmixUser($xapiStatement)
     {
-        if ($this->isValidXapiStatement($xapiStatement) && $this->hasResultStatusRelevantXapiVerb($xapiStatement)) {
-            $xapiVerb = $this->getXapiVerb($xapiStatement);
-            $this->log->debug("sniffing verb: " . $xapiVerb);
-            
-            if ($this->hasContextActivitiesParentNotEqualToObject($xapiStatement)) {
-                $this->log->debug(
-                    "no root context: " . $xapiStatement->object->id . " ...ignored verb " . $xapiVerb
-                );
+        $cmixUser = null;
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
+        {
+            $cmixUser = ilCmiXapiUser::getInstanceByObjectIdAndUsrIdent(
+                $this->object->getId(),
+                $xapiStatement->actor->account->name
+            );
+        }
+        else
+        {
+            $cmixUser = ilCmiXapiUser::getInstanceByObjectIdAndUsrIdent(
+                $this->object->getId(),
+                str_replace('mailto:', '', $xapiStatement->actor->mbox)
+            );
+        }
+        return $cmixUser;
+    }
+
+    public function evaluateStatement($xapiStatement, $usrId): void
+    {
+        global $DIC;
+        $xapiVerb = $this->getXapiVerb($xapiStatement);      
+        
+        if ($this->isValidXapiStatement($xapiStatement))
+        {
+            // result status and if exists scaled score
+            if ($this->hasResultStatusRelevantXapiVerb($xapiVerb))
+            {
+                if (!$this->isValidObject($xapiStatement))
+                {
+                    return;
+                }
+                $userResult = $this->getUserResult($usrId);
                 
-                return;
-            }
-            
-            $userResult = $this->getUserResult($usrId);
-            
-            $oldResultStatus = $userResult->getStatus();
-            $newResultStatus = $this->getResultStatusForXapiVerb($xapiVerb);
-            
-            if ($this->isResultStatusToBeReplaced($oldResultStatus, $newResultStatus)) {
-                $this->log->debug("isResultStatusToBeReplaced: true");
-                $userResult->setStatus($newResultStatus);
-            }
-            
-            if ($this->hasXapiScore($xapiStatement)) {
-                $xapiScore = $this->getXapiScore($xapiStatement);
-                $this->log->debug("Score: " . $xapiScore);
+                $oldResultStatus = $userResult->getStatus();
+                $newResultStatus = $this->getResultStatusForXapiVerb($xapiVerb);
+
+                // this is for both xapi and cmi5
+                if ($this->isResultStatusToBeReplaced($oldResultStatus, $newResultStatus)) {
+                    $this->log->debug("isResultStatusToBeReplaced: true");
+                    $userResult->setStatus($newResultStatus);
+                }
                 
-                $userResult->setScore((float) $xapiScore);
+                if ($this->hasXapiScore($xapiStatement)) {
+                    $xapiScore = $this->getXapiScore($xapiStatement);
+                    $this->log->debug("Score: " . $xapiScore);
+                    $userResult->setScore((float) $xapiScore);
+                }
+                $userResult->save();
+
+                // only cmi5
+                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) 
+                {
+                    if (($xapiVerb == ilCmiXapiVerbList::COMPLETED || $xapiVerb == ilCmiXapiVerbList::PASSED) && $this->isLpModeInterestedInResultStatus($newResultStatus,false)) 
+                    {
+                        // it is possible to check against authToken usrId!
+                        $cmixUser = $this->getCmixUser($xapiStatement);
+                        $cmixUser->setSatisfied(true);
+                        $cmixUser->save();
+                        $this->sendSatisfiedStatement($cmixUser);
+                    }
+                }
             }
-            
-            $userResult->save();
+            // result progress (i think only cmi5 relevant)
+            if ($this->hasResultProgressRelevantXapiVerb($xapiVerb))
+            {
+                $userResult = $this->getUserResult($usrId);
+                $progressedScore = $this->getProgressedScore($xapiStatement);
+                if ($progressedScore !== false && (float) $progressedScore > 0)
+                {
+                    $userResult->setScore((float) ($progressedScore / 100));
+                    $userResult->save();
+                }
+            }
         }
     }
     
-    protected function isValidXapiStatement($xapiStatement)
+    protected function isValidXapiStatement($xapiStatement): bool
     {
         if (!isset($xapiStatement->actor)) {
             return false;
@@ -122,26 +179,19 @@ class ilXapiStatementEvaluation
         return true;
     }
 
-    protected function hasContextActivitiesParentNotEqualToObject($xapiStatement)
+    /**
+     * 
+     */
+    protected function isValidObject($xapiStatement): bool
     {
-        if (!isset($xapiStatement->context)) {
+        if ($xapiStatement->object->id != $this->object->getActivityId())
+        {
+            $this->log->debug($xapiStatement->object->id . " != " . $this->object->getActivityId());
             return false;
         }
-        
-        if (!isset($xapiStatement->context->contextActivities)) {
-            return false;
-        }
-        
-        if (!isset($xapiStatement->context->contextActivities->parent)) {
-            return false;
-        }
-        
-        if ($xapiStatement->object->id != $xapiStatement->context->contextActivities->parent) {
-            return true;
-        }
-        
-        return false;
+        return true;
     }
+
     
     protected function getXapiVerb($xapiStatement)
     {
@@ -153,13 +203,22 @@ class ilXapiStatementEvaluation
         return $this->resultStatusByXapiVerbMap[$xapiVerb];
     }
     
-    protected function hasResultStatusRelevantXapiVerb($xapiStatement)
+    protected function hasResultStatusRelevantXapiVerb($xapiVerb): bool
     {
-        $xapiVerb = $this->getXapiVerb($xapiStatement);
         return isset($this->resultStatusByXapiVerbMap[$xapiVerb]);
     }
     
-    protected function hasXapiScore($xapiStatement)
+    protected function getResultProgressForXapiVerb($xapiVerb)
+    {
+        return $this->resultProgressByXapiVerbMap[$xapiVerb];
+    }
+
+    protected function hasResultProgressRelevantXapiVerb($xapiVerb): bool
+    {
+        return isset($this->resultProgressByXapiVerbMap[$xapiVerb]);
+    }
+
+    protected function hasXapiScore($xapiStatement): bool
     {
         if (!isset($xapiStatement->result)) {
             return false;
@@ -174,13 +233,29 @@ class ilXapiStatementEvaluation
         }
         
         return true;
-    }
-    
+    } 
+
     protected function getXapiScore($xapiStatement)
     {
         return $xapiStatement->result->score->scaled;
     }
     
+    protected function getProgressedScore($xapiStatement)
+    {
+        if (!isset($xapiStatement->result)) {
+            return false;
+        }
+        
+        if (!isset($xapiStatement->result->extensions)) {
+            return false;
+        }
+        
+        if (!isset($xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'})) {
+            return false;
+        }
+        return $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
+    }
+
     protected function getUserResult($usrId)
     {
         try {
@@ -194,7 +269,7 @@ class ilXapiStatementEvaluation
         return $result;
     }
     
-    protected function isResultStatusToBeReplaced($oldResultStatus, $newResultStatus)
+    protected function isResultStatusToBeReplaced($oldResultStatus, $newResultStatus): bool
     {
         if (!$this->isLpModeInterestedInResultStatus($newResultStatus)) {
             $this->log->debug("isLpModeInterestedInResultStatus: false");
@@ -214,10 +289,10 @@ class ilXapiStatementEvaluation
         return true;
     }
     
-    protected function isLpModeInterestedInResultStatus($resultStatus)
+    protected function isLpModeInterestedInResultStatus($resultStatus, $deactivated=true)
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
-            return true;
+            return $deactivated;
         }
         
         switch ($resultStatus) {
@@ -251,9 +326,9 @@ class ilXapiStatementEvaluation
         return false;
     }
     
-    protected function doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus)
+    protected function doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus): bool
     {
-        if ($oldResultStatus == '') {
+        if ($oldResultStatus == '' ) {
             return true;
         }
         
@@ -268,7 +343,7 @@ class ilXapiStatementEvaluation
         return false;
     }
     
-    protected function needsAvoidFailedEvaluation($oldResultStatus, $newResultStatus)
+    protected function needsAvoidFailedEvaluation($oldResultStatus, $newResultStatus): bool
     {
         if (!$this->object->isKeepLpStatusEnabled()) {
             return false;
@@ -279,5 +354,61 @@ class ilXapiStatementEvaluation
         }
         
         return $oldResultStatus == 'completed' || $oldResultStatus == 'passed';
+    }
+
+    protected function sendSatisfiedStatement($cmixUser): void
+    {
+        global $DIC;
+        
+        $lrsType = $this->object->getLrsType();
+        $defaultLrs = $lrsType->getLrsEndpoint();
+        //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
+        $defaultBasicAuth = $lrsType->getBasicAuth();
+        //$fallbackBasicAuth = $lrsType->getFallbackBasicAuth();
+        $defaultHeaders = [
+            'X-Experience-API-Version' => '1.0.3',
+            'Authorization' => $defaultBasicAuth,
+            'Content-Type' => 'application/json;charset=utf-8',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+        ];
+        /*
+        $fallbackHeaders = [
+            'X-Experience-API-Version' => '1.0.3',
+            'Authorization' => $fallbackBasicAuth,
+            'Content-Type' => 'application/json;charset=utf-8',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+        ];
+        */
+        $satisfiedStatement = $this->object->getSatisfiedStatement($cmixUser);
+        $satisfiedStatementParams = [];
+        $satisfiedStatementParams['statementId'] = $satisfiedStatement['id'];
+        $defaultStatementsUrl = $defaultLrs . "/statements";
+        $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' .  ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
+        
+        $client = new GuzzleHttp\Client();
+        $req_opts = array(
+            GuzzleHttp\RequestOptions::VERIFY => true,
+            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
+            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
+        );
+        
+        $defaultSatisfiedStatementRequest = new GuzzleHttp\Psr7\Request(
+            'PUT',
+            $defaultSatisfiedStatementUrl,
+            $defaultHeaders,
+            json_encode($satisfiedStatement)
+        );
+        $promises = array();
+        $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
+        try
+        {
+            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $body = '';
+            ilCmiXapiAbstractRequest::checkResponse($responses['defaultSatisfiedStatement'],$body,[204]);
+        }
+        catch(Exception $e)
+        {
+            $this->log->error('error:' . $e->getMessage());
+        }
     }
 }

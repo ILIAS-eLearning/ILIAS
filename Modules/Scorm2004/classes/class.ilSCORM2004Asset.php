@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -214,35 +214,35 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'pdf');
     }
 
-    public function exportPDF($a_inst, $a_target_dir, &$expLog)
-    {
-        $a_xml_writer = new ilXmlWriter;
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
-        $this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
-        $a_xml_writer->xmlEndTag("ContentObject");
-        $xml2FO = new ilXML2FO();
-        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
-        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
-        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
-        $xml2FO->transform();
-        $fo_string = $xml2FO->getFOString();
-        $fo_xml = simplexml_load_string($fo_string);
-        $fo_ext = $fo_xml->xpath("//fo:declarations");
-        $fo_ext = $fo_ext[0];
-        $results = array();
-        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
-        if (is_array($results["file"])) {
-            foreach ($results["file"] as $key => $value) {
-                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
-                $e->addAttribute("src", $results[path][$key] . $value);
-                $e->addAttribute("name", $value);
-                $e->addAttribute("desc", "");
-            }
-        }
-        $fo_string = $fo_xml->asXML();
-        $a_xml_writer->_XmlWriter;
-        return $fo_string;
-    }
+//    public function exportPDF($a_inst, $a_target_dir, &$expLog)
+//    {
+//        $a_xml_writer = new ilXmlWriter;
+//        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
+//        $this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
+//        $a_xml_writer->xmlEndTag("ContentObject");
+//        $xml2FO = new ilXML2FO();
+//        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+//        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+//        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
+//        $xml2FO->transform();
+//        $fo_string = $xml2FO->getFOString();
+//        $fo_xml = simplexml_load_string($fo_string);
+//        $fo_ext = $fo_xml->xpath("//fo:declarations");
+//        $fo_ext = $fo_ext[0];
+//        $results = array();
+//        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
+//        if (is_array($results["file"])) {
+//            foreach ($results["file"] as $key => $value) {
+//                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
+//                $e->addAttribute("src", $results[path][$key] . $value);
+//                $e->addAttribute("name", $value);
+//                $e->addAttribute("desc", "");
+//            }
+//        }
+//        $fo_string = $fo_xml->asXML();
+//        $a_xml_writer->_XmlWriter;
+//        return $fo_string;
+//    }
 
     public function exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, &$a_xml_writer)
     {
@@ -254,7 +254,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $tree = new ilTree($this->slm_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($this->getId()), true, 'page') as $page) {
+        foreach ($tree->getSubTree($tree->getNodeData($this->getId()), true, ['page']) as $page) {
             $page_obj = new ilSCORM2004Page($page["obj_id"]);
 
             $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
@@ -375,7 +375,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         // init export (this initialises glossary template)
         ilSCORM2004PageGUI::initExport();
         $terms = $this->getGlossaryTermIds();
-        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, 'page');
+        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, ['page']);
         $sco_q_ids = array();
         foreach ($pages as $page) {
             //echo(print_r($page));
@@ -403,7 +403,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 $this->mob_ids[$mob_id] = $mob_id;
                 $media_obj = new ilObjMediaObject($mob_id);
                 if ($media_obj->hasFullscreenItem()) {
-                    $media_obj->exportMediaFullscreen($a_target_dir, $page_obj->getPageObject());
+                    //$media_obj->exportMediaFullscreen($a_target_dir, $page_obj->getPageObject());
                 }
             }
 
@@ -425,7 +425,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                                 //echo "<br>-$mob_id-";
                                 $media_obj = new ilObjMediaObject($mob_id);
                                 if ($media_obj->hasFullscreenItem()) {
-                                    $media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
+                                    //$media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
                                 }
                             }
                             $file_ids = ilPCFileList::collectFileItems($def_pg, $def_pg->getDomDoc());
@@ -685,7 +685,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
 
-        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, 'page');
+        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, ['page']);
         foreach ($pages as $page) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $page["obj_id"]);
 

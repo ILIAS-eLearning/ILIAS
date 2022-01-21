@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
@@ -10,7 +10,6 @@ namespace ILIAS\UI\Component\Chart\ProgressMeter;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -36,7 +35,7 @@ interface Factory
      * @param int|float|null $comparison Comparison value to be displayed by second bar.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Standard
      */
-    public function standard($maximum, $main, $required = null, $comparison = null);
+    public function standard($maximum, $main, $required = null, $comparison = null) : Standard;
 
     /**
      * ---
@@ -56,7 +55,7 @@ interface Factory
      * @param int|float|null $comparison  Comparison value to be displayed by second bar.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\FixedSize
      */
-    public function fixedSize($maximum, $main, $required = null, $comparison = null);
+    public function fixedSize($maximum, $main, $required = null, $comparison = null) : FixedSize;
 
     /**
      * ---
@@ -77,5 +76,5 @@ interface Factory
      * @param int|float|null $required    Required value to be reached by main value.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Mini
      */
-    public function mini($maximum, $main, $required = null);
+    public function mini($maximum, $main, $required = null) : Mini;
 }

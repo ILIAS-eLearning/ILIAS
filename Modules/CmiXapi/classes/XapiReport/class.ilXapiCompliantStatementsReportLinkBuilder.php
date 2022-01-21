@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiReportLinkBuilder
  *
@@ -36,18 +46,14 @@ class ilXapiCompliantStatementsReportLinkBuilder
         $this->filter = $filter;
     }
     
-    public function getUrl()
+    public function getUrl(): string
     {
         $link = $this->lrsType->getLrsEndpointStatementsLink();
         $link = $this->appendRequestParameters($link);
         return $link;
     }
     
-    /**
-     * @param string $link
-     * @return string
-     */
-    protected function appendRequestParameters($link)
+    protected function appendRequestParameters(string $link): string
     {
         if ($this->filter->getLimit()) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamLimit());
@@ -109,12 +115,12 @@ class ilXapiCompliantStatementsReportLinkBuilder
         return "activity={$this->object->getActivityId()}";
     }
     
-    protected function buildParamRelatedAgents()
+    protected function buildParamRelatedAgents(): string
     {
         return "related_agents=false";
     }
     
-    protected function buildParamRelatedActivities()
+    protected function buildParamRelatedActivities(): string
     {
         return "related_activities=false";
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -56,7 +56,7 @@ class ilGlossarySelectorGUI extends ilExplorer
         $this->ref_id = $a_ref_id;
     }
     
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -71,7 +71,7 @@ class ilGlossarySelectorGUI extends ilExplorer
     /**
     * Item clickable?
     */
-    public function isClickable($a_type, $a_ref_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
@@ -86,15 +86,15 @@ class ilGlossarySelectorGUI extends ilExplorer
     /**
     * Show childs y/n?
     */
-    public function showChilds($a_ref_id)
+    public function showChilds($a_parent_id) : bool
     {
         $ilAccess = $this->access;
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($ilAccess->checkAccess("read", "", $a_ref_id)) {
+        if ($ilAccess->checkAccess("read", "", $a_parent_id)) {
             return true;
         } else {
             return false;
@@ -107,9 +107,9 @@ class ilGlossarySelectorGUI extends ilExplorer
     * @access	public
     * @param	integer obj_id
     * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    * @return    void
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
         

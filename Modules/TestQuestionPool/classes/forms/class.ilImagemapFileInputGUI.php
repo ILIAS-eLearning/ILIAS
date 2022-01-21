@@ -115,23 +115,22 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     *
     * @param	array	$a_values	value array
     */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar() . '_name']);
         $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
     }
 
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         parent::setValue($a_value);
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -235,7 +234,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     /**
     * Insert property html
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

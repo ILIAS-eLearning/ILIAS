@@ -1,26 +1,37 @@
+@il-drilldown-spacing-vertical: @il-padding-large-vertical;
+@il-drilldown-spacing-horizontal: @il-padding-large-horizontal;
+@il-drilldown-menulevel-bg: @il-slate-bulky-bg-color;
+@il-drilldown-bulky-bg: transparent;
+@il-drilldown-item-hover-bg: @il-slate-bulky-bg-color-engaged;
+@il-drilldown-item-font-size: @il-slate-bulky-label-size;
+@il-drilldown-item-spacing: @il-slate-content-spacing;
+@il-drilldown-item-font-line-height: @il-slate-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
+
 .il-drilldown {
-	// reset user agent CSS
+	// reset user agent CSS for lists
 	ul, li {
 		padding: 0;
 		margin: 0;
 		list-style: none;
 	}
-	// reset user agent CSS
+	// reset user agent CSS for menulevel button
 	.menulevel, .menulevel:focus, .menulevel:active {
 		text-align: left;
 		background: transparent;
 		border: none;
 	}
 
-	// drilldown header bar
 	header {
 		position: relative; // so backnav can be positioned on top
 		display: flex;
 		align-items: center;
-		margin-bottom: @il-slate-content-spacing;
-		padding: @il-slate-bulky-padding;
+		min-height: @il-drilldown-item-height; // content is centered by flex-box, not through padding
+		margin-bottom: @il-drilldown-item-spacing;
+		padding: @il-drilldown-spacing-vertical @il-drilldown-spacing-horizontal;
+		padding-left: 0;
+		z-index: initial; // so slate can cover up this specific header
 		h2 {
-			// remove default headline margin, headline is centered using flex
+			// remove default headline margin, headline is centered using flex, padding keeps distance to border
 			margin: 0;
 		}
 		.backnav {
@@ -33,26 +44,15 @@
 			bottom: 0;
 			.btn-bulky {
 				height: 100%;
-				// replacing chevron-left glyph with arrow from icon font
-				.glyphicon {
-					display: none;
-				}
-				&:before {
-					content: " \e605";
-					display: block;
-					font-family: "il-icons";
-					font-size: @il-slate-bulky-label-size;
-				}
 			}
 		}
 	}
 	header.show-backnav {
-		padding-left: @il-slate-bulky-glyph-size * 2;
+		padding-left: @il-drilldown-spacing-horizontal * 3.25; // make room for back arrow icon
 		.backnav {
 			display: block;
 		}
 	}
-	// end of drilldown header bar
 
 	// visibility of menu items
 	li > .menulevel,
@@ -70,49 +70,44 @@
 		display: block;
 	}
 
-	// styling shared by many menu items (parts taken from slate.less)
+	// styling shared by many menu items
 	.menulevel,
 	.btn-bulky,
 	.link-bulky {
-		position: relative;
 		display: flex;
-		align-items: center;
+		align-items: center; // icons, arrow glyphs and labels are vertically centered
 		justify-content: space-between;
 		width: 100%;
-		padding: @il-slate-bulky-padding;
-		margin-bottom: @il-slate-content-spacing;
-		font-size: @il-slate-bulky-label-size;
-		line-height: @il-slate-bulky-label-size * 1.133333333333333;
+		min-height: @il-drilldown-item-height; // two lines fit into the item without extending the height
+		padding: @il-drilldown-spacing-vertical @il-drilldown-spacing-horizontal;
+		margin-bottom: @il-drilldown-item-spacing;
+		font-size: @il-drilldown-item-font-size;
+		line-height: @il-drilldown-item-font-line-height;
 	}
 
 	// styling for individual menu items (parts taken from slate.less)
 	hr {
-		margin: @il-slate-content-padding 0;
+		margin: @il-drilldown-spacing-vertical 0;
 	}
 	.menulevel {
-		background-color: @il-slate-bulky-bg-color;
+		background-color: @il-drilldown-menulevel-bg;
 		&:hover {
-			background-color: @il-slate-bulky-bg-color-engaged;
+			background-color: @il-drilldown-item-hover-bg;
 		    color: inherit;
 		}
-		&:after {
-			content: " \e606";
-			font-family: "il-icons";
-			font-size: @il-slate-bulky-glyph-size * 0.85;
-			margin-left: @il-padding-small-horizontal;
+		.glyphicon-triangle-right:before {
+			margin-left: @il-drilldown-spacing-horizontal;
 		}
 	}
 	.btn-bulky,
 	.link-bulky {
-		background-color: transparent;
+		background-color: @il-drilldown-bulky-bg;
 		&:hover {
-			background-color: @il-slate-bulky-bg-color-engaged; // has to be a color with transparency so h2 can be seen underneath backnav
+			background-color: @il-drilldown-item-hover-bg; // has to be a color with transparency so h2 can be seen underneath backnav
 		    color: inherit;
 		}
 		.icon {
-			align-self: flex-start;
-			margin-top: @padding-small-vertical;
-			margin-right: @il-slate-bulky-glyph-margin-right;
+			margin-right: @il-drilldown-spacing-horizontal;
 			filter: invert(50%);
 		}
 		.bulky-label {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,16 +9,16 @@ use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\MainControls\Slate;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Component;
 
 /**
  * This describes the MainBar
  */
-interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
+interface MainBar extends Component, JavaScriptBindable
 {
     /**
      * Append an entry.
      *
-     * @param string $id
      * @param Button\Bulky|Link\Bulky|Slate\Slate $entry
      * @throws \InvalidArgumentException 	if $id is already taken
      */
@@ -46,17 +46,14 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
     /**
      * @return array <string, Slate>
      */
-    public function getToolEntries();
+    public function getToolEntries() : array;
 
     /**
      * @throws \InvalidArgumentException 	if $active is not an element-identifier in entries
      */
     public function withActive(string $active) : MainBar;
 
-    /**
-     * @return string|null
-     */
-    public function getActive();
+    public function getActive() : ?string;
 
     /**
      * Set button for the tools-trigger.
@@ -95,7 +92,7 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
     public function getInitiallyHiddenToolIds() : array;
 
     /**
-     * Signal to engage a tool from outside the mainbar.
+     * Signal to engage a tool from outside the MainBar.
      */
     public function getEngageToolSignal(string $tool_id) : Signal;
 
@@ -106,7 +103,7 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
     public function getCloseButtons() : array;
 
     /**
-     * Get a copy of this Mainbar without any entries.
+     * Get a copy of this MainBar without any entries.
      */
     public function withClearedEntries() : MainBar;
 

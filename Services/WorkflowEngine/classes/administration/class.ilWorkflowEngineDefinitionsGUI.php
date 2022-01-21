@@ -188,7 +188,7 @@ class ilWorkflowEngineDefinitionsGUI
 
         /** @var \ILIAS\FileUpload\DTO\UploadResult $uploadResult */
         $uploadResult = array_values($upload->getResults())[0];
-        if (!$uploadResult || $uploadResult->getStatus() != \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+        if (!$uploadResult || !$uploadResult->isOK()) {
             $form->setValuesByPost();
             return $form->getHTML();
         }

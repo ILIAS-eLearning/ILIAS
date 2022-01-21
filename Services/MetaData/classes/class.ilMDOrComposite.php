@@ -41,14 +41,11 @@ class ilMDOrComposite extends ilMDRequirement
     }
     public function getOrCompositeId()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if (!$this->or_composite_id) {
             $query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement " .
-                "WHERE rbac_id = " . $ilDB->quote($this->getRBACId(), 'integer') . " " .
-                "AND obj_id = " . $ilDB->quote($this->getObjId(), 'integer') . " ";
+                "WHERE rbac_id = " . $this->db->quote($this->getRBACId(), 'integer') . " " .
+                "AND obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " ";
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -144,7 +141,7 @@ class ilMDOrComposite extends ilMDRequirement
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT DISTINCT(or_composite_id) or_composite_id FROM il_meta_requirement " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .

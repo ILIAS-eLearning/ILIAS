@@ -19,7 +19,7 @@
  */
 class ilContainerSorting
 {
-    const ORDER_DEFAULT = 999999;
+    protected const ORDER_DEFAULT = 999999;
 
     protected ilLogger $log;
     protected ilTree $tree;
@@ -184,7 +184,7 @@ class ilContainerSorting
         if ($this->getSortingSettings()->getSortMode() != ilContainer::SORT_MANUAL) {
             switch ($this->getSortingSettings()->getSortMode()) {
                 case ilContainer::SORT_TITLE:
-                    foreach ((array) $a_items as $type => $data) {
+                    foreach ($a_items as $type => $data) {
                         // #16311 - sorting will remove keys (prev/next)
                         if ($type == 'sess_link') {
                             $sorted[$type] = $data;
@@ -207,10 +207,10 @@ class ilContainerSorting
                         // (next line has been used from 3.10.6 to 4.3.x)
 //						$sorted[$type] = $data;
                     }
-                    return $sorted ? $sorted : array();
+                    return $sorted ?: array();
                     
                 case ilContainer::SORT_ACTIVATION:
-                    foreach ((array) $a_items as $type => $data) {
+                    foreach ($a_items as $type => $data) {
                         // #16311 - sorting will remove keys (prev/next)
                         if ($type == 'sess_link') {
                             $sorted[$type] = $data;
@@ -224,11 +224,11 @@ class ilContainerSorting
                             true
                         );
                     }
-                    return $sorted ? $sorted : array();
+                    return $sorted ?: array();
                     
                     
                 case ilContainer::SORT_CREATION:
-                    foreach ((array) $a_items as $type => $data) {
+                    foreach ($a_items as $type => $data) {
                         // #16311 - sorting will remove keys (prev/next)
                         if ($type == 'sess_link') {
                             $sorted[$type] = $data;
@@ -242,7 +242,7 @@ class ilContainerSorting
                             true
                         );
                     }
-                    return $sorted ? $sorted : array();
+                    return $sorted ?: array();
             }
             return $a_items;
         }
@@ -250,7 +250,7 @@ class ilContainerSorting
             return $a_items;
         }
         $sorted = array();
-        foreach ((array) $a_items as $type => $data) {
+        foreach ($a_items as $type => $data) {
             if ($type == 'sess_link') {
                 $sorted[$type] = $data;
                 continue;
@@ -270,20 +270,15 @@ class ilContainerSorting
             $items = $this->sortOrderDefault($items);
 
             switch ($type) {
-                case '_all':
-                    $sorted[$type] = ilUtil::sortArray((array) $items, 'position', 'asc', true);
-                    break;
-                
+
                 case '_non_sess':
-                    $sorted[$type] = ilUtil::sortArray((array) $items, 'position', 'asc', true);
-                    break;
-                
+                case '_all':
                 default:
-                    $sorted[$type] = ilUtil::sortArray((array) $items, 'position', 'asc', true);
+                    $sorted[$type] = ilUtil::sortArray($items, 'position', 'asc', true);
                     break;
             }
         }
-        return $sorted ? $sorted : array();
+        return $sorted ?: array();
     }
     
     /**
@@ -299,17 +294,16 @@ class ilContainerSorting
                 $items = array();
                 foreach ($a_items as $key => $item) {
                     $items[$key] = $item;
-                    $items[$key]['position'] = isset($this->sorting[$a_parent_type][$a_parent_id][$item['child']]) ?
-                                                    $this->sorting[$a_parent_type][$a_parent_id][$item['child']] : self::ORDER_DEFAULT;
+                    $items[$key]['position'] = $this->sorting[$a_parent_type][$a_parent_id][$item['child']] ?? self::ORDER_DEFAULT;
                 }
 
                 $items = $this->sortOrderDefault($items);
-                return ilUtil::sortArray((array) $items, 'position', 'asc', true);
+                return ilUtil::sortArray($items, 'position', 'asc', true);
                 
 
             case ilContainer::SORT_ACTIVATION:
                 return ilUtil::sortArray(
-                    (array) $a_items,
+                    $a_items,
                     'start',
                     ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
@@ -317,7 +311,7 @@ class ilContainerSorting
 
             case ilContainer::SORT_CREATION:
                 return ilUtil::sortArray(
-                    (array) $a_items,
+                    $a_items,
                     'create_date',
                     ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
@@ -326,7 +320,7 @@ class ilContainerSorting
             default:
             case ilContainer::SORT_TITLE:
                 return ilUtil::sortArray(
-                    (array) $a_items,
+                    $a_items,
                     'title',
                     ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     false
@@ -350,7 +344,7 @@ class ilContainerSorting
                 $items[$key] = ((float) $position) * 100;
             } else {
                 foreach ($position as $parent_id => $sub_items) {
-                    $this->saveSubItems($key, $parent_id, $sub_items ? $sub_items : array());
+                    $this->saveSubItems($key, $parent_id, $sub_items ?: array());
                 }
             }
         }
@@ -490,7 +484,7 @@ class ilContainerSorting
         switch ($this->getSortingSettings()->getSortNewItemsOrder()) {
             case ilContainer::SORT_NEW_ITEMS_ORDER_TITLE:
                 $no_position = ilUtil::sortArray(
-                    (array) $no_position,
+                    $no_position,
                     'title',
                     ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
@@ -498,7 +492,7 @@ class ilContainerSorting
                 break;
             case ilContainer::SORT_NEW_ITEMS_ORDER_CREATION:
                 $no_position = ilUtil::sortArray(
-                    (array) $no_position,
+                    $no_position,
                     'create_date',
                     ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
@@ -506,7 +500,7 @@ class ilContainerSorting
                 break;
             case ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION:
                 $no_position = ilUtil::sortArray(
-                    (array) $no_position,
+                    $no_position,
                     'start',
                     ($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true

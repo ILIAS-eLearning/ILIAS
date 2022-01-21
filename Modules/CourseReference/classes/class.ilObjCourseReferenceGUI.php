@@ -22,48 +22,34 @@
 */
 
 include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGUI.php');
+
 /**
- *
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @version      $Id$
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
- *
- * @ingroup ModulesCourseReference
+ * @ingroup      ModulesCourseReference
  */
-class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
+class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var \ilLogger | null
-     */
-    private $logger = null;
+    private ?ilLogger $logger = null;
 
-    protected $target_type = 'crs';
-    protected $reference_type = 'crsr';
-
-    /**
-     * Constructor
-     * @param
-     * @return
-     */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
 
+        $this->target_type = 'crs';
+        $this->reference_type = 'crsr';
         $this->logger = $DIC->logger()->crsr();
 
         parent::__construct($a_data, $a_id, true, false);
 
         $this->lng->loadLanguageModule('crs');
     }
-    
+
     /**
      * Execute command
-     *
      * @access public
-     *
      */
     public function executeCommand()
     {
@@ -89,10 +75,9 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 
     /**
      * Add tabs
-     *
      * @access public
      */
-    public function getTabs()
+    protected function getTabs()
     {
         global $DIC;
 
@@ -135,11 +120,10 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
         }
     }
 
-
     /**
      * @inheritdoc
      */
-    public function initForm($a_mode = self::MODE_EDIT)
+    public function initForm($a_mode = self::MODE_EDIT) : ilPropertyFormGUI
     {
         $form = parent::initForm($a_mode);
 
@@ -147,8 +131,8 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
             return $form;
         }
 
-        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
-
+        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
+            $this->object->getTargetRefId());
 
         // nothing todo if no parent course is in path
         if (!$path_info->hasParentCourse()) {
@@ -175,7 +159,8 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
         $ok = true;
         $ok = parent::loadPropertiesFromSettingsForm($form);
 
-        $path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
+        $path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
+            $this->object->getTargetRefId());
 
         $auto_update = $form->getInput('member_update');
         if ($auto_update && !$path_info->hasParentCourse()) {
@@ -193,10 +178,8 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
         return $ok;
     }
 
-
     /**
      * Support for goto php
-     *
      * @return void
      * @static
      */
@@ -211,7 +194,6 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
         $target_ref_id = $a_target;
         $write_access = $access->checkAccess('write', '', (int) $target_ref_id);
 
-
         if ($write_access) {
             $target_class = \ilObjCourseReferenceGUI::class;
         } else {
@@ -219,7 +201,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
             $target_class = \ilObjCourseGUI::class;
         }
 
-        $ctrl->initBaseClass(ilRepositoryGUI::class);
+        $ctrl->setTargetScript('ilias.php');
         $ctrl->setParameterByClass($target_class, 'ref_id', $target_ref_id);
         $ctrl->redirectByClass(
             [

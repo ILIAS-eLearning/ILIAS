@@ -1,64 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Administration\AdminGUIRequest;
 
 /**
  * Administration explorer GUI class
  *
- * @author	Alex Killing <alex.killing@gmx.de>
- *
- * @todo: isClickable, top node id
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    protected $type_grps = array();
-    protected $session_materials = array();
+    protected ilSetting $settings;
+    protected ilObjectDefinition $obj_definition;
+    protected ilRbacSystem $rbacsystem;
+    protected ilDBInterface $db;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected array $type_grps = array();
+    protected array $session_materials = array();
+    protected AdminGUIRequest $request;
+    protected int $cur_ref_id;
+    protected int $top_node_id;
     
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        string $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -71,10 +50,13 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $tree = $DIC->repositoryTree();
-        $ilSetting = $DIC->settings();
         $objDefinition = $DIC["objDefinition"];
+        $this->request = new AdminGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
 
-        $this->cur_ref_id = (int) $_GET["ref_id"];
+        $this->cur_ref_id = $this->request->getRefId();
         
         $this->top_node_id = 0;
         parent::__construct("adm_exp", $a_parent_obj, $a_parent_cmd, $tree);
@@ -91,18 +73,12 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         }
         $this->setTypeWhiteList($white);
 
-        if ((int) $_GET["ref_id"] > 0) {
-            $this->setPathOpen((int) $_GET["ref_id"]);
+        if ($this->cur_ref_id > 0) {
+            $this->setPathOpen($this->cur_ref_id);
         }
     }
 
-    /**
-     * Get node content
-     *
-     * @param array
-     * @return
-     */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
         
@@ -116,25 +92,13 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
     
-    /**
-     * Get node icon
-     *
-     * @param array
-     * @return
-     */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    /**
-     * Get node icon alt text
-     *
-     * @param array node array
-     * @return string alt text
-     */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -150,28 +114,16 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return parent::getNodeIconAlt($a_node);
     }
     
-    /**
-     * Is node highlighted?
-     *
-     * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
-     */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
-        if ($a_node["child"] == $_GET["ref_id"] ||
-            ($_GET["ref_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
+        if ($a_node["child"] == $this->cur_ref_id ||
+            ($this->cur_ref_id == 0 && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
             return true;
         }
         return false;
     }
     
-    /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
-     */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
@@ -180,18 +132,12 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         $class = strtolower("ilObj" . $class_name . "GUI");
         $ilCtrl->setParameterByClass($class, "ref_id", $a_node["child"]);
         $link = $ilCtrl->getLinkTargetByClass($class, "view");
-        $ilCtrl->setParameterByClass($class, "ref_id", $_GET["ref_id"]);
+        $ilCtrl->setParameterByClass($class, "ref_id", $this->cur_ref_id);
         
         return $link;
     }
 
-    /**
-     * Is node visible
-     *
-     * @param
-     * @return
-     */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -202,15 +148,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return $visible;
     }
     
-    /**
-     * Sort childs
-     *
-     * @param array $a_childs array of child nodes
-     * @param mixed $a_parent_node parent node
-     *
-     * @return array array of childs nodes
-     */
-    public function sortChilds($a_childs, $a_parent_node_id)
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
 
@@ -257,13 +195,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    /**
-     * Get childs of node
-     *
-     * @param
-     * @return
-     */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $rbacsystem = $this->rbacsystem;
         
@@ -274,20 +206,10 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         return parent::getChildsOfNode($a_parent_node_id);
     }
     
-    /**
-     * Is node clickable?
-     *
-     * @param mixed $a_node node object/array
-     * @return boolean node clickable true/false
-     */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
-        $ilDB = $this->db;
-        $ilUser = $this->user;
-        $ilAccess = $this->access;
-        
+
         return $rbacsystem->checkAccess('read', $a_node["child"]);
     }
 }

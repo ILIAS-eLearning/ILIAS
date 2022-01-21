@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
-use ILIAS\UI\Component\Item as I;
+use ILIAS\UI\Component\Item;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
-class Factory implements I\Factory
+class Factory implements Item\Factory
 {
-
     /**
      * @inheritdoc
      */
-    public function standard($title)
+    public function standard($title) : Item\Standard
     {
         return new Standard($title);
     }
@@ -20,14 +20,23 @@ class Factory implements I\Factory
     /**
      * @inheritdoc
      */
-    public function group($title, $items)
+    public function shy(string $title) : Item\Shy
     {
-        return new Group($title, $items);
+        return new Shy($title);
     }
+
     /**
      * @inheritdoc
      */
-    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon) : I\Notification
+    public function group(string $title, array $items) : Item\Group
+    {
+        return new Group($title, $items);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function notification($title, Icon $icon) : Item\Notification
     {
         return new Notification($title, $icon);
     }

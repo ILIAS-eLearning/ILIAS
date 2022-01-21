@@ -42,7 +42,7 @@ abstract class ilRTEBaseTest extends TestCase
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
+            ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
         $this->setGlobalVariable('lng', $lng);
         $this->setGlobalVariable(

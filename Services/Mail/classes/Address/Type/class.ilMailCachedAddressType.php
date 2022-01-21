@@ -1,46 +1,36 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailCachedAddressType
  */
 class ilMailCachedAddressType implements ilMailAddressType
 {
-    /** @var array[] */
-    protected static $usrIdsByAddressCache = [];
+    /** @var array<string, int[]>  */
+    protected static array $usrIdsByAddressCache = [];
+    /** @var array<string, bool> */
+    protected static array $isValidCache = [];
+    protected ilMailAddressType $inner;
+    protected bool $useCache = true;
 
-    /** @var bool[] */
-    protected static $isValidCache = [];
-
-    /** @var ilMailAddressType */
-    protected $inner;
-
-    /** @var bool */
-    protected $useCache = true;
-
-    /**
-     * ilMailCachedRoleAddressType constructor.
-     * @param ilMailAddressType $inner
-     * @param bool $useCache
-     */
     public function __construct(ilMailAddressType $inner, bool $useCache)
     {
         $this->inner = $inner;
         $this->useCache = $useCache;
     }
+    
+    public static function clearCache() : void
+    {
+        self::$isValidCache = [];
+        self::$usrIdsByAddressCache = [];
+    }
 
-    /**
-     * @return string
-     */
     private function getCacheKey() : string
     {
         $address = $this->getAddress();
         return (string) $address;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function validate(int $senderId) : bool
     {
         $cacheKey = $this->getCacheKey();
@@ -52,25 +42,16 @@ class ilMailCachedAddressType implements ilMailAddressType
         return self::$isValidCache[$cacheKey];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getErrors() : array
     {
         return $this->inner->getErrors();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAddress() : ilMailAddress
     {
         return $this->inner->getAddress();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $cacheKey = $this->getCacheKey();

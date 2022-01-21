@@ -29,6 +29,9 @@ class ilRepositoryExplorer extends ilExplorer
     protected ilCtrl $ctrl;
     protected array $force_open_path;
     protected StandardGUIRequest $request;
+    protected array $session_materials;
+    protected array $item_group_items;
+    protected array $type_grps;
 
     public function __construct(string $a_target, int $a_top_node = 0)
     {
@@ -90,7 +93,7 @@ class ilRepositoryExplorer extends ilExplorer
     /**
     * note: most of this stuff is used by ilCourseContentInterface too
     */
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -103,6 +106,8 @@ class ilRepositoryExplorer extends ilExplorer
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
+            case "grpr":
+            case "crsr":
             case "catr":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
@@ -114,22 +119,11 @@ class ilRepositoryExplorer extends ilExplorer
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjgroupgui"), "");
                 $ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $ref_id);
                 return $link;
-            case "grpr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
-                return $link;
 
             case "crs":
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjcoursegui"), "view");
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $ref_id);
-                return $link;
-                
-            case "crsr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case 'rcrs':
@@ -144,19 +138,13 @@ class ilRepositoryExplorer extends ilExplorer
                 $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $ref_id);
                 return $link;
 
-            case 'prg':
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
-                return $link;
-
             default:
                 return ilLink::_getStaticLink($a_node_id, $a_type, true);
 
         }
     }
 
-    public function getImage($a_name, $a_type = "", $a_obj_id = "")
+    public function getImage(string $a_name, string $a_type = "", $a_obj_id = "") : string
     {
         if ($a_type != "") {
             return ilObject::_getIcon($a_obj_id, "tiny", $a_type);
@@ -165,7 +153,7 @@ class ilRepositoryExplorer extends ilExplorer
         return parent::getImage($a_name);
     }
 
-    public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;
@@ -203,10 +191,8 @@ class ilRepositoryExplorer extends ilExplorer
             case "mep":
                 if ($rbacsystem->checkAccess("read", $a_ref_id)) {
                     return true;
-                } else {
-                    return false;
                 }
-                break;
+                return false;
             case 'grpr':
             case 'crsr':
             case 'catr':
@@ -250,32 +236,29 @@ class ilRepositoryExplorer extends ilExplorer
                     }
 
                     return true;
-                } else {
-                    return false;
                 }
-                break;
+                return false;
         }
     }
 
-    public function showChilds($a_ref_id, $a_obj_id = 0)
+    public function showChilds($a_parent_id, $a_obj_id = 0) : bool
     {
         $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
-        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id, $a_obj_id)) {
+        if (!ilConditionHandler::_checkAllConditionsOfTarget($a_parent_id, $a_obj_id)) {
             return false;
         }
-        if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function isVisible($a_ref_id, $a_type)
+    public function isVisible($a_ref_id, string $a_type) : bool
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
@@ -315,7 +298,7 @@ class ilRepositoryExplorer extends ilExplorer
     }
 
 
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
         $tree = $this->tree;
@@ -354,7 +337,7 @@ class ilRepositoryExplorer extends ilExplorer
         $tpl->parseCurrentBlock();
     }
     
-    public function sortNodes($a_nodes, $a_parent_obj_id)
+    public function sortNodes(array $a_nodes, $a_parent_obj_id) : array
     {
         $objDefinition = $this->obj_definition;
 
@@ -399,9 +382,9 @@ class ilRepositoryExplorer extends ilExplorer
         return $nodes;
     }
 
-    public function forceExpanded($a_node)
+    public function forceExpanded($a_obj_id) : bool
     {
-        if (in_array($a_node, $this->force_open_path)) {
+        if (in_array($a_obj_id, $this->force_open_path)) {
             return true;
         }
         return false;

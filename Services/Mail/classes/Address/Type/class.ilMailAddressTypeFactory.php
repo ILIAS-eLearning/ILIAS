@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddressTypeFactory
@@ -7,36 +7,14 @@
  */
 class ilMailAddressTypeFactory
 {
-    /** @var ilGroupNameAsMailValidator */
-    private $groupNameValidator;
+    private ilGroupNameAsMailValidator $groupNameValidator;
+    private ilLogger $logger;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
+    protected ilMailAddressTypeHelper $typeHelper;
+    protected ilMailingLists $lists;
+    protected ilRoleMailboxSearch $roleMailboxSearch;
 
-    /** @var ilLogger */
-    private $logger;
-
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilRbacReview */
-    protected $rbacreview;
-
-    /** @var ilMailAddressTypeHelper */
-    protected $typeHelper;
-
-    /** @var ilMailingLists */
-    protected $lists;
-
-    /** @var ilRoleMailboxSearch */
-    protected $roleMailboxSearch;
-
-    /**
-     * @param ilGroupNameAsMailValidator|null $groupNameValidator
-     * @param ilLogger|null $logger
-     * @param ilRbacSystem|null $rbacsystem
-     * @param ilRbacReview|null $rbacreview
-     * @param ilMailAddressTypeHelper|null $typeHelper
-     * @param ilMailingLists|null $lists
-     * @param ilRoleMailboxSearch|null $roleMailboxSearch
-     */
     public function __construct(
         ilGroupNameAsMailValidator $groupNameValidator = null,
         ilLogger $logger = null,
@@ -85,15 +63,10 @@ class ilMailAddressTypeFactory
         $this->roleMailboxSearch = $roleMailboxSearch;
     }
 
-    /**
-     * @param ilMailAddress $address
-     * @param bool $cached
-     * @return ilMailAddressType
-     */
     public function getByPrefix(ilMailAddress $address, bool $cached = true) : ilMailAddressType
     {
         switch (true) {
-            case substr($address->getMailbox(), 0, 1) !== '#' && substr($address->getMailbox(), 0, 2) !== '"#':
+            case strpos($address->getMailbox(), '#') !== 0 && strpos($address->getMailbox(), '"#') !== 0:
                 $addressType = new ilMailLoginOrEmailAddressAddressType(
                     $this->typeHelper,
                     $address,
@@ -102,7 +75,7 @@ class ilMailAddressTypeFactory
                 );
                 break;
 
-            case substr($address->getMailbox(), 0, 7) === '#il_ml_':
+            case strpos($address->getMailbox(), '#il_ml_') === 0:
                 $addressType = new ilMailMailingListAddressType(
                     $this->typeHelper,
                     $address,

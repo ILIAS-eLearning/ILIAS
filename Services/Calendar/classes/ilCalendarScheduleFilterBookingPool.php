@@ -43,10 +43,10 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
 
     /**
      * @param ilCalendarEntry $a_event
-     * @return ilCalendarEntry
+     * @return ilCalendarEntry|null
      * @throws ilDateTimeException
      */
-    public function modifyEvent(ilCalendarEntry $a_event) : ilCalendarEntry
+    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
         $category = $this->isBookingPoolCategory(ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId()));
 
@@ -67,13 +67,11 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
     }
 
     /**
-     * @param ilDate $start
-     * @param ilDate $end
-     * @param array $a_categories
+     * @inheritDoc
      */
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories)
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
     {
-        //TODO if necessary.
+        return [];
     }
 
     /**
@@ -89,7 +87,6 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
         if ($cat_type === ilCalendarCategory::TYPE_BOOK) {
             return $category;
         }
-
         return null;
     }
 }

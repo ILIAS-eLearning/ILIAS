@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
@@ -16,38 +16,23 @@ use ILIAS\UI\Component\Button\Button;
  */
 interface Standard extends File
 {
-
     /**
      * Get a dropzone like this, displaying the given message in it.
-     *
-     * @param string $message
-     *
-     * @return $this
      */
-    public function withMessage($message);
-
+    public function withMessage(string $message) : Standard;
 
     /**
-     * Get the message of of this dropzone.
-     *
-     * @return string
+     * Get the message of this dropzone.
      */
-    public function getMessage();
-
+    public function getMessage() : string;
 
     /**
      * Get a dropzone like this, using the given button to upload the files to the server.
-     *
-     * @param Button $button
-     * @return $this
      */
-    public function withUploadButton(Button $button);
-
+    public function withUploadButton(Button $button) : Standard;
 
     /**
      * Get the button to upload the files to the server.
-     *
-     * @return Button
      */
-    public function getUploadButton();
+    public function getUploadButton() : ?Button;
 }

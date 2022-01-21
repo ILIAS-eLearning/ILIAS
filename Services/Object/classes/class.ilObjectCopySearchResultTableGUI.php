@@ -12,11 +12,6 @@
 class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilObjUser
      */
     protected $user;
@@ -121,23 +116,23 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
     
     /**
      * fill table rows
-     * @param array $set
-     * @return
+     * @param array $a_set
+     * @return void
      */
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_TITLE', $set['title']);
-        if (strlen($set['desc'])) {
-            $this->tpl->setVariable('VAL_DESC', $set['desc']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
+        if (strlen($a_set['desc'])) {
+            $this->tpl->setVariable('VAL_DESC', $a_set['desc']);
         }
         $this->tpl->setVariable('TXT_PATHES', $this->lng->txt('pathes'));
         
-        foreach ((array) $set['refs'] as $reference) {
+        foreach ((array) $a_set['refs'] as $reference) {
             $path = new ilPathGUI();
             
             $this->tpl->setCurrentBlock('path');
             $this->tpl->setVariable('VAL_ID', $reference);
-            $this->tpl->setVariable('VAL_PATH', $path->getPath(ROOT_FOLDER_ID, $reference));
+            $this->tpl->setVariable('VAL_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $reference));
             
             if ($reference == $this->getSelectedReference()) {
                 $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');

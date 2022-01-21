@@ -34,6 +34,8 @@ include_once 'class.ilMDBase.php';
 class ilMDContribute extends ilMDBase
 {
     // Subelements
+    protected string $date = "";
+
     public function getEntityIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
@@ -107,12 +109,9 @@ class ilMDContribute extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
 
         $fields = $this->__getFields();
-        $fields['meta_contribute_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_contribute'));
+        $fields['meta_contribute_id'] = array('integer',$next_id = $this->db->nextId('il_meta_contribute'));
         
         if ($this->db->insert('il_meta_contribute', $fields)) {
             $this->setMetaId($next_id);
@@ -123,9 +122,6 @@ class ilMDContribute extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -141,14 +137,11 @@ class ilMDContribute extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_contribute " .
-                "WHERE meta_contribute_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_contribute_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             
             foreach ($this->getEntityIds() as $id) {
                 $ent = $this->getEntity($id);
@@ -173,15 +166,12 @@ class ilMDContribute extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_contribute " .
-                "WHERE meta_contribute_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_contribute_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -191,7 +181,7 @@ class ilMDContribute extends ilMDBase
                 $this->setParentId($row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setRole($row->role);
-                $this->setDate($row->c_date);
+                $this->setDate((string) $row->c_date);
             }
         }
         return true;

@@ -62,7 +62,7 @@ abstract class BaseNotificationSetUp extends TestCase
     public function getUIFactory()
     {
         $factory = new class extends NoUIFactory {
-            public function item()
+            public function item() : ILIAS\UI\Component\Item\Factory
             {
                 return new I\Item\Factory();
             }

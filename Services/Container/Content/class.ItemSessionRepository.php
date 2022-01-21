@@ -22,7 +22,7 @@ namespace ILIAS\Container\Content;
  */
 class ItemSessionRepository
 {
-    const KEY_BASE = "cont_item";
+    protected const KEY_BASE = "cont_item";
 
     public function __construct()
     {

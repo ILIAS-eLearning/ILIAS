@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 
 /**
 * Class ilObjSearchSettingsGUI
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @ilCtrl_Calls ilObjSearchSettingsGUI: ilPermissionGUI
 *
@@ -16,27 +17,18 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjSearchSettingsGUI extends ilObjectGUI
 {
+    private GlobalHttpState $http;
+    private Factory $refinery;
 
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
-    /**
-     * @var ilSetupErrorHandling
-     */
-    protected $error;
-    /**
-    * Constructor
-    * @access public
-    */
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
-        global $DIC, $ilErr;
-        $this->dic = $DIC;
-        $this->error = $ilErr;
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->type = "seas";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-
         $this->lng->loadLanguageModule('search');
     }
 
@@ -49,9 +41,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -72,81 +63,28 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "settings");
     }
 
-    /**
-    * Show settings
-    * @access	public
-    */
-    public function settingsObject()
+    public function settingsObject(?ilPropertyFormGUI $form = null) : bool
     {
-        if (!$this->dic->rbac()->system()->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
         $this->tabs_gui->setTabActive('settings');
-        $this->initFormSettings();
-        $this->tpl->setContent($this->form->getHTML());
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormSettings();
+        }
+        $this->tpl->setContent($form->getHTML());
         return true;
     }
 
-    /**
-    * Save settings
-    * @access	public
-    */
-    public function saveSettingsObject()
-    {
-        include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if (!$rbacsystem->checkAccess('write', $this->object->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
-        }
-
-        $this->object->initSettingsObject();
-        $this->object->settings_obj->setMaxHits((int) $_POST['max_hits']);
-        $this->object->settings_obj->enableIndex($_POST['search_index']);
-        $this->object->settings_obj->enableLucene($_POST['search_lucene']);
-        $this->object->settings_obj->setHideAdvancedSearch($_POST['hide_adv_search']);
-        $this->object->settings_obj->setAutoCompleteLength($_POST['auto_complete_length']);
-        $this->object->settings_obj->setDefaultOperator((int) $_POST['operator']);
-        $this->object->settings_obj->enableLuceneItemFilter((int) $_POST['if']);
-        $this->object->settings_obj->setLuceneItemFilter((array) $_POST['filter']);
-        
-
-        $rpc_settings = ilRPCServerSettings::getInstance();
-        if ($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer()) {
-            ilUtil::sendInfo($this->lng->txt('search_no_connection_lucene'), true);
-            $this->ctrl->redirect($this, 'settings');
-
-            return false;
-        }
-
-        $this->object->settings_obj->update();
-
-        ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'settings');
-
-        return true;
-    }
-    
     public function getAdminTabs()
     {
         $this->getTabs();
     }
 
-    /**
-    * get tabs
-    * @access	public
-    * @param	object	tabs gui object
-    */
-    public function getTabs()
+
+    protected function getTabs()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -156,14 +94,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'lucene_advanced_settings',
                 $this->ctrl->getLinkTarget($this, 'advancedLuceneSettings')
             );
         }
 
-        if ($rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'lucene_settings_tab',
                 $this->ctrl->getLinkTarget($this, 'luceneSettings')
@@ -171,7 +109,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         }
 
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
@@ -180,85 +118,69 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             );
         }
     }
-    
-    /**
-     * Init settings form
-     * @return void
-     */
-    protected function initFormSettings()
+
+    protected function initFormSettings() : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-
-        $access = $GLOBALS['DIC']->access();
-        
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
-        
         $settings = new ilSearchSettings();
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, 'updateSettings'));
         
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction($this->ctrl->getFormAction($this, 'updateSettings'));
-        
-        if ($access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->form->addCommandButton('updateSettings', $this->lng->txt('save'));
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $form->addCommandButton('updateSettings', $this->lng->txt('save'));
         }
-        $this->form->setTitle($this->lng->txt('seas_settings'));
+        $form->setTitle($this->lng->txt('seas_settings'));
         
         // Max hits
         $hits = new ilSelectInputGUI($this->lng->txt('seas_max_hits'), 'max_hits');
         $hits->setValue($settings->getMaxHits());
         $hits->setRequired(true);
+        $values = [];
         for ($value = 5; $value <= 50; $value += 5) {
             $values[$value] = $value;
         }
         $hits->setOptions($values);
         $hits->setInfo($this->lng->txt('seas_max_hits_info'));
-        $this->form->addItem($hits);
+        $form->addItem($hits);
         
         
         // Search type
         $type = new ilRadioGroupInputGUI($this->lng->txt('search_type'), 'search_type');
         
         if ($settings->enabledLucene()) {
-            $type->setValue(ilSearchSettings::LUCENE_SEARCH);
-        } elseif ($settings->enabledIndex()) {
-            $type->setValue(ilSearchSettings::INDEX_SEARCH);
+            $type->setValue((string) ilSearchSettings::LUCENE_SEARCH);
         } else {
-            $type->setValue(ilSearchSettings::LIKE_SEARCH);
+            $type->setValue((string) ilSearchSettings::LIKE_SEARCH);
         }
         $type->setRequired(true);
-        $this->form->addItem($type);
+        $form->addItem($type);
 
         // Default operator
         $operator = new ilRadioGroupInputGUI($this->lng->txt('lucene_default_operator'), 'operator');
         $operator->setRequired(true);
         $operator->setInfo($this->lng->txt('lucene_default_operator_info'));
-        $operator->setValue($settings->getDefaultOperator());
+        $operator->setValue((string) $settings->getDefaultOperator());
         
-        $and = new ilRadioOption($this->lng->txt('lucene_and'), ilSearchSettings::OPERATOR_AND);
+        $and = new ilRadioOption($this->lng->txt('lucene_and'), (string) ilSearchSettings::OPERATOR_AND);
         $operator->addOption($and);
         
-        $or = new ilRadioOption($this->lng->txt('lucene_or'), ilSearchSettings::OPERATOR_OR);
+        $or = new ilRadioOption($this->lng->txt('lucene_or'), (string) ilSearchSettings::OPERATOR_OR);
         $operator->addOption($or);
-        $this->form->addItem($operator);
+        $form->addItem($operator);
         
         // user search
         $us = new ilCheckboxInputGUI($this->lng->txt('search_user_search_form'), 'user_search_enabled');
         $us->setInfo($this->lng->txt('search_user_search_info_form'));
-        $us->setValue(1);
+        $us->setValue('1');
         $us->setChecked($settings->isLuceneUserSearchEnabled());
-        $this->form->addItem($us);
+        $form->addItem($us);
         
         
         // Item filter
         $if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'), 'if');
-        $if->setValue(1);
+        $if->setValue('1');
         $if->setChecked($settings->isLuceneItemFilterEnabled());
         $if->setInfo($this->lng->txt('search_item_filter_form_info'));
-        $this->form->addItem($if);
+        $form->addItem($if);
 
         $filter = $settings->getLuceneItemFilter();
         foreach (ilSearchSettings::getLuceneItemFilterDefinitions() as $obj => $def) {
@@ -266,32 +188,26 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             if (isset($filter[$obj]) and $filter[$obj]) {
                 $ch->setChecked(true);
             }
-            $ch->setValue(1);
+            $ch->setValue('1');
             $if->addSubItem($ch);
         }
         
         $cdate = new ilCheckboxInputGUI($this->lng->txt('search_cdate_filter'), 'cdate');
         $cdate->setInfo($this->lng->txt('search_cdate_filter_info'));
         $cdate->setChecked($settings->isDateFilterEnabled());
-        $cdate->setValue(1);
-        $this->form->addItem($cdate);
+        $cdate->setValue('1');
+        $form->addItem($cdate);
         
         // hide advanced search
-        $cb = new ilCheckboxInputGUI($lng->txt("search_hide_adv_search"), "hide_adv_search");
+        $cb = new ilCheckboxInputGUI($this->lng->txt("search_hide_adv_search"), "hide_adv_search");
         $cb->setChecked($settings->getHideAdvancedSearch());
-        $this->form->addItem($cb);
+        $form->addItem($cb);
         
 
         
-        $direct = new ilRadioOption($this->lng->txt('search_direct'), ilSearchSettings::LIKE_SEARCH, $this->lng->txt('search_like_info'));
+        $direct = new ilRadioOption($this->lng->txt('search_direct'), (string) ilSearchSettings::LIKE_SEARCH, $this->lng->txt('search_like_info'));
         $type->addOption($direct);
-        
-        if ($ilDB->supportsFulltext()) {
-            $index = new ilRadioOption($this->lng->txt('search_index'), ilSearchSettings::INDEX_SEARCH, $this->lng->txt('search_full_info'));
-            $type->addOption($index);
-        }
-        
-        $lucene = new ilRadioOption($this->lng->txt('search_lucene'), ilSearchSettings::LUCENE_SEARCH, $this->lng->txt('java_server_info'));
+        $lucene = new ilRadioOption($this->lng->txt('search_lucene'), (string) ilSearchSettings::LUCENE_SEARCH, $this->lng->txt('java_server_info'));
         $type->addOption($lucene);
 
         
@@ -302,137 +218,111 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             20 => 20,
             30 => 30
             );
-        $si = new ilSelectInputGUI($lng->txt("search_auto_complete_length"), "auto_complete_length");
+        $si = new ilSelectInputGUI($this->lng->txt("search_auto_complete_length"), "auto_complete_length");
         $si->setOptions($options);
         $val = ($settings->getAutoCompleteLength() > 0)
             ? $settings->getAutoCompleteLength()
             : 10;
         $si->setValue($val);
-        $this->form->addItem($si);
+        $form->addItem($si);
 
         $inactive_user = new ilCheckboxInputGUI($this->lng->txt('search_show_inactive_user'), 'inactive_user');
         $inactive_user->setInfo($this->lng->txt('search_show_inactive_user_info'));
         $inactive_user->setChecked($settings->isInactiveUserVisible());
-        $this->form->addItem($inactive_user);
+        $form->addItem($inactive_user);
 
         $limited_user = new ilCheckboxInputGUI($this->lng->txt('search_show_limited_user'), 'limited_user');
         $limited_user->setInfo($this->lng->txt('search_show_limited_user_info'));
         $limited_user->setChecked($settings->isLimitedUserVisible());
-        $this->form->addItem($limited_user);
+        $form->addItem($limited_user);
+        return $form;
     }
-    
-    
-    /**
-     * Update Settings
-     * @return void
-     */
-    protected function updateSettingsObject()
-    {
-        global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        
-        $this->initFormSettings();
-        $this->form->checkInput();
-        
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+    /**
+     * @throws Exception
+     */
+    protected function updateSettingsObject() : bool
+    {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-            $GLOBALS['DIC']->ctrl()->redirect($this, 'settings');
+            $this->ctrl->redirect($this, 'settings');
         }
-        
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
+        $form = $this->initFormSettings();
+        if (!$form->checkInput()) {
+            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->settingsObject($form);
+            return false;
+        }
+
         $settings = ilSearchSettings::getInstance();
-        $settings->setMaxHits((int) $_POST['max_hits']);
+        $settings->setMaxHits((int) $form->getInput('max_hits'));
         
-        switch ((int) $_POST['search_type']) {
+        switch ((int) $form->getInput('search_type')) {
             case ilSearchSettings::LIKE_SEARCH:
-                $settings->enableIndex(false);
-                $settings->enableLucene(false);
-                break;
-            case ilSearchSettings::INDEX_SEARCH:
-                $settings->enableIndex(true);
                 $settings->enableLucene(false);
                 break;
             case ilSearchSettings::LUCENE_SEARCH:
-                $settings->enableIndex(false);
                 $settings->enableLucene(true);
                 break;
         }
+        $settings->setDefaultOperator((int) $form->getInput('operator'));
+        $settings->enableLuceneItemFilter((bool) $form->getInput('if'));
+        $settings->setLuceneItemFilter((array) $form->getInput('filter'));
 
-        $settings->setDefaultOperator((int) $_POST['operator']);
-        $settings->enableLuceneItemFilter((int) $_POST['if']);
-        $settings->setLuceneItemFilter((array) $_POST['filter']);
-
-        $settings->setHideAdvancedSearch($_POST['hide_adv_search']);
-        $settings->setAutoCompleteLength($_POST['auto_complete_length']);
-        $settings->showInactiveUser($_POST["inactive_user"]);
-        $settings->showLimitedUser($_POST["limited_user"]);
-        $settings->enableDateFilter($_POST['cdate']);
-        $settings->enableLuceneUserSearch((int) $_POST['user_search_enabled']);
+        $settings->setHideAdvancedSearch((bool) $form->getInput('hide_adv_search'));
+        $settings->setAutoCompleteLength((int) $form->getInput('auto_complete_length'));
+        $settings->showInactiveUser((bool) $form->getInput('inactive_user'));
+        $settings->showLimitedUser((bool) $form->getInput('limited_user'));
+        $settings->enableDateFilter((bool) $form->getInput('cdate'));
+        $settings->enableLuceneUserSearch((bool) $form->getInput('user_search_enabled'));
         $settings->update();
-        
-        
+
         // refresh lucene server
         try {
             $this->refreshLuceneSettings();
-            ilUtil::sendInfo($this->lng->txt('settings_saved'));
-            $this->settingsObject();
+            ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+            ilSession::clear('search_last_class');
+            $this->ctrl->redirect($this, 'settings');
             return true;
         } catch (Exception $exception) {
             ilUtil::sendFailure($exception->getMessage());
             $this->settingsObject();
             return false;
         }
-        
-        unset($_SESSION['search_last_class']);
     }
     
-    /**
-     * Lucene settings
-     * @param
-     * @return
-     */
-    protected function luceneSettingsObject(ilPropertyFormGUI $form = null)
+
+    protected function luceneSettingsObject(ilPropertyFormGUI $form = null) : void
     {
         $this->initSubTabs('lucene');
         $this->tabs_gui->setTabActive('lucene_settings_tab');
         
         if (!$form instanceof ilPropertyFormGUI) {
-            $this->initFormLuceneSettings();
+            $form = $this->initFormLuceneSettings();
         }
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
     
-    /**
-     * Show lucene settings form
-     * @param
-     * @return
-     */
-    protected function initFormLuceneSettings()
+
+    protected function initFormLuceneSettings() : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
-        
         $this->settings = ilSearchSettings::getInstance();
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, 'cancel'));
         
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction($this->ctrl->getFormAction($this, 'cancel'));
+        $form->setTitle($this->lng->txt('lucene_settings_title'));
         
-        $this->form->setTitle($this->lng->txt('lucene_settings_title'));
-        
-        $access = $GLOBALS['DIC']->access();
-        if ($access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->form->addCommandButton('saveLuceneSettings', $this->lng->txt('save'));
+
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $form->addCommandButton('saveLuceneSettings', $this->lng->txt('save'));
         }
-        
-        
         
         // Item filter
         $if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'), 'mime_enabled');
-        $if->setValue(1);
+        $if->setValue('1');
         $if->setChecked($this->settings->isLuceneMimeFilterEnabled());
         $if->setInfo($this->lng->txt('search_mime_filter_form_info'));
-        $this->form->addItem($if);
+        $form->addItem($if);
         
         $mimes = $this->settings->getLuceneMimeFilter();
         foreach (ilSearchSettings::getLuceneMimeFilterDefinitions() as $mime => $def) {
@@ -440,15 +330,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             if (isset($mimes[$mime]) and $mimes[$mime]) {
                 $ch->setChecked(true);
             }
-            $ch->setValue(1);
+            $ch->setValue('1');
             $if->addSubItem($ch);
         }
         
         $prefix = new ilCheckboxInputGUI($this->lng->txt('lucene_prefix_wildcard'), 'prefix');
-        $prefix->setValue(1);
+        $prefix->setValue('1');
         $prefix->setInfo($this->lng->txt('lucene_prefix_wildcard_info'));
         $prefix->setChecked($this->settings->isPrefixWildcardQueryEnabled());
-        $this->form->addItem($prefix);
+        $form->addItem($prefix);
         
 
         $numFrag = new ilNumberInputGUI($this->lng->txt('lucene_num_fragments'), 'fragmentCount');
@@ -458,8 +348,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $numFrag->setMinValue(1);
         $numFrag->setMaxValue(10);
         $numFrag->setInfo($this->lng->txt('lucene_num_frag_info'));
-        $numFrag->setValue($this->settings->getFragmentCount());
-        $this->form->addItem($numFrag);
+        $numFrag->setValue((string) $this->settings->getFragmentCount());
+        $form->addItem($numFrag);
         
         $sizeFrag = new ilNumberInputGUI($this->lng->txt('lucene_size_fragments'), 'fragmentSize');
         $sizeFrag->setRequired(true);
@@ -468,8 +358,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $sizeFrag->setMinValue(10);
         $sizeFrag->setMaxValue(1000);
         $sizeFrag->setInfo($this->lng->txt('lucene_size_frag_info'));
-        $sizeFrag->setValue($this->settings->getFragmentSize());
-        $this->form->addItem($sizeFrag);
+        $sizeFrag->setValue((string) $this->settings->getFragmentSize());
+        $form->addItem($sizeFrag);
         
         $maxSub = new ilNumberInputGUI($this->lng->txt('lucene_max_sub'), 'maxSubitems');
         $maxSub->setRequired(true);
@@ -478,20 +368,20 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $maxSub->setMinValue(1);
         $maxSub->setMaxValue(10);
         $maxSub->setInfo($this->lng->txt('lucene_max_sub_info'));
-        $maxSub->setValue($this->settings->getMaxSubitems());
-        $this->form->addItem($maxSub);
+        $maxSub->setValue((string) $this->settings->getMaxSubitems());
+        $form->addItem($maxSub);
         
         $relevance = new ilCheckboxInputGUI($this->lng->txt('lucene_relevance'), 'relevance');
         $relevance->setOptionTitle($this->lng->txt('lucene_show_relevance'));
         $relevance->setInfo($this->lng->txt('lucene_show_relevance_info'));
-        $relevance->setValue(1);
+        $relevance->setValue('1');
         $relevance->setChecked($this->settings->isRelevanceVisible());
-        $this->form->addItem($relevance);
+        $form->addItem($relevance);
         
         // begin-patch mime_filter
         $subrel = new ilCheckboxInputGUI('', 'subrelevance');
         $subrel->setOptionTitle($this->lng->txt('lucene_show_sub_relevance'));
-        $subrel->setValue(1);
+        $subrel->setValue('1');
         $subrel->setChecked($this->settings->isSubRelevanceVisible());
         $relevance->addSubItem($subrel);
         // end-patch mime_filter
@@ -501,92 +391,76 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $last_index->setShowTime(true);
         $last_index->setDate($this->settings->getLastIndexTime());
         $last_index->setInfo($this->lng->txt('lucene_last_index_time_info'));
-        $this->form->addItem($last_index);
+        $form->addItem($last_index);
     
-        return true;
+        return $form;
     }
-    
-    /**
-     * Save Lucene settings
-     * @return
-     */
-    protected function saveLuceneSettingsObject()
-    {
-        global $DIC;
 
-        $ilBench = $DIC['ilBench'];
-        $ilLog = $DIC['ilLog'];
-        $ilSetting = $DIC['ilSetting'];
+    /**
+     * @throws Exception
+     */
+    protected function saveLuceneSettingsObject() : bool
+    {
         
-        $this->initFormLuceneSettings();
+        $form = $this->initFormLuceneSettings();
         
         $settings = ilSearchSettings::getInstance();
-        $settings->setFragmentCount((int) $_POST['fragmentCount']);
-        $settings->setFragmentSize((int) $_POST['fragmentSize']);
-        $settings->setMaxSubitems((int) $_POST['maxSubitems']);
-        $settings->showRelevance((int) $_POST['relevance']);
-        $settings->enableLuceneOfflineFilter((int) $_POST['offline_filter']);
-        $settings->enableLuceneMimeFilter((int) $_POST['mime_enabled']);
-        $settings->setLuceneMimeFilter((array) $_POST['mime']);
-        $settings->showSubRelevance((int) $_POST['subrelevance']);
-        $settings->enablePrefixWildcardQuery((int) $_POST['prefix']);
+        $settings->setFragmentCount((int) $form->getInput('fragmentCount'));
+        $settings->setFragmentSize((int) $form->getInput('fragmentCount'));
+        $settings->setMaxSubitems((int) $form->getInput('maxSubitems'));
+        $settings->showRelevance((bool) $form->getInput('relevance'));
+        $settings->enableLuceneOfflineFilter((bool) $form->getInput('offline_filter'));
+        $settings->enableLuceneMimeFilter((bool) $form->getInput('mime_filter'));
+        $settings->setLuceneMimeFilter((array) $form->getInput('mime'));
+        $settings->showSubRelevance((bool) $form->getInput('subrelevance'));
+        $settings->enablePrefixWildcardQuery((bool) $form->getInput('prefix'));
         
-        if ($this->form->checkInput()) {
-            $settings->setLastIndexTime($this->form->getItemByPostVar('last_index')->getDate());
+        if ($form->checkInput()) {
+            $settings->setLastIndexTime($form->getItemByPostVar('last_index')->getDate());
             $settings->update();
             
             // refresh lucene server
             try {
                 $this->refreshLuceneSettings();
-                ilUtil::sendInfo($this->lng->txt('settings_saved'));
-                $this->luceneSettingsObject();
+                ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+                $this->ctrl->redirect($this, 'luceneSettings');
                 return true;
             } catch (Exception $exception) {
                 ilUtil::sendFailure($exception->getMessage());
-                $this->luceneSettingsObject();
+                $this->luceneSettingsObject($form);
                 return false;
             }
         }
         
         ilUtil::sendInfo($this->lng->txt('err_check_input'));
-        $this->form->setValuesByPost();
-        $this->luceneSettingsObject($this->form);
+        $form->setValuesByPost();
+        $this->luceneSettingsObject($form);
         return false;
     }
     
     /**
-     * Refresh lucene server settings
      * @throws Exception
      */
-    protected function refreshLuceneSettings()
+    protected function refreshLuceneSettings() : bool
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         if (!ilSearchSettings::getInstance()->enabledLucene()) {
             return true;
         }
         
         try {
-            include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-            ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(CLIENT_ID . '_' . $ilSetting->get('inst_id', 0));
+            ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(CLIENT_ID . '_' . $this->settings->get('inst_id', '0'));
+            return true;
         } catch (Exception $exception) {
             ilLoggerFactory::getLogger('src')->error('Refresh of lucene server settings failed with message: ' . $exception->getMessage());
             throw $exception;
         }
     }
-    
-    /**
-     * show advanced settings
-     */
-    protected function advancedLuceneSettingsObject()
+
+    protected function advancedLuceneSettingsObject() : void
     {
         $this->initSubTabs('lucene');
         $this->tabs_gui->setTabActive('lucene_advanced_settings');
-        
-        include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchActivationTableGUI.php';
-        include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
+
         
         $table = new ilLuceneAdvancedSearchActivationTableGUI($this, 'advancedLuceneSettings');
         $table->setTitle($this->lng->txt('lucene_advanced_settings_table'));
@@ -594,33 +468,32 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         
         $this->tpl->setContent($table->getHTML());
     }
-    
-    /**
-     * Save advanced settings
-     */
-    protected function saveAdvancedLuceneSettingsObject()
+
+    protected function saveAdvancedLuceneSettingsObject() : void
     {
-        $access = $GLOBALS['DIC']->access();
-        
-        if (!$access->checkAccess('write', '', $this->object->getRefId())) {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-            $GLOBALS['DIC']->ctrl()->redirect($this, 'settings');
+            $this->ctrl->redirect($this, 'settings');
         }
-        
-        
+
+        $enabled_md_ids = new SplFixedArray(0);
+        if ($this->http->wrapper()->post()->has('fid')) {
+            $enabled_md_ids = $this->http->wrapper()->post()->retrieve(
+                'fid',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+
         $settings = ilLuceneAdvancedSearchSettings::getInstance();
         foreach (ilLuceneAdvancedSearchFields::getFields() as $field => $translation) {
-            $settings->setActive($field, in_array($field, (array) $_POST['fid']) ? true : false);
+            $settings->setActive($field, in_array($field, (array) $enabled_md_ids));
         }
         $settings->save();
-        ilUtil::sendInfo($this->lng->txt('settings_saved'));
-        $this->advancedLuceneSettingsObject();
+        ilUtil::sendInfo($this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'advancedLuceneSettings');
     }
-    
-    /**
-     *
-     */
-    protected function initSubTabs($a_section)
+
+    protected function initSubTabs(string $a_section) : void
     {
         switch ($a_section) {
             case 'lucene':

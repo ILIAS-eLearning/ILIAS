@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\Data\URI;
 
 class Bulky extends Link implements C\Link\Bulky
 {
@@ -16,29 +15,18 @@ class Bulky extends Link implements C\Link\Bulky
     // allowed ARIA roles
     public const MENUITEM = 'menuitem';
 
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var string
-     */
-    protected $aria_role;
-
-    /**
-     * @var C\Symbol\Symbol
-     */
-    protected $symbol;
+    protected string $label;
+    protected ?string $aria_role = null;
+    protected C\Symbol\Symbol $symbol;
 
     /**
      * @var string[]
      */
-    protected static $allowed_aria_roles = array(
+    protected static array $allowed_aria_roles = array(
         self::MENUITEM
     );
 
-    public function __construct(C\Symbol\Symbol $symbol, string $label, \ILIAS\Data\URI $target)
+    public function __construct(C\Symbol\Symbol $symbol, string $label, URI $target)
     {
         parent::__construct($target->__toString());
         $this->label = $label;
@@ -63,11 +51,8 @@ class Bulky extends Link implements C\Link\Bulky
 
     /**
      * Get a button like this, but with an additional ARIA role.
-     *
-     * @param string $aria_role
-     * @return Bulky
      */
-    public function withAriaRole(string $aria_role) : Bulky
+    public function withAriaRole(string $aria_role) : C\Link\Bulky
     {
         $this->checkArgIsElement(
             "role",
@@ -82,8 +67,6 @@ class Bulky extends Link implements C\Link\Bulky
 
     /**
      * Get the ARIA role on the button.
-     *
-     * @return string|null
      */
     public function getAriaRole() : ?string
     {

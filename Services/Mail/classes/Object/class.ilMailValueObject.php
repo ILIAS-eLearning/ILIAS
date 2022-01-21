@@ -1,48 +1,23 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilMailValueObject
 {
-    /** @var string */
-    private $recipients;
-
-    /** @var string */
-    private $recipientsCC;
-
-    /** @var string */
-    private $recipientsBCC;
-
-    /** @var string */
-    private $subject;
-
-    /** @var string */
-    private $body;
-
+    private string $recipients;
+    private string $recipientsCC;
+    private string $recipientsBCC;
+    private string $subject;
+    private string $body;
     /** @var string[] */
-    private $attachments = [];
-
-    /** @var bool */
-    private $usePlaceholders;
-
-    /** @var bool */
-    private $saveInSentBox;
-
-    /** @var string */
-    private $from;
-
+    private array $attachments;
+    private bool $usePlaceholders;
+    private bool $saveInSentBox;
+    private string $from;
     /**
-     * @param string $from
-     * @param string $recipients
-     * @param string $recipientsCC
-     * @param string $recipientsBCC
-     * @param string $subject
-     * @param string $body
      * @param string[] $attachments
-     * @param bool $usePlaceholders
-     * @param bool $saveInSentBox
      */
     public function __construct(
         string $from,
@@ -66,41 +41,26 @@ class ilMailValueObject
         $this->saveInSentBox = $saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipients() : string
     {
         return $this->recipients;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipientsCC() : string
     {
         return $this->recipientsCC;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipientsBCC() : string
     {
         return $this->recipientsBCC;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject() : string
     {
         return $this->subject;
     }
 
-    /**
-     * @return string
-     */
     public function getBody() : string
     {
         return $this->body;
@@ -114,25 +74,16 @@ class ilMailValueObject
         return $this->attachments;
     }
 
-    /**
-     * @return bool
-     */
     public function isUsingPlaceholders() : bool
     {
         return $this->usePlaceholders;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldSaveInSentBox() : bool
     {
         return $this->saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
     public function getFrom() : string
     {
         return $this->from;

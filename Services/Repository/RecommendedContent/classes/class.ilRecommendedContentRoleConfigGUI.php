@@ -50,7 +50,6 @@ class ilRecommendedContentRoleConfigGUI
         $request = $DIC->repository()->internal()->gui()->standardRequest();
         $this->requested_item_ref_id = $request->getItemRefId();
         $this->requested_item_ref_ids = $request->getItemRefIds();
-        ;
     }
 
     public function executeCommand() : void

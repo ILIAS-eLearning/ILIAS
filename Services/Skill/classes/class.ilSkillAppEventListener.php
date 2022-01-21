@@ -27,7 +27,7 @@ class ilSkillAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter) : bool
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         switch ($a_component) {
             case 'Services/Tracking':
@@ -52,6 +52,9 @@ class ilSkillAppEventListener implements ilAppEventListener
                                     }
                                 }
                             }
+                            //write profile completion entries if fulfilment status has changed
+                            $prof_manager = new ilSkillProfileCompletionManager($usr_id);
+                            $prof_manager->writeCompletionEntryForAllProfiles();
                         }
                         break;
                 }
@@ -67,7 +70,5 @@ class ilSkillAppEventListener implements ilAppEventListener
                 break;
 
         }
-        
-        return true;
     }
 }

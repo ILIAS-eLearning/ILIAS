@@ -1,7 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjRootFolder
@@ -10,52 +20,24 @@
  */
 class ilObjRootFolder extends ilContainer
 {
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id,
+        bool $a_call_by_reference = true
+    ) {
         $this->type = "root";
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-
-
     /**
-    * delete rootfolder and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
+     * @throws ilException
+     */
     public function delete()
     {
-        // delete is disabled
-
         $message = get_class($this) . "::delete(): Can't delete root folder!";
-        $this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
-        return false;
-
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-
-        // put here rootfolder specific stuff
-
-        return true;
-        ;
+        throw new ilException($message);
     }
 
-    /**
-    * get all translations from this category
-    *
-    * @access	public
-    * @return	array
-    */
-    public function getTranslations()
+    public function getTranslations() : array
     {
         global $ilDB;
 
@@ -77,7 +59,7 @@ class ilObjRootFolder extends ilContainer
         // first entry is always the default language
         $data["default_language"] = 0;
 
-        return $data ? $data : array();
+        return $data ?: array();
     }
 
     // remove translations of current category

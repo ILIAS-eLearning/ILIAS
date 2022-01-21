@@ -1,73 +1,61 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTMultiEnumDefinition extends ilADTDefinition
 {
-    protected $options = []; // [array]
-    protected $numeric; // [bool]
-    
-    
+    protected array $options = [];
+    protected bool $numeric = false;
+
     // default
-    
-    public function reset()
+
+    public function reset() : void
     {
         parent::reset();
-        
+
         $this->options = array();
         $this->setNumeric(true);
     }
-    
-    
-    // properties
-    
-    public function getOptions()
+
+    public function getOptions() : array
     {
         return $this->options;
     }
-    
-    public function setOptions(array $a_values)
+
+    public function setOptions(array $a_values) : void
     {
         if ($this->isNumeric()) {
             foreach (array_keys($a_values) as $key) {
                 if (!is_numeric($key)) {
-                    throw new Exception("ilADTMultiEnum was expecting numeric option keys");
+                    throw new InvalidArgumentException("ilADTMultiEnum was expecting numeric option keys");
                 }
             }
         }
-        
         $this->options = $a_values;
     }
-    
-    public function isNumeric()
+
+    public function isNumeric() : bool
     {
         return $this->numeric;
     }
-    
-    public function setNumeric($a_value)
+
+    public function setNumeric(bool $a_value) : void
     {
         $this->numeric = $a_value;
     }
-    
-    
-    // comparison
-        
-    public function isComparableTo(ilADT $a_adt)
+
+    public function isComparableTo(ilADT $a_adt) : bool
     {
-        // has to be text-based
         return ($a_adt instanceof ilADTMultiEnum);
     }
-    
-    
+
     // ADT instance
-    
-    public function getADTInstance()
+
+    public function getADTInstance() : ilADT
     {
         if ($this->isNumeric()) {
             $class = "ilADTMultiEnumNumeric";
         } else {
             $class = "ilADTMultiEnumText";
         }
-        include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnum.php";
-        include_once "Services/ADT/classes/Types/MultiEnum/class." . $class . ".php";
         return new $class($this);
     }
 }

@@ -1,14 +1,18 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
+
+use Exception;
 
 function with_restricted_file_types_and_custom_message()
 {
     global $DIC;
     $uiFactory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
-    if (isset($_GET['example']) && $_GET['example'] == 3) {
+    if ($request_wrapper->has('example') && $request_wrapper->retrieve('example', $refinery->kindlyTo()->int()) == 3) {
         $upload = $DIC->upload();
         try {
             $upload->process();
@@ -16,7 +20,7 @@ function with_restricted_file_types_and_custom_message()
 
             // The File-Dropzones will expect a valid json-Status (success true or false).
             echo json_encode(['success' => true, 'message' => 'Successfully uploaded file']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // See above
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }

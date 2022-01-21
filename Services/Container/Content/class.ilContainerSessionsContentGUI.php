@@ -35,9 +35,9 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $this->lng = $lng;
         $this->initDetails();
     }
-    
 
-    public function getDetailsLevel(int $a_item_id) : int
+
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
@@ -164,30 +164,22 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             
             if ($prefp) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_prev_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             } else {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_show_all_prev_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             }
+            $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
         } else {
             $prefn = $ilUser->getPref('crs_sess_show_next_' . $this->getContainerObject()->getId());
 
             if ($prefn) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_next_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             } else {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_show_all_next_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             }
+            $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
         }
+        $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
+        $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
@@ -221,11 +213,6 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
     }
 
-    /**
-     * @param array       $items
-     * @param ilContainer $container
-     * @return array
-     */
     public static function prepareSessionPresentationLimitation(
         array $items,
         ilContainer $container,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,12 +6,13 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Refinery as Refinery;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\Input\Field\DateTime as DTField;
+use DateTimeImmutable;
+use Closure;
+use ilLanguage;
 
 /**
  * This implements the duration input group.
@@ -21,49 +22,20 @@ class Duration extends Group implements C\Input\Field\Duration
     use ComponentHelper;
     use JavaScriptBindable;
 
-    /**
-     * @var DateFormat\DateFormat
-     */
-    protected $format;
+    protected DateFormat $format;
+    protected DateTimeImmutable $min_date;
+    protected DateTimeImmutable $max_date;
+    protected bool $with_time = false;
+    protected bool $with_time_only = false;
+    protected ?string $timezone = null;
 
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected $min_date;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected $max_date;
-
-    /**
-     * @var bool
-     */
-    protected $with_time = false;
-
-    /**
-     * @var bool
-     */
-    protected $with_time_only = false;
-
-    /**
-     * @var string
-     */
-    protected $timezone;
-
-    /**
-     * @param DataFactory $data_factory
-     * @param Refinery\Factory $field_factory
-     * @param string $label
-     * @param string $byline
-     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Factory $field_factory,
-        $label,
-        $byline
+        string $label,
+        string $byline
     ) {
         $inputs = [
             $field_factory->dateTime('start'),
@@ -82,7 +54,7 @@ class Duration extends Group implements C\Input\Field\Duration
      * of a duration - in this case, null is being returned.
      *
      */
-    protected function addTransformation()
+    protected function addTransformation() : void
     {
         $duration = $this->refinery->custom()->transformation(function ($v) {
             list($from, $until) = $v;
@@ -97,7 +69,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * Input is valid, if start is before end.
      */
-    protected function addValidation()
+    protected function addValidation() : void
     {
         $txt_id = 'duration_end_must_not_be_earlier_than_start';
         $error = function (callable $txt, $value) use ($txt_id) {
@@ -117,7 +89,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withFormat(DateFormat\DateFormat $format) : C\Input\Field\Duration
+    public function withFormat(DateFormat $format) : C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->format = $format;
@@ -128,7 +100,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getFormat() : DateFormat\DateFormat
+    public function getFormat() : DateFormat
     {
         return $this->format;
     }
@@ -136,11 +108,11 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyFormat()
+    protected function applyFormat() : void
     {
         $this->inputs = array_map(
-            function ($inpt) {
-                return $inpt->withFormat($this->getFormat());
+            function ($input) {
+                return $input->withFormat($this->getFormat());
             },
             $this->inputs
         );
@@ -149,7 +121,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withMinValue(\DateTimeImmutable $date) : C\Input\Field\Duration
+    public function withMinValue(DateTimeImmutable $date) : C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->min_date = $date;
@@ -163,8 +135,8 @@ class Duration extends Group implements C\Input\Field\Duration
     protected function applyMinValue()
     {
         $this->inputs = array_map(
-            function ($inpt) {
-                return $inpt->withMinValue($this->getMinValue());
+            function ($input) {
+                return $input->withMinValue($this->getMinValue());
             },
             $this->inputs
         );
@@ -173,7 +145,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getMinValue()
+    public function getMinValue() : ?DateTimeImmutable
     {
         return $this->min_date;
     }
@@ -181,7 +153,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withMaxValue(\DateTimeImmutable $date) : C\Input\Field\Duration
+    public function withMaxValue(DateTimeImmutable $date) : C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->max_date = $date;
@@ -192,7 +164,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyMaxValue()
+    protected function applyMaxValue() : void
     {
         $this->inputs = array_map(
             function ($inpt) {
@@ -205,7 +177,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getMaxValue()
+    public function getMaxValue() : ?DateTimeImmutable
     {
         return $this->max_date;
     }
@@ -213,10 +185,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withTimeOnly(bool $with_time_only) : C\Input\Field\Duration
+    public function withTimeOnly(bool $time_only) : C\Input\Field\Duration
     {
         $clone = clone $this;
-        $clone->with_time_only = $with_time_only;
+        $clone->with_time_only = $time_only;
         $clone->applyWithTimeOnly();
         return $clone;
     }
@@ -224,11 +196,11 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyWithTimeOnly()
+    protected function applyWithTimeOnly() : void
     {
         $this->inputs = array_map(
-            function ($inpt) {
-                return $inpt->withTimeOnly($this->getTimeOnly());
+            function ($input) {
+                return $input->withTimeOnly($this->getTimeOnly());
             },
             $this->inputs
         );
@@ -264,11 +236,11 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyWithUseTime()
+    protected function applyWithUseTime() : void
     {
         $this->inputs = array_map(
-            function ($inpt) {
-                return $inpt->withUseTime($this->getUseTime());
+            function ($input) {
+                return $input->withUseTime($this->getUseTime());
             },
             $this->inputs
         );
@@ -282,8 +254,9 @@ class Duration extends Group implements C\Input\Field\Duration
         $clone = clone $this;
         $clone->timezone = $tz;
         $clone->inputs = array_map(
-            function ($inpt) use ($tz) {
-                return $inpt->withTimezone($tz);
+            function ($input) use ($tz) {
+                return $input->withTimezone($tz);
+
             },
             $clone->inputs
         );
@@ -293,7 +266,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getTimezone()
+    public function getTimezone() : ?string
     {
         return $this->timezone;
     }
@@ -309,7 +282,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Refinery\Custom\Constraint
     {
         return null;
     }
@@ -317,10 +290,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
         return function ($id) {
-            $code = "var combinedDuration = function() {
+            return "var combinedDuration = function() {
 				var options = [];
 				$('#$id').find('input').each(function() {
 					options.push($(this).val());
@@ -331,7 +304,6 @@ class Duration extends Group implements C\Input\Field\Duration
 				il.UI.input.onFieldUpdate(event, '$id', combinedDuration());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', combinedDuration());";
-            return $code;
         };
     }
 }

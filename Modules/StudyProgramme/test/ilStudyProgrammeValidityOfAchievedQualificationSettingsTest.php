@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +38,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 new DateTime(self::VALID_QUALIFICATION_DATE),
                 self::VALID_RESTART_PERIOD_1
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -54,7 +52,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
                 new DateTime(self::VALID_QUALIFICATION_DATE),
                 self::INVALID_RESTART_PERIOD
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -84,7 +82,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
 
         try {
             $obj->withQualificationPeriod(self::INVALID_QUALIFICATION_PERIOD);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -114,7 +112,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
 
         try {
             $obj->withRestartPeriod(self::INVALID_RESTART_PERIOD);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }

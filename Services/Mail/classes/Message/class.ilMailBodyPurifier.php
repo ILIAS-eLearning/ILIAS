@@ -1,23 +1,19 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilMailBodyPurifier
 {
-    /**
-     * @param string $content
-     * @return string
-     */
     public function purify(string $content) : string
     {
-        $sanitizedContent = \ilUtil::stripSlashes($content);
+        $sanitizedContent = ilUtil::stripSlashes($content);
 
         if ($sanitizedContent !== $content) {
-            $sanitizedContent = \ilUtil::stripSlashes(str_replace('<', '< ', $content));
+            $sanitizedContent = ilUtil::stripSlashes(str_replace('<', '< ', $content));
         }
-        $sanitizedContent = str_replace("\r", '', $sanitizedContent);
+        $sanitizedContent = str_replace(chr(13), '', $sanitizedContent);
 
         return $sanitizedContent;
     }

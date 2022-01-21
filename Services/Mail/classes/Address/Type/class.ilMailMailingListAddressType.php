@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMailingListAddressType
@@ -7,16 +7,8 @@
  */
 class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
-    /** @var ilMailingLists */
-    private $lists;
+    private ilMailingLists $lists;
 
-    /**
-     * ilMailMailingListAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilLogger $logger
-     * @param ilMailingLists $lists
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
@@ -28,9 +20,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
         $this->lists = $lists;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
         $valid = $this->lists->mailingListExists($this->address->getMailbox());
@@ -46,9 +35,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
         return $valid;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $usrIds = [];

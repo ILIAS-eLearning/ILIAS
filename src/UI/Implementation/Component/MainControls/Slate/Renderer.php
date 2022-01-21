@@ -14,17 +14,23 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
-        if ($component instanceof ISlate\Notification) {
-            return $this->renderNotificationSlate($component, $default_renderer);
+        switch (true) {
+            case ($component instanceof ISlate\Notification):
+                return $this->renderNotificationSlate($component, $default_renderer);
+                break;
+
+            case ($component instanceof ISlate\Combined):
+            case ($component instanceof ISlate\Drilldown):
+                $contents = $this->getCombinedSlateContents($component);
+                break;
+
+            default:
+                $contents = $component->getContents();
         }
-        if ($component instanceof ISlate\Combined) {
-            $contents = $this->getCombinedSlateContents($component);
-        } else {
-            $contents = $component->getContents();
-        }
+
         return $this->renderSlate($component, $contents, $default_renderer);
     }
 
@@ -55,8 +61,14 @@ class Renderer extends AbstractComponentRenderer
                 }
                 $contents[] = $triggerer;
             }
+            
+            if ($component instanceof ISlate\Drilldown) {
+                $entry = $entry->withPersistenceId($component->getMainBarTreePosition());
+            }
             $contents[] = $entry;
         }
+
+
         return $contents;
     }
 
@@ -132,7 +144,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/MainControls/slate.js');
@@ -141,12 +153,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(
             ISlate\Legacy::class,
             ISlate\Combined::class,
-            ISlate\Notification::class
+            ISlate\Notification::class,
+            ISlate\Drilldown::class
         );
     }
 }

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Class ilSamlSettingsGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -66,6 +68,8 @@ class ilSamlSettingsGUI
     protected ilErrorHandling $error_handler;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
+    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected Refinery $refinery;
     protected ilHelpGUI $help;
     protected ?ilExternalAuthUserAttributeMapping $mapping = null;
     protected ?ilSamlIdp $idp = null;
@@ -84,6 +88,8 @@ class ilSamlSettingsGUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC['ilToolbar'];
         $this->help = $DIC['ilHelp'];
+        $this->httpState = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('auth');
         $this->ref_id = $ref_id;
@@ -111,10 +117,28 @@ class ilSamlSettingsGUI
         return $this->ref_id;
     }
 
+    private function getIdpIdOrZero() : int
+    {
+        $idpId = 0;
+        if ($this->httpState->wrapper()->query()->has('saml_idp_id')) {
+            $idpId = (int) $this->httpState->wrapper()->query()->retrieve(
+                'saml_idp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->httpState->wrapper()->post()->has('saml_idp_id')) {
+            $idpId = (int) $this->httpState->wrapper()->post()->retrieve(
+                'saml_idp_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        return $idpId;
+    }
+
     protected function initIdp() : void
     {
         try {
-            $this->idp = ilSamlIdp::getInstanceByIdpId((int) ($_REQUEST['saml_idp_id'] ?? 0));
+            $this->idp = ilSamlIdp::getInstanceByIdpId($this->getIdpIdOrZero());
         } catch (Exception $e) {
             ilUtil::sendFailure($this->lng->txt('auth_saml_unknow_idp'), true);
             $this->ctrl->setParameter($this, 'saml_idp_id', null);
@@ -146,12 +170,13 @@ class ilSamlSettingsGUI
                     $cmd = self::DEFAULT_CMD;
                 }
 
-                if (isset($_REQUEST['saml_idp_id'])) {
+                $ipdId = $this->getIdpIdOrZero();
+                if ($ipdId > 0) {
                     $this->ctrl->saveParameter($this, 'saml_idp_id');
                 }
 
                 if (!in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands), true)) {
-                    if (!isset($_REQUEST['saml_idp_id'])) {
+                    if (0 === $ipdId) {
                         $this->ctrl->redirect($this, self::DEFAULT_CMD);
                     }
 
@@ -182,7 +207,11 @@ class ilSamlSettingsGUI
             $this->toolbar->addStickyItem($addIdpButton);
         }
 
-        $table = new ilSamlIdpTableGUI($this, self::DEFAULT_CMD);
+        $table = new ilSamlIdpTableGUI(
+            $this,
+            self::DEFAULT_CMD,
+            $this->rbac->system()->checkAccess('write', $this->getRefId())
+        );
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -296,7 +325,7 @@ class ilSamlSettingsGUI
 
         $update_automatically = new ilCheckboxInputGUI('', $field_name . '_update');
         $update_automatically->setOptionTitle($this->lng->txt('auth_saml_update_field_info'));
-        $update_automatically->setValue(1);
+        $update_automatically->setValue('1');
         $form->addItem($update_automatically);
     }
 
@@ -364,7 +393,7 @@ class ilSamlSettingsGUI
 
         $show_login_form = new ilCheckboxInputGUI($this->lng->txt('auth_saml_login_form'), 'login_form');
         $show_login_form->setInfo($this->lng->txt('auth_saml_login_form_info'));
-        $show_login_form->setValue(1);
+        $show_login_form->setValue('1');
         $form->addItem($show_login_form);
 
         if (!$this->access->checkAccess('write', '', $this->getRefId())) {
@@ -435,7 +464,7 @@ class ilSamlSettingsGUI
         $this->addMetadataElement($form);
 
         $local = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'allow_local_auth');
-        $local->setValue(1);
+        $local->setValue('1');
         $local->setInfo($this->lng->txt('auth_allow_local_info'));
         $form->addItem($local);
 
@@ -446,7 +475,7 @@ class ilSamlSettingsGUI
 
         $sync = new ilCheckboxInputGUI($this->lng->txt('auth_saml_sync'), 'sync_status');
         $sync->setInfo($this->lng->txt('auth_saml_sync_info'));
-        $sync->setValue(1);
+        $sync->setValue('1');
 
         $username_claim = new ilTextInputGUI($this->lng->txt('auth_saml_username_claim'), 'login_claim');
         $username_claim->setInfo($this->lng->txt('auth_saml_username_claim_info'));
@@ -460,7 +489,7 @@ class ilSamlSettingsGUI
 
         $migr = new ilCheckboxInputGUI($this->lng->txt('auth_saml_migration'), 'account_migr_status');
         $migr->setInfo($this->lng->txt('auth_saml_migration_info'));
-        $migr->setValue(1);
+        $migr->setValue('1');
         $sync->addSubItem($migr);
         $form->addItem($sync);
 
@@ -564,7 +593,10 @@ class ilSamlSettingsGUI
         $metadata = new ilSamlIdpMetadataInputGUI(
             $this->lng->txt('auth_saml_add_idp_md_label'),
             'metadata',
-            new ilSamlIdpXmlMetadataParser()
+            new ilSamlIdpXmlMetadataParser(
+                new \ILIAS\Data\Factory(),
+                new ilSamlIdpXmlMetadataErrorFormatter()
+            )
         );
         $metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
         $metadata->setRows(20);
@@ -600,7 +632,7 @@ class ilSamlSettingsGUI
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
         $confirmation->setCancel($this->lng->txt('cancel'), self::DEFAULT_CMD);
         $confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
-        $confirmation->addItem('saml_idp_ids', $this->idp->getIdpId(), $this->idp->getEntityId());
+        $confirmation->addItem('saml_idp_ids', (string) $this->idp->getIdpId(), $this->idp->getEntityId());
 
         $this->tpl->setContent($confirmation->getHTML());
     }

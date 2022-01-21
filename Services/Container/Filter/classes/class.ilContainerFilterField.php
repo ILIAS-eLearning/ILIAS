@@ -18,15 +18,15 @@
  */
 class ilContainerFilterField
 {
-    const STD_FIELD_TITLE = 1;
-    const STD_FIELD_DESCRIPTION = 2;
-    const STD_FIELD_TITLE_DESCRIPTION = 3;
-    const STD_FIELD_KEYWORD = 4;
-    const STD_FIELD_AUTHOR = 5;
-    const STD_FIELD_COPYRIGHT = 6;
-    const STD_FIELD_TUTORIAL_SUPPORT = 7;
-    const STD_FIELD_OBJECT_TYPE = 8;
-    const STD_FIELD_ONLINE = 9;
+    public const STD_FIELD_TITLE = 1;
+    public const STD_FIELD_DESCRIPTION = 2;
+    public const STD_FIELD_TITLE_DESCRIPTION = 3;
+    public const STD_FIELD_KEYWORD = 4;
+    public const STD_FIELD_AUTHOR = 5;
+    public const STD_FIELD_COPYRIGHT = 6;
+    public const STD_FIELD_TUTORIAL_SUPPORT = 7;
+    public const STD_FIELD_OBJECT_TYPE = 8;
+    public const STD_FIELD_ONLINE = 9;
 
     protected int $record_set_id = 0;
     protected int $field_id = 0;

@@ -168,7 +168,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
     /**
      * @see ilTable2GUI::fillRow()
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

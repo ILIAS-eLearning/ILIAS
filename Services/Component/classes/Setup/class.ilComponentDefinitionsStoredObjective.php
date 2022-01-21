@@ -2,6 +2,7 @@
 
 use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\COPage\Setup\ilCOPageDBUpdateSteps;
 
 class ilComponentDefinitionsStoredObjective implements Setup\Objective
 {
@@ -45,7 +46,8 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilDatabaseUpdatedObjective()
+            new \ilDatabaseUpdatedObjective(),
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps())
         ];
     }
 
@@ -110,10 +112,10 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         }
 
         $reader = new \ilComponentDefinitionReader(
+            new \ilGeneralComponentDefinitionProcessor($db),
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor($db),
-            new \ilPluginSlotDefinitionProcessor($db),
             new \ilCronDefinitionProcessor($db),
             new \ilEventDefinitionProcessor($db),
             new \ilLoggingDefinitionProcessor($db),
@@ -122,7 +124,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilPDFGenerationDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
             new \ilSecurePathDefinitionProcessor($db),
-            new \ilCtrlBaseclassDefinitionProcessor($db)
         );
         $reader->purge();
         $reader->readComponentDefinitions();

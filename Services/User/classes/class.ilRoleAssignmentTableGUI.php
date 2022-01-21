@@ -70,7 +70,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -95,7 +95,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -212,7 +212,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 "checkbox" => $checkbox,
                 "role" => $link,
                 "title" => $title,
-                'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, $ref_id)
+                'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref_id)
             ];
             ++$counter;
         }

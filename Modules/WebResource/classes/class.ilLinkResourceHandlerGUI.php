@@ -32,7 +32,7 @@
 *
 * @ingroup ModulesWebResource
 */
-class ilLinkResourceHandlerGUI
+class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
 {
     public function __construct()
     {

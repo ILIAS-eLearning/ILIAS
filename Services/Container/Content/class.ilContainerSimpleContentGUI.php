@@ -111,8 +111,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
             }
         }
     }
-    
-    public function getDetailsLevel(int $a_item_id) : int
+
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;

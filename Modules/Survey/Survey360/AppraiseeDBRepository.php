@@ -1,27 +1,32 @@
 <?php
 
-/* Copyright (c) 1998- ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Survey360;
 
 /**
  * Apraisee / Rater DB repository
  * Tables: svy_360_rater, svy_360_appr
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class AppraiseeDBRepository
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
 
-    /**
-     * Constructor
-     */
-    public function __construct(\ilDBInterface $db = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null
+    ) {
         global $DIC;
 
         $this->db = (is_null($db))
@@ -29,14 +34,9 @@ class AppraiseeDBRepository
             : $db;
     }
 
-    /**
-     * Get surveys for Rater
-     *
-     * @param int $rater_id
-     * @return array
-     */
-    public function getAppraiseesForRater(int $rater_id) : array
-    {
+    public function getAppraiseesForRater(
+        int $rater_id
+    ) : array {
         $db = $this->db;
         
         $set = $db->queryF(
@@ -58,12 +58,12 @@ class AppraiseeDBRepository
 
     /**
      * Get closed appraisees for a number of surveys
-     *
      * @param int[] $survey_ids
      * @return array
      */
-    public function getClosedAppraiseesForSurveys(array $survey_ids)
-    {
+    public function getClosedAppraiseesForSurveys(
+        array $survey_ids
+    ) : array {
         $db = $this->db;
         
         $set = $db->queryF(
@@ -85,12 +85,11 @@ class AppraiseeDBRepository
 
     /**
      * Get all unclosed surveys of an appraisee
-     *
-     * @param int $appr_user_id
      * @return int[]
      */
-    public function getUnclosedSurveysForAppraisee(int $appr_user_id) : array
-    {
+    public function getUnclosedSurveysForAppraisee(
+        int $appr_user_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(

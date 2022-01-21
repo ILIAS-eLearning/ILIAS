@@ -76,7 +76,7 @@ class ilRegistrationRoleAccessLimitations
 
             // Delete old entry
             $query = "DELETE FROM reg_access_limit " .
-                "WHERE role_id = " . $this->ilDB->quote($key, 'integer');
+                "WHERE role_id = " . $this->db->quote($key, 'integer');
             $res = $this->db->manipulate($query);
             
             

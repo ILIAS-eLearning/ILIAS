@@ -24,7 +24,8 @@ package de.ilias.services.lucene.index.transform;
 
 import java.util.Stack;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -37,7 +38,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PageObjectHandler extends DefaultHandler {
 
-	protected Logger logger = Logger.getLogger(PageObjectHandler.class);
+	protected Logger logger = LogManager.getLogger(PageObjectHandler.class);
 	
 	private StringBuffer buffer = new StringBuffer();
 	private boolean isContent = false;

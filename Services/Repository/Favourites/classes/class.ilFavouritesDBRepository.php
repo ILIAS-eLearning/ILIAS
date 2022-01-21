@@ -19,6 +19,8 @@
 class ilFavouritesDBRepository
 {
     public static array $is_desktop_item = [];
+    protected ilDBInterface $db;
+    protected ilTree $tree;
 
     public function __construct(
         \ilDBInterface $db = null,
@@ -122,7 +124,6 @@ class ilFavouritesDBRepository
                             "parent_ref" => $parent_ref);
                 }
             }
-            ksort($items);
         } else {
             $items = array();
             foreach ($a_types as $a_type) {
@@ -150,8 +151,8 @@ class ilFavouritesDBRepository
                             "title" => $title, "description" => $desc);
                 }
             }
-            ksort($items);
         }
+        ksort($items);
         return $items;
     }
 

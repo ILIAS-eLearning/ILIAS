@@ -375,7 +375,7 @@ class ilDclRecordListGUI
                 $filetitle = $file_obj->getTitle();
             }
 
-            ilUtil::deliverFile($filepath, $filetitle);
+            ilFileDelivery::deliverFileLegacy($filepath, $filetitle);
         }
     }
 
@@ -541,6 +541,14 @@ class ilDclRecordListGUI
 
         $limit = $list->getLimit();
         $offset = $list->getOffset();
+
+        $num_records = count($table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter()));
+
+        // Fix no data found on new filter application when on a site other than the first
+        if ($num_records === 0) {
+            $list->resetOffset();
+            $offset = 0;
+        }
 
         $data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter());
         $records = $data['records'];

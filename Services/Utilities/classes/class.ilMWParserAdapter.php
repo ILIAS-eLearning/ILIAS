@@ -81,7 +81,7 @@ class ilMWFakery
         // handle images
         $urlpath = parse_url($url, PHP_URL_PATH);
         $pi = pathinfo($urlpath);
-        if (in_array(strtolower($pi["extension"]), array("jpg", "jpeg", "gif", "png"))) {
+        if (isset($pi["extension"]) && in_array(strtolower($pi["extension"]), array("jpg", "jpeg", "gif", "png"))) {
             return '<img src="' . $url . '" border="0" />';
         } else {
             return '<a href="' . $url . '" target="_blank" rel="noopener">' . $text . '</a>';

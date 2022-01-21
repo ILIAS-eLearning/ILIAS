@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,28 +8,15 @@
  */
 abstract class ilUserAvatarBase implements ilUserAvatar
 {
-    /**
-     * @var string
-     */
-    protected $name = '';
+    protected string $name = '';
+    protected int $usrId = 0;
 
-    /**
-     * @var int
-     */
-    protected $usrId = 0;
-
-    /**
-     * @inheritdoc
-     */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setUsrId($usrId)
+    public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }

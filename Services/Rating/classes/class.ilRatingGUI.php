@@ -15,8 +15,8 @@ class ilRatingGUI
     protected ilObjUser $user;
     protected string $id = "rtg_";
     protected $export_callback;
-    protected string $export_subobj_title;
-    protected array $ctrl_path;
+    protected string $export_subobj_title = "";
+    protected array $ctrl_path = [];
     protected bool $enable_categories = false;
     protected string $your_rating_text = "";
     protected \ILIAS\DI\UIServices $ui;

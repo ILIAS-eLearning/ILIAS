@@ -363,7 +363,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
         return true;
     }
 
-    protected function initLanguage($usr_id)
+    protected function initLanguage(int $usr_id) : void
     {
         parent::initLanguage($usr_id);
         $this->getLanguage()->loadLanguageModule('lso');

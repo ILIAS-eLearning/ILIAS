@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +10,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @var array
      */
-    private $active_languages = [];
+    private array $active_languages = [];
 
     /**
      * @var string
@@ -20,7 +20,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @var int
      */
-    private $max_length;
+    private int $max_length;
 
     /**
      * @return mixed
@@ -41,12 +41,12 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @return string[]
      */
-    public function getActiveLanguages()
+    public function getActiveLanguages() : array
     {
         return $this->active_languages;
     }
 
-    public function setActiveLanguages(array $active)
+    public function setActiveLanguages(array $active) : void
     {
         $this->active_languages = $active;
     }
@@ -54,7 +54,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     /**
      * @inheritDoc
      */
-    public function isComparableTo(ilADT $a_adt)
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTLocalizedText;
     }
@@ -76,10 +76,10 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function supportsTranslations()
+    public function supportsTranslations() : bool
     {
-        return strlen($this->getDefaultLanguage()) > 0 ? true : false;
+        return strlen($this->getDefaultLanguage()) > 0;
     }
 }

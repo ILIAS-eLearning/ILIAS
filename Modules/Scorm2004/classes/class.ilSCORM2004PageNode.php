@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -73,7 +73,7 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
         $this->page_object->setId($this->getId());
         $this->page_object->setParentId($this->getSLMId());
         if ($a_layout_id == 0) {
-            $this->page_object->create($a_upload);
+            $this->page_object->create(false, $a_upload);
         } else {
             $this->page_object->createWithLayoutId($a_layout_id);
         }

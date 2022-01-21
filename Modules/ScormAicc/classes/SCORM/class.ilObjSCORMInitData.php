@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilObjSCORMInitData
 *
@@ -14,21 +25,20 @@
 */
 class ilObjSCORMInitData
 {
-    public static function encodeURIComponent($str)
+    public static function encodeURIComponent($str) : string
     {
         $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')', '%7E' => '~');
         return strtr(rawurlencode($str), $revert);
     }
 
-    public static function getIliasScormVars($slm_obj)
+    public static function getIliasScormVars($slm_obj) : string
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $ilLog = $DIC['ilLog'];
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-        $ilSetting = $DIC['ilSetting'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
+        $ilDB = $DIC->database();
+        $ilSetting = $DIC->settings();
         //		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
         //variables to set in administration interface
@@ -50,22 +60,21 @@ class ilObjSCORMInitData
         
         //other variables
         $b_messageLog = 'false';
-        if ($ilLog->current_log_level == 30) {
-            $b_messageLog = 'true';
-        }
+//        if ($ilLog->current_log_level == 30) {
+//            $b_messageLog = 'true';
+//        }
         $launchId = '0';
         if ($_GET["autolaunch"] != "") {
             $launchId = $_GET["autolaunch"];
         }
         $session_timeout = 0; //unlimited sessions
         if ($slm_obj->getSession()) {
-            require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
             $session_timeout = (int) ilWACSignedPath::getCookieMaxLifetimeInSeconds();
             $max_idle = (int) ilSession::getIdleValue();
             if ($session_timeout > $max_idle) {
                 $session_timeout = $max_idle;
             }
-            $min_idle = (int) $ilSetting->get('session_min_idle', ilSessionControl::DEFAULT_MIN_IDLE) * 60;
+            $min_idle = (int) $ilSetting->get('session_min_idle', (string) ilSessionControl::DEFAULT_MIN_IDLE) * 60;
             if ($session_timeout > $min_idle) {
                 $session_timeout = $min_idle;
             }
@@ -151,8 +160,8 @@ class ilObjSCORMInitData
             . '"pingSession":' . $session_timeout . ','
             . '"studentId":"' . $slm_obj->getApiStudentId() . '",'
             . '"studentName":"' . self::encodeURIComponent($slm_obj->getApiStudentName()) . '",'
-            . '"studentLogin":"' . self::encodeURIComponent($ilias->account->getLogin()) . '",'
-            . '"studentOu":"' . self::encodeURIComponent($ilias->account->getDepartment()) . '",'
+            . '"studentLogin":"' . self::encodeURIComponent($ilUser->getLogin()) . '",'
+            . '"studentOu":"' . self::encodeURIComponent($ilUser->getDepartment()) . '",'
             . '"credit":"' . str_replace("_", "-", $slm_obj->getCreditMode()) . '",'
             . '"lesson_mode":"' . $slm_obj->getDefaultLessonMode() . '",'
             . '"b_autoReview":' . $b_autoReview . ','
@@ -200,9 +209,8 @@ class ilObjSCORMInitData
     public static function getIliasScormData($a_packageId)
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC->user();
+        $ilDB = $DIC->database();
         $b_readInteractions = 'false';
         $a_out = array();
         $tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
@@ -227,8 +235,7 @@ class ilObjSCORMInitData
     public static function getIliasScormResources($a_packageId)
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         //		$s_out="";
         $a_out = array();
         $s_resourceIds = "";//necessary if resources exist having different href with same identifier
@@ -272,8 +279,7 @@ class ilObjSCORMInitData
     public static function getIliasScormTree($a_packageId)
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $a_out = array();
         $tquery = "SELECT scorm_tree.child, scorm_tree.depth-3 depth, scorm_object.title, scorm_object.c_type
 			FROM scorm_tree, scorm_object
@@ -292,14 +298,15 @@ class ilObjSCORMInitData
         return json_encode($a_out);
     }
 
-    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType = "1.2")
+    /**
+     * @return array<string, mixed>
+     */
+    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType = "1.2") : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        include_once './Services/Tracking/classes/class.ilLPStatus.php';
+        $ilDB = $DIC->database();
         $oldStatus = ilLPStatus::_lookupStatus($a_packageId, $a_user_id);
         $status['saved_global_status'] = (int) $oldStatus;
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_packageId);
         $status['lp_mode'] = $olp->getCurrentMode();
         $collection = $olp->getCollectionInstance();
@@ -326,7 +333,6 @@ class ilObjSCORMInitData
             if ($val_rec["sco_total_time_sec"] == null) {
                 //fall back for old ILIAS-Versions
                 if ($scormType == "2004") {
-                    include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
                     $status['total_time_sec'] = (int) ilSCORM2004Tracking::getSumTotalTimeSecondsFromScos($a_packageId, $a_user_id, true);
                 }
             } else {
@@ -341,12 +347,12 @@ class ilObjSCORMInitData
         return $status;
     }
     // hash for storing data without session
-    private static function setHash($a_packageId, $a_user_id)
+    private static function setHash($a_packageId, $a_user_id) : int
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $hash = mt_rand(1000000000, 2147483647);
-        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d') + 1, date('Y')));
+        $ilDB = $DIC->database();
+        $hash = mt_rand(1_000_000_000, 2_147_483_647);
+        $endDate = date('Y-m-d H:i:s', mktime((int) date("H"), (int) date("i"), (int) date("s"), (int) date("m"), (int) date("d") + 1, (int) date("Y")));
 
         $res = $ilDB->queryF(
             'SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
@@ -382,7 +388,7 @@ class ilObjSCORMInitData
     /**
     * Get max. number of attempts allowed for this package
     */
-    public static function get_max_attempts($a_packageId)
+    public static function get_max_attempts($a_packageId) : int
     {
         //erased in 5.1
         return 0;

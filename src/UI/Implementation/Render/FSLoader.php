@@ -1,10 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Implementation\Component\Input\Field\Input;
 
 /**
  * Loads renderers for components from the file system.
@@ -21,20 +23,9 @@ class FSLoader implements Loader
 {
     use LoaderHelper;
 
-    /**
-     * @var	DefaultRendererFactory
-     */
-    private $default_renderer_factory;
-
-    /**
-     * @var	RendererFactory
-     */
-    private $glyph_renderer_factory;
-
-    /**
-     * @var	RendererFactory
-     */
-    private $field_renderer_factory;
+    private RendererFactory $default_renderer_factory;
+    private RendererFactory $glyph_renderer_factory;
+    private RendererFactory $field_renderer_factory;
 
     public function __construct(
         RendererFactory $default_renderer_factory,
@@ -49,7 +40,7 @@ class FSLoader implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFor(Component $component, array $contexts)
+    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
     {
         $context_names = $this->getContextNames($contexts);
         $factory = $this->getRendererFactoryFor($component);
@@ -59,12 +50,12 @@ class FSLoader implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFactoryFor(Component $component)
+    public function getRendererFactoryFor(Component $component) : RendererFactory
     {
-        if ($component instanceof \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph) {
+        if ($component instanceof Glyph) {
             return $this->glyph_renderer_factory;
         }
-        if ($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {
+        if ($component instanceof Input) {
             return $this->field_renderer_factory;
         }
         return $this->default_renderer_factory;

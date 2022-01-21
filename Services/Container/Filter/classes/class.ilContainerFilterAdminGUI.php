@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use \Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**

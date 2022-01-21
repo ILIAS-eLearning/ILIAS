@@ -1,42 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
-use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Item;
+use ILIAS\UI\Component\Dropdown;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Common interface to all items.
  */
-class Group implements C\Item\Group
+class Group implements Item\Group
 {
     use ComponentHelper;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
     /**
-     * @var C\Item\Item[]
+     * @var Item\Item[]
      */
-    protected $items;
+    protected array $items;
+    protected ?Dropdown\Standard $actions = null;
 
     /**
-     * @var \ILIAS\UI\Component\Dropdown\Standard
+     * @param Item\Item[] $items
      */
-    protected $actions;
-
-    /**
-     * Group constructor.
-     * @param $title
-     * @param C\Item\Item[] $items
-     */
-    public function __construct($title, array $items)
+    public function __construct(string $title, array $items)
     {
-        $this->checkStringArg("title", $title);
         $this->title = $title;
         $this->items = $items;
     }
@@ -44,7 +35,7 @@ class Group implements C\Item\Group
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -52,7 +43,7 @@ class Group implements C\Item\Group
     /**
      * @inheritdoc
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
@@ -60,17 +51,17 @@ class Group implements C\Item\Group
     /**
      * @inheritdoc
      */
-    public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions)
+    public function withActions(Dropdown\Standard $dropdown) : Item\Group
     {
         $clone = clone $this;
-        $clone->actions = $actions;
+        $clone->actions = $dropdown;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getActions()
+    public function getActions() : ?Dropdown\Standard
     {
         return $this->actions;
     }

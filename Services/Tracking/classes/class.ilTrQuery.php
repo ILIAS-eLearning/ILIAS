@@ -1610,18 +1610,18 @@ class ilTrQuery
         // repository
         include_once "Services/Tree/classes/class.ilTree.php";
         $tree = new ilTree(1);
-        $sql = "SELECT " . $tree->table_obj_data . ".obj_id," . $tree->table_obj_data . ".type," .
-            $tree->table_tree . "." . $tree->tree_pk . "," . $tree->table_obj_reference . ".ref_id" .
-            " FROM " . $tree->table_tree .
+        $sql = "SELECT " . $tree->getObjectDataTable() . ".obj_id," . $tree->getObjectDataTable() . ".type," .
+            $tree->getTreeTable() . "." . $tree->getTreePk() . "," . $tree->getTableReference() . ".ref_id" .
+            " FROM " . $tree->getTreeTable() .
             " " . $tree->buildJoin() .
-            " WHERE " . $ilDB->in($tree->table_obj_data . ".type", $types, "", "text");
+            " WHERE " . $ilDB->in($tree->getObjectDataTable() . ".type", $types, "", "text");
         $set = $ilDB->query($sql);
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["type"]]["type"] = $row["type"];
             $res[$row["type"]]["references"]++;
             $res[$row["type"]]["objects"][] = $row["obj_id"];
-            if ($row[$tree->tree_pk] < 0) {
+            if ($row[$tree->getTreePk()] < 0) {
                 $res[$row["type"]]["deleted"]++;
             }
         }

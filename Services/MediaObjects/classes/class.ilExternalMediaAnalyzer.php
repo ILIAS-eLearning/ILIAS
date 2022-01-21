@@ -1,20 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Analyzes external media locations and extracts important information
  * into parameter field.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExternalMediaAnalyzer
 {
     /**
-    * Identify YouTube links
-    */
-    public static function isYouTube($a_location)
-    {
+     * Identify YouTube links
+     */
+    public static function isYouTube(
+        string $a_location
+    ) : bool {
         if (strpos($a_location, "youtube.com") > 0 ||
                 strpos($a_location, "youtu.be") > 0) {
             return true;
@@ -23,10 +35,11 @@ class ilExternalMediaAnalyzer
     }
     
     /**
-    * Extract YouTube Parameter
-    */
-    public static function extractYouTubeParameters($a_location)
-    {
+     * Extract YouTube Parameter
+     */
+    public static function extractYouTubeParameters(
+        string $a_location
+    ) : array {
         $par = array();
         $pos1 = strpos($a_location, "v=");
         $pos2 = strpos($a_location, "&", $pos1);
@@ -43,10 +56,11 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Identify Flickr links
-    */
-    public static function isFlickr($a_location)
-    {
+     * Identify Flickr links
+     */
+    public static function isFlickr(
+        string $a_location
+    ) : bool {
         if (strpos($a_location, "flickr.com") > 0) {
             return true;
         }
@@ -54,10 +68,11 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Extract Flickr Parameter
-    */
-    public static function extractFlickrParameters($a_location)
-    {
+     * Extract Flickr Parameter
+     */
+    public static function extractFlickrParameters(
+        string $a_location
+    ) : array {
         $par = array();
         $pos1 = strpos($a_location, "flickr.com/photos/");
         $pos2 = strpos($a_location, "/", $pos1 + 18);
@@ -92,10 +107,11 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Identify GoogleVideo links
-    */
-    public static function isGoogleVideo($a_location)
-    {
+     * Identify GoogleVideo links
+     */
+    public static function isGoogleVideo(
+        string $a_location
+    ) : bool {
         if (strpos($a_location, "video.google") > 0) {
             return true;
         }
@@ -103,10 +119,11 @@ class ilExternalMediaAnalyzer
     }
     
     /**
-    * Extract GoogleVideo Parameter
-    */
-    public static function extractGoogleVideoParameters($a_location)
-    {
+     * Extract GoogleVideo Parameter
+     */
+    public static function extractGoogleVideoParameters(
+        string $a_location
+    ) : array {
         $par = array();
         $pos1 = strpos($a_location, "docid=");
         $pos2 = strpos($a_location, "&", $pos1 + 6);
@@ -123,8 +140,9 @@ class ilExternalMediaAnalyzer
     /**
      * Identify Vimeo links
      */
-    public static function isVimeo($a_location)
-    {
+    public static function isVimeo(
+        string $a_location
+    ) : bool {
         if (strpos($a_location, "vimeo.com") > 0) {
             return true;
         }
@@ -134,8 +152,9 @@ class ilExternalMediaAnalyzer
     /**
      * Extract Vimeo Parameter
      */
-    public static function extractVimeoParameters($a_location)
-    {
+    public static function extractVimeoParameters(
+        string $a_location
+    ) : array {
         $par = array();
         $pos1 = strpos($a_location, "vimeo.com/");
         $pos2 = strpos($a_location, "&", $pos1 + 10);
@@ -150,10 +169,11 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Identify Google Document links
-    */
-    public static function isGoogleDocument($a_location)
-    {
+     * Identify Google Document links
+     */
+    public static function isGoogleDocument(
+        string $a_location
+    ) : bool {
         if (strpos($a_location, "docs.google") > 0) {
             return true;
         }
@@ -161,10 +181,11 @@ class ilExternalMediaAnalyzer
     }
     
     /**
-    * Extract GoogleDocument Parameter
-    */
-    public static function extractGoogleDocumentParameters($a_location)
-    {
+     * Extract GoogleDocument Parameter
+     */
+    public static function extractGoogleDocumentParameters(
+        string $a_location
+    ) : array {
         $par = array();
         $pos1 = strpos($a_location, "id=");
         $pos2 = strpos($a_location, "&", $pos1 + 3);
@@ -193,10 +214,12 @@ class ilExternalMediaAnalyzer
     }
     
     /**
-    * Extract URL information to parameter array
-    */
-    public static function extractUrlParameters($a_location, $a_parameter)
-    {
+     * Extract URL information to parameter array
+     */
+    public static function extractUrlParameters(
+        string $a_location,
+        array $a_parameter
+    ) : array {
         if (!is_array($a_parameter)) {
             $a_parameter = array();
         }

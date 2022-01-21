@@ -1,11 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\InfoScreen\StandardGUIRequest;
 
 /**
  * Class ilInfoScreenGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
  */
@@ -43,6 +56,7 @@ class ilInfoScreenGUI
     protected bool $news_enabled = false;
     protected bool $feedback_enabled = false;
     protected bool $learning_progress_enabled = false;
+    protected StandardGUIRequest $request;
 
 
     /**
@@ -51,6 +65,7 @@ class ilInfoScreenGUI
      */
     public function __construct(?object $a_gui_object = null)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -70,6 +85,10 @@ class ilInfoScreenGUI
         $this->form_action = "";
         $this->top_formbuttons = array();
         $this->hiddenelements = array();
+        $this->request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
 
     /**
@@ -103,7 +122,7 @@ class ilInfoScreenGUI
                 break;
 
             case "ilpublicuserprofilegui":
-                $user_profile = new ilPublicUserProfileGUI($_GET["user_id"]);
+                $user_profile = new ilPublicUserProfileGUI($this->request->getUserId());
                 $user_profile->setBackUrl($this->ctrl->getLinkTarget($this, "showSummary"));
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $tpl->setContent($html);
@@ -311,8 +330,8 @@ class ilInfoScreenGUI
 
         $md = new ilMD($a_rep_obj_id, $a_obj_id, $a_type);
         $description = "";
-        $langs = [];
-        $keywords = [];
+        $langs = '';
+        $keywords = "";
         if ($md_gen = $md->getGeneral()) {
             // get first descrption
             // The description is shown on the top of the page.
@@ -324,20 +343,22 @@ class ilInfoScreenGUI
             }
 
             // get language(s)
+            $language_arr = [];
             foreach ($md_gen->getLanguageIds() as $id) {
                 $md_lan = $md_gen->getLanguage($id);
                 if ($md_lan->getLanguageCode() != "") {
-                    $langs[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
+                    $language_arr[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
                 }
             }
-            $langs = implode(", ", $langs);
+            $langs = implode(", ", $language_arr);
 
             // keywords
+            $keyword_arr = [];
             foreach ($md_gen->getKeywordIds() as $id) {
                 $md_key = $md_gen->getKeyword($id);
-                $keywords[] = $md_key->getKeyword();
+                $keyword_arr[] = $md_key->getKeyword();
             }
-            $keywords = implode(", ", $keywords);
+            $keywords = implode(", ", $keyword_arr);
         }
 
         // authors
@@ -556,6 +577,7 @@ class ilInfoScreenGUI
                 // Show lock info
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->gui_object->object->getId())) {
+                        /** @var ilWebDAVLockObject $lock */
                         $lock_user = new ilObjUser($lock->getIliasOwner());
                         $this->addProperty(
                             $this->lng->txt("in_use_by"),
@@ -636,12 +658,8 @@ class ilInfoScreenGUI
             $column_gui->getCmdSide() == IL_COL_RIGHT &&
             $column_gui->getScreenMode() == IL_SCREEN_SIDE) {
             $html = $ilCtrl->forwardCommand($column_gui);
-        } else {
-            if (!$ilCtrl->isAsynch()) {
-                if ($this->news_enabled) {
-                    $html = $ilCtrl->getHTML($column_gui);
-                }
-            }
+        } elseif (!$ilCtrl->isAsynch() && $this->news_enabled) {
+            $html = $ilCtrl->getHTML($column_gui);
         }
 
         return $html;
@@ -702,7 +720,7 @@ class ilInfoScreenGUI
         
         // add top buttons
         if (count($this->top_buttons) > 0) {
-            $tpl->addBlockfile("TOP_BUTTONS", "top_buttons", "tpl.buttons.html");
+            $tpl->addBlockFile("TOP_BUTTONS", "top_buttons", "tpl.buttons.html");
 
             foreach ($this->top_buttons as $button) {
                 // view button
@@ -719,7 +737,7 @@ class ilInfoScreenGUI
 
         // add top formbuttons
         if ((count($this->top_formbuttons) > 0) && (strlen($this->form_action) > 0)) {
-            $tpl->addBlockfile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html", "Services/InfoScreen");
+            $tpl->addBlockFile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html", "Services/InfoScreen");
 
             foreach ($this->top_formbuttons as $button) {
                 // view button
@@ -772,14 +790,14 @@ class ilInfoScreenGUI
         }
 
         // tagging
-        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $tags_set = new ilSetting("tags");
             if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $this->addTagging();
             }
         }
 
-        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $this->addObjectSections();
         }
 
@@ -833,7 +851,7 @@ class ilInfoScreenGUI
         return $this->gui_object->object->getRefId();
     }
 
-    public function setContextRefId(int $contextRefId)
+    public function setContextRefId(int $contextRefId) : void
     {
         $this->contextRefId = $contextRefId;
     }
@@ -847,7 +865,7 @@ class ilInfoScreenGUI
         return $this->gui_object->object->getId();
     }
 
-    public function setContextObjId(int $contextObjId)
+    public function setContextObjId(int $contextObjId) : void
     {
         $this->contextObjId = $contextObjId;
     }
@@ -861,7 +879,7 @@ class ilInfoScreenGUI
         return $this->gui_object->object->getType();
     }
 
-    public function setContentObjType(string $contentObjType)
+    public function setContentObjType(string $contentObjType) : void
     {
         $this->contentObjType = $contentObjType;
     }
@@ -987,7 +1005,7 @@ class ilInfoScreenGUI
         $ilUser = $this->user;
 
         $lp_marks = new ilLPMarks($this->getContextObjId(), $ilUser->getId());
-        $lp_marks->setCompleted((bool) $_POST['lp_edit']);
+        $lp_marks->setCompleted((bool) $this->request->getLPEdit());
         $lp_marks->update();
 
         ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
@@ -1139,7 +1157,7 @@ class ilInfoScreenGUI
     public function hideFurtherSections(bool $a_add_toggle = true) : void
     {
         $this->hidden = true;
-        $this->show_hidden_toggle = (bool) $a_add_toggle;
+        $this->show_hidden_toggle = $a_add_toggle;
     }
 
     public function getHiddenToggleButton() : string
@@ -1156,7 +1174,7 @@ class ilInfoScreenGUI
      */
     protected function addAvailability() : void
     {
-        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
             return;
         }
 
@@ -1179,7 +1197,7 @@ class ilInfoScreenGUI
      */
     protected function addPreconditions() : void
     {
-        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
             return;
         }
 

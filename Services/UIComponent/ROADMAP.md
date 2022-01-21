@@ -6,6 +6,13 @@ The priorities for deprecation and removing the components are discussed frequen
 
 PLR Meeting, 13 Aug 2020: We currently would like to focus on the following elements to be removed completely: Checklist, Glyph, GroupedList, Lightbox, Modal.
 
+### AdvancedSelectionListGUI
+
+Please migrate to KS Dropdowns. If this is not possible, please contact the PLR group.
+
+**Usages**
+- Oct 2021: More than 100 usages in various components.
+
 ### Checklist (ilChecklistGUI)
 
 - Should be easy to remove with ILIAS 7 setup refactorings.

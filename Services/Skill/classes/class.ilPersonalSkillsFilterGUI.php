@@ -29,9 +29,9 @@ class ilPersonalSkillsFilterGUI
 {
     protected ilLanguage $lng;
     protected SkillPersonalGUIRequest $personal_gui_request;
-    protected int $requested_formation_type;
-    protected bool $requested_target_level;
-    protected bool $requested_materials_resources;
+    protected int $requested_formation_type = 0;
+    protected bool $requested_target_level = false;
+    protected bool $requested_materials_resources = false;
 
     public function __construct()
     {

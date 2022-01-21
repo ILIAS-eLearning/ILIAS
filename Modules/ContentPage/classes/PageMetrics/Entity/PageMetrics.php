@@ -9,7 +9,7 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
  * Class PageMetrics
  * @package ILIAS\ContentPage\PageMetrics\Entity
  */
-final class PageMetrics
+class PageMetrics
 {
     private int $contentPageId;
     private int $pageId;

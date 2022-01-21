@@ -524,9 +524,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilLog->write("importing metadata from json: " . print_r($a_json, true));
         
         include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-        
+
         $mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
         $values_records = ilAdvancedMDValues::getInstancesForObjectId($this->getId(), $this->getType());
         foreach ($values_records as $values_record) {

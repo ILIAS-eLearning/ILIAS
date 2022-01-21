@@ -9,7 +9,6 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilAccountCodesTableGUI:
 * @ingroup ServicesUser
 */
 class ilAccountCodesTableGUI extends ilTable2GUI
@@ -129,7 +128,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -165,12 +164,12 @@ class ilAccountCodesTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($code)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("ID", $code["code_id"]);
-        $this->tpl->setVariable("VAL_CODE", $code["code"]);
-        $this->tpl->setVariable("VAL_VALID_UNTIL", $code["valid_until"]);
-        $this->tpl->setVariable("VAL_GENERATED", $code["generated"]);
-        $this->tpl->setVariable("VAL_USED", $code["used"]);
+        $this->tpl->setVariable("ID", $a_set["code_id"]);
+        $this->tpl->setVariable("VAL_CODE", $a_set["code"]);
+        $this->tpl->setVariable("VAL_VALID_UNTIL", $a_set["valid_until"]);
+        $this->tpl->setVariable("VAL_GENERATED", $a_set["generated"]);
+        $this->tpl->setVariable("VAL_USED", $a_set["used"]);
     }
 }

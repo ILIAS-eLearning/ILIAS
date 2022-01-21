@@ -1,32 +1,28 @@
-<?php
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Legacy;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Component;
 
 /**
  * Interface Legacy
  * @package ILIAS\UI\Component\Legacy
  */
-interface Legacy extends \ILIAS\UI\Component\Component, JavaScriptBindable
+interface Legacy extends Component, JavaScriptBindable
 {
     /**
      * Get content as string stored in this component.
-     *
-     * @return	string
      */
-    public function getContent();
+    public function getContent() : string;
 
     /**
      * Get a legacy component like this, but with an additional signal with custom JavaScript code
      *
      * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
-     * @param $signal_name
-     * @param $js_code
-     * @return Legacy
      */
     public function withCustomSignal(string $signal_name, string $js_code) : Legacy;
 
@@ -34,9 +30,7 @@ interface Legacy extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * Get signal with custom JavaScript code
      *
      * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
-     * @param $signal_name
      * @throws \InvalidArgumentException
-     * @return Signal
      */
-    public function getCustomSignal(string $signal_name);
+    public function getCustomSignal(string $signal_name) : Signal;
 }

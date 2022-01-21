@@ -36,7 +36,7 @@ class ItemManager
         $this->item_repo->setExpanded($id, $val);
     }
 
-    public function getExpanded(int $id) : int
+    public function getExpanded(int $id) : ?int
     {
         return $this->item_repo->getExpanded($id);
     }

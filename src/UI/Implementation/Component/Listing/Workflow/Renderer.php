@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -7,8 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Triggerer;
-use ILIAS\UI\Implementation\Component\Listing\Workflow\Linear;
+use LogicException;
 
 /**
  * Class Renderer
@@ -16,13 +15,14 @@ use ILIAS\UI\Implementation\Component\Listing\Workflow\Linear;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
         if ($component instanceof Linear) {
             return $this->render_linear($component, $default_renderer);
         }
+        throw new LogicException("Cannot render: " . get_class($component));
     }
 
     protected function render_linear(Linear $component, RendererInterface $default_renderer) : string
@@ -90,7 +90,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [
             Component\Listing\Workflow\Workflow::class

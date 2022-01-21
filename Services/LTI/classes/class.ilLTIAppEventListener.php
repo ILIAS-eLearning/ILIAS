@@ -165,7 +165,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * @inheritdoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 
@@ -211,14 +211,13 @@ class ilLTIAppEventListener implements \ilAppEventListener
         }
         //check if LearningPress enabled
         $olp = ilObjectLP::getInstance($a_obj_id);
-        if (ilLPObjSettings::LP_MODE_DEACTIVATED != $olp->getCurrentMode())
-        {
+        if (ilLPObjSettings::LP_MODE_DEACTIVATED != $olp->getCurrentMode()) {
             $DIC->logger()->lti()->debug('Ignoring outcome if LP is activated.');
             return false;
         }
 
         if ($a_percentage && $a_percentage > 0) {
-            $score = round($a_percentage/100, 4);
+            $score = round($a_percentage / 100, 4);
         }
 
         $connector = new ilLTIDataConnector();
@@ -234,7 +233,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
                 $consumer
             );
 
-            $DIC->logger()->lti()->debug('Resources for update: '.$resources);
+            $DIC->logger()->lti()->debug('Resources for update: ' . $resources);
 
             foreach ($resources as $resource) {
                 // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
@@ -253,5 +252,4 @@ class ilLTIAppEventListener implements \ilAppEventListener
             }
         }
     }
-
 }

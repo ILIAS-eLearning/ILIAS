@@ -1,17 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTInternalLink extends ilADT
 {
-    /**
-     * @var int
-     */
-    protected $value;
-    
+    protected ?int $value;
+
+    protected ilTree $tree;
+
+    public function __construct(ilADTDefinition $a_def)
+    {
+        global $DIC;
+        parent::__construct($a_def);
+
+        $this->tree = $DIC->repositoryTree();
+    }
+
     /**
      * @param ilADTDefinition $a_def
      * @return bool
      */
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTInternalLinkDefinition;
     }
@@ -19,102 +26,83 @@ class ilADTInternalLink extends ilADT
     /**
      * Reset
      */
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         $this->value = null;
     }
-    
-    /**
-     * Set id of target object
-     * @param type $a_value
-     */
-    public function setTargetRefId($a_value)
+
+    public function setTargetRefId(?int $a_value) : void
     {
         $this->value = $a_value;
     }
-    
+
     /**
-     * @return int get target ref_id
+     * @return int|null get target ref_id
      */
-    public function getTargetRefId()
+    public function getTargetRefId() : ?int
     {
         return $this->value;
     }
 
     /**
-     *
      * @param ilADT $a_adt
-     * @return type
+     * @return bool
      */
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return strcmp($this->getCheckSum(), $a_adt->getCheckSum()) === 0;
         }
+        return null;
     }
 
-    /**
-     * Is larger
-     * @param ilADT $a_adt
-     */
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
-    /**
-     * Is smaller
-     * @param ilADT $a_adt
-     */
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * is null
      * @return bool
      */
-    public function isNull()
+    public function isNull() : bool
     {
-        return (bool) !$this->getTargetRefId();
+        return !$this->getTargetRefId();
     }
-    
 
-    /**
-     * is valid
-     * @return boolean
-     */
-    public function isValid()
+    public function isValid() : bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
-            $tree = $GLOBALS['DIC']->repositoryTree();
             if (
-                !$tree->isInTree($this->getTargetRefId()) ||
-                $tree->isDeleted($this->getTargetRefId())
+                !$this->tree->isInTree($this->getTargetRefId()) ||
+                $this->tree->isDeleted($this->getTargetRefId())
             ) {
-                $this->valid = false;
+                $valid = false;
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_INVALID_NODE);
             }
         }
         return $valid;
     }
 
-    /**
-     * get checksum
-     * @return string
-     */
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
-            return md5($this->getTargetRefId());
+            return md5((string) $this->getTargetRefId());
         }
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -122,13 +110,13 @@ class ilADTInternalLink extends ilADT
 
             return $obj;
         }
+        return null;
     }
-
 
     /**
      * @inheritDoc
      */
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setTargetRefId($a_std->target_ref_id);

@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 define("NEWS_NOTICE", 0);
 define("NEWS_MESSAGE", 1);
@@ -11,11 +23,7 @@ define("NEWS_AUDIO", "audio");
 define("NEWS_USERS", "users");
 define("NEWS_PUBLIC", "public");
 
-
-
 /**
- * @defgroup ServicesNews Services/News
- *
  * A news item can be created by different sources. E.g. when
  * a new forum posting is created, or when a change in a
  * learning module is announced.
@@ -24,85 +32,43 @@ define("NEWS_PUBLIC", "public");
  * will be move to other classes in the future. Please avoid to use these functions. This class should
  * be a pure data class without persistence in the future.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsItem
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    protected $id;
-    protected $title;
-    protected $content;
-    /**
-     * @var bool
-     */
-    protected $content_html;
-    protected $context_obj_id;
-    protected $context_obj_type;
-    protected $context_sub_obj_id;
-    protected $context_sub_obj_type;
-    protected $content_type = "text";
-    protected $creation_date;
-    protected $update_date;
-    protected $user_id;
-    /**
-     * @var int
-     */
-    protected $update_user_id;
-    protected $visibility = "users";
-    protected $content_long;
-    protected $priority = 1;
-    protected $content_is_lang_var = 0;
-    protected $mob_id;
-    protected $playtime;
-
-    private static $privFeedId = false;
-    private $limitation;
-
+    private int $mob_cnt_download = 0;
+    protected int $mob_cnt_play = 0;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected int $id = 0;
+    protected string $title = "";
+    protected string $content = "";
+    protected bool $content_html = false;
+    protected int $context_obj_id = 0;
+    protected string $context_obj_type = "";
+    protected int $context_sub_obj_id = 0;
+    protected ?string $context_sub_obj_type = null;
+    protected string $content_type = "text";
+    protected string $creation_date = "";
+    protected string $update_date = "";
+    protected int $user_id = 0;
+    protected int $update_user_id = 0;
+    protected string $visibility = "users";
+    protected string $content_long = "";
+    protected int $priority = 1;
+    protected int $content_is_lang_var = 0;
+    protected int $mob_id = 0;
+    protected string $playtime = "";
+    private static bool $privFeedId = false;
+    private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
 
-    /**
-    * Constructor.
-    *
-    * @param	int	$a_id
-    */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -120,463 +86,246 @@ class ilNewsItem
         $this->limitation = true;
     }
 
-    /**
-     * Set Id.
-     *
-     * @param	int	$a_id
-     */
-    public function setId($a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-     * Get Id.
-     *
-     * @return	int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * Set Title.
-     *
-     * @param	string	$a_title	Title of news item.
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * Get Title.
-     *
-     * @return	string	Title of news item.
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * Set Content.
-     *
-     * @param	string	$a_content	Content of news.
-     */
-    public function setContent($a_content)
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * Get Content.
-     *
-     * @return	string	Content of news.
-     */
-    public function getContent()
+    public function getContent() : string
     {
         return $this->content;
     }
 
-    /**
-     * Set ContextObjId.
-     *
-     * @param	int	$a_context_obj_id
-     */
-    public function setContextObjId($a_context_obj_id)
+    public function setContextObjId(int $a_context_obj_id) : void
     {
         $this->context_obj_id = $a_context_obj_id;
     }
 
-    /**
-     * Get ContextObjId.
-     *
-     * @return	int
-     */
-    public function getContextObjId()
+    public function getContextObjId() : int
     {
         return $this->context_obj_id;
     }
 
-    /**
-     * Set ContextObjType.
-     *
-     * @param	int	$a_context_obj_type
-     */
-    public function setContextObjType($a_context_obj_type)
+    public function setContextObjType(string $a_context_obj_type) : void
     {
         $this->context_obj_type = $a_context_obj_type;
     }
 
-    /**
-     * Get ContextObjType.
-     *
-     * @return	int
-     */
-    public function getContextObjType()
+    public function getContextObjType() : string
     {
         return $this->context_obj_type;
     }
 
-    /**
-     * Set ContextSubObjId.
-     *
-     * @param	int	$a_context_sub_obj_id
-     */
-    public function setContextSubObjId($a_context_sub_obj_id)
+    public function setContextSubObjId(int $a_context_sub_obj_id) : void
     {
         $this->context_sub_obj_id = $a_context_sub_obj_id;
     }
 
-    /**
-     * Get ContextSubObjId.
-     *
-     * @return	int
-     */
-    public function getContextSubObjId()
+    public function getContextSubObjId() : int
     {
         return $this->context_sub_obj_id;
     }
 
-    /**
-     * Set ContextSubObjType.
-     *
-     * @param	int	$a_context_sub_obj_type
-     */
-    public function setContextSubObjType($a_context_sub_obj_type)
+    public function setContextSubObjType(?string $a_context_sub_obj_type) : void
     {
         $this->context_sub_obj_type = $a_context_sub_obj_type;
     }
 
-    /**
-     * Get ContextSubObjType.
-     *
-     * @return	int
-     */
-    public function getContextSubObjType()
+    public function getContextSubObjType() : ?string
     {
         return $this->context_sub_obj_type;
     }
 
-    /**
-     * Set ContentType.
-     *
-     * @param	string	$a_content_type	Content type.
-     */
-    public function setContentType($a_content_type = "text")
+    public function setContentType(string $a_content_type = "text") : void
     {
         $this->content_type = $a_content_type;
     }
 
-    /**
-     * Get ContentType.
-     *
-     * @return	string	Content type.
-     */
-    public function getContentType()
+    public function getContentType() : string
     {
         return $this->content_type;
     }
 
-    /**
-     * Set CreationDate.
-     *
-     * @param	string	$a_creation_date	Date of creation.
-     */
-    public function setCreationDate($a_creation_date)
+    public function setCreationDate(string $a_creation_date) : void
     {
         $this->creation_date = $a_creation_date;
     }
 
-    /**
-     * Get CreationDate.
-     *
-     * @return	string	Date of creation.
-     */
-    public function getCreationDate()
+    public function getCreationDate() : string
     {
         return $this->creation_date;
     }
 
-    /**
-     * Set UpdateDate.
-     *
-     * @param	string	$a_update_date	Date of last update.
-     */
-    public function setUpdateDate($a_update_date)
+    public function setUpdateDate(string $a_update_date) : void
     {
         $this->update_date = $a_update_date;
     }
 
-    /**
-     * Get UpdateDate.
-     *
-     * @return	string	Date of last update.
-     */
-    public function getUpdateDate()
+    public function getUpdateDate() : string
     {
         return $this->update_date;
     }
 
-    /**
-     * Set UserId.
-     *
-     * @param	int	$a_user_id	User Id of last update.
-     */
-    public function setUserId($a_user_id)
+    public function setUserId(int $a_user_id) : void
     {
         $this->user_id = $a_user_id;
     }
 
-    /**
-     * Get UserId.
-     *
-     * @return	int	User Id of last update.
-     */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * Set update user id
-     *
-     * @param int $a_val update user id
-     */
-    public function setUpdateUserId($a_val)
+    public function setUpdateUserId(int $a_val) : void
     {
         $this->update_user_id = $a_val;
     }
 
-    /**
-     * Get update user id
-     *
-     * @return int update user id
-     */
-    public function getUpdateUserId()
+    public function getUpdateUserId() : int
     {
         return $this->update_user_id;
     }
 
     /**
-     * Set Visibility.
-     *
      * @param	string	$a_visibility	Access level of news.
      */
-    public function setVisibility($a_visibility = "users")
-    {
+    public function setVisibility(
+        string $a_visibility = "users"
+    ) : void {
         $this->visibility = $a_visibility;
     }
 
-    /**
-     * Get Visibility.
-     *
-     * @return	string	Access level of news.
-     */
-    public function getVisibility()
+    public function getVisibility() : string
     {
         return $this->visibility;
     }
 
     /**
-     * Set ContentLong.
-     *
      * @param	string	$a_content_long	Long content of news
      */
-    public function setContentLong($a_content_long)
+    public function setContentLong(string $a_content_long) : void
     {
         $this->content_long = $a_content_long;
     }
 
-    /**
-     * Get ContentLong.
-     *
-     * @return	string	Long content of news
-     */
-    public function getContentLong()
+    public function getContentLong() : string
     {
         return $this->content_long;
     }
 
-    /**
-     * Set Priority.
-     *
-     * @param	int	$a_priority	News Priority
-     */
-    public function setPriority($a_priority = 1)
+    public function setPriority(int $a_priority = 1) : void
     {
         $this->priority = $a_priority;
     }
 
-    /**
-     * Get Priority.
-     *
-     * @return	int	News Priority
-     */
-    public function getPriority()
+    public function getPriority() : int
     {
         return $this->priority;
     }
 
-    /**
-     * Set ContentIsLangVar.
-     *
-     * @param	boolean	$a_content_is_lang_var
-     */
-    public function setContentIsLangVar($a_content_is_lang_var = 0)
-    {
+    public function setContentIsLangVar(
+        bool $a_content_is_lang_var = false
+    ) : void {
         $this->content_is_lang_var = $a_content_is_lang_var;
     }
 
-    /**
-     * Get ContentIsLangVar.
-     *
-     * @return	boolean
-     */
-    public function getContentIsLangVar()
+    public function getContentIsLangVar() : bool
     {
         return $this->content_is_lang_var;
     }
 
-    /**
-     * Set MobId.
-     *
-     * @param	int	$a_mob_id	Media Object ID (if news includes attachement)
-     */
-    public function setMobId($a_mob_id)
+    public function setMobId(int $a_mob_id) : void
     {
         $this->mob_id = $a_mob_id;
     }
 
-    /**
-     * Get MobId.
-     *
-     * @return	int	Media Object ID (if news includes attachement)
-     */
-    public function getMobId()
+    public function getMobId() : int
     {
         return $this->mob_id;
     }
 
     /**
-     * Set Playtime.
-     *
      * @param	string	$a_playtime	Play Time, hh:mm:ss (of attached media file)
      */
-    public function setPlaytime($a_playtime)
+    public function setPlaytime(string $a_playtime) : void
     {
         $this->playtime = $a_playtime;
     }
 
-    /**
-     * Get Playtime.
-     *
-     * @return	string	Play Time, hh:mm:ss (of attached media file)
-     */
-    public function getPlaytime()
+    public function getPlaytime() : string
     {
         return $this->playtime;
     }
 
-
     /**
-    * Set Limitation for number of items.
-    *
-    * @param	boolean	$a_limitation	Limitation for number of items
-    */
-    public function setLimitation($a_limitation)
+     * Set Limitation for number of items.
+     */
+    public function setLimitation(bool $a_limitation) : void
     {
         $this->limitation = $a_limitation;
     }
 
-    /**
-    * Get Limitation for number of items.
-    *
-    * @return	boolean	Limitation for number of items
-    */
-    public function getLimitation()
+    public function getLimitation() : bool
     {
         return $this->limitation;
     }
 
-    /**
-     * Set content text ist lang var
-     *
-     * @param boolean $a_content_is_lang_var
-     */
-    public function setContentTextIsLangVar($a_val = 0)
+    public function setContentTextIsLangVar(bool $a_val = false) : void
     {
         $this->content_text_is_lang_var = $a_val;
     }
 
-    /**
-     * Get content text ist lang var
-     *
-     * @return	boolean
-     */
-    public function getContentTextIsLangVar()
+    public function getContentTextIsLangVar() : bool
     {
         return $this->content_text_is_lang_var;
     }
 
-    /**
-     * Set mob play counter
-     *
-     * @param int $a_val counter
-     */
-    public function setMobPlayCounter($a_val)
+    public function setMobPlayCounter(int $a_val) : void
     {
         $this->mob_cnt_play = $a_val;
     }
     
-    /**
-     * Get mob play counter
-     *
-     * @return int counter
-     */
-    public function getMobPlayCounter()
+    public function getMobPlayCounter() : int
     {
         return $this->mob_cnt_play;
     }
 
-    /**
-     * Set mob download counter
-     *
-     * @param int $a_val counter
-     */
-    public function setMobDownloadCounter($a_val)
+    public function setMobDownloadCounter(int $a_val) : void
     {
         $this->mob_cnt_download = $a_val;
     }
     
-    /**
-     * Get mob download counter
-     *
-     * @return int counter
-     */
-    public function getMobDownloadCounter()
+    public function getMobDownloadCounter() : int
     {
         return $this->mob_cnt_download;
     }
 
-    /**
-     * Is content HTML (tiny used?)
-     *
-     * @param bool $a_val
-     */
-    public function setContentHtml($a_val)
+    public function setContentHtml(bool $a_val) : void
     {
         $this->content_html = $a_val;
     }
 
-    /**
-     * Get content as html
-     *
-     * @return bool
-     */
-    public function getContentHtml()
+    public function getContentHtml() : bool
     {
         return $this->content_html;
     }
@@ -585,7 +334,7 @@ class ilNewsItem
      * Read item from database.
      * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
      */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -610,18 +359,18 @@ class ilNewsItem
         $this->setPriority($rec["priority"]);
         $this->setContentIsLangVar($rec["content_is_lang_var"]);
         $this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
-        $this->setMobId($rec["mob_id"]);
-        $this->setPlaytime($rec["playtime"]);
+        $this->setMobId((int) $rec["mob_id"]);
+        $this->setPlaytime((string) $rec["playtime"]);
         $this->setMobPlayCounter($rec["mob_cnt_play"]);
         $this->setMobDownloadCounter($rec["mob_cnt_download"]);
-        $this->setContentHtml($rec["content_html"]);
+        $this->setContentHtml((bool) $rec["content_html"]);
     }
 
     /**
      * Create
      * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
      */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
 
@@ -632,15 +381,15 @@ class ilNewsItem
             "title" => array("text", $this->getTitle()),
             "content" => array("clob", $this->getContent()),
             "content_html" => array("integer", (int) $this->getContentHtml()),
-            "context_obj_id" => array("integer", (int) $this->getContextObjId()),
+            "context_obj_id" => array("integer", $this->getContextObjId()),
             "context_obj_type" => array("text", $this->getContextObjType()),
-            "context_sub_obj_id" => array("integer", (int) $this->getContextSubObjId()),
+            "context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
             "context_sub_obj_type" => array("text", $this->getContextSubObjType()),
             "content_type" => array("text", $this->getContentType()),
             "creation_date" => array("timestamp", ilUtil::now()),
             "update_date" => array("timestamp", ilUtil::now()),
             "user_id" => array("integer", $this->getUserId()),
-            "update_user_id" => array("integer", (int) $this->getUpdateUserId()),
+            "update_user_id" => array("integer", $this->getUpdateUserId()),
             "visibility" => array("text", $this->getVisibility()),
             "content_long" => array("clob", $this->getContentLong()),
             "priority" => array("integer", $this->getPriority()),
@@ -682,7 +431,7 @@ class ilNewsItem
                         " AND " . $ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true) .
                         " ORDER BY creation_date ASC";
     
-                $ilDB->setLimit($rec["cnt"] - $max_items);
+                $ilDB->setLimit($rec["cnt"] - $max_items, 0);
                 $del_set = $ilDB->query($query);
                 while ($del_item = $ilDB->fetchAssoc($del_set)) {
                     $del_news = new ilNewsItem($del_item["id"]);
@@ -696,9 +445,9 @@ class ilNewsItem
      * Update item in database
      *
      * @deprecated (will migrate to ilNewsData or other class taking care of persistence)
-     * @param boolean $a_as_new If true, creation date is set "now"
+     * @param bool $a_as_new If true, creation date is set "now"
      */
-    public function update($a_as_new = false)
+    public function update(bool $a_as_new = false) : void
     {
         $ilDB = $this->db;
 
@@ -712,7 +461,7 @@ class ilNewsItem
             "context_sub_obj_type" => array("text", $this->getContextSubObjType()),
             "content_type" => array("text", $this->getContentType()),
             "user_id" => array("integer", $this->getUserId()),
-            "update_user_id" => array("integer", (int) $this->getUpdateUserId()),
+            "update_user_id" => array("integer", $this->getUpdateUserId()),
             "visibility" => array("text", $this->getVisibility()),
             "content_long" => array("clob", $this->getContentLong()),
             "priority" => array("integer", $this->getPriority()),
@@ -727,10 +476,8 @@ class ilNewsItem
         $now = ilUtil::now();
         if ($a_as_new) {
             $fields["creation_date"] = array("timestamp", $now);
-            $fields["update_date"] = array("timestamp", $now);
-        } else {
-            $fields["update_date"] = array("timestamp", $now);
         }
+        $fields["update_date"] = array("timestamp", $now);
 
         $ilDB->update("il_news_item", $fields, array(
             "id" => array("integer", $this->getId())
@@ -743,12 +490,12 @@ class ilNewsItem
      * @deprecated (will migrate to ilNewsData)
      */
     public static function _getNewsItemsOfUser(
-        $a_user_id,
-        $a_only_public = false,
-        $a_prevent_aggregation = false,
-        $a_per = 0,
-        &$a_cnt = null
-    ) {
+        int $a_user_id,
+        bool $a_only_public = false,
+        bool $a_prevent_aggregation = false,
+        int $a_per = 0,
+        array &$a_cnt = []
+    ) : array {
         global $DIC;
 
         $ilAccess = $DIC->access();
@@ -756,8 +503,7 @@ class ilNewsItem
         $fav_rep = new ilFavouritesDBRepository();
 
         $news_item = new ilNewsItem();
-        $news_set = new ilSetting("news");
-        
+
         $per = $a_per;
 
         // this is currently not used
@@ -773,9 +519,8 @@ class ilNewsItem
             }
             
             // get all memberships
-            include_once 'Services/Membership/classes/class.ilParticipants.php';
-            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, 'crs');
-            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, 'grp');
+            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id,['crs']);
+            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, ['grp']);
             $items = array_merge($crs_mbs, $grp_mbs);
             foreach ($items as $i) {
                 $item_references = ilObject::_getAllReferences($i);
@@ -842,39 +587,29 @@ class ilNewsItem
      * Get News For Ref Id.
      *
      * @deprecated (will migrate to ilNewsData)
-     *
-     * @param int $a_ref_id
-     * @param bool $a_only_public
-     * @param bool $a_stopnesting
-     * @param int $a_time_period
-     * @param bool $a_prevent_aggregation
-     * @param bool $a_forum_group_sequences
-     * @param bool $a_no_auto_generated
-     * @param bool $a_ignore_date_filter
-     * @param null $a_user_id
      * @param int $a_limit currently only supported for groups and courses
      * @param int[] $a_excluded currently only supported for groups and courses (news ids)
-     * @return array|mixed
      */
     public function getNewsForRefId(
-        $a_ref_id,
-        $a_only_public = false,
-        $a_stopnesting = false,
-        $a_time_period = 0,
-        $a_prevent_aggregation = true,
-        $a_forum_group_sequences = false,
-        $a_no_auto_generated = false,
-        $a_ignore_date_filter = false,
-        $a_user_id = null,
-        $a_limit = 0,
-        $a_excluded = array()
-    ) {
+        int $a_ref_id,
+        bool $a_only_public = false,
+        bool $a_stopnesting = false,
+        int $a_time_period = 0,
+        bool $a_prevent_aggregation = true,
+        bool $a_forum_group_sequences = false,
+        bool $a_no_auto_generated = false,
+        bool $a_ignore_date_filter = false,
+        int $a_user_id = null,
+        int $a_limit = 0,
+        array $a_excluded = array()
+    ) : array {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
 
         // get starting date
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs") {
+            // see #31471, #30687, and ilMembershipNotification
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
@@ -892,7 +627,6 @@ class ilNewsItem
                 return [];
             }
 
-            include_once("./Services/Block/classes/class.ilBlockSetting.php");
             $hide_news_per_date = ilBlockSetting::_lookup(
                 "news",
                 "hide_news_per_date",
@@ -975,22 +709,21 @@ class ilNewsItem
      * @deprecated (will migrate to ilNewsData)
      */
     public function getAggregatedNewsData(
-        $a_ref_id,
-        $a_only_public = false,
-        $a_time_period = 0,
-        $a_prevent_aggregation = false,
-        $a_starting_date = "",
-        $a_no_auto_generated = false,
-        $a_user_id = null,
-        $a_limit = 0,
-        $a_exclude = array()
-    ) {
+        int $a_ref_id,
+        bool $a_only_public = false,
+        int $a_time_period = 0,
+        bool $a_prevent_aggregation = false,
+        string $a_starting_date = "",
+        bool $a_no_auto_generated = false,
+        int $a_user_id = null,
+        int $a_limit = 0,
+        array $a_exclude = array()
+    ) : array {
         $tree = $this->tree;
         $ilAccess = $this->access;
         $ilObjDataCache = $this->obj_data_cache;
         
         // get news of parent object
-        
         $data = array();
         
         // get subtree
@@ -998,14 +731,15 @@ class ilNewsItem
 
         // do not check for lft (materialized path)
         if ($cur_node) {
-            $nodes = (array) $tree->getSubTree($cur_node, true);
+            $nodes = $tree->getSubTree($cur_node, true);
         } else {
             $nodes = array();
         }
         
         // preload object data cache
-        $ref_ids = array();
-        $obj_ids = array();
+        $ref_ids = [];
+        $obj_ids = [];
+        $ref_id = [];
         foreach ($nodes as $node) {
             $ref_ids[] = $node["child"];
             $obj_ids[] = $node["obj_id"];
@@ -1013,7 +747,6 @@ class ilNewsItem
 
         $ilObjDataCache->preloadReferenceCache($ref_ids);
         if (!$a_only_public) {
-            include_once "Services/Object/classes/class.ilObjectActivation.php";
             ilObjectActivation::preloadData($ref_ids);
         }
         
@@ -1079,12 +812,11 @@ class ilNewsItem
 
     /**
      * @deprecated will move to ilNewsData
-     * @param $news
-     * @param bool $a_group_posting_sequence
-     * @return mixed
      */
-    protected function aggregateForums($news, $a_group_posting_sequence = false)
-    {
+    protected function aggregateForums(
+        array $news,
+        bool $a_group_posting_sequence = false
+    ) : array {
         $to_del = array();
         $forums = array();
         $last_aggregation_forum = 0;
@@ -1092,15 +824,15 @@ class ilNewsItem
         // aggregate
         foreach ($news as $k => $v) {
             if ($a_group_posting_sequence && $last_aggregation_forum > 0 &&
-                $last_aggregation_forum != $news[$k]["context_obj_id"]) {
+                $last_aggregation_forum != $v["context_obj_id"]) {
                 $forums[$last_aggregation_forum] = "";
             }
 
-            if ($news[$k]["context_obj_type"] == "frm") {
-                if ($forums[$news[$k]["context_obj_id"]] == "") {
+            if ($v["context_obj_type"] == "frm") {
+                if ($forums[$v["context_obj_id"]] == "") {
                     // $forums[forum_id] = news_id;
-                    $forums[$news[$k]["context_obj_id"]] = $k;
-                    $last_aggregation_forum = $news[$k]["context_obj_id"];
+                    $forums[$v["context_obj_id"]] = $k;
+                    $last_aggregation_forum = $v["context_obj_id"];
                 } else {
                     $to_del[] = $k;
                 }
@@ -1129,23 +861,22 @@ class ilNewsItem
 
     /**
      * @deprecated will move to ilNewsData
-     * @param $news
-     * @param $a_ref_id
-     * @return mixed
      */
-    protected function aggregateFiles($news, $a_ref_id)
-    {
+    protected function aggregateFiles(
+        array $news,
+        int $a_ref_id
+    ) : array {
         $first_file = "";
         $to_del = array();
         foreach ($news as $k => $v) {
             // aggregate file related news
-            if ($news[$k]["context_obj_type"] == "file") {
+            if ($v["context_obj_type"] == "file") {
                 if ($first_file == "") {
                     $first_file = $k;
                 } else {
                     $to_del[] = $k;
                 }
-                $news[$first_file]["aggregation"][$k] = $news[$k];
+                $news[$first_file]["aggregation"][$k] = $v;
                 $news[$first_file]["agg_ref_id"] = $a_ref_id;
                 $news[$first_file]["ref_id"] = $a_ref_id;
             }
@@ -1162,25 +893,18 @@ class ilNewsItem
     /**
      * Get news aggregation for child objects (e.g. for categories)
      * @deprecated will move to ilNewsData
-     * @param $a_ref_id
-     * @param bool $a_only_public
-     * @param int $a_time_period
-     * @param bool $a_prevent_aggregation
-     * @param string $a_starting_date
-     * @param bool $a_no_auto_generated
-     * @return array|mixed
      */
     protected function getAggregatedChildNewsData(
-        $a_ref_id,
-        $a_only_public = false,
-        $a_time_period = 0,
-        $a_prevent_aggregation = false,
-        $a_starting_date = "",
-        $a_no_auto_generated = false
-    ) {
+        int $a_ref_id,
+        bool $a_only_public = false,
+        int $a_time_period = 0,
+        bool $a_prevent_aggregation = false,
+        string $a_starting_date = "",
+        bool $a_no_auto_generated = false
+    ) : array {
         $tree = $this->tree;
         $ilAccess = $this->access;
-        
+        $ref_id = [];
         // get news of parent object
         $data = $this->getNewsForRefId(
             $a_ref_id,
@@ -1247,14 +971,13 @@ class ilNewsItem
 
     /**
      * Set context for news
-     *
-     * @param int $a_obj_id
-     * @param int $a_obj_type
-     * @param int $a_sub_obj_id
-     * @param string $a_sub_obj_type
      */
-    public function setContext(int $a_obj_id, string $a_obj_type, int $a_sub_obj_id = 0, string $a_sub_obj_type = "")
-    {
+    public function setContext(
+        int $a_obj_id,
+        string $a_obj_type,
+        int $a_sub_obj_id = 0,
+        string $a_sub_obj_type = ""
+    ) : void {
         $this->setContextObjId($a_obj_id);
         $this->setContextObjType($a_obj_type);
         $this->setContextSubObjId($a_sub_obj_id);
@@ -1263,11 +986,9 @@ class ilNewsItem
     
     /**
      * Convert time period for DB-queries
-     *
-     * @param mixed $a_time_period
-     * @return string
+     * @param string|int $a_time_period
      */
-    protected static function handleTimePeriod($a_time_period)
+    protected static function handleTimePeriod($a_time_period) : string
     {
         // time period is number of days
         if (is_numeric($a_time_period)) {
@@ -1279,29 +1000,23 @@ class ilNewsItem
         elseif (preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/", $a_time_period)) {
             return $a_time_period;
         }
-        // :TODO: what to return?
+        return "";
     }
 
     /**
      * Query news for a context
-     *
      * @deprecated will move to ilNewsData
-     * @param    boolean        query for outgoing rss feed
-     * @param    int            time period in seconds
-     * @param    string        startind date
-     * @param    boolean        do not include auto generated news items
      */
     public function queryNewsForContext(
-        $a_for_rss_use = false,
-        $a_time_period = 0,
-        $a_starting_date = "",
-        $a_no_auto_generated = false,
-        $a_oldest_first = false,
-        $a_limit = 0
-    ) {
+        bool $a_for_rss_use = false,
+        int $a_time_period = 0,
+        string $a_starting_date = "",
+        bool $a_no_auto_generated = false,
+        bool $a_oldest_first = false,
+        int $a_limit = 0
+    ) : array {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        $lng = $this->lng;
 
         $and = "";
         if ($a_time_period > 0) {
@@ -1383,7 +1098,6 @@ class ilNewsItem
         // idea. The keep_rss_min setting is currently (Jul 2012) only set
         // by mediacasts
         if ($a_time_period != "" && $a_for_rss_use) {
-            include_once("./Services/Block/classes/class.ilBlockSetting.php");
             $keep_rss_min = ilBlockSetting::_lookup(
                 "news",
                 "keep_rss_min",
@@ -1407,11 +1121,10 @@ class ilNewsItem
 
     /**
      * Query news data by news ids
-     *
      * @param int[] $a_news_ids
      * @return array[]
      */
-    public static function queryNewsByIds(array $a_news_ids)
+    public static function queryNewsByIds(array $a_news_ids) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1425,14 +1138,12 @@ class ilNewsItem
     }
 
     /**
-     *
      * @deprecated will move to ilNewsData
-     * @param int $a_ref_id
-     * @param int $a_time_period hours
-     * @return array news item ids
      */
-    public function checkNewsExistsForObjects($objects, $a_time_period = 1)
-    {
+    public function checkNewsExistsForObjects(
+        array $objects,
+        int $a_time_period = 1
+    ) : array {
         $ilDB = $this->db;
         
         $all = array();
@@ -1454,32 +1165,20 @@ class ilNewsItem
     }
     
     /**
-     * Query News for multiple Contexts
      * @deprecated will move to ilNewsData
-     * @param array $a_contexts
-     * @param bool $a_for_rss_use
-     * @param int $a_time_period
-     * @param string $a_starting_date
-     * @param bool $a_no_auto_generated
-     * @param null $a_user_id
-     * @param int $a_limit
-     * @param int[] $a_exclude
-     * @return array
      */
     public function queryNewsForMultipleContexts(
-        $a_contexts,
-        $a_for_rss_use = false,
-        $a_time_period = 0,
-        $a_starting_date = "",
-        $a_no_auto_generated = false,
-        $a_user_id = null,
-        $a_limit = 0,
-        $a_exclude = array()
-    ) {
+        array $a_contexts,
+        bool $a_for_rss_use = false,
+        int $a_time_period = 0,
+        string $a_starting_date = "",
+        bool $a_no_auto_generated = false,
+        int $a_user_id = null,
+        int $a_limit = 0,
+        array $a_exclude = array()
+    ) : array {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
 
         $and = "";
         if ($a_time_period > 0) {
@@ -1570,8 +1269,10 @@ class ilNewsItem
      * Set item read.
      * @deprecated will move to ilNewsData
      */
-    public static function _setRead($a_user_id, $a_news_id)
-    {
+    public static function _setRead(
+        int $a_user_id,
+        int $a_news_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1605,8 +1306,10 @@ class ilNewsItem
      * Set item unread.
      * @deprecated will move to ilNewsData
      */
-    public static function _setUnread($a_user_id, $a_news_id)
-    {
+    public static function _setUnread(
+        int $a_user_id,
+        int $a_news_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1626,13 +1329,11 @@ class ilNewsItem
     /**
      * Merges two sets of news
      * @deprecated will move to ilNewsData
-     * @param	array	$n1		Array of news
-     * @param	array	$n2		Array of news
-     *
-     * @return	array			Array of news
      */
-    public static function mergeNews($n1, $n2)
-    {
+    public static function mergeNews(
+        array $n1,
+        array $n2
+    ) : array {
         foreach ($n2 as $id => $news) {
             $n1[$id] = $news;
         }
@@ -1643,16 +1344,12 @@ class ilNewsItem
     /**
      * Get default visibility for reference id
      * @deprecated will move to ilNewsData
-     * @param	$a_ref_id		reference id
      */
-    public static function _getDefaultVisibilityForRefId($a_ref_id)
+    public static function _getDefaultVisibilityForRefId(int $a_ref_id) : string
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        $ilSetting = $DIC->settings();
-
-        include_once("./Services/Block/classes/class.ilBlockSetting.php");
 
         $news_set = new ilSetting("news");
         $default_visibility = ($news_set->get("default_visibility") != "")
@@ -1688,7 +1385,7 @@ class ilNewsItem
      * Delete news item
      * @deprecated will move to ilNewsData
      */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -1706,7 +1403,6 @@ class ilNewsItem
         
         // delete mob after news, to have a "mob usage" of 0
         if ($mob > 0 and ilObject::_exists($mob)) {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             $mob = new ilObjMediaObject($mob);
             $mob->delete();
         }
@@ -1717,14 +1413,15 @@ class ilNewsItem
      * @deprecated will move to ilNewsData
      */
     public static function getNewsOfContext(
-        $a_context_obj_id,
-        $a_context_obj_type,
-        $a_context_sub_obj_id = 0,
-        $a_context_sub_obj_type = ""
-    ) {
+        int $a_context_obj_id,
+        string $a_context_obj_type,
+        int $a_context_sub_obj_id = 0,
+        string $a_context_sub_obj_type = ""
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
+        $and = "";
         
         if ($a_context_obj_id == 0 || $a_context_obj_type == "") {
             return [];
@@ -1755,11 +1452,11 @@ class ilNewsItem
      * @deprecated will move to ilNewsData
      */
     public static function deleteNewsOfContext(
-        $a_context_obj_id,
-        $a_context_obj_type,
-        $a_context_sub_obj_id = 0,
-        $a_context_sub_obj_type = ""
-    ) {
+        int $a_context_obj_id,
+        string $a_context_obj_type,
+        int $a_context_sub_obj_id = 0,
+        string $a_context_sub_obj_type = ""
+    ) : void {
         foreach (self::getNewsOfContext(
             $a_context_obj_id,
             $a_context_obj_type,
@@ -1774,7 +1471,7 @@ class ilNewsItem
      * Lookup News Title
      * @deprecated will move to ilNewsData
      */
-    public static function _lookupTitle($a_news_id)
+    public static function _lookupTitle(int $a_news_id) : string
     {
         global $DIC;
 
@@ -1791,7 +1488,7 @@ class ilNewsItem
      * Lookup News Visibility
      * @deprecated will move to ilNewsData
      */
-    public static function _lookupVisibility($a_news_id)
+    public static function _lookupVisibility(int $a_news_id) : string
     {
         global $DIC;
 
@@ -1809,7 +1506,7 @@ class ilNewsItem
      * Lookup mob id
      * @deprecated will move to ilNewsData
      */
-    public static function _lookupMobId($a_news_id)
+    public static function _lookupMobId(int $a_news_id) : int
     {
         global $DIC;
 
@@ -1826,8 +1523,13 @@ class ilNewsItem
      * Checks whether news are available for
      * @deprecated will move to ilNewsData
      */
-    public static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0, $a_starting_date = "", $a_ending_date = '', $ignore_period = false)
-    {
+    public static function filterObjIdsPerNews(
+        array $a_obj_ids,
+        int $a_time_period = 0,
+        string $a_starting_date = "",
+        string $a_ending_date = '',
+        bool $ignore_period = false
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1858,8 +1560,11 @@ class ilNewsItem
     /**
      * Determine title for news item entry
      */
-    public static function determineNewsTitleByNewsId($a_news_id, $a_agg_ref_id = 0, $a_aggregation = "")
-    {
+    public static function determineNewsTitleByNewsId(
+        int $a_news_id,
+        int $a_agg_ref_id = 0,
+        array $a_aggregation = []
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1883,16 +1588,17 @@ class ilNewsItem
      * @deprecated will move to util?
      */
     public static function determineNewsTitle(
-        $a_context_obj_type,
-        $a_title,
-        $a_content_is_lang_var,
-        $a_agg_ref_id = 0,
-        $a_aggregation = ""
-    ) {
+        string $a_context_obj_type,
+        string $a_title,
+        bool $a_content_is_lang_var,
+        int $a_agg_ref_id = 0,
+        array $a_aggregation = []
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
         $obj_definition = $DIC["objDefinition"];
+        $tit = "";
 
         if ($a_agg_ref_id > 0) {
             $cnt = count($a_aggregation);
@@ -1938,16 +1644,17 @@ class ilNewsItem
                 return $a_title;
             }
         }
-        
-        return "";
     }
 
     /**
      * Determine new content
      * @deprecated will move to util?
      */
-    public static function determineNewsContent($a_context_obj_type, $a_content, $a_is_lang_var)
-    {
+    public static function determineNewsContent(
+        string $a_context_obj_type,
+        string $a_content,
+        bool $a_is_lang_var
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -1964,18 +1671,16 @@ class ilNewsItem
         }
     }
 
-    
-    
     /**
      * Get first new id of news set related to a certain context
      * @deprecated will move to ilNewsData
      */
     public static function getFirstNewsIdForContext(
-        $a_context_obj_id,
-        $a_context_obj_type,
-        $a_context_sub_obj_id = "",
-        $a_context_sub_obj_type = ""
-    ) {
+        int $a_context_obj_id,
+        string $a_context_obj_type,
+        int $a_context_sub_obj_id = 0,
+        string $a_context_sub_obj_type = ""
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1992,7 +1697,7 @@ class ilNewsItem
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
         
-        return $rec["id"];
+        return (int) $rec["id"];
     }
 
     /**
@@ -2000,12 +1705,12 @@ class ilNewsItem
      * @deprecated will move to ilNewsData
      */
     public static function getLastNewsIdForContext(
-        $a_context_obj_id,
-        $a_context_obj_type,
-        $a_context_sub_obj_id = "",
-        $a_context_sub_obj_type = "",
-        $a_only_today = false
-    ) {
+        int $a_context_obj_id,
+        string $a_context_obj_type,
+        int $a_context_sub_obj_id = 0,
+        string $a_context_sub_obj_type = "",
+        bool $a_only_today = false
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2020,7 +1725,7 @@ class ilNewsItem
                 " AND " . $ilDB->equals("context_sub_obj_type", $a_context_sub_obj_type, "text", true) .
             " ORDER BY update_date DESC";
 
-        $ilDB->setLimit(1);
+        $ilDB->setLimit(1, 0);
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
@@ -2040,7 +1745,7 @@ class ilNewsItem
      * Lookup media object usage(s)
      * @deprecated will move to ilNewsData
      */
-    public static function _lookupMediaObjectUsages($a_mob_id)
+    public static function _lookupMediaObjectUsages(int $a_mob_id) : array
     {
         global $DIC;
 
@@ -2064,7 +1769,7 @@ class ilNewsItem
      * Context Object ID
      * @deprecated will move to ilNewsData
      */
-    public static function _lookupContextObjId($a_news_id)
+    public static function _lookupContextObjId(int $a_news_id) : int
     {
         global $DIC;
 
@@ -2083,7 +1788,7 @@ class ilNewsItem
     /**
      * @deprecated will move to settings
      */
-    public static function _lookupDefaultPDPeriod()
+    public static function _lookupDefaultPDPeriod() : int
     {
         $news_set = new ilSetting("news");
         $per = $news_set->get("pd_period");
@@ -2097,14 +1802,13 @@ class ilNewsItem
     /**
      * @deprecated will move to settings->user
      */
-    public static function _lookupUserPDPeriod($a_user_id)
+    public static function _lookupUserPDPeriod(int $a_user_id) : int
     {
         $news_set = new ilSetting("news");
         $allow_shorter_periods = $news_set->get("allow_shorter_periods");
         $allow_longer_periods = $news_set->get("allow_longer_periods");
         $default_per = ilNewsItem::_lookupDefaultPDPeriod();
         
-        include_once("./Services/Block/classes/class.ilBlockSetting.php");
         $per = ilBlockSetting::_lookup(
             "pdnews",
             "news_pd_period",
@@ -2120,13 +1824,13 @@ class ilNewsItem
             $per = $default_per;
         }
         
-        return $per;
+        return (int) $per;
     }
 
     /**
      * @deprecated will move to settings
      */
-    public static function _lookupRSSPeriod()
+    public static function _lookupRSSPeriod() : int
     {
         $news_set = new ilSetting("news");
         $rss_period = $news_set->get("rss_period");
@@ -2139,7 +1843,7 @@ class ilNewsItem
     /**
      * @deprecated will move to settings->user
      */
-    public static function setPrivateFeedId($a_userId)
+    public static function setPrivateFeedId(int $a_userId) : void
     {
         ilNewsItem::$privFeedId = $a_userId;
     }
@@ -2147,7 +1851,7 @@ class ilNewsItem
     /**
      * @deprecated will move to settings->user
      */
-    public static function getPrivateFeedId()
+    public static function getPrivateFeedId() : int
     {
         return ilNewsItem::$privFeedId;
     }
@@ -2155,15 +1859,12 @@ class ilNewsItem
     /**
      * Deliver mob file
      *
-     * @deprecated will move to ?
-     * @param string $a_purpose
-     * @param bool $a_increase_download_cnt
-     * @return bool
      */
-    public function deliverMobFile($a_purpose = "Standard", $a_increase_download_cnt = false)
-    {
+    public function deliverMobFile(
+        string $a_purpose = "Standard",
+        bool $a_increase_download_cnt = false
+    ) : bool {
         $mob = $this->getMobId();
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mob = new ilObjMediaObject($mob);
         $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
         
@@ -2179,7 +1880,7 @@ class ilNewsItem
                 if ($a_increase_download_cnt) {
                     $this->increaseDownloadCounter();
                 }
-                ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
                 ilUtil::sendFailure("File not found!", true);
@@ -2191,13 +1892,14 @@ class ilNewsItem
             }
             ilUtil::redirect($m_item->getLocation());
         }
+        return false;
     }
     
     /**
      * Increase download counter
      * @deprecated will move to data
      */
-    public function increaseDownloadCounter()
+    public function increaseDownloadCounter() : void
     {
         $ilDB = $this->db;
 
@@ -2216,7 +1918,7 @@ class ilNewsItem
      *
      * @deprecated will move to data
      */
-    public function increasePlayCounter()
+    public function increasePlayCounter() : void
     {
         $ilDB = $this->db;
 
@@ -2233,10 +1935,8 @@ class ilNewsItem
     /**
      * Prepare news data from cache
      * @deprecated will move to data
-     * @param string $a_cres cache string
-     * @return array news array
      */
-    public static function prepareNewsDataFromCache($a_cres)
+    public static function prepareNewsDataFromCache(array $a_cres) : array
     {
         global $DIC;
 
@@ -2257,9 +1957,6 @@ class ilNewsItem
                 $existing_news[$k] = $v;
             }
         }
-
-        //var_dump($data);
-        //var_dump($existing_news);
 
         return $existing_news;
     }

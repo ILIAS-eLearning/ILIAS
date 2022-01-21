@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
@@ -6,15 +6,11 @@ use PHPUnit\Framework\TestSuite;
 require_once __DIR__ . '/bootstrap.php';
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilServicesContactSuite extends TestSuite
 {
-    /**
-     * @return self
-     */
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
 

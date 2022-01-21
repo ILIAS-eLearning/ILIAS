@@ -1,8 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjCmiXapiVerficationGUI
  *
@@ -14,7 +24,7 @@
  */
 class ilObjCmiXapiVerificationGUI extends ilObject2GUI
 {
-    public function getType()
+    public function getType(): string
     {
         return "cmxv";
     }
@@ -22,7 +32,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     /**
      * List all tests in which current user participated
      */
-    public function create()
+    public function create(): void
     {
         global $ilTabs;
 
@@ -32,8 +42,6 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
         );
-        
-        include_once "Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php";
         $table = new ilCmiXapiVerificationTableGUI($this, "create");
         $this->tpl->setContent($table->getHTML());
     }
@@ -41,7 +49,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -65,7 +73,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+//                return $this->create();
             }
             
             if ($newObj) {
@@ -84,27 +92,25 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
         $this->create();
     }
     
-    public function deliver()
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
     
     /**
      * Render content
-     *
-     * @param bool $a_return
-     * @param string $a_url
      */
-    public function render($a_return = false, $a_url = false)
+    public function render(bool $a_return = false, bool $a_url = false) : string
     {
         global $ilUser, $lng;
         
         if (!$a_return) {
             $this->deliver();
+            return "";
         } else {
             $tree = new ilWorkspaceTree($ilUser->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
@@ -116,7 +122,6 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 $valid = false;
                 $message = $lng->txt("url_not_found");
             } elseif (!$a_url) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
@@ -135,11 +140,9 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
         }
     }
     
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $ilErr;
-        
-        include_once "Services/COPage/classes/class.ilPCVerification.php";
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
@@ -147,13 +150,12 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
     
-    public static function _goto($a_target)
+    public static function _goto($a_target): void
     {
         $id = explode("_", $a_target);
         
         $_GET["baseClass"] = "ilsharedresourceGUI";
         $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
         exit;
     }
 }

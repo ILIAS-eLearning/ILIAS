@@ -15,7 +15,7 @@ interface UploadHandler
 
 
     /**
-     * @return string, defaults to self::DEFAULT_FILE_ID_PARAMETER
+     * @return string defaults to self::DEFAULT_FILE_ID_PARAMETER
      */
     public function getFileIdentifierParameterName() : string;
 

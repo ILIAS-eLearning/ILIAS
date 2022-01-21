@@ -1,29 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/TestComponent.php");
 
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation as I;
 use PHPUnit\Framework\TestCase;
-
-class ComponentRendererFSLoaderTesting extends ILIAS\UI\Implementation\Render\FSLoader
-{
-    public function _instantiateRendererFor($class)
-    {
-        return $this->instantiateRendererFor($class);
-    }
-}
+use ILIAS\UI\Component\Component;
+use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\UI\Implementation\Render\FSLoader;
+use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 class ComponentRendererFSLoaderTest extends TestCase
 {
-    protected function getComponentRendererFSLoader()
+    /**
+     * @var I\Render\RendererFactory|mixed|MockObject
+     */
+    private $glyph_renderer;
+
+    protected function getComponentRendererFSLoader() : FSLoader
     {
         $ui_factory = $this->getMockBuilder(ILIAS\UI\Factory::class)->getMock();
         $tpl_factory = $this->getMockBuilder(I\Render\TemplateFactory::class)->getMock();
-        $lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $js_binding = $this->getMockBuilder(I\Render\JavaScriptBinding::class)->getMock();
-        $refinery_mock = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
+        $refinery_mock = $this->getMockBuilder(Refinery::class)
             ->disableOriginalConstructor()
             ->getMock();
         $image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
@@ -38,11 +40,11 @@ class ComponentRendererFSLoaderTest extends TestCase
             $image_path_resolver
         );
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
-        $this->field_renderer = $this->createMock(I\Render\RendererFactory::class);
-        return new ComponentRendererFSLoaderTesting($default_renderer_factory, $this->glyph_renderer, $this->field_renderer);
+        $field_renderer = $this->createMock(I\Render\RendererFactory::class);
+        return new FSLoader($default_renderer_factory, $this->glyph_renderer, $field_renderer);
     }
 
-    public function test_getRenderer_successfully()
+    public function test_getRenderer_successfully() : void
     {
         // There should be a renderer for Glyph...
         $f = $this->getComponentRendererFSLoader();
@@ -51,12 +53,12 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->assertInstanceOf(I\Render\ComponentRenderer::class, $r);
     }
 
-    public function test_getRenderer_successfully_extra()
+    public function test_getRenderer_successfully_extra() : void
     {
         // There should be a renderer for Glyph...
         $f = $this->getComponentRendererFSLoader();
         $component = new I\Component\Symbol\Glyph\Glyph("up", "up");
-        $context = $this->createMock(\ILIAS\UI\Component\Component::class);
+        $context = $this->createMock(Component::class);
         $renderer = $this->createMock(I\Render\ComponentRenderer::class);
 
         $context_name = "foo";
@@ -76,14 +78,13 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->assertEquals($renderer, $r);
     }
 
-    public function test_getRenderer_uses_RendererFactory()
+    public function test_getRenderer_uses_RendererFactory() : void
     {
         $loader = $this->getMockBuilder(ILIAS\UI\Implementation\Render\FSLoader::class)
-            ->setMethods(["getRendererFactoryFor", "getContextNames"])
+            ->onlyMethods(["getRendererFactoryFor", "getContextNames"])
             ->disableOriginalConstructor()
             ->getMock();
-        $factory = $this->getMockBuilder(ILIAS\UI\Implementation\RendererFactory::class)
-            ->setMethods(["getRendererInContext"])
+        $factory = $this->getMockBuilder(ILIAS\UI\Implementation\Render\RendererFactory::class)
             ->getMock();
 
         $rendered_component = $this->createMock(ILIAS\UI\Component\Component::class);
@@ -105,7 +106,7 @@ class ComponentRendererFSLoaderTest extends TestCase
             ->with($rendered_component)
             ->willReturn($factory);
 
-        $renderer = "RENDERER";
+        $renderer = $this->createMock(ComponentRenderer::class);
         $factory
             ->expects($this->once())
             ->method("getRendererInContext")

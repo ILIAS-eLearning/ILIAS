@@ -10,11 +10,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng = null;
-    
+
     /**
      * ilAssQuestionAuthoringFormGUI constructor.
      */

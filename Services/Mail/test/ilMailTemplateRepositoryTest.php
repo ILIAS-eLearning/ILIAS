@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailTemplateRepository
@@ -9,7 +9,6 @@
 class ilMailTemplateRepositoryTest extends ilMailBaseTest
 {
     /**
-     * @return ilMailTemplate
      * @throws ReflectionException
      */
     public function testEntityCanBeSaved() : ilMailTemplate
@@ -40,8 +39,6 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
 
     /**
      * @depends testEntityCanBeSaved
-     * @param ilMailTemplate $template
-     * @return ilMailTemplate
      * @throws ReflectionException
      */
     public function testEntityCanBeModified(ilMailTemplate $template) : ilMailTemplate
@@ -59,7 +56,6 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
 
     /**
      * @depends testEntityCanBeModified
-     * @param ilMailTemplate $template
      * @throws ReflectionException
      */
     public function testEntityCanBeDeleted(ilMailTemplate $template) : void

@@ -455,7 +455,7 @@ class ilPersonalSettingsGUI
             $si = new ilSelectInputGUI($this->lng->txt("language"), "language");
             $si->setOptions($options);
             $si->setValue($ilUser->getLanguage());
-            $si->setDisabled($ilSetting->get("usr_settings_disable_language"));
+            $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_language"));
             $this->form->addItem($si);
         }
 
@@ -478,18 +478,9 @@ class ilPersonalSettingsGUI
                 }
                 $si->setOptions($options);
                 $si->setValue($ilUser->skin . ":" . $ilUser->prefs["style"]);
-                $si->setDisabled($ilSetting->get("usr_settings_disable_skin_style"));
+                $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_skin_style"));
                 $this->form->addItem($si);
             }
-        }
-
-        // screen reader optimization
-        if ($this->userSettingVisible("screen_reader_optimization")) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt("user_screen_reader_optimization"), "screen_reader_optimization");
-            $cb->setChecked($ilUser->prefs["screen_reader_optimization"]);
-            $cb->setDisabled($ilSetting->get("usr_settings_disable_screen_reader_optimization"));
-            $cb->setInfo($this->lng->txt("user_screen_reader_optimization_info"));
-            $this->form->addItem($cb);
         }
 
         // help tooltips
@@ -518,7 +509,7 @@ class ilPersonalSettingsGUI
             }
             $si->setOptions($options);
             $si->setValue($ilUser->prefs["hits_per_page"]);
-            $si->setDisabled($ilSetting->get("usr_settings_disable_hits_per_page"));
+            $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_hits_per_page"));
             $this->form->addItem($si);
         }
 
@@ -554,7 +545,7 @@ class ilPersonalSettingsGUI
             $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
             $cb->setInfo($this->lng->txt('session_reminder_info'));
             $cb->setValue(1);
-            $cb->setChecked((int) $ilUser->getPref('session_reminder_enabled'));
+            $cb->setChecked((bool) $ilUser->getPref('session_reminder_enabled'));
 
             $expires = ilSession::getSessionExpireValue();
             $lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
@@ -741,11 +732,6 @@ class ilPersonalSettingsGUI
                 }
             }
 
-            // set show users online
-            if ($this->workWithUserSetting("screen_reader_optimization")) {
-                $ilUser->setPref("screen_reader_optimization", $_POST["screen_reader_optimization"]);
-            }
-            
             // session reminder
             include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
             if (ilSessionReminder::isGloballyActivated()) {

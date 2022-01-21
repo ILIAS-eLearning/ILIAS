@@ -23,11 +23,13 @@
 class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
 {
     protected ilDBInterface $db;
+    protected ilBasicSkillTreeRepository $tree_repo;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(ilBasicSkillTreeRepository $tree_repo, ilDBInterface $db = null)
     {
         global $DIC;
 
+        $this->tree_repo = $tree_repo;
         $this->db = ($db)
             ?: $DIC->database();
     }
@@ -68,7 +70,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             " skill_id = " . $ilDB->quote($skill_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return (int) $rec["mnr"];
+        return (int) $rec["mnr"] ?? 0;
     }
 
     public function getLevelData(int $skill_id, int $a_id = 0) : array
@@ -89,7 +91,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($a_id > 0) {
-                return $rec;
+                return $rec ?? [];
             }
             $levels[] = $rec;
         }
@@ -110,17 +112,17 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
 
     public function lookupLevelTitle(int $a_id) : string
     {
-        return $this->lookupLevelProperty($a_id, "title");
+        return $this->lookupLevelProperty($a_id, "title") ?? "";
     }
 
     public function lookupLevelDescription(int $a_id) : string
     {
-        return $this->lookupLevelProperty($a_id, "description");
+        return $this->lookupLevelProperty($a_id, "description") ?? "";
     }
 
     public function lookupLevelSkillId(int $a_id) : int
     {
-        return $this->lookupLevelProperty($a_id, "skill_id");
+        return $this->lookupLevelProperty($a_id, "skill_id") ?? 0;
     }
 
     protected function writeLevelProperty(int $a_id, string $a_prop, $a_value, string $a_type) : void
@@ -199,7 +201,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         );
         $skill = null;
         if ($rec = $ilDB->fetchAssoc($set)) {
-            if (ilSkillTreeNode::isInTree($rec["skill_id"])) {
+            if ($this->tree_repo->isInAnyTree($rec["skill_id"])) {
                 $skill = new ilBasicSkill($rec["skill_id"]);
             }
         }

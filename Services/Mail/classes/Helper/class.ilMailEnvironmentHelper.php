@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailEnvironmentHelper
@@ -8,17 +8,11 @@
  */
 class ilMailEnvironmentHelper
 {
-    /**
-     * @return string
-     */
     public function getHttpPath() : string
     {
-        return \ilUtil::_getHttpPath();
+        return ilUtil::_getHttpPath();
     }
 
-    /**
-     * @return string
-     */
     public function getClientId() : string
     {
         $clientId = '';

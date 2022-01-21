@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,25 +8,14 @@
  */
 class ilUserAvatarFactory
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
 
-    /**
-     * ilUserAvatarFactory constructor.
-     * @param \ILIAS\DI\Container $dic
-     */
     public function __construct(\ILIAS\DI\Container $dic)
     {
         $this->dic = $dic;
     }
 
-    /**
-     * @param string $size
-     * @return ilUserAvatar
-     */
-    public function avatar($size)
+    public function avatar(string $size) : ilUserAvatar
     {
         if ((int) $this->dic->settings()->get('letter_avatars')) {
             return $this->letter();
@@ -35,19 +24,12 @@ class ilUserAvatarFactory
         return $this->file($size);
     }
 
-    /**
-     * @return ilUserAvatarLetter
-     */
-    public function letter()
+    public function letter() : ilUserAvatarLetter
     {
         return new ilUserAvatarLetter();
     }
 
-    /**
-     * @param string $size
-     * @return ilUserAvatarFile
-     */
-    public function file($size)
+    public function file(string $size) : ilUserAvatarFile
     {
         return new ilUserAvatarFile($size);
     }

@@ -15,7 +15,22 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Services
  * @public
@@ -24,24 +39,14 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 class Services
 {
 
-    /**
-     * @var Manager
-     */
-    protected $manager;
-    /**
-     * @var Consumers
-     */
-    protected $consumers;
+    protected \ILIAS\ResourceStorage\Manager\Manager $manager;
+    protected \ILIAS\ResourceStorage\Consumer\Consumers $consumers;
+    protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+
 
     /**
      * Services constructor.
      * @param StorageHandler        $storage_handler_factory
-     * @param RevisionRepository    $revision_repository
-     * @param ResourceRepository    $resource_repository
-     * @param InformationRepository $information_repository
-     * @param StakeholderRepository $stakeholder_repository
-     * @param LockHandler           $lock_handler
-     * @param FileNamePolicy        $file_name_policy
      */
     public function __construct(
         StorageHandlerFactory $storage_handler_factory,
@@ -50,7 +55,8 @@ class Services
         InformationRepository $information_repository,
         StakeholderRepository $stakeholder_repository,
         LockHandler $lock_handler,
-        FileNamePolicy $file_name_policy
+        FileNamePolicy $file_name_policy,
+        RepositoryPreloader $preloader = null
     ) {
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
@@ -64,7 +70,14 @@ class Services
             $lock_handler,
             $file_name_policy_stack
         );
-        $this->manager = new Manager($b);
+        $this->preloader = $preloader ?? new StandardRepositoryPreloader(
+                $resource_repository,
+                $revision_repository,
+                $information_repository,
+                $stakeholder_repository
+            );
+
+        $this->manager = new Manager($b, $this->preloader);
         $this->consumers = new Consumers(
             new ConsumerFactory(
                 $storage_handler_factory,
@@ -82,6 +95,11 @@ class Services
     public function consume() : Consumers
     {
         return $this->consumers;
+    }
+
+    public function preload(array $identification_strings) : void
+    {
+        $this->preloader->preload($identification_strings);
     }
 
 }

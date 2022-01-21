@@ -40,7 +40,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         return in_array($qplObjId, $this->getAvailableQuestionPools());
     }
     
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if ($a_node['type'] != 'qpl') {
             return parent::isNodeClickable($a_node);
@@ -49,7 +49,7 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         return $this->isAvailableQuestionPool($a_node['child']);
     }
     
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         if ($a_node['type'] != 'qpl') {
             return parent::isNodeVisible($a_node);

@@ -14,7 +14,15 @@ interface ProperEntry
     /**
      * ---
      * description:
+     *   purpose:
+     *   composition:
+     *   effect:
+     *
      * rules:
+     *   usage:
+     *   ordering:
+     *   responsiveness:
+     *   accessibility:
      *
      * @return  tests\UI\Crawler\Fixture\ComponentsTreeFixture\Component1\Factory
      */
@@ -23,7 +31,15 @@ interface ProperEntry
     /**
      * ---
      * description:
+     *   purpose:
+     *   composition:
+     *   effect:
+     *
      * rules:
+     *   usage:
+     *   ordering:
+     *   responsiveness:
+     *   accessibility:
      * ---
      *
      * @return  tests\UI\Crawler\Fixture\ComponentsTreeFixture\Component2\Factory

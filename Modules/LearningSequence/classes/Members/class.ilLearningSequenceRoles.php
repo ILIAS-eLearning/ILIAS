@@ -190,7 +190,7 @@ class ilLearningSequenceRoles
     {
         $portfolio_enabled = $this->isPortfolio($selected_columns);
         $tracking_enabled = $this->isTrackingEnabled();
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
 
         if ($tracking_enabled) {
             $olp = ilObjectLP::getInstance($this->obj_id);

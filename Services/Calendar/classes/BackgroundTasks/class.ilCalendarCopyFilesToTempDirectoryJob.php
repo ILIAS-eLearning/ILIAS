@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -18,27 +19,24 @@ use ILIAS\BackgroundTasks\Types\TupleType;
  */
 class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 {
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
+    private ilLogger $logger;
 
-    /**
-     * @var string
-     */
-    protected $target_directory;
+    protected string $target_directory;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        
+        $this->logger = $DIC->logger()->cal();
     }
 
     /**
+     * @inheritDoc
      */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
         [
@@ -47,25 +45,26 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     }
 
     /**
-     * @todo output should be file type
-     * @return SingleType
+     * @inheritDoc
+     *@todo output should be file type
      */
-    public function getOutputType()
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless()
+    /**
+     * @inheritDoc
+     */
+    public function isStateless() : bool
     {
         return true;
     }
 
     /**
-     * run the job
-     * @param Value $input
-     * @param Observer $observer
+     * @inheritDoc
      */
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer) : Value
     {
         $cal_copy_def = $input[0];
 
@@ -93,11 +92,11 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     }
     
     /**
+     * @return string absolute path to new temp directory
      * @todo refactor to new file system access
      * Create unique temp directory
-     * @return string absolute path to new temp directory
      */
-    protected function createUniqueTempDirectory()
+    protected function createUniqueTempDirectory(): string
     {
         $tmpdir = ilUtil::ilTempnam();
         ilUtil::makeDirParents($tmpdir);
@@ -105,7 +104,8 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
         return $tmpdir;
     }
 
-    protected function createTargetDirectory($a_tmpdir)
+
+    protected function createTargetDirectory(string $a_tmpdir) : string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilUtil::makeDirParents($final_dir);
@@ -118,7 +118,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
      * @param string $tmpdir
      * @param ilCalendarCopyDefinition $definition
      */
-    protected function copyFiles($tmpdir, ilCalendarCopyDefinition $definition)
+    protected function copyFiles(string $tmpdir, ilCalendarCopyDefinition $definition) : void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
             if (!file_exists($copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR])) {
@@ -142,14 +142,13 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
                 $tmpdir . '/' . $copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]
             );
         }
-        return;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

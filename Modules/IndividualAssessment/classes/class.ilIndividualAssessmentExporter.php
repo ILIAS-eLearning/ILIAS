@@ -1,14 +1,11 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
-require_once("Modules/IndividualAssessment/classes/class.ilIndividualAssessmentDataSet.php");
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2020 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Manual Assessment exporter class
- *
- * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class ilindividualAssessmentExporter extends ilXmlExporter
+class ilIndividualAssessmentExporter extends ilXmlExporter
 {
     protected ilIndividualAssessmentDataSet $ds;
 
@@ -40,11 +37,11 @@ class ilindividualAssessmentExporter extends ilXmlExporter
 
         if ($a_entity == "iass") {
             // service settings
-            $res[] = array(
+            $res[] = [
                 "component" => "Services/Object",
                 "entity" => "common",
                 "ids" => $a_ids
-            );
+            ];
         }
 
         return $res;
@@ -55,19 +52,21 @@ class ilindividualAssessmentExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
-        return array(
-            "5.2.0" => array(
+        return [
+            "5.2.0" => [
                 "namespace" => "http://www.ilias.de/Services/User/iass/5_2",
                 "xsd_file" => "ilias_iass_5_2.xsd",
                 "uses_dataset" => true,
                 "min" => "5.2.0",
-                "max" => "5.2.99"),
-            "5.3.0" => array(
+                "max" => "5.2.99"
+            ],
+            "5.3.0" => [
                 "namespace" => "http://www.ilias.de/Services/User/iass/5_3",
                 "xsd_file" => "ilias_iass_5_3.xsd",
                 "uses_dataset" => true,
                 "min" => "5.3.0",
-                "max" => "")
-        );
+                "max" => ""
+            ]
+        ];
     }
 }

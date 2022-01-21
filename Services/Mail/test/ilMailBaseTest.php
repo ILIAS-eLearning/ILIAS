@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
@@ -11,20 +11,28 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMailBaseTest extends TestCase
 {
-    /**
-     * @inheritdoc
-     */
+    protected function brutallyTrimHTML(string $html) : string
+    {
+        $html = str_replace(["\n", "\r", "\t"], "", $html);
+        $html = preg_replace('# {2,}#', " ", $html);
+        $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
+        $html = preg_replace("/>(\s+)</", "><", $html);
+        $html = str_replace([" >", " <"], [">", "<"], $html);
+
+        return trim($html);
+    }
+
     protected function setUp() : void
     {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $GLOBALS['DIC'] = new Container();
 
         parent::setUp();
     }
 
-    /**
-     * @param string $name
-     * @param $value
-     */
     protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;

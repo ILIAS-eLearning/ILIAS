@@ -474,6 +474,10 @@ class ilUtil
     */
     public static function makeClickable($a_text, $detectGotoLinks = false)
     {
+        trigger_error(
+            'Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)',
+            E_USER_DEPRECATED
+        );
         // New code, uses MediaWiki Sanitizer
         $ret = $a_text;
 
@@ -1545,7 +1549,6 @@ class ilUtil
             ? " -background color " . $a_background_color . " "
             : "";
         $convert_cmd = ilUtil::escapeShellArg($a_from) . " " . $bg_color . $geometry . ilUtil::escapeShellArg($format_str . $a_to);
-
         ilUtil::execConvert($convert_cmd);
     }
 
@@ -1652,43 +1655,6 @@ class ilUtil
         exit;
     }
 
-    /**
-    *   deliver file for download via browser.
-    * @param $mime Mime of the file
-    * @param $isInline Set this to true, if the file shall be shown in browser
-    * @static
-    *
-    */
-    public static function deliverFile(
-        $a_file,
-        $a_filename,
-        $a_mime = '',
-        $isInline = false,
-        $removeAfterDelivery = false,
-        $a_exit_after = true
-    ) {
-        global $DIC;
-        // should we fail silently?
-        if (!file_exists($a_file)) {
-            return false;
-        }
-        $delivery = new ilFileDelivery($a_file);
-
-        if ($isInline) {
-            $delivery->setDisposition(ilFileDelivery::DISP_INLINE);
-        } else {
-            $delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
-        }
-
-        if (strlen($a_mime)) {
-            $delivery->setMimeType($a_mime);
-        }
-
-        $delivery->setDownloadFileName($a_filename);
-        $delivery->setConvertFileNameToAsci((bool) !$DIC->clientIni()->readVariable('file_access', 'disable_ascii'));
-        $delivery->setDeleteFile($removeAfterDelivery);
-        $delivery->deliver();
-    }
 
 
     // convert utf8 to ascii filename
@@ -2901,7 +2867,7 @@ class ilUtil
         global $DIC;
 
         if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
-            $ctrl = new ilCtrl();
+            (new InitCtrlService())->init($DIC);
         } else {
             $ctrl = $DIC->ctrl();
         }
@@ -3054,7 +3020,6 @@ class ilUtil
         exec($cmd, $arr);
 
         $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
-
         return $arr;
     }
 
@@ -3351,42 +3316,43 @@ class ilUtil
     }
 
     /**
-    * scan file for viruses and clean files if possible
-    *
-    * @static
-    *
-    */
-    public static function virusHandling($a_file, $a_orig_name = "", $a_clean = true)
+     * @param string $a_file
+     * @param string $a_orig_name
+     * @param bool $a_clean
+     * @return array{0: bool, 1: string}
+     */
+    public static function virusHandling(string $a_file, string $a_orig_name = '', bool $a_clean = true) : array
     {
         global $DIC;
 
         $lng = $DIC->language();
 
-        if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_ICAP_HOST') && strlen(IL_ICAP_HOST) !== 0)) {
+        if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER !== 'None') || (defined('IL_ICAP_HOST') && IL_ICAP_HOST !== '')) {
             $vs = ilVirusScannerFactory::_getInstance();
-            if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
-                if ($a_clean && (IL_VIRUS_CLEAN_COMMAND != "")) {
+            if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) !== '') {
+                if ($a_clean && defined('IL_VIRUS_CLEAN_COMMAND') && IL_VIRUS_CLEAN_COMMAND !== '') {
                     $clean_txt = $vs->cleanFile($a_file, $a_orig_name);
                     if ($vs->fileCleaned()) {
-                        $vs_txt .= "<br />" . $lng->txt("cleaned_file") .
-                            "<br />" . $clean_txt;
-                        $vs_txt .= "<br />" . $lng->txt("repeat_scan");
-                        if (($vs2_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
-                            return array(false, nl2br($vs_txt) . "<br />" . $lng->txt("repeat_scan_failed") .
-                                "<br />" . nl2br($vs2_txt));
-                        } else {
-                            return array(true, nl2br($vs_txt) . "<br />" . $lng->txt("repeat_scan_succeded"));
+                        $vs_txt .= '<br />' . $lng->txt('cleaned_file') . '<br />' . $clean_txt;
+                        $vs_txt .= '<br />' . $lng->txt('repeat_scan');
+                        if (($vs2_txt = $vs->scanFile($a_file, $a_orig_name)) !== '') {
+                            return [
+                                false,
+                                nl2br($vs_txt) . '<br />' . $lng->txt('repeat_scan_failed') . '<br />' . nl2br($vs2_txt)
+                            ];
                         }
-                    } else {
-                        return array(false, nl2br($vs_txt) . "<br />" . $lng->txt("cleaning_failed"));
+
+                        return [true, nl2br($vs_txt) . '<br />' . $lng->txt('repeat_scan_succeded')];
                     }
-                } else {
-                    return array(false, nl2br($vs_txt));
+
+                    return [false, nl2br($vs_txt) . '<br />' . $lng->txt('cleaning_failed')];
                 }
+
+                return [false, nl2br($vs_txt)];
             }
         }
 
-        return array(true,"");
+        return [true, ''];
     }
 
 
@@ -3473,9 +3439,9 @@ class ilUtil
     * Return current timestamp in Y-m-d H:i:s format
     *
     * @static
-    *
+    * @deprecated
     */
-    public static function now()
+    public static function now() : string
     {
         return date("Y-m-d H:i:s");
     }

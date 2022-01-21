@@ -4,6 +4,8 @@
 // @FIXME
 define('IL_TLT_MAX_HOURS', 99);
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
 
 /**
 * Meta Data class (element general)
@@ -16,9 +18,16 @@ define('IL_TLT_MAX_HOURS', 99);
 */
 class ilMDEditorGUI
 {
-    public $ctrl = null;
-    public $lng = null;
-    public $tpl = null;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs_gui;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilRbacSystem $rbac_system;
+    protected ilTree $tree;
+    protected ilToolbarGUI $toolbarGUI;
+
     public $md_obj = null;
 
     public $observers = array();
@@ -32,9 +41,12 @@ class ilMDEditorGUI
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->tpl = $DIC['tpl'];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs_gui = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
+        $this->rbac_system = $DIC->rbac()->system();
+        $this->tree = $DIC->repositoryTree();
+        $this->toolbarGUI = $DIC->toolbar();
 
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
@@ -49,9 +61,6 @@ class ilMDEditorGUI
 
     public function executeCommand()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
 
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -99,9 +108,6 @@ class ilMDEditorGUI
      */
     public function listQuickEdit_scorm()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         if (!is_object($this->md_section = $this->md_obj->getGeneral())) {
             $this->md_section = $this->md_obj->addGeneral();
             $this->md_section->save();
@@ -247,7 +253,7 @@ class ilMDEditorGUI
         
         // Lifecycle...
         // experts
-        $this->tpl->setVariable("TXT_EXPERTS", $lng->txt('meta_subjectmatterexpert'));
+        $this->tpl->setVariable("TXT_EXPERTS", $this->lng->txt('meta_subjectmatterexpert'));
         $this->tpl->setVariable("TXT_COMMA_SEP", $this->lng->txt('comma_separated'));
         $this->tpl->setVariable("TXT_SCOPROP_EXPERT", $this->lng->txt('sco_propagate'));
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
@@ -265,7 +271,7 @@ class ilMDEditorGUI
             $this->tpl->setVariable("EXPERTS_VAL", ilUtil::prepareFormOutput($ent_str));
         }
         // InstructionalDesigner
-        $this->tpl->setVariable("TXT_DESIGNERS", $lng->txt('meta_instructionaldesigner'));
+        $this->tpl->setVariable("TXT_DESIGNERS", $this->lng->txt('meta_instructionaldesigner'));
         $this->tpl->setVariable("TXT_SCOPROP_DESIGNERS", $this->lng->txt('sco_propagate'));
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $sep = $ent_str = "";
@@ -282,7 +288,7 @@ class ilMDEditorGUI
             $this->tpl->setVariable("DESIGNERS_VAL", ilUtil::prepareFormOutput($ent_str));
         }
         // Point of Contact
-        $this->tpl->setVariable("TXT_POC", $lng->txt('meta_pointofcontact'));
+        $this->tpl->setVariable("TXT_POC", $this->lng->txt('meta_pointofcontact'));
         $this->tpl->setVariable("TXT_SCOPROP_POC", $this->lng->txt('sco_propagate'));
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $sep = $ent_str = "";
@@ -360,9 +366,6 @@ class ilMDEditorGUI
     
     public function listQuickEdit()
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
 
         if (!is_object($this->md_section = $this->md_obj->getGeneral())) {
             $this->md_section = $this->md_obj->addGeneral();
@@ -381,7 +384,7 @@ class ilMDEditorGUI
         }
         $form = $this->initQuickEditForm($interruptive_signal);
 
-        $tpl->setContent(
+        $this->tpl->setContent(
             $modal_content . $form->getHTML()
         );
     }
@@ -391,11 +394,6 @@ class ilMDEditorGUI
      */
     public function initQuickEditForm($a_signal_id)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tree = $DIC['tree'];
     
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
@@ -521,16 +519,16 @@ class ilMDEditorGUI
         }
         $this->form->addItem($tlt);
 
-        $this->form->addCommandButton("updateQuickEdit", $lng->txt("save"), 'button_ilquickeditform');
+        $this->form->addCommandButton("updateQuickEdit", $this->lng->txt("save"), 'button_ilquickeditform');
         $this->form->setTitle($this->lng->txt("meta_quickedit"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
+        $this->form->setFormAction($this->ctrl->getFormAction($this));
 
 
         if (ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
-            $DIC->ui()->mainTemplate()->addJavaScript(
+            $this->tpl->addJavaScript(
                 'Services/MetaData/js/ilMetaCopyrightListener.js'
             );
-            $DIC->ui()->mainTemplate()->addOnLoadCode(
+            $this->tpl->addOnLoadCode(
                 'il.MetaDataCopyrightListener.init("' .
                 $a_signal_id . '","copyright","form_ilquickeditform","button_ilquickeditform");'
             );
@@ -856,7 +854,7 @@ class ilMDEditorGUI
         $tree = new ilTree($module_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, 'sco') as $sco) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
             $sco_md = new ilMD($module_id, $sco['obj_id'], 'sco');
             if ($_POST[$request] != "") {
                 $sco_md_section;
@@ -3408,9 +3406,6 @@ class ilMDEditorGUI
 
     public function __setTabs($a_active)
     {
-        global $DIC;
-
-        $ilToolbar = $DIC['ilToolbar'];
         
         $tabs = array('meta_quickedit' => 'listQuickEdit',
                       'meta_general' => 'listGeneral',
@@ -3437,15 +3432,15 @@ class ilMDEditorGUI
         $section->setOptions($options);
         $section->setValue($a_active);
 
-        $ilToolbar->addStickyItem($section, true);
+        $this->toolbarGUI->addStickyItem($section, true);
         
         include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
         $button = ilSubmitButton::getInstance();
         $button->setCaption("show");
         $button->setCommand("listSection");
-        $ilToolbar->addStickyItem($button);
+        $this->toolbarGUI->addStickyItem($button);
                 
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "listSection"));
+        $this->toolbarGUI->setFormAction($this->ctrl->getFormAction($this, "listSection"));
 
         return true;
     }

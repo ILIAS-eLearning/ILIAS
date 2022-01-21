@@ -1,19 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Implementation\Component\Chart;
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component as C;
 
 /**
  * Class Factory
  * @package ILIAS\UI\Implementation\Component\Listing
  */
-class Factory implements \ILIAS\UI\Component\Chart\Factory
+class Factory implements C\Chart\Factory
 {
-    /**
-     * @var C\Chart\ProgressMeter\Factory
-     */
-    protected $progressmeter_factory;
+    protected C\Chart\ProgressMeter\Factory $progressmeter_factory;
 
     public function __construct(C\Chart\ProgressMeter\Factory $progressmeter_factory)
     {
@@ -23,7 +22,7 @@ class Factory implements \ILIAS\UI\Component\Chart\Factory
     /**
      * @inheritdoc
      */
-    public function scaleBar(array $items)
+    public function scaleBar(array $items) : C\Chart\ScaleBar
     {
         return new ScaleBar($items);
     }
@@ -31,7 +30,7 @@ class Factory implements \ILIAS\UI\Component\Chart\Factory
     /**
      * @inheritdoc
      */
-    public function progressMeter()
+    public function progressMeter() : C\Chart\ProgressMeter\Factory
     {
         return $this->progressmeter_factory;
     }

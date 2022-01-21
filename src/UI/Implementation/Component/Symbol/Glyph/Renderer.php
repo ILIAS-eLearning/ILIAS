@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +11,7 @@ use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
-    protected function getTemplateFilename()
+    protected function getTemplateFilename() : string
     {
         return "tpl.glyph.standard.html";
     }
@@ -19,7 +19,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var $component Glyph
@@ -68,7 +68,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl;
     }
 
-    protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer)
+    protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate('tpl.glyph.html', true, true);
 
@@ -96,7 +96,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(Component\Symbol\Glyph\Glyph::class);
     }

@@ -12,22 +12,29 @@ use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
+use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 
 require_once("libs/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
     $GLOBALS['ilGlobalStartTime'] = microtime();
+}
+
+global $DIC;
+if (null === $DIC) {
+    // Don't remove this, intellisense autocompletion does not work in PhpStorm without a top level assignment
+    $DIC = new Container();
 }
 
 include_once "Services/Context/classes/class.ilContext.php";
@@ -206,17 +213,28 @@ class ilInitialisation
         global $DIC;
 
         $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
+            $revision_repository = new RevisionDBRepository($c->database());
+            $resource_repository = new ResourceDBRepository($c->database());
+            $information_repository = new InformationDBRepository($c->database());
+            $stakeholder_repository = new StakeholderDBRepository($c->database());
             return new \ILIAS\ResourceStorage\Services(
                 new StorageHandlerFactory([
                     new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
                     new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
                 ]),
-                new RevisionARRepository(),
-                new ResourceARRepository(),
-                new InformationARRepository(),
-                new StakeholderARRepository(),
+                $revision_repository,
+                $resource_repository,
+                $information_repository,
+                $stakeholder_repository,
                 new LockHandlerilDB($c->database()),
-                new WhiteAndBlacklistedFileNamePolicy([], [])
+                new WhiteAndBlacklistedFileNamePolicy([], []),
+                new DBRepositoryPreloader(
+                    $c->database(),
+                    $resource_repository,
+                    $revision_repository,
+                    $information_repository,
+                    $stakeholder_repository
+                )
             );
         };
     }
@@ -356,10 +374,9 @@ class ilInitialisation
      */
     protected static function buildHTTPPath()
     {
-        include_once './Services/Http/classes/class.ilHTTPS.php';
-        $https = new ilHTTPS();
+        global $DIC;
 
-        if ($https->isDetected()) {
+        if ($DIC['https']->isDetected()) {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
@@ -489,11 +506,10 @@ class ilInitialisation
         define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
         define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
-        define("DEBUGTOOLS", $ilClientIniFile->readVariable("system", "DEBUGTOOLS"));
-        define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
-        define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
-        define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
-        define("MAIL_SETTINGS_ID", $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
+        define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
+        define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
+        define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
+        define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
 
@@ -572,14 +588,9 @@ class ilInitialisation
      */
     public static function setSessionHandler()
     {
-        if (ini_get('session.save_handler') != 'user' && version_compare(PHP_VERSION, '7.2.0', '<')) {
-            ini_set("session.save_handler", "user");
-        }
-
-        require_once "Services/Authentication/classes/class.ilSessionDBHandler.php";
         $db_session_handler = new ilSessionDBHandler();
         if (!$db_session_handler->setSaveHandler()) {
-            self::abortAndDie("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
+            self::abortAndDie("Cannot start session handling.");
         }
 
         // Do not accept external session ids
@@ -628,14 +639,13 @@ class ilInitialisation
      */
     protected static function setSessionCookieParams()
     {
-        global $ilSetting;
+        global $ilSetting, $DIC;
 
         if (!defined('IL_COOKIE_SECURE')) {
             // If this code is executed, we can assume that \ilHTTPS::enableSecureCookies was NOT called before
             // \ilHTTPS::enableSecureCookies already executes session_set_cookie_params()
 
-            include_once './Services/Http/classes/class.ilHTTPS.php';
-            $cookie_secure = !$ilSetting->get('https', 0) && ilHTTPS::getInstance()->isDetected();
+            $cookie_secure = !$ilSetting->get('https', 0) && $DIC['https']->isDetected();
             define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
             session_set_cookie_params(
@@ -796,7 +806,8 @@ class ilInitialisation
      */
     protected static function initStyle()
     {
-        global $DIC, $ilPluginAdmin;
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
 
         // load style definitions
         self::initGlobal(
@@ -806,9 +817,7 @@ class ilInitialisation
         );
 
         // add user interface hook for style initialisation
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
             $gui_class = $ui_plugin->getUIClassInstance();
             $gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
         }
@@ -1081,10 +1090,6 @@ class ilInitialisation
         if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
             error_reporting(-1);
         }
-
-        if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
-            include_once "include/inc.debug.php";
-        }
     }
 
     protected static $already_initialized;
@@ -1104,7 +1109,8 @@ class ilInitialisation
         if (self::$already_initialized) {
             return;
         }
-        $GLOBALS["DIC"] = new \ILIAS\DI\Container();
+
+        $GLOBALS["DIC"] = new Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();
         };
@@ -1140,8 +1146,12 @@ class ilInitialisation
             if (ilContext::hasHTML()) {
                 self::initHTML();
             }
-            self::initRefinery($GLOBALS['DIC']);
         }
+
+        // this MUST happen after everything else is initialized,
+        // because this leads to rather unexpected behaviour which
+        // is super hard to track down to this.
+        self::replaceSuperGlobals($GLOBALS['DIC']);
     }
 
     /**
@@ -1185,6 +1195,7 @@ class ilInitialisation
 
         self::requireCommonIncludes();
 
+        $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory)->version(ILIAS_VERSION_NUMERIC);
 
         // error handler
         self::initGlobal(
@@ -1235,6 +1246,8 @@ class ilInitialisation
 
         self::initDatabase();
 
+        self::initComponentService($DIC);
+
         // init dafault language
         self::initLanguage(false);
 
@@ -1259,7 +1272,7 @@ class ilInitialisation
                 "./Services/Component/classes/class.ilPluginAdmin.php"
             );
         }
-
+        self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
         self::initSettings();
         self::setSessionHandler();
         self::initMail($GLOBALS['DIC']);
@@ -1274,10 +1287,8 @@ class ilInitialisation
         self::initLocale();
 
         if (ilContext::usesHTTP()) {
-            // $https
-            self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
             $https->enableSecureCookies();
-            $https->checkPort();
+            $https->checkProtocolAndRedirectIfNeeded();
         }
 
 
@@ -1304,13 +1315,11 @@ class ilInitialisation
         self::initGlobal("tree", $tree);
         unset($tree);
 
-        self::initGlobal(
-            "ilCtrl",
-            "ilCtrl",
-            "./Services/UICore/classes/class.ilCtrl.php"
-        );
-
         self::setSessionCookieParams();
+        self::initRefinery($DIC);
+
+        require_once './Services/Init/classes/Dependencies/InitCtrlService.php';
+        (new InitCtrlService())->init($DIC);
 
         // Init GlobalScreen
         self::initGlobalScreen($DIC);
@@ -1429,7 +1438,7 @@ class ilInitialisation
     private static function initGlobalScreen(\ILIAS\DI\Container $c)
     {
         $c['global_screen'] = function () use ($c) {
-            return new Services(new ilGSProviderFactory($c));
+            return new Services(new ilGSProviderFactory($c), htmlentities(str_replace(" ", "_", ILIAS_VERSION)));
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
@@ -1445,10 +1454,13 @@ class ilInitialisation
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
 
-        $plugins = ilPluginAdmin::getActivePlugins();
-        foreach ($plugins as $plugin_data) {
-            $plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"], $plugin_data["component_name"], $plugin_data["slot_id"], $plugin_data["name"]);
-
+        $component_repository = $c["component.repository"];
+        $component_factory = $c["component.factory"];
+        foreach ($component_repository->getPlugins() as $pl) {
+            if (!$pl->isActive()) {
+                continue;
+            }
+            $plugin = $component_factory->getPlugin($pl->getId());
             $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
 
             foreach ($c->keys() as $key) {
@@ -1470,11 +1482,23 @@ class ilInitialisation
 
             return new \ILIAS\Refinery\Factory($dataFactory, $language);
         };
+    }
 
+    /**
+     * @param Container $container
+     */
+    protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
+    {
         $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
         $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
         $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
         $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
+    }
+
+    protected static function initComponentService(\ILIAS\DI\Container $container)
+    {
+        $init = new InitComponentService();
+        $init->init($container);
     }
 
     /**
@@ -1538,13 +1562,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-            include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-            $ilMainMenu = new ilMainMenuGUI("_top");
-
-            self::initGlobal("ilMainMenu", $ilMainMenu);
-            unset($ilMainMenu);
-
-            // :TODO: tableGUI related
 
             // set hits per page for all lists using table module
             $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
@@ -1631,7 +1648,7 @@ class ilInitialisation
 
         $requestBaseClass = strtolower((string) ($_REQUEST['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
-            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass']) ?? '');
+            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass'] ?? ''));
             if (
                 $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
                 $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
@@ -1772,32 +1789,28 @@ class ilInitialisation
         }
     }
 
-    /**
-     * Requires valid authenticated user
-     */
-    public static function redirectToStartingPage()
+    public static function redirectToStartingPage(string $target = '') : bool
     {
-        /**
-         * @var $ilUser ilObjUser
-         */
-        global $ilUser;
+        global $DIC;
 
         // fallback, should never happen
-        if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-            ilInitialisation::goToPublicSection();
+        if ($DIC->user()->getId() === ANONYMOUS_USER_ID) {
+            self::goToPublicSection();
             return true;
+        }
+
+        if ($target === '') {
+            $target = (string) ($_GET['target'] ?? '');
         }
 
         // for password change and incomplete profile
         // see ilDashboardGUI
-        if (!isset($_GET["target"])) {
+        if ($target === '') {
             ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
-            // Redirect here to switch back to http if desired
-            include_once './Services/User/classes/class.ilUserUtil.php';
-            ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+            $DIC->ctrl()->redirectToURL(ilUserUtil::getStartingPointAsUrl());
         } else {
-            ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $_GET['target']);
-            ilUtil::redirect("goto.php?target=" . $_GET["target"]);
+            ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $target);
+            $DIC->ctrl()->redirectToURL("goto.php?target=" . $target);
         }
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -60,7 +60,7 @@ class ilScormEditorDBMigrationUtil
                     "type = " . $ilDB->quote($a_type, "text") . " AND " .
                     "class = " . $ilDB->quote($a_orig_class, "text") . " AND " .
                     "tag = " . $ilDB->quote($a_tag, "text")
-                    );
+                );
                 while ($rec3 = $ilDB->fetchAssoc($set3)) {	// copy parameters
                     $spid = $ilDB->nextId("style_parameter");
                     $q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)" .

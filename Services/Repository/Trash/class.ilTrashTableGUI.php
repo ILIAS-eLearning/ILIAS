@@ -142,8 +142,8 @@ class ilTrashTableGUI extends ilTable2GUI
             $max_trash_entries,
             $this->getOrderField(),
             $this->getOrderDirection(),
-            (int) $this->getLimit(),
-            (int) $this->getOffset()
+            $this->getLimit(),
+            $this->getOffset()
         );
 
         $this->setMaxCount($max_trash_entries);
@@ -170,41 +170,41 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow($row)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('ID', $row['id']);
-        $this->tpl->setVariable('VAL_TITLE', $row['title']);
-        if (strlen(trim($row['description']))) {
+        $this->tpl->setVariable('ID', $a_set['id']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
+        if (strlen(trim($a_set['description']))) {
             $this->tpl->setCurrentBlock('with_desc');
-            $this->tpl->setVariable('VAL_DESC', $row['description']);
+            $this->tpl->setVariable('VAL_DESC', $a_set['description']);
             $this->tpl->parseCurrentBlock();
         }
 
         $this->tpl->setCurrentBlock('with_path');
         $path = new ilPathGUI();
         $path->enableTextOnly(false);
-        $this->tpl->setVariable('PATH', $path->getPath($this->ref_id, $row['id']));
+        $this->tpl->setVariable('PATH', $path->getPath($this->ref_id, $a_set['id']));
         $this->tpl->parseCurrentBlock();
 
         $img = \ilObject::_getIcon(
-            $row['obj_id'],
+            $a_set['obj_id'],
             'small',
-            $row['type']
+            $a_set['type']
         );
         if (strlen($img)) {
-            $alt = ($this->obj_definition->isPlugin($row['type']))
-                ? $this->lng->txt('icon') . ' ' . \ilObjectPlugin::lookupTxtById($row['type'], 'obj_' . $row['type'])
-                : $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $row['type'])
+            $alt = ($this->obj_definition->isPlugin($a_set['type']))
+                ? $this->lng->txt('icon') . ' ' . \ilObjectPlugin::lookupTxtById($a_set['type'], 'obj_' . $a_set['type'])
+                : $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $a_set['type'])
             ;
             $this->tpl->setVariable('IMG_PATH', $img);
             $this->tpl->setVariable('IMG_ALT', $alt);
         }
 
-        $this->tpl->setVariable('VAL_DELETED_BY', $row['deleted_by']);
+        $this->tpl->setVariable('VAL_DELETED_BY', $a_set['deleted_by']);
 
-        $dt = new \ilDateTime($row['deleted'], IL_CAL_DATETIME);
+        $dt = new \ilDateTime($a_set['deleted'], IL_CAL_DATETIME);
         $this->tpl->setVariable('VAL_DELETED_ON', \ilDatePresentation::formatDate($dt));
-        $this->tpl->setVariable('VAL_SUBS', (string) (int) $row['num_subs']);
+        $this->tpl->setVariable('VAL_SUBS', (string) (int) $a_set['num_subs']);
     }
 
     protected function prepareTypeFilterTypes() : array

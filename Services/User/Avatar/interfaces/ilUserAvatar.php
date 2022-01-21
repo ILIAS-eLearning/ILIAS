@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,18 +8,9 @@
  */
 interface ilUserAvatar
 {
-    /**
-     * @return string
-     */
     public function getUrl() : string;
 
-    /**
-     * @param int $usrId
-     */
-    public function setUsrId($usrId);
+    public function setUsrId(int $usrId) : void;
 
-    /**
-     * @param string $name
-     */
-    public function setName($name);
+    public function setName(string $name) : void;
 }

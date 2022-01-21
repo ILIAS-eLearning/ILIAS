@@ -1,30 +1,21 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailTemplateRepository
  */
 class ilMailTemplateRepository
 {
-    /** @var \ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * ilMailTemplateRepository constructor.
-     * @param ilDBInterface|null $db
-     */
-    public function __construct(\ilDBInterface $db = null)
+    public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
-
-        if (null === $db) {
-            $db = $DIC->database();
-        }
-        $this->db = $db;
+        $this->db = $db ?? $DIC->database();
     }
 
     /**
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function getAll() : array
     {
@@ -32,7 +23,7 @@ class ilMailTemplateRepository
 
         $res = $this->db->query('SELECT * FROM mail_man_tpl');
         while ($row = $this->db->fetchAssoc($res)) {
-            $template = new \ilMailTemplate($row);
+            $template = new ilMailTemplate($row);
             $templates[] = $template;
         }
 
@@ -41,10 +32,9 @@ class ilMailTemplateRepository
 
     /**
      * @param int $templateId
-     * @return \ilMailTemplate
-     * @throws \OutOfBoundsException
+     * @return ilMailTemplate
      */
-    public function findById(int $templateId) : \ilMailTemplate
+    public function findById(int $templateId) : ilMailTemplate
     {
         $res = $this->db->queryF(
             'SELECT * FROM mail_man_tpl WHERE tpl_id  = %s',
@@ -52,17 +42,17 @@ class ilMailTemplateRepository
             [$templateId]
         );
 
-        if (1 === (int) $this->db->numRows($res)) {
+        if (1 === $this->db->numRows($res)) {
             $row = $this->db->fetchAssoc($res);
-            return new \ilMailTemplate($row);
+            return new ilMailTemplate($row);
         }
 
-        throw new \OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
+        throw new OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
     }
 
     /**
      * @param string $contextId
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function findByContextId(string $contextId) : array
     {
@@ -74,7 +64,7 @@ class ilMailTemplateRepository
     /**
      * @param int[] $templateIds
      */
-    public function deleteByIds(array $templateIds)
+    public function deleteByIds(array $templateIds) : void
     {
         if (count($templateIds) > 0) {
             $this->db->manipulate(
@@ -85,10 +75,7 @@ class ilMailTemplateRepository
         }
     }
 
-    /**
-     * @param \ilMailTemplate $template
-     */
-    public function store(\ilMailTemplate $template)
+    public function store(ilMailTemplate $template) : void
     {
         if ($template->getTplId() > 0) {
             $this->db->update(

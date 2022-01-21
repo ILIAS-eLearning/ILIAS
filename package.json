@@ -26,7 +26,7 @@
     "mediaelement": "4.2.16",
     "moment": "^2.24.0",
     "nestable2": "^1.6.0",
-    "ol": "^6.5.0",
+    "ol": "^6.9.0",
     "owl.carousel": "git+https://github.com/OwlCarousel2/OwlCarousel2.git",
     "pouchdb": "^7.2.1",
     "qtip2": "^3.0.3",
@@ -45,7 +45,7 @@
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha --recursive --config tests/mocha.config.js --require esm"
   },
   "repository": {
     "type": "git",

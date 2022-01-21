@@ -1,18 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "../../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
 
 /**
  * Tests for the SimpleNode.
  */
 class SimpleNodeTest extends ILIAS_UI_TestBase
 {
+    private I\Tree\Node\Factory $node_factory;
+    private C\Symbol\Icon\Standard $icon;
+
     public function setUp() : void
     {
         $this->node_factory = new I\Tree\Node\Factory();
@@ -20,14 +23,14 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
         $this->icon = $icon_factory->standard("", '');
     }
 
-    public function brutallyTrimHTML($html)
+    public function brutallyTrimHTML(string $html) : string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
         return trim($html);
     }
 
-    public function testConstruction()
+    public function testConstruction() : C\Tree\Node\Simple
     {
         $node = $this->node_factory->simple('simple');
         $this->assertInstanceOf(
@@ -37,13 +40,13 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
         return $node;
     }
 
-    public function testWrongConstruction()
+    public function testWrongConstruction() : void
     {
-        $this->expectException(\ArgumentCountError::class);
-        $node = $this->node_factory->simple();
+        $this->expectException(ArgumentCountError::class);
+        $this->node_factory->simple();
     }
 
-    public function testConstructionWithIcon()
+    public function testConstructionWithIcon() : C\Tree\Node\Simple
     {
         $node = $this->node_factory->simple('label', $this->icon);
         $this->assertInstanceOf(
@@ -56,57 +59,44 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstructionWithIcon
      */
-    public function testGetLabel($node)
+    public function testGetLabel(C\Tree\Node\Simple $node) : void
     {
-        $this->assertEquals(
-            "label",
-            $node->getLabel()
-        );
+        $this->assertEquals("label", $node->getLabel());
     }
 
     /**
      * @depends testConstructionWithIcon
      */
-    public function testGetIcon($node)
+    public function testGetIcon(C\Tree\Node\Simple $node) : C\Tree\Node\Simple
     {
-        $this->assertEquals(
-            $this->icon,
-            $node->getIcon()
-        );
+        $this->assertEquals($this->icon, $node->getIcon());
         return $node;
     }
 
     /**
      * @depends testConstruction
      */
-    public function testDefaultAsyncLoading($node)
+    public function testDefaultAsyncLoading(C\Tree\Node\Simple $node) : void
     {
-        $this->assertFalse(
-            $node->getAsyncLoading()
-        );
+        $this->assertFalse($node->getAsyncLoading());
     }
 
     /**
      * @depends testConstruction
      */
-    public function testWithAsyncURL($node)
+    public function testWithAsyncURL(C\Tree\Node\Simple $node) : C\Tree\Node\Simple
     {
         $url = 'something.de';
         $node = $node->withAsyncURL($url);
-        $this->assertTrue(
-            $node->getAsyncLoading()
-        );
-        $this->assertEquals(
-            $url,
-            $node->getAsyncURL()
-        );
+        $this->assertTrue($node->getAsyncLoading());
+        $this->assertEquals($url, $node->getAsyncURL());
         return $node;
     }
 
     /**
      * @depends testConstruction
      */
-    public function testRendering($node)
+    public function testRendering(C\Tree\Node\Simple $node) : void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);
@@ -128,7 +118,7 @@ EOT;
     /**
      * @depends testWithAsyncURL
      */
-    public function testRenderingWithAsync($node)
+    public function testRenderingWithAsync(C\Tree\Node\Simple $node) : void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);
@@ -154,7 +144,7 @@ EOT;
     /**
      * @depends testConstructionWithIcon
      */
-    public function testRenderingWithIcon($node)
+    public function testRenderingWithIcon(C\Tree\Node\Simple $node) : void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);

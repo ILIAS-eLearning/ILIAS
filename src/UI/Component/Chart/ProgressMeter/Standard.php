@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
@@ -10,7 +10,6 @@ namespace ILIAS\UI\Component\Chart\ProgressMeter;
  */
 interface Standard extends ProgressMeter
 {
-
     /**
      * Get comparison value
      *
@@ -22,37 +21,26 @@ interface Standard extends ProgressMeter
 
     /**
      * Get clone of Progress Meter with main text
-     *
      * It will be displayed above the main value percentage display.
      * Example: withMainText('Your Score')
-     *
-     * @param string $text
-     * @return \ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter
      */
-    public function withMainText($text);
+    public function withMainText(string $text) : ProgressMeter;
 
     /**
      * Get main text value
-     *
-     * @return string|null
      */
-    public function getMainText();
+    public function getMainText() : ?string;
 
     /**
      * Get clone of Progress Meter with required text
      *
      * It will be displayed below the required percentage display.
      * Example: withRequiredText("Minimum Required")
-     *
-     * @param string $text
-     * @return \ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter
      */
-    public function withRequiredText($text);
+    public function withRequiredText(string $text) : ProgressMeter;
 
     /**
      * Get required text value
-     *
-     * @return string|null
      */
-    public function getRequiredText();
+    public function getRequiredText() : ?string;
 }

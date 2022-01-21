@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\MainControls\Footer;
 
 use ILIAS\UI\examples\Layout\Page\Standard as PageStandardExample;
@@ -42,14 +42,15 @@ function pageFooterDemoFooter($f)
     );
 }
 
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
 
-if (is_array($_GET) && array_key_exists('new_footer_ui',$_GET) && $_GET['new_footer_ui'] == '1') {
+if ($request_wrapper->has('new_footer_ui') && $request_wrapper->retrieve('new_footer_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../');
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
 
     PageStandardExample\_initIliasForPreview();
-
-    global $DIC;
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
@@ -104,6 +105,5 @@ function pageFooterDemoCrumbs($f)
 
 function pageFooterDemoMainbar($f, $r)
 {
-    return $f->mainControls()->mainbar();;
+    return $f->mainControls()->mainbar();
 }
-

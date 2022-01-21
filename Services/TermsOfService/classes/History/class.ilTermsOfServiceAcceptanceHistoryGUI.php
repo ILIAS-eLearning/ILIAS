@@ -3,6 +3,7 @@
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -134,7 +135,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
             );
             $this->http->saveResponse(
                 $this->http->response()
-                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                     ->withBody(
                         Streams::ofString($auto->getList($query))
                     )

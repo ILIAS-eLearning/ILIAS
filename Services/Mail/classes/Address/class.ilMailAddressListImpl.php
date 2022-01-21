@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddressListImpl
@@ -8,10 +8,9 @@
 class ilMailAddressListImpl implements ilMailAddressList
 {
     /** @var ilMailAddress[] */
-    protected $addresses = [];
+    protected array $addresses = [];
 
     /**
-     * ilMailAddressListImpl constructor.
      * @param ilMailAddress[] $addresses
      */
     public function __construct(array $addresses)
@@ -23,9 +22,6 @@ class ilMailAddressListImpl implements ilMailAddressList
         $this->addresses = $addresses;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function value() : array
     {
         return $this->addresses;

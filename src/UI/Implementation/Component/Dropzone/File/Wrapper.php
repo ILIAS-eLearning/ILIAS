@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Dropzone\File as F;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
+use LogicException;
 
 /**
  * Class Wrapper
@@ -12,25 +13,18 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
-class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
+class Wrapper extends File implements F\Wrapper
 {
-
     /**
      * @var Component[]
      */
-    protected $components;
+    protected array $components;
+    protected string $title = "";
 
     /**
-     * @var string
-     */
-    protected $title = "";
-
-
-    /**
-     * @param string                $url
      * @param Component[]|Component $content Component(s) being wrapped by this dropzone
      */
-    public function __construct($url, $content)
+    public function __construct(string $url, $content)
     {
         parent::__construct($url);
         $this->components = $this->toArray($content);
@@ -39,11 +33,10 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
         $this->checkEmptyArray($this->components);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function withContent($content)
+    public function withContent($content) : F\Wrapper
     {
         $clone = clone $this;
         $clone->components = $this->toArray($content);
@@ -57,19 +50,17 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
     /**
      * @inheritdoc
      */
-    public function withTitle($title)
+    public function withTitle(string $title) : F\Wrapper
     {
-        $this->checkStringArg("title", $title);
         $clone = clone $this;
         $clone->title = $title;
-
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -77,7 +68,7 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
     /**
      * @inheritDoc
      */
-    public function getContent()
+    public function getContent() : array
     {
         return $this->components;
     }
@@ -86,14 +77,12 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
     /**
      * Checks if the passed array contains at least one element, throws a LogicException otherwise.
      *
-     * @param array $array
-     *
-     * @throws \LogicException if the passed in argument counts 0
+     * @throws LogicException if the passed in argument counts 0
      */
-    private function checkEmptyArray(array $array)
+    private function checkEmptyArray(array $array) : void
     {
         if (count($array) === 0) {
-            throw new \LogicException("At least one component from the UI framework is required, otherwise
+            throw new LogicException("At least one component from the UI framework is required, otherwise
 			the wrapper dropzone is not visible.");
         }
     }

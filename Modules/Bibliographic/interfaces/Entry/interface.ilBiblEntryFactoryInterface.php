@@ -1,100 +1,50 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface ilBiblEntryFactoryInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblEntryFactoryInterface
 {
-
+    
     /**
-     * @param int    $id
-     * @param string $type_string
-     *
      * @return \ilBiblEntryInterface
      * @deprecated REFACTOR This has to be refactored to type_id and not type_string
-     *
      */
-    public function findByIdAndTypeString($id, $type_string) : ilBiblEntryInterface;
-
-
+    public function findByIdAndTypeString(int $id, string $type_string) : ilBiblEntryInterface;
+    
+    public function findOrCreateEntry(int $id, int $bibliographic_obj_id, string $entry_type) : \ilBiblEntryInterface;
+    
     /**
-     * @param int    $id
      * @param int    $bibliographic_obj_id
      * @param string $entry_type
-     *
      * @return \ilBiblEntryInterface
      */
-    public function findOrCreateEntry($id, $bibliographic_obj_id, $entry_type);
-
-
+    public function createEntry(int $bibliographic_obj_id, string $entry_type) : \ilBiblEntryInterface;
+    
     /**
-     * @param $bibliographic_obj_id
-     * @param $entry_type
-     *
-     * @return \ilBiblEntryInterface
+     * @return ilBiblEntry
      */
-    public function createEntry($bibliographic_obj_id, $entry_type);
-
-
+    public function getEmptyInstance() : \ilBiblEntry;
+    
     /**
-     * @return \ilBiblEntryInterface
-     */
-    public function getEmptyInstance();
-
-
-    /**
-     * @param                            $object_id
+     * @param int                        $object_id
      * @param \ilBiblTableQueryInfo|null $info
-     *
      * @return \ilBiblEntryInterface[]
      */
-    public function filterEntriesForTable($object_id, ilBiblTableQueryInfo $info = null);
-
-
+    public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null) : array;
+    
     /**
-     * @param                            $object_id
+     * @param int                        $object_id
      * @param \ilBiblTableQueryInfo|null $info
-     *
      * @return array
      */
-    public function filterEntryIdsForTableAsArray($object_id, ilBiblTableQueryInfo $info = null);
-
-
-    /**
-     * @param int $id
-     *
-     */
-    public function deleteEntryById($id);
-
-
-    /**
-     * Read all entries from the database
-     *
-     * @param int $object_id
-     *
-     * @return \ilBiblEntryInterface[]
-     */
-    public function getAllEntries($object_id);
-
-
-    /**
-     * Get entry from the database
-     *
-     * @param int $object_id
-     *
-     * @return \ilBiblEntryInterface
-     */
-    public function getEntryById($id);
-
-
+    public function filterEntryIdsForTableAsArray(int $object_id, ?ilBiblTableQueryInfo $info = null) : array;
+    
+    public function deleteEntryById(int $id) : void;
+    
     /**
      * Reads all the entrys attributes from database
-     *
-     * @param integer $entry_id
-     *
-     * @return ilBiblEntryInterface[]
      */
-    public function loadParsedAttributesByEntryId($entry_id);
+    public function loadParsedAttributesByEntryId(int $entry_id) : array;
 }

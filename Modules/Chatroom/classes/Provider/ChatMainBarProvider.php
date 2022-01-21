@@ -4,6 +4,8 @@ namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilObjChatroom;
+use ilSetting;
 
 /**
  * Class ChatMainBarProvider
@@ -12,22 +14,16 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class ChatMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
 
-        $publicChatRefId = \ilObjChatroom::_getPublicRefId();
+        $publicChatRefId = ilObjChatroom::_getPublicRefId();
         $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
         $icon = $this->dic->ui()->factory()
@@ -46,12 +42,12 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                     $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    function () use ($publicChatObjId) : bool {
+                    static function () use ($publicChatObjId) : bool {
                         return $publicChatObjId > 0;
                     }
                 )
                 ->withVisibilityCallable(
-                    function () use ($dic, $publicChatRefId) : bool {
+                    static function () use ($dic, $publicChatRefId) : bool {
                         if (0 === $dic->user()->getId() || $dic->user()->isAnonymous()) {
                             return false;
                         }
@@ -62,7 +58,7 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                             ->checkAccessOfUser($dic->user()->getId(), 'read', $publicChatRefId);
 
                         return (
-                            (new \ilSetting('chatroom'))->get('chat_enabled') &&
+                            (new ilSetting('chatroom'))->get('chat_enabled', '0') &&
                             $hasPublicChatRoomAccess
                         );
                     }

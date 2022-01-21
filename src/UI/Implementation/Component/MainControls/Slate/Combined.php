@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -20,9 +18,9 @@ class Combined extends Slate implements ISlate\Combined
     public const ENTRY_ACTION_TRIGGER = 'trigger';
 
     /**
-     * @var array<Slate|BulkyButton|BulkyLink>
+     * @var array<Slate|IBulkyButton|IBulkyLink>
      */
-    protected $contents = [];
+    protected array $contents = [];
 
     /**
      * @inheritdoc
@@ -51,7 +49,6 @@ class Combined extends Slate implements ISlate\Combined
         return $this->contents;
     }
 
-
     public function getTriggerSignal(string $entry_id) : Signal
     {
         $signal = $this->signal_generator->create();
@@ -60,7 +57,7 @@ class Combined extends Slate implements ISlate\Combined
         return $signal;
     }
 
-    public function withMappedSubNodes(callable $f)
+    public function withMappedSubNodes(callable $f) : ISlate\Combined
     {
         $clone = clone $this;
         $new_contents = [];

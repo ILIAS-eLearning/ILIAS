@@ -5,6 +5,7 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Factory as UIFactory;
@@ -152,7 +153,7 @@ abstract class ilChatroomGUIHandler
         if (null === $room) {
             $this->sendResponse([
                 'success' => false,
-                'reason' => 'unkown room',
+                'reason' => 'unknown room',
             ]);
         }
     }
@@ -166,7 +167,7 @@ abstract class ilChatroomGUIHandler
     {
         $this->http->saveResponse(
             $this->http->response()
-                ->withHeader('Content-Type', 'application/json')
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(Streams::ofString($isJson ? $response : json_encode($response, JSON_THROW_ON_ERROR)))
         );
         $this->http->sendResponse();

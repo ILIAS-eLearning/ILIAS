@@ -30,13 +30,13 @@ class ilDclLinkButton extends ilLinkButton
     }
 
 
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_DATACOLLECTION_LINK);
     }
 
 
-    public function prepareRender()
+    public function prepareRender() : void
     {
         parent::prepareRender();
 
@@ -45,7 +45,7 @@ class ilDclLinkButton extends ilLinkButton
     }
 
 
-    public function render()
+    public function render() : string
     {
         $this->prepareRender();
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -16,7 +16,6 @@ interface Factory
      *     The system failed to complete some actions and displays information about the failure.
      *   composition: >
      *     The alert-danger style is used for the message.
-     *
      * rules:
      *   usage:
      *      1: >
@@ -26,10 +25,9 @@ interface Factory
      *      3: >
      *          The message SHOULD inform the user how to the problem can be fixed.
      * ---
-     *
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function failure($message_text);
+    public function failure(string $message_text) : MessageBox;
 
     /**
      * ---
@@ -46,17 +44,16 @@ interface Factory
      *      2: >
      *          The message SHOULD summarize how the system state has been changed due to the user interaction.
      * ---
-     *
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function success($message_text);
+    public function success(string $message_text) : MessageBox;
 
     /**
      * ---
      * description:
      *   purpose: >
      *     The system informs the user about obstacles standing in the way of completing a workflow
-     *     or about side-effects of his or her actions on other users.
+     *     or about side effects of his or her actions on other users.
      *   composition: >
      *     The alert-info style is used for the message.
      *
@@ -69,10 +66,9 @@ interface Factory
      *          The Info Message Boxes MUST NOT be used at the end of a user interaction. Instead Success or Failure
      *          Message Boxes SHOULD be used.
      * ---
-     *
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function info($message_text);
+    public function info(string $message_text) : MessageBox;
 
     /**
      * ---
@@ -86,10 +82,9 @@ interface Factory
      *   usage:
      *      1: >
      *          The Confirmation Message Boxes MUST be used, if a deletion interaction is being processed. The Buttons
-     *          MUST provide a confirm and a cancel option.
+     *          MUST provide a confirmation and a cancel option.
      * ---
-     *
      * @return \ILIAS\UI\Component\MessageBox\MessageBox
      */
-    public function confirmation($message_text);
+    public function confirmation(string $message_text) : MessageBox;
 }

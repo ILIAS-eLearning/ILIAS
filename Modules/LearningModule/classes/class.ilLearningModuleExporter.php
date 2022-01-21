@@ -1,22 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Exporter class for html learning modules
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
- * @ingroup ModulesLearningModule
  */
 class ilLearningModuleExporter extends ilXmlExporter
 {
     private ilLearningModuleDataSet $ds;
     private ilExportConfig $config;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
         $this->ds = new ilLearningModuleDataSet();
@@ -30,15 +36,11 @@ class ilLearningModuleExporter extends ilXmlExporter
         }
     }
 
-    /**
-     * Get tail dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return        array        array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         $deps = array();
 
         if ($a_entity == "lm") {
@@ -116,17 +118,11 @@ class ilLearningModuleExporter extends ilXmlExporter
         return $deps;
     }
 
-
-
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
-     */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    {
+    public function getXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        string $a_id
+    ) : string {
         // workaround: old question export
         $q_ids = array();
         $pages = ilLMPageObject::getPageList($a_id);
@@ -158,29 +154,24 @@ class ilLearningModuleExporter extends ilXmlExporter
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
-    public function getValidSchemaVersions(string $a_entity) : array
-    {
+    public function getValidSchemaVersions(
+        string $a_entity
+    ) : array {
         return array(
             "5.4.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/LearningModule/lm/5_4",
+                "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/5_4",
                 "xsd_file" => "ilias_lm_5_4.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
                 "max" => ""),
             "5.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/LearningModule/lm/5_1",
+                "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/5_1",
                 "xsd_file" => "ilias_lm_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
                 "max" => ""),
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/LearningModule/lm/4_1",
+                "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/4_1",
                 "xsd_file" => "ilias_lm_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",

@@ -35,6 +35,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
     protected array $node_data = [];
     protected StandardGUIRequest $request;
     protected int $cur_ref_id = 0;
+    protected int $top_node_id;
 
     public function __construct(
         $a_parent_obj,
@@ -113,7 +114,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $root_node;
     }
 
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
         
@@ -133,13 +134,13 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
     
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -155,7 +156,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $lng->txt("obj_" . $a_node["type"]) . ": " . $this->getNodeContent($a_node);
     }
     
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($a_node["child"] == $this->cur_ref_id ||
             ($this->cur_ref_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
@@ -164,23 +165,21 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
     
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
         switch ($a_node["type"]) {
+            case "cat":
             case "root":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
                 return $link;
 
-            case "cat":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
-                return $link;
-
+            case "grpr":
+            case "crsr":
+            case "prgr":
             case "catr":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
@@ -193,22 +192,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $this->cur_ref_id);
                 return $link;
 
-            case "grpr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
-                return $link;
-
             case "crs":
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node["child"]);
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjcoursegui"), "view");
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $this->cur_ref_id);
-                return $link;
-                
-            case "crsr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
                 return $link;
 
             case 'rcrs':
@@ -222,11 +209,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjstudyprogrammegui"), "view");
                 $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->cur_ref_id);
                 return $link;
-            case "prgr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node["child"]);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
-                return $link;
 
             default:
                 return ilLink::_getStaticLink($a_node["child"], $a_node["type"], true);
@@ -234,7 +216,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
@@ -282,7 +264,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
     }
     
     
-    public function sortChilds($a_childs, $a_parent_node_id)
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
         $ilAccess = $this->access;
@@ -299,10 +281,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         // see bug 0015978
         $this->type_grps = array();
 
-        if (empty($this->type_grps[$parent_type])) {
-            $this->type_grps[$parent_type] =
-                $objDefinition->getGroupedRepositoryObjectTypes($parent_type);
-        }
+        $this->type_grps[$parent_type] =
+            $objDefinition->getGroupedRepositoryObjectTypes($parent_type);
 
         // #14465 - item groups
         $group = array();
@@ -431,7 +411,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $rbacsystem = $this->rbacsystem;
         
@@ -454,7 +434,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
     
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;
@@ -493,10 +473,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             case "mep":
                 if ($rbacsystem->checkAccess("read", $a_node["child"])) {
                     return true;
-                } else {
-                    return false;
                 }
-                break;
+                return false;
             case 'grpr':
             case 'crsr':
             case 'catr':
@@ -539,10 +517,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                     }
 
                     return true;
-                } else {
-                    return false;
                 }
-                break;
+                return false;
         }
     }
 }
