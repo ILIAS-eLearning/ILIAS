@@ -67,7 +67,7 @@ class ilCmiXapiVerbList
     /**
      * @param string $verbId
      */
-    public function isValidVerb($verb): bool
+    public function isValidVerb($verb) : bool
     {
         return in_array($verb, $this->verbs);
     }
@@ -75,15 +75,15 @@ class ilCmiXapiVerbList
     /**
      * @param string $shortVerbId
      */
-    public function getVerbUri($verb): string
+    public function getVerbUri($verb) : string
     {
-        return 'http://adlnet.gov/expapi/verbs/'. $verb;
+        return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
 
     /**
      * @return array<string, mixed>
      */
-    public function getDynamicSelectOptions($verbs): array
+    public function getDynamicSelectOptions($verbs) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -105,7 +105,7 @@ class ilCmiXapiVerbList
     /**
      * @return array<string, mixed>
      */
-    public function getSelectOptions(): array
+    public function getSelectOptions() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -128,7 +128,7 @@ class ilCmiXapiVerbList
      */
     public static function getVerbTranslation(ilLanguage $lng, string $verb)
     {
-        $verbMatch = preg_match('/\/([^\/]+)$/',$verb,$matches);
+        $verbMatch = preg_match('/\/([^\/]+)$/', $verb, $matches);
         $shortVerb = $matches[1];
         $langVar = preg_replace('/http(s)?:\/\//', '', $verb);
         $langVar = str_replace('.', '', $langVar);
@@ -136,17 +136,14 @@ class ilCmiXapiVerbList
         $langVar = 'cmix_' . $langVar;
         $translatedVerb = $lng->txt($langVar);
         // check no translation found?
-        if (strpos($translatedVerb,'-cmix_') === 0)
-        {
+        if (strpos($translatedVerb, '-cmix_') === 0) {
             return $shortVerb;
-        }
-        else
-        {
+        } else {
             return $translatedVerb;
         }
     }
     
-    public static function getInstance(): \ilCmiXapiVerbList
+    public static function getInstance() : \ilCmiXapiVerbList
     {
         return new self();
     }

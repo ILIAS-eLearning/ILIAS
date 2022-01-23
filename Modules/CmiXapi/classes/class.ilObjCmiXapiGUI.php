@@ -97,8 +97,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $typeLearningModule->setInfo($this->lng->txt('cmix_add_cmi5_lm_info'));
         $type->addOption($typeLearningModule);
 
-        $typeGenericModule = new ilRadioOption($this->lng->txt('cmix_add_xapi_standard_object'),
-            ilObjCmiXapi::CONT_TYPE_GENERIC);
+        $typeGenericModule = new ilRadioOption(
+            $this->lng->txt('cmix_add_xapi_standard_object'),
+            ilObjCmiXapi::CONT_TYPE_GENERIC
+        );
         $typeGenericModule->setInfo($this->lng->txt('cmix_add_xapi_standard_object_info'));
         $type->addOption($typeGenericModule);
 
@@ -667,8 +669,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $info->addProperty($DIC->language()->txt('cmix_lrs_type'), $this->object->getLrsType()->getTitle());
 
         if ($this->object->isSourceTypeExternal()) {
-            $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(),
-                $this->object->getPrivacyIdent());
+            $cmixUser = new ilCmiXapiUser(
+                $this->object->getId(),
+                $DIC->user()->getId(),
+                $this->object->getPrivacyIdent()
+            );
             if ($cmixUser->getUsrIdent()) {
                 $info->addProperty(
                     $DIC->language()->txt("conf_user_registered_mail"),
@@ -754,12 +759,18 @@ class ilObjCmiXapiGUI extends ilObject2GUI
              * this is not a valid query because if you switched privacyIdent mode before you will get
              * an existing user without launched data like proxySuccess
              */
-            $cmiUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId(),
-                $this->object->getPrivacyIdent());
+            $cmiUserExists = ilCmiXapiUser::exists(
+                $this->object->getId(),
+                $DIC->user()->getId(),
+                $this->object->getPrivacyIdent()
+            );
 
             if ($cmiUserExists) {
-                $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(),
-                    $this->object->getPrivacyIdent());
+                $cmixUser = new ilCmiXapiUser(
+                    $this->object->getId(),
+                    $DIC->user()->getId(),
+                    $this->object->getPrivacyIdent()
+                );
 
                 if ($this->isFetchXapiStatementsRequired($cmixUser)) {
                     $fetchButton = ilLinkButton::getInstance();
@@ -815,8 +826,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $info = $DIC->language()->txt('xapi_statements_not_fetched_yet');
         } else {
             $info = $DIC->language()->txt('xapi_statements_last_fetch_date') . ' ' . ilDatePresentation::formatDate(
-                    $cmixUser->getFetchUntil()
-                );
+                $cmixUser->getFetchUntil()
+            );
         }
 
         ilUtil::sendInfo($info);

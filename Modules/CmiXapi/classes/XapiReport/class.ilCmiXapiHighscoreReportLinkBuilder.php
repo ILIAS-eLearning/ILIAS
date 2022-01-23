@@ -37,12 +37,10 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         
         $obj = $this->getObj();
         $id = null;
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC)
-        {
+        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) {
             $id = '$statement.actor.mbox';
         }
-        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
-        {
+        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType()) {
             $id = '$statement.actor.account.name';
         }
         $pipeline[] = ['$group' => [
@@ -60,7 +58,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
     /**
      * @return mixed[][]
      */
-    protected function buildFilterStage(): array
+    protected function buildFilterStage() : array
     {
         $stage = array();
         
@@ -74,8 +72,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         ];
         
         $obj = $this->getObj();
-        if (($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType())
-        {
+        if (($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType()) {
             $stage['$or'] = $this->getUsersStack();
         }
         
@@ -87,7 +84,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
     /**
      * @return array<string, array<string, int>>
      */
-    protected function buildOrderStage(): array
+    protected function buildOrderStage() : array
     {
         return [ '$sort' => [
             'statement.timestamp' => 1
@@ -98,22 +95,17 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
     /**
      * @return array<string, string>[]
      */
-    protected function getUsersStack(): array
+    protected function getUsersStack() : array
     {
         $users = [];
         $obj = $this->getObj();
-        if ($obj->isMixedContentType())
-        {
-            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
-            {
+        if ($obj->isMixedContentType()) {
+            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                 $users[] = ['statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"];
                 $users[] = ['statement.actor.account.name' => "{$cmixUser->getUsrIdent()}"];
             }
-        }
-        else
-        {
-            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
-            {
+        } else {
+            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                 $users[] = [
                     'statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"
                 ];
@@ -122,7 +114,7 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         return $users;
     }
     
-    public function getPipelineDebug(): string
+    public function getPipelineDebug() : string
     {
         return '<pre>' . json_encode($this->buildPipeline(), JSON_PRETTY_PRINT) . '</pre>';
     }

@@ -48,14 +48,14 @@ class ilCmiXapiStatementsReport
      * @var string
      */
     protected $userLanguage;
-     /**
-     * @var ilObjCmiXapi::CONT_TYPE_GENERIC|CONT_TYPE_CMI5
-     */
+    /**
+    * @var ilObjCmiXapi::CONT_TYPE_GENERIC|CONT_TYPE_CMI5
+    */
     protected $contentType;
     
-     /**
-     * @var bool
-     */
+    /**
+    * @var bool
+    */
     protected $isMixedContentType;
 
     public function __construct(string $responseBody, $objId)
@@ -65,9 +65,9 @@ class ilCmiXapiStatementsReport
 
         $responseBody = json_decode($responseBody, true);
         
-        $this->contentType = ilObjCmiXapi::getInstance($objId,false)->getContentType();
+        $this->contentType = ilObjCmiXapi::getInstance($objId, false)->getContentType();
         
-        $this->isMixedContentType = ilObjCmiXapi::getInstance($objId,false)->isMixedContentType();
+        $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
         
         if (count($responseBody)) {
             $this->response = current($responseBody);
@@ -84,7 +84,7 @@ class ilCmiXapiStatementsReport
         }
     }
     
-    public function getMaxCount(): int
+    public function getMaxCount() : int
     {
         return $this->maxCount;
     }
@@ -92,12 +92,12 @@ class ilCmiXapiStatementsReport
     /**
      * @return mixed[]
      */
-    public function getStatements(): array
+    public function getStatements() : array
     {
         return $this->statements;
     }
     
-    public function hasStatements(): bool
+    public function hasStatements() : bool
     {
         return (bool) count($this->statements);
     }
@@ -105,7 +105,7 @@ class ilCmiXapiStatementsReport
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getTableData(): array
+    public function getTableData() : array
     {
         $data = [];
         
@@ -129,21 +129,16 @@ class ilCmiXapiStatementsReport
         return $statement['timestamp'];
     }
     
-    protected function fetchActor($statement): \ilCmiXapiUser
+    protected function fetchActor($statement) : \ilCmiXapiUser
     {
-        if ($this->isMixedContentType)
-        {
+        if ($this->isMixedContentType) {
             $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
             if (empty($ident)) {
-                $ident = $statement['actor']['account']['name'];    
+                $ident = $statement['actor']['account']['name'];
             }
-        }
-        elseif ($this->contentType == ilObjCmiXapi::CONT_TYPE_CMI5)
-        {
+        } elseif ($this->contentType == ilObjCmiXapi::CONT_TYPE_CMI5) {
             $ident = $statement['actor']['account']['name'];
-        }
-        else
-        {
+        } else {
             $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
         }
         return $this->cmixUsersByIdent[$ident];
@@ -160,12 +155,11 @@ class ilCmiXapiStatementsReport
     }
     
     protected function fetchObjectName($statement)
-    {  
-        $ret = urldecode($statement['object']['id']);   
-        $lang = self::getLanguageEntry($statement['object']['definition']['name'],$this->userLanguage);
+    {
+        $ret = urldecode($statement['object']['id']);
+        $lang = self::getLanguageEntry($statement['object']['definition']['name'], $this->userLanguage);
         $langEntry = $lang['languageEntry'];
-        if ($langEntry != '') 
-        {
+        if ($langEntry != '') {
             $ret = $langEntry;
         }
         return $ret;
@@ -181,7 +175,7 @@ class ilCmiXapiStatementsReport
      *  with multiple language keys like [de-DE] [en-US]
      * @return array<string, mixed>
      */
-    public static function getLanguageEntry($obj,$userLanguage): array
+    public static function getLanguageEntry($obj, $userLanguage) : array
     {
         $defaultLanguage = 'en-US';
         $defaultLanguageEntry = '';
@@ -195,50 +189,40 @@ class ilCmiXapiStatementsReport
         $language = '';
         $languageEntry = '';
         try {
-            foreach ($obj as $k => $v) 
-            {
+            foreach ($obj as $k => $v) {
                 // save $firstLanguage
-                if ($firstLanguage == '')
-                {
+                if ($firstLanguage == '') {
                     $f = '/^[a-z]+-?.*/';
-                    if (preg_match($f,$k))
-                    {
+                    if (preg_match($f, $k)) {
                         $firstLanguageExists = true;
                         $firstLanguage = $k;
                         $firstLanguageEntry = $v;
                     }
                 }
                 // check defaultLanguage
-                if ($k == $defaultLanguage)
-                {
+                if ($k == $defaultLanguage) {
                     $defaultLanguageExists = true;
                     $defaultLanguageEntry = $v;
                 }
                 // check userLanguage
                 $p = '/^' . $userLanguage . '-?./';
-                preg_match($p,$k);
-                if (preg_match($p,$k))
-                {
+                preg_match($p, $k);
+                if (preg_match($p, $k)) {
                     $userLanguageExists = true;
                     $userLanguage = $k;
-                    $userLanguageEntry = $v; 
+                    $userLanguageEntry = $v;
                 }
             }
-        }
-        catch (Exception $e) {};
+        } catch (Exception $e) {
+        };
 
-        if ($userLanguageExists)
-        {
+        if ($userLanguageExists) {
             $language = $userLanguage;
             $languageEntry = $userLanguageEntry;
-        }
-        elseif ($defaultLanguageExists)
-        {
+        } elseif ($defaultLanguageExists) {
             $language = $userLanguage;
             $languageEntry = $userLanguageEntry;
-        }
-        elseif ( $firstLanguageExists)
-        {
+        } elseif ($firstLanguageExists) {
             $language = $firstLanguage;
             $languageEntry = $firstLanguageEntry;
         }

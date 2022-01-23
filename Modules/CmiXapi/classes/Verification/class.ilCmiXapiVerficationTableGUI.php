@@ -51,7 +51,7 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
     /**
      * Get all completed tests
      */
-    protected function getItems(): void
+    protected function getItems() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

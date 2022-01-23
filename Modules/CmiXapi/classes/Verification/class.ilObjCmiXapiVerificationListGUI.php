@@ -24,7 +24,7 @@
  */
 class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
 {
-    public function init(): void
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -42,7 +42,7 @@ class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         global $lng;
         

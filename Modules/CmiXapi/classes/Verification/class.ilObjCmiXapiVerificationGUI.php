@@ -24,7 +24,7 @@
  */
 class ilObjCmiXapiVerificationGUI extends ilObject2GUI
 {
-    public function getType(): string
+    public function getType() : string
     {
         return "cmxv";
     }
@@ -32,7 +32,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     /**
      * List all tests in which current user participated
      */
-    public function create(): void
+    public function create() : void
     {
         global $ilTabs;
 
@@ -92,7 +92,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
         $this->create();
     }
     
-    public function deliver(): void
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         
@@ -140,7 +140,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
         }
     }
     
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         global $ilErr;
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
@@ -150,7 +150,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
     
-    public static function _goto($a_target): void
+    public static function _goto($a_target) : void
     {
         $id = explode("_", $a_target);
         
