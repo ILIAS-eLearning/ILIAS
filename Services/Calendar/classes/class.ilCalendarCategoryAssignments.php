@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -24,57 +24,39 @@
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesCalendar
 */
 
 class ilCalendarCategoryAssignments
 {
-    protected $db;
+    protected ilDBInterface $db;
     
-    protected $cal_entry_id = 0;
-    protected $assignments = array();
+    protected int $cal_entry_id = 0;
+    protected array $assignments = [];
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int calendar entry id
-     */
-    public function __construct($a_cal_entry_id)
+    public function __construct(int $a_cal_entry_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
         $this->cal_entry_id = $a_cal_entry_id;
-        
         $this->read();
     }
     
-    /**
-     * lookup categories
-     *
-     * @access public
-     * @param int cal_id
-     * @return array of categories
-     * @static
-     */
-    public static function _lookupCategories($a_cal_id)
+    public static function _lookupCategories(int $a_cal_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT cat_id FROM cal_cat_assignments " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer') . " ";
         $res = $ilDB->query($query);
+        $cat_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $cat_ids[] = $row->cat_id;
+            $cat_ids[] = (int) $row->cat_id;
         }
-        return $cat_ids ? $cat_ids : array();
+        return $cat_ids;
     }
     
     public static function _lookupCategory(int $a_cal_id) : int
@@ -134,12 +116,11 @@ class ilCalendarCategoryAssignments
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = 'SELECT COUNT(*) num FROM cal_cat_assignments ' .
                 'WHERE ' . $ilDB->in('cat_id', $a_cat_ids, false, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->num;
+            return (int) $row->num;
         }
         return 0;
     }
@@ -169,17 +150,14 @@ class ilCalendarCategoryAssignments
     /**
      * Delete appointment assignment
      */
-    public static function _deleteByAppointmentId($a_app_id)
+    public static function _deleteByAppointmentId(int $a_app_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM cal_cat_assignments " .
             "WHERE cal_id = " . $ilDB->quote($a_app_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
-        return true;
     }
     
     /**
@@ -190,124 +168,71 @@ class ilCalendarCategoryAssignments
      * @return
      * @static
      */
-    public static function _deleteByCategoryId($a_cat_id)
+    public static function _deleteByCategoryId(int $a_cat_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM cal_cat_assignments " .
             "WHERE cat_id = " . $ilDB->quote($a_cat_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        return true;
     }
     
     /**
      * get first assignment
-     *
-     * @access public
-     * @return
      */
-    public function getFirstAssignment()
+    public function getFirstAssignment() : ?int
     {
-        return isset($this->assignments[0]) ? $this->assignments[0] : false;
+        return $this->assignments[0] ?? null;
     }
-    
-    /**
-     * get assignments
-     *
-     * @access public
-     * @return
-     */
-    public function getAssignments()
-    {
-        return $this->assignments ? $this->assignments : array();
-    }
-    
-    /**
-     * add assignment
-     *
-     * @access public
-     * @param int calendar category id
-     * @return
-     */
-    public function addAssignment($a_cal_cat_id)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    /**
+     * @return int[]
+     */
+    public function getAssignments() : array
+    {
+        return $this->assignments;
+    }
+    
+    public function addAssignment(int $a_cal_cat_id) : void
+    {
         $query = "INSERT INTO cal_cat_assignments (cal_id,cat_id) " .
             "VALUES ( " .
             $this->db->quote($this->cal_entry_id, 'integer') . ", " .
             $this->db->quote($a_cal_cat_id, 'integer') . " " .
             ")";
-        $res = $ilDB->manipulate($query);
-        $this->assignments[] = (int) $a_cal_cat_id;
-        
-        return true;
+        $res = $this->db->manipulate($query);
+        $this->assignments[] = $a_cal_cat_id;
     }
     
-    /**
-     * delete assignment
-     *
-     * @access public
-     * @param int calendar category id
-     * @return
-     */
-    public function deleteAssignment($a_cat_id)
+    public function deleteAssignment(int $a_cat_id) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM cal_cat_assignments " .
             "WHERE cal_id = " . $this->db->quote($this->cal_entry_id, 'integer') . ", " .
             "AND cat_id = " . $this->db->quote($a_cat_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         
         if (($key = array_search($a_cat_id, $this->assignments)) !== false) {
             unset($this->assignments[$key]);
         }
-        return true;
     }
     
-    /**
-     * delete assignments
-     *
-     * @access public
-     */
-    public function deleteAssignments()
+    public function deleteAssignments() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM cal_cat_assignments " .
             "WHERE cal_id = " . $this->db->quote($this->cal_entry_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-        return true;
+        $res = $this->db->manipulate($query);
     }
 
     
-    /**
-     * read assignments
-     *
-     * @access private
-     * @return
-     */
     private function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT * FROM cal_cat_assignments " .
             "WHERE cal_id = " . $this->db->quote($this->cal_entry_id, 'integer') . " ";
         
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->assignments[] = $row->cat_id;
+            $this->assignments[] = (int) $row->cat_id;
         }
     }
 }

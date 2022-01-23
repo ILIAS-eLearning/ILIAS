@@ -642,9 +642,9 @@ class ilConsultationHoursGUI
             $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
             $rec->setEnabledSubForms(
                 array(
-                    IL_CAL_FREQ_DAILY,
-                    IL_CAL_FREQ_WEEKLY,
-                    IL_CAL_FREQ_MONTHLY
+                    ilCalendarRecurrence::FREQ_DAILY,
+                    ilCalendarRecurrence::FREQ_WEEKLY,
+                    ilCalendarRecurrence::FREQ_MONTHLY
                 )
             );
             $this->form->addItem($rec);

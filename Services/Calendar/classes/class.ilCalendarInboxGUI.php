@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,57 +21,48 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
-include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 
 
 
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
-*
 * @ingroup ServicesCalendar
 */
 class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
-    protected $user_settings = null;
-    protected $timezone = 'UTC';
+    protected ?ilCalendarUserSettings $user_settings;
+    protected string $timezone = 'UTC';
+    protected ilCalendarAppointmentColors $app_colors;
 
     /**
      * Constructor
      *
      * @access public
      * @param
-     * @todo make parent constructor (initialize) and init also seed and other common stuff
      */
     public function __construct(ilDate $seed_date)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function initialize(int $a_calendar_presentation_type) : void
+    {
+        parent::initialize($a_calendar_presentation_type);
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
-        $this->timezone = $this->user->getTimeZone();
+        if ($this->user->getTimeZone()) {
+            $this->timezone = (string) $this->user->getTimeZone();
+        }
     }
-    
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $next_class = $ilCtrl->getNextClass();
+        $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
@@ -98,24 +89,15 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
                 $this->main_tpl->setContent($this->tpl->get());
                 break;
         }
-        
-        return true;
     }
     
-    /**
-     * show inbox
-     */
     protected function inbox()
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'Services/Calendar');
 
         // agenda list
         $cal_list = new ilCalendarAgendaListGUI($this->seed);
-        $html = $ilCtrl->getHTML($cal_list);
+        $html = $this->ctrl->getHTML($cal_list);
         $this->tpl->setVariable('CHANGED_TABLE', $html);
     }
 }

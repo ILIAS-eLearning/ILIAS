@@ -1,26 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once 'Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php';
 
 /**
  * Calendar schedule filter for exercises
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ingroup ServicesCalendar
  */
 class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
 {
-    protected $user_id; // [int]
-    /**
-     * @var \ilLogger
-     */
-    protected $logger; // [Logger]
+    protected int $user_id;
+    protected ilLogger $logger;
     
-    public function __construct($a_user_id)
+    public function __construct(int $a_user_id)
     {
         global $DIC;
 
@@ -28,19 +22,22 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
         $this->logger = $DIC->logger()->exc();
     }
 
-    /**
-     * @return \ilLogger
-     */
-    public function getLogger()
+    public function getLogger() : ilLogger
     {
         return $this->logger;
     }
-    
+
+    /**
+     * @inheritDoc
+     */
     public function filterCategories(array $a_cats) : array
     {
         return $a_cats;
     }
-    
+
+    /**
+     * @inheritDoc
+     */
     public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
         include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
@@ -50,8 +47,8 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
             
             // see ilExAssignment::handleCalendarEntries()
             $context_id = $a_event->getContextId();
-            $subtype = (int) substr($context_id, -1);
-            $ass_id = (int) substr($context_id, 0, -1);
+            $subtype = (int) substr((string) $context_id, -1);
+            $ass_id = (int) substr((string) $context_id, 0, -1);
             // 1 is peer review deadline
             if ($subtype != 1) {
                 $ass = new ilExAssignment($ass_id);
@@ -88,6 +85,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
             $exc_obj_id = $cal_cat->getObjId();
             
             include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
+            $calc_dead = null;
             foreach (ilExAssignment::getInstancesByExercise($exc_obj_id) as $ass) {
                 $idl = $ass->getPersonalDeadline($this->user_id);
 
@@ -141,24 +139,20 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
     
     /**
      * Check valid exercise calendar category
-     *
-     * @param int $a_cat_id
-     * @return ilCalendarCategory
      */
-    protected function isExerciseCategory($a_cat_id)
+    protected function isExerciseCategory($a_cat_id) : ?ilCalendarCategory
     {
         include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
         $category = ilCalendarCategory::getInstanceByCategoryId($a_cat_id);
         
         if ($category->getType() != ilCalendarCategory::TYPE_OBJ) {
             $this->getLogger()->debug('Not modifying calendar for non object type');
-            return false;
+            return null;
         }
         if ($category->getObjType() != 'exc') {
             $this->getLogger()->debug('Category object type is != folder => category event not modified');
-            return false;
+            return null;
         }
-        
         return $category;
     }
 }

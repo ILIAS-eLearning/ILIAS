@@ -37,20 +37,17 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 {
     protected $cal_data = array();
 
+    protected ilObjUser $user;
+
     /**
-     * Constructor
-     *
-     * @access public
-     * @param object parent gui object
-     * @param string parent command
-     * @return
+     * @inheritDoc
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        
+        $this->user = $DIC->user();
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setRowTemplate('tpl.calendar_inbox_shared_row.html', 'Services/Calendar');
@@ -66,17 +63,12 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('cal_ids');
         $this->setPrefix('shared');
         
-        $this->setFormAction($ilCtrl->getFormActionByClass(get_class($this->getParentObject())));
+        $this->setFormAction($this->ctrl->getFormActionByClass(get_class($this->getParentObject())));
         $this->setTitle($this->lng->txt('cal_shared_calendars'));
         $this->parse();
     }
     
-    /**
-     * @access public
-     * @param array row data
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['cal_id']);
         $this->tpl->setVariable('CALENDAR_NAME', $a_set['name']);
@@ -100,36 +92,16 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * set calendars
-     *
-     * @access public
-     * @param array calendar data
-     * @return bool false if no entries are found
-     */
-    public function setCalendars($a_calendars)
+    public function setCalendars(array $a_calendars) : void
     {
-        $this->cal_data = $a_calendars ? $a_calendars : array();
+        $this->cal_data = $a_calendars;
     }
     
-    /**
-     * parse calendar data
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function parse()
+    public function parse() : bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
-        $status = new ilCalendarSharedStatus($ilUser->getId());
+        $status = new ilCalendarSharedStatus($this->user->getId());
         $calendars = $status->getOpenInvitations();
-
         $this->setData($calendars);
-
-        return count($calendars) ? true : false;
+        return (bool) count($calendars);
     }
 }

@@ -1,60 +1,45 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Presentation day view
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentGUI
 * @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentPresentationGUI
 * @ingroup ServicesCalendar
 */
-
-
-
 class ilCalendarDayGUI extends ilCalendarViewGUI
 {
-    protected $seed_info = array();
-    protected $user_settings = null;
 
-    protected $num_appointments = 1;
-    
-    protected $timezone = 'UTC';
+    protected array $seed_info = [];
+    protected ilCalendarUserSettings $user_settings;
+    protected int $num_appointments = 1;
+    protected string $timezone = 'UTC';
+    protected ilCalendarAppointmentColors $app_colors;
 
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     * @todo make parent constructor (initialize) and init also seed and other common stuff
-     */
     public function __construct(ilDate $seed_date)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_DAY);
+    }
 
+    public function initialize(int $a_calendar_presentation_type) : void
+    {
+        global $DIC;
+
+        parent::initialize($a_calendar_presentation_type);
         $this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
-
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
-        
-        $this->timezone = $this->user->getTimeZone();
+        if ($this->user->getTimeZone()) {
+            $this->timezone = (string) $this->user->getTimeZone();
+        }
     }
-    
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
 
-        $next_class = $ilCtrl->getNextClass();
+    public function executeCommand() : void
+    {
+        $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
@@ -78,10 +63,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             default:
                 $cmd = $this->ctrl->getCmd("show");
                 $this->$cmd();
-                $tpl->setContent($this->tpl->get());
+                $this->main_tpl->setContent($this->tpl->get());
                 break;
         }
-        return true;
     }
     
     /**
@@ -90,20 +74,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
      * @access protected
      *
      */
-    protected function show()
+    protected function show() : void
     {
-        /**
-         * @var ILIAS\DI\Container $DIC
-         */
-        global $DIC;
-
-        $ui_factory = $DIC->ui()->factory();
-        $renderer = $DIC->ui()->renderer();
-
-        $lng = $this->lng;
-        $ilUser = $this->user;
-
-
         // config
         $raster = 15;
         if ($this->user_settings->getDayStart()) {
@@ -123,18 +95,17 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         if (isset($_GET["bkid"])) {
             $user_id = $_GET["bkid"];
             $no_add = true;
-        } elseif ($ilUser->getId() == ANONYMOUS_USER_ID) {
-            $user_id = $ilUser->getId();
+        } elseif ($this->user->getId() == ANONYMOUS_USER_ID) {
+            $user_id = $this->user->getId();
             $no_add = true;
         } else {
-            $user_id = $ilUser->getId();
+            $user_id = $this->user->getId();
             $no_add = false;
         }
-        include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-        $this->scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user_id);
-        $this->scheduler->addSubitemCalendars(true);
-        $this->scheduler->calculate();
-        $daily_apps = $this->scheduler->getByDay($this->seed, $this->timezone);
+        $scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user_id);
+        $scheduler->addSubitemCalendars(true);
+        $scheduler->calculate();
+        $daily_apps = $scheduler->getByDay($this->seed, $this->timezone);
 
         //display the download files button.
         if (count($daily_apps)) {
@@ -169,7 +140,10 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 
                 $this->tpl->setCurrentBlock("new_ms");
                 $this->tpl->setVariable('DD_ID', $this->seed->get(IL_CAL_UNIX));
-                $this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->symbol()->glyph()->add()));
+                $this->tpl->setVariable(
+                    'DD_TRIGGER',
+                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add()))
+                ;
                 $this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
                 $this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
                 $this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
@@ -177,7 +151,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("new_app1");
-                $this->tpl->setVariable('H_NEW_APP_GLYPH', $renderer->render($ui_factory->symbol()->glyph()->add($new_app_url)));
+                $this->tpl->setVariable(
+                    'H_NEW_APP_GLYPH',
+                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url)));
                 $this->tpl->parseCurrentBlock();
             }
             
@@ -190,7 +166,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         $this->tpl->setVariable('HEADER_DAY', ilCalendarUtil::_numericDayToString($this->seed_info['wday'], true));
         $this->tpl->setVariable('HCOLSPAN', $colspan - 1);
         
-        $this->tpl->setVariable('TXT_TIME', $lng->txt("time"));
+        $this->tpl->setVariable('TXT_TIME', $this->lng->txt("time"));
 
         // show fullday events
         foreach ($daily_apps as $event) {
@@ -199,7 +175,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             }
         }
         $this->tpl->setCurrentBlock('fullday_apps');
-        $this->tpl->setVariable('TXT_F_DAY', $lng->txt("cal_all_day"));
+        $this->tpl->setVariable('TXT_F_DAY', $this->lng->txt("cal_all_day"));
         $this->tpl->setVariable('COLSPAN', $colspan - 1);
         $this->tpl->parseCurrentBlock();
         
@@ -213,11 +189,12 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate', $this->seed->get(IL_CAL_DATE));
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'hour', floor($numeric / 60));
-                    $this->tpl->setVariable('NEW_APP_GLYPH', $renderer->render(
-                        $ui_factory->symbol()->glyph()->add(
+                    $this->tpl->setVariable(
+                        'NEW_APP_GLYPH',
+                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add(
                             $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add')
-                        )
-                    ));
+                        ))
+                    );
                     $this->tpl->parseCurrentBlock();
                 }
                 
@@ -243,7 +220,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             
             for ($i = ($colspan - 1);$i > $hour['apps_num'];$i--) {
                 $this->tpl->setCurrentBlock('empty_cell');
-                $this->tpl->setVariable('EMPTY_WIDTH', (100 / (int) ($colspan - 1)) . '%');
+                $this->tpl->setVariable('EMPTY_WIDTH', (100 / ($colspan - 1)) . '%');
                 
                 // last "slot" of hour needs border
                 if ($numeric % 60 == 60 - $raster ||
@@ -259,18 +236,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         }
     }
     
-    /**
-     * show fullday appointment
-     *
-     * @access protected
-     * @param array appointment
-     * @return
-     */
-    protected function showFulldayAppointment($a_app)
+    protected function showFulldayAppointment(array $a_app) : void
     {
-        $f = $this->ui_factory;
-        $r = $this->ui_renderer;
-
         $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
 
         // milestone icon
@@ -314,27 +281,15 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         $this->tpl->setCurrentBlock("content_fd");
         $this->tpl->setVariable("CONTENT_EVENT", $body_html);
         $this->tpl->parseCurrentBlock();
-
         $this->num_appointments++;
     }
 
-    /**
-     * show appointment
-     *
-     * @access protected
-     * @param array appointment
-     */
-    protected function showAppointment($a_app)
+    protected function showAppointment(array $a_app) : void
     {
-        $ilUser = $this->user;
-
         $event_tpl = new ilTemplate('tpl.day_event_view.html', true, true, 'Services/Calendar');
-
         $event_tpl->setCurrentBlock('app');
-
         $this->tpl->setVariable('APP_ROWSPAN', $a_app['rowspan']);
-        //$event_tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
-
+        $time = '';
         switch ($this->user_settings->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_24:
                 $time = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE, 'H:i', $this->timezone);
@@ -350,16 +305,12 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
         $title = $shy;
         $content = ($time != "")? $time . " " . $title : $title;
-
         $event_tpl->setVariable('EVENT_CONTENT', $content);
 
         $color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
         $event_tpl->setVariable('APP_BGCOLOR', $color);
-        //$this->tpl->setVariable('APP_BGCOLOR',$color);
         $event_tpl->setVariable('APP_COLOR', ilCalendarUtil::calculateFontColor($color));
-        //$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
         $event_tpl->setVariable('APP_ADD_STYLES', $a_app['event']->getPresentationStyle());
-        //$this->tpl->setVariable('APP_ADD_STYLES',$a_app['event']->getPresentationStyle());
 
         $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
@@ -382,14 +333,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
     
     /**
      * calculate overlapping hours
-     *
-     * @access protected
-     * @return array hours
      */
-    protected function parseInfoIntoRaster($daily_apps, $morning_aggr, $evening_aggr, $raster)
+    protected function parseInfoIntoRaster(array $daily_apps, int $morning_aggr, int $evening_aggr, int $raster) : array
     {
-        $ilUser = $this->user;
-
         $hours = array();
         for ($i = $morning_aggr;$i <= $evening_aggr;$i += $raster) {
             $hours[$i]['apps_start'] = array();
@@ -440,7 +386,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $start = $app['start_info']['hours'] * 60 + $app['start_info']['minutes'];
             }
             #21636
-            //$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
 
             // end hour for this day
             #21132
@@ -482,27 +427,15 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $hours[$i]['apps_num']++;
             }
         }
-        
         return $hours;
     }
     
-    /**
-     * calculate colspan
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function calculateColspan($hours)
+    protected function calculateColspan(array $hours) : int
     {
-        $ilUser = $this->user;
-
-
         $colspan = 1;
         foreach ($hours as $hour) {
             $colspan = max($colspan, $hour['apps_num'] + 1);
         }
-
         return max($colspan, 2);
     }
 }

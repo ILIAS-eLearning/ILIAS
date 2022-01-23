@@ -122,7 +122,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($ilAccess->checkAccess("read", '', $this->object->getRefId())) {
+        if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
@@ -130,7 +130,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId())) {
+        if ($this->access->checkAccess('edit_permission', '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),

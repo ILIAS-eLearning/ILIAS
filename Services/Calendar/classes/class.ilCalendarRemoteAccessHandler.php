@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -33,29 +33,25 @@ include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.ph
  */
 class ilCalendarRemoteAccessHandler
 {
-    private $token_handler = null;
+    private ?ilCalendarAuthenticationToken $token_handler = null;
 
-    /**
-     * Constructor
-     * @return
-     */
+    protected ?ilLogger $logger = null;
+    protected ?ilLanguage $lng = null;
+
     public function __construct()
     {
     }
-    
-    /**
-     * @return ilCalendarAuthenticationHandler
-     */
-    public function getTokenHandler()
+
+
+    public function getTokenHandler() : ?ilCalendarAuthenticationToken
     {
         return $this->token_handler;
     }
     
     /**
      * Fetch client id, the chosen calendar...
-     * @return
      */
-    public function parseRequest()
+    public function parseRequest() : void
     {
         if ($_GET['client_id']) {
             $_COOKIE['ilClientId'] = $_GET['client_id'];
@@ -65,11 +61,7 @@ class ilCalendarRemoteAccessHandler
         }
     }
     
-    /**
-     * Handle Request
-     * @return
-     */
-    public function handleRequest()
+    public function handleRequest() : bool
     {
         session_name('ILCALSESSID');
         $this->initIlias();
@@ -110,14 +102,13 @@ class ilCalendarRemoteAccessHandler
         exit;
     }
     
-    protected function initTokenHandler()
+    protected function initTokenHandler() : void
     {
-        $GLOBALS['DIC']->logger()->cal()->info('Authentication token: ' . $_GET['token']);
+        $this->logger->info('Authentication token: ' . $_GET['token']);
         $this->token_handler = new ilCalendarAuthenticationToken(
             ilCalendarAuthenticationToken::lookupUser($_GET['token']),
             $_GET['token']
         );
-        return true;
     }
     
     protected function initIlias()
@@ -130,27 +121,29 @@ class ilCalendarRemoteAccessHandler
         
         require_once("Services/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
-        
-        $GLOBALS['DIC']['lng']->loadLanguageModule('dateplaner');
+
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('dateplaner');
+        $this->logger = $DIC->logger()->cal();
     }
-    
-    /**
-     * Init user
-     * @return boolean
-     */
-    protected function initUser()
+
+    protected function initUser() : bool
     {
+        global $DIC;
+
         if (!$this->getTokenHandler() instanceof ilCalendarAuthenticationToken) {
-            $GLOBALS['DIC']->logger()->cal()->info('Initialisation of authentication token failed');
+            $this->logger->info('Initialisation of authentication token failed');
             return false;
         }
         if (!$this->getTokenHandler()->getUserId()) {
-            $GLOBALS['DIC']->logger()->cal()->info('No user id found for calendar synchronisation');
+            $this->logger->info('No user id found for calendar synchronisation');
             return false;
         }
         include_once './Services/User/classes/class.ilObjUser.php';
         if (!ilObjUser::_exists($this->getTokenHandler()->getUserId())) {
-            $GLOBALS['DIC']->logger()->cal()->notice('No valid user id found for calendar synchronisation');
+            $this->logger->notice('No valid user id found for calendar synchronisation');
             return false;
         }
         
@@ -158,10 +151,10 @@ class ilCalendarRemoteAccessHandler
         $GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, $this->getTokenHandler()->getUserId());
         ilInitialisation::initUserAccount();
         
-        if (!$GLOBALS['DIC']->user() instanceof ilObjUser) {
-            $GLOBALS['DIC']->logger()->cal()->debug('no user object defined');
+        if (!$DIC->user() instanceof ilObjUser) {
+            $this->logger->debug('No user object defined');
         } else {
-            $GLOBALS['DIC']->logger()->cal()->debug('Current user is: ' . $GLOBALS['DIC']->user()->getId());
+            $this->logger->debug('Current user is: ' . $DIC->user()->getId());
         }
         return true;
     }

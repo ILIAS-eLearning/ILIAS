@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
  * Calendar data set class.
@@ -13,29 +11,23 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
 class ilCalendarDataSet extends ilDataSet
 {
     /**
-     * Get supported versions
-     * @param
-     * @return array
+     * @inheritDoc
      */
     public function getSupportedVersions() : array
     {
         return array("4.3.0");
     }
-    
+
     /**
-     * Get xml namespace
-     * @param
-     * @return string
+     * @inheritDoc
      */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Calendar/" . $a_entity;
     }
-    
+
     /**
-     * Get field types for entity
-     * @param
-     * @return array
+     * @inheritDoc
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
@@ -110,12 +102,11 @@ class ilCalendarDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
     /**
-     * Read data
-     * @param
-     * @return void
+     * @inheritDoc
      */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
@@ -134,7 +125,7 @@ class ilCalendarDataSet extends ilDataSet
                     $this->getDirectDataFromQuery("SELECT cat_id, obj_id, title, color, type " .
                         " FROM cal_categories " .
                         " WHERE " .
-                        $ilDB->in("cat_id", $a_ids, false, "integer"));
+                        $this->db->in("cat_id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -146,7 +137,7 @@ class ilCalendarDataSet extends ilDataSet
                     $this->getDirectDataFromQuery("SELECT cat_id, cal_id entry_id " .
                         " FROM cal_cat_assignments " .
                         " WHERE " .
-                        $ilDB->in("cat_id", $a_ids, false, "integer"));
+                        $this->db->in("cat_id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -159,7 +150,7 @@ class ilCalendarDataSet extends ilDataSet
                         " starta, enda, informations, auto_generated, context_id, translation_type, is_milestone, completion, notification " .
                         " FROM cal_entries " .
                         " WHERE " .
-                        $ilDB->in("cal_id", $a_ids, false, "integer"));
+                        $this->db->in("cal_id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -173,14 +164,14 @@ class ilCalendarDataSet extends ilDataSet
                         " intervall, byday, byweekno, bymonth, bymonthday, byyearday, bysetpos, weekstart " .
                         " FROM cal_recurrence_rules " .
                         " WHERE " .
-                        $ilDB->in("cal_id", $a_ids, false, "integer"));
+                        $this->db->in("cal_id", $a_ids, false, "integer"));
                     break;
             }
         }
     }
     
     /**
-     * Determine the dependent sets of data
+     * @inheritDoc
      */
     protected function getDependencies(
         string $a_entity,
@@ -210,18 +201,22 @@ class ilCalendarDataSet extends ilDataSet
     }
 
     /**
-     * Import record
-     * @param
-     * @return void
+     * @inheritDoc
      */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void
     {
         switch ($a_entity) {
             case "calendar":
                 // please note: we currently only support private user calendars to
                 // be imported
                 if ($a_rec["Type"] == 1) {
-                    $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["ObjId"]);
+                    $usr_id = (int) $a_mapping->getMapping("Services/User", "usr", $a_rec["ObjId"]);
                     if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
                         include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
                         $category = new ilCalendarCategory(0);
@@ -234,7 +229,7 @@ class ilCalendarDataSet extends ilDataSet
                             "Services/Calendar",
                             "calendar",
                             $a_rec["CatId"],
-                            $category->getCategoryID()
+                            (string) $category->getCategoryID()
                         );
                     }
                 }
@@ -275,8 +270,8 @@ class ilCalendarDataSet extends ilDataSet
                 break;
                 
             case "cal_assignment":
-                $cat_id = $a_mapping->getMapping("Services/Calendar", "calendar", $a_rec["CatId"]);
-                $entry_id = $a_mapping->getMapping("Services/Calendar", "cal_entry", $a_rec["EntryId"]);
+                $cat_id = (int) $a_mapping->getMapping("Services/Calendar", "calendar", $a_rec["CatId"]);
+                $entry_id = (int) $a_mapping->getMapping("Services/Calendar", "cal_entry", $a_rec["EntryId"]);
                 if ($cat_id > 0 && $entry_id > 0) {
                     include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
                     $ass = new ilCalendarCategoryAssignments($entry_id);

@@ -83,7 +83,9 @@ class ilDatePresentation
     {
         self::$lang = $a_lng;
     }
-    
+
+
+
     /**
      * set language
      *

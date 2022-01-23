@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,27 +21,21 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-
 /**
 * Class ilCalendarUtil
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
 *
 */
 class ilCalendarUtil
 {
-    private static $today = null;
-    private static $default_calendar = array();
-    public static $init_done;
-    protected static $init_datetimepicker;
+    private static ?ilDateTime $today = null;
+    private static array $default_calendar = array();
+    public static string $init_done;
+    protected static bool $init_datetimepicker = false;
 
 
-    /**
-     * @param \ilDateTime|null $date
-     */
-    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null)
+    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null) : string
     {
         if (is_null($date)) {
             return $date;
@@ -52,19 +46,11 @@ class ilCalendarUtil
         return $date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
     }
     
-    /**
-     * check if a date is today
-     * @param ilDateTime $date date to check
-     * @return bool
-     * @static
-     */
-    public static function _isToday($date)
+    public static function _isToday(ilDateTime $date) : bool
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
-        
         if (!is_object(self::$today)) {
             self::$today = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
         }
@@ -74,38 +60,27 @@ class ilCalendarUtil
     /**
      * numeric month to string
      *
-     * @access public
-     * @static
-     *
      * @param int month (1-12)
      * @param bool short or long month translation
      */
-    public static function _numericMonthToString($a_month, $a_long = true)
+    public static function _numericMonthToString(int $a_month, bool $a_long = true) : string
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
         $month = $a_month < 10 ? '0' . $a_month : $a_month;
-        
         return 	$a_long ? $lng->txt('month_' . $month . '_long') : $lng->txt('month_' . $month . '_short');
     }
     
     /**
-     * get
-     *
-     * @access public
-     * @static
-     *
      * @param int day of week (0 for sunday, 1 for monday)
      * @param bool short or long day translation
      */
-    public static function _numericDayToString($a_day, $a_long = true)
+    public static function _numericDayToString(int $a_day, bool $a_long = true) : string
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-
         $lng->loadLanguageModule('dateplaner');
         static $days = array('Su','Mo','Tu','We','Th','Fr','Sa','Su');
         
@@ -119,9 +94,8 @@ class ilCalendarUtil
      * @param ilDate a day in a week
      * @param int weekstart
      * @return ilDateList
-     * @static
      */
-    public static function _buildWeekDayList($a_day, $a_weekstart)
+    public static function _buildWeekDayList(ilDate $a_day, int $a_weekstart) : ilDateList
     {
         include_once('Services/Calendar/classes/class.ilDateList.php');
         $day_list = new ilDateList(ilDateList::TYPE_DATE);
@@ -144,14 +118,13 @@ class ilCalendarUtil
     /**
      * Build a month day list
      *
-     * @access public
      * @param int month
      * @param int year
      * @param int weekstart (0 => Sunday,1 => Monday)
      * @return ilDateList
      *
      */
-    public static function _buildMonthDayList($a_month, $a_year, $weekstart)
+    public static function _buildMonthDayList(int $a_month, int $a_year, int $weekstart) : ilDateList
     {
         include_once('Services/Calendar/classes/class.ilDateList.php');
         $day_list = new ilDateList(ilDateList::TYPE_DATE);
@@ -226,10 +199,7 @@ class ilCalendarUtil
         return $day_list;
     }
     
-    /**
-    * Init Javascript Calendar.
-    */
-    public static function initJSCalendar()
+    public static function initJSCalendar() : void
     {
         global $DIC;
 
@@ -314,7 +284,7 @@ class ilCalendarUtil
         self::$init_done = "done";
     }
     
-    public static function getZoneInfoFile($a_tz)
+    public static function getZoneInfoFile($a_tz) : string
     {
         if (!array_key_exists($a_tz, self::_getShortTimeZoneList())) {
             return '';
@@ -327,13 +297,8 @@ class ilCalendarUtil
 
     /**
      * get short timezone list
-     *
-     * @access public
-     * @static
-     *
-     * @param
      */
-    public static function _getShortTimeZoneList()
+    public static function _getShortTimeZoneList() : array
     {
         return array(
                 'Pacific/Samoa' => 'GMT-11: Midway Islands, Samoa',
@@ -410,15 +375,10 @@ class ilCalendarUtil
     
     /**
      * check if a given year is a leap year
-     *
-     * @access public
-     * @param int year
-     * @return bool
      */
-    public static function _isLeapYear($a_year)
+    public static function _isLeapYear(int $a_year) : bool
     {
         $is_leap = false;
-        
         if ($a_year % 4 == 0) {
             $is_leap = true;
             if ($a_year % 100 == 0) {
@@ -440,26 +400,18 @@ class ilCalendarUtil
      * @param int month
      * @return
      */
-    public static function _getMaxDayOfMonth($a_year, $a_month)
+    public static function _getMaxDayOfMonth(int $a_year, int $a_month) : int
     {
-        if (@function_exists('cal_days_in_month')) {
-            return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
-        }
-        $months = array(0,31,
-                self::_isLeapYear($a_year) ? 29 : 28,
-                31,30,31,30,31,31,30,31,30,31);
-        return $months[(int) $a_month];
+        return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
     }
     
     /**
      * Calculate best font color from html hex color code
      *
-     * @access public
      * @param string hex value of color
      * @return string #ffffff or #000000
-     * @static
      */
-    public static function calculateFontColor($a_html_color_code)
+    public static function calculateFontColor(string $a_html_color_code) : string
     {
         if (strpos($a_html_color_code, '#') !== 0 or strlen($a_html_color_code) != 7) {
             return '#000000';
@@ -469,22 +421,15 @@ class ilCalendarUtil
         $lum = round(hexdec(substr($a_html_color_code, 1, 2)) * 0.2126 +
             hexdec(substr($a_html_color_code, 3, 2)) * 0.7152 +
             hexdec(substr($a_html_color_code, 5, 2)) * 0.0722);
-        
         return ($lum <= 128) ? "#FFFFFF" : "#000000";
-        
-        /*
-        $hex = str_replace('#','0x',$a_html_color_code);
-        return hexdec($hex) > 8000000 ? '#000000' : '#FFFFFF';
-        */
     }
     
     /**
-     * Get hour selectio depending on user specific hour format.
-     * @return
-     * @param int $a_format
+     * Get hour selection depending on user specific hour format.
      */
-    public static function getHourSelection($a_format)
+    public static function getHourSelection(int $a_format) : array
     {
+        $options = [];
         switch ($a_format) {
             case ilCalendarSettings::TIME_FORMAT_24:
                 for ($i = 0; $i < 24; $i++) {
@@ -498,23 +443,17 @@ class ilCalendarUtil
                 }
                 break;
         }
-        return $options ? $options : array();
+        return $options;
     }
 
     /**
      * Init the default calendar for given type and user
-     * @param int $a_type_id
-     * @param int $a_usr_id
-     * @param string $a_title
-     * @param bool $create
-     * @return
      */
-    public static function initDefaultCalendarByType($a_type_id, $a_usr_id, $a_title, $a_create = false)
+    public static function initDefaultCalendarByType(int $a_type_id, int $a_usr_id, string $a_title, bool $a_create = false) : ?ilCalendarCategory
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         if (isset(self::$default_calendar[$a_usr_id]) and isset(self::$default_calendar[$a_usr_id][$a_type_id])) {
             return self::$default_calendar[$a_usr_id][$a_type_id];
         }
@@ -545,24 +484,15 @@ class ilCalendarUtil
     }
     
     
-    //
-    // BOOTSTRAP DATEPICKER
-    //
-    
     /**
      * Parse current user setting into date/time format
-     *
-     * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
-     * @param bool $a_for_parsing
-     * @return string
      */
-    public static function getUserDateFormat($a_add_time = false, $a_for_parsing = false)
+    public static function getUserDateFormat(bool $a_add_time = false, bool $a_for_parsing = false) : string
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
-        // getDateFormat() should return calendar defaults for ANONYMOUS user
+        $format = '';
         switch ($ilUser->getDateFormat()) {
             case ilCalendarSettings::DATE_FORMAT_DMY:
                 $format = "DD.MM.YYYY";
@@ -586,7 +516,7 @@ class ilCalendarUtil
         }
         
         // translate datepicker format to PHP format
-        if ((bool) $a_for_parsing) {
+        if ($a_for_parsing) {
             $format = str_replace("DD", "d", $format);
             $format = str_replace("MM", "m", $format);
             $format = str_replace("mm", "i", $format);
@@ -598,20 +528,17 @@ class ilCalendarUtil
         return $format;
     }
     
-    public static function initDateTimePicker()
+    public static function initDateTimePicker() : void
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
+        $tpl = $DIC->ui()->mainTemplate();
         
         if (!self::$init_datetimepicker) {
             $tpl->addJavaScript("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
-            
             // unminified version does not work with jQuery 3.0
             // https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1684
             $tpl->addJavaScript("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
-            
             $tpl->addJavaScript("Services/Form/js/Form.js"); // see ilPropertyFormGUI
-        
             self::$init_datetimepicker = true;
         }
     }
@@ -627,12 +554,11 @@ class ilCalendarUtil
      * @param string $a_toggle_id
      * @param string $a_subform_id
      */
-    public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
+    public static function addDateTimePicker(int $a_id, ?int $a_add_time = null, ?array $a_custom_config = null, ?string $a_id2 = null, ?array $a_custom_config2 = null, ?string $a_toggle_id = null, ?string $a_subform_id = null) : void
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
-
+        $tpl = $DIC->ui()->mainTemplate();
         foreach (self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id, $a_subform_id) as $code) {
             $tpl->addOnLoadCode($code);
         }
@@ -650,16 +576,14 @@ class ilCalendarUtil
      * @param string $a_subform_id
      * @return string
      */
-    public static function getCodeForPicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null) : array
+    public static function getCodeForPicker(string $a_id, ?int $a_add_time = null, ?array $a_custom_config = null, ?string $a_id2 = null, ?array $a_custom_config2 = null, ?string $a_toggle_id = null, ?string $a_subform_id = null) : array
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-
         self::initDateTimePicker();
 
         // weekStart is currently governed by locale and cannot be changed
-
         // fix for mantis 22994 => default to english language
         $language = 'en';
         if ($ilUser->getLanguage() != 'ar') {
@@ -677,7 +601,7 @@ class ilCalendarUtil
             ,'keepInvalid' => true
             ,'sideBySide' => true
             // ,'collapse' => false
-            ,'format' => self::getUserDateFormat($a_add_time)
+            ,'format' => self::getUserDateFormat((bool) $a_add_time)
         );
 
         $config = (!$a_custom_config)
@@ -710,15 +634,16 @@ class ilCalendarUtil
     /**
      * Parse (incoming) string to date/time object
      * @param string $a_date
-     * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param bool   $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param bool   $a_use_generic_format
      * @return array date, warnings, errors
+     * @throws ilDateTimeException
      */
-    public static function parseDateString($a_date, $a_add_time = null, $a_use_generic_format = false)
+    public static function parseDateString(string $a_date, bool $a_add_time = false, bool $a_use_generic_format = false)
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
         if (!$a_use_generic_format) {
             $out_format = self::getUserDateFormat($a_add_time, true);
         } else {
@@ -765,7 +690,7 @@ class ilCalendarUtil
      * @param int $a_add_time
      * @return ilDateTime|ilDate
      */
-    public static function parseIncomingDate($a_value, $a_add_time = null)
+    public static function parseIncomingDate(string $a_value, bool $a_add_time = false) : ?ilDateTime
     {
         // already datetime object?
         if (is_object($a_value) &&
@@ -784,5 +709,6 @@ class ilCalendarUtil
                 }
             }
         }
+        return null;
     }
 }

@@ -1,20 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
 /**
  * Importer class for calendar data
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ServicesCalendar
  */
 class ilCalendarImporter extends ilXmlImporter
 {
+    protected ilCalendarDataSet $ds;
 
     /**
-     * Initialisation
+     * @inheritDoc
      */
     public function init() : void
     {
@@ -25,9 +24,7 @@ class ilCalendarImporter extends ilXmlImporter
 
 
     /**
-     * Import XML
-     * @param
-     * @return void
+     * @inheritDoc
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {

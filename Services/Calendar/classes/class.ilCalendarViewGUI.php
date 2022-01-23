@@ -332,7 +332,7 @@ class ilCalendarViewGUI
 
                 // file download
                 $add_button = $f->button()->standard(
-                    $lng->txt("cal_download_files"),
+                    $this->lng->txt("cal_download_files"),
                     $ctrl->getLinkTarget($this, "downloadFiles")
                 );
                 $toolbar->addSeparator();

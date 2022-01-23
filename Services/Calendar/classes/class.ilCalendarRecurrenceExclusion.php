@@ -142,11 +142,11 @@ class ilCalendarRecurrenceExclusion
         
         $query = "INSERT INTO cal_rec_exclusion (excl_id,cal_id,excl_date) " .
             "VALUES( " .
-            $ilDB->quote($next_id = $ilDB->nextId('cal_rec_exclusion'), 'integer') . ', ' .
-            $ilDB->quote($this->getEntryId(), 'integer') . ', ' .
-            $ilDB->quote($this->getDate()->get(IL_CAL_DATE, '', 'UTC'), 'timestamp') .
+            $this->db->quote($next_id = $this->db->nextId('cal_rec_exclusion'), 'integer') . ', ' .
+            $this->db->quote($this->getEntryId(), 'integer') . ', ' .
+            $this->db->quote($this->getDate()->get(IL_CAL_DATE, '', 'UTC'), 'timestamp') .
             ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         
         $this->exclusion_id = $next_id;
         return $this->getId();
@@ -162,8 +162,8 @@ class ilCalendarRecurrenceExclusion
 
         $ilDB = $DIC['ilDB'];
         
-        $query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = " . $ilDB->quote($this->getId(), 'integer');
-        $res = $ilDB->query($query);
+        $query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = " . $this->db->quote($this->getId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->cal_id = $row->cal_id;
             $this->setDate(new ilDate($row->excl_date, IL_CAL_DATE, 'UTC'));

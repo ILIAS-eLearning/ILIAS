@@ -43,10 +43,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     protected bool $allow_unlimited_recurrences = true;
     
     protected $enabled_subforms = array(
-        IL_CAL_FREQ_DAILY,
-        IL_CAL_FREQ_WEEKLY,
-        IL_CAL_FREQ_MONTHLY,
-        IL_CAL_FREQ_YEARLY);
+        ilCalendarRecurrence::FREQ_DAILY,
+        ilCalendarRecurrence::FREQ_WEEKLY,
+        ilCalendarRecurrence::FREQ_MONTHLY,
+        ilCalendarRecurrence::FREQ_YEARLY
+    );
 
 
     public function __construct(string $a_title, string $a_postvar)
@@ -80,7 +81,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         
         if (!isset($_POST['until_type']) or $_POST['until_type'] == self::REC_LIMITED) {
             if ($_POST['count'] <= 0 or $_POST['count'] >= 100) {
-                $this->setAlert($lng->txt("cal_rec_err_limit"));
+                $this->setAlert($this->lng->txt("cal_rec_err_limit"));
                 return false;
             }
         }
@@ -93,12 +94,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             return false;
         }
         switch ($_POST['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::FREQ_DAILY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_DAILY']);
                 break;
             
-            case IL_CAL_FREQ_WEEKLY:
+            case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_WEEKLY']);
                 if (is_array($_POST['byday_WEEKLY'])) {
@@ -106,7 +107,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 }
                 break;
 
-            case IL_CAL_FREQ_MONTHLY:
+            case ilCalendarRecurrence::FREQ_MONTHLY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_MONTHLY']);
                 switch ((int) $_POST['subtype_MONTHLY']) {
@@ -139,7 +140,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 }
                 break;
             
-            case IL_CAL_FREQ_YEARLY:
+            case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_YEARLY']);
                 switch ((int) $_POST['subtype_YEARLY']) {
@@ -212,7 +213,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     
     /**
      * set enabled subforms
-     * @param array(IL_CAL_FREQ_DAILY,IL_CAL_FREQ_WEEKLY...)
+     * @param array(IL_CAL_FREQ_DAILY,FREQ_WEEKLY...)
      * @return void
      */
     public function setEnabledSubForms(array $a_sub_forms) : void
@@ -233,17 +234,17 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         $tpl = new ilTemplate('tpl.recurrence_input.html', true, true, 'Services/Calendar');
         
         $options = array('NONE' => $this->lng->txt('cal_no_recurrence'));
-        if (in_array(IL_CAL_FREQ_DAILY, $this->getEnabledSubForms())) {
-            $options[IL_CAL_FREQ_DAILY] = $this->lng->txt('cal_daily');
+        if (in_array(ilCalendarRecurrence::FREQ_DAILY, $this->getEnabledSubForms())) {
+            $options[ilCalendarRecurrence::FREQ_DAILY] = $this->lng->txt('cal_daily');
         }
-        if (in_array(IL_CAL_FREQ_WEEKLY, $this->getEnabledSubForms())) {
-            $options[IL_CAL_FREQ_WEEKLY] = $this->lng->txt('cal_weekly');
+        if (in_array(ilCalendarRecurrence::FREQ_WEEKLY, $this->getEnabledSubForms())) {
+            $options[ilCalendarRecurrence::FREQ_WEEKLY] = $this->lng->txt('cal_weekly');
         }
-        if (in_array(IL_CAL_FREQ_MONTHLY, $this->getEnabledSubForms())) {
-            $options[IL_CAL_FREQ_MONTHLY] = $this->lng->txt('cal_monthly');
+        if (in_array(ilCalendarRecurrence::FREQ_MONTHLY, $this->getEnabledSubForms())) {
+            $options[ilCalendarRecurrence::FREQ_MONTHLY] = $this->lng->txt('cal_monthly');
         }
-        if (in_array(IL_CAL_FREQ_YEARLY, $this->getEnabledSubForms())) {
-            $options[IL_CAL_FREQ_YEARLY] = $this->lng->txt('cal_yearly');
+        if (in_array(ilCalendarRecurrence::FREQ_YEARLY, $this->getEnabledSubForms())) {
+            $options[ilCalendarRecurrence::FREQ_YEARLY] = $this->lng->txt('cal_yearly');
         }
         
         $tpl->setVariable('FREQUENCE', ilUtil::formSelect(
@@ -260,20 +261,20 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         $tpl->setVariable('TXT_EVERY', $this->lng->txt('cal_every'));
 
         // DAILY
-        if (in_array(IL_CAL_FREQ_DAILY, $this->getEnabledSubForms())) {
+        if (in_array(ilCalendarRecurrence::FREQ_DAILY, $this->getEnabledSubForms())) {
             $tpl->setVariable('TXT_DAILY_FREQ_UNIT', $this->lng->txt('cal_day_s'));
             $tpl->setVariable('COUNT_DAILY_VAL', $this->recurrence->getInterval());
         }
         
         // WEEKLY
-        if (in_array(IL_CAL_FREQ_WEEKLY, $this->getEnabledSubForms())) {
+        if (in_array(ilCalendarRecurrence::FREQ_WEEKLY, $this->getEnabledSubForms())) {
             $tpl->setVariable('TXT_WEEKLY_FREQ_UNIT', $this->lng->txt('cal_week_s'));
             $tpl->setVariable('COUNT_WEEKLY_VAL', $this->recurrence->getInterval());
             $this->buildWeekDaySelection($tpl);
         }
         
         // MONTHLY
-        if (in_array(IL_CAL_FREQ_MONTHLY, $this->getEnabledSubForms())) {
+        if (in_array(ilCalendarRecurrence::FREQ_MONTHLY, $this->getEnabledSubForms())) {
             $tpl->setVariable('TXT_MONTHLY_FREQ_UNIT', $this->lng->txt('cal_month_s'));
             $tpl->setVariable('COUNT_MONTHLY_VAL', $this->recurrence->getInterval());
             $tpl->setVariable('TXT_ON_THE', $this->lng->txt('cal_on_the'));
@@ -284,7 +285,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         }
 
         // YEARLY
-        if (in_array(IL_CAL_FREQ_YEARLY, $this->getEnabledSubForms())) {
+        if (in_array(ilCalendarRecurrence::FREQ_YEARLY, $this->getEnabledSubForms())) {
             $tpl->setVariable('TXT_YEARLY_FREQ_UNIT', $this->lng->txt('cal_year_s'));
             $tpl->setVariable('COUNT_YEARLY_VAL', $this->recurrence->getInterval());
             $tpl->setVariable('TXT_ON_THE', $this->lng->txt('cal_on_the'));

@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Cache/classes/class.ilCache.php");
-include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 
 /**
  * Calendar cache
@@ -13,12 +11,8 @@ include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
  */
 class ilCalendarCache extends ilCache
 {
-    private static $instance = null;
+    private static ?ilCalendarCache $instance = null;
     
-    /**
-     * Singleton constructor
-     * @return
-     */
     public function __construct()
     {
         parent::__construct('ServicesCalendar', 'Calendar', true);
@@ -27,27 +21,26 @@ class ilCalendarCache extends ilCache
     
     /**
      * get singleton instance
-     * @return object ilCalendarCache
+     * @return ilCalendarCache
      */
     public static function getInstance()
     {
-        if (isset(self::$instance) and self::$instance) {
-            return self::$instance;
+
+        if (!self::$instance instanceof self) {
+            self::$instance = new self();
         }
-        return self::$instance = new ilCalendarCache();
+        return self::$instance;
     }
     
     /**
-     * Get cahed entry if cache is active
-     * @param object $a_entry_id
-     * @return
+     * Get cached entry if cache is active
      */
-    public function readEntry(string $a_entry_id) : bool
+    protected function readEntry(string $a_id) : bool
     {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
             return false;
         }
-        return parent::readEntry($a_entry_id);
+        return parent::readEntry($a_id);
     }
     
     public function storeEntry(
@@ -65,28 +58,31 @@ class ilCalendarCache extends ilCache
     }
     
     /**
-     * Store an entry without an expired time
-     * @param object $a_entry_id
-     * @param object $a_value
-     * @return
+     * Store an entry without an expired time (one year)
      */
-    public function storeUnlimitedEntry($a_entry_id, $a_value, $a_key1 = 0, $a_key2 = 0, $a_key3 = '', $a_key4 = '')
+    public function storeUnlimitedEntry(
+        string $a_entry_id,
+        string $a_value,
+        ?int $a_key1 = 0,
+        ?int $a_key2 = 0,
+        ?string $a_key3 = '',
+        ?string $a_key4 = ''
+    ) : void
     {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
-            return null;
+            return;
         }
         // Unlimited is a year
         $this->setExpiresAfter(60 * 60 * 24 * 365);
         parent::storeEntry($a_entry_id, $a_value, $a_key1, $a_key2, $a_key3, $a_key4);
         $this->setExpiresAfter(ilCalendarSettings::_getInstance()->getCacheMinutes());
-        return true;
     }
     
     /**
      * Delete user entries in cache
      */
-    public function deleteUserEntries($a_user_id)
+    public function deleteUserEntries(int $a_user_id) : void
     {
-        return $this->deleteByAdditionalKeys($a_user_id);
+        $this->deleteByAdditionalKeys($a_user_id);
     }
 }

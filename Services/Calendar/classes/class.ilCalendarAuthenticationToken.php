@@ -123,7 +123,7 @@ class ilCalendarAuthenticationToken
     
     /**
      * Check if cache is disabled or expired
-     *
+     * @todo enable the cache
      */
     public function isIcalExpired()
     {
@@ -159,9 +159,7 @@ class ilCalendarAuthenticationToken
         $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
     }
     
-    /**
-     */
-    protected function read()
+    protected function read() : bool
     {
         if (!$this->getToken()) {
             $query = "SELECT * FROM cal_auth_token " .

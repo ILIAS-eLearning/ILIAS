@@ -51,7 +51,7 @@ class ilCalendarAppointmentGUI
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
-        $this->help  = $DIC->help();
+        $this->help = $DIC->help();
         $this->error = $DIC['ilErr'];
 
         $this->request = $DIC->http()->request();
@@ -90,19 +90,18 @@ class ilCalendarAppointmentGUI
     {
         $this->ctrl->returnToParent($this);
     }
-    
+
     protected function initForm(
         string $a_mode,
         bool $a_as_milestone = false,
         bool $a_edit_single_app = false
-    ) : ilPropertyFormGUI
-    {
+    ) : ilPropertyFormGUI {
         $this->form = new ilPropertyFormGUI();
         ilYuiUtil::initDomEvent();
         $resp_info = false;
         switch ($a_mode) {
             case 'create':
-                $this->ctrl->saveParameter($this, array('seed','idate'));
+                $this->ctrl->saveParameter($this, array('seed', 'idate'));
                 $this->form->setFormAction($this->ctrl->getFormAction($this));
                 if ($a_as_milestone) {
                     $this->form->setTitle($this->lng->txt('cal_new_ms'));
@@ -938,12 +937,12 @@ class ilCalendarAppointmentGUI
         $this->rec->reset();
         
         switch ($_POST['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::FREQ_DAILY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_DAILY']);
                 break;
             
-            case IL_CAL_FREQ_WEEKLY:
+            case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_WEEKLY']);
                 if (is_array($_POST['byday_WEEKLY'])) {
@@ -951,7 +950,7 @@ class ilCalendarAppointmentGUI
                 }
                 break;
 
-            case IL_CAL_FREQ_MONTHLY:
+            case ilCalendarRecurrence::FREQ_MONTHLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_MONTHLY']);
                 switch ((int) $_POST['subtype_MONTHLY']) {
@@ -984,7 +983,7 @@ class ilCalendarAppointmentGUI
                 }
                 break;
             
-            case IL_CAL_FREQ_YEARLY:
+            case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_YEARLY']);
                 switch ((int) $_POST['subtype_YEARLY']) {

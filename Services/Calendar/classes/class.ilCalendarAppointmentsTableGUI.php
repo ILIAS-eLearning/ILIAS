@@ -88,19 +88,19 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
 
         switch ($a_set['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::FREQ_DAILY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_daily'));
                 break;
                 
-            case IL_CAL_FREQ_WEEKLY:
+            case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_weekly'));
                 break;
             
-            case IL_CAL_FREQ_MONTHLY:
+            case ilCalendarRecurrence::FREQ_MONTHLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_monthly'));
                 break;
             
-            case IL_CAL_FREQ_YEARLY:
+            case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_yearly'));
                 break;
             

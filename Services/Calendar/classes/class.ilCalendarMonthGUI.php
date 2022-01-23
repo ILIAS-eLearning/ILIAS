@@ -1,65 +1,43 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
-include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
-include_once('Services/Calendar/classes/class.ilCalendarViewGUI.php');
-
 
 /**
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
  * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentPresentationGUI
  * @ingroup ServicesCalendar
  */
 class ilCalendarMonthGUI extends ilCalendarViewGUI
 {
-    protected $num_appointments = 1;
-    protected $schedule_filters = array();
+    protected int $num_appointments = 1;
+    protected array $schedule_filters = array();
     
-    protected $user_settings = null;
-    protected $timezone = 'UTC';
+    protected ilCalendarUserSettings $user_settings;
+    protected ilCalendarAppointmentColors $app_colors;
+    protected string $timezone = 'UTC';
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @todo make parent constructor (initialize) and init also seed and other common stuff
-     */
     public function __construct(ilDate $seed_date)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
-        $this->tabs_gui->setSubTabActive('app_month');
+    }
 
-        
+    public function initialize(int $a_calendar_presentation_type) : void
+    {
+        parent::initialize($a_calendar_presentation_type);
+        $this->tabs_gui->setSubTabActive('app_month');
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
-        
-        $this->timezone = $this->user->getTimeZone();
+        if ($this->user->getTimeZone()) {
+            $this->timezone = (string) $this->user->getTimeZone();
+        }
     }
-    
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-
         $this->ctrl->saveParameter($this, 'seed');
 
-        $next_class = $ilCtrl->getNextClass();
+        $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
@@ -70,12 +48,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-                
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-
                 // initial date for new calendar appointments
                 $idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
-
                 $app = new ilCalendarAppointmentGUI($this->seed, $idate, (int) $_GET['app_id']);
                 $this->ctrl->forwardCommand($app);
                 break;
@@ -84,40 +58,21 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                 $time = microtime(true);
                 $cmd = $this->ctrl->getCmd("show");
                 $this->$cmd();
-                $tpl->setContent($this->tpl->get());
-                
-                #echo "Zeit: ".(microtime(true) - $time);
+                $this->tpl->setContent($this->tpl->get());
                 break;
         }
-        return true;
     }
     
     /**
      * Add schedule filter
-     *
-     * @param ilCalendarScheduleFilter $a_filter
      */
-    public function addScheduleFilter(ilCalendarScheduleFilter $a_filter)
+    public function addScheduleFilter(ilCalendarScheduleFilter $a_filter) : void
     {
         $this->schedule_filters[] = $a_filter;
     }
     
-    /**
-     * fill data section
-     *
-     * @access public
-     *
-     */
-    public function show()
+    public function show() : void
     {
-        /**
-         * @var ILIAS\DI\Container $DIC
-         */
-        global $DIC;
-
-        $ui_factory = $DIC->ui()->factory();
-        $renderer = $DIC->ui()->renderer();
-
         $this->tpl = new ilTemplate('tpl.month_view.html', true, true, 'Services/Calendar');
         
         include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -155,14 +110,14 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         }
         
         include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-        $this->scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user_id);
-        $this->scheduler->addSubitemCalendars(true);
+        $scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user_id);
+        $scheduler->addSubitemCalendars(true);
         if (sizeof($this->schedule_filters)) {
             foreach ($this->schedule_filters as $filter) {
-                $this->scheduler->addFilter($filter);
+                $scheduler->addFilter($filter);
             }
         }
-        $this->scheduler->calculate();
+        $scheduler->calculate();
 
         include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
         $settings = ilCalendarSettings::_getInstance();
@@ -174,7 +129,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $this->user_settings->getWeekStart()
         )->get() as $date) {
             $counter++;
-            $has_events = (bool) $this->showEvents($date);
+            $has_events = (bool) $this->showEvents($scheduler, $date);
 
             if (!$this->view_with_appointments && $has_events) {
                 $this->view_with_appointments = true;
@@ -194,7 +149,9 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                                                             
                     $this->tpl->setCurrentBlock("new_ms");
                     $this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-                    $this->tpl->setVariable('DD_TRIGGER', $renderer->render($ui_factory->symbol()->glyph()->add()));
+                    $this->tpl->setVariable(
+                        'DD_TRIGGER',
+                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add()));
                     $this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
                     $this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
                     $this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
@@ -202,12 +159,13 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                     $this->tpl->parseCurrentBlock();
                 } else {
                     $this->tpl->setCurrentBlock("new_app");
-                    $this->tpl->setVariable('NEW_GLYPH', $renderer->render($ui_factory->symbol()->glyph()->add($new_app_url)));
+                    $this->tpl->setVariable(
+                        'NEW_GLYPH',
+                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url)));
                     $this->tpl->parseCurrentBlock();
                 }
             }
 
-            
             $day = $date->get(IL_CAL_FKT_DATE, 'j');
             $month = $date->get(IL_CAL_FKT_DATE, 'n');
 
@@ -239,10 +197,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             if (ilCalendarUtil::_isToday($date)) {
                 $this->tpl->setVariable('TD_CLASS', 'caltoday');
             }
-            #elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
-            #{
-            #	$this->tpl->setVariable('TD_CLASS','calnow');
-            #}
             elseif (ilDateTime::_equals($date, $this->seed, IL_CAL_MONTH)) {
                 $this->tpl->setVariable('TD_CLASS', 'calstd');
             } elseif (ilDateTime::_before($date, $this->seed, IL_CAL_MONTH)) {
@@ -250,43 +204,24 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             } else {
                 $this->tpl->setVariable('TD_CLASS', 'calnext');
             }
-
             $this->tpl->parseCurrentBlock();
-            
-            
-            if ($counter and !($counter % 7)) {
+            if ($counter && !($counter % 7)) {
                 $this->tpl->setCurrentBlock('month_row');
                 $this->tpl->parseCurrentBlock();
             }
         }
     }
     
-    // used in portfolio
-    public function getHTML()
+    public function getHTML() : string
     {
         $this->show();
         return $this->tpl->get();
     }
 
-    /**
-     *
-     * Show events
-     *
-     * @access protected
-     */
-    protected function showEvents(ilDate $date)
+    protected function showEvents(ilCalendarSchedule $scheduler, ilDate $date) : int
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-
-        $f = $this->ui_factory;
-        $r = $this->ui_renderer;
-
         $count = 0;
-        
-
-        foreach ($this->scheduler->getByDay($date, $this->timezone) as $item) {
+        foreach ($scheduler->getByDay($date, $this->timezone) as $item) {
             $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $item['event']->getEntryId());
 
@@ -319,11 +254,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
 
             //plugins can change the modal title.
             $shy = $this->getAppointmentShyButton($item['event'], $item['dstart'], "");
-
             $title = ($time != "")? $time . " " . $shy : $shy;
-
             $event_html = $title . $compl;
-
             $event_tpl->setCurrentBlock('il_event');
 
             //Start configuring the default template

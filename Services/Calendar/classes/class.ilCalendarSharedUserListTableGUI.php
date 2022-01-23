@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,8 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
 
 /**
 *
@@ -34,17 +32,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilCalendarSharedUserListTableGUI extends ilTable2GUI
 {
-    protected $user_ids = array();
+    protected array $user_ids = array();
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object gui object
-     * @param string oparent command
-     * @return
-     */
-    public function __construct($parent_obj, $parent_cmd)
+    public function __construct(object $parent_obj, string $parent_cmd)
     {
         parent::__construct($parent_obj, $parent_cmd);
         
@@ -60,24 +50,12 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
         $this->setPrefix('search');
     }
     
-    /**
-     * set users
-     *
-     * @access public
-     * @param array array of user ids
-     * @return bool
-     */
-    public function setUsers($a_user_ids)
+    public function setUsers(array $a_user_ids)
     {
         $this->user_ids = $a_user_ids;
     }
     
-    /**
-     * fill row
-     * @access protected
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         
@@ -87,13 +65,7 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * parse
-     *
-     * @access public
-     * @return
-     */
-    public function parse()
+    public function parse() : void
     {
         $users = array();
         foreach ($this->user_ids as $id) {
@@ -107,7 +79,6 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
             
             $users[] = $tmp_data;
         }
-
-        $this->setData($users ? $users : array());
+        $this->setData($users);
     }
 }

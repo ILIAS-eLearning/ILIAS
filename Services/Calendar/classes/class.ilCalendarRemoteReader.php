@@ -1,9 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once './Services/WebServices/Curl/classes/class.ilCurlConnection.php';
-include_once './Services/WebServices/Curl/classes/class.ilCurlConnectionException.php';
 
 /**
 * Reader for remote ical calendars
@@ -13,105 +10,79 @@ include_once './Services/WebServices/Curl/classes/class.ilCurlConnectionExceptio
 */
 class ilCalendarRemoteReader
 {
-    const TYPE_ICAL = 1;
+    protected const TYPE_ICAL = 1;
     
     // Fixed in the moment
-    private $type = self::TYPE_ICAL;
+    private int $type = self::TYPE_ICAL;
+    private ?ilCurlConnection $curl = null;
     
-    private $curl = null;
+    private string $url = '';
+    private string $user = '';
+    private string $pass = '';
     
-    private $url;
-    private $user;
-    private $pass;
-    
-    private $ical;
+    private string $ical = '';
 
-    /**
-     * @var \ilLogger
-     */
-    private $logger;
+    private ilLogger $logger;
     
     
-    /**
-     * Constructor
-     * init curl
-     */
-    public function __construct($a_url)
+    public function __construct(string $a_url)
     {
         global $DIC;
 
-        $this->logger = $DIC->logger();
+        $this->logger = $DIC->logger()->cal();
         $this->url = $a_url;
     }
     
-    public function setUser($a_user)
+    public function setUser(string $a_user) : void
     {
         $this->user = $a_user;
     }
     
-    public function setPass($a_pass)
+    public function setPass(string $a_pass) : void
     {
         $this->pass = $a_pass;
     }
     
-    public function getType()
+    public function getType() : int
     {
         return $this->type;
     }
     
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
 
 
-    /**
-     * Read ical format
-     *
-     * @throws sonething
-     */
-    public function read()
+    public function read() : void
     {
         $this->initCurl();
         
         switch ($this->getType()) {
             case self::TYPE_ICAL:
-                return $this->readIcal();
+                $this->readIcal();
+                break;
         }
     }
 
-    /**
-     * Import appointments in calendar
-     * @return type
-     */
-    public function import(ilCalendarCategory $cat)
+    public function import(ilCalendarCategory $cat) : void
     {
         switch ($this->getType()) {
             case self::TYPE_ICAL:
-                return $this->importIcal($cat);
+                $this->importIcal($cat);
+                break;
         }
     }
     
-    /**
-     * Read ical
-     *
-     * @throw ilCurlConnectionException
-     */
-    protected function readIcal()
+    protected function readIcal() : void
     {
         $this->ical = $this->call();
         $this->logger->debug($this->ical);
-        return true;
     }
     
-    /**
-     * Import ical in calendar
-     * @param ilCalendarCategory $cat
-     */
-    protected function importIcal(ilCalendarCategory $cat)
+    protected function importIcal(ilCalendarCategory $cat) : void
     {
         // Delete old appointments
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
         foreach (ilCalendarCategoryAssignments::_getAssignedAppointments(array($cat->getCategoryID())) as $app_id) {
             include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
             ilCalendarEntry::_delete($app_id);
@@ -125,10 +96,7 @@ class ilCalendarRemoteReader
         $parser->parse();
     }
     
-    /**
-     * Init curl connection
-     */
-    protected function initCurl()
+    protected function initCurl() : void
     {
         try {
             $this->replaceWebCalProtocol();
@@ -156,21 +124,14 @@ class ilCalendarRemoteReader
     {
         if (substr($this->getUrl(), 0, 6) == 'webcal') {
             $purged = preg_replace('/webcal/', 'http', $this->getUrl(), 1);
-            $this->url = $purged;
+            $this->url = (string) $purged;
         }
     }
     
-    /**
-     * call peer
-     *
-     * @access private
-     * @throws ilCurlConnectionException
-     */
-    private function call()
+    private function call() : string
     {
         try {
-            $res = $this->curl->exec();
-            return $res;
+            return $this->curl->exec();
         } catch (ilCurlConnectionException $exc) {
             throw($exc);
         }

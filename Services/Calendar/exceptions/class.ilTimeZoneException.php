@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -24,22 +24,8 @@
 /**
 * Class for TimeZone exceptions
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
-
-include_once('Services/Exceptions/classes/class.ilException.php');
-
 class ilTimeZoneException extends ilException
 {
-    /**
-     *
-     *	Nothing specific here
-     *
-     */
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

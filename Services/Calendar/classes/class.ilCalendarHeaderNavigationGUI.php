@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,13 +21,9 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
-
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 *
 * @ingroup ServicesCalendar
 *
@@ -35,30 +31,22 @@ include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
 
 class ilCalendarHeaderNavigationGUI
 {
-    protected $cmdClass = null;
-    protected $cmd = null;
-    protected $seed = null;
-    protected $increment = '';
+    protected object $cmdClass;
+    protected string $cmd;
+    protected ilDate $seed;
+    protected string $increment = '';
     
-    protected $html;
+    protected string $html;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrlInterface $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
+    protected ilCalendarUserSettings $user_settings;
+    protected \ILIAS\DI\UIServices $ui;
 
-
-    protected $tpl;
-
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object ilDate seed for navigation
-     * @parame string type MONTH WEEK DAY
-     *
-     */
-    public function __construct($cmdClass, ilDate $seed, $a_increment, $cmd = '')
+    public function __construct(object $cmdClass, ilDate $seed, string $a_increment, string $cmd = '')
     {
         global $DIC;
         
@@ -72,31 +60,19 @@ class ilCalendarHeaderNavigationGUI
         $this->toolbar = $DIC->toolbar();
         $this->ui = $DIC->ui();
         $this->user = $DIC->user();
-
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
     }
     
-    /**
-     * getHTML
-     *
-     * @access public
-     *
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
-        $lng = $this->lng;
-        $ui = $this->ui;
-        $toolbar = $this->toolbar;
-
         $today = new ilDateTime(time(), IL_CAL_UNIX, $this->user->getTimeZone());
-
         $tpl = new ilTemplate("tpl.navigation_header.html", true, true, "Services/Calendar");
 
         // previous button
         $contains_today = false;
         $this->incrementDate(-1);
         $this->ctrl->setParameterByClass(get_class($this->cmdClass), 'seed', $this->seed->get(IL_CAL_DATE));
-        $b1 = $ui->factory()->button()->standard($lng->txt("previous"), $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
+        $b1 = $this->ui->factory()->button()->standard($this->lng->txt("previous"), $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
 
         // today button
         $this->incrementDate(1);
@@ -138,34 +114,31 @@ class ilCalendarHeaderNavigationGUI
             $today->get(IL_CAL_DATE)
         );
         if ($contains_today) {
-            $b2 = $ui->factory()->button()->standard(
-                $lng->txt("today"),
+            $b2 = $this->ui->factory()->button()->standard(
+                $this->lng->txt("today"),
                 $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd)
             )->withEngagedState(true);
         } else {
-            $b2 = $ui->factory()->button()->standard(
-                $lng->txt("today"),
+            $b2 = $this->ui->factory()->button()->standard(
+                $this->lng->txt("today"),
                 $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd)
             );
         }
         // next button
         $this->incrementDate(1);
         $this->ctrl->setParameterByClass(get_class($this->cmdClass), 'seed', $this->seed->get(IL_CAL_DATE));
-        $b3 = $ui->factory()->button()->standard($lng->txt("next"), $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
+        $b3 = $this->ui->factory()->button()->standard($this->lng->txt("next"), $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
         $this->ctrl->setParameterByClass(get_class($this->cmdClass), 'seed', '');
-
-        //$toolbar->addComponent($ui->factory()->viewControl()->section($b1,$b2,$b3));
-        $toolbar->addStickyItem($ui->factory()->viewControl()->section($b1, $b2, $b3));
-        $toolbar->addSeparator();
+        $this->toolbar->addStickyItem($this->ui->factory()->viewControl()->section($b1, $b2, $b3));
+        $this->toolbar->addSeparator();
 
         return $tpl->get();
     }
 
-    protected function incrementDate($a_count)
+    protected function incrementDate(int $a_count) : void
     {
         switch ($this->increment) {
             case ilDateTime::MONTH:
-
                 $day = $this->seed->get(IL_CAL_FKT_DATE, 'j');
                 if ($day > 28) {
                     $this->seed->increment(IL_CAL_DAY, (31 - $day) * -1);

@@ -98,7 +98,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         if ($a_set["milestone"]) {
             $this->tpl->setCurrentBlock("img_ms");
             $this->tpl->setVariable("IMG_MS", ilUtil::getImagePath("icon_ms.svg"));
-            $this->tpl->setVariable("ALT_MS", $lng->txt("cal_milestone"));
+            $this->tpl->setVariable("ALT_MS", $this->lng->txt("cal_milestone"));
             $this->tpl->parseCurrentBlock();
         }
         
@@ -109,19 +109,19 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
 
         switch ($a_set['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::FREQ_DAILY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_daily'));
                 break;
                 
-            case IL_CAL_FREQ_WEEKLY:
+            case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_weekly'));
                 break;
             
-            case IL_CAL_FREQ_MONTHLY:
+            case ilCalendarRecurrence::FREQ_MONTHLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_monthly'));
                 break;
             
-            case IL_CAL_FREQ_YEARLY:
+            case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->tpl->setVariable('VAL_FREQUENCE', $this->lng->txt('cal_yearly'));
                 break;
             
@@ -158,7 +158,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_DURATION','');
         }
         */
-        $update = new ilDateTime($a_set['last_update'], IL_CAL_UNIX, $ilUser->getTimeZone());
+        $update = new ilDateTime($a_set['last_update'], IL_CAL_UNIX, $this->user->getTimeZone());
         $this->tpl->setVariable('VAL_LAST_UPDATE', ilDatePresentation::formatDate($update));
     }
 

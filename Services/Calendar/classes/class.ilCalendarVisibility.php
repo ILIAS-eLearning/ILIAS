@@ -129,9 +129,6 @@ class ilCalendarVisibility
     
     /**
      * Filter hidden categories (and hidden subitem categories) from category array
-     * @param object $categories
-     * @param object $category_info
-     * @return
      */
     public function filterHidden($categories, $category_info)
     {
@@ -254,7 +251,7 @@ class ilCalendarVisibility
                 $this->db->quote($this->obj_id, 'integer') . ", " .
                 $this->db->quote(self::HIDDEN, 'integer') .
                 ")";
-            $ilDB->manipulate($query);
+            $this->db->manipulate($query);
         }
         foreach ($this->visible as $visible) {
             $query = "INSERT INTO cal_cat_visibility (user_id, cat_id, obj_id, visible) " .
@@ -264,7 +261,7 @@ class ilCalendarVisibility
                 $this->db->quote($this->obj_id, 'integer') . ", " .
                 $this->db->quote(self::VISIBLE, 'integer') .
                 ")";
-            $ilDB->manipulate($query);
+            $this->db->manipulate($query);
         }
         return true;
     }

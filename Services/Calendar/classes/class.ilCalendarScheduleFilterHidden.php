@@ -1,24 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once 'Services/Calendar/interfaces/interface.ilCalendarScheduleFilter.php';
-include_once 'Services/Calendar/classes/class.ilCalendarVisibility.php';
 
 /**
  * Calendar schedule filter for hidden categories
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ingroup ServicesCalendar
  */
 class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
 {
-    protected $user_id; // [int]
-    protected $hidden_cat; // [ilCalendarVisibility]
+    protected int $user_id;
+    protected ilCalendarVisibility $hidden_cat;
     
-    public function __construct($a_user_id)
+    public function __construct(int $a_user_id)
     {
         $this->user_id = $a_user_id;
         $this->hidden_cat = ilCalendarVisibility::_getInstanceByUserId(
@@ -26,7 +21,10 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
             ilCalendarCategories::_getInstance($this->user_id)->getSourceRefId()
         );
     }
-    
+
+    /**
+     * @ineritDoc
+     */
     public function filterCategories(array $a_cats) : array
     {
         return $this->hidden_cat->filterHidden(
@@ -34,7 +32,10 @@ class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
             ilCalendarCategories::_getInstance($this->user_id)->getCategoriesInfo()
         );
     }
-    
+
+    /**
+     * @inheritDoc
+     */
     public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
         // the not is ok since isAppointmentVisible return false for visible appointments

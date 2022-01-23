@@ -64,7 +64,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->ctrl->saveParameter($this, 'seed');
 
-        $next_class = $ilCtrl->getNextClass();
+        $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,35 +21,26 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
-
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 
 class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
 {
-    protected $role_ids = array();
+    protected ilRbacReview $rbacreview;
+    protected array $role_ids = array();
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object gui object
-     * @param string oparent command
-     * @return
-     */
-    public function __construct($parent_obj, $parent_cmd)
+    public function __construct(object $parent_obj, string $parent_cmd)
     {
+        global $DIC;
+
+        $this->rbacreview = $DIC->rbac()->review();
+
         parent::__construct($parent_obj, $parent_cmd);
         
         $this->setRowTemplate('tpl.calendar_shared_role_list_row.html', 'Services/Calendar');
-        
         $this->addColumn('', 'id', '1px');
         $this->addColumn($this->lng->txt('objs_role'), 'title', '75%');
         $this->addColumn($this->lng->txt('assigned_members'), 'num', '25%');
@@ -60,27 +51,17 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
         $this->setPrefix('search');
     }
     
-    /**
-     * set users
-     *
-     * @access public
-     * @param array array of user ids
-     * @return bool
-     */
-    public function setRoles($a_role_ids)
+    public function setRoles(array $a_role_ids) : void
     {
         $this->role_ids = $a_role_ids;
     }
     
     /**
-     * fill row
-     * @access protected
-     * @return void
+     * @inheritDoc
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
-        
         $this->tpl->setVariable('TITLE', $a_set['title']);
         if (strlen($a_set['description'])) {
             $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
@@ -89,28 +70,18 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * parse
-     *
-     * @access public
-     * @return
-     */
-    public function parse()
+    public function parse() : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        
-        $users = array();
+        $users = $roles = array();
         foreach ($this->role_ids as $id) {
             $tmp_data['title'] = ilObject::_lookupTitle($id);
             $tmp_data['description'] = ilObject::_lookupDescription($id);
             $tmp_data['id'] = $id;
-            $tmp_data['num'] = count($rbacreview->assignedUsers($id));
+            $tmp_data['num'] = count($this->rbacreview->assignedUsers($id));
             
             $roles[] = $tmp_data;
         }
 
-        $this->setData($roles ? $roles : array());
+        $this->setData($roles);
     }
 }

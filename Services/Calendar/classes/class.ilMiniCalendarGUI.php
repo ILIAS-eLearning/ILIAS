@@ -54,7 +54,7 @@ class ilMiniCalendarGUI
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         
-        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->lng = $lng;
         $this->lng->loadLanguageModule('dateplaner');
         $this->seed = $seed;
@@ -105,7 +105,7 @@ class ilMiniCalendarGUI
         );
         $this->addMiniMonth($tpl);
 
-        $ftpl->setVariable("BLOCK_TITLE", $lng->txt("calendar"));
+        $ftpl->setVariable("BLOCK_TITLE", $this->lng->txt("calendar"));
         $ftpl->setVariable("CONTENT", $tpl->get());
         return $ftpl->get();
     }
@@ -125,7 +125,7 @@ class ilMiniCalendarGUI
         // weekdays
         include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
         $a_tpl->setCurrentBlock('month_header_col');
-        $a_tpl->setVariable('TXT_WEEKDAY', $lng->txt("cal_week_abbrev"));
+        $a_tpl->setVariable('TXT_WEEKDAY', $this->lng->txt("cal_week_abbrev"));
         $a_tpl->parseCurrentBlock();
         for ($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++) {
             $a_tpl->setCurrentBlock('month_header_col');
@@ -149,7 +149,7 @@ class ilMiniCalendarGUI
             
             $a_tpl->setCurrentBlock('month_col');
             
-            if (count($this->scheduler->getByDay($date, $ilUser->getTimeZone()))) {
+            if (count($this->scheduler->getByDay($date, $this->user->getTimeZone()))) {
                 $a_tpl->setVariable('DAY_CLASS', 'calminiapp');
                 #$a_tpl->setVariable('TD_CLASS','calminiapp');
             }
@@ -175,10 +175,10 @@ class ilMiniCalendarGUI
             
             $month_day = $day;
             
-            $ilCtrl->clearParametersByClass('ilcalendardaygui');
-            $ilCtrl->setParameterByClass('ilcalendardaygui', 'seed', $date->get(IL_CAL_DATE));
-            $a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendardaygui', ''));
-            $ilCtrl->clearParametersByClass('ilcalendardaygui');
+            $this->ctrl->clearParametersByClass('ilcalendardaygui');
+            $this->ctrl->setParameterByClass('ilcalendardaygui', 'seed', $date->get(IL_CAL_DATE));
+            $a_tpl->setVariable('OPEN_DAY_VIEW', $this->ctrl->getLinkTargetByClass('ilcalendardaygui', ''));
+            $this->ctrl->clearParametersByClass('ilcalendardaygui');
             
             $a_tpl->setVariable('MONTH_DAY', $month_day);
             $a_tpl->parseCurrentBlock();
@@ -192,9 +192,9 @@ class ilMiniCalendarGUI
                 $a_tpl->parseCurrentBlock();
 
                 $a_tpl->setCurrentBlock('month_row');
-                $ilCtrl->clearParametersByClass('ilcalendarweekgui');
-                $ilCtrl->setParameterByClass('ilcalendarweekgui', 'seed', $date->get(IL_CAL_DATE));
-                $ilCtrl->clearParametersByClass('ilcalendarweekgui');
+                $this->ctrl->clearParametersByClass('ilcalendarweekgui');
+                $this->ctrl->setParameterByClass('ilcalendarweekgui', 'seed', $date->get(IL_CAL_DATE));
+                $this->ctrl->clearParametersByClass('ilcalendarweekgui');
                 $a_tpl->setVariable('TD_CLASS', 'calminiweek');
                 $a_tpl->parseCurrentBlock();
             }
@@ -203,32 +203,32 @@ class ilMiniCalendarGUI
         //$a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
         $a_tpl->setVariable(
             'TXT_MONTH',
-            $lng->txt('month_' . $this->seed->get(IL_CAL_FKT_DATE, 'm') . '_long') .
+            $this->lng->txt('month_' . $this->seed->get(IL_CAL_FKT_DATE, 'm') . '_long') .
                 ' ' . $this->seed->get(IL_CAL_FKT_DATE, 'Y')
         );
         $myseed = clone($this->seed);
-        $ilCtrl->setParameterByClass('ilcalendarmonthgui', 'seed', $myseed->get(IL_CAL_DATE));
-        $a_tpl->setVariable('OPEN_MONTH_VIEW', $ilCtrl->getLinkTargetByClass('ilcalendarmonthgui', ''));
+        $this->ctrl->setParameterByClass('ilcalendarmonthgui', 'seed', $myseed->get(IL_CAL_DATE));
+        $a_tpl->setVariable('OPEN_MONTH_VIEW', $this->ctrl->getLinkTargetByClass('ilcalendarmonthgui', ''));
         
         $myseed->increment(ilDateTime::MONTH, -1);
-        $ilCtrl->setParameter($this->getParentObject(), 'seed', $myseed->get(IL_CAL_DATE));
+        $this->ctrl->setParameter($this->getParentObject(), 'seed', $myseed->get(IL_CAL_DATE));
         
         //$a_tpl->setVariable('BL_TYPE', $this->getBlockType());
         //$a_tpl->setVariable('BL_ID', $this->getBlockId());
         
         $a_tpl->setVariable(
             'PREV_MONTH',
-            $ilCtrl->getLinkTarget($this->getParentObject(), "")
+            $this->ctrl->getLinkTarget($this->getParentObject(), "")
         );
             
         $myseed->increment(ilDateTime::MONTH, 2);
-        $ilCtrl->setParameter($this->getParentObject(), 'seed', $myseed->get(IL_CAL_DATE));
+        $this->ctrl->setParameter($this->getParentObject(), 'seed', $myseed->get(IL_CAL_DATE));
         $a_tpl->setVariable(
             'NEXT_MONTH',
-            $ilCtrl->getLinkTarget($this->getParentObject(), "")
+            $this->ctrl->getLinkTarget($this->getParentObject(), "")
         );
 
-        $ilCtrl->setParameter($this->getParentObject(), 'seed', "");
+        $this->ctrl->setParameter($this->getParentObject(), 'seed', "");
         $a_tpl->parseCurrentBlock();
     }
 }

@@ -51,7 +51,7 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
         $this->app_id = $a_app_id;
         
         $this->addColumn("", "", "1");
-        $this->addColumn($lng->txt("user"), "", "100%");
+        $this->addColumn($this->lng->txt("user"), "", "100%");
         $this->setRowTemplate(
             "tpl.ms_responsible_users_row.html",
             "Services/Calendar"
@@ -59,13 +59,13 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setDefaultOrderField("lastname");
         $this->setMaxCount(9999);
-        $ilCtrl->setParameter($a_parent_obj, "app_id", $this->app_id);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->ctrl->setParameter($a_parent_obj, "app_id", $this->app_id);
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->getParticipantsAndResponsibles();
-        $this->setTitle($lng->txt("cal_ms_users_responsible"));
+        $this->setTitle($this->lng->txt("cal_ms_users_responsible"));
         $this->addMultiCommand(
             "saveMilestoneResponsibleUsers",
-            $lng->txt("cal_save_responsible_users")
+            $this->lng->txt("cal_save_responsible_users")
         );
     }
     
