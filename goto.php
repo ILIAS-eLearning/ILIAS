@@ -213,7 +213,7 @@ switch ($target_type) {
     // links to the documentation of the kitchen sink in the administration
     case 'stys':
         require_once('./Services/Style/System/classes/class.ilSystemStyleMainGUI.php');
-        ilSystemStyleMainGUI::_goto($target_id, $target_arr);
+        (new ilKSDocumentationGotoLink())->redirectWithGotoLink($target_id, $target_arr, $DIC->ctrl());
         break;
 
     //
