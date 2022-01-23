@@ -1881,12 +1881,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->rec = new ilSessionRecurrence();
         
         switch ($_POST['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::IL_CAL_FREQ_DAILY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_DAILY']);
                 break;
             
-            case IL_CAL_FREQ_WEEKLY:
+            case ilCalendarRecurrence::IL_CAL_FREQ_WEEKLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_WEEKLY']);
                 if (is_array($_POST['byday_WEEKLY'])) {
@@ -1894,7 +1894,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 }
                 break;
 
-            case IL_CAL_FREQ_MONTHLY:
+            case ilCalendarRecurrence::IL_CAL_FREQ_MONTHLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_MONTHLY']);
                 switch ((int) $_POST['subtype_MONTHLY']) {
@@ -1927,7 +1927,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 }
                 break;
             
-            case IL_CAL_FREQ_YEARLY:
+            case ilCalendarRecurrence::IL_CAL_FREQ_YEARLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_YEARLY']);
                 switch ((int) $_POST['subtype_YEARLY']) {
