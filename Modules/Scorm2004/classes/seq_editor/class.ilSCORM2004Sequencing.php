@@ -453,6 +453,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
         
         default:
             # code...
+            return null;
             break;
     }
     }

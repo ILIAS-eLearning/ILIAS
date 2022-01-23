@@ -14,6 +14,9 @@
  *****************************************************************************/
 class ilScormAiccImporter extends ilXmlImporter
 {
+    /**
+     *
+     */
     public function __construct()
     {
         $this->dataset = new ilScormAiccDataSet();
@@ -22,14 +25,23 @@ class ilScormAiccImporter extends ilXmlImporter
         $this->manifest = [];
     }
 
+    /**
+     * @return void
+     */
     public function init() : void
     {
     }
 
     /**
      * Import XML
-     * @param
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
      * @return void
+     * @throws ilDatabaseException
+     * @throws ilFileUtilsException
+     * @throws ilObjectNotFoundException
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
@@ -123,7 +135,13 @@ class ilScormAiccImporter extends ilXmlImporter
         }
     }
 
-    public function writeData($a_entity, $a_version, $a_id) : void
+    /**
+     * @param string $a_entity
+     * @param string $a_version
+     * @param int    $a_id
+     * @return void
+     */
+    public function writeData(string $a_entity, string $a_version, int $a_id) : void
     {
         $this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
     }

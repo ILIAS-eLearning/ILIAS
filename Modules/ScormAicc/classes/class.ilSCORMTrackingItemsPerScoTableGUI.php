@@ -35,6 +35,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
     public function getObjId() : int
     {

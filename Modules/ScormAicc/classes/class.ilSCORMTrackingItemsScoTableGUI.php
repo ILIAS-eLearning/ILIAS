@@ -37,6 +37,7 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
     public function getObjId() : int
     {
@@ -45,6 +46,7 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
 
     /**
      * Set sco id
+     * @param int $a_sco_id
      */
     public function setScoId(int $a_sco_id) : void
     {

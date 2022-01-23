@@ -82,7 +82,7 @@ class ilSCORMObject
         $this->slm_id = $a_slm_id;
     }
 
-    public function read()
+    public function read() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -128,7 +128,7 @@ class ilSCORMObject
      * Create database record for SCORM object.
      *
      */
-    public function create()
+    public function create() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -149,7 +149,7 @@ class ilSCORMObject
      * Updates database record for SCORM object.
      *
      */
-    public function update()
+    public function update() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -166,7 +166,7 @@ class ilSCORMObject
         );
     }
 
-    public function delete()
+    public function delete() : void
     {
         global $DIC;
         $ilDB = $DIC->database();

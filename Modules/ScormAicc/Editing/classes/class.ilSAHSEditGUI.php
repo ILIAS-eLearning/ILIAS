@@ -31,6 +31,9 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
     protected $ctrl;
     protected int $refId;
 
+    /**
+     * @throws ilCtrlException
+     */
     public function __construct()
     {
         global $DIC;
@@ -41,10 +44,12 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         
         $this->ctrl->saveParameter($this, "ref_id");
     }
-    
+
     /**
-    * execute command
-    */
+     * execute command
+     * @return void
+     * @throws ilCtrlException
+     */
     public function executeCommand() : void
     {
         global $DIC;
@@ -119,9 +124,9 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             } elseif ($cmd == "download") {
                 $file = $_GET["file"];
                 $ftmp = explode(":", $file);
-                $fileName = $ftmp[1];
+                $fileName = (string) $ftmp[1];
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-                ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName);
+                ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
             } elseif ($cmd == "confirmDeletion") {
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 foreach ($_POST["file"] as $file) {

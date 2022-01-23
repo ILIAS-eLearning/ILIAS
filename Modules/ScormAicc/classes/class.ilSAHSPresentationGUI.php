@@ -36,6 +36,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     protected $slm_gui;
     protected int $refId;
 
+    /**
+     * @throws ilCtrlException
+     */
     public function __construct()
     {
         global $DIC;
@@ -45,10 +48,11 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $this->ctrl->saveParameter($this, "ref_id");
         $this->refId = (int) $_GET["ref_id"];
     }
-    
+
     /**
-    * execute command
-    */
+     * @return void
+     * @throws ilCtrlException
+     */
     public function executeCommand() : void
     {
         global $DIC;
@@ -195,7 +199,9 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 //        $this->tpl->printToStdout();
 //    }
 
-
+    /**
+     * @return void
+     */
     public function view() : void
     {
         $sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
@@ -208,30 +214,38 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         $this->tpl->printToStdout();
     }
 
-
     /**
-    * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
-    */
+     * this one is called from the info button in the repository
+     * not very nice to set cmdClass/Cmd manually, if everything
+     * works through ilCtrl in the future this may be changed
+     * @return void
+     * @throws ilCtrlException
+     */
     public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->outputInfoScreen();
     }
-    
-    public function setInfoTabs($a_active) : void
+
+    /**
+     * @param string $a_active
+     * @return void
+     * @throws ilCtrlException
+     */
+    public function setInfoTabs(string $a_active) : void
     {
         global $DIC;
 
+        $refId = (int) $_GET["ref_id"];
+
         if (
-            !$DIC->access()->checkAccess('visible', '', (int) $_GET["ref_id"]) &&
-            !$DIC->access()->checkAccess('read', '', (int) $_GET["ref_id"])
+            !$DIC->access()->checkAccess('visible', '', $refId) &&
+            !$DIC->access()->checkAccess('read', '', $refId)
         ) {
-            $DIC['ilErr']->raiseError($this->lng->txt('msg_no_perm_read'), $DIC['ilErr']->MESSAGE);
+            $DIC['ilErr']->raiseError($this->lng->txt('msg_no_perm_read'), $DIC['ilErr']->MESSAGE); //todo
         }
-        if (ilLearningProgressAccess::checkAccess($_GET["ref_id"])) {
+        if (ilLearningProgressAccess::checkAccess($refId)) {
             $DIC->tabs()->addTab(
                 "info_short",
                 $this->lng->txt("info_short"),
@@ -244,10 +258,10 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->getLinkTargetByClass('illearningprogressgui', '')
             );
         }
-        if ($DIC->access()->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) || $DIC->access()->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
+        if ($DIC->access()->checkAccess("edit_learning_progress", "", $refId) || $DIC->access()->checkAccess("read_learning_progress", "", $refId)) {
             $privacy = ilPrivacySettings::getInstance();
             if ($privacy->enabledSahsProtocolData()) {
-                $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+                $obj_id = ilObject::_lookupObjectId($refId);
                 $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
                 if ($type == "scorm2004") {
                     $DIC->tabs()->addTab(
@@ -273,18 +287,21 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $this->slm_gui->object->getTitle(),
             $this->ctrl->getLinkTarget($this, "infoScreen"),
             "",
-            $_GET["ref_id"]
+            $refId
         );
         $this->tpl->setLocator();
     }
 
     /**
-    * info screen
-    */
+     * info screen
+     * @return void
+     * @throws ilCtrlException
+     */
     public function outputInfoScreen() : void
     {
         global $DIC;
         $ilAccess = $DIC->access();
+        $refId = (int) $_GET["ref_id"];//$this->slm_gui->object->getRefId();
 
         //$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 
@@ -300,7 +317,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         //$info->enableLearningProgress();
 
         $info->enableNews();
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $refId)) {
             $info->enableNewsEditing();
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -310,7 +327,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         }
 
         // add read / back button
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $refId)) {
             $ilToolbar = $GLOBALS['DIC']->toolbar();
             $ilToolbar->addButtonInstance($this->slm_gui->object->getViewButton());
         }
@@ -325,6 +342,5 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         // forward the command
         $this->ctrl->forwardCommand($info);
         $this->tpl->printToStdout();
-        //}
     }
 }

@@ -24,6 +24,9 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 
     /**
      * Constructor
+     * @param             $a_obj_id
+     * @param object|null $a_parent_obj
+     * @param string      $a_parent_cmd
      */
     public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
     {
@@ -36,6 +39,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
     public function getObjId() : int
     {
@@ -44,6 +48,8 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 
     /**
      * Parse table content
+     * @return void
+     * @throws ilDateTimeException
      */
     public function parse() : void
     {
@@ -80,6 +86,10 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function initFilter() : void
     {
         $item = $this->addFilterItemByMetaType("lastname", ilTable2GUI::FILTER_TEXT);

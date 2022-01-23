@@ -406,69 +406,69 @@ class ilSCORM13Package
         return "";
     }
 
-    public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-        $ilLog = ilLoggerFactory::getLogger('sc13');
-
-        $this->packageFolder = $packageFolder;
-        $this->packageId = $slm->getId();
-        $this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
-        $this->imsmanifest = new DOMDocument;
-        $this->imsmanifest->async = false;
-        $this->imsmanifest->formatOutput = false;
-        $this->imsmanifest->preserveWhiteSpace = false;
-        $this->slm = $slm;
-        if (!@$this->imsmanifest->load($this->imsmanifestFile)) {
-            $this->diagnostic[] = 'XML not wellformed';
-            return false;
-        }
-        
-        $this->mani_xpath = new DOMXPath($this->imsmanifest);
-        $this->mani_xpath->registerNamespace("d", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
-        $this->mani_xpath->registerNamespace("imscp", "http://www.imsglobal.org/xsd/imscp_v1p1");
-        $this->mani_xpath->registerNamespace("imsss", "http://www.imsglobal.org/xsd/imsss");
-
-        
-        $this->dbImportLM(
-            simplexml_import_dom($this->imsmanifest->documentElement),
-            "",
-            $a_import_sequencing
-        );
-        
-        if (is_dir($packageFolder . "/glossary")) {
-            $this->importGlossary($slm, $packageFolder . "/glossary");
-        }
-        //die($slm->title);
-
-        return $slm->title;
-    }
+//    public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
+//    {
+//        global $DIC;
+//        $ilDB = $DIC->database();
+//        $ilLog = ilLoggerFactory::getLogger('sc13');
+//
+//        $this->packageFolder = $packageFolder;
+//        $this->packageId = $slm->getId();
+//        $this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
+//        $this->imsmanifest = new DOMDocument;
+//        $this->imsmanifest->async = false;
+//        $this->imsmanifest->formatOutput = false;
+//        $this->imsmanifest->preserveWhiteSpace = false;
+//        $this->slm = $slm;
+//        if (!@$this->imsmanifest->load($this->imsmanifestFile)) {
+//            $this->diagnostic[] = 'XML not wellformed';
+//            return false;
+//        }
+//
+//        $this->mani_xpath = new DOMXPath($this->imsmanifest);
+//        $this->mani_xpath->registerNamespace("d", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
+//        $this->mani_xpath->registerNamespace("imscp", "http://www.imsglobal.org/xsd/imscp_v1p1");
+//        $this->mani_xpath->registerNamespace("imsss", "http://www.imsglobal.org/xsd/imsss");
+//
+//
+//        $this->dbImportLM(
+//            simplexml_import_dom($this->imsmanifest->documentElement),
+//            "",
+//            $a_import_sequencing
+//        );
+//
+//        if (is_dir($packageFolder . "/glossary")) {
+//            $this->importGlossary($slm, $packageFolder . "/glossary");
+//        }
+//        //die($slm->title);
+//
+//        return $slm->title;
+//    }
     
-    public function importGlossary($slm, $packageFolder)
-    {
-        // create and insert object in objecttree
-        $newObj = new ilObjGlossary();
-        $newObj->setType('glo');
-        $newObj->setTitle('');
-        $newObj->create(true);
-        $newObj->createReference();
-        $newObj->putInTree($_GET["ref_id"]);
-        $newObj->setPermissions($_GET["ref_id"]);
-        
-        $xml_file = $packageFolder . "/glossary.xml";
-
-        // check whether xml file exists within zip file
-        if (!is_file($xml_file)) {
-            return;
-        }
-
-        $contParser = new ilContObjParser($newObj, $xml_file, $packageFolder);
-        $contParser->startParsing();
-        $newObj->update();
-        $slm->setAssignedGlossary($newObj->getId());
-        $slm->update();
-    }
+//    public function importGlossary($slm, $packageFolder)
+//    {
+//        // create and insert object in objecttree
+//        $newObj = new ilObjGlossary();
+//        $newObj->setType('glo');
+//        $newObj->setTitle('');
+//        $newObj->create(true);
+//        $newObj->createReference();
+//        $newObj->putInTree($_GET["ref_id"]);
+//        $newObj->setPermissions($_GET["ref_id"]);
+//
+//        $xml_file = $packageFolder . "/glossary.xml";
+//
+//        // check whether xml file exists within zip file
+//        if (!is_file($xml_file)) {
+//            return;
+//        }
+//
+//        $contParser = new ilContObjParser($newObj, $xml_file, $packageFolder);
+//        $contParser->startParsing();
+//        $newObj->update();
+//        $slm->setAssignedGlossary($newObj->getId());
+//        $slm->update();
+//    }
     
     public function dbImportLM($node, $parent_id = "", $a_import_sequencing = false)
     {
@@ -1032,11 +1032,11 @@ class ilSCORM13Package
                 // we have to change the insert method because of clob fields ($ilDB->manipulate does not work here)
                 $insert_data = array();
                 foreach ($names as $key => $db_field) {
-                    $insert_data[$db_field] = array($types[$key], trim($values[$key]));
+                    $insert_data[$db_field] = array($types[$key], trim((string) $values[$key]));
                 }
                 $ilDB->insert('cp_' . strtolower($node->nodeName), $insert_data);
     
-                $node->setAttribute('foreignId', $cp_node_id);
+                $node->setAttribute('foreignId', (string) $cp_node_id);
                 $this->idmap[$node->getAttribute('id')] = $cp_node_id;
 
                 // run sub nodes

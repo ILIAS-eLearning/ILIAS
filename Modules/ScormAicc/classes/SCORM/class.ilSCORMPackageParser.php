@@ -69,7 +69,7 @@ class ilSCORMPackageParser extends ilSaxParser
         parent::startParsing();
     }
     
-    public function getPackageTitle()
+    public function getPackageTitle() : string
     {
         return $this->package_title;
     }
