@@ -213,7 +213,7 @@ class ilCtrlContextTest extends TestCase
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
         $this->factory
             ->method('find')
-            ->willReturn($this->getPath('some_path'));
+            ->willReturn($this->getPath('http://localhost'));
 
         $this->assertNull($context->getCmdClass());
         $context->setCmdClass(ilCtrlCommandClass1TestGUI::class);
@@ -233,7 +233,7 @@ class ilCtrlContextTest extends TestCase
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
         $this->factory
             ->method('find')
-            ->willReturn($this->getPath('some_path'));
+            ->willReturn($this->getPath('http://localhost'));
 
         $context->setBaseClass(ilCtrlBaseClass1TestGUI::class);
         $this->assertEquals(ilCtrlBaseClass1TestGUI::class, $context->getCmdClass());
