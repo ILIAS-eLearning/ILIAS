@@ -83,7 +83,7 @@ class ilStyleDefinition
                 'skin'
             )) {
                 $skin_id = $DIC->user()->skin;
-                if (!self::skinExists($skin_id)) {
+                if ($skin_id && !self::skinExists($skin_id)) {
                     $messages = new ilSystemStyleMessageStack();
                     $message_text = $DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id;
                     $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
@@ -225,7 +225,12 @@ class ilStyleDefinition
             return null;
         }
 
-        self::setCurrentStyle($DIC->user()->prefs['style']);
+        if (array_key_exists('style', $DIC->user()->prefs) && $DIC->user()->prefs['style']) {
+            self::setCurrentStyle($DIC->user()->prefs['style']);
+        } else {
+            $system_style_config = new ilSystemStyleConfig();
+            self::setCurrentStyle($system_style_config->getDefaultStyleId());
+        }
 
         if ($DIC->isDependencyAvailable('systemStyle') && self::styleExistsForCurrentSkin(self::$current_style)) {
             if ($DIC->systemStyle()->getSkin()->hasStyleSubstyles(self::$current_style)) {
@@ -272,7 +277,7 @@ class ilStyleDefinition
             }
         }
 
-        if (!self::styleExistsForCurrentSkin(self::$current_style)) {
+        if ($DIC->isDependencyAvailable('systemStyle') && !self::styleExistsForCurrentSkin(self::$current_style)) {
             $messages = new ilSystemStyleMessageStack();
             $message_text = $DIC->language()->txt('set_style_does_not_exist') . ' ' . self::$current_style;
             $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));

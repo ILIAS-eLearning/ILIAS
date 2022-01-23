@@ -129,8 +129,7 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
             $container_import = $this->factory->skinStyleContainerFromZip(
                 $container->createTempZip(),
-                $this->skin->getId() . '.zip',
-                null
+                $this->skin->getId() . '.zip'
             );
             $skin_copy = $container_import->getSkin();
 
