@@ -84,7 +84,10 @@ class ilStyleDefinition
             )) {
                 $skin_id = $DIC->user()->skin;
                 if (!self::skinExists($skin_id)) {
-                    ilUtil::sendFailure($DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id);
+                    $messages = new ilSystemStyleMessageStack();
+                    $message_text = $DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id;
+                    $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
+                    $messages->sendMessages();
                     $skin_id = $system_style_conf->getDefaultSkinId();
                 }
                 return $skin_id;
@@ -270,7 +273,10 @@ class ilStyleDefinition
         }
 
         if (!self::styleExistsForCurrentSkin(self::$current_style)) {
-            ilUtil::sendFailure($DIC->language()->txt('set_style_does_not_exist') . ' ' . self::$current_style);
+            $messages = new ilSystemStyleMessageStack();
+            $message_text = $DIC->language()->txt('set_style_does_not_exist') . ' ' . self::$current_style;
+            $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
+            $messages->sendMessages();
             $system_style_config = new ilSystemStyleConfig();
             self::setCurrentSkin($system_style_config->getDefaultSkinId());
             self::setCurrentStyle($system_style_config->getDefaultStyleId());

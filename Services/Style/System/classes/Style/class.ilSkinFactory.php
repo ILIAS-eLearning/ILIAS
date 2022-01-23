@@ -93,8 +93,7 @@ class ilSkinFactory
     public function skinStyleContainerFromZip(
         string $import_zip_path,
         string $name,
-        ilSystemStyleMessageStack $message_stack = null,
-        bool $uploaded = true
+        ilSystemStyleMessageStack $message_stack = null
     ) : ilSkinStyleContainer {
         $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, '.zip'));
 
@@ -107,11 +106,8 @@ class ilSkinFactory
         mkdir($skin_path, 0775, true);
 
         $temp_zip_path = $skin_path . '/' . $name;
-        if ($uploaded) {
-            move_uploaded_file($import_zip_path, $temp_zip_path);
-        } else {
-            rename($import_zip_path, $temp_zip_path);
-        }
+        rename($import_zip_path, $temp_zip_path);
+
         ilUtil::unzip($temp_zip_path);
         unlink($temp_zip_path);
 

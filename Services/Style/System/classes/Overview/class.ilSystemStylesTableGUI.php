@@ -34,7 +34,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
      * @param           $management_enabled
      * @param bool|true $read_documentation
      */
-    public function addActions($management_enabled, $read_documentation = true)
+    public function addActions($management_enabled, bool $read_documentation = true)
     {
         $this->setManagementEnabled($management_enabled);
         $this->setReadDocumentation($read_documentation);
@@ -90,6 +90,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
     /**
      * @param array $a_set
+     * @noinspection PhpIfWithCommonPartsInspection
      */
     protected function fillRow(array $a_set) : void
     {
@@ -169,6 +170,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         }
 
         if ($this->isWithActions()) {
+            /** @noinspection PhpIfWithCommonPartsInspection */
             if ($a_set['skin_id'] == 'other') {
                 $this->tpl->setCurrentBlock('actions');
                 $this->tpl->setVariable('ACTIONS');

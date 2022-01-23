@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 class ilSystemStyleHTMLExport
 {
-    private string $exp_dir;
     private array $images = [];
     protected string $style_dir;
     protected string $style_img_dir;
@@ -13,7 +12,6 @@ class ilSystemStyleHTMLExport
 
     public function __construct(string $a_exp_dir)
     {
-        $this->exp_dir = $a_exp_dir;
         $this->style_dir = $a_exp_dir . '/templates/default';
         $this->style_img_dir = $a_exp_dir . '/templates/default/images';
         $this->img_dir = $a_exp_dir . '/images';
@@ -56,7 +54,7 @@ class ilSystemStyleHTMLExport
         // export system style sheet
         $location_stylesheet = ilUtil::getStyleSheetLocation('filesystem');
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(dirname($location_stylesheet), RecursiveDirectoryIterator::SKIP_DOTS),
+            new RecursiveDirectoryIterator(dirname($location_stylesheet), FilesystemIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST
         );
         foreach ($iterator as $item) {

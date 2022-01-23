@@ -39,32 +39,32 @@ class ilSkinStyleLessVariableTest extends TestCase
     {
         $variable = new ilSystemStyleLessVariable('il-icon-font-path', 'value', 'comment', 'category_name', ['references_id']);
 
-        $variable->setValue('\'../../node_modules/bootstrap/fonts/\'');
-        $this->assertEquals('\'../../../../node_modules/bootstrap/fonts/\'', $variable->getValue());
+        $variable->setValue("\"../../node_modules/bootstrap/fonts/\"");
+        $this->assertEquals("\"../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
     }
 
     public function testIconFontPathQuotation() : void
     {
         $variable = new ilSystemStyleLessVariable('il-icon-font-path', 'value', 'comment', 'category_name', ['references_id']);
 
-        $variable->setValue('\'somePath\'');
-        $this->assertEquals('\'somePath\'', $variable->getValue());
+        $variable->setValue("\"somePath\"");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
 
         $variable->setValue('somePath');
-        $this->assertEquals('\'somePath\'', $variable->getValue());
+        $this->assertEquals("\"somePath\"", $variable->getValue());
 
 
-        $variable->setValue('\'somePath');
-        $this->assertEquals('\'somePath\'', $variable->getValue());
+        $variable->setValue("\"somePath");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
 
 
-        $variable->setValue('somePath\'');
-        $this->assertEquals('\'somePath\'', $variable->getValue());
+        $variable->setValue("somePath\"");
+        $this->assertEquals("\"somePath\"", $variable->getValue());
     }
 
     public function testToString() : void
     {
         $variable = new ilSystemStyleLessVariable('name', 'value', 'comment', 'category_name', ['references_id']);
-        $this->assertEquals('//** comment\n@name:\t\tvalue;\n', (string) $variable);
+        $this->assertEquals("//** comment\n@name:\t\tvalue;\n", (string) $variable);
     }
 }

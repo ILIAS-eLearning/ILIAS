@@ -35,7 +35,7 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
     public function setName(string $name) : void
     {
         $name = str_replace(PHP_EOL, '', $name);
-        $this->name = str_replace('\n', '', $name);
+        $this->name = str_replace("\n", '', $name);
     }
 
     public function getComment() : string
@@ -46,7 +46,7 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
     public function setComment(string $comment) : void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
-        $this->comment = str_replace('\n', '', $comment);
+        $this->comment = str_replace("\n", '', $comment);
     }
 
     /**
@@ -56,9 +56,9 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
     public function __toString() : string
     {
         if ($this->getComment()) {
-            return '//== ' . $this->getName() . '\n//\n//## ' . $this->getComment() . '\n';
+            return '//== ' . $this->getName() . "\n//\n//## " . $this->getComment() . "\n";
         } else {
-            return '//== ' . $this->getName() . '\n//\n//##\n';
+            return '//== ' . $this->getName() . "\n//\n//##\n";
         }
     }
 }

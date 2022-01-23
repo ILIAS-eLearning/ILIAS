@@ -115,7 +115,6 @@ class ilSystemStyleSettings
 
     /**
      * Sets a substyle category assignment.
-     *
      * @throws ilSystemStyleException
      */
     public static function writeSystemStyleCategoryAssignment(
@@ -224,7 +223,7 @@ class ilSystemStyleSettings
     /**
      * Gets a users preferred skin by using the user object.
      */
-    public static function getCurrentUserPrefSkin() : bool
+    public static function getCurrentUserPrefSkin() : string
     {
         global $DIC;
 

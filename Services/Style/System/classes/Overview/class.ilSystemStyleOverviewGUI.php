@@ -6,6 +6,7 @@ use ILIAS\UI\Factory;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Renderer;
+use ILIAS\FileUpload\FileUpload;
 
 class ilSystemStyleOverviewGUI
 {
@@ -24,7 +25,7 @@ class ilSystemStyleOverviewGUI
     protected ilSystemStyleConfig $config;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
-
+    protected FileUpload $upload;
     protected string $ref_id;
     protected bool $read_only = true;
     protected bool $management_enabled = false;
@@ -41,6 +42,7 @@ class ilSystemStyleOverviewGUI
         ilToolbarGUI $toolbar,
         Refinery $refinery,
         ilSkinFactory $skin_factory,
+        FileUpload $upload,
         ilTabsGUI $tabs,
         ilHelpGUI $help,
         string $skin_id,
@@ -64,7 +66,9 @@ class ilSystemStyleOverviewGUI
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->help = $help;
         $this->ref_id = $ref_id;
-
+        $this->file_system = new ilFileSystemHelper($this->lng, $this->message_stack);
+        $this->upload = $upload;
+        $this->config = new ilSystemStyleConfig();
         $this->setReadOnly($read_only);
         $this->setManagementEnabled($management_enabled);
     }
@@ -91,7 +95,7 @@ class ilSystemStyleOverviewGUI
                     throw new ilObjectException($this->lng->txt('permission_denied'));
                 }
                 $this->$cmd();
-                return;
+                break;
             case 'cancel':
             case 'edit':
             case 'export':
@@ -101,12 +105,13 @@ class ilSystemStyleOverviewGUI
                     throw new ilObjectException($this->lng->txt('permission_denied'));
                 }
                 $this->$cmd();
-                return;
+                break;
             case 'view':
                 $this->$cmd();
-                return;
+                break;
 
         }
+        $this->message_stack->sendMessages();
     }
 
     protected function view() : void
@@ -201,11 +206,9 @@ class ilSystemStyleOverviewGUI
 
     public function saveStyleSettings() : void
     {
-        $message_stack = new ilSystemStyleMessageStack();
-
         $active_styles = $this->request_wrapper->post()->retrieve('st_act', $this->refinery->identity());
 
-        if ($this->checkStyleSettings($message_stack, $active_styles)) {
+        if ($this->checkStyleSettings($this->message_stack, $active_styles)) {
             $all_styles = ilStyleDefinition::getAllSkinStyles();
             foreach ($all_styles as $style) {
                 if (!isset($active_styles[$style['id']])) {
@@ -223,12 +226,12 @@ class ilSystemStyleOverviewGUI
                 );
                 ilSystemStyleSettings::setCurrentDefaultStyle($sknst[0], $sknst[1]);
             }
-            $message_stack->addMessage(new ilSystemStyleMessage(
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
                 $this->lng->txt('msg_obj_modified'),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
         }
-        $message_stack->getUIComponentsMessages($this->ui_factory);
+        $this->message_stack->sendMessages();
         $this->ctrl->redirect($this, 'edit');
     }
 
@@ -291,7 +294,6 @@ class ilSystemStyleOverviewGUI
             $skin_name = $this->request_wrapper->post()->retrieve('skin_name', $this->refinery->kindlyTo()->string());
             $style_name = $this->request_wrapper->post()->retrieve('style_name', $this->refinery->kindlyTo()->string());
 
-            $message_stack = new ilSystemStyleMessageStack();
             if (ilStyleDefinition::skinExists($skin_id)) {
                 $this->message_stack->addMessage(new ilSystemStyleMessage(
                     $this->lng->txt('skin_id_exists'),
@@ -303,23 +305,19 @@ class ilSystemStyleOverviewGUI
                     $style = new ilSkinStyle($style_id, $style_name);
                     $skin->addStyle($style);
                     $container = new ilSkinStyleContainer($skin);
-                    $container->create($message_stack);
+                    $container->create($this->message_stack);
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());
-                    if ($message_stack->hasMessages()) {
-                        $message_stack->getUIComponentsMessages($this->ui_factory);
-                    } else {
-                        $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sys_style_created')));
-                    }
+                    $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sys_style_created')));
+                    $this->message_stack->sendMessages();
                     $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
                 } catch (ilSystemStyleException $e) {
-                    $message_stack->addMessage(new ilSystemStyleMessage(
+                    $this->message_stack->addMessage(new ilSystemStyleMessage(
                         $e->getMessage(),
                         ilSystemStyleMessage::TYPE_ERROR
                     ));
                 }
             }
-            $message_stack->getUIComponentsMessages($this->ui_factory);
         }
 
         // display only this form to correct input
@@ -389,7 +387,7 @@ class ilSystemStyleOverviewGUI
     protected function importSystemStyleForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'importStyle'));
         $form->setTitle($this->lng->txt('sty_import_system_style'));
 
         // title
@@ -470,8 +468,6 @@ class ilSystemStyleOverviewGUI
 
     protected function copyStyle()
     {
-        $message_stack = new ilSystemStyleMessageStack();
-
         $imploded_skin_style_id = $this->request_wrapper->post()->retrieve(
             'source_style',
             $this->refinery->string()->splitString(':')
@@ -480,13 +476,13 @@ class ilSystemStyleOverviewGUI
         $style_id = $imploded_skin_style_id[1];
 
         try {
-            $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $message_stack);
+            $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
             $new_container = $this->skin_factory->copyFromSkinStyleContainer(
                 $container,
                 $this->file_system,
                 $this->lng->txt('sty_acopy')
             );
-            $message_stack->prependMessage(new ilSystemStyleMessage(
+            $this->message_stack->prependMessage(new ilSystemStyleMessage(
                 $this->lng->txt('style_copied'),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
@@ -496,15 +492,17 @@ class ilSystemStyleOverviewGUI
                 'style_id',
                 $new_container->getSkin()->getStyle($style_id)->getId()
             );
-            $message_stack->addMessage(new ilSystemStyleMessage(
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
                 $this->lng->txt('directory_created') . ' ' . $new_container->getSkinDirectory(),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
         } catch (Exception $e) {
-            $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR));
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $e->getMessage(),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
         }
-
-        $message_stack->getUIComponentsMessages($this->ui_factory);
+        $this->message_stack->sendMessages();
         $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
     }
 
@@ -512,23 +510,21 @@ class ilSystemStyleOverviewGUI
     {
         $skin_id = $this->style_container->getSkin()->getId();
         $style_id = $this->style_id;
-        $message_stack = new ilSystemStyleMessageStack();
 
-        if ($this->checkDeletable($skin_id, $style_id, $message_stack)) {
+        if ($this->checkDeletable($skin_id, $style_id, $this->message_stack)) {
             $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
             $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
             $delete_form_table->addStyle(
                 $container->getSkin(),
                 $container->getSkin()->getStyle($style_id),
-                $container->getImagesSkinPath($style_id)
+                $container->getImagesSkinPath($style_id) . '/icon_stys.svg'
             );
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
-            $message_stack->prependMessage(new ilSystemStyleMessage(
+            $this->message_stack->prependMessage(new ilSystemStyleMessage(
                 $this->lng->txt('style_not_deleted'),
                 ilSystemStyleMessage::TYPE_ERROR
             ));
-            $message_stack->getUIComponentsMessages($this->ui_factory);
             $this->edit();
         }
     }
@@ -536,7 +532,6 @@ class ilSystemStyleOverviewGUI
     protected function deleteStyles() : void
     {
         $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
-        $message_stack = new ilSystemStyleMessageStack();
 
         $all_deletable = true;
 
@@ -545,7 +540,7 @@ class ilSystemStyleOverviewGUI
             $imploded_skin_style_id = explode(':', $skin_style_id);
             $skin_id = $imploded_skin_style_id[0];
             $style_id = $imploded_skin_style_id[1];
-            if (!$this->checkDeletable($skin_id, $style_id, $message_stack)) {
+            if (!$this->checkDeletable($skin_id, $style_id, $this->message_stack)) {
                 $all_deletable = false;
             }
         }
@@ -558,16 +553,15 @@ class ilSystemStyleOverviewGUI
                 $delete_form_table->addStyle(
                     $container->getSkin(),
                     $container->getSkin()->getStyle($style_id),
-                    $container->getImagesSkinPath($style_id)
+                    $container->getImagesSkinPath($style_id) . '/icon_stys.svg'
                 );
             }
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
-            $message_stack->prependMessage(new ilSystemStyleMessage(
+            $this->message_stack->prependMessage(new ilSystemStyleMessage(
                 $this->lng->txt('styles_not_deleted'),
                 ilSystemStyleMessage::TYPE_ERROR
             ));
-            $message_stack->getUIComponentsMessages($this->ui_factory);
             $this->edit();
         }
     }
@@ -612,8 +606,6 @@ class ilSystemStyleOverviewGUI
 
     protected function confirmDelete() : void
     {
-        $message_stack = new ilSystemStyleMessageStack();
-
         $i = 0;
         while ($this->request_wrapper->post()->has('style_' . $i)) {
             try {
@@ -621,21 +613,21 @@ class ilSystemStyleOverviewGUI
                     'style_' . $i,
                     $this->refinery->string()->splitString(':')
                 );
-                $container = $this->skin_factory->skinStyleContainerFromId($skin_style_id[0], $message_stack);
+                $container = $this->skin_factory->skinStyleContainerFromId($skin_style_id[0], $this->message_stack);
                 $syle = $container->getSkin()->getStyle($skin_style_id[1]);
                 $container->deleteStyle($syle);
                 if (!$container->getSkin()->hasStyles()) {
                     $container->delete();
                 }
             } catch (Exception $e) {
-                $message_stack->addMessage(new ilSystemStyleMessage(
+                $this->message_stack->addMessage(new ilSystemStyleMessage(
                     $e->getMessage(),
                     ilSystemStyleMessage::TYPE_ERROR
                 ));
             }
             $i++;
         }
-        $message_stack->getUIComponentsMessages($this->ui_factory);
+        $this->message_stack->sendMessages();
         $this->ctrl->redirect($this);
     }
 
@@ -646,14 +638,22 @@ class ilSystemStyleOverviewGUI
     {
         $form = $this->importSystemStyleForm();
 
-        $importfile = $this->request_wrapper->post()->retrieve('importfile', $this->refinery->identity());
+        if ($form->checkInput() && $this->upload->hasUploads()) {
+            $this->upload->process();
+            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            $result = array_values($this->upload->getResults())[0];
 
-        if ($form->checkInput()) {
-            $message_stack = new ilSystemStyleMessageStack();
+            $this->upload->moveOneFileTo(
+                $result,
+                'global/skin',
+                ILIAS\FileUpload\Location::CUSTOMIZING,
+                $result->getName(),
+                true
+            );
             $imported_container = $this->skin_factory->skinStyleContainerFromZip(
-                $importfile['tmp_name'],
-                $importfile['name'],
-                $message_stack
+                $this->config->getCustomizingSkinPath() . $result->getName(),
+                $result->getName(),
+                $this->message_stack
             );
             $this->ctrl->setParameterByClass(
                 'ilSystemStyleSettingsGUI',
@@ -665,15 +665,13 @@ class ilSystemStyleOverviewGUI
                 'style_id',
                 $imported_container->getSkin()->getDefaultStyle()->getId()
             );
-            $message_stack->addMessage(new ilSystemStyleMessage(
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
                 $this->lng->txt('style_imported') . ' ' . $imported_container->getSkinDirectory(),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
-
-            $message_stack->getUIComponentsMessages($this->ui_factory);
+            $this->message_stack->sendMessages();
             $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
         }
-
         // display only this form to correct input
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
@@ -794,6 +792,7 @@ class ilSystemStyleOverviewGUI
                 $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $parent_skin_id);
                 $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $sub_style_id);
                 $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sub_style_created')));
+                $this->message_stack->sendMessages();
                 $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
             } catch (ilSystemStyleException $e) {
                 $this->message_stack->addMessage(new ilSystemStyleMessage(

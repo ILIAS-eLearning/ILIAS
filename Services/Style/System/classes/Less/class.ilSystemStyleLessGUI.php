@@ -197,7 +197,7 @@ class ilSystemStyleLessGUI
         return $pass;
     }
 
-    protected function edit() : ?Form
+    protected function edit() : Form
     {
         $modify = true;
 
@@ -208,10 +208,7 @@ class ilSystemStyleLessGUI
             $modify = false;
         }
 
-        if ($this->less_file) {
-            return $this->initSystemStyleLessForm($modify);
-        }
-        return null;
+        return $this->initSystemStyleLessForm($modify);
     }
 
     public function initSystemStyleLessForm(bool $modify = true) : Form

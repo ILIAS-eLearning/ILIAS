@@ -38,6 +38,8 @@ class ilSystemStyleMainGUI
     protected ilSkinFactory $skin_factory;
     protected FileUpload $upload;
     protected ilTree $tree;
+    protected ilObjUser $user;
+    protected ilSystemStyleMessageStack $message_stack;
 
     public function __construct()
     {
@@ -64,7 +66,9 @@ class ilSystemStyleMainGUI
         $this->upload = $DIC->upload();
         $this->tree = $DIC->repositoryTree();
         $this->skin_factory = new ilSkinFactory();
+        $this->user = $DIC->user();
 
+        $this->message_stack = new ilSystemStyleMessageStack();
         $this->ref_id = $this->request_wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
 
@@ -118,6 +122,8 @@ class ilSystemStyleMainGUI
                         $this->request_wrapper,
                         $this->refinery,
                         $this->toolbar,
+                        $this->user,
+                        $this->request,
                         $this->tree,
                         $skin_id,
                         $style_id
@@ -200,8 +206,11 @@ class ilSystemStyleMainGUI
                     break;
             }
         } catch (ilObjectException $e) {
-            ilUtil::sendFailure($e->getMessage());
-            $this->ctrl->setCmd('');
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $e->getMessage(),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
+            $this->message_stack->sendMessages();
             $this->executeDefaultCommand($skin_factory, $skin_id, $style_id);
         }
     }
@@ -222,6 +231,7 @@ class ilSystemStyleMainGUI
             $this->toolbar,
             $this->refinery,
             $skin_factory,
+            $this->upload,
             $this->tabs,
             $this->help,
             $skin_id,
@@ -248,7 +258,11 @@ class ilSystemStyleMainGUI
             $has_perm = $this->ilIniFile->readVariable('tools', 'enable_system_styles_management') == '1';
             $a_perm = 'sty_write_system';
             if ($has_perm && !is_writable($config->getCustomizingSkinPath())) {
-                ilUtil::sendFailure($this->lng->txt('enable_system_styles_management_no_write_perm'));
+                $this->message_stack->addMessage(new ilSystemStyleMessage(
+                    $this->lng->txt('enable_system_styles_management_no_write_perm'),
+                    ilSystemStyleMessage::TYPE_ERROR
+                ));
+                $this->message_stack->sendMessages();
                 $has_perm = false;
             }
         }
@@ -268,7 +282,10 @@ class ilSystemStyleMainGUI
 
     /**
      * Sets the tab correctly if one system style is open (navigational underworld opened)
+     * @param string $sking_id
      * @param string $active
+     * @param bool   $read_only
+     * @throws ilCtrlException
      */
     protected function setUnderworldTabs(string $sking_id, string $active = '', bool $read_only = false)
     {

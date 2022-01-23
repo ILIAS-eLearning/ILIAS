@@ -34,7 +34,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFSTest
     {
         try {
             new ilSystemStyleIconFolder('Does not exist');
-            $this->assertTrue(false);
+            $this->fail();
         } catch (ilSystemStyleIconException $e) {
             $this->assertEquals(ilSystemStyleIconException::IMAGES_FOLDER_DOES_NOT_EXIST, $e->getCode());
         }
@@ -66,7 +66,7 @@ class ilSystemStyleIconFolderTest extends ilSystemStyleBaseFSTest
 
         try {
             $folder->getIconByName('doesNotExist.svg');
-            $this->assertTrue(false);
+            $this->fail();
         } catch (ilSystemStyleIconException $e) {
             $this->assertEquals(ilSystemStyleIconException::ICON_DOES_NOT_EXIST, $e->getCode());
         }

@@ -39,7 +39,7 @@ class ilKSDocumentationGotoLinkTest extends TestCase
                       ->with([
                           'ilAdministrationGUI',
                           'ilObjStyleSettingsGUI',
-                          'FilSystemStyleMainGUI',
+                          'ilSystemStyleMainGUI',
                           'ilSystemStyleDocumentationGUI'
                       ], 'entries');
 

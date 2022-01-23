@@ -31,7 +31,7 @@ abstract class ilSystemStyleExceptionBase extends ilException
 
     public function __toString() : string
     {
-        return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
+        return get_class($this) . " '$this->message' in $this->file($this->line)\n"
             . "{$this->getTraceAsString()}";
     }
 }

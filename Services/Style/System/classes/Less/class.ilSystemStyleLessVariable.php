@@ -66,20 +66,20 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
     public function setValue(string $value) : void
     {
         if ($this->getName() == 'il-icon-font-path') {
-            if ($value[0] != '\'') {
-                $value = '\'' . $value;
+            if ($value[0] != "\"") {
+                $value = "\"" . $value;
             }
-            if (substr($value, -1, 1) != '\'') {
-                $value .= '\'';
+            if (substr($value, -1, 1) != "\"") {
+                $value .= "\"";
             }
 
-            if ($value == '\'../../node_modules/bootstrap/fonts/\'') {
-                $value = '\'../../../../node_modules/bootstrap/fonts/\'';
+            if ($value == "\"../../node_modules/bootstrap/fonts/\"") {
+                $value = "\"../../../../node_modules/bootstrap/fonts/\"";
             }
         }
 
         $value = str_replace(PHP_EOL, '', $value);
-        $this->value = str_replace('\n', '', $value);
+        $this->value = str_replace("\n", '', $value);
     }
 
     public function getComment() : string
@@ -90,7 +90,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
     public function setComment(string $comment)
     {
         $comment = str_replace(PHP_EOL, '', $comment);
-        $this->comment = str_replace('\n', '', $comment);
+        $this->comment = str_replace("\n", '', $comment);
     }
 
     public function getCategoryName() : string
@@ -121,9 +121,9 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
     {
         $content = '';
         if ($this->getComment()) {
-            $content .= '//** ' . $this->getComment() . '\n';
+            $content .= '//** ' . $this->getComment() . "\n";
         }
-        $content .= '@' . $this->getName() . ':\t\t' . $this->getValue() . ';\n';
+        $content .= '@' . $this->getName() . ":\t\t" . $this->getValue() . ";\n";
         return $content;
     }
 }

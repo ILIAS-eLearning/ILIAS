@@ -44,7 +44,7 @@ class ilSystemStyleIconColorTest extends TestCase
     {
         try {
             new ilSystemStyleIconColor('id', 'name', '#FF0000', 'description');
-            $this->assertTrue(false);
+            $this->fail();
         } catch (ilSystemStyleColorException $e) {
             $this->assertEquals(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $e->getCode());
         }
@@ -53,7 +53,7 @@ class ilSystemStyleIconColorTest extends TestCase
     {
         try {
             new ilSystemStyleIconColor('id', 'name', 'ZZ0000', 'description');
-            $this->assertTrue(false);
+            $this->fail();
         } catch (ilSystemStyleColorException $e) {
             $this->assertEquals(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $e->getCode());
         }
@@ -64,7 +64,7 @@ class ilSystemStyleIconColorTest extends TestCase
             new ilSystemStyleIconColor('id', 'name', 'F00', 'description');
             $this->assertTrue(true);
         } catch (ilSystemStyleColorException $e) {
-            $this->assertTrue(false);
+            $this->fail();
         }
     }
 

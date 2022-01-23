@@ -81,7 +81,7 @@ class ilSystemStyleLessFile
                 if (preg_match($regex_category, $line, $out)) {
                     //Check Category
                     $last_category_id = $this->addItem(new ilSystemStyleLessCategory($out[1]));
-                    $last_category_name = $out[1] ? $out[1] : '';
+                    $last_category_name = $out[1] ?: '';
                     $last_line_is_category = true;
                 } elseif (preg_match($regex_category_comment, $line, $out)) {
                     //Check Comment Category

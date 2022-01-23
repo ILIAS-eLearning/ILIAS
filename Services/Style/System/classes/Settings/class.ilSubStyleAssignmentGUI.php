@@ -16,6 +16,7 @@ class ilSubStyleAssignmentGUI
     protected WrapperFactory $request_wrapper;
     protected Refinery $refinery;
     protected \ILIAS\UI\Factory $ui_factory;
+    private ilSystemStyleMessageStack $message_stack;
 
     public function __construct(
         ilSystemStyleSettingsGUI $parent_gui,
@@ -37,6 +38,7 @@ class ilSubStyleAssignmentGUI
         $this->request_wrapper = $request_wrapper;
         $this->refinery = $refinery;
         $this->ui_factory = $ui_factory;
+        $this->message_stack = new ilSystemStyleMessageStack();
     }
 
     /**
@@ -72,7 +74,14 @@ class ilSubStyleAssignmentGUI
         $exp = new ilSearchRootSelector(
             $this->ctrl->getLinkTarget($this->getParentGui(), 'addStyleCatAssignment')
         );
-        $exp->setExpand($_GET['search_root_expand'] ? $_GET['search_root_expand'] : $this->tree->readRootId());
+        $expand_id = $this->tree->readRootId();
+        if ($this->request_wrapper->query()->has('search_root_expand')) {
+            $expand_id = $this->request_wrapper->query()->retrieve(
+                'search_root_expand',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $exp->setExpand($expand_id);
         $exp->setExpandTarget($this->ctrl->getLinkTarget($this->getParentGui(), 'addAssignment'));
         $exp->setTargetClass(get_class($this->getParentGui()));
         $exp->setCmd('saveAssignment');
@@ -89,17 +98,22 @@ class ilSubStyleAssignmentGUI
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
         try {
+            $root_id = $this->request_wrapper->query()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->string()
+            );
             ilSystemStyleSettings::writeSystemStyleCategoryAssignment(
                 $skin->getId(),
                 $style->getId(),
                 $substyle->getId(),
-                $_GET['root_id']
+                $root_id
             );
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_obj_modified')));
         } catch (ilSystemStyleException $e) {
-            ilUtil::sendFailure($this->lng->txt('msg_assignment_failed') . $e->getMessage(), true);
+            $message = $this->lng->txt('msg_assignment_failed') . $e->getMessage();
+            $this->message_stack->addMessage(new ilSystemStyleMessage($message, ilSystemStyleMessage::TYPE_ERROR));
         }
-
+        $this->message_stack->sendMessages();
         $this->ctrl->redirect($this->getParentGui(), 'assignStyle');
     }
 
@@ -110,8 +124,9 @@ class ilSubStyleAssignmentGUI
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 
-        if (is_array($_POST['id'])) {
-            foreach ($_POST['id'] as $id) {
+        if ($this->request_wrapper->post()->has('id')) {
+            $ids = $this->request_wrapper->post()->retrieve('id', $this->refinery->identity());
+            foreach ($ids as $id) {
                 $id_arr = explode(':', $id);
                 ilSystemStyleSettings::deleteSystemStyleCategoryAssignment(
                     $skin->getId(),
@@ -120,11 +135,14 @@ class ilSubStyleAssignmentGUI
                     $id_arr[1]
                 );
             }
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_obj_modified')));
         } else {
-            ilUtil::sendFailure($this->lng->txt('no_style_selected'), true);
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $this->lng->txt('no_style_selected'),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
         }
-
+        $this->message_stack->sendMessages();
         $this->ctrl->redirect($this->getParentGui(), 'assignStyle');
     }
 

@@ -148,7 +148,7 @@ class ilSkinTest extends ilSystemStyleBaseFSTest
         $this->assertCount(0, $this->skin);
         try {
             $this->skin->removeStyle('style2');
-            $this->assertTrue(false);
+            $this->fail();
         } catch (ilSystemStyleException $e) {
             $this->assertEquals(ilSystemStyleException::INVALID_ID, $e->getCode());
         }

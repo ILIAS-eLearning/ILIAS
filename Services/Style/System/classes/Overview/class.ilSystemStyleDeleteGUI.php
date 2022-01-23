@@ -20,7 +20,8 @@ class ilSystemStyleDeleteGUI
             'var' => 'style_' . sizeof($this->styles),
             'id' => $skin->getId() . ':' . $style->getId(),
             'text' => $skin->getName() . ' / ' . $style->getName(),
-            'img' => $img_path
+            'img' => $img_path,
+            'alt' => ''
         ];
     }
 

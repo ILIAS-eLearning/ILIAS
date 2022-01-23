@@ -8,6 +8,7 @@ include_once('./tests/UI/UITestHelper.php');
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\FileUpload\FileUpload;
 
 class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
 {
@@ -40,6 +41,7 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
         $factory = new ilSkinFactory($this->system_style_config);
         $help = $this->getMockBuilder(ilHelpGUI::class)->disableOriginalConstructor()->onlyMethods([
         ])->getMock();
+        $upload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
 
         $this->overview_gui = new ilSystemStyleOverviewGUI(
             $this->ctrl,
@@ -51,6 +53,7 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
             $toolbar,
             $refinery,
             $factory,
+            $upload,
             $tabs,
             $help,
             $this->container->getSkin()->getId(),

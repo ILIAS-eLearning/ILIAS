@@ -93,4 +93,24 @@ class ilSystemStyleMessageStack
     {
         return count($this->getMessages()) > 0;
     }
+
+    /**
+     * Send messages via ilUtil to be displayed, still needed for messagees, that need to survive a redirect
+     */
+    public function sendMessages(bool $keep = true) : void
+    {
+        foreach ($this->getJoinedMessages() as $type => $joined_message) {
+            switch ($type) {
+                case ilSystemStyleMessage::TYPE_SUCCESS:
+                    ilUtil::sendSuccess($joined_message, $keep);
+                    break;
+                case ilSystemStyleMessage::TYPE_INFO:
+                    ilUtil::sendInfo($joined_message, $keep);
+                    break;
+                case ilSystemStyleMessage::TYPE_ERROR:
+                    ilUtil::sendFailure($joined_message, $keep);
+                    break;
+            }
+        }
+    }
 }

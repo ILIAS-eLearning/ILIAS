@@ -120,10 +120,9 @@ class ilSkinStyleContainer
     /**
      * Updates one single style.
      */
-    public function updateStyle(string $style_id, ilSkinStyle $old_style)
+    public function updateStyle($style_id, ilSkinStyle $old_style)
     {
         $style = $this->getSkin()->getStyle($style_id);
-
         if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
             if (file_exists($this->getSkinDirectory() . $old_style->getImageDirectory())) {
                 $this->file_system->changeResourceDirectory(
@@ -295,10 +294,10 @@ class ilSkinStyleContainer
      */
     protected function getLessMainFileDefautContent(ilSkinStyle $style) : string
     {
-        $content = '@import \'' . $this->getSystemStylesConf()->getRelDelosPath() . '\';\n';
-        $content .= '// Import Custom Less Files here\n';
+        $content = "@import \"" . $this->getSystemStylesConf()->getRelDelosPath() . "\";\n";
+        $content .= "// Import Custom Less Files here\n";
 
-        $content .= '@import \'' . $this->getLessVariablesName($style->getId()) . '\';\n';
+        $content .= "@import \"" . $this->getLessVariablesName($style->getId()) . "\";\n";
         return $content;
     }
 
@@ -396,8 +395,8 @@ class ilSkinStyleContainer
     ) : void {
         $main_less_content = file_get_contents($main_path);
         $main_less_content = str_replace(
-            '@import \'' . $old_style_import,
-            '@import \'' . $new_style_import,
+            "@import \"" . $old_style_import,
+            "@import \"" . $new_style_import,
             $main_less_content
         );
         file_put_contents($main_path, $main_less_content);

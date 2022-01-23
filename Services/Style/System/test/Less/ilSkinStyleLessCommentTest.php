@@ -26,6 +26,6 @@ class ilSkinStyleLessCommentTest extends TestCase
     {
         $comment = new ilSystemStyleLessComment('comment');
 
-        $this->assertEquals('comment\n', (string) $comment);
+        $this->assertEquals("comment\n", (string) $comment);
     }
 }

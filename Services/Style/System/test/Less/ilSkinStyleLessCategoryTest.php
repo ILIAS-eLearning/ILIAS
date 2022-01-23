@@ -30,6 +30,6 @@ class ilSkinStyleLessCategoryTest extends TestCase
     {
         $category = new ilSystemStyleLessCategory('name', 'comment');
 
-        $this->assertEquals('//== name\n//\n//## comment\n', (string) $category);
+        $this->assertEquals("//== name\n//\n//## comment\n", (string) $category);
     }
 }

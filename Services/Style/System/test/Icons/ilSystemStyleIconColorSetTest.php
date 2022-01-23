@@ -48,7 +48,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
 
         try {
             $set->getColorById('idXY');
-            $this->assertTrue(false);
+            $this->fail();
         } catch (ilSystemStyleException $e) {
             $this->assertEquals(ilSystemStyleException::INVALID_ID, $e->getCode());
         }

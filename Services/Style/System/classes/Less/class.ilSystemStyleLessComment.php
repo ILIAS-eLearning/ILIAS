@@ -33,7 +33,7 @@ class ilSystemStyleLessComment extends ilSystemStyleLessItem
     public function setComment(string $comment) : void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
-        $this->comment = str_replace('\n', '', $comment);
+        $this->comment = str_replace("\n", '', $comment);
     }
 
     /**
@@ -42,6 +42,6 @@ class ilSystemStyleLessComment extends ilSystemStyleLessItem
      */
     public function __toString() : string
     {
-        return $this->getComment() . '\n';
+        return $this->getComment() . "\n";
     }
 }

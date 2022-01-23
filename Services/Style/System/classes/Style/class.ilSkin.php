@@ -49,8 +49,6 @@ class ilSkin implements Iterator, Countable
         $xml->addAttribute('version', $this->getVersion());
         $xml->addAttribute('name', $this->getName());
 
-        $last_style = null;
-
         foreach ($this->getStyles() as $style) {
             if (!$style->isSubstyle()) {
                 $this->addChildToXML($xml, $style);
@@ -72,7 +70,6 @@ class ilSkin implements Iterator, Countable
      */
     protected function addChildToXML(SimpleXMLElement $xml, ilSkinStyle $style) : void
     {
-        $xml_style = null;
         if ($style->isSubstyle()) {
             $xml_style = $xml->addChild('substyle');
         } else {
@@ -270,12 +267,10 @@ class ilSkin implements Iterator, Countable
      */
     public function hasStyleSubstyles(string $style_id) : bool
     {
-        if ($style_id != '' && $this->getStyle($style_id)) {
-            foreach ($this->getStyles() as $style) {
-                if ($style->getId() != $style_id && $style->isSubstyle()) {
-                    if ($style->getSubstyleOf() == $style_id) {
-                        return true;
-                    }
+        foreach ($this->getStyles() as $style) {
+            if ($style->getId() != $style_id && $style->isSubstyle()) {
+                if ($style->getSubstyleOf() == $style_id) {
+                    return true;
                 }
             }
         }

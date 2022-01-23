@@ -6,7 +6,7 @@ require_once('libs/composer/vendor/autoload.php');
 include_once('./tests/UI/UITestHelper.php');
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\UI\Implementation\Component\MessageBox\MessageBox;
+use ILIAS\UI\Component\MessageBox\MessageBox as IMessageBox;
 
 class ilSystemStyleMessageStackTest extends TestCase
 {
@@ -164,13 +164,13 @@ class ilSystemStyleMessageStackTest extends TestCase
         $message_components = $this->ilSystemStyleMessageStack->getUIComponentsMessages($ui_helper->factory());
 
         $this->assertCount(3, $message_components);
-        $this->assertInstanceOf(MessageBox::class, $message_components[0]);
-        $this->assertInstanceOf(MessageBox::class, $message_components[1]);
-        $this->assertInstanceOf(MessageBox::class, $message_components[2]);
+        $this->assertInstanceOf(IMessageBox::class, $message_components[0]);
+        $this->assertInstanceOf(IMessageBox::class, $message_components[1]);
+        $this->assertInstanceOf(IMessageBox::class, $message_components[2]);
 
-        $this->assertEquals(MessageBox::INFO, $message_components[0]->getType());
-        $this->assertEquals(MessageBox::SUCCESS, $message_components[1]->getType());
-        $this->assertEquals(MessageBox::FAILURE, $message_components[2]->getType());
+        $this->assertEquals(ILIAS\UI\Component\MessageBox\MessageBox::INFO, $message_components[0]->getType());
+        $this->assertEquals(ILIAS\UI\Component\MessageBox\MessageBox::SUCCESS, $message_components[1]->getType());
+        $this->assertEquals(ILIAS\UI\Component\MessageBox\MessageBox::FAILURE, $message_components[2]->getType());
 
         $this->assertEquals('This is a message</br>', $message_components[0]->getMessageText());
     }

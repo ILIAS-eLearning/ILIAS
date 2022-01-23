@@ -61,24 +61,24 @@ class ilSystemStyleIconsGUI
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
 
         $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id));
-
-        if ($this->ctrl->getCmd() != 'reset') {
-            try {
-                $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style_id)));
-            } catch (ilSystemStyleExceptionBase $e) {
-                $this->message_stack->addMessage(new ilSystemStyleMessage(
-                    $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                ));
-                $this->ctrl->setCmd('fail');
-            }
-        }
     }
 
     public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $this->setSubStyleSubTabs($cmd);
+
+        if ($this->ctrl->getCmd() != 'reset') {
+            try {
+                $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($this->style_id)));
+            } catch (ilSystemStyleExceptionBase $e) {
+                $this->message_stack->addMessage(new ilSystemStyleMessage(
+                    $e->getMessage(),
+                    ilSystemStyleMessage::TYPE_ERROR
+                ));
+                $cmd = 'fail';
+            }
+        }
 
         switch ($cmd) {
             case 'fail':
@@ -100,6 +100,7 @@ class ilSystemStyleIconsGUI
                 $this->edit();
                 break;
         }
+        $this->message_stack->sendMessages();
     }
 
     protected function fail() : void
@@ -248,7 +249,7 @@ class ilSystemStyleIconsGUI
             $this->lng->txt('color_reset'),
             ilSystemStyleMessage::TYPE_SUCCESS
         ));
-        $message_stack->getUIComponentsMessages($this->ui_factory);
+        $message_stack->sendMessages();
 
         $this->ctrl->redirect($this, 'edit');
     }
@@ -285,7 +286,7 @@ class ilSystemStyleIconsGUI
                 $this->lng->txt('color_update'),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
-            $message_stack->getUIComponentsMessages($this->ui_factory);
+            $message_stack->sendMessages();
             $this->ctrl->redirect($this, 'edit');
         }
         $form->setValuesByPost();
@@ -440,10 +441,9 @@ class ilSystemStyleIconsGUI
                     $skin = $this->getStyleContainer()->getSkin();
                     $skin->getVersionStep($skin->getVersion());
                     $this->getStyleContainer()->updateSkin($skin);
-                    continue;
                 }
             }
-            $message_stack->getUIComponentsMessages($this->ui_factory);
+            $message_stack->sendMessages();
             $this->ctrl->setParameter($this, 'selected_icon', $icon->getPath());
             $this->ctrl->redirect($this, 'editIcon');
         }
