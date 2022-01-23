@@ -34,7 +34,7 @@ class ilSCORMResources extends ilSCORMObject
     public function __construct($a_id = 0)
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
         parent::__construct($a_id);
         $this->setType('srs');
@@ -55,7 +55,7 @@ class ilSCORMResources extends ilSCORMObject
     public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -71,7 +71,7 @@ class ilSCORMResources extends ilSCORMObject
     public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
         
@@ -85,7 +85,7 @@ class ilSCORMResources extends ilSCORMObject
     public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -100,7 +100,7 @@ class ilSCORMResources extends ilSCORMObject
     public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

@@ -38,7 +38,7 @@ class ilCustomUserFieldsHelper
         $this->lng = $DIC->language();
         $this->logger = $DIC->logger()->usr();
         $this->component_repository = $DIC['component.repository'];
-        $this->component_repository = $DIC['component.factory'];
+        $this->component_factory = $DIC['component.factory'];
     }
     
     /**

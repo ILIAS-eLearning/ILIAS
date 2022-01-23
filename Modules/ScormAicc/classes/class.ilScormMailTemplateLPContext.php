@@ -37,7 +37,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
     public function getTitle() : string
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('sahs');
 
@@ -50,7 +50,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
     public function getDescription() : string
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('sahs');
 
@@ -67,7 +67,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
          * @var $lng ilLanguage
          */
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule('trac');
         $tracking = new ilObjUserTracking();

@@ -45,4 +45,4 @@ the "jour fixe"-label.
 
 - Commit the changes in packages.json and package-lock.json and node_modules.
 
-Currently commit the node_modes directory, this will most probably be abendoned from the git repo in the future.
+Currently, commit the node_modes directory, this will most probably be abandoned from the git repo in the future.

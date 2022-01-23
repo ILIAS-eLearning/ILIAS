@@ -128,12 +128,14 @@ class ilRTE
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
         while (preg_match("/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
             $a_text = str_replace($found[0], '', $a_text);
-            if (!in_array($found[1], $mobs)) {
+            $found_mob_id = (int) $found[1];
+
+            if (!in_array($found_mob_id, $mobs, true)) {
                 // save usage if missing
-                ilObjMediaObject::_saveUsage($found[1], $a_usage_type, $a_usage_id);
+                ilObjMediaObject::_saveUsage($found_mob_id, $a_usage_type, $a_usage_id);
             } else {
                 // if already saved everything ok -> take mob out of mobs array
-                unset($mobs[$found[1]]);
+                unset($mobs[$found_mob_id]);
             }
         }
         // remaining usages are not in text anymore -> delete them
@@ -174,7 +176,7 @@ class ilRTE
             if (preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches)) {
                 foreach ($matches[2] as $idx => $mob) {
                     if (ilObject::_lookupType($mob) === 'mob') {
-                        $mob_obj = new ilObjMediaObject($mob);
+                        $mob_obj = new ilObjMediaObject((int) $mob);
                         $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
                         $path_to_file = ilWACSignedPath::signFile(
                             ILIAS_HTTP_PATH . '/data/' . CLIENT_ID . '/mobs/mm_' . $mob . '/' . $mob_obj->getTitle()
@@ -270,13 +272,5 @@ class ilRTE
     public function setInitialWidth(?int $initialWidth) : void
     {
         $this->initialWidth = $initialWidth;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getPlugins() : array
-    {
-        return $this->plugins;
     }
 }

@@ -22,7 +22,7 @@ class Factory implements Item\Factory
      */
     public function shy(string $title) : Item\Shy
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Shy($title);
     }
 
     /**

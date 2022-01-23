@@ -49,7 +49,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function create($upload = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::create();
         if (!$upload) {
@@ -74,7 +74,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function read()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -137,8 +137,8 @@ class ilObjSAHSLearningModule extends ilObject
     public static function getAffectiveLocalization(int $a_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+        $ilDB = $DIC->database();
+        $lng = $DIC->language();
         
         $lm_set = $ilDB->queryF(
             'SELECT localization FROM sahs_lm WHERE id = %s',
@@ -161,7 +161,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function _lookupSubType($a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $obj_set = $ilDB->queryF(
             'SELECT c_type FROM sahs_lm WHERE id = %s',
@@ -237,7 +237,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function _getTries($a_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $lm_set = $ilDB->queryF(
             'SELECT question_tries FROM sahs_lm WHERE id = %s',
@@ -344,7 +344,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getDefaultLessonMode()
     {
         global $DIC;
-        if ($DIC['ilUser']->getId() == 13) {
+        if ($DIC->user()->getId() == 13) {
             return "browse";
         }
         return $this->lesson_mode;
@@ -498,7 +498,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getCacheDeactivated()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
         if ($lm_set->get("scormdebug_disable_cache") == "1") {
             return true;
@@ -512,7 +512,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getSessionDeactivated()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
         if ($lm_set->get("scorm_without_session") == "1") {
             return true;
@@ -526,7 +526,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getDebugActivated()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
         if ($lm_set->get("scormdebug_global_activate") == "1") {
             return true;
@@ -815,7 +815,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function checkMasteryScoreValues()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $s_result = "";
         $a_result = array();
         $type = $this->_lookupSubType($this->getID());
@@ -896,7 +896,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function update()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $this->updateMetaData();
         parent::update();
@@ -1038,7 +1038,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function getScormModulesForGlossary($a_glo_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
     
         $set = $ilDB->query("SELECT DISTINCT id FROM sahs_lm WHERE " .
             " glossary = " . $ilDB->quote($a_glo_id, "integer"));
@@ -1060,7 +1060,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function lookupAssignedGlossary($a_slm_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
     
         $set = $ilDB->query("SELECT DISTINCT glossary FROM sahs_lm WHERE " .
             " id = " . $ilDB->quote($a_slm_id, "integer"));
@@ -1103,8 +1103,8 @@ class ilObjSAHSLearningModule extends ilObject
     public function delete()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -1219,7 +1219,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getPointsInPercent()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         if (strcmp($this->getSubType(), "scorm2004") == 0) {
             $res = ilObjSCORM2004LearningModule::_getUniqueScaledScoreForUser($this->getId(), $ilUser->getId());
             if (!is_null($res)) {
@@ -1245,7 +1245,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getMaxPoints()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         
         if (strcmp($this->getSubType(), 'scorm2004') == 0) {
             $res = ilObjSCORM2004LearningModule::_getMaxScoreForUser($this->getId(), $ilUser->getId());
@@ -1287,10 +1287,9 @@ class ilObjSAHSLearningModule extends ilObject
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
 
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
@@ -1404,11 +1403,11 @@ class ilObjSAHSLearningModule extends ilObject
     public function getApiStudentId()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
+        $usr = $DIC->user();
         $idSetting = $this->getIdSetting();
-        $studentId = $ilias->account->getId();
+        $studentId = $usr->getId();
         if ($idSetting % 2 == 1) {
-            $studentId = $ilias->account->getLogin();
+            $studentId = $usr->getLogin();
         }
         if ($idSetting > 3) {
             $studentId .= '_o_' . $this->getId();
@@ -1425,21 +1424,21 @@ class ilObjSAHSLearningModule extends ilObject
     public function getApiStudentName()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
+        $usr = $DIC->user();
         $studentName = " ";
         switch ($this->getNameSetting()) {
             case 0:
-                $studentName = $ilias->account->getLastname() . ', ' . $ilias->account->getFirstname();
+                $studentName = $usr->getLastname() . ', ' . $usr->getFirstname();
                 break;
             case 1:
-                $studentName = $ilias->account->getFirstname() . ' ' . $ilias->account->getLastname();
+                $studentName = $usr->getFirstname() . ' ' . $usr->getLastname();
                 break;
             case 2:
-                $studentName = $ilias->account->getFullname();
+                $studentName = $usr->getFullname();
                 break;
             case 3:
-                switch ($ilias->account->getGender()) {
+                switch ($usr->getGender()) {
                     case 'f':
                         $studentName = $lng->txt('salutation_f') . ' ';
                         break;
@@ -1455,10 +1454,10 @@ class ilObjSAHSLearningModule extends ilObject
                     default:
                         $studentName = $lng->txt('salutation') . ' ';
                 }
-                $studentName .= $ilias->account->getLastname();
+                $studentName .= $usr->getLastname();
                 break;
             case 4:
-                $studentName = $ilias->account->getFirstname();
+                $studentName = $usr->getFirstname();
                 break;
         }
         return $studentName;

@@ -1,5 +1,21 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
 
 if (!file_exists(getcwd() . '/ilias.ini.php')) {
     exit();
@@ -11,9 +27,17 @@ ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-include_once 'Services/Authentication/classes/class.ilSessionReminderCheck.php';
-$session_reminder_check = new ilSessionReminderCheck();
-echo $session_reminder_check->getJsonResponse(
-    ilUtil::stripSlashes($_POST['hash'] ?? '')
+/** @var \ILIAS\DI\Container $DIC */
+$DIC->http()->saveResponse(
+    $DIC->http()->response()
+        ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
+        ->withBody(Streams::ofString(
+            (new ilSessionReminderCheck())->getJsonResponse(
+                ilUtil::stripSlashes(
+                    $DIC->http()->wrapper()->post()->retrieve('hash', $DIC->refinery()->kindlyTo()->string())
+                )
+            )
+        ))
 );
-exit();
+$DIC->http()->sendResponse();
+$DIC->http()->close();

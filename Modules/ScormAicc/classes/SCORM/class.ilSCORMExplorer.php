@@ -62,8 +62,7 @@ class ilSCORMExplorer extends ilExplorer
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
+        $lng = $DIC->language();
 
         $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
@@ -288,7 +287,7 @@ class ilSCORMExplorer extends ilExplorer
     public function getOutputIcons(\ilTemplate &$tpl, array $a_option, int $a_node_id, string $scormtype = "sco") : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $tpl->setCurrentBlock("icon");
 

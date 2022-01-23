@@ -43,7 +43,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
         $this->ref_id = $this->parent_obj->object->getRefId();
-        $this->http_wrapper = $DIC->http();
+        $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('style');
@@ -949,7 +949,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             )
         ) {
             $this->properties->setStyleSheetId(
-                (int) ($this->http->request()->getQueryParams()['style_id'] ?? 0)
+                (int) ($this->dic->http()->request()->getQueryParams()['style_id'] ?? 0)
             );
             $this->properties->update();
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);

@@ -20,7 +20,7 @@
  *
  * @ingroup ServicesPreview
  */
-class ilFSStoragePreview extends ilFileSystemStorage
+class ilFSStoragePreview extends ilFileSystemAbstractionStorage
 {
     /**
      * Constructor

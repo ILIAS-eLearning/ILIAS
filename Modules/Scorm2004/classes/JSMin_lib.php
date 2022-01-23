@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
 * JSMin_lib.php (for PHP 4, 5)
 *

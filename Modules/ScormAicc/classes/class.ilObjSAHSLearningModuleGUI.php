@@ -33,7 +33,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule("content");
         $this->type = "sahs";
@@ -46,8 +46,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function executeCommand()
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $ilTabs = $DIC['ilTabs'];
+        $ilAccess = $DIC->access();
+        $ilTabs = $DIC->tabs();
         $ilErr = $DIC['ilErr'];
 
         $GLOBALS['DIC']["ilLog"]->write("bc:" . $_GET["baseClass"] . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
@@ -85,7 +85,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-            case 'ilexportgui':
+//            case 'ilexportgui':
+//                $exp = new ilExportGUI($this);
+//                $exp->addFormat('xml');
+//                $ret = $this->ctrl->forwardCommand($exp);
+//                break;
+
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
@@ -251,8 +256,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function initUploadForm()
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC->language();
+        $ilCtrl = $DIC->ctrl();
         $this->form = new ilPropertyFormGUI();
 
         // type selection
@@ -324,33 +329,34 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function uploadObject()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
+        $rbacsystem = $DIC->access();
+        $ilErr = $DIC['ilErr'];
 
         // check create permission
-        if (!$rbacsystem->checkAccess("create", (int) $_GET["ref_id"], "sahs")) {
-            $this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
+        if (!$rbacsystem->checkAccess("create", '', (int) $_GET["ref_id"], "sahs")) {
+            $ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->WARNING);
         } elseif ($_FILES["scormfile"]["name"]) {
             // check if file was uploaded
             $source = $_FILES["scormfile"]["tmp_name"];
             if (($source == 'none') || (!$source)) {
-                $this->ilias->raiseError($this->lng->txt("msg_no_file"), $this->ilias->error_obj->MESSAGE);
+                $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
             }
             // get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
             switch ($_FILES["scormfile"]["error"]) {
                 case UPLOAD_ERR_INI_SIZE:
-                    $this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"), $this->ilias->error_obj->MESSAGE);
+                    $ilErr->raiseError($this->lng->txt("err_max_file_size_exceeds"), $ilErr->MESSAGE);
                     break;
 
                 case UPLOAD_ERR_FORM_SIZE:
-                    $this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"), $this->ilias->error_obj->MESSAGE);
+                    $ilErr->raiseError($this->lng->txt("err_max_file_size_exceeds"), $ilErr->MESSAGE);
                     break;
 
                 case UPLOAD_ERR_PARTIAL:
-                    $this->ilias->raiseError($this->lng->txt("err_partial_file_upload"), $this->ilias->error_obj->MESSAGE);
+                    $ilErr->raiseError($this->lng->txt("err_partial_file_upload"), $ilErr->MESSAGE);
                     break;
 
                 case UPLOAD_ERR_NO_FILE:
-                    $this->ilias->raiseError($this->lng->txt("err_no_file_uploaded"), $this->ilias->error_obj->MESSAGE);
+                    $ilErr->raiseError($this->lng->txt("err_no_file_uploaded"), $ilErr->MESSAGE);
                     break;
             }
 
@@ -358,12 +364,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         } elseif ($_POST["uploaded_file"]) {
             // check if the file is in the upload directory and readable
             if (!ilUploadFiles::_checkUploadFile($_POST["uploaded_file"])) {
-                $this->ilias->raiseError($this->lng->txt("upload_error_file_not_found"), $this->ilias->error_obj->MESSAGE);
+                $ilErr->raiseError($this->lng->txt("upload_error_file_not_found"), $ilErr->MESSAGE);
             }
 
             $file = pathinfo($_POST["uploaded_file"]);
         } else {
-            $this->ilias->raiseError($this->lng->txt("msg_no_file"), $this->ilias->error_obj->MESSAGE);
+            $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
         }
 
         $name = substr($file["basename"], 0, strlen($file["basename"]) - strlen($file["extension"]) - 1);
@@ -494,8 +500,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     */
     public function saveObject()
     {
+        global $DIC;
+        $ilErr = $DIC["ilErr"];
+
         if (trim($_POST["title"]) == "") {
-            $this->ilias->raiseError($this->lng->txt("msg_no_title"), $this->ilias->error_obj->MESSAGE);
+            $ilErr->raiseError($this->lng->txt("msg_no_title"), $ilErr->MESSAGE);
         }
         $newObj = new ilObjSCORM2004LearningModule();
         $newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
@@ -538,7 +547,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function getTemplate()
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $this->tpl->loadStandardTemplate();
     }
@@ -575,9 +584,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function getTabs()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilHelp = $DIC['ilHelp'];
+        $rbacsystem = $DIC->access();
+        $ilCtrl = $DIC->ctrl();
+        $ilHelp = $DIC->help();
 
         if ($this->ctrl->getCmd() == "delete") {
             return;
@@ -647,7 +656,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // tracking data
-        if ($rbacsystem->checkAccess("read_learning_progress", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("read_learning_progress", "", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
             if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
                 $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->enabledSahsProtocolData()) {
@@ -672,7 +681,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // export
-        if ($rbacsystem->checkAccess("edit_permission", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("edit", "", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "export",
                 $this->ctrl->getLinkTarget($this, "export"),
@@ -682,7 +691,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // perm
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('edit', "", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
@@ -698,9 +707,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public static function _goto($a_target)
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
         $ilErr = $DIC['ilErr'];
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $parts = explode("_", $a_target);
 
@@ -753,7 +762,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //    public function editContent()
 //    {
 //        global $DIC;
-//        $ilCtrl = $DIC['ilCtrl'];
+//        $ilCtrl = $DIC->ctrl();
 //
 //        if (!$this->object->getEditable()) {
 //            $ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
@@ -768,9 +777,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function setSettingsSubTabs()
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC->language();
+        $ilTabs = $DIC->tabs();
+        $ilCtrl = $DIC->ctrl();
 
         $ilTabs->addSubTabTarget(
             "cont_settings",
@@ -815,23 +824,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     public function export()
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $ilTabs->activateTab("export");
+        $GLOBALS['DIC']->tabs()->setTabActive('export');
         $exp_gui = new ilExportGUI($this);
-        $ilCtrl->setCmd("");
+        $this->ctrl->setCmd("listExportFiles");
         $exp_gui->addFormat("xml");
-        $ret = $this->ctrl->forwardCommand($exp_gui);
-        return $ret;
+        return $this->ctrl->forwardCommand($exp_gui);
     }
 
     public function exportModule()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $moduleId = ilObject::_lookupObjectId($_GET["ref_id"]);
         $exporter = new ilScormAiccExporter();

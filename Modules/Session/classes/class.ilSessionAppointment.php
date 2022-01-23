@@ -186,9 +186,9 @@ class ilSessionAppointment implements ilDatePeriod
      * get start
      * @access public
      * @param
-     * @return ilDateTime
+     * @return ilDateTime|null
      */
-    public function getStart():ilDateTime
+    public function getStart(): ?ilDateTime
     {
         return $this->start ? $this->start : $this->start = new ilDateTime(date('Y-m-d') . ' 08:00:00', IL_CAL_DATETIME);
     }
@@ -207,9 +207,9 @@ class ilSessionAppointment implements ilDatePeriod
     /**
      * get end
      * @access public
-     * @return ilDateTime
+     * @return ilDateTime|null
      */
-    public function getEnd():ilDateTime
+    public function getEnd(): ?ilDateTime
     {
         return $this->end ? $this->end : $this->end = new ilDateTime(date('Y-m-d') . ' 16:00:00', IL_CAL_DATETIME);
     }
