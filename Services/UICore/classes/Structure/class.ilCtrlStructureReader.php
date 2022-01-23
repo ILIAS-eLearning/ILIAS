@@ -156,7 +156,8 @@ class ilCtrlStructureReader
 
         // replace the classname placeholder with the
         // actual one and execute the regex search.
-        $regex = str_replace('{CLASS_NAME}', $reflection->getName(), $regex);
+        $name = str_replace('\\', '\\\\', $reflection->getName());
+        $regex = str_replace('{CLASS_NAME}', $name, $regex);
         preg_match_all($regex, $reflection->getDocComment(), $matches);
 
         // the first array entry of $matches contains

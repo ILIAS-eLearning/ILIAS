@@ -56,7 +56,7 @@ abstract class AbstractTask implements Task
         
         foreach ($expectedTypes as $i => $expectedType) {
             $expectedType = $expectedType;
-            $givenType    = $this->extractType($values[$i]);
+            $givenType = $this->extractType($values[$i]);
             if (!$givenType->isExtensionOf($expectedType)) {
                 throw new InvalidArgumentException("Types did not match when setting input for "
                     . static::class

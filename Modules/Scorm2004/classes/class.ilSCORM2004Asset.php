@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -214,35 +214,35 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'pdf');
     }
 
-    public function exportPDF($a_inst, $a_target_dir, &$expLog)
-    {
-        $a_xml_writer = new ilXmlWriter;
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
-        $this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
-        $a_xml_writer->xmlEndTag("ContentObject");
-        $xml2FO = new ilXML2FO();
-        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
-        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
-        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
-        $xml2FO->transform();
-        $fo_string = $xml2FO->getFOString();
-        $fo_xml = simplexml_load_string($fo_string);
-        $fo_ext = $fo_xml->xpath("//fo:declarations");
-        $fo_ext = $fo_ext[0];
-        $results = array();
-        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
-        if (is_array($results["file"])) {
-            foreach ($results["file"] as $key => $value) {
-                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
-                $e->addAttribute("src", $results[path][$key] . $value);
-                $e->addAttribute("name", $value);
-                $e->addAttribute("desc", "");
-            }
-        }
-        $fo_string = $fo_xml->asXML();
-        $a_xml_writer->_XmlWriter;
-        return $fo_string;
-    }
+//    public function exportPDF($a_inst, $a_target_dir, &$expLog)
+//    {
+//        $a_xml_writer = new ilXmlWriter;
+//        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
+//        $this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
+//        $a_xml_writer->xmlEndTag("ContentObject");
+//        $xml2FO = new ilXML2FO();
+//        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+//        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+//        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
+//        $xml2FO->transform();
+//        $fo_string = $xml2FO->getFOString();
+//        $fo_xml = simplexml_load_string($fo_string);
+//        $fo_ext = $fo_xml->xpath("//fo:declarations");
+//        $fo_ext = $fo_ext[0];
+//        $results = array();
+//        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
+//        if (is_array($results["file"])) {
+//            foreach ($results["file"] as $key => $value) {
+//                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
+//                $e->addAttribute("src", $results[path][$key] . $value);
+//                $e->addAttribute("name", $value);
+//                $e->addAttribute("desc", "");
+//            }
+//        }
+//        $fo_string = $fo_xml->asXML();
+//        $a_xml_writer->_XmlWriter;
+//        return $fo_string;
+//    }
 
     public function exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, &$a_xml_writer)
     {

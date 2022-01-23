@@ -569,7 +569,7 @@ class ilObjMailGUI extends ilObjectGUI
             'global_reply_to_addr' => $this->settings->get('global_reply_to_addr', ''),
         ]);
     }
-    
+
     protected function saveExternalSettingsFormObject() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -653,7 +653,6 @@ class ilObjMailGUI extends ilObjectGUI
             );
 
             $DIC->ctrl()->setTargetScript('ilias.php');
-            $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
             $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
             $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class);
         }

@@ -21,6 +21,7 @@ use Psr\Http\Message\ResponseInterface;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class XSendfile
  *
@@ -33,39 +34,49 @@ use Psr\Http\Message\ResponseInterface;
  */
 class XSendfileTest extends TestCase
 {
-    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    private \Mockery\LegacyMockInterface $httpServiceMock;
-
+    /**
+     * @var Services|\PHPUnit\Framework\MockObject\MockObject
+     */
+    public Services $httpServiceMock;
 
     /**
      * @inheritDoc
      */
     protected function setUp() : void
     {
-        parent::setUp();
-
-        $this->httpServiceMock = Mockery::mock(Services::class);
-        $this->httpServiceMock->shouldIgnoreMissing();
+        $this->httpServiceMock = $this->getMockBuilder(Services::class)
+                                      ->disableOriginalConstructor()
+                                      ->getMock();
     }
-
 
     /**
      * @Test
      */
-    public function testSendFileWithXSendHeaderWhichShouldSucceed(): void
+    public function testSendFileWithXSendHeaderWhichShouldSucceed() : void
     {
         $expectedHeader = 'X-Sendfile';
         $filePath = __FILE__;
 
-        $response = Mockery::mock(ResponseInterface::class);
-        $response->shouldIgnoreMissing()->shouldReceive("withHeader")->times(1)
-                 ->withArgs([ $expectedHeader, $filePath ])->andReturnSelf();
+        $response = $this->getMockBuilder(ResponseInterface::class)
+                         ->disableOriginalConstructor()
+                         ->getMock();
 
-        $this->httpServiceMock->shouldReceive("response")->times(1)->withNoArgs()
-                              ->andReturn($response)->getMock()->shouldReceive("saveResponse")
-                              ->times(1)->withArgs([ $response ])->getMock()
-                              ->shouldReceive("sendResponse")->times(1)->withNoArgs();
+        $response->expects($this->once())
+                 ->method('withHeader')
+                 ->with($expectedHeader, $filePath)
+                 ->willReturnSelf();
+
+        $this->httpServiceMock->expects($this->once())
+                              ->method('response')
+                              ->willReturn($response);
+
+        $this->httpServiceMock->expects($this->once())
+                              ->method('saveResponse')
+                              ->with($response);
+
+        $this->httpServiceMock->expects($this->once())
+                              ->method('sendResponse');
 
         $fileDeliveryType = new XSendfile($this->httpServiceMock);
         $fileDeliveryOk = $fileDeliveryType->deliver($filePath, false);

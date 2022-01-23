@@ -64,8 +64,8 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->requested_ass_id = $this->exercise_request->getAssId();
 
         if ($this->requested_ass_id > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId(
-            $this->requested_ass_id
-        ) == $this->object->getId()) {
+                $this->requested_ass_id
+            ) == $this->object->getId()) {
             $this->ass = $this->exercise_request->getAssignment();
         } elseif ($this->requested_ass_id > 0) {
             throw new ilExerciseException("Assignment ID does not match Exercise.");
@@ -819,9 +819,9 @@ class ilObjExerciseGUI extends ilObjectGUI
         global $DIC;
 
         $ass_id = $DIC->http()->wrapper()->query()->retrieve(
-            "ass_id",
-            $DIC->refinery()->kindlyTo()->int()
-        ) ?? 0;
+                "ass_id",
+                $DIC->refinery()->kindlyTo()->int()
+            ) ?? 0;
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -829,7 +829,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
         //we don't have baseClass here...
         $ilCtrl->setTargetScript("ilias.php");
-        $ilCtrl->initBaseClass("ilRepositoryGUI");
 
         //ilExerciseMailNotification has links to:
         // "Assignments", "Submission and Grades" and Downnoad the NEW files if the assignment type is "File Upload".

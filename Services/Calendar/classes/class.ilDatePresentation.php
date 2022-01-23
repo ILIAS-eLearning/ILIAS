@@ -114,17 +114,8 @@ class ilDatePresentation
         self::setLanguage($lng);
         self::setUseRelativeDates(true);
     }
-    
-    
-    
-    /**
-     * Format a date
-     * @access public
-     * @param object $date ilDate or ilDateTime
-     * @return string date presentation in user specific timezone and language
-     * @static
-     */
-    public static function formatDate(ilDateTime $date, $a_skip_day = false, $a_include_wd = false)
+
+    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false) : string
     {
         global $DIC;
 

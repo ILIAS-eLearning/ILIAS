@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -75,7 +75,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
         $set = $ilDB->query(
             "SELECT * FROM sahs_sc13_sco WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setHideObjectivePage($rec["hide_obj_page"]);
     }
@@ -92,7 +92,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
             "UPDATE sahs_sc13_sco SET " .
             " hide_obj_page = " . $ilDB->quote($this->getHideObjectivePage(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     /**
@@ -106,7 +106,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
         $ilDB->manipulate(
             "DELETE FROM sahs_sc13_sco WHERE "
             . " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -74,7 +74,7 @@ class ilScormAiccDataSet extends ilDataSet
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $obj_id = $a_ids;
         $columns = [];
@@ -109,8 +109,8 @@ class ilScormAiccDataSet extends ilDataSet
     public function writeData($a_entity, $a_version, $a_id, $data) : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         if (count($data) > 0) {
             $columns = [];
             foreach ($this->properties as $key => $value) {
@@ -179,7 +179,7 @@ class ilScormAiccDataSet extends ilDataSet
      * @param $a_schema_version
      * @param $a_ids (obj_id)
      */
-    public function getExtendedXmlRepresentation(string $a_entity, string $a_schema_version, array $a_ids, string $a_field = "", bool $a_omit_header = false, bool $a_omit_types = false): string
+    public function getExtendedXmlRepresentation(string $a_entity, string $a_schema_version, array $a_ids, string $a_field = "", bool $a_omit_header = false, bool $a_omit_types = false) : string
     {
         $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
@@ -187,7 +187,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
         $id = $this->data["id"];
-        $exportDir = ilExport::_getExportDirectory($id);
+        $exportDir = ilExport::_getExportDirectory($id,"xml","sahs");
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();

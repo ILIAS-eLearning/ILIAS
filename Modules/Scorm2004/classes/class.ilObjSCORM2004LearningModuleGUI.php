@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -383,17 +383,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $cb->setInfo($this->lng->txt("cont_online_info"));
         $this->form->addItem($cb);
         
-        // offline Mode
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
-        $cb->setValue("y");
-        include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
-        if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
-            $cb->setDisabled(true);
-            $cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
-        } else {
-            $cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
-        }
-        $this->form->addItem($cb);
 
         //
         // presentation
@@ -676,93 +665,93 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * Init properties (editable) form.
-     */
-    public function initPropertiesEditableForm()
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-
-        $this->form = new ilPropertyFormGUI();
-    
-        // localization
-        $options = array(
-            "" => $lng->txt("please_select"),
-            );
-        $langs = $lng->getInstalledLanguages();
-        $lng->loadLanguageModule("meta");
-        foreach ($langs as $l) {
-            $options[$l] = $lng->txt("meta_l_" . $l);
-        }
-        $loc = new ilSelectInputGUI($this->lng->txt("cont_localization"), "localization");
-        $loc->setOptions($options);
-        $loc->setInfo($this->lng->txt("cont_localization_info"));
-        $this->form->addItem($loc);
-
-        // glossary
-        $ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
-        $ne->setInfo($lng->txt("sahs_glo_info"));
-        $this->form->addItem($ne);
-        
-        // style
-        $lng->loadLanguageModule("style");
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $_GET["ref_id"]
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-            }
-        }
-        
-        // number of tries
-        $ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
-        $ni->setInfo($lng->txt("cont_qtries_info")); // #15133
-        $ni->setMaxLength(3);
-        $ni->setSize(3);
-        $this->form->addItem($ni);
-        
-
-        $this->form->addCommandButton("saveProperties", $lng->txt("save"));
-
-        $this->form->setTitle($lng->txt("cont_scorm_ed_properties"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
+//    /**
+//     * Init properties (editable) form.
+//     */
+//    public function initPropertiesEditableForm()
+//    {
+//        $lng = $this->lng;
+//        $ilCtrl = $this->ctrl;
+//        $ilSetting = $this->settings;
+//
+//        $this->form = new ilPropertyFormGUI();
+//
+//        // localization
+//        $options = array(
+//            "" => $lng->txt("please_select"),
+//            );
+//        $langs = $lng->getInstalledLanguages();
+//        $lng->loadLanguageModule("meta");
+//        foreach ($langs as $l) {
+//            $options[$l] = $lng->txt("meta_l_" . $l);
+//        }
+//        $loc = new ilSelectInputGUI($this->lng->txt("cont_localization"), "localization");
+//        $loc->setOptions($options);
+//        $loc->setInfo($this->lng->txt("cont_localization_info"));
+//        $this->form->addItem($loc);
+//
+//        // glossary
+//        $ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
+//        $ne->setInfo($lng->txt("sahs_glo_info"));
+//        $this->form->addItem($ne);
+//
+//        // style
+//        $lng->loadLanguageModule("style");
+//        $fixed_style = $ilSetting->get("fixed_content_style_id");
+//        $style_id = $this->object->getStyleSheetId();
+//
+//        if ($fixed_style > 0) {
+//            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+//            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
+//                $this->lng->txt("global_fixed") . ")");
+//            $this->form->addItem($st);
+//        } else {
+//            $st_styles = ilObjStyleSheet::_getStandardStyles(
+//                true,
+//                false,
+//                $_GET["ref_id"]
+//            );
+//
+//            $st_styles[0] = $this->lng->txt("default");
+//            ksort($st_styles);
+//
+//            if ($style_id > 0) {
+//                // individual style
+//                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
+//                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+//                    $st->setValue(ilObject::_lookupTitle($style_id));
+//                    $this->form->addItem($st);
+//                }
+//            }
+//
+//            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
+//                $style_sel = ilUtil::formSelect(
+//                    $style_id,
+//                    "style_id",
+//                    $st_styles,
+//                    false,
+//                    true
+//                );
+//                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
+//                $style_sel->setOptions($st_styles);
+//                $style_sel->setValue($style_id);
+//                $this->form->addItem($style_sel);
+//            }
+//        }
+//
+//        // number of tries
+//        $ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
+//        $ni->setInfo($lng->txt("cont_qtries_info")); // #15133
+//        $ni->setMaxLength(3);
+//        $ni->setSize(3);
+//        $this->form->addItem($ni);
+//
+//
+//        $this->form->addCommandButton("saveProperties", $lng->txt("save"));
+//
+//        $this->form->setTitle($lng->txt("cont_scorm_ed_properties"));
+//        $this->form->setFormAction($ilCtrl->getFormAction($this));
+//    }
 
     /**
      * Get current values for properties (editable) from
@@ -810,7 +799,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
                 $this->object->setMasteryScore($_POST["mastery_score"]);
                 // $this->object->updateMasteryScoreValues();
             }
-            
+
             $t_auto_review = $_POST["auto_review"];
             $t_auto_suspend = ilUtil::yn2tf($_POST["cobj_auto_suspend"]);
             $t_session = ilUtil::yn2tf($_POST["cobj_session"]);
@@ -819,7 +808,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
                 //if not storing without session
                 $t_session = true;
             }
-            
+
             $t_height = $this->object->getHeight();
             if ($_POST["height_0"] != $this->object->getHeight()) {
                 $t_height = $_POST["height_0"];
@@ -866,18 +855,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
             // tile image
             $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
-        } else {
-            $this->initPropertiesEditableForm();
-            if ($this->form->checkInput()) {
-                $this->object->setTries($_POST["q_tries"]);
-                $this->object->setLocalization($_POST["localization"]);
-                
-                if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-                    (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-                    || $this->object->getStyleSheetId() == 0)) {
-                    $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
-                }
-            }
         }
         $this->object->update();
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -1053,135 +1030,135 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $tpl->setContent($this->form->getHTML());
     }
     
-    /**
-     * Init style properties form
-     */
-    public function initStylePropertiesForm()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        
-        $lng->loadLanguageModule("style");
-        $this->setSubTabs("settings", "style");
-        $ilTabs->setTabActive("settings");
-
-        $this->form = new ilPropertyFormGUI();
-        
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $_GET["ref_id"]
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-
-                    // delete command
-                    $this->form->addCommandButton(
-                        "editStyle",
-                        $lng->txt("cont_edit_style")
-                    );
-                    $this->form->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("cont_delete_style")
-                    );
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-                $this->form->addCommandButton(
-                    "saveStyleSettings",
-                    $lng->txt("save")
-                );
-                $this->form->addCommandButton(
-                    "createStyle",
-                    $lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form->setTitle($lng->txt("cont_style"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
+//    /**
+//     * Init style properties form
+//     */
+//    public function initStylePropertiesForm()
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//        $ilTabs = $this->tabs;
+//        $ilSetting = $this->settings;
+//
+//        $lng->loadLanguageModule("style");
+//        $this->setSubTabs("settings", "style");
+//        $ilTabs->setTabActive("settings");
+//
+//        $this->form = new ilPropertyFormGUI();
+//
+//        $fixed_style = $ilSetting->get("fixed_content_style_id");
+//        $style_id = $this->object->getStyleSheetId();
+//
+//        if ($fixed_style > 0) {
+//            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+//            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
+//                $this->lng->txt("global_fixed") . ")");
+//            $this->form->addItem($st);
+//        } else {
+//            $st_styles = ilObjStyleSheet::_getStandardStyles(
+//                true,
+//                false,
+//                $_GET["ref_id"]
+//            );
+//
+//            $st_styles[0] = $this->lng->txt("default");
+//            ksort($st_styles);
+//
+//            if ($style_id > 0) {
+//                // individual style
+//                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
+//                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+//                    $st->setValue(ilObject::_lookupTitle($style_id));
+//                    $this->form->addItem($st);
+//
+//                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+//
+//                    // delete command
+//                    $this->form->addCommandButton(
+//                        "editStyle",
+//                        $lng->txt("cont_edit_style")
+//                    );
+//                    $this->form->addCommandButton(
+//                        "deleteStyle",
+//                        $lng->txt("cont_delete_style")
+//                    );
+//                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
+//                }
+//            }
+//
+//            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
+//                $style_sel = ilUtil::formSelect(
+//                    $style_id,
+//                    "style_id",
+//                    $st_styles,
+//                    false,
+//                    true
+//                );
+//                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
+//                $style_sel->setOptions($st_styles);
+//                $style_sel->setValue($style_id);
+//                $this->form->addItem($style_sel);
+//                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
+//                $this->form->addCommandButton(
+//                    "saveStyleSettings",
+//                    $lng->txt("save")
+//                );
+//                $this->form->addCommandButton(
+//                    "createStyle",
+//                    $lng->txt("sty_create_ind_style")
+//                );
+//            }
+//        }
+//        $this->form->setTitle($lng->txt("cont_style"));
+//        $this->form->setFormAction($ilCtrl->getFormAction($this));
+//    }
     
-    /**
-     * Create Style
-     */
-    public function createStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
+//    /**
+//     * Create Style
+//     */
+//    public function createStyle()
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
+//    }
     
-    /**
-     * Edit Style
-     */
-    public function editStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    /**
-     * Delete Style
-     */
-    public function deleteStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-    
-    /**
-     * Save style settings
-     */
-    public function saveStyleSettings()
-    {
-        $ilSetting = $this->settings;
-    
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
-    }
+//    /**
+//     * Edit Style
+//     */
+//    public function editStyle()
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
+//    }
+//
+//    /**
+//     * Delete Style
+//     */
+//    public function deleteStyle()
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
+//    }
+//
+//    /**
+//     * Save style settings
+//     */
+//    public function saveStyleSettings()
+//    {
+//        $ilSetting = $this->settings;
+//
+//        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+//            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+//            || $this->object->getStyleSheetId() == 0)) {
+//            $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+//            $this->object->update();
+//            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+//        }
+//        $this->ctrl->redirect($this, "editStyleProperties");
+//    }
     
     /**
     * show tracking data
@@ -1310,99 +1287,99 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
     
 
-    /**
-     * Show Editing Tree
-     */
-    public function showTree()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $mtree = new ilTree($this->object->getId());
-        $mtree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $mtree->setTreeTablePK("slm_id");
-
-        if ($_POST["expandAll"] != "") {
-            $_GET["scexpand"] = "";
-            $stree = $mtree->getSubTree($mtree->getNodeData($mtree->readRootId()));
-            $n_arr = array();
-            foreach ($stree as $n) {
-                $n_arr[] = $n["child"];
-            }
-            $_SESSION["scexpand"] = $n_arr;
-        }
-
-        if ($_POST["collapseAll"] != "") {
-            $_GET["scexpand"] = "";
-            $_SESSION["scexpand"] = array($mtree->readRootId());
-        }
-        
-        $this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-        $ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
-
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-        
-        $this->tpl->setCurrentBlock("exp2_button");
-        $this->tpl->setVariable("CMD_EXP2_BTN", "expandAll");
-        $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("expand_all"));
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("exp2_button");
-        $this->tpl->setVariable("CMD_EXP2_BTN", "collapseAll");
-        $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("collapse_all"));
-        $this->tpl->parseCurrentBlock();
-
-        $exp = new ilSCORM2004EditorExplorer(
-            $this->ctrl->getLinkTarget($this, "edit"),
-            $this->object
-        );
-        $exp->setFrameUpdater("content", "ilHierarchyFormUpdater");
-        $exp->setTargetGet("obj_id");
-        $exp->setExpandTarget($this->ctrl->getLinkTarget($this, "showTree"));
-        
-        if ($_GET["scexpand"] == "") {
-            $expanded = $mtree->readRootId();
-        } else {
-            $expanded = $_GET["scexpand"];
-        }
-
-        //echo "-".$_GET["active_node"]."-";
-        if ($_GET["active_node"] != "") {
-            $path = $mtree->getPathId($_GET["active_node"]);
-            $exp->setForceOpenPath($path);
-
-            $exp->highlightNode($_GET["active_node"]);
-        }
-        $exp->setExpand($expanded);
-
-        // build html-output
-        $exp->setOutput(0);
-        $output = $exp->getOutput();
-
-        // asynchronous output
-        if ($ilCtrl->isAsynch()) {
-            echo $output;
-            exit;
-        }
-        
-        $this->tpl->setCurrentBlock("content");
-        $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("sahs_organization"));
-        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $this->tpl->setVariable("EXPLORER", $output);
-        $this->ctrl->setParameter($this, "scexpand", $_GET["scexpand"]);
-        $this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
-        $this->tpl->parseCurrentBlock();
-
-        iljQueryUtil::initjQuery($this->tpl);
-
-        $this->tpl->printToStdout(false);
-        
-        
-        exit;
-    }
+//    /**
+//     * Show Editing Tree
+//     */
+//    public function showTree()
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//
+//        $mtree = new ilTree($this->object->getId());
+//        $mtree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $mtree->setTreeTablePK("slm_id");
+//
+//        if ($_POST["expandAll"] != "") {
+//            $_GET["scexpand"] = "";
+//            $stree = $mtree->getSubTree($mtree->getNodeData($mtree->readRootId()));
+//            $n_arr = array();
+//            foreach ($stree as $n) {
+//                $n_arr[] = $n["child"];
+//            }
+//            $_SESSION["scexpand"] = $n_arr;
+//        }
+//
+//        if ($_POST["collapseAll"] != "") {
+//            $_GET["scexpand"] = "";
+//            $_SESSION["scexpand"] = array($mtree->readRootId());
+//        }
+//
+//        $this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+//        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+//
+//        $ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
+//
+//        $this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+//        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
+//
+//        $this->tpl->setCurrentBlock("exp2_button");
+//        $this->tpl->setVariable("CMD_EXP2_BTN", "expandAll");
+//        $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("expand_all"));
+//        $this->tpl->parseCurrentBlock();
+//
+//        $this->tpl->setCurrentBlock("exp2_button");
+//        $this->tpl->setVariable("CMD_EXP2_BTN", "collapseAll");
+//        $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("collapse_all"));
+//        $this->tpl->parseCurrentBlock();
+//
+//        $exp = new ilSCORM2004EditorExplorer(
+//            $this->ctrl->getLinkTarget($this, "edit"),
+//            $this->object
+//        );
+//        $exp->setFrameUpdater("content", "ilHierarchyFormUpdater");
+//        $exp->setTargetGet("obj_id");
+//        $exp->setExpandTarget($this->ctrl->getLinkTarget($this, "showTree"));
+//
+//        if ($_GET["scexpand"] == "") {
+//            $expanded = $mtree->readRootId();
+//        } else {
+//            $expanded = $_GET["scexpand"];
+//        }
+//
+//        //echo "-".$_GET["active_node"]."-";
+//        if ($_GET["active_node"] != "") {
+//            $path = $mtree->getPathId($_GET["active_node"]);
+//            $exp->setForceOpenPath($path);
+//
+//            $exp->highlightNode($_GET["active_node"]);
+//        }
+//        $exp->setExpand($expanded);
+//
+//        // build html-output
+//        $exp->setOutput(0);
+//        $output = $exp->getOutput();
+//
+//        // asynchronous output
+//        if ($ilCtrl->isAsynch()) {
+//            echo $output;
+//            exit;
+//        }
+//
+//        $this->tpl->setCurrentBlock("content");
+//        $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("sahs_organization"));
+//        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
+//        $this->tpl->setVariable("EXPLORER", $output);
+//        $this->ctrl->setParameter($this, "scexpand", $_GET["scexpand"]);
+//        $this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
+//        $this->tpl->parseCurrentBlock();
+//
+//        iljQueryUtil::initjQuery($this->tpl);
+//
+//        $this->tpl->printToStdout(false);
+//
+//
+//        exit;
+//    }
 
     /**
      * Show Sequencing
@@ -1885,314 +1862,314 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $tpl->setContent($sc_tpl->get());
     }
 
-    /**
-    * Get notes HTML
-    */
-    public function getNotesHTML($a_mode = "")
-    {
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $ilSetting = $this->settings;
+//    /**
+//    * Get notes HTML
+//    */
+//    public function getNotesHTML($a_mode = "")
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $ilAccess = $this->access;
+//        $ilSetting = $this->settings;
+//
+//        // notes
+//        $ilCtrl->setParameter($this, "nodes_mode", $a_mode);
+//        $node_id = $_GET["obj_id"];
+//        $node_type = ($node_id > 0)
+//            ? ilSCORM2004Node::_lookupType($node_id)
+//            : "sahs";
+//
+//        $notes_gui = new ilNoteGUI(
+//            $this->object->getId(),
+//            (int) $node_id,
+//            $node_type
+//        );
+//        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $ilSetting->get("comments_del_tutor", 1)) {
+//            $notes_gui->enablePublicNotesDeletion(true);
+//        }
+//        $notes_gui->enablePrivateNotes();
+//        $notes_gui->enablePublicNotes();
+//
+//        $next_class = $ilCtrl->getNextClass($this);
+//        if ($next_class == "ilnotegui") {
+//            $html = $this->ctrl->forwardCommand($notes_gui);
+//        } else {
+//            $html = $notes_gui->getNotesHTML();
+//        }
+//        return $html;
+//    }
 
-        // notes
-        $ilCtrl->setParameter($this, "nodes_mode", $a_mode);
-        $node_id = $_GET["obj_id"];
-        $node_type = ($node_id > 0)
-            ? ilSCORM2004Node::_lookupType($node_id)
-            : "sahs";
+//    /**
+//     * Insert (multiple) chapters at node
+//     */
+//    public function insertChapter($a_redirect = true)
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//
+//        $slm_tree = new ilTree($this->object->getId());
+//        $slm_tree->setTreeTablePK("slm_id");
+//        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//
+//        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//
+//        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
+//            $parent_id = $slm_tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {													// insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//        $chap_ids = array();
+//        for ($i = 1; $i <= $num; $i++) {
+//            $chap = new ilSCORM2004Chapter($this->object);
+//            $chap->setTitle($lng->txt("sahs_new_chapter"));
+//            $chap->setSLMId($this->object->getId());
+//            $chap->create();
+//            ilSCORM2004Node::putInTree($chap, $parent_id, $target);
+//            $chap_ids[] = $chap->getId();
+//        }
+//        $chap_ids = array_reverse($chap_ids);
+//        $chap_ids = implode(":", $chap_ids);
+//
+//        if ($a_redirect) {
+//            $ilCtrl->setParameter($this, "highlight", $chap_ids);
+//            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
+//        }
+//        return array("node_id" => $node_id, "items" => $chap_ids);
+//    }
 
-        $notes_gui = new ilNoteGUI(
-            $this->object->getId(),
-            (int) $node_id,
-            $node_type
-        );
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $ilSetting->get("comments_del_tutor", 1)) {
-            $notes_gui->enablePublicNotesDeletion(true);
-        }
-        $notes_gui->enablePrivateNotes();
-        $notes_gui->enablePublicNotes();
-        
-        $next_class = $ilCtrl->getNextClass($this);
-        if ($next_class == "ilnotegui") {
-            $html = $this->ctrl->forwardCommand($notes_gui);
-        } else {
-            $html = $notes_gui->getNotesHTML();
-        }
-        return $html;
-    }
-
-    /**
-     * Insert (multiple) chapters at node
-     */
-    public function insertChapter($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-        $chap_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $chap = new ilSCORM2004Chapter($this->object);
-            $chap->setTitle($lng->txt("sahs_new_chapter"));
-            $chap->setSLMId($this->object->getId());
-            $chap->create();
-            ilSCORM2004Node::putInTree($chap, $parent_id, $target);
-            $chap_ids[] = $chap->getId();
-        }
-        $chap_ids = array_reverse($chap_ids);
-        $chap_ids = implode(":", $chap_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $chap_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $chap_ids);
-    }
-
-    /**
-     * Insert (multiple) scos at node
-     */
-    public function insertSco($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-
-        $sco_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $sco = new ilSCORM2004Sco($this->object);
-            $sco->setTitle($lng->txt("sahs_new_sco"));
-            $sco->setSLMId($this->object->getId());
-            $sco->create();
-            ilSCORM2004Node::putInTree($sco, $parent_id, $target);
-            $sco_ids[] = $sco->getId();
-        }
-        $sco_ids = array_reverse($sco_ids);
-        $sco_ids = implode(":", $sco_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $sco_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $sco_ids);
-    }
-
-    /**
-     * Insert (multiple) assets at node
-     */
-    public function insertAsset($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-
-        $ass_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $ass = new ilSCORM2004Asset($this->object);
-            $ass->setTitle($lng->txt("sahs_new_asset"));
-            $ass->setSLMId($this->object->getId());
-            $ass->create();
-            ilSCORM2004Node::putInTree($ass, $parent_id, $target);
-            $ass_ids[] = $ass->getId();
-        }
-        $ass_ids = array_reverse($ass_ids);
-        $ass_ids = implode(":", $ass_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $ass_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $ass_ids);
-    }
-
-    /**
-     * Insert (multiple) pages at node
-     */
-    public function insertPage($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-
-        $page_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $page = new ilSCORM2004PageNode($this->object);
-            $page->setTitle($lng->txt("sahs_new_page"));
-            $page->setSLMId($this->object->getId());
-            $page->create();
-            ilSCORM2004Node::putInTree($page, $parent_id, $target);
-            $page_ids[] = $page->getId();
-        }
-        $page_ids = array_reverse($page_ids);
-        $page_ids = implode(":", $page_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $page_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $page_ids);
-    }
-
-
-    /**
-     * Insert sequencing scenario at node
-     */
-    public function insertScenarioGUI()
-    {
-        $templates = array();
-        $description = null;
-        $image = null;
-
-        $default_identifier = $_POST["identifier"];
-
-        //get available templates
-        $arr_templates = ilSCORM2004SeqTemplate::availableTemplates();
-
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_seq_chooser.html", "Modules/Scorm2004");
-
-        $this->tpl->setCurrentBlock("option_item");
-
-        $active = null;
-        foreach ($arr_templates as $templ) {
-            $sel = "";
-            $item_data = $templ->getMetadataProperties();
-            $item_data['identifier'] = $templ->getIdentifier();
-            array_push($templates, $item_data);
-            if ($default_identifier == $item_data['identifier']) {
-                $sel = 'selected';
-                $active = $item_data;
-            }
-            $this->tpl->setVariable("VAL_SELECTED", $sel);
-            $this->tpl->setVariable("VAL_IDENTIFIER", $item_data['identifier']);
-            $this->tpl->setVariable("VAL_TITLE", $item_data['title']);
-            $this->tpl->parseCurrentBlock();
-        }
-
-        //default
-        if ($active == null) {
-            $this->saveAllTitles(false);
-            $description = $templates[0]['description'];
-            $image = $templates[0]['thumbnail'];
-        } else {
-            $description = $active['description'];
-            $image = $active['thumbnail'];
-        }
-            
-        $this->tpl->setVariable("VAL_DESCRIPTION", $description);
-        $this->tpl->setVariable("VAL_IMAGE", ilSCORM2004SeqTemplate::SEQ_TEMPLATE_DIR . "/images/" . $image);
-
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("BTN_NAME", "insertScenario");
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
-        $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-
-        $this->tpl->setVariable("TXT_TITLE", "Choose Sequencing Template");
-
-        $node_id = $_POST["node_id"];
-        $first_child = $_POST["first_child"];
-
-        if (!$node_id) {
-            $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        }
-        if (!$first_child) {
-            $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-        }
-
-        $this->tpl->setVariable("VAL_NODE_ID", $node_id);
-        $this->tpl->setVariable("VAL_FIRST_CHILD", $first_child);
-    }
-
-
-    /**
-     * Insert sequencing scenario at node
-     */
-    public function insertScenario()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $node_id = $_POST["node_id"];
-
-        if (!$_POST["first_child"]) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {     // insert as first child
-            $parent_id = $node_id;
-            $target = ilTree::POS_FIRST_NODE;
-        }
-
-        $template = new ilSCORM2004SeqTemplate($_POST["identifier"]);
-        $id = $template->insertTemplateForObjectAtParent($this->object, $parent_id, $target);
-        $ilCtrl->setParameter($this, "highlight", $id);
-        $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-    }
-
-    /**
-     * Insert special page
-     */
-    public function insertSpecialPage($a_redirect = true)
-    {
-        $this->insertTemplateGUI($a_redirect, true);
-    }
+//    /**
+//     * Insert (multiple) scos at node
+//     */
+//    public function insertSco($a_redirect = true)
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//
+//        $slm_tree = new ilTree($this->object->getId());
+//        $slm_tree->setTreeTablePK("slm_id");
+//        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//
+//        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//
+//        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
+//            $parent_id = $slm_tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {													// insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//
+//        $sco_ids = array();
+//        for ($i = 1; $i <= $num; $i++) {
+//            $sco = new ilSCORM2004Sco($this->object);
+//            $sco->setTitle($lng->txt("sahs_new_sco"));
+//            $sco->setSLMId($this->object->getId());
+//            $sco->create();
+//            ilSCORM2004Node::putInTree($sco, $parent_id, $target);
+//            $sco_ids[] = $sco->getId();
+//        }
+//        $sco_ids = array_reverse($sco_ids);
+//        $sco_ids = implode(":", $sco_ids);
+//
+//        if ($a_redirect) {
+//            $ilCtrl->setParameter($this, "highlight", $sco_ids);
+//            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
+//        }
+//        return array("node_id" => $node_id, "items" => $sco_ids);
+//    }
+//
+//    /**
+//     * Insert (multiple) assets at node
+//     */
+//    public function insertAsset($a_redirect = true)
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//
+//        $slm_tree = new ilTree($this->object->getId());
+//        $slm_tree->setTreeTablePK("slm_id");
+//        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//
+//        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//
+//        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
+//            $parent_id = $slm_tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {													// insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//
+//        $ass_ids = array();
+//        for ($i = 1; $i <= $num; $i++) {
+//            $ass = new ilSCORM2004Asset($this->object);
+//            $ass->setTitle($lng->txt("sahs_new_asset"));
+//            $ass->setSLMId($this->object->getId());
+//            $ass->create();
+//            ilSCORM2004Node::putInTree($ass, $parent_id, $target);
+//            $ass_ids[] = $ass->getId();
+//        }
+//        $ass_ids = array_reverse($ass_ids);
+//        $ass_ids = implode(":", $ass_ids);
+//
+//        if ($a_redirect) {
+//            $ilCtrl->setParameter($this, "highlight", $ass_ids);
+//            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
+//        }
+//        return array("node_id" => $node_id, "items" => $ass_ids);
+//    }
+//
+//    /**
+//     * Insert (multiple) pages at node
+//     */
+//    public function insertPage($a_redirect = true)
+//    {
+//        $ilCtrl = $this->ctrl;
+//        $lng = $this->lng;
+//
+//        $slm_tree = new ilTree($this->object->getId());
+//        $slm_tree->setTreeTablePK("slm_id");
+//        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//
+//        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
+//        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//
+//        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
+//            $parent_id = $slm_tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {													// insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//
+//        $page_ids = array();
+//        for ($i = 1; $i <= $num; $i++) {
+//            $page = new ilSCORM2004PageNode($this->object);
+//            $page->setTitle($lng->txt("sahs_new_page"));
+//            $page->setSLMId($this->object->getId());
+//            $page->create();
+//            ilSCORM2004Node::putInTree($page, $parent_id, $target);
+//            $page_ids[] = $page->getId();
+//        }
+//        $page_ids = array_reverse($page_ids);
+//        $page_ids = implode(":", $page_ids);
+//
+//        if ($a_redirect) {
+//            $ilCtrl->setParameter($this, "highlight", $page_ids);
+//            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
+//        }
+//        return array("node_id" => $node_id, "items" => $page_ids);
+//    }
+//
+//
+//    /**
+//     * Insert sequencing scenario at node
+//     */
+//    public function insertScenarioGUI()
+//    {
+//        $templates = array();
+//        $description = null;
+//        $image = null;
+//
+//        $default_identifier = $_POST["identifier"];
+//
+//        //get available templates
+//        $arr_templates = ilSCORM2004SeqTemplate::availableTemplates();
+//
+//        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_seq_chooser.html", "Modules/Scorm2004");
+//
+//        $this->tpl->setCurrentBlock("option_item");
+//
+//        $active = null;
+//        foreach ($arr_templates as $templ) {
+//            $sel = "";
+//            $item_data = $templ->getMetadataProperties();
+//            $item_data['identifier'] = $templ->getIdentifier();
+//            array_push($templates, $item_data);
+//            if ($default_identifier == $item_data['identifier']) {
+//                $sel = 'selected';
+//                $active = $item_data;
+//            }
+//            $this->tpl->setVariable("VAL_SELECTED", $sel);
+//            $this->tpl->setVariable("VAL_IDENTIFIER", $item_data['identifier']);
+//            $this->tpl->setVariable("VAL_TITLE", $item_data['title']);
+//            $this->tpl->parseCurrentBlock();
+//        }
+//
+//        //default
+//        if ($active == null) {
+//            $this->saveAllTitles(false);
+//            $description = $templates[0]['description'];
+//            $image = $templates[0]['thumbnail'];
+//        } else {
+//            $description = $active['description'];
+//            $image = $active['thumbnail'];
+//        }
+//
+//        $this->tpl->setVariable("VAL_DESCRIPTION", $description);
+//        $this->tpl->setVariable("VAL_IMAGE", ilSCORM2004SeqTemplate::SEQ_TEMPLATE_DIR . "/images/" . $image);
+//
+//        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+//        $this->tpl->setVariable("BTN_NAME", "insertScenario");
+//        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+//        $this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
+//        $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
+//
+//        $this->tpl->setVariable("TXT_TITLE", "Choose Sequencing Template");
+//
+//        $node_id = $_POST["node_id"];
+//        $first_child = $_POST["first_child"];
+//
+//        if (!$node_id) {
+//            $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+//        }
+//        if (!$first_child) {
+//            $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
+//        }
+//
+//        $this->tpl->setVariable("VAL_NODE_ID", $node_id);
+//        $this->tpl->setVariable("VAL_FIRST_CHILD", $first_child);
+//    }
+//
+//
+//    /**
+//     * Insert sequencing scenario at node
+//     */
+//    public function insertScenario()
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $slm_tree = new ilTree($this->object->getId());
+//        $slm_tree->setTreeTablePK("slm_id");
+//        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//
+//        $node_id = $_POST["node_id"];
+//
+//        if (!$_POST["first_child"]) {	// insert after node id
+//            $parent_id = $slm_tree->getParentId($node_id);
+//            $target = $node_id;
+//        } else {     // insert as first child
+//            $parent_id = $node_id;
+//            $target = ilTree::POS_FIRST_NODE;
+//        }
+//
+//        $template = new ilSCORM2004SeqTemplate($_POST["identifier"]);
+//        $id = $template->insertTemplateForObjectAtParent($this->object, $parent_id, $target);
+//        $ilCtrl->setParameter($this, "highlight", $id);
+//        $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
+//    }
+//
+//    /**
+//     * Insert special page
+//     */
+//    public function insertSpecialPage($a_redirect = true)
+//    {
+//        $this->insertTemplateGUI($a_redirect, true);
+//    }
     
     
     /**
@@ -2488,21 +2465,21 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
     }
     
-    /**
-    * Perform drag and drop action
-    */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $this->object->executeDragDrop(
-            $_POST["il_hform_source_id"],
-            $_POST["il_hform_target_id"],
-            $_POST["il_hform_fc"],
-            $_POST["il_hform_as_subitem"]
-        );
-        $ilCtrl->redirect($this, "showOrganization");
-    }
+//    /**
+//    * Perform drag and drop action
+//    */
+//    public function proceedDragDrop()
+//    {
+//        $ilCtrl = $this->ctrl;
+//
+//        $this->object->executeDragDrop(
+//            $_POST["il_hform_source_id"],
+//            $_POST["il_hform_target_id"],
+//            $_POST["il_hform_fc"],
+//            $_POST["il_hform_as_subitem"]
+//        );
+//        $ilCtrl->redirect($this, "showOrganization");
+//    }
 
     /**
     * Copy items to clipboard
@@ -2745,7 +2722,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $export = new ilScorm2004Export($this->object);
 
         $export_dir = $export->getExportDirectoryForType($_GET['type']);
-        ilFileDelivery::deliverFileLegacy($export_dir . "/" . $_GET['file'], $_GET['file']);
+        ilUtil::deliverFile($export_dir . "/" . $_GET['file'], $_GET['file']);
     }
     
     /**

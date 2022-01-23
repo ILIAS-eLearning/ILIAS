@@ -733,7 +733,7 @@ class ilForum
         $query =
             "SELECT COUNT(DISTINCT(thr_pk)) cnt
 			 FROM frm_threads
-			 {$cnt_join_type} JOIN frm_posts
+			 $cnt_join_type JOIN frm_posts
 			 	ON pos_thr_fk = thr_pk $cnt_active_pos_query
 			 WHERE thr_top_fk = %s $excluded_ids_condition
 		";
@@ -785,6 +785,14 @@ class ilForum
         }
         $additional_sort .= implode(' ', $dynamic_columns);
 
+        $new_deadline_condition = $this->db->quote(date(
+            'Y-m-d H:i:s',
+            (int) $this->settings->get(
+                'frm_new_deadline',
+                (string) (time() - 60 * 60 * 24 * 7 * ilObjForum::NEWS_NEW_CONSIDERATION_WEEKS)
+            )
+        ), 'timestamp');
+
         if (!$this->user->isAnonymous()) {
             $query = "SELECT
 					  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
@@ -805,10 +813,7 @@ class ilForum
 						AND treenew.parent_pos != 0
 						AND (ipos.pos_update > iacc.access_old_ts
 							OR
-							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(date(
-                    'Y-m-d H:i:s',
-                    $this->settings->get('frm_new_deadline')
-                ), 'timestamp') . "))
+							(iacc.access_old IS NULL AND (ipos.pos_update > " . $new_deadline_condition . "))
 							)
 						 
 						AND ipos.pos_author_id != %s

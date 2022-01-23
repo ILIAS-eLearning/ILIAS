@@ -13,6 +13,7 @@ final class RootFolderTest extends TestCase
         '.gitignore',
         '.htaccess',
         '.phpunit.result.cache',
+        'captainhook.local.json',
         '.php_cs.cache',
         'calendar.php',
         'captainhook.json',

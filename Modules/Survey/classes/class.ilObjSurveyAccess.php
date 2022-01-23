@@ -78,7 +78,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             case "read":
                 if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id) &&
                     !$is_admin) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 break;
@@ -87,20 +87,20 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         switch ($a_cmd) {
             case "run":
                 if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 break;
 
             case "evaluation":
                 if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 if ($rbacsystem->checkAccess("write", $a_ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($a_obj_id, $a_user_id)) {
                     return true;
                 } else {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
                     return false;
                 }
         }

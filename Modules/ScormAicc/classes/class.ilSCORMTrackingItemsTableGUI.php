@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -34,11 +34,11 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, $a_userSelected, $a_scosSelected, $a_report)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
+        $rbacsystem = $DIC->rbac();
         $lng->loadLanguageModule("scormtrac");
     
         $this->obj_id = $a_obj_id;
@@ -121,15 +121,15 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             case "exportSelectedObjectives":
                 $cols = ilSCORMTrackingItems::exportSelectedObjectivesColumns();
             break;
-            case "tracInteractionItem":
-                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
-            case "tracInteractionUser":
-                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
-            case "tracInteractionUserAnswers":
-                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
-            break;
+//            case "tracInteractionItem":
+//                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+//            break;
+//            case "tracInteractionUser":
+//                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+//            break;
+//            case "tracInteractionUserAnswers":
+//                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+//            break;
             case "exportSelectedSuccess":
                 $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
             break;
@@ -141,16 +141,16 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     /**
      * Get Obj id
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
 
-    public function getItems(): void
+    public function getItems() : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $this->determineOffsetAndOrder(true);
         $this->determineLimit();
@@ -192,7 +192,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     protected function parseValue($id, $value, $type)
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
         switch ($id) {
             case "status":
@@ -216,8 +216,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
         foreach ($this->getSelectedColumns() as $c) {
             $this->tpl->setCurrentBlock("user_field");
             $val = $this->parseValue($c, $a_set[$c], "scormtrac");
@@ -239,7 +239,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
@@ -266,7 +266,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {

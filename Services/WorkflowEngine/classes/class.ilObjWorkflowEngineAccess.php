@@ -42,7 +42,7 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         // Deal with commands
         switch ($cmd) {
             case "view":
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
                     return false;
                 break;
 

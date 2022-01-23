@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,7 +17,6 @@ ilContext::init(ilContext::CONTEXT_SAML);
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
-$DIC->ctrl()->initBaseClass('ilStartUpGUI');
-$DIC->ctrl()->setCmd('doSamlAuthentication');
 $DIC->ctrl()->setTargetScript('ilias.php');
-$DIC->ctrl()->callBaseClass();
+$DIC->ctrl()->setCmd('doSamlAuthentication');
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);

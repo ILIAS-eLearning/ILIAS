@@ -21,7 +21,7 @@ use ILIAS\UI\Component\Modal\Modal;
  */
 class ilObjBlogListGUI extends ilObjectListGUI
 {
-    private ?Modal $comment_modal;
+    private ?Modal $comment_modal = null;
 
     public function init()
     {

@@ -28,7 +28,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     public function create() : void
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
 
         $this->lng->loadLanguageModule("scov");
 
@@ -97,8 +97,8 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     public function render(bool $a_return = false, string $a_url = '') : string
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
 
         if (!$a_return) {
             $this->deliver();

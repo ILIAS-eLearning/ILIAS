@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,9 +24,11 @@
 *
 * @ingroup ModulesScormAicc
 */
+
 class ilObjSAHSLearningModule extends ilObject
 {
     public $validator;
+    protected $sequencing = false;
     //	var $meta_data;
 
     /**
@@ -47,7 +49,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function create($upload = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::create();
         if (!$upload) {
@@ -61,7 +63,7 @@ class ilObjSAHSLearningModule extends ilObject
 			VALUES (%s,%s,%s,%s,%s,%s)',
             array('integer', 'text', 'text', 'integer','integer','text'),
             array($this->getId(),'API', $this->getSubType(),(int) $this->getEditable(),
-                (int) $this->getSequencingExpertMode(), $this->getLocalization()
+                0, $this->getLocalization()
                 )
         );
     }
@@ -72,7 +74,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function read()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -89,13 +91,13 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
             $this->setCreditMode($lm_rec["credit"]);
             $this->setSubType($lm_rec["c_type"]);
-            $this->setEditable($lm_rec["editable"]);
+            $this->setEditable(false);
             $this->setStyleSheetId($lm_rec["stylesheet"]);
             $this->setMaxAttempt($lm_rec["max_attempt"]);
             $this->setModuleVersion($lm_rec["module_version"]);
             $this->setAssignedGlossary($lm_rec["glossary"]);
             $this->setTries($lm_rec["question_tries"]);
-            $this->setLocalization($lm_rec["localization"]);
+            $this->setLocalization((string) $lm_rec["localization"]);
             $this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
             $this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
             $this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
@@ -107,7 +109,7 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setTime_from_lms(ilUtil::yn2tf($lm_rec["time_from_lms"]));
             $this->setDebug(ilUtil::yn2tf($lm_rec["debug"]));
             $this->setDebugPw($lm_rec["debugpw"]);
-            $this->setSequencingExpertMode($lm_rec["seq_exp_mode"]);
+//            $this->setSequencingExpertMode(bool $lm_rec["seq_exp_mode"]);
             $this->setOpenMode($lm_rec["open_mode"]);
             $this->setWidth($lm_rec["width"]);
             $this->setHeight($lm_rec["height"]);
@@ -135,8 +137,8 @@ class ilObjSAHSLearningModule extends ilObject
     public static function getAffectiveLocalization(int $a_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+        $ilDB = $DIC->database();
+        $lng = $DIC->language();
         
         $lm_set = $ilDB->queryF(
             'SELECT localization FROM sahs_lm WHERE id = %s',
@@ -159,7 +161,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function _lookupSubType($a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $obj_set = $ilDB->queryF(
             'SELECT c_type FROM sahs_lm WHERE id = %s',
@@ -235,7 +237,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function _getTries($a_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $lm_set = $ilDB->queryF(
             'SELECT question_tries FROM sahs_lm WHERE id = %s',
@@ -342,7 +344,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getDefaultLessonMode()
     {
         global $DIC;
-        if ($DIC['ilUser']->getId() == 13) {
+        if ($DIC->user()->getId() == 13) {
             return "browse";
         }
         return $this->lesson_mode;
@@ -496,7 +498,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getCacheDeactivated()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
         if ($lm_set->get("scormdebug_disable_cache") == "1") {
             return true;
@@ -510,7 +512,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getSessionDeactivated()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
         if ($lm_set->get("scorm_without_session") == "1") {
             return true;
@@ -524,7 +526,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getDebugActivated()
     {
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
         if ($lm_set->get("scormdebug_global_activate") == "1") {
             return true;
@@ -566,7 +568,7 @@ class ilObjSAHSLearningModule extends ilObject
         return $this->sequencing;
     }
 
-    public function setSequencing($a_sequencing)
+    public function setSequencing(bool $a_sequencing)
     {
         $this->sequencing = $a_sequencing;
     }
@@ -711,25 +713,25 @@ class ilObjSAHSLearningModule extends ilObject
     }
 
     
-    /**
-     * Set sequencing expert mode
-     *
-     * @param boolean $a_val sequencing expert mode
-     */
-    public function setSequencingExpertMode(bool $a_val)
-    {
-        $this->seq_exp_mode = $a_val;
-    }
-    
-    /**
-     * Get sequencing expert mode
-     *
-     * @return boolean sequencing expert mode
-     */
-    public function getSequencingExpertMode()
-    {
-        return $this->seq_exp_mode;
-    }
+//    /**
+//     * Set sequencing expert mode
+//     *
+//     * @param boolean $a_val sequencing expert mode
+//     */
+//    public function setSequencingExpertMode(bool $a_val)
+//    {
+//        $this->seq_exp_mode = $a_val;
+//    }
+//
+//    /**
+//     * Get sequencing expert mode
+//     *
+//     * @return boolean sequencing expert mode
+//     */
+//    public function getSequencingExpertMode()
+//    {
+//        return $this->seq_exp_mode;
+//    }
 
     /**
     * get auto continue
@@ -813,7 +815,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function checkMasteryScoreValues()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $s_result = "";
         $a_result = array();
         $type = $this->_lookupSubType($this->getID());
@@ -894,7 +896,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function update()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $this->updateMetaData();
         parent::update();
@@ -1007,7 +1009,7 @@ class ilObjSAHSLearningModule extends ilObject
                 ilUtil::tf2yn($this->getTime_from_lms()),
                 ilUtil::tf2yn($this->getDebug()),
                 $this->getLocalization(),
-                $this->getSequencingExpertMode(),
+                0,//$this->getSequencingExpertMode(),
                 $this->getDebugPw(),
                 $this->getOpenMode(),
                 $this->getWidth(),
@@ -1036,7 +1038,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function getScormModulesForGlossary($a_glo_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
     
         $set = $ilDB->query("SELECT DISTINCT id FROM sahs_lm WHERE " .
             " glossary = " . $ilDB->quote($a_glo_id, "integer"));
@@ -1058,7 +1060,7 @@ class ilObjSAHSLearningModule extends ilObject
     public static function lookupAssignedGlossary($a_slm_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
     
         $set = $ilDB->query("SELECT DISTINCT glossary FROM sahs_lm WHERE " .
             " id = " . $ilDB->quote($a_slm_id, "integer"));
@@ -1101,8 +1103,8 @@ class ilObjSAHSLearningModule extends ilObject
     public function delete()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -1217,7 +1219,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getPointsInPercent()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         if (strcmp($this->getSubType(), "scorm2004") == 0) {
             $res = ilObjSCORM2004LearningModule::_getUniqueScaledScoreForUser($this->getId(), $ilUser->getId());
             if (!is_null($res)) {
@@ -1243,7 +1245,7 @@ class ilObjSAHSLearningModule extends ilObject
     public function getMaxPoints()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         
         if (strcmp($this->getSubType(), 'scorm2004') == 0) {
             $res = ilObjSCORM2004LearningModule::_getMaxScoreForUser($this->getId(), $ilUser->getId());
@@ -1252,17 +1254,19 @@ class ilObjSAHSLearningModule extends ilObject
             return null;
         }
     }
-    
+
     /**
      * Populate by directory. Add a filename to do a special check for
      * ILIAS SCORM export files. If the corresponding directory is found
      * within the passed directory path (i.e. "htlm_<id>") this
      * subdirectory is used instead.
-     *
-     * @param
-     * @return
+     * @param string $a_dir
+     * @param string $a_filename
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function populateByDirectoy($a_dir, $a_filename = "")
+    public function populateByDirectoy(string $a_dir, string $a_filename = "") : void
     {
         /*preg_match("/.*sahs_([0-9]*)\.zip/", $a_filename, $match);
         if (is_dir($a_dir."/sahs_".$match[1]))
@@ -1283,10 +1287,9 @@ class ilObjSAHSLearningModule extends ilObject
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
 
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
@@ -1324,7 +1327,7 @@ class ilObjSAHSLearningModule extends ilObject
         $new_obj->setTime_from_lms($this->getTime_from_lms());
         $new_obj->setDebug($this->getDebug());
         $new_obj->setLocalization($this->getLocalization());
-        $new_obj->setSequencingExpertMode($this->getSequencingExpertMode());
+        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
         $new_obj->setDebugPw($this->getDebugPw());
         $new_obj->setOpenMode($this->getOpenMode());
         $new_obj->setWidth($this->getWidth());
@@ -1400,11 +1403,11 @@ class ilObjSAHSLearningModule extends ilObject
     public function getApiStudentId()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
+        $usr = $DIC->user();
         $idSetting = $this->getIdSetting();
-        $studentId = $ilias->account->getId();
+        $studentId = $usr->getId();
         if ($idSetting % 2 == 1) {
-            $studentId = $ilias->account->getLogin();
+            $studentId = $usr->getLogin();
         }
         if ($idSetting > 3) {
             $studentId .= '_o_' . $this->getId();
@@ -1421,21 +1424,21 @@ class ilObjSAHSLearningModule extends ilObject
     public function getApiStudentName()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
+        $usr = $DIC->user();
         $studentName = " ";
         switch ($this->getNameSetting()) {
             case 0:
-                $studentName = $ilias->account->getLastname() . ', ' . $ilias->account->getFirstname();
+                $studentName = $usr->getLastname() . ', ' . $usr->getFirstname();
                 break;
             case 1:
-                $studentName = $ilias->account->getFirstname() . ' ' . $ilias->account->getLastname();
+                $studentName = $usr->getFirstname() . ' ' . $usr->getLastname();
                 break;
             case 2:
-                $studentName = $ilias->account->getFullname();
+                $studentName = $usr->getFullname();
                 break;
             case 3:
-                switch ($ilias->account->getGender()) {
+                switch ($usr->getGender()) {
                     case 'f':
                         $studentName = $lng->txt('salutation_f') . ' ';
                         break;
@@ -1451,10 +1454,10 @@ class ilObjSAHSLearningModule extends ilObject
                     default:
                         $studentName = $lng->txt('salutation') . ' ';
                 }
-                $studentName .= $ilias->account->getLastname();
+                $studentName .= $usr->getLastname();
                 break;
             case 4:
-                $studentName = $ilias->account->getFirstname();
+                $studentName = $usr->getFirstname();
                 break;
         }
         return $studentName;

@@ -19,7 +19,7 @@
  */
 class ilObjFileBasedLM extends ilObject
 {
-    protected string $start_file;
+    protected ?string $start_file = null;
     protected bool $online;
 
     public function __construct(
@@ -92,7 +92,7 @@ class ilObjFileBasedLM extends ilObject
         ilUtil::makeDir($this->getDataDirectory());
     }
 
-    public function getStartFile() : string
+    public function getStartFile() : ?string
     {
         return $this->start_file;
     }

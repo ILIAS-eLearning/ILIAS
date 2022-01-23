@@ -7787,6 +7787,34 @@ ul.dropdown-menu > li > .btn:focus {
 .il-notification-item .dropdown {
   margin-top: -20px;
 }
+.il-item-shy {
+  display: flex;
+  gap: 10px;
+}
+.il-item-shy .content {
+  width: 100%;
+  display: grid;
+  grid-template-areas: "title close" "description description" "divider divider" "properties properties";
+  grid-auto-columns: auto 12px;
+}
+.il-item-shy .content .il-item-title {
+  grid-area: title;
+}
+.il-item-shy .content .close {
+  grid-area: close;
+}
+.il-item-shy .content .il-item-description {
+  grid-area: description;
+}
+.il-item-shy .content .il-item-divider {
+  grid-area: divider;
+}
+.il-item-shy .content .il-item-properties {
+  grid-area: properties;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px;
+}
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
     padding: 6px 6px;

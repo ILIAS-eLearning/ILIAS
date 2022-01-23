@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -29,7 +29,7 @@ class ilSCORMResourceDependency
         return $this->identifierref;
     }
 
-    public function setIdentifierRef($a_id_ref): void
+    public function setIdentifierRef($a_id_ref) : void
     {
         $this->identifierref = $a_id_ref;
     }

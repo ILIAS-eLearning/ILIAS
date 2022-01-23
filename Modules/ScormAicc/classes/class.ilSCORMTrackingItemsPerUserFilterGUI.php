@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -31,11 +31,11 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function parse($userSelected, $report, $reports): void
+    public function parse($userSelected, $report, $reports) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));

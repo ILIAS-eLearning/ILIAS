@@ -47,7 +47,7 @@ class EmptyDependencyMap implements DependencyMap
      */
     public function with(callable $map) : DependencyMap
     {
-        $dependency_map       = new static();
+        $dependency_map = new static();
         $dependency_map->maps = array_merge([$map], $this->maps);
         
         return $dependency_map;

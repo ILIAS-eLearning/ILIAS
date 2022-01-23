@@ -32,7 +32,7 @@ class ilCtrlStructureCidGenerator
      */
     public function getIndexByCid(string $cid) : int
     {
-        if (str_starts_with($cid, '-')) {
+        if (strpos($cid, '-') === 0) {
             $inverted_cid = str_replace('-', '', $cid);
             $index = (int) base_convert($inverted_cid, 36, 10);
 

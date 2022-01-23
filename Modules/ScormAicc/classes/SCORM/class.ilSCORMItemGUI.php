@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -28,10 +28,10 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
         $this->sc_object = new ilSCORMItem($a_id);
     }
 
-    public function view(): void
+    public function view() : void
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
+        $usr = $DIC->user();
 
         // get ressource identifier
         $id_ref = $this->sc_object->getIdentifierRef();
@@ -50,7 +50,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
                 $this->tpl->setVariable("ITEM_LOCATION", $slm_obj->getDataDirectory() . "/" . $resource->getHref() . $param_str);
                 $this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
                 $this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
-                $this->tpl->setVariable("USER_ID", $ilias->account->getId());
+                $this->tpl->setVariable("USER_ID", $usr->getId());
                 $this->tpl->setVariable("ADAPTER_NAME", $slm_obj->getAPIAdapterName());
                 $this->tpl->printToStdout();
                 exit;
@@ -110,5 +110,4 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
         );
         $this->tpl->parseCurrentBlock();
     }
-
 }

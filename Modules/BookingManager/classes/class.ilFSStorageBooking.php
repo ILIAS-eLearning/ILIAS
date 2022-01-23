@@ -16,19 +16,19 @@
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilFSStorageBooking extends ilFileSystemStorage
+class ilFSStorageBooking extends ilFileSystemAbstractionStorage
 {
     public function __construct(
         int $a_container_id = 0
     ) {
         parent::__construct(self::STORAGE_WEB, true, $a_container_id);
     }
-    
+
     protected function getPathPostfix() : string
     {
         return 'book';
     }
-    
+
     protected function getPathPrefix() : string
     {
         return 'ilBookingManager';
