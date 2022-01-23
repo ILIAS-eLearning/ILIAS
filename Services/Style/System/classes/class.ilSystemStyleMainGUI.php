@@ -189,7 +189,7 @@ class ilSystemStyleMainGUI
                         ilSystemStyleDocumentationGUI::SHOW_TREE,
                         true
                     );
-                    $this->tpl->setPermanentLink('stys', $this->ref_id, $goto_link);
+                    $this->tpl->setPermanentLink('stys', (int)$this->ref_id, $goto_link);
                     $entries = new Entries();
                     $entries->addEntriesFromArray(include ilSystemStyleDocumentationGUI::DATA_PATH);
                     $documentation_gui = new ilSystemStyleDocumentationGUI(
