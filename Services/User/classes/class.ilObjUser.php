@@ -4168,7 +4168,7 @@ class ilObjUser extends ilObject
     }
 
     public function hasToAcceptTermsOfServiceInSession(
-        ?int $status = null
+        ?bool $status = null
     ) : bool {
         if (null === $status) {
             return (bool) ilSession::get('has_to_accept_agr_in_session');
