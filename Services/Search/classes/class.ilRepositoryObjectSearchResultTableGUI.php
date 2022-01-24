@@ -52,12 +52,13 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setLimit(0);
         
-        $this->setTitle($this->lng->txt('search_results') . ' "' . str_replace(array('"'), '', $this->getSearchTerm()) . '"');
+        $this->setTitle(
+            $this->lng->txt('search_results') . ' "' . str_replace(array('"'), '', $this->getSearchTerm()) . '"'
+        );
     }
 
     protected function initColumns() : void
     {
-
         if ($this->getSettings()->enabledLucene()) {
             $this->lng->loadLanguageModule('search');
             $this->addColumn($this->lng->txt("title"), "", "80%");

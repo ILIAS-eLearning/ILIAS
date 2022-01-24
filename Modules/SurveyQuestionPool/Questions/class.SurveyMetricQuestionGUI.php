@@ -166,11 +166,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $template->setVariable("QUESTION_ID", $this->object->getId());
 
         if (!is_array($working_data) || !trim($user_answer)) {
-            $solution_text = "";
             $len = 10;
-            for ($i = 0; $i < 10; $i++) {
-                $solution_text .= "&#160;";
-            }
+            $solution_text = str_repeat("&#160;", 10);
         } else {
             $solution_text = $user_answer;
         }
@@ -199,7 +196,6 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $template->parseCurrentBlock();
         $template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         if ($show_questiontext) {
             $this->outQuestionText($template);
         }

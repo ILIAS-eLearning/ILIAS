@@ -123,7 +123,7 @@ class ilFileDataForum extends ilFileData
                 [$obj_id, $rest] = explode('_', $file->getFilename(), 2);
                 if ((int) $obj_id === $this->obj_id) {
                     [$pos_id, $rest] = explode('_', $rest, 2);
-                    if ($pos_id === $this->getPosId()) {
+                    if ((int) $pos_id === $this->getPosId()) {
                         ilFileUtils::rename(
                             $file->getPathname(),
                             $this->forum_path . '/' . $a_new_frm_id . '_' . $this->pos_id . '_' . $rest
@@ -291,7 +291,7 @@ class ilFileDataForum extends ilFileData
         global $DIC;
 
         if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
-            ilUtil::deliverFile($path['path'], $path['clean_filename']);
+            ilFileDelivery::deliverFileLegacy($path['path'], $path['clean_filename']);
         } else {
             ilUtil::sendFailure($DIC->lanuage()->txt('error_reading_file'), true);
         }
@@ -308,7 +308,7 @@ class ilFileDataForum extends ilFileData
         }
 
         $post = new ilForumPost($this->getPosId());
-        ilUtil::deliverFile($zip_file, $post->getSubject() . '.zip', '', false, true, false);
+        ilFileDelivery::deliverFileLegacy($zip_file, $post->getSubject() . '.zip', '', false, true, false);
         ilUtil::delDir($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
         $DIC->http()->close();
         return true; // never

@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -29,19 +28,19 @@ include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 *
 * @ingroup ServicesUser
 */
-class ilFSStorageUserFolder extends ilFileSystemStorage
+class ilFSStorageUserFolder extends ilFileSystemAbstractionStorage
 {
     public function __construct($a_container_id = 0)
     {
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
-    
-    protected function getPathPostfix()
+
+    protected function getPathPostfix():string
     {
         return 'reg';
     }
-    
-    protected function getPathPrefix()
+
+    protected function getPathPrefix():string
     {
         return 'ilReg';
     }

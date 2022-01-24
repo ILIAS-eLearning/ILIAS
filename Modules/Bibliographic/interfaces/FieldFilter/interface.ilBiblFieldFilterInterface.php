@@ -2,70 +2,34 @@
 
 /**
  * Interface ilBiblFieldFilterInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
 interface ilBiblFieldFilterInterface
 {
-    const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
-    const FILTER_TYPE_SELECT_INPUT = 2;
-    const FILTER_TYPE_TEXT_INPUT = 1;
-
-
-    /**
-     * @return int
-     */
-    public function getId();
-
-
-    /**
-     * @param int $id
-     */
-    public function setId($id);
-
-
-    /**
-     * @return int
-     */
-    public function getFieldId();
-
-
-    /**
-     * @param int $field_id
-     */
-    public function setFieldId($field_id);
-
-
-    /**
-     * @return int
-     */
-    public function getObjectId();
-
-
-    /**
-     * @param int $object_id
-     */
-    public function setObjectId($object_id);
-
-
-    /**
-     * @return int
-     */
-    public function getFilterType();
-
-
-    /**
-     * @param int $filter_type
-     */
-    public function setFilterType($filter_type);
-
-
+    public const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
+    public const FILTER_TYPE_SELECT_INPUT = 2;
+    public const FILTER_TYPE_TEXT_INPUT = 1;
+    
+    public function getId() : ?int;
+    
+    public function setId(int $id) : void;
+    
+    public function getFieldId() : int;
+    
+    public function setFieldId(int $field_id) : void;
+    
+    public function getObjectId() : int;
+    
+    public function setObjectId(int $object_id) : void;
+    
+    public function getFilterType() : int;
+    
+    public function setFilterType(int $filter_type) : void;
+    
     public function create();
-
-
+    
     public function update();
-
-
+    
     public function delete();
 }

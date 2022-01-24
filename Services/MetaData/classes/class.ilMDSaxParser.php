@@ -66,9 +66,6 @@ class ilMDSaxParser extends ilSaxParser
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $tree = $DIC['tree'];
-
         $this->meta_log = $DIC->logger()->meta();
 
 

@@ -26,8 +26,8 @@ namespace ILIAS\Skill\Access;
 class SkillManagementAccess
 {
     protected \ilRbacSystem $access;
-    protected int $skmg_ref_id;
-    protected int $usr_id;
+    protected int $skmg_ref_id = 0;
+    protected int $usr_id = 0;
 
     public function __construct(\ilRbacSystem $access, int $skmg_ref_id, int $usr_id)
     {

@@ -128,11 +128,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     
     /**
      * Get selectable columns
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         if ($this->selectable_columns) {
             return $this->selectable_columns;
@@ -213,7 +212,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -319,7 +318,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -328,13 +327,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $objDefinition = $DIC['objDefinition'];
         
         if ($this->has_multi) {
-            $this->tpl->setVariable("USER_ID", $data["usr_id"]);
+            $this->tpl->setVariable("USER_ID", $a_set["usr_id"]);
         }
         
         foreach ($this->getSelectedColumns() as $c) {
-            if (!(bool) $data["privacy_conflict"]) {
-                if ($c == 'status' && $data[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-                    $timing = $this->showTimingsWarning($this->ref_id, $data["usr_id"]);
+            if (!(bool) $a_set["privacy_conflict"]) {
+                if ($c == 'status' && $a_set[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                    $timing = $this->showTimingsWarning($this->ref_id, $a_set["usr_id"]);
                     if ($timing) {
                         if ($timing !== true) {
                             $timing = ": " . ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
@@ -349,13 +348,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 }
 
                 // #7694
-                if ($c == 'login' && !$data["active"]) {
+                if ($c == 'login' && !$a_set["active"]) {
                     $this->tpl->setCurrentBlock('inactive_bl');
                     $this->tpl->setVariable('TXT_INACTIVE', $lng->txt("inactive"));
                     $this->tpl->parseCurrentBlock();
                 }
                 
-                $val = $this->parseValue($c, $data[$c], $this->type);
+                $val = $this->parseValue($c, $a_set[$c], $this->type);
             } else {
                 if ($c == 'login') {
                     $this->tpl->setCurrentBlock('inactive_bl');
@@ -371,9 +370,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
         
-        $ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $data["usr_id"]);
+        $ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $a_set["usr_id"]);
         
-        if (!$this->getPrintMode() && !(bool) $data["privacy_conflict"]) {
+        if (!$this->getPrintMode() && !(bool) $a_set["privacy_conflict"]) {
             // details for containers and collections
             if ($this->has_collection ||
                 $objDefinition->isContainer($this->type)) {
@@ -394,7 +393,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
@@ -405,7 +404,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt - 1) . $a_row);
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
@@ -418,7 +417,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -428,7 +427,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         foreach ($this->getSelectedColumns() as $c) {
             if ($c != 'status') {

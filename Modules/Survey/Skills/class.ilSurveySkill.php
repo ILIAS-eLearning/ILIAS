@@ -19,6 +19,7 @@
  */
 class ilSurveySkill
 {
+    protected ilObjSurvey $survey;
     protected ilDBInterface $db;
 
     // key: question id, value:
@@ -245,9 +246,7 @@ class ilSurveySkill
         $finished_ids = [];
         if (!$a_self_eval) {
             if ($finished_id > 0) {
-                if ($finished_id > 0) {
-                    $finished_ids = array($finished_id);
-                }
+                $finished_ids = array($finished_id);
             } else {
                 $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($a_appraisee_id, true);
             }
@@ -257,10 +256,11 @@ class ilSurveySkill
                 $finished_ids = array($finished_id);
             }
         }
-        
+
+        /* ???
         if (!is_array($finished_ids)) {
             $finished_ids = array(-1);
-        }
+        }*/
 
         $results = $this->survey->getUserSpecificResults($finished_ids);
         $this->log->debug("Finished IDS: " . print_r($finished_ids, true));

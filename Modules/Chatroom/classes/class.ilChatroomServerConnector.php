@@ -50,7 +50,7 @@ class ilChatroomServerConnector
 
         $responseObject = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
 
-        return $response instanceof stdClass && ((int) $responseObject->status) === 200;
+        return $responseObject instanceof stdClass && ((int) $responseObject->status) === 200;
     }
 
     /**
@@ -114,6 +114,7 @@ class ilChatroomServerConnector
      * @param int $scope
      * @param int $subScope
      * @param int $user
+     * @param string $title
      * @return string|false
      */
     public function sendCreatePrivateRoom(int $scope, int $subScope, int $user, string $title)

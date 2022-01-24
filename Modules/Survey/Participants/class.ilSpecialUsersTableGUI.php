@@ -43,7 +43,7 @@ class ilSpecialUsersTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $user = ilObjUser::_lookupFields($a_set);

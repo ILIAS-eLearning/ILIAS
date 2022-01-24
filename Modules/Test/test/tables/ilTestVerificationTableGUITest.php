@@ -36,7 +36,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
             {
             }
 
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return new class() extends ilLogger {
                     public function __construct()
@@ -54,7 +54,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
                 };
             }
 
-            public static function getLogger($a)
+            public static function getLogger($a) : ilLogger
             {
                 return new class() extends ilLogger {
                     public function __construct()

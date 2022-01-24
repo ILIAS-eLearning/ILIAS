@@ -96,6 +96,8 @@ file containes the following fields:
 
 ## Current Maintainerships
 
+Components in the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers):
+
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: N.A.
@@ -233,12 +235,6 @@ file containes the following fields:
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-
-* **Data Collection**
-	* 1st Maintainer: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
 
 * **Database**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -395,12 +391,6 @@ file containes the following fields:
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-
-* **Login, Auth & Registration**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: N.A.
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID), [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
 
 * **LTI**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
@@ -721,7 +711,25 @@ file containes the following fields:
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 
-Components in the Coordinator Model [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
+Components in the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
+
+* **Data Collection**
+	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
+	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
+
+* **Initialisation Service**
+	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
+* **Login, Auth & Registration**
+	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID), [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
 
 * **Refinery**
 	* Coordinators: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html), [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
@@ -739,6 +747,7 @@ The following directories are currently maintained under the [Coordinator Model]
 * src/Refinery
 * src/UI
 
+## Unmaintained Components
 
 The following directories are currently unmaintained:
 

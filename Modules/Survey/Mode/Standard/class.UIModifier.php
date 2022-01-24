@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode\Standard;
 
-use \ILIAS\Survey\Mode;
+use ILIAS\Survey\Mode;
 use ILIAS\Survey\InternalGUIService;
 
 /**
@@ -30,6 +30,7 @@ class UIModifier extends Mode\AbstractUIModifier
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
+        $anon_list = null;
 
         $evaluation_access = new \ilRadioGroupInputGUI($lng->txt('evaluation_access'), "evaluation_access");
 

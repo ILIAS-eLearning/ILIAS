@@ -137,7 +137,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
+                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
         }
@@ -217,7 +217,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         bool $a_include_header = true,
         bool $obligatory_state = false
     ) : string {
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
@@ -235,7 +235,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
@@ -379,14 +379,19 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $entered_value = $post_data[$this->getId() . "_value"];
         $data = array();
         if (strlen($entered_value)) {
-            array_push($data, array("value" => $entered_value, "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other']));
+            $data[] = array("value" => $entered_value,
+                            "textanswer" => $post_data[$this->getId() . '_' . $entered_value . '_other']
+            );
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $cat = $this->categories->getCategory($i);
             if ($cat->other) {
                 if ($i != $entered_value) {
                     if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
-                        array_push($data, array("value" => $i, "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'], "uncheck" => true));
+                        $data[] = array("value" => $i,
+                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'],
+                                        "uncheck" => true
+                        );
                     }
                 }
             }
@@ -456,14 +461,14 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
         $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
-        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
+        $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
             $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
         
         $affectedRows = $ilDB->insert("svy_answer", $fields);
 
         $debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
-        $debug_answer = ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : "NULL";
+        $debug_answer = $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? "NULL";
         $this->log->debug("INSERT svy_answer answer_id=" . $next_id . " question_fi=" . $this->getId() . " active_fi=" . $active_id . " value=" . $debug_value . " textanswer=" . $debug_answer);
         return null;
     }

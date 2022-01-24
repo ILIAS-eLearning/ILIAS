@@ -36,12 +36,12 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
         return $this->logger;
     }
     
-    public function filterCategories(array $a_cats)
+    public function filterCategories(array $a_cats) : array
     {
         return $a_cats;
     }
     
-    public function modifyEvent(ilCalendarEntry $a_event)
+    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
         include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
         $cal_cat = $this->isExerciseCategory(ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId()));
@@ -60,20 +60,22 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
                     if ($idl &&
                         $idl != $ass->getDeadline()) {
                         // we have individal deadline (see addCustomEvents());
-                        return false;
+                        return null;
                     }
                     if ($ass->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
                         // we have relative deadline (see addCustomEvents());
-                        return false;
+                        return null;
                     }
                 }
             }
         }
-        
         return $a_event;
     }
 
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories)
+    /**
+     * @inheritDoc
+     */
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
     {
         $all_events = array();
         
@@ -134,7 +136,6 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
                 }
             }
         }
-
         return $all_events;
     }
     

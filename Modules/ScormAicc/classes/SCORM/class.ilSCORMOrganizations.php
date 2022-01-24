@@ -1,28 +1,17 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * SCORM Organizations
 *
@@ -45,7 +34,7 @@ class ilSCORMOrganizations extends ilSCORMObject
     public function __construct($a_id = 0)
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         // title should be overrriden by ilSCORMExplorer
         $this->setTitle($lng->txt("cont_organizations"));
@@ -59,15 +48,15 @@ class ilSCORMOrganizations extends ilSCORMObject
         return $this->default_organization;
     }
 
-    public function setDefaultOrganization($a_def_org)
+    public function setDefaultOrganization($a_def_org) : void
     {
         $this->default_organization = $a_def_org;
     }
 
-    public function read()
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -80,10 +69,10 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setDefaultOrganization($obj_rec["default_organization"]);
     }
 
-    public function create()
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -95,10 +84,10 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
-    public function update()
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -112,10 +101,10 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
-    public function delete()
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

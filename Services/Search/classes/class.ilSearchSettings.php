@@ -400,7 +400,7 @@ class ilSearchSettings
         $this->setting->set('lucene_fragment_count', (string) $this->getFragmentCount());
         $this->setting->set('lucene_max_subitems', (string) $this->getMaxSubitems());
         $this->setting->set('lucene_show_relevance', (string) $this->isRelevanceVisible());
-        $this->setting->set('lucene_last_index_time', $this->getLastIndexTime()->get(IL_CAL_UNIX));
+        $this->setting->set('lucene_last_index_time', (string) $this->getLastIndexTime()->get(IL_CAL_UNIX));
         $this->setting->set('hide_adv_search', (string) $this->getHideAdvancedSearch());
         $this->setting->set('auto_complete_length', (string) $this->getAutoCompleteLength());
         $this->setting->set('lucene_item_filter_enabled', (string) $this->isLuceneItemFilterEnabled());

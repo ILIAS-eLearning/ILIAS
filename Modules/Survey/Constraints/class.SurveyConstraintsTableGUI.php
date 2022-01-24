@@ -35,7 +35,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
-        $this->read_only = (bool) $a_read_only;
+        $this->read_only = $a_read_only;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
@@ -83,9 +83,9 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                 if ($data["questionblock_id"] != $last_questionblock_id) {
                     $last_questionblock_id = $data["questionblock_id"];
                     $this->structure[$counter] = array();
-                    array_push($this->structure[$counter], $data["question_id"]);
+                    $this->structure[$counter][] = $data["question_id"];
                 } else {
-                    array_push($this->structure[$counter - 1], $data["question_id"]);
+                    $this->structure[$counter - 1][] = $data["question_id"];
                     $show = false;
                 }
             } else {
@@ -150,7 +150,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         return $this->structure;
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

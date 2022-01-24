@@ -164,8 +164,22 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
      */
     protected function remoteSearch() : void
     {
-        $this->search_cache->setRoot((int) $_POST['root_id']);
-        $this->search_cache->setQuery(array('lom_content' => ilUtil::stripSlashes($_POST['queryString'])));
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->search_cache->setRoot($root_id);
+        $this->search_cache->setQuery(['lom_content' => $queryString]);
         $this->search_cache->save();
         $this->search();
     }
@@ -293,11 +307,17 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_ADVANCED);
-        if ((int) $_GET['page_number']) {
-            $this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+        $page_number = $this->initPageNumberFromQuery();
+        if ($page_number) {
+            $this->search_cache->setResultPageNumber($page_number);
         }
-        if (isset($_POST['query'])) {
-            $this->search_cache->setQuery($_POST['query']);
+        if ($this->http->wrapper()->post()->has('query')) {
+            $this->search_cache->setQuery(
+                $this->http->wrapper()->post()->retrieve(
+                    'query',
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
         }
     }
 

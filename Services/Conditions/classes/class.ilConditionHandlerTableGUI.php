@@ -27,40 +27,44 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 
     /**
      * Fill row template
-     * @param array $a_row
+     * @param array $a_set
      */
-    protected function fillRow($a_row)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('OBJ_SRC', $a_row['icon']);
-        $this->tpl->setVariable('OBJ_ALT', $a_row['icon_alt']);
-        $this->tpl->setVariable('OBJ_TITLE', $a_row['title']);
+        $this->tpl->setVariable('OBJ_SRC', $a_set['icon']);
+        $this->tpl->setVariable('OBJ_ALT', $a_set['icon_alt']);
+        $this->tpl->setVariable('OBJ_TITLE', $a_set['title']);
 
-        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_row['ref_id'], $a_row['type']));
-        $this->tpl->setVariable('OBJ_DESCRIPTION', $a_row['description']);
-        $this->tpl->setVariable('COND_ID', $a_row['id']);
-        $this->tpl->setVariable('OBJ_CONDITION', $a_row['condition']);
+        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
+        $this->tpl->setVariable('OBJ_DESCRIPTION', $a_set['description']);
+        $this->tpl->setVariable('COND_ID', $a_set['id']);
+        $this->tpl->setVariable('OBJ_CONDITION', $a_set['condition']);
 
         if (!$this->enable_editing) {
             $this->tpl->setCurrentBlock("obligatory_static");
-            $this->tpl->setVariable('OBL_SRC',
-                ilUtil::getImagePath($a_row['obligatory'] ? 'icon_ok.svg' : 'icon_not_ok.svg'));
+            $this->tpl->setVariable(
+                'OBL_SRC',
+                ilUtil::getImagePath($a_set['obligatory'] ? 'icon_ok.svg' : 'icon_not_ok.svg')
+            );
             $this->tpl->setVariable(
                 'OBL_ALT',
-                $this->lng->txt($a_row['obligatory'] ?
+                $this->lng->txt($a_set['obligatory'] ?
                     'precondition_obligatory_alt' :
                     'precondition_not_obligatory_alt')
             );
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("obligatory_edit");
-            $this->tpl->setVariable('OBL_ID', $a_row['id']);
-            $this->tpl->setVariable('OBL_STATUS', $a_row['obligatory'] ? ' checked="checked"' : '');
+            $this->tpl->setVariable('OBL_ID', $a_set['id']);
+            $this->tpl->setVariable('OBL_STATUS', $a_set['obligatory'] ? ' checked="checked"' : '');
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'condition_id', $a_row['id']);
-        $this->tpl->setVariable('EDIT_LINK',
-            $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'edit'));
+        $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'condition_id', $a_set['id']);
+        $this->tpl->setVariable(
+            'EDIT_LINK',
+            $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'edit')
+        );
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
     }
 

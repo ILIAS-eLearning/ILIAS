@@ -58,12 +58,9 @@ class ilMDDescription extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_description_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_description'));
+        $fields['meta_description_id'] = array('integer',$next_id = $this->db->nextId('il_meta_description'));
         
         if ($this->db->insert('il_meta_description', $fields)) {
             $this->setMetaId($next_id);
@@ -74,9 +71,6 @@ class ilMDDescription extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -92,14 +86,11 @@ class ilMDDescription extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_description " .
-                "WHERE meta_description_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE meta_description_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
             
             return true;
         }
@@ -120,15 +111,12 @@ class ilMDDescription extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_description " .
-                "WHERE meta_description_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_description_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -166,7 +154,7 @@ class ilMDDescription extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_description_id FROM il_meta_description " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id) . " " .

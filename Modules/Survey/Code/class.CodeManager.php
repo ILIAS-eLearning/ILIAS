@@ -42,7 +42,7 @@ class CodeManager
         $this->code_repo = $code_repo;
         $this->survey_id = $survey->getSurveyId();
         $this->access = $domain_service->access(
-            (int) $survey->getRefId(),
+            $survey->getRefId(),
             $user_id
         );
         $this->lng = $domain_service->lng();

@@ -19,6 +19,8 @@
  */
 class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 {
+    protected ilSkillTree $skill_tree;
+    protected ilObjSurvey $object;
     protected ilAccessHandler $access;
 
     public function __construct(
@@ -53,6 +55,8 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
     {
         $survey_questions = $this->object->getSurveyQuestions();
 
+        $table_data = [];
+
         if (count($survey_questions) > 0) {
             $table_data = array();
             $last_questionblock_id = $position = $block_position = 0;
@@ -60,7 +64,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                 // it is only possible to assign  to a subset
                 // of question types: single choice(2)
                 $supported = false;
-                if (in_array($data["questiontype_fi"], array(2))) {
+                if ($data["questiontype_fi"] == 2) {
                     $supported = true;
                 }
 
@@ -79,7 +83,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

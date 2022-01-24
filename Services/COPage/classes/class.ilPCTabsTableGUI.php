@@ -57,7 +57,7 @@ class ilPCTabsTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_tabs"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->pos += 10;
         $this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));

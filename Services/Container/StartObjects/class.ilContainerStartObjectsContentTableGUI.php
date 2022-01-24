@@ -235,7 +235,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         return "";
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
         

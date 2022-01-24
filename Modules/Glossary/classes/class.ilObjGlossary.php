@@ -1,43 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilObjGlossary
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected ilGlossaryDefPage $page_object;
+    protected array $file_ids = [];
+    protected array $mob_ids = [];
+    protected bool $show_tax = false;
+    protected int $style_id = 0;
+    protected bool $downloads_active = false;
+    protected bool $glo_menu_active = false;
+    protected bool $online = false;
+    protected int $snippet_length = 0;
+    protected string $pres_mode = "";
+    protected bool $virtual = false;
+    protected string $virtual_mode = "";
+    protected ilGlobalTemplateInterface $tpl;
+    public array $auto_glossaries = array();
+    protected ilObjUser $user;
+    protected array $public_export_file = [];
 
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var array
-     */
-    public $auto_glossaries = array();
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
         global $DIC;
-        $this->error = $DIC["ilErr"];
         $this->tpl = $DIC["tpl"];
 
         $this->db = $DIC->database();
@@ -46,9 +48,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-    * create glossary object
-    */
     public function create($a_upload = false)
     {
         parent::create();
@@ -74,14 +73,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
         $this->updateAutoGlossaries();
 
-        if (((int) $this->getStyleSheetId()) > 0) {
+        if (($this->getStyleSheetId()) > 0) {
             ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
         }
     }
 
-    /**
-    * read data of content object
-    */
     public function read()
     {
         parent::read();
@@ -93,15 +89,19 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $gl_rec = $this->db->fetchAssoc($gl_set);
         $this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
         $this->setVirtualMode($gl_rec["virtual"]);
-        $this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
-        $this->setPublicExportFile("html", $gl_rec["public_html_file"]);
+        if (isset($gl_rec["public_xml_file"]) && $gl_rec["public_xml_file"] != "") {
+            $this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
+        }
+        if (isset($gl_rec["public_html_file"]) && $gl_rec["public_html_file"] != "") {
+            $this->setPublicExportFile("html", $gl_rec["public_html_file"]);
+        }
         $this->setActiveGlossaryMenu(ilUtil::yn2tf($gl_rec["glo_menu_active"]));
         $this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
         $this->setPresentationMode($gl_rec["pres_mode"]);
         $this->setSnippetLength($gl_rec["snippet_length"]);
         $this->setShowTaxonomy($gl_rec["show_tax"]);
 
-        $this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
+        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         // read auto glossaries
         $set = $this->db->query(
@@ -115,10 +115,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setAutoGlossaries($glos);
     }
 
-    /**
-    * set glossary type (virtual: fixed/level/subtree, normal:none)
-    */
-    public function setVirtualMode($a_mode)
+    public function setVirtualMode(string $a_mode) : void
     {
         switch ($a_mode) {
             case "level":
@@ -135,79 +132,52 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         }
     }
     
-    /**
-    * get glossary type (normal or virtual)
-    */
-    public function getVirtualMode()
+    public function getVirtualMode() : string
     {
         return $this->virtual_mode;
     }
     
-    /**
-     * returns true if glossary type is virtual (any mode)
-     */
-    public function isVirtual()
+    public function isVirtual() : bool
     {
         return $this->virtual;
     }
 
-    /**
-     * Set presentation mode
-     *
-     * @param	string	presentation mode
-     */
-    public function setPresentationMode($a_val)
+    public function setPresentationMode(string $a_val) : void
     {
         $this->pres_mode = $a_val;
     }
 
-    /**
-     * Get presentation mode
-     *
-     * @return	string	presentation mode
-     */
-    public function getPresentationMode()
+    public function getPresentationMode() : string
     {
         return $this->pres_mode;
     }
 
-    /**
-     * Set snippet length
-     *
-     * @param	int	snippet length
-     */
-    public function setSnippetLength($a_val)
+    /** Set definition snippet length (in overview) */
+    public function setSnippetLength(int $a_val) : void
     {
         $this->snippet_length = $a_val;
     }
 
-    /**
-     * Get snippet length
-     *
-     * @return	int	snippet length
-     */
-    public function getSnippetLength()
+    public function getSnippetLength() : ?int
     {
         return ($this->snippet_length > 0)
             ? $this->snippet_length
             : null;
     }
 
-    public function setOnline($a_online)
+    public function setOnline(bool $a_online) : void
     {
         $this->online = $a_online;
     }
 
-    public function getOnline()
+    public function getOnline() : bool
     {
         return $this->online;
     }
 
-    /**
-     * check wether content object is online
-     */
-    public static function _lookupOnline($a_id)
-    {
+    public static function _lookupOnline(
+        int $a_id
+    ) : bool {
         global $DIC;
 
         $db = $DIC->database();
@@ -222,12 +192,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     /**
      * Lookup glossary property
-     *
-     * @param	int		glossary id
-     * @param	string	property
      */
-    protected static function lookup($a_id, $a_property)
-    {
+    protected static function lookup(
+        int $a_id,
+        string $a_property
+    ) : string {
         global $DIC;
 
         $db = $DIC->database();
@@ -239,97 +208,67 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $rec[$a_property];
     }
 
-    /**
-     * Lookup snippet length
-     *
-     * @param	int		glossary id
-     * @return	int		snippet length
-     */
-    public static function lookupSnippetLength($a_id)
+    public static function lookupSnippetLength(int $a_id) : int
     {
-        return ilObjGlossary::lookup($a_id, "snippet_length");
+        return (int) ilObjGlossary::lookup($a_id, "snippet_length");
     }
 
     
-    public function setActiveGlossaryMenu($a_act_glo_menu)
+    public function setActiveGlossaryMenu(bool $a_act_glo_menu) : void
     {
         $this->glo_menu_active = $a_act_glo_menu;
     }
 
-    public function isActiveGlossaryMenu()
+    public function isActiveGlossaryMenu() : bool
     {
         return $this->glo_menu_active;
     }
 
-    public function setActiveDownloads($a_down)
+    public function setActiveDownloads(bool $a_down) : void
     {
         $this->downloads_active = $a_down;
     }
 
-    public function isActiveDownloads()
+    public function isActiveDownloads() : bool
     {
         return $this->downloads_active;
     }
     
-    /**
-     * Get ID of assigned style sheet object
-     */
-    public function getStyleSheetId()
+    public function getStyleSheetId() : int
     {
         return $this->style_id;
     }
 
-    /**
-     * Set ID of assigned style sheet object
-     */
-    public function setStyleSheetId($a_style_id)
+    public function setStyleSheetId(int $a_style_id) : void
     {
         $this->style_id = $a_style_id;
     }
 
 
-    /**
-     * Set show taxonomy
-     *
-     * @param bool $a_val show taxonomy
-     */
-    public function setShowTaxonomy($a_val)
+    public function setShowTaxonomy(bool $a_val) : void
     {
         $this->show_tax = $a_val;
     }
     
-    /**
-     * Get show taxonomy
-     *
-     * @return bool show taxonomy
-     */
-    public function getShowTaxonomy()
+    public function getShowTaxonomy() : bool
     {
         return $this->show_tax;
     }
 
     /**
-     * Set auto glossaries
-     *
-     * @param array $a_val int
+     * @param int[] $a_val
      */
-    public function setAutoGlossaries($a_val)
-    {
+    public function setAutoGlossaries(
+        array $a_val
+    ) : void {
         $this->auto_glossaries = array();
-        if (is_array($a_val)) {
-            foreach ($a_val as $v) {
-                $this->addAutoGlossary($v);
-            }
+        foreach ($a_val as $v) {
+            $this->addAutoGlossary($v);
         }
     }
 
-    /**
-     * Add auto glossary
-     * @param int $glo_id
-     */
-    public function addAutoGlossary($glo_id)
+    public function addAutoGlossary(int $glo_id) : void
     {
-        $glo_id = (int) $glo_id;
         if ($glo_id > 0 && ilObject::_lookupType($glo_id) == "glo" &&
             !in_array($glo_id, $this->auto_glossaries)) {
             $this->auto_glossaries[] = $glo_id;
@@ -337,23 +276,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     }
 
     /**
-     * Get auto glossaries
-     *
-     * @return array int
+     * @return int[]
      */
-    public function getAutoGlossaries()
+    public function getAutoGlossaries() : array
     {
         return $this->auto_glossaries;
     }
 
-    /**
-     * Remove auto glossary
-     *
-     * @param
-     * @return
-     */
-    public function removeAutoGlossary($a_glo_id)
-    {
+    public function removeAutoGlossary(
+        int $a_glo_id
+    ) : void {
         $glo_ids = array();
         foreach ($this->getAutoGlossaries() as $g) {
             if ($g != $a_glo_id) {
@@ -363,10 +295,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->setAutoGlossaries($glo_ids);
     }
 
-    /**
-     * Update object
-     */
-    public function update()
+    public function update() : void
     {
         $this->updateMetaData();
 
@@ -393,14 +322,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         parent::update();
     }
 
-
-    /**
-     * Update auto glossaries
-     *
-     * @param
-     * @return
-     */
-    public function updateAutoGlossaries()
+    public function updateAutoGlossaries() : void
     {
         // update auto glossaries
         $this->db->manipulate(
@@ -418,14 +340,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         }
     }
 
-    /**
-     * Lookup auto glossaries
-     *
-     * @param
-     * @return
-     */
-    public static function lookupAutoGlossaries($a_id)
-    {
+    public static function lookupAutoGlossaries(
+        int $a_id
+    ) : array {
         global $DIC;
 
         $db = $DIC->database();
@@ -437,25 +354,22 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         );
         $glos = array();
         while ($rec = $db->fetchAssoc($set)) {
-            $glos[] = $rec["glo_id"];
+            $glos[] = (int) $rec["glo_id"];
         }
         return $glos;
     }
 
-    /**
-    * Get term list
-    */
     public function getTermList(
-        $searchterm = "",
-        $a_letter = "",
-        $a_def = "",
-        $a_tax_node = 0,
-        $a_include_offline_childs = false,
-        $a_add_amet_fields = false,
+        string $searchterm = "",
+        string $a_letter = "",
+        string $a_def = "",
+        int $a_tax_node = 0,
+        bool $a_include_offline_childs = false,
+        bool $a_add_amet_fields = false,
         array $a_amet_filter = null,
-        $a_omit_virtual = false,
-        $a_include_references = false
-    ) {
+        bool $a_omit_virtual = false,
+        bool $a_include_references = false
+    ) : array {
         if ($a_omit_virtual) {
             $glo_ref_ids[] = $this->getRefId();
         } else {
@@ -474,11 +388,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $list;
     }
 
-    /**
-    * Get term list
-    */
-    public function getFirstLetters($a_tax_node = 0)
-    {
+    public function getFirstLetters(
+        int $a_tax_node = 0
+    ) : array {
         $glo_ids = $this->getAllGlossaryIds();
         $first_letters = ilGlossaryTerm::getFirstLetters($glo_ids, $a_tax_node);
         return $first_letters;
@@ -486,12 +398,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     /**
      * Get all glossary ids
-     *
-     * @param
-     * @return
+     * @return int[]
      */
-    public function getAllGlossaryIds($a_include_offline_childs = false, $ids_are_ref_ids = false)
-    {
+    public function getAllGlossaryIds(
+        bool $a_include_offline_childs = false,
+        bool $ids_are_ref_ids = false
+    ) : array {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -506,9 +418,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                     foreach ($glo_arr as $glo) {
                         {
                             if ($ids_are_ref_ids) {
-                                $glo_ids[] = $glo['child'];
+                                $glo_ids[] = (int) $glo['child'];
                             } else {
-                                $glo_ids[] = $glo['obj_id'];
+                                $glo_ids[] = (int) $glo['obj_id'];
                             }
                         }
                     }
@@ -520,9 +432,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                     foreach ($subtree_nodes as $node) {
                         if ($node['type'] == 'glo') {
                             if ($ids_are_ref_ids) {
-                                $glo_ids[] = $node['child'];
+                                $glo_ids[] = (int) $node['child'];
                             } else {
-                                $glo_ids[] = $node['obj_id'];
+                                $glo_ids[] = (int) $node['obj_id'];
                             }
                         }
                     }
@@ -544,9 +456,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             }
         } else {
             if ($ids_are_ref_ids) {
-                $glo_ids = $this->getRefId();
+                $glo_ids = [$this->getRefId()];
             } else {
-                $glo_ids = $this->getId();
+                $glo_ids = [$this->getId()];
             }
         }
         
@@ -554,101 +466,85 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     }
     
     /**
-    * creates data directory for import files
-    * (data_dir/glo_data/glo_<id>/import, depending on data
-    * directory that is set in ILIAS setup/ini)
-    */
-    public function createImportDirectory()
+     * creates data directory for import files
+     * (data_dir/glo_data/glo_<id>/import, depending on data
+     * directory that is set in ILIAS setup/ini)
+     */
+    public function createImportDirectory() : void
     {
-        $ilErr = $this->error;
-
         $glo_data_dir = ilUtil::getDataDir() . "/glo_data";
         ilUtil::makeDir($glo_data_dir);
         if (!is_writable($glo_data_dir)) {
-            $ilErr->raiseError("Glossary Data Directory (" . $glo_data_dir
-                . ") not writeable.", $ilErr->error_obj->FATAL);
+            throw new ilGlossaryException("Glossary Data Directory (" . $glo_data_dir
+                . ") not writeable.");
         }
 
         // create glossary directory (data_dir/glo_data/glo_<id>)
         $glo_dir = $glo_data_dir . "/glo_" . $this->getId();
         ilUtil::makeDir($glo_dir);
-        if (!@is_dir($glo_dir)) {
-            $ilErr->raiseError("Creation of Glossary Directory failed.", $ilErr->FATAL);
+        if (!is_dir($glo_dir)) {
+            throw new ilGlossaryException("Creation of Glossary Directory failed.");
         }
         // create Import subdirectory (data_dir/glo_data/glo_<id>/import)
         $import_dir = $glo_dir . "/import";
         ilUtil::makeDir($import_dir);
-        if (!@is_dir($import_dir)) {
-            $ilErr->raiseError("Creation of Export Directory failed.", $ilErr->FATAL);
+        if (!is_dir($import_dir)) {
+            throw new ilGlossaryException("Creation of Export Directory failed.");
         }
     }
 
-    /**
-    * get import directory of glossary
-    */
-    public function getImportDirectory()
+    public function getImportDirectory() : string
     {
         $export_dir = ilUtil::getDataDir() . "/glo_data" . "/glo_" . $this->getId() . "/import";
 
         return $export_dir;
     }
 
-    /**
-    * Creates export directory
-    */
-    public function createExportDirectory($a_type = "xml")
+    public function createExportDirectory(string $a_type = "xml") : string
     {
         return ilExport::_createExportDirectory($this->getId(), $a_type, $this->getType());
     }
 
-    /**
-    * Get export directory of glossary
-    */
-    public function getExportDirectory($a_type = "xml")
+    public function getExportDirectory(string $a_type = "xml") : string
     {
         return ilExport::_getExportDirectory($this->getId(), $a_type, $this->getType());
     }
 
     /**
-    * Get export files
-    */
-    public function getExportFiles()
+     * Get export files
+     */
+    public function getExportFiles() : array
     {
         return ilExport::_getExportFiles($this->getId(), array("xml", "html"), $this->getType());
     }
     
     /**
-    * specify public export file for type
-    *
-    * @param	string		$a_type		type ("xml" / "html")
-    * @param	string		$a_file		file name
-    */
-    public function setPublicExportFile($a_type, $a_file)
-    {
+     * specify public export file for type
+     * @param	string		$a_type		type ("xml" / "html")
+     * @param	string		$a_file		file name
+     */
+    public function setPublicExportFile(
+        string $a_type,
+        string $a_file
+    ) : void {
         $this->public_export_file[$a_type] = $a_file;
     }
 
     /**
-    * get public export file
-    *
-    * @param	string		$a_type		type ("xml" / "html")
-    *
-    * @return	string		$a_file		file name
-    */
-    public function getPublicExportFile($a_type)
+     * get public export file
+     * @param string $a_type type ("xml" / "html")
+     */
+    public function getPublicExportFile(string $a_type) : string
     {
         return $this->public_export_file[$a_type];
     }
 
-
-    /**
-    * export object to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
-    {
+    public function exportXML(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst,
+        string $a_target_dir,
+        ilLog $expLog
+    ) : void {
         // export glossary
         $attrs = array();
         $attrs["Type"] = "Glossary";
@@ -662,7 +558,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->mob_ids = array();
         $this->file_ids = array();
         foreach ($terms as $term) {
-            $defs = ilGlossaryDefinition::getDefinitionList($term[id]);
+            $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 
             foreach ($defs as $def) {
                 $this->page_object = new ilGlossaryDefPage($def["id"]);
@@ -697,14 +593,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $a_xml_writer->xmlEndTag("ContentObject");
     }
 
-    /**
-    * export page objects to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLGlossaryItems(&$a_xml_writer, $a_inst, &$expLog)
-    {
+    public function exportXMLGlossaryItems(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst,
+        ilLog $expLog
+    ) : void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("Glossary", $attrs);
 
@@ -716,7 +609,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         // export glossary terms
         reset($terms);
         foreach ($terms as $term) {
-            $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $page["obj_id"]);
+            $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $term["obj_id"]);
 
             // export xml to writer object
             $glo_term = new ilGlossaryTerm($term["id"]);
@@ -728,28 +621,21 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $a_xml_writer->xmlEndTag("Glossary");
     }
 
-    /**
-    * export content objects meta data to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLMetaData(&$a_xml_writer)
-    {
+    public function exportXMLMetaData(
+        ilXmlWriter $a_xml_writer
+    ) : void {
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
         $a_xml_writer->appendXML($md2xml->getXML());
     }
 
-    /**
-    * export media objects to xml (see ilias_co.dtd)
-    *
-    * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-    *										xml data
-    */
-    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
-    {
+    public function exportXMLMediaObjects(
+        ilXmlWriter $a_xml_writer,
+        int $a_inst,
+        string $a_target_dir,
+        ilLog $expLog
+    ) : void {
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
             $media_obj = new ilObjMediaObject($mob_id);
@@ -759,12 +645,10 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         }
     }
 
-    /**
-    * export files of file itmes
-    *
-    */
-    public function exportFileItems($a_target_dir, &$expLog)
-    {
+    public function exportFileItems(
+        string $a_target_dir,
+        ilLog $expLog
+    ) : void {
         foreach ($this->file_ids as $file_id) {
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_obj = new ilObjFile($file_id, false);
@@ -773,34 +657,18 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         }
     }
 
-
-
-    /**
-    *
-    */
-    public function modifyExportIdentifier($a_tag, $a_param, $a_value)
-    {
+    public function modifyExportIdentifier(
+        string $a_tag,
+        string $a_param,
+        string $a_value
+    ) : string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_glo_" . $this->getId();
         }
-
         return $a_value;
     }
 
-
-
-
-    /**
-    * delete glossary and all related data
-    *
-    * this method has been tested on may 9th 2004
-    * meta data, terms, definitions, definition meta data
-    * and definition pages have been deleted correctly as desired
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -830,19 +698,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return true;
     }
 
-    /**
-    * Get zipped xml file for glossary.
-    */
-    public function getXMLZip()
+    public function getXMLZip() : string
     {
         $glo_exp = new ilGlossaryExport($this);
         return $glo_exp->buildExportFile();
     }
 
-    /**
-     * Get deletion dependencies
-     *
-     */
     public static function getDeletionDependencies($a_obj_id)
     {
         global $DIC;
@@ -855,37 +716,31 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             $lng->loadLanguageModule("content");
             $dep[$sm] = $lng->txt("glo_used_in_scorm");
         }
-        //echo "-".$a_obj_id."-";
-        //var_dump($dep);
         return $dep;
     }
     
-    /**
-     * Get taxonomy
-     *
-     * @return int taxononmy ID
-     */
-    public function getTaxonomyId()
+    public function getTaxonomyId() : int
     {
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->getId());
         if (count($tax_ids) > 0) {
             // glossaries handle max. one taxonomy
-            return $tax_ids[0];
+            return (int) $tax_ids[0];
         }
         return 0;
     }
     
     
-    /**
-     * Clone glossary
-     *
-     * @param int target ref_id
-     * @param int copy id
-     */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
-    {
+    public function cloneObject(
+        $a_target_id,
+        $a_copy_id = 0,
+        $a_omit_tree = false
+    ) {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $this->cloneMetaData($new_obj);
+
+        $tax_ass = null;
+        $new_tax_ass = null;
+        $map = [];
 
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -920,20 +775,14 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             
             // assign new taxonomy to new glossary
             ilObjTaxonomy::saveUsage($new_tax->getId(), $new_obj->getId());
-        }
-        
-        // assign new tax/new glossary
-        // handle mapping
-        
-        // prepare tax node assignments objects
-        if ($tax_id > 0) {
+
             $tax_ass = new ilTaxNodeAssignment("glo", $this->getId(), "term", $tax_id);
             $new_tax_ass = new ilTaxNodeAssignment("glo", $new_obj->getId(), "term", $new_tax->getId());
         }
         
         // copy terms
         $term_mappings = array();
-        foreach (ilGlossaryTerm::getTermList($this->getRefId()) as $term) {
+        foreach (ilGlossaryTerm::getTermList([$this->getRefId()]) as $term) {
             $new_term_id = ilGlossaryTerm::_copyTerm($term["id"], $new_obj->getId());
             $term_mappings[$term["id"]] = $new_term_id;
             
@@ -950,7 +799,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
         // add mapping of term_ids to copy wizard options
         if (!empty($term_mappings)) {
-            $cp_options->appendMapping($this->getRefId() . '_glo_terms', (array) $term_mappings);
+            $cp_options->appendMapping($this->getRefId() . '_glo_terms', $term_mappings);
         }
 
 
@@ -959,12 +808,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     /**
      * Remove offline glossaries from obj id array
-     *
-     * @param
-     * @return
      */
-    public function removeOfflineGlossaries($a_glo_ids, $ids_are_ref_ids = false)
-    {
+    public function removeOfflineGlossaries(
+        array $a_glo_ids,
+        bool $ids_are_ref_ids = false
+    ) : array {
         $glo_ids = $a_glo_ids;
         if ($ids_are_ref_ids) {
             $glo_ids = array_map(function ($id) {
@@ -1005,21 +853,20 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             
             return $lng->txt("glo_term") . ' "' . ilGlossaryTerm::_lookGlossaryTerm($a_sub_id) . '"';
         }
+        return "";
     }
 
     /**
      * Auto link glossary terms
-     *
-     * @param
-     * @return
      */
-    public function autoLinkGlossaryTerms($a_glo_ref_id)
-    {
+    public function autoLinkGlossaryTerms(
+        int $a_glo_ref_id
+    ) : void {
         // get terms of target glossary
-        $terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
+        $terms = ilGlossaryTerm::getTermList([$a_glo_ref_id]);
 
         // for each get page: get content
-        $source_terms = ilGlossaryTerm::getTermList($this->getRefId());
+        $source_terms = ilGlossaryTerm::getTermList([$this->getRefId()]);
         $found_pages = array();
         foreach ($source_terms as $source_term) {
             $source_defs = ilGlossaryDefinition::getDefinitionList($source_term["id"]);
@@ -1049,10 +896,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     /**
      * Is long text search supported
-     *
-     * @return bool
      */
-    public function supportsLongTextQuery()
+    public function supportsLongTextQuery() : bool
     {
         return true;
     }

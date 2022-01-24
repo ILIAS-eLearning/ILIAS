@@ -237,7 +237,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $files = ($show_manual_scoring) ? $this->object->getUploadedFilesForWeb($active_id, $pass) : $this->object->getUploadedFiles($active_id, $pass);
             include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
             $table_gui = new assFileUploadFileTableGUI($this->getTargetGuiClass(), 'gotoquestion');
-            $table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));
+            $table_gui->setTitle(
+                $this->lng->txt('already_delivered_files'),
+                'icon_file.svg',
+                $this->lng->txt('already_delivered_files')
+            );
             $table_gui->setData($files);
             // hey: prevPassSolutions - table refactored
             #$table_gui->initCommand(
@@ -327,7 +331,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $files = $this->object->getPreviewFileUploads($this->getPreviewSession());
             include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
             $table_gui = new assFileUploadFileTableGUI(null, $this->getQuestionActionCmd(), 'ilAssQuestionPreview');
-            $table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));
+            $table_gui->setTitle(
+                $this->lng->txt('already_delivered_files'),
+                'icon_file.svg',
+                $this->lng->txt('already_delivered_files')
+            );
             $table_gui->setData($files);
             // hey: prevPassSolutions - support file reuse with table
             $table_gui->initCommand(
@@ -378,7 +386,11 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             // hey.
             include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
             $table_gui = new assFileUploadFileTableGUI(null, $this->getQuestionActionCmd());
-            $table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.svg', $this->lng->txt('already_delivered_files'));
+            $table_gui->setTitle(
+                $this->lng->txt('already_delivered_files'),
+                'icon_file.svg',
+                $this->lng->txt('already_delivered_files')
+            );
             $table_gui->setData($files);
             // hey: prevPassSolutions - support file reuse with table
             $table_gui->initCommand(

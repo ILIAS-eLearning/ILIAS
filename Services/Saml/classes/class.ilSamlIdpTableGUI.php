@@ -17,8 +17,8 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->dic = $DIC;
         $this->hasWriteAccess = $hasWriteAccess;
 
-        $f = $DIC->ui()->factory();
-        $renderer = $DIC->ui()->renderer();
+        $f = $this->dic->ui()->factory();
+        $renderer = $this->dic->ui()->renderer();
 
         $this->setId('saml_idp_list');
         parent::__construct($parent_gui, $parent_cmd);
@@ -57,7 +57,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->setData($idp_data);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['is_active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));

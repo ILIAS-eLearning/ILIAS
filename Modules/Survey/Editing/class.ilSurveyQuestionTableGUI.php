@@ -37,7 +37,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $this->object = $a_survey_obj;
-        $this->read_only = (bool) $a_read_only;
+        $this->read_only = $a_read_only;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -97,6 +97,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
+        $table_data = [];
         $survey_questions = $this->object->getSurveyQuestions();
         if (count($survey_questions) > 0) {
             $questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
@@ -189,10 +190,12 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        $obligatory = "";
 
         switch ($a_set["type"]) {
             case "block":
@@ -220,7 +223,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("AUTHOR", $a_set["author"]);
                 $this->tpl->setVariable("POOL", $a_set["pool"] ?? "");
                 
-                if ($a_set["heading"]) {
+                if ($a_set["heading"] ?? false) {
                     $this->tpl->setCurrentBlock("heading");
                     $this->tpl->setVariable("TXT_HEADING", $a_set["heading"]);
                     $this->tpl->parseCurrentBlock();
@@ -257,8 +260,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                     // obligatory
                     $checked = $a_set["obligatory"] ? " checked=\"checked\"" : "";
-                    $obligatory = "<input type=\"checkbox\" name=\"obligatory_" .
-                        $a_set["id"] . "\" value=\"1\"" . $checked . " />";
+                    $obligatory = "<input type=\"checkbox\" name=\"obligatory[" .
+                        $a_set["id"] . "]\" value=\"1\"" . $checked . " />";
                 } elseif ($a_set["obligatory"]) {
                     $obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.png", "Modules/Survey") .
                         "\" alt=\"" . $lng->txt("question_obligatory") .
@@ -295,7 +298,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $list->addItem($lng->txt("edit"), "", $a_set["url"]);
             }
             
-            if ($a_set["heading"]) {
+            if ($a_set["heading"] ?? false) {
                 $list->addItem(
                     $lng->txt("survey_edit_heading"),
                     "",
@@ -326,16 +329,14 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $this->tpl->setCurrentBlock("title_edit");
                 $this->tpl->setVariable("TITLE", $a_set["title"]);
                 $this->tpl->setVariable("URL_TITLE", $a_set["url"]);
-                $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("title_static");
                 $this->tpl->setVariable("TITLE", $a_set["title"]);
-                $this->tpl->parseCurrentBlock();
             }
         } else {
             $this->tpl->setCurrentBlock("title_static");
             $this->tpl->setVariable("TITLE", $a_set["title"]);
-            $this->tpl->parseCurrentBlock();
         }
+        $this->tpl->parseCurrentBlock();
     }
 }

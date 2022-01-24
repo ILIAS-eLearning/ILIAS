@@ -43,7 +43,7 @@ class ilFoundUsersTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameterByClass("ilObjSurveyAdministrationGUI", "item_id", $a_set["usr_id"]);

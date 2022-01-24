@@ -54,7 +54,7 @@ class SurveyCategories
             $tail = array_slice($this->categories, $position);
             $this->categories = array_merge($head, array(new ilSurveyCategory($categoryname, $other, $neutral, $label)), $tail);
         } else {
-            array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral, $label));
+            $this->categories[] = new ilSurveyCategory($categoryname, $other, $neutral, $label);
         }
     }
     
@@ -83,7 +83,7 @@ class SurveyCategories
         ?string $label = null,
         ?int $scale = null
     ) : void {
-        array_push($this->categories, new ilSurveyCategory($categoryname, $other, $neutral, $label, $scale));
+        $this->categories[] = new ilSurveyCategory($categoryname, $other, $neutral, $label, $scale);
     }
     
     /**
@@ -184,12 +184,11 @@ class SurveyCategories
         $obj = $this->categories[$index];
         if (is_object($obj) && $obj->scale > 0) {
             $this->log->debug("getScale has scale =" . $obj->scale);
-            return $obj->scale;
         } else {
             $obj->scale = $this->getNewScale();
             $this->log->debug("getScale needed new scale, scale =" . $obj->scale);
-            return $obj->scale;
         }
+        return $obj->scale;
     }
     
     public function flushCategories() : void

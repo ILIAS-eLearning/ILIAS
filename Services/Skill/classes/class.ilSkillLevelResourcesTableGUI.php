@@ -24,13 +24,9 @@
  */
 class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilTree $tree;
-    protected int $level_id;
+    protected int $level_id = 0;
     protected bool $write_permission = false;
     protected ilSkillResources $resources;
 
@@ -79,7 +75,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $tree = $this->tree;

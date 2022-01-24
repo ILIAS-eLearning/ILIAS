@@ -34,7 +34,7 @@ class ilSurveyDataSet extends ilDataSet
     
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Survey/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Survey/" . $a_entity;
     }
     
     /**
@@ -73,10 +73,6 @@ class ilSurveyDataSet extends ilDataSet
         $ilDB = $this->db;
 
         $this->data = array();
-
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
 
         if ($a_entity == "svy_quest_skill") {
             switch ($a_version) {

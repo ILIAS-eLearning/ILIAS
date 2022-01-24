@@ -92,15 +92,17 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
     
     protected function validateEditForm(ilPropertyFormGUI $a_form) : bool
     {
+        $errors = false;
         if ($a_form->getInput("use_min_answers")) {
             // #13927 - see importEditFormValues()
             $cnt_answers = 0;
-            foreach ($_POST['answers']['answer'] as $key => $value) {
+            $answers = $this->request->getAnswers();
+            foreach ($answers['answer'] as $key => $value) {
                 if (strlen($value)) {
                     $cnt_answers++;
                 }
             }
-            if (strlen($_POST['answers']['neutral'])) {
+            if ($this->request->getNeutral() != "") {
                 $cnt_answers++;
             }
             /* this would be the DB-values
@@ -131,20 +133,21 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         $this->object->setOrientation($a_form->getInput("orientation"));
         $this->object->use_other_answer = ($a_form->getInput('use_other_answer')) ? 1 : 0;
         $this->object->other_answer_label = $this->object->use_other_answer ? $a_form->getInput('other_answer_label') : null;
-        $this->object->use_min_answers = ($a_form->getInput('use_min_answers')) ? true : false;
+        $this->object->use_min_answers = (bool) $a_form->getInput('use_min_answers');
         $this->object->nr_min_answers = ($a_form->getInput('nr_min_answers') > 0) ? $a_form->getInput('nr_min_answers') : null;
         $this->object->nr_max_answers = ($a_form->getInput('nr_max_answers') > 0) ? $a_form->getInput('nr_max_answers') : null;
         $this->object->label = $a_form->getInput('label');
 
         $this->object->categories->flushCategories();
 
-        foreach ($_POST['answers']['answer'] as $key => $value) {
+        $answers = $this->request->getAnswers();
+        foreach ($answers['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getCategories()->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
+                $this->object->getCategories()->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
             }
         }
-        if (strlen($_POST['answers']['neutral'])) {
-            $this->object->getCategories()->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+        if ($this->request->getNeutral() != "") {
+            $this->object->getCategories()->addCategory($this->request->getNeutral(), 0, 1, null, $this->request->getNeutralScale());
         }
     }
     
@@ -216,15 +219,14 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setVariable("OTHER_ANSWER", $option["textanswer"]
                             ? ilUtil::prepareFormOutput($option["textanswer"])
                             : "&nbsp;");
-                        $template->parseCurrentBlock();
                     } else {
                         $template->setCurrentBlock("mc_row");
                         $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($option["title"]));
-                        $template->parseCurrentBlock();
                     }
+                    $template->parseCurrentBlock();
                 }
                 break;
             case 1:
@@ -243,12 +245,11 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setVariable("OTHER_ANSWER", $option["textanswer"]
                             ? ilUtil::prepareFormOutput($option["textanswer"])
                             : "&nbsp;");
-                        $template->parseCurrentBlock();
                     } else {
                         $template->setCurrentBlock("text_col");
                         $template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($option["title"]));
-                        $template->parseCurrentBlock();
                     }
+                    $template->parseCurrentBlock();
                 }
                 break;
         }
@@ -318,7 +319,6 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                                 }
                             }
                         }
-                        $template->parseCurrentBlock();
                     } else {
                         $template->setCurrentBlock("mc_row");
                         if ($cat->neutral) {
@@ -338,8 +338,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                                 }
                             }
                         }
-                        $template->parseCurrentBlock();
                     }
+                    $template->parseCurrentBlock();
                     $template->touchBlock('outer_row');
                 }
                 break;
@@ -387,7 +387,6 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                                 }
                             }
                         }
-                        $template->parseCurrentBlock();
                     }
                     // answer
                     else {
@@ -398,8 +397,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         $template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
                         $template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($cat->title));
                         $template->setVariable("QUESTION_ID", $this->object->getId());
-                        $template->parseCurrentBlock();
                     }
+                    $template->parseCurrentBlock();
                     $template->touchBlock('text_outer_col');
                 }
                 break;

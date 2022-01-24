@@ -101,6 +101,11 @@ abstract class AbstractUIModifier implements UIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
+        $request = $this->service
+            ->gui()
+            ->evaluation($survey)
+            ->request();
+
         $gui = $this->service->gui();
         $lng = $gui->lng();
 
@@ -116,7 +121,7 @@ abstract class AbstractUIModifier implements UIModifier
             "a" => $lng->txt("svy_eval_captions_abs"),
             "p" => $lng->txt("svy_eval_captions_perc")
         ));
-        $captions->setValue($_POST["cp"]);
+        $captions->setValue($request->getCP());
         $toolbar->addInputItem($captions, true);
 
         $view = new \ilSelectInputGUI($lng->txt("svy_eval_view"), "vw");
@@ -125,7 +130,7 @@ abstract class AbstractUIModifier implements UIModifier
             "t" => $lng->txt("svy_eval_view_tables"),
             "c" => $lng->txt("svy_eval_view_charts")
         ));
-        $view->setValue($_POST["vw"]);
+        $view->setValue($request->getVW());
         $toolbar->addInputItem($view, true);
 
         $button = \ilSubmitButton::getInstance();
@@ -294,7 +299,7 @@ abstract class AbstractUIModifier implements UIModifier
         $anchor_id = "svyrdq" . $question->getId();
         $title = "<span id='$anchor_id'>$qst_title</span>";
         $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
-                                     ->withCard($this->getPanelCard($question_res));
+            ->withCard($this->getPanelCard($question_res));
 
         $panels[] = $panel_qst_card;
 
@@ -421,9 +426,10 @@ abstract class AbstractUIModifier implements UIModifier
             } else {
                 $acc = new \ilAccordionGUI();
                 // patch BGHW: fixed accordion in pdf output
+                /*
                 if ($_GET["pdf"] == 1) {
                     $acc->setBehaviour(\ilAccordionGUI::FORCE_ALL_OPEN);
-                }
+                }*/
                 $acc->setId("svyevaltxt" . $question->getId());
 
                 $a_tpl->setVariable("TEXT_HEADING", $lng->txt("freetext_answers"));

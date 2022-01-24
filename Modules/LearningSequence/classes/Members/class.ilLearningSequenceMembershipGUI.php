@@ -62,23 +62,23 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getDefaultCommand() : ?string
+    protected function getDefaultCommand() : string
     {
         return $_GET['back_cmd'];
     }
 
     /**
      * Filter user ids by access
-     * @param int[] $user_ids
+     * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
     {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
             'manage_members',
             $this->getParentObject()->getRefId(),
-            $user_ids
+            $a_user_ids
         );
     }
 
@@ -164,7 +164,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         foreach ($participants as $participant) {
             if ($members->isAdmin($participant)) {
-                $members->updateNotification($participant, in_array($participant, $notification));
+                $members->updateNotification($participant, in_array($participant, (bool) $notification));
                 continue;
             }
             $members->updateNotification($participant, false);
@@ -248,7 +248,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         return new ilLearningSequenceWaitingList($this->getParentObject()->getId());
     }
 
-    protected function getDefaultRole() : int
+    protected function getDefaultRole() : ?int
     {
         return $this->getParentObject()->getDefaultMemberRole();
     }
@@ -280,7 +280,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         return $data;
     }
 
-    protected function getMailMemberRoles() : ilMailMemberLearningSequenceRoles
+    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberLearningSequenceRoles();
     }

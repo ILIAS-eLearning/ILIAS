@@ -1,23 +1,30 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChartData.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Chart data spider series
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 class ilChartDataSpider extends ilChartData
 {
-    protected function getTypeString()
+    protected function getTypeString() : string
     {
         return "spider";
     }
     
-    public function parseData(array &$a_data)
+    public function parseData(array &$a_data) : void
     {
         parent::parseData($a_data);
         
@@ -27,7 +34,7 @@ class ilChartDataSpider extends ilChartData
         }
     }
     
-    public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart)
+    public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart) : void
     {
         $spider = new stdClass();
         $spider->active = true;
@@ -76,7 +83,7 @@ class ilChartDataSpider extends ilChartData
         $spider->lineWidth = 1;
         $spider->pointSize = 0;
         
-        $spider->connection = new StdClass();
+        $spider->connection = new stdClass();
         $spider->connection->width = 2;
         
         $spider->legMin = 0.0000001;

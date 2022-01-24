@@ -885,11 +885,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.');
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
 
-                require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
-                $WAYF = new ShibWAYF();
+                $ilShibbolethWAYF = new ilShibbolethWAYF();
 
-                $tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
-                $tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
+                $tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $ilShibbolethWAYF->showNotice());
+                $tpl->setVariable("SHIB_IDP_LIST", $ilShibbolethWAYF->generateSelection());
                 $tpl->setVariable("ILW_TARGET", $_GET["target"]);
                 $tpl->parseCurrentBlock();
             }
@@ -1440,12 +1439,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($hasPublicSection) {
             $tbl->setTitle($lng->txt("clientlist_available_clients"));
             $tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), $lng->txt("clientlist_public_access")));
-            $tbl->setHeaderVars(array("name","index","login"));
+            $tbl->setHeaderVars(array("name", "index", "login"));
             $tbl->setColumnWidth(array("50%","25%","25%"));
         } else {
             $tbl->setTitle($lng->txt("clientlist_available_clients"));
             $tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), ''));
-            $tbl->setHeaderVars(array("name","login",''));
+            $tbl->setHeaderVars(array("name", "login", ''));
             $tbl->setColumnWidth(array("70%","25%",'1px'));
         }
 

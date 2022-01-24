@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode\Feedback360;
 
-use \ILIAS\Survey\Mode;
+use ILIAS\Survey\Mode;
 
 /**
  * Interface for modes
@@ -23,7 +23,7 @@ use \ILIAS\Survey\Mode;
  */
 class ModeProvider implements Mode\ModeProvider
 {
-    const ID = 1;
+    public const ID = 1;
 
     use Mode\ModeProviderBase;
 

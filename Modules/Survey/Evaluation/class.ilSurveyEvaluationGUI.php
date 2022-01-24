@@ -26,7 +26,14 @@ class ilSurveyEvaluationGUI
     public const TYPE_XLS = "excel";
     public const TYPE_SPSS = "csv";
     public const EXCEL_SUBTITLE = "DDDDDD";
+    /**
+     * @var mixed
+     */
+    protected $last_questionblock_id;
+    protected array $array_panels;
 
+    protected ilLogger $log;
+    protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Survey\Evaluation\EvaluationManager $evaluation_manager;
     protected ilTabsGUI $tabs;
     protected ilAccessHandler $access;
@@ -65,6 +72,8 @@ class ilSurveyEvaluationGUI
         $this->log = ilLoggerFactory::getLogger("svy");
         $this->array_panels = array();
 
+        $this->request = $DIC->survey()->internal()->gui()->evaluation($this->object)->request();
+
         $this->ctrl->saveParameter($this, ["appr_id", "rater_id"]);
         $this->evaluation_manager = $DIC
             ->survey()
@@ -73,8 +82,8 @@ class ilSurveyEvaluationGUI
             ->evaluation(
                 $this->object,
                 $DIC->user()->getId(),
-                (int) $_REQUEST["appr_id"],
-                (string) $_REQUEST["rater_id"]
+                $this->request->getAppraiseeId(),
+                $this->request->getRaterId()
             );
 
         $this->setAppraiseeId(
@@ -85,8 +94,6 @@ class ilSurveyEvaluationGUI
              ->internal()
              ->gui()
              ->modeUIModifier($this->object->getMode());
-
-        $this->request = $DIC->survey()->internal()->gui()->evaluation($this->object)->request();
     }
     
     public function executeCommand() : string
@@ -104,7 +111,7 @@ class ilSurveyEvaluationGUI
 
         switch ($next_class) {
             default:
-                $this->setEvalSubTabs();
+                $this->setEvalSubtabs();
                 $ret = (string) $this->$cmd();
                 break;
         }
@@ -175,13 +182,16 @@ class ilSurveyEvaluationGUI
         $ilUser = $this->user;
         
         if ($this->object->getAnonymize() == 1 &&
-            $this->evaluation_manager->getAnonEvaluationAccess() == $_GET["ref_id"]) {
+            $this->evaluation_manager->getAnonEvaluationAccess() == $this->request->getRefId()) {
             return true;
         }
         
-        if (ilObjSurveyAccess::_hasEvaluationAccess(ilObject::_lookupObjId($_GET["ref_id"]), $ilUser->getId())) {
+        if (ilObjSurveyAccess::_hasEvaluationAccess(
+            ilObject::_lookupObjId($this->request->getRefId()),
+            $ilUser->getId()
+        )) {
             if ($this->object->getAnonymize() == 1) {
-                $this->evaluation_manager->setAnonEvaluationAccess($_GET["ref_id"]);
+                $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             }
             return true;
         }
@@ -190,7 +200,7 @@ class ilSurveyEvaluationGUI
             // autocode
             $surveycode = $this->object->getUserAccessCode($ilUser->getId());
             if ($this->object->isAnonymizedParticipant($surveycode)) {
-                $this->evaluation_manager->setAnonEvaluationAccess($_GET["ref_id"]);
+                $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
                 return true;
             }
             
@@ -224,9 +234,9 @@ class ilSurveyEvaluationGUI
      */
     public function checkEvaluationAccess() : void
     {
-        $surveycode = $_POST["surveycode"];
+        $surveycode = $this->request->getSurveyCode();
         if ($this->object->isAnonymizedParticipant($surveycode)) {
-            $this->evaluation_manager->setAnonEvaluationAccess($_GET["ref_id"]);
+            $this->evaluation_manager->setAnonEvaluationAccess($this->request->getRefId());
             $this->evaluation();
         } else {
             ilUtil::sendFailure($this->lng->txt("svy_check_evaluation_wrong_key", true));
@@ -241,7 +251,7 @@ class ilSurveyEvaluationGUI
     {
         $ilCtrl = $this->ctrl;
         $tree = $this->tree;
-        $path = $tree->getPathFull($this->object->getRefID());
+        $path = $tree->getPathFull($this->object->getRefId());
         $ilCtrl->setParameterByClass(
             "ilrepositorygui",
             "ref_id",
@@ -263,7 +273,7 @@ class ilSurveyEvaluationGUI
     ) : void {
         $finished_ids = null;
         if ($this->object->get360Mode()) {
-            $appr_id = $_REQUEST["appr_id"];
+            $appr_id = $this->request->getAppraiseeId();
             if (!$appr_id) {
                 $this->ctrl->redirect($this, $details ? "evaluationdetails" : "evaluation");
             }
@@ -276,7 +286,7 @@ class ilSurveyEvaluationGUI
         // titles
         $title_row = array();
         $do_title = $do_label = true;
-        switch ($_POST['export_label']) {
+        switch ($this->request->getExportLabel()) {
             case 'label_only':
                 $title_row[] = $this->lng->txt("label");
                 $do_title = false;
@@ -303,7 +313,9 @@ class ilSurveyEvaluationGUI
         $title_row[] = $this->lng->txt("arithmetic_mean");
         
         // creating container
-        switch ($_POST["export_format"]) {
+        $excel = null;
+        $csvfile = null;
+        switch ($this->request->getExportFormat()) {
             case self::TYPE_XLS:
                 $excel = new ilExcel();
                 $excel->addSheet($this->lng->txt("svy_eval_cumulated"));
@@ -324,7 +336,7 @@ class ilSurveyEvaluationGUI
             $q_res = $q_eval->getResults();
             $ov_rows = $q_eval->exportResults($q_res, $do_title, $do_label);
             
-            switch ($_POST["export_format"]) {
+            switch ($this->request->getExportFormat()) {
                 case self::TYPE_XLS:
                     $excel->setActiveSheet(0);
                     foreach ($ov_rows as $row) {
@@ -343,7 +355,7 @@ class ilSurveyEvaluationGUI
             }
             
             if ($details) {
-                switch ($_POST["export_format"]) {
+                switch ($this->request->getExportFormat()) {
                     case self::TYPE_XLS:
                         $this->exportResultsDetailsExcel($excel, $q_eval, $q_res, $do_title, $do_label);
                         break;
@@ -361,7 +373,7 @@ class ilSurveyEvaluationGUI
         $surveyname = ilUtil::getASCIIFilename($surveyname);
         
         // send to client
-        switch ($_POST["export_format"]) {
+        switch ($this->request->getExportFormat()) {
             case self::TYPE_XLS:
                 $excel->sendToClient($surveyname);
                 break;
@@ -375,7 +387,6 @@ class ilSurveyEvaluationGUI
                 }
                 ilUtil::deliverData($csv, $surveyname . ".csv");
                 exit();
-                break;
         }
     }
     
@@ -523,7 +534,7 @@ class ilSurveyEvaluationGUI
                     : $a_results->getModeValue();
                 
                 $kv[$this->lng->txt("mode_text")] = $a_results->getModeValueAsText();
-                $kv[$this->lng->txt("mode_nr_of_selections")] = (int) $a_results->getModeNrOfSelections();
+                $kv[$this->lng->txt("mode_nr_of_selections")] = $a_results->getModeNrOfSelections();
             }
 
             if ($a_results->getMedian() !== null) {
@@ -591,7 +602,7 @@ class ilSurveyEvaluationGUI
     
     public function exportData() : void
     {
-        if (strlen($_POST["export_format"])) {
+        if (strlen($this->request->getExportFormat())) {
             $this->exportCumulatedResults(0);
         } else {
             $this->ctrl->redirect($this, 'evaluation');
@@ -600,7 +611,7 @@ class ilSurveyEvaluationGUI
     
     public function exportDetailData() : void
     {
-        if (strlen($_POST["export_format"])) {
+        if (strlen($this->request->getExportFormat())) {
             $this->exportCumulatedResults(1);
         } else {
             $this->ctrl->redirect($this, 'evaluation');
@@ -641,7 +652,7 @@ class ilSurveyEvaluationGUI
             self::TYPE_XLS => $this->lng->txt('exp_type_excel'),
             self::TYPE_SPSS => $this->lng->txt('exp_type_csv')
             ));
-        $form->addItem($format, true);
+        $form->addItem($format);
 
         $label = new ilSelectInputGUI($this->lng->txt("title"), "export_label");
         $label->setOptions(array(
@@ -717,7 +728,7 @@ class ilSurveyEvaluationGUI
         if (!$pdf) {
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
             if ($this->object->get360Mode()) {
-                $appr_id = (int) $this->getAppraiseeId();
+                $appr_id = $this->getAppraiseeId();
 //                $this->addApprSelectionToToolbar();
             }
         }
@@ -756,13 +767,6 @@ class ilSurveyEvaluationGUI
                     $finished_ids = array(-1);
                 }
             }
-            
-            $details_figure = $_POST["cp"]
-                ? $_POST["cp"]
-                : "ap";
-            $details_view = $_POST["vw"]
-                ? $_POST["vw"]
-                : "tc";
             
             // @todo
             // filter finished ids
@@ -831,7 +835,7 @@ class ilSurveyEvaluationGUI
 
         //$eval_tpl->setVariable('MODAL', $modal);
         if (!$details) {
-            $table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);
+            $table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $results);
             $eval_tpl->setVariable('CUMULATED', $table_gui->getHTML());
         }
 
@@ -930,7 +934,7 @@ class ilSurveyEvaluationGUI
         $questions = array();
                 
         foreach ($this->object->getSurveyQuestions() as $qdata) {
-            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
+            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], null);
             $q_res = $q_eval->getResults();
             
             $questions[$qdata["question_id"]] = array($q_eval, $q_res);
@@ -940,7 +944,7 @@ class ilSurveyEvaluationGUI
                 : $q_res->getQuestion();
 
             $do_title = $do_label = true;
-            switch ($_POST['export_label']) {
+            switch ($this->request->getExportLabel()) {
                 case "label_only":
                     $title_row[] = $question->label;
                     $title_row2[] = "";
@@ -975,7 +979,7 @@ class ilSurveyEvaluationGUI
                         
         $finished_ids = null;
         if ($this->object->get360Mode()) {
-            $appr_id = $_REQUEST["appr_id"];
+            $appr_id = $this->request->getAppraiseeId();
             if (!$appr_id) {
                 $this->ctrl->redirect($this, "evaluationuser");
             }
@@ -1004,9 +1008,9 @@ class ilSurveyEvaluationGUI
             
             $row[] = $this->object->getWorkingtimeForParticipant($user_id);
             
-            if ((bool) $user["finished"]) {
+            if ($user["finished"]) {
                 $dt = new ilDateTime($user["finished_tstamp"], IL_CAL_UNIX);
-                $row[] = ($_POST["export_format"] == self::TYPE_XLS)
+                $row[] = ($this->request->getExportFormat() == self::TYPE_XLS)
                     ? $dt
                     : ilDatePresentation::formatDate($dt);
             } else {
@@ -1028,7 +1032,7 @@ class ilSurveyEvaluationGUI
         $surveyname = preg_replace("/\s/", "_", trim($surveyname));
         $surveyname = ilUtil::getASCIIFilename($surveyname);
         
-        switch ($_POST["export_format"]) {
+        switch ($this->request->getExportFormat()) {
             case self::TYPE_XLS:
                 $excel = new ilExcel();
                 $excel->addSheet($this->lng->txt("svy_eval_user"));
@@ -1070,7 +1074,11 @@ class ilSurveyEvaluationGUI
         }
         
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
-        
+
+        $modal = "";
+        $appr_id = null;
+        $data = [];
+
         if ($this->object->get360Mode()) {
             $appr_id = $this->getAppraiseeId();
         }
@@ -1103,7 +1111,7 @@ class ilSurveyEvaluationGUI
             $data = $this->parseUserSpecificResults($finished_ids);
         }
         
-        $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->hasAnonymizedResults());
+        $table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser');
         $table_gui->setData($data);
         $this->tpl->setContent($table_gui->getHTML() . $modal);
     }
@@ -1200,7 +1208,7 @@ class ilSurveyEvaluationGUI
         
         $survey = $this->object;
         
-        $ilTabs->activateSubtab("svy_eval_competences");
+        $ilTabs->activateSubTab("svy_eval_competences");
         $ilTabs->activateTab("svy_results");
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
@@ -1250,7 +1258,6 @@ class ilSurveyEvaluationGUI
 
         // if one competence does not match any profiles
         // -> add "competences of survey" alternative
-        reset($skills);
         foreach ($skills as $sk) {
             if (count($sk["profiles"]) == 0) {
                 $eval_modes["skills_of_survey"] = $lng->txt("svy_all_survey_competences");
@@ -1258,13 +1265,9 @@ class ilSurveyEvaluationGUI
         }
         
         // final determination of current evaluation mode
-        $comp_eval_mode = $_GET["comp_eval_mode"];
-        if ($_POST["comp_eval_mode"] != "") {
-            $comp_eval_mode = $_POST["comp_eval_mode"];
-        }
-        
+        $comp_eval_mode = $this->request->getCompEvalMode();
+
         if (!isset($eval_modes[$comp_eval_mode])) {
-            reset($eval_modes);
             $comp_eval_mode = key($eval_modes);
             $ilCtrl->setParameter($this, "comp_eval_mode", $comp_eval_mode);
         }
@@ -1302,8 +1305,6 @@ class ilSurveyEvaluationGUI
                 $pskills_gui->setGapAnalysisSelfEvalLevels($self_levels);
             }
             $html = $pskills_gui->getGapAnalysisHTML($appr_id);
-            
-            $tpl->setContent($html);
         } else { // must be all survey competences
             #23743
             if ($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL &&
@@ -1326,9 +1327,8 @@ class ilSurveyEvaluationGUI
                     );
             }
             $html = $pskills_gui->getGapAnalysisHTML($appr_id, $sk);
-
-            $tpl->setContent($html);
         }
+        $tpl->setContent($html);
     }
     
     /**
@@ -1361,12 +1361,13 @@ class ilSurveyEvaluationGUI
      */
     public function downloadChart() : void
     {
+        /*
         $qid = (int) $_GET["qid"];
         if (!$qid) {
             return;
         }
 
-        $this->renderChartOnly();
+        $this->renderChartOnly();*/
     }
 
     /**
@@ -1376,6 +1377,7 @@ class ilSurveyEvaluationGUI
     {
         global $tpl;
 
+        /*
         $qid = (int) $_GET["qid"];
         if (!$qid) {
             return;
@@ -1422,7 +1424,7 @@ class ilSurveyEvaluationGUI
         $this->tpl->setContent($dtmpl->get());
 
         $html = $this->tpl->printToString();
-        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid) . ".pdf");
+        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid) . ".pdf");*/
     }
 
     /**
@@ -1474,7 +1476,7 @@ class ilSurveyEvaluationGUI
         $args = array(
             session_id(),
             $parts["host"],
-            $parts["path"] ? $parts["path"] : '/',
+            $parts["path"] ?: '/',
             CLIENT_ID,
             "\"" . ILIAS_HTTP_PATH . "/" . $a_url . "\"",
             $target
@@ -1499,11 +1501,12 @@ class ilSurveyEvaluationGUI
         }
 
         if (!$a_return) {
-            ilUtil::deliverFile($target, $a_filename, $mime_type);
+            ilFileDelivery::deliverFileLegacy($target, $a_filename, $mime_type);
         } else {
             ilLoggerFactory::getRootLogger()->debug("**** Return a target = " . $target);
             return $target;
         }
+        return "";
     }
 
     /**

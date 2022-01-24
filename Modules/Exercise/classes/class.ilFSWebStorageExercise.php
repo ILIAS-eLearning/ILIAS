@@ -6,7 +6,7 @@
  * @author Jesús López <lopez@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSWebStorageExercise extends ilFileSystemStorage
+class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
 {
     protected ilLogger $log;
     protected int $ass_id;
@@ -48,14 +48,6 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
         return 'ilExercise';
     }
 
-    public function create() : bool
-    {
-        $this->log->debug("parent create");
-
-        parent::create();
-
-        return true;
-    }
 
     public function deleteUserSubmissionDirectory(
         int $user_id

@@ -62,17 +62,16 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("USER_ID", $data['usr_id']);
-        $this->tpl->setVariable("LOGIN", $data['login']);
-        $this->tpl->setVariable("FIRSTNAME", $data['firstname']);
-        $this->tpl->setVariable("LASTNAME", $data['lastname']);
-        $this->tpl->setVariable("CLIENT_IP", $data['clientip']);
+        $this->tpl->setVariable("USER_ID", $a_set['usr_id']);
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
+        $this->tpl->setVariable("FIRSTNAME", $a_set['firstname']);
+        $this->tpl->setVariable("LASTNAME", $a_set['lastname']);
+        $this->tpl->setVariable("CLIENT_IP", $a_set['clientip']);
     }
 }

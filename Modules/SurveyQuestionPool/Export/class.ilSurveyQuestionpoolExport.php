@@ -20,6 +20,9 @@
  */
 class ilSurveyQuestionpoolExport
 {
+    protected string $subdir;
+    protected string $filename;
+    protected string $export_dir;
     public ilDBInterface $db;
     public ilObjSurveyQuestionPool $spl_obj;
     public int $inst_id;
@@ -88,8 +91,6 @@ class ilSurveyQuestionpoolExport
         $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->filename, "w");
         fwrite($qti_file, $this->spl_obj->toXML($questions));
         fclose($qti_file);
-        // destroy writer object
-        $this->xml->_XmlWriter;
 
         ilUtil::zip(
             $this->export_dir . "/" . $this->subdir,

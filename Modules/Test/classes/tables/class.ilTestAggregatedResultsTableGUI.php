@@ -49,14 +49,13 @@ class ilTestAggregatedResultsTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("RESULT", $data["result"]);
-        $this->tpl->setVariable("VALUE", $data["value"]);
+        $this->tpl->setVariable("RESULT", $a_set["result"]);
+        $this->tpl->setVariable("VALUE", $a_set["value"]);
     }
 }

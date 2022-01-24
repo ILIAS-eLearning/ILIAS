@@ -137,11 +137,8 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     public function checkInput() : bool
     {
         $lng = $this->lng;
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
+        $foundvalues = $this->getInput();
+        if (count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
@@ -159,12 +156,18 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         return $this->checkSubItemsInput();
     }
 
+    public function getInput() : array
+    {
+        $val = $this->arrayArray($this->getPostVar());
+        $val = ilUtil::stripSlashesRecursive($val);
+        return $val;
+    }
+
     public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         
         $tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "Modules/SurveyQuestionPool");
-        $i = 0;
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
@@ -248,7 +251,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $a_tpl->parseCurrentBlock();
         
         $tpl = $this->tpl;
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/SurveyQuestionPool/js/matrixrowwizard.js");
+        $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavaScript("./Modules/SurveyQuestionPool/js/matrixrowwizard.js");
     }
 }

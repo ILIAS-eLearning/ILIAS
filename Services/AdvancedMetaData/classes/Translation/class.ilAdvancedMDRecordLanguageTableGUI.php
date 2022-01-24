@@ -90,19 +90,19 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_ID', $row[self::COL_LANGUAGE_CODE]);
+        $this->tpl->setVariable('VAL_ID', $a_set[self::COL_LANGUAGE_CODE]);
 
-        if ($row[self::COL_ACTIVE]) {
+        if ($a_set[self::COL_ACTIVE]) {
             $this->tpl->setVariable('ACTIVATION_CHECKED', 'checked="checked"');
         }
 
-        $this->tpl->setVariable('TXT_LANGUAGE', $row[self::COL_LANGUAGE]);
-        if ($row[self::COL_DEFAULT]) {
+        $this->tpl->setVariable('TXT_LANGUAGE', $a_set[self::COL_LANGUAGE]);
+        if ($a_set[self::COL_DEFAULT]) {
             $this->tpl->setVariable('DEFAULT_CHECKED', 'checked="checked"');
         }
-        if ($row[self::COL_ACTIVE]) {
+        if ($a_set[self::COL_ACTIVE]) {
             $this->tpl->setVariable(
                 'GLYPH_ACTIVE',
                 $this->ui_renderer->render(
@@ -110,7 +110,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
                 )
             );
         }
-        if ($row[self::COL_INSTALLED]) {
+        if ($a_set[self::COL_INSTALLED]) {
             $this->tpl->setVariable(
                 'GLYPH_INSTALLED',
                 $this->ui_renderer->render(

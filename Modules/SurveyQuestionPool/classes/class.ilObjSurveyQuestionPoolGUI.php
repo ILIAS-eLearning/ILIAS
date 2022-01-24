@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
+
 /**
  * Class ilObjSurveyQuestionPoolGUI
  *
@@ -26,8 +28,9 @@
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected bool $update;
+    protected EditingGUIRequest $edit_request;
     protected ilNavigationHistory $nav_history;
-    protected ilErrorHandling $error;
     protected ilHelpGUI $help;
     protected ilLogger $log;
     public string $defaultscript;
@@ -36,24 +39,26 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         global $DIC;
 
-        $this->lng = $DIC->language();
         $this->nav_history = $DIC["ilNavigationHistory"];
-        $this->tpl = $DIC["tpl"];
-        $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
-        $this->error = $DIC["ilErr"];
-        $this->locator = $DIC["ilLocator"];
         $this->help = $DIC["ilHelp"];
-        $lng = $DIC->language();
-        $ilCtrl = $DIC->ctrl();
+
+        $this->edit_request = $DIC->surveyQuestionPool()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $this->type = "spl";
-        $lng->loadLanguageModule("survey");
-        $this->ctrl = $ilCtrl;
+
+        parent::__construct(
+            "",
+            $this->edit_request->getRefId(),
+            true,
+            false
+        );
+        $this->lng->loadLanguageModule("survey");
         $this->ctrl->saveParameter($this, array("ref_id"));
-
-        parent::__construct("", $_GET["ref_id"], true, false);
-
         $this->log = ilLoggerFactory::getLogger('svy');
     }
 
@@ -82,10 +87,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $cmd = $this->ctrl->getCmd("questions");
         $next_class = $this->ctrl->getNextClass($this);
         $this->ctrl->setReturn($this, "questions");
-        if ($_GET["q_id"] < 1) {
-            $q_type = ($_POST["sel_question_types"] != "")
-                ? $_POST["sel_question_types"]
-                : $_GET["sel_question_types"];
+        $q_type = "";
+        if ($this->edit_request->getQuestionId() < 1) {
+            $q_type = $this->edit_request->getSelectedQuestionTypes();
         }
 
         $this->log->debug("- cmd=" . $cmd . " next_class=" . $next_class);
@@ -127,8 +131,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 break;
                 
             default:
-                $q_gui = SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
-                $this->log->debug("- This is the switch/case default, going to question id =" . $_GET["q_id"]);
+                $q_gui = SurveyQuestionGUI::_getQuestionGUI(
+                    $q_type,
+                    $this->edit_request->getQuestionId()
+                );
+                $this->log->debug("- This is the switch/case default, going to question id =" . $this->edit_request->getQuestionId());
                 $q_gui->setQuestionTabs();
                 $this->ctrl->forwardCommand($q_gui);
                 
@@ -138,7 +145,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 }
                 break;
         }
-        if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
+        if (strtolower($this->edit_request->getBaseClass()) != "iladministrationgui" &&
             $this->getCreationMode() != true) {
             $this->tpl->printToStdout();
         }
@@ -228,8 +235,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function copyObject() : void
     {
-        if (count($_POST["q_id"]) > 0) {
-            foreach ($_POST["q_id"] as $key => $value) {
+        $qids = $this->edit_request->getQuestionIds();
+        if (count($qids) > 0) {
+            foreach ($qids as $key => $value) {
                 $this->object->copyToClipboard($value);
             }
             ilUtil::sendInfo($this->lng->txt("spl_copy_insert_clipboard"), true);
@@ -244,8 +252,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function moveObject() : void
     {
-        if (count($_POST["q_id"]) > 0) {
-            foreach ($_POST["q_id"] as $key => $value) {
+        $qids = $this->edit_request->getQuestionIds();
+        if (count($qids) > 0) {
+            foreach ($qids as $key => $value) {
                 $this->object->moveToClipboard($value);
             }
             ilUtil::sendInfo($this->lng->txt("spl_move_insert_clipboard"), true);
@@ -260,8 +269,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function exportQuestionObject() : void
     {
-        if (is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
-            $this->createExportFileObject($_POST['q_id']);
+        $qids = $this->edit_request->getQuestionIds();
+        if (count($qids) > 0) {
+            $this->createExportFileObject($qids);
         } else {
             ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"));
             $this->questionsObject();
@@ -276,7 +286,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->checkPermission('write');
         
         // create an array of all checked checkboxes
-        $checked_questions = $_POST['q_id'];
+        $checked_questions = $this->edit_request->getQuestionIds();
         if (count($checked_questions) == 0) {
             ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"));
             $this->questionsObject();
@@ -308,7 +318,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         // delete questions after confirmation
         ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
-        foreach ($_POST['q_id'] as $q_id) {
+        $qids = $this->edit_request->getQuestionIds();
+        foreach ($qids as $q_id) {
             $this->object->removeQuestion($q_id);
         }
         $this->ctrl->redirect($this, "questions");
@@ -420,7 +431,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $ilToolbar->addInputItem($qtypes);
 
             $options = array();
-            foreach (ilObjSurveyQuestionPool::_getQuestionTypes() as $translation => $data) {
+            foreach (ilObjSurveyQuestionPool::_getQuestiontypes() as $translation => $data) {
                 $options[$data["type_tag"]] = $translation;
             }
             $qtypes->setOptions($options);
@@ -440,7 +451,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $ilToolbar->addButtonInstance($button);
         }
                 
-        $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($this->checkPermissionBool('write') ? true : false)));
+        $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', $this->checkPermissionBool('write'));
         $table_gui->setEditable($this->checkPermissionBool('write'));
         $arrFilter = array();
         foreach ($table_gui->getFilterItems() as $item) {
@@ -458,7 +469,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
     }
     
-    public function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $a_new_object) : void
     {
         // always send a message
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);
@@ -485,7 +496,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $data = array();
         foreach ($export_files as $exp_file) {
             $file_arr = explode("__", $exp_file);
-            array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir . "/" . $exp_file)));
+            $data[] = array('file' => $exp_file,
+                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
+                            'size' => filesize($export_dir . "/" . $exp_file)
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setContent($table_gui->getHTML());
@@ -497,8 +511,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function createExportFileObject($questions = null) : void
     {
         $this->checkPermission("write");
-        
-        $survey_exp = new ilSurveyQuestionpoolExport($this->object);
+
+        /** @var ilObjSurveyQuestionPool $svy */
+        $svy = $this->object;
+        $survey_exp = new ilSurveyQuestionpoolExport($svy);
         $survey_exp->buildExportFile($questions);
         $this->ctrl->redirect($this, "export");
     }
@@ -508,12 +524,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function downloadExportFileObject() : void
     {
-        if (!isset($_POST["file"])) {
+        $files = $this->edit_request->getFiles();
+        if (count($files) == 0) {
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "export");
         }
 
-        if (count($_POST["file"]) > 1) {
+        if (count($files) > 1) {
             ilUtil::sendInfo($this->lng->txt("select_max_one_item"), true);
             $this->ctrl->redirect($this, "export");
         }
@@ -521,9 +538,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
         $export_dir = $this->object->getExportDirectory();
         
-        $file = basename($_POST["file"][0]);
+        $file = basename($files[0]);
         
-        ilUtil::deliverFile($export_dir . "/" . $file, $file);
+        ilFileDelivery::deliverFileLegacy($export_dir . "/" . $file, $file);
     }
 
     /**
@@ -531,7 +548,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function confirmDeleteExportFileObject() : void
     {
-        if (!isset($_POST["file"])) {
+        $files = $this->edit_request->getFiles();
+        if (count($files) == 0) {
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "export");
         }
@@ -540,9 +558,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export', true);
         $export_dir = $this->object->getExportDirectory();
         $data = array();
-        foreach ($_POST['file'] as $exp_file) {
+        foreach ($files as $exp_file) {
             $file_arr = explode("__", $exp_file);
-            array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir . "/" . $exp_file)));
+            $data[] = array('file' => $exp_file,
+                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
+                            'size' => filesize($export_dir . "/" . $exp_file)
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
@@ -557,15 +578,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function deleteExportFileObject() : void
     {
         $export_dir = $this->object->getExportDirectory();
-        foreach ($_POST['file'] as $file) {
+        $files = $this->edit_request->getFiles();
+        foreach ($files as $file) {
             $file = basename($file);
             
             $exp_file = $export_dir . "/" . $file;
             $exp_dir = $export_dir . "/" . substr($file, 0, strlen($file) - 4);
-            if (@is_file($exp_file)) {
+            if (is_file($exp_file)) {
                 unlink($exp_file);
             }
-            if (@is_dir($exp_dir)) {
+            if (is_dir($exp_dir)) {
                 ilUtil::delDir($exp_dir);
             }
         }
@@ -590,19 +612,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         return $forms;
     }
 
-    public function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
         $tpl = $this->tpl;
-        $ilErr = $this->error;
 
         if (!$parent_id) {
-            $parent_id = $_GET["ref_id"];
+            $parent_id = $this->edit_request->getRefId();
         }
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->edit_request->getNewType();
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $ilErr->raiseError($this->lng->txt("no_create_permission"));
+            throw new ilPermissionException($this->lng->txt("no_create_permission"));
         }
 
         $this->lng->loadLanguageModule($new_type);
@@ -629,7 +650,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             );
 
             // import qti data
-            $qtiresult = $newObj->importObject($full_path);
+            $newObj->importObject($full_path);
 
             ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
@@ -638,7 +659,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         
         // display form to correct errors
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
 
     /**
@@ -648,14 +669,23 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         $ilUser = $this->user;
         
-        $ilUser->writePref("svy_lastquestiontype", $_POST["sel_question_types"]);
+        $ilUser->writePref(
+            "svy_lastquestiontype",
+            $this->edit_request->getSelectedQuestionTypes()
+        );
         
-        $q_gui = SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+        $q_gui = SurveyQuestionGUI::_getQuestionGUI(
+            $this->edit_request->getSelectedQuestionTypes()
+        );
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->createNewQuestion();
         
         $this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
-        $this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]);
+        $this->ctrl->setParameterByClass(
+            get_class($q_gui),
+            "sel_question_types",
+            $this->edit_request->getSelectedQuestionTypes()
+        );
         $this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
     }
 
@@ -664,9 +694,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function previewObject() : void
     {
-        $q_gui = SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
+        $q_gui = SurveyQuestionGUI::_getQuestionGUI(
+            "",
+            $this->edit_request->getPreview()
+        );
         $this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
-        $this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["preview"]);
+        $this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $this->edit_request->getPreview());
         $this->ctrl->redirectByClass(get_class($q_gui), "preview");
     }
     
@@ -698,7 +731,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->forwardCommand($info);
     }
     
-    public function addLocatorItems() : void
+    protected function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
         switch ($this->ctrl->getCmd()) {
@@ -707,11 +740,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             case "cancel":
                 break;
             default:
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->edit_request->getRefId());
                 break;
         }
-        if ((int) $_GET["q_id"]) {
-            $q_id = (int) $_GET["q_id"];
+        if ($this->edit_request->getQuestionId() > 0) {
+            $q_id = $this->edit_request->getQuestionId();
             $q_type = SurveyQuestion::_getQuestionType($q_id) . "GUI";
             $q_title = SurveyQuestion::_getTitle($q_id);
             if ($q_title) {
@@ -725,7 +758,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         }
     }
     
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $ilHelp = $this->help;
         
@@ -740,7 +773,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 break;
             default:
                 return;
-                break;
         }
             
         // questions
@@ -748,7 +780,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $this->ctrl->getCmd() != "properties" && $this->ctrl->getCmd() != "infoScreen") ||
             $this->ctrl->getCmd() == "";
         if (!$force_active) {
-            if (is_array($_GET["sort"])) {
+            $sort = $this->edit_request->getSort();
+            if (count($sort) > 0) {
                 $force_active = true;
             }
         }
@@ -838,12 +871,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function saveObligatoryObject() : void
     {
-        $obligatory = array();
-        foreach ($_POST as $key => $value) {
-            if (preg_match("/obligatory_(\d+)/", $key, $matches)) {
-                $obligatory[] = $matches[1];
-            }
-        }
+        $obligatory = $this->edit_request->getObligatory();
         $this->object->setObligatoryStates($obligatory);
         
         ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
@@ -857,16 +885,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     {
         global $DIC;
 
+        $ctrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
         
         if ($ilAccess->checkAccess("visible", "", $a_target) ||
             $ilAccess->checkAccess("read", "", $a_target)) {
-            $_GET["baseClass"] = "ilObjSurveyQuestionPoolGUI";
-            $_GET["cmd"] = "infoScreen";
-            $_GET["ref_id"] = $a_target;
-            include_once("ilias.php");
-            exit;
+            $ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "ref_id", $a_target);
+            $ctrl->redirectByClass("ilObjSurveyQuestionPoolGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             ilUtil::sendFailure(sprintf(
                 $lng->txt("msg_no_perm_read_item"),

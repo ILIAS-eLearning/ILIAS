@@ -17,6 +17,9 @@
  ********************************************************************
  */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * Learning history provider: Skills
  *
@@ -25,6 +28,23 @@
  */
 class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
+    protected ilCtrl $ctrl;
+    protected Factory $ui_fac;
+    protected Renderer $ui_ren;
+
+    public function __construct(
+        int $user_id,
+        ilLearningHistoryFactory $factory,
+        ilLanguage $lng,
+        ?ilTemplate $template = null
+    ) {
+        global $DIC;
+
+        parent::__construct($user_id, $factory, $lng, $template);
+        $this->ctrl = $DIC->ctrl();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
+    }
 
     /**
      * @inheritdoc
@@ -41,7 +61,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function getEntries($ts_start, $ts_end) : ?array
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("skll");
@@ -87,6 +107,24 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
                 );
             }
         }
+
+        // profiles
+        $completions = ilSkillProfileCompletionRepository::getFulfilledEntriesForUser($this->getUserId());
+
+        foreach ($completions as $c) {
+            $this->ctrl->setParameterByClass("ilpersonalskillsgui", "profile_id", $c["profile_id"]);
+            $p_link = $this->ui_fac->link()->standard(
+                ilSkillProfile::lookupTitle($c["profile_id"]),
+                $this->ctrl->getLinkTargetByClass("ilpersonalskillsgui", "listassignedprofile")
+            );
+            $ts = new ilDateTime($c["date"], IL_CAL_DATETIME);
+            $text = str_replace(
+                "$3$",
+                $this->getEmphasizedTitle($this->ui_ren->render($p_link)),
+                $lng->txt("skll_lhist_skill_profile_fulfilled")
+            );
+        }
+
         return $entries;
     }
 

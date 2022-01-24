@@ -498,7 +498,7 @@ class ilAdvancedMDSettingsGUI
         );
         $abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
 
-        ilUtil::deliverFile($abs_path, 'ilias_meta_data_record.xml', 'application/xml');
+        ilFileDelivery::deliverFileLegacy($abs_path, 'ilias_meta_data_record.xml', 'application/xml');
     }
 
     /**

@@ -34,7 +34,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
     }
 
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         global $DIC;
 
@@ -680,7 +680,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         return $data;
     }
 
-    protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
     {
         foreach ($this->getExportMeta() as $caption => $value) {
             $a_excel->setCell($a_row, 0, $caption);
@@ -690,7 +690,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $a_row++;
     }
     
-    protected function fillMetaCSV($a_csv)
+    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
     {
         foreach ($this->getExportMeta() as $caption => $value) {
             $a_csv->addColumn(strip_tags($caption));

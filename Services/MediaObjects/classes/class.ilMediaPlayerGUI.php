@@ -19,23 +19,23 @@
  */
 class ilMediaPlayerGUI
 {
-    protected bool $force_audio_preview;
-    protected string $video_preview_pic_alt;
-    protected string $video_preview_pic;
-    protected string $alt_video_mime;
-    protected string $alt_video_file;
-    protected string $id;
-    protected ilTemplate $tpl;
+    protected bool $force_audio_preview = false;
+    protected string $video_preview_pic_alt = "";
+    protected string $video_preview_pic = "";
+    protected string $alt_video_mime = "";
+    protected string $alt_video_file = "";
+    protected string $id = "";
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected string $file;
+    protected string $file = "";
     protected int $displayHeight = 0;
     protected int $displayWidth = 0;
-    protected string $mimeType;
+    protected string $mimeType = "";
     protected static int $nr = 1;
     protected static bool $lightbox_initialized = false;
-    protected int $current_nr;
-    protected string $title;
-    protected string $description;
+    protected int $current_nr = 0;
+    protected string $title = "";
+    protected string $description = "";
     protected string $event_callback_url = "";
     protected string $download_link = "";
 
@@ -187,7 +187,7 @@ class ilMediaPlayerGUI
 
         ilYuiUtil::initConnection();
 
-        $a_tpl->addJavaScript("./Services/MediaObjects/js/MediaObjects.js");
+        $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js?1");
 
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }

@@ -14,10 +14,11 @@
  */
 
 /**
- * Wiki settings gui class
+ * note: since the last feature (captcha) has been removed from the settings
+ * the settings screen is currently not used. If it should be revived, add "wiks" to
+ * AdministrationMainBarProvider again.
  *
  * @author Alexander Killing <killing@leifos.de>
- *
  * @ilCtrl_Calls ilObjWikiSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjWikiSettingsGUI: ilAdministrationGUI
  */
@@ -109,14 +110,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
         $form = new ilPropertyFormGUI();
 
-        $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
-        $cap->setInfo($this->lng->txt('adm_captcha_anonymous_wiki'));
-        $cap->setValue(1);
-        if (!ilCaptchaUtil::checkFreetype()) {
-            $cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
-        }
-        $form->addItem($cap);
-        
+
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton("saveSettings", $lng->txt("save"));
         }

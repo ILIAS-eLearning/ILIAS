@@ -58,7 +58,7 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
     /**
      * Fill template row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_CHECKED', $a_set['active'] ? 'checked="checked"' : '');

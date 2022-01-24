@@ -7,7 +7,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
 /**
  * Handles the file upload and folder creation for files uploaded in grading form
  */
-class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements IndividualAssessmentFileStorage
+class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage implements IndividualAssessmentFileStorage
 {
     const PATH_POSTFIX = "iass";
     const PATH_PREFIX = "IASS";
@@ -56,12 +56,11 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     /**
      * creates the folder structure
      */
-    public function create() : bool
+    public function create() : void
     {
         if (!file_exists($this->getAbsolutePath())) {
             ilUtil::makeDirParents($this->getAbsolutePath());
         }
-        return true;
     }
 
     /**

@@ -80,7 +80,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             $this->setComplete($data["complete"]);
             $this->setOriginalId($data["original_id"]);
             $this->setOrientation($data["orientation"]);
-            $this->use_min_answers = ($data['use_min_answers']) ? true : false;
+            $this->use_min_answers = (bool) $data['use_min_answers'];
             $this->nr_min_answers = $data['nr_min_answers'];
             $this->nr_max_answers = $data['nr_max_answers'];
 
@@ -92,7 +92,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
+                    $this->categories->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
         }
@@ -119,12 +119,12 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 
         $affectedRows = parent::saveToDb($original_id);
         if ($affectedRows == 1) {
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
                 array($this->getId())
             );
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation, use_min_answers, nr_min_answers, nr_max_answers) VALUES (%s, %s, %s, %s, %s)",
                 array('integer', 'text', 'integer', 'integer', 'integer'),
                 array(
@@ -140,6 +140,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
             $this->saveMaterial();
             $this->saveCategoriesToDb();
         }
+        return $affectedRows;
     }
 
     public function saveCategoriesToDb() : void
@@ -169,7 +170,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         bool $a_include_header = true,
         bool $obligatory_state = false
     ) : string {
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
@@ -190,7 +191,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
@@ -286,7 +287,9 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $data = array();
         if (is_array($entered_value)) {
             foreach ($entered_value as $idx => $value) {
-                array_push($data, array("value" => $value, "textanswer" => $post_data[$this->getId() . '_' . $value . '_other']));
+                $data[] = array("value" => $value,
+                                "textanswer" => $post_data[$this->getId() . '_' . $value . '_other']
+                );
             }
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
@@ -295,7 +298,10 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                 // #18212
                 if (!is_array($entered_value) || !in_array($i, $entered_value)) {
                     if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
-                        array_push($data, array("value" => $i, "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'], "uncheck" => true));
+                        $data[] = array("value" => $i,
+                                        "textanswer" => $post_data[$this->getId() . '_' . $i . '_other'],
+                                        "uncheck" => true
+                        );
                     }
                 }
             }
@@ -311,7 +317,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         int $survey_id
     ) : string {
         $entered_value = (array) $post_data[$this->getId() . "_value"];
-        if (!$this->getObligatory() && (!is_array($entered_value) || count($entered_value) == 0)) {
+        if (!$this->getObligatory() && (count($entered_value) == 0)) {
             return "";
         }
 

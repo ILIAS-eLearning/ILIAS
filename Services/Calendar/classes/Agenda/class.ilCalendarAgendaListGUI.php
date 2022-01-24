@@ -1,6 +1,7 @@
-<?php
-include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * Calendar agenda list
@@ -11,61 +12,28 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
  */
 class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 {
-    const PERIOD_DAY = 1;
-    const PERIOD_WEEK = 2;
-    const PERIOD_MONTH = 3;
-    const PERIOD_HALF_YEAR = 4;
+    public const PERIOD_DAY = 1;
+    public const PERIOD_WEEK = 2;
+    public const PERIOD_MONTH = 3;
+    public const PERIOD_HALF_YEAR = 4;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var int
-     */
-    protected $period = self::PERIOD_WEEK;
-    
-    /**
-     * @var ilDate
-     */
-    protected $period_end_day = null;
+    protected int $period = self::PERIOD_WEEK;
+    protected ?string $period_end_day = null;
 
     
-
-    /**
-     * Constructor
-     *
-     * @param ilDate $seed
-     * @todo make parent constructor (initialize) and init also seed and other common stuff
-     */
     public function __construct(ilDate $seed)
     {
         parent::__construct($seed, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
-        
         $this->ctrl->saveParameter($this, "cal_agenda_per");
-
         $this->initPeriod();
-
         $this->ctrl->setParameterByClass("ilcalendarinboxgui", "seed", $this->seed->get(IL_CAL_DATE));
-
         $this->initEndPeriod();
     }
 
     /**
-     * Initialises time Period for calendar list view
+     * @todo _GET
      */
-    protected function initPeriod()
+    protected function initPeriod() : void
     {
         global $DIC;
 
@@ -79,17 +47,15 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         } else {
             $this->period = $cal_setting->getDefaultPeriod();
         }
-
         $this->user->writePref('cal_list_view', $this->period);
     }
 
     /**
      * Initialises end date for calendar list view
      */
-    protected function initEndPeriod()
+    protected function initEndPeriod() : void
     {
         $end_date = clone $this->seed;
-
         switch ($this->period) {
             case self::PERIOD_DAY:
                 $end_date->increment(IL_CAL_DAY, 1);
@@ -110,10 +76,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->period_end_day = $end_date->get(IL_CAL_DATE);
     }
     
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : ?string
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -132,15 +95,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
                     return $this->$cmd();
                 }
         }
+        return null;
     }
 
-    /**
-     * Get output
-     *
-     * @param
-     * @return
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $navigation = new ilCalendarHeaderNavigationGUI($this, new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE), ilDateTime::DAY);
         $navigation->getHTML();
@@ -175,7 +133,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
                 $begin,
                 $this->seed,
                 ilDateTime::DAY,
-                $GLOBALS['DIC']->user()->getTimezone()
+                $this->user->getTimeZone()
             )) {
                 continue;
             }
@@ -184,7 +142,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
                 $begin,
                 $end_day,
                 ilDateTime::DAY,
-                $GLOBALS['DIC']->user()->getTimezone()
+                $this->user->getTimeZone()
             )
             ) {
                 break;
@@ -194,12 +152,12 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             // initialize group date for first iteration
             if ($group_date->isNull()) {
                 $group_date = new ilDate(
-                    $begin->get(IL_CAL_DATE, '', $GLOBALS['DIC']->user()->getTimezone()),
+                    $begin->get(IL_CAL_DATE, '', $this->user->getTimeZone()),
                     IL_CAL_DATE
                 );
             }
             
-            if (!ilDateTime::_equals($group_date, $begin, IL_CAL_DAY, $GLOBALS['DIC']->user()->getTimezone())) {
+            if (!ilDateTime::_equals($group_date, $begin, IL_CAL_DAY, $this->user->getTimeZone())) {
                 // create new group
                 $groups[] = $this->ui_factory->item()->group(
                     ilDatePresentation::formatDate($group_date, false, true),
@@ -316,16 +274,13 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         return $html;
     }
 
-    /**
-     * @param $a_item  ILIAS\UI\Component\Item\Item
-     * @param $appointment
-     * @return $li ILIAS\UI\Component\Item\Item
-     */
-    public function getPluginAgendaItem($a_item, $appointment)
+    public function getPluginAgendaItem(Item $a_item, ilCalendarEntry $appointment) : ?Item
     {
         //"capg" is the plugin slot id for AppointmentCustomGrid
+        $li = null;
         foreach ($this->getActivePlugins("capg") as $plugin) {
             $plugin->setAppointment($appointment, $appointment->getStart());
+            // @todo check if last wins is desired
             $li = $plugin->editAgendaItem($a_item);
         }
         return $li;
@@ -334,19 +289,18 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
     /**
      * needed in CalendarInboxGUI to get events using a proper period.
      * todo define default period only once (self::PERIOD_WEEK, protected $period = self::PERIOD_WEEK)
-     * @return int|mixed
      */
-    public static function getPeriod()
+    public static function getPeriod() : int
     {
         global $DIC;
 
-        $settings = ilCalendarSettings::_getInstance();
-        $ilUser = $DIC->user();
+        $user = $DIC->user();
 
+        $settings = ilCalendarSettings::_getInstance();
         $qp = $DIC->http()->request()->getQueryParams();
         if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
             return $qp["cal_agenda_per"];
-        } elseif ($period = $ilUser->getPref('cal_list_view')) {
+        } elseif ($period = $user->getPref('cal_list_view')) {
             return $period;
         } else {
             return $settings->getDefaultPeriod();

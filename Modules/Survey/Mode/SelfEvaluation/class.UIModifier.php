@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode\SelfEvaluation;
 
-use \ILIAS\Survey\Mode;
+use ILIAS\Survey\Mode;
 use ILIAS\Survey\InternalGUIService;
 
 /**

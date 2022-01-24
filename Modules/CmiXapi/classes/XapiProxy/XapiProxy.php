@@ -1,8 +1,19 @@
 <?php
     namespace XapiProxy;
 
-    require_once __DIR__ . '/XapiProxyPolyFill.php';
-
+    /******************************************************************************
+     *
+     * This file is part of ILIAS, a powerful learning management system.
+     *
+     * ILIAS is licensed with the GPL-3.0, you should have received a copy
+     * of said license along with the source code.
+     *
+     * If this is not the case or you just want to try ILIAS, you'll find
+     * us at:
+     *      https://www.ilias.de
+     *      https://github.com/ILIAS-eLearning
+     *
+     *****************************************************************************/
     class XapiProxy extends XapiProxyPolyFill
     {
         private $xapiProxyRequest;
@@ -11,10 +22,10 @@
         public function __construct($client, $token, $plugin = false)
         {
             parent::__construct($client, $token, $plugin);
-            $this->log()->debug($this->msg('proxy initialized ' . (($plugin) ? 'in Plugin ' : '') . (($this->statementReducer) ? 'with StatementReducer' : '')));
+            $this->log()->debug($this->msg('proxy initialized'));
         }
 
-        public function setRequestParams($request)
+        public function setRequestParams($request) : void
         {
             preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
         }
@@ -89,7 +100,7 @@
             return $this->fallbackLrsSecret;
         }
 
-        public function setXapiProxyRequest($xapiProxyRequest)
+        public function setXapiProxyRequest($xapiProxyRequest) : void
         {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
@@ -99,7 +110,7 @@
             return $this->xapiProxyRequest;
         }
 
-        public function setXapiProxyResponse($xapiProxyResponse)
+        public function setXapiProxyResponse($xapiProxyResponse) : void
         {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
@@ -109,7 +120,7 @@
             return $this->xapiProxyResponse;
         }
 
-        public function processStatements($request, $body)
+        public function processStatements($request, $body) : ?array
         {
             // everything is allowed
             if (!is_array($this->specificAllowedStatements) && !$this->blockSubStatements) {
@@ -167,6 +178,7 @@
                     return null;
                 }
             }
+            return null;
         }
 
         public function modifyBody($body)
@@ -202,15 +214,15 @@
             return json_encode($obj);
         }
         
-        private function handleStatementEvaluation($xapiStatement)
+        private function handleStatementEvaluation($xapiStatement) : void
         {
+            global $DIC;
             if ($this->plugin) {
-                require_once __DIR__ . '/../class.ilObjXapiCmi5.php';
+                // ToDo: handle terminate -> delete session
                 $this->setStatus($xapiStatement);
             } else {
-                /* @var ilObjCmiXapi $object */
+                /* @var $object */
                 $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId());
-
                 if ((string) $object->getLaunchMode() === (string) \ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
                     // ToDo: check function hasContextActivitiesParentNotEqualToObject!
                     $statementEvaluation = new \ilXapiStatementEvaluation($this->log(), $object);
@@ -221,10 +233,14 @@
                         $this->authToken->getUsrId()
                     );
                 }
+                if ($xapiStatement->verb->id == self::TERMINATED_VERB) {
+                    // ToDo : only cmi5 or also xapi? authToken object still used after that?
+                    $this->authToken->delete();
+                }
             }
         }
 
-        private function setValue(&$obj, $path, $value)
+        private function setValue(&$obj, $path, $value) : void
         {
             $path_components = explode('.', $path);
             if (count($path_components) == 1) {
@@ -238,24 +254,24 @@
             }
         }
 
-        private function setStatus($obj)
+        private function setStatus($obj) : void
         {
-            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
-                $verb = $obj->verb->id;
-                $score = 'NOT_SET';
-                if (array_key_exists($verb, $this->sniffVerbs)) {
-                    // check context
-                    if ($this->isSubStatementCheck($obj)) {
-                        $this->log()->debug($this->msg("statement is sub-statement, ignore status verb " . $verb));
-                        return;
-                    }
-                    if (isset($obj->result) && isset($obj->result->score) && isset($obj->result->score->scaled)) {
-                        $score = $obj->result->score->scaled;
-                    }
-                    $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
-                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);
-                }
-            }
+//            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
+//                $verb = $obj->verb->id;
+//                $score = 'NOT_SET';
+//                if (array_key_exists($verb, $this->sniffVerbs)) {
+//                    // check context
+//                    if ($this->isSubStatementCheck($obj)) {
+//                        $this->log()->debug($this->msg("statement is sub-statement, ignore status verb " . $verb));
+//                        return;
+//                    }
+//                    if (isset($obj->result) && isset($obj->result->score) && isset($obj->result->score->scaled)) {
+//                        $score = $obj->result->score->scaled;
+//                    }
+//                    $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
+//                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
+//                }
+//            }
         }
 
         private function isSubStatementCheck($obj)

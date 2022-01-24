@@ -18,6 +18,8 @@
  */
 class ilSurveyResultsUserTableGUI extends ilTable2GUI
 {
+    protected int $counter;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd
@@ -69,21 +71,21 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         }
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("USERNAME", $data['username']);
-        $this->tpl->setVariable("QUESTION", $data['question']);
+        $this->tpl->setVariable("USERNAME", $a_set['username']);
+        $this->tpl->setVariable("QUESTION", $a_set['question']);
         $results = array_map(function ($i) {
             return htmlentities($i);
-        }, $data["results"]);
+        }, $a_set["results"]);
         $this->tpl->setVariable("RESULTS", $results
             ? implode("<br />", $results)
             : ilObjSurvey::getSurveySkippedValue());
-        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
+        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime']));
         $finished = "";
-        if ($data["finished"] !== null) {
-            if ($data["finished"] !== false) {
-                $finished .= ilDatePresentation::formatDate(new ilDateTime($data["finished"], IL_CAL_UNIX));
+        if ($a_set["finished"] !== null) {
+            if ($a_set["finished"] !== false) {
+                $finished .= ilDatePresentation::formatDate(new ilDateTime($a_set["finished"], IL_CAL_UNIX));
             } else {
                 $finished = "-";
             }
@@ -92,11 +94,11 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
         
-        if ($data["subitems"]) {
+        if ($a_set["subitems"]) {
             $this->tpl->setCurrentBlock("tbl_content");
             $this->tpl->parseCurrentBlock();
             
-            foreach ($data["subitems"] as $subitem) {
+            foreach ($a_set["subitems"] as $subitem) {
                 $this->fillRow($subitem);
                 
                 $this->tpl->setCurrentBlock("tbl_content");

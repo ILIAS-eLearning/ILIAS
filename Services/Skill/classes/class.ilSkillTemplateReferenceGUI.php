@@ -125,7 +125,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 $this->skill_tree_node_manager->getRootId()
             );
             $ilTabs->setBackTarget(
-                $lng->txt("obj_skmg"),
+                $lng->txt("skmg_skills"),
                 $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills")
             );
             $ilCtrl->setParameterByClass(

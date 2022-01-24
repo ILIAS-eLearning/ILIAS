@@ -58,7 +58,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         $this->setData($areas);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $i = $a_set["Nr"];
         $this->tpl->setVariable(

@@ -20,8 +20,8 @@ class ilTinyMCETest extends ilRTEBaseTest
 
     public function testTiny3xCodeHasbeenRemoved() : void
     {
-        $this->assertDirectoryNotExists('./Services/RTE/tiny_mce_3_4_7');
-        $this->assertDirectoryNotExists('./Services/RTE/tiny_mce_3_5_11');
+        $this->assertDirectoryDoesNotExist('./Services/RTE/tiny_mce_3_4_7');
+        $this->assertDirectoryDoesNotExist('./Services/RTE/tiny_mce_3_5_11');
     }
 
     public function testRemovePlugin() : void

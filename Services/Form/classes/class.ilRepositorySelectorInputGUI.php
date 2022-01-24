@@ -56,9 +56,9 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $this->setSelectText($lng->txt("select"));
     }
 
-    public function setValue(int $a_value) : void
+    public function setValue(string $a_value) : void
     {
-        $this->value = $a_value;
+        $this->value = (int) $a_value;
     }
 
     public function getValue() : int
@@ -151,16 +151,11 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     public function selectRepositoryItem() : void
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
 
         $this->setValue($this->int("root_id"));
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
     
     public function reset() : void
@@ -168,14 +163,10 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
-
         $this->setValue("");
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
     
     public function render($a_mode = "property_form") : string
@@ -199,7 +190,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
                 break;
                 
             case "table_filter":
-                $parent_gui = get_class($this->getParent());
+                $parent_gui = get_class($this->getParentTable());
                 break;
         }
 

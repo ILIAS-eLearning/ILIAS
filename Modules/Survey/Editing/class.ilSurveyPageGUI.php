@@ -21,6 +21,9 @@
  */
 class ilSurveyPageGUI
 {
+    protected bool $suppress_clipboard_msg;
+    protected string $pgov;
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $svy_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilCtrl $ctrl;
     protected ilRbacSystem $rbacsystem;
@@ -62,6 +65,12 @@ class ilSurveyPageGUI
             ->internal()
             ->domain()
             ->edit();
+        $this->svy_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+        $this->pgov = $this->svy_request->getTargetPosition();
     }
 
     public function executeCommand() : void
@@ -81,27 +90,27 @@ class ilSurveyPageGUI
                 
                 if ($rbacsystem->checkAccess("write", $this->ref_id)) {
                     // add page?
-                    if ($_REQUEST["new_id"]) {
-                        $this->insertNewQuestion($_REQUEST["new_id"]);
+                    if ($this->svy_request->getNewId()) {
+                        $this->insertNewQuestion($this->svy_request->getNewId());
                     }
 
                     // subcommands
-                    if ($_REQUEST["il_hform_subcmd"]) {
-                        $subcmd = $_REQUEST["il_hform_subcmd"];
+                    if ($this->svy_request->getHForm("subcmd")) {
+                        $subcmd = $this->svy_request->getHForm("subcmd");
 
                         // make sure that it is set for current and next requests
                         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
-                        $_REQUEST["pgov"] = $this->current_page;
+                        $this->pgov = $this->current_page;
 
-                        $id = explode("_", $_REQUEST["il_hform_node"]);
+                        $id = explode("_", $this->svy_request->getHForm("node"));
                         $id = (int) $id[1];
 
                         // multi operation
-                        if (substr($_REQUEST["il_hform_subcmd"], 0, 5) == "multi") {
-                            if ($_REQUEST["il_hform_multi"]) {
+                        if (substr($this->svy_request->getHForm("subcmd"), 0, 5) == "multi") {
+                            if ($this->svy_request->getHForm("multi")) {
                                 // removing types as we only allow questions anyway
                                 $id = array();
-                                foreach (explode(";", $_REQUEST["il_hform_multi"]) as $item) {
+                                foreach (explode(";", $this->svy_request->getHForm("multi")) as $item) {
                                     $item_arr = explode("_", $item);
                                     $id[] = (int) array_pop($item_arr);
                                 }
@@ -123,9 +132,14 @@ class ilSurveyPageGUI
                         if (substr($subcmd, 0, 11) == "addQuestion") {
                             $type = explode("_", $subcmd);
                             $type = (int) $type[1];
-                            $has_content = $this->addQuestion($type, $this->object->getPoolUsage(), $id, $_REQUEST["il_hform_node"]);
+                            $has_content = $this->addQuestion(
+                                $type,
+                                $this->object->getPoolUsage(),
+                                $id,
+                                $this->svy_request->getHForm("node")
+                            );
                         } else {
-                            $has_content = $this->$subcmd($id, $_REQUEST["il_hform_node"]);
+                            $has_content = $this->$subcmd($id, $this->svy_request->getHForm("node"));
                         }
                     }
                 }
@@ -139,12 +153,12 @@ class ilSurveyPageGUI
 
     public function determineCurrentPage() : void
     {
-        $current_page = (int) $_REQUEST["jump"];
+        $current_page = $this->svy_request->getJump();
         if (!$current_page) {
-            $current_page = (int) $_REQUEST["pgov"];
+            $current_page = $this->pgov;
         }
         if (!$current_page) {
-            $current_page = (int) $_REQUEST["pg"];
+            $current_page = $this->svy_request->getPage();
         }
         if (!$current_page) {
             $current_page = 1;
@@ -217,7 +231,7 @@ class ilSurveyPageGUI
             $a_new_id = $this->appendNewQuestionToSurvey($a_new_id);
             $this->object->loadQuestionsFromDb();
 
-            $pos = $_REQUEST["pgov_pos"];
+            $pos = $this->svy_request->getTargetQuestionPosition();
 
             // a[fter]/b[efore] on same page
             if (substr($pos, -1) != "c") {
@@ -284,7 +298,7 @@ class ilSurveyPageGUI
         if (sizeof($new_ids)) {
             $this->object->loadQuestionsFromDb();
             
-            $pos = $_REQUEST["pgov_pos"];
+            $pos = $this->svy_request->getTargetQuestionPosition();
         
             // a[fter]/b[efore] on same page
             if (substr($pos, -1) != "c") {
@@ -360,6 +374,7 @@ class ilSurveyPageGUI
         $ilTabs = $this->tabs;
         
         // get translated type
+        $type_trans = "";
         $questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
         foreach ($questiontypes as $item) {
             if ($item["questiontype_id"] == $a_type) {
@@ -391,14 +406,13 @@ class ilSurveyPageGUI
         }
 
         if ($a_use_pool) {
-            $_GET["sel_question_types"] = $type_trans;
-            $_REQUEST["pgov_pos"] = $id;
             $ilCtrl->setParameter($this->editor_gui, "pgov_pos", $id);
-            if (!$_POST["usage"]) {
+            $ilCtrl->setParameter($this->editor_gui, "sel_question_types", $type_trans);
+            if ($this->svy_request->getPoolUsage() == 0) {
                 $ilTabs->clearSubTabs(); // #17193
-                $this->editor_gui->createQuestionObject();
+                $this->editor_gui->createQuestionObject(null, $type_trans, $id);
             } else {
-                $this->editor_gui->executeCreateQuestionObject();
+                $this->editor_gui->executeCreateQuestionObject($type_trans, null, $id);
             }
             return true;
         } else {
@@ -466,7 +480,7 @@ class ilSurveyPageGUI
     {
         $lng = $this->lng;
 
-        if (is_array($a_id)) {
+        if (count($a_id) > 0) {
             ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
             $this->suppress_clipboard_msg = true;
 
@@ -487,7 +501,7 @@ class ilSurveyPageGUI
     {
         $lng = $this->lng;
 
-        if (is_array($a_id)) {
+        if (count($a_id) > 0) {
             ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
             $this->suppress_clipboard_msg = true;
 
@@ -531,7 +545,7 @@ class ilSurveyPageGUI
         
         // append to last position?
         $pos = 0;
-        if ($_REQUEST["il_hform_node"] == "page_end") {
+        if ($this->svy_request->getHForm("node") == "page_end") {
             $a_id = $target;
             $a_id = array_pop($a_id);
             $a_id = $a_id["question_id"];
@@ -659,10 +673,10 @@ class ilSurveyPageGUI
      */
     protected function dnd() : void
     {
-        $source_arr = explode("_", $_REQUEST["il_hform_source"]);
-        $target_arr = explode("_", $_REQUEST["il_hform_target"]);
+        $source_arr = explode("_", $this->svy_request->getHForm("source"));
+        $target_arr = explode("_", $this->svy_request->getHForm("target"));
         $source_id = (int) array_pop($source_arr);
-        if ($_REQUEST["il_hform_target"] != "droparea_end") {
+        if ($this->svy_request->getHForm("target") != "droparea_end") {
             $target_id = (int) array_pop($target_arr);
             $pos = 0;
         } else {
@@ -692,7 +706,7 @@ class ilSurveyPageGUI
         $page = $page[$this->current_page - 1];
         
         // #10567
-        if ($_REQUEST["csum"] != md5(print_r($page, true))) {
+        if ($this->svy_request->getCheckSum() != md5(print_r($page, true))) {
             $ilCtrl->redirect($this, "renderPage");
         }
         
@@ -715,10 +729,6 @@ class ilSurveyPageGUI
     {
         $ilCtrl = $this->ctrl;
         
-        if (!is_array($a_id)) {
-            $a_id = array($a_id);
-        }
-        
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
         $this->editor_gui->removeQuestionsForm(array(), $a_id, array());
     }
@@ -730,14 +740,7 @@ class ilSurveyPageGUI
     {
         $ilCtrl = $this->ctrl;
         
-        // gather ids
-        $ids = array();
-        foreach ($_POST as $key => $value) {
-            if (preg_match("/id_(\d+)/", $key, $matches)) {
-                array_push($ids, $matches[1]);
-            }
-        }
-
+        $ids = $this->svy_request->getQuestionIds();
 
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
@@ -824,9 +827,13 @@ class ilSurveyPageGUI
         $ilTabs = $this->tabs;
         
         $ilTabs->clearSubTabs();
-        $_REQUEST[$a_param] = $a_value;
-        
-        call_user_func(array($this->editor_gui, $a_cmd));
+        $ctrl = $this->ctrl;
+
+        $ctrl->setParameter($this->editor_gui, $a_param, $a_value);
+        $ctrl->redirect($this->editor_gui, $a_cmd);
+
+        //$_REQUEST[$a_param] = $a_value;
+        //call_user_func(array($this->editor_gui, $a_cmd));
     }
 
     /**
@@ -834,7 +841,7 @@ class ilSurveyPageGUI
      */
     protected function splitPage(
         int $a_id
-    ) : int {
+    ) : void {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
 
@@ -934,7 +941,7 @@ class ilSurveyPageGUI
      */
     protected function movePrevious(
         int $a_id
-    ) : int {
+    ) : void {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
         $target = $pages[$this->current_page - 2];
@@ -1061,7 +1068,7 @@ class ilSurveyPageGUI
 
         $pool_active = $this->object->getPoolUsage();
 
-        if (!$_POST["usage"] && $pool_active) {
+        if ($this->svy_request->getPoolUsage() == 0 && $pool_active) {
             ilUtil::sendFailure($lng->txt("select_one"), true);
             $this->addQuestionToolbarForm();
             return;
@@ -1069,7 +1076,12 @@ class ilSurveyPageGUI
 
         // make sure that it is set for current and next requests
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
-        if (!$this->addQuestion((int) $_POST["qtype"], $pool_active, $_POST["pgov"], "toolbar")) {
+        if (!$this->addQuestion(
+            $this->svy_request->getQuestionType(),
+            $pool_active,
+            $this->pgov,
+            "toolbar"
+        )) {
             $this->renderPage();
         }
     }
@@ -1127,9 +1139,11 @@ class ilSurveyPageGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
+        $questions = [];
+
         // current_page is already set to new position
         $target_page = $this->current_page - 1;
-        $source_page = $_REQUEST["old_pos"] - 1;
+        $source_page = $this->svy_request->getOldPosition() - 1;
 
         $pages = $this->object->getSurveyPages();
         foreach ($pages[$source_page] as $question) {
@@ -1138,7 +1152,7 @@ class ilSurveyPageGUI
 
         // move to first position
         $position = 0;
-        if ($_REQUEST["pgov"] != "fst") {
+        if ($this->pgov != "fst") {
             $position = 1;
         }
 
@@ -1402,7 +1416,7 @@ class ilSurveyPageGUI
 
             // add js to template
             ilYuiUtil::initDragDrop();
-            $tpl->addJavascript("./Modules/Survey/js/SurveyPageView.js");
+            $tpl->addJavaScript("./Modules/Survey/js/SurveyPageView.js");
         }
     }
 

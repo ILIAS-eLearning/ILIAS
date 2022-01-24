@@ -24,6 +24,7 @@ use ILIAS\Survey\InternalRepoService;
  */
 class DomainService
 {
+    protected InternalRepoService $repo_service;
     protected InternalDomainService $domain_service;
     protected InvitationsManager $invitations_manager;
 

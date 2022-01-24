@@ -19,6 +19,10 @@
  */
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
+    protected ilSurveySkillThresholds $skill_thres;
+    protected ilSkillTree $skill_tree;
+    protected ilObjSurvey $survey;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -74,7 +78,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

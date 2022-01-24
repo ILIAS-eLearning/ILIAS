@@ -120,7 +120,7 @@ class ilLuceneSearchResult implements Iterator
         return $this->objects;
     }
     
-    public function addObject(string $a_value, float $a_relevance = 0) : void
+    public function addObject(int $a_value, float $a_relevance = 0) : void
     {
         $this->objects[] = $a_value;
         $this->relevance[$a_value] = $a_relevance;

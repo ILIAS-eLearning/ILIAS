@@ -23,15 +23,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     protected $schedule_filters = array();
     
     protected $user_settings = null;
-
-    protected $lng;
-    protected $ctrl;
-    protected $tabs_gui;
-    protected $tpl;
-    protected $ui_factory;
-    protected $ui_renderer;
-    protected $user;
-    
     protected $timezone = 'UTC';
 
     /**

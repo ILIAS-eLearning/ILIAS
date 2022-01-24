@@ -144,7 +144,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->setData($items);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;

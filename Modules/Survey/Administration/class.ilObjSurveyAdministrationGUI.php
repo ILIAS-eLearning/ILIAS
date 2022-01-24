@@ -90,7 +90,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         $surveySetting = new ilSetting("survey");
-        $use_anonymous_id = $_GET["use_anonymous_id"] ?? $surveySetting->get("use_anonymous_id");
+        $use_anonymous_id = $surveySetting->get("use_anonymous_id");
         
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -154,16 +154,20 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $surveySetting = new ilSetting("survey");
-            //$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
-            $surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
-            $surveySetting->set("anonymous_participants", ($_POST["anon_part"]) ? "1" : "0");
-            $surveySetting->set("anonymous_participants_min", (trim($_POST["anon_part_min"])) ? (int) $_POST["anon_part_min"] : null);
+            $surveySetting->set("use_anonymous_id", $form->getInput("use_anonymous_id") ? "1" : "0");
+            $surveySetting->set("anonymous_participants", $form->getInput("anon_part") ? "1" : "0");
+            $surveySetting->set(
+                "anonymous_participants_min",
+                (trim($form->getInput("anon_part_min")))
+                    ? (int) $form->getInput("anon_part_min")
+                    : null
+            );
 
-            if ($_POST["skcust"] == "lng") {
+            if ($form->getInput("skcust") == "lng") {
                 $surveySetting->set("skipped_is_custom", false);
             } else {
                 $surveySetting->set("skipped_is_custom", true);
-                $surveySetting->set("skipped_custom_value", trim($_POST["cust_value"]));
+                $surveySetting->set("skipped_custom_value", trim($form->getInput("cust_value")));
             }
 
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -179,7 +183,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $this->getTabs();
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $lng = $this->lng;
 

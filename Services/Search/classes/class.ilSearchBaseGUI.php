@@ -4,6 +4,9 @@
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\Content\ViewManager;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 
 /**
 * Class ilSearchBaseGUI
@@ -45,6 +48,9 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     protected ilLocatorGUI $locator;
     protected ilObjUser $user;
     protected ilTree $tree;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
 
     protected string $prev_link = '';
     protected string $next_link = '';
@@ -60,10 +66,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tree = $DIC->repositoryTree();
-        $ilMainMenu = $DIC['ilMainMenu'];
 
         $this->lng->loadLanguageModule('search');
-        $ilMainMenu->setActive('search');
         $this->settings = new ilSearchSettings();
         $this->favourites = new ilFavouritesManager();
         $this->user = $DIC->user();
@@ -79,7 +83,22 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             ->content()
             ->view();
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
     }
+
+    protected function initPageNumberFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('page_number')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'page_number',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
 
     public function prepareOutput() : void
     {
@@ -95,7 +114,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         ilUtil::infoPanel();
     }
     
-    public function initStandardSearchForm(int $a_mode) : void
+    public function initStandardSearchForm(int $a_mode) : ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setOpenTag(false);
@@ -166,12 +185,12 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         }
                 
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
+        return $this->form;
     }
     
 
     public function getSearchAreaForm() : ilPropertyFormGUI
     {
-    
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
         $form->setCloseTag(false);
@@ -189,8 +208,13 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         
         // alex, 15.8.2012: Added the following lines to get the value
         // from the main menu top right input search form
-        if (isset($_POST["root_id"])) {
-            $ti->setValue((int) $_POST["root_id"]);
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $ti->setValue(
+                $this->http->wrapper()->post()->retrieve(
+                    'root_id',
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
             $ti->writeToSession();
         }
         $form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));

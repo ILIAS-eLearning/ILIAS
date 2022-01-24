@@ -1,30 +1,17 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceFile.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceDependency.php");
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * SCORM Resource
 *
@@ -63,7 +50,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id)
+    public function setImportId($a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
@@ -73,7 +60,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->resourcetype;
     }
 
-    public function setResourceType($a_type)
+    public function setResourceType($a_type) : void
     {
         $this->resourcetype = $a_type;
     }
@@ -83,7 +70,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->scormtype;
     }
 
-    public function setScormType($a_scormtype)
+    public function setScormType($a_scormtype) : void
     {
         $this->scormtype = $a_scormtype;
     }
@@ -93,7 +80,7 @@ class ilSCORMResource extends ilSCORMObject
         return $this->href;
     }
 
-    public function setHRef($a_href)
+    public function setHRef($a_href) : void
     {
         $this->href = $a_href;
         $this->setTitle($a_href);
@@ -104,35 +91,41 @@ class ilSCORMResource extends ilSCORMObject
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base)
+    public function setXmlBase($a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function addFile(&$a_file_obj)
+    public function addFile(&$a_file_obj) : void
     {
         $this->files[] = &$a_file_obj;
     }
 
-    public function &getFiles()
+    /**
+                 * @return mixed[]
+                 */
+    public function &getFiles() : array
     {
         return $this->files;
     }
 
-    public function addDependency(&$a_dependency)
+    public function addDependency(&$a_dependency) : void
     {
         $this->dependencies[] = &$a_dependency;
     }
 
-    public function &getDependencies()
+    /**
+                 * @return mixed[]
+                 */
+    public function &getDependencies() : array
     {
         return $this->dependencies;
     }
 
-    public function read()
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
     
@@ -173,11 +166,11 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function readByIdRef($a_id_ref, $a_slm_id)
+    public function readByIdRef($a_id_ref, $a_slm_id) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $ilBench->start("SCORMResource", "readByIdRef_Query");
         
@@ -202,7 +195,7 @@ class ilSCORMResource extends ilSCORMObject
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $id_set = $ilDB->queryF(
             'SELECT ob.obj_id id FROM sc_resource res, scorm_object ob
@@ -222,7 +215,7 @@ class ilSCORMResource extends ilSCORMObject
     public static function _lookupScormType($a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $st_set = $ilDB->queryF(
             'SELECT scormtype FROM sc_resource WHERE obj_id = %s',
@@ -235,10 +228,10 @@ class ilSCORMResource extends ilSCORMObject
         return "";
     }
 
-    public function create()
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -284,10 +277,10 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function update()
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -347,10 +340,10 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    public function delete()
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

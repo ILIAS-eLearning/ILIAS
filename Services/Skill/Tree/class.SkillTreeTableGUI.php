@@ -95,7 +95,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
         ));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

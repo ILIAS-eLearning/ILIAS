@@ -67,15 +67,15 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         return;
     }
 
-    protected function fillRow($plugin) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
 
-        $this->tpl->setVariable("TXT_SLOT_NAME", $plugin->getPluginSlot()->getName());
-        $this->tpl->setVariable("TXT_COMP_NAME", $plugin->getComponent()->getQualifiedName());
+        $this->tpl->setVariable("TXT_SLOT_NAME", $a_set->getPluginSlot()->getName());
+        $this->tpl->setVariable("TXT_COMP_NAME", $a_set->getComponent()->getQualifiedName());
 
-        if ($plugin->isActive()) {
+        if ($a_set->isActive()) {
             $this->tpl->setCurrentBlock("active");
             $this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("yes"));
             $this->tpl->parseCurrentBlock();
@@ -85,12 +85,12 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("TXT_PLUGIN_NAME", $plugin->getName());
-        $this->tpl->setVariable("TXT_PLUGIN_ID", $plugin->getId());
+        $this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set->getName());
+        $this->tpl->setVariable("TXT_PLUGIN_ID", $a_set->getId());
 
         if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            $actions = $this->getActionMenuEntries($plugin);
-            $this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $plugin->getId()));
+            $actions = $this->getActionMenuEntries($a_set);
+            $this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set->getId()));
         }
     }
 

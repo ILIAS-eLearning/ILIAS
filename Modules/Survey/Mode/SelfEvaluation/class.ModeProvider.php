@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode\SelfEvaluation;
 
-use \ILIAS\Survey\Mode;
+use ILIAS\Survey\Mode;
 
 /**
  * Interface for modes
@@ -23,7 +23,7 @@ use \ILIAS\Survey\Mode;
  */
 class ModeProvider implements Mode\ModeProvider
 {
-    const ID = 2;
+    public const ID = 2;
 
     use Mode\ModeProviderBase;
 

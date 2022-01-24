@@ -330,8 +330,8 @@ class ilInfoScreenGUI
 
         $md = new ilMD($a_rep_obj_id, $a_obj_id, $a_type);
         $description = "";
-        $langs = null;
-        $keywords = null;
+        $langs = '';
+        $keywords = "";
         if ($md_gen = $md->getGeneral()) {
             // get first descrption
             // The description is shown on the top of the page.
@@ -343,20 +343,22 @@ class ilInfoScreenGUI
             }
 
             // get language(s)
+            $language_arr = [];
             foreach ($md_gen->getLanguageIds() as $id) {
                 $md_lan = $md_gen->getLanguage($id);
                 if ($md_lan->getLanguageCode() != "") {
-                    $langs[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
+                    $language_arr[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
                 }
             }
-            $langs = implode(", ", $langs);
+            $langs = implode(", ", $language_arr);
 
             // keywords
+            $keyword_arr = [];
             foreach ($md_gen->getKeywordIds() as $id) {
                 $md_key = $md_gen->getKeyword($id);
-                $keywords[] = $md_key->getKeyword();
+                $keyword_arr[] = $md_key->getKeyword();
             }
-            $keywords = implode(", ", $keywords);
+            $keywords = implode(", ", $keyword_arr);
         }
 
         // authors
@@ -788,14 +790,14 @@ class ilInfoScreenGUI
         }
 
         // tagging
-        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $tags_set = new ilSetting("tags");
             if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $this->addTagging();
             }
         }
 
-        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && isset($this->gui_object->object)) {
             $this->addObjectSections();
         }
 
@@ -1172,7 +1174,7 @@ class ilInfoScreenGUI
      */
     protected function addAvailability() : void
     {
-        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
             return;
         }
 
@@ -1195,7 +1197,7 @@ class ilInfoScreenGUI
      */
     protected function addPreconditions() : void
     {
-        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+        if (!is_object($this->gui_object) || !isset($this->gui_object->object)) {
             return;
         }
 

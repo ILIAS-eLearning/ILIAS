@@ -1,27 +1,16 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-/**
- * Class ilSystemStylesLanguageMock
- */
-class ilSystemStyleLanguageMock
+class ilSystemStyleLanguageMock extends ilLanguage
 {
-    public $requested = array();
+    public array $requested = [];
 
-    /**
-     * ilLanguageMock constructor.
-     */
     public function __construct()
     {
     }
 
-    /**
-     * @param $a_topic
-     * @return mixed
-     */
-    public function txt($a_topic)
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = '') : string
     {
         $this->requested[] = $a_topic;
         return $a_topic;

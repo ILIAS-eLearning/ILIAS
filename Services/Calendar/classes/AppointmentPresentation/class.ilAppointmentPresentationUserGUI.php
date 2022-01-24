@@ -14,32 +14,15 @@ include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppoin
  */
 class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    protected $seed;
 
-    /**
-     * Get seed date
-     */
-    public function getSeed()
-    {
-        return $this->seed;
-    }
-
-    public function collectPropertiesAndActions()
+    public function collectPropertiesAndActions() : void
     {
         global $DIC;
 
         $a_app = $this->appointment;
-
-
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();
-
-        $ctrl = $DIC->ctrl();
-
         $cat_info = $this->getCatInfo();
-
-        // common info: title, description, location, calendar
-        //$this->addCommonSection($a_app, 0, $cat_info);
 
         // event title
         $this->addInfoSection($a_app["event"]->getPresentationTitle());
@@ -62,10 +45,7 @@ class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI impl
         $this->addEventLocation($a_app);
 
         //user notifications
-        include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
-
         $notification = new ilCalendarUserNotification($a_app['event']->getEntryId());
-
         $recipients = $notification->getRecipients();
         if (count($recipients) > 0) {
             $str_notification = "";

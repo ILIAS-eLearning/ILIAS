@@ -20,6 +20,8 @@
  */
 class ilSurveySkillGUI
 {
+    protected ilObjSurvey $survey;
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected ilCtrl $ctrl;
     protected ilTemplate $tpl;
     protected ilObjUser $user;
@@ -37,6 +39,11 @@ class ilSurveySkillGUI
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->survey = $a_survey;
+        $this->edit_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     public function executeCommand() : void
@@ -100,9 +107,12 @@ class ilSurveySkillGUI
         $lng = $this->lng;
         
         $skill_survey = new ilSurveySkill($this->survey);
-        $skill_id_parts = explode(":", $_GET["selected_skill"]);
+        $skill_id_parts = explode(
+            ":",
+            $this->edit_request->getSelectedSkill()
+        );
         $skill_survey->addQuestionSkillAssignment(
-            (int) $_GET["q_id"],
+            $this->edit_request->getQuestionId(),
             (int) $skill_id_parts[0],
             (int) $skill_id_parts[1]
         );
@@ -117,7 +127,9 @@ class ilSurveySkillGUI
         $lng = $this->lng;
         
         $skill_survey = new ilSurveySkill($this->survey);
-        $skill_survey->removeQuestionSkillAssignment((int) $_GET["q_id"]);
+        $skill_survey->removeQuestionSkillAssignment(
+            $this->edit_request->getQuestionId()
+        );
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         
         $ilCtrl->redirect($this, "listQuestionAssignment");
@@ -129,7 +141,7 @@ class ilSurveySkillGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "survey_skill_assign",
             $lng->txt("survey_skill_assign"),
             $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment")
@@ -141,6 +153,6 @@ class ilSurveySkillGUI
             $ilCtrl->getLinkTargetByClass("ilsurveyskillthresholdsgui", "listCompetences")
         );
 
-        $ilTabs->activateSubtab($a_activate);
+        $ilTabs->activateSubTab($a_activate);
     }
 }

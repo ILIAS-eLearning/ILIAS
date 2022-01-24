@@ -9,28 +9,36 @@ use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\Value;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class BasicTaskFactory implements TaskFactory
 {
     use BasicScalarValueFactory;
-    /**
-     * @var Injector
-     */
-    protected $injector;
-
-
+    
+    protected \ILIAS\BackgroundTasks\Dependencies\Injector $injector;
+    
     public function __construct(Injector $injector)
     {
         $this->injector = $injector;
     }
-
-
+    
     /**
      * @inheritdoc
      */
-    public function createTask($class_name, $input = null)
+    public function createTask(string $class_name, ?array $input = null) : Task
     {
-        if(!class_exists($class_name)) {
-            require_once('./src/BackgroundTasks/Implementation/Tasks/NotFoundUserInteraction.php');
+        if (!class_exists($class_name)) {
             return new NotFoundUserInteraction();
         }
         /** @var Task $task */
@@ -39,20 +47,20 @@ class BasicTaskFactory implements TaskFactory
             throw new InvalidArgumentException("The given classname $class_name is not a task.");
         }
         if ($input) {
-            $wrappedInput = array_map(function ($i) {
+            $wrappedInput = array_map(function ($i) : \ILIAS\BackgroundTasks\Value {
                 if ($i instanceof Task) {
                     return $i->getOutput();
                 }
                 if ($i instanceof Value) {
                     return $i;
                 }
-
+                
                 return $this->wrapValue($i);
             }, $input);
-
+            
             $task->setInput($wrappedInput);
         }
-
+        
         return $task;
     }
 }

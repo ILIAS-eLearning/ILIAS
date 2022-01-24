@@ -1,15 +1,13 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/FileSystem/classes/class.ilFileSystemStorage.php';
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
  * @package     Modules/Test
  */
-class ilTestProcessLockFileStorage extends ilFileSystemStorage
+class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
 {
     /**
      * @param integer $activeId
@@ -27,7 +25,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix(): string
     {
         return 'ilTestProcessLocks';
     }
@@ -41,12 +39,12 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix(): string
     {
         return 'active';
     }
 
-    public function create()
+    public function create(): void
     {
         set_error_handler(function ($severity, $message, $file, $line) {
             throw new ErrorException($message, $severity, 0, $file, $line);
@@ -62,7 +60,5 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
         if (!file_exists($this->getPath())) {
             throw new ErrorException(sprintf('Could not find directory: %s', $this->getPath()));
         }
-
-        return true;
     }
 }

@@ -41,7 +41,7 @@ class ilBuddySystemNotification
     public function send() : void
     {
         foreach ($this->getRecipientIds() as $usr_id) {
-            $user = new ilObjUser((int) $usr_id);
+            $user = new ilObjUser($usr_id);
 
             $recipientLanguage = ilLanguageFactory::_getLanguage($user->getLanguage());
             $recipientLanguage->loadLanguageModule('buddysystem');

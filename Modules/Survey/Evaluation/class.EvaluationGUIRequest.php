@@ -15,55 +15,98 @@
 
 namespace ILIAS\Survey\Evaluation;
 
+use ILIAS\Repository\BaseGUIRequest;
+
 /**
- * Exercise gui request wrapper. This class processes all
- * request parameters which are not handled by form classes already.
- * POST overwrites GET with the same name.
- * POST/GET parameters may be passed to the class for testing purposes.
  * @author Alexander Killing <killing@leifos.de>
  */
 class EvaluationGUIRequest
 {
+    use BaseGUIRequest;
+
     protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(
-        \ILIAS\HTTP\Services $http
+        \ILIAS\HTTP\Services $http,
+        \ILIAS\Refinery\Factory $refinery,
+        ?array $get = null,
+        ?array $post = null
     ) {
-        $this->http = $http;
-        $this->params = array_merge(
-            (array) $http->request()->getQueryParams(),
-            (array) $http->request()->getParsedBody()
+        $this->initRequest(
+            $http,
+            $refinery,
+            $get,
+            $post
         );
     }
 
     public function getShowTable() : bool
     {
-        return !isset($this->params["vw"]) || is_int(strpos($this->params["vw"], "t"));
+        $vw = $this->str("vw");
+        return $vw == "" || is_int(strpos($vw, "t"));
     }
 
     public function getShowChart() : bool
     {
-        return !isset($this->params["vw"]) || is_int(strpos($this->params["vw"], "c"));
+        $vw = $this->str("vw");
+        return $vw == "" || is_int(strpos($vw, "c"));
+    }
+
+    public function getVW() : string
+    {
+        return $this->str("vw");
     }
 
     public function getShowAbsolute() : bool
     {
-        return !isset($this->params["cp"]) || is_int(strpos($this->params["cp"], "a"));
+        $cp = $this->str("cp");
+        return $cp == "" || is_int(strpos($cp, "a"));
     }
 
     public function getShowPercentage() : bool
     {
-        return !isset($this->params["cp"]) || is_int(strpos($this->params["cp"], "p"));
+        $cp = $this->str("cp");
+        return $cp == "" || is_int(strpos($cp, "p"));
+    }
+
+    public function getCP() : string
+    {
+        return $this->str("cp");
     }
 
     public function getAppraiseeId() : int
     {
-        return (int) ($this->params["appr_id"] ?? 0);
+        return $this->int("appr_id");
     }
 
     public function getRaterId() : string
     {
-        return (string) ($this->params["rater_id"] ?? 0);
+        return $this->str("rater_id");
+    }
+
+    public function getRefId() : int
+    {
+        return $this->int("ref_id");
+    }
+
+    public function getCompEvalMode() : string
+    {
+        return $this->str("comp_eval_mode");
+    }
+
+    public function getSurveyCode() : string
+    {
+        return $this->str("surveycode");
+    }
+
+    public function getExportLabel() : string
+    {
+        return $this->str("export_label");
+    }
+
+    public function getExportFormat() : string
+    {
+        return $this->str("export_format");
     }
 }

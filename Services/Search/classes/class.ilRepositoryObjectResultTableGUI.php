@@ -12,7 +12,6 @@
 */
 class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 {
-
     protected ilRbacAdmin $admin;
 
     protected ilRbacReview $review;
@@ -63,10 +62,10 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     }
     
     /**
-     * @param array $row
-     * @return bool
+     * @param array $a_set
+     * @return void
      */
-    protected function fillRow($row)
+    protected function fillRow(array $a_set) : void
     {
         /*
         TODO: Checkboxes must be always enabled now because of role assignment. An alternative to pretend showing
@@ -74,14 +73,13 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
         */
         //if($row['member'])
         //{
-        $this->tpl->setVariable('VAL_ID', $row['id']);
+        $this->tpl->setVariable('VAL_ID', $a_set['id']);
         //}
-        $this->tpl->setVariable('VAL_TITLE', $row['title']);
-        if (strlen($row['desc'])) {
-            $this->tpl->setVariable('VAL_DESC', $row['desc']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
+        if (strlen($a_set['desc'])) {
+            $this->tpl->setVariable('VAL_DESC', $a_set['desc']);
         }
-        $this->tpl->setVariable('VAL_MEMBER', $row['member']);
-        return true;
+        $this->tpl->setVariable('VAL_MEMBER', $a_set['member']);
     }
     
 
@@ -107,7 +105,6 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                 
                 case 'crs':
                 case 'grp':
-
                     if (ilParticipants::hasParticipantListAccess($object_id)) {
                         $row['member'] = count(ilParticipants::getInstanceByObjId($object_id)->getParticipants());
                     } else {
@@ -128,7 +125,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "member") {
             return true;

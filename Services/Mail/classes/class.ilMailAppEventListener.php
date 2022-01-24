@@ -59,8 +59,8 @@ class ilMailAppEventListener implements ilAppEventListener
 
     public function handle() : void
     {
-        if ($this->isRelevantEvent()
-            && isset($this->parameters['visible_second_email'])
+        if (isset($this->parameters['visible_second_email'])
+            && $this->isRelevantEvent()
             && !(bool) $this->parameters['visible_second_email']->getNewValue()) {
             switch ((int) ($this->dic->settings()->get('mail_address_option') ?? ilMailOptions::FIRST_EMAIL)) {
                 case ilMailOptions::SECOND_EMAIL:

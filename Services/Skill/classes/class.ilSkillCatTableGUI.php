@@ -27,17 +27,13 @@ use ILIAS\Skill\Access\SkillTreeAccess;
  */
 class ilSkillCatTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
-    protected int $tref_id;
-    protected int $mode;
+    protected int $tref_id = 0;
+    protected int $mode = 0;
     protected ilSkillTree $skill_tree;
     protected SkillTreeAccess $tree_access_manager;
     protected bool $manage_perm = false;
-    protected int $obj_id;
+    protected int $obj_id = 0;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_node_id = 0;
     protected int $requested_tref_id = 0;
@@ -123,7 +119,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

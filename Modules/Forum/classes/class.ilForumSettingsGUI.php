@@ -73,10 +73,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     false
                 );
 
-                $new_type = '';
-                if (isset($this->http->request()->getQueryParams()['new_type'])) {
-                    $new_type = $this->http->request()->getQueryParams()['new_type'];
-                }
+                $new_type = (string) ($this->dic->http()->request()->getQueryParams()['new_type'] ?? '');
                 if ($cmd === 'create' || $new_type === 'sty') {
                     $style_gui->setCreationMode();
                 }
@@ -237,7 +234,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
                             'cmd',
-                            $this->dic->refinery()->string()
+                            $this->dic->refinery()->kindlyTo()->string()
                         );
                     }
 
@@ -952,7 +949,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             )
         ) {
             $this->properties->setStyleSheetId(
-                (int) ($this->http->request()->getQueryParams()['style_id'] ?? 0)
+                (int) ($this->dic->http()->request()->getQueryParams()['style_id'] ?? 0)
             );
             $this->properties->update();
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);

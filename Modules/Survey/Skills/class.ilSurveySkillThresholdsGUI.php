@@ -20,6 +20,8 @@
  */
 class ilSurveySkillThresholdsGUI
 {
+    protected ilObjSurvey $survey;
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
@@ -37,6 +39,11 @@ class ilSurveySkillThresholdsGUI
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->survey = $a_survey;
+        $this->edit_request = $DIC->survey()
+                                  ->internal()
+                                  ->gui()
+                                  ->editing()
+                                  ->request();
     }
     
     public function executeCommand() : void
@@ -78,8 +85,8 @@ class ilSurveySkillThresholdsGUI
             $this,
             "listSkillThresholds",
             $this->survey,
-            (int) $_GET["sk_id"],
-            (int) $_GET["tref_id"]
+            $this->edit_request->getSkillId(),
+            $this->edit_request->getTrefId()
         );
         $tpl->setContent($tab->getHTML());
     }
@@ -88,7 +95,7 @@ class ilSurveySkillThresholdsGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $o = explode(":", $_POST["skill"]);
+        $o = explode(":", $this->edit_request->getSkill());
         $ilCtrl->setParameter($this, "sk_id", (int) $o[0]);
         $ilCtrl->setParameter($this, "tref_id", (int) $o[1]);
         $ilCtrl->redirect($this, "listSkillThresholds");
@@ -101,11 +108,12 @@ class ilSurveySkillThresholdsGUI
         
         $thres = new ilSurveySkillThresholds($this->survey);
 
-        if (is_array($_POST["threshold"])) {
-            foreach ($_POST["threshold"] as $l => $t) {
+        $thresholds = $this->edit_request->getThresholds();
+        if (count($thresholds) > 0) {
+            foreach ($thresholds as $l => $t) {
                 $thres->writeThreshold(
-                    (int) $_GET["sk_id"],
-                    (int) $_GET["tref_id"],
+                    $this->edit_request->getSkillId(),
+                    $this->edit_request->getTrefId(),
                     (int) $l,
                     (int) $t
                 );

@@ -1,57 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Term list table for presentation mode
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPresentationListTableGUI: ilFormPropertyDispatchGUI
  */
 class ilPresentationListTableGUI extends ilTable2GUI
 {
+    protected ilAdvancedMDRecordGUI $record_gui;
+    protected array $adv_fields;
+    protected \ILIAS\Glossary\Presentation\PresentationGUIRequest $request;
+    protected int $tax_id;
+    protected int $tax_node;
+    protected ilObjGlossary $glossary;
+    protected array $adv_cols_order = array();
+    protected bool $offline;
+    protected ilPageConfig $page_config;
+    protected array $filter = [];
 
-    /**
-     * @var ilObjGlossary
-     */
-    protected $glossary;
-
-    /**
-     * @var array
-     */
-    protected $adv_cols_order = array();
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var bool
-     */
-    protected $offline;
-
-    /**
-     * @var ilPageConfig
-     */
-    protected $page_config;
-
-
-    /**
-     * Constructor
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_glossary,
-        $a_offline,
-        $a_tax_node,
-        $a_tax_id = 0
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjGlossary $a_glossary,
+        bool $a_offline,
+        int $a_tax_node,
+        int $a_tax_id = 0
     ) {
         global $DIC;
 
@@ -63,6 +50,11 @@ class ilPresentationListTableGUI extends ilTable2GUI
         $this->tax_node = $a_tax_node;
         $this->tax_id = $a_tax_id;
         $this->setId("glopr" . $this->glossary->getId());
+        $this->request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
 
         $gdf = new ilGlossaryDefPage();
         $this->page_config = $gdf->getPageConfig();
@@ -111,15 +103,19 @@ class ilPresentationListTableGUI extends ilTable2GUI
         }
                 
         // advanced metadata
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, 'glo',
-            $this->glossary->getId(), 'term');
+        $this->record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_FILTER,
+            'glo',
+            $this->glossary->getId(),
+            'term'
+        );
         $this->record_gui->setTableGUI($this);
         $this->record_gui->parse();
         //$this->setDefaultOrderField("login");
         //$this->setDefaultOrderDirection("asc");
         $this->setData($this->glossary->getTermList(
             $this->filter["term"],
-            $_GET["letter"],
+            $this->request->getLetter(),
             $this->filter["definition"],
             $this->tax_node,
             false,
@@ -135,20 +131,12 @@ class ilPresentationListTableGUI extends ilTable2GUI
         //		$this->setData(array());
     }
     
-    /**
-     * needed for advmd filter handling
-     *
-     * @return ilAdvancedMDRecordGUI
-     */
-    protected function getAdvMDRecordGUI()
+    protected function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
     {
         return $this->record_gui;
     }
     
-    /**
-     * Init filter
-     */
-    public function initFilter()
+    public function initFilter() : void
     {
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
@@ -171,12 +159,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * Should this field be sorted numeric?
-     *
-     * @return	boolean		numeric ordering; default is false
-     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if (substr($a_field, 0, 3) == "md_") {
             $md_id = (int) substr($a_field, 3);
@@ -187,19 +170,20 @@ class ilPresentationListTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($term)
+    protected function fillRow(array $a_set) : void
     {
-        $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-        $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+        $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
+        $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
 
         if ($this->glossary->getPresentationMode() == "full_def") {
             $this->tpl->setCurrentBlock("fd_td");
             $this->tpl->setVariable(
                 "FULL_DEF",
-                $this->parent_obj->listDefinitions($_GET["ref_id"], $term["id"], true)
+                $this->parent_obj->listDefinitions(
+                    $this->request->getRefId(),
+                    $a_set["id"],
+                    true
+                )
             );
             $this->tpl->parseCurrentBlock();
         } else {
@@ -210,14 +194,12 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         if (!$this->offline) {
                             if (!empty($filter)) {
                                 $this->ctrl->setParameter($this->parent_obj, "term", $filter);
-                                $this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
                             }
-                            $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-                            $this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+                            $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
                             $def_href = $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions");
                             $this->ctrl->clearParameters($this->parent_obj);
                         } else {
-                            $def_href = "term_" . $term["id"] . ".html";
+                            $def_href = "term_" . $a_set["id"] . ".html";
                         }
                         $this->tpl->parseCurrentBlock();
 
@@ -283,7 +265,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
             // display additional column 'glossary' for meta glossaries
             if ($this->glossary->isVirtual()) {
                 $this->tpl->setCurrentBlock("glossary_row");
-                $glo_title = ilObject::_lookupTitle($term["glo_id"]);
+                $glo_title = ilObject::_lookupTitle($a_set["glo_id"]);
                 $this->tpl->setVariable("GLO_TITLE", $glo_title);
                 $this->tpl->parseCurrentBlock();
             }
@@ -298,33 +280,31 @@ class ilPresentationListTableGUI extends ilTable2GUI
                 if (!$this->offline) {
                     if (!empty($filter)) {
                         $this->ctrl->setParameter($this->parent_obj, "term", $filter);
-                        $this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
                     }
-                    $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-                    $this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
+                    $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
                     $this->tpl->setVariable(
                         "LINK_VIEW_TERM",
                         $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions")
                     );
+
                     $this->ctrl->clearParameters($this->parent_obj);
                 } else {
-                    $this->tpl->setVariable("LINK_VIEW_TERM", "term_" . $term["id"] . ".html");
+                    $this->tpl->setVariable("LINK_VIEW_TERM", "term_" . $a_set["id"] . ".html");
                 }
                 $this->tpl->parseCurrentBlock();
                 
                 $this->tpl->setCurrentBlock("link_end");
-                $this->tpl->setVariable("ANCHOR_TERM", "term_" . $term["id"]);
+                $this->tpl->setVariable("ANCHOR_TERM", "term_" . $a_set["id"]);
                 $this->tpl->parseCurrentBlock();
                 
                 $this->tpl->setCurrentBlock("td");
-                $this->tpl->setVariable("TEXT", $term["term"]);
-                $this->tpl->parseCurrentBlock();
+                $this->tpl->setVariable("TEXT", $a_set["term"]);
             } else {
                 $id = $c["id"];
                                 
                 $val = " ";
-                if (isset($term["md_" . $id . "_presentation"])) {
-                    $pb = $term["md_" . $id . "_presentation"]->getList();
+                if (isset($a_set["md_" . $id . "_presentation"])) {
+                    $pb = $a_set["md_" . $id . "_presentation"]->getList();
                     if ($pb) {
                         $val = $pb;
                     }
@@ -332,8 +312,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
                 
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TEXT", $val);
-                $this->tpl->parseCurrentBlock();
             }
+            $this->tpl->parseCurrentBlock();
         }
     }
 }

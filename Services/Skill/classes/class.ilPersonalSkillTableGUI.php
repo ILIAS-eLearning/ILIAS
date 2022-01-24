@@ -24,10 +24,6 @@
  */
 class ilPersonalSkillTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
 
@@ -61,7 +57,7 @@ class ilPersonalSkillTableGUI extends ilTable2GUI
         $this->addMultiCommand("confirmSkillRemove", $lng->txt("skmg_remove_skills"));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

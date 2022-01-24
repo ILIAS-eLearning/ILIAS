@@ -9,6 +9,19 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\DI\Container;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Services
  * @author              Fabian Schmid <fs@studer-raimann.ch>
@@ -17,18 +30,11 @@ use ILIAS\DI\Container;
  */
 class Services implements GlobalHttpState
 {
-    /**
-     * @var RawHTTPServices
-     */
-    protected $raw;
-    /**
-     * @var WrapperFactory
-     */
-    protected $wrapper;
+    protected GlobalHttpState $raw;
+    protected WrapperFactory $wrapper;
 
     /**
      * Services constructor.
-     * @param Container $dic
      */
     public function __construct(Container $dic)
     {
@@ -41,9 +47,6 @@ class Services implements GlobalHttpState
         $this->wrapper = new WrapperFactory($this->raw->request());
     }
 
-    /**
-     * @return WrapperFactory
-     */
     public function wrapper() : WrapperFactory
     {
         return $this->wrapper;
@@ -53,7 +56,7 @@ class Services implements GlobalHttpState
      * @deprecated Please use $this->wrapper()
      * @see        Services::wrapper();
      */
-    public function raw() : GlobalHttpState
+    public function raw() : RawHTTPServices
     {
         return $this->raw;
     }

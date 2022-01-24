@@ -48,7 +48,7 @@ class ilSubItemSelectionTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

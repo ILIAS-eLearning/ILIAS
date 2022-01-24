@@ -52,7 +52,7 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         return $items;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
 

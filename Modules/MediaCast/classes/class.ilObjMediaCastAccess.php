@@ -1,38 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilObjMediaCastAccess
- *
- * @author 		Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjMediaCastAccess extends ilObjectAccess
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -43,19 +33,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-
-    /**
-     * get commands
-     *
-     * this method returns an array of all possible commands/permission combinations
-     *
-     * example:
-     * $commands = array
-     *	(
-     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-     *	);
-     */
     public static function _getCommands()
     {
         $commands = array(
@@ -68,18 +45,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return $commands;
     }
     
-    /**
-    * checks wether a user may invoke a command or not
-    * (this method is called by ilAccessHandler::checkAccess)
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
-    */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
         $ilUser = $this->user;
@@ -96,7 +61,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 
                 if (!ilObjMediaCastAccess::_lookupOnline($a_obj_id)
                     && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
@@ -104,9 +69,9 @@ class ilObjMediaCastAccess extends ilObjectAccess
             // for permission query feature
             case "infoScreen":
                 if (!ilObjMediaCastAccess::_lookupOnline($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
-                    $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
 
@@ -116,7 +81,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
             case "visible":
                 if (!ilObjMediaCastAccess::_lookupOnline($a_obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
@@ -125,9 +90,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return true;
     }
 
-    /**
-    * check whether goto script will succeed
-    */
     public static function _checkGoto($a_target)
     {
         global $DIC;
@@ -147,12 +109,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
         return false;
     }
     
-    /**
-    * Check wether media cast is online
-    *
-    * @param	int		$a_id	media cast id
-    */
-    public static function _lookupOnline($a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         global $DIC;
 
@@ -162,15 +119,10 @@ class ilObjMediaCastAccess extends ilObjectAccess
         $mc_set = $ilDB->query($q);
         $mc_rec = $mc_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
-        return $mc_rec["is_online"];
+        return (bool) ($mc_rec["is_online"] ?? false);
     }
 
-    /**
-    * Check wether files should be public
-    *
-    * @param	int		$a_id	media cast id
-    */
-    public static function _lookupPublicFiles($a_id)
+    public static function _lookupPublicFiles(int $a_id) : bool
     {
         global $DIC;
 
@@ -180,15 +132,14 @@ class ilObjMediaCastAccess extends ilObjectAccess
         $mc_set = $ilDB->query($q);
         $mc_rec = $mc_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
-        return $mc_rec["public_files"];
+        return (bool) $mc_rec["public_files"];
     }
 
     /**
      * Returns the number of bytes used on the harddisk by the file object
      * with the specified object id.
-     * @param int object id of a file object.
      */
-    public static function _lookupDiskUsage($a_id)
+    public static function _lookupDiskUsage(int $a_id) : int
     {
         $obj = new ilObjMediaCast($a_id, false);
         $obj->read();

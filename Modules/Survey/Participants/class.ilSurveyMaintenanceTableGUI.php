@@ -79,43 +79,42 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
-            if ($data["invited"]) {
-                $this->tpl->setVariable("CB_USER_ID", "inv" . $data['usr_id']);
+            if ($a_set["invited"]) {
+                $this->tpl->setVariable("CB_USER_ID", "inv" . $a_set['usr_id']);
             } else {
-                $this->tpl->setVariable("CB_USER_ID", $data['id']);
+                $this->tpl->setVariable("CB_USER_ID", $a_set['id']);
             }
-            $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            if ($data["invited"]) {
-                $this->tpl->setVariable("HIDDEN_USER_ID", "inv" . $data['usr_id']);
+            if ($a_set["invited"]) {
+                $this->tpl->setVariable("HIDDEN_USER_ID", "inv" . $a_set['usr_id']);
             } else {
-                $this->tpl->setVariable("HIDDEN_USER_ID", $data['id']);
+                $this->tpl->setVariable("HIDDEN_USER_ID", $a_set['id']);
             }
-            $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("USER_ID", $data["id"]);
-        $this->tpl->setVariable("VALUE_USER_NAME", $data['name']);
-        $this->tpl->setVariable("VALUE_USER_LOGIN", $data['login']);
-        $this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['last_access'], IL_CAL_UNIX)));
-        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
+        $this->tpl->parseCurrentBlock();
+        $this->tpl->setVariable("USER_ID", $a_set["id"]);
+        $this->tpl->setVariable("VALUE_USER_NAME", $a_set['name']);
+        $this->tpl->setVariable("VALUE_USER_LOGIN", $a_set['login']);
+        $this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($a_set['last_access'], IL_CAL_UNIX)));
+        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime']));
 
         $state = $this->lng->txt("svy_status_in_progress");
-        if ($data['last_access'] == "" && $data["invited"]) {
+        if ($a_set['last_access'] == "" && $a_set["invited"]) {
             $state = $this->lng->txt("svy_status_invited");
         }
-        if ($data["finished"] !== false) {
+        if ($a_set["finished"] !== false) {
             $state = $this->lng->txt("svy_status_finished");
         }
         $this->tpl->setVariable("STATUS", $state);
         $finished = "";
-        if ($data["finished"] !== null) {
-            if ($data["finished"] !== false) {
-                $finished .= ilDatePresentation::formatDate(new ilDateTime($data["finished"], IL_CAL_UNIX));
+        if ($a_set["finished"] !== null) {
+            if ($a_set["finished"] !== false) {
+                $finished .= ilDatePresentation::formatDate(new ilDateTime($a_set["finished"], IL_CAL_UNIX));
             } else {
                 $finished = "-";
             }
@@ -136,7 +135,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         }
     }
 
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'workingtime':

@@ -25,7 +25,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
     protected int $size = 20;
     protected string $validateauthpost = "";
     protected bool $requiredonauth = false;
-    protected bool $maxlength = false;
+    protected int $maxlength = 0;
     protected bool $use_strip_slashes = true;
     /**
      * @var bool Flag whether the html autocomplete attribute should be set to "off" or not

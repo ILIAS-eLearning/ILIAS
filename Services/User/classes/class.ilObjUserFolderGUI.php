@@ -22,6 +22,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjUserFolderGUI extends ilObjectGUI
 {
     private Container $dic;
+    protected int $confirm_change = 0;
     public $ctrl;
 
     protected $log;
@@ -421,7 +422,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this,
                 "chooseLetter"
             );
-            $ai->setHighlighted($_GET["letter"] ?? null);
+            $ai->setHighlighted($_GET["letter"] ?? "");
             $ilToolbar->addInputItem(
                 $ai,
                 true
@@ -3277,7 +3278,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $file = basename($_POST["file"][0]);
 
         $export_dir = $this->object->getExportDirectory();
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $file,
             $file
         );
@@ -4176,7 +4177,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname . '.xlsx',
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_EXCEL) . '.xlsx',
                 '',
@@ -4218,7 +4219,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname,
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_CSV),
                 '',
@@ -4259,7 +4260,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_ids,
                 true
             );
-            ilUtil::deliverFile(
+            ilFileDelivery::deliverFileLegacy(
                 $fullname,
                 $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_XML),
                 '',

@@ -97,7 +97,7 @@ class EvaluationManager
         } else {
             if ($feature_config->usesAppraisees() ||
                 $survey->getMode() == \ilObjSurvey::MODE_SELF_EVAL) {
-                $appraisee_ids[] = (int) $user_id;
+                $appraisee_ids[] = $user_id;
             }
         }
         return $appraisee_ids;

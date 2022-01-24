@@ -7,28 +7,18 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult as HandlerResultInterface;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\UI\Component\Input\Field\HandlerResult;
 
 /**
  * Class ilMMUploadHandlerGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy ilMMUploadHandlerGUI: ilObjMainMenuGUI
  */
 class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
-
-    /**
-     * @var Services
-     */
-    private $storage;
-    /**
-     * @var ilMMStorageStakeholder
-     */
-    private $stakeholder;
-
-
+    
+    private Services $storage;
+    private ilMMStorageStakeholder $stakeholder;
+    
     /**
      * ilUIDemoFileUploadHandlerGUI constructor.
      */
@@ -36,11 +26,10 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         global $DIC;
         parent::__construct();
-        $this->storage = $DIC['resource_storage'];
+        $this->storage     = $DIC['resource_storage'];
         $this->stakeholder = new ilMMStorageStakeholder();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -50,36 +39,34 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         /**
          * @var $result UploadResult
          */
-        $array = $this->upload->getResults();
+        $array  = $this->upload->getResults();
         $result = end($array);
         if ($result instanceof UploadResult && $result->isOK()) {
-            $i = $this->storage->manage()->upload($result, $this->stakeholder);
-            $status = HandlerResultInterface::STATUS_OK;
+            $i          = $this->storage->manage()->upload($result, $this->stakeholder);
+            $status     = HandlerResultInterface::STATUS_OK;
             $identifier = $i->serialize();
-            $message = 'Upload ok';
+            $message    = 'Upload ok';
         } else {
-            $status = HandlerResultInterface::STATUS_FAILED;
+            $status     = HandlerResultInterface::STATUS_FAILED;
             $identifier = '';
-            $message = $result->getStatus()->getMessage();
+            $message    = $result->getStatus()->getMessage();
         }
-
+        
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
-
-
+    
     protected function getRemoveResult(string $identifier) : HandlerResultInterface
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
             $this->storage->manage()->remove($id, $this->stakeholder);
-
+            
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
         } else {
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_FAILED, $identifier, 'file not found');
         }
     }
-
-
+    
     protected function getInfoResult(string $identifier) : FileInfoResult
     {
         $id = $this->storage->manage()->find($identifier);
@@ -87,11 +74,10 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
         }
         $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
-
+        
         return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $r->getTitle(), $r->getSize(), $r->getMimeType());
     }
-
-
+    
     public function getInfoForExistingFiles(array $file_ids) : array
     {
         $infos = [];
@@ -101,10 +87,10 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
                 continue;
             }
             $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
-
+            
             $infos[] = new BasicFileInfoResult($this->getFileIdentifierParameterName(), $file_id, $r->getTitle(), $r->getSize(), $r->getMimeType());
         }
-
+        
         return $infos;
     }
 }

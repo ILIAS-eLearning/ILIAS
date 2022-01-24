@@ -24,9 +24,6 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /** @var ilCtrl $ilCtrl */
     protected $ilCtrl;
 
-    /** @var ilLanguage $lng */
-    protected $lng;
-
     /**
      * ilWorkflowEngineDefinitionsTableGUI constructor.
      *
@@ -61,7 +58,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /**
      * @return void
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $title_filter_input = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title_filter_input->setMaxLength(64);
@@ -107,7 +104,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $cols["file"] = array(
             "txt" => $this->lng->txt("file"),
@@ -183,25 +180,25 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $set
+     * @param array $a_set
      */
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_TITLE', $set['title']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
 
         $selected_columns = $this->getSelectedColumns();
 
         if (in_array('file', $selected_columns)) {
-            $this->tpl->setVariable('VAL_FILE', $set['file']);
+            $this->tpl->setVariable('VAL_FILE', $a_set['file']);
         }
 
         if (in_array('version', $selected_columns)) {
-            $this->tpl->setVariable('VAL_VERSION', $set['version']);
+            $this->tpl->setVariable('VAL_VERSION', $a_set['version']);
         }
 
         if (in_array('status', $selected_columns)) {
-            if ($set['status'] != 'OK') {
-                $this->tpl->setVariable('VAL_STATUS', $set['status']);
+            if ($a_set['status'] != 'OK') {
+                $this->tpl->setVariable('VAL_STATUS', $a_set['status']);
             } else {
                 $this->tpl->setVariable('VAL_STATUS', $this->lng->txt('ok'));
             }
@@ -209,22 +206,22 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         if (in_array('instances', $selected_columns)) {
             $this->tpl->setVariable('TXT_INSTANCES_TOTAL', $this->lng->txt('total'));
-            $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + $set['instances']['total']);
+            $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + $a_set['instances']['total']);
             $this->tpl->setVariable('TXT_INSTANCES_ACTIVE', $this->lng->txt('active'));
-            $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0 + $set['instances']['active']);
+            $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0 + $a_set['instances']['active']);
         }
 
         $action = new ilAdvancedSelectionListGUI();
-        $action->setId('asl_' . $set['id']);
+        $action->setId('asl_' . $a_set['id']);
         $action->setListTitle($this->lng->txt('actions'));
-        $this->ilCtrl->setParameter($this->parent_obj, 'process_id', $set['id']);
+        $this->ilCtrl->setParameter($this->parent_obj, 'process_id', $a_set['id']);
         $action->addItem(
             $this->lng->txt('start_process'),
             'start',
             $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
         );
 
-        if (0 + $set['instances']['active'] == 0) {
+        if (0 + $a_set['instances']['active'] == 0) {
             $action->addItem(
                 $this->lng->txt('delete_definition'),
                 'delete',
@@ -232,8 +229,8 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             );
         }
 
-        require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $set['id'] . '.php';
-        $class = substr($set['id'], 4);
+        require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
+        $class = substr($a_set['id'], 4);
         if ($class::$startEventRequired == true) {
             $action->addItem(
                 $this->lng->txt('start_listening'),

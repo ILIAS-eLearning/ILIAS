@@ -2060,7 +2060,7 @@ common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -3986,7 +3986,6 @@ common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
 common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
-common#:#time_limit_owner#:#Owner (time limit)
 common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)
@@ -8003,8 +8002,6 @@ user#:#user_no_courses#:#No Courses Assigned
 user#:#user_no_groups#:#No Groups Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
 user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
-user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
@@ -9210,7 +9207,7 @@ skmg#:#skmg_update_order#:#Update Order
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_levels#:#Competence Levels
-skmg#:#skmg_target_levels#:#Target Levels
+skmg#:#skmg_target_levels#:#Competence Targets
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -9867,7 +9864,7 @@ prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The posting is published.
 survey#:#svy_page_add_question#:#Add new %s
-skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
@@ -10642,14 +10639,6 @@ blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_keyword#:#Keyword
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-fm#:#fm_settings_tab#:#File Manager
-fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the ‘Open With File Manager’ action in the repository.
-common#:#fm_start#:#Open With File Manager
-fm#:#fm_settings_local#:#Show Local Filesystem
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
-fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed file size for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
@@ -11203,7 +11192,7 @@ skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_assigned_skill_levels#:#Assigned Target Levels
+skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Targets
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
@@ -11230,11 +11219,12 @@ survey#:#survey_skill_max_scale_points#:#Max. Scale Points
 survey#:#survey_reached_level#:#Reached Level
 survey#:#survey_sum_of_means#:#Sum of Arithm. Means per Question
 survey#:#survey_calc_skills#:#Determine Competence Levels
-skmg#:#skmg_target_level#:#Profile Target Level
+skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_360_survey#:#360° Survey
-skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
-skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
-skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
+skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
+skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
 survey#:#survey_360_rater_mail_sent#:#Mail sent
 survey#:#survey_360_rater_message_content_registered#:#Message Content (Registered)
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -13105,7 +13095,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
-forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora_desc#:#The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default.
 forum#:#file_upload_allowed_fora#:#Attachments
 forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
 forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
@@ -13913,7 +13903,7 @@ survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participan
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#svy_mail_own_results_body#:#you participated in the following survey:
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available competence levels.
 common#:#grpr_edit_info#:#Please choose one group for creating a new group link.
 common#:#grpr_edit#:#Edit Group Link
 common#:#grpr_new#:#Create Group Link
@@ -14564,7 +14554,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
-common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
@@ -14644,9 +14634,9 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
-skmg#:#skmg_selected_skills#:#Competence Records
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
+skmg#:#skmg_selected_skills#:#Selected Competences
+skmg#:#skmg_hide_profile_self_eval#:#Hide Competence Target without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Competence Target will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
@@ -16713,3 +16703,12 @@ rbac#:#read_profiles#:#User has read access to Competence Profiles
 rbac#:#manage_comp#:#User can change Competences
 rbac#:#manage_comp_temp#:#User can change Competence Templates
 rbac#:#manage_profiles#:#User can change Competence Profiles
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.
+skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
+skmg#:#skmg_form_presentation#:#Presentation
+skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
+skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
+skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
+skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.

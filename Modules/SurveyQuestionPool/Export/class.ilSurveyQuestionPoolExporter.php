@@ -60,7 +60,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
     {
         return array(
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/SurveyQuestionPool/htlm/4_1",
+                "namespace" => "https://www.ilias.de/Modules/SurveyQuestionPool/htlm/4_1",
                 "xsd_file" => "ilias_spl_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",

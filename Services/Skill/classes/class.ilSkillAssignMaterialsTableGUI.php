@@ -24,16 +24,12 @@
  */
 class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilObjUser $user;
     protected ilWorkspaceTree $ws_tree;
     protected ilWorkspaceAccessHandler $ws_access;
-    protected int $top_skill_id;
-    protected int $tref_id;
-    protected int $basic_skill_id;
+    protected int $top_skill_id = 0;
+    protected int $tref_id = 0;
+    protected int $basic_skill_id = 0;
     protected ilSkillTreeNode $skill;
 
     public function __construct(
@@ -98,7 +94,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -73,12 +73,11 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array row data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         static $row_counter = 1;
         

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -72,7 +72,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     * @access       public
     * @return       boolean true if all XML-Files are wellfomred and valid
     */
-    public function validate($directory)
+    public function validate($directory) : bool
     {
         //$this->validator = new ilObjSCORMValidator($directory);
         //$returnValue = $this->validator->validate();
@@ -83,7 +83,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     * read manifest file
     * @access	public
     */
-    public function readObject()
+    public function readObject() : string
     {
         global $DIC;
         $lng = $this->lng;
@@ -108,7 +108,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         // if no manifestfile
         if (!$check_for_manifest_file) {
             $ilErr->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $ilErr->MESSAGE);
-            return;
+            return null;
         }
 
         
@@ -170,7 +170,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 if (!($check_disc_free > 1)) {
                     $ilErr->raiseError($this->lng->txt("Not enough space left on device!"), $ilErr->MESSAGE);
                 }
-                return;
+                return null;
             }
         } else {
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
@@ -210,15 +210,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         
         // start SCORM 2004 package parser/importer
         $newPack = new ilSCORM13Package();
-        if ($this->getEditable()) {
-            return $newPack->il_importLM(
-                $this,
-                $this->getDataDirectory(),
-                $this->getImportSequencing()
-            );
-        } else {
-            return $newPack->il_import($this->getDataDirectory(), $this->getId(), $DIC["ilias"], $_POST["validate"]);
-        }
+//        if ($this->getEditable()) {
+//            return $newPack->il_importLM(
+//                $this,
+//                $this->getDataDirectory(),
+//                $this->getImportSequencing()
+//            );
+//        } else {
+        return $newPack->il_import($this->getDataDirectory(), $this->getId(), $DIC["ilias"], $_POST["validate"]);
+//        }
     }
 
 
@@ -307,7 +307,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     *
     * @param	int		$a_obj_id		object id
     * @param	int		$user_id		user id
-    * @return timestamp
     */
     public static function _lookupLastAccess($a_obj_id, $a_usr_id)
     {
@@ -331,7 +330,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             return $row["last_access"];
         }
         
-        return "";
+        return null;
     }
 
     /**
@@ -340,9 +339,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     // function getTrackedUsers($a_search)
     // {
     // global $DIC;
-    // $ilUser = $DIC['ilUser'];
-    // $ilDB = $DIC['ilDB'];
-    // $ilUser = $DIC['ilUser'];
+    // $ilUser = $DIC->user();
+    // $ilDB = $DIC->database();
+    // $ilUser = $DIC->user();
 
     // $sco_set = $ilDB->queryF('
     // SELECT DISTINCT user_id,MAX(c_timestamp) last_access
@@ -384,7 +383,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     // return $items;
     // }
 
-    public function deleteTrackingDataOfUsers($a_users)
+    public function deleteTrackingDataOfUsers($a_users) : void
     {
         $ilDB = $this->db;
         include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
@@ -430,7 +429,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
     
     
-    public function getTrackingDataAgg($a_user_id, $raw = false)
+    public function getTrackingDataAgg($a_user_id, $raw = false) : array
     {
         $ilDB = $this->db;
       
@@ -523,7 +522,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
     * get module version that tracking data for a user was recorded on
     */
-    public function getModuleVersionForUser($a_user_id)
+    public function getModuleVersionForUser($a_user_id) : string
     {
         $ilDB = $this->db;
         $val_set = $ilDB->queryF(
@@ -549,7 +548,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     
     
     
-    public function importSuccess($a_file)
+    public function importSuccess($a_file) : bool
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -689,7 +688,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->getId(), $users);
 
-        return 0;
+        return true;
     }
     
     /**
@@ -698,7 +697,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     *
     * @access static
     */
-    public static function _ISODurationToCentisec($str)
+    public static function _ISODurationToCentisec($str) : int
     {
         $aV = array(0, 0, 0, 0, 0, 0);
         $bErr = false;
@@ -744,7 +743,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         }
     
         if ($bErr) {
-            return;
+            return 0;
         }
         return $aV[0] * 3155760000 + $aV[1] * 262980000 + $aV[2] * 8640000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
     }
@@ -766,7 +765,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return $DIC->database()->numRows($val_set);
     }
     
-    public function getCourseCompletionForUser($a_user)
+    public function getCourseCompletionForUser($a_user) : bool
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -826,7 +825,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     * @param int $a_user User id
     * @return boolean Completion status
     */
-    public static function _getCourseCompletionForUser($a_id, $a_user)
+    public static function _getCourseCompletionForUser($a_id, $a_user) : bool
     {
         global $DIC;
 
@@ -928,7 +927,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     *
     * currently a for learning progress only
     */
-    public static function _getTrackingItems($a_obj_id)
+    public static function _getTrackingItems($a_obj_id) : array
     {
         global $DIC;
 
@@ -1100,208 +1099,208 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return true;
     }
 
-    /**
-    * Execute Drag Drop Action
-    *
-    * @param	string	$source_id		Source element ID
-    * @param	string	$target_id		Target element ID
-    * @param	string	$first_child	Insert as first child of target
-    * @param	string	$movecopy		Position ("move" | "copy")
-    */
-    public function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
-    {
-        $this->slm_tree = new ilTree($this->getId());
-        $this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $this->slm_tree->setTreeTablePK("slm_id");
-        
-        $source_obj = ilSCORM2004NodeFactory::getInstance($this, $source_id, true);
-        //$source_obj->setLMId($this->getId());
-
-        if (!$first_child) {
-            $target_obj = ilSCORM2004NodeFactory::getInstance($this, $target_id, true);
-            //$target_obj->setLMId($this->getId());
-            $target_parent = $this->slm_tree->getParentId($target_id);
-        }
-        //echo "-".$source_obj->getType()."-";
-        // handle pages
-        if ($source_obj->getType() == "page") {
-            if ($this->slm_tree->isInTree($source_obj->getId())) {
-                $node_data = $this->slm_tree->getNodeData($source_obj->getId());
-
-                // cut on move
-                if ($movecopy == "move") {
-                    $parent_id = $this->slm_tree->getParentId($source_obj->getId());
-                    $this->slm_tree->deleteTree($node_data);
-
-                    // write history entry
-/*
-                    ilHistory::_createEntry($source_obj->getId(), "cut",
-                        array(ilLMObject::_lookupTitle($parent_id), $parent_id),
-                        $this->getType().":pg");
-                    ilHistory::_createEntry($parent_id, "cut_page",
-                        array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
-                        $this->getType().":st");
-*/
-                }
-                /*				else			// this is not implemented here
-                                {
-                                    // copy page
-                                    $new_page =& $source_obj->copy();
-                                    $source_id = $new_page->getId();
-                                    $source_obj =& $new_page;
-                                }
-                */
-
-                // paste page
-                if (!$this->slm_tree->isInTree($source_obj->getId())) {
-                    if ($first_child) {			// as first child
-                        $target_pos = ilTree::POS_FIRST_NODE;
-                        $parent = $target_id;
-                    } elseif ($as_subitem) {		// as last child
-                        $parent = $target_id;
-                        $target_pos = ilTree::POS_FIRST_NODE;
-                        $pg_childs = $this->slm_tree->getChildsByType($parent, "page");
-                        if (count($pg_childs) != 0) {
-                            $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
-                        }
-                    } else {						// at position
-                        $target_pos = $target_id;
-                        $parent = $target_parent;
-                    }
-
-                    // insert page into tree
-                    $this->slm_tree->insertNode(
-                        $source_obj->getId(),
-                        $parent,
-                        $target_pos
-                    );
-                }
-            }
-        }
-
-        // handle scos
-        if ($source_obj->getType() == "sco" || $source_obj->getType() == "ass") {
-            //echo "2";
-            $source_node = $this->slm_tree->getNodeData($source_id);
-            $subnodes = $this->slm_tree->getSubtree($source_node);
-
-            // check, if target is within subtree
-            foreach ($subnodes as $subnode) {
-                if ($subnode["obj_id"] == $target_id) {
-                    return;
-                }
-            }
-
-            $target_pos = $target_id;
-
-            if ($first_child) {		// as first sco
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $target_parent = $target_id;
-                
-                $pg_childs = $this->slm_tree->getChildsByType($target_parent, "page");
-                if (count($pg_childs) != 0) {
-                    $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
-                }
-            } elseif ($as_subitem) {		// as last sco
-                $target_parent = $target_id;
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $childs = $this->slm_tree->getChilds($target_parent);
-                if (count($childs) != 0) {
-                    $target_pos = $childs[count($childs) - 1]["obj_id"];
-                }
-            }
-
-            // delete source tree
-            if ($movecopy == "move") {
-                $this->slm_tree->deleteTree($source_node);
-            }
-            /*			else
-                        {
-                            // copy chapter (incl. subcontents)
-                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
-                        }
-            */
-
-            if (!$this->slm_tree->isInTree($source_id)) {
-                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
-
-                // insert moved tree
-                if ($movecopy == "move") {
-                    foreach ($subnodes as $node) {
-                        if ($node["obj_id"] != $source_id) {
-                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
-                        }
-                    }
-                }
-            }
-
-            // check the tree
-//			$this->checkTree();
-        }
-
-        // handle chapters
-        if ($source_obj->getType() == "chap") {
-            //echo "2";
-            $source_node = $this->slm_tree->getNodeData($source_id);
-            $subnodes = $this->slm_tree->getSubtree($source_node);
-
-            // check, if target is within subtree
-            foreach ($subnodes as $subnode) {
-                if ($subnode["obj_id"] == $target_id) {
-                    return;
-                }
-            }
-
-            $target_pos = $target_id;
-
-            if ($first_child) {		// as first chapter
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $target_parent = $target_id;
-                
-            //$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
-                //if (count($sco_childs) != 0)
-                //{
-                //	$target_pos = $sco_childs[count($sco_childs) - 1]["obj_id"];
-                //}
-            } elseif ($as_subitem) {		// as last chapter
-                $target_parent = $target_id;
-                $target_pos = ilTree::POS_FIRST_NODE;
-                $childs = $this->slm_tree->getChilds($target_parent);
-                if (count($childs) != 0) {
-                    $target_pos = $childs[count($childs) - 1]["obj_id"];
-                }
-            }
-
-            // delete source tree
-            if ($movecopy == "move") {
-                $this->slm_tree->deleteTree($source_node);
-            }
-            /*			else
-                        {
-                            // copy chapter (incl. subcontents)
-                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
-                        }
-            */
-
-            if (!$this->slm_tree->isInTree($source_id)) {
-                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
-
-                // insert moved tree
-                if ($movecopy == "move") {
-                    foreach ($subnodes as $node) {
-                        if ($node["obj_id"] != $source_id) {
-                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
-                        }
-                    }
-                }
-            }
-
-            // check the tree
-//			$this->checkTree();
-        }
-
-        //		$this->checkTree();
-    }
+//    /**
+//    * Execute Drag Drop Action
+//    *
+//    * @param	string	$source_id		Source element ID
+//    * @param	string	$target_id		Target element ID
+//    * @param	string	$first_child	Insert as first child of target
+//    * @param	string	$movecopy		Position ("move" | "copy")
+//    */
+//    public function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
+//    {
+//        $this->slm_tree = new ilTree($this->getId());
+//        $this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $this->slm_tree->setTreeTablePK("slm_id");
+//
+//        $source_obj = ilSCORM2004NodeFactory::getInstance($this, $source_id, true);
+//        //$source_obj->setLMId($this->getId());
+//
+//        if (!$first_child) {
+//            $target_obj = ilSCORM2004NodeFactory::getInstance($this, $target_id, true);
+//            //$target_obj->setLMId($this->getId());
+//            $target_parent = $this->slm_tree->getParentId($target_id);
+//        }
+//        //echo "-".$source_obj->getType()."-";
+//        // handle pages
+//        if ($source_obj->getType() == "page") {
+//            if ($this->slm_tree->isInTree($source_obj->getId())) {
+//                $node_data = $this->slm_tree->getNodeData($source_obj->getId());
+//
+//                // cut on move
+//                if ($movecopy == "move") {
+//                    $parent_id = $this->slm_tree->getParentId($source_obj->getId());
+//                    $this->slm_tree->deleteTree($node_data);
+//
+//                    // write history entry
+    ///*
+//                    ilHistory::_createEntry($source_obj->getId(), "cut",
+//                        array(ilLMObject::_lookupTitle($parent_id), $parent_id),
+//                        $this->getType().":pg");
+//                    ilHistory::_createEntry($parent_id, "cut_page",
+//                        array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
+//                        $this->getType().":st");
+    //*/
+//                }
+//                /*				else			// this is not implemented here
+//                                {
+//                                    // copy page
+//                                    $new_page =& $source_obj->copy();
+//                                    $source_id = $new_page->getId();
+//                                    $source_obj =& $new_page;
+//                                }
+//                */
+//
+//                // paste page
+//                if (!$this->slm_tree->isInTree($source_obj->getId())) {
+//                    if ($first_child) {			// as first child
+//                        $target_pos = ilTree::POS_FIRST_NODE;
+//                        $parent = $target_id;
+//                    } elseif ($as_subitem) {		// as last child
+//                        $parent = $target_id;
+//                        $target_pos = ilTree::POS_FIRST_NODE;
+//                        $pg_childs = $this->slm_tree->getChildsByType($parent, "page");
+//                        if (count($pg_childs) != 0) {
+//                            $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+//                        }
+//                    } else {						// at position
+//                        $target_pos = $target_id;
+//                        $parent = $target_parent;
+//                    }
+//
+//                    // insert page into tree
+//                    $this->slm_tree->insertNode(
+//                        $source_obj->getId(),
+//                        $parent,
+//                        $target_pos
+//                    );
+//                }
+//            }
+//        }
+//
+//        // handle scos
+//        if ($source_obj->getType() == "sco" || $source_obj->getType() == "ass") {
+//            //echo "2";
+//            $source_node = $this->slm_tree->getNodeData($source_id);
+//            $subnodes = $this->slm_tree->getSubtree($source_node);
+//
+//            // check, if target is within subtree
+//            foreach ($subnodes as $subnode) {
+//                if ($subnode["obj_id"] == $target_id) {
+//                    return;
+//                }
+//            }
+//
+//            $target_pos = $target_id;
+//
+//            if ($first_child) {		// as first sco
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $target_parent = $target_id;
+//
+//                $pg_childs = $this->slm_tree->getChildsByType($target_parent, "page");
+//                if (count($pg_childs) != 0) {
+//                    $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+//                }
+//            } elseif ($as_subitem) {		// as last sco
+//                $target_parent = $target_id;
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $childs = $this->slm_tree->getChilds($target_parent);
+//                if (count($childs) != 0) {
+//                    $target_pos = $childs[count($childs) - 1]["obj_id"];
+//                }
+//            }
+//
+//            // delete source tree
+//            if ($movecopy == "move") {
+//                $this->slm_tree->deleteTree($source_node);
+//            }
+//            /*			else
+//                        {
+//                            // copy chapter (incl. subcontents)
+//                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
+//                        }
+//            */
+//
+//            if (!$this->slm_tree->isInTree($source_id)) {
+//                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
+//
+//                // insert moved tree
+//                if ($movecopy == "move") {
+//                    foreach ($subnodes as $node) {
+//                        if ($node["obj_id"] != $source_id) {
+//                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // check the tree
+    ////			$this->checkTree();
+//        }
+//
+//        // handle chapters
+//        if ($source_obj->getType() == "chap") {
+//            //echo "2";
+//            $source_node = $this->slm_tree->getNodeData($source_id);
+//            $subnodes = $this->slm_tree->getSubtree($source_node);
+//
+//            // check, if target is within subtree
+//            foreach ($subnodes as $subnode) {
+//                if ($subnode["obj_id"] == $target_id) {
+//                    return;
+//                }
+//            }
+//
+//            $target_pos = $target_id;
+//
+//            if ($first_child) {		// as first chapter
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $target_parent = $target_id;
+//
+//            //$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
+//                //if (count($sco_childs) != 0)
+//                //{
+//                //	$target_pos = $sco_childs[count($sco_childs) - 1]["obj_id"];
+//                //}
+//            } elseif ($as_subitem) {		// as last chapter
+//                $target_parent = $target_id;
+//                $target_pos = ilTree::POS_FIRST_NODE;
+//                $childs = $this->slm_tree->getChilds($target_parent);
+//                if (count($childs) != 0) {
+//                    $target_pos = $childs[count($childs) - 1]["obj_id"];
+//                }
+//            }
+//
+//            // delete source tree
+//            if ($movecopy == "move") {
+//                $this->slm_tree->deleteTree($source_node);
+//            }
+//            /*			else
+//                        {
+//                            // copy chapter (incl. subcontents)
+//                            $new_chapter =& $source_obj->copy($this->slm_tree, $target_parent, $target_pos);
+//                        }
+//            */
+//
+//            if (!$this->slm_tree->isInTree($source_id)) {
+//                $this->slm_tree->insertNode($source_id, $target_parent, $target_pos);
+//
+//                // insert moved tree
+//                if ($movecopy == "move") {
+//                    foreach ($subnodes as $node) {
+//                        if ($node["obj_id"] != $source_id) {
+//                            $this->slm_tree->insertNode($node["obj_id"], $node["parent"]);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // check the tree
+    ////			$this->checkTree();
+//        }
+//
+//        //		$this->checkTree();
+//    }
     
     public function getExportFiles()
     {
@@ -1341,207 +1340,210 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return $file;
     }
 
-    /**
-     * Export (authoring) scorm package
-     */
-    public function exportScorm($a_inst, $a_target_dir, $ver, &$expLog)
-    {
-        $a_xml_writer = new ilXmlWriter;
-
-        // export metadata
-        $this->exportXMLMetaData($a_xml_writer);
-        $metadata_xml = $a_xml_writer->xmlDumpMem(false);
-        $a_xml_writer->_XmlWriter;
-        
-        $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/metadata.xsl");
-        $args = array( '/_xml' => $metadata_xml , '/_xsl' => $xsl );
-        $xh = xslt_create();
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
-        xslt_free($xh);
-        file_put_contents($a_target_dir . '/indexMD.xml', $output);
-
-        // export glossary
-        if ($this->getAssignedGlossary() != 0) {
-            ilUtil::makeDir($a_target_dir . "/glossary");
-            $glo_xml_writer = new ilXmlWriter();
-            
-            $glo_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
-            // set xml header
-            $glo_xml_writer->xmlHeader();
-            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
-            //$glos->exportHTML($a_target_dir."/glossary", $expLog);
-            $glos_export = new ilGlossaryExport($glos, "xml");
-            $glos->exportXML($glo_xml_writer, $glos_export->getInstId(), $a_target_dir . "/glossary", $expLog);
-            $glo_xml_writer->xmlDumpFile($a_target_dir . "/glossary/glossary.xml");
-            $glo_xml_writer->_XmlWriter;
-        }
-        
-        $a_xml_writer = new ilXmlWriter;
-        // set dtd definition
-        $a_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
-
-        // set generated comment
-        $a_xml_writer->xmlSetGenCmt("Export of ILIAS Content Module " . $this->getId() . " of installation " . $a_inst . ".");
-
-        // set xml header
-        $a_xml_writer->xmlHeader();
-
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004LearningModule"));
-
-        // MetaData
-        $this->exportXMLMetaData($a_xml_writer);
-
-        $this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
-        
-        // SCO Objects
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Sco Objects");
-        $this->exportXMLScoObjects($a_inst, $a_target_dir, $ver, $expLog);
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export Sco Objects");
+//    /**
+//     * Export (authoring) scorm package
+//     */
+//    public function exportScorm($a_inst, $a_target_dir, $ver, &$expLog)
+//    {
+//        $a_xml_writer = new ilXmlWriter;
+//
+//        // export metadata
+//        $this->exportXMLMetaData($a_xml_writer);
+//        $metadata_xml = $a_xml_writer->xmlDumpMem(false);
+//        $a_xml_writer->_XmlWriter;
+//
+//        $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/metadata.xsl");
+//        $args = array( '/_xml' => $metadata_xml , '/_xsl' => $xsl );
+//        $xh = xslt_create();
+//        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
+//        xslt_free($xh);
+//        file_put_contents($a_target_dir . '/indexMD.xml', $output);
+//
+//        // export glossary
+//        if ($this->getAssignedGlossary() != 0) {
+//            ilUtil::makeDir($a_target_dir . "/glossary");
+//            $glo_xml_writer = new ilXmlWriter();
+//
+//            $glo_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
+//            // set xml header
+//            $glo_xml_writer->xmlHeader();
+//            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+//            //$glos->exportHTML($a_target_dir."/glossary", $expLog);
+//            $glos_export = new ilGlossaryExport($glos, "xml");
+//            $glos->exportXML($glo_xml_writer, $glos_export->getInstId(), $a_target_dir . "/glossary", $expLog);
+//            $glo_xml_writer->xmlDumpFile($a_target_dir . "/glossary/glossary.xml");
+//            $glo_xml_writer->_XmlWriter;
+//        }
+//
+//        $a_xml_writer = new ilXmlWriter;
+//        // set dtd definition
+//        $a_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
+//
+//        // set generated comment
+//        $a_xml_writer->xmlSetGenCmt("Export of ILIAS Content Module " . $this->getId() . " of installation " . $a_inst . ".");
+//
+//        // set xml header
+//        $a_xml_writer->xmlHeader();
+//
+//        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004LearningModule"));
+//
+//        // MetaData
+//        $this->exportXMLMetaData($a_xml_writer);
+//
+//        $this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
+//
+//        // SCO Objects
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export Sco Objects");
+//        $this->exportXMLScoObjects($a_inst, $a_target_dir, $ver, $expLog);
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export Sco Objects");
+//
+//        $a_xml_writer->xmlEndTag("ContentObject");
+//        $a_xml_writer->xmlDumpFile($a_target_dir . '/index.xml', false);
+//
+//        if ($ver == "2004 4th") {
+//            $revision = "4th";
+//            $ver = "2004";
+//        }
+//
+//        if ($ver == "2004 3rd") {
+//            $revision = "3rd";
+//            $ver = "2004";
+//        }
+//
+//        // add content css (note: this is also done per item)
+//        $css_dir = $a_target_dir . "/ilias_css_4_2";
+//        ilUtil::makeDir($css_dir);
+//        ilScormExportUtil::exportContentCSS($this, $css_dir);
+//
+//        // add manifest
+//        $manifestBuilder = new ilContObjectManifestBuilder($this);
+//        $manifestBuilder->buildManifest($ver, $revision);
+//        $manifestBuilder->dump($a_target_dir);
+//
+//        $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
+//        $args = array( '/_xml' => file_get_contents($a_target_dir . "/imsmanifest.xml"), '/_xsl' => $xsl );
+//        $xh = xslt_create();
+//        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
+//        xslt_free($xh);
+//        fputs(fopen($a_target_dir . '/index.html', 'w+'), $output);
+//        // copy xsd files to target
+//        switch ($ver) {
+//            case "2004":
+//                if ($revision == "3rd") {
+//                    ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_130_export_2004', $a_target_dir, false);
+//                }
+//
+//                if ($revision == "4th") {
+//                    ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_130_export_2004_4th', $a_target_dir, false);
+//                }
+//                break;
+//            case "12":
+//                ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_120_export_12', $a_target_dir, false);
+//                break;
+//        }
+//
+//        $a_xml_writer->_XmlWriter;
+//    }
+//
+//
+//    public function exportHTML4PDF($a_inst, $a_target_dir, &$expLog)
+//    {
+//        $tree = new ilTree($this->getId());
+//        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $tree->setTreeTablePK("slm_id");
+//        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
+//            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
+//            ilUtil::makeDir($sco_folder);
+//            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
+//            $node->exportHTML4PDF($a_inst, $sco_folder, $expLog);
+//        }
+//    }
     
-        $a_xml_writer->xmlEndTag("ContentObject");
-        $a_xml_writer->xmlDumpFile($a_target_dir . '/index.xml', false);
-        
-        if ($ver == "2004 4th") {
-            $revision = "4th";
-            $ver = "2004";
-        }
+//    public function exportPDF($a_inst, $a_target_dir, &$expLog)
+//    {
+//        $a_xml_writer = new ilXmlWriter;
+//        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
+//        $this->exportXMLMetaData($a_xml_writer);
+//        $tree = new ilTree($this->getId());
+//        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $tree->setTreeTablePK("slm_id");
+//        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
+//            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
+//            ilUtil::makeDir($sco_folder);
+//            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
+//            $node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
+//        }
+//        if ($this->getAssignedGlossary() != 0) {
+//            ilUtil::makeDir($a_target_dir . "/glossary");
+//            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+//            $glos_export = new ilGlossaryExport($glos, "xml");
+//            $glos->exportXML($a_xml_writer, $glos_export->getInstId(), $a_target_dir . "/glossary", $expLog);
+//        }
+//        $a_xml_writer->xmlEndTag("ContentObject");
+//        $xml2FO = new ilXML2FO();
+//        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+//        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+//        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
+//        $xml2FO->transform();
+//        $fo_string = $xml2FO->getFOString();
+//        $fo_xml = simplexml_load_string($fo_string);
+//        $fo_ext = $fo_xml->xpath("//fo:declarations");
+//        $fo_ext = $fo_ext[0];
+//        $results = array();
+//        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
+//        if (is_array($results["file"])) {
+//            foreach ($results["file"] as $key => $value) {
+//                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
+//                $e->addAttribute("src", $results[path][$key] . $value);
+//                $e->addAttribute("name", $value);
+//                $e->addAttribute("desc", "");
+//            }
+//        }
+//        $fo_string = $fo_xml->asXML();
+//        $a_xml_writer->_XmlWriter;
+//        return $fo_string;
+//    }
     
-        if ($ver == "2004 3rd") {
-            $revision = "3rd";
-            $ver = "2004";
-        }
-
-        // add content css (note: this is also done per item)
-        $css_dir = $a_target_dir . "/ilias_css_4_2";
-        ilUtil::makeDir($css_dir);
-        ilScormExportUtil::exportContentCSS($this, $css_dir);
-
-        // add manifest
-        $manifestBuilder = new ilContObjectManifestBuilder($this);
-        $manifestBuilder->buildManifest($ver, $revision);
-        $manifestBuilder->dump($a_target_dir);
-            
-        $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
-        $args = array( '/_xml' => file_get_contents($a_target_dir . "/imsmanifest.xml"), '/_xsl' => $xsl );
-        $xh = xslt_create();
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
-        xslt_free($xh);
-        fputs(fopen($a_target_dir . '/index.html', 'w+'), $output);
-        // copy xsd files to target
-        switch ($ver) {
-            case "2004":
-                if ($revision == "3rd") {
-                    ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_130_export_2004', $a_target_dir, false);
-                }
-    
-                if ($revision == "4th") {
-                    ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_130_export_2004_4th', $a_target_dir, false);
-                }
-                break;
-            case "12":
-                ilUtil::rCopy('./libs/ilias/Scorm2004/xsd/adlcp_120_export_12', $a_target_dir, false);
-                break;
-        }
-        
-        $a_xml_writer->_XmlWriter;
-    }
-
-     
-    public function exportHTML4PDF($a_inst, $a_target_dir, &$expLog)
-    {
-        $tree = new ilTree($this->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
-            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
-            ilUtil::makeDir($sco_folder);
-            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
-            $node->exportHTML4PDF($a_inst, $sco_folder, $expLog);
-        }
-    }
-    
-    public function exportPDF($a_inst, $a_target_dir, &$expLog)
-    {
-        $a_xml_writer = new ilXmlWriter;
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
-        $this->exportXMLMetaData($a_xml_writer);
-        $tree = new ilTree($this->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
-            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
-            ilUtil::makeDir($sco_folder);
-            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
-            $node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
-        }
-        if ($this->getAssignedGlossary() != 0) {
-            ilUtil::makeDir($a_target_dir . "/glossary");
-            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
-            $glos_export = new ilGlossaryExport($glos, "xml");
-            $glos->exportXML($a_xml_writer, $glos_export->getInstId(), $a_target_dir . "/glossary", $expLog);
-        }
-        $a_xml_writer->xmlEndTag("ContentObject");
-        $xml2FO = new ilXML2FO();
-        $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
-        $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
-        $xml2FO->setXSLTParams(array('target_dir' => $a_target_dir));
-        $xml2FO->transform();
-        $fo_string = $xml2FO->getFOString();
-        $fo_xml = simplexml_load_string($fo_string);
-        $fo_ext = $fo_xml->xpath("//fo:declarations");
-        $fo_ext = $fo_ext[0];
-        $results = array();
-        ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
-        if (is_array($results["file"])) {
-            foreach ($results["file"] as $key => $value) {
-                $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
-                $e->addAttribute("src", $results[path][$key] . $value);
-                $e->addAttribute("name", $value);
-                $e->addAttribute("desc", "");
-            }
-        }
-        $fo_string = $fo_xml->asXML();
-        $a_xml_writer->_XmlWriter;
-        return $fo_string;
-    }
-    
-    public function exportHTMLOne($a_inst, $a_target_dir, &$expLog)
-    {
-        $one_file = fopen($a_target_dir . '/index.html', 'w+');
-        $this->exportHTML($a_inst, $a_target_dir, $expLog, $one_file);
-        fclose($one_file);
-    }
+//    public function exportHTMLOne($a_inst, $a_target_dir, &$expLog)
+//    {
+//        $one_file = fopen($a_target_dir . '/index.html', 'w+');
+//        $this->exportHTML($a_inst, $a_target_dir, $expLog, $one_file);
+//        fclose($one_file);
+//    }
     
     /**
      * Export SCORM package to HTML
      */
-    public function exportHTML($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
-    {
-        $this->exportHTMLScoObjects($a_inst, $a_target_dir, $expLog, $a_one_file);
-
-        if ($a_one_file == "") {
-            $manifestBuilder = new ilContObjectManifestBuilder($this);
-            $manifestBuilder->buildManifest('12');
-
-            $fs_gui = new ilFramesetGUI();
-            $fs_gui->setFramesetTitle($this->getTitle());
-            $fs_gui->setMainFrameSource("");
-            $fs_gui->setSideFrameSource("toc.html");
-            $fs_gui->setMainFrameName("content");
-            $fs_gui->setSideFrameName("toc");
-            $output = $fs_gui->get();
-            fputs(fopen($a_target_dir . '/index.html', 'w+'), $output);
-            
-            $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
-            $xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
-            $args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
-            $xh = xslt_create();
-            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
-            xslt_free($xh);
-            fputs(fopen($a_target_dir . '/toc.html', 'w+'), $output);
-        }
-        //		$a_xml_writer->_XmlWriter;
-    }
+//    public function exportHTML($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
+//    {
+//        throw new ilException("Deprecated Feature");
+//        /*
+//        $this->exportHTMLScoObjects($a_inst, $a_target_dir, $expLog, $a_one_file);
+//
+//        if ($a_one_file == "") {
+//            $manifestBuilder = new ilContObjectManifestBuilder($this);
+//            $manifestBuilder->buildManifest('12');
+//
+//            $fs_gui = new ilFramesetGUI();
+//            $fs_gui->setFramesetTitle($this->getTitle());
+//            $fs_gui->setMainFrameSource("");
+//            $fs_gui->setSideFrameSource("toc.html");
+//            $fs_gui->setMainFrameName("content");
+//            $fs_gui->setSideFrameName("toc");
+//            $output = $fs_gui->get();
+//            fputs(fopen($a_target_dir . '/index.html', 'w+'), $output);
+//
+//            $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
+//            $xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
+//            $args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
+//            $xh = xslt_create();
+//            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, null);
+//            xslt_free($xh);
+//            fputs(fopen($a_target_dir . '/toc.html', 'w+'), $output);
+//        }
+//        //		$a_xml_writer->_XmlWriter;
+//        */
+//    }
 
     /**
      * export content objects meta data to xml (see ilias_co.dtd)
@@ -1584,145 +1586,145 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
 
-    /**
-     * export page objects to xml (see ilias_co.dtd)
-     *
-     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-     *										xml data
-     */
-    public function exportXMLScoObjects($a_inst, $a_target_dir, $ver, &$expLog)
-    {
-        $tree = new ilTree($this->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, array('sco', 'ass')) as $sco) {
-            if ($sco['type'] == "sco") {
-                $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
-                ilUtil::makeDir($sco_folder);
-                $node = new ilSCORM2004Sco($this, $sco['obj_id']);
-                $node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
-            }
-            if ($sco['type'] == "ass") {
-                $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
-                ilUtil::makeDir($sco_folder);
-                $node = new ilSCORM2004Asset($this, $sco['obj_id']);
-                $node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
-            }
-        }
-    }
+//    /**
+//     * export page objects to xml (see ilias_co.dtd)
+//     *
+//     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+//     *										xml data
+//     */
+//    public function exportXMLScoObjects($a_inst, $a_target_dir, $ver, &$expLog)
+//    {
+//        $tree = new ilTree($this->getId());
+//        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $tree->setTreeTablePK("slm_id");
+//        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, array('sco', 'ass')) as $sco) {
+//            if ($sco['type'] == "sco") {
+//                $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
+//                ilUtil::makeDir($sco_folder);
+//                $node = new ilSCORM2004Sco($this, $sco['obj_id']);
+//                $node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+//            }
+//            if ($sco['type'] == "ass") {
+//                $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
+//                ilUtil::makeDir($sco_folder);
+//                $node = new ilSCORM2004Asset($this, $sco['obj_id']);
+//                $node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+//            }
+//        }
+//    }
 
-    /* export page objects to xml (see ilias_co.dtd)
-     *
-     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
-     *										xml data
-     */
-    public function exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
-    {
-        $tree = new ilTree($this->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-        // copy all necessary files now
-        if ($a_one_file != "") {
-            $this->prepareHTMLExporter($a_target_dir);
-            
-            // put header into file
-            $sco_tpl = new ilGlobalTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
-            $page_html_export = new ilCOPageHTMLExport($a_target_dir);
-            $sco_tpl = $page_html_export->getPreparedMainTemplate($sco_tpl);
-            
-            $sco_tpl->setCurrentBlock("js_file");
-            $sco_tpl->setVariable("JS_FILE", "./js/pure.js");
-            $sco_tpl->parseCurrentBlock();
-            $sco_tpl->setCurrentBlock("js_file");
-            $sco_tpl->setVariable("JS_FILE", "./js/question_handling.js");
-            $sco_tpl->parseCurrentBlock();
-            
-            
-            $sco_tpl->setCurrentBlock("head");
-            $sco_tpl->parseCurrentBlock();
-            fputs($a_one_file, $sco_tpl->get("head"));
-            
-            // toc
-            $manifestBuilder = new ilContObjectManifestBuilder($this);
-            $manifestBuilder->buildManifest('12');
-            $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
-            $xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
-            $args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
-            $xh = xslt_create();
-            $params = array("one_page" => "y");
-            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-            xslt_free($xh);
-            fputs($a_one_file, $output);
-        }
-        
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
-            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
-            ilUtil::makeDir($sco_folder);
-            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
+//    /* export page objects to xml (see ilias_co.dtd)
+//     *
+//     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+//     *										xml data
+//     */
+//    public function exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
+//    {
+//        $tree = new ilTree($this->getId());
+//        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+//        $tree->setTreeTablePK("slm_id");
+//        // copy all necessary files now
+//        if ($a_one_file != "") {
+//            $this->prepareHTMLExporter($a_target_dir);
+//
+//            // put header into file
+//            $sco_tpl = new ilGlobalTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
+//            $page_html_export = new ilCOPageHTMLExport($a_target_dir);
+//            $sco_tpl = $page_html_export->getPreparedMainTemplate($sco_tpl);
+//
+//            $sco_tpl->setCurrentBlock("js_file");
+//            $sco_tpl->setVariable("JS_FILE", "./js/pure.js");
+//            $sco_tpl->parseCurrentBlock();
+//            $sco_tpl->setCurrentBlock("js_file");
+//            $sco_tpl->setVariable("JS_FILE", "./js/question_handling.js");
+//            $sco_tpl->parseCurrentBlock();
+//
+//
+//            $sco_tpl->setCurrentBlock("head");
+//            $sco_tpl->parseCurrentBlock();
+//            fputs($a_one_file, $sco_tpl->get("head"));
+//
+//            // toc
+//            $manifestBuilder = new ilContObjectManifestBuilder($this);
+//            $manifestBuilder->buildManifest('12');
+//            $xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
+//            $xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
+//            $args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
+//            $xh = xslt_create();
+//            $params = array("one_page" => "y");
+//            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+//            xslt_free($xh);
+//            fputs($a_one_file, $output);
+//        }
+//
+//        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
+//            $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
+//            ilUtil::makeDir($sco_folder);
+//            $node = new ilSCORM2004Sco($this, $sco['obj_id']);
+//
+//            if ($a_one_file == "") {
+//                $node->exportHTML($a_inst, $sco_folder, $expLog, $a_one_file);
+//            } else {
+//                $node->exportHTMLPageObjects(
+//                    $a_inst,
+//                    $a_target_dir,
+//                    $expLog,
+//                    'full',
+//                    "sco",
+//                    $a_one_file,
+//                    $sco_tpl
+//                );
+//            }
+//            if ($this->getAssignedGlossary() != 0) {
+//                $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+//            }
+//        }
+//
+//        // copy all necessary files now
+//        if ($a_one_file != "") {
+//            // put tail into file
+//            fputs($a_one_file, $sco_tpl->get("tail"));
+//        }
+//    }
 
-            if ($a_one_file == "") {
-                $node->exportHTML($a_inst, $sco_folder, $expLog, $a_one_file);
-            } else {
-                $node->exportHTMLPageObjects(
-                    $a_inst,
-                    $a_target_dir,
-                    $expLog,
-                    'full',
-                    "sco",
-                    $a_one_file,
-                    $sco_tpl
-                );
-            }
-            if ($this->getAssignedGlossary() != 0) {
-                $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
-            }
-        }
-        
-        // copy all necessary files now
-        if ($a_one_file != "") {
-            // put tail into file
-            fputs($a_one_file, $sco_tpl->get("tail"));
-        }
-    }
-
-    /**
-     * Prepare HTML exporter
-     *
-     * @param
-     * @return
-     */
-    public function prepareHTMLExporter($a_target_dir)
-    {
-        // system style html exporter
-        $this->sys_style_html_export = new ilSystemStyleHTMLExport($a_target_dir);
-        $this->sys_style_html_export->export();
-
-        // init co page html exporter
-        $this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
-        $this->co_page_html_export->setContentStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId($this->getStyleSheetId())
-        );
-        $this->co_page_html_export->createDirectories();
-        $this->co_page_html_export->exportStyles();
-        $this->co_page_html_export->exportSupportScripts();
-
-        $this->flv_dir = $a_target_dir . "/" . ilPlayerUtil::getFlashVideoPlayerDirectory();
-        
-        ilUtil::makeDir($a_target_dir . '/css/yahoo');
-        ilUtil::makeDir($a_target_dir . '/objects');
-        ilUtil::makeDir($a_target_dir . '/players');
-        ilUtil::makeDir($this->flv_dir);
-
-        ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
-        
-        copy('./Modules/Scorm2004/scripts/scorm_2004.js', $a_target_dir . '/js/scorm.js');
-        copy('./Modules/Scorm2004/scripts/pager.js', $a_target_dir . '/js/pager.js');
-        copy('./Modules/Scorm2004/scripts/questions/pure.js', $a_target_dir . '/js/pure.js');
-        copy(
-            './Modules/Scorm2004/scripts/questions/question_handling.js',
-            $a_target_dir . '/js/question_handling.js'
-        );
-    }
+//    /**
+//     * Prepare HTML exporter
+//     *
+//     * @param
+//     * @return
+//     */
+//    public function prepareHTMLExporter($a_target_dir)
+//    {
+//        // system style html exporter
+//        $this->sys_style_html_export = new ilSystemStyleHTMLExport($a_target_dir);
+//        $this->sys_style_html_export->export();
+//
+//        // init co page html exporter
+//        $this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
+//        $this->co_page_html_export->setContentStyleId(
+//            ilObjStyleSheet::getEffectiveContentStyleId($this->getStyleSheetId())
+//        );
+//        $this->co_page_html_export->createDirectories();
+//        $this->co_page_html_export->exportStyles();
+//        $this->co_page_html_export->exportSupportScripts();
+//
+//        $this->flv_dir = $a_target_dir . "/" . ilPlayerUtil::getFlashVideoPlayerDirectory();
+//
+//        ilUtil::makeDir($a_target_dir . '/css/yahoo');
+//        ilUtil::makeDir($a_target_dir . '/objects');
+//        ilUtil::makeDir($a_target_dir . '/players');
+//        ilUtil::makeDir($this->flv_dir);
+//
+//        ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
+//
+//        copy('./Modules/Scorm2004/scripts/scorm_2004.js', $a_target_dir . '/js/scorm.js');
+//        copy('./Modules/Scorm2004/scripts/pager.js', $a_target_dir . '/js/pager.js');
+//        copy('./Modules/Scorm2004/scripts/questions/pure.js', $a_target_dir . '/js/pure.js');
+//        copy(
+//            './Modules/Scorm2004/scripts/questions/question_handling.js',
+//            $a_target_dir . '/js/question_handling.js'
+//        );
+//    }
     
     /**
      * get public export file
@@ -1836,39 +1838,39 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return $retAr;
     }
     
-    /**
-     * Copy authored content (everything done with the editor
-     *
-     * @param
-     * @return
-     */
-    public function copyAuthoredContent($a_new_obj)
-    {
-        // set/copy stylesheet
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-            $new_id = $style_obj->ilClone();
-            $a_new_obj->setStyleSheetId($new_id);
-            $a_new_obj->update();
-        }
-        
-        $a_new_obj->createScorm2004Tree();
-        $source_tree = $this->getTree();
-        $target_tree_root_id = $a_new_obj->getTree()->readRootId();
-        $childs = $source_tree->getChilds($source_tree->readRootId());
-        $a_copied_nodes = array();
-        foreach ($childs as $c) {
-            ilSCORM2004Node::pasteTree(
-                $a_new_obj,
-                $c["child"],
-                $target_tree_root_id,
-                ilTree::POS_LAST_NODE,
-                "",
-                $a_copied_nodes,
-                true,
-                false
-            );
-        }
-    }
+//    /**
+//     * Copy authored content (everything done with the editor
+//     *
+//     * @param
+//     * @return
+//     */
+//    public function copyAuthoredContent($a_new_obj)
+//    {
+//        // set/copy stylesheet
+//        $style_id = $this->getStyleSheetId();
+//        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
+//            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+//            $new_id = $style_obj->ilClone();
+//            $a_new_obj->setStyleSheetId($new_id);
+//            $a_new_obj->update();
+//        }
+//
+//        $a_new_obj->createScorm2004Tree();
+//        $source_tree = $this->getTree();
+//        $target_tree_root_id = $a_new_obj->getTree()->readRootId();
+//        $childs = $source_tree->getChilds($source_tree->readRootId());
+//        $a_copied_nodes = array();
+//        foreach ($childs as $c) {
+//            ilSCORM2004Node::pasteTree(
+//                $a_new_obj,
+//                $c["child"],
+//                $target_tree_root_id,
+//                ilTree::POS_LAST_NODE,
+//                "",
+//                $a_copied_nodes,
+//                true,
+//                false
+//            );
+//        }
+//    }
 }

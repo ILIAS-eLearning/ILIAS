@@ -172,7 +172,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         }
 
         $firstAndLastnames = array_map(static function (ilOrgUnitUser $user, int $key) : string {
-            return "PhpSup{$key} UnitSup{$key}";
+            return "PhpSup$key UnitSup$key";
         }, $superiors, array_keys($superiors));
 
         $userHelper->expects($this->atLeastOnce())->method('getUsernameMapForIds')

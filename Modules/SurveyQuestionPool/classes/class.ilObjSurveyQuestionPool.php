@@ -283,7 +283,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
         $result_array = array();
         while ($row = $ilDB->fetchObject($result)) {
-            array_push($result_array, $row);
+            $result_array[] = $row;
         }
         return $result_array;
     }
@@ -309,10 +309,10 @@ class ilObjSurveyQuestionPool extends ilObject
         while ($row = $ilDB->fetchAssoc($result)) {
             if ($row["plugin"]) {
                 if ($this->isPluginActive($row["type_tag"])) {
-                    array_push($result_array, $row);
+                    $result_array[] = $row;
                 }
             } else {
-                array_push($result_array, $row);
+                $result_array[] = $row;
             }
         }
         return $result_array;
@@ -350,9 +350,9 @@ class ilObjSurveyQuestionPool extends ilObject
     ) : array {
         $ilDB = $this->db;
         $where = "";
-        if (is_array($arrFilter)) {
+        if (count($arrFilter) > 0) {
             foreach ($arrFilter as $key => $value) {
-                $arrFilter[$key] = str_replace('%', '', $arrFilter[$key]);
+                $arrFilter[$key] = str_replace('%', '', $value);
             }
             if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title'])) {
                 $where .= " AND " . $ilDB->like('svy_question.title', 'text', "%%" . $arrFilter['title'] . "%%");
@@ -377,10 +377,10 @@ class ilObjSurveyQuestionPool extends ilObject
             while ($row = $ilDB->fetchAssoc($query_result)) {
                 if ($row["plugin"]) {
                     if ($this->isPluginActive($row["type_tag"])) {
-                        array_push($rows, $row);
+                        $rows[] = $row;
                     }
                 } else {
-                    array_push($rows, $row);
+                    $rows[] = $row;
                 }
             }
         }
@@ -403,13 +403,13 @@ class ilObjSurveyQuestionPool extends ilObject
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $spl_dir = $spl_data_dir . "/spl_" . $this->getId();
         ilUtil::makeDir($spl_dir);
-        if (!@is_dir($spl_dir)) {
+        if (!is_dir($spl_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
         $export_dir = $spl_dir . "/export";
         ilUtil::makeDir($export_dir);
-        if (!@is_dir($export_dir)) {
+        if (!is_dir($export_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Export Directory failed.");
         }
     }
@@ -453,7 +453,6 @@ class ilObjSurveyQuestionPool extends ilObject
         $dir->close();
         // sort files
         sort($file);
-        reset($file);
 
         return $file;
     }
@@ -475,14 +474,14 @@ class ilObjSurveyQuestionPool extends ilObject
         // create test directory (data_dir/spl_data/spl_<id>)
         $spl_dir = $spl_data_dir . "/spl_" . $this->getId();
         ilUtil::makeDir($spl_dir);
-        if (!@is_dir($spl_dir)) {
+        if (!is_dir($spl_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
         }
 
         // create import subdirectory (data_dir/spl_data/spl_<id>/import)
         $import_dir = $spl_dir . "/import";
         ilUtil::makeDir($import_dir);
-        if (!@is_dir($import_dir)) {
+        if (!is_dir($import_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Import Directory failed.");
         }
     }
@@ -499,20 +498,15 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function toXML(array $questions) : string
     {
-        if (!is_array($questions)) {
-            $questions = $this->getQuestions();
-        }
         if (count($questions) == 0) {
             $questions = $this->getQuestions();
         }
-        $xml = "";
-
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $attrs = array(
             "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-            "xsi:noNamespaceSchemaLocation" => "http://www.ilias.de/download/xsd/ilias_survey_4_2.xsd"
+            "xsi:noNamespaceSchemaLocation" => "https://www.ilias.de/download/xsd/ilias_survey_4_2.xsd"
         );
         $a_xml_writer->xmlStartTag("surveyobject", $attrs);
         $attrs = array(
@@ -528,7 +522,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $a_xml_writer->xmlElement("fieldlabel", null, "SCORM");
         $md = new ilMD($this->getId(), 0, $this->getType());
         $writer = new ilXmlWriter();
-        $md->toXml($writer);
+        $md->toXML($writer);
         $metadata = $writer->xmlDumpMem();
         $a_xml_writer->xmlElement("fieldentry", null, $metadata);
         $a_xml_writer->xmlEndTag("metadatafield");
@@ -563,7 +557,7 @@ class ilObjSurveyQuestionPool extends ilObject
         );
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
-                array_push($questions, $row["question_id"]);
+                $questions[] = $row["question_id"];
             }
         }
         return $questions;
@@ -846,10 +840,11 @@ class ilObjSurveyQuestionPool extends ilObject
         if ($query_result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($query_result)) {
                 if (in_array($data["question_id"], $question_ids)) {
-                    array_push($found, array('id' => $data["question_id"],
-                        'title' => $data["title"],
-                        'description' => $data["description"],
-                        'type_tag' => $data["type_tag"]));
+                    $found[] = array('id' => $data["question_id"],
+                                     'title' => $data["title"],
+                                     'description' => $data["description"],
+                                     'type_tag' => $data["type_tag"]
+                    );
                 }
             }
         }
@@ -876,7 +871,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
     /**
      * Copies a question to the clipboard
-     * @param integer $question_id Object id of the question
+     * @param int $question_id Object id of the question
      */
     public function copyToClipboard(
         int $question_id
@@ -923,12 +918,12 @@ class ilObjSurveyQuestionPool extends ilObject
 
                             // move question data to the new target directory
                             $source_path = CLIENT_WEB_DIR . "/survey/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
-                            if (@is_dir($source_path)) {
+                            if (is_dir($source_path)) {
                                 $target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
-                                if (!@is_dir($target_path)) {
+                                if (!is_dir($target_path)) {
                                     ilUtil::makeDirParents($target_path);
                                 }
-                                @rename($source_path, $target_path . $question_object["question_id"]);
+                                rename($source_path, $target_path . $question_object["question_id"]);
                             }
                         } else {
                             ilUtil::sendFailure($this->lng->txt("spl_move_same_pool"), true);

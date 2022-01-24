@@ -81,8 +81,8 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                     $tasks[] = $this->task_service->derived()->factory()->task(
                         $title,
                         $ref_id,
-                        (int) $access[$survey_id]->getEndDate(),
-                        (int) $access[$survey_id]->getStartDate()
+                        $access[$survey_id]->getEndDate(),
+                        $access[$survey_id]->getStartDate()
                     );
                 }
             }
@@ -100,8 +100,8 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                     $tasks[] = $this->task_service->derived()->factory()->task(
                         $title,
                         $ref_id,
-                        (int) $access[$survey_id]->getEndDate(),
-                        (int) $access[$survey_id]->getStartDate()
+                        $access[$survey_id]->getEndDate(),
+                        $access[$survey_id]->getStartDate()
                     );
                 }
             }
@@ -119,8 +119,8 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                     $tasks[] = $this->task_service->derived()->factory()->task(
                         $title,
                         $ref_id,
-                        (int) $access[$survey_id]->getEndDate(),
-                        (int) $access[$survey_id]->getStartDate()
+                        $access[$survey_id]->getEndDate(),
+                        $access[$survey_id]->getStartDate()
                     );
                 }
             }

@@ -93,9 +93,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // method (maybe dependent on current class/command
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
-        $this->container_filter_service = new ilContainerFilterService();
-        $this->initFilter();
-
         $this->clipboard = $DIC
             ->repository()
             ->internal()
@@ -113,6 +110,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ->domain()
             ->content()
             ->view();
+
+        $this->container_filter_service = new ilContainerFilterService();
+        $this->initFilter();
     }
 
     public function executeCommand()

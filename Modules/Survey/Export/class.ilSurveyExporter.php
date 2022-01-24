@@ -81,7 +81,7 @@ class ilSurveyExporter extends ilXmlExporter
         if ($a_entity == "svy") {
             return array(
                     "4.1.0" => array(
-                            "namespace" => "http://www.ilias.de/Modules/Survey/htlm/4_1",
+                            "namespace" => "https://www.ilias.de/Modules/Survey/htlm/4_1",
                             "xsd_file" => "ilias_svy_4_1.xsd",
                             "uses_dataset" => false,
                             "min" => "4.1.0",
@@ -90,7 +90,7 @@ class ilSurveyExporter extends ilXmlExporter
         } else {
             return array(
                     "5.1.0" => array(
-                            "namespace" => "http://www.ilias.de/Modules/Survey/svy/5_1",
+                            "namespace" => "https://www.ilias.de/Modules/Survey/svy/5_1",
                             "xsd_file" => "ilias_svy_5_1.xsd",
                             "uses_dataset" => true,
                             "min" => "5.1.0",

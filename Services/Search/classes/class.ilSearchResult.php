@@ -30,7 +30,6 @@
 *
 * @package ilias-search
 */
-include_once('Services/Search/classes/class.ilUserSearchCache.php');
 
 
 class ilSearchResult
@@ -517,7 +516,6 @@ class ilSearchResult
      */
     protected function initUserSearchCache() : void
     {
-        include_once('Services/Search/classes/class.ilUserSearchCache.php');
         $this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
         $this->offset = $this->getMaxHits() * ($this->search_cache->getResultPageNumber() - 1) ;
     }

@@ -5,6 +5,19 @@ namespace ILIAS\Filesystem\Security\Sanitizing;
 
 use ilFileUtils;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FilenameSanitizerImpl
  *
@@ -24,7 +37,7 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
      *
      * @var string[] $whitelist
      */
-    private $whitelist;
+    private array $whitelist;
 
 
     /**
@@ -36,7 +49,7 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
 
         // the secure file ending must be valid, therefore add it if it got removed from the white list.
         if (!in_array(FilenameSanitizer::CLEAN_FILE_SUFFIX, $this->whitelist, true)) {
-            array_push($this->whitelist, FilenameSanitizer::CLEAN_FILE_SUFFIX);
+            $this->whitelist[] = FilenameSanitizer::CLEAN_FILE_SUFFIX;
         }
     }
 
@@ -83,7 +96,7 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
      * @param string $filename The filename which should be used to extract the file suffix.
      * @return string The file name suffix in lowercase.
      */
-    private function extractFileSuffix($filename)
+    private function extractFileSuffix(string $filename): string
     {
         return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
     }

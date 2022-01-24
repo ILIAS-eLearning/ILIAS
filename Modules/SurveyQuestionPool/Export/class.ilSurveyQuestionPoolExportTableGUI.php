@@ -74,23 +74,22 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
             $this->tpl->setVariable('CB_ID', $this->counter);
-            $this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($data['file']));
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->setVariable('CB_FILENAME', ilUtil::prepareFormOutput($a_set['file']));
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            $this->tpl->setVariable('HIDDEN_FILENAME', ilUtil::prepareFormOutput($data['file']));
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->setVariable('HIDDEN_FILENAME', ilUtil::prepareFormOutput($a_set['file']));
         }
+        $this->tpl->parseCurrentBlock();
         $this->tpl->setVariable('CB_ID', $this->counter);
-        $this->tpl->setVariable("PHRASE", $data["phrase"]);
-        $this->tpl->setVariable("FILENAME", ilUtil::prepareFormOutput($data['file']));
-        $this->tpl->setVariable("SIZE", $data["size"]);
-        $this->tpl->setVariable("DATE", $data["date"]);
+        $this->tpl->setVariable("PHRASE", $a_set["phrase"]);
+        $this->tpl->setVariable("FILENAME", ilUtil::prepareFormOutput($a_set['file']));
+        $this->tpl->setVariable("SIZE", $a_set["size"]);
+        $this->tpl->setVariable("DATE", $a_set["date"]);
         $this->counter++;
     }
 }

@@ -1,43 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilBadge
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBadge
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $id; // [int]
-    protected $parent_id; // [int]
-    protected $type_id; // [string]
-    protected $active; // [bool]
-    protected $title; // [string]
-    protected $desc; // [string]
-    protected $image; // [string]
-    protected $valid; // [string]
-    protected $config; // [array]
-    protected $criteria; // [string]
+    protected int $id = 0;
+    protected int $parent_id = 0;
+    protected string $type_id = "";
+    protected bool $active = false;
+    protected string $title = "";
+    protected string $desc = "";
+    protected string $image = "";
+    protected string $valid = "";
+    protected array $config = [];
+    protected string $criteria = "";
     
-    /**
-     * Constructor
-     *
-     * @param int $a_id
-     * @return self
-     */
-    public function __construct($a_id = null)
-    {
+    public function __construct(
+        int $a_id = null
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -47,8 +44,10 @@ class ilBadge
         }
     }
     
-    public static function getInstancesByParentId($a_parent_id, array $a_filter = null)
-    {
+    public static function getInstancesByParentId(
+        int $a_parent_id,
+        array $a_filter = null
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -78,8 +77,9 @@ class ilBadge
         return $res;
     }
     
-    public static function getInstancesByType($a_type_id)
-    {
+    public static function getInstancesByType(
+        string $a_type_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -87,7 +87,7 @@ class ilBadge
         $res = array();
         
         $set = $ilDB->query("SELECT * FROM badge_badge" .
-            " WHERE type_id = " . $ilDB->quote($a_type_id) .
+            " WHERE type_id = " . $ilDB->quote($a_type_id, "text") .
             " ORDER BY title");
         while ($row = $ilDB->fetchAssoc($set)) {
             $obj = new self();
@@ -98,16 +98,18 @@ class ilBadge
         return $res;
     }
     
-    public function getTypeInstance()
+    public function getTypeInstance() : ?ilBadgeType
     {
         if ($this->getTypeId()) {
             $handler = ilBadgeHandler::getInstance();
             return $handler->getTypeInstanceByUniqueId($this->getTypeId());
         }
+        return null;
     }
     
-    public function copy($a_new_parent_id)
-    {
+    public function copy(
+        int $a_new_parent_id
+    ) : void {
         $lng = $this->lng;
         
         $this->setTitle($this->getTitle() . " " . $lng->txt("copy_of_suffix"));
@@ -127,8 +129,9 @@ class ilBadge
         }
     }
     
-    public static function getObjectInstances(array $a_filter = null)
-    {
+    public static function getObjectInstances(
+        array $a_filter = null
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -180,87 +183,87 @@ class ilBadge
     // setter/getter
     //
     
-    protected function setId($a_id)
+    protected function setId(int $a_id) : void
     {
-        $this->id = (int) $a_id;
+        $this->id = $a_id;
     }
     
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
     
-    public function setParentId($a_id)
+    public function setParentId(int $a_id) : void
     {
-        $this->parent_id = (int) $a_id;
+        $this->parent_id = $a_id;
     }
     
-    public function getParentId()
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
     
-    public function setTypeId($a_id)
+    public function setTypeId(string $a_id) : void
     {
         $this->type_id = trim($a_id);
     }
     
-    public function getTypeId()
+    public function getTypeId() : string
     {
         return $this->type_id;
     }
     
-    public function setActive($a_value)
+    public function setActive(bool $a_value) : void
     {
-        $this->active = (bool) $a_value;
+        $this->active = $a_value;
     }
     
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->active;
     }
     
-    public function setTitle($a_value)
+    public function setTitle(string $a_value) : void
     {
         $this->title = trim($a_value);
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
     
-    public function setDescription($a_value)
+    public function setDescription(string $a_value) : void
     {
         $this->desc = trim($a_value);
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->desc;
     }
     
-    public function setCriteria($a_value)
+    public function setCriteria(string $a_value) : void
     {
         $this->criteria = trim($a_value);
     }
     
-    public function getCriteria()
+    public function getCriteria() : string
     {
         return $this->criteria;
     }
     
-    public function setValid($a_value)
+    public function setValid(string $a_value) : void
     {
         $this->valid = trim($a_value);
     }
     
-    public function getValid()
+    public function getValid() : string
     {
         return $this->valid;
     }
     
-    public function setConfiguration(array $a_value = null)
+    public function setConfiguration(array $a_value = null) : void
     {
         if (is_array($a_value) &&
             !sizeof($a_value)) {
@@ -269,27 +272,27 @@ class ilBadge
         $this->config = $a_value;
     }
     
-    public function getConfiguration()
+    public function getConfiguration() : array
     {
         return $this->config;
     }
     
-    protected function setImage($a_value)
+    protected function setImage(string $a_value) : void
     {
         $this->image = trim($a_value);
     }
     
-    public function getImage()
+    public function getImage() : string
     {
         return $this->image;
     }
 
     /**
-     * @param array $a_upload_meta
-     * @throws ilFileUtilsException
+     * @throws ilException
      */
-    public function uploadImage(array $a_upload_meta)
-    {
+    public function uploadImage(
+        array $a_upload_meta
+    ) : void {
         if ($this->getId() &&
             $a_upload_meta["tmp_name"]) {
             $this->setImage($a_upload_meta["name"]);
@@ -301,8 +304,10 @@ class ilBadge
         }
     }
     
-    public function importImage($a_name, $a_file)
-    {
+    public function importImage(
+        string $a_name,
+        string $a_file
+    ) : void {
         if (file_exists($a_file)) {
             $this->setImage($a_name);
             copy($a_file, $this->getImagePath()); // #18280
@@ -311,27 +316,25 @@ class ilBadge
         }
     }
     
-    public function getImagePath($a_full_path = true)
-    {
+    public function getImagePath(
+        bool $a_full_path = true
+    ) : string {
         if ($this->getId()) {
-            $suffix = strtolower(array_pop(explode(".", $this->getImage())));
+            $exp = explode(".", $this->getImage());
+            $suffix = strtolower(array_pop($exp));
             if ($a_full_path) {
                 return $this->getFilePath($this->getId()) . "img" . $this->getId() . "." . $suffix;
             } else {
                 return "img" . $this->getId() . "." . $suffix;
             }
         }
+        return "";
     }
     
-    /**
-     * Init file system storage
-     *
-     * @param type $a_id
-     * @param type $a_subdir
-     * @return string
-     */
-    protected function getFilePath($a_id, $a_subdir = null)
-    {
+    protected function getFilePath(
+        int $a_id,
+        string $a_subdir = null
+    ) : string {
         $storage = new ilFSStorageBadge($a_id);
         $storage->create();
         
@@ -353,7 +356,7 @@ class ilBadge
     // crud
     //
     
-    protected function read($a_id)
+    protected function read(int $a_id) : void
     {
         $ilDB = $this->db;
         
@@ -365,8 +368,9 @@ class ilBadge
         }
     }
     
-    protected function importDBRow(array $a_row)
-    {
+    protected function importDBRow(
+        array $a_row
+    ) : void {
         $this->setId($a_row["id"]);
         $this->setParentId($a_row["parent_id"]);
         $this->setTypeId($a_row["type_id"]);
@@ -381,12 +385,13 @@ class ilBadge
                 : null);
     }
     
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
         
         if ($this->getId()) {
-            return $this->update();
+            $this->update();
+            return;
         }
         
         $id = $ilDB->nextId("badge_badge");
@@ -401,12 +406,13 @@ class ilBadge
         $ilDB->insert("badge_badge", $fields);
     }
     
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
         if (!$this->getId()) {
-            return $this->create();
+            $this->create();
+            return;
         }
         
         $fields = $this->getPropertiesForStorage();
@@ -418,7 +424,7 @@ class ilBadge
         );
     }
     
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -438,7 +444,7 @@ class ilBadge
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
     
-    protected function getPropertiesForStorage()
+    protected function getPropertiesForStorage() : array
     {
         return array(
             "active" => array("integer", $this->isActive()),
@@ -458,9 +464,10 @@ class ilBadge
     // helper
     //
     
-    public function getParentMeta()
+    public function getParentMeta() : array
     {
         $parent_type = ilObject::_lookupType($this->getParentId());
+        $parent_title = "";
         if ($parent_type) {
             $parent_title = ilObject::_lookupTitle($this->getParentId());
             $deleted = false;
@@ -487,8 +494,10 @@ class ilBadge
     // PUBLISHING
     //
     
-    protected function prepareJson($a_base_url, $a_img_suffix)
-    {
+    protected function prepareJson(
+        string $a_base_url,
+        string $a_img_suffix
+    ) : stdClass {
         $json = new stdClass();
         $json->{"@context"} = "https://w3id.org/openbadges/v1";
         $json->type = "BadgeClass";
@@ -502,14 +511,15 @@ class ilBadge
         return $json;
     }
     
-    public function getStaticUrl()
+    public function getStaticUrl() : string
     {
         $path = ilBadgeHandler::getInstance()->getBadgePath($this);
         
         $base_url = ILIAS_HTTP_PATH . substr($path, 1);
         
         if (!file_exists($path . "class.json")) {
-            $img_suffix = array_pop(explode(".", $this->getImage()));
+            $exp = explode(".", $this->getImage());
+            $img_suffix = array_pop($exp);
             
             $json = json_encode($this->prepareJson($base_url, $img_suffix));
             file_put_contents($path . "class.json", $json);
@@ -523,7 +533,7 @@ class ilBadge
         return $base_url . "class.json";
     }
 
-    public function deleteStaticFiles()
+    public function deleteStaticFiles() : void
     {
         // remove instance files
         $path = ilBadgeHandler::getInstance()->getBadgePath($this);
@@ -532,8 +542,9 @@ class ilBadge
         }
     }
     
-    public static function getExtendedTypeCaption(ilBadgeType $a_type)
-    {
+    public static function getExtendedTypeCaption(
+        ilBadgeType $a_type
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();

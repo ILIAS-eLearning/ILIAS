@@ -38,12 +38,11 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    /*
-    public function standardRequest() : StandardGUIRequest
+    public function editing() : Editing\GUIService
     {
-        return new StandardGUIRequest(
-            $this->http(),
-            $this->domain_service->refinery()
+        return new Editing\GUIService(
+            $this,
+            $this->domain_service
         );
-    }*/
+    }
 }

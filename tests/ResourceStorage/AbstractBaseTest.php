@@ -15,16 +15,26 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractBaseTest extends TestCase
 {
-    /**
-     * @var IdentificationGenerator
-     */
-    protected $id_generator;
+    protected \ILIAS\ResourceStorage\DummyIDGenerator $id_generator;
     /**
      * @var \ilDBInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -40,9 +50,6 @@ abstract class AbstractBaseTest extends TestCase
         $this->db_mock = $this->getMockBuilder(\ilDBInterface::class)->getMock();
     }
 
-    /**
-     * @return UploadResult
-     */
     protected function getDummyUploadResult(string $file_name, string $mime_type, int $size) : UploadResult
     {
         return new UploadResult(
@@ -60,7 +67,7 @@ abstract class AbstractBaseTest extends TestCase
         return Streams::ofString('dummy_content');
     }
 
-    protected function getDummyFileRevision(ResourceIdentification $id) : Revision
+    protected function getDummyFileRevision(ResourceIdentification $id) : \ILIAS\ResourceStorage\Revision\FileRevision
     {
         return new FileRevision($id);
     }

@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Utility class for scorm export
  *
@@ -12,7 +23,7 @@ class ilScormExportUtil
     /**
      * Export lm content css to a directory
      */
-    public static function exportContentCSS($a_slm_object, $a_target_dir)
+    public static function exportContentCSS($a_slm_object, $a_target_dir) : void
     {
         ilUtil::makeDir($a_target_dir . "/css");
         ilUtil::makeDir($a_target_dir . "/css/images");

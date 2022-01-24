@@ -30,8 +30,6 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             $all_possible = array();
 
             if (!$tree->isDeleted($a_ref_id)) {
-                include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
-
                 if (!$a_full_data) {
                     $data = $tree->getRbacSubTreeInfo($a_ref_id);
                 } else {

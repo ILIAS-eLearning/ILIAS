@@ -91,9 +91,9 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                         ? sprintf("%.2f", $var->perc * 100) . "%"
                         : "0%";
                     
-                    if ((bool) $a_abs && (bool) $a_perc) {
+                    if ($a_abs && $a_perc) {
                         $parsed_row[] = $var->abs . " / " . $perc;
-                    } elseif ((bool) $a_abs) {
+                    } elseif ($a_abs) {
                         $parsed_row[] = $var->abs;
                     } else {
                         $parsed_row[] = $perc;

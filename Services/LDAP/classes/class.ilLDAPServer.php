@@ -56,7 +56,7 @@ class ilLDAPServer
     
     /**
      * Get instance by server id
-     * @param type $a_server_id
+     * @param int $a_server_id
      * @return ilLDAPServer
      */
     public static function getInstanceByServerId($a_server_id)

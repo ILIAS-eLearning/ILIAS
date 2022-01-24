@@ -67,12 +67,28 @@ class InternalGUIService
         );
     }
 
-    public function evaluation(\ilObjSurvey $survey) : Evaluation\UIFactory
+    public function evaluation(\ilObjSurvey $survey) : Evaluation\GUIService
     {
-        return new Evaluation\UIFactory(
+        return new Evaluation\GUIService(
             $this,
             $this->object_service,
             $survey,
+            $this->domain_service
+        );
+    }
+
+    public function editing() : Editing\GUIService
+    {
+        return new Editing\GUIService(
+            $this,
+            $this->domain_service
+        );
+    }
+
+    public function execution() : Execution\GUIService
+    {
+        return new Execution\GUIService(
+            $this,
             $this->domain_service
         );
     }

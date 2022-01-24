@@ -149,11 +149,10 @@ class ilCalendarEntry implements ilDatePeriod
     
     /**
      * get start
-     *
      * @access public
-     * @return
+     * @return ilDateTime
      */
-    public function getStart()
+    public function getStart():ilDateTime
     {
         return $this->start;
     }
@@ -174,7 +173,7 @@ class ilCalendarEntry implements ilDatePeriod
      * @access public
      * @return ilDateTime end
      */
-    public function getEnd()
+    public function getEnd() : ilDateTime
     {
         return $this->end;
     }
@@ -263,7 +262,6 @@ class ilCalendarEntry implements ilDatePeriod
         $title = $style = "";
         switch ($a_type) {
             case "consultationhour":
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilBookingEntry($this->getContextId());
                 if ($entry) {
                     if ($entry->isOwner()) {
@@ -411,7 +409,7 @@ class ilCalendarEntry implements ilDatePeriod
      *
      * @access public
      */
-    public function isFullday()
+    public function isFullday() : bool
     {
         return (bool) $this->fullday;
     }

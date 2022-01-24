@@ -19,6 +19,9 @@
  */
 class ilSurveySkillChangesTableGUI extends ilTable2GUI
 {
+    protected ilSurveySkill $survey_skill;
+    protected ilObjSurvey $survey;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -66,7 +69,7 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $this->setData($new_levels);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         //var_dump($a_set);

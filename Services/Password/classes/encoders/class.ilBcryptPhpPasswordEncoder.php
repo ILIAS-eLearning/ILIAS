@@ -61,11 +61,6 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         return 'bcryptphp';
     }
 
-    public function isSupportedByRuntime() : bool
-    {
-        return parent::isSupportedByRuntime();
-    }
-
     public function getCosts() : string
     {
         return $this->costs;
@@ -73,7 +68,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 
     public function setCosts(string $costs) : void
     {
-        if (!empty($costs)) {
+        if ($costs !== '') {
             $costs = (int) $costs;
             if ($costs < 4 || $costs > 31) {
                 throw new ilPasswordException('The costs parameter of bcrypt must be in range 04-31');

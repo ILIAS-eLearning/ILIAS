@@ -1108,10 +1108,10 @@ class ilObjCategoryGUI extends ilContainerGUI
         $assigned_roles = $rbacreview->assignedRoles($this->cat_request->getObjId());
         foreach ($roles as $role) {
             if (in_array($role['obj_id'], $new_role_ids) and !in_array($role['obj_id'], $assigned_roles)) {
-                $rbacadmin->assignUser($role['obj_id'], $this->cat_request->getObjId());
+                $rbacadmin->assignUser((int) $role['obj_id'], $this->cat_request->getObjId());
             }
             if (in_array($role['obj_id'], $assigned_roles) and !in_array($role['obj_id'], $new_role_ids)) {
-                $rbacadmin->deassignUser($role['obj_id'], $this->cat_request->getObjId());
+                $rbacadmin->deassignUser((int) $role['obj_id'], $this->cat_request->getObjId());
             }
         }
         ilUtil::sendSuccess($this->lng->txt('role_assignment_updated'));

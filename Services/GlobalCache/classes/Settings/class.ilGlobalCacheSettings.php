@@ -1,9 +1,9 @@
 <?php
+
 use ILIAS\Setup;
 
 /**
  * Class ilGlobalCacheSettings
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -58,8 +58,7 @@ class ilGlobalCacheSettings implements Setup\Config
      */
     protected array $memcached_nodes = [];
 
-
-    public function readFromIniFile(ilIniFile $ilIniFile): void
+    public function readFromIniFile(ilIniFile $ilIniFile) : void
     {
         $this->checkIniHeader($ilIniFile);
         $this->setActive($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE));
@@ -79,100 +78,95 @@ class ilGlobalCacheSettings implements Setup\Config
         }
     }
 
-
-    public function writeToIniFile(ilIniFile $ilIniFile): void
+    public function writeToIniFile(ilIniFile $ilIniFile) : void
     {
-        $ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE, $this->isActive() ? '1' : '0');
+        $ilIniFile->setVariable(
+            self::INI_HEADER_CACHE,
+            self::INI_FIELD_ACTIVATE_GLOBAL_CACHE,
+            $this->isActive() ? '1' : '0'
+        );
         $ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE, $this->getService());
         $ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_LOG_LEVEL, $this->getLogLevel());
 
         $ilIniFile->removeGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
         $ilIniFile->addGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
         foreach (ilGlobalCache::getAvailableComponents() as $comp) {
-            $ilIniFile->setVariable(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS, $comp, $this->isComponentActivated($comp) ? '1' : '0');
+            $ilIniFile->setVariable(
+                self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS,
+                $comp,
+                $this->isComponentActivated($comp) ? '1' : '0'
+            );
         }
         if ($ilIniFile->write()) {
             ilGlobalCache::log('saved new settings: ' . $this->__toString(), self::LOG_LEVEL_FORCED);
         }
     }
 
-
-    public function activateAll(): void
+    public function activateAll() : void
     {
         foreach (ilGlobalCache::getAvailableComponents() as $comp) {
             $this->addActivatedComponent($comp);
         }
     }
 
-
     /**
-     * @param $component
+     * @param mixed $component
      */
-    public function addActivatedComponent($component): void
+    public function addActivatedComponent($component) : void
     {
         $this->activated_components[] = $component;
         $this->activated_components = array_unique($this->activated_components);
     }
 
-
-    public function resetActivatedComponents(): void
+    public function resetActivatedComponents() : void
     {
         $this->activated_components = array();
     }
 
-
     /**
-     * @param $component
+     * @param mixed $component
      */
-    public function isComponentActivated($component): bool
+    public function isComponentActivated($component) : bool
     {
         return in_array($component, $this->activated_components);
     }
 
-
-    public function areAllComponentActivated(): bool
+    public function areAllComponentActivated() : bool
     {
         return count($this->activated_components) === count(ilGlobalCache::getAvailableComponents());
     }
 
-
-    public function getService(): int
+    public function getService() : int
     {
         return $this->service;
     }
 
-
-    public function setService(int $service): void
+    public function setService(int $service) : void
     {
         $this->service = $service;
     }
 
-
-    public function getActivatedComponents(): array
+    public function getActivatedComponents() : array
     {
         return $this->activated_components;
     }
 
-
-    public function setActivatedComponents(array $activated_components): void
+    public function setActivatedComponents(array $activated_components) : void
     {
         $this->activated_components = $activated_components;
     }
 
-
-    public function isActive(): bool
+    public function isActive() : bool
     {
         return $this->active;
     }
 
-
-    public function setActive(bool $active): void
+    public function setActive(bool $active) : void
     {
         $this->active = $active;
     }
 
-
-    protected function checkIniHeader(ilIniFile $ilIniFile): void
+    protected function checkIniHeader(ilIniFile $ilIniFile) : void
     {
         if (!$ilIniFile->readGroup(self::INI_HEADER_CACHE)) {
             $ilIniFile->addGroup(self::INI_HEADER_CACHE);
@@ -182,39 +176,31 @@ class ilGlobalCacheSettings implements Setup\Config
         }
     }
 
-
-    public function getLogLevel(): int
+    public function getLogLevel() : int
     {
         return $this->log_level;
     }
 
-
-    public function setLogLevel(int $log_level): void
+    public function setLogLevel(int $log_level) : void
     {
         $this->log_level = $log_level;
     }
 
-
-    public function __toString()
+    public function __toString() : string
     {
         $service = 'Service: ' . ($this->getService() > 0 ? ilGlobalCache::lookupServiceClassName($this->getService()) : 'none');
         $activated = 'Activated Components: ' . implode(', ', $this->getActivatedComponents());
         $log_level = 'Log Level: ' . $this->getLogLevelName();
 
-        return implode("\n", array( '', '', $service, $activated, $log_level, '' ));
+        return implode("\n", array('', '', $service, $activated, $log_level, ''));
     }
 
-
-    protected function getLogLevelName(): string
+    protected function getLogLevelName() : string
     {
         return $this->lookupLogLevelName($this->getLogLevel());
     }
 
-
-    /**
-     * @param $level
-     */
-    protected function lookupLogLevelName($level): string
+    protected function lookupLogLevelName(int $level) : string
     {
         $r = new ReflectionClass($this);
         foreach ($r->getConstants() as $k => $v) {
@@ -231,9 +217,6 @@ class ilGlobalCacheSettings implements Setup\Config
         $this->memcached_nodes[] = $node_id;
     }
 
-    /**
-     * @return ilMemcacheServer[]
-     */
     public function getMemcachedNodes() : array
     {
         return $this->memcached_nodes;

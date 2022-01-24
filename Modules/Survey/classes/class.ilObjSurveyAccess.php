@@ -53,8 +53,8 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 } else {
                     return false;
                 }
-                break;
 
+                // no break
             default:
                 return true;
         }
@@ -78,7 +78,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             case "read":
                 if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id) &&
                     !$is_admin) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 break;
@@ -87,23 +87,22 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         switch ($a_cmd) {
             case "run":
                 if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 break;
 
             case "evaluation":
                 if (!ilObjSurveyAccess::_lookupCreationComplete($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 if ($rbacsystem->checkAccess("write", $a_ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($a_obj_id, $a_user_id)) {
                     return true;
                 } else {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
                     return false;
                 }
-                break;
         }
 
         return true;
@@ -141,10 +140,11 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             array($a_obj_id)
         );
 
+        $row = null;
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
         }
-        if (!$row["complete"]) {
+        if (is_null($row) || !$row["complete"]) {
             return false;
         }
         return true;
@@ -166,9 +166,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         );
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
+            return (int) $row["evaluation_access"];
         }
-
-        return (int) $row["evaluation_access"];
+        return 0;
     }
     
     public static function _isSurveyParticipant(
@@ -218,14 +218,14 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             $svy = new ilObjSurvey($a_obj_id, false);
             $svy->read();
             switch ($svy->get360Results()) {
+                case ilObjSurvey::RESULTS_360_ALL:
                 case ilObjSurvey::RESULTS_360_NONE:
                     return false;
 
                 case ilObjSurvey::RESULTS_360_OWN:
                     return true;
 
-                case ilObjSurvey::RESULTS_360_ALL:
-                    return false;   // not applicable
+                // not applicable
             }
         }
 
@@ -233,7 +233,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             case 0:
                 // no evaluation access
                 return false;
-                break;
             case 1:
                 // evaluation access for all registered users
                 if (($user_id > 0) && ($user_id != ANONYMOUS_USER_ID)) {
@@ -241,7 +240,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 } else {
                     return false;
                 }
-                break;
+                // no break
             case 2:
                 switch ($svy_mode) {
                     case ilObjSurvey::MODE_360:
@@ -283,8 +282,8 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                             default:
                                 return true;
                         }
-                        break;
 
+                        // no break
                     default:
                         // evaluation access for participants
                         // check if the user with the given id is a survey participant
@@ -311,10 +310,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                             }
                         }
                         return false;
-                        break;
                 }
-                break;
         }
+        return false;
     }
 
 
@@ -386,9 +384,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
+            return (int) $row["mode"];
         }
 
-        return (int) $row["mode"];
+        return 0;
     }
     
     public static function _lookup360Mode(
@@ -414,6 +413,12 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     {
         global $DIC;
 
+        $request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->execution()
+            ->request();
+
         $ilAccess = $DIC->access();
         
         $t_arr = explode("_", $a_target);
@@ -423,8 +428,8 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         }
         
         // 360° external raters
-        if ($_GET["accesscode"]) {
-            if (ilObjSurvey::validateExternalRaterCode($t_arr[1], $_GET["accesscode"])) {
+        if ($request->getAccessCode()) {
+            if (ilObjSurvey::validateExternalRaterCode($t_arr[1], $request->getAccessCode())) {
                 return true;
             }
         }

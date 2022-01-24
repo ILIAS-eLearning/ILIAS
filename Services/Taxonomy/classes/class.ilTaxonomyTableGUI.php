@@ -82,7 +82,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, array("order_nr"))) {
             return true;
@@ -93,7 +93,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 

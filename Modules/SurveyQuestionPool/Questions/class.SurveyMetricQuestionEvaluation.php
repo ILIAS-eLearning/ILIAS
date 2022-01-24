@@ -59,12 +59,12 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     ) : array {
         $lng = $this->lng;
         
-        if ($a_abs && (bool) $a_perc) {
+        if ($a_abs && $a_perc) {
             $cols = array(
                 $lng->txt("category_nr_selected"),
                 $lng->txt("svy_fraction_of_selections")
             );
-        } elseif ((bool) $a_abs) {
+        } elseif ($a_abs) {
             $cols = array(
                 $lng->txt("category_nr_selected")
             );
@@ -81,36 +81,35 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         
         // as we have no variables build rows from answers directly
         $answ = $a_results->getAnswers();
-        if (is_array($answ)) {
-            $total = count($answ);
-            if ($total > 0) {
-                $cumulated = array();
-                foreach ($a_results->getAnswers() as $answer) {
-                    $cumulated[$answer->value]++;
-                }
-                foreach ($cumulated as $value => $count) {
-                    $perc = sprintf("%.2f", $count / $total * 100) . "%";
-                    if ((bool) $a_abs && (bool) $a_perc) {
-                        $res["rows"][] = array(
-                            $value,
-                            $count,
-                            $perc
-                        );
-                    } elseif ((bool) $a_abs) {
-                        $res["rows"][] = array(
-                            $value,
-                            $count
-                        );
-                    } else {
-                        $res["rows"][] = array(
-                            $value,
-                            $perc
-                        );
-                    }
+        $total = count($answ);
+
+        if ($total > 0) {
+            $cumulated = array();
+            foreach ($a_results->getAnswers() as $answer) {
+                $cumulated[$answer->value]++;
+            }
+            foreach ($cumulated as $value => $count) {
+                $perc = sprintf("%.2f", $count / $total * 100) . "%";
+                if ($a_abs && $a_perc) {
+                    $res["rows"][] = array(
+                        $value,
+                        $count,
+                        $perc
+                    );
+                } elseif ($a_abs) {
+                    $res["rows"][] = array(
+                        $value,
+                        $count
+                    );
+                } else {
+                    $res["rows"][] = array(
+                        $value,
+                        $perc
+                    );
                 }
             }
         }
-        
+
         return $res;
     }
 
@@ -128,7 +127,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $chart->setColors($colors);
 
         // :TODO:
-        $chart->setsize($this->chart_width, $this->chart_height);
+        $chart->setSize($this->chart_width, $this->chart_height);
                         
         $data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
         $data->setLabel($lng->txt("category_nr_selected"));
@@ -209,7 +208,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $a_results
     ) : void {
         $answer = $a_results->getUserResults($a_user_id);
-        if ($answer === null) {
+        if (count($answer) == 0) {
             $a_row[] = $this->getSkippedValue();
         } else {
             $a_row[] = $answer[0][0];

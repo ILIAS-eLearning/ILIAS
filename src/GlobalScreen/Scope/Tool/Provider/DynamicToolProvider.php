@@ -8,15 +8,13 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 
 /**
  * Interface DynamicToolProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface DynamicToolProvider extends Provider, ScreenContextAwareProvider
 {
-
+    
     /**
      * @param CalledContexts $called_contexts
-     *
      * @return Tool[] These Slates
      * can be passed to the MainMenu dynamic for a specific location/context.
      * @see DynamicProvider

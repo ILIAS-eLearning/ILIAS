@@ -74,9 +74,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_category_row.html", "Services/Calendar");
         $this->disable('sort');
-        if (!$ilUser->prefs["screen_reader_optimization"]) {
-            $this->disable('header');
-        }
+        $this->disable('header');
 
         //$this->setShowRowsSelector(true);
         $this->disable('numinfo');
@@ -93,12 +91,11 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         if (!$a_set['hidden']) {

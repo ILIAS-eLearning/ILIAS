@@ -119,7 +119,17 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
         }
         if (array_key_exists('neutral', $a_value)) {
-            $this->values->addCategory($a_value['neutral'], 0, 1, null, $_POST[$this->postvar . '_neutral_scale']);
+            $scale = $this->str($this->postvar . '_neutral_scale');
+            $scale = ($scale == "")
+                ? null
+                : (int) $scale;
+            $this->values->addCategory(
+                $a_value['neutral'],
+                0,
+                1,
+                null,
+                $scale
+            );
         }
     }
 
@@ -186,11 +196,11 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     public function checkInput() : bool
     {
         $lng = $this->lng;
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
-        $foundvalues = $_POST[$this->getPostVar()];
-        if (is_array($foundvalues)) {
+        $foundvalues = $this->getInput();
+        $neutral_scale = $this->getNeutralScaleInput();
+        $neutral = $this->getNeutralInput();
+
+        if (count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
@@ -202,7 +212,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
             // check neutral column
             if (array_key_exists('neutral', $foundvalues)) {
-                if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired())) {
+                if ((strlen($neutral) == 0) && ($this->getRequired())) {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;
                 }
@@ -229,9 +239,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
 
             // check neutral column scale
-            if (strlen($_POST[$this->postvar . '_neutral_scale'])) {
+            if ($neutral_scale != "") {
                 if (is_array($foundvalues['scale'])) {
-                    if (in_array($_POST[$this->postvar . '_neutral_scale'], $foundvalues['scale'])) {
+                    if (in_array($neutral_scale, $foundvalues['scale'])) {
                         $this->setAlert($lng->txt("msg_duplicate_scale"));
                         return false;
                     }
@@ -244,6 +254,24 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         return $this->checkSubItemsInput();
     }
 
+    public function getInput() : array
+    {
+        $val = $this->arrayArray($this->getPostVar());
+        $val = ilUtil::stripSlashesRecursive($val);
+        return $val;
+    }
+
+    public function getNeutralScaleInput() : string
+    {
+        return $this->str($this->getPostVar() . '_neutral_scale');
+    }
+
+    public function getNeutralInput() : string
+    {
+        $val = $this->strArray($this->getPostVar());
+        return $val["neutral"];
+    }
+
     public function insert(
         ilTemplate $a_tpl
     ) : void {
@@ -251,7 +279,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         
         $neutral_category = null;
         $tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
-        $i = 0;
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
@@ -377,7 +404,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $a_tpl->parseCurrentBlock();
         
         $tpl = $this->tpl;
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");
+        $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavaScript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");
     }
 }

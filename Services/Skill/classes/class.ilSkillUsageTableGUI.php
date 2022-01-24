@@ -26,16 +26,12 @@ use ILIAS\Skill\Tree;
  */
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilBasicSkillTreeRepository $tree_repo;
     protected Tree\SkillTreeFactory $tree_factory;
     protected Tree\SkillTreeManager $tree_manager;
-    protected int $skill_id;
-    protected int $tref_id;
+    protected int $skill_id = 0;
+    protected int $tref_id = 0;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id, array $a_usage, $a_mode = "")
     {
@@ -85,7 +81,7 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));

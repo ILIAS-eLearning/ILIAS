@@ -94,7 +94,7 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("NAME", $a_set["name"]);
         $this->tpl->setVariable("LOGIN", $a_set["login"]);

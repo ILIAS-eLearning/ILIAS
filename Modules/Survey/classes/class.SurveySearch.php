@@ -75,23 +75,22 @@ class SurveySearch
             $where = "svy_qtype.type_tag = " . $ilDB->quote($this->search_type, 'text');
         }
         foreach ($this->search_terms as $term) {
+            $fields["$term"] = array();
             switch ($this->search_field) {
                 case "all":
-                    $fields["$term"] = array();
-                    array_push($fields["$term"], $ilDB->like("svy_question.title", 'text', "%" . $term . "%"));
-                    array_push($fields["$term"], $ilDB->like("svy_question.description", 'text', "%" . $term . "%"));
-                    array_push($fields["$term"], $ilDB->like("svy_question.author", 'text', "%" . $term . "%"));
-                    array_push($fields["$term"], $ilDB->like("svy_question.questiontext", 'text', "%" . $term . "%"));
+                    $fields["$term"][] = $ilDB->like("svy_question.title", 'text', "%" . $term . "%");
+                    $fields["$term"][] = $ilDB->like("svy_question.description", 'text', "%" . $term . "%");
+                    $fields["$term"][] = $ilDB->like("svy_question.author", 'text', "%" . $term . "%");
+                    $fields["$term"][] = $ilDB->like("svy_question.questiontext", 'text', "%" . $term . "%");
                     break;
                 default:
-                    $fields["$term"] = array();
-                    array_push($fields["$term"], $ilDB->like("svy_question." . $this->search_field, 'text', "%" . $term . "%"));
+                    $fields["$term"][] = $ilDB->like("svy_question." . $this->search_field, 'text', "%" . $term . "%");
                     break;
             }
         }
         $cumulated_fields = array();
         foreach ($fields as $params) {
-            array_push($cumulated_fields, "(" . join(" OR ", $params) . ")");
+            $cumulated_fields[] = "(" . join(" OR ", $params) . ")";
         }
         $str_where = "";
         if ($this->concatenation == self::CONCAT_AND) {
@@ -114,7 +113,7 @@ class SurveySearch
         if ($result->numRows() > 0) {
             while ($row = $ilDB->fetchAssoc($result)) {
                 if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_id"]))) {
-                    array_push($result_array, $row);
+                    $result_array[] = $row;
                 }
             }
         }
