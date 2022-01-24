@@ -6,7 +6,6 @@ use ILIAS\UI\Renderer;
 
 /**
  * Show calendar subscription info
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id$
  */
@@ -79,7 +78,6 @@ class ilCalendarSubscriptionGUI
 
     private function createToken($user_id, $selection, $id) : string
     {
-        include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.php';
         $hash = ilCalendarAuthenticationToken::lookupAuthToken($user_id, $selection, $id);
         if (strlen($hash)) {
             return $hash;
@@ -100,7 +98,6 @@ class ilCalendarSubscriptionGUI
         );
 
         $tpl->setVariable('TXT_SUBSCRIPTION_INFO', $this->lng->txt('cal_subscription_info'));
-
 
         if ($this->cal_id > 0) {
             $selection = ilCalendarAuthenticationToken::SELECTION_CALENDAR;

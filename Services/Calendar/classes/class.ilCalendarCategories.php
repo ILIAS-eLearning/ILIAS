@@ -21,13 +21,11 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* class for calendar categories
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesCalendar
-*/
+ * class for calendar categories
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarCategories
 {
     public const MODE_UNDEFINED = 0;
@@ -236,8 +234,7 @@ class ilCalendarCategories
         int $a_source_ref_id = 0,
         bool $a_use_cache = false,
         int $a_cat_id = 0
-    ) : void
-    {
+    ) : void {
         if ($this->getMode() != 0) {
             throw new ilCalCategoriesInitializedMultipleException("ilCalendarCategories is initialized multiple times for user " . $this->user_id . ".");
         }
@@ -259,7 +256,6 @@ class ilCalendarCategories
 
         switch ($this->getMode()) {
             case self::MODE_REMOTE_ACCESS:
-                include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
                 if (ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP) {
                     $this->readPDCalendars();
                 } else {
@@ -414,7 +410,7 @@ class ilCalendarCategories
      */
     public function isVisible($a_cat_id) : bool
     {
-        return in_array($a_cat_id, $this->categories) ||  in_array($a_cat_id, $this->subitem_categories);
+        return in_array($a_cat_id, $this->categories) || in_array($a_cat_id, $this->subitem_categories);
     }
 
     /**
@@ -460,7 +456,8 @@ class ilCalendarCategories
         $groups = array();
         $sessions = array();
         $exercises = array();
-        foreach ($this->fav_rep->getFavouritesOfUser($this->user->getId(), array('crs', 'grp', 'sess', 'exc')) as $item) {
+        foreach ($this->fav_rep->getFavouritesOfUser($this->user->getId(),
+            array('crs', 'grp', 'sess', 'exc')) as $item) {
             if ($this->access->checkAccess('read', '', $item['ref_id'])) {
                 switch ($item['type']) {
                     case 'crs':
@@ -630,7 +627,6 @@ class ilCalendarCategories
         }
 
         // Read shared calendars
-        include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
         $accepted_ids = ilCalendarSharedStatus::getAcceptedCalendars($this->user->getId());
         if (!$cat_ids = array_merge($cat_ids, $accepted_ids)) {
             return;
@@ -655,7 +651,6 @@ class ilCalendarCategories
             $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
             $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
 
-            include_once './Services/Calendar/classes/class.ilCalendarShared.php';
             if (in_array((int) $row->cat_id, $accepted_ids)) {
                 $shared = new ilCalendarShared((int) $row->cat_id);
                 if ($shared->isEditableForUser($this->user->getId())) {

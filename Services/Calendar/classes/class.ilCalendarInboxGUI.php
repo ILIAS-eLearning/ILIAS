@@ -21,15 +21,11 @@
         +-----------------------------------------------------------------------------+
 */
 
-
-
-
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
-* @ingroup ServicesCalendar
-*/
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
+ * @ingroup      ServicesCalendar
+ */
 class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
     protected ?ilCalendarUserSettings $user_settings;
@@ -38,7 +34,6 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
 
     /**
      * Constructor
-     *
      * @access public
      * @param
      */
@@ -67,14 +62,12 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-                
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+
                 $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
                 $this->ctrl->forwardCommand($app);
                 break;
 
             case 'ilcalendaragendalistgui':
-                include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
                 $cal_list = new ilCalendarAgendaListGUI($this->seed);
                 $html = $this->ctrl->forwardCommand($cal_list);
                 // this fixes 0027035 since many methods ilCalendarAppointmentGUI set their own content.
@@ -90,7 +83,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
                 break;
         }
     }
-    
+
     protected function inbox()
     {
         $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'Services/Calendar');

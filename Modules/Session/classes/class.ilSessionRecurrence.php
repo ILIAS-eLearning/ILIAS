@@ -50,9 +50,8 @@ class ilSessionRecurrence extends ilCalendarRecurrence
      *
      * @access public
      */
-    public function save()
+    public function save() : void
     {
-        return false;
     }
 
     /**
@@ -60,9 +59,8 @@ class ilSessionRecurrence extends ilCalendarRecurrence
      *
      * @access public
      */
-    public function update()
+    public function update() : void
     {
-        return false;
     }
 
     /**
@@ -70,8 +68,7 @@ class ilSessionRecurrence extends ilCalendarRecurrence
      *
      * @access public
      */
-    public function delete()
+    public function delete() : void
     {
-        return false;
     }
 }

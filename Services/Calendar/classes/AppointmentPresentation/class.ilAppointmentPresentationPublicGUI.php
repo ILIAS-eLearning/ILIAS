@@ -1,16 +1,11 @@
 <?php declare(strict_types=1);
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
 /**
  * ilAppointmentPresentationPublicGUI class presents modal information for public appointments.
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationPublicGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
@@ -30,7 +25,6 @@ class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI im
         if ($cat_info != null) {
             $this->addCalendarInfo($cat_info);
         }
-
 
         $this->addInfoSection($this->lng->txt("cal_app_info"));
 

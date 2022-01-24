@@ -22,10 +22,9 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesCalendar
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilICalUtils
 {
     public const ICAL_EOL = "\r\n";

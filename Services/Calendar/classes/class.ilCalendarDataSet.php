@@ -3,8 +3,7 @@
 
 /**
  * Calendar data set class.
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ingroup ServicesCalendar
  */
@@ -44,7 +43,7 @@ class ilCalendarDataSet extends ilDataSet
                     );
             }
         }
-        
+
         // calendar entry
         if ($a_entity == "cal_entry") {
             switch ($a_version) {
@@ -68,7 +67,7 @@ class ilCalendarDataSet extends ilDataSet
                     );
             }
         }
-        
+
         // calendar/entry assignment
         if ($a_entity == "cal_assignment") {
             switch ($a_version) {
@@ -79,7 +78,7 @@ class ilCalendarDataSet extends ilDataSet
                     );
             }
         }
-        
+
         // recurrence rule
         if ($a_entity == "recurrence_rule") {
             switch ($a_version) {
@@ -129,7 +128,7 @@ class ilCalendarDataSet extends ilDataSet
                     break;
             }
         }
-        
+
         // cal assignments
         if ($a_entity == "cal_assignment") {
             switch ($a_version) {
@@ -141,7 +140,7 @@ class ilCalendarDataSet extends ilDataSet
                     break;
             }
         }
-        
+
         // cal entries
         if ($a_entity == "cal_entry") {
             switch ($a_version) {
@@ -155,7 +154,6 @@ class ilCalendarDataSet extends ilDataSet
             }
         }
 
-        
         // recurrence_rule
         if ($a_entity == "recurrence_rule") {
             switch ($a_version) {
@@ -169,7 +167,7 @@ class ilCalendarDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -181,7 +179,6 @@ class ilCalendarDataSet extends ilDataSet
     ) : array {
         switch ($a_entity) {
             case "calendar":
-                include_once("./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php");
                 $assignmnts = ilCalendarCategoryAssignments::_getAssignedAppointments(array($a_rec["CatId"]));
                 $entries = array();
                 foreach ($assignmnts as $cal_id) {
@@ -209,8 +206,7 @@ class ilCalendarDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void
-    {
+    ) : void {
         switch ($a_entity) {
             case "calendar":
                 // please note: we currently only support private user calendars to
@@ -218,7 +214,6 @@ class ilCalendarDataSet extends ilDataSet
                 if ($a_rec["Type"] == 1) {
                     $usr_id = (int) $a_mapping->getMapping("Services/User", "usr", $a_rec["ObjId"]);
                     if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
-                        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
                         $category = new ilCalendarCategory(0);
                         $category->setTitle($a_rec["Title"]);
                         $category->setColor($a_rec["Color"]);
@@ -239,7 +234,6 @@ class ilCalendarDataSet extends ilDataSet
                 // please note: we currently only support private user calendars to
                 // be imported
                 if ((int) $a_rec["ContextId"] == 0) {
-                    include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
                     $entry = new ilCalendarEntry(0);
                     $entry->setTitle($a_rec["Title"]);
                     $entry->setSubtitle($a_rec["Subtitle"]);
@@ -268,21 +262,19 @@ class ilCalendarDataSet extends ilDataSet
                     );
                 }
                 break;
-                
+
             case "cal_assignment":
                 $cat_id = (int) $a_mapping->getMapping("Services/Calendar", "calendar", $a_rec["CatId"]);
                 $entry_id = (int) $a_mapping->getMapping("Services/Calendar", "cal_entry", $a_rec["EntryId"]);
                 if ($cat_id > 0 && $entry_id > 0) {
-                    include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
                     $ass = new ilCalendarCategoryAssignments($entry_id);
                     $ass->addAssignment($cat_id);
                 }
                 break;
-                
+
             case "recurrence_rule":
                 $entry_id = $a_mapping->getMapping("Services/Calendar", "cal_entry", $a_rec["EntryId"]);
                 if ($entry_id > 0) {
-                    include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
                     $rec = new ilCalendarRecurrence();
                     $rec->setEntryId((int) $entry_id);
                     $rec->setRecurrence($a_rec["CalRecurrence"]);

@@ -17,7 +17,7 @@ class ilConsultationHourGroups
 
         $ilDB = $DIC->database();
         $query = 'SELECT grp_id FROM cal_ch_group ' .
-                'WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer');
+            'WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer');
         $res = $ilDB->query($query);
         $groups = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -35,14 +35,13 @@ class ilConsultationHourGroups
 
         $ilDB = $DIC->database();
         $query = 'SELECT COUNT(grp_id) num FROM cal_ch_group ' .
-                'WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer') . ' ' .
-                'GROUP BY grp_id';
-        
+            'WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer') . ' ' .
+            'GROUP BY grp_id';
+
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return (int) $row->num;
     }
-    
 
     /**
      * Lookup group title
@@ -53,7 +52,7 @@ class ilConsultationHourGroups
 
         $ilDB = $DIC['ilDB'];
         $query = 'SELECT title from cal_ch_group ' .
-                'WHERE grp_id = ' . $ilDB->quote($a_group_id, 'integer');
+            'WHERE grp_id = ' . $ilDB->quote($a_group_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->title;
@@ -70,14 +69,13 @@ class ilConsultationHourGroups
 
         $ilDB = $DIC['ilDB'];
         $query = 'SELECT multiple_assignments from cal_ch_group ' .
-                'WHERE grp_id = ' . $ilDB->quote($a_group_id, 'integer');
+            'WHERE grp_id = ' . $ilDB->quote($a_group_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->multiple_assignments;
         }
         return 0;
     }
-
 
     /**
      * Get group selection options

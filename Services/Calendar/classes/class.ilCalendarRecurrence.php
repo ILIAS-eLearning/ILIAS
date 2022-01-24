@@ -22,35 +22,32 @@
 */
 
 /**
-* Model of calendar entry recurrcences
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * Model of calendar entry recurrcences
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 {
     protected const REC_RECURRENCE = 0;
     protected const REC_EXCLUSION = 1;
-    
+
     public const FREQ_DAILY = 'DAILY';
     public const FREQ_WEEKLY = 'WEEKLY';
     public const FREQ_MONTHLY = 'MONTHLY';
     public const FREQ_YEARLY = 'YEARLY';
 
     protected ilDBInterface $db;
-    
+
     private int $recurrence_id = 0;
     private int $cal_id = 0;
     private int $recurrence_type = 0;
-    
+
     private string $freq_type = '';
     private string $freq_until_type = '';
     private ?ilDate $freq_until_date = null;
     private int $freq_until_count = 0;
-    
+
     private int $interval = 1;
     private string $byday = '';
     private string $byweekno = '';
@@ -59,9 +56,9 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     private string $byyearday = '';
     private string $bysetpos = '';
     private string $weekstart = '';
-    
+
     private $exclusion_dates = array();
-    
+
     private string $timezone = 'Europe/Berlin';
 
     public function __construct(int $a_rec_id = 0)
@@ -83,16 +80,15 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $query = "DELETE FROM cal_recurrence_rules " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
+
         ilCalendarRecurrenceExclusions::delete($a_cal_id);
     }
-    
+
     /**
      * Get ical presentation for calendar recurrence
      */
     public function toICal(int $a_user_id) : string
     {
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $entry = new ilCalendarEntry($this->getEntryId());
 
         if (!$this->getFrequenceType()) {
@@ -101,7 +97,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 
         $ical = 'RRULE:';
         $ical .= ('FREQ=' . $this->getFrequenceType());
-        
+
         if ($this->getInterval()) {
             $ical .= (';INTERVAL=' . $this->getInterval());
         }
@@ -136,8 +132,6 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 
         // Required in outlook
         if ($this->getBYDAY()) {
-            include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-            include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
             $us = ilCalendarUserSettings::_getInstanceByUserId($a_user_id);
             if ($us->getWeekStart() == ilCalendarSettings::WEEK_START_MONDAY) {
                 $ical .= (';WKST=MO');
@@ -148,8 +142,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 
         return $ical;
     }
-    
-    
+
     /**
      * reset all settings
      */
@@ -165,94 +158,91 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $this->setInterval(1);
         $this->setFrequenceUntilCount(0);
     }
-    
+
     public function getRecurrenceId() : int
     {
         return $this->recurrence_id;
     }
-    
-    
+
     public function setEntryId(int $a_id) : void
     {
         $this->cal_id = $a_id;
     }
-    
+
     public function getEntryId() : int
     {
         return $this->cal_id;
     }
-    
+
     /**
      * set type of recurrence
-     *
      * @access public
      * @param int REC_RECURRENCE or REC_EXLUSION defines whther the current object is a recurrence an exclusion pattern
-     *
      */
     public function setRecurrence(int $a_type) : void
     {
         $this->recurrence_type = $a_type;
     }
-    
+
     public function isRecurrence() : bool
     {
         return $this->recurrence_type == self::REC_RECURRENCE;
     }
-    
+
     public function setFrequenceType(string $a_type) : void
     {
         $this->freq_type = $a_type;
     }
-    
+
     public function getFrequenceType() : string
     {
         return $this->freq_type;
     }
-    
+
     public function getFrequenceUntilDate() : ?ilDate
     {
         return is_object($this->freq_until_date) ? $this->freq_until_date : null;
     }
-    
+
     public function setFrequenceUntilDate(ilDateTime $a_date = null) : void
     {
         $this->freq_until_date = $a_date;
     }
-    
+
     public function setFrequenceUntilCount(int $a_count) : void
     {
         $this->freq_until_count = $a_count;
     }
-    
+
     public function getFrequenceUntilCount() : int
     {
         return $this->freq_until_count;
     }
-    
+
     public function setInterval(int $a_interval) : void
     {
         $this->interval = $a_interval;
     }
-    
+
     public function getInterval() : int
     {
         return $this->interval;
     }
-    
+
     public function setBYDAY(string $a_byday) : void
     {
         $this->byday = $a_byday;
     }
-    
+
     public function getBYDAY() : string
     {
         return $this->byday;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getBYDAYList(): array
+    public function getBYDAYList() : array
     {
         if (!trim($this->getBYDAY())) {
             return array();
@@ -264,12 +254,11 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $bydays;
     }
 
-
     public function setBYWEEKNO(string $a_byweekno) : void
     {
         $this->byweekno = $a_byweekno;
     }
-    
+
     public function getBYWEEKNOList() : array
     {
         if (!trim($this->getBYWEEKNO())) {
@@ -281,23 +270,22 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return $weeks;
     }
-    
-    
+
     public function getBYWEEKNO() : string
     {
         return $this->byweekno;
     }
-    
+
     public function setBYMONTH(string $a_by) : void
     {
         $this->bymonth = $a_by;
     }
-    
+
     public function getBYMONTH() : string
     {
         return $this->bymonth;
     }
-    
+
     public function getBYMONTHList() : array
     {
         if (!trim($this->getBYMONTH())) {
@@ -309,17 +297,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return $months;
     }
-    
+
     public function setBYMONTHDAY(string $a_by) : void
     {
         $this->bymonthday = $a_by;
     }
-    
+
     public function getBYMONTHDAY() : string
     {
         return $this->bymonthday;
     }
-    
+
     public function getBYMONTHDAYList() : array
     {
         if (!trim($this->getBYMONTHDAY())) {
@@ -331,19 +319,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return $month;
     }
-    
-    
+
     public function setBYYEARDAY(string $a_by) : void
     {
         $this->byyearday = $a_by;
     }
 
-
     public function getBYYEARDAY() : string
     {
         return $this->byyearday;
     }
-    
+
     public function getBYYEARDAYList() : array
     {
         if (!trim($this->getBYYEARDAY())) {
@@ -355,17 +341,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return $days;
     }
-    
+
     public function setBYSETPOS(string $a_by) : void
     {
         $this->bysetpos = $a_by;
     }
-    
+
     public function getBYSETPOS() : string
     {
         return $this->bysetpos;
     }
-    
+
     public function getBYSETPOSList() : array
     {
         if (!trim($this->getBYSETPOS())) {
@@ -377,23 +363,22 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return $positions;
     }
-    
-    
+
     public function setWeekstart(string $a_start) : void
     {
         $this->weekstart = $a_start;
     }
-    
+
     public function getWeekstart() : string
     {
         return $this->weekstart;
     }
-    
+
     public function getTimeZone() : string
     {
         return $this->timezone;
     }
-    
+
     public function setTimeZone(string $a_tz) : void
     {
         $this->timezone = $a_tz;
@@ -406,7 +391,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     {
         return $this->exclusion_dates;
     }
-    
+
     /**
      * validate
      */
@@ -428,15 +413,14 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
         return true;
     }
-    
-    
+
     public function save() : void
     {
         $until_date = is_null($this->getFrequenceUntilDate()) ?
             null :
             $this->getFrequenceUntilDate()->get(IL_CAL_DATETIME, '', 'UTC');
         $next_id = $this->db->nextId('cal_recurrence_rules');
-        
+
         $query = "INSERT INTO cal_recurrence_rules (rule_id,cal_id,cal_recurrence,freq_type,freq_until_date,freq_until_count,intervall, " .
             "byday,byweekno,bymonth,bymonthday,byyearday,bysetpos,weekstart) " .
             "VALUES( " .
@@ -458,7 +442,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $res = $this->db->manipulate($query);
         $this->recurrence_id = $next_id;
     }
-    
+
     public function update() : void
     {
         $until_date = is_null($this->getFrequenceUntilDate()) ?
@@ -482,7 +466,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             "WHERE rule_id = " . $this->db->quote($this->recurrence_id, 'integer') . " ";
         $res = $this->db->manipulate($query);
     }
-    
+
     public function delete() : void
     {
         $query = "DELETE FROM cal_recurrence_rules " .
@@ -499,7 +483,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             $this->cal_id = (int) $row->cal_id;
             $this->recurrence_type = (int) $row->cal_recurrence;
             $this->freq_type = (string) $row->freq_type;
-            
+
             if ($row->freq_until_date != null) {
                 $this->freq_until_date = new ilDate($row->freq_until_date, IL_CAL_DATETIME);
             }
@@ -513,7 +497,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             $this->bysetpos = $row->bysetpos;
             $this->weekstart = $row->week_start;
         }
-        
+
         $this->exclusion_dates = ilCalendarRecurrenceExclusions::getExclusionDates($this->cal_id);
     }
 }

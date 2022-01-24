@@ -1,15 +1,10 @@
 <?php declare(strict_types=1);
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
 /**
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationExerciseGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
@@ -36,7 +31,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
         $this->addInfoSection($this->lng->txt("cal_exc_info"));
 
         //var_dump($a_app); exit;
-        $ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
+        $ass_id = $a_app["event"]->getContextId() / 10;            // see ilExAssignment->handleCalendarEntries $dl parameter
 
         $assignment = new ilExAssignment($ass_id);
         $state = ilExcAssMemberState::getInstanceByIds($assignment->getId(), $this->user->getId());
@@ -59,15 +54,15 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
                     $url = $this->ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI",
-                                                             "ilobjexercisegui",
-                                                             "ilexsubmissiongui"
+                                                                   "ilobjexercisegui",
+                                                                   "ilexsubmissiongui"
                     ), "downloadFile");
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
                     $str_files[$file["name"]] = $r->render($f->button()->shy($file["name"], $url));
                 }
-                ksort($str_files, SORT_NATURAL | SORT_FLAG_CASE);
+                ksort($str_files, SORT_NATURAL|SORT_FLAG_CASE);
                 $str_files = implode("<br>", $str_files);
                 $this->addInfoProperty($this->lng->txt("exc_instruction_files"), $str_files);
                 $this->addListItemProperty(

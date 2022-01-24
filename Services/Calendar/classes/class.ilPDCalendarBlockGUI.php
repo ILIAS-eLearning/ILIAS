@@ -3,17 +3,14 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Calendar blocks, displayed on personal desktop
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ilCtrl_IsCalledBy ilPDCalendarBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
-* @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
-* @ilCtrl_Calls ilPDCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
-*
-* @ingroup ServicesCalendar
-*/
+ * Calendar blocks, displayed on personal desktop
+ * @author            Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_IsCalledBy ilPDCalendarBlockGUI: ilColumnGUI
+ * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
+ * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
+ * @ilCtrl_Calls      ilPDCalendarBlockGUI: ilConsultationHoursGUI, ilCalendarAppointmentPresentationGUI
+ * @ingroup           ServicesCalendar
+ */
 class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 {
     public static $block_type = "pdcal";
@@ -28,7 +25,6 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
         $this->setBlockId('0');
     }
 
-
     /**
      * @inheritdoc
      */
@@ -42,7 +38,6 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
      */
     protected function initCategories() : void
     {
-        include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
         if (!$this->initialized) {
             if (ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP) {
                 $this->mode = ilCalendarCategories::MODE_PERSONAL_DESKTOP_MEMBERSHIP;

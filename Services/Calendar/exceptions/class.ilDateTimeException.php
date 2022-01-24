@@ -29,7 +29,6 @@
 * @ingroup ServicesCalendar
 */
 
-include_once('Services/Exceptions/classes/class.ilException.php');
 
 class ilDateTimeException extends ilException
 {

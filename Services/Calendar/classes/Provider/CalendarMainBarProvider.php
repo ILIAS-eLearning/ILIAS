@@ -6,7 +6,6 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
 /**
  * Class CalendarMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
@@ -20,7 +19,6 @@ class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
         return [];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -31,19 +29,19 @@ class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_cal'))
-                ->withTitle($title)
-                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar")
-                ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-                ->withPosition(30)
-                ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
-                ->withAvailableCallable(
-                    function () {
-                        $settings = ilCalendarSettings::_getInstance();
+                           ->withTitle($title)
+                           ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar")
+                           ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
+                           ->withPosition(30)
+                           ->withSymbol($icon)
+                           ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                           ->withAvailableCallable(
+                               function () {
+                                   $settings = ilCalendarSettings::_getInstance();
 
-                        return $settings->isEnabled();
-                    }
-                ),
+                                   return $settings->isEnabled();
+                               }
+                           ),
         ];
     }
 }

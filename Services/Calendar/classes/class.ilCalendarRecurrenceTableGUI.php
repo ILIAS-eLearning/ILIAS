@@ -9,8 +9,12 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
 
     private ilCalendarEntry $entry;
 
-    public function __construct(ilCalendarEntry $entry, object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
-    {
+    public function __construct(
+        ilCalendarEntry $entry,
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        string $a_template_context = ""
+    ) {
         $this->setId(self::REC_TABLE_ID);
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
         $this->entry = $entry;

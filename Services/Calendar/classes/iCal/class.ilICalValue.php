@@ -22,15 +22,12 @@
 */
 
 /**
-* Used for storage og multiple values
-* E.g RRULE:FREQ=WEEKLY;COUNT=20;INTERVAL=2;BYDAY=TU
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * Used for storage og multiple values
+ * E.g RRULE:FREQ=WEEKLY;COUNT=20;INTERVAL=2;BYDAY=TU
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilICalValue extends ilICalItem
 {
     /**

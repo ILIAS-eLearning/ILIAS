@@ -22,16 +22,13 @@
 */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ServicesCalendar
-*/
-
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarCategoryAssignments
 {
     protected ilDBInterface $db;
-    
+
     protected int $cal_entry_id = 0;
     protected array $assignments = [];
 
@@ -43,7 +40,7 @@ class ilCalendarCategoryAssignments
         $this->cal_entry_id = $a_cal_entry_id;
         $this->read();
     }
-    
+
     public static function _lookupCategories(int $a_cal_id) : array
     {
         global $DIC;
@@ -58,7 +55,7 @@ class ilCalendarCategoryAssignments
         }
         return $cat_ids;
     }
-    
+
     public static function _lookupCategory(int $a_cal_id) : int
     {
         if (count($cats = self::_lookupCategories($a_cal_id))) {
@@ -85,7 +82,7 @@ class ilCalendarCategoryAssignments
         }
         return $map;
     }
-    
+
     /**
      * Get assigned apointments
      * @param int[]
@@ -117,7 +114,7 @@ class ilCalendarCategoryAssignments
 
         $ilDB = $DIC['ilDB'];
         $query = 'SELECT COUNT(*) num FROM cal_cat_assignments ' .
-                'WHERE ' . $ilDB->in('cat_id', $a_cat_ids, false, 'integer');
+            'WHERE ' . $ilDB->in('cat_id', $a_cat_ids, false, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->num;
@@ -142,11 +139,11 @@ class ilCalendarCategoryAssignments
         $res = $ilDB->query($query);
         $apps = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $apps[] = (int )$row->cal_id;
+            $apps[] = (int ) $row->cal_id;
         }
         return $apps;
     }
-    
+
     /**
      * Delete appointment assignment
      */
@@ -159,10 +156,9 @@ class ilCalendarCategoryAssignments
             "WHERE cal_id = " . $ilDB->quote($a_app_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * Delete assignments by category id
-     *
      * @access public
      * @param int category_id
      * @return
@@ -177,7 +173,7 @@ class ilCalendarCategoryAssignments
             "WHERE cat_id = " . $ilDB->quote($a_cat_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     /**
      * get first assignment
      */
@@ -193,7 +189,7 @@ class ilCalendarCategoryAssignments
     {
         return $this->assignments;
     }
-    
+
     public function addAssignment(int $a_cal_cat_id) : void
     {
         $query = "INSERT INTO cal_cat_assignments (cal_id,cat_id) " .
@@ -204,19 +200,19 @@ class ilCalendarCategoryAssignments
         $res = $this->db->manipulate($query);
         $this->assignments[] = $a_cal_cat_id;
     }
-    
+
     public function deleteAssignment(int $a_cat_id) : void
     {
         $query = "DELETE FROM cal_cat_assignments " .
             "WHERE cal_id = " . $this->db->quote($this->cal_entry_id, 'integer') . ", " .
             "AND cat_id = " . $this->db->quote($a_cat_id, 'integer') . " ";
         $res = $this->db->manipulate($query);
-        
+
         if (($key = array_search($a_cat_id, $this->assignments)) !== false) {
             unset($this->assignments[$key]);
         }
     }
-    
+
     public function deleteAssignments() : void
     {
         $query = "DELETE FROM cal_cat_assignments " .
@@ -224,12 +220,11 @@ class ilCalendarCategoryAssignments
         $res = $this->db->manipulate($query);
     }
 
-    
     private function read()
     {
         $query = "SELECT * FROM cal_cat_assignments " .
             "WHERE cal_id = " . $this->db->quote($this->cal_entry_id, 'integer') . " ";
-        
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->assignments[] = (int) $row->cat_id;

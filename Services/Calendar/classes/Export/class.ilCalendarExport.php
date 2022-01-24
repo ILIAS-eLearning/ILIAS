@@ -23,8 +23,8 @@
 
 /**
  * @classDescription Export calendar(s) to ical format
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ServicesCalendar
+ * @author           Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup          ServicesCalendar
  */
 class ilCalendarExport
 {
@@ -32,10 +32,9 @@ class ilCalendarExport
     public const EXPORT_APPOINTMENTS = 2;
 
     protected int $export_type = self::EXPORT_CALENDARS;
-    
+
     private ilLogger $logger;
     protected ilObjUser $user;
-
 
     protected array $calendars = array();
     protected ?ilCalendarUserSettings $user_settings;
@@ -56,12 +55,12 @@ class ilCalendarExport
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($DIC->user()->getId());
         $this->user = $DIC->user();
     }
-    
+
     public function getUserSettings() : ilCalendarUserSettings
     {
         return $this->user_settings;
     }
-    
+
     public function setExportType(int $a_type) : void
     {
         $this->export_type = $a_type;
@@ -103,14 +102,14 @@ class ilCalendarExport
     {
         return $this->export_type;
     }
-    
+
     public function export() : void
     {
         $this->writer->addLine('BEGIN:VCALENDAR');
         $this->writer->addLine('VERSION:2.0');
         $this->writer->addLine('METHOD:PUBLISH');
         $this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.4//EN');
-        
+
         $this->addTimezone();
 
         switch ($this->getExportType()) {
@@ -130,10 +129,9 @@ class ilCalendarExport
         if ($this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC) {
             return;
         }
-        
+
         $this->writer->addLine('X-WR-TIMEZONE:' . $GLOBALS['DIC']['ilUser']->getTimeZone());
-        
-        include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
+
         $tzid_file = ilCalendarUtil::getZoneInfoFile($GLOBALS['DIC']['ilUser']->getTimeZone());
         if (!is_file($tzid_file)) {
             $tzid_file = ilCalendarUtil::getZoneInfoFile('Europe/Berlin');
@@ -170,11 +168,11 @@ class ilCalendarExport
             $this->createVEVENT($app);
         }
     }
-    
+
     protected function createVTODO(ilCalendarEntry $app) : void
     {
     }
-    
+
     /**
      * Create VEVENT entry
      */
@@ -189,25 +187,21 @@ class ilCalendarExport
             return;
         }
 
-
         $this->writer->addLine('BEGIN:VEVENT');
 
         $now = new ilDateTime(time(), IL_CAL_UNIX);
         $this->writer->addLine('DTSTAMP:' . $now->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC));
 
         $this->writer->addLine('UID:' . ilICalWriter::escapeText(
-            $app->getEntryId() . '_' . CLIENT_ID . '@' . ILIAS_HTTP_PATH
-        ));
-        
-            
+                $app->getEntryId() . '_' . CLIENT_ID . '@' . ILIAS_HTTP_PATH
+            ));
+
         $last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC);
         $this->writer->addLine('LAST-MODIFIED:' . $last_mod);
 
         // begin-patch aptar
-        include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
         if ($rec = ilCalendarRecurrences::_getFirstRecurrence($app->getEntryId())) {
             // Set starting time to first appointment that matches the recurrence rule
-            include_once './Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php';
             $calc = new ilCalendarRecurrenceCalculator($app, $rec);
 
             $pStart = $app->getStart();
@@ -215,7 +209,7 @@ class ilCalendarExport
             $pEnd->increment(IL_CAL_YEAR, 5);
             $appDiff = $app->getEnd()->get(IL_CAL_UNIX) - $app->getStart()->get(IL_CAL_UNIX);
             $recs = $calc->calculateDateList($pStart, $pEnd);
-            
+
             // defaults
             $startInit = $app->getStart();
             $endInit = $app->getEnd();
@@ -230,7 +224,6 @@ class ilCalendarExport
             $endInit = $app->getEnd();
         }
 
-        
         if ($app->isFullday()) {
             // According to RFC 5545 3.6.1 DTEND is not inclusive.
             // But ILIAS stores inclusive dates in the database.
@@ -238,7 +231,7 @@ class ilCalendarExport
 
             $start = $startInit->get(IL_CAL_FKT_DATE, 'Ymd', $this->user->getTimeZone());
             $end = $endInit->get(IL_CAL_FKT_DATE, 'Ymd', $this->user->getTimeZone());
-            
+
             $this->writer->addLine('DTSTART;VALUE=DATE:' . $start);
             $this->writer->addLine('DTEND;VALUE=DATE:' . $end);
         } else {
@@ -257,7 +250,7 @@ class ilCalendarExport
         // end-patch aptar
 
         $this->createRecurrences($app);
-        
+
         $this->writer->addLine('SUMMARY:' . ilICalWriter::escapeText($app->getPresentationTitle(false)));
         if (strlen($app->getDescription())) {
             $this->writer->addLine('DESCRIPTION:' . ilICalWriter::escapeText($app->getDescription()));
@@ -268,7 +261,7 @@ class ilCalendarExport
         $this->buildAppointmentUrl($app);
         $this->writer->addLine('END:VEVENT');
     }
-    
+
     protected function createRecurrences(ilCalendarEntry $app) : void
     {
         foreach (ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec) {
@@ -281,8 +274,7 @@ class ilCalendarExport
             }
         }
     }
-    
-    
+
     public function getExportString() : string
     {
         return $this->writer->__toString();
@@ -302,7 +294,6 @@ class ilCalendarExport
         } else {
             $refs = ilObject::_getAllReferences($cat->getObjId());
 
-            include_once './Services/Link/classes/class.ilLink.php';
             $this->writer->addLine(
                 'URL;VALUE=URI:' . ilLink::_getLink(current((array) $refs))
             );

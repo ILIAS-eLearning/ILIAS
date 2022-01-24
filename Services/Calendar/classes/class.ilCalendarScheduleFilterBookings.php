@@ -4,9 +4,7 @@
 
 /**
  * Calendar schedule filter for consultation hour bookings
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
@@ -15,7 +13,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
     protected array $group_ids = [];
     protected ilCalendarCategories $cats;
     protected ilObjUser $user;
-    
+
     public function __construct(int $a_user_id, ?array $a_consultation_hour_group_ids = null)
     {
         global $DIC;
@@ -51,9 +49,9 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
             if ($this->cats->getMode() == ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) {
                 $booking->setTargetObjIds(null);
             }
-            
+
             if (($this->user_id == $this->user->getId() ||
-                !$booking->isBookedOut($a_event->getEntryId(), true)) &&
+                    !$booking->isBookedOut($a_event->getEntryId(), true)) &&
                 $booking->isTargetObjectVisible($this->cats->getTargetRefId())) {
                 return $a_event;
             }

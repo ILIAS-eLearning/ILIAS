@@ -22,25 +22,20 @@
 */
 
 /**
-* @defgroup ServicesCalendar Services/Calendar
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
-
+ * @defgroup ServicesCalendar Services/Calendar
+ * @author   Stefan Meyer <meyer@leifos.com>
+ * @version  $Id$
+ * @ingroup  ServicesCalendar
+ */
 class ilObjCalendarSettings extends ilObject
 {
     /**
      * @inheritDoc
-    */
+     */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->type = "cals";
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    
 } // END class.ilObjCalendarSettings

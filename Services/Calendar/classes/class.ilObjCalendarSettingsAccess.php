@@ -21,16 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilObjCalendarSettingsAccess extends ilObjectAccess
 {
 }

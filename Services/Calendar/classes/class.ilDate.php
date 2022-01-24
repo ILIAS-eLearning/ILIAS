@@ -22,28 +22,24 @@
 */
 
 /**
-* Class for single dates.
-* ilDate('2008-03-15') is nothing else than ilDateTime('2008-03-15',IL_CAL_DATE,'UTC')
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Class for single dates.
+ * ilDate('2008-03-15') is nothing else than ilDateTime('2008-03-15',IL_CAL_DATE,'UTC')
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilDate extends ilDateTime
 {
-    
+
     public function __construct($a_date = '', $a_format = 0)
     {
         parent::__construct($a_date, $a_format, ilTimeZone::UTC);
-        
+
         $this->default_timezone = ilTimeZone::_getInstance('UTC');
     }
-    
+
     /**
      * get formatted date
-     *
      * @access public
      * @param int format type
      * @param string format string

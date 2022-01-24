@@ -22,24 +22,23 @@
 */
 
 /**
-* Stores status (accepted/declined) of shared calendars
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesCalendar
-*/
+ * Stores status (accepted/declined) of shared calendars
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarSharedStatus
 {
     public const STATUS_ACCEPTED = 1;
     public const STATUS_DECLINED = 2;
     public const STATUS_DELETED = 3;
-    
+
     protected ?ilDBInterface $db;
-    
+
     private int $usr_id = 0;
-    
+
     private array $calendars = array();
     private array $writable = array();
-    
+
     public function __construct(int $a_usr_id)
     {
         global $DIC;
@@ -47,21 +46,21 @@ class ilCalendarSharedStatus
         $this->db = $DIC->database();
         $this->read();
     }
-    
+
     public function isAccepted(int $a_cal_id) : bool
     {
         return
             isset($this->calendars[$a_cal_id]) &&
             $this->calendars[$a_cal_id] == self::STATUS_ACCEPTED;
     }
-    
+
     public function isDeclined(int $a_cal_id) : bool
     {
         return
             isset($this->calendars[$a_cal_id]) &&
             $this->calendars[$a_cal_id] == self::STATUS_DECLINED;
     }
-    
+
     public static function getAcceptedCalendars(int $a_usr_id) : array
     {
         global $DIC;
@@ -76,7 +75,7 @@ class ilCalendarSharedStatus
         }
         return $cal_ids ?? [];
     }
-    
+
     public static function hasStatus(int $a_usr_id, int $a_calendar_id) : bool
     {
         global $DIC;
@@ -88,7 +87,7 @@ class ilCalendarSharedStatus
         $res = $ilDB->query($query);
         return (bool) $res->numRows();
     }
-    
+
     public static function deleteUser(int $a_usr_id) : void
     {
         global $DIC;
@@ -98,7 +97,7 @@ class ilCalendarSharedStatus
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     public static function deleteCalendar(int $a_calendar_id) : void
     {
         global $DIC;
@@ -108,14 +107,14 @@ class ilCalendarSharedStatus
             "WHERE cal_id = " . $ilDB->quote($a_calendar_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
+
     public static function deleteStatus(int $a_id, int $a_calendar_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         if (ilObject::_lookupType($a_id) == 'usr') {
             $query = "DELETE FROM cal_shared_status " .
                 "WHERE cal_id = " . $ilDB->quote($a_calendar_id, 'integer') . " " .
@@ -123,20 +122,18 @@ class ilCalendarSharedStatus
             $res = $ilDB->manipulate($query);
         } elseif (ilObject::_lookupType($a_id) == 'role') {
             $assigned_users = $rbacreview->assignedUsers($a_id);
-            
+
             if (!count($assigned_users)) {
-                return ;
+                return;
             }
-            
+
             $query = "DELETE FROM cal_shared_status " .
                 "WHERE cal_id = " . $ilDB->quote($a_calendar_id, 'integer') . " " .
                 "AND " . $ilDB->in('usr_id', $assigned_users, false, 'integer');
             $res = $ilDB->manipulate($query);
         }
     }
-    
-    
-    
+
     public function accept(int $a_calendar_id) : void
     {
         self::deleteStatus($this->usr_id, $a_calendar_id);
@@ -147,10 +144,10 @@ class ilCalendarSharedStatus
             $this->db->quote(self::STATUS_ACCEPTED, 'integer') . " " .
             ")";
         $res = $this->db->manipulate($query);
-        
+
         $this->calendars[$a_calendar_id] = self::STATUS_ACCEPTED;
     }
-    
+
     public function decline(int $a_calendar_id) : void
     {
         self::deleteStatus($this->usr_id, $a_calendar_id);
@@ -163,7 +160,7 @@ class ilCalendarSharedStatus
         $res = $this->db->manipulate($query);
         $this->calendars[$a_calendar_id] = self::STATUS_DECLINED;
     }
-    
+
     protected function read()
     {
         $query = "SELECT * FROM cal_shared_status " .
@@ -176,7 +173,6 @@ class ilCalendarSharedStatus
 
     public function getOpenInvitations() : array
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
         $shared = ilCalendarShared::getSharedCalendarsForUser($this->usr_id);
 
         $invitations = array();

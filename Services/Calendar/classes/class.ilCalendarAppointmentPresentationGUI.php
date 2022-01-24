@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
 use ILIAS\UI\Component\Item\Item;
+
 /**
  * Class ilCalendarAppointmentPresentationGUI
- *
- * @author	Jesús López <lopez@leifos.com>
+ * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilCalendarAppointmentPresentationGUI: ilInfoScreenGUI, ilCalendarAppointmentGUI
-*/
+ */
 class ilCalendarAppointmentPresentationGUI
 {
     protected const MODE_MODAL = "modal";
@@ -44,7 +44,7 @@ class ilCalendarAppointmentPresentationGUI
         $this->info_screen = new ilInfoScreenGUI($this);
         $this->toolbar = new ilToolbarGUI();
     }
-    
+
     /**
      * Set list item mode
      */
@@ -53,7 +53,7 @@ class ilCalendarAppointmentPresentationGUI
         $this->list_item = $a_val;
         $this->mode = self::MODE_LIST_ITEM;
     }
-    
+
     public function getListItem() : Item
     {
         return $this->list_item;
@@ -77,7 +77,6 @@ class ilCalendarAppointmentPresentationGUI
 
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
                 $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
                 $this->ctrl->forwardCommand($app);
                 break;
@@ -86,7 +85,6 @@ class ilCalendarAppointmentPresentationGUI
                 if ($next_class != '') {
                     // get the path and include
                     $class_path = $this->ctrl->lookupClassPath($next_class);
-                    include_once($class_path);
 
                     // check if the class implements our interface
                     $class_name = $this->ctrl->getClassForClasspath($class_path);
@@ -145,7 +143,6 @@ class ilCalendarAppointmentPresentationGUI
         $tpl->setVariable("TOOLBAR", $toolbar->getHTML());
         $tpl->parseCurrentBlock();
 
-
         // show infoscreen
         $tpl->setVariable("CONTENT", $content);
 
@@ -158,7 +155,6 @@ class ilCalendarAppointmentPresentationGUI
     public function modifyListItem() : string
     {
         $li = $this->getListItem();
-        include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
         $this->ctrl->getHTML($f);
         $this->list_item = $f->getListItem();

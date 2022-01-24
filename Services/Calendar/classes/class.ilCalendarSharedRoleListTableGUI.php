@@ -22,16 +22,14 @@
 */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesCalendar
-*/
-
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
 {
     protected ilRbacReview $rbacreview;
     protected array $role_ids = array();
-    
+
     public function __construct(object $parent_obj, string $parent_cmd)
     {
         global $DIC;
@@ -39,23 +37,23 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
         $this->rbacreview = $DIC->rbac()->review();
 
         parent::__construct($parent_obj, $parent_cmd);
-        
+
         $this->setRowTemplate('tpl.calendar_shared_role_list_row.html', 'Services/Calendar');
         $this->addColumn('', 'id', '1px');
         $this->addColumn($this->lng->txt('objs_role'), 'title', '75%');
         $this->addColumn($this->lng->txt('assigned_members'), 'num', '25%');
-        
+
         $this->addMultiCommand('shareAssignRoles', $this->lng->txt('cal_share_cal'));
         $this->addMultiCommand('shareAssignRolesEditable', $this->lng->txt('cal_share_cal_editable'));
         $this->setSelectAllCheckbox('role_ids');
         $this->setPrefix('search');
     }
-    
+
     public function setRoles(array $a_role_ids) : void
     {
         $this->role_ids = $a_role_ids;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -68,8 +66,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('NUM_USERS', $a_set['num']);
     }
-    
-    
+
     public function parse() : void
     {
         $users = $roles = array();
@@ -78,7 +75,7 @@ class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
             $tmp_data['description'] = ilObject::_lookupDescription($id);
             $tmp_data['id'] = $id;
             $tmp_data['num'] = count($this->rbacreview->assignedUsers($id));
-            
+
             $roles[] = $tmp_data;
         }
 

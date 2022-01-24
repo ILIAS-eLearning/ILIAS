@@ -2,18 +2,17 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* registration for calendar appointments
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ServicesCalendar
-*/
+ * registration for calendar appointments
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRegistration
 {
     private int $appointment_id = 0;
     private array $registered = array();
 
     protected ilDBInterface $db;
-    
+
     public function __construct(int $a_appointment_id)
     {
         global $DIC;
@@ -23,7 +22,7 @@ class ilCalendarRegistration
         $this->db = $DIC->database();
         $this->read();
     }
-    
+
     public static function deleteByUser(int $a_usr_id) : void
     {
         global $DIC;
@@ -33,7 +32,7 @@ class ilCalendarRegistration
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
+
     public static function deleteByAppointment(int $a_cal_id) : void
     {
         global $DIC;
@@ -43,7 +42,7 @@ class ilCalendarRegistration
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
+
     public function getAppointmentId() : int
     {
         return $this->appointment_id;
@@ -67,7 +66,7 @@ class ilCalendarRegistration
         }
         return $users;
     }
-    
+
     public function isRegistered($a_usr_id, ilDateTime $start, ilDateTime $end) : bool
     {
         foreach ($this->registered as $reg_data) {
@@ -79,11 +78,11 @@ class ilCalendarRegistration
         }
         return false;
     }
-    
+
     public function register(int $a_usr_id, ilDateTime $start, ilDateTime $end) : void
     {
         $this->unregister($a_usr_id, $start, $end);
-        
+
         $query = "INSERT INTO cal_registrations (cal_id,usr_id,dstart,dend) " .
             "VALUES ( " .
             $this->db->quote($this->getAppointmentId(), 'integer') . ", " .
@@ -98,7 +97,7 @@ class ilCalendarRegistration
             'dend' => $end->get(IL_CAL_UNIX)
         ];
     }
-    
+
     /**
      * unregister one user
      */
@@ -111,8 +110,7 @@ class ilCalendarRegistration
             "AND dend = " . $this->db->quote($end->get(IL_CAL_UNIX), 'integer');
         $res = $this->db->manipulate($query);
     }
-    
-    
+
     /**
      * Read registration
      */
@@ -121,8 +119,9 @@ class ilCalendarRegistration
         if (!$this->getAppointmentId()) {
             return;
         }
-        
-        $query = "SELECT * FROM cal_registrations WHERE cal_id = " . $this->db->quote($this->getAppointmentId(), 'integer');
+
+        $query = "SELECT * FROM cal_registrations WHERE cal_id = " . $this->db->quote($this->getAppointmentId(),
+                'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->registered[] = array(

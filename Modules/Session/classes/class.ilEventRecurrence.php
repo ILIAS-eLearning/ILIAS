@@ -29,16 +29,12 @@
 * @ingroup ModulesCourse
 */
 
-include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
-
 class ilEventRecurrence extends ilCalendarRecurrence
 {
     /**
      * Constructor
      *
      * @access public
-     * @param
-     * @return
      */
     public function __construct()
     {
@@ -47,12 +43,9 @@ class ilEventRecurrence extends ilCalendarRecurrence
     
     /**
      * save => no db storage
-     *
-     * @access public
      */
-    public function save()
+    public function save() : void
     {
-        return false;
     }
 
     /**
@@ -60,9 +53,8 @@ class ilEventRecurrence extends ilCalendarRecurrence
      *
      * @access public
      */
-    public function update()
+    public function update() : void
     {
-        return false;
     }
 
     /**
@@ -70,8 +62,7 @@ class ilEventRecurrence extends ilCalendarRecurrence
      *
      * @access public
      */
-    public function delete()
+    public function delete() : void
     {
-        return false;
     }
 }

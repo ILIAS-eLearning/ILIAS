@@ -22,13 +22,11 @@
 */
 
 /**
-* Stores selection of hidden calendars for a specific user
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * Stores selection of hidden calendars for a specific user
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarVisibility
 {
     public const HIDDEN = 0;
@@ -52,7 +50,7 @@ class ilCalendarVisibility
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
         $this->read();
     }
-    
+
     public static function _getInstanceByUserId(int $a_user_id, int $a_ref_id = 0) : ilCalendarVisibility
     {
         if (!isset(self::$instances[$a_user_id][$a_ref_id])) {
@@ -60,7 +58,7 @@ class ilCalendarVisibility
         }
         return self::$instances[$a_user_id][$a_ref_id];
     }
-    
+
     public static function _deleteCategories(int $a_cat_id) : void
     {
         global $DIC;
@@ -70,7 +68,7 @@ class ilCalendarVisibility
             "WHERE cat_id = " . $ilDB->quote($a_cat_id, 'integer') . " ";
         $ilDB->manipulate($query);
     }
-    
+
     public static function _deleteUser(int $a_user_id) : void
     {
         global $DIC;
@@ -81,11 +79,11 @@ class ilCalendarVisibility
             "WHERE user_id = " . $ilDB->quote($a_user_id, 'integer') . " ";
         $ilDB->manipulate($query);
     }
-    
+
     /**
      * Filter hidden categories (and hidden subitem categories) from category array
      */
-    public function filterHidden(int $categories, array $category_info) : array
+    public function filterHidden(array $categories, array $category_info) : array
     {
         $hidden = array();
         foreach ($category_info as $cat_id => $info) {
@@ -93,9 +91,9 @@ class ilCalendarVisibility
                 $hidden = array_merge((array) $hidden, (array) $info['subitem_ids'], array($cat_id));
             }
         }
-        return array_diff((array) $categories, $hidden);
+        return array_diff($categories, $hidden);
     }
-    
+
     protected function isHidden(int $a_cat_id, array $info) : bool
     {
         // personal desktop
@@ -113,7 +111,7 @@ class ilCalendarVisibility
         }
         return !in_array($a_cat_id, $this->visible);
     }
-    
+
     public function isAppointmentVisible(int $a_cal_id) : bool
     {
         foreach (ilCalendarCategoryAssignments::_lookupCategories($a_cal_id) as $cat_id) {
@@ -123,7 +121,7 @@ class ilCalendarVisibility
         }
         return false;
     }
-    
+
     public function getHidden() : array
     {
         return $this->hidden;
@@ -133,7 +131,7 @@ class ilCalendarVisibility
     {
         return $this->visible;
     }
-    
+
     public function hideSelected(array $a_hidden) : void
     {
         $this->hidden = $a_hidden;
@@ -168,7 +166,7 @@ class ilCalendarVisibility
             $this->db->manipulate($query);
         }
     }
-    
+
     public function delete(int $a_cat_id = null) : void
     {
         if ($a_cat_id) {
@@ -183,7 +181,7 @@ class ilCalendarVisibility
         }
         $this->db->manipulate($query);
     }
-    
+
     protected function read() : void
     {
         $query = "SELECT * FROM cal_cat_visibility " .

@@ -2,15 +2,12 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilCalendarUserNotification
 {
     public const TYPE_USER = 1;
     public const TYPE_EMAIL = 2;
-
 
     private int $cal_id = 0;
     private array $rcps = array();
@@ -121,8 +118,6 @@ class ilCalendarUserNotification
         $res = $this->db->manipulate($query);
     }
 
-
-
     protected function read() : void
     {
         if (!$this->getEntryId()) {
@@ -137,7 +132,7 @@ class ilCalendarUserNotification
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->addRecipient(
                 (int) $row->user_type,
-                (int)$row->user_id,
+                (int) $row->user_id,
                 $row->email
             );
         }
@@ -156,11 +151,11 @@ class ilCalendarUserNotification
         $ilDB->createTable(
             'cal_notification',
             array(
-                'notification_id' => array('type' => 'integer','length' => 4,'notnull' => true),
-                'cal_id' => array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
-                'user_type' => array('type' => 'integer','length' => 1, 'notnull' => true, 'default' => 0),
-                'user_id' => array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
-                'email' => array('type' => 'text','length' => 64, 'notnull' => false)
+                'notification_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'cal_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+                'user_type' => array('type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 0),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+                'email' => array('type' => 'text', 'length' => 64, 'notnull' => false)
             )
         );
         $ilDB->addPrimaryKey(

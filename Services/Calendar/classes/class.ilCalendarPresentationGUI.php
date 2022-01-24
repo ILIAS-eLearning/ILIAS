@@ -2,19 +2,13 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-
 /**
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- *
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @version      $Id$
  * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
  * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
  * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ilPublicUserProfileGUI
- * @ingroup ServicesCalendar
+ * @ingroup      ServicesCalendar
  */
 class ilCalendarPresentationGUI
 {
@@ -40,7 +34,6 @@ class ilCalendarPresentationGUI
     protected int $cal_view = 0;
     protected int $cal_period = 0;
 
-
     public function __construct($a_ref_id = 0)
     {
         global $DIC;
@@ -48,7 +41,7 @@ class ilCalendarPresentationGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('dateplaner');
-        
+
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs_gui = $DIC->tabs();
         $this->user = $DIC->user();
@@ -58,25 +51,22 @@ class ilCalendarPresentationGUI
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
         $this->ref_id = $a_ref_id;
-        $this->category_id = $_GET["category_id"];
-        $this->ctrl->setParameter($this, 'category_id', $_REQUEST['category_id']);
+        $this->category_id = (int) $_GET["category_id"];
+        $this->ctrl->setParameter($this, 'category_id', (int) $_REQUEST['category_id']);
         $this->cal_settings = ilCalendarSettings::_getInstance();
 
         // show back to pd
         $this->ctrl->saveParameter($this, 'backpd');
 
         $this->initCalendarView();
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
-        
-        include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+
         if ($a_ref_id > 0) {
             $this->repository_mode = true;
         }
-        if ($this->category_id > 0) {		// single calendar view
+        if ($this->category_id > 0) {        // single calendar view
             // ensure activation of this category
-            include_once("./Services/Calendar/classes/class.ilCalendarVisibility.php");
             $vis = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $a_ref_id);
             $vis->forceVisibility($this->category_id);
 
@@ -89,7 +79,6 @@ class ilCalendarPresentationGUI
             $cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS);
         }
 
-        include_once("./Services/Calendar/classes/class.ilCalendarActions.php");
         $this->actions = ilCalendarActions::getInstance();
         $this->cats = $cats;
     }
@@ -98,7 +87,7 @@ class ilCalendarPresentationGUI
     {
         return $this->repository_mode;
     }
-    
+
     /**
      * Init and redirect to consultation hours
      */
@@ -138,14 +127,13 @@ class ilCalendarPresentationGUI
             $this->cal_view = $this->cal_settings->getDefaultCal();
         }
     }
-    
+
     public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         // now next class is not empty, which breaks old consultation hour implementation
         $next_class = $this->getNextClass();
 
-        include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
         if (!ilCalendarSettings::_getInstance()->isEnabled()) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
@@ -155,7 +143,7 @@ class ilCalendarPresentationGUI
         $this->prepareOutput();
 
         $this->help->setScreenIdComponent("cal");
-        
+
         switch ($cmd) {
             case 'selectCHCalendarOfUser':
                 $this->initAndRedirectToConsultationHours();
@@ -173,7 +161,7 @@ class ilCalendarPresentationGUI
                 }
 
                 break;
-                
+
             case 'ilconsultationhoursgui':
                 $this->tabs_gui->activateTab('app_consultation_hours');
                 $this->tabs_gui->clearTargets();
@@ -184,14 +172,13 @@ class ilCalendarPresentationGUI
                     $this->ctrl->getLinkTargetByClass($this->readLastClass())
                 );
 
-                include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php';
                 $gui = new ilConsultationHoursGUI();
                 $this->ctrl->forwardCommand($gui);
                 if ($this->showToolbarAndSidebar()) {
                     $this->showSideBlocks();
                 }
                 return;
-            
+
             case 'ilcalendarmonthgui':
                 $this->tabs_gui->activateTab('cal_agenda');
                 $month_gui = $this->forwardToClass('ilcalendarmonthgui');
@@ -202,7 +189,7 @@ class ilCalendarPresentationGUI
                     $month_gui->addToolbarFileDownload();
                 }
                 break;
-                
+
             case 'ilcalendarweekgui':
                 $this->tabs_gui->activateTab('cal_agenda');
                 $week_gui = $this->forwardToClass('ilcalendarweekgui');
@@ -228,18 +215,16 @@ class ilCalendarPresentationGUI
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->activateTab('settings');
                 $this->setCmdClass('ilcalendarusersettingsgui');
-                
-                include_once('./Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php');
+
                 $user_settings = new ilCalendarUserSettingsGUI();
                 $this->ctrl->forwardCommand($user_settings);
                 // No side blocks
                 return;
-                
+
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
-                
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+
                 $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
                 $this->ctrl->forwardCommand($app);
                 break;
@@ -248,18 +233,16 @@ class ilCalendarPresentationGUI
                 $this->ctrl->setReturn($this, '');
                 //$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
                 $this->tabs_gui->activateTab("cal_agenda");
-                include_once './Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php';
                 $sub = new ilCalendarSubscriptionGUI((int) $_REQUEST['category_id'], (int) $_GET["ref_id"]);
                 $this->ctrl->forwardCommand($sub);
                 if ($this->showToolbarAndSidebar()) {
                     $this->showSideBlocks();
                 }
                 break;
-                
+
             case 'ilcalendarcategorygui':
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->activateTab("cal_manage");
-                include_once('Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
                 $category = new ilCalendarCategoryGUI($this->user->getId(), $this->seed, $this->ref_id);
                 if ($this->ctrl->forwardCommand($category)) {
                     //$this->tabs_gui->activateTab("cal_manage");
@@ -275,7 +258,7 @@ class ilCalendarPresentationGUI
                     break;
                 }
 
-                // no break
+            // no break
             case 'ilcalendarblockgui':
                 $side_cal = new ilCalendarBlockGUI();
                 $side_cal->setRepositoryMode($this->getRepositoryMode());
@@ -293,7 +276,6 @@ class ilCalendarPresentationGUI
                 break;
 
             case 'ilpublicuserprofilegui':
-                include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
                 $user_profile = new ilPublicUserProfileGUI($_GET["user_id"]);
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $this->tpl->setContent($html);
@@ -357,7 +339,6 @@ class ilCalendarPresentationGUI
         }
     }
 
-
     public function getNextClass() : string
     {
         if (strlen($next_class = $this->ctrl->getNextClass())) {
@@ -368,7 +349,7 @@ class ilCalendarPresentationGUI
         }
         return '';
     }
-    
+
     /**
      * Read last class from history
      */
@@ -394,7 +375,7 @@ class ilCalendarPresentationGUI
 
         return $this->user->getPref('cal_last_class') ? $this->user->getPref('cal_last_class') : $class;
     }
-    
+
     public function setCmdClass($a_class) : void
     {
         // If cmd class == 'ilcalendarpresentationgui' the cmd class is set to the the new forwarded class
@@ -403,7 +384,7 @@ class ilCalendarPresentationGUI
             $this->ctrl->setCmdClass(strtolower($a_class));
         }
     }
-    
+
     protected function forwardToClass(string $a_class) : ?ilCalendarViewGUI
     {
         $ilUser = $this->user;
@@ -413,7 +394,6 @@ class ilCalendarPresentationGUI
                 $this->user->writePref('cal_last_class', $a_class);
                 $_SESSION['cal_last_tab'] = 'app_month';
                 $this->setCmdClass('ilcalendarmonthgui');
-                include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
                 $month_gui = new ilCalendarMonthGUI($this->seed);
                 $this->ctrl->forwardCommand($month_gui);
                 return $month_gui;
@@ -422,7 +402,6 @@ class ilCalendarPresentationGUI
                 $this->user->writePref('cal_last_class', $a_class);
                 $_SESSION['cal_last_tab'] = 'app_week';
                 $this->setCmdClass('ilcalendarweekgui');
-                include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
                 $week_gui = new ilCalendarWeekGUI($this->seed);
                 $this->ctrl->forwardCommand($week_gui);
                 return $week_gui;
@@ -431,7 +410,6 @@ class ilCalendarPresentationGUI
                 $this->user->writePref('cal_last_class', $a_class);
                 $_SESSION['cal_last_tab'] = 'app_day';
                 $this->setCmdClass('ilcalendardaygui');
-                include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
                 $day_gui = new ilCalendarDayGUI($this->seed);
                 $this->ctrl->forwardCommand($day_gui);
                 return $day_gui;
@@ -440,22 +418,19 @@ class ilCalendarPresentationGUI
                 $this->user->writePref('cal_last_class', $a_class);
                 $_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
                 $this->setCmdClass('ilcalendarinboxgui');
-                include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
                 $inbox_gui = new ilCalendarinboxGUI($this->seed);
                 $this->ctrl->forwardCommand($inbox_gui);
                 return $inbox_gui;
         }
         return null;
     }
-    
+
     protected function showSideBlocks() : void
     {
         $tpl = new ilTemplate('tpl.cal_side_block.html', true, true, 'Services/Calendar');
         if ($this->getRepositoryMode()) {
-            include_once("./Services/Calendar/classes/class.ilCalendarBlockGUI.php");
             $side_cal = new ilCalendarBlockGUI();
         } else {
-            include_once("./Services/Calendar/classes/class.ilPDCalendarBlockGUI.php");
             $side_cal = new ilPDCalendarBlockGUI();
         }
         $side_cal->setParentGUI("ilCalendarPresentationGUI");
@@ -463,7 +438,6 @@ class ilCalendarPresentationGUI
         $side_cal->setRepositoryMode($this->getRepositoryMode());
         $tpl->setVariable('MINICAL', $this->ctrl->getHTML($side_cal));
 
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
         $cat = new ilCalendarCategoryGUI($this->user->getId(), $this->seed, $this->ref_id);
         $tpl->setVariable('CATEGORIES', $this->ctrl->getHTML($cat));
 
@@ -597,11 +571,11 @@ class ilCalendarPresentationGUI
                     $this->ctrl->getLinkTargetByClass(ilConsultationHoursGUI::class, '')
                 );
             }
-            $this->tabs_gui->addTarget('cal_manage', $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
+            $this->tabs_gui->addTarget('cal_manage',
+                $this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI', 'manage'));
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI', ''));
         }
     }
-
 
     protected function prepareOutput() : void
     {
@@ -636,7 +610,8 @@ class ilCalendarPresentationGUI
                     break;
 
                 case ilCalendarCategory::TYPE_CH:
-                    $header = str_replace("%1", ilObjUser::_lookupFullname($category->getObjId()), $this->lng->txt("cal_consultation_hours_for_user"));
+                    $header = str_replace("%1", ilObjUser::_lookupFullname($category->getObjId()),
+                        $this->lng->txt("cal_consultation_hours_for_user"));
                     break;
 
                 case ilCalendarCategory::TYPE_BOOK:
@@ -659,12 +634,14 @@ class ilCalendarPresentationGUI
 
             // iCal-Url
             $ctrl->setParameterByClass("ilcalendarsubscriptiongui", "category_id", $this->category_id);
-            $action_menu->addItem($this->lng->txt("cal_ical_url"), "", $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", ""));
+            $action_menu->addItem($this->lng->txt("cal_ical_url"), "",
+                $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", ""));
 
             // delete action
             if ($this->actions->checkDeleteCal($this->category_id)) {
                 $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-                $action_menu->addItem($this->lng->txt("cal_delete_cal"), "", $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
+                $action_menu->addItem($this->lng->txt("cal_delete_cal"), "",
+                    $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete"));
             }
             $tpl->setHeaderActionMenu($action_menu->getHTML());
         }
@@ -689,7 +666,7 @@ class ilCalendarPresentationGUI
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
         ilSession::set('cal_seed', $this->seed->get(IL_CAL_DATE));
     }
-    
+
     /**
      * Sync external calendars
      */
@@ -700,13 +677,13 @@ class ilCalendarPresentationGUI
         }
         $limit = new ilDateTime(time(), IL_CAL_UNIX);
         $limit->increment(IL_CAL_HOUR, -1 * ilCalendarSettings::_getInstance()->getWebCalSyncHours());
-        
+
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         foreach ($cats->getCategoriesInfo() as $cat_id => $info) {
             if ($info['remote']) {
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
-                
+
                 if (
                     $category->getRemoteSyncLastExecution()->isNull() ||
                     ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)
@@ -715,7 +692,6 @@ class ilCalendarPresentationGUI
                     $category->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
                     $category->update();
 
-                    include_once './Services/Calendar/classes/class.ilCalendarRemoteReader.php';
                     $remote = new ilCalendarRemoteReader($category->getRemoteUrl());
                     $remote->setUser($category->getRemoteUser());
                     $remote->setPass($category->getRemotePass());

@@ -4,15 +4,14 @@
 
 /**
  * Calendar schedule filter for hidden categories
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilCalendarScheduleFilterHidden implements ilCalendarScheduleFilter
 {
     protected int $user_id;
     protected ilCalendarVisibility $hidden_cat;
-    
+
     public function __construct(int $a_user_id)
     {
         $this->user_id = $a_user_id;

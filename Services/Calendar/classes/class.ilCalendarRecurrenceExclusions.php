@@ -22,14 +22,13 @@
 */
 
 /**
-* calendar exclusions
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ServicesCalendar
-*/
+ * calendar exclusions
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrenceExclusions
 {
-    
+
     /**
      * Read exclusion dates
      * @return ilCalendarRecurrenceExclusion[]
@@ -48,7 +47,7 @@ class ilCalendarRecurrenceExclusions
         }
         return $exclusions;
     }
-    
+
     /**
      * Delete exclusion dates of calendar entry
      */

@@ -22,11 +22,10 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ilCtrl_Calls ilObjCalendarSettingsGUI: ilPermissionGUI
-* @ingroup ServicesCalendar
-*/
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @ilCtrl_Calls ilObjCalendarSettingsGUI: ilPermissionGUI
+ * @ingroup      ServicesCalendar
+ */
 class ilObjCalendarSettingsGUI extends ilObjectGUI
 {
     /**
@@ -37,7 +36,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
     /**
      * Constructor
-     *
      * @access public
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -66,7 +64,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -81,7 +78,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
 
     public function getAdminTabs()
     {
@@ -115,10 +111,9 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.settings.html', 'Services/Calendar');
         $this->tpl->setVariable('CAL_SETTINGS', $form->getHTML());
     }
-    
+
     /**
      * save settings
-     *
      * @access protected
      */
     protected function save()
@@ -168,10 +163,9 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
     {
         $this->calendar_settings = ilCalendarSettings::_getInstance();
     }
-    
+
     /**
      * Init settings property form
-     *
      * @access protected
      */
     protected function initFormSettings() : ilPropertyFormGUI
@@ -180,11 +174,10 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('cal_global_settings'));
 
-
         if ($this->checkPermissionBool('write')) {
             $form->addCommandButton('save', $this->lng->txt('save'));
         }
-        
+
         $check = new ilCheckboxInputGUI($this->lng->txt('enable_calendar'), 'enable');
         $check->setValue('1');
         $check->setChecked($this->calendar_settings->isEnabled() ? true : false);
@@ -221,11 +214,11 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $def = new ilFormSectionHeaderGUI();
         $def->setTitle($this->lng->txt('cal_default_settings'));
         $form->addItem($def);
-        
+
         $server_tz = new ilNonEditableValueGUI($this->lng->txt('cal_server_tz'));
         $server_tz->setValue(ilTimeZone::_getDefaultTimeZone());
         $form->addItem($server_tz);
-        
+
         $select = new ilSelectInputGUI($this->lng->txt('cal_def_timezone'), 'default_timezone');
         $select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
         $select->setInfo($this->lng->txt('cal_def_timezone_info'));
@@ -237,15 +230,17 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $select->setOptions(array(
             ilCalendarSettings::DATE_FORMAT_DMY => '31.10.' . $year,
             ilCalendarSettings::DATE_FORMAT_YMD => $year . "-10-31",
-            ilCalendarSettings::DATE_FORMAT_MDY => "10/31/" . $year));
+            ilCalendarSettings::DATE_FORMAT_MDY => "10/31/" . $year
+        ));
         $select->setInfo($this->lng->txt('cal_def_date_format_info'));
         $select->setValue($this->calendar_settings->getDefaultDateFormat());
         $form->addItem($select);
-        
+
         $select = new ilSelectInputGUI($this->lng->txt('cal_def_time_format'), 'default_time_format');
         $select->setOptions(array(
             ilCalendarSettings::TIME_FORMAT_24 => '13:00',
-            ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'));
+            ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'
+        ));
         $select->setInfo($this->lng->txt('cal_def_time_format_info'));
         $select->setValue($this->calendar_settings->getDefaultTimeFormat());
         $form->addItem($select);
@@ -280,7 +275,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
             ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => "6 " . $this->lng->txt("months")
         ]);
 
-
         $list_views->setValue($this->calendar_settings->getDefaultPeriod());
         $option->addSubItem($list_views);
         $default_cal_view->addOption($option);
@@ -313,7 +307,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $checkm->setChecked($this->calendar_settings->getEnableGroupMilestones());
         $checkm->setInfo($this->lng->txt('cal_enable_group_milestones_desc'));
         $form->addItem($checkm);
-        
+
         // Consultation hours
         $con = new ilFormSectionHeaderGUI();
         $con->setTitle($this->lng->txt('cal_ch_form_header'));
@@ -329,7 +323,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $rep = new ilFormSectionHeaderGUI();
         $rep->setTitle($GLOBALS['DIC']['lng']->txt('cal_setting_global_vis_repos'));
         $form->addItem($rep);
-        
+
         $crs_active = new ilCheckboxInputGUI(
             $this->lng->txt('cal_setting_global_crs_act'),
             'enabled_crs'
@@ -360,12 +354,12 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
         $grp->setChecked($this->calendar_settings->isGroupCalendarVisible());
         $grp_active->addSubItem($grp);
-        
+
         // Notifications
         $not = new ilFormSectionHeaderGUI();
         $not->setTitle($this->lng->txt('notifications'));
         $form->addItem($not);
-        
+
         $cgn = new ilCheckboxInputGUI($this->lng->txt('cal_notification'), 'cn');
         $cgn->setOptionTitle($this->lng->txt('cal_notification_crsgrp'));
         $cgn->setValue('1');
@@ -380,12 +374,11 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $cnu->setInfo($this->lng->txt('cal_adm_notification_user_info'));
         $form->addItem($cnu);
 
-        
         // Registration
         $book = new ilFormSectionHeaderGUI();
         $book->setTitle($this->lng->txt('cal_registrations'));
         $form->addItem($book);
-        
+
         $cgn = new ilCheckboxInputGUI($this->lng->txt('cal_cg_registrations'), 'cgr');
         $cgn->setValue('1');
         $cgn->setChecked($this->calendar_settings->isCGRegistrationEnabled());
@@ -440,61 +433,79 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $form->addItem($cache);
         return $form;
     }
-    
+
     public function addToExternalSettingsForm(int $a_form_id) : array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
-                
+
                 $this->initCalendarSettings();
-                
+
                 $fields = array();
-                
+
                 $subitems = array(
                     'cal_setting_global_crs_act' => [
-                        $this->calendar_settings->isCourseCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL
+                        $this->calendar_settings->isCourseCalendarEnabled(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ],
                     'cal_setting_global_crs_vis' =>
-                        array($this->calendar_settings->isCourseCalendarVisible(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+                        array($this->calendar_settings->isCourseCalendarVisible(),
+                              ilAdministrationSettingsFormHandler::VALUE_BOOL
+                        ),
 
                 );
                 $fields['cal_setting_global_vis_repos'] = array(null, null, $subitems);
-                        
+
                 $subitems = array(
-                    'cal_notification_crsgrp' => array($this->calendar_settings->isNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'cal_notification_users' => array($this->calendar_settings->isUserNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'cal_notification_crsgrp' => array($this->calendar_settings->isNotificationEnabled(),
+                                                       ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ),
+                    'cal_notification_users' => array($this->calendar_settings->isUserNotificationEnabled(),
+                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    )
                 );
                 $fields['cal_notification'] = array(null, null, $subitems);
-                
-                $fields['cal_cg_registrations'] = array($this->calendar_settings->isCGRegistrationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-                                
+
+                $fields['cal_cg_registrations'] = array($this->calendar_settings->isCGRegistrationEnabled(),
+                                                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                );
+
                 return array(array("settings", $fields));
-                
+
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
-                
+
                 $this->initCalendarSettings();
-                
+
                 $fields = array();
-                
+
                 $subitems = array(
                     'cal_setting_global_grp_act' => [
-                        $this->calendar_settings->isGroupCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL
+                        $this->calendar_settings->isGroupCalendarEnabled(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ],
                     'cal_setting_global_grp_vis' =>
-                        array($this->calendar_settings->isGroupCalendarVisible(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+                        array($this->calendar_settings->isGroupCalendarVisible(),
+                              ilAdministrationSettingsFormHandler::VALUE_BOOL
+                        ),
 
                 );
 
                 $fields['cal_setting_global_vis_repos'] = array(null, null, $subitems);
-                
+
                 $subitems = array(
-                    'cal_notification_crsgrp' => array($this->calendar_settings->isNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'cal_notification_users' => array($this->calendar_settings->isUserNotificationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'cal_notification_crsgrp' => array($this->calendar_settings->isNotificationEnabled(),
+                                                       ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ),
+                    'cal_notification_users' => array($this->calendar_settings->isUserNotificationEnabled(),
+                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    )
                 );
                 $fields['cal_notification'] = array(null, null, $subitems);
-                    
-                $fields['cal_cg_registrations'] = array($this->calendar_settings->isCGRegistrationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-                
+
+                $fields['cal_cg_registrations'] = array($this->calendar_settings->isCGRegistrationEnabled(),
+                                                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                );
+
                 return array(array("settings", $fields));
         }
         return [];

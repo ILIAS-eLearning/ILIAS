@@ -21,18 +21,13 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Represents a list of calendar appointments (including recurring events) for a specific user
-* in a given time range.
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Represents a list of calendar appointments (including recurring events) for a specific user
+ * in a given time range.
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarSchedule
 {
     public const TYPE_DAY = 1;
@@ -40,18 +35,18 @@ class ilCalendarSchedule
     public const TYPE_MONTH = 3;
     public const TYPE_INBOX = 4;
     public const TYPE_HALF_YEAR = 6;
-    
+
     // @deprecated
     public const TYPE_PD_UPCOMING = 5;
-    
+
     protected int $limit_events = -1;
     protected array $schedule = array();
     protected string $timezone = ilTimeZone::UTC;
     protected int $weekstart;
     protected int $type = 0;
-    
+
     protected bool $subitems_enabled = false;
-    
+
     protected ?ilDate $start = null;
     protected ?ilDate $end = null;
     protected ilObjUser $user;
@@ -88,7 +83,7 @@ class ilCalendarSchedule
             $this->timezone = (string) $this->user->getTimeZone();
         }
         $this->initPeriod($seed);
-                        
+
         // portfolio does custom filter handling (booking group ids)
         if (ilCalendarCategories::_getInstance()->getMode() != ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION) {
             // consultation hour calendar views do not mind calendar category visibility
@@ -109,7 +104,7 @@ class ilCalendarSchedule
             $this->addFilter(new ilCalendarScheduleFilterTimings($this->user->getId()));
         }
     }
-    
+
     /**
      * Check if events are limited
      */
@@ -117,48 +112,48 @@ class ilCalendarSchedule
     {
         return $this->limit_events != -1;
     }
-    
+
     public function getEventsLimit() : int
     {
         return $this->limit_events;
     }
-    
+
     public function setEventsLimit(int $a_limit) : void
     {
         $this->limit_events = $a_limit;
     }
-    
+
     public function addSubitemCalendars(bool $a_status) : void
     {
         $this->subitems_enabled = $a_status;
     }
-    
+
     public function enabledSubitemCalendars() : bool
     {
         return $this->subitems_enabled;
     }
-    
+
     public function addFilter(ilCalendarScheduleFilter $a_filter) : void
     {
         $this->filters[] = $a_filter;
     }
-    
+
     public function getByDay(ilDate $a_start, string $a_timezone) : array
     {
         $start = new ilDateTime($a_start->get(IL_CAL_DATETIME), IL_CAL_DATETIME, $this->timezone);
         $fstart = new ilDate($a_start->get(IL_CAL_UNIX), IL_CAL_UNIX);
         $fend = clone $fstart;
-        
+
         $f_unix_start = $fstart->get(IL_CAL_UNIX);
         $fend->increment(ilDateTime::DAY, 1);
         $f_unix_end = $fend->get(IL_CAL_UNIX);
-        
+
         $unix_start = $start->get(IL_CAL_UNIX);
         $start->increment(ilDateTime::DAY, 1);
         $unix_end = $start->get(IL_CAL_UNIX);
-        
+
         $counter = 0;
-        
+
         $tmp_date = new ilDateTime($unix_start, IL_CAL_UNIX, $this->timezone);
         $tmp_schedule = array();
         $tmp_schedule_fullday = array();
@@ -185,7 +180,6 @@ class ilCalendarSchedule
         return array_merge($tmp_schedule_fullday, $tmp_schedule);
     }
 
-    
     public function calculate() : void
     {
         $events = $this->getEvents();
@@ -195,20 +189,17 @@ class ilCalendarSchedule
         foreach ($events as $event) {
             $ids[] = $event->getEntryId();
         }
-        
-        include_once('Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+
         $cat_map = ilCalendarCategoryAssignments::_getAppointmentCalendars($ids);
-        include_once('Services/Calendar/classes/class.ilCalendarCategory.php');
         $cat_types = array();
         foreach (array_unique($cat_map) as $cat_id) {
             $cat = new ilCalendarCategory($cat_id);
             $cat_types[$cat_id] = $cat->getType();
         }
-        
+
         $counter = 0;
         foreach ($events as $event) {
             // Calculdate recurring events
-            include_once('Services/Calendar/classes/class.ilCalendarRecurrences.php');
             if ($recs = ilCalendarRecurrences::_getRecurrences($event->getEntryId())) {
                 $duration = $event->getEnd()->get(IL_CAL_UNIX) - $event->getStart()->get(IL_CAL_UNIX);
                 foreach ($recs as $rec) {
@@ -218,23 +209,27 @@ class ilCalendarSchedule
                             $rec_date->get(IL_CAL_UNIX) < time()) {
                             continue;
                         }
-                        
+
                         $this->schedule[$counter]['event'] = $event;
                         $this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
                         $this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration;
                         $this->schedule[$counter]['fullday'] = $event->isFullday();
                         $this->schedule[$counter]['category_id'] = $cat_map[$event->getEntryId()];
                         $this->schedule[$counter]['category_type'] = $cat_types[$cat_map[$event->getEntryId()]];
-                        
+
                         switch ($this->type) {
                             case self::TYPE_DAY:
                             case self::TYPE_WEEK:
                                 // store date info (used for calculation of overlapping events)
-                                $tmp_date = new ilDateTime($this->schedule[$counter]['dstart'], IL_CAL_UNIX, $this->timezone);
-                                $this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '', $this->timezone);
-                                
-                                $tmp_date = new ilDateTime($this->schedule[$counter]['dend'], IL_CAL_UNIX, $this->timezone);
-                                $this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '', $this->timezone);
+                                $tmp_date = new ilDateTime($this->schedule[$counter]['dstart'], IL_CAL_UNIX,
+                                    $this->timezone);
+                                $this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
+                                    $this->timezone);
+
+                                $tmp_date = new ilDateTime($this->schedule[$counter]['dend'], IL_CAL_UNIX,
+                                    $this->timezone);
+                                $this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
+                                    $this->timezone);
                                 break;
 
                             default:
@@ -254,19 +249,22 @@ class ilCalendarSchedule
                 $this->schedule[$counter]['fullday'] = $event->isFullday();
                 $this->schedule[$counter]['category_id'] = $cat_map[$event->getEntryId()];
                 $this->schedule[$counter]['category_type'] = $cat_types[$cat_map[$event->getEntryId()]];
-                
+
                 if (!$event->isFullday()) {
                     switch ($this->type) {
                         case self::TYPE_DAY:
                         case self::TYPE_WEEK:
                             // store date info (used for calculation of overlapping events)
-                            $tmp_date = new ilDateTime($this->schedule[$counter]['dstart'], IL_CAL_UNIX, $this->timezone);
-                            $this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '', $this->timezone);
+                            $tmp_date = new ilDateTime($this->schedule[$counter]['dstart'], IL_CAL_UNIX,
+                                $this->timezone);
+                            $this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
+                                $this->timezone);
 
                             $tmp_date = new ilDateTime($this->schedule[$counter]['dend'], IL_CAL_UNIX, $this->timezone);
-                            $this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '', $this->timezone);
+                            $this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE, '',
+                                $this->timezone);
                             break;
-    
+
                         default:
                             break;
                     }
@@ -278,7 +276,7 @@ class ilCalendarSchedule
                 }
             }
         }
-        
+
         if ($this->type == self::TYPE_PD_UPCOMING) {
             $this->schedule = ilUtil::sortArray($this->schedule, "dstart", "asc", true);
             if ($this->areEventsLimited() && sizeof($this->schedule) >= $this->getEventsLimit()) {
@@ -286,7 +284,7 @@ class ilCalendarSchedule
             }
         }
     }
-    
+
     public function getScheduledEvents() : array
     {
         return $this->schedule;
@@ -302,7 +300,7 @@ class ilCalendarSchedule
         }
         return $a_cats;
     }
-    
+
     protected function modifyEventByFilters(ilCalendarEntry $event) : ?ilCalendarEntry
     {
         foreach ($this->filters as $filter) {
@@ -315,7 +313,7 @@ class ilCalendarSchedule
         }
         return $event;
     }
-    
+
     protected function addCustomEvents(ilDate $start, ilDate $end, array $categories) : array
     {
         $new_events = array();
@@ -330,7 +328,6 @@ class ilCalendarSchedule
 
     /**
      * get new/changed events
-     *
      * @param bool $a_include_subitem_calendars E.g include session calendars of courses.
      * @return object $events[] Array of changed events
      * @access protected
@@ -340,14 +337,14 @@ class ilCalendarSchedule
     {
         $cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($a_include_subitem_calendars);
         $cats = $this->filterCategories($cats);
-                
+
         if (!count($cats)) {
             return array();
         }
-        
+
         $start = new ilDate(date('Y-m-d', time()), IL_CAL_DATE);
         $start->increment(IL_CAL_MONTH, -1);
-        
+
         $query = "SELECT ce.cal_id cal_id FROM cal_entries ce  " .
             "JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id " .
             "WHERE last_update > " . $this->db->quote($start->get(IL_CAL_DATETIME), 'timestamp') . " " .
@@ -363,15 +360,14 @@ class ilCalendarSchedule
                 $events[] = $valid_event;
             }
         }
-        
+
         foreach ($this->addCustomEvents($this->start, $this->end, $cats) as $event) {
             $events[] = $event;
         }
-        
+
         return $events;
     }
-    
-    
+
     /**
      * Read events (will be moved to another class, since only active and/or visible calendars are shown)
      */
@@ -379,7 +375,7 @@ class ilCalendarSchedule
     {
         $cats = ilCalendarCategories::_getInstance($this->user->getId())->getCategories($this->enabledSubitemCalendars());
         $cats = $this->filterCategories($cats);
-        
+
         if (!count($cats)) {
             return array();
         }
@@ -391,7 +387,8 @@ class ilCalendarSchedule
             " JOIN cal_cat_assignments ca ON (ca.cal_id = ce.cal_id)";
 
         if ($this->type != self::TYPE_INBOX) {
-            $query .= " WHERE ((starta <= " . $this->db->quote($this->end->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') .
+            $query .= " WHERE ((starta <= " . $this->db->quote($this->end->get(IL_CAL_DATETIME, '', 'UTC'),
+                    'timestamp') .
                 " AND enda >= " . $this->db->quote($this->start->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ")" .
                 " OR (starta <= " . $this->db->quote($this->end->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') .
                 " AND NOT rule_id IS NULL))";
@@ -407,7 +404,7 @@ class ilCalendarSchedule
 
         $events = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $event = new ilCalendarEntry($row->cal_id);
+            $event = new ilCalendarEntry((int) $row->cal_id);
             $valid_event = $this->modifyEventByFilters($event);
             if ($valid_event) {
                 $events[] = $valid_event;
@@ -418,7 +415,7 @@ class ilCalendarSchedule
         }
         return $events;
     }
-    
+
     protected function initPeriod(ilDate $seed) : void
     {
         switch ($this->type) {
@@ -434,7 +431,7 @@ class ilCalendarSchedule
                     $this->end->increment(IL_CAL_SECOND, -1);
                 }
                 break;
-            
+
             case self::TYPE_WEEK:
                 $this->start = clone $seed;
                 $start_info = $this->start->get(IL_CAL_FKT_GETDATE, '', 'UTC');
@@ -456,7 +453,7 @@ class ilCalendarSchedule
                     $this->end->increment(IL_CAL_DAY, 9);
                 }
                 break;
-            
+
             case self::TYPE_MONTH:
                 if ($this->strict_period) {
                     $this->start = clone $seed;
@@ -465,6 +462,8 @@ class ilCalendarSchedule
                 } else {
                     $year_month = $seed->get(IL_CAL_FKT_DATE, 'Y-m', 'UTC');
                     list($year, $month) = explode('-', $year_month);
+                    $year = (int) $year;
+                    $month = (int) $month;
 
                     #21716
                     $this->start = new ilDate($year_month . '-01', IL_CAL_DATE);
@@ -488,7 +487,8 @@ class ilCalendarSchedule
                     $this->start->increment(IL_CAL_DAY, -$number_days_previous_month);
 
                     #21716
-                    $this->end = new ilDate($year_month . '-' . ilCalendarUtil::_getMaxDayOfMonth($year, $month), IL_CAL_DATE);
+                    $this->end = new ilDate($year_month . '-' . ilCalendarUtil::_getMaxDayOfMonth($year, $month),
+                        IL_CAL_DATE);
 
                     $end_unix_time = $this->end->getUnixTime();
 
@@ -506,13 +506,13 @@ class ilCalendarSchedule
                 }
 
                 break;
-            
+
             case self::TYPE_HALF_YEAR:
                 $this->start = clone $seed;
                 $this->end = clone $this->start;
                 $this->end->increment(IL_CAL_MONTH, 6);
                 break;
-            
+
             case self::TYPE_PD_UPCOMING:
             case self::TYPE_INBOX:
                 $this->start = $seed;

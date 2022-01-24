@@ -1,33 +1,26 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
-
 define('IL_CAL_TRANSLATION_NONE', 0);
 define('IL_CAL_TRANSLATION_SYSTEM', 1);
 
-
 /**
-* Model for a calendar entry.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * Model for a calendar entry.
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarEntry implements ilDatePeriod
 {
     protected ilLogger $log;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
     protected ilErrorHandling $error;
-    
-    
+
     protected int $entry_id = 0;
     protected ?ilDateTime $last_update = null;
     protected string $title = '';
+    protected string $presentation_style = '';
     protected string $subtitle = '';
     protected string $description = '';
     protected string $location = '';
@@ -53,6 +46,9 @@ class ilCalendarEntry implements ilDatePeriod
         $this->db = $DIC->database();
         $this->error = $DIC['ilErr'];
         $this->entry_id = $a_id;
+        if ($this->entry_id > 0) {
+            $this->read();
+        }
     }
 
     /**
@@ -62,15 +58,14 @@ class ilCalendarEntry implements ilDatePeriod
     {
         $this->entry_id = 0;
     }
-    
+
     public static function _delete(int $a_entry_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
         ilCalendarRecurrence::_delete($a_entry_id);
-        
+
         $query = "DELETE FROM cal_entries " .
             "WHERE cal_id = " . $ilDB->quote($a_entry_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
@@ -90,33 +85,32 @@ class ilCalendarEntry implements ilDatePeriod
     {
         return $this->entry_id;
     }
-    
+
     public function getLastUpdate() : ilDateTime
     {
         return $this->last_update ?: new ilDateTime(time(), IL_CAL_UNIX);
     }
-    
+
     public function setLastUpdate(ilDateTime $a_date) : void
     {
         $this->last_update = $a_date;
     }
-    
-    
+
     public function getStart() : ?ilDateTime
     {
         return $this->start;
     }
-    
+
     public function setStart(ilDateTime $a_start) : void
     {
         $this->start = $a_start;
     }
-    
+
     public function getEnd() : ?ilDateTime
     {
         return $this->end;
     }
-    
+
     public function setEnd(ilDateTime $a_end) : void
     {
         $this->end = $a_end;
@@ -126,12 +120,12 @@ class ilCalendarEntry implements ilDatePeriod
     {
         $this->title = $a_title;
     }
-    
+
     public function getTitle() : string
     {
         return $this->title;
     }
-    
+
     public function getPresentationTitle(bool $a_shorten = true) : string
     {
         if ($this->getTranslationType() == IL_CAL_TRANSLATION_NONE) {
@@ -145,8 +139,8 @@ class ilCalendarEntry implements ilDatePeriod
             }
             $title = $this->getTitle() .
                 (strlen($subtitle)
-                ? ' (' . $subtitle . ')'
-                : '');
+                    ? ' (' . $subtitle . ')'
+                    : '');
         } else {
             $title = $this->lng->txt($this->getTitle());
         }
@@ -181,8 +175,8 @@ class ilCalendarEntry implements ilDatePeriod
                         /*
                          * if($entry->hasBooked($this->getEntryId()))
                          */
-                        include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-                        $apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $this->getContextId(), $this->getStart());
+                        $apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(),
+                            $this->getContextId(), $this->getStart());
                         $orig_event = $apps[0];
                         if ($entry->hasBooked($orig_event)) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
@@ -192,9 +186,18 @@ class ilCalendarEntry implements ilDatePeriod
                 }
                 break;
         }
+        if (strlen($style)) {
+            $this->presentation_style = $style;
+        }
+
         return $title;
     }
-    
+
+    public function getPresentationStyle() : string
+    {
+        return $this->presentation_style;
+    }
+
     /**
      * set subtitle
      * Used for automatic generated appointments.
@@ -204,42 +207,42 @@ class ilCalendarEntry implements ilDatePeriod
     {
         $this->subtitle = $a_subtitle;
     }
-    
-    public function getSubtitle()  : string
+
+    public function getSubtitle() : string
     {
         return $this->subtitle;
     }
-    
+
     public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
-    
+
     public function getDescription() : string
     {
         return $this->description;
     }
-    
+
     public function setLocation(string $a_location) : void
     {
         $this->location = $a_location;
     }
-    
+
     public function getLocation() : string
     {
         return $this->location;
     }
-    
+
     public function setFurtherInformations(string $a_informations) : void
     {
         $this->further_informations = $a_informations;
     }
-    
+
     public function getFurtherInformations() : string
     {
         return $this->further_informations;
     }
-    
+
     /**
      * set fullday event
      * Fullday events do not change their time in different timezones.
@@ -249,27 +252,27 @@ class ilCalendarEntry implements ilDatePeriod
     {
         $this->fullday = $a_fullday;
     }
-    
+
     public function isFullday() : bool
     {
         return $this->fullday;
     }
-    
+
     public function isAutoGenerated() : bool
     {
         return $this->is_auto_generated;
     }
-    
+
     public function setAutoGenerated(bool $a_status) : void
     {
         $this->is_auto_generated = $a_status;
     }
-    
+
     public function isMilestone() : bool
     {
         return $this->is_milestone;
     }
-    
+
     public function setMilestone(bool $a_status) : void
     {
         $this->is_milestone = $a_status;
@@ -289,32 +292,32 @@ class ilCalendarEntry implements ilDatePeriod
     {
         $this->context_id = $a_context_id;
     }
-    
+
     public function getContextId() : int
     {
         return $this->context_id;
     }
-    
+
     public function setTranslationType(int $a_type) : void
     {
         $this->translation_type = $a_type;
     }
-    
+
     public function getTranslationType() : int
     {
         return $this->translation_type;
     }
-    
+
     public function enableNotification(bool $a_status) : void
     {
         $this->notification = $a_status;
     }
-    
+
     public function isNotificationEnabled() : bool
     {
         return $this->notification;
     }
-    
+
     public function update() : void
     {
         $now = new ilDateTime(time(), IL_CAL_UNIX);
@@ -339,7 +342,7 @@ class ilCalendarEntry implements ilDatePeriod
             "WHERE cal_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
         $res = $this->db->manipulate($query);
     }
-    
+
     public function save() : void
     {
         $next_id = $this->db->nextId('cal_entries');
@@ -368,23 +371,21 @@ class ilCalendarEntry implements ilDatePeriod
             $this->db->quote($this->isNotificationEnabled() ? 1 : 0, 'integer') . ' ' .
             ")";
         $res = $this->db->manipulate($query);
-        
+
         $this->entry_id = $next_id;
     }
-    
+
     public function delete() : void
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
         ilCalendarRecurrence::_delete($this->getEntryId());
-        
+
         $query = "DELETE FROM cal_entries " .
             "WHERE cal_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
         $res = $this->db->manipulate($query);
-        
-        include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
+
         ilCalendarCategoryAssignments::_deleteByAppointmentId($this->getEntryId());
     }
-    
+
     public function validate() : bool
     {
         $success = true;
@@ -407,52 +408,51 @@ class ilCalendarEntry implements ilDatePeriod
         $query = "SELECT * FROM cal_entries WHERE cal_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, 'UTC'));
-            $this->setTitle($row->title);
-            $this->setSubtitle($row->subtitle);
-            $this->setDescription($row->description);
-            $this->setLocation($row->location);
-            $this->setFurtherInformations($row->informations);
+            $this->setLastUpdate(new ilDateTime((string) $row->last_update, IL_CAL_DATETIME, 'UTC'));
+            $this->setTitle((string) $row->title);
+            $this->setSubtitle((string) $row->subtitle);
+            $this->setDescription((string) $row->description);
+            $this->setLocation((string) $row->location);
+            $this->setFurtherInformations((string) $row->informations);
             $this->setFullday((bool) $row->fullday);
             $this->setAutoGenerated((bool) $row->auto_generated);
             $this->setContextId((int) $row->context_id);
-            $this->setContextInfo($row->context_info);
-            $this->setTranslationType($row->translation_type);
+            $this->setContextInfo((string) $row->context_info);
+            $this->setTranslationType((int) $row->translation_type);
             $this->setCompletion((int) $row->completion);
             $this->setMilestone((bool) $row->is_milestone);
             $this->enableNotification((bool) $row->notification);
-            
+
             if ($this->isFullday()) {
-                $this->start = new ilDate($row->starta, IL_CAL_DATETIME);
-                $this->end = new ilDate($row->enda, IL_CAL_DATETIME);
+                $this->start = new ilDate((string) $row->starta, IL_CAL_DATETIME);
+                $this->end = new ilDate((string) $row->enda, IL_CAL_DATETIME);
             } else {
-                $this->start = new ilDateTime($row->starta, IL_CAL_DATETIME, 'UTC');
-                $this->end = new ilDateTime($row->enda, IL_CAL_DATETIME, 'UTC');
+                $this->start = new ilDateTime((string) $row->starta, IL_CAL_DATETIME, 'UTC');
+                $this->end = new ilDateTime((string) $row->enda, IL_CAL_DATETIME, 'UTC');
             }
         }
     }
-    
+
     public function appointmentToMailString(ilLanguage $lng) : string
     {
         $body = $lng->txt('cal_details');
         $body .= "\n\n";
         $body .= $lng->txt('title') . ': ' . $this->getTitle() . "\n";
-        
+
         ilDatePresentation::setUseRelativeDates(false);
         $body .= $lng->txt('date') . ': ' . ilDatePresentation::formatPeriod($this->getStart(), $this->getEnd()) . "\n";
         ilDatePresentation::setUseRelativeDates(true);
-        
+
         if (strlen($this->getLocation())) {
             $body .= $lng->txt('cal_where') . ': ' . $this->getLocation() . "\n";
         }
-    
+
         if (strlen($this->getDescription())) {
             $body .= $lng->txt('description') . ': ' . $this->getDescription() . "\n";
         }
         return $body;
     }
-    
-    
+
     public function writeResponsibleUsers(array $a_users) : void
     {
         $this->db->manipulateF(
@@ -460,7 +460,7 @@ class ilCalendarEntry implements ilDatePeriod
             array("integer"),
             array($this->getEntryId())
         );
-        
+
         if (is_array($a_users)) {
             foreach ($a_users as $user_id) {
                 $this->db->manipulateF(
@@ -471,13 +471,13 @@ class ilCalendarEntry implements ilDatePeriod
                 );
             }
         }
-        
+
         $this->responsible_users = $a_users;
     }
-    
+
     /**
-    * Read responsible users
-    */
+     * Read responsible users
+     */
     public function readResponsibleUsers() : array
     {
         $set = $this->db->queryF(

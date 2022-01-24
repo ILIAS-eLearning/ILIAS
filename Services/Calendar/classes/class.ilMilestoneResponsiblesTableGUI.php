@@ -21,13 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* TableGUI class for selection of milestone responsibles
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @ingroup ServicesCalendar
-*/
+ * TableGUI class for selection of milestone responsibles
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
 {
     protected int $grp_id;
@@ -44,10 +42,10 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
         global $DIC;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->grp_id = $a_grp_id;
         $this->app_id = $a_app_id;
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("user"), "", "100%");
         $this->setRowTemplate(
@@ -66,15 +64,14 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
             $this->lng->txt("cal_save_responsible_users")
         );
     }
-    
+
     /**
-    * Get participants and responsible users
-    */
+     * Get participants and responsible users
+     */
     public function getParticipantsAndResponsibles()
     {
         $participants = array();
         if ($this->app_id > 0) {
-            include_once("./Services/Calendar/classes/class.ilCalendarEntry.php");
             $app = new ilCalendarEntry($this->app_id);
             $resp_users = $app->readResponsibleUsers();
             foreach ($resp_users as $v) {
@@ -84,7 +81,6 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
             }
         }
 
-        include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
         $part = ilGroupParticipants::_getInstanceByObjId($this->grp_id);
         $admins = $part->getAdmins();
         $members = $part->getMembers();
@@ -98,11 +94,11 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
         }
         $this->setData($participants);
     }
-    
+
     /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
+     * Standard Version of Fill Row. Most likely to
+     * be overwritten by derived class.
+     */
     protected function fillRow(array $a_set) : void
     {
         if (is_array($this->resp_users) && in_array($a_set["user_id"], $this->resp_users)) {

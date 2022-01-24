@@ -21,20 +21,16 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilDate.php');
-include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
-
 /**
-* Class for date presentation
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesCalendar
-*/
+ * Class for date presentation
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilDatePresentation
 {
     public static bool $use_relative_dates = true;
     private static ?ilLanguage $lang = null;
-    
+
     public static ?ilDateTime $today = null;
     public static ?ilDateTime $tomorrow = null;
     public static ?ilDateTime $yesterday = null;
@@ -48,7 +44,7 @@ class ilDatePresentation
         5 => "Fr_short",
         6 => "Sa_short"
     );
-    
+
     /**
      * set use relative dates
      */
@@ -56,18 +52,16 @@ class ilDatePresentation
     {
         self::$use_relative_dates = $a_status;
     }
-     
+
     public static function useRelativeDates() : bool
     {
         return self::$use_relative_dates;
     }
-    
+
     public static function setLanguage(ilLanguage $a_lng) : void
     {
         self::$lang = $a_lng;
     }
-
-
 
     public static function getLanguage()
     {
@@ -76,7 +70,7 @@ class ilDatePresentation
         $lng = $DIC->language();
         return self::$lang ?: $lng;
     }
-    
+
     /**
      * reset to defaults
      */
@@ -95,13 +89,13 @@ class ilDatePresentation
 
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-        
+
         if ($date->isNull()) {
             return self::getLanguage()->txt('no_date');
         }
-        
+
         $has_time = !is_a($date, 'ilDate');
-        
+
         // Converting pure dates to user timezone might return wrong dates
         if ($has_time) {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', $ilUser->getTimeZone());
@@ -119,7 +113,6 @@ class ilDatePresentation
             } elseif (self::isYesterday($date) and self::useRelativeDates()) {
                 $date_str = self::getLanguage()->txt('yesterday');
             } else {
-                include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
                 $date_str = "";
                 if ($a_include_wd) {
                     $date_str = $lng->txt(self::$weekdays[$date->get(IL_CAL_FKT_DATE, 'w')]) . ", 	";
@@ -131,27 +124,27 @@ class ilDatePresentation
         } else {
             $sep = "";
         }
-        
+
         if (!$has_time) {
             return $date_str;
         }
-        
+
         switch ($ilUser->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_24:
                 return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
-                
+
             case ilCalendarSettings::TIME_FORMAT_12:
                 return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
         }
         return '';
     }
-    
+
     /**
      * Format a period of two dates
-     * Shows:	14. Jul 2008 18:00 - 20:00
-     * or:		Today 18:00 - 20:00
-     * or:		14. Jul 2008 - 16. Jul 2008
-     * or:		14. Jul 2008, 12:00 - 16. Jul 2008, 14:00
+     * Shows:    14. Jul 2008 18:00 - 20:00
+     * or:        Today 18:00 - 20:00
+     * or:        14. Jul 2008 - 16. Jul 2008
+     * or:        14. Jul 2008, 12:00 - 16. Jul 2008, 14:00
      */
     public static function formatPeriod(ilDateTime $start, ilDateTime $end, bool $a_skip_starting_day = false) : string
     {
@@ -159,7 +152,7 @@ class ilDatePresentation
 
         $ilUser = $DIC['ilUser'];
         $has_time = !is_a($start, 'ilDate');
-        
+
         // Same day
         if (ilDateTime::_equals($start, $end, IL_CAL_DAY, $ilUser->getTimeZone())) {
             if (!$has_time) {
@@ -173,24 +166,26 @@ class ilDatePresentation
                     );
                     $sep = ", ";
                 }
-                
+
                 // $start == $end
                 if (ilDateTime::_equals($start, $end)) {
                     switch ($ilUser->getTimeFormat()) {
                         case ilCalendarSettings::TIME_FORMAT_24:
                             return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
-                            
+
                         case ilCalendarSettings::TIME_FORMAT_12:
                             return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'h:i a', $ilUser->getTimeZone());
                     }
                 } else {
                     switch ($ilUser->getTimeFormat()) {
                         case ilCalendarSettings::TIME_FORMAT_24:
-                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone()) . ' - ' .
+                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'H:i',
+                                    $ilUser->getTimeZone()) . ' - ' .
                                 $end->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
-                            
+
                         case ilCalendarSettings::TIME_FORMAT_12:
-                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone()) . ' - ' .
+                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'g:ia',
+                                    $ilUser->getTimeZone()) . ' - ' .
                                 $end->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
                     }
                 }
@@ -200,8 +195,6 @@ class ilDatePresentation
         return self::formatDate($start, $a_skip_starting_day) . ' - ' . self::formatDate($end);
     }
 
-
-
     /**
      * Check if date is "today"
      */
@@ -210,13 +203,13 @@ class ilDatePresentation
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         if (!is_object(self::$today)) {
             self::$today = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
         }
         return ilDateTime::_equals(self::$today, $date, IL_CAL_DAY, $ilUser->getTimeZone());
     }
-    
+
     /**
      * Check if date is yesterday
      */
@@ -229,7 +222,7 @@ class ilDatePresentation
             self::$yesterday = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
             self::$yesterday->increment(IL_CAL_DAY, -1);
         }
-        
+
         return ilDateTime::_equals(self::$yesterday, $date, IL_CAL_DAY, $ilUser->getTimeZone());
     }
 
@@ -245,16 +238,19 @@ class ilDatePresentation
             self::$tomorrow = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
             self::$tomorrow->increment(IL_CAL_DAY, 1);
         }
-        
+
         return ilDateTime::_equals(self::$tomorrow, $date, IL_CAL_DAY, $ilUser->getTimeZone());
     }
-    
+
     /**
      * converts seconds to string:
      * Long: 7 days 4 hour(s) ...
      */
-    public static function secondsToString(int $seconds, bool $force_with_seconds = false, ?ilLanguage $a_lng = null) : string
-    {
+    public static function secondsToString(
+        int $seconds,
+        bool $force_with_seconds = false,
+        ?ilLanguage $a_lng = null
+    ) : string {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -265,7 +261,7 @@ class ilDatePresentation
         }
 
         $seconds = $seconds ?: 0;
-        
+
         // #13625
         if ($seconds > 0) {
             $days = floor($seconds / 86400);

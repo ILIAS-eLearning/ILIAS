@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,18 +22,15 @@
 */
 
 /**
-* Class ilCalendarUtil
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-*
-*/
+ * Class ilCalendarUtil
+ * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilCalendarUtil
 {
     private static ?ilDateTime $today = null;
     private static array $default_calendar = array();
     public static string $init_done;
     protected static bool $init_datetimepicker = false;
-
 
     public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null) : string
     {
@@ -45,7 +42,7 @@ class ilCalendarUtil
         }
         return $date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
     }
-    
+
     public static function _isToday(ilDateTime $date) : bool
     {
         global $DIC;
@@ -56,10 +53,9 @@ class ilCalendarUtil
         }
         return ilDateTime::_equals(self::$today, $date, IL_CAL_DAY, $ilUser->getTimeZone());
     }
-    
+
     /**
      * numeric month to string
-     *
      * @param int month (1-12)
      * @param bool short or long month translation
      */
@@ -69,9 +65,9 @@ class ilCalendarUtil
 
         $lng = $DIC['lng'];
         $month = $a_month < 10 ? '0' . $a_month : $a_month;
-        return 	$a_long ? $lng->txt('month_' . $month . '_long') : $lng->txt('month_' . $month . '_short');
+        return $a_long ? $lng->txt('month_' . $month . '_long') : $lng->txt('month_' . $month . '_short');
     }
-    
+
     /**
      * @param int day of week (0 for sunday, 1 for monday)
      * @param bool short or long day translation
@@ -82,14 +78,13 @@ class ilCalendarUtil
 
         $lng = $DIC['lng'];
         $lng->loadLanguageModule('dateplaner');
-        static $days = array('Su','Mo','Tu','We','Th','Fr','Sa','Su');
-        
-        return 	$a_long ? $lng->txt($days[$a_day] . '_long') : $lng->txt($days[$a_day] . '_short');
+        static $days = array('Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su');
+
+        return $a_long ? $lng->txt($days[$a_day] . '_long') : $lng->txt($days[$a_day] . '_short');
     }
-    
+
     /**
      * build week day list
-     *
      * @access public
      * @param ilDate a day in a week
      * @param int weekstart
@@ -97,9 +92,8 @@ class ilCalendarUtil
      */
     public static function _buildWeekDayList(ilDate $a_day, int $a_weekstart) : ilDateList
     {
-        include_once('Services/Calendar/classes/class.ilDateList.php');
         $day_list = new ilDateList(ilDateList::TYPE_DATE);
-        
+
         $start = clone $a_day;
         $start_info = $start->get(IL_CAL_FKT_GETDATE, '', 'UTC');
         $day_diff = $a_weekstart - $start_info['isoday'];
@@ -108,50 +102,46 @@ class ilCalendarUtil
         }
         $start->increment(IL_CAL_DAY, $day_diff);
         $day_list->add($start);
-        for ($i = 1; $i < 7;$i++) {
+        for ($i = 1; $i < 7; $i++) {
             $start->increment(IL_CAL_DAY, 1);
             $day_list->add($start);
         }
         return $day_list;
     }
-    
+
     /**
      * Build a month day list
-     *
      * @param int month
      * @param int year
      * @param int weekstart (0 => Sunday,1 => Monday)
      * @return ilDateList
-     *
      */
     public static function _buildMonthDayList(int $a_month, int $a_year, int $weekstart) : ilDateList
     {
-        include_once('Services/Calendar/classes/class.ilDateList.php');
         $day_list = new ilDateList(ilDateList::TYPE_DATE);
-                
+
         $prev_month = ($a_month == 1) ? 12 : $a_month - 1;
         $prev_year = ($prev_month == 12) ? $a_year - 1 : $a_year;
         $next_month = $a_month == 12 ? 1 : $a_month + 1;
         $next_year = $a_month == 12 ? $a_year + 1 : $a_year;
-        
+
         $days_in_month = self::_getMaxDayOfMonth($a_year, $a_month);
         $days_in_prev_month = self::_getMaxDayOfMonth($a_year, $prev_month);
-        
+
         $week_day['year'] = $a_year;
         $week_day['mon'] = $a_month;
         $week_day['mday'] = 1;
         $week_day['hours'] = 0;
         $week_day['minutes'] = 0;
         $week_day = new ilDate($week_day, IL_CAL_FKT_GETDATE);
-        
+
         $weekday = $week_day->get(IL_CAL_FKT_DATE, 'w');
         $first_day_offset = (($weekday - $weekstart) < 0) ? 6 : $weekday - $weekstart;
 
-
-        for ($i = 0;$i < 42;$i++) {
+        for ($i = 0; $i < 42; $i++) {
             if ($i < $first_day_offset) {
                 $day = $days_in_prev_month - $first_day_offset + $i + 1;
-                
+
                 $day_list->add(new ilDate(
                     gmmktime(
                         0,
@@ -166,7 +156,6 @@ class ilCalendarUtil
             } elseif ($i < $days_in_month + $first_day_offset) {
                 $day = $i - $first_day_offset + 1;
 
-                                
                 $day_list->add(new ilDate(
                     gmmktime(
                         0,
@@ -198,18 +187,18 @@ class ilCalendarUtil
         }
         return $day_list;
     }
-    
+
     public static function initJSCalendar() : void
     {
         global $DIC;
 
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
-        
+
         if (self::$init_done == "done") {
             return;
         }
-        
+
         $lng->loadLanguageModule("jscalendar");
         $tpl->addBlockFile(
             "CALENDAR_LANG_JAVASCRIPT",
@@ -280,10 +269,10 @@ class ilCalendarUtil
         $tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Services/Calendar/js/calendar.js");
         $tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Services/Calendar/js/calendar-setup.js");
         $tpl->parseCurrentBlock();
-        
+
         self::$init_done = "done";
     }
-    
+
     public static function getZoneInfoFile($a_tz) : string
     {
         if (!array_key_exists($a_tz, self::_getShortTimeZoneList())) {
@@ -294,85 +283,84 @@ class ilCalendarUtil
         return './Services/Calendar/zoneinfo/' . $timezone_filename;
     }
 
-
     /**
      * get short timezone list
      */
     public static function _getShortTimeZoneList() : array
     {
         return array(
-                'Pacific/Samoa' => 'GMT-11: Midway Islands, Samoa',
-                'US/Hawaii' => 'GMT-10:00: Hawaii, Polynesia',
-                'US/Alaska' => 'GMT-9:00: Alaska',
-                'America/Los_Angeles' => 'GMT-8:00: Tijuana, Los Angeles, Seattle, Vancouver',
-                'US/Arizona' => 'GMT-7:00: Arizona',
-                'America/Chihuahua' => 'GMT-7:00: Chihuahua, La Paz, Mazatlan',
-                'America/Denver' => 'GMT-7:00: Arizona, Denver, Salt Lake City, Calgary',
-                'America/Chicago' => 'GMT-6:00: Chicago, Dallas, Kansas City, Winnipeg',
-                'America/Monterrey' => 'GMT-6:00: Guadalajara, Mexico City, Monterrey',
-                'Canada/Saskatchewan' => 'GMT-6:00: Saskatchewan',
-                'US/Central' => 'GMT-6:00: Central America',
-                'America/Bogota' => 'GMT-5:00: Bogota, Lima, Quito',
-                'US/East-Indiana' => 'GMT-5:00: East-Indiana',
-                'America/New_York' => 'GMT-5:00: New York, Miami, Atlanta, Detroit, Toronto',
-                'Canada/Atlantic' => 'GMT-4:00: Atlantic (Canada)',
-                'America/La_Paz' => 'GMT-4:00: Carcas, La Paz',
-                'America/Santiago' => 'GMT-4:00: Santiago',
-                'Canada/Newfoundland' => 'GMT-3:00: Newfoundland',
-                'Brazil/East' => 'GMT-3:00: Sao Paulo',
-                'America/Argentina/Buenos_Aires' => 'GMT-3:00: Buenes Aires, Georgtown',
-                'Etc/GMT+3' => 'GMT-3:00: Greenland, Uruguay, Surinam',
-                'Atlantic/Cape_Verde' => 'GMT-2:00: Cape Verde, Greenland, South Georgia',
-                'Atlantic/Azores' => 'GMT-1:00: Azores',
-                'Africa/Casablanca' => 'GMT+0:00: Casablanca, Monrovia',
-                'Europe/London' => 'GMT+0:00: Dublin, Edinburgh, Lisbon, London',
-                'Europe/Berlin' => 'GMT+1:00: Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',
-                'Europe/Belgrade' => 'GMT+1:00: Belgrade, Bratislava, Budapest, Ljubljana, Prague',
-                'Europe/Paris' => 'GMT+1:00: Brussels, Copenhagen, Paris, Madrid',
-                'Europe/Sarajevo' => 'GMT+1:00: Sarajevo, Skopje, Warsaw, Zagreb',
-                'Africa/Lagos' => 'GMT+1:00: West-Central Africa',
-                'Europe/Athens' => 'GMT+2:00: Athens, Beirut, Istanbul, Minsk',
-                'Europe/Bucharest' => 'GMT+2:00: Bucharest',
-                'Africa/Harare' => 'GMT+2:00: Harare, Pratoria',
-                'Europe/Helsinki' => 'GMT+2:00: Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius',
-                'Asia/Jerusalem' => 'GMT+2:00: Jerusalem',
-                'Africa/Cairo' => 'GMT+2:00: Cairo',
-                'Asia/Baghdad' => 'GMT+3:00: Baghdad',
-                'Asia/Kuwait' => 'GMT+3:00: Kuwait, Riyadh',
-                'Europe/Moscow' => 'GMT+3:00: Moscow, Saint Petersburg',
-                'Africa/Nairobi' => 'GMT+3:00: Nairobi',
-                'Asia/Tehran' => 'GMT+3:30: Tehran',
-                'Asia/Muscat' => 'GMT+4:00: Abu Dhabi, Muscat',
-                'Asia/Baku' => 'GMT+4:00: Baku, Tbilisi, Erivan',
-                'Asia/Kabul' => 'GMT+4:00: Kabul',
-                'Asia/Karachi' => 'GMT+5:00: Islamabad, Karachi, Taschkent',
-                'Asia/Yekaterinburg' => 'GMT+5:00: Yekaterinburg',
-                'Asia/Calcutta' => 'GMT+5:30: New Dehli',
-                'Asia/Katmandu' => 'GMT+5:45: Katmandu',
-                'Asia/Novosibirsk' => 'GMT+6:00: Almaty, Novosibirsk',
-                'Asia/Dhaka' => 'GMT+6:00: Astana, Dhaka',
-                'Asia/Rangoon' => 'GMT+6:00: Sri Jayawardenepura, Rangoon',
-                'Asia/Jakarta' => 'GMT+7:00: Bangkok, Hanoi, Jakarta',
-                'Asia/Krasnoyarsk' => 'GMT+7:00: Krasnoyarsk',
-                'Asia/Irkutsk' => 'GMT+8:00: Irkutsk, Ulan Bator',
-                'Asia/Singapore' => 'GMT+8:00: Kuala Lumpour, Singapore',
-                'Asia/Hong_Kong' => 'GMT+8:00: Beijing, Chongqing, Hong kong, Urumchi',
-                'Australia/Perth' => 'GMT+8:00: Perth',
-                'Asia/Taipei' => 'GMT+8:00: Taipei',
-                'Asia/Yakutsk' => 'GMT+9:00: Yakutsk',
-                'Asia/Tokyo' => 'GMT+9:00: Osaka, Sapporo, Tokyo',
-                'Asia/Seoul' => 'GMT+9:00: Seoul, Darwin, Adelaide',
-                'Australia/Brisbane' => 'GMT+10:00: Brisbane',
-                'Australia/Sydney' => 'GMT+10:00: Canberra, Melbourne, Sydney',
-                'Pacific/Guam' => 'GMT+10:00: Guam, Port Moresby',
-                'Australia/Hobart' => 'GMT+10:00: Hobart',
-                'Asia/Vladivostok' => 'GMT+10:00: Vladivostok',
-                'Asia/Magadan' => 'GMT+11:00: Salomon Islands, New Caledonia, Magadan',
-                'Pacific/Auckland' => 'GMT+12:00: Auckland, Wellington',
-                'Pacific/Fiji' => 'GMT+12:00: Fiji, Kamchatka, Marshall-Islands');
+            'Pacific/Samoa' => 'GMT-11: Midway Islands, Samoa',
+            'US/Hawaii' => 'GMT-10:00: Hawaii, Polynesia',
+            'US/Alaska' => 'GMT-9:00: Alaska',
+            'America/Los_Angeles' => 'GMT-8:00: Tijuana, Los Angeles, Seattle, Vancouver',
+            'US/Arizona' => 'GMT-7:00: Arizona',
+            'America/Chihuahua' => 'GMT-7:00: Chihuahua, La Paz, Mazatlan',
+            'America/Denver' => 'GMT-7:00: Arizona, Denver, Salt Lake City, Calgary',
+            'America/Chicago' => 'GMT-6:00: Chicago, Dallas, Kansas City, Winnipeg',
+            'America/Monterrey' => 'GMT-6:00: Guadalajara, Mexico City, Monterrey',
+            'Canada/Saskatchewan' => 'GMT-6:00: Saskatchewan',
+            'US/Central' => 'GMT-6:00: Central America',
+            'America/Bogota' => 'GMT-5:00: Bogota, Lima, Quito',
+            'US/East-Indiana' => 'GMT-5:00: East-Indiana',
+            'America/New_York' => 'GMT-5:00: New York, Miami, Atlanta, Detroit, Toronto',
+            'Canada/Atlantic' => 'GMT-4:00: Atlantic (Canada)',
+            'America/La_Paz' => 'GMT-4:00: Carcas, La Paz',
+            'America/Santiago' => 'GMT-4:00: Santiago',
+            'Canada/Newfoundland' => 'GMT-3:00: Newfoundland',
+            'Brazil/East' => 'GMT-3:00: Sao Paulo',
+            'America/Argentina/Buenos_Aires' => 'GMT-3:00: Buenes Aires, Georgtown',
+            'Etc/GMT+3' => 'GMT-3:00: Greenland, Uruguay, Surinam',
+            'Atlantic/Cape_Verde' => 'GMT-2:00: Cape Verde, Greenland, South Georgia',
+            'Atlantic/Azores' => 'GMT-1:00: Azores',
+            'Africa/Casablanca' => 'GMT+0:00: Casablanca, Monrovia',
+            'Europe/London' => 'GMT+0:00: Dublin, Edinburgh, Lisbon, London',
+            'Europe/Berlin' => 'GMT+1:00: Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',
+            'Europe/Belgrade' => 'GMT+1:00: Belgrade, Bratislava, Budapest, Ljubljana, Prague',
+            'Europe/Paris' => 'GMT+1:00: Brussels, Copenhagen, Paris, Madrid',
+            'Europe/Sarajevo' => 'GMT+1:00: Sarajevo, Skopje, Warsaw, Zagreb',
+            'Africa/Lagos' => 'GMT+1:00: West-Central Africa',
+            'Europe/Athens' => 'GMT+2:00: Athens, Beirut, Istanbul, Minsk',
+            'Europe/Bucharest' => 'GMT+2:00: Bucharest',
+            'Africa/Harare' => 'GMT+2:00: Harare, Pratoria',
+            'Europe/Helsinki' => 'GMT+2:00: Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius',
+            'Asia/Jerusalem' => 'GMT+2:00: Jerusalem',
+            'Africa/Cairo' => 'GMT+2:00: Cairo',
+            'Asia/Baghdad' => 'GMT+3:00: Baghdad',
+            'Asia/Kuwait' => 'GMT+3:00: Kuwait, Riyadh',
+            'Europe/Moscow' => 'GMT+3:00: Moscow, Saint Petersburg',
+            'Africa/Nairobi' => 'GMT+3:00: Nairobi',
+            'Asia/Tehran' => 'GMT+3:30: Tehran',
+            'Asia/Muscat' => 'GMT+4:00: Abu Dhabi, Muscat',
+            'Asia/Baku' => 'GMT+4:00: Baku, Tbilisi, Erivan',
+            'Asia/Kabul' => 'GMT+4:00: Kabul',
+            'Asia/Karachi' => 'GMT+5:00: Islamabad, Karachi, Taschkent',
+            'Asia/Yekaterinburg' => 'GMT+5:00: Yekaterinburg',
+            'Asia/Calcutta' => 'GMT+5:30: New Dehli',
+            'Asia/Katmandu' => 'GMT+5:45: Katmandu',
+            'Asia/Novosibirsk' => 'GMT+6:00: Almaty, Novosibirsk',
+            'Asia/Dhaka' => 'GMT+6:00: Astana, Dhaka',
+            'Asia/Rangoon' => 'GMT+6:00: Sri Jayawardenepura, Rangoon',
+            'Asia/Jakarta' => 'GMT+7:00: Bangkok, Hanoi, Jakarta',
+            'Asia/Krasnoyarsk' => 'GMT+7:00: Krasnoyarsk',
+            'Asia/Irkutsk' => 'GMT+8:00: Irkutsk, Ulan Bator',
+            'Asia/Singapore' => 'GMT+8:00: Kuala Lumpour, Singapore',
+            'Asia/Hong_Kong' => 'GMT+8:00: Beijing, Chongqing, Hong kong, Urumchi',
+            'Australia/Perth' => 'GMT+8:00: Perth',
+            'Asia/Taipei' => 'GMT+8:00: Taipei',
+            'Asia/Yakutsk' => 'GMT+9:00: Yakutsk',
+            'Asia/Tokyo' => 'GMT+9:00: Osaka, Sapporo, Tokyo',
+            'Asia/Seoul' => 'GMT+9:00: Seoul, Darwin, Adelaide',
+            'Australia/Brisbane' => 'GMT+10:00: Brisbane',
+            'Australia/Sydney' => 'GMT+10:00: Canberra, Melbourne, Sydney',
+            'Pacific/Guam' => 'GMT+10:00: Guam, Port Moresby',
+            'Australia/Hobart' => 'GMT+10:00: Hobart',
+            'Asia/Vladivostok' => 'GMT+10:00: Vladivostok',
+            'Asia/Magadan' => 'GMT+11:00: Salomon Islands, New Caledonia, Magadan',
+            'Pacific/Auckland' => 'GMT+12:00: Auckland, Wellington',
+            'Pacific/Fiji' => 'GMT+12:00: Fiji, Kamchatka, Marshall-Islands'
+        );
     }
-    
-    
+
     /**
      * check if a given year is a leap year
      */
@@ -390,11 +378,10 @@ class ilCalendarUtil
         }
         return $is_leap;
     }
-    
+
     /**
      * get max day of month
      * 2008,2 => 29
-     *
      * @access public
      * @param int year
      * @param int month
@@ -404,10 +391,9 @@ class ilCalendarUtil
     {
         return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
     }
-    
+
     /**
      * Calculate best font color from html hex color code
-     *
      * @param string hex value of color
      * @return string #ffffff or #000000
      */
@@ -416,14 +402,14 @@ class ilCalendarUtil
         if (strpos($a_html_color_code, '#') !== 0 or strlen($a_html_color_code) != 7) {
             return '#000000';
         }
-        
+
         // http://en.wikipedia.org/wiki/Luminance_(relative)
         $lum = round(hexdec(substr($a_html_color_code, 1, 2)) * 0.2126 +
             hexdec(substr($a_html_color_code, 3, 2)) * 0.7152 +
             hexdec(substr($a_html_color_code, 5, 2)) * 0.0722);
         return ($lum <= 128) ? "#FFFFFF" : "#000000";
     }
-    
+
     /**
      * Get hour selection depending on user specific hour format.
      */
@@ -436,7 +422,7 @@ class ilCalendarUtil
                     $options[$i] = sprintf('%02d:00', $i);
                 }
                 break;
-                
+
             case ilCalendarSettings::TIME_FORMAT_12:
                 for ($i = 0; $i < 24; $i++) {
                     $options[$i] = date('h a', mktime($i, 0, 0, 1, 1, 2000));
@@ -449,16 +435,18 @@ class ilCalendarUtil
     /**
      * Init the default calendar for given type and user
      */
-    public static function initDefaultCalendarByType(int $a_type_id, int $a_usr_id, string $a_title, bool $a_create = false) : ?ilCalendarCategory
-    {
+    public static function initDefaultCalendarByType(
+        int $a_type_id,
+        int $a_usr_id,
+        string $a_title,
+        bool $a_create = false
+    ) : ?ilCalendarCategory {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         if (isset(self::$default_calendar[$a_usr_id]) and isset(self::$default_calendar[$a_usr_id][$a_type_id])) {
             return self::$default_calendar[$a_usr_id][$a_type_id];
         }
-
-        include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 
         $query = "SELECT cat_id FROM cal_categories " .
             "WHERE obj_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
@@ -482,8 +470,7 @@ class ilCalendarUtil
 
         return self::$default_calendar[$a_usr_id][$a_type_id];
     }
-    
-    
+
     /**
      * Parse current user setting into date/time format
      */
@@ -508,13 +495,13 @@ class ilCalendarUtil
         }
         if ($a_add_time) {
             $format .= " " . (($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
-                ? "HH:mm"
-                : "hh:mma");
+                    ? "HH:mm"
+                    : "hh:mma");
             if ($a_add_time == 2) {
                 $format .= ":ss";
             }
         }
-        
+
         // translate datepicker format to PHP format
         if ($a_for_parsing) {
             $format = str_replace("DD", "d", $format);
@@ -524,15 +511,15 @@ class ilCalendarUtil
             $format = str_replace("HH", "H", $format);
             $format = str_replace("hh", "h", $format);
         }
-        
+
         return $format;
     }
-    
+
     public static function initDateTimePicker() : void
     {
         global $DIC;
         $tpl = $DIC->ui()->mainTemplate();
-        
+
         if (!self::$init_datetimepicker) {
             $tpl->addJavaScript("./libs/bower/bower_components/moment/min/moment-with-locales.min.js");
             // unminified version does not work with jQuery 3.0
@@ -542,42 +529,55 @@ class ilCalendarUtil
             self::$init_datetimepicker = true;
         }
     }
-    
+
     /**
      * Add date time picker to element
-     *
      * @param string $a_id
-     * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
-     * @param array $a_custom_config
+     * @param int    $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param array  $a_custom_config
      * @param string $a_id2
-     * @param array $a_custom_config2
+     * @param array  $a_custom_config2
      * @param string $a_toggle_id
      * @param string $a_subform_id
      */
-    public static function addDateTimePicker(int $a_id, ?int $a_add_time = null, ?array $a_custom_config = null, ?string $a_id2 = null, ?array $a_custom_config2 = null, ?string $a_toggle_id = null, ?string $a_subform_id = null) : void
-    {
+    public static function addDateTimePicker(
+        string $a_id,
+        ?int $a_add_time = null,
+        ?array $a_custom_config = null,
+        ?string $a_id2 = null,
+        ?array $a_custom_config2 = null,
+        ?string $a_toggle_id = null,
+        ?string $a_subform_id = null
+    ) : void {
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        foreach (self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id, $a_subform_id) as $code) {
+        foreach (self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id,
+            $a_subform_id) as $code) {
             $tpl->addOnLoadCode($code);
         }
     }
 
     /**
      * Add date time picker to element
-     *
      * @param string $a_id
-     * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
-     * @param array $a_custom_config
+     * @param int    $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param array  $a_custom_config
      * @param string $a_id2
-     * @param array $a_custom_config2
+     * @param array  $a_custom_config2
      * @param string $a_toggle_id
      * @param string $a_subform_id
      * @return string
      */
-    public static function getCodeForPicker(string $a_id, ?int $a_add_time = null, ?array $a_custom_config = null, ?string $a_id2 = null, ?array $a_custom_config2 = null, ?string $a_toggle_id = null, ?string $a_subform_id = null) : array
-    {
+    public static function getCodeForPicker(
+        string $a_id,
+        ?int $a_add_time = null,
+        ?array $a_custom_config = null,
+        ?string $a_id2 = null,
+        ?array $a_custom_config2 = null,
+        ?string $a_toggle_id = null,
+        ?string $a_subform_id = null
+    ) : array {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
@@ -591,17 +591,25 @@ class ilCalendarUtil
         }
         $default = array(
             'locale' => $language
-            ,'stepping' => 5
-            ,'useCurrent' => false
-            ,'calendarWeeks' => true
-            ,'toolbarPlacement' => 'top'
+            ,
+            'stepping' => 5
+            ,
+            'useCurrent' => false
+            ,
+            'calendarWeeks' => true
+            ,
+            'toolbarPlacement' => 'top'
             // ,'showTodayButton' => true
-            ,'showClear' => true
+            ,
+            'showClear' => true
             // ,'showClose' => true
-            ,'keepInvalid' => true
-            ,'sideBySide' => true
+            ,
+            'keepInvalid' => true
+            ,
+            'sideBySide' => true
             // ,'collapse' => false
-            ,'format' => self::getUserDateFormat((bool) $a_add_time)
+            ,
+            'format' => self::getUserDateFormat((bool) $a_add_time)
         );
 
         $config = (!$a_custom_config)
@@ -610,7 +618,6 @@ class ilCalendarUtil
 
         $code = [];
         $code[] = '$("#' . $a_id . '").datetimepicker(' . json_encode($config) . ')';
-
 
         // optional 2nd picker aka duration
         if ($a_id2) {
@@ -653,41 +660,42 @@ class ilCalendarUtil
         }
         $tmp = date_parse_from_format($out_format, $a_date);
         $date = null;
-        
+
         if (!$tmp["error_count"] &&
             !$tmp["warning_count"]) {
             $format = $tmp["year"] . "-" .
                 str_pad($tmp["month"], 2, "0", STR_PAD_LEFT) . "-" .
                 str_pad($tmp["day"], 2, "0", STR_PAD_LEFT);
-                
+
             if ($a_add_time) {
                 $format .= " " .
                     str_pad($tmp["hour"], 2, "0", STR_PAD_LEFT) . ":" .
                     str_pad($tmp["minute"], 2, "0", STR_PAD_LEFT) . ":" .
                     str_pad($tmp["second"], 2, "0", STR_PAD_LEFT);
-                
+
                 $date = new ilDateTime($format, IL_CAL_DATETIME, $ilUser->getTimeZone());
             } else {
                 $date = new ilDate($format, IL_CAL_DATE);
             }
         }
-        
+
         return array(
             "date" => $date
-            , "warnings" => sizeof($tmp["warnings"])
+            ,
+            "warnings" => sizeof($tmp["warnings"])
                 ? $tmp["warnings"]
                 : null
-            , "errors" => sizeof($tmp["errors"])
+            ,
+            "errors" => sizeof($tmp["errors"])
                 ? $tmp["errors"]
                 : null
         );
     }
-                
+
     /**
      * Try to parse incoming value to date object
-     *
      * @param mixed $a_value
-     * @param int $a_add_time
+     * @param int   $a_add_time
      * @return ilDateTime|ilDate
      */
     public static function parseIncomingDate(string $a_value, bool $a_add_time = false) : ?ilDateTime

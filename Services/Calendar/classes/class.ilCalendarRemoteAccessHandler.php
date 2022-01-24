@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Calendar/classes/class.ilCalendarAuthenticationToken.php';
-
 /**
  * @classDescription Handles requests from external calendar applications
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCalendar
- *
+ * @author           Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version          $Id$
+ * @ingroup          ServicesCalendar
  */
 class ilCalendarRemoteAccessHandler
 {
@@ -42,12 +38,11 @@ class ilCalendarRemoteAccessHandler
     {
     }
 
-
     public function getTokenHandler() : ?ilCalendarAuthenticationToken
     {
         return $this->token_handler;
     }
-    
+
     /**
      * Fetch client id, the chosen calendar...
      */
@@ -60,27 +55,25 @@ class ilCalendarRemoteAccessHandler
             $_COOKIE['ilClientId'] = $path_info_components[1];
         }
     }
-    
+
     public function handleRequest() : bool
     {
         session_name('ILCALSESSID');
         $this->initIlias();
         $logger = $GLOBALS['DIC']->logger()->cal();
         $this->initTokenHandler();
-        
+
         if (!$this->initUser()) {
             $logger->warning('Calendar token is invalid. Authentication failed.');
             return false;
         }
-        
+
         if ($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired()) {
             $GLOBALS['DIC']['ilAuthSession']->logout();
             ilUtil::deliverData($this->getTokenHandler(), 'calendar.ics', 'text/calendar', 'utf-8');
             exit;
         }
-        
-        include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
-        include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
+
         if ($this->getTokenHandler()->getSelectionType() == ilCalendarAuthenticationToken::SELECTION_CALENDAR) {
             #$export = new ilCalendarExport(array($this->getTokenHandler()->getCalendar()));
             $cats = ilCalendarCategories::_getInstance();
@@ -91,9 +84,9 @@ class ilCalendarRemoteAccessHandler
             $cats->initialize(ilCalendarCategories::MODE_REMOTE_ACCESS);
             $export = new ilCalendarExport($cats->getCategories(true));
         }
-        
+
         $export->export();
-    
+
         $this->getTokenHandler()->setIcal($export->getExportString());
         $this->getTokenHandler()->storeIcal();
 
@@ -101,7 +94,7 @@ class ilCalendarRemoteAccessHandler
         ilUtil::deliverData($export->getExportString(), 'calendar.ics', 'text/calendar', 'utf-8');
         exit;
     }
-    
+
     protected function initTokenHandler() : void
     {
         $this->logger->info('Authentication token: ' . $_GET['token']);
@@ -110,16 +103,13 @@ class ilCalendarRemoteAccessHandler
             $_GET['token']
         );
     }
-    
+
     protected function initIlias()
     {
-        include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_ICAL);
-        
-        include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CALENDAR_TOKEN);
-        
-        require_once("Services/Init/classes/class.ilInitialisation.php");
+
         ilInitialisation::initILIAS();
 
         global $DIC;
@@ -141,16 +131,14 @@ class ilCalendarRemoteAccessHandler
             $this->logger->info('No user id found for calendar synchronisation');
             return false;
         }
-        include_once './Services/User/classes/class.ilObjUser.php';
         if (!ilObjUser::_exists($this->getTokenHandler()->getUserId())) {
             $this->logger->notice('No valid user id found for calendar synchronisation');
             return false;
         }
-        
-        include_once './Services/Init/classes/class.ilInitialisation.php';
+
         $GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, $this->getTokenHandler()->getUserId());
         ilInitialisation::initUserAccount();
-        
+
         if (!$DIC->user() instanceof ilObjUser) {
             $this->logger->debug('No user object defined');
         } else {

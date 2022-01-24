@@ -22,10 +22,9 @@
 */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesCalendar
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrences
 {
     /**
@@ -45,7 +44,7 @@ class ilCalendarRecurrences
         }
         return $recurrences;
     }
-    
+
     public static function _getFirstRecurrence($a_cal_id) : ilCalendarRecurrence
     {
         $recs = self::_getRecurrences($a_cal_id);

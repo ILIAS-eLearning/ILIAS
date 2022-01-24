@@ -21,34 +21,29 @@
         +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* This class represents an input GUI for recurring events/appointments (course events or calendar appointments)
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * This class represents an input GUI for recurring events/appointments (course events or calendar appointments)
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilRecurrenceInputGUI extends ilCustomInputGUI
 {
     protected const REC_LIMITED = 2;
     protected const REC_UNLIMITED = 1;
-    
+
     protected ilCalendarRecurrence $recurrence;
     protected ilObjUser $user;
     protected ilCalendarUserSettings $user_settings;
-    
+
     protected bool $allow_unlimited_recurrences = true;
-    
+
     protected $enabled_subforms = array(
         ilCalendarRecurrence::FREQ_DAILY,
         ilCalendarRecurrence::FREQ_WEEKLY,
         ilCalendarRecurrence::FREQ_MONTHLY,
         ilCalendarRecurrence::FREQ_YEARLY
     );
-
 
     public function __construct(string $a_title, string $a_postvar)
     {
@@ -70,7 +65,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         if (!$this->loadRecurrence()) {
             return false;
         }
@@ -78,7 +73,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         if ($_POST['frequence'] == 'NONE') {
             return true;
         }
-        
+
         if (!isset($_POST['until_type']) or $_POST['until_type'] == self::REC_LIMITED) {
             if ($_POST['count'] <= 0 or $_POST['count'] >= 100) {
                 $this->setAlert($this->lng->txt("cal_rec_err_limit"));
@@ -87,7 +82,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         }
         return true;
     }
-    
+
     protected function loadRecurrence() : bool
     {
         if (!$this->getRecurrence() instanceof ilCalendarRecurrence) {
@@ -98,7 +93,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_DAILY']);
                 break;
-            
+
             case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_WEEKLY']);
@@ -114,7 +109,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                     case 0:
                         // nothing to do;
                         break;
-                    
+
                     case 1:
                         switch ((int) $_POST['monthly_byday_day']) {
                             case 8:
@@ -122,24 +117,24 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                                 $this->getRecurrence()->setBYSETPOS((string) $_POST['monthly_byday_num']);
                                 $this->getRecurrence()->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
-                                
+
                             case 9:
                                 // Day of month
                                 $this->getRecurrence()->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
                                 break;
-                                
+
                             default:
                                 $this->getRecurrence()->setBYDAY((int) $_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
                                 break;
                         }
                         break;
-                    
+
                     case 2:
                         $this->getRecurrence()->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
                         break;
                 }
                 break;
-            
+
             case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->getRecurrence()->setFrequenceType($_POST['frequence']);
                 $this->getRecurrence()->setInterval((int) $_POST['count_YEARLY']);
@@ -147,12 +142,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                     case 0:
                         // nothing to do;
                         break;
-                    
+
                     case 1:
                         $this->getRecurrence()->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
                         $this->getRecurrence()->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
                         break;
-                    
+
                     case 2:
                         $this->getRecurrence()->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
                         $this->getRecurrence()->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
@@ -160,19 +155,19 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 }
                 break;
         }
-        
+
         // UNTIL
         switch ((int) $_POST['until_type']) {
             case 1:
                 $this->getRecurrence()->setFrequenceUntilDate(null);
                 // nothing to do
                 break;
-                
+
             case 2:
                 $this->getRecurrence()->setFrequenceUntilDate(null);
                 $this->getRecurrence()->setFrequenceUntilCount((int) $_POST['count']);
                 break;
-                
+
             case 3:
                 $dt = new ilDateTimeInputGUI('', 'until_end');
                 $dt->setRequired(true);
@@ -186,18 +181,17 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         }
         return true;
     }
-    
-    
+
     public function setRecurrence(ilCalendarRecurrence $a_rec) : void
     {
         $this->recurrence = $a_rec;
     }
-    
+
     public function getRecurrence() : ilCalendarRecurrence
     {
         return $this->recurrence;
     }
-    
+
     /**
      * Allow unlimited recurrences
      */
@@ -205,12 +199,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     {
         $this->allow_unlimited_recurrences = $a_status;
     }
-    
+
     public function isUnlimitedRecurrenceAllowed() : bool
     {
         return $this->allow_unlimited_recurrences;
     }
-    
+
     /**
      * set enabled subforms
      * @param array(IL_CAL_FREQ_DAILY,FREQ_WEEKLY...)
@@ -220,7 +214,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     {
         $this->enabled_subforms = $a_sub_forms;
     }
-    
+
     public function getEnabledSubForms() : array
     {
         return $this->enabled_subforms;
@@ -232,7 +226,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate('tpl.recurrence_input.html', true, true, 'Services/Calendar');
-        
+
         $options = array('NONE' => $this->lng->txt('cal_no_recurrence'));
         if (in_array(ilCalendarRecurrence::FREQ_DAILY, $this->getEnabledSubForms())) {
             $options[ilCalendarRecurrence::FREQ_DAILY] = $this->lng->txt('cal_daily');
@@ -246,7 +240,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         if (in_array(ilCalendarRecurrence::FREQ_YEARLY, $this->getEnabledSubForms())) {
             $options[ilCalendarRecurrence::FREQ_YEARLY] = $this->lng->txt('cal_yearly');
         }
-        
+
         $tpl->setVariable('FREQUENCE', ilUtil::formSelect(
             $this->recurrence->getFrequenceType(),
             'frequence',
@@ -255,9 +249,9 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             true,
             '',
             '',
-            array('onchange' => 'ilHideFrequencies();','id' => 'il_recurrence_1')
+            array('onchange' => 'ilHideFrequencies();', 'id' => 'il_recurrence_1')
         ));
-        
+
         $tpl->setVariable('TXT_EVERY', $this->lng->txt('cal_every'));
 
         // DAILY
@@ -265,14 +259,14 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $tpl->setVariable('TXT_DAILY_FREQ_UNIT', $this->lng->txt('cal_day_s'));
             $tpl->setVariable('COUNT_DAILY_VAL', $this->recurrence->getInterval());
         }
-        
+
         // WEEKLY
         if (in_array(ilCalendarRecurrence::FREQ_WEEKLY, $this->getEnabledSubForms())) {
             $tpl->setVariable('TXT_WEEKLY_FREQ_UNIT', $this->lng->txt('cal_week_s'));
             $tpl->setVariable('COUNT_WEEKLY_VAL', $this->recurrence->getInterval());
             $this->buildWeekDaySelection($tpl);
         }
-        
+
         // MONTHLY
         if (in_array(ilCalendarRecurrence::FREQ_MONTHLY, $this->getEnabledSubForms())) {
             $tpl->setVariable('TXT_MONTHLY_FREQ_UNIT', $this->lng->txt('cal_month_s'));
@@ -295,29 +289,29 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 
         // UNTIL
         $this->buildUntilSelection($tpl);
-        
+
         $a_tpl->setCurrentBlock("prop_custom");
         $a_tpl->setVariable("CUSTOM_CONTENT", $tpl->get());
         $a_tpl->parseCurrentBlock();
     }
-    
+
     /**
      * build weekday checkboxes
      */
     protected function buildWeekDaySelection(ilTemplate $tpl) : void
     {
-        $days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
-        
+        $days = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA', 7 => 'SU');
+
         $checked_days = array();
         foreach ($this->recurrence->getBYDAYList() as $byday) {
             if (in_array($byday, $days)) {
                 $checked_days[] = $byday;
             }
         }
-        
+
         for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $tpl->setCurrentBlock('byday_simple');
-            
+
             if (in_array($days[$i], $checked_days)) {
                 $tpl->setVariable('BYDAY_WEEKLY_CHECKED', 'checked="checked"');
             }
@@ -328,7 +322,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $tpl->parseCurrentBlock();
         }
     }
-    
+
     /**
      * build monthly by day list (e.g second monday)
      */
@@ -348,7 +342,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         // check for last day
         if (count($this->recurrence->getBYMONTHDAYList()) == 1) {
             $bymonthday = $this->recurrence->getBYMONTHDAY();
-            if (in_array($bymonthday, array(1,2,3,4,5,-1))) {
+            if (in_array($bymonthday, array(1, 2, 3, 4, 5, -1))) {
                 $chosen = true;
                 $chosen_num_day = $bymonthday;
                 $chosen_day = 9;
@@ -357,16 +351,14 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         // Check for first, second... last weekday
         if (count($this->recurrence->getBYSETPOSList()) == 1) {
             $bysetpos = $this->recurrence->getBYSETPOS();
-            if (in_array($bysetpos, array(1,2,3,4,5,-1))) {
-                if ($this->recurrence->getBYDAYList() == array('MO','TU','WE','TH','FR')) {
+            if (in_array($bysetpos, array(1, 2, 3, 4, 5, -1))) {
+                if ($this->recurrence->getBYDAYList() == array('MO', 'TU', 'WE', 'TH', 'FR')) {
                     $chosen = true;
                     $chosen_num_day = $bysetpos;
                     $chosen_day = 8;
                 }
             }
         }
-        
-        
 
         if ($chosen) {
             $tpl->setVariable('M_BYDAY_CHECKED', 'checked="checked"');
@@ -378,8 +370,9 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             3 => $this->lng->txt('cal_third'),
             4 => $this->lng->txt('cal_fourth'),
             5 => $this->lng->txt('cal_fifth'),
-           -1 => $this->lng->txt('cal_last'));
-           
+            -1 => $this->lng->txt('cal_last')
+        );
+
         $tpl->setVariable('SELECT_BYDAY_NUM_MONTHLY', ilUtil::formSelect(
             $chosen_num_day,
             'monthly_byday_num',
@@ -390,9 +383,9 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_1');")
         ));
-            
-        $days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
-        
+
+        $days = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA', 7 => 'SU');
+
         for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $days_select[$days[$i]] = ilCalendarUtil::_numericDayToString($i);
         }
@@ -409,14 +402,14 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_1');")
         ));
     }
-    
+
     /**
      * build monthly bymonthday selection
      */
     protected function buildMonthlyByMonthDaySelection(ilTemplate $tpl) : void
     {
         $tpl->setVariable('TXT_IN', $this->lng->txt('cal_in'));
-        
+
         $chosen_day = 1;
         $chosen = false;
         if (count($bymonthday = $this->recurrence->getBYMONTHDAYList()) == 1) {
@@ -432,7 +425,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $tpl->setVariable('M_BYMONTHDAY_CHECKED', 'checked="checked"');
         }
         $options = [];
-        for ($i = 1; $i < 32;$i++) {
+        for ($i = 1; $i < 32; $i++) {
             $options[$i] = $i;
         }
         $tpl->setVariable('SELECT_BYMONTHDAY', ilUtil::formSelect(
@@ -446,12 +439,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_2');")
         ));
     }
-    
+
     protected function buildYearlyByMonthDaySelection(ilTemplate $tpl) : void
     {
         $tpl->setVariable('TXT_Y_EVERY', $this->lng->txt('cal_every'));
 
-            
         $chosen = false;
         $chosen_month = 1;
         $chosen_day = 1;
@@ -465,8 +457,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         foreach ($this->recurrence->getBYMONTHDAYList() as $day) {
             $chosen_day = $day;
         }
-         $options = [];
-        for ($i = 1; $i < 32;$i++) {
+        $options = [];
+        for ($i = 1; $i < 32; $i++) {
             $options[$i] = $i;
         }
         $tpl->setVariable('SELECT_BYMONTHDAY_NUM_YEARLY', ilUtil::formSelect(
@@ -479,9 +471,9 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_2');")
         ));
-        
+
         $options = array();
-        for ($m = 1;$m < 13;$m++) {
+        for ($m = 1; $m < 13; $m++) {
             $options[$m] = ilCalendarUtil::_numericMonthToString($m);
         }
         $tpl->setVariable('SELECT_BYMONTH_YEARLY', ilUtil::formSelect(
@@ -494,13 +486,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_2');")
         ));
-            
-            
+
         if ($chosen) {
             $tpl->setVariable('Y_BYMONTHDAY_CHECKED', 'checked="checked"');
         }
     }
-    
+
     protected function buildYearlyByDaySelection(ilTemplate $tpl) : void
     {
         $tpl->setVariable('TXT_ON_THE', $this->lng->txt('cal_on_the'));
@@ -522,8 +513,9 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             3 => $this->lng->txt('cal_third'),
             4 => $this->lng->txt('cal_fourth'),
             5 => $this->lng->txt('cal_fifth'),
-           -1 => $this->lng->txt('cal_last'));
-           
+            -1 => $this->lng->txt('cal_last')
+        );
+
         $tpl->setVariable('SELECT_BYDAY_NUM_YEARLY', ilUtil::formSelect(
             $chosen_num_day,
             'yearly_byday_num',
@@ -534,9 +526,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")
         ));
-            
-        
-        $days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
+
+        $days = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA', 7 => 'SU');
         $days_select = [];
         for ($i = $this->user_settings->getWeekStart(); $i < 7 + $this->user_settings->getWeekStart(); $i++) {
             $days_select[$days[$i]] = ilCalendarUtil::_numericDayToString($i);
@@ -551,8 +542,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             '',
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")
         ));
-            
-    
+
         $chosen = false;
         $chosen_month = 1;
         foreach ($this->recurrence->getBYMONTHList() as $month) {
@@ -563,7 +553,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             }
         }
         $options = array();
-        for ($m = 1;$m < 13;$m++) {
+        for ($m = 1; $m < 13; $m++) {
             $options[$m] = ilCalendarUtil::_numericMonthToString($m);
         }
         $tpl->setVariable('SELECT_BYMONTH_BYDAY', ilUtil::formSelect(
@@ -577,7 +567,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")
         ));
     }
-    
+
     /**
      * build selection for ending date
      */
@@ -586,13 +576,13 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         if ($this->isUnlimitedRecurrenceAllowed()) {
             $tpl->setVariable('TXT_NO_ENDING', $this->lng->txt('cal_no_ending'));
         }
-        
+
         $tpl->setVariable('TXT_UNTIL_CREATE', $this->lng->txt('cal_create'));
         $tpl->setVariable('TXT_APPOINTMENTS', $this->lng->txt('cal_appointments'));
-        
+
         $tpl->setVariable('VAL_COUNT', $this->recurrence->getFrequenceUntilCount() ?:
             2);
-            
+
         if ($this->recurrence->getFrequenceUntilDate()) {
             $tpl->setVariable('UNTIL_END_CHECKED', 'checked="checked"');
         } elseif ($this->recurrence->getFrequenceUntilCount() or !$this->isUnlimitedRecurrenceAllowed()) {

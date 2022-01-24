@@ -3,8 +3,7 @@
 
 /**
  * Exporter class for calendar data (xml)
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesCalendar
  */
@@ -42,7 +41,8 @@ class ilCalendarExporter extends ilXmlExporter
                 "xsd_file" => "ilias_cal_4_3.xsd",
                 "uses_dataset" => true,
                 "min" => "4.3.0",
-                "max" => "")
+                "max" => ""
+            )
         );
     }
 }

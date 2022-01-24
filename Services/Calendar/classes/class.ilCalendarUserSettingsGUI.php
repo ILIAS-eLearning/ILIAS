@@ -22,11 +22,10 @@
 */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ilCtrl_Calls ilCalendarUserSettingsGUI:
-* @ingroup ServicesCalendar
-*/
+ * @author       Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ilCtrl_Calls ilCalendarUserSettingsGUI:
+ * @ingroup      ServicesCalendar
+ */
 class ilCalendarUserSettingsGUI
 {
     protected ilGlobalTemplateInterface $tpl;
@@ -35,14 +34,11 @@ class ilCalendarUserSettingsGUI
     protected ilObjUser $user;
     protected ilCalendarSettings $settings;
     protected ilCalendarUserSettings $user_settings;
-    
 
     /**
      * Constructor
-     *
      * @access public
      * @param
-     *
      */
     public function __construct()
     {
@@ -52,14 +48,13 @@ class ilCalendarUserSettingsGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('dateplaner');
         $this->lng->loadLanguageModule('jscalendar');
-        
+
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $this->settings = ilCalendarSettings::_getInstance();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
     }
-    
-    
+
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
@@ -78,12 +73,12 @@ class ilCalendarUserSettingsGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     public function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
-    
+
     public function save()
     {
 
@@ -108,7 +103,7 @@ class ilCalendarUserSettingsGUI
             $this->show();
         }
     }
-    
+
     public function initSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -116,16 +111,16 @@ class ilCalendarUserSettingsGUI
         $form->setTitle($this->lng->txt('cal_user_settings'));
         $form->addCommandButton('save', $this->lng->txt('save'));
         //$form->addCommandButton('cancel',$this->lng->txt('cancel'));
-        
+
         $select = new ilSelectInputGUI($this->lng->txt('cal_user_timezone'), 'timezone');
         $select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
         $select->setInfo($this->lng->txt('cal_timezone_info'));
         $select->setValue($this->user_settings->getTimeZone());
         $form->addItem($select);
-        
+
         $export_type = new ilRadioGroupInputGUI($this->lng->txt('cal_export_timezone'), 'export_tz');
         $export_type->setValue((string) $this->user_settings->getExportTimeZoneType());
-        
+
         $export_tz = new ilRadioOption($this->lng->txt('cal_export_timezone_tz'),
             (string) ilCalendarUserSettings::CAL_EXPORT_TZ_TZ);
         $export_type->addOption($export_tz);
@@ -139,27 +134,29 @@ class ilCalendarUserSettingsGUI
         $select->setOptions(array(
             ilCalendarSettings::DATE_FORMAT_DMY => '31.10.' . $year,
             ilCalendarSettings::DATE_FORMAT_YMD => $year . "-10-31",
-            ilCalendarSettings::DATE_FORMAT_MDY => "10/31/" . $year));
+            ilCalendarSettings::DATE_FORMAT_MDY => "10/31/" . $year
+        ));
         $select->setInfo($this->lng->txt('cal_date_format_info'));
         $select->setValue($this->user_settings->getDateFormat());
         $form->addItem($select);
-        
+
         $select = new ilSelectInputGUI($this->lng->txt('cal_user_time_format'), 'time_format');
         $select->setOptions(array(
             ilCalendarSettings::TIME_FORMAT_24 => '13:00',
-            ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'));
+            ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'
+        ));
         $select->setInfo($this->lng->txt('cal_time_format_info'));
         $select->setValue($this->user_settings->getTimeFormat());
         $form->addItem($select);
-        
+
         // Week/Month View
         $week_month = new ilFormSectionHeaderGUI();
         $week_month->setTitle($this->lng->txt('cal_week_month_view'));
         $form->addItem($week_month);
-        
+
         $radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'), 'weekstart');
         $radio->setValue((string) $this->user_settings->getWeekStart());
-    
+
         $option = new ilRadioOption($this->lng->txt('l_su'), (string) 0);
         $radio->addOption($option);
         $option = new ilRadioOption($this->lng->txt('l_mo'), (string) 1);
@@ -174,19 +171,19 @@ class ilCalendarUserSettingsGUI
             $cb->setChecked($this->user_settings->getShowWeeks());
             $form->addItem($cb);
         }
-        
+
         // Day/Week View
         $week_month = new ilFormSectionHeaderGUI();
         $week_month->setTitle($this->lng->txt('cal_day_week_view'));
         $form->addItem($week_month);
-        
+
         $day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'), 'dst');
         $day_start->setOptions(
             ilCalendarUtil::getHourSelection($this->user_settings->getTimeFormat())
         );
         $day_start->setValue($this->user_settings->getDayStart());
         $form->addItem($day_start);
-        
+
         $day_end = new ilSelectInputGUI($this->lng->txt('cal_day_end'), 'den');
         $day_end->setOptions(
             ilCalendarUtil::getHourSelection($this->user_settings->getTimeFormat())

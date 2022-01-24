@@ -22,31 +22,28 @@
 */
 
 /**
-* This class offers methods for timezone handling.
-* <code>ilTimeZone::_getDefault</code> tries to "guess" the server timezone in the following manner:
-* 1) PHP >= 5.2.0 use <code>date_default_timezone_get</code>
-* 2) Read ini option date.timezone if available
-* 3) Read environment PHP_TZ
-* 4) Read environment TZ
-* 5) Use <code>date('T')</code>
-* 6) Use UTC
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup ServicesCalendar
-*/
-
+ * This class offers methods for timezone handling.
+ * <code>ilTimeZone::_getDefault</code> tries to "guess" the server timezone in the following manner:
+ * 1) PHP >= 5.2.0 use <code>date_default_timezone_get</code>
+ * 2) Read ini option date.timezone if available
+ * 3) Read environment PHP_TZ
+ * 4) Read environment TZ
+ * 5) Use <code>date('T')</code>
+ * 6) Use UTC
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilTimeZone
 {
     public const UTC = 'UTC';
-    
+
     public static array $instances = array();
     public static array $valid_tz = array();
 
     protected static string $default_timezone = '';
     protected static string $current_timezone = '';
     protected static string $server_timezone = '';
-    
+
     protected ilLogger $log;
     protected string $timezone = "UTC";
 
@@ -65,32 +62,32 @@ class ilTimeZone
         } else {
             $this->timezone = self::_getDefaultTimeZone();
         }
-        
+
         if (!self::$server_timezone) {
             self::$server_timezone = self::_getDefaultTimeZone();
         }
-        
+
         if (!self::$default_timezone) {
             self::_getDefaultTimeZone();
         }
     }
-    
+
     public function __sleep()
     {
         return array('timezone');
     }
-    
+
     public function __wakeup()
     {
         global $DIC;
         $this->log = $DIC->logger()->cal();
     }
-    
+
     public function getIdentifier() : string
     {
         return $this->timezone;
     }
-    
+
     /**
      * get instance by timezone
      * @throws ilTimeZoneException
@@ -100,7 +97,7 @@ class ilTimeZone
         if (!$a_tz) {
             $a_tz = self::_getDefaultTimeZone();
         }
-        
+
         if (isset(self::$instances[$a_tz])) {
             $instance = self::$instances[$a_tz];
         } else {
@@ -118,7 +115,7 @@ class ilTimeZone
         // now validate timezone setting
         return $instance;
     }
-    
+
     /**
      * Switch timezone to given timezone
      */
@@ -133,7 +130,7 @@ class ilTimeZone
             return false;
         }
     }
-    
+
     /**
      * Restore default timezone
      */
@@ -148,7 +145,7 @@ class ilTimeZone
             return false;
         }
     }
-    
+
     public function validateTZ() : bool
     {
         // this is done by switching to the current tz
@@ -157,7 +154,7 @@ class ilTimeZone
         }
         return false;
     }
-    
+
     protected static function _switchTimeZone(string $a_timezone) : bool
     {
         global $DIC;
@@ -166,7 +163,7 @@ class ilTimeZone
         if (self::$current_timezone == $a_timezone) {
             return true;
         }
-        
+
         // PHP >= 5.2.0
         if (function_exists('date_default_timezone_set')) {
             if (!date_default_timezone_set($a_timezone)) {
@@ -184,7 +181,7 @@ class ilTimeZone
         self::$current_timezone = $a_timezone;
         return true;
     }
-    
+
     public static function _setDefaultTimeZone(string $a_tz) : void
     {
         // Save the server timezone, since there is no way to read later.
@@ -193,13 +190,13 @@ class ilTimeZone
         }
         self::$default_timezone = $a_tz;
     }
-    
+
     public static function _restoreDefaultTimeZone() : void
     {
         self::$default_timezone = self::$server_timezone;
         self::_switchTimeZone(self::$default_timezone);
     }
-    
+
     /**
      * Calculate and set default time zone
      */
@@ -230,7 +227,7 @@ class ilTimeZone
         }
         return self::$default_timezone = self::UTC;
     }
-    
+
     /**
      * Initialize default timezone from system settings
      */

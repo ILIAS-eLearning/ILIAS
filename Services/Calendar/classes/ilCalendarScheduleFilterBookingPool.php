@@ -4,16 +4,13 @@
 
 /**
  * Calendar schedule filter for booking pool reservations
- *
- * @author Jesús López <lopez@leifos.com>
- *
+ * @author  Jesús López <lopez@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
 {
     protected int $user_id;
     protected ilCalendarCategories $cats;
-
 
     public function __construct(int $a_user_id)
     {

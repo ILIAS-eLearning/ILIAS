@@ -22,16 +22,16 @@
 */
 
 /**
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup Services/Calendar
-*/
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup Services/Calendar
+ */
 class ilICalParser
 {
     public const INPUT_STRING = 1;
     public const INPUT_FILE = 2;
-    
+
     protected ilLogger $log;
-    
+
     protected ?ilCalendarCategory $category = null;
 
     protected string $ical = '';
@@ -47,7 +47,7 @@ class ilICalParser
         } elseif ($a_type == self::INPUT_FILE) {
             $this->file = $a_ical;
             $this->ical = file_get_contents($a_ical);
-            
+
             if (!strlen($this->ical)) {
                 throw new ilICalParserException('Cannot parse empty ical file: ' . $a_ical);
             }
@@ -55,12 +55,12 @@ class ilICalParser
         $this->log = $DIC->logger()->cal();
         $this->default_timezone = ilTimeZone::_getInstance();
     }
-    
+
     public function setCategoryId(int $a_id) : void
     {
         $this->category = new ilCalendarCategory($a_id);
     }
-    
+
     public function parse() : void
     {
         $lines = $this->tokenize($this->ical, ilICalUtils::ICAL_EOL);
@@ -85,7 +85,7 @@ class ilICalParser
             $this->parseLine($line);
         }
     }
-    
+
     protected function getContainer() : ?ilICalItem
     {
         if (count($this->container)) {
@@ -93,7 +93,7 @@ class ilICalParser
         }
         return null;
     }
-    
+
     /**
      * @param ilICalItem
      */
@@ -101,7 +101,7 @@ class ilICalParser
     {
         $this->container = array($a_container);
     }
-    
+
     protected function dropContainer() : ?ilICalItem
     {
         if (is_array($this->container)) {
@@ -109,13 +109,12 @@ class ilICalParser
         }
         return null;
     }
-    
+
     protected function pushContainer(ilICalItem $a_container) : void
     {
         $this->container[] = $a_container;
     }
-    
-    
+
     protected function parseLine(string $line) : void
     {
         switch (trim($line)) {
@@ -123,16 +122,16 @@ class ilICalParser
                 $this->log->debug('BEGIN VCALENDAR');
                 $this->setContainer(new ilICalComponent('VCALENDAR'));
                 break;
-                
+
             case 'END:VCALENDAR':
                 $this->log->debug('END VCALENDAR');
                 break;
-            
+
             case 'BEGIN:VEVENT':
                 $this->log->debug('BEGIN VEVENT');
                 $this->pushContainer(new ilICalComponent('VEVENT'));
                 break;
-            
+
             case 'END:VEVENT':
                 $this->log->debug('END VEVENT');
                 $this->writeEvent();
@@ -144,7 +143,7 @@ class ilICalParser
                 $container = new ilICalComponent('VTIMEZONE');
                 $this->pushContainer($container);
                 break;
-                
+
             case 'END:VTIMEZONE':
                 $this->log->debug('END VTIMEZONE');
                 if ($tzid = $this->getContainer()->getItemsByName('TZID')) {
@@ -152,7 +151,7 @@ class ilICalParser
                 }
                 $this->dropContainer();
                 break;
-            
+
             default:
                 if (strpos(trim($line), 'BEGIN') === 0) {
                     $this->log->info('Do not handling line:' . $line);
@@ -168,7 +167,7 @@ class ilICalParser
                 break;
         }
     }
-    
+
     protected function storeItems(string $a_param_part, string $a_value_part) : void
     {
         // Check for a semicolon in param part and split it.
@@ -188,7 +187,7 @@ class ilICalParser
         }
         // Split value part
         $substituted_values = str_replace('\;', '', $a_value_part);
-        
+
         $values = array();
         if ($splitted_values = explode(';', $substituted_values)) {
             $counter = 0;
@@ -207,21 +206,20 @@ class ilICalParser
             $this->log->write(__METHOD__ . ': Cannot parse parameter: ' . $a_param_part . ', value: ' . $a_value_part);
             return;
         }
-        
-        
+
         $counter = 0;
         foreach ($items as $item) {
             if (!$counter) {
                 // First is ical-Parameter
                 $parameter = new ilICalProperty($item['param'], $item['value']);
-                
+
                 if (!$this->getContainer() instanceof ilICalItem) {
                     continue;
                 }
-                
+
                 $this->getContainer()->addItem($parameter);
                 $this->pushContainer($parameter);
-                
+
                 if (count($values) > 1) {
                     foreach ($values as $value) {
                         $value = new ilICalValue($value['param'], $value['value']);
@@ -236,25 +234,23 @@ class ilICalParser
         }
         $this->dropContainer();
     }
-    
-    
+
     protected function splitLine(string $a_line) : array
     {
         $matches = array();
-        
+
         if (preg_match('/([^:]+):(.*)/', $a_line, $matches)) {
-            return array($matches[1],$matches[2]);
+            return array($matches[1], $matches[2]);
         } else {
             $this->log->notice(' Found invalid parameter: ' . $a_line);
         }
-        return array('','');
+        return array('', '');
     }
-    
+
     protected function tokenize(string $a_string, string $a_tokenizer) : array
     {
         return explode($a_tokenizer, $a_string);
     }
-
 
     protected function getTZ(string $a_timezone) : ilTimeZone
     {
@@ -287,16 +283,16 @@ class ilICalParser
             $this->log->notice(': Found invalid timezone: ' . $timezone->getIdentifier());
         }
     }
-    
+
     protected function restoreTZ() : void
     {
         $this->default_timezone->restoreTZ();
     }
-    
+
     protected function writeEvent() : void
     {
         $entry = new ilCalendarEntry();
-        
+
         // Search for summary
         foreach ($this->getContainer()->getItemsByName('SUMMARY', false) as $item) {
             if (is_a($item, 'ilICalProperty')) {
@@ -311,7 +307,7 @@ class ilICalParser
                 break;
             }
         }
-        
+
         // Search location
         foreach ($this->getContainer()->getItemsByName('LOCATION', false) as $item) {
             if (is_a($item, 'ilICalProperty')) {
@@ -319,7 +315,7 @@ class ilICalParser
                 break;
             }
         }
-        
+
         foreach ($this->getContainer()->getItemsByName('DTSTART') as $start) {
             $fullday = false;
             foreach ($start->getItemsByName('VALUE') as $type) {
@@ -346,7 +342,7 @@ class ilICalParser
             $entry->setStart($start);
             $entry->setFullday($fullday);
         }
-        
+
         foreach ($this->getContainer()->getItemsByName('DTEND') as $end) {
             $fullday = false;
             foreach ($end->getItemsByName('VALUE') as $type) {
@@ -374,7 +370,7 @@ class ilICalParser
             $entry->setEnd($end);
             $entry->setFullday($fullday);
         }
-        
+
         if (!$entry->getStart() instanceof ilDateTime) {
             $this->log->warning('Cannot find start date. Event ignored.');
             return;
@@ -387,24 +383,21 @@ class ilICalParser
         ) {
             $entry->setEnd($entry->getStart());
         }
-        
-        
+
         // save calendar event
         if ($this->category->getLocationType() == ilCalendarCategory::LTYPE_REMOTE) {
             $entry->setAutoGenerated(true);
         }
         $entry->save();
-        
+
         $ass = new ilCalendarCategoryAssignments($entry->getEntryId());
         $ass->addAssignment($this->category->getCategoryID());
-        
-        
+
         // Recurrences
         foreach ($this->getContainer()->getItemsByName('RRULE') as $recurrence) {
-            include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
             $rec = new ilCalendarRecurrence();
             $rec->setEntryId($entry->getEntryId());
-            
+
             foreach ($recurrence->getItemsByName('FREQ') as $freq) {
                 switch ($freq->getValue()) {
                     case 'DAILY':
@@ -413,13 +406,13 @@ class ilICalParser
                     case 'YEARLY':
                         $rec->setFrequenceType((string) $freq->getValue());
                         break;
-                        
+
                     default:
                         $this->log->notice(': Cannot handle recurring event of type: ' . $freq->getValue());
                         break 3;
                 }
             }
-            
+
             foreach ($recurrence->getItemsByName('COUNT') as $value) {
                 $rec->setFrequenceUntilCount((int) $value->getValue());
                 break;
@@ -463,7 +456,7 @@ class ilICalParser
             $rec->save();
         }
     }
-    
+
     protected function purgeString(string $a_string) : string
     {
         $a_string = str_replace("\;", ";", $a_string);

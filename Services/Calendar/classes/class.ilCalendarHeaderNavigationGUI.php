@@ -22,20 +22,16 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesCalendar
-*
-*/
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarHeaderNavigationGUI
 {
     protected object $cmdClass;
     protected string $cmd;
     protected ilDate $seed;
     protected string $increment = '';
-    
+
     protected string $html;
 
     protected ilLanguage $lng;
@@ -49,9 +45,9 @@ class ilCalendarHeaderNavigationGUI
     public function __construct(object $cmdClass, ilDate $seed, string $a_increment, string $cmd = '')
     {
         global $DIC;
-        
+
         $this->lng = $DIC->language();
-        
+
         $this->ctrl = $DIC->ctrl();
         $this->cmdClass = $cmdClass;
         $this->seed = clone $seed;
@@ -62,7 +58,7 @@ class ilCalendarHeaderNavigationGUI
         $this->user = $DIC->user();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
     }
-    
+
     public function getHTML() : string
     {
         $today = new ilDateTime(time(), IL_CAL_UNIX, $this->user->getTimeZone());
@@ -72,14 +68,16 @@ class ilCalendarHeaderNavigationGUI
         $contains_today = false;
         $this->incrementDate(-1);
         $this->ctrl->setParameterByClass(get_class($this->cmdClass), 'seed', $this->seed->get(IL_CAL_DATE));
-        $b1 = $this->ui->factory()->button()->standard($this->lng->txt("previous"), $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
+        $b1 = $this->ui->factory()->button()->standard($this->lng->txt("previous"),
+            $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
 
         // today button
         $this->incrementDate(1);
         ilDatePresentation::setUseRelativeDates(false);
         switch ($this->increment) {
             case ilDateTime::DAY:
-                $tpl->setVariable("TXT_TITLE", ilCalendarUtil::_numericDayToString($this->seed->get(IL_CAL_FKT_DATE, 'w')) .
+                $tpl->setVariable("TXT_TITLE",
+                    ilCalendarUtil::_numericDayToString((int) $this->seed->get(IL_CAL_FKT_DATE, 'w')) .
                     ", " . ilDatePresentation::formatDate($this->seed));
                 if (date("Y-m-d") === $this->seed->get(IL_CAL_FKT_DATE, 'Y-m-d')) {
                     $contains_today = true;
@@ -87,7 +85,8 @@ class ilCalendarHeaderNavigationGUI
                 break;
 
             case ilDateTime::WEEK:
-                $weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed, $this->user_settings->getWeekStart())->get();
+                $weekday_list = ilCalendarUtil::_buildWeekDayList($this->seed,
+                    $this->user_settings->getWeekStart())->get();
                 $start = current($weekday_list);
                 $end = end($weekday_list);
                 $tpl->setVariable("TXT_TITLE", $this->lng->txt('week') . ' ' . $this->seed->get(IL_CAL_FKT_DATE, 'W') .
@@ -100,8 +99,9 @@ class ilCalendarHeaderNavigationGUI
                 break;
 
             case ilDateTime::MONTH:
-                $tpl->setVariable("TXT_TITLE", $this->lng->txt('month_' . $this->seed->get(IL_CAL_FKT_DATE, 'm') . '_long') .
-                        ' ' . $this->seed->get(IL_CAL_FKT_DATE, 'Y'));
+                $tpl->setVariable("TXT_TITLE",
+                    $this->lng->txt('month_' . $this->seed->get(IL_CAL_FKT_DATE, 'm') . '_long') .
+                    ' ' . $this->seed->get(IL_CAL_FKT_DATE, 'Y'));
                 if ($this->seed->get(IL_CAL_FKT_DATE, 'Y-m') == date("Y-m")) {
                     $contains_today = true;
                 }
@@ -127,7 +127,8 @@ class ilCalendarHeaderNavigationGUI
         // next button
         $this->incrementDate(1);
         $this->ctrl->setParameterByClass(get_class($this->cmdClass), 'seed', $this->seed->get(IL_CAL_DATE));
-        $b3 = $this->ui->factory()->button()->standard($this->lng->txt("next"), $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
+        $b3 = $this->ui->factory()->button()->standard($this->lng->txt("next"),
+            $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd));
         $this->ctrl->setParameterByClass(get_class($this->cmdClass), 'seed', '');
         $this->toolbar->addStickyItem($this->ui->factory()->viewControl()->section($b1, $b2, $b3));
         $this->toolbar->addSeparator();
@@ -143,7 +144,7 @@ class ilCalendarHeaderNavigationGUI
                 if ($day > 28) {
                     $this->seed->increment(IL_CAL_DAY, (31 - $day) * -1);
                 }
-                // no break
+            // no break
             default:
                 $this->seed->increment($this->increment, $a_count);
                 break;

@@ -2,11 +2,9 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Handles calendar authentication tokens for external calendar subscriptions
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesCalendar
  */
 class ilCalendarAuthenticationToken
@@ -15,25 +13,25 @@ class ilCalendarAuthenticationToken
     public const SELECTION_PD = 1;
     public const SELECTION_CATEGORY = 2;
     public const SELECTION_CALENDAR = 3;
-    
+
     private int $user;
-    
+
     private string $token = '';
     private int $selection_type = self::SELECTION_NONE;
     private $calendar = 0;
-    
+
     private ?string $ical = null;
     private int $ical_ctime = 0;
 
     protected ilDBInterface $db;
-    
+
     public function __construct(int $a_user_id, string $a_token = '')
     {
         $this->user = $a_user_id;
         $this->token = $a_token;
         $this->read();
     }
-    
+
     public static function lookupAuthToken(int $a_user_id, int $a_selection, int $a_calendar = 0) : string
     {
         global $DIC;
@@ -49,7 +47,7 @@ class ilCalendarAuthenticationToken
         }
         return '';
     }
-    
+
     public static function lookupUser(string $a_token) : int
     {
         global $DIC;
@@ -63,23 +61,22 @@ class ilCalendarAuthenticationToken
         }
         return 0;
     }
-    
+
     public function getSelectionType() : int
     {
         return $this->selection_type;
     }
-    
 
     public function getUserId() : int
     {
         return $this->user;
     }
-    
+
     public function setSelectionType(int $a_type) : void
     {
         $this->selection_type = $a_type;
     }
-    
+
     public function setCalendar(int $a_cal) : void
     {
         $this->calendar = $a_cal;
@@ -89,38 +86,37 @@ class ilCalendarAuthenticationToken
     {
         return $this->calendar;
     }
-    
+
     public function setIcal(string $ical) : void
     {
         $this->ical = $ical;
     }
-    
+
     public function getIcal() : string
     {
         return $this->ical;
     }
-    
-    
+
     public function getToken() : string
     {
         return $this->token;
     }
-    
+
     public function storeIcal() : void
     {
         $this->db->update(
             'cal_auth_token',
             array(
-                'ical' => array('clob',$this->getIcal()),
-                'c_time' => array('integer',time())
+                'ical' => array('clob', $this->getIcal()),
+                'c_time' => array('integer', time())
             ),
             array(
-                'user_id' => array('integer',$this->getUserId()),
-                'hash' => array('text',$this->getToken())
+                'user_id' => array('integer', $this->getUserId()),
+                'hash' => array('text', $this->getToken())
             )
         );
     }
-    
+
     /**
      * Check if cache is disabled or expired
      * @todo enable the cache
@@ -138,7 +134,7 @@ class ilCalendarAuthenticationToken
         return time() > ($this->ical_ctime + 60 * ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes());
          */
     }
-    
+
     public function add() : string
     {
         $this->createToken();
@@ -152,13 +148,13 @@ class ilCalendarAuthenticationToken
         $this->db->manipulate($query);
         return $this->getToken();
     }
-    
+
     protected function createToken() : void
     {
         $random = new \ilRandom();
         $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
     }
-    
+
     protected function read() : bool
     {
         if (!$this->getToken()) {
@@ -169,7 +165,7 @@ class ilCalendarAuthenticationToken
                 'WHERE user_id = ' . $this->db->quote($this->getUserId(), 'integer') . ' ' .
                 'AND hash = ' . $this->db->quote($this->getToken(), 'text');
         }
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->token = $row->hash;

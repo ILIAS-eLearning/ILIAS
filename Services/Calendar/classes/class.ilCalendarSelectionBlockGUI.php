@@ -4,10 +4,8 @@
 
 /**
  * BlockGUI class calendar selection.
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- *
  * @ingroup ServicesCalendar
  */
 class ilCalendarSelectionBlockGUI extends ilBlockGUI
@@ -41,7 +39,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     protected int $obj_id = 0;
     protected int $category_id = 0;
 
-
     /**
      * Constructor
      */
@@ -55,23 +52,24 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $this->lng->loadLanguageModule('dateplaner');
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
-        $this->category_id = $_GET['category_id'];
-        
+        $this->category_id = (int) $_GET['category_id'];
+
         $this->setLimit(5);
         $this->allow_moving = false;
         $this->seed = $a_seed;
         $this->setTitle($this->lng->txt('cal_table_categories'));
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+
         $sel_type = ilCalendarUserSettings::_getInstance()->getCalendarSelectionType();
-        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode', ilCalendarUserSettings::CAL_SELECTION_ITEMS);
+        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode',
+            ilCalendarUserSettings::CAL_SELECTION_ITEMS);
         $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'seed', $this->seed->get(IL_CAL_DATE));
         // @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
         $this->addBlockCommand(
             $this->ctrl->getLinkTargetByClass("ilcalendarcategorygui", 'switchCalendarMode'),
             $this->lng->txt('dash_favourites')
         );
-        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode', ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
+        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode',
+            ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
         $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'seed', $this->seed->get(IL_CAL_DATE));
 
         // @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
@@ -120,7 +118,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         return IL_SCREEN_SIDE;
     }
 
@@ -142,7 +140,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $hidden_obj = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $this->ref_id);
         $hidden = $hidden_obj->getHidden();
         $visible = $hidden_obj->getVisible();
-        
+
         $cats = new ilCalendarCategories($this->user->getId());
         if ($this->ref_id > 0) {
             $cats->initialize(ilCalendarCategories::MODE_REPOSITORY, $this->ref_id, true);
@@ -193,11 +191,11 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             }
 
             $categories[] = $tmp_arr;
-            
+
             // count title for appending the parent container if there is more than one entry.
             $tmp_title_counter[$category['type'] . '_' . $category['title']]++;
         }
-        
+
         $path_categories = array();
         foreach ($categories as $cat) {
             if ($cat['type'] == ilCalendarCategory::TYPE_OBJ) {
@@ -221,7 +219,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             if ($cal["type"] == ilCalendarCategory::TYPE_CH && $this->obj_id > 0) {
                 $this->calendars[self::CAL_GRP_CURRENT_CONT_CONS][] = $cal;
             } elseif ($cal["type"] == ilCalendarCategory::TYPE_OBJ && ($this->obj_id > 0 && ($cal["obj_id"] == $this->obj_id
-                || $this->ref_id == $cal["source_ref_id"]))) {
+                        || $this->ref_id == $cal["source_ref_id"]))) {
                 $this->calendars[self::CAL_GRP_CURRENT_CONT][] = $cal;
             } elseif ($cal["type"] == ilCalendarCategory::TYPE_USR || $cal["type"] == ilCalendarCategory::TYPE_BOOK ||
                 ($cal["type"] == ilCalendarCategory::TYPE_CH && $this->user->getId() == $cal["obj_id"])) {
@@ -274,27 +272,27 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         $tpl->setVariable("TXT_SHOW", $this->lng->txt("refresh"));
         $tpl->setVariable("CMD_SHOW", "saveSelection");
         $tpl->setVariable("TXT_ACTION", $this->lng->txt("select"));
         $tpl->setVariable("SRC_ACTION", ilUtil::getImagePath("arrow_downright.svg"));
         $tpl->setVariable("FORM_ACTION", $this->ctrl->getFormActionByClass("ilcalendarcategorygui"));
         $tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-        
+
         return $tpl->get();
     }
 
     protected function renderItem(array $a_set, ilTemplate $a_tpl) : void
     {
-        if (strlen($a_set['path'])) {
+        if (strlen((string) $a_set['path'])) {
             $a_tpl->setCurrentBlock('calendar_path');
             $a_tpl->setVariable('ADD_PATH_INFO', $a_set['path']);
             $a_tpl->parseCurrentBlock();
         }
-        
+
         $a_tpl->setCurrentBlock("item");
-        
+
         $a_tpl->setVariable('VAL_ID', $a_set['id']);
         if ($this->obj_id == 0) {
             if (!$a_set['hidden'] && $a_set['default_selected']) {
@@ -308,7 +306,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $a_tpl->setVariable('VAL_CHECKED', 'checked="checked"');
         }
         $a_tpl->setVariable('BGCOLOR', $a_set['color']);
-
 
         if (
             ($a_set['type'] == ilCalendarCategory::TYPE_OBJ) &&
@@ -365,12 +362,12 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                 $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_calg.svg'));
                 $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
                 break;
-                
+
             case ilCalendarCategory::TYPE_USR:
                 $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_usr.svg'));
                 $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_personal'));
                 break;
-            
+
             case ilCalendarCategory::TYPE_OBJ:
                 $type = ilObject::_lookupType($a_set['obj_id']);
                 $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $type . '.svg'));
@@ -388,7 +385,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                 $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_ch_ch'));
                 break;
         }
-        
+
         $a_tpl->parseCurrentBlock();
     }
 
@@ -400,7 +397,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $this->getCalendars();
         return parent::getHTML();
     }
-
 
     /**
      * @inheritdoc
