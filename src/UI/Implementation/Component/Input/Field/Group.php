@@ -172,7 +172,7 @@ class Group extends Input implements C\Input\Field\Group
      */
     public function withNameFrom(NameSource $source) : C\Input\Field\Input
     {
-        $clone = parent::withNameFrom($source);
+        $clone = clone $this;
         /**
          * @var $clone Group
          */
