@@ -1006,7 +1006,7 @@ class ilObjUser extends ilObject
         }
     }
 
-    public function setPref(string $a_keyword, string $a_value) : void
+    public function setPref(string $a_keyword, ?string $a_value) : void
     {
         if ($a_keyword != "") {
             $this->prefs[$a_keyword] = $a_value;
