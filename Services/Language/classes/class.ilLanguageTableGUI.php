@@ -128,7 +128,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 
         // make language name clickable
         if ($ilAccess->checkAccess("write", "", $this->folder->getRefId())) {
-            if (str_starts_with($a_set["description"], "installed")) {
+            if (strpos($a_set["description"], "installed") === 0) {
                 $this->ctrl->setParameterByClass("ilobjlanguageextgui", "obj_id", $a_set["obj_id"]);
                 $url = $this->ctrl->getLinkTargetByClass("ilobjlanguageextgui", "");
                 $a_set["name"] = '<a href="' . $url . '">' . $a_set["name"] . '</a>';

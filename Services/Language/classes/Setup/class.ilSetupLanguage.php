@@ -172,7 +172,7 @@ class ilSetupLanguage extends ilLanguage
                 } else {
                     $this->flushLanguage($key, "all");
 
-                    if (str_starts_with($val["status"], "installed")) {
+                    if (strpos($val["status"], "installed") === 0) {
                         $query = "UPDATE object_data SET " .
                                 "description = " . $ilDB->quote("not_installed", "text") . ", " .
                                 "last_update = " . $ilDB->now() . " " .

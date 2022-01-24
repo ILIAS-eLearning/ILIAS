@@ -118,7 +118,7 @@ class ilLanguageFile
                     // get header params
                     $pos_par = strpos($line, "* @");
 
-                    if (str_contains($line, "* @")) {
+                    if (strpos($line, "* @") !== false) {
                         $pos_par += 3;
                         $pos_space = strpos($line, " ", $pos_par);
                         $pos_tab = strpos($line, "\t", $pos_par);
@@ -156,7 +156,7 @@ class ilLanguageFile
 
                     // cut off comment
                     $pos = strpos($value, $this->comment_separator);
-                    if (str_contains($value, $this->comment_separator)) {
+                    if ($pos !== false) {
                         $this->comments[$key]
                             = substr($value, $pos + strlen($this->comment_separator));
                             
@@ -228,7 +228,7 @@ class ilLanguageFile
         }
 
         // fault tolerant check for adding newline
-        $add_newline = str_ends_with($content, "\n");
+        $add_newline = (substr($content, strlen($content) - 1, 1) !== "\n");
 
         // build the content
         foreach ($this->values as $key => $value) {
