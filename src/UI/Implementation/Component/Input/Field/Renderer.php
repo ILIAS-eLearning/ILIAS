@@ -652,12 +652,21 @@ class Renderer extends AbstractComponentRenderer
     protected function renderFileField(FI\File $input, RendererInterface $default_renderer) : string
     {
         $template = $this->getTemplate('tpl.file.html', true, true);
-        foreach ($input->getDynamicInputs() as $file_id => $metadata_input) {
+        foreach ($input->getDynamicInputs() as $metadata_input) {
+            $file_info = null;
+            if (null !== ($data = $metadata_input->getValue())) {
+                $file_id = $data[$input->getUploadHandler()->getFileIdentifierParameterName()] ?? null;
+
+                if (null !== $file_id) {
+                    $file_info = $input->getUploadHandler()->getInfoResult($file_id);
+                }
+            }
+
             $template = $this->renderFilePreview(
                 $input,
                 $metadata_input,
                 $default_renderer,
-                $input->getUploadHandler()->getInfoResult($file_id),
+                $file_info,
                 $template
             );
         }
@@ -875,14 +884,14 @@ class Renderer extends AbstractComponentRenderer
             $dynamic_input_count
         ) {
             return "
-            $(document).ready(function () {
-                il.UI.Input.DynamicInputsRenderer.init(
-                    '$id',
-                    `$dynamic_inputs_template_html`,
-                    $dynamic_input_count
-                );
-            });
-        ";
+                $(document).ready(function () {
+                    il.UI.Input.DynamicInputsRenderer.init(
+                        '$id',
+                        `$dynamic_inputs_template_html`,
+                        $dynamic_input_count
+                    );
+                });
+            ";
         });
     }
 

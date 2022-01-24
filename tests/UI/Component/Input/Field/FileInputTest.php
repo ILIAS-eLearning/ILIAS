@@ -230,7 +230,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">
-                                    <input id="id_1" type="hidden" name="name_0[0][dynamic_input_0]" value="value" />
+                                    <input id="id_1" type="hidden" name="name_0[form_input_0][]" value="value" />
                                 </div>
                             </div>
                         </div>

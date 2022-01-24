@@ -13,6 +13,7 @@ use ILIAS\UI\Component\Input\Field;
 use ilLanguage;
 use LogicException;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * This implements the switchable group.
@@ -59,6 +60,22 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     public function withRequired($is_required) : Field\Input
     {
         return Input::withRequired($is_required);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withNameFrom(NameSource $source) : Field\Input
+    {
+        $clone = clone Input::withNameFrom($source);
+        $named_inputs = [];
+        foreach ($this->getInputs() as $key => $input) {
+            $named_inputs[$key] = $input->withNameFrom($source);
+        }
+
+        $clone->inputs = $named_inputs;
+
+        return $clone;
     }
 
     /**

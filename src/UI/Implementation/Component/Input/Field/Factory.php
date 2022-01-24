@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data;
+use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -12,7 +13,6 @@ use ilLanguage;
 
 /**
  * Class Factory
- *
  * @package ILIAS\UI\Implementation\Component\Input\Field
  */
 class Factory implements Field\Factory
@@ -160,9 +160,10 @@ class Factory implements Field\Factory
     public function file(
         UploadHandler $handler,
         string $label,
-        string $byline = null
+        string $byline = null,
+        Input $metadata_input = null
     ) : Field\File {
-        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $byline);
+        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $metadata_input, $byline);
     }
 
     /**

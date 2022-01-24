@@ -22,7 +22,6 @@ interface Factory
      *      numeric field: Use a numeric field if users should input numbers.
      *      alphabet field: >
      *          Use an alphabet field if the user should input single letters.
-     *
      * rules:
      *   usage:
      *     1: Text Input MUST NOT be used for choosing from predetermined options.
@@ -36,10 +35,9 @@ interface Factory
      *     1: >
      *         Text Input MUST limit the number of characters, if a certain length
      *         of text-input may not be exceeded (e.g. due to database-limitations).
-     *
      * ---
-     * @param    string      $label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Text
      */
     public function text(string $label, string $byline = null) : Text;
@@ -62,10 +60,9 @@ interface Factory
      *         Magic numbers such as -1 or 0 to specify “limitless” or smoother
      *         options MUST NOT be used.
      *     3: A valid input range SHOULD be specified.
-     *
      * ---
-     * @param    string      $label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Numeric
      */
     public function numeric(string $label, string $byline = null) : Numeric;
@@ -86,8 +83,8 @@ interface Factory
      *      sections: Sections are used to generate a visible relation of fields.
      * rules: []
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
-     * @param    string    $label
+     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param string                                                 $label
      * @return    \ILIAS\UI\Component\Input\Field\Group
      */
     public function group(array $inputs, string $label = '') : Group;
@@ -113,8 +110,8 @@ interface Factory
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accept by the Jour Fixe.
      * ---
-     * @param   array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
-     * @return	\ILIAS\UI\Component\Input\Field\OptionalGroup
+     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @return    \ILIAS\UI\Component\Input\Field\OptionalGroup
      */
     public function optionalGroup(array $inputs, string $label, string $byline = null) : OptionalGroup;
 
@@ -139,8 +136,8 @@ interface Factory
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accepted by the Jour Fixe.
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $input
-     * @return	\ILIAS\UI\Component\Input\Field\SwitchableGroup
+     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $input
+     * @return    \ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
     public function switchableGroup(array $inputs, string $label, string $byline = null) : SwitchableGroup;
 
@@ -178,9 +175,9 @@ interface Factory
      *     4: >
      *       In doubt consistency SHOULD be prioritized over accuracy in titles.
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
-     * @param    string|null $label
-     * @param    string      $byline
+     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param string|null                                            $label
+     * @param string                                                 $byline
      * @return    \ILIAS\UI\Component\Input\Field\Section
      */
     public function section(array $inputs, string $label, string $byline = null) : Section;
@@ -197,7 +194,6 @@ interface Factory
      *   effect: >
      *     If used in a form, a checkbox may open a dependant section (formerly known
      *     as sub form).
-     *
      * rules:
      *   usage:
      *     1: >
@@ -207,7 +203,6 @@ interface Factory
      *      used in this case.
      *   wording:
      *     1: The checkbox’s identifier MUST always state something positive.
-     *
      * ---
      * @return    \ILIAS\UI\Component\Input\Field\Checkbox
      */
@@ -290,10 +285,8 @@ interface Factory
      *      text field: >
      *          Use a text field for discloseable information (i.e.
      *          information that can safely be displayed to an audience)
-     *
      * context:
      *    - Login-Form and own profile (change Password).
-     *
      * rules:
      *   usage:
      *     1: Password Input MUST be used for passwords.
@@ -306,10 +299,9 @@ interface Factory
      *     3: >
      *         On the other hand, when setting a password, Password Input
      *         SHOULD enforce strong passwords by appropiate contraints.
-     *
      * ---
-     * @param    string      $label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Password
      */
     public function password(string $label, string $byline = null) : Password;
@@ -332,20 +324,16 @@ interface Factory
      *       Use radio buttons when the alternatives matter. When is wanted to user
      *       to see what they are not choosing.
      *       If it is a long list or the alternatives are not that important, use a select.
-     *
      * rules:
      *   usage:
      *     1: Select Input MAY be used for choosing from predetermined options.
-     *
      *   interaction:
      *     1: Only one option is selectable.
      *     2: First Option MAY be selectable when the field is not required.
-     *
      * ---
      * @param $label   string defines the label.
      * @param $options array<string,string> with the select options as key-value pairs.
      * @param $byline  string
-     *
      * @return \ILIAS\UI\Component\Input\Field\Select
      */
     public function select(string $label, array $options, string $byline = null) : Select;
@@ -366,7 +354,6 @@ interface Factory
      *      numeric field: Use a numeric field if users should input numbers.
      *      alphabet field: >
      *          Use an alphabet field if the user should input single letters.
-     *
      * rules:
      *   usage:
      *     1: Textarea Input MUST NOT be used for choosing from predetermined options.
@@ -386,10 +373,9 @@ interface Factory
      *     1: >
      *         Textarea Input MAY limit the number of characters, if a certain length
      *         of text-input may not be exceeded (e.g. due to database-limitations).
-     *
      * ---
-     * @param    string      $label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Textarea
      */
     public function textarea(string $label, string $byline = null) : Textarea;
@@ -411,7 +397,6 @@ interface Factory
      *       Use Selects to choose items from a longer list as the configuration of
      *       an aspect; when the choice has severe effects on, e.g. service behavior,
      *       or needs further configuration, stick to radios.
-     *
      * rules:
      *   usage:
      *     1: >
@@ -428,10 +413,9 @@ interface Factory
      *        A meaningful labeling SHOULD be chosen instead.
      *   ordering:
      *     1: The presumably most relevant option SHOULD be the first option.
-     *
      * ---
-     * @param    string 	$label
-     * @param    string|null $byline
+     * @param string      $label
+     * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Radio
      */
     public function radio(string $label, string $byline = null) : Radio;
@@ -444,14 +428,12 @@ interface Factory
      *   composition: >
      *     The Multi Select field will render labeled checkboxes according to given options.
      *   effect: >
-     *
      *   rivals:
      *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
      *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
      *     Select Field: >
      *       Use a Select Input when the user's choice is limited to one option
      *       or the options are mutually exclusive.
-     *
      * rules:
      *   usage:
      *     1: >
@@ -463,17 +445,15 @@ interface Factory
      *     3: >
      *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
      *      options where only one option can be selected. A Select MUST be used in this case
-     *
      *   wording:
      *     1: Each option MUST be labeled.
      *     2: >
      *       If the option governs a change of (service-)behavior, the option's
      *       label MUST be in form of a positive statement.
-     *
      * ---
-     * @param string 	$label
-     * @param array<string,string> 	$options 	with the select options as value=>label.
-     * @param string 	$byline
+     * @param string               $label
+     * @param array<string,string> $options with the select options as value=>label.
+     * @param string               $byline
      * @return \ILIAS\UI\Component\Input\Field\MultiSelect
      */
     public function multiSelect(string $label, array $options, string $byline = null) : MultiSelect;
@@ -495,17 +475,14 @@ interface Factory
      *     Within the popover, the user may navigate to prior and following months.
      *   rivals:
      *     Text field: Text Felds MUST NOT be used to input date-strings.
-     *
      * context:
      *   - DateTime Input is used in forms.
-     *
      * rules:
      *   usage:
      *     1: When used as a time-only input, the glyph MUST be Time Glyph.
-     *
      * ---
-     * @param string 	$label   defines the label.
-     * @param string 	$byline
+     * @param string $label defines the label.
+     * @param string $byline
      * @return \ILIAS\UI\Component\Input\Field\DateTime
      */
     public function dateTime(string $label, string $byline = null) : DateTime;
@@ -522,17 +499,14 @@ interface Factory
      *     Invalid input will be corrected automatically.
      *     The start point must take place before the endpoint; an error-message is
      *     shown if this is not the case.
-     *
      * context:
      *   - Duration Input is used in forms.
-     *
      * rules:
      *   usage:
      *     1: When used with time-only inputs, the glyph MUST be Time Glyph.
-     *
      * ---
-     * @param string 	$label   defines the label.
-     * @param string 	$byline
+     * @param string $label defines the label.
+     * @param string $byline
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
     public function duration(string $label, string $byline = null) : Duration;
@@ -565,14 +539,16 @@ interface Factory
      *   - Upload icons for items in the MainBar (https://docu.ilias.de/goto_docu_wiki_wpage_3993_1357.html)
      * ---
      * @param UploadHandler $handler
-     * @param string        $label defines the label.
+     * @param string        $label          defines the label.
      * @param string|null   $byline
+     * @param Input|null    $metadata_input optional file metadata input.
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(
         UploadHandler $handler,
         string $label,
-        string $byline = null
+        string $byline = null,
+        Input $metadata_input = null
     ) : File;
 
     /**
@@ -589,21 +565,17 @@ interface Factory
      *   rivals:
      *      Text Input: use a Text Input if users should input texts.
      *      Link Input: use a Link Input if users may also set a label for the URL
-     *
      * context:
      *   - The single URL Input is used in UI-forms.
-     *
      * rules:
      *   usage:
      *      1: The URL Input MUST NOT be used if a URL label has to be set.
-     *
      * ---
-     * @param string $label
+     * @param string      $label
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Url
      */
     public function url(string $label, string $byline = null) : Url;
-
 
     /**
      * ---
@@ -617,17 +589,14 @@ interface Factory
      *      while the second one will be restricted to URLs.
      *   rivals:
      *      Url Input: use a Url Input if users should input a URL only (without a label or similar)
-     *
      * context:
      *   - The Link Input is used in UI-forms.
-     *
      * rules:
      *   usage:
      *      1: >
      *        The URL Input MUST be used if a URL is to be entered together with an assigned label
-     *
      * ---
-     * @param string $label
+     * @param string      $label
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Link
      */

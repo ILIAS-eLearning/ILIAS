@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field\Input as InputInterface;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use Closure;
@@ -27,16 +27,26 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
     public function __construct(
         ilLanguage $language,
         DataFactory $data_factory,
-        Factory $refinery,
+        Refinery $refinery,
         C\Input\Field\UploadHandler $handler,
         string $label,
+        ?InputInterface $metadata_input,
         ?string $byline
     ) {
-        parent::__construct($language, $data_factory, $refinery, $label, $byline);
-
-        $this->dynamic_input_template = new Hidden($data_factory, $refinery);
+        $this->language = $language;
+        $this->data_factory = $data_factory;
+        $this->refinery = $refinery;
         $this->upload_handler = $handler;
         $this->value = [];
+
+        parent::__construct(
+            $language,
+            $data_factory,
+            $refinery,
+            $label,
+            $this->createDynamicInputsTemplate($metadata_input),
+            $byline
+        );
     }
 
     // ===============================================
@@ -46,21 +56,6 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
     // ===============================================
     // BEGIN OVERWRITTEN METHODS OF DynamicInputsAware
     // ===============================================
-
-    /**
-     * Merges the provided template with this inputs default one.
-     */
-    public function withTemplateForDynamicInputs(InputInterface $template) : DynamicInputsAwareInput
-    {
-        $clone = clone $this;
-        $clone->has_metadata_inputs = true;
-        $clone->dynamic_input_template = $this->mergeTemplateWithInput(
-            $template,
-            $clone->dynamic_input_template
-        );
-
-        return $clone;
-    }
 
     /**
      * Maps generated dynamic inputs to their file-id, which must be
@@ -134,11 +129,27 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
         return true;
     }
 
-    protected function mergeTemplateWithInput(InputInterface $template, InputInterface $input) : C\Input\Field\Group
+    protected function createDynamicInputsTemplate(?InputInterface $metadata_input) : InputInterface
     {
-        $identifier_key = $this->upload_handler->getFileIdentifierParameterName();
-        $inputs = ($template instanceof C\Input\Field\Group) ? $template->getInputs() : [$template];
-        $inputs[$identifier_key] = $input;
+        $default_metadata_input = new Hidden(
+            $this->data_factory,
+            $this->refinery
+        );
+
+        if (null === $metadata_input) {
+            return $default_metadata_input;
+        }
+
+        $inputs = ($metadata_input instanceof C\Input\Field\Group) ?
+            $metadata_input->getInputs() : [
+                $metadata_input,
+            ];
+
+        // map the file-id input to the UploadHandlers identifier key.
+        $inputs[$this->upload_handler->getFileIdentifierParameterName()] = $default_metadata_input;
+
+        // tell the input that it contains actual metadata inputs.
+        $this->has_metadata_inputs = true;
 
         return new Group(
             $this->data_factory,

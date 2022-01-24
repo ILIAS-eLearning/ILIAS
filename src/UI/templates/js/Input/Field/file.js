@@ -192,13 +192,13 @@ il.UI.Input = il.UI.Input || {};
 			maybeRemoveFileFromQueue(dropzone, file_entry_input.attr('id'));
 			maybeToggleActionButtonAndErrorMessage(input_id);
 
-			// only remove files that have the removable class and were
-			// already stored on the server.
+			// only remove files that have a file id and are therefore stored
+			// on the server.
 			if ('' === file_entry_input.val()) {
 				return;
 			}
 
-			// stop event propagation as there may occurs an error.
+			// stop event propagation as there may occur an error.
 			event.stopImmediatePropagation();
 
 			// disable the removal button, by changing the aria-label

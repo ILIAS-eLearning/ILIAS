@@ -56,13 +56,13 @@ class LinkInputTest extends ILIAS_UI_TestBase
             <div class="form-group row">
                 <label for="id_1" class="control-label col-sm-3">ui_link_label</label>
                 <div class="col-sm-9">
-                    <input id="id_1" type="text" name="name_1" class="form-control form-control-sm" />
+                    <input id="id_1" type="text" name="name_0" class="form-control form-control-sm" />
                 </div>
             </div>
             <div class="form-group row">
                 <label for="id_2" class="control-label col-sm-3">ui_link_url</label>
                 <div class="col-sm-9">
-                    <input id="id_2" type="url" name="name_2" class="form-control form-control-sm" />
+                    <input id="id_2" type="url" name="name_1" class="form-control form-control-sm" />
                 </div>
             </div>';
 

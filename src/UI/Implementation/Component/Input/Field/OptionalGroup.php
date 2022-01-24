@@ -10,6 +10,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field;
 use LogicException;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * This implements the optional group.
@@ -43,6 +44,22 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     public function withRequired($is_required) : Field\Input
     {
         return Input::withRequired($is_required);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withNameFrom(NameSource $source) : Field\Input
+    {
+        $clone = clone Input::withNameFrom($source);
+        $named_inputs = [];
+        foreach ($this->getInputs() as $key => $input) {
+            $named_inputs[$key] = $input->withNameFrom($source);
+        }
+
+        $clone->inputs = $named_inputs;
+
+        return $clone;
     }
 
     /**
