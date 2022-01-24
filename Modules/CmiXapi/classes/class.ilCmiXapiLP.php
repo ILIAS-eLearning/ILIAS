@@ -30,7 +30,7 @@ class ilCmiXapiLP extends ilObjectLP
     const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
     const MOVEON_NOT_APPLICABLE = 'NotApplicable';
 
-    public function initModeOptions(ilRadioGroupInputGUI $modeRadio): void
+    public function initModeOptions(ilRadioGroupInputGUI $modeRadio) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $modeCompleted = new ilRadioOption(
@@ -104,7 +104,7 @@ class ilCmiXapiLP extends ilObjectLP
         }
     }
     
-    public function fetchModeOption(ilPropertyFormGUI $form): int
+    public function fetchModeOption(ilPropertyFormGUI $form) : int
     {
         $mainMode = (int) $form->getInput('modus');
         $failedOpt = (int) $form->getInput('modus_' . $mainMode . '_failed');
@@ -125,7 +125,7 @@ class ilCmiXapiLP extends ilObjectLP
         return $mainMode;
     }
     
-    public static function getDefaultModes($a_lp_active): array
+    public static function getDefaultModes($a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -138,12 +138,12 @@ class ilCmiXapiLP extends ilObjectLP
         );
     }
     
-    public function getDefaultMode(): int
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
     
-    public function getValidModes(): array
+    public function getValidModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

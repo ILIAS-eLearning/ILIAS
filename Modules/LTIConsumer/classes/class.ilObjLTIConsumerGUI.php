@@ -783,8 +783,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             return;
         }
 
-        $cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId(),
-            $this->object->getProvider()->getPrivacyIdent());
+        $cmixUser = new ilCmiXapiUser(
+            $this->object->getId(),
+            $this->user->getId(),
+            $this->object->getProvider()->getPrivacyIdent()
+        );
         $user_ident = $cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
             $user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $DIC->user());

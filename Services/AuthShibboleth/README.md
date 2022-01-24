@@ -1,107 +1,104 @@
-Shibboleth Authentication for ILIAS
--------------------------------------------------------------------------------
+# Shibboleth Authentication for ILIAS
 
 Requirements:
 - Webserver must run Shibboleth Service Provider 1.3 or newer.
   Please have a look at the Shibboleth deployment documentation on how to set up Shibboleth.
 
-Configure ILIAS for Shibboleth authentication
--------------------------------------------------------------------------------
+## Configure ILIAS for Shibboleth authentication
 
 1. Protect the file ilias/shib_login.php with Shibboleth.
-  For apache one could use:
+For apache one could use:
 
---
+```
 <Location ~ "/shib_login.php">
-        AuthType shibboleth
-        ShibRequireSession On
-        require valid-user
+     AuthType shibboleth
+     ShibRequireSession On
+     require valid-user
 </Location>
---
+```
 
-   To restrict access to ILIAS, replace the access rule 'require valid-user'
-   for example with an access control rule like: 'require affiliation student'
+To restrict access to ILIAS, replace the access rule 'require valid-user'
+for example with an access control rule like: 'require affiliation student'
 
-   shib_login.php authenticates the user if the required Shibboleth attributes
-   are available and if the require rule is satisfied.
+shib_login.php authenticates the user if the required Shibboleth attributes
+are available and if the require rule is satisfied.
 
-   For IIS web servers, one must define in the shibboleth.xml or shibboleth2.xml
-   RequestMap element a rule like:
+For IIS web servers, one must define in the shibboleth.xml or shibboleth2.xml
+RequestMap element a rule like:
 
---
+```
 <Host name="ilias.host.org">
-    <Path name="path/to/ilias/shib_login.php" authType="shibboleth" requireSession="true">
+ <Path name="path/to/ilias/shib_login.php" authType="shibboleth" requireSession="true">
 </Host>
---
+```
 
-   See http://www.switch.ch/aai/support/serviceproviders/sp-access-rules.html on
-   how one can protect ILIAS in order to grant access only to specific users.
+See http://www.switch.ch/aai/support/serviceproviders/sp-access-rules.html on
+how one can protect ILIAS in order to grant access only to specific users.
 
 2. As ILIAS admin, go to the 'Administration >> Authentication and Registration'
-   options and click on the link for the 'Shibboleth' settings.
+options and click on the link for the 'Shibboleth' settings.
 
 3. Activate the "Enable Shibboleth Support" checkbox on the top.
-   After defining the default user role for new users registering via Shibboleth
-   and the name of the Shibboleth federation this service is part of,
-   one has to define whether the Shibboleth users shall select their home
-   organization directly on the ILIAS login page or on an external page.
+After defining the default user role for new users registering via Shibboleth
+and the name of the Shibboleth federation this service is part of,
+one has to define whether the Shibboleth users shall select their home
+organization directly on the ILIAS login page or on an external page.
 
-   If it was chosen to use the ILIAS WAYF service, one has to make sure that
-   Shibboleth is configured to have a default applicationId for the <host>
-   element and that the default Shibboleth handlerURL is configured to be
-   "/Shibboleth.sso", which usually is the default setting for Shibboleth.
-   To check that, open the shibboleth.xml configuration file and lookg for the
-   <host> element, which must have an attribute 'applicationId', e.g.
-   applicationId="default".
-   If another than the default session initiator is used (for example because
-   the ILIAS installation is part of several federations), one can specify
-   a location of a session initiator for an Identity Provider as a third
-   argument. The session inititors can be found in the shibboleth.xml
-   configuration file as well.
+If it was chosen to use the ILIAS WAYF service, one has to make sure that
+Shibboleth is configured to have a default applicationId for the <host>
+element and that the default Shibboleth handlerURL is configured to be
+"/Shibboleth.sso", which usually is the default setting for Shibboleth.
+To check that, open the shibboleth.xml configuration file and lookg for the
+<host> element, which must have an attribute 'applicationId', e.g.
+applicationId="default".
+If another than the default session initiator is used (for example because
+the ILIAS installation is part of several federations), one can specify
+a location of a session initiator for an Identity Provider as a third
+argument. The session inititors can be found in the shibboleth.xml
+configuration file as well.
 
-   Also see:
-   https://spaces.internet2.edu/display/SHIB/SessionInitiator (SP 1.3.x)
-   https://spaces.internet2.edu/display/SHIB2/NativeSPSessionInitiator (SP 2.x)
+Also see:
+- https://spaces.internet2.edu/display/SHIB/SessionInitiator (SP 1.3.x)
+- https://spaces.internet2.edu/display/SHIB2/NativeSPSessionInitiator (SP 2.x)
 
-   If one choses to use an external WAYF, provide an URL to an image that is to
-   be used for the login button. The default is 'images/shib_login_button.png'
+If one choses to use an external WAYF, provide an URL to an image that is to
+be used for the login button. The default is 'images/shib_login_button.png'
 
-   If the custom login is chosen, the login area can be freely designed using
-   the login instructions text area. It is possible to use HTML code in that
-   text field if this option is chosen (and only then). This can then be used
-   to embedd a JavaScript WAYF or Discovery service.
-   
-   The login instructions can be used to place a message for Shibboleth users
-   on the login page. These instructions are independent from the current
-   language the user has chosen.
+If the custom login is chosen, the login area can be freely designed using
+the login instructions text area. It is possible to use HTML code in that
+text field if this option is chosen (and only then). This can then be used
+to embedd a JavaScript WAYF or Discovery service.
 
-   Read below what the data manipulation file can be used for.
+The login instructions can be used to place a message for Shibboleth users
+on the login page. These instructions are independent from the current
+language the user has chosen.
+
+Read below what the data manipulation file can be used for.
 
 4. Fill in the fields of the form for the attribute mapping. One needs to provide
-   the names of the environment variables that contain the Shibboleth attributes
-   for the unique ID, firstname, surname, etc. This e.g. could be
-   'Shib-Person-surname' for the person's last name. Refer to
-   the Shibboleth documentation or the documentation of the Shibboleth
-   federation for information on which attributes are available.
-   Especially the field for the 'unique Shibboleth attribute' is of great
-   importance because this attribute is used for the user mapping between ILIAS
-   and Shibboleth users.
+the names of the environment variables that contain the Shibboleth attributes
+for the unique ID, firstname, surname, etc. This e.g. could be
+'Shib-Person-surname' for the person's last name. Refer to
+the Shibboleth documentation or the documentation of the Shibboleth
+federation for information on which attributes are available.
+Especially the field for the 'unique Shibboleth attribute' is of great
+importance because this attribute is used for the user mapping between ILIAS
+and Shibboleth users.
 
-   #############################################################################
-   Shibboleth Attributes needed by ILIAS:
-   For ILIAS to work properly Shibboleth should at least provide the attributes
-   that are used as firstname, lastname and email in ILIAS.
-   Furthermore, one has to provide an attribute that contains a unique
-   value for each use. This could e.g. also be the users email address if it
-   can be ensured that the address is permanent and doesn't change.
-   This unique attribute is needed to map the ILIAS user name to a certain
-   Shibboleth user.
-   #############################################################################
+
+### Shibboleth Attributes needed by ILIAS:
+> For ILIAS to work properly Shibboleth should at least provide the attributes
+that are used as firstname, lastname and email in ILIAS.
+Furthermore, one has to provide an attribute that contains a unique
+value for each use. This could e.g. also be the users email address if it
+can be ensured that the address is permanent and doesn't change.
+This unique attribute is needed to map the ILIAS user name to a certain
+Shibboleth user.
 
 5. Save the changes for the Shibboleth authentication method.
 
 6. (optional) Go to Administration -> User Accounts -> Settings and
-   set the fields as not changeable if they are provided by Shibboleth.
+set the fields as not changeable if they are provided by Shibboleth.
 
 
 How the Shibboleth authentication works
@@ -133,15 +130,15 @@ path to a php file that can be used as data manipulation hook (kind of an API).
 Once can use this if  Shibboleth attributes shall be processed/modified further.
 
 Example 1: The Shibboleth federation uses an attribute that specifies the
-           user's preferred language, but the content of this attribute is not
-           compatible with the ILIAS data representation, e.g. the Shibboleth
-           attribute contains 'German' but ILIAS needs a two letter value like
-           'de'.
+        user's preferred language, but the content of this attribute is not
+        compatible with the ILIAS data representation, e.g. the Shibboleth
+        attribute contains 'German' but ILIAS needs a two letter value like
+        'de'.
 Example 2: The username is generated by the Shibboleth part of ILIAS using the
-           user's firstname and last name and a number in case several users
-           have the same name. This could give a username 'Hans Muster 2'.
-           If the generated name is satisfying it is possible to write a file 
-           that generates the username in a different way.
+        user's firstname and last name and a number in case several users
+        have the same name. This could give a username 'Hans Muster 2'.
+        If the generated name is satisfying it is possible to write a file 
+        that generates the username in a different way.
 
 Using that hook implies requires some PHP programming skills. It is strongly recommended to take a look at the file
 ilias/Services/AuthShibboleth/classes/class.ilShibboleth.php, especially the
@@ -151,45 +148,45 @@ can directly edit the object $userObj.
 
 Example file:
 
---
+```
 <?php
 
-        // Set the zip code and the adress
-        if ($_SERVER[$ilias->getSetting('shib_street')] != '')
-        {
-                // $address contains something like
-                // 'SWITCH$Limmatquai 138$CH-8021 Zurich'
-                // We want to split this up to get:
-                // institution, street, zipcode, city and country
-                $address = $_SERVER[$ilias->getSetting('shib_street')];
-                list($institution, $street, $zip_city) = split('\$', $address);
+     // Set the zip code and the adress
+     if ($_SERVER[$ilias->getSetting('shib_street')] != '')
+     {
+             // $address contains something like
+             // 'SWITCH$Limmatquai 138$CH-8021 Zurich'
+             // We want to split this up to get:
+             // institution, street, zipcode, city and country
+             $address = $_SERVER[$ilias->getSetting('shib_street')];
+             list($institution, $street, $zip_city) = split('\$', $address);
 
-                ereg('([0-9]{4,5})',$zip_city, $regs);
-                $zip = $regs[1];
+             ereg('([0-9]{4,5})',$zip_city, $regs);
+             $zip = $regs[1];
 
-                ereg(' (.+)',$zip_city, $regs);
-                $city = $regs[1];
+             ereg(' (.+)',$zip_city, $regs);
+             $city = $regs[1];
 
-                ereg('(.+)-',$zip_city, $regs);
-                $country = $regs[1];
+             ereg('(.+)-',$zip_city, $regs);
+             $country = $regs[1];
 
-                // Update fields for new user or if it has to be updated
-                if ($ilias->getSetting('shib_update_institution') || $newUser)
-                        $userObj->setInstitution($institution);
-                if ($ilias->getSetting('shib_update_street') || $newUser)
-                        $userObj->setStreet($street);
-                if ($ilias->getSetting('shib_update_zipcode') || $newUser)
-                        $userObj->setZipcode($zip);
-                if ($ilias->getSetting('shib_update_city') || $newUser)
-                        $userObj->setCity($city);
-                if ($ilias->getSetting('shib_update_country') || $newUser)
-                        $userObj->setCountry($country);
-        }
+             // Update fields for new user or if it has to be updated
+             if ($ilias->getSetting('shib_update_institution') || $newUser)
+                     $userObj->setInstitution($institution);
+             if ($ilias->getSetting('shib_update_street') || $newUser)
+                     $userObj->setStreet($street);
+             if ($ilias->getSetting('shib_update_zipcode') || $newUser)
+                     $userObj->setZipcode($zip);
+             if ($ilias->getSetting('shib_update_city') || $newUser)
+                     $userObj->setCity($city);
+             if ($ilias->getSetting('shib_update_country') || $newUser)
+                     $userObj->setCountry($country);
+     }
 
-        // Please ensure that there are no spaces or other characters outside
-        // the <?php ?> delimiters
+     // Please ensure that there are no spaces or other characters outside
+     // the <?php ?> delimiters
 ?>
---
+```
 
 
 How to upgrade the Service Provider to 2.x
@@ -216,15 +213,15 @@ Because there is a risk of locking oneself out of ILIAS it is strongly
 recommended to use the following approach when upgrading the Service Provider:
 1. Enable Database authentication before the upgrade. 
 2. Make sure that to have at least one manual account with administration 
-   privileges working before upgrading the Service Provider to 2.x.
+privileges working before upgrading the Service Provider to 2.x.
 3. After the SP upgrade, use this account to log into ILIAS and adapt the 
-   attribute mapping in 'Administration -> Authentication and Registration -> 
-   Shibboleth' to reflect the changed attribute names.
-   One finds the attribute names in the file /etc/shibboleth/attribute-map.xml 
-   listed as the 'id' value of an attribute definition.
+attribute mapping in 'Administration -> Authentication and Registration -> 
+Shibboleth' to reflect the changed attribute names.
+One finds the attribute names in the file /etc/shibboleth/attribute-map.xml 
+listed as the 'id' value of an attribute definition.
 4. Test the login with a Shibboleth account
 5. If all is working, disable database authentication again if it was 
-   enabled before the upgrade
+enabled before the upgrade
 ********************************************************************************
 
 
@@ -239,11 +236,11 @@ To make the SP aware of the ILIAS logout, one has to add the following to the
 Shibboleth main configuration file shibboleth2.xml (usually in /etc/shibboleth/)
 just before the <MetadataProvider> element.
 
---
+```
 <Notify 
 	Channel="back"
 	Location="https://#MY_ILIAS_HOSTNAME#/#PATH_TO_ILIAS_DIR#/shib_logout.php" />
---
+```
 
 Then restart the Shibboleth daemon and check the log file for errors. If there 
 were no errors, one can test the logout feature by accessing ILIAS, 
@@ -282,5 +279,3 @@ Provider also supports Single Log Out (SLO), a "real" logout becomes possible.
   Randelshofer <werner.randelshofer@hslu.ch> for suggesting and implementing
   a better algorithm for generating a user name.
 --------------------------------------------------------------------------------
-In case of problems and questions with Shibboleth authentication, contact
-Lukas Haemmerle <lukas.haemmerle@switch.ch>.

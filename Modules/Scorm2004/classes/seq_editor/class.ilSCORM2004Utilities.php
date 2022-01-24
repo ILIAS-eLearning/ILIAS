@@ -1,8 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilSCORM2004Utilities
 *
@@ -13,17 +23,10 @@
 *
 * @ingroup ModulesScorm2004
 */
-
 class ilSCORM2004Utilities
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
-    /**
-     * @var Logger
-     */
     protected $log;
 
     
@@ -47,11 +50,11 @@ class ilSCORM2004Utilities
     //	public function parentHasSeqTemplate($a_slm_id)
     //	{
     //
-//
+    //
     //		$ilDB = $this->db;
     //		$ilLog = $this->log;
     //		$has_template = false;
-//
+    //
     //		$mtree = new ilTree($a_slm_id);
     //		$mtree->setTableNames('sahs_sc13_tree','sahs_sc13_tree_node');
     //		$mtree->setTreeTablePK("slm_id");
@@ -65,10 +68,10 @@ class ilSCORM2004Utilities
     //				break;
     //			}
     //		}
-//
+    //
     //		return $has_template;
     //	}
-//
+    //
     //	private function getParentsForNode($a_parents,$a_id){
     //		$parent_id = $tree->getParentId($id);
     //		if ($parent_id != 0) {
@@ -78,9 +81,10 @@ class ilSCORM2004Utilities
     //			return $a_parents;
     //		}
     //	}
-    
-    
-    public function getLeftRightInfo()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getLeftRightInfo() : array
     {
         $ilDB = $this->db;
         $ilLog = $this->log;
@@ -147,7 +151,10 @@ class ilSCORM2004Utilities
         return $this->id;
     }
     
-    public function getAllowedActions()
+    /**
+     * @return array<string, bool>
+     */
+    public function getAllowedActions() : array
     {
         $ilDB = $this->db;
         $ilLog = $this->log;
@@ -159,7 +166,10 @@ class ilSCORM2004Utilities
         return array("copy" => !$obj_rec['nocopy'],"move" => !$obj_rec['nomove'],"delete" => !$obj_rec['nodelete']);
     }
     
-    public function getControlModeProperties()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getControlModeProperties() : array
     {
         $ilDB = $this->db;
         $query = "SELECT * FROM sahs_sc13_seq_seq WHERE id = " .
@@ -174,7 +184,10 @@ class ilSCORM2004Utilities
         return $c_properties;
     }
     
-    public function getAllSequencingProperties()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getAllSequencingProperties() : array
     {
         $ilDB = $this->db;
         $ilLog = $this->log;

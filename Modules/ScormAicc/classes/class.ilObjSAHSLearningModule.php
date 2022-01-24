@@ -24,11 +24,10 @@
 *
 * @ingroup ModulesScormAicc
 */
-
 class ilObjSAHSLearningModule extends ilObject
 {
     public $validator;
-    protected $sequencing = false;
+    protected bool $sequencing = false;
     //	var $meta_data;
 
     /**
@@ -1372,13 +1371,13 @@ class ilObjSAHSLearningModule extends ilObject
         // copy data directory
         $new_obj->populateByDirectoy($source_obj->getDataDirectory());
 
-        // copy authored content ...
-        if ($new_obj->getEditable()) {
-            $source_obj->copyAuthoredContent($new_obj);
-        } else {
-            // ... or read manifest file
-            $new_obj->readObject();
-        }
+//        // copy authored content ...
+//        if ($new_obj->getEditable()) {
+//            $source_obj->copyAuthoredContent($new_obj);
+//        } else {
+        // ... or read manifest file
+        $new_obj->readObject();
+//        }
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
         /** @var ilScormLP $olp */

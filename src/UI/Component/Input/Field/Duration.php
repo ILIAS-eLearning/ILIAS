@@ -71,4 +71,9 @@ interface Duration extends Group
      * Get the timezone of this input.
      */
     public function getTimezone() : ?string;
+
+    /**
+     * Change labels for contained fields
+     */
+    public function withLabels(string $start_label, string $end_label) : Duration;
 }

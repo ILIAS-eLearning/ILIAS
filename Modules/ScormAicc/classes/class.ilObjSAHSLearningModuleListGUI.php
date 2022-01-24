@@ -60,14 +60,14 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     }
 
     /**
-    * Overwrite this method, if link target is not build by ctrl class
-    * (e.g. "lm_presentation.php", "forum.php"). This is the case
-    * for all links now, but bringing everything to ilCtrl should
-    * be realised in the future.
-    *
-    * @param	string		$a_cmd			command
-    *
-    */
+     * Overwrite this method, if link target is not build by ctrl class
+     * (e.g. "lm_presentation.php", "forum.php"). This is the case
+     * for all links now, but bringing everything to ilCtrl should
+     * be realised in the future.
+     * @param string $a_cmd command
+     * @return string
+     * @throws ilCtrlException
+     */
     public function getCommandLink($a_cmd) : string
     {
         global $DIC;
@@ -97,39 +97,38 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
                 break;
         }
-
         return $cmd_link;
     }
 
 
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd) : string
-    {
-        switch ($a_cmd) {
-            case "view":
-                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-                $frame = "ilContObj" . $this->obj_id;
-                break;
-
-            case "edit":
-//            case "editContent":
-            case "infoScreen":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            default:
-                $frame = "";
-                break;
-        }
-
-        return $frame;
-    }
+//    /**
+//    * Get command target frame
+//    *
+//    * @param	string		$a_cmd			command
+//    *
+//    * @return	string		command target frame
+//    */
+//    public function getCommandFrame($a_cmd) : string
+//    {
+//        switch ($a_cmd) {
+//            case "view":
+//                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+//                $frame = "ilContObj" . $this->obj_id;
+//                break;
+//
+//            case "edit":
+    ////            case "editContent":
+//            case "infoScreen":
+//                $frame = ilFrameTargetInfo::_getFrame("MainContent");
+//                break;
+//
+//            default:
+//                $frame = "";
+//                break;
+//        }
+//
+//        return $frame;
+//    }
 
 
     /**

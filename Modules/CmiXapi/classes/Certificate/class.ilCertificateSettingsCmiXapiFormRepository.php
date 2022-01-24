@@ -37,7 +37,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
-
         if (null === $settingsFormRepository) {
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
                 $object->getId(),

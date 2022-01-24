@@ -53,7 +53,7 @@ class ilCmiXapiRegistrationGUI
         $this->cmixUser = new ilCmiXapiUser($object->getId(), $DIC->user()->getId(), $object->getPrivacyIdent());
     }
     
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -64,14 +64,14 @@ class ilCmiXapiRegistrationGUI
         }
     }
     
-    protected function cancelCmd(): void
+    protected function cancelCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
-    protected function showFormCmd(ilPropertyFormGUI $form = null): void
+    protected function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -82,7 +82,7 @@ class ilCmiXapiRegistrationGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveFormCmd(): void
+    protected function saveFormCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -100,7 +100,7 @@ class ilCmiXapiRegistrationGUI
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
     
-    protected function buildForm(): \ilPropertyFormGUI
+    protected function buildForm() : \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -127,12 +127,12 @@ class ilCmiXapiRegistrationGUI
         return $form;
     }
     
-    protected function hasRegistration(): int
+    protected function hasRegistration() : int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
     
-    protected function saveRegistration(ilPropertyFormGUI $form): void
+    protected function saveRegistration(ilPropertyFormGUI $form) : void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));
         $this->cmixUser->save();

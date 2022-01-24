@@ -31,7 +31,14 @@ class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function parse($scoSelected, $report, $reports) : void
+    /**
+     * @param string $scoSelected
+     * @param string $report
+     * @param array  $reports
+     * @return void
+     * @throws ilCtrlException
+     */
+    public function parse(string $scoSelected, string $report, array $reports) : void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

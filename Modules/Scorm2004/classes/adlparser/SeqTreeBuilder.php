@@ -457,7 +457,7 @@
                         // Look for 'minNormalizedMeasure'
                         $tempVal = self::lookupElement($curNode, "minNormalizedMeasure");
                         if ($tempVal) {
-                            $obj->mMinMeasure = $tempVal;
+                            $obj->mMinMeasure = (float) $tempVal;
                         }
                 
                         //get ObjectiveMaps

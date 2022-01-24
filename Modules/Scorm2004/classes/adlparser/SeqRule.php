@@ -63,9 +63,22 @@ define("SEQ_ACTION_PREVIOUS", "previous");
 define("SEQ_ACTION_EXIT", "exit");
 
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class SeqRule
 {
-    public $mAction = SEQ_ACTION_IGNORE;
+    public string $mAction = SEQ_ACTION_IGNORE;
     public $mConditions = null;
     
     public function __construct()

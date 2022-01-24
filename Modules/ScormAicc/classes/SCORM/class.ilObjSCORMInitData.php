@@ -25,12 +25,20 @@
 */
 class ilObjSCORMInitData
 {
+    /**
+     * @param $str
+     * @return string
+     */
     public static function encodeURIComponent($str) : string
     {
         $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')', '%7E' => '~');
         return strtr(rawurlencode($str), $revert);
     }
 
+    /**
+     * @param $slm_obj
+     * @return string
+     */
     public static function getIliasScormVars($slm_obj) : string
     {
         global $DIC;
@@ -205,8 +213,12 @@ class ilObjSCORMInitData
         . '}';
         return $s_out;
     }
-    
-    public static function getIliasScormData($a_packageId)
+
+    /**
+     * @param int $a_packageId
+     * @return string
+     */
+    public static function getIliasScormData(int $a_packageId) : string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -231,8 +243,12 @@ class ilObjSCORMInitData
         }
         return json_encode($a_out);
     }
-    
-    public static function getIliasScormResources($a_packageId)
+
+    /**
+     * @param int $a_packageId
+     * @return string
+     */
+    public static function getIliasScormResources(int $a_packageId) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -275,8 +291,12 @@ class ilObjSCORMInitData
         //		return "[".$s_out."]";
         return json_encode($a_out);
     }
-    
-    public static function getIliasScormTree($a_packageId)
+
+    /**
+     * @param int $a_packageId
+     * @return string
+     */
+    public static function getIliasScormTree(int $a_packageId) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -299,9 +319,13 @@ class ilObjSCORMInitData
     }
 
     /**
+     * @param int    $a_packageId
+     * @param int    $a_user_id
+     * @param bool   $auto_last_visited
+     * @param string $scormType
      * @return array<string, mixed>
      */
-    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType = "1.2") : array
+    public static function getStatus(int $a_packageId, int $a_user_id, bool $auto_last_visited, string $scormType = "1.2") : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -341,13 +365,17 @@ class ilObjSCORMInitData
         } else {
             $status['total_time_sec'] = (int) $val_rec["total_time_sec"];
         }
-        
-        
-        
+
         return $status;
     }
-    // hash for storing data without session
-    private static function setHash($a_packageId, $a_user_id) : int
+
+    /**
+     * hash for storing data without session
+     * @param int $a_packageId
+     * @param int $a_user_id
+     * @return int
+     */
+    private static function setHash(int $a_packageId, int $a_user_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -383,14 +411,5 @@ class ilObjSCORMInitData
         // );
         // }
         return $hash;
-    }
-
-    /**
-    * Get max. number of attempts allowed for this package
-    */
-    public static function get_max_attempts($a_packageId) : int
-    {
-        //erased in 5.1
-        return 0;
     }
 }
