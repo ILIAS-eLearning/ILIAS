@@ -17,29 +17,22 @@
  ********************************************************************
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesSession
-*/
-class ilSessionRecurrence extends ilCalendarRecurrence
+ * @author Thomas Famula <famula@leifos.de>
+ */
+class ilModulesSessionSuite extends TestSuite
 {
-    public function __construct()
+    public static function suite() : self
     {
-        parent::__construct();
-    }
+        $suite = new self();
 
-    public function save() : void
-    {
-    }
+        require_once("./Modules/Session/test/EventItemsTest.php");
+        $suite->addTestSuite(EventItemsTest::class);
 
-    public function update() : void
-    {
-    }
-
-    public function delete() : void
-    {
+        return $suite;
     }
 }
