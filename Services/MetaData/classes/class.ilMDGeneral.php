@@ -402,7 +402,7 @@ class ilMDGeneral extends ilMDBase
                 $this->getObjType()
             );        // added type, alex, 31 Oct 2007
             $ide->setExportMode(true);
-            $ide->toXML($writer, true);
+            $ide->toXML($writer);
         }
 
         // Title

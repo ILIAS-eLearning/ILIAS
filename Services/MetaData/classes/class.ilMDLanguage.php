@@ -44,7 +44,7 @@ class ilMDLanguage extends ilMDBase
             "AND obj_type = " . $ilDB->quote($a_obj_type, 'text') . " " .
             "AND parent_type = 'meta_general' " .
             "ORDER BY meta_language_id ";
-        $ilDB->setLimit(1);
+        $ilDB->setLimit(1,0);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $lang = $row->language;

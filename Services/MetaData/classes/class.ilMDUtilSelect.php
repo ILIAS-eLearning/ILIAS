@@ -39,7 +39,6 @@ class ilMDUtilSelect
         // END PATCH Lucene Search
     {
 
-
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -49,6 +48,7 @@ class ilMDUtilSelect
         }
         asort($tmp_options, SORT_STRING);
 
+        $options = [];
         foreach ($prepend as $value => $translation) {
             $options[$value] = $translation;
         }
@@ -239,6 +239,7 @@ class ilMDUtilSelect
         if (!$res->numRows()) {
             return '';
         }
+        $options = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (strlen($row->format)) {
                 $options[$row->format] = substr($row->format, 0, 48);
@@ -526,9 +527,11 @@ class ilMDUtilSelect
 
         $lng = $DIC['lng'];
 
+        $options = [];
         foreach ($prepend as $value => $translation) {
             $options[$value] = $translation;
         }
+        $items = [];
         for ($i = 1; $i < 100; $i++) {
             $items[$i] = $i;
         }

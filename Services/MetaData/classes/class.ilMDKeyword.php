@@ -193,12 +193,13 @@ class ilMDKeyword extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
             "AND obj_type = " . $ilDB->quote($a_type, 'text') . " ";
         $res   = $ilDB->query($query);
+        $keywords = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($row->keyword) {
                 $keywords[$row->keyword_language][] = $row->keyword;
             }
         }
-        return $keywords ? $keywords : array();
+        return $keywords;
     }
 
     /**
@@ -206,10 +207,11 @@ class ilMDKeyword extends ilMDBase
      */
     public static function _getKeywordsByLanguageAsString(int $a_rbac_id, int $a_obj_id, string $a_type) : array
     {
+        $key_string = [];
         foreach (ilMDKeyword::_getKeywordsByLanguage($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $keywords) {
             $key_string[$lng_code] = implode(",", $keywords);
         }
-        return $key_string ? $key_string : array();
+        return $key_string;
     }
 
     /**
@@ -242,11 +244,12 @@ class ilMDKeyword extends ilMDBase
         }
 
         $res = $ilDB->query($query);
+        $obj_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $obj_ids[] = $row->obj_id;
         }
 
-        return (array) $obj_ids;
+        return $obj_ids;
     }
 
     /**

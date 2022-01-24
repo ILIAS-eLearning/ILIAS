@@ -82,6 +82,6 @@ class ilMDSettings
         $this->settings = new ilSetting('md_settings');
 
         $this->copyright_selection_active = (bool) $this->settings->get('copyright_selection_active', '0');
-        $this->delimiter                  = $this->settings->get('delimiter', ",");
+        $this->delimiter                  = (string) $this->settings->get('delimiter', ",");
     }
 }

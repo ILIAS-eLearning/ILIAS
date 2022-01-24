@@ -84,7 +84,7 @@ class ilMDCopyrightSelectionEntry
         }
 
         $query = "SELECT title FROM il_md_cpr_selections " .
-            "WHERE entry_id = " . $ilDB->quote($entry_id) . " ";
+            "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
         $res   = $ilDB->query($query);
         $row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->title ? $row->title : '';
@@ -101,7 +101,7 @@ class ilMDCopyrightSelectionEntry
         }
 
         $query = "SELECT copyright FROM il_md_cpr_selections " .
-            "WHERE entry_id = " . $ilDB->quote($entry_id) . " ";
+            "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
         $res   = $ilDB->query($query);
         $row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         return $row->copyright ? $row->copyright : '';

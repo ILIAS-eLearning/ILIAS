@@ -82,6 +82,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 
     public function __buildMonthsSelect(string $sel_month) : string
     {
+        $options = [];
         for ($i = 0; $i <= 24; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
@@ -90,6 +91,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 
     public function __buildDaysSelect(string $sel_day) : string
     {
+        $options = [];
         for ($i = 0; $i <= 31; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }

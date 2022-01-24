@@ -375,7 +375,7 @@ class ilMDEducational extends ilMDBase
 
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_educational " .
-                "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId());
+                "WHERE meta_educational_id = " . $this->db->quote($this->getMetaId(), ilDBConstants::T_INTEGER);
             $res   = $this->db->manipulate($query);
 
             foreach ($this->getTypicalAgeRangeIds() as $id) {

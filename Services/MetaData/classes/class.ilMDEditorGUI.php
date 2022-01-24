@@ -241,6 +241,7 @@ class ilMDEditorGUI
                     = $md_key->getKeyword();
         }
 
+        $lang = '';
         foreach ($keywords as $lang => $keyword_set) {
             if ($first) {
                 $this->tpl->setCurrentBlock("keyword_head");
@@ -448,6 +449,7 @@ class ilMDEditorGUI
         // language(s)
         $first   = "";
         $options = ilMDLanguageItem::_getLanguages();
+        $first_lang = '';
         foreach ($ids = $this->md_section->getLanguageIds() as $id) {
             $md_lan     = $this->md_section->getLanguage($id);
             $first_lang = $md_lan->getLanguageCode();
@@ -3243,6 +3245,7 @@ class ilMDEditorGUI
         }
 
         // Switch new element
+        $md_new = null;
         switch ($section_element) {
             case 'meta_or_composite':
                 $md_new = $this->md_section->addOrComposite();
@@ -3467,6 +3470,7 @@ class ilMDEditorGUI
 
     public function __buildMonthsSelect(string $sel_month) : string
     {
+        $options = [];
         for ($i = 0; $i <= 24; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
@@ -3475,6 +3479,7 @@ class ilMDEditorGUI
 
     public function __buildDaysSelect(string $sel_day) : string
     {
+        $options = [];
         for ($i = 0; $i <= 31; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }

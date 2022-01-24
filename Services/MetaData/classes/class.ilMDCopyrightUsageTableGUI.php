@@ -212,7 +212,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     public function getCountSubItemsFromDB(int $a_rbac_id) : int
     {
         $query = "SELECT count(rbac_id) total FROM il_meta_rights " .
-            "WHERE rbac_id = " . $this->db->quote($a_rbac_id) .
+            "WHERE rbac_id = " . $this->db->quote($a_rbac_id, ilDBConstants::T_INTEGER) .
             " AND rbac_id <> obj_id";
 
         $result = $this->db->query($query);

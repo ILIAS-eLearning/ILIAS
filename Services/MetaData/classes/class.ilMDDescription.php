@@ -165,10 +165,10 @@ class ilMDDescription extends ilMDBase
         $ilDB = $DIC->database();
 
         $query = "SELECT meta_description_id FROM il_meta_description " .
-            "WHERE rbac_id = " . $ilDB->quote($a_rbac_id) . " " .
-            "AND obj_id = " . $ilDB->quote($a_obj_id) . " " .
-            "AND parent_id = " . $ilDB->quote($a_parent_id) . " " .
-            "AND parent_type = " . $ilDB->quote($a_parent_type) . " " .
+            "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, ilDBConstants::T_INTEGER) . " " .
+            "AND obj_id = " . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER) . " " .
+            "AND parent_id = " . $ilDB->quote($a_parent_id, ilDBConstants::T_INTEGER) . " " .
+            "AND parent_type = " . $ilDB->quote($a_parent_type, ilDBConstants::T_INTEGER) . " " .
             "ORDER BY meta_description_id";
 
         $res = $ilDB->query($query);

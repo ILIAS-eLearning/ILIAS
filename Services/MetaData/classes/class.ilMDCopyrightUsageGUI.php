@@ -74,7 +74,6 @@ class ilMDCopyrightUsageGUI
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
             self::DEFAULT_CMD,
-            $this->entry_id
         );
         $table_gui->setFilterCommand("applyUsageFilter");
         $table_gui->setResetCommand("resetUsageFilter");
@@ -94,7 +93,6 @@ class ilMDCopyrightUsageGUI
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
             self::DEFAULT_CMD,
-            $this->entry_id
         );
         $table_gui->init();
         $table_gui->resetOffset();        // sets record offset to 0 (first page)
@@ -108,7 +106,6 @@ class ilMDCopyrightUsageGUI
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
             self::DEFAULT_CMD,
-            $this->entry_id
         );
         $table_gui->init();
         $table_gui->resetOffset();        // sets record offest to 0 (first page)

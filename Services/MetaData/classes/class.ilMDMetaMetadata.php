@@ -234,13 +234,14 @@ class ilMDMetaMetadata extends ilMDBase
 
     public function toXML(ilXmlWriter $writer) : void
     {
+        $attr = null;
         if ($this->getMetaDataScheme()) {
             $attr['MetadataScheme'] = $this->getMetaDataScheme();
         }
         if ($this->getLanguageCode()) {
             $attr['Language'] = $this->getLanguageCode();
         }
-        $writer->xmlStartTag('Meta-Metadata', $attr ? $attr : null);
+        $writer->xmlStartTag('Meta-Metadata', $attr);
 
         // ELEMENT IDENTIFIER
         $identifiers = $this->getIdentifierIds();

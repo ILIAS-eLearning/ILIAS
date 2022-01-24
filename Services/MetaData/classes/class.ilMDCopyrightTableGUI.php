@@ -121,6 +121,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $entries = ilMDCopyrightSelectionEntry::_getEntries();
 
         $position = -10;
+        $entry_arr = [];
         foreach ($entries as $entry) {
             $tmp_arr['id']          = $entry->getEntryId();
             $tmp_arr['title']       = $entry->getTitle();
@@ -134,6 +135,6 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
             $entry_arr[] = $tmp_arr;
         }
 
-        $this->setData($entry_arr ? $entry_arr : array());
+        $this->setData($entry_arr);
     }
 }

@@ -81,7 +81,7 @@ class ilMDSearch
                 $where .= strtoupper($this->query_parser->getCombination());
             }
             $where .= $field;
-            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%") . ")");
+            $where .= ("LIKE (" . $this->db->quote("%" . $word . "%" , ilDBConstants::T_TEXT) . ")");
         }
 
         $query = "SELECT * FROM il_meta_keyword" .

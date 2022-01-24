@@ -40,6 +40,7 @@ class ilMDUtils
         #$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
         $pattern = '/^P(\d{1,2}M)?(\d{1,2}D)?(T(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?)?$/i';
 
+        $months = $days = $hours = $min = $sec = null;
         if (!preg_match($pattern, $a_string, $matches)) {
             return [];
         }
@@ -71,7 +72,7 @@ class ilMDUtils
             return [];
         }
 
-        return array($months, $days, $hours, $min, $sec);
+        return array((int) $months, (int) $days, (int) $hours, (int) $min, (int) $sec);
     }
 
     public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type) : bool

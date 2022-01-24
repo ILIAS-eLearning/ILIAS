@@ -378,8 +378,8 @@ class ilMD extends ilMDBase
 
         foreach ($tables as $table) {
             $query = "DELETE FROM " . $table . " " .
-                "WHERE rbac_id = " . $this->db->quote($this->getRBACId()) . " " .
-                "AND obj_id = " . $this->db->quote($this->getObjId());
+                "WHERE rbac_id = " . $this->db->quote($this->getRBACId(), ilDBConstants::T_INTEGER) . " " .
+                "AND obj_id = " . $this->db->quote($this->getObjId(), ilDBConstants::T_INTEGER);
 
             $this->db->query($query);
         }

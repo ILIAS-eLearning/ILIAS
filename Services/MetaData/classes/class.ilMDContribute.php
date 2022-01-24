@@ -254,6 +254,7 @@ class ilMDContribute extends ilMDBase
         $ilDB = $DIC['ilDB'];
 
         // Ask for 'author' later to use indexes
+        $authors = [];
         $query = "SELECT entity,ent.parent_type,role FROM il_meta_entity ent " .
             "JOIN il_meta_contribute con ON ent.parent_id = con.meta_contribute_id " .
             "WHERE  ent.rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
@@ -264,6 +265,6 @@ class ilMDContribute extends ilMDBase
                 $authors[] = trim($row->entity);
             }
         }
-        return $authors ? $authors : array();
+        return $authors;
     }
 }
