@@ -32,7 +32,7 @@ class ilMDFormat extends ilMDBase
 
     private string $format = '';
 
-    // SET/GET
+    // SET/_GET
     public function setFormat(string $a_format) : void
     {
         $this->format = $a_format;
