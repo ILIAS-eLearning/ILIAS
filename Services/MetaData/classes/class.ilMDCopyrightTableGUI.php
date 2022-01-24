@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,33 +22,23 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdvancedMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilMDCopyrightTableGUI extends ilTable2GUI
 {
-    protected $has_write; // [bool]
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', $a_has_write = false)
+    protected bool $has_write;
+
+    public function __construct(ilObjMDSettingsGUI $a_parent_obj, string $a_parent_cmd = '', bool $a_has_write = false)
     {
-        
+
         $this->has_write = (bool) $a_has_write;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         if ($this->has_write) {
-            $this->addColumn('', 'f', 1);
+            $this->addColumn('', 'f', '1');
             $this->addColumn($this->lng->txt("position"), "order");
             $this->addCommandButton("saveCopyrightPosition", $this->lng->txt("meta_save_order"));
         }
@@ -56,25 +46,18 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('md_used'), 'used', "5%");
         $this->addColumn($this->lng->txt('md_copyright_preview'), 'preview', "50%");
         $this->addColumn($this->lng->txt('meta_copyright_status'), 'status', "5%");
-        
+
         if ($this->has_write) {
             $this->addColumn('', 'edit', "10%");
         }
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_copyright_row.html", "Services/MetaData");
         $this->setDefaultOrderField("order");
         $this->setDefaultOrderDirection("asc");
     }
-    
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         if ($this->has_write) {
             if ($a_set['default']) {
@@ -102,7 +85,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable('VAL_STATUS', $this->lng->txt('meta_copyright_in_use'));
         }
-        
+
         if ($this->has_write) {
             $this->ctrl->setParameter($this->getParentObject(), 'entry_id', $a_set['id']);
             $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this->getParentObject(), 'editEntry'));
@@ -131,30 +114,23 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
             }
         }
     }
-    
-    /**
-     * Parse records
-     *
-     * @access public
-     * @param array array of record objects
-     *
-     */
-    public function parseSelections()
+
+    public function parseSelections() : void
     {
         // These entries are ordered by 1. is_default, 2. position
         $entries = ilMDCopyrightSelectionEntry::_getEntries();
 
         $position = -10;
         foreach ($entries as $entry) {
-            $tmp_arr['id'] = $entry->getEntryId();
-            $tmp_arr['title'] = $entry->getTitle();
+            $tmp_arr['id']          = $entry->getEntryId();
+            $tmp_arr['title']       = $entry->getTitle();
             $tmp_arr['description'] = $entry->getDescription();
-            $tmp_arr['used'] = $entry->getUsage();
-            $tmp_arr['preview'] = $entry->getCopyright();
-            $tmp_arr['default'] = $entry->getIsDefault();
-            $tmp_arr['status'] = $entry->getOutdated();
-            $tmp_arr['position'] = ($position += 10);
-            
+            $tmp_arr['used']        = $entry->getUsage();
+            $tmp_arr['preview']     = $entry->getCopyright();
+            $tmp_arr['default']     = $entry->getIsDefault();
+            $tmp_arr['status']      = $entry->getOutdated();
+            $tmp_arr['position']    = ($position += 10);
+
             $entry_arr[] = $tmp_arr;
         }
 

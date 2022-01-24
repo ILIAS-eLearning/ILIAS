@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,17 +22,10 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesMetaData
-*/
-
-include_once('Services/MetaData/classes/class.ilMDSettings.php');
-include_once('Services/MetaData/classes/class.ilMDRights.php');
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesMetaData
+ */
 class ilMDCopyrightSelectionGUI
 {
     const MODE_QUICKEDIT = 1;
@@ -40,43 +33,30 @@ class ilMDCopyrightSelectionGUI
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected $settings;
+    protected ilMDSettings $settings;
 
-    private $mode;
-    private $rbac_id;
-    private $obj_id;
+    private int $rbac_id;
+    private int $obj_id;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     */
-    public function __construct($a_mode, $a_rbac_id, $a_obj_id)
+    public function __construct(int $a_mode, int $a_rbac_id, int $a_obj_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
 
-        $this->mode = $a_mode;
         $this->rbac_id = $a_rbac_id;
-        $this->obj_id = $a_obj_id;
-        
+        $this->obj_id  = $a_obj_id;
+
         $this->settings = ilMDSettings::_getInstance();
     }
-    
-    /**
-     * parse
-     *
-     * @access public
-     *
-     */
-    public function fillTemplate()
+
+    public function fillTemplate() : bool
     {
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
-        
+
+
         $desc = ilMDRights::_lookupDescription($this->rbac_id, $this->obj_id);
-        
+
         if (!$this->settings->isCopyrightSelectionActive() or
             !count($entries = ilMDCopyrightSelectionEntry::_getEntries())) {
             $this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt('meta_copyright'));
@@ -86,14 +66,13 @@ class ilMDCopyrightSelectionGUI
             );
             return true;
         }
-        
+
         $default_id = ilMDCopyrightSelectionEntry::_extractEntryId($desc);
-        
-        include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
+
         $found = false;
         foreach ($entries as $entry) {
             $this->tpl->setCurrentBlock('copyright_selection');
-            
+
             if ($entry->getEntryId() == $default_id) {
                 $found = true;
                 $this->tpl->setVariable('COPYRIGHT_CHECKED', 'checked="checked"');
@@ -103,17 +82,18 @@ class ilMDCopyrightSelectionGUI
             $this->tpl->setVariable('COPYRIGHT_DESCRIPTION', $entry->getDescription());
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setCurrentBlock('copyright_selection');
         if (!$found) {
             $this->tpl->setVariable('COPYRIGHT_CHECKED', 'checked="checked"');
         }
         $this->tpl->setVariable('COPYRIGHT_ID', 0);
         $this->tpl->setVariable('COPYRIGHT_TITLE', $this->lng->txt('meta_cp_own'));
-        
+
         $this->tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt('meta_copyright'));
         if (!$found) {
             $this->tpl->setVariable('COPYRIGHT_VAL', $desc);
         }
+        return false;
     }
 }

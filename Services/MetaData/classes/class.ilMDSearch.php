@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,58 +22,40 @@
 */
 
 /**
-* Class ilMDSearch
-*
-* Base class for searching meta
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id
-*
-* @package ilias-search
-*
-*/
-
+ * Class ilMDSearch
+ * Base class for searching meta
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id
+ * @package ilias-search
+ */
 class ilMDSearch
 {
     private string $mode = '';
 
-    /*
-     * instance of query parser
-     */
     private ilQueryParser $query_parser;
     private ilDBInterface $db;
     private ilSearchResult $search_result;
 
-    /**
-    * Constructor
-    * @access public
-    */
     public function __construct(ilQueryParser $qp_obj)
     {
         global $DIC;
 
-        $this->query_parser = $qp_obj;
-        $this->db = $DIC->database();
+        $this->query_parser  = $qp_obj;
+        $this->db            = $DIC->database();
         $this->search_result = new ilSearchResult();
     }
 
-    /**
-    * Define meta elements to search
-    *
-    * @param string mode keyword or all
-    * @access public
-    */
-    public function setMode($a_mode)
+    public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    public function getMode()
+
+    public function getMode() : string
     {
         return $this->mode;
     }
 
-
-    public function performSearch()
+    public function performSearch() : ?ilSearchResult
     {
         switch ($this->getMode()) {
             case 'all':
@@ -84,17 +66,15 @@ class ilMDSearch
 
             default:
                 echo "ilMDSearch::performSearch() no mode given";
-                return false;
+                return null;
         }
+        return null;
     }
 
-
-
-    // Private
-    public function __searchKeywordsOnly()
+    public function __searchKeywordsOnly() : ilSearchResult
     {
-        $where = " WHERE ";
-        $field = " keyword ";
+        $where   = " WHERE ";
+        $field   = " keyword ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {
