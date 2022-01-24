@@ -498,9 +498,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
     * handler for end of element
     * @param	resource $a_xml_parser xml parser
-    * @param	string   $a_name       element name
+    * @param string      $a_name       element name
     */
-    public function handlerEndTag($a_xml_parser, string $a_name): void
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if ($this->in_meta_data) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -658,7 +658,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     }
 
 
-    public function handlerCharacterData($a_xml_parser, string $a_data):void
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         // call meta data handler
         if ($this->in_meta_data) {

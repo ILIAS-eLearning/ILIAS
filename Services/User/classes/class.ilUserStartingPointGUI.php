@@ -1,27 +1,35 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilUserStartingPointGUI
  *
  * @author Jesús López <lopez@leifos.com>
- * @version $Id$
  * @ilCtrl_Calls ilUserStartingPointGUI:
- * @ingroup ServicesUser
  */
-
 class ilUserStartingPointGUI
 {
-    protected $log;
-    protected $lng;
-    protected $tpl;
-    protected $parent_ref_id;
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected \ILIAS\User\StandardGUIRequest $user_request;
+    protected ilLogger $log;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected int $parent_ref_id;
 
-    /**
-     * Constructor
-     * @access public
-     */
-    public function __construct($a_parent_ref_id)
+    public function __construct(int $a_parent_ref_id)
     {
         global $DIC;
 
@@ -38,8 +46,13 @@ class ilUserStartingPointGUI
         $this->parent_ref_id = $a_parent_ref_id;
         $this->lng->loadLanguageModule("administration");
         $this->lng->loadLanguageModule("dateplaner");
+        $this->user_request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
-    public function &executeCommand()
+
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -51,18 +64,13 @@ class ilUserStartingPointGUI
         }
 
         $this->$cmd();
-
-        return true;
     }
 
     /**
      * table form to set up starting points depends of user roles
      */
-    public function startingPoints()
+    public function startingPoints() : void
     {
-        include_once "Services/User/classes/class.ilUserRoleStartingPointTableGUI.php";
-
-        require_once "./Services/AccessControl/classes/class.ilStartingPoint.php";
         $roles_without_point = ilStartingPoint::getGlobalRolesWithoutStartingPoint();
 
         if (!empty($roles_without_point)) {
@@ -80,7 +88,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    public function initUserStartingPointForm(ilPropertyFormGUI $form = null)
+    public function initUserStartingPointForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getUserStartingPointForm();
@@ -88,7 +96,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initRoleStartingPointForm(ilPropertyFormGUI $form = null)
+    public function initRoleStartingPointForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getRoleStartingPointForm();
@@ -96,14 +104,11 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getUserStartingPointForm()
+    protected function getUserStartingPointForm() : ilPropertyFormGUI
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-        require_once "Services/User/classes/class.ilUserUtil.php";
 
         $form = new ilPropertyFormGUI();
 
@@ -123,35 +128,33 @@ class ilUserStartingPointGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getRoleStartingPointForm()
+    protected function getRoleStartingPointForm() : ilPropertyFormGUI
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $rbacsystem = $DIC['rbacsystem'];
         $ilErr = $DIC['ilErr'];
+        $options = [];
+        $starting_point = 0;
+        $st_point = null;
 
         if (!$rbacsystem->checkAccess("write", $this->parent_ref_id)) {
-            $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+            $ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
         }
-
-        require_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-        require_once "./Services/AccessControl/classes/class.ilObjRole.php";
-        require_once "./Services/AccessControl/classes/class.ilStartingPoint.php";
-        include_once "Services/User/classes/class.ilUserUtil.php";
-
         $form = new ilPropertyFormGUI();
         $ilCtrl->saveParameter($this, array("spid"));
 
-        $spoint_id = $_REQUEST['spid'];
+        $spoint_id = $this->user_request->getStartingPointId();
+        $req_role_id = $this->user_request->getRoleId();
 
         //edit no default
         if ($spoint_id > 0 && $spoint_id != 'default') {
             $st_point = new ilStartingPoint($spoint_id);
 
             //starting point role based
-            if ($st_point->getRuleType() == ilStartingPoint::ROLE_BASED && $_REQUEST['rolid']) {
-                $rolid = (int) $_REQUEST['rolid'];
+            if ($st_point->getRuleType() == ilStartingPoint::ROLE_BASED && $req_role_id) {
+                $rolid = $req_role_id;
                 if ($role = new ilObjRole($rolid)) {
                     $options[$rolid] = $role->getTitle();
                     $starting_point = $st_point->getStartingPoint();
@@ -276,7 +279,7 @@ class ilUserStartingPointGUI
         return $form;
     }
 
-    protected function saveUserStartingPoint()
+    protected function saveUserStartingPoint() : void
     {
         global $DIC;
 
@@ -287,8 +290,6 @@ class ilUserStartingPointGUI
         if (!$rbacsystem->checkAccess("write", $this->parent_ref_id)) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
         }
-
-        include_once "Services/User/classes/class.ilUserUtil.php";
 
         $form = $this->getUserStartingPointForm();
 
@@ -304,7 +305,7 @@ class ilUserStartingPointGUI
     /**
      * store starting point from the form
      */
-    protected function saveStartingPoint()
+    protected function saveStartingPoint() : void
     {
         global $DIC;
 
@@ -313,13 +314,14 @@ class ilUserStartingPointGUI
         $rbacsystem = $DIC['rbacsystem'];
         $ilErr = $DIC['ilErr'];
         $tpl = $DIC['tpl'];
+        $start_point_id = 0;
 
         if (!$rbacsystem->checkAccess("write", $this->parent_ref_id)) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
         }
 
-        if ((int) $_POST['start_point_id'] > 0) {
-            $start_point_id = (int) $_POST['start_point_id'];
+        if ($this->user_request->getStartingPointId() > 0) {
+            $start_point_id = $this->user_request->getStartingPointId();
         }
 
         //add from form
@@ -381,27 +383,23 @@ class ilUserStartingPointGUI
             $ilCtrl->redirect($this, "startingPoints");
         }
         $tpl->setContent($form->getHTML());
-
-        //$ilCtrl->redirect($this, "startingPoints");
     }
 
-    public function saveOrder()
+    public function saveOrder() : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $rbacsystem = $DIC['rbacsystem'];
-        $ilErr = $DIC['ilErr'];
 
         if (!$rbacsystem->checkAccess("write", $this->parent_ref_id)) {
-            $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+            throw new ilPermissionException($this->lng->txt("msg_no_perm_read"));
         }
 
-        if ($_POST['position']) {
-            require_once "./Services/AccessControl/classes/class.ilStartingPoint.php";
-
+        $positions = $this->user_request->getPositions();
+        if (count($positions) > 0) {
             $sp = new ilStartingPoint();
-            $sp->saveOrder($_POST['position']);
+            $sp->saveOrder($positions);
         }
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -411,7 +409,7 @@ class ilUserStartingPointGUI
     /**
      * Confirm delete starting point
      */
-    public function confirmDeleteStartingPoint()
+    public function confirmDeleteStartingPoint() : void
     {
         global $DIC;
 
@@ -427,12 +425,13 @@ class ilUserStartingPointGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('confirm_delete_starting_point'));
 
-        //if type role based
-        if ($_REQUEST['rolid'] && $_REQUEST['spid']) {
-            include_once "./Services/AccessControl/classes/class.ilObjRole.php";
+        $req_role_id = $this->user_request->getRoleId();
+        $req_sp_id = $this->user_request->getStartingPointId();
 
-            $rolid = (int) $_REQUEST['rolid'];
-            $spid = (int) $_REQUEST['spid'];
+        //if type role based
+        if ($req_role_id && $req_sp_id) {
+            $rolid = $req_role_id;
+            $spid = $req_sp_id;
 
             $role = new ilObjRole($rolid);
 
@@ -449,22 +448,22 @@ class ilUserStartingPointGUI
     /**
      * Set to 0 the starting point values
      */
-    protected function deleteStartingPoint()
+    protected function deleteStartingPoint() : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $rbacsystem = $DIC['rbacsystem'];
-        $ilErr = $DIC['ilErr'];
+        $spid = 0;
 
         if (!$rbacsystem->checkAccess("write", $this->parent_ref_id)) {
-            $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+            throw new ilPermissionException($this->lng->txt("msg_no_perm_read"));
         }
 
-        require_once "./Services/AccessControl/classes/class.ilObjRole.php";
+        $spoint_id = $this->user_request->getStartingPointId();
+        $req_role_id = $this->user_request->getRoleId();
 
-        if ($rolid = $_REQUEST['rolid'] && $spid = $_REQUEST['spid']) {
-            include_once("./Services/AccessControl/classes/class.ilStartingPoint.php");
+        if ($rolid = $req_role_id && $spid = $spoint_id) {
             $sp = new ilStartingPoint($spid);
             $sp->delete();
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

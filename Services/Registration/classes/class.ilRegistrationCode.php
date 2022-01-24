@@ -192,7 +192,7 @@ class ilRegistrationCode
      * @param type $code
      * @return boolean
      */
-    public static function isUnusedCode($code)
+    public static function isUnusedCode(string $code)
     {
         global $DIC;
 

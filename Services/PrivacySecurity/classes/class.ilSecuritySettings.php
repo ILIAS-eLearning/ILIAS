@@ -421,7 +421,6 @@ class ilSecuritySettings
                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
-
         if ($this->getPasswordMaxAge() < 0) {
             $code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE;
             if (!$a_form) {
