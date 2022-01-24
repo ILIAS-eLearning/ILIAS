@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,30 +21,28 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-
 
 /**
 * TableGUI class for selection of milestone responsibles
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
 {
+    protected int $grp_id;
+    protected int $app_id;
+
+    private array $resp_users = [];
+
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $a_grp_id,
-        $a_app_id
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_grp_id,
+        int $a_app_id
     ) {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->grp_id = $a_grp_id;
@@ -107,11 +105,6 @@ class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
     */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
         if (is_array($this->resp_users) && in_array($a_set["user_id"], $this->resp_users)) {
             $this->tpl->setVariable("CHECKED", ' checked="checked" ');
         }

@@ -232,7 +232,7 @@ class ilCalendarAppointmentGUI
         }
         
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $desc->setValue((string) $this->app->getDescription());
+        $desc->setValue($this->app->getDescription());
         $desc->setRows(5);
         $this->form->addItem($desc);
 
@@ -512,7 +512,7 @@ class ilCalendarAppointmentGUI
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
-        $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
+        $confirm->addItem('appointments[]', (string) $this->app->getEntryId(), $this->app->getTitle());
         $confirm->addButton($this->lng->txt('cal_edit_single'), 'editSingle');
         $confirm->setConfirm($this->lng->txt('cal_edit_recurrences'), 'edit');
 
@@ -750,7 +750,7 @@ class ilCalendarAppointmentGUI
             $confirm->setFormAction($this->ctrl->getFormAction($this));
             $confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
             $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
-            $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
+            $confirm->addItem('appointments[]', (string) $this->app->getEntryId(), $this->app->getTitle());
             $confirm->setConfirm($this->lng->txt('delete'), 'delete');
             $this->tpl->setContent($confirm->getHTML());
         } else {
@@ -880,7 +880,7 @@ class ilCalendarAppointmentGUI
         $this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
         $this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
         $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $this->app->enableNotification((int) $_POST['not']);
+        $this->app->enableNotification((bool) $_POST['not']);
         
         if ($a_as_milestone) {	// milestones are always fullday events
             $start = $this->form->getItemByPostVar('event_start');
@@ -911,7 +911,7 @@ class ilCalendarAppointmentGUI
 
         foreach ((array) $_POST['notu'] as $rcp) {
             $rcp = trim(ilUtil::stripSlashes($rcp));
-            $usr_id = ilObjUser::_loginExists($rcp);
+            $usr_id = (int) ilObjUser::_loginExists($rcp);
 
             if (strlen($rcp) == 0) {
                 continue;
@@ -962,13 +962,13 @@ class ilCalendarAppointmentGUI
                         switch ((int) $_POST['monthly_byday_day']) {
                             case 8:
                                 // Weekday
-                                $this->rec->setBYSETPOS((int) $_POST['monthly_byday_num']);
+                                $this->rec->setBYSETPOS((string) $_POST['monthly_byday_num']);
                                 $this->rec->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
                                 
                             case 9:
                                 // Day of month
-                                $this->rec->setBYMONTHDAY((int) $_POST['monthly_byday_num']);
+                                $this->rec->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
                                 break;
                                 
                             default:
@@ -978,7 +978,7 @@ class ilCalendarAppointmentGUI
                         break;
                     
                     case 2:
-                        $this->rec->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+                        $this->rec->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
                         break;
                 }
                 break;
@@ -992,13 +992,13 @@ class ilCalendarAppointmentGUI
                         break;
                     
                     case 1:
-                        $this->rec->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+                        $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
                         $this->rec->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
                         break;
                     
                     case 2:
-                        $this->rec->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
-                        $this->rec->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+                        $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
+                        $this->rec->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
                         break;
                 }
                 break;
@@ -1069,7 +1069,7 @@ class ilCalendarAppointmentGUI
     protected function confirmRegister() : void
     {
         $entry = new ilCalendarEntry((int) $_GET['app_id']);
-        $start = ilDatePresentation::formatDate(
+        $start = ilDatePresentation::formatPeriod(
             new ilDateTime($_GET['dstart'], IL_CAL_UNIX),
             new ilDateTime($_GET['dend'], IL_CAL_UNIX)
         );
@@ -1083,7 +1083,7 @@ class ilCalendarAppointmentGUI
         $conf->setHeaderText($this->lng->txt('cal_confirm_reg_info'));
         $conf->setConfirm($this->lng->txt('cal_reg_register'), 'register');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
-        $conf->addItem('app_id', $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
+        $conf->addItem('app_id', (string) $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
         $this->tpl->setContent($conf->getHTML());
     }
     
@@ -1103,7 +1103,7 @@ class ilCalendarAppointmentGUI
     public function confirmUnregister() : void
     {
         $entry = new ilCalendarEntry((int) $_GET['app_id']);
-        $start = ilDatePresentation::formatDate(
+        $start = ilDatePresentation::formatPeriod(
             $dstart = new ilDateTime($_GET['dstart'], IL_CAL_UNIX),
             $dend = new ilDateTime($_GET['dend'], IL_CAL_UNIX)
         );
@@ -1116,7 +1116,7 @@ class ilCalendarAppointmentGUI
         $conf->setHeaderText($this->lng->txt('cal_confirm_unreg_info'));
         $conf->setConfirm($this->lng->txt('cal_reg_unregister'), 'unregister');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
-        $conf->addItem('app_id', $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
+        $conf->addItem('app_id', (string) $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
         
         $this->tpl->setContent($conf->getHTML());
     }
@@ -1238,7 +1238,7 @@ class ilCalendarAppointmentGUI
         $conf->setHeaderText($this->lng->txt('cal_cancel_booking_info'));
         $conf->setConfirm($this->lng->txt('cal_cancel_booking'), 'cancelconfirmed');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
-        $conf->addItem('app_id', $entry->getEntryId(), $title . ' - ' . $entry_title);
+        $conf->addItem('app_id', (string) $entry->getEntryId(), $title . ' - ' . $entry_title);
 
         $this->tpl->setContent($conf->getHTML());
     }

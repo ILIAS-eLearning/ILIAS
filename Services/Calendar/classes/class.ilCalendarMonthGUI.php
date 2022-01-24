@@ -81,7 +81,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         $navigation = new ilCalendarHeaderNavigationGUI($this, $this->seed, ilDateTime::MONTH);
         $this->tpl->setVariable('NAVIGATION', $navigation->getHTML());
         
-        for ($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++) {
+        for ($i = $this->user_settings->getWeekStart(); $i < (7 + $this->user_settings->getWeekStart()); $i++) {
             $this->tpl->setCurrentBlock('month_header_col');
             $this->tpl->setVariable('TXT_WEEKDAY', ilCalendarUtil::_numericDayToString($i, true));
             $this->tpl->parseCurrentBlock();
@@ -221,6 +221,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     protected function showEvents(ilCalendarSchedule $scheduler, ilDate $date) : int
     {
         $count = 0;
+        $time = '';
         foreach ($scheduler->getByDay($date, $this->timezone) as $item) {
             $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
             $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $item['event']->getEntryId());

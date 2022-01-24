@@ -574,7 +574,8 @@ class ilCalendarRecurrenceCalculator
         for ($i = 0;$i < $begin_month_info['wday'];$i++) {
             next($days);
         }
-        for ($i = $begin_month_info['yday']; $i < $begin_month_info['yday'] + ilCalendarUtil::_getMaxDayOfMonth($year, $month) ; $i++) {
+        for ($i = $begin_month_info['yday']; $i < $begin_month_info['yday'] + ilCalendarUtil::_getMaxDayOfMonth((int) $year,
+            (int) $month) ; $i++) {
             if (($current_day = current($days)) == false) {
                 $current_day = reset($days);
             }

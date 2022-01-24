@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,62 +21,45 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
-
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 class ilMiniCalendarGUI
 {
-    const PRESENTATION_CALENDAR = 1;
+    public const PRESENTATION_CALENDAR = 1;
 
-    protected $seed;
-    protected $mode = null;
-    protected $user_settings = null;
-    protected $tpl = null;
-    protected $lng;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct(ilDate $seed, $a_par_obj)
+    protected ilDate $seed;
+    protected ilCalendarUserSettings $user_settings;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected object $parentobject;
+
+    public function __construct(ilDate $seed, object $a_par_obj)
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
-        
+
+        $this->user = $DIC->user();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+        $this->ctrl = $DIC->ctrl();
         $this->lng = $lng;
         $this->lng->loadLanguageModule('dateplaner');
         $this->seed = $seed;
         $this->setParentObject($a_par_obj);
     }
     
-    /**
-    * Set Parent GUI object.
-    *
-    * @param	object	$a_parentobject	Parent GUI object
-    */
-    public function setParentObject($a_parentobject)
+    public function setParentObject(object $a_parentobject) : void
     {
         $this->parentobject = $a_parentobject;
     }
 
-    /**
-    * Get Parent GUI object.
-    *
-    * @return	object	Parent GUI object
-    */
-    public function getParentObject()
+    public function getParentObject() : object
     {
         return $this->parentobject;
     }
@@ -84,12 +67,8 @@ class ilMiniCalendarGUI
     /**
     * Get HTML for calendar
     */
-    public function getHTML()
+    public function getHTML() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
         $ftpl = new ilTemplate(
             "tpl.calendar_block_frame.html",
             true,
@@ -114,28 +93,22 @@ class ilMiniCalendarGUI
     * Add mini version of monthly overview
     * (Maybe extracted to another class, if used in pd calendar tab
     */
-    public function addMiniMonth($a_tpl)
+    public function addMiniMonth(ilTemplate $a_tpl) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-        
         // weekdays
         include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
         $a_tpl->setCurrentBlock('month_header_col');
         $a_tpl->setVariable('TXT_WEEKDAY', $this->lng->txt("cal_week_abbrev"));
         $a_tpl->parseCurrentBlock();
-        for ($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++) {
+        for ($i = $this->user_settings->getWeekStart(); $i < (7 + $this->user_settings->getWeekStart()); $i++) {
             $a_tpl->setCurrentBlock('month_header_col');
             $a_tpl->setVariable('TXT_WEEKDAY', ilCalendarUtil::_numericDayToString($i, false));
             $a_tpl->parseCurrentBlock();
         }
         
         include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-        $this->scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
-        $this->scheduler->calculate();
+        $scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH);
+        $scheduler->calculate();
         
         $counter = 0;
         foreach (ilCalendarUtil::_buildMonthDayList(
@@ -149,7 +122,7 @@ class ilMiniCalendarGUI
             
             $a_tpl->setCurrentBlock('month_col');
             
-            if (count($this->scheduler->getByDay($date, $this->user->getTimeZone()))) {
+            if (count($scheduler->getByDay($date, $this->user->getTimeZone()))) {
                 $a_tpl->setVariable('DAY_CLASS', 'calminiapp');
                 #$a_tpl->setVariable('TD_CLASS','calminiapp');
             }
@@ -158,10 +131,6 @@ class ilMiniCalendarGUI
             if (ilCalendarUtil::_isToday($date)) {
                 $a_tpl->setVariable('TD_CLASS', 'calminitoday');
             }
-            #elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
-            #{
-            #	$a_tpl->setVariable('TD_CLASS','calmininow');
-            #}
             elseif (ilDateTime::_equals($date, $this->seed, IL_CAL_MONTH)) {
                 $a_tpl->setVariable('TD_CLASS', 'calministd');
             } elseif (ilDateTime::_before($date, $this->seed, IL_CAL_MONTH)) {
@@ -212,9 +181,6 @@ class ilMiniCalendarGUI
         
         $myseed->increment(ilDateTime::MONTH, -1);
         $this->ctrl->setParameter($this->getParentObject(), 'seed', $myseed->get(IL_CAL_DATE));
-        
-        //$a_tpl->setVariable('BL_TYPE', $this->getBlockType());
-        //$a_tpl->setVariable('BL_ID', $this->getBlockId());
         
         $a_tpl->setVariable(
             'PREV_MONTH',

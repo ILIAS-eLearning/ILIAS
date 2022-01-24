@@ -168,7 +168,7 @@ class ilCalendarSettings
         return $this->cache_minutes;
     }
 
-    public function setEnabled($a_enabled) : void
+    public function setEnabled(bool $a_enabled) : void
     {
         $this->enabled = $a_enabled;
     }
@@ -458,7 +458,7 @@ class ilCalendarSettings
 
     private function read()
     {
-        $this->setEnabled($this->storage->get('enabled'));
+        $this->setEnabled((bool) $this->storage->get('enabled'));
         $this->setDefaultTimeZone($this->storage->get('default_timezone', ilTimeZone::_getDefaultTimeZone()));
         $this->setDefaultWeekStart((int) $this->storage->get('default_week_start', (string) self::WEEK_START_MONDAY));
         $this->setDefaultDateFormat((int) $this->storage->get('default_date_format', (string) self::DATE_FORMAT_DMY));

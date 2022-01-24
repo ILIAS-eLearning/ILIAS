@@ -1,14 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Calendar/classes/class.ilCalendarBlockGUI.php");
 
 /**
 * Calendar blocks, displayed on personal desktop
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_IsCalledBy ilPDCalendarBlockGUI: ilColumnGUI
 * @ilCtrl_Calls ilPDCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
@@ -20,19 +17,15 @@ include_once("Services/Calendar/classes/class.ilCalendarBlockGUI.php");
 class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 {
     public static $block_type = "pdcal";
+    protected bool $initialized = false;
 
     /**
-     * @var bool
+     * @inheritDoc
      */
-    protected $initialized = false;
-    
-    /**
-    * Constructor
-    */
     public function __construct()
     {
-        parent::__construct(true);
-        $this->setBlockId(0);
+        parent::__construct();
+        $this->setBlockId('0');
     }
 
 
@@ -45,13 +38,9 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
     }
 
     /**
-     * init categories
-     *
-     * @access protected
-     * @param
-     * @return
+     * @inheritDoc
      */
-    protected function initCategories()
+    protected function initCategories() : void
     {
         include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
         if (!$this->initialized) {
@@ -72,14 +61,10 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
     }
 
     /**
-    * Return to upper context
-    */
-    public function returnToUpperContext()
+     * @inheritDoc
+     */
+    public function returnToUpperContext() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        
         $this->ctrl->redirectByClass("ildashboardgui", "show");
     }
 }

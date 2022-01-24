@@ -158,6 +158,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $_GET['cmd'] == 'showCalendarSubscription') {
             return IL_SCREEN_CENTER;
         }
+        return '';
     }
 
     public function executeCommand() : string
@@ -176,13 +177,13 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
             case "ilconsultationhoursgui":
                 include_once('./Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php');
-                $hours = new ilConsultationHoursGUI($this->seed);
+                $hours = new ilConsultationHoursGUI();
                 $this->ctrl->forwardCommand($hours);
                 break;
 
             case "ilcalendarappointmentpresentationgui":
                 $this->initCategories();
-                $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
+                $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed);
                 $this->ctrl->forwardCommand($presentation);
                 break;
 
@@ -196,6 +197,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             default:
                 return $this->$cmd();
         }
+        return '';
     }
 
     public function fillDataSection() : void
@@ -253,7 +255,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $a_tpl->setVariable('TXT_WEEKDAY', $this->lng->txt("cal_week_abbrev"));
             $a_tpl->parseCurrentBlock();
         }
-        for ($i = (int) $this->user_settings->getWeekStart(); $i < (7 + (int) $this->user_settings->getWeekStart()); $i++) {
+        for ($i = $this->user_settings->getWeekStart(); $i < (7 + $this->user_settings->getWeekStart()); $i++) {
             $a_tpl->setCurrentBlock('month_header_col');
             $a_tpl->setVariable('TXT_WEEKDAY', ilCalendarUtil::_numericDayToString($i, false));
             $a_tpl->parseCurrentBlock();
@@ -313,7 +315,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $path = $this->getTargetGUIClassPath();
             $last_gui = end($path);
             $this->ctrl->setParameterByClass($last_gui, 'seed', $date->get(IL_CAL_DATE));
-            if ($agenda_view_type = (int) $this->requested_cal_agenda_per) {
+            if ($agenda_view_type = $this->requested_cal_agenda_per) {
                 $this->ctrl->setParameterByClass($last_gui, "cal_agenda_per", $agenda_view_type);
             }
             $a_tpl->setVariable('OPEN_DAY_VIEW', $this->ctrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ''));
@@ -489,7 +491,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             );
         }
 
-        $this->ctrl->setParameterByClass($this->getParentGUI(), "seed", isset($_GET["seed"]) ? $_GET["seed"] : "");
+        $this->ctrl->setParameterByClass($this->getParentGUI(), "seed", $_GET["seed"] ?? "");
         $ret = parent::getHTML();
         $this->ctrl->setParameterByClass($this->getParentGUI(), "seed", "");
 
@@ -513,7 +515,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $this->ctrl->setParameterByClass('ilcalendarinboxgui', 'changed', 1);
         $link = '<a href=' . $this->ctrl->getLinkTargetByClass('ilcalendarinboxgui', '') . '>';
         $this->ctrl->setParameterByClass('ilcalendarinboxgui', 'changed', '');
-        $text = '<div class="small">' . ((int) count($events)) . " " . $this->lng->txt("cal_changed_events_header") . "</div>";
+        $text = '<div class="small">' . (count($events)) . " " . $this->lng->txt("cal_changed_events_header") . "</div>";
         $end_link = '</a>';
 
         return $link . $text . $end_link;
@@ -814,7 +816,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         $links = \ilConsultationHourUtils::getConsultationHourLinksForRepositoryObject(
             (int) $this->requested_ref_id,
-            (int) $user->getId(),
+            $user->getId(),
             $this->getTargetGUIClassPath()
         );
         $counter = 0;

@@ -421,7 +421,7 @@ class ilICalParser
             }
             
             foreach ($recurrence->getItemsByName('COUNT') as $value) {
-                $rec->setFrequenceUntilCount((string) $value->getValue());
+                $rec->setFrequenceUntilCount((int) $value->getValue());
                 break;
             }
             foreach ($recurrence->getItemsByName('UNTIL') as $until) {
@@ -429,7 +429,7 @@ class ilICalParser
                 break;
             }
             foreach ($recurrence->getItemsByName('INTERVAL') as $value) {
-                $rec->setInterval((string) $value->getValue());
+                $rec->setInterval((int) $value->getValue());
                 break;
             }
             foreach ($recurrence->getItemsByName('BYDAY') as $value) {

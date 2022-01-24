@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,8 +20,6 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-include_once('./Services/Calendar/classes/class.ilDateTime.php');
-include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 
 /**
 * Class for single dates.
@@ -36,14 +34,6 @@ include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 class ilDate extends ilDateTime
 {
     
-    /**
-     * Create new date object
-     *
-     * @access public
-     * @param mixed integer string following the format given as the second parameter
-     * @param int format of date presentation
-     *
-     */
     public function __construct($a_date = '', $a_format = 0)
     {
         parent::__construct($a_date, $a_format, ilTimeZone::UTC);
@@ -66,7 +56,7 @@ class ilDate extends ilDateTime
     /**
      * To string for dates
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->get(IL_CAL_DATE) . '<br />';
     }

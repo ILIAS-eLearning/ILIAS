@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -32,40 +32,31 @@ define('IL_CAL_SECOND', 'second');
 */
 class ilDateTime
 {
-    const YEAR = 'year';
-    const MONTH = 'month';
-    const WEEK = 'week';
-    const DAY = 'day';
-    const HOUR = 'hour';
-    const MINUTE = 'minute';
-    const SECOND = 'second';
+    public const YEAR = 'year';
+    public const MONTH = 'month';
+    public const WEEK = 'week';
+    public const DAY = 'day';
+    public const HOUR = 'hour';
+    public const MINUTE = 'minute';
+    public const SECOND = 'second';
 
-    /**
-     * @var \ilLogger
-     */
-    protected $log;
-    
-    protected $timezone = null;
-    protected $default_timezone = null;
-
-    /**
-     * @var DateTime
-     */
-    protected $dt_obj; // [DateTime]
+    protected ilLogger $log;
+    protected ?ilTimeZone $timezone = null;
+    protected ?ilTimeZone $default_timezone = null;
+    protected ?DateTime $dt_obj = null;
     
     
     
     /**
      * Create new date object
      *
-     * @access public
-     * @param mixed integer string following the format given as the second parameter
-     * @param int format of date presentation
-     * @param
+     * @param int|string following the format given as the second parameter
+     * @param int format
+     * @param string
      *
      * @throws ilDateTimeException
      */
-    public function __construct($a_date = null, $a_format = 0, $a_tz = '')
+    public function __construct($a_date = null, int $a_format = 0, string $a_tz = '')
     {
         global $DIC;
 
@@ -74,7 +65,6 @@ class ilDateTime
         try {
             $this->timezone = ilTimeZone::_getInstance($a_tz);
             $this->default_timezone = ilTimeZone::_getInstance('');
-            
             $this->setDate($a_date, $a_format);
         } catch (ilTimeZoneException $exc) {
             $this->log->warning($exc->getMessage());
@@ -97,7 +87,6 @@ class ilDateTime
     public function __wakeup()
     {
         global $DIC;
-
         $this->log = $DIC->logger()->cal();
     }
         
@@ -106,36 +95,28 @@ class ilDateTime
 
      * @return bool
      */
-    public function isNull()
+    public function isNull() : bool
     {
         return !($this->dt_obj instanceof DateTime);
     }
     
     /**
      * Switch timezone
-     *
-     * @access public
      * @param string PHP timezone identifier
      * @throws ilDateTimeException
      */
-    public function switchTimeZone($a_timezone_identifier = '')
+    public function switchTimeZone(string $a_timezone_identifier = '') : void
     {
         try {
             $this->timezone = ilTimeZone::_getInstance($a_timezone_identifier);
-            return true;
+            return;
         } catch (ilTimeZoneException $e) {
             $this->log->warning('Unsupported timezone given: ' . $a_timezone_identifier);
             throw new ilDateTimeException('Unsupported timezone given. Timezone: ' . $a_timezone_identifier);
         }
     }
     
-    /**
-     * get timezone identifier
-     *
-     * @access public
-     *
-     */
-    public function getTimeZoneIdentifier()
+    public function getTimeZoneIdentifier() : string
     {
         return $this->timezone->getIdentifier();
     }
@@ -144,17 +125,13 @@ class ilDateTime
      * compare two dates and check start is before end
      * This method does not consider tz offsets.
      * So you have to take care that both dates are defined in the the same timezone
-     *
-     * @access public
-     * @static
-     *
-     * @param object ilDateTime
-     * @param object ilDateTime
+     * @param ilDateTime
+     * @param ilDateTime
      * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is one or more years earlier than end
      * @param string timezone
      * @return bool
      */
-    public static function _before(ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '')
+    public static function _before(ilDateTime $start, ilDateTime $end, string $a_compare_field = '', string $a_tz = '') : bool
     {
         if ($start->isNull() || $end->isNull()) {
             return false;
@@ -179,17 +156,13 @@ class ilDateTime
     
     /**
      * Check if two date are equal
-     *
-     * @access public
-     * @static
-     *
-     * @param object ilDateTime
-     * @param object ilDateTime
+     * @param ilDateTime
+     * @param ilDateTime
      * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is the same years than end
      * @param string timzone
      * @return bool
      */
-    public static function _equals(ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '')
+    public static function _equals(ilDateTime $start, ilDateTime $end, string $a_compare_field = '', string $a_tz = '') : bool
     {
         if ($start->isNull() || $end->isNull()) {
             return false;
@@ -218,13 +191,13 @@ class ilDateTime
      * So you have to take care that both dates are defined in the the same timezone
      *
      * @access public
-     * @param object ilDateTime
-     * @param object ilDateTime
+     * @param ilDateTime
+     * @param ilDateTime
      * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is one or more years after than end
      * @param string timezone
-     * @static
+     * @return bool
      */
-    public static function _after(ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '')
+    public static function _after(ilDateTime $start, ilDateTime $end, string $a_compare_field = '', string $a_tz = '') : bool
     {
         if ($start->isNull() || $end->isNull()) {
             return false;
@@ -252,28 +225,27 @@ class ilDateTime
      * @param ilDateTime $dt
      * @param ilDateTime $start
      * @param ilDateTime $end
-     * @param type $a_compare_field
-     * @param type $a_tz
+     * @param string $a_compare_field
+     * @param string $a_tz
+     * @return bool
      */
-    public static function _within(ilDateTime $dt, ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '')
+    public static function _within(ilDateTime $dt, ilDateTime $start, ilDateTime $end, $a_compare_field = '', $a_tz = '') : bool
     {
         return
             (ilDateTime::_after($dt, $start, $a_compare_field, $a_tz) or ilDateTime::_equals($dt, $start, $a_compare_field, $a_tz)) &&
             (ilDateTime::_before($dt, $end, $a_compare_field, $a_tz) or ilDateTime::_equals($dt, $end, $a_compare_field, $a_tz));
     }
-    
+
     /**
-     * increment
-     *
-     * @access public
-     * @param int type
-     * @param int count
-     *
+     * @param string $a_type
+     * @param int    $a_count
+     * @return int|null
+     * @todo refactor return type
      */
-    public function increment($a_type, $a_count = 1)
+    public function increment(string $a_type, int $a_count = 1) : ?int
     {
         if ($this->isNull()) {
-            return;
+            return null;
         }
         
         $sub = ($a_count < 0);
@@ -315,52 +287,28 @@ class ilDateTime
         } else {
             $this->dt_obj->sub($interval);
         }
-        
-        // ???
         return $this->getUnixTime();
     }
     
-    /**
-     * get unix time
-     *
-     * @access public
-     *
-     */
-    public function getUnixTime()
+    public function getUnixTime() : ?int
     {
         if (!$this->isNull()) {
             return $this->dt_obj->getTimestamp();
         }
+        return null;
     }
     
-    /**
-     * get UTC offset
-     *
-     * @access public
-     * @return offset to utc in seconds
-     */
-    public function getUTCOffset()
-    {
-        if (!$this->isNull()) {
-            // already correct/current timezone?
-            $offset = $this->dt_obj->getOffset();
 
-            // TODO: This is wrong: calculate UTC offset of given date
-            // $offset = mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
-        }
-        return $offset;
-    }
-    
-    protected function parsePartsToDate($a_year, $a_month, $a_day, $a_hour = null, $a_min = null, $a_sec = null, $a_timezone = null)
+    protected function parsePartsToDate(int $a_year, int $a_month, int $a_day, ?int $a_hour = null, ?int $a_min = null, ?int $a_sec = null, ?string $a_timezone = null) : ?DateTime
     {
-        $a_year = (int) $a_year;
-        $a_month = (int) $a_month;
-        $a_day = (int) $a_day;
+        $a_year = $a_year;
+        $a_month = $a_month;
+        $a_day = $a_day;
         
         if (!$a_year) {
-            return;
+            return null;
         }
-        
+        $date = null;
         try {
             $a_hour = (int) $a_hour;
             $a_min = (int) $a_min;
@@ -369,7 +317,7 @@ class ilDateTime
             $format = $a_year . '-' . $a_month . '-' . $a_day;
                                 
             if ($a_hour !== null) {
-                $format .= ' ' . (int) $a_hour . ':' . (int) $a_min . ':' . (int) $a_sec;
+                $format .= ' ' . $a_hour . ':' . $a_min . ':' . $a_sec;
                 
                 // use current timezone if no other given
                 if (!$a_timezone) {
@@ -390,15 +338,9 @@ class ilDateTime
     
     /**
      * Set date
-     *
-     * @access public
-     * @param mixed date
-     * @param int format
-     *
      * @throws ilDateTimeException
-     *
      */
-    public function setDate($a_date, $a_format)
+    public function setDate($a_date, int $a_format) : void
     {
         $this->dt_obj = null;
         
@@ -488,10 +430,8 @@ class ilDateTime
                 );
                 break;
         }
-
         // remove set timezone since it does not influence the internal date.
         // the tz must be passed in the moment of the creation of the date object.
-        return true;
     }
     
     /**
@@ -501,27 +441,26 @@ class ilDateTime
      * @param int format type
      * @param string format string
      * @param string a specific timezone
-     * @return string|int
+     * @return string|int|array|null
      */
-    public function get($a_format, $a_format_str = '', $a_tz = '')
+    public function get(int $a_format, string $a_format_str = '', string $a_tz = '')
     {
         if ($this->isNull()) {
-            return;
+            return null;
         }
-            
+
+        $timezone = $this->default_timezone;
         if ($a_tz) {
             try {
                 $timezone = ilTimeZone::_getInstance($a_tz);
             } catch (ilTimeZoneException $exc) {
                 $this->log->warning('Invalid timezone given. Timezone: ' . $a_tz);
             }
-        } else {
-            $timezone = $this->default_timezone;
         }
-            
         $out_date = clone($this->dt_obj);
         $out_date->setTimezone(new DateTimeZone($timezone->getIdentifier()));
 
+        $date = null;
         switch ($a_format) {
             case IL_CAL_UNIX:
                 // timezone unrelated
@@ -564,7 +503,6 @@ class ilDateTime
                 $date = $out_date->format('YmdHis');
                 break;
         }
-        
         return $date;
     }
     
@@ -576,7 +514,7 @@ class ilDateTime
      * @param
      * @return
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->get(IL_CAL_DATETIME) . '<br>';
     }

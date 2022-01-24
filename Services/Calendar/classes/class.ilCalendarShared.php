@@ -185,7 +185,7 @@ class ilCalendarShared
     
     public function isEditableForUser(int $a_user_id) : bool
     {
-        foreach ((array) $this->shared as $info) {
+        foreach ($this->shared as $info) {
             if (!$info['writable']) {
                 continue;
             }
@@ -207,7 +207,7 @@ class ilCalendarShared
         return false;
     }
     
-    public function share(int $a_obj_id, string $a_type, bool $a_writable = false) : void
+    public function share(int $a_obj_id, int $a_type, bool $a_writable = false) : void
     {
         if ($this->isShared($a_obj_id)) {
             return;

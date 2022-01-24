@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -28,20 +28,18 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 * Class for date presentation
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
 * @ingroup ServicesCalendar
 */
 class ilDatePresentation
 {
-    public static $use_relative_dates = true;
-    private static $lang = null;
+    public static bool $use_relative_dates = true;
+    private static ?ilLanguage $lang = null;
     
-    public static $today = null;
-    public static $tomorrow = null;
-    public static $yesterday = null;
+    public static ?ilDateTime $today = null;
+    public static ?ilDateTime $tomorrow = null;
+    public static ?ilDateTime $yesterday = null;
 
-    protected static $weekdays = array(
+    protected static array $weekdays = array(
         0 => "Su_short",
         1 => "Mo_short",
         2 => "Tu_short",
@@ -53,66 +51,40 @@ class ilDatePresentation
     
     /**
      * set use relative dates
-     * @param bool
-     * @return
-     * @static
      */
-    public static function setUseRelativeDates($a_status)
+    public static function setUseRelativeDates(bool $a_status) : void
     {
         self::$use_relative_dates = $a_status;
     }
      
-    /**
-     * check if relative dates are used
-     *
-     * @return
-     * @static
-     */
-    public static function useRelativeDates()
+    public static function useRelativeDates() : bool
     {
         return self::$use_relative_dates;
     }
     
-    /**
-     * set language
-     *
-     * @return
-     * @static
-     */
-    public static function setLanguage($a_lng)
+    public static function setLanguage(ilLanguage $a_lng) : void
     {
         self::$lang = $a_lng;
     }
 
 
 
-    /**
-     * set language
-     *
-     * @return
-     * @static
-     */
     public static function getLanguage()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        return self::$lang ? self::$lang : $lng;
+        $lng = $DIC->language();
+        return self::$lang ?: $lng;
     }
     
     /**
      * reset to defaults
-     *
-     * @return
-     * @static
      */
     public static function resetToDefaults()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
+        $lng = $DIC->language();
         self::setLanguage($lng);
         self::setUseRelativeDates(true);
     }
@@ -171,26 +143,21 @@ class ilDatePresentation
             case ilCalendarSettings::TIME_FORMAT_12:
                 return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
         }
+        return '';
     }
     
     /**
-     * Format a period of two date
+     * Format a period of two dates
      * Shows:	14. Jul 2008 18:00 - 20:00
      * or:		Today 18:00 - 20:00
      * or:		14. Jul 2008 - 16. Jul 2008
      * or:		14. Jul 2008, 12:00 - 16. Jul 2008, 14:00
-     *
-     * @access public
-     * @param
-     * @return
-     * @static
      */
-    public static function formatPeriod(ilDateTime $start, ilDateTime $end, $a_skip_starting_day = false)
+    public static function formatPeriod(ilDateTime $start, ilDateTime $end, bool $a_skip_starting_day = false) : string
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-
         $has_time = !is_a($start, 'ilDate');
         
         // Same day
@@ -237,13 +204,8 @@ class ilDatePresentation
 
     /**
      * Check if date is "today"
-     *
-     * @access public
-     * @param object ilDateTime DateTime object to check
-     * @return bool
-     * @static
      */
-    public static function isToday(ilDateTime $date)
+    public static function isToday(ilDateTime $date) : bool
     {
         global $DIC;
 
@@ -257,18 +219,12 @@ class ilDatePresentation
     
     /**
      * Check if date is yesterday
-     *
-     * @access public
-     * @param object ilDateTime DateTime object to check
-     * @return bool
-     * @static
      */
-    public static function isYesterday(ilDateTime $date)
+    public static function isYesterday(ilDateTime $date) : bool
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
         if (!is_object(self::$yesterday)) {
             self::$yesterday = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
             self::$yesterday->increment(IL_CAL_DAY, -1);
@@ -279,18 +235,12 @@ class ilDatePresentation
 
     /**
      * Check if date is tomorrow
-     *
-     * @access public
-     * @param object ilDateTime DateTime object to check
-     * @return bool
-     * @static
      */
-    public static function isTomorrow(ilDateTime $date)
+    public static function isTomorrow(ilDateTime $date) : bool
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
         if (!is_object(self::$tomorrow)) {
             self::$tomorrow = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
             self::$tomorrow->increment(IL_CAL_DAY, 1);
@@ -302,13 +252,8 @@ class ilDatePresentation
     /**
      * converts seconds to string:
      * Long: 7 days 4 hour(s) ...
-     *
-     * @param int $seconds seconds
-     * @param bool $force_with_seconds
-     * @param ilLanguage $a_lng
-     * @return string
      */
-    public static function secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
+    public static function secondsToString(int $seconds, bool $force_with_seconds = false, ?ilLanguage $a_lng = null) : string
     {
         global $DIC;
 
@@ -319,7 +264,7 @@ class ilDatePresentation
             $lng = $a_lng;
         }
 
-        $seconds = $seconds ? $seconds : 0;
+        $seconds = $seconds ?: 0;
         
         // #13625
         if ($seconds > 0) {

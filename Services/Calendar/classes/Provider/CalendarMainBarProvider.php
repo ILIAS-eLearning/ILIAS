@@ -41,7 +41,7 @@ class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
                     function () {
                         $settings = ilCalendarSettings::_getInstance();
 
-                        return (bool) ($settings->isEnabled());
+                        return $settings->isEnabled();
                     }
                 ),
         ];

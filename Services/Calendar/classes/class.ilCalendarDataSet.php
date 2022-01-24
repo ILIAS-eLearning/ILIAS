@@ -264,7 +264,7 @@ class ilCalendarDataSet extends ilDataSet
                         "Services/Calendar",
                         "cal_entry",
                         $a_rec["Id"],
-                        $entry->getEntryId()
+                        (string) $entry->getEntryId()
                     );
                 }
                 break;
@@ -284,7 +284,7 @@ class ilCalendarDataSet extends ilDataSet
                 if ($entry_id > 0) {
                     include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
                     $rec = new ilCalendarRecurrence();
-                    $rec->setEntryId($entry_id);
+                    $rec->setEntryId((int) $entry_id);
                     $rec->setRecurrence($a_rec["CalRecurrence"]);
                     $rec->setFrequenceType($a_rec["FreqType"]);
                     if ($a_rec["FreqUntilDate"] != "") {
@@ -304,7 +304,7 @@ class ilCalendarDataSet extends ilDataSet
                         "Services/Calendar",
                         "recurrence_rule",
                         $a_rec["RuleId"],
-                        $rec->getRecurrenceId()
+                        (string) $rec->getRecurrenceId()
                     );
                 }
                 break;

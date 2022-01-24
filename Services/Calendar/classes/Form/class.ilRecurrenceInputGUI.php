@@ -119,13 +119,13 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                         switch ((int) $_POST['monthly_byday_day']) {
                             case 8:
                                 // Weekday
-                                $this->getRecurrence()->setBYSETPOS((int) $_POST['monthly_byday_num']);
+                                $this->getRecurrence()->setBYSETPOS((string) $_POST['monthly_byday_num']);
                                 $this->getRecurrence()->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
                                 
                             case 9:
                                 // Day of month
-                                $this->getRecurrence()->setBYMONTHDAY((int) $_POST['monthly_byday_num']);
+                                $this->getRecurrence()->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
                                 break;
                                 
                             default:
@@ -135,7 +135,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                         break;
                     
                     case 2:
-                        $this->getRecurrence()->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+                        $this->getRecurrence()->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
                         break;
                 }
                 break;
@@ -149,13 +149,13 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                         break;
                     
                     case 1:
-                        $this->getRecurrence()->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+                        $this->getRecurrence()->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
                         $this->getRecurrence()->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
                         break;
                     
                     case 2:
-                        $this->getRecurrence()->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
-                        $this->getRecurrence()->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+                        $this->getRecurrence()->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
+                        $this->getRecurrence()->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
                         break;
                 }
                 break;
