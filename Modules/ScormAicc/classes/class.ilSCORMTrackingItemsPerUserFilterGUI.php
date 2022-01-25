@@ -56,7 +56,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
             foreach ($users as $user) {
                 if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
                     if ($allowExportPrivacy == true) {
-                        $e_user = new ilObjUser($user);
+                        $e_user = new ilObjUser((int) $user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
                     } else {
                         $options[$user] = 'User Id: ' . $user;

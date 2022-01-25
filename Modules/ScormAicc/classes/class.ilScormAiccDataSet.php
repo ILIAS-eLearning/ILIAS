@@ -71,7 +71,11 @@ class ilScormAiccDataSet extends ilDataSet
     }
 
     /**
-     * @return mixed[]
+     * @param string     $a_entity
+     * @param string     $a_version
+     * @param array|null $a_rec
+     * @param array|null $a_ids
+     * @return array
      */
     protected function getDependencies(
         string $a_entity,

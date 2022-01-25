@@ -212,9 +212,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
     /**
-    * set settings for learning progress determination per default at upload
-    */
-    public function setLearningProgressSettingsAtUpload()
+     * set settings for learning progress determination per default at upload
+     * @return void
+     */
+    public function setLearningProgressSettingsAtUpload() : void
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -236,10 +237,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         }
         $collection->activateEntries($scos);
     }
+
     /**
-    * get all tracked items of current user
-    */
-    public function getTrackedItems()
+     * get all tracked items of current user
+     * @return array
+     */
+    public function getTrackedItems() : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -339,10 +342,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
     //todo
+
     /**
-    * get number of attempts for a certain user and package
-    */
-    public function getAttemptsForUser($a_user_id)
+     * get number of attempts for a certain user and package
+     * @param int $a_user_id
+     * @return int
+     */
+    public function getAttemptsForUser(int $a_user_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -355,9 +361,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $val_rec = $ilDB->fetchAssoc($val_set);
         
         if ($val_rec["package_attempts"] == null) {
-            $val_rec["package_attempts"] = "";
+            $val_rec["package_attempts"] = 0;
         }
-        return $val_rec["package_attempts"];
+        return (int) $val_rec["package_attempts"];
     }
 
     /**
@@ -781,9 +787,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
     /**
-     * @param int $attempts
-     * @param int $percentage_completed
-     * @param int $sco_total_time_sec
+     * @param int    $user_id
+     * @param string $last_access
+     * @param int    $status
+     * @param        $attempts
+     * @param        $percentage_completed
+     * @param        $sco_total_time_sec
      * @return void
      */
     public function importSuccessForSahsUser(
@@ -856,9 +865,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Import raw data
-     * @param string     $a_file
+     * @param string $a_file
      * @return bool
-     * @global ilObjUser $ilUser
      */
     private function importRaw(string $a_file) : bool
     {
@@ -1005,7 +1013,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 $last_access = $a_last_access[$user_id];
             }
             // $status = ilLPStatusWrapper::_determineStatus($this->getId(),$user_id);
-            $status = ilLPStatus::_lookupStatus($this->getId(), $user_id);
+            $status = (int) ilLPStatus::_lookupStatus($this->getId(), $user_id);
             // $percentage_completed = ilLPStatusSCORM::determinePercentage($this->getId(),$user_id);
             $percentage_completed = ilLPStatus::_lookupPercentage($this->getId(), $user_id);
 
@@ -1023,7 +1031,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
      * @param string $a_login
      * @return int|null
      */
-    public function get_user_id(string $a_login)
+    public function get_user_id(string $a_login) : ?int
     {
         global $DIC;
         $ilDB = $DIC->database();

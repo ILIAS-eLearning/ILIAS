@@ -55,6 +55,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
 
     /**
      * Get user id
+     * @return int
      */
     public function getUserId() : int
     {

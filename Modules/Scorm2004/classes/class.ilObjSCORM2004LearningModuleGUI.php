@@ -647,7 +647,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
+//        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
         $values["open_mode"] = $this->object->getOpenMode();
         $values["width_0"] = $this->object->getWidth();
         $values["width_1"] = $this->object->getWidth();
@@ -795,16 +795,16 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         if ($this->object->editable != 1) {
             //check if OfflineMode-Zip has to be created
-            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+//            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
             $tmpFourth_edition = ilUtil::yn2tf($_POST["cobj_fourth_edition"]);
             $tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
-            if ($tmpOfflineMode == true) {
-                //				$tmpSequencing = false; //actually no sequencing for offline_mode
-                $tmpFourth_edition = false; //4th edition is not possible
-                if ($this->object->getOfflineMode() == false) {
-                    $this->object->zipLmForOfflineMode();
-                }
-            }
+//            if ($tmpOfflineMode == true) {
+//                //				$tmpSequencing = false; //actually no sequencing for offline_mode
+//                $tmpFourth_edition = false; //4th edition is not possible
+//                if ($this->object->getOfflineMode() == false) {
+//                    $this->object->zipLmForOfflineMode();
+//                }
+//            }
 
             if (isset($_POST["mastery_score"])) {
                 $this->object->setMasteryScore($_POST["mastery_score"]);
@@ -857,7 +857,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
             $this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
             $this->object->setAutoSuspend($t_auto_suspend);
-            $this->object->setOfflineMode($tmpOfflineMode);
+//            $this->object->setOfflineMode($tmpOfflineMode);
             $this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
             $this->object->setIdSetting($_POST["id_setting"]);
             $this->object->setNameSetting($_POST["name_setting"]);
@@ -1648,7 +1648,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
      *
      * @param	object		$tabs_gui		ilTabsGUI object
      */
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $ilAccess = $this->access;
         $ilHelp = $this->help;

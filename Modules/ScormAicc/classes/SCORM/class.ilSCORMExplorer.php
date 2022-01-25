@@ -24,9 +24,9 @@ class ilSCORMExplorer extends ilExplorer
      * Constructor
      * @access    public
      * @param string $a_target
-     * @param int    $a_slm_obj
+     * @param        $a_slm_obj
      */
-    public function __construct(string $a_target, int $a_slm_obj)
+    public function __construct(string $a_target, &$a_slm_obj)
     {
         parent::__construct($a_target);
         $this->slm_obj = $a_slm_obj;
@@ -157,7 +157,7 @@ class ilSCORMExplorer extends ilExplorer
             $option["visible"] = !in_array($child["c_type"], $types_do_not_display);
 
             if ($this->showChilds($option["id"])) {
-                $option = $this->createOutputArray($option["id"], $option);
+                $option = $this->createOutputArray((int) $option["id"], $option);
             }
 
             $options["childs"][] = $option;
@@ -261,7 +261,7 @@ class ilSCORMExplorer extends ilExplorer
         }
 
         //get scorm item
-        $sc_object = new ilSCORMItem($option["id"]);
+        $sc_object = new ilSCORMItem((int) $option["id"]);
         $id_ref = $sc_object->getIdentifierRef();
 
         //get scorm resource ref id

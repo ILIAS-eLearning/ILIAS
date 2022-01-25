@@ -108,7 +108,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         // if no manifestfile
         if (!$check_for_manifest_file) {
             $ilErr->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"), $ilErr->MESSAGE);
-            return null;
+            return "";
         }
 
         
@@ -170,7 +170,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 if (!($check_disc_free > 1)) {
                     $ilErr->raiseError($this->lng->txt("Not enough space left on device!"), $ilErr->MESSAGE);
                 }
-                return null;
+                return "";
             }
         } else {
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
@@ -401,7 +401,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
     * get all tracked items of current user
     */
-    public function getTrackedItems()
+    public function getTrackedItems() : array
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -500,7 +500,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
     * get number of atttempts for a certain user and package
     */
-    public function getAttemptsForUser($a_user_id)
+    public function getAttemptsForUser($a_user_id) : int
     {
         $ilDB = $this->db;
         $val_set = $ilDB->queryF(
@@ -512,10 +512,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $val_rec = $ilDB->fetchAssoc($val_set);
 
         if ($val_rec["package_attempts"] == null) {
-            $val_rec["package_attempts"] = "";
+            $val_rec["package_attempts"] = 0;
         }
 
-        return $val_rec["package_attempts"];
+        return (int) $val_rec["package_attempts"];
     }
     
     

@@ -563,12 +563,12 @@ class ilObjSCORMTracking
     }
 
     /**
-     * @param object     $scorm_item_id
+     * @param array|int  $scorm_item_id
      * @param int        $a_obj_id
      * @param array|null $a_blocked_user_ids
      * @return array
      */
-    public static function _getInProgress(object $scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null) : array
+    public static function _getInProgress($scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null) : array
     {
         global $DIC;
         $ilDB = $DIC->database();

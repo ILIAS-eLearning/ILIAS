@@ -40,9 +40,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
     /**
-    * execute command
-    */
-    public function executeCommand()
+     * execute command
+     * @return void
+     * @throws ilCtrlException
+     * @throws ilException
+     */
+    public function executeCommand() : void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -185,11 +188,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($this->object && !$this->object->getEditable()) {
+//                if ($this->object && !$this->object->getEditable()) {
                     $cmd = $this->ctrl->getCmd("properties");
-                } else {
-                    $cmd = $this->ctrl->getCmd("frameset");
-                }
+//                } else {
+//                    $cmd = $this->ctrl->getCmd("frameset");
+//                }
                 if ((strtolower($_GET["baseClass"]) == "iladministrationgui" ||
                     $this->getCreationMode() == true) &&
                     $cmd != "frameset") {
@@ -210,7 +213,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @return void
      * @throws ilObjectException
      */
-    public function viewObject()
+    public function viewObject() : void
     {
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             parent::viewObject();
@@ -391,7 +394,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         switch ($subType) {
         case "scorm2004":
             $newObj = new ilObjSCORM2004LearningModule();
-            $newObj->setEditable(false);//$_POST["editable"] == 'y');
+//            $newObj->setEditable(false);//$_POST["editable"] == 'y');
 //            $newObj->setImportSequencing($_POST["import_sequencing"]);
 //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
             break;
@@ -566,7 +569,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @return void
      */
-    public function setTabs() : void
+    protected function setTabs() : void
     {
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
@@ -593,7 +596,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @return void
      * @throws ilCtrlException
      */
-    public function getTabs()
+    protected function getTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -858,7 +861,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @return void
      */
-    public function exportModule()
+    public function exportModule() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -871,7 +874,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return "sahs";
     }

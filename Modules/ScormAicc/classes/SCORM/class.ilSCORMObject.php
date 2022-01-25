@@ -217,13 +217,11 @@ class ilSCORMObject
     }
 
     /**
-     * get instance of specialized GUI class
-     *
      * @param int $a_id
      * @param int $a_slm_id
-     * @return ilSCORMItem
+     * @return ilSCORMItem|ilSCORMManifest|ilSCORMOrganization|ilSCORMOrganizations|ilSCORMResource|ilSCORMResources
      */
-    public static function &_getInstance(int $a_id, int $a_slm_id) : ilSCORMItem
+    public static function &_getInstance(int $a_id, int $a_slm_id)
     {
         global $DIC;
         $ilDB = $DIC->database();

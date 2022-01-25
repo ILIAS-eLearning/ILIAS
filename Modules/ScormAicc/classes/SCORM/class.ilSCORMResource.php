@@ -213,11 +213,11 @@ class ilSCORMResource extends ilSCORMObject
     }
 
     /**
-     * @param int $a_id_ref
+     * @param string $a_id_ref
      * @param int $a_slm_id
      * @return void
      */
-    public function readByIdRef(int $a_id_ref, int $a_slm_id) : void
+    public function readByIdRef(string $a_id_ref, int $a_slm_id) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -243,11 +243,11 @@ class ilSCORMResource extends ilSCORMObject
     }
 
     /**
-     * @param int $a_id_ref
+     * @param string $a_id_ref
      * @param int $a_slm_id
      * @return int
      */
-    public static function _lookupIdByIdRef(int $a_id_ref, int $a_slm_id) : int
+    public static function _lookupIdByIdRef(string $a_id_ref, int $a_slm_id) : int
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];

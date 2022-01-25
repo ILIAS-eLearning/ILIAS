@@ -20,6 +20,9 @@
  */
 class ilObjSCORMVerification extends ilVerificationObject
 {
+    /**
+     * @return void
+     */
     protected function initType() : void
     {
         $this->type = 'scov';
