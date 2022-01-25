@@ -283,7 +283,7 @@ class ilLanguage
 
         $languages = [];
         foreach ($langlist as $lang) {
-            if (str_starts_with($lang["desc"], "installed")) {
+            if (strpos($lang["desc"], "installed") === 0) {
                 $languages[] = $lang["title"];
             }
         }

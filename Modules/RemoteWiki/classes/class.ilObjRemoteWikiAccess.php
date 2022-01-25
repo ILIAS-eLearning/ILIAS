@@ -62,7 +62,7 @@ class ilObjRemoteWikiAccess extends ilObjectAccess
                 $tutor = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
 
                 if (!$active) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 }
                 if (!$tutor and !$active) {
                     return false;
@@ -78,7 +78,7 @@ class ilObjRemoteWikiAccess extends ilObjectAccess
                 $active = ilObjRemoteWiki::_lookupOnline($a_obj_id);
 
                 if (!$active) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;

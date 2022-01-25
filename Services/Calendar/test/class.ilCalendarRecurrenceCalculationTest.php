@@ -38,7 +38,8 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         $entry->setFullday(true);
 
         $rec = new ilCalendarRecurrence(0);
-        $rec->setInterval(ilCalendarRecurrence::FREQ_YEARLY);
+        $rec->setFrequenceType(ilCalendarRecurrence::FREQ_YEARLY);
+        $rec->setInterval(1);
         $rec->setFrequenceUntilCount(1);
 
         $calc = new ilCalendarRecurrenceCalculator(
@@ -77,6 +78,8 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         $GLOBALS['DIC'] = $this->dic;
 
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
+        $this->setGlobalVariable('lng', $this->createMock(ilLanguage::class));
+        $this->setGlobalVariable('ilErr', $this->createMock(ilErrorHandling::class));
 
         $logger = $this->getMockBuilder(ilLogger::class)
                        ->disableOriginalConstructor()

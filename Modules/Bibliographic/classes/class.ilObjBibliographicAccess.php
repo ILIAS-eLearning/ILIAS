@@ -98,7 +98,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
                 if (!self::_lookupOnline($a_obj_id)
                     && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
                 ) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
                     return false;
                 }
@@ -106,9 +106,9 @@ class ilObjBibliographicAccess extends ilObjectAccess
             // for permission query feature
             case "infoScreen":
                 if (!self::_lookupOnline($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
-                    $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
         }
@@ -118,7 +118,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
                 if (!self::_lookupOnline($a_obj_id)
                     && (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
                 ) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
                     return false;
                 }

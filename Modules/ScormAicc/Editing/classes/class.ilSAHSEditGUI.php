@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -20,60 +20,61 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id: class.ilSAHSPresentationGUI.php 11714 2006-07-30 17:15:55Z akill $
 *
-* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilSAHSEditGUI: ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
+* @ilCtrl_Calls ilSAHSEditGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilObjSCORMLearningModuleGUI, ilInfoScreenGUI, ilObjSCORM2004LearningModuleGUI, ilExportGUI, ilObjSAHSLearningModuleGUI, ilLTIProviderObjectSettingGUI
 *
 * @ingroup ModulesScormAicc
 */
 class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {
-    public $ilias;
-    public $tpl;
-    public $lng;
+    protected $tpl;
+    protected $lng;
+    protected $ctrl;
+    protected int $refId;
 
+    /**
+     * @throws ilCtrlException
+     */
     public function __construct()
     {
         global $DIC;
-        $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ilias = $ilias;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->refId = (int) $_GET["ref_id"];
         
         $this->ctrl->saveParameter($this, "ref_id");
     }
-    
+
     /**
-    * execute command
-    */
-    public function executeCommand(): void
+     * execute command
+     * @return void
+     * @throws ilCtrlException
+     */
+    public function executeCommand() : void
     {
         global $DIC;
 
         $DIC->globalScreen()->tool()->context()->claim()->repository();
 
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $ilias = $DIC['ilias'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $GLOBALS['DIC']["ilLog"]->write("bc:" . $_GET["baseClass"] . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
+        $ilCtrl = $DIC->ctrl();
+        $ilErr = $DIC["ilErr"];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
+        $ilLog->debug("bc:" . $_GET["baseClass"] . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
 
         $lng->loadLanguageModule("content");
 
         // permission
-        if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            $this->ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+        if (!$ilAccess->checkAccess("write", "", $this->refId)) {
+            $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
         
         // add entry to navigation history
         $ilNavigationHistory->addItem(
-            $_GET["ref_id"],
-            "ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $_GET["ref_id"],
+            $this->refId,
+            "ilias.php?baseClass=ilSAHSEditGUI&ref_id=" . $this->refId,
             "lm"
         );
 
@@ -84,14 +85,15 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
         switch ($type) {
-            
+
+            case "scorm":
+                $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $this->refId, true, false);
+                break;
+
             case "scorm2004":
-                $this->slm_gui = new ilObjSCORM2004LearningModuleGUI("", $_GET["ref_id"], true, false);
+                $this->slm_gui = new ilObjSCORM2004LearningModuleGUI("", $this->refId, true, false);
                 break;
                 
-            case "scorm":
-                $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
-                break;
         }
 
         if ($next_class == "") {
@@ -115,16 +117,16 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             break;
 
         case "ilexportgui":
-            $obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
+            $obj_id = ilObject::_lookupObjectId($this->refId);
             if ($cmd == "create_xml") {
                 $exporter = new ilScormAiccExporter();
-//                $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $obj_id);
+                $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
             } elseif ($cmd == "download") {
                 $file = $_GET["file"];
                 $ftmp = explode(":", $file);
-                $fileName = $ftmp[1];
+                $fileName = (string) $ftmp[1];
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-                ilUtil::deliverFile($exportDir . "/" . $fileName, $fileName);
+                ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
             } elseif ($cmd == "confirmDeletion") {
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 foreach ($_POST["file"] as $file) {
@@ -137,7 +139,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 }
             }
             $this->ctrl->setCmd("export");
-            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $_GET["ref_id"]);
+            ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
             break;
 
 

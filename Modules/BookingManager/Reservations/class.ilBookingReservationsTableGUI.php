@@ -311,7 +311,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
                     $schedule = new ilBookingSchedule($def["booking_schedule_id"]);
                     foreach ($schedule->getDefinition() as $day => $slots) {
-                        $day_caption = ilCalendarUtil::_numericDayToString($map[$day], false);
+                        $day_caption = ilCalendarUtil::_numericDayToString((int) $map[$day], false);
                     
                         foreach ($slots as $slot) {
                             $idx = $map[$day] . "_" . $slot;
@@ -619,7 +619,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("VALUE_WEEK", $a_set["week"]);
             }
             if (in_array("weekday", $selected)) {
-                $this->tpl->setVariable("VALUE_WEEKDAY", ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+                $this->tpl->setVariable("VALUE_WEEKDAY", ilCalendarUtil::_numericDayToString((int) $a_set["weekday"], false));
             }
             $this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
             $this->tpl->setVariable("VALUE_COUNTER", $a_set["counter"]);
@@ -749,7 +749,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         if ($this->has_schedule) {
             $a_excel->setCell($a_row, ++$col, new ilDate($a_set["date"], IL_CAL_DATE));
             $a_excel->setCell($a_row, ++$col, $a_set["week"]);
-            $a_excel->setCell($a_row, ++$col, ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+            $a_excel->setCell($a_row, ++$col, ilCalendarUtil::_numericDayToString((int) $a_set["weekday"], false));
             $a_excel->setCell($a_row, ++$col, $a_set["slot"]);
             $a_excel->setCell($a_row, ++$col, $a_set["counter"]);
         } else {
@@ -806,7 +806,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         if ($this->has_schedule) {
             $a_csv->addColumn(ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
             $a_csv->addColumn($a_set["week"]);
-            $a_csv->addColumn(ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+            $a_csv->addColumn(ilCalendarUtil::_numericDayToString((int) $a_set["weekday"], false));
             $a_csv->addColumn($a_set["slot"]);
             $a_csv->addColumn($a_set["counter"]);
         } else {

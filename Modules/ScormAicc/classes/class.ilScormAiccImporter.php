@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -14,6 +14,9 @@
  *****************************************************************************/
 class ilScormAiccImporter extends ilXmlImporter
 {
+    /**
+     *
+     */
     public function __construct()
     {
         $this->dataset = new ilScormAiccDataSet();
@@ -22,19 +25,28 @@ class ilScormAiccImporter extends ilXmlImporter
         $this->manifest = [];
     }
 
+    /**
+     * @return void
+     */
     public function init() : void
     {
     }
 
     /**
      * Import XML
-     * @param
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
      * @return void
+     * @throws ilDatabaseException
+     * @throws ilFileUtilsException
+     * @throws ilObjectNotFoundException
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         
         if ($this->handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)) {
             return;
@@ -123,7 +135,13 @@ class ilScormAiccImporter extends ilXmlImporter
         }
     }
 
-    public function writeData($a_entity, $a_version, $a_id) : void
+    /**
+     * @param string $a_entity
+     * @param string $a_version
+     * @param int    $a_id
+     * @return void
+     */
+    public function writeData(string $a_entity, string $a_version, int $a_id) : void
     {
         $this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
     }
@@ -137,7 +155,7 @@ class ilScormAiccImporter extends ilXmlImporter
      * @param ilImportMapping $a_mapping import mapping object
      * @return bool success
      */
-    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping): bool
+    public function handleEditableLmXml(string $a_entity, string $a_id, string $a_xml, \ilImportMapping $a_mapping) : bool
     {
         // if editable...
         if (is_int(strpos($a_xml, "<Editable>1</Editable>"))) {

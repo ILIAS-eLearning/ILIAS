@@ -6,7 +6,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCron
  */
-class ilCronManager implements \ilCronManagerInterface
+class ilCronManager implements ilCronManagerInterface
 {
     protected ilSetting $settings;
     protected ilLogger $logger;
@@ -191,7 +191,9 @@ class ilCronManager implements \ilCronManagerInterface
         global $DIC;
 
         $ilLog = $DIC->logger()->root();
+        /** @var ilComponentRepository $component_repository */
         $component_repository = $DIC['component.repository'];
+        /** @var ilComponentFactory $component_factory */
         $component_factory = $DIC['component.factory'];
 
         // plugin

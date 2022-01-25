@@ -46,14 +46,14 @@ class ilXapiCompliantStatementsReportLinkBuilder
         $this->filter = $filter;
     }
     
-    public function getUrl(): string
+    public function getUrl() : string
     {
         $link = $this->lrsType->getLrsEndpointStatementsLink();
         $link = $this->appendRequestParameters($link);
         return $link;
     }
     
-    protected function appendRequestParameters(string $link): string
+    protected function appendRequestParameters(string $link) : string
     {
         if ($this->filter->getLimit()) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamLimit());
@@ -115,12 +115,12 @@ class ilXapiCompliantStatementsReportLinkBuilder
         return "activity={$this->object->getActivityId()}";
     }
     
-    protected function buildParamRelatedAgents(): string
+    protected function buildParamRelatedAgents() : string
     {
         return "related_agents=false";
     }
     
-    protected function buildParamRelatedActivities(): string
+    protected function buildParamRelatedActivities() : string
     {
         return "related_activities=false";
     }

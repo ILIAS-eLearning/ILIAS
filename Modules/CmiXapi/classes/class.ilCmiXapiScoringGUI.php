@@ -60,7 +60,7 @@ class ilCmiXapiScoringGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -91,7 +91,7 @@ class ilCmiXapiScoringGUI
 //        $this->showCmd();
 //    }
 
-    protected function showCmd(): void
+    protected function showCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -116,7 +116,7 @@ class ilCmiXapiScoringGUI
     /**
      *
      */
-    protected function initTableData(): self
+    protected function initTableData() : self
     {
         $filter = new ilCmiXapiStatementsReportFilter();
         $filter->setActivityId($this->object->getActivityId());
@@ -154,7 +154,7 @@ class ilCmiXapiScoringGUI
     /**
      *
      */
-    protected function initHighScoreTable(): self
+    protected function initHighScoreTable() : self
     {
         if (!$this->object->getHighscoreTopTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -169,7 +169,7 @@ class ilCmiXapiScoringGUI
     /**
      *
      */
-    protected function initUserRankTable(): self
+    protected function initUserRankTable() : self
     {
         if (!$this->object->getHighscoreOwnTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';

@@ -29,10 +29,14 @@ class ilObjSCORMVerificationAccess extends ilObjectAccess
         return $commands;
     }
 
+    /**
+     * @param $a_target
+     * @return bool
+     */
     public static function _checkGoto($a_target) : bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
         
         $t_arr = explode('_', $a_target);
         

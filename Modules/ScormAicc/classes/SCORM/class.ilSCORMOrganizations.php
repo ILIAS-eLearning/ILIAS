@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,7 +22,7 @@
 */
 class ilSCORMOrganizations extends ilSCORMObject
 {
-    public $default_organization;
+    public string $default_organization;
 
 
     /**
@@ -31,10 +31,10 @@ class ilSCORMOrganizations extends ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         // title should be overrriden by ilSCORMExplorer
         $this->setTitle($lng->txt("cont_organizations"));
@@ -43,20 +43,30 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setType("sos");
     }
 
-    public function getDefaultOrganization()
+    /**
+     * @return string
+     */
+    public function getDefaultOrganization() : string
     {
         return $this->default_organization;
     }
 
-    public function setDefaultOrganization($a_def_org): void
+    /**
+     * @param string $a_def_org
+     * @return void
+     */
+    public function setDefaultOrganization(string $a_def_org) : void
     {
         $this->default_organization = $a_def_org;
     }
 
-    public function read(): void
+    /**
+     * @return void
+     */
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -69,10 +79,13 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setDefaultOrganization($obj_rec["default_organization"]);
     }
 
-    public function create(): void
+    /**
+     * @return void
+     */
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -84,10 +97,13 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
-    public function update(): void
+    /**
+     * @return void
+     */
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -101,10 +117,13 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
-    public function delete(): void
+    /**
+     * @return void
+     */
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

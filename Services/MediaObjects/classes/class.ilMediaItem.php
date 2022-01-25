@@ -21,7 +21,7 @@
 class ilMediaItem
 {
     protected string $tried_thumb = "";
-    protected string $text_representation;
+    protected string $text_representation = "";
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
@@ -46,7 +46,7 @@ class ilMediaItem
     public int $color1;            // map area line color 1
     public int $color2;            // map area line color 2
     protected int $duration = 0;
-    protected string $upload_hash;
+    protected string $upload_hash = '';
 
     public function __construct(
         int $a_id = 0

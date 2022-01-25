@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,9 +22,9 @@
 */
 class ilSCORMManifest extends ilSCORMObject
 {
-    public $import_id;
-    public $version;
-    public $xml_base;
+    public string $import_id;
+    public ?string $version;
+    public ?string $xml_base;
 
 
     /**
@@ -33,47 +33,71 @@ class ilSCORMManifest extends ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         parent::__construct($a_id);
         $this->setType("sma");
     }
 
-    public function getImportId()
+    /**
+     * @return string
+     */
+    public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id): void
+    /**
+     * @param string $a_import_id
+     * @return void
+     */
+    public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
         $this->setTitle($a_import_id);
     }
 
-    public function getVersion()
+    /**
+     * @return string|null
+     */
+    public function getVersion() : ?string
     {
         return $this->version;
     }
 
-    public function setVersion($a_version): void
+    /**
+     * @param string|null $a_version
+     * @return void
+     */
+    public function setVersion(?string $a_version) : void
     {
         $this->version = $a_version;
     }
 
-    public function getXmlBase()
+    /**
+     * @return string|null
+     */
+    public function getXmlBase() : ?string
     {
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base): void
+    /**
+     * @param string|null $a_xml_base
+     * @return void
+     */
+    public function setXmlBase(?string $a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function read(): void
+    /**
+     * @return void
+     */
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -89,10 +113,13 @@ class ilSCORMManifest extends ilSCORMObject
         $this->setXmlBase($obj_rec["xml_base"]);
     }
 
-    public function create(): void
+    /**
+     * @return void
+     */
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -105,10 +132,13 @@ class ilSCORMManifest extends ilSCORMObject
         );
     }
 
-    public function update(): void
+    /**
+     * @return void
+     */
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::update();
 
@@ -124,10 +154,13 @@ class ilSCORMManifest extends ilSCORMObject
         );
     }
 
-    public function delete(): void
+    /**
+     * @return void
+     */
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::delete();
 

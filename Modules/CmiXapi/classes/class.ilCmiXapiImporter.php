@@ -98,7 +98,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Builds the CmiXapi Object
      * @return $this
      */
-    private function prepareSingleObject(): self
+    private function prepareSingleObject() : self
     {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
@@ -147,7 +147,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function prepareLocalSourceStorage(): self
+    private function prepareLocalSourceStorage() : self
     {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
@@ -172,7 +172,7 @@ class ilCmiXapiImporter extends ilXmlImporter
       * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
       * @throws \ILIAS\Filesystem\Exception\IOException
       */
-    private function parseXmlFileProperties(): self
+    private function parseXmlFileProperties() : self
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
 
@@ -192,10 +192,10 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Finalize the new CmiXapi Object
      * @return $this
      */
-    private function updateNewObj(): self
+    private function updateNewObj() : self
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        $this->_cmixObj->setTitle($this->_moduleProperties['Title']." ".$DIC->language()->txt("copy_of_suffix"));
+        $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $DIC->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
         $this->_cmixObj->update();
 
@@ -242,11 +242,11 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setTimestamp($this->_moduleProperties['Timestamp']);
         $this->_cmixObj->setDuration($this->_moduleProperties['Duration']);
         $this->_cmixObj->setNoSubstatements($this->_moduleProperties['NoSubstatements']);
-        $this->_cmixObj->setPublisherId((string)$this->_moduleProperties['PublisherId']);
+        $this->_cmixObj->setPublisherId((string) $this->_moduleProperties['PublisherId']);
 //        $this->_cmixObj->setAnonymousHomepage($this->_moduleProperties['AnonymousHomepage']);
-        $this->_cmixObj->setMoveOn((string)$this->_moduleProperties['MoveOn']);
-        $this->_cmixObj->setLaunchParameters((string)$this->_moduleProperties['LaunchParameters']);
-        $this->_cmixObj->setEntitlementKey((string)$this->_moduleProperties['EntitlementKey']);
+        $this->_cmixObj->setMoveOn((string) $this->_moduleProperties['MoveOn']);
+        $this->_cmixObj->setLaunchParameters((string) $this->_moduleProperties['LaunchParameters']);
+        $this->_cmixObj->setEntitlementKey((string) $this->_moduleProperties['EntitlementKey']);
         $this->_cmixObj->setSwitchToReviewEnabled($this->_moduleProperties['SwitchToReview']);
         $this->_cmixObj->save();
         $this->_cmixObj->updateMetaData();
@@ -260,7 +260,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function deleteImportDirectiry(): self
+    private function deleteImportDirectiry() : self
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
         $DIC->filesystem()->temp()->delete($this->_relImportDir);
@@ -271,7 +271,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Gets the relative path to the Filesystem::temp Folder
      * @return $this
      */
-    private function getImportDirectorySingle(): self
+    private function getImportDirectorySingle() : self
     {
         $importTempDir = $this->getImportDirectory();
         $dirArr = array_reverse(explode('/', $importTempDir));
@@ -283,7 +283,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Gets the relative path to the Filesystem::temp Folder
      * @return $this
      */
-    private function getImportDirectoryContainer(): self
+    private function getImportDirectoryContainer() : self
     {
         $importTempDir = $this->getImportDirectory();
         $dirArr = array_reverse(explode('/', $importTempDir));

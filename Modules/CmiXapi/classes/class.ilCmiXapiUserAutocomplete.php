@@ -41,7 +41,7 @@ class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
     /**
      * {@inheritdoc}
      */
-    protected function getFromPart(): string
+    protected function getFromPart() : string
     {
         global $DIC;
         

@@ -22,6 +22,9 @@ class Duration extends Group implements C\Input\Field\Duration
     use ComponentHelper;
     use JavaScriptBindable;
 
+    const DEFAULT_START_LABEL = 'start';
+    const DEFAULT_END_LABEL = 'end';
+
     protected DateFormat $format;
     protected DateTimeImmutable $min_date;
     protected DateTimeImmutable $max_date;
@@ -35,11 +38,11 @@ class Duration extends Group implements C\Input\Field\Duration
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        string $byline
+        ?string $byline
     ) {
         $inputs = [
-            $field_factory->dateTime('start'),
-            $field_factory->dateTime('end')
+            $field_factory->dateTime(self::DEFAULT_START_LABEL),
+            $field_factory->dateTime(self::DEFAULT_END_LABEL)
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
@@ -256,7 +259,6 @@ class Duration extends Group implements C\Input\Field\Duration
         $clone->inputs = array_map(
             function ($input) use ($tz) {
                 return $input->withTimezone($tz);
-
             },
             $clone->inputs
         );
@@ -305,5 +307,15 @@ class Duration extends Group implements C\Input\Field\Duration
 			});
 			il.UI.input.onFieldUpdate(event, '$id', combinedDuration());";
         };
+    }
+
+    public function withLabels(string $start_label, string $end_label) : C\Input\Field\Duration
+    {
+        $clone = clone $this;
+        $clone->inputs = [
+            $clone->inputs[0]->withLabel($start_label),
+            $clone->inputs[1]->withLabel($end_label)
+        ];
+        return $clone;
     }
 }

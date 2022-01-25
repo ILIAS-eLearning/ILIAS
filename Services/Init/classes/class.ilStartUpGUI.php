@@ -885,11 +885,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.');
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
 
-                require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
-                $WAYF = new ShibWAYF();
+                $ilShibbolethWAYF = new ilShibbolethWAYF();
 
-                $tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
-                $tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
+                $tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $ilShibbolethWAYF->showNotice());
+                $tpl->setVariable("SHIB_IDP_LIST", $ilShibbolethWAYF->generateSelection());
                 $tpl->setVariable("ILW_TARGET", $_GET["target"]);
                 $tpl->parseCurrentBlock();
             }
@@ -1837,7 +1836,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             if ($oRegSettings->passwordGenerationEnabled()) {
                 $passwords = ilUtil::generatePasswords(1);
                 $password = $passwords[0];
-                $user->setPasswd($password, IL_PASSWD_PLAIN);
+                $user->setPasswd($password, ilObjUser::PASSWD_PLAIN);
                 $user->setLastPasswordChangeTS(time());
             }
             $user->update();

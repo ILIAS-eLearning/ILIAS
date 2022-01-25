@@ -28,7 +28,6 @@ class ilMailUserActionProvider extends ilUserActionProvider
         $rbacsystem = $DIC['rbacsystem'];
 
         if (!isset(self::$user_access[$a_user_id])) {
-            include_once("./Services/Mail/classes/class.ilMailGlobalServices.php");
             self::$user_access[$a_user_id] =
                 $rbacsystem->checkAccessOfUser($a_user_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId());
         }
@@ -50,8 +49,6 @@ class ilMailUserActionProvider extends ilUserActionProvider
     public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
     {
         $coll = ilUserActionCollection::getInstance();
-        include_once("./Services/User/Actions/classes/class.ilUserAction.php");
-        include_once("./Services/Mail/classes/class.ilMailFormCall.php");
 
         // check mail permission of user
         if ($this->getUserId() == ANONYMOUS_USER_ID || !$this->checkUserMailAccess($this->getUserId())) {

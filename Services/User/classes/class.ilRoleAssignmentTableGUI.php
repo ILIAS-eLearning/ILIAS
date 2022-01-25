@@ -1,28 +1,31 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for role assignment in user administration
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * TableGUI class for role assignment in user administration
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilRoleAssignmentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilPathGUI
-     */
-    protected $path_gui;
+    protected ilPathGUI $path_gui;
+    protected array $filter;
     
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
@@ -59,17 +62,11 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->getPathGUI()->enableHideLeaf(false);
     }
 
-    /**
-     * @return ilPathGUI
-     */
-    public function getPathGUI()
+    public function getPathGUI() : ilPathGUI
     {
         return $this->path_gui;
     }
     
-    /**
-    * Init filter
-    */
     public function initFilter() : void
     {
         global $DIC;
@@ -84,7 +81,6 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $option[4] = $lng->txt('internal_local_roles_only');
         $option[5] = $lng->txt('non_internal_local_roles_only');
 
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($lng->txt("roles"), "role_filter");
         $si->setOptions($option);
         $this->addFilterItem($si);
@@ -92,9 +88,6 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->filter["role_filter"] = $si->getValue();
     }
     
-    /**
-    * Fill table row
-    */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -116,13 +109,14 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('PATH', $a_set['path']);
     }
 
-    public function parse(int $usr_id)
+    public function parse(int $usr_id) : void
     {
         global $DIC;
 
         $rbacreview = $DIC->rbac()->review();
         $tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
+        $assignable = false;        // @todo: check this
 
 
         // now get roles depending on filter settings
@@ -206,23 +200,18 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
             }
 
             $records[] = [
-                "path" => $path,
                 "description" => $role["description"],
                 "context" => $context,
                 "checkbox" => $checkbox,
                 "role" => $link,
                 "title" => $title,
-                'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref_id)
+                'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, $ref_id)
             ];
             ++$counter;
         }
         $this->setData($records);
     }
 
-    /**
-     * @param int $ref_id
-     * @return string
-     */
     protected function getTitleForReference(int $ref_id) : string
     {
         $type = ilObject::_lookupType($ref_id, true);
@@ -240,6 +229,6 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         ilDatePresentation::setUseRelativeDates(false);
         $title = $list->getTitle();
         ilDatePresentation::resetToDefaults();
-        return (string) $title;
+        return $title;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,7 +27,11 @@ class ilObjSCORMValidator
     public $flag;
     public $summary;
 
-    public function validateXML($file) : void
+    /**
+     * @param string $file
+     * @return void
+     */
+    public function validateXML(string $file) : void
     {
         // exec(ilUtil::getJavaPath()." -jar ".ilUtil::escapeShellArg(ILIAS_ABSOLUTE_PATH."/Modules/ScormAicc/validation/vali.jar")." ".ilUtil::escapeShellArg($file)." 2>&1", $error);
             // if (count($error) != 0)
@@ -42,7 +46,11 @@ class ilObjSCORMValidator
             // }
     }
 
-    public function searchDir($dir) : void
+    /**
+     * @param string $dir
+     * @return void
+     */
+    public function searchDir(string $dir) : void
     {
         if (is_dir($dir)) {
             if ($dh = opendir($dir)) {
@@ -68,12 +76,18 @@ class ilObjSCORMValidator
         }
     }
 
-    public function __construct($directory)
+    /**
+     * @param string $directory
+     */
+    public function __construct(string $directory)
     {
         $this->dir = $directory . '/';
     }
 
-    public function validate()
+    /**
+     * @return bool
+     */
+    public function validate() : bool
     {
         $this->summary = array();
         $this->searchDir($this->dir);
@@ -84,6 +98,9 @@ class ilObjSCORMValidator
         }
     }
 
+    /**
+     * @return string
+     */
     public function getSummary() : string
     {
         $summary = "";

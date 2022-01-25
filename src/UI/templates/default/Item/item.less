@@ -122,6 +122,41 @@
 
 }
 
+.il-item-shy{
+	display: flex;
+	gap: @il-item-gap-large;
+
+	.content {
+		width: 100%;
+		display: grid;
+		grid-template-areas:
+			"title close"
+			"description description"
+			"divider divider"
+			"properties properties";
+		grid-auto-columns: auto @font-size-small;
+
+		.il-item-title {
+			grid-area: title;
+		}
+		.close {
+			grid-area: close;
+		}
+		.il-item-description {
+			grid-area: description;
+		}
+		.il-item-divider {
+			grid-area: divider;
+		}
+		.il-item-properties {
+			grid-area: properties;
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: @il-item-gap-base;
+		}
+	}
+}
+
 @media only screen and (min-width: (@grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {

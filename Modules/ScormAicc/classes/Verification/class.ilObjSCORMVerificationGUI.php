@@ -20,15 +20,22 @@
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
+    /**
+     * @return string
+     */
     public function getType() : string
     {
         return "scov";
     }
 
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
     public function create() : void
     {
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
 
         $this->lng->loadLanguageModule("scov");
 
@@ -41,6 +48,12 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
+    /**
+     * @return void
+     * @throws JsonException
+     * @throws ilCtrlException
+     * @throws ilException
+     */
     public function save() : void
     {
         global $DIC;
@@ -86,6 +99,9 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
+    /**
+     * @return void
+     */
     public function deliver() : void
     {
         $file = $this->object->getFilePath();
@@ -94,11 +110,16 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         }
     }
 
+    /**
+     * @param bool   $a_return
+     * @param string $a_url
+     * @return string
+     */
     public function render(bool $a_return = false, string $a_url = '') : string
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
 
         if (!$a_return) {
             $this->deliver();
@@ -134,6 +155,10 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         return "";
     }
 
+    /**
+     * @param ilPortfolioPage $a_page
+     * @return void
+     */
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         global $DIC;
@@ -146,6 +171,10 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
+    /**
+     * @param string $a_target
+     * @return void
+     */
     public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);

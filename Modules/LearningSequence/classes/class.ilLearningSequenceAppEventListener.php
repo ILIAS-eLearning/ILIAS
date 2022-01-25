@@ -7,7 +7,7 @@
  */
 class ilLearningSequenceAppEventListener
 {
-    private static ?ilLSLPEventHandler $lp_event_handler;
+    private static ?ilLSLPEventHandler $lp_event_handler = null;
 
     public static function handleEvent($component, $event, $parameter)
     {
@@ -51,7 +51,7 @@ class ilLearningSequenceAppEventListener
 
     private static function onServiceTrackingUpdateStatus(array $parameter) : void
     {
-        if (!self::$lp_event_handler) {
+        if (self::$lp_event_handler === null) {
             self::$lp_event_handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
         }
         self::$lp_event_handler->updateLPForChildEvent($parameter);

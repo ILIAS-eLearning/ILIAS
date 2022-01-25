@@ -6,8 +6,7 @@ use ILIAS\Calendar\FileHandler\ilFileProperty;
 
 /**
  * Course appointment file handler
- *
- * @author Alex Killing <killing@leifos.de>
+ * @author  Alex Killing <killing@leifos.de>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler

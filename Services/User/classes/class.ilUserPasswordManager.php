@@ -1,5 +1,17 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilUserPasswordManager
@@ -134,7 +146,7 @@ class ilUserPasswordManager
         } else {
             $user->setPasswordSalt(null);
         }
-        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), IL_PASSWD_CRYPTED);
+        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), ilObjUser::PASSWD_CRYPTED);
     }
 
     public function isEncodingTypeSupported(string $name) : bool
@@ -146,12 +158,12 @@ class ilUserPasswordManager
     {
         $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
         if ($this->getEncoderName() !== $encoder->getName()) {
-            if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
                 return true;
             }
-        } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
-            if ($encoder->requiresReencoding((string) $user->getPasswd())) {
+        } elseif ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->requiresReencoding($user->getPasswd())) {
                 $user->resetPassword($raw, $raw);
             }
 

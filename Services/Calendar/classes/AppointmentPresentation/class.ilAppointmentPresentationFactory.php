@@ -3,10 +3,7 @@
 use ILIAS\UI\Component\Item\Item;
 
 /**
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- *
- *
+ * @author  Jesús López Reyes <lopez@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentPresentationFactory extends ilCalendarAppointmentBaseFactory
@@ -15,8 +12,8 @@ class ilAppointmentPresentationFactory extends ilCalendarAppointmentBaseFactory
         array $a_appointment,
         ?ilInfoScreenGUI $a_info_screen,
         ?ilToolbarGUI $a_toolbar,
-        ?Item $a_list_item)
-    {
+        ?Item $a_list_item
+    ) {
         $class_base = self::getClassBaseName($a_appointment);
         $class_name = "ilAppointmentPresentation" . $class_base . "GUI";
         return $class_name::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);

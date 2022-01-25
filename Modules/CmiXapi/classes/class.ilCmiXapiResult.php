@@ -91,7 +91,7 @@ class ilCmiXapiResult
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -107,7 +107,7 @@ class ilCmiXapiResult
     /**
      * @param int $objId
      */
-    public function setObjId(int $objId): void
+    public function setObjId(int $objId) : void
     {
         $this->objId = $objId;
     }
@@ -123,7 +123,7 @@ class ilCmiXapiResult
     /**
      * @param int $usrId
      */
-    public function setUsrId(int $usrId): void
+    public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }
@@ -139,7 +139,7 @@ class ilCmiXapiResult
     /**
      * @param int $version
      */
-    public function setVersion(int $version): void
+    public function setVersion(int $version) : void
     {
         $this->version = $version;
     }
@@ -155,7 +155,7 @@ class ilCmiXapiResult
     /**
      * @param float $score
      */
-    public function setScore(float $score): void
+    public function setScore(float $score) : void
     {
         $this->score = $score;
     }
@@ -171,7 +171,7 @@ class ilCmiXapiResult
     /**
      * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(string $status) : void
     {
         $this->status = $status;
     }
@@ -187,12 +187,12 @@ class ilCmiXapiResult
     /**
      * @param string $lastUpdate
      */
-    public function setLastUpdate(string $lastUpdate): void
+    public function setLastUpdate(string $lastUpdate) : void
     {
         $this->lastUpdate = $lastUpdate;
     }
     
-    public function save(): void
+    public function save() : void
     {
         if ($this->getId()) {
             $this->update();
@@ -201,7 +201,7 @@ class ilCmiXapiResult
         }
     }
     
-    protected function update(): void
+    protected function update() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -217,7 +217,7 @@ class ilCmiXapiResult
         ));
     }
     
-    protected function insert(): void
+    protected function insert() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -238,7 +238,7 @@ class ilCmiXapiResult
      * @param ilCmiXapiResult $result
      * @param $row
      */
-    protected function assignFromDbRow($row): void
+    protected function assignFromDbRow($row) : void
     {
         $this->setId($row['id']);
         $this->setObjId($row['obj_id']);
@@ -249,7 +249,7 @@ class ilCmiXapiResult
         $this->setLastUpdate($row['last_update']);
     }
     
-    public static function getInstanceByObjIdAndUsrId($objId, $usrId): \ilCmiXapiResult
+    public static function getInstanceByObjIdAndUsrId($objId, $usrId) : \ilCmiXapiResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -272,7 +272,7 @@ class ilCmiXapiResult
         );
     }
     
-    public static function getEmptyInstance(): \ilCmiXapiResult
+    public static function getEmptyInstance() : \ilCmiXapiResult
     {
         return new self();
     }
@@ -281,7 +281,7 @@ class ilCmiXapiResult
      * @param $objId
      * @return ilCmiXapiResult[]
      */
-    public static function getResultsForObject($objId): array
+    public static function getResultsForObject($objId) : array
     {
         global $DIC;
         

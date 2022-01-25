@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
+
 /**
- *
- * @author Alex Killing <killing@leifos.com>
+ * @author  Alex Killing <killing@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilCalendarAppointmentBaseFactory

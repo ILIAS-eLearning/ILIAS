@@ -17,7 +17,6 @@ namespace ILIAS\BackgroundTasks\Types;
  *****************************************************************************/
 class SingleType implements Type, Ancestors
 {
-    
     protected \ReflectionClass $type;
     
     /**
@@ -54,7 +53,7 @@ class SingleType implements Type, Ancestors
      */
     public function getAncestors() : array
     {
-        $class     = $this->type;
+        $class = $this->type;
         $ancestors = [new SingleType($class->getName())];
         
         while ($class = $class->getParentClass()) {

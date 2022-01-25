@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -21,28 +21,41 @@ class ilScormAiccExporter extends ilXmlExporter
         $this->dataset = new ilScormAiccDataSet();
     }
 
+    /**
+     * @return void
+     */
     public function init() : void
     {
     }
 
-//    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    //    {
-    //        include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-    //        $lm = new ilObjSAHSLearningModule($a_id, false);
-    //        if ($lm->getEditable()) {		// fix #0022063 (export authoring scorm lm)
-    //            include_once("./Modules/Scorm2004/classes/class.ilScorm2004DataSet.php");
-    //            $dataset = new ilScorm2004DataSet();
-    //            $dataset->setDSPrefix("ds");
-    //            $dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
-    //            $dataset->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
-    //        } else {
-    //            $this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
-    //            //using own getXmlRepresentation function in ilScormAiccDataSet
-    //            $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_id, "", false, true);
-    //        }
-    //    }
-    //todo:check if xsd files must be provided
     /**
+     * @param string $a_entity
+     * @param string $a_schema_version
+     * @param string $a_id
+     * @return string
+     */
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    {
+//            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+//            $lm = new ilObjSAHSLearningModule((int) $a_id, false);
+//            if ($lm->getEditable()) {		// fix #0022063 (export authoring scorm lm)
+//                include_once("./Modules/Scorm2004/classes/class.ilScorm2004DataSet.php");
+//                $dataset = new ilScorm2004DataSet();
+//                $dataset->setDSPrefix("ds");
+//                $dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
+//                $dataset->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
+//            } else {
+        $this->dataset->setDSPrefix("ds");
+        $this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        //using own getXmlRepresentation function in ilScormAiccDataSet
+        $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, (array) $a_id, "", false, true);
+//            }
+        return "";
+    }
+    //todo:check if xsd files must be provided
+
+    /**
+     * @param string $a_entity
      * @return array<string, array<string, string|bool>>
      */
     public function getValidSchemaVersions(string $a_entity) : array
@@ -71,9 +84,9 @@ class ilScormAiccExporter extends ilXmlExporter
                 );
         }
     */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
-    {
-        // TODO: Implement getXmlRepresentation() method.
-        return "";
-    }
+//    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+//    {
+//        // TODO: Implement getXmlRepresentation() method.
+//        return "";
+//    }
 }

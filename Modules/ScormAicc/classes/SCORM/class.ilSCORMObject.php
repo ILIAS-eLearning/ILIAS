@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,10 +22,10 @@
 */
 class ilSCORMObject
 {
-    public $id;
-    public $title;
-    public $type;
-    public $slm_id;
+    public int $id;
+    public ?string $title = "";
+    public ?string $type;
+    public int $slm_id;
 
 
     /**
@@ -34,62 +34,89 @@ class ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-
-        $this->ilias = $ilias;
         $this->id = $a_id;
         if ($a_id > 0) {
             $this->read();
         }
     }
 
-    public function getId()
+    /**
+     * @return int
+     */
+    public function getId() : int
     {
         return $this->id;
     }
 
-    public function setId($a_id)
+    /**
+     * @param int $a_id
+     * @return void
+     */
+    public function setId(int $a_id)
     {
         $this->id = $a_id;
     }
 
-    public function getType()
+    /**
+     * @return string|null
+     */
+    public function getType() : ?string
     {
         return $this->type;
     }
 
-    public function setType($a_type)
+    /**
+     * @param string|null $a_type
+     * @return void
+     */
+    public function setType(?string $a_type)
     {
         $this->type = $a_type;
     }
 
-    public function getTitle()
+    /**
+     * @return string|null
+     */
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    public function setTitle($a_title)
+    /**
+     * @param string|null $a_title
+     * @return void
+     */
+    public function setTitle(?string $a_title)
     {
         $this->title = $a_title;
     }
 
-    public function getSLMId()
+    /**
+     * @return int
+     */
+    public function getSLMId() : int
     {
         return $this->slm_id;
     }
 
-    public function setSLMId($a_slm_id)
+    /**
+     * @param int $a_slm_id
+     * @return void
+     */
+    public function setSLMId(int $a_slm_id)
     {
         $this->slm_id = $a_slm_id;
     }
 
-    public function read()
+    /**
+     * @return void
+     */
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $obj_set = $ilDB->queryF(
             'SELECT * FROM scorm_object WHERE obj_id = %s',
@@ -99,16 +126,19 @@ class ilSCORMObject
         $obj_rec = $ilDB->fetchAssoc($obj_set);
         $this->setTitle($obj_rec["title"]);
         $this->setType($obj_rec["c_type"]);
-        $this->setSLMId($obj_rec["slm_id"]);
+        $this->setSLMId((int) $obj_rec["slm_id"]);
     }
-    
+
     /**
-    * Count number of presentable SCOs/Assets of SCORM learning module.
-    */
-    public static function _lookupPresentableItems($a_slm_id)
+     * Count number of presentable SCOs/Assets of SCORM learning module.
+     *
+     * @param int $a_slm_id
+     * @return array
+     */
+    public static function _lookupPresentableItems(int $a_slm_id) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $set = $ilDB->queryF(
             "
@@ -131,11 +161,12 @@ class ilSCORMObject
     /**
      * Create database record for SCORM object.
      *
+     * @return void
      */
-    public function create()
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
       
         $nextId = $ilDB->nextId('scorm_object');
         $this->setId($nextId);
@@ -152,11 +183,12 @@ class ilSCORMObject
     /**
      * Updates database record for SCORM object.
      *
+     * @return void
      */
-    public function update()
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $ilDB->manipulateF(
             '
@@ -170,10 +202,13 @@ class ilSCORMObject
         );
     }
 
-    public function delete()
+    /**
+     * @return void
+     */
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $ilDB->manipulateF(
             'DELETE FROM scorm_object WHERE obj_id = %s',
             array('integer'),
@@ -182,14 +217,16 @@ class ilSCORMObject
     }
 
     /**
-    * get instance of specialized GUI class
-    *
-    * static
-    */
-    public static function &_getInstance($a_id, $a_slm_id)
+     * get instance of specialized GUI class
+     *
+     * @param int $a_id
+     * @param int $a_slm_id
+     * @return ilSCORMItem
+     */
+    public static function &_getInstance(int $a_id, int $a_slm_id) : ilSCORMItem
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $sc_set = $ilDB->queryF(
             '
@@ -217,6 +254,7 @@ class ilSCORMObject
             case "srs":					$srs = new ilSCORMResources($a_id);
                 return $srs;
 
+            default:
             case "sre":					$sre = new ilSCORMResource($a_id);
                 return $sre;
         }

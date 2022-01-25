@@ -21,6 +21,12 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 {
     private ilUserCertificateRepository $userCertificateRepository;
 
+    /**
+     * @param ilObjSCORMVerificationGUI        $a_parent_obj
+     * @param string                           $a_parent_cmd
+     * @param ilUserCertificateRepository|null $userCertificateRepository
+     * @throws ilCtrlException
+     */
     public function __construct(
         ilObjSCORMVerificationGUI $a_parent_obj,
         string $a_parent_cmd = '',
@@ -52,6 +58,9 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
+    /**
+     * @return void
+     */
     protected function getItems() : void
     {
         global $DIC;
@@ -77,10 +86,15 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
+    /**
+     * @param array $a_set
+     * @return void
+     * @throws ilCtrlException
+     */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable(

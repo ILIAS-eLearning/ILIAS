@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -28,7 +28,7 @@ class ilSCORMOrganizationGUI extends ilSCORMObjectGUI
         $this->sc_object = new ilSCORMOrganization($a_id);
     }
 
-    public function view(): void
+    public function view() : void
     {
         $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
         $this->tpl->setCurrentBlock("par_table");

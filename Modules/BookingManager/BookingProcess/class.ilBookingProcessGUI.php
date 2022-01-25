@@ -273,7 +273,7 @@ class ilBookingProcessGUI
                 $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
 
                 $mytpl->setCurrentBlock('weekdays');
-                $mytpl->setVariable('TXT_WEEKDAY', ilCalendarUtil:: _numericDayToString($date_info['wday']));
+                $mytpl->setVariable('TXT_WEEKDAY', ilCalendarUtil:: _numericDayToString((int) $date_info['wday']));
                 $mytpl->setVariable('TXT_DATE', $date_info['mday'] . ' ' . ilCalendarUtil:: _numericMonthToString($date_info['mon']));
                 $mytpl->parseCurrentBlock();
             }

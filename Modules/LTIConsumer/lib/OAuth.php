@@ -92,8 +92,8 @@ class OAuthToken
         $key = OAuthUtil::urlencode_rfc3986($this->key);
         /** @var string $secret */
         $secret = OAuthUtil::urlencode_rfc3986($this->secret);
-        return "oauth_token=".$key.
-        "&oauth_token_secret=".$secret.
+        return "oauth_token=" . $key .
+        "&oauth_token_secret=" . $secret .
         "&oauth_callback_confirmed=true";
     }
 
@@ -400,27 +400,26 @@ class OAuthRequest
             ? 'http'
             : 'https';
 
-		//SPECIAL FOR LTI BEGIN
-		global $UseHttpHostInsteadOfServerName;
-		if ($UseHttpHostInsteadOfServerName == true)
-		{
-			$port = "";
-			if ($_SERVER['SERVER_PORT'] != "80" && $_SERVER['SERVER_PORT'] != "443" &&
-			strpos(':', $_SERVER['HTTP_HOST']) < 0) {
-				$port = ':' . $_SERVER['SERVER_PORT'] ;
-			}
-			$http_url = ($http_url) ? $http_url : $scheme.
-				'://'.$_SERVER['HTTP_HOST'].
-				$port .
-				$_SERVER['REQUEST_URI'];
-		} else {
-			$http_url = ($http_url) ? $http_url : $scheme.
-				'://'.$_SERVER['SERVER_NAME'].
-				':'.
-				$_SERVER['SERVER_PORT'].
-				$_SERVER['REQUEST_URI'];
-		}
-		//SPECIAL FOR LTI END
+        //SPECIAL FOR LTI BEGIN
+        global $UseHttpHostInsteadOfServerName;
+        if ($UseHttpHostInsteadOfServerName == true) {
+            $port = "";
+            if ($_SERVER['SERVER_PORT'] != "80" && $_SERVER['SERVER_PORT'] != "443" &&
+            strpos(':', $_SERVER['HTTP_HOST']) < 0) {
+                $port = ':' . $_SERVER['SERVER_PORT'] ;
+            }
+            $http_url = ($http_url) ? $http_url : $scheme .
+                '://' . $_SERVER['HTTP_HOST'] .
+                $port .
+                $_SERVER['REQUEST_URI'];
+        } else {
+            $http_url = ($http_url) ? $http_url : $scheme .
+                '://' . $_SERVER['SERVER_NAME'] .
+                ':' .
+                $_SERVER['SERVER_PORT'] .
+                $_SERVER['REQUEST_URI'];
+        }
+        //SPECIAL FOR LTI END
 
         $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
 
@@ -625,7 +624,7 @@ class OAuthRequest
         $post_data = $this->to_postdata();
         $out = $this->get_normalized_http_url();
         if ($post_data) {
-            $out .= '?'.$post_data;
+            $out .= '?' . $post_data;
         }
         return $out;
     }
@@ -653,7 +652,7 @@ class OAuthRequest
         if (!is_null($realm)) {
             /** @var string $realm */
             $realm = OAuthUtil::urlencode_rfc3986($realm);
-            $out = 'Authorization: OAuth realm="'.$realm.'"';
+            $out = 'Authorization: OAuth realm="' . $realm . '"';
             $first = false;
         } else {
             $out = 'Authorization: OAuth';
@@ -671,7 +670,7 @@ class OAuthRequest
             $key = OAuthUtil::urlencode_rfc3986($k);
             /** @var string $value */
             $value = OAuthUtil::urlencode_rfc3986($v);
-            $out .= $key.'="'.$value.'"';
+            $out .= $key . '="' . $value . '"';
             $first = false;
         }
         return $out;
@@ -737,7 +736,7 @@ class OAuthRequest
         $mt = microtime();
         $rand = mt_rand();
 
-        return md5($mt.$rand); // md5s look nicer than numbers
+        return md5($mt . $rand); // md5s look nicer than numbers
     }
 }
 
@@ -882,22 +881,22 @@ class OAuthServer
         $signature_method = $request->get_parameter("oauth_signature_method");
 
         if (!$signature_method) {
-			//Special LTI BEGIN
-			global $DefaultSignatureMethodPlaintext;
-			if ($DefaultSignatureMethodPlaintext == true) {
-				$signature_method = "PLAINTEXT";
-			} else {
-				// According to chapter 7 ("Accessing Protected Ressources") the signature-method
-				// parameter is required, and we can't just fallback to PLAINTEXT
-				throw new OAuthException('No signature method parameter. This parameter is required');
-			}
-			//Special LTI END
+            //Special LTI BEGIN
+            global $DefaultSignatureMethodPlaintext;
+            if ($DefaultSignatureMethodPlaintext == true) {
+                $signature_method = "PLAINTEXT";
+            } else {
+                // According to chapter 7 ("Accessing Protected Ressources") the signature-method
+                // parameter is required, and we can't just fallback to PLAINTEXT
+                throw new OAuthException('No signature method parameter. This parameter is required');
+            }
+            //Special LTI END
         }
 
         if (!in_array($signature_method, array_keys($this->signature_methods))) {
             throw new OAuthException(
-                "Signature method '$signature_method' not supported ".
-                "try one of the following: ".
+                "Signature method '$signature_method' not supported " .
+                "try one of the following: " .
                 implode(", ", array_keys($this->signature_methods))
             );
         }
@@ -944,7 +943,7 @@ class OAuthServer
         if (!empty($token_field)) {
             $token = $this->data_store->lookup_token($consumer, $token_type, $token_field);
             if (!$token) {
-                throw new OAuthException('Invalid '.$token_type.' token: '.$token_field);
+                throw new OAuthException('Invalid ' . $token_type . ' token: ' . $token_field);
             }
         } else {
             $token = new OAuthToken('', '');
@@ -972,7 +971,7 @@ class OAuthServer
         $this->checkTimestamp($timestamp);
         $this->checkNonce($consumer, $token, $nonce, $timestamp);
 
-        $signature_method = 'OAuthSignatureMethod_'.$this->getSignatureMethod($request);
+        $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
         /** @psalm-suppress InvalidStringClass */
         $method = new $signature_method;
 
@@ -1137,7 +1136,7 @@ class OAuthUtil
     {
         $params = [];
         if (preg_match_all(
-            '/('.($only_allow_oauth_parameters ? 'oauth_' : '').'[a-z_-]*)=(:?"([^"]*)"|([^,]*))/',
+            '/(' . ($only_allow_oauth_parameters ? 'oauth_' : '') . '[a-z_-]*)=(:?"([^"]*)"|([^,]*))/',
             $header,
             $matches
         )) {
@@ -1280,10 +1279,10 @@ class OAuthUtil
                 // June 12th, 2010 - changed to sort because of issue 164 by hidetaka
                 sort($value, SORT_STRING);
                 foreach ($value as $duplicate_value) {
-                    $pairs[] = $parameter.'='.$duplicate_value;
+                    $pairs[] = $parameter . '=' . $duplicate_value;
                 }
             } else {
-                $pairs[] = $parameter.'='.$value;
+                $pairs[] = $parameter . '=' . $value;
             }
         }
         // For each parameter, the name is separated from the corresponding value by an '=' character (ASCII code 61)

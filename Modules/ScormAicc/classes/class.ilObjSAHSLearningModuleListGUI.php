@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -60,18 +60,18 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     }
 
     /**
-    * Overwrite this method, if link target is not build by ctrl class
-    * (e.g. "lm_presentation.php", "forum.php"). This is the case
-    * for all links now, but bringing everything to ilCtrl should
-    * be realised in the future.
-    *
-    * @param	string		$a_cmd			command
-    *
-    */
+     * Overwrite this method, if link target is not build by ctrl class
+     * (e.g. "lm_presentation.php", "forum.php"). This is the case
+     * for all links now, but bringing everything to ilCtrl should
+     * be realised in the future.
+     * @param string $a_cmd command
+     * @return string
+     * @throws ilCtrlException
+     */
     public function getCommandLink($a_cmd) : string
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
         $cmd_link = null;
         switch ($a_cmd) {
             case "view":
@@ -97,49 +97,38 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
                 break;
         }
-
         return $cmd_link;
     }
 
 
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd) : string
-    {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-
-        switch ($a_cmd) {
-            case "view":
-                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-                if ($this->offline_mode) {
-                    $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                } else {
-                    $frame = "ilContObj" . $this->obj_id;
-                }
-                if ($sahs_obj->getEditable() == 1) {
-                    $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                }
-                break;
-
-            case "edit":
-//            case "editContent":
-            case "infoScreen":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            default:
-                $frame = "";
-                break;
-        }
-
-        return $frame;
-    }
+//    /**
+//    * Get command target frame
+//    *
+//    * @param	string		$a_cmd			command
+//    *
+//    * @return	string		command target frame
+//    */
+//    public function getCommandFrame($a_cmd) : string
+//    {
+//        switch ($a_cmd) {
+//            case "view":
+//                $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+//                $frame = "ilContObj" . $this->obj_id;
+//                break;
+//
+//            case "edit":
+    ////            case "editContent":
+//            case "infoScreen":
+//                $frame = ilFrameTargetInfo::_getFrame("MainContent");
+//                break;
+//
+//            default:
+//                $frame = "";
+//                break;
+//        }
+//
+//        return $frame;
+//    }
 
 
     /**
@@ -153,11 +142,11 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     public function getProperties() : array
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
+        $lng = $DIC->language();
+        $rbacsystem = $DIC->access();
         $props = parent::getProperties();
 
-        if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+        if ($rbacsystem->checkAccess("write", "", $this->ref_id)) {
             $props[] = array("alert" => false, "property" => $lng->txt("type"),
                 "value" => $lng->txt("sahs"));
         }

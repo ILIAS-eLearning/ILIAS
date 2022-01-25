@@ -851,8 +851,9 @@ class ilObjMediaObject extends ilObject
         $mobs = array();
         $mob_set = $ilDB->query($q);
         while ($mob_rec = $ilDB->fetchAssoc($mob_set)) {
-            if (ilObject::_lookupType($mob_rec["id"]) == "mob") {
-                $mobs[$mob_rec["id"]] = $mob_rec["id"];
+            $mob_id = (int) $mob_rec['id'];
+            if (ilObject::_lookupType($mob_id) === "mob") {
+                $mobs[$mob_id] = $mob_id;
             }
         }
 

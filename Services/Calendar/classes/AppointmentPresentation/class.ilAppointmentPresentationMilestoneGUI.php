@@ -1,14 +1,11 @@
 <?php declare(strict_types=1);
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
 /**
  * ilAppointmentPresentationMilestoneGUI class presents milestones information.
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
+ * @author            Jesús López Reyes <lopez@leifos.com>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationMilestoneGUI: ilCalendarAppointmentPresentationGUI
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {

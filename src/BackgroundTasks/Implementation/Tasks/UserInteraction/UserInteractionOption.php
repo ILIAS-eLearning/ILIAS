@@ -19,7 +19,6 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
  *****************************************************************************/
 class UserInteractionOption implements Option
 {
-    
     protected string $lang_var;
     /**
      * @var
@@ -34,7 +33,7 @@ class UserInteractionOption implements Option
     public function __construct($lang_var, $value)
     {
         $this->lang_var = $lang_var;
-        $this->value    = $value;
+        $this->value = $value;
     }
     
     /**

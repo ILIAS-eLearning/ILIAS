@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,16 +23,16 @@
 */
 class ilSCORMItem extends ilSCORMObject
 {
-    public $import_id;
-    public $identifierref;
-    public $isvisible;
-    public $parameters;
-    public $prereq_type;
-    public $prerequisites;
-    public $maxtimeallowed;
-    public $timelimitaction;
-    public $datafromlms;
-    public $masteryscore;
+    public string $import_id;
+    public string $identifierref;
+    public bool $isvisible;
+    public ?string $parameters = null;
+    public ?string $prereq_type = null;
+    public ?string $prerequisites = null;
+    public ?string $maxtimeallowed = null;
+    public ?string $timelimitaction = null;
+    public ?string $datafromlms = null;
+    public ?string $masteryscore = null;
 
     /**
     * Constructor
@@ -40,116 +40,189 @@ class ilSCORMItem extends ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         parent::__construct($a_id);
         $this->setType("sit");
     }
 
-    public function getImportId()
+    /**
+     * @return string
+     */
+    public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    public function setImportId($a_import_id): void
+    /**
+     * @param string $a_import_id
+     * @return void
+     */
+    public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
 
-    public function getIdentifierRef()
+    /**
+     * @return string
+     */
+    public function getIdentifierRef() : string
     {
         return $this->identifierref;
     }
 
-    public function setIdentifierRef($a_id_ref): void
+    /**
+     * @param string $a_id_ref
+     * @return void
+     */
+    public function setIdentifierRef(string $a_id_ref) : void
     {
         $this->identifierref = $a_id_ref;
     }
 
-    public function getVisible()
+    /**
+     * @return bool
+     */
+    public function getVisible() : bool
     {
         return $this->isvisible;
     }
 
-    public function setVisible($a_visible): void
+    /**
+     * @param bool $a_visible
+     * @return void
+     */
+    public function setVisible(bool $a_visible) : void
     {
         $this->isvisible = $a_visible;
     }
 
-    public function getParameters()
+    /**
+     * @return string|null
+     */
+    public function getParameters() : ?string
     {
         return $this->parameters;
     }
 
-    public function setParameters($a_par): void
+    /**
+     * @param string|null $a_par
+     * @return void
+     */
+    public function setParameters(?string $a_par) : void
     {
         $this->parameters = $a_par;
     }
 
-    public function getPrereqType()
+    /**
+     * @return string|null
+     */
+    public function getPrereqType() : ?string
     {
         return $this->prereq_type;
     }
 
-    public function setPrereqType($a_p_type): void
+    /**
+     * @param string|null $a_p_type
+     * @return void
+     */
+    public function setPrereqType(?string $a_p_type) : void
     {
         $this->prereq_type = $a_p_type;
     }
 
-    public function getPrerequisites()
+    /**
+     * @return string|null
+     */
+    public function getPrerequisites() : ?string
     {
         return $this->prerequisites;
     }
 
-    public function setPrerequisites($a_pre): void
+    /**
+     * @param string|null $a_pre
+     * @return void
+     */
+    public function setPrerequisites(?string $a_pre) : void
     {
         $this->prerequisites = $a_pre;
     }
 
-    public function getMaxTimeAllowed()
+    /**
+     * @return string|null
+     */
+    public function getMaxTimeAllowed() : ?string
     {
         return $this->maxtimeallowed;
     }
 
-    public function setMaxTimeAllowed($a_max): void
+    /**
+     * @param string|null $a_max
+     * @return void
+     */
+    public function setMaxTimeAllowed(?string $a_max) : void
     {
         $this->maxtimeallowed = $a_max;
     }
 
-    public function getTimeLimitAction()
+    /**
+     * @return string|null
+     */
+    public function getTimeLimitAction() : ?string
     {
         return $this->timelimitaction;
     }
 
-    public function setTimeLimitAction($a_lim_act): void
+    /**
+     * @param string|null $a_lim_act
+     * @return void
+     */
+    public function setTimeLimitAction(?string $a_lim_act) : void
     {
         $this->timelimitaction = $a_lim_act;
     }
 
-    public function getDataFromLms()
+    /**
+     * @return string|null
+     */
+    public function getDataFromLms() : ?string
     {
         return $this->datafromlms;
     }
 
-    public function setDataFromLms($a_data): void
+    /**
+     * @param string|null $a_data
+     * @return void
+     */
+    public function setDataFromLms(?string $a_data) : void
     {
         $this->datafromlms = $a_data;
     }
 
-    public function getMasteryScore()
+    /**
+     * @return string|null
+     */
+    public function getMasteryScore() : ?string
     {
         return $this->masteryscore;
     }
 
-    public function setMasteryScore($a_score): void
+    /**
+     * @param string|null $a_score
+     * @return void
+     */
+    public function setMasteryScore(?string $a_score) : void
     {
         $this->masteryscore = $a_score;
     }
 
-    public function read(): void
+    /**
+     * @return void
+     */
+    public function read() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::read();
 
@@ -176,10 +249,13 @@ class ilSCORMItem extends ilSCORMObject
         $this->setMasteryScore($obj_rec["masteryscore"]);
     }
 
-    public function create(): void
+    /**
+     * @return void
+     */
+    public function create() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         parent::create();
 
@@ -200,10 +276,13 @@ class ilSCORMItem extends ilSCORMObject
         ));
     }
 
-    public function update(): void
+    /**
+     * @return void
+     */
+    public function update() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         parent::update();
         
@@ -232,14 +311,13 @@ class ilSCORMItem extends ilSCORMObject
     /**
      * get tracking data of specified or current user
      *
-     *
      * @return array<int|string, mixed>
      */
-    public function getTrackingDataOfUser($a_user_id = 0): array
+    public function getTrackingDataOfUser(int $a_user_id = 0) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
@@ -264,13 +342,16 @@ class ilSCORMItem extends ilSCORMObject
     }
 
     /**
+     * @param int $a_item_id
+     * @param int $a_user_id
+     * @param int $a_obj_id
      * @return array<int|string, mixed>
      */
-    public static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0): array
+    public static function _lookupTrackingDataOfUser(int $a_item_id, int $a_user_id = 0, int $a_obj_id = 0) : array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
 
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
@@ -294,11 +375,14 @@ class ilSCORMItem extends ilSCORMObject
         return $trdata;
     }
 
-    public function delete(): void
+    /**
+     * @return void
+     */
+    public function delete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
 
         parent::delete();
 
@@ -318,18 +402,27 @@ class ilSCORMItem extends ilSCORMObject
         ilLPStatusWrapper::_refreshStatus($this->getSLMId());
     }
 
-    //function insertTrackData($a_lval, $a_rval, $a_ref_id)
-    public function insertTrackData($a_lval, $a_rval, $a_obj_id): void
+    /**
+     * @param string $a_lval
+     * @param string $a_rval
+     * @param int    $a_obj_id
+     * @return void
+     */
+    public function insertTrackData(string $a_lval, string $a_rval, int $a_obj_id) : void
     {
         //ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
         ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_obj_id);
     }
 
-    // Static
-    public static function _getItems($a_obj_id)
+    /**
+     * @param int $a_obj_id
+     * @return array
+     */
+    public static function _getItems(int $a_obj_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+        $item_ids = [];
 
         $res = $ilDB->queryF(
             '
@@ -342,13 +435,17 @@ class ilSCORMItem extends ilSCORMObject
         while ($row = $ilDB->fetchObject($res)) {
             $item_ids[] = $row->obj_id;
         }
-        return $item_ids ? $item_ids : array();
+        return $item_ids;
     }
 
-    public static function _lookupTitle($a_obj_id)
+    /**
+     * @param int $a_obj_id
+     * @return string
+     */
+    public static function _lookupTitle(int $a_obj_id) : string
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
             'SELECT title FROM scorm_object WHERE obj_id = %s',

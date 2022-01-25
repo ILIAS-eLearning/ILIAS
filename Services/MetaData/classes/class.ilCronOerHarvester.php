@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Cron job for definition for oer harvesting
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCronOerHarvester extends ilCronJob
 {
@@ -23,21 +21,14 @@ class ilCronOerHarvester extends ilCronJob
     private ilLogger $logger;
     private ilLanguage $lng;
 
-    /**
-     * @var null
-     */
-    private $settings = null;
+    private ilOerHarvesterSettings $settings;
 
-
-    /**
-     * ilOerHarvester constructor.
-     */
     public function __construct()
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->meta();
-        $this->lng = $DIC->language();
+        $this->lng    = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
         $this->settings = ilOerHarvesterSettings::getInstance();
@@ -105,7 +96,6 @@ class ilCronOerHarvester extends ilCronJob
         $target->setRequired(true);
         $a_form->addItem($target);
 
-
         // copyright selection
         $checkbox_group = new ilCheckboxGroupInputGUI(
             $this->lng->txt('meta_oer_copyright_selection'),
@@ -120,14 +110,13 @@ class ilCronOerHarvester extends ilCronJob
         foreach (ilMDCopyrightSelectionEntry::_getEntries() as $copyright_entry) {
             $copyright_checkox = new ilCheckboxOption(
                 $copyright_entry->getTitle(),
-                $copyright_entry->getEntryId(),
+                (string) $copyright_entry->getEntryId(),
                 $copyright_entry->getDescription()
             );
             $checkbox_group->addOption($copyright_checkox);
         }
         $a_form->addItem($checkbox_group);
     }
-
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
@@ -142,20 +131,20 @@ class ilCronOerHarvester extends ilCronJob
     {
         $this->logger->info('Started cron oer harvester.');
         $harvester = new ilOerHarvester(new ilCronJobResult());
-        $res = $harvester->run();
+        $res       = $harvester->run();
         $this->logger->info('cron oer harvester finished');
 
         return $res;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_META_COPYRIGHT:
 
                 $a_fields['meta_oer_harvester'] =
                     (
-                        $a_is_active ?
+                    $a_is_active ?
                         $this->lng->txt('enabled') :
                         $this->lng->txt('disabled')
                     );

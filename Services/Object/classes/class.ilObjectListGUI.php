@@ -1100,8 +1100,8 @@ class ilObjectListGUI
             $this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
         }
         $this->access_cache = array();
-        $this->ref_id = $a_ref_id;
-        $this->obj_id = $a_obj_id;
+        $this->ref_id = (int) $a_ref_id;
+        $this->obj_id = (int) $a_obj_id;
         $this->setTitle($a_title);
         $this->setDescription($a_description);
         #$this->description = $a_description;
@@ -2095,7 +2095,7 @@ class ilObjectListGUI
                 $a_href,
                 $a_img,
                 $a_text,
-                $a_frame,
+                (string) $a_frame,
                 "",
                 $prevent_background_click,
                 $a_onclick

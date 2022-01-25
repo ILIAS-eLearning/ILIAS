@@ -51,7 +51,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
                 break;
 
             case 'iluseractionadmingui':
-                $gui = new ilUserActionAdminGUI();
+                $gui = new ilUserActionAdminGUI($this->object->getRefId());
                 $gui->setActionContext(new ilGalleryUserActionContext());
                 $this->setSubTabs('settings', "actions");
                 $this->ctrl->forwardCommand($gui);
@@ -143,15 +143,19 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $form->addItem($sec);
 
         // member notification
-        $cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification'),
-            'mail_member_notification');
+        $cn = new ilCheckboxInputGUI(
+            $this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification'),
+            'mail_member_notification'
+        );
         $cn->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_member_notification_info'));
         $cn->setChecked((bool) $this->settings->get('mail_' . $this->getParentObjType() . '_member_notification', '1'));
         $form->addItem($cn);
 
         // default admin membership notification
-        $an = new ilCheckboxInputGUI($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification'),
-            'mail_admin_notification');
+        $an = new ilCheckboxInputGUI(
+            $this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification'),
+            'mail_admin_notification'
+        );
         $an->setInfo($this->lng->txt('mail_enable_' . $this->getParentObjType() . '_admin_notification_info'));
         $an->setChecked((bool) $this->settings->get('mail_' . $this->getParentObjType() . '_admin_notification', '1'));
         $form->addItem($an);

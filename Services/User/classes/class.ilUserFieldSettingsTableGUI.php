@@ -1,30 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilUserFieldSettingsTableGUI extends ilTable2GUI
 {
-    private $confirm_change = false;
+    private bool $confirm_change = false;
+    protected \ILIAS\User\StandardGUIRequest $user_request;
 
-    /**
-     * @var ilUserSettingsConfig
-     */
-    protected $user_settings_config;
+    protected ilUserSettingsConfig $user_settings_config;
 
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
@@ -52,7 +54,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->disable("footer");
         $this->setEnableTitle(true);
 
-        include_once("./Services/User/classes/class.ilUserProfile.php");
         $up = new ilUserProfile();
         $up->skipField("username");
         $fds = $up->getStandardFields();
@@ -61,11 +62,13 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         }
         $this->setData($fds);
         $this->addCommandButton("saveGlobalUserSettings", $lng->txt("save"));
+
+        $this->user_request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
 
-    /**
-    * Fill table row
-    */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -73,6 +76,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
         $ilSetting = $DIC['ilSetting'];
         $user_settings_config = $this->user_settings_config;
+        $req_checked = $this->user_request->getChecked();
 
         $field = $a_set["key"];
 
@@ -124,7 +128,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
 
                 if ($this->confirm_change == 1) {	// confirm value
-                    $checked = $_POST["chb"][$prop . "_" . $field];
+                    $checked = $req_checked[$prop . "_" . $field];
                 }
                 if (isset($a_set[$prop . "_fix_value"])) {	// fix values overwrite everything
                     $checked = $a_set[$prop . "_fix_value"];

@@ -43,7 +43,5 @@ class ilServicesUserSuite extends TestSuite
             }
         }
         return $suite;
-
-        return $suite;
     }
 }

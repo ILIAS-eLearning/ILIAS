@@ -19,6 +19,9 @@
  */
 class ilObjSCORMVerificationListGUI extends ilObjectListGUI
 {
+    /**
+     * @return void
+     */
     public function init() : void
     {
         $this->delete_enabled = true;
@@ -39,7 +42,7 @@ class ilObjSCORMVerificationListGUI extends ilObjectListGUI
     public function getProperties() : array
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
         return [
             [

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -37,16 +37,18 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
     /**
      * Set current user id
+     * @param int $a_usr_id
      */
-    public function setUserId(int $a_usr_id): void
+    public function setUserId(int $a_usr_id) : void
     {
         $this->user_id = $a_usr_id;
     }
@@ -54,15 +56,16 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
     /**
      * Get user id
      */
-    public function getUserId(): int
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
     /**
      * Set sco id
+     * @param int $a_sco_id
      */
-    public function setScoId(int $a_sco_id): void
+    public function setScoId(int $a_sco_id) : void
     {
         $this->sco = new ilSCORMItem($a_sco_id);
     }
@@ -71,7 +74,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
      * Get SCORM item
      * @return ilSCORMItem $sco
      */
-    public function getSco(): \ilSCORMItem
+    public function getSco() : \ilSCORMItem
     {
         return $this->sco;
     }
@@ -79,7 +82,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse(): void
+    public function parse() : void
     {
         $this->initTable();
 
@@ -103,7 +106,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->tpl->setVariable('VAR', $a_set['lvalue']);
         $this->tpl->setVariable('VAL', $a_set['rvalue']);
@@ -112,10 +115,10 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable(): void
+    protected function initTable() : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));

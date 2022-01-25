@@ -4,7 +4,6 @@
 
 /**
  * Base file handler class for appointment classes
- *
  * @author Alex Killing <killing@leifos.de>
  * @ingroup
  */
@@ -17,7 +16,6 @@ class ilAppointmentBaseFileHandler
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
 
-
     public function __construct(array $a_appointment)
     {
         global $DIC;
@@ -28,8 +26,6 @@ class ilAppointmentBaseFileHandler
         $this->logger = $DIC->logger()->cal();
         $this->appointment = $a_appointment;
     }
-
-
 
     public function getCatId(int $a_entry_id) : int
     {
@@ -72,7 +68,8 @@ class ilAppointmentBaseFileHandler
                 break;
 
             case ilCalendarCategory::TYPE_GLOBAL:
-                if ($this->rbacsystem->checkAccess('edit_event', ilCalendarSettings::_getInstance()->getCalendarSettingsId())) {
+                if ($this->rbacsystem->checkAccess('edit_event',
+                    ilCalendarSettings::_getInstance()->getCalendarSettingsId())) {
                     $cat_info["editable"] = true;
                 }
                 break;

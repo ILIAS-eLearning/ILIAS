@@ -43,7 +43,6 @@ class ilUserActionContextFactory
             $dir = (isset($p["dir"]))
                 ? $p["dir"]
                 : "classes";
-            include_once("./" . $p["component"] . "/" . $dir . "/class." . $p["class"] . ".php");
             $contexts[] = new $p["class"]();
         }
 

@@ -31,7 +31,6 @@ class ilObjForumAdministrationTest extends TestCase
 
         $DIC['ilias'] = null; // not used just added received
         $DIC['ilDB'] = $this->getMockBuilder(\ilDBInterface::class)->getMock();
-        // $DIC['ilUser'] = $this->getMockBuilder(\ilObjUser::class)->disableOriginalConstructor()->getMock();
         $DIC['ilErr'] = null;
         $DIC['tree'] = $this->getMockBuilder(\ilTree::class)->disableOriginalConstructor()->getMock();
         $DIC['ilLog'] = null;

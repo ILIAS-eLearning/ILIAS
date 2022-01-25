@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -37,16 +37,18 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
     /**
      * Set sco id
+     * @param int $a_sco_id
      */
-    public function setScoId(int $a_sco_id): void
+    public function setScoId(int $a_sco_id) : void
     {
         $this->sco = new ilSCORMItem($a_sco_id);
     }
@@ -55,7 +57,7 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
      * Get sco
      * @return ilSCORMItem $sco
      */
-    public function getSco(): \ilSCORMItem
+    public function getSco() : \ilSCORMItem
     {
         return $this->sco;
     }
@@ -63,7 +65,7 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse(): void
+    public function parse() : void
     {
         $this->initTable();
 
@@ -91,7 +93,7 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $ilCtrl->setParameter($this->getParentObject(), 'user_id', $a_set['user_id']);
         $ilCtrl->setParameter($this->getParentObject(), 'obj_id', $this->getSco()->getId());
@@ -106,10 +108,10 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable(): void
+    protected function initTable() : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));

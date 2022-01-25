@@ -2,14 +2,13 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Consultation hour appointments
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ServicesCalendar
-*/
+ * Consultation hour appointments
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilConsultationHourAppointments
 {
-    
+
     /**
      * @return int[]
      */
@@ -19,8 +18,7 @@ class ilConsultationHourAppointments
         ?ilDateTime $a_start = null,
         ?int $a_type = null,
         bool $a_check_owner = true
-    ) : array
-    {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -41,7 +39,6 @@ class ilConsultationHourAppointments
             $owner .
             " AND cc.type = " . $ilDB->quote($a_type, 'integer');
 
-        
         if ($a_context_id) {
             $query .= " AND ce.context_id = " . $ilDB->quote($a_context_id, 'integer');
         }
@@ -56,16 +53,17 @@ class ilConsultationHourAppointments
         }
         return $entries;
     }
-    
-    
+
     /**
      * Get appointment ids by consultation hour group
      * @return int[]
      * @todo check start time
      */
     public static function getAppointmentIdsByGroup(
-        int $a_user_id, int $a_ch_group_id, ?ilDateTime $start = null) : array
-    {
+        int $a_user_id,
+        int $a_ch_group_id,
+        ?ilDateTime $start = null
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -75,14 +73,14 @@ class ilConsultationHourAppointments
             $start_limit = 'AND ce.starta >= ' . $ilDB->quote($start->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp');
         }
         $query = 'SELECT ce.cal_id FROM cal_entries ce ' .
-                'JOIN cal_cat_assignments ca ON ce.cal_id = ca.cal_id ' .
-                'JOIN cal_categories cc ON ca.cat_id = cc.cat_id ' .
-                'JOIN booking_entry be ON ce.context_id = be.booking_id ' .
-                'WHERE cc.obj_id = ' . $ilDB->quote($a_user_id, 'integer') . ' ' .
-                'AND cc.type = ' . $ilDB->quote($type, 'integer') . ' ' .
-                'AND be.booking_group = ' . $ilDB->quote($a_ch_group_id, 'integer') . ' ' .
-                $start_limit . ' ' .
-                'ORDER BY ce.starta ';
+            'JOIN cal_cat_assignments ca ON ce.cal_id = ca.cal_id ' .
+            'JOIN cal_categories cc ON ca.cat_id = cc.cat_id ' .
+            'JOIN booking_entry be ON ce.context_id = be.booking_id ' .
+            'WHERE cc.obj_id = ' . $ilDB->quote($a_user_id, 'integer') . ' ' .
+            'AND cc.type = ' . $ilDB->quote($type, 'integer') . ' ' .
+            'AND be.booking_group = ' . $ilDB->quote($a_ch_group_id, 'integer') . ' ' .
+            $start_limit . ' ' .
+            'ORDER BY ce.starta ';
         $res = $ilDB->query($query);
         $app_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -90,7 +88,7 @@ class ilConsultationHourAppointments
         }
         return $app_ids;
     }
-    
+
     /**
      * Get all appointments
      * @return ilCalendarEntry[]
@@ -106,7 +104,7 @@ class ilConsultationHourAppointments
 
     /**
      * Get consultation hour manager for current user or specific user.
-     * @return	int | string
+     * @return    int | string
      */
     public static function getManager(bool $a_as_name = false, bool $a_full_name = false, int $a_user_id = null)
     {
@@ -120,7 +118,7 @@ class ilConsultationHourAppointments
         } else {
             $user_id = $a_user_id;
         }
-        
+
         $set = $ilDB->query('SELECT admin_id FROM cal_ch_settings' .
             ' WHERE user_id = ' . $ilDB->quote($user_id, 'integer'));
         $row = $ilDB->fetchAssoc($set);
@@ -156,12 +154,12 @@ class ilConsultationHourAppointments
         }
 
         $ilDB->manipulate('DELETE FROM cal_ch_settings' .
-                ' WHERE user_id = ' . $ilDB->quote($ilUser->getId(), 'integer'));
-        
+            ' WHERE user_id = ' . $ilDB->quote($ilUser->getId(), 'integer'));
+
         if ($user_id && $user_id != $ilUser->getId()) {
             $ilDB->manipulate('INSERT INTO cal_ch_settings (user_id, admin_id)' .
-                    ' VALUES (' . $ilDB->quote($ilUser->getId(), 'integer') . ',' .
-                    $ilDB->quote($user_id, 'integer') . ')');
+                ' VALUES (' . $ilDB->quote($ilUser->getId(), 'integer') . ',' .
+                $ilDB->quote($user_id, 'integer') . ')');
         }
         return true;
     }

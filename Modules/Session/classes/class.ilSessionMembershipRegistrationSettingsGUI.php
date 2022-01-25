@@ -1,7 +1,21 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Membership/classes/class.ilMembershipRegistrationSettingsGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * Registration settings
@@ -14,16 +28,10 @@ include_once './Services/Membership/classes/class.ilMembershipRegistrationSettin
 */
 class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistrationSettingsGUI
 {
-    /**
-     * Overwitten to load language module
-     * @param \ilObjectGUI $gui_object
-     * @param \ilObject $object
-     * @param type $a_options
-     */
-    public function __construct(ilObjectGUI $gui_object, ilObject $object, $a_options)
+    public function __construct(ilObjectGUI $gui_object, ilObject $object, array $a_options)
     {
         parent::__construct($gui_object, $object, $a_options);
-        $GLOBALS['DIC']['lng']->loadLanguageModule('sess');
+        $this->lng->loadLanguageModule('sess');
     }
     
     public function setFormValues(ilPropertyFormGUI $form) : void

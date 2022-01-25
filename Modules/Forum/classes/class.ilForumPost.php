@@ -147,7 +147,7 @@ class ilForumPost
                 $this->rgt = (int) $row->rgt;
                 $this->depth = (int) $row->depth;
                 $this->pos_author_id = (int) $row->pos_author_id;
-                $this->is_author_moderator = $row->is_author_moderator;
+                $this->is_author_moderator = (bool) $row->is_author_moderator;
                 $this->post_activation_date = $row->pos_activation_date;
 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
@@ -567,7 +567,7 @@ class ilForumPost
         $this->censored_date = $censored_date;
     }
 
-    public function assignData($row) : void
+    public function assignData(array $row) : void
     {
         $this->setUserAlias((string) $row['pos_usr_alias']);
         $this->setSubject((string) $row['pos_subject']);
@@ -591,7 +591,7 @@ class ilForumPost
         $this->setIsRead((bool) (isset($row['post_read']) && (int) $row['post_read'] ?? 1));
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
-        $this->setIsAuthorModerator($row['is_author_moderator']);
+        $this->setIsAuthorModerator((bool) $row['is_author_moderator']);
     }
 
     /**

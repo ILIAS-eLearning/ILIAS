@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilSCORM2004Objective
  *
@@ -15,16 +26,19 @@ class ilSCORM2004Objective extends ilSCORM2004Item
     //db fields
     
     private $node = null;
+    /**
+     * @var null
+     */
     private $id = null;  //userd as ID
     private $objectiveID = null; //used as title
     
     //not supported in GUI yet
-    private $minNormalizedMeasure = 1.0;
-    private $primary = true;
-    private $satisfiedByMeasure = false;
+    private float $minNormalizedMeasure = 1.0;
+    private bool $primary = true;
+    private bool $satisfiedByMeasure = false;
     
     //mappings
-    private $mappings = array();
+    private array $mappings = array();
     
     /**
     * Constructor
@@ -72,7 +86,7 @@ class ilSCORM2004Objective extends ilSCORM2004Item
         return $this->node->getAttribute("title");
     }
     
-    public function getPrimary()
+    public function getPrimary() : bool
     {
         return $this->primary;
     }
@@ -82,7 +96,10 @@ class ilSCORM2004Objective extends ilSCORM2004Item
         return $this->node->getAttribute("satisfiedByMeasure");
     }
     
-    public function getMappings()
+    /**
+     * @return mixed[]
+     */
+    public function getMappings() : array
     {
         return $this->mappings;
     }
@@ -91,48 +108,51 @@ class ilSCORM2004Objective extends ilSCORM2004Item
     // Setter METHODS
     // **********************
 
-    public function setSeqNodeId($a_seqnodeid)
+    public function setSeqNodeId($a_seqnodeid) : void
     {
         $this->seqNodeId = $a_seqnodeid;
     }
     
-    public function setId($a_id)
+    public function setId($a_id) : void
     {
         $this->node->setAttribute("objectiveID", $a_id);
     }
     
     
-    public function setMinNormalizedMeasure($a_minmeasure)
+    public function setMinNormalizedMeasure($a_minmeasure) : void
     {
         $this->node->setAttribute("minNormalizedMeasure", $a_minmeasure);
     }
     
-    public function setObjectiveID($a_objectiveid)
+    public function setObjectiveID($a_objectiveid) : void
     {
         $this->node->setAttribute("title", $a_objectiveid);
     }
     
-    public function setPrimary($a_primary)
+    public function setPrimary(bool $a_primary) : void
     {
         $this->primary = $a_primary;
     }
     
-    public function setSatisfiedByMeasure($a_satisfied)
+    public function setSatisfiedByMeasure($a_satisfied) : void
     {
         $this->node->setAttribute("satisfiedByMeasure", $a_satisfied);
     }
     
-    public function setMappings($a_mappings)
+    /**
+     * @param mixed[] $a_mappings
+     */
+    public function setMappings(array $a_mappings) : void
     {
         $this->mappings = $a_mappings;
     }
     
-    public function setNode($a_node)
+    public function setNode($a_node) : void
     {
         $this->node = $a_node;
     }
     
-    public function setDom($a_dom)
+    public function setDom($a_dom) : void
     {
         $this->dom = $a_dom;
     }
@@ -142,12 +162,15 @@ class ilSCORM2004Objective extends ilSCORM2004Item
     // **********************
 
     
-    public function updateObjective()
+    public function updateObjective() : void
     {
         parent::update();
     }
     
-    public static function fetchAllObjectives($a_slm_object, $a_tree_node_id)
+    /**
+     * @return \ilSCORM2004Objective[]
+     */
+    public static function fetchAllObjectives($a_slm_object, $a_tree_node_id) : array
     {
         global $DIC;
 
