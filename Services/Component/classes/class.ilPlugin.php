@@ -237,7 +237,6 @@ abstract class ilPlugin
             return false;
         }
 
-
         $this->component_repository->setActivation($this->getId(), true);
         $this->afterActivation();
 

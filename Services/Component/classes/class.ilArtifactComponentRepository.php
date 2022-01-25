@@ -259,7 +259,7 @@ class ilArtifactComponentRepository implements ilComponentRepositoryWrite
     public function setCurrentPluginVersion(string $plugin_id, Data\Version $version, int $db_version)
     {
         $plugin = $this->getPluginById($plugin_id);
-        if ($plugin->getCurrentVersion() !== null && $plugin->getCurrentVersion()->isGreaterThanOrEquals($version)) {
+        if ($plugin->getCurrentVersion() !== null && $plugin->getCurrentVersion()->isGreaterThan($version)) {
             throw new \RuntimeException(
                 "Cannot upgrade plugins version from $version to {$plugin->getCurrentVersion()}"
             );
