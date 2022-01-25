@@ -317,18 +317,20 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         
         if (!$this->has_schedule) {
             $cnt = 0;
-            foreach ($this->reservations[$a_set["booking_object_id"]] as $item) {
-                if ($item["status"] != ilBookingReservation::STATUS_CANCELLED) {
-                    $cnt++;
-                
-                    if ($item["user_id"] == $ilUser->getId()) {
-                        $has_booking = true;
+            if (isset($this->reservations[$a_set["booking_object_id"]])) {
+                foreach ($this->reservations[$a_set["booking_object_id"]] as $item) {
+                    if ($item["status"] != ilBookingReservation::STATUS_CANCELLED) {
+                        $cnt++;
+
+                        if ($item["user_id"] == $ilUser->getId()) {
+                            $has_booking = true;
+                        }
+
+                        $has_reservations = true;
                     }
-                    
-                    $has_reservations = true;
                 }
             }
-            
+
             $this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"] - $cnt);
             $this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]);
 
@@ -342,10 +344,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $assign_possible = false;
             }
         } elseif (!$this->may_edit) {
-            foreach ($this->reservations[$a_set["booking_object_id"]] as $item) {
-                if ($item["status"] != ilBookingReservation::STATUS_CANCELLED &&
-                    $item["user_id"] == $ilUser->getId()) {
-                    $has_booking = true;
+            if (isset($this->reservations[$a_set["booking_object_id"]])) {
+                foreach ($this->reservations[$a_set["booking_object_id"]] as $item) {
+                    if ($item["user_id"] == $ilUser->getId()) {
+                        $has_booking = true;
+                    }
                 }
             }
         }
