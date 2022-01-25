@@ -237,8 +237,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.checkbox.html", true, true);
         $this->applyName($component, $tpl);
 
-        if ($component->getValue()) {
-            $tpl->touchBlock("value");
+        $checked = $component->getValue();
+        if (null !== $checked && false !== $checked) {
+            $tpl->touchBlock('value');
         }
 
         $this->maybeDisable($component, $tpl);

@@ -60,6 +60,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         <div class="form-group row">
            <label for="id_1" class="control-label col-sm-3">label</label>
            <div class="col-sm-9">
+              <input type="hidden" id="id_1_hidden" name="name_0" value="unchecked"/>
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
               <div class="help-block">byline</div>
            </div>
@@ -83,6 +84,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
            <label for="id_1" class="control-label col-sm-3">label</label>
            <div class="col-sm-9">
               <div class="help-block alert alert-danger" role="alert">an_error</div>
+              <input type="hidden" id="id_1_hidden" name="name_0" value="unchecked"/>
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
               <div class="help-block">byline</div>
            </div>
@@ -105,6 +107,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         <div class="form-group row">
            <label for="id_1" class="control-label col-sm-3">label</label>
            <div class="col-sm-9">
+           <input type="hidden" id="id_1_hidden" name="name_0" value="unchecked"/>
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm" />
            </div>
         </div>
@@ -125,6 +128,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
             <div class="form-group row">
                <label for="id_1" class="control-label col-sm-3">label</label>
                <div class="col-sm-9">
+                  <input type="hidden" id="id_1_hidden" name="name_0" value="unchecked"/>
                   <input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="form-control form-control-sm" />
                </div>
             </div>
@@ -157,7 +161,10 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
-           <div class="col-sm-9"><input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/></div>
+           <div class="col-sm-9">
+               <input type="hidden" id="id_1_hidden" name="name_0" value="unchecked"/>
+               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
+           </div>
         </div>
         ');
 
@@ -176,7 +183,10 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
                <label for="id_1" class="control-label col-sm-3">label</label>
-               <div class="col-sm-9"><input type="checkbox" id="id_1" value="checked" name="name_0" disabled="disabled" class="form-control form-control-sm"/></div>
+               <div class="col-sm-9">
+                   <input type="hidden" id="id_1_hidden" name="name_0" value="unchecked"/>
+                   <input type="checkbox" id="id_1" value="checked" name="name_0" disabled="disabled" class="form-control form-control-sm"/>
+               </div>
             </div>
         ');
 
