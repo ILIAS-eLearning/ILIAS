@@ -696,7 +696,7 @@ class ilObjPoll extends ilObject2
             " FROM il_poll_vote" .
             " WHERE poll_id = " . $this->db->quote($this->getId(), "integer") .
             " AND user_id = " . $this->db->quote($a_user_id, "integer");
-        $this->db->setLimit(1);
+        $this->db->setLimit(1, 0);
         $set = $this->db->query($sql);
         return (bool) $this->db->numRows($set);
     }

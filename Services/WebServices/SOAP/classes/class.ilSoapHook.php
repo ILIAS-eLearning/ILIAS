@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilSoapHook
@@ -8,9 +8,6 @@ class ilSoapHook
 {
     protected ilComponentFactory $component_factory;
 
-    /**
-     * @param ilPluginAdmin $plugin_admin
-     */
     public function __construct(ilComponentFactory $component_factory)
     {
         $this->component_factory = $component_factory;
@@ -63,11 +60,12 @@ class ilSoapHook
      * @param string $name
      * @return ilSoapMethod|null
      */
-    public function getMethodByName($name)
+    public function getMethodByName(string $name) : ?ilSoapMethod
     {
-        return array_pop(array_filter($this->getSoapMethods(), function ($method) use ($name) {
+        $array = array_filter($this->getSoapMethods(), function ($method) use ($name) {
             /** @var ilSoapMethod $method */
             return ($method->getName() == $name);
-        }));
+        });
+        return array_pop($array);
     }
 }
