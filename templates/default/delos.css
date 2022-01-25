@@ -1284,7 +1284,7 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 1.75rem;
+  font-size: 2.25rem;
 }
 h2,
 .h2 {
@@ -2736,7 +2736,7 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 9rem;
+  height: 1.5rem;
   padding: 3px 8px;
   font-size: 0.875rem;
   line-height: 1.42857143;
@@ -2789,7 +2789,7 @@ textarea.form-control {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 9rem;
+    line-height: 1.5rem;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2958,7 +2958,7 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 11.25rem;
+  padding-right: 1.875rem;
 }
 .form-control-feedback {
   position: absolute;
@@ -2966,9 +2966,9 @@ select[multiple].input-lg {
   right: 0;
   z-index: 2;
   display: block;
-  width: 9rem;
-  height: 9rem;
-  line-height: 9rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
   text-align: center;
   pointer-events: none;
 }
@@ -4527,8 +4527,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 15.5px;
-  margin-bottom: 15.5px;
+  margin-top: 19.25px;
+  margin-bottom: 19.25px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -4613,8 +4613,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 15.5px;
-  margin-bottom: 15.5px;
+  margin-top: 19.25px;
+  margin-bottom: 19.25px;
 }
 .navbar-btn.btn-sm {
   margin-top: 15.5px;
@@ -8262,7 +8262,7 @@ ul.dropdown-menu > li > .btn:focus {
   padding-left: 0px;
 }
 .il-standard-form textarea {
-  height: 13rem;
+  height: 5.5rem;
 }
 .il-filter .col-md-4,
 .il-filter .col-md-6 {
@@ -12303,7 +12303,7 @@ a.il_ContainerItemCommand2:link,
 a.il_ContainerItemCommand2:visited,
 a.il_ContainerItemCommand:link,
 a.il_ContainerItemCommand:visited {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   text-decoration: none;
   margin: 0 3px 0 0;
   white-space: nowrap;
@@ -12408,7 +12408,7 @@ div.il_info {
 a#il_mhead_t_focus {
   color: #3b5620;
   vertical-align: middle;
-  font-size: 1.75rem;
+  font-size: 2.25rem;
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
@@ -12420,7 +12420,7 @@ a#il_mhead_t_focus[href] {
   cursor: pointer;
 }
 h1.ilHeader {
-  padding: 10px 0 0;
+  padding-top: 3px;
 }
 @media only screen and (max-width: 768px) {
   h1.ilHeader {
@@ -13081,7 +13081,6 @@ select {
   font-size: 0.875rem;
   color: #161616;
   border: 1px solid #A8A8A8;
-  height: 1.5625rem;
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -13146,9 +13145,10 @@ select.form-control {
 .form-horizontal .checkbox-inline {
   padding-top: 0;
   line-height: normal;
+  min-height: 1rem;
 }
 .form-horizontal div.radio label.radio-inline {
-  line-height: 9rem;
+  line-height: 1.5rem;
 }
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
