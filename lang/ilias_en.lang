@@ -16708,3 +16708,15 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet.
 ui#:#duration_default_label_start#:#start
 ui#:#duration_default_label_end#:#end
 exc#:#exc_fullscreen#:#Fullscreen
+cmps#:#cmps_responsible_mail#:#Mail (Responsible)
+cmps#:#cmps_supports_learning_progress#:#Supports learning progress
+cmps#:#cmps_supports_export#:#Supports export
+cmps#:#cmps_supports_cli_setup#:#Supports CLI-Setup
+cmps#:#cmps_is_installed#:#Installed
+cmps#:#cmps_is_active#:#Activated
+cmps#:#cmps_current_db_version#:#Current DB-Version
+cmps#:#cmps_detailed_information#:#Detailed Informationen
+cmps#:#cmps_available_version#:#Available Version
+cmps#:#cmps_refresh_lng#:#Refresh language
+cmps#:#cmps_plugin_deinstalled#:#The plugin has been uninstalled
+cmps#:#cmps_plugin_updated#:#The plugin has been updated

@@ -318,17 +318,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     public function jumpToPluginSlot() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $this->request->getCType());
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $this->request->getCName());
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $this->request->getSlotId());
-        
-        if ($this->request->getPluginId()) {
-            $ilCtrl->setParameter($this, "plugin_id", $this->request->getPluginId());
-            $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPlugin");
-        } else {
-            $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
-        }
+        $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
     }
 
     // Jump to node

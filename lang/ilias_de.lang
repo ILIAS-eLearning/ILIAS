@@ -16737,3 +16737,15 @@ skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewäh
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_default_label_end#:#Ende
 exc#:#exc_fullscreen#:#Vollbild
+cmps#:#cmps_responsible_mail#:#Mail (Verantwortlicher)
+cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
+cmps#:#cmps_supports_export#:#Unterstüzt Export
+cmps#:#cmps_supports_cli_setup#:#Unterstüzt CLI-Setup
+cmps#:#cmps_is_installed#:#Installiert
+cmps#:#cmps_is_active#:#Aktiviert
+cmps#:#cmps_current_db_version#:#Aktuelle DB-Version
+cmps#:#cmps_detailed_information#:#Detaillierte Informationen
+cmps#:#cmps_available_version#:#Verfügbare Version
+cmps#:#cmps_refresh_lng#:#Sprache aktualisiert
+cmps#:#cmps_plugin_deinstalled#:#Das Plugin wurde deinstalliert
+cmps#:#cmps_plugin_updated#:#Das Plugin wurde aktualisiert

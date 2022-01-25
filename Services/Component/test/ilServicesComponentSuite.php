@@ -32,6 +32,10 @@ class ilServicesComponentSuite extends TestSuite
 
         require_once("./Services/Component/test/ilPluginStateDBOverIlDBInterfaceTest.php");
         $suite->addTestSuite(ilPluginStateDBOverIlDBInterfaceTest::class);
+
+        require_once("./Services/Component/test/Settings/ilPluginsOverviewTableTest.php");
+        $suite->addTestSuite(ilPluginsOverviewTableTest::class);
+
         return $suite;
     }
 }

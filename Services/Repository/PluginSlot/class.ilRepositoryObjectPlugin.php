@@ -26,9 +26,9 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     public function __construct()
     {
         global $DIC;
-        parent::__construct();
-
         $this->db = $DIC->database();
+        parent::__construct($this->db, $DIC["component.repository"], "xtst");
+
     }
 
     /**
