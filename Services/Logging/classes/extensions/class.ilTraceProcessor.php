@@ -14,7 +14,7 @@
  */
 class ilTraceProcessor
 {
-    private $level = 0;
+    private int $level = 0;
     
     public function __construct($a_level)
     {

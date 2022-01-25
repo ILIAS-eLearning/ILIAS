@@ -11,6 +11,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
+use ILIAS\DI\Container;
 
 /**
  * Logging factory
@@ -20,21 +21,30 @@ use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
  */
 class ilLoggerFactory
 {
-    const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+    protected const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
     
-    const ROOT_LOGGER = 'root';
-    const COMPONENT_ROOT = 'log_root';
-    const SETUP_LOGGER = 'setup';
+    protected const ROOT_LOGGER = 'root';
+    protected const COMPONENT_ROOT = 'log_root';
+    protected const SETUP_LOGGER = 'setup';
     
-    private static $instance = null;
+    private static ?ilLoggerFactory $instance = null;
     
-    private $settings = null;
+    private ilLoggingSettings $settings;
+    protected ilObjUser $user;
+    protected Container $dic;
     
-    private $enabled = false;
-    private $loggers = array();
+    private bool $enabled;
+    /**
+     * @var array<string, ilComponentLogger>
+     */
+    private array $loggers = array();
     
     protected function __construct(ilLoggingSettings $settings)
     {
+        global $DIC;
+
+        $this->dic = $DIC;
+        $this->user = $DIC->user();
         $this->settings = $settings;
         $this->enabled = $this->getSettings()->isEnabled();
     }
@@ -212,10 +222,10 @@ class ilLoggerFactory
         }
 
         if (
-            $GLOBALS['DIC']->offsetExists('ilUser') &&
-            $GLOBALS['DIC']['ilUser'] instanceof ilObjUser
+            $this->dic->offsetExists('ilUser') &&
+            $this->user instanceof ilObjUser
         ) {
-            if ($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['DIC']->user()->getLogin())) {
+            if ($this->getSettings()->isBrowserLogEnabledForUser($this->user->getLogin())) {
                 if ($this->isConsoleAvailable()) {
                     $browser_handler = new BrowserConsoleHandler();
                     #$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));

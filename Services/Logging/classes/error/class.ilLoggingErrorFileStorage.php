@@ -3,6 +3,7 @@
 require_once './libs/composer/vendor/autoload.php';
 
 use Whoops\Exception\Formatter;
+use Whoops\Exception\Inspector;
 
 /**
  * Saves error informations into file
@@ -11,8 +12,13 @@ use Whoops\Exception\Formatter;
  */
 class ilLoggingErrorFileStorage
 {
-    const KEY_SPACE = 25;
-    const FILE_FORMAT = ".log";
+    protected const KEY_SPACE = 25;
+    protected const FILE_FORMAT = ".log";
+
+    protected Inspector $inspector;
+    protected string $file_path;
+    protected string $file_name;
+
 
     public function __construct($inspector, $file_path, $file_name)
     {

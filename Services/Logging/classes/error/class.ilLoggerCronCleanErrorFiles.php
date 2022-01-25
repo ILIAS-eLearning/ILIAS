@@ -12,15 +12,17 @@ require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 class ilLoggerCronCleanErrorFiles extends ilCronJob
 {
-    const DEFAULT_VALUE_OLDER_THAN = 31;
+    protected const DEFAULT_VALUE_OLDER_THAN = 31;
+
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilLoggingErrorSettings $error_settings;
 
     public function __construct()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("logging");
         $this->settings = new ilSetting('log');
         $this->error_settings = ilLoggingErrorSettings::getInstance();

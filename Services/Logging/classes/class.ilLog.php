@@ -20,36 +20,35 @@ class ilLog
 
     /**
     * logfile
-    * @var		string
-    * @access	private
     */
-    public $path;
-    public $filename;
-    public $tag;
-    public $log_format;
+    private string $path;
+    private string $filename;
+    private string $tag;
+    private string $log_format;
  
     /**
     * Log level 10: Log only fatal errors that could lead to serious problems
-    * @var		integer
-    * @access	public
     */
-    public $FATAL;
+    private int $FATAL;
 
     /**
     * Log level 20: This is the standard log level that is set if no level is given
-    * @var		integer
-    * @access	public
     */
-    public $WARNING;
+    private int $WARNING;
 
     /**
     * Log level 30: Logs messages and notices that are less important for system functionality like not translated language values
-    * @var		integer
-    * @access	public
     */
-    public $MESSAGE;
-    
-    public $fp = false;
+    private int $MESSAGE;
+
+    /**
+     * @var null|resource
+     */
+    private $fp = null;
+
+    protected int $default_log_level;
+    protected int $current_log_level;
+    protected bool $enabled;
 
     /**
     * constructor

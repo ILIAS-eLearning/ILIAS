@@ -6,20 +6,11 @@ use ILIAS\Setup;
 
 class ilLoggingSetupConfig implements Setup\Config
 {
-    /**
-     * @var bool
-     */
-    protected $enabled;
+    protected bool $enabled;
 
-    /**
-     * @var string|null
-     */
-    protected $path_to_logfile;
-
-    /**
-     * @var string|null
-     */
-    protected $path_to_errorlogfiles;
+    protected ?string $path_to_logfile;
+    protected ?string $path_to_errorlogfiles;
+    protected ?string $errorlog_dir;
 
     public function __construct(
         bool $enabled,

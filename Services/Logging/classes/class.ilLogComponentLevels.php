@@ -14,14 +14,21 @@ include_once './Services/Logging/classes/class.ilLogComponentLevel.php';
  */
 class ilLogComponentLevels
 {
-    protected static $instance = null;
-    protected $components = array();
+    protected static ?ilLogComponentLevels $instance = null;
+    /**
+     * @var ilLogComponentLevel[]
+     */
+    protected array $components = array();
+    protected ilDBInterface $db;
     
     /**
      * constructor
      */
     protected function __construct()
     {
+        global $DIC;
+        $this->db = $DIC->database();
+
         $this->read();
     }
     
@@ -46,7 +53,7 @@ class ilLogComponentLevels
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         if (!$a_component_id) {
             return false;
@@ -76,12 +83,9 @@ class ilLogComponentLevels
     
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $query = 'SELECT * FROM log_components ';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         
         $this->components = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

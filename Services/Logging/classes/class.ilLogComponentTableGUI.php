@@ -14,9 +14,9 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilLogComponentTableGUI extends ilTable2GUI
 {
-    protected $settings = null;
+    protected ?ilLoggingDBSettings $settings = null;
     
-    protected $editable = true;
+    protected bool $editable = true;
 
 
 
@@ -50,11 +50,8 @@ class ilLogComponentTableGUI extends ilTable2GUI
      */
     public function init()
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
         
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         
         $this->settings = ilLoggingDBSettings::getInstance();
         
@@ -129,12 +126,12 @@ class ilLogComponentTableGUI extends ilTable2GUI
         
         ilLoggerFactory::getLogger('log')->debug('Component Id : ' . $a_set['component_id']);
         if ($a_set['id'] == 'log_root') {
-            $this->tpl->setVariable('TXT_DESC', $GLOBALS['DIC']['lng']->txt('log_component_root_desc'));
+            $this->tpl->setVariable('TXT_DESC', $this->lng->txt('log_component_root_desc'));
         }
 
         $default_option_value = ilLoggingDBSettings::getInstance()->getLevel();
         $array_options = ilLogLevel::getLevelOptions();
-        $default_option = array( 0 => $GLOBALS['DIC']['lng']->txt('default') . " (" . $array_options[$default_option_value] . ")");
+        $default_option = array( 0 => $this->lng->txt('default') . " (" . $array_options[$default_option_value] . ")");
         $array_options = $default_option + $array_options;
 
         include_once './Services/Form/classes/class.ilSelectInputGUI.php';
