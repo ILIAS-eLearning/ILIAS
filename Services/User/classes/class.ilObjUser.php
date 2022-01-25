@@ -33,7 +33,7 @@ class ilObjUser extends ilObject
     protected ?int $time_limit_owner = null;
     protected string $last_login;
 
-    public string $login;
+    public string $login = '';
     protected string $passwd; // password encoded in the format specified by $passwd_type
     protected string $passwd_type;
     // specifies the password format.
