@@ -102,7 +102,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-3">label</label>
       <div class="col-sm-9">
-         <input id="id_1" type="text" name="form_input_0" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -153,7 +153,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-3">label</label>
       <div class="col-sm-9">
-         <input id="id_1" type="text" name="form_input_0" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -186,7 +186,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-3">label</label>
       <div class="col-sm-9">
-         <input id="id_1" type="text" name="form_input_0" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>

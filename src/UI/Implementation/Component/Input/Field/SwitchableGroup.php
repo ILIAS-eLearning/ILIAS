@@ -65,22 +65,6 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source) : Field\Input
-    {
-        $clone = clone Input::withNameFrom($source);
-        $named_inputs = [];
-        foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
-        }
-
-        $clone->inputs = $named_inputs;
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function withValue($value) : Field\Input
     {
         if (is_string($value) || is_int($value)) {
@@ -89,7 +73,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         if (!is_array($value) || count($value) !== 2) {
             throw new InvalidArgumentException(
                 "Expected one key and a group value or one key only as value."
-                ." got '" .print_r($value,true) ."' instead."
+                . " got '" . print_r($value, true) . "' instead."
             );
         }
         list($key, $group_value) = $value;
@@ -122,8 +106,8 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         $key = $input->getOr($this->getName(), "");
         $clone = clone $this;
 
-        if($key === "") {
-            if($this->isRequired()) {
+        if ($key === "") {
+            if ($this->isRequired()) {
                 $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_switchable_group_required"));
                 return $clone->withError("" . $clone->content->error());
             } else {
@@ -140,13 +124,12 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         if (array_key_exists($key, $clone->inputs) && $clone->inputs[$key]->getContent()->isError()) {
             $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
-
             $contents = [];
             $group_inputs = $clone->inputs[$key]->getInputs();
 
-            foreach($group_inputs as $subkey => $group_input) {
+            foreach ($group_inputs as $subkey => $group_input) {
                 $content = $group_input->getContent();
-                 if ($content->isOK()) {
+                if ($content->isOK()) {
                     $contents[$subkey] = $content->value();
                 }
             }

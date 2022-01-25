@@ -49,22 +49,6 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source) : Field\Input
-    {
-        $clone = clone Input::withNameFrom($source);
-        $named_inputs = [];
-        foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
-        }
-
-        $clone->inputs = $named_inputs;
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function withValue($value) : Field\Input
     {
         if ($value === null) {
