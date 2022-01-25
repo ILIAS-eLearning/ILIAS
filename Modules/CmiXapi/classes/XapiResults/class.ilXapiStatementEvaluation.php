@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -83,7 +83,7 @@ class ilXapiStatementEvaluation
         }
     }
     
-    public function getCmixUser($xapiStatement)
+    public function getCmixUser($xapiStatement) : \ilCmiXapiUser
     {
         $cmixUser = null;
         if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
@@ -245,7 +245,7 @@ class ilXapiStatementEvaluation
         return $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
     }
 
-    protected function getUserResult($usrId)
+    protected function getUserResult(int $usrId) : \ilCmiXapiResult
     {
         try {
             $result = ilCmiXapiResult::getInstanceByObjIdAndUsrId($this->object->getId(), $usrId);

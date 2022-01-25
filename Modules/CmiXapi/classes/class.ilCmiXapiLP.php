@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,14 +35,14 @@ class ilCmiXapiLP extends ilObjectLP
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $modeCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_deactivated'),
-            ilLPObjSettings::LP_MODE_DEACTIVATED
+            (string) ilLPObjSettings::LP_MODE_DEACTIVATED
         );
         $modeCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_deactivated_info'));
         $modeRadio->addOption($modeCompleted);
         
         $modeCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_completed'),
-            ilLPObjSettings::LP_MODE_CMIX_COMPLETED
+            (string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED
         );
         $modeCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_when_completed_info'));
         $modeRadio->addOption($modeCompleted);
@@ -55,7 +55,7 @@ class ilCmiXapiLP extends ilObjectLP
         
         $modePassed = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_passed'),
-            ilLPObjSettings::LP_MODE_CMIX_PASSED
+            (string) ilLPObjSettings::LP_MODE_CMIX_PASSED
         );
         $modePassed->setInfo($DIC->language()->txt('cmix_lp_mode_when_passed_info'));
         $modeRadio->addOption($modePassed);
@@ -68,7 +68,7 @@ class ilCmiXapiLP extends ilObjectLP
         
         $modePassedOrCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_when_passed_or_completed'),
-            ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED
+            (string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED
         );
         $modePassedOrCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_when_passed_or_completed_info'));
         $modeRadio->addOption($modePassedOrCompleted);
@@ -81,24 +81,24 @@ class ilCmiXapiLP extends ilObjectLP
         
         switch ($this->getCurrentMode()) {
             case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
-                $modeRadio->setValue(ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
+                $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
                 break;
             case ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED:
-                $modeRadio->setValue(ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
+                $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
                 $modeCompletedFailed->setChecked(true);
                 break;
             case ilLPObjSettings::LP_MODE_CMIX_PASSED:
-                $modeRadio->setValue(ilLPObjSettings::LP_MODE_CMIX_PASSED);
+                $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_PASSED);
                 break;
             case ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED:
-                $modeRadio->setValue(ilLPObjSettings::LP_MODE_CMIX_PASSED);
+                $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_PASSED);
                 $modePassedFailed->setChecked(true);
                 break;
             case ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED:
-                $modeRadio->setValue(ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED);
+                $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED);
                 break;
             case ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED:
-                $modeRadio->setValue(ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED);
+                $modeRadio->setValue((string) ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED);
                 $modePassedOrCompletedFailed->setChecked(true);
                 break;
         }

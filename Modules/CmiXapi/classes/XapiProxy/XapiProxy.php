@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
     namespace XapiProxy;
 
     /******************************************************************************
@@ -55,7 +55,7 @@
             return $this->specificAllowedStatements;
         }
 
-        public function blockSubStatements()
+        public function blockSubStatements() : bool
         {
             return $this->blockSubStatements;
         }
@@ -70,32 +70,32 @@
             return $this->method;
         }
 
-        public function getDefaultLrsEndpoint()
+        public function getDefaultLrsEndpoint() : string
         {
             return $this->defaultLrsEndpoint;
         }
 
-        public function getDefaultLrsKey()
+        public function getDefaultLrsKey() : string
         {
             return $this->defaultLrsKey;
         }
 
-        public function getDefaultLrsSecret()
+        public function getDefaultLrsSecret() : string
         {
             return $this->defaultLrsSecret;
         }
 
-        public function getFallbackLrsEndpoint()
+        public function getFallbackLrsEndpoint() : string
         {
             return $this->fallbackLrsEndpoint;
         }
 
-        public function getFallbackLrsKey()
+        public function getFallbackLrsKey() : string
         {
             return $this->fallbackLrsKey;
         }
 
-        public function getFallbackLrsSecret()
+        public function getFallbackLrsSecret() : string
         {
             return $this->fallbackLrsSecret;
         }

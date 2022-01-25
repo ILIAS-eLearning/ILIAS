@@ -1,15 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system.
+ *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
+ *
  *****************************************************************************/
-
 /**
  * Class ilObjCmiXapiGUI
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -259,6 +262,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $id->save();
     }
 
+    /**
+     * @param $a_sub_type
+     * @param $a_sub_id
+     * @return null|ilObjectListGUI
+     * @throws ilCtrlException
+     */
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
     {
         global $DIC;
@@ -572,7 +581,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
         //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
         ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-        ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), 1) . '</pre>');
+        ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
     }
 
     public function addLocatorItems() : void
@@ -644,16 +653,16 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+                $info->setBlockProperty("news", "settings", (string) true);
+                $info->setBlockProperty("news", "public_notifications_option", (string) true);
             }
         }
 
         if (DEVMODE) {
             // Development Info
             $info->addSection('DEVMODE Info');
-            $info->addProperty('Local Object ID', $this->object->getId());
-            $info->addProperty('Current User ID', $DIC->user()->getId());
+            $info->addProperty('Local Object ID', (string) $this->object->getId());
+            $info->addProperty('Current User ID', (string) $DIC->user()->getId());
         }
 
         // standard meta data

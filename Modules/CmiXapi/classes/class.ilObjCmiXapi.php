@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -556,22 +556,22 @@ class ilObjCmiXapi extends ilObject2
         $this->keepLpStatusEnabled = $keepLpStatusEnabled;
     }
     
-    public function getPrivacyIdent() : string
+    public function getPrivacyIdent() : int
     {
         return $this->userIdent;
     }
     
-    public function setPrivacyIdent(string $userIdent) : void
+    public function setPrivacyIdent(int $userIdent) : void
     {
         $this->userIdent = $userIdent;
     }
     
-    public function getPrivacyName() : string
+    public function getPrivacyName() : int
     {
         return $this->userName;
     }
     
-    public function setPrivacyName(string $userName) : void
+    public function setPrivacyName(int $userName) : void
     {
         $this->userName = $userName;
     }
@@ -1320,11 +1320,11 @@ class ilObjCmiXapi extends ilObject2
      * Gets the number of entries which are to be shown in the top-rankings table.
      * Default: 10 entries
      *
-     * @param integer $a_retval Optional return value if nothing is set, defaults to 10.
+     * @param int|null $a_retval Optional return value if nothing is set, defaults to 10.
      *
      * @return integer Number of entries to be shown in the top-rankings table.
      */
-    public function getHighscoreTopNum(int $a_retval = 10) : int
+    public function getHighscoreTopNum(?int $a_retval = 10) : int
     {
         $retval = $a_retval;
         if ((int) $this->_highscore_top_num != 0) {
@@ -1359,19 +1359,19 @@ class ilObjCmiXapi extends ilObject2
     {
         switch ($mode) {
             case self::HIGHSCORE_SHOW_ALL_TABLES:
-                $this->setHighscoreTopTable(1);
-                $this->setHighscoreOwnTable(1);
+                $this->setHighscoreTopTable(true);
+                $this->setHighscoreOwnTable(true);
                 break;
 
             case self::HIGHSCORE_SHOW_TOP_TABLE:
-                $this->setHighscoreTopTable(1);
-                $this->setHighscoreOwnTable(0);
+                $this->setHighscoreTopTable(true);
+                $this->setHighscoreOwnTable(false);
                 break;
 
             case self::HIGHSCORE_SHOW_OWN_TABLE:
             default:
-                $this->setHighscoreTopTable(0);
-                $this->setHighscoreOwnTable(1);
+                $this->setHighscoreTopTable(false);
+                $this->setHighscoreOwnTable(true);
                 break;
         }
     }
@@ -1507,7 +1507,7 @@ class ilObjCmiXapi extends ilObject2
     protected function doDelete() : void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         // delete file data entry
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
@@ -1818,7 +1818,10 @@ class ilObjCmiXapi extends ilObject2
         return $object;
     }
 
-    public function getLaunchedStatement($cmixUser = null)
+    /**
+     * @return array<string, mixed>
+     */
+    public function getLaunchedStatement($cmixUser = null) : array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1845,7 +1848,10 @@ class ilObjCmiXapi extends ilObject2
         return $statement;
     }
 
-    public function getAbandonedStatement($sessionId, $duration, $cmixUser = null)
+    /**
+     * @return array<string, mixed>
+     */
+    public function getAbandonedStatement($sessionId, $duration, $cmixUser = null) : array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1859,7 +1865,10 @@ class ilObjCmiXapi extends ilObject2
         return $statement;
     }
 
-    public function getSatisfiedStatement($cmixUser = null)
+    /**
+     * @return array<string, mixed>
+     */
+    public function getSatisfiedStatement($cmixUser = null) : array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1918,7 +1927,7 @@ class ilObjCmiXapi extends ilObject2
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
             $body = '';
             ilCmiXapiAbstractRequest::checkResponse($responses['defaultLastStatement'], $body, [200]);
-            return json_decode($body, JSON_OBJECT_AS_ARRAY);
+            return json_decode($body, (bool) JSON_OBJECT_AS_ARRAY);
         } catch (Exception $e) {
             $this->log()->error('error:' . $e->getMessage());
             return null;

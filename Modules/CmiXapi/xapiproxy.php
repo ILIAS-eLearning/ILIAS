@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
     // hardcoded namespace
     // attention: maybe a problem with composer v2 / psr4 autoload  requires exact matching of namespace and parent folder name?
     namespace XapiProxy;

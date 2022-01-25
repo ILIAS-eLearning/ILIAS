@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -308,7 +308,7 @@ class ilCmiXapiAuthToken
         return (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
     }
     
-    public static function fillToken($usrId, $refId, $objId, $lrsTypeId = 0)
+    public static function fillToken(int $usrId, int $refId, int $objId, $lrsTypeId = 0) : string
     {
         //$seconds = $this->getTimeToDelete();
         $seconds = 86400; // TODO: invalidation interval

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -177,7 +177,7 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
 
-    public function getCmiXapiXmlRepresentation(string $a_entity, string $a_schema_version, array $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false) : string
+    public function getCmiXapiXmlRepresentation(string $a_entity, string $a_schema_version, array $a_ids, $a_field = "", bool $a_omit_header = false, $a_omit_types = false) : string
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
 
@@ -384,7 +384,7 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
                //$this->current_obj = $newObj;
-               $a_mapping->addMapping("Modules/CmiXapi", "cmix", $a_rec["Id"], $newObj->getId());
+               $a_mapping->addMapping("Modules/CmiXapi", "cmix", $a_rec["Id"], (string) $newObj->getId());
                break;
         }
     }

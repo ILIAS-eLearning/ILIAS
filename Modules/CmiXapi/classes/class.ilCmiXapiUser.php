@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -149,7 +149,7 @@ class ilCmiXapiUser
     {
         $setting = new ilSetting('cmix');
         // Fallback
-        if (!$setting->get('ilias_uuid', false)) {
+        if (null == $setting->get('ilias_uuid', null)) {
             // $uuid = (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
             $uuid = self::getUUID(32);
             $setting->set('ilias_uuid', $uuid);
@@ -302,15 +302,12 @@ class ilCmiXapiUser
         );
     }
     
-    /**
-                 * @return string
-                 */
-    public static function getIdent(string $userIdentMode, ilObjUser $user)
+    public static function getIdent(int $userIdentMode, ilObjUser $user) : string
     {
         switch ($userIdentMode) {
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_USER_ID:
                 
-                return self::buildPseudoEmail($user->getId(), self::getIliasUuid());
+                return self::buildPseudoEmail((string) $user->getId(), self::getIliasUuid());
                 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_LOGIN:
                 
@@ -370,7 +367,7 @@ class ilCmiXapiUser
     /**
                  * @return string|null
                  */
-    public static function getName(string $userNameMode, ilObjUser $user) : ?string
+    public static function getName(int $userNameMode, ilObjUser $user) : string
     {
         switch ($userNameMode) {
             case ilObjCmiXapi::PRIVACY_NAME_FIRSTNAME:

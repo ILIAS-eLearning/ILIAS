@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\UploadResult as FileUploadResult;
 use ILIAS\FileUpload\DTO\ProcessingStatus as FileUploadProcessingStatus;
@@ -131,12 +131,12 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param ilFileInputGUI $uploadInput
+     * @param ilFormPropertyGUI $uploadInput
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    public function importFormUpload(ilFileInputGUI $uploadInput) : void
+    public function importFormUpload(ilFormPropertyGUI $uploadInput) : void
     {
         $this->ensureCreatedObjectDirectory();
         
@@ -378,7 +378,7 @@ class ilCmiXapiContentUploadImporter
                 $this->object->setEntitlementKey($entitlementKey);
             }
             if (!empty($masteryScore)) {
-                $this->object->setMasteryScore($masteryScore);
+                $this->object->setMasteryScore((float) $masteryScore);
             } else {
                 $this->object->setMasteryScore(ilObjCmiXapi::LMS_MASTERY_SCORE);
             }

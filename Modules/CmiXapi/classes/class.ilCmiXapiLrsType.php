@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -180,7 +180,7 @@ class ilCmiXapiLrsType
     /**
      * @param integer availability
      */
-    public function setAvailability($a_availability) : void
+    public function setAvailability(int $a_availability) : void
     {
         $this->availability = $a_availability;
     }
@@ -703,7 +703,7 @@ class ilCmiXapiLrsType
         return dirname(dirname($this->getLrsEndpoint())) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
     }
     
-    public function getBasicAuth()
+    public function getBasicAuth() : string
     {
         return self::buildBasicAuth($this->getLrsKey(), $this->getLrsSecret());
     }
@@ -713,7 +713,7 @@ class ilCmiXapiLrsType
         return 'Basic ' . base64_encode("{$lrsKey}:{$lrsSecret}");
     }
 
-    public function getBasicAuthWithoutBasic()
+    public function getBasicAuthWithoutBasic() : string
     {
         return self::buildBasicAuthWithoutBasic($this->getLrsKey(), $this->getLrsSecret());
     }

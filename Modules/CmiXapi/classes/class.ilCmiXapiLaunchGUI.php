@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -130,7 +130,7 @@ class ilCmiXapiLaunchGUI
             }
             $params['registration'] = $registration;
         } else {
-            $params['registration'] = urlencode(ilCmiXapiUser::generateRegistration($this->object, $DIC->user()));
+            $params['registration'] = urlencode((string) ilCmiXapiUser::generateRegistration($this->object, $DIC->user()));
         }
         return $params;
     }
@@ -201,7 +201,7 @@ class ilCmiXapiLaunchGUI
             $this->cmixUser->setUsrIdent($user_ident);
 
             if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $this->cmixUser->setRegistration(ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
+                $this->cmixUser->setRegistration((string) ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
             }
             $this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
