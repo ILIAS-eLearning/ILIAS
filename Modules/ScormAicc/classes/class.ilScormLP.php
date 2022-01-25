@@ -90,10 +90,8 @@ class ilScormLP extends ilObjectLP
     /**
      * AK, 14Sep2018: This looks strange, the mode is auto-activated if this object is used
      * as a precondition trigger? This is not implemented for any other object type.
-     *
-     * @return int
      */
-    public function getCurrentMode()
+    public function getCurrentMode() : int
     {
 //        if ($this->checkSCORMPreconditions()) {
 //            return ilLPObjSettings::LP_MODE_SCORM;

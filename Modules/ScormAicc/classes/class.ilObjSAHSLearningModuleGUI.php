@@ -96,10 +96,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilfilesystemgui":
-                $this->fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
-                $this->fs_gui->setUseUploadDirectory(true);
-                $this->fs_gui->setTableId("sahsfs" . $this->object->getId());
-                $ret = $this->ctrl->forwardCommand($this->fs_gui);
+                $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
+                $fs_gui->setUseUploadDirectory(true);
+                $fs_gui->setTableId("sahsfs" . $this->object->getId());
+                $ret = $this->ctrl->forwardCommand($fs_gui);
                 break;
 
             case "ilcertificategui":
@@ -221,14 +221,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
     * module properties
     */
-    public function properties()
+    public function properties() : void
     {
     }
 
     /**
     * save properties
     */
-    public function saveProperties()
+    public function saveProperties() : void
     {
     }
 
@@ -236,20 +236,23 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     //// CREATION
     ////
 
-//    /**
-//    * no manual SCORM creation, only import at the time
-//    */
-//    public function initCreationForms($a_new_type) : array
-//    {
-//        $forms = array();
-//
-//        $this->initUploadForm();
-//        $forms[self::CFORM_IMPORT] = $this->form;
-//
-//        $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
-//
-//        return $forms;
-//    }
+    /**
+     * no manual SCORM creation, only import at the time
+     * @param $a_new_type
+     * @return array|ilPropertyFormGUI[]
+     * @throws ilCtrlException
+     */
+    protected function initCreationForms($a_new_type) : array
+    {
+        $forms = array();
+
+        $this->initUploadForm();
+        $forms[self::CFORM_IMPORT] = $this->form;
+
+        $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
+
+        return $forms;
+    }
 
     /**
      * @return void

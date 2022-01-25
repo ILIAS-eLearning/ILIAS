@@ -254,7 +254,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
         $items = array();
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
-            $sc_item = new ilSCORMItem($sco_rec["sco_id"]);
+            $sc_item = new ilSCORMItem((int) $sco_rec["sco_id"]);
             if ($sc_item->getIdentifierRef() != "") {
                 $items[count($items)] = $sc_item;
             }
@@ -781,9 +781,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
     /**
-     * @param int $user_id
-     * @param string $last_access
-     * @param int $status
      * @param int $attempts
      * @param int $percentage_completed
      * @param int $sco_total_time_sec
@@ -792,12 +789,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     public function importSuccessForSahsUser(
         int $user_id,
         string $last_access,
-        $status,
+        int $status,
         $attempts = null,
         $percentage_completed = null,
         $sco_total_time_sec = null
-    )
-    {
+    ) {
         global $DIC;
         $ilDB = $DIC->database();
         $statement = $ilDB->queryF(
