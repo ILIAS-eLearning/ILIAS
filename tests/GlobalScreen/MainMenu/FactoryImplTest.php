@@ -24,7 +24,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class FactoryImplTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
     /**
      * @var IdentificationInterface
      */
@@ -51,8 +50,7 @@ class FactoryImplTest extends TestCase
         parent::setUp();
 
         $this->identification = new IdentificationFactory(new NullProviderFactory());
-        $this->provider = \Mockery::mock(StaticMainMenuProvider::class);
-        $this->provider->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
+        $this->provider = $this->getMockBuilder(StaticMainMenuProvider::class)->getMock();
 
         $this->id = $this->identification->core($this->provider)->identifier('dummy');
 

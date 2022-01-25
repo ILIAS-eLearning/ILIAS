@@ -29,14 +29,14 @@ class ilSkinStyleContainer
     protected ilFileSystemHelper $file_system;
 
     public function __construct(
+        ilLanguage $lng,
         ilSkin $skin,
         ilSystemStyleMessageStack $message_stack = null,
         ilSystemStyleConfig $system_styles_conf = null,
         ilFileSystemHelper $file_system = null
-    ) {
-        global $DIC;
 
-        $this->lng = $DIC->language();
+    ) {
+        $this->lng = $lng;
 
         $this->skin = $skin;
 

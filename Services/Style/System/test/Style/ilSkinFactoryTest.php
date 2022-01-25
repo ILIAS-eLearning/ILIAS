@@ -38,12 +38,16 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
         $this->style2->setSoundDirectory('style2sound');
         $this->style2->setFontDirectory('style2font');
 
-        $this->factory = new ilSkinFactory($this->system_style_config);
+        $this->factory = new ilSkinFactory($this->lng, $this->system_style_config);
+
+        global $DIC;
+
+        $DIC = new ilSystemStyleDICMock();
     }
 
     public function testSkinFromXML() : void
     {
-        $factory = new ilSkinFactory();
+        $factory = new ilSkinFactory($this->lng);
         $skin = $factory->skinFromXML($this->system_style_config->getCustomizingSkinPath() . 'skin1/template.xml');
         $this->assertEquals(
             $skin->asXML(),

@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-class ilSystemStyleRootLoggerMock
+class ilSystemStyleRootLoggerMock extends ilLogger
 {
     public function __construct()
     {
     }
 
-    public function debug(string $message) : void
+    public function debug($a_message, $a_context = []) : void
     {
     }
 }

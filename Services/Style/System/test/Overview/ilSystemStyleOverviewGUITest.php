@@ -38,7 +38,7 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
         $data_factory = new DataFactory();
         $refinery = new Refinery($data_factory, $lng);
 
-        $factory = new ilSkinFactory($this->system_style_config);
+        $factory = new ilSkinFactory($this->lng, $this->system_style_config);
         $help = $this->getMockBuilder(ilHelpGUI::class)->disableOriginalConstructor()->onlyMethods([
         ])->getMock();
         $upload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->onlyMethods([])->getMock();

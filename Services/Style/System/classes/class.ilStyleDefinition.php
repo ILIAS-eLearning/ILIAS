@@ -42,6 +42,8 @@ class ilStyleDefinition
      */
     public function __construct(string $skin_id = '', ilSystemStyleConfig $system_style_config = null)
     {
+        global $DIC;
+
         if ($skin_id == '') {
             $skin_id = self::getCurrentSkin();
         }
@@ -52,7 +54,7 @@ class ilStyleDefinition
             $this->setSystemStylesConf($system_style_config);
         }
 
-        $this->skin_factory = new ilSkinFactory($this->getSystemStylesConf());
+        $this->skin_factory = new ilSkinFactory($DIC->language(), $this->getSystemStylesConf());
 
         if ($skin_id != $this->getSystemStylesConf()->getDefaultSkinId()) {
             $this->setSkin($this->skin_factory->skinFromXML($this->getSystemStylesConf()->getCustomizingSkinPath() . $skin_id . '/template.xml'));
@@ -158,7 +160,9 @@ class ilStyleDefinition
                 $system_style_config = new ilSystemStyleConfig();
             }
 
-            $skin_factory = new ilSkinFactory($system_style_config);
+            global $DIC;
+
+            $skin_factory = new ilSkinFactory($DIC->language(), $system_style_config);
 
             /**
              * @var $skins ilSkin[]
@@ -368,10 +372,12 @@ class ilStyleDefinition
      */
     public static function styleExistsForSkinId(string $skin_id, string $style_id) : bool
     {
+        global $DIC;
+
         if (!self::skinExists($skin_id)) {
             return false;
         }
-        $factory = new ilSkinFactory();
+        $factory = new ilSkinFactory($DIC->language());
         $skin = $factory->skinStyleContainerFromId($skin_id)->getSkin();
         return $skin->hasStyle($style_id);
     }
