@@ -16754,3 +16754,15 @@ itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten C
 user#:#user_local_role#:#Lokale Rolle
 form#:#form_use_camera#:#Kamera benutzen
 form#:#form_take_snapshot#:#Schnappschuss machen
+cmps#:#cmps_responsible_mail#:#Mail (Verantwortlicher)
+cmps#:#cmps_supports_learning_progress#:#Unterstützt Lernfortschritt
+cmps#:#cmps_supports_export#:#Unterstüzt Export
+cmps#:#cmps_supports_cli_setup#:#Unterstüzt CLI-Setup
+cmps#:#cmps_is_installed#:#Installiert
+cmps#:#cmps_is_active#:#Aktiviert
+cmps#:#cmps_current_db_version#:#Aktuelle DB-Version
+cmps#:#cmps_detailed_information#:#Detaillierte Informationen
+cmps#:#cmps_available_version#:#Verfügbare Version
+cmps#:#cmps_refresh_lng#:#Sprache aktualisiert
+cmps#:#cmps_plugin_deinstalled#:#Das Plugin wurde deinstalliert
+cmps#:#cmps_plugin_updated#:#Das Plugin wurde aktualisiert

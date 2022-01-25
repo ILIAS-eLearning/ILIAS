@@ -46,11 +46,11 @@ class ilPluginsOverviewTableFilterGUI
         }
 
         $inputs = [
-            ilPluginsOverviewTableGUI::F_PLUGIN_NAME => $field_factory->text($txt('cmps_plugin')),
-            ilPluginsOverviewTableGUI::F_PLUGIN_ID => $field_factory->text($txt('id')),
-            ilPluginsOverviewTableGUI::F_SLOT_NAME => $field_factory->multiSelect($txt('cmps_plugin_slot'), $slots)->withValue($slots),
-            ilPluginsOverviewTableGUI::F_COMPONENT_NAME => $field_factory->multiSelect($txt('cmps_component'), $components)->withValue($components),
-            ilPluginsOverviewTableGUI::F_PLUGIN_ACTIVE => $field_factory->select($txt('active'), [-1 => $txt('inactive'), 1 => $txt('active')]),
+            ilPluginsOverviewTable::F_PLUGIN_NAME => $field_factory->text($txt('cmps_plugin')),
+            ilPluginsOverviewTable::F_PLUGIN_ID => $field_factory->text($txt('id')),
+            ilPluginsOverviewTable::F_SLOT_NAME => $field_factory->multiSelect($txt('cmps_plugin_slot'), $slots)->withValue($slots),
+            ilPluginsOverviewTable::F_COMPONENT_NAME => $field_factory->multiSelect($txt('cmps_component'), $components)->withValue($components),
+            ilPluginsOverviewTable::F_PLUGIN_ACTIVE => $field_factory->select($txt('active'), [-1 => $txt('inactive'), 1 => $txt('active')]),
         ];
         $this->filter = $this->filter_service->standard(
             'plugin_table',
