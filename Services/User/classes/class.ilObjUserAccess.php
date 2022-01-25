@@ -37,7 +37,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
 
         if ('usr_registration' == $a_target) {
             $regSeetings = new ilRegistrationSettings();
-            if ($regSeetings->getRegistrationType() == IL_REG_DISABLED) {
+            if ($regSeetings->getRegistrationType() == ilRegistrationSettings::IL_REG_DISABLED) {
                 $GLOBALS['DIC']->language()->loadLanguageModule('registration');
                 ilUtil::sendFailure(sprintf($GLOBALS['DIC']->language()->txt('registration_disabled_no_access'), $settings->get('admin_email')), true);
                 return false;

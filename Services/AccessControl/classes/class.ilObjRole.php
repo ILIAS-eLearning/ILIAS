@@ -205,9 +205,9 @@ class ilObjRole extends ilObject
 
         $roles = [];
         while ($role = $ilDB->fetchAssoc($res)) {
-            $roles[] = array("id" => $role["obj_id"],
-                             "title" => $role["title"],
-                             "auth_mode" => $role['auth_mode']
+            $roles[] = array("id" => (int) $role["obj_id"],
+                             "title" => (string) $role["title"],
+                             "auth_mode" => (string) $role['auth_mode']
             );
         }
         return $roles;
