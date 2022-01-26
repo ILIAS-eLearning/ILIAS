@@ -104,9 +104,9 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
         $items = [];
         foreach ($conversations as $conversation) {
             if ($conversation->isGroup()) {
-                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'group-conversation');
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::GCON, 'group-conversation');
             } else {
-                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'conversation');
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CON, 'conversation');
             }
 
             $users = [];
