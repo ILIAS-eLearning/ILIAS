@@ -3176,7 +3176,7 @@ class ilObjectListGUI
             if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
                 $om++;
             }
-            if ($om != 0 && !$DIC['ilBrowser']->isMobile()) {
+            if ($om != 0 && !$DIC->http()->agent()->isMobile()) {
                 $this->default_command["frame"] = "";
                 $a_link = "javascript:void(0); onclick=startSAHS('" . $a_link . "','" . $wtarget . "'," . $om . "," . $width . "," . $height . ");";
             }

@@ -8,6 +8,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\DI\Container;
+use ILIAS\HTTP\Agent\AgentDetermination;
 
 /******************************************************************************
  *
@@ -32,7 +33,8 @@ class Services implements GlobalHttpState
 {
     protected GlobalHttpState $raw;
     protected WrapperFactory $wrapper;
-
+    protected AgentDetermination $agent;
+    
     /**
      * Services constructor.
      */
@@ -45,6 +47,7 @@ class Services implements GlobalHttpState
             $dic['http.response_factory']
         );
         $this->wrapper = new WrapperFactory($this->raw->request());
+        $this->agent = new AgentDetermination();
     }
 
     public function wrapper() : WrapperFactory
@@ -119,5 +122,9 @@ class Services implements GlobalHttpState
     {
         $this->raw()->close();
     }
-
+    
+    public function agent() : AgentDetermination
+    {
+        return $this->agent;
+    }
 }

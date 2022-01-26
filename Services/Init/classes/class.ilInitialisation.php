@@ -1490,12 +1490,6 @@ class ilInitialisation
         );
 
         self::initGlobal(
-            "ilBrowser",
-            "ilBrowser",
-            "./Services/Utilities/classes/class.ilBrowser.php"
-        );
-
-        self::initGlobal(
             "ilHelp",
             "ilHelpGUI",
             "Services/Help/classes/class.ilHelpGUI.php"
