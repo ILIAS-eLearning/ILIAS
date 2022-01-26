@@ -87,20 +87,14 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger()
+            public function getRootLogger() : \ilLogger
             {
-                return new class() {
-                    public function write()
-                    {
-                    }
+                return new class() extends \ilLogger {
                 };
             }
-            public function getLogger()
+            public function getLogger() : \ilLogger
             {
-                return new class() {
-                    public function write()
-                    {
-                    }
+                return new class() extends \ilLogger {
                 };
             }
         };
