@@ -12,6 +12,18 @@ class ilOrgUnitExportGUI extends ilExportGUI
 {
 
     /**
+     * @var ilToolbarGUI
+     */
+    protected ilToolbarGUI $toolbar;
+    /**
+     * @var ilLanguage
+     */
+    protected ilLanguage $lng;
+    /**
+     * @var ilCtrl
+     */
+    protected ilCtrlInterface $ctrl;
+    /**
      * @var ilObjOrgUnit
      */
     protected $ilObjOrgUnit;
