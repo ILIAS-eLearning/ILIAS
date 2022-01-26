@@ -167,7 +167,7 @@ final class Delivery
 
     private function determineMimeType(): void
     {
-        $info = \ilMimeTypeUtil::lookupMimeType($this->getPathToFile(), \ilMimeTypeUtil::APPLICATION__OCTET_STREAM);
+        $info = \ILIAS\FileUpload\MimeType::lookupMimeType($this->getPathToFile(), \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM);
         if ($info) {
             $this->setMimeType($info);
 

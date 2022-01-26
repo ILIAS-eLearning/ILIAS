@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileUpload\MimeType;
+
 /**
  * Class ilDclBaseFieldModel
  *
@@ -29,7 +31,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->setType("file");
             $file_obj->setTitle($file["name"]);
             $file_obj->setFileName($file["name"]);
-            $file_obj->setFileType(ilMimeTypeUtil::getMimeType("", $file["name"], $file["type"]));
+            $file_obj->setFileType(MimeType::getMimeType("", $file["name"], $file["type"]));
             $file_obj->setFileSize($file["size"]);
             $file_obj->setMode("object");
             $file_obj->create();

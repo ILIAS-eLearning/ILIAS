@@ -14,6 +14,7 @@
  */
 
 use ILIAS\MediaCast\StandardGUIRequest;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -76,7 +77,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $this->mimeTypes[$mt] = $mt;
         }
         
-        foreach (ilMimeTypeUtil::getExt2MimeMap() as $mt) {
+        foreach (MimeType::getExt2MimeMap() as $mt) {
 //            $this->mimeTypes[$mt] = $mt;
         }
         asort($this->mimeTypes);

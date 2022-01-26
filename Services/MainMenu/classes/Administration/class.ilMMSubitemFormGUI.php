@@ -6,6 +6,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Class ilMMSubitemFormGUI
@@ -94,7 +95,7 @@ class ilMMSubitemFormGUI
             // ICON
             $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('sub_icon'))
                         ->withByline($txt('sub_icon_byline'))
-                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+                        ->withAcceptedMimeTypes([MimeType::IMAGE__SVG_XML]);
             if ($this->item_facade->getIconID() !== null) {
                 $icon = $icon->withValue([$this->item_facade->getIconID()]);
             }
