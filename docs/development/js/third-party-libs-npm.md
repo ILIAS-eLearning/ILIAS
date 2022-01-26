@@ -39,6 +39,19 @@ the "jour fixe"-label.
 ```
 - Commit the changes in packages.json and package-lock.json and node_modules.
 
+If you like to install a dependency from a particular branch of a public GitHub repository,
+you can use the following syntax (example):
+
+```
+npm install ILIAS-eLearning/tinymce-dist#master
+```
+
+For an update you'll have to use:
+
+```
+npm uninstall tinymce && npm install ILIAS-eLearning/tinymce-dist#master
+```
+
 ## Dependencies for development
 - Install the new library, e.g. "npm install webpack --save-dev"
 - Commit the changes in packages.json and package-lock.json
