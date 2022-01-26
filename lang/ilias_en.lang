@@ -2355,10 +2355,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
