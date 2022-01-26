@@ -5970,6 +5970,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $info = $this->uiRenderer->render([
             $this->uiFactory->legacy($this->lng->txt('reset_limited_view_info')),
+            $this->uiFactory->legacy(' '),
             $this->uiFactory->link()->standard(
                 $this->lng->txt('reset'),
                 $this->ctrl->getLinkTarget($this, 'resetLimitedView')
