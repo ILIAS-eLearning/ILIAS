@@ -1974,7 +1974,10 @@
 	<xsl:if test="@Class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:if>
 	<xsl:if test="not(@Class)">ilc_media_cont_MediaContainer</xsl:if>
 	</xsl:variable>
-
+	<xsl:variable name="captionclass">
+		<xsl:if test="@CaptionClass">ilc_media_caption_<xsl:value-of select="@CaptionClass"/></xsl:if>
+		<xsl:if test="not(@CaptionClass)">ilc_media_caption_MediaCaption</xsl:if>
+	</xsl:variable>
 
 	<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
 
@@ -2158,7 +2161,8 @@
 			<!-- mob caption -->
 			<xsl:choose>			<!-- derive -->
 				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
@@ -2166,7 +2170,8 @@
 					</div></figcaption>
 				</xsl:when>
 				<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
@@ -2175,7 +2180,8 @@
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1">
-						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+							<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 						<xsl:call-template name="FullscreenLink">
 							<xsl:with-param name="cmobid" select="$cmobid"/>
 						</xsl:call-template>

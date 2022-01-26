@@ -1,12 +1,9 @@
 <?php
-
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
 /**
-* Color picker form for selecting color hexcodes using yui library (all/top/right/bottom/left)
-*
-* @author Alex Killing <killing@leifos.com>
-*/
+ * Color picker form for selecting color hexcodes using yui library (all/top/right/bottom/left)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 {
     protected $hex;

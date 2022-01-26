@@ -5,7 +5,7 @@
 /**
  * This class represents a numeric style property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 {

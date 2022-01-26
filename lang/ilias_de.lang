@@ -29,6 +29,22 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#sty_resize_image#:#Bildgröße anpassen
+style#:#sty_resize#:#Bildgröße anpassen
+style#:#sty_outdated#:#Veraltet
+style#:#sty_remove_outdated#:#"Veraltet"-Status entfernen
+style#:#sty_set_outdated#:#Als "veraltet" kennzeichnen
+style#:#sty_save_hide_order_status#:#Reihefolge und Status speichern
+style#:#sty_save_order_status#:#Reihenfolge speichern
+style#:#sty_class#:#Style-Klasse
+style#:#sty_paste_chars#:#Klassen einfügen
+style#:#sty_create_new_class#:#Neue Klasse erstellen
+style#:#sty_overwrite_existing_class#:#Vorhandene Klasse überschreiben
+style#:#sty_class_name#:#Klassenname
+style#:#sty_parameters#:#Parameter
+style#:#sty_titles#:#Titel
+style#:#sty_bg_img_info#:#Um Bilder in die Auswahl aufzunehmen müssen diese zunächst im Bereich "Bilder" des Styles hochgeladen werden.
+content#:#cont_caption_style#:#Caption Style
 survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
 survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
 survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
@@ -8941,7 +8957,7 @@ style#:#sty_row_foot_class#:#Fuß (Zeilen)
 style#:#sty_row_head_class#:#Kopf (Zeilen)
 style#:#sty_rte_char#:#SCORM RTE#
 style#:#sty_save_active_styles#:#Aktive Stylesheets speichern
-style#:#sty_save_hide_status#:#Save Hide Status
+style#:#sty_save_hide_status#:#Status Speichern
 style#:#sty_sco_char#:#SCOs und Lernziele
 style#:#sty_scope#:#Geltungsbereich
 style#:#sty_section_char#:#Block

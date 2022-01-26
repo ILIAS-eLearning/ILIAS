@@ -2,10 +2,12 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use \ILIAS\Style\Content;
+
 /**
  * TableGUI class for style editor (image list)
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilStyleColorTableGUI extends ilTable2GUI
 {
@@ -20,10 +22,19 @@ class ilStyleColorTableGUI extends ilTable2GUI
     protected $rbacsystem;
 
     /**
+     * @var Content\Access\StyleAccessManager
+     */
+    protected $access_manager;
+
+    /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_style_obj)
-    {
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        $a_style_obj,
+        Content\Access\StyleAccessManager $access_manager
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -32,10 +43,8 @@ class ilStyleColorTableGUI extends ilTable2GUI
         $this->rbacsystem = $DIC->rbac()->system();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $rbacsystem = $DIC->rbac()->system();
-        
+        $this->access_manager = $access_manager;
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setTitle($lng->txt("sty_colors"));
@@ -55,7 +64,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
         $this->getItems();
 
         // action commands
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->addMultiCommand("deleteColorConfirmation", $lng->txt("delete"));
         }
         
@@ -77,9 +86,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $rbacsystem = $this->rbacsystem;
-        
+
         for ($i = -80; $i <= 80; $i += 20) {
             $this->tpl->setCurrentBlock("flavor");
             $this->tpl->setVariable("FLAVOR_NAME", "(" . $i . ")");
@@ -94,7 +101,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
         $this->tpl->setVariable("COLOR_NAME", $a_set["name"]);
         $this->tpl->setVariable("COLOR_CODE", $a_set["code"]);
         
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $ilCtrl->setParameter($this->parent_obj, "c_name", rawurlencode($a_set["name"]));
             $this->tpl->setVariable(

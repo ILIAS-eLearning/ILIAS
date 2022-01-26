@@ -1,11 +1,13 @@
 <?php
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
- * This class represents a border width with all/top/right/bottom/left in a property form.
+ * This class represents a numeric style property with all/top/right/bottom/left in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
+class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 {
     /**
      * @var ilObjUser
@@ -13,6 +15,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
     protected $user;
 
     protected $value;
+    protected $allowpercentage = true;
     
     /**
     * Constructor
@@ -27,7 +30,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         parent::__construct($a_title, $a_postvar);
-        $this->setType("border_width");
+        $this->setType("style_numeric");
         $this->dirs = array("all", "top", "bottom", "left", "right");
     }
 
@@ -130,6 +133,26 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
     {
         return $this->rightvalue;
     }
+    
+    /**
+    * Set Allow Percentage.
+    *
+    * @param	boolean	$a_allowpercentage	Allow Percentage
+    */
+    public function setAllowPercentage($a_allowpercentage)
+    {
+        $this->allowpercentage = $a_allowpercentage;
+    }
+
+    /**
+    * Get Allow Percentage.
+    *
+    * @return	boolean	Allow Percentage
+    */
+    public function getAllowPercentage()
+    {
+        return $this->allowpercentage;
+    }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
@@ -140,14 +163,10 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
         $lng = $this->lng;
         
         foreach ($this->dirs as $dir) {
-            $type = $_POST[$this->getPostVar()][$dir]["type"] =
-                ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["type"]);
             $num_value = $_POST[$this->getPostVar()][$dir]["num_value"] =
                 trim(ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["num_value"]));
             $num_unit = $_POST[$this->getPostVar()][$dir]["num_unit"] =
                 trim(ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["num_unit"]));
-            $pre_value = $_POST[$this->getPostVar()][$dir]["pre_calue"] =
-                ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["pre_value"]);
                 
             /*
             if ($this->getRequired() && trim($num_value) == "")
@@ -162,22 +181,13 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
                 return false;
             }
             
-            $value = "";
-            if ($type == "numeric") {
-                if ($num_value != "") {
-                    $value = $num_value . $num_unit;
-                }
-            } else {
-                $value = $pre_value;
-            }
-            
-            if (trim($value) != "") {
+            if (trim($num_value) != "") {
                 switch ($dir) {
-                    case "all": $this->setAllValue($value); break;
-                    case "top": $this->setTopValue($value); break;
-                    case "bottom": $this->setBottomValue($value); break;
-                    case "left": $this->setLeftValue($value); break;
-                    case "right": $this->setRightValue($value); break;
+                    case "all": $this->setAllValue($num_value . $num_unit); break;
+                    case "top": $this->setTopValue($num_value . $num_unit); break;
+                    case "bottom": $this->setBottomValue($num_value . $num_unit); break;
+                    case "left": $this->setLeftValue($num_value . $num_unit); break;
+                    case "right": $this->setRightValue($num_value . $num_unit); break;
                 }
             }
         }
@@ -195,9 +205,8 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
         $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
         
         foreach ($this->dirs as $dir) {
-            $tpl = new ilTemplate("tpl.prop_trbl_border_width.html", true, true, "Services/Style/Content");
-            $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits();
-            $pre_options = ilObjStyleSheet::_getStyleParameterValues("border-width");
+            $tpl = new ilTemplate("tpl.prop_trbl_style_numeric.html", true, true, "Services/Style/Content");
+            $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits(!$this->getAllowPercentage());
             
             switch ($dir) {
                 case "all": $value = strtolower(trim($this->getAllValue())); break;
@@ -207,53 +216,34 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
                 case "right": $value = strtolower(trim($this->getRightValue())); break;
             }
     
-            if (in_array($value, $pre_options)) {
-                $current_type = "pre";
-                $tpl->setVariable("PREDEFINED_SELECTED", 'checked="checked"');
-            } else {
-                $current_type = "unit";
-                $tpl->setVariable("NUMERIC_SELECTED", 'checked="checked"');
-
-                $current_unit = "";
-                foreach ($unit_options as $u) {
-                    if (substr($value, strlen($value) - strlen($u)) == $u) {
-                        $current_unit = $u;
-                    }
+            $current_unit = "";
+            foreach ($unit_options as $u) {
+                if (substr($value, strlen($value) - strlen($u)) == $u) {
+                    $current_unit = $u;
                 }
-                $disp_val = substr($value, 0, strlen($value) - strlen($current_unit));
-                if ($current_unit == "") {
-                    $current_unit = "px";
-                }
-                $tpl->setVariable("VAL_NUM", $disp_val);
+            }
+            $disp_val = substr($value, 0, strlen($value) - strlen($current_unit));
+            if ($current_unit == "") {
+                $current_unit = "px";
             }
             
             foreach ($unit_options as $option) {
                 $tpl->setCurrentBlock("unit_option");
                 $tpl->setVariable("VAL_UNIT", $option);
                 $tpl->setVariable("TXT_UNIT", $option);
-                if ($current_type == "unit" && $current_unit == $option) {
+                if ($current_unit == $option) {
                     $tpl->setVariable("UNIT_SELECTED", 'selected="selected"');
                 }
                 $tpl->parseCurrentBlock();
             }
             
-            foreach ($pre_options as $option) {
-                $tpl->setCurrentBlock("pre_option");
-                $tpl->setVariable("VAL_PRE", $option);
-                $tpl->setVariable("TXT_PRE", $option);
-                if ($current_type == "pre" && $value == $option) {
-                    $tpl->setVariable("PRE_SELECTED", 'selected="selected"');
-                }
-                $tpl->parseCurrentBlock();
-            }
-
             $tpl->setVariable("POSTVAR", $this->getPostVar());
+            $tpl->setVariable("VAL_NUM", $disp_val);
             $tpl->setVariable("TXT_DIR", $lng->txt("sty_$dir"));
             $tpl->setVariable("DIR", $dir);
             
             $layout_tpl->setVariable(strtoupper($dir), $tpl->get());
         }
-        $layout_tpl->setVariable("COLSPAN", "2");
         
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $layout_tpl->get());
@@ -269,35 +259,15 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
     {
         $ilUser = $this->user;
         
-        if ($a_values[$this->getPostVar()]["all"]["type"] == "predefined") {
-            $this->setAllValue($a_values[$this->getPostVar()]["all"]["pre_value"]);
-        } else {
-            $this->setAllValue($a_values[$this->getPostVar()]["all"]["num_value"] .
-                $a_values[$this->getPostVar()]["all"]["num_unit"]);
-        }
-        if ($a_values[$this->getPostVar()]["bottom"]["type"] == "predefined") {
-            $this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["pre_value"]);
-        } else {
-            $this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["num_value"] .
-                $a_values[$this->getPostVar()]["bottom"]["num_unit"]);
-        }
-        if ($a_values[$this->getPostVar()]["top"]["type"] == "predefined") {
-            $this->setTopValue($a_values[$this->getPostVar()]["top"]["pre_value"]);
-        } else {
-            $this->setTopValue($a_values[$this->getPostVar()]["top"]["num_value"] .
-                $a_values[$this->getPostVar()]["top"]["num_unit"]);
-        }
-        if ($a_values[$this->getPostVar()]["left"]["type"] == "predefined") {
-            $this->setLeftValue($a_values[$this->getPostVar()]["left"]["pre_value"]);
-        } else {
-            $this->setLeftValue($a_values[$this->getPostVar()]["left"]["num_value"] .
-                $a_values[$this->getPostVar()]["left"]["num_unit"]);
-        }
-        if ($a_values[$this->getPostVar()]["right"]["type"] == "predefined") {
-            $this->setRightValue($a_values[$this->getPostVar()]["right"]["pre_value"]);
-        } else {
-            $this->setRightValue($a_values[$this->getPostVar()]["right"]["num_value"] .
-                $a_values[$this->getPostVar()]["right"]["num_unit"]);
-        }
+        $this->setAllValue($a_values[$this->getPostVar()]["all"]["num_value"] .
+            $a_values[$this->getPostVar()]["all"]["num_unit"]);
+        $this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["num_value"] .
+            $a_values[$this->getPostVar()]["bottom"]["num_unit"]);
+        $this->setTopValue($a_values[$this->getPostVar()]["top"]["num_value"] .
+            $a_values[$this->getPostVar()]["top"]["num_unit"]);
+        $this->setLeftValue($a_values[$this->getPostVar()]["left"]["num_value"] .
+            $a_values[$this->getPostVar()]["left"]["num_unit"]);
+        $this->setRightValue($a_values[$this->getPostVar()]["right"]["num_value"] .
+            $a_values[$this->getPostVar()]["right"]["num_unit"]);
     }
 }

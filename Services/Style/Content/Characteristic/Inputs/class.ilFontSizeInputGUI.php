@@ -5,7 +5,7 @@
 /**
  * This class represents a fint size property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFontSizeInputGUI extends ilFormPropertyGUI
 {

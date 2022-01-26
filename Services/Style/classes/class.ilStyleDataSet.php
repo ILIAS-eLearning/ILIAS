@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use \ILIAS\Style\Content\Access;
+use \ILIAS\Style\Content;
+
 /**
  * Style Data set class
  *
@@ -29,6 +32,16 @@ class ilStyleDataSet extends ilDataSet
     protected $log;
 
     /**
+     * @var ilRbacSystem
+     */
+    protected $rbacsystem;
+
+    /**
+     * @var \ilObjUser
+     */
+    protected $user;
+
+    /**
      * constructor
      *
      * @param
@@ -42,6 +55,8 @@ class ilStyleDataSet extends ilDataSet
         parent::__construct();
         $this->log = ilLoggerFactory::getLogger('styl');
         $this->log->debug("constructed");
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->user = $DIC->user();
     }
 
 
@@ -370,6 +385,26 @@ class ilStyleDataSet extends ilDataSet
      */
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
+        $service = new ILIAS\Style\Content\Service();
+        $access_manager = $service->internal()->manager()->access(
+            0,
+            $this->user->getId()
+        );
+        $access_manager->enableWrite(true);
+
+        $style_id = (is_object($this->current_obj))
+            ? $this->current_obj->getId()
+            : 0;
+        $characteristic_manager = $service->internal()->manager()->characteristic(
+            $style_id,
+            $access_manager
+        );
+
+        $color_manager = $service->internal()->manager()->color(
+            $style_id,
+            $access_manager
+        );
+
         switch ($a_entity) {
             case "sty":
                 $this->log->debug("Entity: " . $a_entity);
@@ -407,11 +442,11 @@ class ilStyleDataSet extends ilDataSet
 
             case "sty_parameter":
                 $mq_id = (int) $a_mapping->getMapping("Services/Style", "media_query", $a_rec["MqId"]);
-                $this->current_obj->replaceStylePar($a_rec["Tag"], $a_rec["Class"], $a_rec["Parameter"], $a_rec["Value"], $a_rec["Type"], $mq_id, $a_rec["Custom"]);
+                $characteristic_manager->replaceParameter($a_rec["Tag"], $a_rec["Class"], $a_rec["Parameter"], $a_rec["Value"], $a_rec["Type"], $mq_id, $a_rec["Custom"]);
                 break;
 
             case "sty_color":
-                $this->current_obj->addColor($a_rec["ColorName"], $a_rec["ColorCode"]);
+                $color_manager->addColor($a_rec["ColorName"], $a_rec["ColorCode"]);
                 break;
 
             case "sty_media_query":

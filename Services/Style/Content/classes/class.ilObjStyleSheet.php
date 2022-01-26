@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use \ILIAS\Style\Content;
+
 /**
  * Class ilObjStyleSheet
  *
@@ -265,7 +267,8 @@ class ilObjStyleSheet extends ilObject
 
     // these types are expandable, i.e. the user can define new style classes
     public static $expandable_types = array(
-            "text_block", "text_inline", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
+            "text_block",
+            "text_inline", "section", "media_cont", "media_caption", "table", "table_cell", "flist_li", "table_caption",
                 "list_o", "list_u",
                 "va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
                 "ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont",
@@ -856,9 +859,21 @@ class ilObjStyleSheet extends ilObject
     */
     public function create($a_from_style = 0, $a_import_mode = false)
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+
         $ilDB = $this->db;
 
         parent::create();
+
+
+        $service = new ILIAS\Style\Content\Service();
+        $access_manager = $service->internal()->manager()->access(
+            0,
+            $DIC->user()->getId()
+        );
+        $access_manager->enableWrite(true);
+        $color_manager = $service->internal()->manager()->color($this->getId(), $access_manager);
 
         if ($a_from_style == 0) {
             if (!$a_import_mode) {
@@ -867,6 +882,8 @@ class ilObjStyleSheet extends ilObject
                 
                 // copy images from basic style
                 $this->createImagesDirectory();
+
+                // cross filesystem (lib -> web) rCopy
                 ilUtil::rCopy(
                     self::$basic_style_image_dir,
                     $this->getImagesDirectory()
@@ -953,7 +970,7 @@ class ilObjStyleSheet extends ilObject
             // copy colors
             $colors = $from_style->getColors();
             foreach ($colors as $c) {
-                $this->addColor($c["name"], $c["code"]);
+                $color_manager->addColor($c["name"], $c["code"]);
             }
             
             // copy templates
@@ -970,35 +987,6 @@ class ilObjStyleSheet extends ilObject
         if (!$a_import_mode) {
             $this->writeCSSFile();
         }
-    }
-    
-    /**
-    * Delete Characteristic
-    */
-    public function deleteCharacteristic($a_type, $a_tag, $a_class)
-    {
-        $ilDB = $this->db;
-        
-        // check, if characteristic is not a core style
-        $core_styles = ilObjStyleSheet::_getCoreStyles();
-        if (empty($core_styles[$a_type . "." . $a_tag . "." . $a_class])) {
-            // delete characteristic record
-            $st = $ilDB->manipulateF(
-                "DELETE FROM style_char WHERE style_id = %s AND type = %s AND characteristic = %s",
-                array("integer", "text", "text"),
-                array($this->getId(), $a_type, $a_class)
-            );
-            
-            // delete parameter records
-            $st = $ilDB->manipulateF(
-                "DELETE FROM style_parameter WHERE style_id = %s AND tag = %s AND type = %s AND class = %s",
-                array("integer", "text", "text", "text"),
-                array($this->getId(), $a_tag, $a_type, $a_class)
-            );
-        }
-        
-        $this->setUpToDate(false);
-        $this->_writeUpToDate($this->getId(), false);
     }
     
     /**
@@ -1044,6 +1032,7 @@ class ilObjStyleSheet extends ilObject
      * @param
      * @return
      */
+    /*
     public function copyCharacteristic(
         $a_from_style_id,
         $a_from_type,
@@ -1082,7 +1071,7 @@ class ilObjStyleSheet extends ilObject
                 $this->addColor($c, $from_style->getColorCodeForName($c));
             }
         }
-    }
+    }*/
 
     /**
      * Get characteristics
@@ -1303,60 +1292,6 @@ class ilObjStyleSheet extends ilObject
     }
 
     /**
-    * Get images of style
-    */
-    public function getImages()
-    {
-        $dir = $this->getImagesDirectory();
-        $images = array();
-        if (is_dir($dir)) {
-            $entries = ilUtil::getDir($dir);
-            foreach ($entries as $entry) {
-                if (substr($entry["entry"], 0, 1) == ".") {
-                    continue;
-                }
-                if ($entry["type"] != "dir") {
-                    $images[] = $entry;
-                }
-            }
-        }
-        
-        return $images;
-    }
-    
-    /**
-    * Upload image
-    */
-    public function uploadImage($a_file)
-    {
-        $this->createImagesDirectory();
-        @ilUtil::moveUploadedFile(
-            $a_file["tmp_name"],
-            $a_file["name"],
-            $this->getImagesDirectory() . "/" . $a_file["name"]
-        );
-        @ilUtil::resizeImage(
-            $this->getImagesDirectory() . "/" . $a_file["name"],
-            $this->getThumbnailsDirectory() . "/" . $a_file["name"],
-            75,
-            75
-        );
-    }
-    
-    /**
-    * Delete an image
-    */
-    public function deleteImage($a_file)
-    {
-        if (is_file($this->getImagesDirectory() . "/" . $a_file)) {
-            unlink($this->getImagesDirectory() . "/" . $a_file);
-        }
-        if (is_file($this->getThumbnailsDirectory() . "/" . $a_file)) {
-            unlink($this->getThumbnailsDirectory() . "/" . $a_file);
-        }
-    }
-    
-    /**
     * delete style parameter
     *
     * @param	int		$a_id		style parameter id
@@ -1370,30 +1305,6 @@ class ilObjStyleSheet extends ilObject
         $ilDB->query($q);
     }
 
-    /**
-     * Delete style parameter by tag/class/parameter
-     *
-     * @param string $a_tag tag
-     * @param string $a_class class
-     * @param string $a_par parameter
-     * @param string $a_type type
-     * @param string $a_mq_id media query id
-     */
-    public function deleteStylePar($a_tag, $a_class, $a_par, $a_type, $a_mq_id = 0, $a_custom = false)
-    {
-        $ilDB = $this->db;
-
-        $q = "DELETE FROM style_parameter WHERE " .
-            " style_id = " . $ilDB->quote($this->getId(), "integer") . " AND " .
-            " tag = " . $ilDB->quote($a_tag, "text") . " AND " .
-            " class = " . $ilDB->quote($a_class, "text") . " AND " .
-            " mq_id = " . $ilDB->quote($a_mq_id, "integer") . " AND " .
-            " custom = " . $ilDB->quote($a_custom, "integer") . " AND " .
-            " " . $ilDB->equals("type", $a_type, "text", true) . " AND " .
-            " parameter = " . $ilDB->quote($a_par, "text");
-
-        $ilDB->manipulate($q);
-    }
 
     /**
      * Delete style parameter by tag/class/parameter
@@ -1872,17 +1783,19 @@ class ilObjStyleSheet extends ilObject
     *
     */
     // todo: search for usages, add mq_id
+    /*
     public function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
     {
         ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id, $a_custom);
-    }
+    }*/
 
+    /*
     public static function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT * FROM style_parameter WHERE " .
             " style_id = " . $ilDB->quote($style_id, "integer") . " AND " .
             " tag = " . $ilDB->quote($a_tag, "text") . " AND " .
@@ -1891,9 +1804,9 @@ class ilObjStyleSheet extends ilObject
             " custom = " . $ilDB->quote($a_custom, "integer") . " AND " .
             " " . $ilDB->equals("type", $a_type, "text", true) . " AND " .
             " parameter = " . $ilDB->quote($a_par, "text");
-        
+
         $set = $ilDB->query($q);
-        
+
         if ($rec = $set->fetchRow()) {
             $q = "UPDATE style_parameter SET " .
                 " value = " . $ilDB->quote($a_val, "text") . " WHERE " .
@@ -1923,7 +1836,7 @@ class ilObjStyleSheet extends ilObject
 
             $ilDB->manipulate($q);
         }
-    }
+    }*/
 
 
     /**
@@ -2848,68 +2761,6 @@ class ilObjStyleSheet extends ilObject
     }
 
     /**
-    * Add color
-    */
-    public function addColor($a_name, $a_code)
-    {
-        $ilDB = $this->db;
-        
-        $ilDB->manipulate("INSERT INTO style_color (style_id, color_name, color_code)" .
-            " VALUES (" .
-            $ilDB->quote($this->getId(), "integer") . "," .
-            $ilDB->quote($a_name, "text") . "," .
-            $ilDB->quote($a_code, "text") .
-            ")");
-    }
-
-    /**
-    * Update color
-    */
-    public function updateColor($a_name, $a_new_name, $a_code)
-    {
-        $ilDB = $this->db;
-        
-        // todo: update names in parameters as well
-        
-        $ilDB->manipulate("UPDATE style_color SET " .
-            "color_name = " . $ilDB->quote($a_new_name, "text") . ", " .
-            "color_code = " . $ilDB->quote($a_code, "text") .
-            " WHERE style_id = " . $ilDB->quote($this->getId(), "integer") .
-            " AND color_name = " . $ilDB->quote($a_name, "text"));
-        ilObjStyleSheet::_writeUpToDate($this->getId(), false);
-        
-        // rename also the name in the style parameter values
-        if ($a_name != $a_new_name) {
-            $set = $ilDB->query("SELECT * FROM style_parameter " .
-                " WHERE style_id = " . $ilDB->quote($this->getId(), "integer") .
-                " AND (" .
-                " parameter = " . $ilDB->quote("background-color", "text") . " OR " .
-                " parameter = " . $ilDB->quote("color", "text") . " OR " .
-                " parameter = " . $ilDB->quote("border-color", "text") . " OR " .
-                " parameter = " . $ilDB->quote("border-top-color", "text") . " OR " .
-                " parameter = " . $ilDB->quote("border-bottom-color", "text") . " OR " .
-                " parameter = " . $ilDB->quote("border-left-color", "text") . " OR " .
-                " parameter = " . $ilDB->quote("border-right-color", "text") .
-                ")");
-            while ($rec = $ilDB->fetchAssoc($set)) {
-                if ($rec["value"] == "!" . $a_name ||
-                    is_int(strpos($rec["value"], "!" . $a_name . "("))) {
-                    // parameter is based on color -> rename it
-                    $this->replaceStylePar(
-                        $rec["tag"],
-                        $rec["class"],
-                        $rec["parameter"],
-                        str_replace($a_name, $a_new_name, $rec["value"]),
-                        $rec["type"],
-                        $rec["mq_id"],
-                        $rec["custom"]
-                    );
-                }
-            }
-        }
-    }
-
-    /**
     * Remove a color
     */
     public function removeColor($a_name)
@@ -2921,21 +2772,6 @@ class ilObjStyleSheet extends ilObject
             " color_name = " . $ilDB->quote($a_name, "text"));
     }
 
-    /**
-     * Check whether color exists
-     */
-    public function colorExists($a_color_name)
-    {
-        $ilDB = $this->db;
-        
-        $set = $ilDB->query("SELECT * FROM style_color WHERE " .
-            "style_id = " . $ilDB->quote($this->getId(), "integer") . " AND " .
-            "color_name = " . $ilDB->quote($a_color_name, "text"));
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return true;
-        }
-        return false;
-    }
 
     /**
     * Remove a color

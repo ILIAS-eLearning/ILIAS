@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
 /**
- * This class represents a background position in a property form.
+ * This class represents a border width with all/top/right/bottom/left in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
+class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 {
     /**
      * @var ilObjUser
@@ -30,84 +28,109 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
         $this->user = $DIC->user();
         parent::__construct($a_title, $a_postvar);
         $this->setType("border_width");
-        $this->dirs = array("horizontal", "vertical");
+        $this->dirs = array("all", "top", "bottom", "left", "right");
     }
 
     /**
-    * Set Horizontal Value.
+    * Set All Value.
     *
-    * @param	string	$a_horizontalvalue	Horizontal Value
+    * @param	string	$a_allvalue	All Value
     */
-    public function setHorizontalValue($a_horizontalvalue)
+    public function setAllValue($a_allvalue)
     {
-        $this->horizontalvalue = $a_horizontalvalue;
+        $this->allvalue = $a_allvalue;
     }
 
     /**
-    * Get Horizontal Value.
+    * Get All Value.
     *
-    * @return	string	Horizontal Value
+    * @return	string	All Value
     */
-    public function getHorizontalValue()
+    public function getAllValue()
     {
-        return $this->horizontalvalue;
+        return $this->allvalue;
     }
 
     /**
-    * Set Vertical Value.
+    * Set Top Value.
     *
-    * @param	string	$a_verticalvalue	Vertical Value
+    * @param	string	$a_topvalue	Top Value
     */
-    public function setVerticalValue($a_verticalvalue)
+    public function setTopValue($a_topvalue)
     {
-        $this->verticalvalue = $a_verticalvalue;
+        $this->topvalue = $a_topvalue;
     }
 
     /**
-    * Get Vertical Value.
+    * Get Top Value.
     *
-    * @return	string	Vertical Value
+    * @return	string	Top Value
     */
-    public function getVerticalValue()
+    public function getTopValue()
     {
-        return $this->verticalvalue;
+        return $this->topvalue;
     }
 
     /**
-    * Get value
+    * Set Bottom Value.
+    *
+    * @param	string	$a_bottomvalue	Bottom Value
     */
-    public function getValue()
+    public function setBottomValue($a_bottomvalue)
     {
-        if ($this->getHorizontalValue() != "") {
-            if ($this->getVerticalValue() != "") {
-                return $this->getHorizontalValue() . " " . $this->getVerticalValue();
-            } else {
-                return $this->getHorizontalValue();
-            }
-        } else {
-            if ($this->getVerticalValue() != "") {
-                return "left " . $this->getVerticalValue();
-            }
-        }
-        return "";
+        $this->bottomvalue = $a_bottomvalue;
     }
-    
+
     /**
-    * Set value
+    * Get Bottom Value.
+    *
+    * @return	string	Bottom Value
     */
-    public function setValue($a_val)
+    public function getBottomValue()
     {
-        $a_val = trim($a_val);
-        $a_val_arr = explode(" ", $a_val);
-        $hor = trim($a_val_arr[0]);
-        $ver = trim($a_val_arr[1]);
-        if ($hor == "center" && $ver == "") {
-            $ver = "center";
-        }
-        $this->setHorizontalValue($hor);
-        $this->setVerticalValue($ver);
+        return $this->bottomvalue;
     }
-    
+
+    /**
+    * Set Left Value.
+    *
+    * @param	string	$a_leftvalue	Left Value
+    */
+    public function setLeftValue($a_leftvalue)
+    {
+        $this->leftvalue = $a_leftvalue;
+    }
+
+    /**
+    * Get Left Value.
+    *
+    * @return	string	Left Value
+    */
+    public function getLeftValue()
+    {
+        return $this->leftvalue;
+    }
+
+    /**
+    * Set Right Value.
+    *
+    * @param	string	$a_rightvalue	Right Value
+    */
+    public function setRightValue($a_rightvalue)
+    {
+        $this->rightvalue = $a_rightvalue;
+    }
+
+    /**
+    * Get Right Value.
+    *
+    * @return	string	Right Value
+    */
+    public function getRightValue()
+    {
+        return $this->rightvalue;
+    }
+
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
@@ -134,7 +157,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
                 return false;
             }*/
             
-            if (!is_numeric($num_value) && trim($num_value) != "") {
+            if (!is_numeric($num_value) && $num_value != "") {
                 $this->setAlert($lng->txt("sty_msg_input_must_be_numeric"));
                 return false;
             }
@@ -150,8 +173,11 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
             
             if (trim($value) != "") {
                 switch ($dir) {
-                    case "horizontal": $this->setHorizontalValue($value); break;
-                    case "vertical": $this->setVerticalValue($value); break;
+                    case "all": $this->setAllValue($value); break;
+                    case "top": $this->setTopValue($value); break;
+                    case "bottom": $this->setBottomValue($value); break;
+                    case "left": $this->setLeftValue($value); break;
+                    case "right": $this->setRightValue($value); break;
                 }
             }
         }
@@ -166,16 +192,19 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
     {
         $lng = $this->lng;
         
-        $layout_tpl = new ilTemplate("tpl.prop_hv_layout.html", true, true, "Services/Style/Content");
+        $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
         
         foreach ($this->dirs as $dir) {
-            $tpl = new ilTemplate("tpl.prop_background_position.html", true, true, "Services/Style/Content");
+            $tpl = new ilTemplate("tpl.prop_trbl_border_width.html", true, true, "Services/Style/Content");
             $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits();
-            $pre_options = ilObjStyleSheet::_getStyleParameterValues("background-position");
-            $pre_options = $pre_options[$dir];
+            $pre_options = ilObjStyleSheet::_getStyleParameterValues("border-width");
+            
             switch ($dir) {
-                case "horizontal": $value = strtolower(trim($this->getHorizontalValue())); break;
-                case "vertical": $value = strtolower(trim($this->getVerticalValue())); break;
+                case "all": $value = strtolower(trim($this->getAllValue())); break;
+                case "top": $value = strtolower(trim($this->getTopValue())); break;
+                case "bottom": $value = strtolower(trim($this->getBottomValue())); break;
+                case "left": $value = strtolower(trim($this->getLeftValue())); break;
+                case "right": $value = strtolower(trim($this->getRightValue())); break;
             }
     
             if (in_array($value, $pre_options)) {
@@ -240,17 +269,35 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
     {
         $ilUser = $this->user;
         
-        if ($a_values[$this->getPostVar()]["horizontal"]["type"] == "predefined") {
-            $this->setHorizontalValue($a_values[$this->getPostVar()]["horizontal"]["pre_value"]);
+        if ($a_values[$this->getPostVar()]["all"]["type"] == "predefined") {
+            $this->setAllValue($a_values[$this->getPostVar()]["all"]["pre_value"]);
         } else {
-            $this->setHorizontalValue($a_values[$this->getPostVar()]["horizontal"]["num_value"] .
-                $a_values[$this->getPostVar()]["horizontal"]["num_unit"]);
+            $this->setAllValue($a_values[$this->getPostVar()]["all"]["num_value"] .
+                $a_values[$this->getPostVar()]["all"]["num_unit"]);
         }
-        if ($a_values[$this->getPostVar()]["vertical"]["type"] == "predefined") {
-            $this->setVerticalValue($a_values[$this->getPostVar()]["vertical"]["pre_value"]);
+        if ($a_values[$this->getPostVar()]["bottom"]["type"] == "predefined") {
+            $this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["pre_value"]);
         } else {
-            $this->setVerticalValue($a_values[$this->getPostVar()]["vertical"]["num_value"] .
-                $a_values[$this->getPostVar()]["vertical"]["num_unit"]);
+            $this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["num_value"] .
+                $a_values[$this->getPostVar()]["bottom"]["num_unit"]);
+        }
+        if ($a_values[$this->getPostVar()]["top"]["type"] == "predefined") {
+            $this->setTopValue($a_values[$this->getPostVar()]["top"]["pre_value"]);
+        } else {
+            $this->setTopValue($a_values[$this->getPostVar()]["top"]["num_value"] .
+                $a_values[$this->getPostVar()]["top"]["num_unit"]);
+        }
+        if ($a_values[$this->getPostVar()]["left"]["type"] == "predefined") {
+            $this->setLeftValue($a_values[$this->getPostVar()]["left"]["pre_value"]);
+        } else {
+            $this->setLeftValue($a_values[$this->getPostVar()]["left"]["num_value"] .
+                $a_values[$this->getPostVar()]["left"]["num_unit"]);
+        }
+        if ($a_values[$this->getPostVar()]["right"]["type"] == "predefined") {
+            $this->setRightValue($a_values[$this->getPostVar()]["right"]["pre_value"]);
+        } else {
+            $this->setRightValue($a_values[$this->getPostVar()]["right"]["num_value"] .
+                $a_values[$this->getPostVar()]["right"]["num_unit"]);
         }
     }
 }
