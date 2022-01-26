@@ -152,7 +152,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         }
         foreach ($participants as $mem_id) {
             if ($this->getMembersObject()->isAdmin($mem_id)) {
-                $this->getMembersObject()->updateContact($mem_id, in_array($mem_id, (bool) $contact));
+                $this->getMembersObject()->updateContact($mem_id, in_array($mem_id, $contact));
                 $this->getMembersObject()->updateNotification($mem_id, in_array($mem_id, $notification));
             } else {
                 $this->getMembersObject()->updateContact($mem_id, false);

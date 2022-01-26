@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,7 +31,7 @@ class ilCmiXapiLrsTypeList
      * @param	mixed		required availability or null
      * @return	array		array of assoc data arrays
      */
-    public static function getTypesData($a_extended = false, $a_availability = null): array
+    public static function getTypesData($a_extended = false, $a_availability = null) : array
     {
         global $ilDB;
         
@@ -60,7 +60,7 @@ class ilCmiXapiLrsTypeList
      * @var		integer		type_id
      * @return	integer		number of references
      */
-    public static function countUntrashedUsages($a_type_id): int
+    public static function countUntrashedUsages($a_type_id) : int
     {
         global $ilDB;
         
@@ -84,7 +84,7 @@ class ilCmiXapiLrsTypeList
      * @param	mixed		required availability or null
      * @return	array		id => title
      */
-    public static function getTypeOptions($a_availability = null): array
+    public static function getTypeOptions($a_availability = null) : array
     {
         global $ilDB;
         
@@ -104,7 +104,7 @@ class ilCmiXapiLrsTypeList
     /**
      * @return array<string, mixed[]>
      */
-    public static function getTypesStruct(): array
+    public static function getTypesStruct() : array
     {
         $a_s = array(
             'type_name' => array('type' => 'text', 'maxlength' => 32)

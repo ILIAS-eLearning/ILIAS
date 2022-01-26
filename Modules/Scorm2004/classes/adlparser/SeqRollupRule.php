@@ -66,15 +66,28 @@
     define("ROLLUP_SET_ATLEASTCOUNT", "atLeastCount");
     define("ROLLUP_SET_ATLEASTPERCENT", "atLeastPercent");
     
+    /******************************************************************************
+     *
+     * This file is part of ILIAS, a powerful learning management system.
+     *
+     * ILIAS is licensed with the GPL-3.0, you should have received a copy
+     * of said license along with the source code.
+     *
+     * If this is not the case or you just want to try ILIAS, you'll find
+     * us at:
+     *      https://www.ilias.de
+     *      https://github.com/ILIAS-eLearning
+     *
+     *****************************************************************************/
     class SeqRollupRule
     {
-        public $mAction = ROLLUP_ACTION_SATISFIED;
+        public int $mAction = ROLLUP_ACTION_SATISFIED;
         
-        public $mChildActivitySet = ROLLUP_SET_ALL;
+        public string $mChildActivitySet = ROLLUP_SET_ALL;
    
-        public $mMinCount = 0;
+        public int $mMinCount = 0;
             
-        public $mMinPercent = 0.0;
+        public float $mMinPercent = 0.0;
         
         public $mConditions = null;
         
@@ -83,7 +96,7 @@
             //$this->mRules=$iRules;
         }
         
-        public function setRollupAction($iAction)
+        public function setRollupAction($iAction) : void
         {
             if ($iAction == "satisfied") {
                 $this->mAction = ROLLUP_ACTION_SATISFIED;

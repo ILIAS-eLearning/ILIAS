@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -47,7 +47,7 @@ class ilCmiXapiStatementsGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -62,7 +62,7 @@ class ilCmiXapiStatementsGUI
         }
     }
 
-    protected function resetFilterCmd(): void
+    protected function resetFilterCmd() : void
     {
         $table = $this->buildTableGUI();
         $table->resetFilter();
@@ -70,7 +70,7 @@ class ilCmiXapiStatementsGUI
         $this->showCmd();
     }
 
-    protected function applyFilterCmd(): void
+    protected function applyFilterCmd() : void
     {
         $table = $this->buildTableGUI();
         $table->writeFilterToSession();
@@ -78,7 +78,7 @@ class ilCmiXapiStatementsGUI
         $this->showCmd();
     }
 
-    protected function showCmd(): void
+    protected function showCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -103,7 +103,7 @@ class ilCmiXapiStatementsGUI
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
 
-    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         $table->determineOffsetAndOrder();
 
@@ -114,7 +114,7 @@ class ilCmiXapiStatementsGUI
         $filter->setOrderDirection($table->getOrderDirection());
     }
 
-    protected function initActorFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initActorFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         global $DIC;
         if ($this->access->hasOutcomesAccess()) {
@@ -134,7 +134,7 @@ class ilCmiXapiStatementsGUI
         }
     }
 
-    protected function initVerbFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initVerbFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
 
@@ -143,7 +143,7 @@ class ilCmiXapiStatementsGUI
         }
     }
 
-    protected function initPeriodFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
+    protected function initPeriodFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         $period = $table->getFilterItemByPostVar('period');
 
@@ -156,7 +156,7 @@ class ilCmiXapiStatementsGUI
         }
     }
 
-    public function asyncUserAutocompleteCmd(): void
+    public function asyncUserAutocompleteCmd() : void
     {
         $auto = new ilCmiXapiUserAutocomplete($this->object->getId());
         $auto->setSearchFields(array('login','firstname','lastname','email'));
@@ -176,7 +176,7 @@ class ilCmiXapiStatementsGUI
      * @param ilCmiXapiStatementsTableGUI $table
      * @param ilCmiXapiStatementsReportFilter $filter
      */
-    protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter): void
+    protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter) : void
     {
         global $DIC;
         if ($this->access->hasOutcomesAccess()) {
@@ -186,10 +186,9 @@ class ilCmiXapiStatementsGUI
                 $table->resetOffset();
                 return;
             }
-        }
-        else {
+        } else {
             $usrId = $DIC->user()->getId();
-            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(),$usrId)) {
+            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(), $usrId)) {
                 $table->setData(array());
                 $table->setMaxCount(0);
                 $table->resetOffset();
@@ -224,7 +223,7 @@ class ilCmiXapiStatementsGUI
         return $table;
     }
     /*
-	//dynamic verbs needs feature request
+    //dynamic verbs needs feature request
     public function getVerbs()
     {
         global $DIC;
@@ -247,7 +246,7 @@ class ilCmiXapiStatementsGUI
             'Cache-Control' => 'no-cache, no-store, must-revalidate'
         ];
         $pipeline = json_encode($this->getVerbsPipline());
-        $pipeline2 = json_encode($this->getVerbsPipline(),JSON_PRETTY_PRINT);        
+        $pipeline2 = json_encode($this->getVerbsPipline(),JSON_PRETTY_PRINT);
         //$DIC->logger()->root()->log($pipeline2);
 
         $defaultVerbsUrl = $defaultLrs . "?pipeline=" . urlencode($pipeline);
@@ -317,7 +316,7 @@ class ilCmiXapiStatementsGUI
 
         // project distinct verbs
         $group = array('_id' => '$statement.verb.id');
-        // $project = array('statement.verb.id' => 1);   
+        // $project = array('statement.verb.id' => 1);
         // project distinct verbs
 
         $pipeline[] = array('$match' => $match);

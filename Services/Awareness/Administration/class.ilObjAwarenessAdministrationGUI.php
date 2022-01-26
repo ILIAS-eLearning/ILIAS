@@ -55,7 +55,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'iluseractionadmingui':
-                $gui = new ilUserActionAdminGUI();
+                $gui = new ilUserActionAdminGUI($this->requested_ref_id);
                 $gui->setActionContext(new ilAwarenessUserActionContext());
                 $this->tabs_gui->setTabActive('settings');
                 $this->setSubTabs("actions");

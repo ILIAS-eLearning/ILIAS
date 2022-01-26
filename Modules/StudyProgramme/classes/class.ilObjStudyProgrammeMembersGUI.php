@@ -15,6 +15,8 @@ use ILIAS\Data\Factory;
  */
 class ilObjStudyProgrammeMembersGUI
 {
+    use ilTableCommandHelper;
+
     const DEFAULT_CMD = "view";
 
     const ACTION_MARK_ACCREDITED = "mark_accredited";
@@ -253,7 +255,6 @@ class ilObjStudyProgrammeMembersGUI
 
     /**
      * Assigns a users to SP
-     *
      * @param string[] $user_ids
      * @return bool|void
      */
@@ -282,9 +283,8 @@ class ilObjStudyProgrammeMembersGUI
 
     /**
      * Shows list of completed courses for each user if he should be assigned
-     *
-     * @param int[] 	$completed_courses
-     * @param int[] 	$users
+     * @param int[] $completed_courses
+     * @param int[] $users
      */
     public function viewCompletedCourses(array $completed_courses, array $users) : void
     {
@@ -353,7 +353,7 @@ class ilObjStudyProgrammeMembersGUI
     }
 
     /**
-     *  @param int[] $users
+     * @param int[] $users
      */
     protected function getAddableUsers(array $users) : array
     {
@@ -378,9 +378,7 @@ class ilObjStudyProgrammeMembersGUI
 
     /**
      * Add users to SP
-     *
-     * @param string[] 	$user_ids
-     *
+     * @param string[] $user_ids
      * @return array <string, ilStudyProgrammeAssignment>
      */
     protected function _addUsers(array $user_ids) : array
@@ -407,7 +405,7 @@ class ilObjStudyProgrammeMembersGUI
      */
     protected function getPostPrgsIds() : array
     {
-        if ($_POST['select_cmd_all']) {
+        if ($this->getSelectAllPostArray()['select_cmd_all']) {
             $prgrs_ids = $_POST[self::F_ALL_PROGRESS_IDS];
             $prgrs_ids = explode(',', $prgrs_ids);
         } else {
@@ -542,7 +540,7 @@ class ilObjStudyProgrammeMembersGUI
                 $msgs->add(false, 'no_permission_to_update_plan_of_user', (string) $prgrs_id);
                 continue;
             }
-            
+
             $this->object->updatePlanFromRepository(
                 $prgrs_id,
                 $this->user->getId(),
@@ -552,7 +550,6 @@ class ilObjStudyProgrammeMembersGUI
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
     }
-
 
     public function changeDeadlineMulti() : void
     {
@@ -632,7 +629,7 @@ class ilObjStudyProgrammeMembersGUI
             $progress = $this->getProgressObject($progress_id);
             $user = ilObjUser::_lookupFullname($progress->getUserId());
             $name = $user . ' (' . $progress->getId() . ')';
-            
+
             $this->confirmation_gui->addItem(
                 self::F_SELECTED_PROGRESS_IDS . '[]',
                 $progress_id,
@@ -762,7 +759,6 @@ class ilObjStudyProgrammeMembersGUI
         $this->ctrl->setParameter($this, "prgrs_id", null);
         return $link;
     }
-
 
     protected function mayCurrentUserEditProgress(int $progress_id) : bool
     {

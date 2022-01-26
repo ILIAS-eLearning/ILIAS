@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,7 +31,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
      * @param $objId
      * @param $usrId
      */
-    public function getCmixUserResult($objId, $usrId): \ilCmiXapiResult
+    public function getCmixUserResult($objId, $usrId) : \ilCmiXapiResult
     {
         if (!isset($this->cmixUserResult[$objId])) {
             $this->cmixUserResult[$objId] = array();
@@ -113,7 +113,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     /**
      * @return array<int, int[]>
      */
-    private static function loadStatusInfo($a_obj_id): array
+    private static function loadStatusInfo($a_obj_id) : array
     {
         $statusInfo = [
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM => [],
@@ -183,13 +183,13 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     /**
      * @param ilCmiXapiResult $result
      */
-    abstract protected function resultSatisfyCompleted(ilCmiXapiResult $result): bool;
+    abstract protected function resultSatisfyCompleted(ilCmiXapiResult $result) : bool;
     
     /**
      * @param ilObjCmiXapi $object
      * @param ilCmiXapiResult $result
      */
-    protected static function _resultSatisfyCompleted(ilCmiXapiResult $result, $a_obj_id): bool
+    protected static function _resultSatisfyCompleted(ilCmiXapiResult $result, $a_obj_id) : bool
     {
         $lpStatusDetermination = new static($a_obj_id);
         return $lpStatusDetermination->resultSatisfyCompleted($result);
@@ -198,13 +198,13 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     /**
      * @param ilCmiXapiResult $result
      */
-    abstract protected function resultSatisfyFailed(ilCmiXapiResult $result): bool;
+    abstract protected function resultSatisfyFailed(ilCmiXapiResult $result) : bool;
     
     /**
      * @param ilObjCmiXapi $object
      * @param ilCmiXapiResult $result
      */
-    protected static function _resultSatisfyFailed(ilCmiXapiResult $result, $a_obj_id): bool
+    protected static function _resultSatisfyFailed(ilCmiXapiResult $result, $a_obj_id) : bool
     {
         $lpStatusDetermination = new static($a_obj_id);
         return $lpStatusDetermination->resultSatisfyFailed($result);

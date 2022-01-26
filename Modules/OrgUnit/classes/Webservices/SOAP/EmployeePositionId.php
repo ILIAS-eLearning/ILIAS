@@ -26,7 +26,7 @@ class EmployeePositionId extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getEmployeePositionId";
     }
@@ -44,7 +44,7 @@ class EmployeePositionId extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('position_id' => Base::TYPE_INT);
     }
@@ -53,7 +53,7 @@ class EmployeePositionId extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns the id of the default position 'Employee'";
     }

@@ -32,12 +32,12 @@ interface ilDatePeriod
     /**
      * Get start of date period
      */
-    public function getStart() : ilDateTime;
+    public function getStart() : ?ilDateTime;
     
     /**
      * Get end of period
      */
-    public function getEnd() : ilDateTime;
+    public function getEnd() : ?ilDateTime;
     
     
     /**

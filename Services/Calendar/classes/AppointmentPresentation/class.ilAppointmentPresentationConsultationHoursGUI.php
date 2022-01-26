@@ -1,16 +1,14 @@
 <?php declare(strict_types=1);
 
 /**
- *
- * @author Jesús López Reyes <lopez@leifos.com>
+ * @author            Jesús López Reyes <lopez@leifos.com>
  * @ilCtrl_IsCalledBy ilAppointmentPresentationConsultationHoursGUI: ilCalendarAppointmentPresentationGUI
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
     public function collectPropertiesAndActions() : void
     {
-        include_once('./Services/Link/classes/class.ilLink.php');
 
         $a_app = $this->appointment;
 
@@ -53,14 +51,15 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
         }
 
         // owner
-        $this->addInfoProperty($this->lng->txt('cal_ch_booking_owner'), ilObjUser::_lookupFullname($booking->getObjId()));
+        $this->addInfoProperty($this->lng->txt('cal_ch_booking_owner'),
+            ilObjUser::_lookupFullname($booking->getObjId()));
 
         if ($deadline = $booking->getDeadlineHours()) {
             $limit = $a_app['dstart'] - ($deadline * 60 * 60);
 
             if (time() > $limit) {
                 $this->addInfoProperty($this->lng->txt("cal_ch_deadline"), $this->lng->txt("exc_time_over_short"));
-            //$this->addListItemProperty($this->lng->txt("cal_ch_deadline"),$this->lng->txt("exc_time_over_short"));
+                //$this->addListItemProperty($this->lng->txt("cal_ch_deadline"),$this->lng->txt("exc_time_over_short"));
             } else {
                 //appointment starts at -> $a_app['dstart']
                 //limit registration  -> $a_app['dstart'] - $deadline
@@ -84,8 +83,8 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 
         if ($user_entry && !$is_owner) {
             // find source calendar entry in owner calendar
-            include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-            $apps = ilConsultationHourAppointments::getAppointmentIds($booking->getObjId(), $a_app['event']->getContextId(), $a_app['event']->getStart());
+            $apps = ilConsultationHourAppointments::getAppointmentIds($booking->getObjId(),
+                $a_app['event']->getContextId(), $a_app['event']->getStart());
             $ref_event = $apps[0];
         } else {
             $ref_event = $a_app['event']->getEntryId();

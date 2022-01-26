@@ -3,7 +3,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilConsultationHourUtils
@@ -12,8 +11,7 @@ class ilConsultationHourUtils
         int $ref_id,
         int $current_user_id,
         array $ctrl_class_structure
-    ) : array
-    {
+    ) : array {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
@@ -50,11 +48,13 @@ class ilConsultationHourUtils
 
             $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', $user_id);
             if ($next_entry instanceof \ilCalendarEntry) {
-                $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', $next_entry->getStart()->get(IL_CAL_DATE));
+                $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed',
+                    $next_entry->getStart()->get(IL_CAL_DATE));
             }
             $current_link = [
                 'link' => $ctrl->getLinkTargetByClass($ctrl_class_structure, 'selectCHCalendarOfUser'),
-                'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
+                'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id),
+                    $lng->txt("cal_consultation_hours_for_user"))
             ];
             $links[] = $current_link;
         }
@@ -64,8 +64,6 @@ class ilConsultationHourUtils
         return $links;
     }
 
-
-
     /**
      * @return int[]
      */
@@ -73,8 +71,7 @@ class ilConsultationHourUtils
         ilBookingEntry $booking,
         ilDateTime $start,
         ilDateTime $end
-    ) : array
-    {
+    ) : array {
         global $DIC;
 
         $db = $DIC->database();
@@ -83,8 +80,10 @@ class ilConsultationHourUtils
             'join cal_cat_assignments cca on ce.cal_id = cca.cal_id ' .
             'join cal_categories cc on cca.cat_id = cc.cat_id ' .
             'where context_id = ' . $db->quote($booking->getId(), 'integer') . ' ' .
-            'and starta = ' . $db->quote($start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC), \ilDBConstants::T_TIMESTAMP) . ' ' .
-            'and enda = ' . $db->quote($end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC), \ilDBConstants::T_TIMESTAMP) . ' ' .
+            'and starta = ' . $db->quote($start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
+                \ilDBConstants::T_TIMESTAMP) . ' ' .
+            'and enda = ' . $db->quote($end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
+                \ilDBConstants::T_TIMESTAMP) . ' ' .
             'and type = ' . $db->quote(\ilCalendarCategory::TYPE_CH, 'integer');
         $res = $db->query($query);
 
@@ -108,27 +107,22 @@ class ilConsultationHourUtils
         $lng = $DIC->language();
 
         // Create new default consultation hour calendar
-        include_once './Services/Language/classes/class.ilLanguageFactory.php';
         $cal_lang = ilLanguageFactory::_getLanguage($lng->getDefaultLanguage());
         $cal_lang->loadLanguageModule('dateplaner');
-        
-        include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
-        include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
+
         $ch = ilCalendarUtil::initDefaultCalendarByType(
             ilCalendarCategory::TYPE_CH,
             $a_usr_id,
             $cal_lang->txt('cal_ch_personal_ch'),
             true
         );
-        
+
         // duplicate appointment
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $app = new ilCalendarEntry($a_app_id);
         $personal_app = clone $app;
         $personal_app->save();
 
         // assign appointment to category
-        include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
         $assignment = new ilCalendarCategoryAssignments($personal_app->getEntryId());
         $assignment->addAssignment($ch->getCategoryID());
 
@@ -137,7 +131,7 @@ class ilConsultationHourUtils
         $booking->book($app->getEntryId(), $a_usr_id);
         return true;
     }
-    
+
     /**
      * Cancel a booking
      */
@@ -145,7 +139,7 @@ class ilConsultationHourUtils
     {
         // Delete personal copy of appointment
         $app = new ilCalendarEntry($a_app_id);
-        
+
         $user_apps = ilConsultationHourAppointments::getAppointmentIds(
             $a_usr_id,
             $app->getContextId(),
@@ -157,12 +151,11 @@ class ilConsultationHourUtils
             $uapp = new ilCalendarEntry($uapp_id);
             $uapp->delete();
 
-            include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
             ilCalendarCategoryAssignments::_deleteByAppointmentId($uapp_id);
-            
+
             break;
         }
-        
+
         // Delete booking entries
         // Send notification
         $booking = new ilBookingEntry($app->getContextId());
@@ -173,7 +166,7 @@ class ilConsultationHourUtils
         }
         return true;
     }
-    
+
     /**
      * Lookup managed users
      * @return int[]
@@ -184,9 +177,9 @@ class ilConsultationHourUtils
 
         $ilDB = $DIC->database();
         $query = 'SELECT user_id FROM cal_ch_settings ' .
-                'WHERE admin_id = ' . $ilDB->quote($a_usr_id, 'integer');
+            'WHERE admin_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
-        
+
         $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $users[] = (int) $row->user_id;

@@ -13,12 +13,10 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-
 /**
  * SCORM to lp connector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
  * @package ModulesScormAicc
  */
 class ilScormLP extends ilObjectLP
@@ -26,6 +24,7 @@ class ilScormLP extends ilObjectLP
     protected ?bool $precondition_cache = null;
 
     /**
+     * @param $a_lp_active
      * @return int[]
      */
     public static function getDefaultModes($a_lp_active) : array
@@ -36,12 +35,18 @@ class ilScormLP extends ilObjectLP
         );
     }
 
+    /**
+     * @return int
+     */
     public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    public function getValidModes()
+    /**
+     * @return array
+     */
+    public function getValidModes() : array
     {
         $subtype = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
         if ($subtype !== 'scorm2004') {
@@ -85,17 +90,18 @@ class ilScormLP extends ilObjectLP
     /**
      * AK, 14Sep2018: This looks strange, the mode is auto-activated if this object is used
      * as a precondition trigger? This is not implemented for any other object type.
-     *
-     * @return int
      */
-    public function getCurrentMode()
+    public function getCurrentMode() : int
     {
-        if ($this->checkSCORMPreconditions()) {
-            return ilLPObjSettings::LP_MODE_SCORM;
-        }
+//        if ($this->checkSCORMPreconditions()) {
+//            return ilLPObjSettings::LP_MODE_SCORM;
+//        }
         return parent::getCurrentMode();
     }
 
+    /**
+     * @return bool
+     */
     protected function checkSCORMPreconditions() : bool
     {
         if (is_bool($this->precondition_cache)) {
@@ -110,6 +116,12 @@ class ilScormLP extends ilObjectLP
         return $this->precondition_cache;
     }
 
+    /**
+     * @param array $a_res
+     * @param       $a_usr_id
+     * @param       $a_obj_ids
+     * @return void
+     */
     protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : void
     {
         global $DIC;
@@ -149,6 +161,9 @@ class ilScormLP extends ilObjectLP
         }
     }
 
+    /**
+     * @return string
+     */
     public function getMailTemplateId() : string
     {
         return ilScormMailTemplateLPContext::ID;

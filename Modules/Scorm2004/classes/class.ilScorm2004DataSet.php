@@ -1,14 +1,25 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilScorm2004DataSet
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilScorm2004DataSet extends ilDataSet
 {
-    protected $temp_dir = array();
+    protected array $temp_dir = array();
 
     /**
      * Note: this is currently used for SCORM authoring lms
@@ -73,10 +84,10 @@ class ilScorm2004DataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                     foreach ($a_ids as $sahs_id) {
-                        if (ilObject::_lookupType($sahs_id) == "sahs") {
+                        if (ilObject::_lookupType((int) $sahs_id) == "sahs") {
                             $this->data[] = array("Id" => $sahs_id,
-                                "Title" => ilObject::_lookupTitle($sahs_id),
-                                "Description" => ilObject::_lookupDescription($sahs_id),
+                                "Title" => ilObject::_lookupTitle((int) $sahs_id),
+                                "Description" => ilObject::_lookupDescription((int) $sahs_id),
                                 "Editable" => 1
                             );
                         }
@@ -90,6 +101,7 @@ class ilScorm2004DataSet extends ilDataSet
 
     /**
      * Determine the dependent sets of data
+     * @return mixed[]
      */
     protected function getDependencies(
         string $a_entity,
@@ -170,7 +182,7 @@ class ilScorm2004DataSet extends ilDataSet
                 $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
                 $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
 
-                $lm->setEditable($a_rec["Editable"]);
+//                $lm->setEditable($a_rec["Editable"]);
                 $lm->setImportSequencing(false);
                 $lm->setSequencingExpertMode(false);
                 $lm->setSubType("scorm2004");

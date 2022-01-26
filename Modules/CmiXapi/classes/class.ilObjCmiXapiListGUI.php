@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,7 +24,7 @@
  */
 class ilObjCmiXapiListGUI extends ilObjectListGUI
 {
-    public function init(): void
+    public function init() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -48,7 +48,7 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

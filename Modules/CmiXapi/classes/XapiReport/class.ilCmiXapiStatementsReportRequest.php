@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -43,7 +43,7 @@ class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
     /**
      * @return ilCmiXapiStatementsReport $report
      */
-    public function queryReport($objId): \ilCmiXapiStatementsReport
+    public function queryReport($objId) : \ilCmiXapiStatementsReport
     {
         $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
         

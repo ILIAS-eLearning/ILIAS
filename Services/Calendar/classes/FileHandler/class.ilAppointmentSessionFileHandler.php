@@ -4,18 +4,15 @@
 
 use ILIAS\Calendar\FileHandler\ilFileProperty;
 
-
 /**
  * Session appointment file handler
- *
- * @author Alex Killing <killing@leifos.de>
+ * @author  Alex Killing <killing@leifos.de>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentSessionFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
 {
     /**
      * Get files (for appointment)
-     *
      * @param
      * @return ilFileProperty[]
      */

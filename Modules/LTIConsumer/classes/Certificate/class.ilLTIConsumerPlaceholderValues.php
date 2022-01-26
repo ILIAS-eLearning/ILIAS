@@ -134,7 +134,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
             $completionDate !== null &&
             $completionDate !== ''
         ) {
-        	$placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
+            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }
 

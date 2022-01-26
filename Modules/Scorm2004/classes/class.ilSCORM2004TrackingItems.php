@@ -13,9 +13,6 @@ include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php
  */
 class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     /**
@@ -83,6 +80,15 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
+    /**
+     * @param $a_user
+     * @param $a_sco
+     * @param $b_orderBySCO
+     * @param $allowExportPrivacy
+     * @param $obj_id
+     * @param $lmTitle
+     * @return array|mixed[][]
+     */
     public function exportSelectedCore(
         $a_user = array(),
         $a_sco = array(),
@@ -913,7 +919,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             array('sco', 'item', $obj_id)
         );
         while ($row = $ilDB->fetchAssoc($res)) {
-            $scoCounter = $row['counter'];
+            $scoCounter = (int) $row['counter'];
         }
 
         $u_startedSCO = array();

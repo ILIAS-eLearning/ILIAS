@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -77,7 +77,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->hasOutcomeAccess = $hasOutcomeAccess;
     }
 
-    protected function initColumns(): void
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

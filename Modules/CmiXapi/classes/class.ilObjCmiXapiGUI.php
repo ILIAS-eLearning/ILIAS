@@ -1,15 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system.
+ *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
+ *
  *****************************************************************************/
-
 /**
  * Class ilObjCmiXapiGUI
  * @author       Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -97,8 +100,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $typeLearningModule->setInfo($this->lng->txt('cmix_add_cmi5_lm_info'));
         $type->addOption($typeLearningModule);
 
-        $typeGenericModule = new ilRadioOption($this->lng->txt('cmix_add_xapi_standard_object'),
-            ilObjCmiXapi::CONT_TYPE_GENERIC);
+        $typeGenericModule = new ilRadioOption(
+            $this->lng->txt('cmix_add_xapi_standard_object'),
+            ilObjCmiXapi::CONT_TYPE_GENERIC
+        );
         $typeGenericModule->setInfo($this->lng->txt('cmix_add_xapi_standard_object_info'));
         $type->addOption($typeGenericModule);
 
@@ -257,6 +262,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $id->save();
     }
 
+    /**
+     * @param $a_sub_type
+     * @param $a_sub_id
+     * @return null|ilObjectListGUI
+     * @throws ilCtrlException
+     */
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
     {
         global $DIC;
@@ -570,7 +581,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
         //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
         ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-        ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), 1) . '</pre>');
+        ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
     }
 
     public function addLocatorItems() : void
@@ -642,16 +653,16 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+                $info->setBlockProperty("news", "settings", (string) true);
+                $info->setBlockProperty("news", "public_notifications_option", (string) true);
             }
         }
 
         if (DEVMODE) {
             // Development Info
             $info->addSection('DEVMODE Info');
-            $info->addProperty('Local Object ID', $this->object->getId());
-            $info->addProperty('Current User ID', $DIC->user()->getId());
+            $info->addProperty('Local Object ID', (string) $this->object->getId());
+            $info->addProperty('Current User ID', (string) $DIC->user()->getId());
         }
 
         // standard meta data
@@ -667,8 +678,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $info->addProperty($DIC->language()->txt('cmix_lrs_type'), $this->object->getLrsType()->getTitle());
 
         if ($this->object->isSourceTypeExternal()) {
-            $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(),
-                $this->object->getPrivacyIdent());
+            $cmixUser = new ilCmiXapiUser(
+                $this->object->getId(),
+                $DIC->user()->getId(),
+                $this->object->getPrivacyIdent()
+            );
             if ($cmixUser->getUsrIdent()) {
                 $info->addProperty(
                     $DIC->language()->txt("conf_user_registered_mail"),
@@ -754,12 +768,18 @@ class ilObjCmiXapiGUI extends ilObject2GUI
              * this is not a valid query because if you switched privacyIdent mode before you will get
              * an existing user without launched data like proxySuccess
              */
-            $cmiUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId(),
-                $this->object->getPrivacyIdent());
+            $cmiUserExists = ilCmiXapiUser::exists(
+                $this->object->getId(),
+                $DIC->user()->getId(),
+                $this->object->getPrivacyIdent()
+            );
 
             if ($cmiUserExists) {
-                $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(),
-                    $this->object->getPrivacyIdent());
+                $cmixUser = new ilCmiXapiUser(
+                    $this->object->getId(),
+                    $DIC->user()->getId(),
+                    $this->object->getPrivacyIdent()
+                );
 
                 if ($this->isFetchXapiStatementsRequired($cmixUser)) {
                     $fetchButton = ilLinkButton::getInstance();
@@ -815,8 +835,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $info = $DIC->language()->txt('xapi_statements_not_fetched_yet');
         } else {
             $info = $DIC->language()->txt('xapi_statements_last_fetch_date') . ' ' . ilDatePresentation::formatDate(
-                    $cmixUser->getFetchUntil()
-                );
+                $cmixUser->getFetchUntil()
+            );
         }
 
         ilUtil::sendInfo($info);

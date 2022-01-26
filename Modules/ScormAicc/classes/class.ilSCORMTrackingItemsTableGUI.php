@@ -30,8 +30,15 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * Constructor
+     * @param             $a_obj_id
+     * @param object|null $a_parent_obj
+     * @param string      $a_parent_cmd
+     * @param array       $a_userSelected
+     * @param array       $a_scosSelected
+     * @param             $a_report
+     * @throws ilCtrlException
      */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, $a_userSelected, $a_scosSelected, $a_report)
+    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, $a_report)
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -98,9 +105,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         //		$this->initFilter();
         $this->getItems();
     }
+
     /**
      * Get selectable columns
-     * @param
      * @return array
      */
     public function getSelectableColumns() : array
@@ -140,13 +147,16 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
     public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-
+    /**
+     * @return void
+     */
     public function getItems() : void
     {
         global $DIC;
@@ -189,7 +199,14 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
         $this->setData($tr_data);
     }
-    protected function parseValue($id, $value, $type)
+
+    /**
+     * @param string $id
+     * @param        $value
+     * @param string $type
+     * @return float|mixed|string
+     */
+    protected function parseValue(string $id, $value, string $type)
     {
         global $DIC;
         $lng = $DIC->language();
@@ -210,9 +227,13 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
         return $value;
     }
+
     /**
-    * Fill table row
-    */
+     * Fill table row
+     * @param array $a_set
+     * @return void
+     * @throws ilTemplateException
+     */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -226,6 +247,11 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param ilExcel $a_excel
+     * @param int     $a_row
+     * @return void
+     */
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
@@ -236,6 +262,12 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param ilExcel $a_excel
+     * @param int     $a_row
+     * @param array   $a_set
+     * @return void
+     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         global $DIC;
@@ -253,6 +285,10 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param ilCSVWriter $a_csv
+     * @return void
+     */
     protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
@@ -263,6 +299,11 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
+    /**
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
+     * @return void
+     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         global $DIC;

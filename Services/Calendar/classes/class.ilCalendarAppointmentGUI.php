@@ -1,26 +1,27 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
-* Administrate calendar appointments
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesCalendar
-*/
+ * Administrate calendar appointments
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarAppointmentGUI
 {
     private ilPropertyFormGUI $form;
     private ilCalendarUserNotification $notification;
 
     protected ilDate $seed;
-    protected ilDate $initialDate;
+    protected ilDateTime $initialDate;
     protected bool $default_fulltime = true;
     protected ilCalendarEntry $app;
     protected ilCalendarRecurrence $rec;
     protected string $timezone;
-    
+
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
@@ -35,7 +36,7 @@ class ilCalendarAppointmentGUI
      * @var RequestInterface|ServerRequestInterface
      */
     protected $request;
-    
+
     /**
      * @todo make appointment_id required and remove all GET request
      */
@@ -51,7 +52,7 @@ class ilCalendarAppointmentGUI
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
-        $this->help  = $DIC->help();
+        $this->help = $DIC->help();
         $this->error = $DIC['ilErr'];
 
         $this->request = $DIC->http()->request();
@@ -61,7 +62,7 @@ class ilCalendarAppointmentGUI
         $this->initInitialDate($initialDate);
         $this->initAppointment($a_appointment_id);
     }
-    
+
     public function executeCommand() : void
     {
         // Clear tabs and set back target
@@ -73,36 +74,35 @@ class ilCalendarAppointmentGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
-            
+
             default:
                 $cmd = $this->ctrl->getCmd("add");
                 $this->$cmd();
                 break;
         }
     }
-    
+
     public function getAppointment() : ilCalendarEntry
     {
         return $this->app;
     }
-    
+
     protected function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
-    
+
     protected function initForm(
         string $a_mode,
         bool $a_as_milestone = false,
         bool $a_edit_single_app = false
-    ) : ilPropertyFormGUI
-    {
+    ) : ilPropertyFormGUI {
         $this->form = new ilPropertyFormGUI();
         ilYuiUtil::initDomEvent();
         $resp_info = false;
         switch ($a_mode) {
             case 'create':
-                $this->ctrl->saveParameter($this, array('seed','idate'));
+                $this->ctrl->saveParameter($this, array('seed', 'idate'));
                 $this->form->setFormAction($this->ctrl->getFormAction($this));
                 if ($a_as_milestone) {
                     $this->form->setTitle($this->lng->txt('cal_new_ms'));
@@ -121,18 +121,18 @@ class ilCalendarAppointmentGUI
                 } else {
                     $this->form->setTitle($this->lng->txt('cal_edit_appointment'));
                 }
-                $this->ctrl->saveParameter($this, array('seed','app_id','idate'));
+                $this->ctrl->saveParameter($this, array('seed', 'app_id', 'idate'));
                 $this->form->setFormAction($this->ctrl->getFormAction($this));
-                
+
                 $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
                 $cat = $ass->getFirstAssignment();
-                include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
                 $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat);
                 $type = ilObject::_lookupType($cat_info['obj_id']);
                 if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                     && ($type == "grp" || $type == "crs")) {
                     $resp_info = true;
-                    $this->form->addCommandButton('editResponsibleUsers', $this->lng->txt('cal_change_responsible_users'));
+                    $this->form->addCommandButton('editResponsibleUsers',
+                        $this->lng->txt('cal_change_responsible_users'));
                 }
                 $this->form->addCommandButton('update', $this->lng->txt('save'));
                 // $this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
@@ -146,7 +146,7 @@ class ilCalendarAppointmentGUI
         $title->setMaxLength(128);
         $title->setSize(32);
         $this->form->addItem($title);
-        
+
         // calendar selection
         $calendar = new ilSelectInputGUI($this->lng->txt('cal_category_selection'), 'calendar');
         if ($_POST['category']) {
@@ -161,7 +161,6 @@ class ilCalendarAppointmentGUI
             $calendar->setValue($cat);
             $selected_calendar = $cat;
         } elseif (isset($_GET['ref_id'])) {
-            include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
             $obj_cal = ilObject::_lookupObjId($_GET['ref_id']);
             $calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
             $selected_calendar = ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal);
@@ -170,23 +169,21 @@ class ilCalendarAppointmentGUI
         } else {
             $cats = ilCalendarCategories::_getInstance($this->user->getId());
             $categories = $cats->prepareCategoriesOfUserForSelection();
-            $selected_calendar = key((array) $categories);
+            $selected_calendar = key($categories);
             $calendar->setValue($selected_calendar);
         }
         $calendar->setRequired(true);
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         $calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
-        
-        include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+
         if (ilCalendarSettings::_getInstance()->isNotificationEnabled()) {
             $notification_cals = $cats->getNotificationCalendars();
             $notification_cals = count($notification_cals) ? implode(',', $notification_cals) : '';
             $calendar->addCustomAttribute("onchange=\"ilToggleNotification([" . $notification_cals . "]);\"");
         }
         $this->form->addItem($calendar);
-        
+
         if (!$a_as_milestone) {
-            include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
             $this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
             $dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'), 'event');
             $dur->setRequired(true);
@@ -200,7 +197,6 @@ class ilCalendarAppointmentGUI
             $this->form->addItem($dur);
 
             // recurrence
-            include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
             $rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'), 'frequence');
             $rec->setRecurrence($this->rec);
             $this->form->addItem($rec);
@@ -217,7 +213,7 @@ class ilCalendarAppointmentGUI
             $deadline->setShowTime(false);
             $deadline->setMinuteStepSize(5);
             $this->form->addItem($deadline);
-            
+
             // completion
             $completion_vals = array();
             for ($i = 0; $i <= 100; $i += 5) {
@@ -231,9 +227,9 @@ class ilCalendarAppointmentGUI
             $compl->setValue($this->app->getCompletion());
             $this->form->addItem($compl);
         }
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $desc->setValue((string) $this->app->getDescription());
+        $desc->setValue($this->app->getDescription());
         $desc->setRows(5);
         $this->form->addItem($desc);
 
@@ -283,7 +279,6 @@ class ilCalendarAppointmentGUI
         }
 
         // Notifications
-        include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
         if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and count($cats->getNotificationCalendars())) {
             $selected_cal = new ilCalendarCategory($selected_calendar);
             $disabled = true;
@@ -303,8 +298,7 @@ class ilCalendarAppointmentGUI
         }
         return $this->form;
     }
-    
-    
+
     /**
      * add new appointment
      */
@@ -313,13 +307,13 @@ class ilCalendarAppointmentGUI
         $this->help->setScreenIdComponent("cal");
         $this->help->setScreenId("app");
         $this->help->setSubScreenId("create");
-        
+
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initForm('create');
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     /**
      * add milestone
      */
@@ -341,37 +335,34 @@ class ilCalendarAppointmentGUI
     protected function save(bool $a_as_milestone = false) : void
     {
         $this->load('create', $a_as_milestone);
-        
+
         if ($this->app->validate() and $this->notification->validate()) {
             if (!(int) $_POST['calendar']) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
                 $cat_id = (int) $_POST['calendar'];
             }
-            
+
             $this->app->save();
             $this->notification->setEntryId($this->app->getEntryId());
             $this->notification->save();
             $this->rec->setEntryId($this->app->getEntryId());
             $this->saveRecurrenceSettings();
-            
-            include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+
             $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
             $ass->addAssignment($cat_id);
-            
+
             // Send notifications
-            include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and (bool) $_POST['not']) {
+            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and $_POST['not']) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), true);
             }
             if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
                 $this->distributeUserNotifications();
             }
 
-            include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
             $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
             $type = ilObject::_lookupType($cat_info['obj_id']);
-            
+
             if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
                 && ($type == "grp" || $type == "crs")) {
                 ilUtil::sendSuccess($this->lng->txt('cal_created_milestone_resp_q'), true);
@@ -404,7 +395,7 @@ class ilCalendarAppointmentGUI
     {
         $notification = new ilCalendarMailNotification();
         $notification->setAppointmentId($this->app->getEntryId());
-        
+
         foreach ($this->notification->getRecipients() as $rcp) {
             switch ($rcp['type']) {
                 case ilCalendarUserNotification::TYPE_USER:
@@ -423,43 +414,40 @@ class ilCalendarAppointmentGUI
         }
     }
 
-
     protected function distributeNotifications(int $a_cat_id, int $app_id, bool $a_new_appointment = true) : void
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($a_cat_id);
-        
-        include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
+
         $notification = new ilCalendarMailNotification();
         $notification->setAppointmentId($app_id);
-        
+
         switch ($cat_info['type']) {
             case ilCalendarCategory::TYPE_OBJ:
-                
-                    switch ($cat_info['obj_type']) {
-                        case 'crs':
-                            $ref_ids = ilObject::_getAllReferences($cat_info['obj_id']);
-                            $ref_id = current($ref_ids);
-                            $notification->setRefId($ref_id);
-                            $notification->setType(
-                                $a_new_appointment ?
+
+                switch ($cat_info['obj_type']) {
+                    case 'crs':
+                        $ref_ids = ilObject::_getAllReferences($cat_info['obj_id']);
+                        $ref_id = current($ref_ids);
+                        $notification->setRefId($ref_id);
+                        $notification->setType(
+                            $a_new_appointment ?
                                 ilCalendarMailNotification::TYPE_CRS_NEW_NOTIFICATION :
                                 ilCalendarMailNotification::TYPE_CRS_NOTIFICATION
-                            );
-                            break;
-                        
-                        case 'grp':
-                            $ref_ids = ilObject::_getAllReferences($cat_info['obj_id']);
-                            $ref_id = current($ref_ids);
-                            $notification->setRefId($ref_id);
-                            $notification->setType(
-                                $a_new_appointment ?
+                        );
+                        break;
+
+                    case 'grp':
+                        $ref_ids = ilObject::_getAllReferences($cat_info['obj_id']);
+                        $ref_id = current($ref_ids);
+                        $notification->setRefId($ref_id);
+                        $notification->setType(
+                            $a_new_appointment ?
                                 ilCalendarMailNotification::TYPE_GRP_NEW_NOTIFICATION :
                                 ilCalendarMailNotification::TYPE_GRP_NOTIFICATION
-                            );
-                            break;
-                    }
-                    break;
+                        );
+                        break;
+                }
+                break;
         }
         $notification->send();
     }
@@ -470,11 +458,11 @@ class ilCalendarAppointmentGUI
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
         $this->showResponsibleUsersList($cat_info['obj_id']);
     }
-    
+
     /**
-    * Show responsible uses of a milestone (default set is participants
-    * of group)
-    */
+     * Show responsible uses of a milestone (default set is participants
+     * of group)
+     */
     public function showResponsibleUsersList(int $a_grp_id) : void
     {
         $table_gui = new ilMilestoneResponsiblesTableGUI(
@@ -485,16 +473,16 @@ class ilCalendarAppointmentGUI
         );
         $this->tpl->setContent($table_gui->getHTML());
     }
-    
+
     /**
-    * Save milestone responsibilites
-    */
+     * Save milestone responsibilites
+     */
     public function saveMilestoneResponsibleUsers() : void
     {
         $this->app->writeResponsibleUsers($_POST["user_id"]);
         $this->ctrl->returnToParent($this);
     }
-    
+
     /**
      * Check edit single apppointment / edit all appointments for recurring appointments.
      * @todo works with milestones???
@@ -508,118 +496,88 @@ class ilCalendarAppointmentGUI
             return;
         }
         // Show edit single/all appointments
-        $this->ctrl->saveParameter($this, array('seed','app_id','dt','idate'));
+        $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
-        $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
+        $confirm->addItem('appointments[]', (string) $this->app->getEntryId(), $this->app->getTitle());
         $confirm->addButton($this->lng->txt('cal_edit_single'), 'editSingle');
         $confirm->setConfirm($this->lng->txt('cal_edit_recurrences'), 'edit');
 
         $this->tpl->setContent($confirm->getHTML());
     }
-    
+
     /**
      * Edit one single appointment
-    ^ */
-    protected function editSingle()
+     * ^ */
+    protected function editSingle() : void
     {
         $_REQUEST['rexl'] = 1;
         $GLOBALS['DIC']['ilCtrl']->setParameter($this, 'rexcl', 1);
         $this->edit(true);
     }
-    
+
     /**
      * edit appointment
-     *
-     * @access protected
-     * @param bool singel appointment
-     * @param \ilPropertyFormGUI
-     * @return
      */
-    protected function edit($a_edit_single_app = false, ilPropertyFormGUI $form = null)
+    protected function edit(bool $a_edit_single_app = false, ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-        $ilUser = $DIC['ilUser'];
-        $ilErr = $DIC['ilErr'];
-        $ilHelp = $DIC['ilHelp'];
-
-        $ilHelp->setScreenIdComponent("cal");
-        $ilHelp->setScreenId("app");
+        $this->help->setScreenIdComponent("cal");
+        $this->help->setScreenId("app");
         if ($this->app->isMilestone()) {
-            $ilHelp->setSubScreenId("edit_milestone");
+            $this->help->setSubScreenId("edit_milestone");
         } else {
-            $ilHelp->setSubScreenId("edit");
+            $this->help->setSubScreenId("edit");
         }
 
-        include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-
-        $GLOBALS['DIC']['ilCtrl']->saveParameter($this, array('seed','app_id','dt','idate'));
+        $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
 
         if ($_REQUEST['rexl']) {
-            $GLOBALS['DIC']['ilCtrl']->setParameter($this, 'rexl', 1);
+            $this->ctrl->setParameter($this, 'rexl', 1);
 
             // Calculate new appointment time
             $duration = $this->getAppointment()->getEnd()->get(IL_CAL_UNIX) - $this->getAppointment()->getStart()->get(IL_CAL_UNIX);
-            include_once './Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php';
             $calc = new ilCalendarRecurrenceCalculator($this->getAppointment(), $this->rec);
-            
+
             $current_date = new ilDateTime($_REQUEST['dt'], IL_CAL_UNIX);
 
             $yesterday = clone $current_date;
             $yesterday->increment(IL_CAL_DAY, -1);
             $tomorrow = clone $current_date;
             $tomorrow->increment(IL_CAL_DAY, 1);
-            
 
             foreach ($calc->calculateDateList($current_date, $tomorrow, 1) as $date_entry) {
                 if (ilDateTime::_equals($current_date, $date_entry, IL_CAL_DAY)) {
                     $this->getAppointment()->setStart(new ilDateTime($date_entry->get(IL_CAL_UNIX), IL_CAL_UNIX));
-                    $this->getAppointment()->setEnd(new ilDateTime($date_entry->get(IL_CAL_UNIX) + $duration, IL_CAL_UNIX));
+                    $this->getAppointment()->setEnd(new ilDateTime($date_entry->get(IL_CAL_UNIX) + $duration,
+                        IL_CAL_UNIX));
                     break;
                 }
             }
-            
             // Finally reset recurrence
             $this->rec = new ilCalendarRecurrence();
         }
-        
+
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
-        $cats = ilCalendarCategories::_getInstance($ilUser->getId());
-        
+        $cats = ilCalendarCategories::_getInstance($this->user->getId());
+
         if (!$cats->isVisible($cat_id)) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
-            return false;
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+            return;
         }
         if (!$cats->isEditable($cat_id) or $this->app->isAutoGenerated()) {
             $this->showInfoScreen();
-            return true;
+            return;
         }
         if (!$form instanceof ilPropertyFormGUI) {
-            $this->initForm('edit', $this->app->isMilestone(), $a_edit_single_app);
+            $form = $this->initForm('edit', $this->app->isMilestone(), $a_edit_single_app);
         }
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
-    
-    /**
-     * show info screen
-     *
-     * @access protected
-     * @return
-     */
-    protected function showInfoScreen()
-    {
-        global $DIC;
 
-        $tpl = $DIC['tpl'];
-        $ilUser = $DIC['ilUser'];
-        
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+    protected function showInfoScreen() : void
+    {
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
 
@@ -643,7 +601,7 @@ class ilCalendarAppointmentGUI
         if (strlen($desc = $this->app->getDescription())) {
             $info->addProperty($this->lng->txt('description'), $desc);
         }
-        
+
         // Location
         if (strlen($loc = $this->app->getLocation())) {
             $info->addProperty($this->lng->txt('cal_where'), $loc);
@@ -657,7 +615,6 @@ class ilCalendarAppointmentGUI
             );
         }
 
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
         $type = ilObject::_lookupType($cat_info['obj_id']);
@@ -666,6 +623,7 @@ class ilCalendarAppointmentGUI
             // users responsible
             $users = $this->app->readResponsibleUsers();
             $delim = "";
+            $value = '';
             foreach ($users as $r) {
                 $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
@@ -679,44 +637,33 @@ class ilCalendarAppointmentGUI
         }
 
         $category = new ilCalendarCategory($cat_id);
-        
+
         if ($category->getType() == ilCalendarCategory::TYPE_OBJ) {
             $info->addSection($this->lng->txt('additional_info'));
-            
+
             $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
             $refs = ilObject::_getAllReferences($cat_info['obj_id']);
-            
-            include_once('./Services/Link/classes/class.ilLink.php');
+
             $href = ilLink::_getStaticLink(current($refs), ilObject::_lookupType($cat_info['obj_id']), true);
-            $info->addProperty($this->lng->txt('perma_link'), '<a class="small" href="' . $href . '" target="_top">' . $href . '</a>');
+            $info->addProperty($this->lng->txt('perma_link'),
+                '<a class="small" href="' . $href . '" target="_top">' . $href . '</a>');
         }
-            
-        $tpl->setContent($info->getHTML());
+        $this->tpl->setContent($info->getHTML());
     }
-    
-    /**
-     * update
-     *
-     * @access protected
-     * @return
-     */
-    protected function update()
+
+    protected function update() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-
         $single_editing = ($_REQUEST['rexl'] ? true : false);
-        
+
         $this->load('edit', $this->app->isMilestone());
-        
+
         if ($this->app->validate() and $this->notification->validate()) {
             if (!(int) $_POST['calendar']) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
                 $cat_id = (int) $_POST['calendar'];
             }
-            
+
             if ($single_editing) {
                 $original_id = $this->getAppointment()->getEntryId();
                 $this->getAppointment()->save();
@@ -736,42 +683,30 @@ class ilCalendarAppointmentGUI
             }
             $this->notification->save();
             $this->saveRecurrenceSettings();
-            include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
             $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
             $this->logger->debug($this->app->getEntryId());
             $ass->deleteAssignments();
             $ass->addAssignment($cat_id);
-            
+
             // Send notifications
-            include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and (bool) $_POST['not']) {
+            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and $_POST['not']) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), false);
             }
             if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
                 $this->distributeUserNotifications();
             }
-            
+
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->returnToParent($this);
         } else {
             $this->form->setValuesByPost();
-            ilUtil::sendFailure($ilErr->getMessage());
+            ilUtil::sendFailure($this->error->getMessage());
         }
         $this->edit(false, $this->form);
     }
-    
-    /**
-     * ask delete
-     *
-     * @access protected
-     * @return
-     */
-    protected function askDelete()
+
+    protected function askDelete() : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
         $this->ctrl->saveParameter(
             $this,
             [
@@ -798,7 +733,7 @@ class ilCalendarAppointmentGUI
             $confirm->setFormAction($this->ctrl->getFormAction($this));
             $confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
             $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
-            $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
+            $confirm->addItem('appointments[]', (string) $this->app->getEntryId(), $this->app->getTitle());
             $confirm->setConfirm($this->lng->txt('delete'), 'delete');
             $this->tpl->setContent($confirm->getHTML());
         } else {
@@ -814,15 +749,8 @@ class ilCalendarAppointmentGUI
             ilUtil::sendInfo($this->lng->txt('cal_recurrence_confirm_deletion'));
         }
     }
-    
-    /**
-     * delete
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function delete()
+
+    protected function delete() : void
     {
         $app_ids = (array) ($this->request->getParsedBody()['appointment_ids'] ?? []);
         if (!$app_ids) {
@@ -835,25 +763,16 @@ class ilCalendarAppointmentGUI
         foreach ($app_ids as $app_id) {
             $app = new ilCalendarEntry($app_id);
             $app->delete();
-            
-            include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+
             ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
 
-            include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
             ilCalendarUserNotification::deleteCalendarEntry($app_id);
         }
         ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * delete single item of recurrence list
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function deleteExclude($a_return = true)
+    protected function deleteExclude(bool $a_return = true) : void
     {
         $recurrence_ids = (array) ($this->request->getParsedBody()['recurrence_ids'] ?? []);
         $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
@@ -875,28 +794,13 @@ class ilCalendarAppointmentGUI
             $this->ctrl->returnToParent($this);
         }
     }
-    
-    /**
-     * init timezone
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initTimeZone()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        $this->timezone = $ilUser->getTimeZone();
+    protected function initTimeZone() : void
+    {
+        $this->timezone = $this->user->getTimeZone();
     }
 
-    /**
-     * init initial date
-     * @param ilDate $initialDate
-     */
-    protected function initInitialDate(ilDate $initialDate)
+    protected function initInitialDate(ilDate $initialDate) : void
     {
         if (!isset($_GET['hour'])) {
             $this->initialDate = clone $initialDate;
@@ -907,40 +811,23 @@ class ilCalendarAppointmentGUI
             } else {
                 $time = (int) $_GET['hour'] . ':00:00';
             }
-            $this->initialDate = new ilDateTime($initialDate->get(IL_CAL_DATE) . ' ' . $time, IL_CAL_DATETIME, $this->timezone);
+            $this->initialDate = new ilDateTime($initialDate->get(IL_CAL_DATE) . ' ' . $time, IL_CAL_DATETIME,
+                $this->timezone);
             $this->default_fulltime = false;
         }
     }
-    
-    /**
-     * init seed
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initSeed(ilDate $seed)
+
+    protected function initSeed(ilDate $seed) : void
     {
         $this->seed = clone $seed;
         $this->default_fulltime = true;
     }
-    
-    /**
-     * init appointment
-     *
-     * @access protected
-     * @param int appointment id
-     * @return
-     */
-    protected function initAppointment($a_app_id = 0)
-    {
-        include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-        $this->app = new ilCalendarEntry($a_app_id);
 
-        include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
+    protected function initAppointment(int $a_app_id = 0) : void
+    {
+        $this->app = new ilCalendarEntry($a_app_id);
         $this->notification = new ilCalendarUserNotification($this->app->getEntryId());
-        
+
         if (!$a_app_id) {
             $start = clone $this->initialDate;
             $this->app->setStart($start);
@@ -953,43 +840,36 @@ class ilCalendarAppointmentGUI
             }
             $this->app->setEnd($seed_end);
             $this->app->setFullday($this->default_fulltime);
-            
+
             $this->rec = new ilCalendarRecurrence();
         } else {
             $this->rec = ilCalendarRecurrences::_getFirstRecurrence($this->app->getEntryId());
         }
     }
-    
-    /**
-     * load post
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function load($a_mode, $a_as_milestone = false)
+
+    protected function load($a_mode, $a_as_milestone = false) : void
     {
         // needed for date handling
         $this->initForm($a_mode, $a_as_milestone);
         $this->form->checkInput();
-        
+
         if ($a_as_milestone) {
             $this->app->setMilestone(true);
             $this->app->setCompletion(ilUtil::stripSlashes($_POST['completion']));
         }
-        
+
         $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
         $this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
         $this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
         $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $this->app->enableNotification((int) $_POST['not']);
-        
-        if ($a_as_milestone) {	// milestones are always fullday events
+        $this->app->enableNotification((bool) $_POST['not']);
+
+        if ($a_as_milestone) {    // milestones are always fullday events
             $start = $this->form->getItemByPostVar('event_start');
             $start = $start->getDate();
-            
+
             $this->app->setFullday(true);
-            
+
             // for milestones is end date = start date
             $this->app->setStart($start);
             $this->app->setEnd($start);
@@ -997,7 +877,7 @@ class ilCalendarAppointmentGUI
             $period = $this->form->getItemByPostVar('event');
             $start = $period->getStart();
             $end = $period->getEnd();
-            
+
             $this->app->setFullday($start instanceof ilDate);
             $this->app->setStart($start);
             $this->app->setEnd($end);
@@ -1007,13 +887,13 @@ class ilCalendarAppointmentGUI
         $this->loadRecurrenceSettings($a_as_milestone = false);
     }
 
-    protected function loadNotificationRecipients()
+    protected function loadNotificationRecipients() : void
     {
         $this->notification->setRecipients(array());
 
         foreach ((array) $_POST['notu'] as $rcp) {
             $rcp = trim(ilUtil::stripSlashes($rcp));
-            $usr_id = ilObjUser::_loginExists($rcp);
+            $usr_id = (int) ilObjUser::_loginExists($rcp);
 
             if (strlen($rcp) == 0) {
                 continue;
@@ -1033,24 +913,18 @@ class ilCalendarAppointmentGUI
             }
         }
     }
-    
-    /**
-     * load recurrence settings
-     *
-     * @access protected
-     * @return
-     */
-    protected function loadRecurrenceSettings($a_as_milestone = false)
+
+    protected function loadRecurrenceSettings($a_as_milestone = false) : void
     {
         $this->rec->reset();
-        
+
         switch ($_POST['frequence']) {
-            case IL_CAL_FREQ_DAILY:
+            case ilCalendarRecurrence::FREQ_DAILY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_DAILY']);
                 break;
-            
-            case IL_CAL_FREQ_WEEKLY:
+
+            case ilCalendarRecurrence::FREQ_WEEKLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_WEEKLY']);
                 if (is_array($_POST['byday_WEEKLY'])) {
@@ -1058,72 +932,72 @@ class ilCalendarAppointmentGUI
                 }
                 break;
 
-            case IL_CAL_FREQ_MONTHLY:
+            case ilCalendarRecurrence::FREQ_MONTHLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_MONTHLY']);
                 switch ((int) $_POST['subtype_MONTHLY']) {
                     case 0:
                         // nothing to do;
                         break;
-                    
+
                     case 1:
                         switch ((int) $_POST['monthly_byday_day']) {
                             case 8:
                                 // Weekday
-                                $this->rec->setBYSETPOS((int) $_POST['monthly_byday_num']);
+                                $this->rec->setBYSETPOS((string) $_POST['monthly_byday_num']);
                                 $this->rec->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
-                                
+
                             case 9:
                                 // Day of month
-                                $this->rec->setBYMONTHDAY((int) $_POST['monthly_byday_num']);
+                                $this->rec->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
                                 break;
-                                
+
                             default:
                                 $this->rec->setBYDAY((int) $_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
                                 break;
                         }
                         break;
-                    
+
                     case 2:
-                        $this->rec->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+                        $this->rec->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
                         break;
                 }
                 break;
-            
-            case IL_CAL_FREQ_YEARLY:
+
+            case ilCalendarRecurrence::FREQ_YEARLY:
                 $this->rec->setFrequenceType($_POST['frequence']);
                 $this->rec->setInterval((int) $_POST['count_YEARLY']);
                 switch ((int) $_POST['subtype_YEARLY']) {
                     case 0:
                         // nothing to do;
                         break;
-                    
+
                     case 1:
-                        $this->rec->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+                        $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
                         $this->rec->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
                         break;
-                    
+
                     case 2:
-                        $this->rec->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
-                        $this->rec->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+                        $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
+                        $this->rec->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
                         break;
                 }
                 break;
         }
-        
+
         // UNTIL
         switch ((int) $_POST['until_type']) {
             case 1:
                 $this->rec->setFrequenceUntilDate(null);
                 // nothing to do
                 break;
-                
+
             case 2:
                 $this->rec->setFrequenceUntilDate(null);
                 $this->rec->setFrequenceUntilCount((int) $_POST['count']);
                 break;
-                
+
             case 3:
                 $dt = new ilDateTimeInputGUI('', 'until_end');
                 $dt->setRequired(true);
@@ -1134,15 +1008,8 @@ class ilCalendarAppointmentGUI
                 break;
         }
     }
-    
-    /**
-     * save recurrence settings
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function saveRecurrenceSettings()
+
+    protected function saveRecurrenceSettings() : void
     {
         switch ($_POST['frequence']) {
             case 'NONE':
@@ -1152,7 +1019,7 @@ class ilCalendarAppointmentGUI
                     $this->rec->delete();
                 }
                 break;
-            
+
             default:
                 if ($this->rec->getRecurrenceId()) {
                     $this->rec->update();
@@ -1162,78 +1029,49 @@ class ilCalendarAppointmentGUI
                 break;
         }
     }
-    
-    /**
-     * Create a default calendar
-     *
-     * @access protected
-     * @return
-     */
+
     protected function createDefaultCalendar()
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-
         $cat = new ilCalendarCategory();
         $cat->setColor(ilCalendarCategory::DEFAULT_COLOR);
         $cat->setType(ilCalendarCategory::TYPE_USR);
         $cat->setTitle($this->lng->txt('cal_default_calendar'));
-        $cat->setObjId($ilUser->getId());
-        
+        $cat->setObjId($this->user->getId());
+
         // delete calendar cache
-        include_once './Services/Calendar/classes/class.ilCalendarCache.php';
-        ilCalendarCache::getInstance()->deleteUserEntries($ilUser->getId());
+        ilCalendarCache::getInstance()->deleteUserEntries($this->user->getId());
 
         return $cat->add();
     }
-    
+
     /**
      * Register to an appointment
-     * @return
      */
-    protected function confirmRegister()
+    protected function confirmRegister() : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        
         $entry = new ilCalendarEntry((int) $_GET['app_id']);
-        $start = ilDatePresentation::formatDate(
+        $start = ilDatePresentation::formatPeriod(
             new ilDateTime($_GET['dstart'], IL_CAL_UNIX),
             new ilDateTime($_GET['dend'], IL_CAL_UNIX)
         );
-            
-        
-        $conf = new ilConfirmationGUI;
-        
+
+        $conf = new ilConfirmationGUI();
         $this->ctrl->setParameter($this, 'dstart', (int) $_REQUEST['dstart']);
         $this->ctrl->setParameter($this, 'dend', (int) $_REQUEST['dend']);
-        
+
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('cal_confirm_reg_info'));
         $conf->setConfirm($this->lng->txt('cal_reg_register'), 'register');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
-        $conf->addItem('app_id', $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
-        
-        $tpl->setContent($conf->getHTML());
+        $conf->addItem('app_id', (string) $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
+        $this->tpl->setContent($conf->getHTML());
     }
-    
-    /**
-     * Register
-     * @return
-     */
-    protected function register()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
+    protected function register() : void
+    {
         $reg = new ilCalendarRegistration((int) $_POST['app_id']);
         $reg->register(
-            $ilUser->getId(),
+            $this->user->getId(),
             new ilDateTime((int) $_REQUEST['dstart'], IL_CAL_UNIX),
             new ilDateTime((int) $_REQUEST['dend'], IL_CAL_UNIX)
         );
@@ -1242,51 +1080,35 @@ class ilCalendarAppointmentGUI
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * Confirmation screen to unregister calendar
-     */
-    public function confirmUnregister()
+    public function confirmUnregister() : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        
-        
         $entry = new ilCalendarEntry((int) $_GET['app_id']);
-        $start = ilDatePresentation::formatDate(
+        $start = ilDatePresentation::formatPeriod(
             $dstart = new ilDateTime($_GET['dstart'], IL_CAL_UNIX),
             $dend = new ilDateTime($_GET['dend'], IL_CAL_UNIX)
         );
-            
-        
-        $conf = new ilConfirmationGUI;
-        
+
         $this->ctrl->setParameter($this, 'dstart', (int) $_REQUEST['dstart']);
         $this->ctrl->setParameter($this, 'dend', (int) $_REQUEST['dend']);
-        
+
+        $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('cal_confirm_unreg_info'));
         $conf->setConfirm($this->lng->txt('cal_reg_unregister'), 'unregister');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
-        $conf->addItem('app_id', $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
-        
-        $tpl->setContent($conf->getHTML());
+        $conf->addItem('app_id', (string) $entry->getEntryId(), $entry->getTitle() . ' (' . $start . ')');
+
+        $this->tpl->setContent($conf->getHTML());
     }
 
     /**
      * Unregister calendar, was confirmed
-     * @return
      */
-    protected function unregister()
+    protected function unregister() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
-        include_once './Services/Calendar/classes/class.ilCalendarRegistration.php';
         $reg = new ilCalendarRegistration((int) $_POST['app_id']);
         $reg->unregister(
-            $ilUser->getId(),
+            $this->user->getId(),
             new ilDateTime((int) $_REQUEST['dstart'], IL_CAL_UNIX),
             new ilDateTime((int) $_REQUEST['dend'], IL_CAL_UNIX)
         );
@@ -1294,56 +1116,44 @@ class ilCalendarAppointmentGUI
         ilUtil::sendSuccess($this->lng->txt('cal_reg_unregistered'), true);
         $this->ctrl->returnToParent($this);
     }
-    
+
     /**
      * Confirmation screen for booking of consultation appointment
      */
-    public function book()
+    public function book() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $tpl = $DIC['tpl'];
-        
         $entry_id = (int) $_GET['app_id'];
         $this->ctrl->saveParameter($this, 'app_id');
-        
-        include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+
         $entry = new ilCalendarEntry($entry_id);
         $booking = new \ilBookingEntry($entry->getContextId());
         $user = $booking->getObjId();
 
-
         $form = $this->initFormConfirmBooking();
-        $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd()));
+        $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod($entry->getStart(),
+            $entry->getEnd()));
         $form->getItemByPostVar('title')->setValue($entry->getTitle() . " (" . ilObjUser::_lookupFullname($user) . ')');
-        
-        $tpl->setContent($form->getHTML());
-        return true;
+
+        $this->tpl->setContent($form->getHTML());
     }
-    
-    /**
-     *
-     * @return ilPropertyFormGUI
-     */
-    protected function initFormConfirmBooking()
+
+    protected function initFormConfirmBooking() : ilPropertyFormGUI
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->addCommandButton('bookconfirmed', $this->lng->txt('cal_confirm_booking'));
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        
+
         $date = new ilNonEditableValueGUI($this->lng->txt('appointment'), 'date');
         $form->addItem($date);
-        
+
         $title = new ilNonEditableValueGUI($this->lng->txt('title'), 'title');
         $form->addItem($title);
-        
+
         $message = new ilTextAreaInputGUI($this->lng->txt('cal_ch_booking_message_tbl'), 'comment');
         $message->setRows(5);
         $form->addItem($message);
-        
+
         return $form;
     }
 
@@ -1352,28 +1162,21 @@ class ilCalendarAppointmentGUI
      */
     public function bookconfirmed()
     {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
         $entry = (int) $_REQUEST['app_id'];
         $form = $this->initFormConfirmBooking();
         if ($form->checkInput()) {
             // check if appointment is bookable
-            include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
             $cal_entry = new ilCalendarEntry($entry);
-            
+
             $booking = new ilBookingEntry($cal_entry->getContextId());
-            
+
             if (!$booking->isAppointmentBookableForUser($entry, $GLOBALS['DIC']['ilUser']->getId())) {
                 ilUtil::sendFailure($this->lng->txt('cal_booking_failed_info'), true);
                 $this->ctrl->returnToParent($this);
             }
-            
-            include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourUtils.php';
-            ilConsultationHourUtils::bookAppointment($ilUser->getId(), $entry);
-            
-            ilBookingEntry::writeBookingMessage($entry, $ilUser->getId(), $form->getInput('comment'));
+
+            ilConsultationHourUtils::bookAppointment($this->user->getId(), $entry);
+            ilBookingEntry::writeBookingMessage($entry, $this->user->getId(), $form->getInput('comment'));
         }
         ilUtil::sendSuccess($this->lng->txt('cal_booking_confirmed'), true);
         $this->ctrl->returnToParent($this);
@@ -1383,16 +1186,10 @@ class ilCalendarAppointmentGUI
      * Confirmation screen to cancel consultation appointment or ressource booking
      * depends on calendar category
      */
-    public function cancelBooking()
+    public function cancelBooking() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $tpl = $DIC['tpl'];
-
         $entry = (int) $_GET['app_id'];
-    
-        include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+
         $entry = new ilCalendarEntry($entry);
 
         $category = $this->calendarEntryToCategory($entry);
@@ -1400,7 +1197,7 @@ class ilCalendarAppointmentGUI
             $booking = new ilBookingEntry($entry->getContextId());
             if (!$booking->hasBooked($entry->getEntryId())) {
                 $this->ctrl->returnToParent($this);
-                return false;
+                return;
             }
 
             $entry_title = ' ' . $entry->getTitle() . " (" . ilObjUser::_lookupFullname($booking->getObjId()) . ')';
@@ -1408,42 +1205,36 @@ class ilCalendarAppointmentGUI
             $entry_title = ' ' . $entry->getTitle();
         } else {
             $this->ctrl->returnToParent($this);
-            return false;
+            return;
         }
 
         $title = ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd());
-        
-        $conf = new ilConfirmationGUI;
+
+        $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('cal_cancel_booking_info'));
         $conf->setConfirm($this->lng->txt('cal_cancel_booking'), 'cancelconfirmed');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
-        $conf->addItem('app_id', $entry->getEntryId(), $title . ' - ' . $entry_title);
+        $conf->addItem('app_id', (string) $entry->getEntryId(), $title . ' - ' . $entry_title);
 
-        $tpl->setContent($conf->getHTML());
+        $this->tpl->setContent($conf->getHTML());
     }
 
     /**
      * Cancel consultation appointment or ressource booking, was confirmed
      * This will delete the calendar entry
      */
-    public function cancelConfirmed()
+    public function cancelConfirmed() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         $entry = (int) $_POST['app_id'];
 
-        include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
         $entry = new ilCalendarEntry($entry);
-        
+
         $category = $this->calendarEntryToCategory($entry);
         if ($category->getType() == ilCalendarCategory::TYPE_CH) {
             // find cloned calendar entry in user calendar
-            include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
             $apps = ilConsultationHourAppointments::getAppointmentIds(
-                $ilUser->getId(),
+                $this->user->getId(),
                 $entry->getContextId(),
                 $entry->getStart(),
                 ilCalendarCategory::TYPE_CH,
@@ -1455,16 +1246,16 @@ class ilCalendarAppointmentGUI
                 $ref_entry = new ilCalendarEntry($own_app);
                 $ref_entry->delete();
             }
-            
+
             $booking = new ilBookingEntry($entry->getContextId());
             $booking->cancelBooking($entry->getEntryId());
 
-        // do NOT delete original entry
+            // do NOT delete original entry
         } elseif ($category->getType() == ilCalendarCategory::TYPE_BOOK) {
             $booking = new ilBookingReservation($entry->getContextId());
             $booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
             $booking->update();
-            
+
             $entry->delete();
         }
 
@@ -1474,31 +1265,22 @@ class ilCalendarAppointmentGUI
 
     /**
      * Get category object of given calendar entry
-     * @param ilCalendarEntry $entry
-     * @return ilCalendarCategory
      */
-    protected function calendarEntryToCategory(ilCalendarEntry $entry)
+    protected function calendarEntryToCategory(ilCalendarEntry $entry) : ilCalendarCategory
     {
-        include_once 'Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
-        include_once 'Services/Calendar/classes/class.ilCalendarCategory.php';
         $assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
         $assignment = $assignment->getFirstAssignment();
         return new ilCalendarCategory($assignment);
     }
 
-    /**
-     * Do auto completion
-     * @return void
-     */
-    protected function doUserAutoComplete()
+    protected function doUserAutoComplete() : void
     {
         if (!isset($_GET['autoCompleteField'])) {
-            $a_fields = array('login','firstname','lastname','email');
+            $a_fields = array('login', 'firstname', 'lastname', 'email');
         } else {
             $a_fields = array((string) $_GET['autoCompleteField']);
         }
 
-        include_once './Services/User/classes/class.ilUserAutoComplete.php';
         $auto = new ilUserAutoComplete();
         $auto->setSearchFields($a_fields);
         $auto->enableFieldSearchableCheck(true);

@@ -55,7 +55,7 @@ class ilUserActionGUI
                     $act_type
                 )) {
                     foreach ($prov->getJsScripts($act_type) as $script) {
-                        $tpl->addJavascript($script);
+                        $tpl->addJavaScript($script);
                     }
                 }
             }
@@ -67,11 +67,8 @@ class ilUserActionGUI
         if (!$this->init_done) {
             $this->init();
         }
-        include_once("./Services/User/Gallery/classes/class.ilGalleryUserActionContext.php");
-        include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
         $act_collector = ilUserActionCollector::getInstance($this->current_user_id, $this->user_action_context);
         $action_collection = $act_collector->getActionsForTargetUser($a_target_user_id);
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle("");
         foreach ($action_collection->getActions() as $action) {

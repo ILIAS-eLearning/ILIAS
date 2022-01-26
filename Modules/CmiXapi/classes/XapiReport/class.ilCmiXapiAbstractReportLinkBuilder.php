@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -56,7 +56,7 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
         $this->filter = $filter;
     }
     
-    public function getUrl(): string
+    public function getUrl() : string
     {
         $url = $this->aggregateEndPoint;
         $url = $this->appendRequestParameters($url);
@@ -66,14 +66,14 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
     /**
      * @param string $link
      */
-    protected function appendRequestParameters($url): string
+    protected function appendRequestParameters($url) : string
     {
         $url = ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());
         
         return $url;
     }
     
-    protected function buildPipelineParameter(): string
+    protected function buildPipelineParameter() : string
     {
         $pipeline = urlencode(json_encode($this->buildPipeline()));
         return "pipeline={$pipeline}";
@@ -84,18 +84,18 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
      */
     abstract protected function buildPipeline() : array;
     
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->objId;
     }
     
-    public function getAggregateEndPoint(): string
+    public function getAggregateEndPoint() : string
     {
         return $this->aggregateEndPoint;
     }
 
-    public function getObj(): \ilObjCmiXapi
+    public function getObj() : \ilObjCmiXapi
     {
-        return ilObjCmiXapi::getInstance($this->getObjId(),false);
+        return ilObjCmiXapi::getInstance($this->getObjId(), false);
     }
 }

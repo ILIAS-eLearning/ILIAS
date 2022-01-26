@@ -11,9 +11,6 @@
  */
 class ilSCORM2004Item
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     //db fields

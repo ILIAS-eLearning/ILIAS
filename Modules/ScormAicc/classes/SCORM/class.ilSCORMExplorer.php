@@ -21,11 +21,11 @@ class ilSCORMExplorer extends ilExplorer
     public $slm_obj;
 
     /**
-    * Constructor
-    * @access	public
-    * @param	string	scriptname
-    * @param    int user_id
-    */
+     * Constructor
+     * @access    public
+     * @param string $a_target
+     * @param        $a_slm_obj
+     */
     public function __construct(string $a_target, &$a_slm_obj)
     {
         parent::__construct($a_target);
@@ -36,29 +36,41 @@ class ilSCORMExplorer extends ilExplorer
         $this->outputIcons(true);
         $this->setOrderColumn("");
     }
-    
-    public function getItem($a_node_id) : \ilSCORMItem
+
+    /**
+     * @param int $a_node_id
+     * @return ilSCORMItem
+     */
+    public function getItem(int $a_node_id) : \ilSCORMItem
     {
         return new ilSCORMItem($a_node_id);
     }
-    
+
+    /**
+     * @return string
+     */
     public function getIconImagePathPrefix() : string
     {
         return "scorm/";
     }
-    
+
+    /**
+     * @return int
+     */
     public function getNodesToSkip() : int
     {
         return 2;
     }
-    
 
     /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    */
+     * overwritten method from base class
+     *
+     * @param ilTemplate $tpl
+     * @param            $a_obj_id
+     * @param array      $a_option
+     * @return void
+     * @throws ilTemplateException
+     */
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
@@ -76,12 +88,14 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-    * Creates Get Parameter
-    * @access	private
-    * @param	string
-    * @param	integer
-    * @return    string
-    */
+     * Creates Get Parameter
+     * @access    private
+     * @param string $a_type
+     * @param integer
+     * @param bool   $a_highlighted_subtree
+     * @param bool   $a_append_anch
+     * @return    string
+     */
     public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string
     {
         // SET expand parameter:
@@ -95,19 +109,24 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-     * possible output array is set
-     * @param int $a_parent_id
+     * @param $a_parent_id
+     * @param $a_depth
+     * @param $a_obj_id
+     * @param $a_highlighted_subtree
+     * @return void
      */
-    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
+    public function setOutput($a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) : void
+//    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $this->format_options = $this->createOutputArray($a_parent_id);
     }
 
     /**
-                 * recursivi creating of outputs
-                 * @param array 	$options 		existing output options
-                 * @return array $options
-                 */
+     * recursive creating of outputs
+     * @param int   $a_parent_id
+     * @param array $options
+     * @return array
+     */
     protected function createOutputArray(int $a_parent_id, array $options = array()) : array
     {
         global $ilErr;
@@ -138,7 +157,7 @@ class ilSCORMExplorer extends ilExplorer
             $option["visible"] = !in_array($child["c_type"], $types_do_not_display);
 
             if ($this->showChilds($option["id"])) {
-                $option = $this->createOutputArray($option["id"], $option);
+                $option = $this->createOutputArray((int) $option["id"], $option);
             }
 
             $options["childs"][] = $option;
@@ -148,7 +167,9 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-     * @inheritdoc
+     * @param        $a_ref_id
+     * @param string $a_type
+     * @return bool
      */
     public function isVisible($a_ref_id, string $a_type) : bool
     {
@@ -161,10 +182,12 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * Creates output template
-     * @access	public
-     * @return	string
+     * @access    public
+     * @param bool $jsApi
+     * @return    string
+     * @throws ilTemplateException
      */
-    public function getOutput($jsApi = false) : string
+    public function getOutput(bool $jsApi = false) : string
     {
         $output = $this->createOutput($this->format_options, $jsApi);
 
@@ -172,12 +195,12 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-                 * recursive creation of output templates
-                 *
-                 *
-                 * @return ilTemplate 	$tpl
-                 * @param mixed[] $option
-                 */
+     * recursive creation of output templates
+     * @param array $option
+     * @param bool  $jsApi
+     * @return ilTemplate
+     * @throws ilTemplateException
+     */
     public function createOutput(array $option, bool $jsApi) : \ilTemplate
     {
         global $DIC;
@@ -203,11 +226,12 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * can i click on the module name
-     * @param string $a_type
-     * @param int    $a_ref_id
+     *
+     * @param $a_type
+     * @param $a_ref_id
      * @return bool
      */
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable($a_type, $a_ref_id = 0) : bool
     {
         if ($a_type != "sit") {
             return false;
@@ -221,12 +245,13 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-                 * insert the option data in $tpl
-                 *
-                 *
-                 * @return ilTemplate 	$tpl
-                 * @param mixed[] $option
-                 */
+     * insert the option data in $tpl
+     * @param array      $option
+     * @param ilTemplate $tpl
+     * @param bool       $jsApi
+     * @return ilTemplate
+     * @throws ilTemplateException
+     */
     protected function insertObject(array $option, ilTemplate $tpl, bool $jsApi) : \ilTemplate
     {
         global $ilErr;
@@ -236,7 +261,7 @@ class ilSCORMExplorer extends ilExplorer
         }
 
         //get scorm item
-        $sc_object = new ilSCORMItem($option["id"]);
+        $sc_object = new ilSCORMItem((int) $option["id"]);
         $id_ref = $sc_object->getIdentifierRef();
 
         //get scorm resource ref id
@@ -280,11 +305,15 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-                 * tpl is filled with option state
-                 *
-                 * @param mixed[] $a_option
-                 */
-    public function getOutputIcons(\ilTemplate &$tpl, array $a_option, int $a_node_id, string $scormtype = "sco") : void
+     * tpl is filled with option state
+     * @param ilTemplate $tpl
+     * @param array      $a_option
+     * @param int        $a_node_id
+     * @param string     $scormtype
+     * @return void
+     * @throws ilTemplateException
+     */
+    public function getOutputIcons(\ilTemplate $tpl, array $a_option, int $a_node_id, string $scormtype = "sco") : void
     {
         global $DIC;
         $lng = $DIC->language();

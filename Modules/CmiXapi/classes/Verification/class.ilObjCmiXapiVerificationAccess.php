@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,14 +27,14 @@ class ilObjCmiXapiVerificationAccess extends ilObjectAccess
     /**
      * @return array<int, array<string, string|bool>>
      */
-    public static function _getCommands(): array
+    public static function _getCommands() : array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
         return $commands;
     }
     
-    public static function _checkGoto($a_target): bool
+    public static function _checkGoto($a_target) : bool
     {
         global $ilAccess;
         

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,16 +21,12 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
-* Class ilObjMDSettingsAccess
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesMetaData
-*/
+ * Class ilObjMDSettingsAccess
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesMetaData
+ */
 class ilObjMDSettingsAccess extends ilObjectAccess
 {
 }

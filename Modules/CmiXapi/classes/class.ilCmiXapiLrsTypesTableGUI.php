@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -42,7 +42,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         $this->initColumns();
     }
     
-    protected function initColumns(): void
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -67,7 +67,7 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         return $DIC->language()->txt('conf_availability_' . $availability);
     }
     
-    protected function getActionsList($data): \ilAdvancedSelectionListGUI
+    protected function getActionsList($data) : \ilAdvancedSelectionListGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

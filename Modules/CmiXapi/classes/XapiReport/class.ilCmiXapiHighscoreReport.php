@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -62,20 +62,18 @@ class ilCmiXapiHighscoreReport
         }
     }
 
-    public function initTableData(): bool
+    public function initTableData() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $rows = [];
-        $obj = ilObjCmiXapi::getInstance($this->objId,false);
+        $obj = ilObjCmiXapi::getInstance($this->objId, false);
 
-        if ($obj->isMixedContentType())
-        {
+        if ($obj->isMixedContentType()) {
             foreach ($this->response as $item) {
                 $userIdent = str_replace('mailto:', '', $item['mbox']);
-                if (empty($userIdent))
-                {
-                    $userIdent =  $item['account'];
+                if (empty($userIdent)) {
+                    $userIdent = $item['account'];
                 }
                 $cmixUser = $this->cmixUsersByIdent[$userIdent];
                 $rows[] = [
@@ -87,9 +85,7 @@ class ilCmiXapiHighscoreReport
                     'ilias_user_id' => $cmixUser->getUsrId()
                 ];
             }
-        }
-        elseif ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
-        {
+        } elseif ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
             foreach ($this->response as $item) {
                 $userIdent = $item['account'];
                 $cmixUser = $this->cmixUsersByIdent[$userIdent];
@@ -102,9 +98,7 @@ class ilCmiXapiHighscoreReport
                     'ilias_user_id' => $cmixUser->getUsrId()
                 ];
             }
-        }
-        else
-        {
+        } else {
             foreach ($this->response as $item) {
                 $userIdent = str_replace('mailto:', '', $item['mbox']);
                 $cmixUser = $this->cmixUsersByIdent[$userIdent];
@@ -118,7 +112,7 @@ class ilCmiXapiHighscoreReport
                 ];
             }
         }
-        usort($rows, fn($a, $b): int => $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0);
+        usort($rows, fn ($a, $b) : int => $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0);
 
         $i = 0;
         $prevScore = null;
@@ -151,7 +145,7 @@ class ilCmiXapiHighscoreReport
         return true;
     }
 
-    private function identUser($userIdent): bool
+    private function identUser($userIdent) : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
     
@@ -163,7 +157,7 @@ class ilCmiXapiHighscoreReport
         return false;
     }
     
-    protected function fetchTotalDuration($allDurations): string
+    protected function fetchTotalDuration($allDurations) : string
     {
         $totalDuration = 0;
         
@@ -171,14 +165,14 @@ class ilCmiXapiHighscoreReport
             $totalDuration += ilObjSCORM2004LearningModule::_ISODurationToCentisec($duration) / 100;
         }
 
-        $hours = floor($totalDuration / 3600);
+        $hours = (string) floor($totalDuration / 3600);
         $hours = strlen($hours) < 2 ? "0" . $hours : $hours;
         $totalDuration = $hours . ":" . date('i:s', $totalDuration);
 
         return $totalDuration;
     }
 
-    private function formatRawTimestamp($rawTimestamp): string
+    private function formatRawTimestamp(string $rawTimestamp) : string
     {
         $dateTime = ilCmiXapiDateTime::fromXapiTimestamp($rawTimestamp);
         return ilDatePresentation::formatDate($dateTime);
@@ -187,17 +181,17 @@ class ilCmiXapiHighscoreReport
     /**
      * @return mixed[]
      */
-    public function getTableData(): array
+    public function getTableData() : array
     {
         return $this->tableData;
     }
 
-    public function getUserRank(): ?int
+    public function getUserRank() : ?int
     {
         return $this->userRank;
     }
 
-    public function getResponseDebug(): string
+    public function getResponseDebug() : string
     {
         /*
         foreach($this->response as $key => $item)

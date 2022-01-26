@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -33,7 +33,7 @@ class ilCmiXapiDateTime extends ilDateTime
     /**
      * @throws Exception
      */
-    public function toXapiTimestamp(): string
+    public function toXapiTimestamp() : string
     {
         $phpDateTime = new DateTime();
         $phpDateTime->setTimestamp($this->get(IL_CAL_UNIX));
@@ -44,7 +44,7 @@ class ilCmiXapiDateTime extends ilDateTime
     /**
      * @throws ilDateTimeException
      */
-    public static function fromXapiTimestamp(string $xapiTimestamp): \ilCmiXapiDateTime
+    public static function fromXapiTimestamp(string $xapiTimestamp) : \ilCmiXapiDateTime
     {
         $phpDateTime = DateTime::createFromFormat(
             self::RFC3336_EXTENDED_FIXED_USING_u_INSTEAD_OF_v,
@@ -60,12 +60,13 @@ class ilCmiXapiDateTime extends ilDateTime
      * @param ilDateTime $dateTime
      * @throws ilDateTimeException
      */
-    public static function fromIliasDateTime(ilDateTime $dateTime): \ilCmiXapiDateTime
+    public static function fromIliasDateTime(ilDateTime $dateTime) : \ilCmiXapiDateTime
     {
         return new self($dateTime->get(IL_CAL_UNIX), IL_CAL_UNIX);
     }
 
-    public static function dateIntervalToISO860Duration(\DateInterval $d): string {
+    public static function dateIntervalToISO860Duration(\DateInterval $d) : string
+    {
         $duration = 'P';
         if (!empty($d->y)) {
             $duration .= "{$d->y}Y";

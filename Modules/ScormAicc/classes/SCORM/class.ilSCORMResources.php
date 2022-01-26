@@ -22,7 +22,7 @@
 */
 class ilSCORMResources extends ilSCORMObject
 {
-    public $xml_base;
+    public ?string $xml_base;
 
 
     /**
@@ -31,7 +31,7 @@ class ilSCORMResources extends ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
         $lng = $DIC->language();
@@ -42,16 +42,26 @@ class ilSCORMResources extends ilSCORMObject
         $this->setTitle($lng->txt('cont_resources'));
     }
 
-    public function getXmlBase()
+    /**
+     * @return string|null
+     */
+    public function getXmlBase() : ?string
     {
         return $this->xml_base;
     }
 
-    public function setXmlBase($a_xml_base) : void
+    /**
+     * @param string|null $a_xml_base
+     * @return void
+     */
+    public function setXmlBase(?string $a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
+    /**
+     * @return void
+     */
     public function read() : void
     {
         global $DIC;
@@ -68,6 +78,9 @@ class ilSCORMResources extends ilSCORMObject
         $this->setXmlBase($obj_rec['xml_base']);
     }
 
+    /**
+     * @return void
+     */
     public function create() : void
     {
         global $DIC;
@@ -82,6 +95,9 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
+    /**
+     * @return void
+     */
     public function update() : void
     {
         global $DIC;
@@ -97,6 +113,9 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
+    /**
+     * @return void
+     */
     public function delete() : void
     {
         global $DIC;

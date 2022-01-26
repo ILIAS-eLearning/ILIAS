@@ -62,7 +62,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public $ilHelp;
 
     private int $selectedSorting;
-    private ilForumThreadSettinsSessionStorage $selected_post_storage;
+    private ilForumThreadSettingsSessionStorage $selected_post_storage;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -151,7 +151,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ilSession::set('frm', $forumValues);
         }
 
-        $this->selected_post_storage = new ilForumThreadSettinsSessionStorage('frm_selected_post');
+        $this->selected_post_storage = new ilForumThreadSettingsSessionStorage('frm_selected_post');
     }
 
     private function retrieveRefId() : int
@@ -1707,7 +1707,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ilHelp->setScreenIdComponent("frm");
 
         $this->tpl->loadStandardTemplate();
-        ilUtil::sendInfo();
         ilUtil::infoPanel();
 
         $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", "frm"));
@@ -5968,13 +5967,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private function showResetLimitedViewInfo() : void
     {
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-        $reset_link = ' <a href="' . $this->ctrl->getLinkTarget(
-            $this,
-            'resetLimitedView'
-        ) . '">' . $this->lng->txt('reset') . '</a>';
-        $reset_txt = $this->lng->txt('reset_limited_view') . $reset_link;
 
-        ilUtil::sendInfo($reset_txt);
+        $info = $this->uiRenderer->render([
+            $this->uiFactory->legacy($this->lng->txt('reset_limited_view_info')),
+            $this->uiFactory->legacy(' '),
+            $this->uiFactory->link()->standard(
+                $this->lng->txt('reset'),
+                $this->ctrl->getLinkTarget($this, 'resetLimitedView')
+            )
+        ]);
+
+        ilUtil::sendInfo($info);
     }
 
     private function getOrderByParam() : string

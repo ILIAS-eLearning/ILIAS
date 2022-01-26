@@ -70,7 +70,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const SUBACTION_SUBSTITUTION_BOLD = 8;
     public const SUBACTION_SUBSTITUTION_NEWLINE = 9;
 
-    protected function readContextIds($a_context_type)
+    protected function readContextIds(int $a_context_type) : array
     {
         global $DIC;
 
@@ -112,7 +112,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     // permissions
 
-    protected function buildPermissionMap()
+    protected function buildPermissionMap() : array
     {
         return array(
             self::CONTEXT_MD => array(
@@ -259,7 +259,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     // plugins
 
-    protected function getActivePlugins()
+    protected function getActivePlugins() : array
     {
         global $DIC;
 
@@ -267,8 +267,12 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         return $component_factory->getActivePluginsInSlot("amdc");
     }
 
-    protected function checkPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
-    {
+    protected function checkPermission(
+        int $a_context_type,
+        int $a_context_id,
+        int $a_action_id,
+        ?int $a_action_sub_id = null
+    ) : bool {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];

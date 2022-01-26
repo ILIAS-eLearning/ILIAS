@@ -12,7 +12,7 @@ abstract class ilSoapHookPlugin extends ilPlugin
      *
      * @return ilSoapMethod[]
      */
-    abstract public function getSoapMethods();
+    abstract public function getSoapMethods() : array;
 
     /**
      * Get any (new) types which the SOAP methods may use.
@@ -22,5 +22,5 @@ abstract class ilSoapHookPlugin extends ilPlugin
      *
      * @return ilWsdlType[]
      */
-    abstract public function getWsdlTypes();
+    abstract public function getWsdlTypes() : array;
 }

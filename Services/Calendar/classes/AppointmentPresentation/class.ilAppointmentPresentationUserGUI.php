@@ -1,16 +1,11 @@
 <?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
 
 /**
  * ilAppointmentPresentationUserGUI class presents modal information for personal appointments.
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationUserGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationUserGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {

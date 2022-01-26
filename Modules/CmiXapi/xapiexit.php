@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,4 +14,3 @@ $messages['fr'] = "Vous pouvez maintenant fermer la fenêtre de navigation";
 $message = (array_key_exists($lang, $messages)) ? $messages[$lang] : $messages[$defaultLanguage];
 echo "<pre>{$message}</pre>";
 exit;
-?>

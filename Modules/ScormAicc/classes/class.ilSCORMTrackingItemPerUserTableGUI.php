@@ -37,6 +37,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
 
     /**
      * Get Obj id
+     * @return int
      */
     public function getObjId() : int
     {
@@ -45,6 +46,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
 
     /**
      * Set current user id
+     * @param int $a_usr_id
      */
     public function setUserId(int $a_usr_id) : void
     {
@@ -53,6 +55,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
 
     /**
      * Get user id
+     * @return int
      */
     public function getUserId() : int
     {
@@ -61,6 +64,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
 
     /**
      * Set sco id
+     * @param int $a_sco_id
      */
     public function setScoId(int $a_sco_id) : void
     {

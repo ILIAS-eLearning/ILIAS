@@ -7,15 +7,13 @@ use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCalendarCopyDefinition extends AbstractValue
 {
     public const COPY_SOURCE_DIR = 'source';
     public const COPY_TARGET_DIR = 'target';
-    
+
     /**
      * Copy Jobs: source file => relative target file in zip directory.
      * @param ilCalendarCopyDefinition[]
@@ -28,8 +26,6 @@ class ilCalendarCopyDefinition extends AbstractValue
      */
     private string $temp_dir;
 
-    
-    
     /**
      * Get copy definitions
      * @return ilCalendarCopyDefinition[]
@@ -38,7 +34,7 @@ class ilCalendarCopyDefinition extends AbstractValue
     {
         return $this->copy_definitions;
     }
-    
+
     /**
      * Set copy definitions
      * @param ilCalendarCopyDefinition[] $a_definitions
@@ -65,7 +61,7 @@ class ilCalendarCopyDefinition extends AbstractValue
     {
         $this->temp_dir = $temp_dir;
     }
-    
+
     /**
      * Add copy definition
      */
@@ -77,7 +73,6 @@ class ilCalendarCopyDefinition extends AbstractValue
                 self::COPY_TARGET_DIR => $a_target
             ];
     }
-    
 
     /**
      * @inheritDoc
@@ -87,7 +82,6 @@ class ilCalendarCopyDefinition extends AbstractValue
         return strcmp($this->getHash(), $other->getHash()) === 0;
     }
 
-    
     /**
      * @inheritDoc
      */

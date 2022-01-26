@@ -278,7 +278,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
 
         // set "plain md5" password (= no valid password)
         $newUser["passwd"] = "";
-        $newUser["passwd_type"] = IL_PASSWD_CRYPTED;
+        $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
 
         $newUser["auth_mode"] = "ecs";
         $newUser["profile_incomplete"] = 0;

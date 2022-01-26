@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -53,29 +53,29 @@ class ilXapiResultsCronjob extends ilCronJob
         $this->readLastRunTS();
     }
     
-    protected function initThisRunTS(): void
+    protected function initThisRunTS() : void
     {
         $this->thisRunTS = time();
     }
     
-    protected function readLastRunTS(): void
+    protected function readLastRunTS() : void
     {
         $settings = new ilSetting('cmix');
-        $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, 0);
+        $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, "0");
     }
     
-    protected function writeThisAsLastRunTS(): void
+    protected function writeThisAsLastRunTS() : void
     {
         $settings = new ilSetting('cmix');
-        $settings->set(self::LAST_RUN_TS_SETTING_NAME, $this->thisRunTS);
+        $settings->set(self::LAST_RUN_TS_SETTING_NAME, (string) $this->thisRunTS);
     }
     
-    public function getThisRunTS(): int
+    public function getThisRunTS() : int
     {
         return $this->thisRunTS;
     }
     
-    public function getLastRunTS(): int
+    public function getLastRunTS() : int
     {
         return $this->lastRunTS;
     }
@@ -157,7 +157,7 @@ class ilXapiResultsCronjob extends ilCronJob
         return $result;
     }
     
-    protected function getXapiStatementsReport(ilObject $object, ilCmiXapiStatementsReportFilter $filter): \ilCmiXapiStatementsReport
+    protected function getXapiStatementsReport(ilObject $object, ilCmiXapiStatementsReportFilter $filter) : \ilCmiXapiStatementsReport
     {
         $filter->setActivityId($object->getActivityId());
         
@@ -175,7 +175,7 @@ class ilXapiResultsCronjob extends ilCronJob
         return $request->queryReport($object->getId());
     }
     
-    protected function buildReportFilter(): \ilCmiXapiStatementsReportFilter
+    protected function buildReportFilter() : \ilCmiXapiStatementsReportFilter
     {
         $filter = new ilCmiXapiStatementsReportFilter();
         

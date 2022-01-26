@@ -21,28 +21,20 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/class.ilDateList.php');
-include_once('./Services/Calendar/classes/class.ilTimeZone.php');
-include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
-
 /**
-* Stores exclusion dates for calendar recurrences
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * Stores exclusion dates for calendar recurrences
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarRecurrenceExclusion
 {
     protected $exclusion = null;
     protected $cal_id = 0;
     protected $exclusion_id = 0;
-    
+
     protected $db = null;
-    
+
     /**
      * Constructor
      * @return
@@ -52,16 +44,15 @@ class ilCalendarRecurrenceExclusion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $this->db = $ilDB;
         $this->exclusion_id = $a_exclusion_id;
-        
+
         if ($this->getId()) {
             $this->read();
         }
     }
 
-    
     /**
      * Get exclusion id
      * @return
@@ -70,7 +61,7 @@ class ilCalendarRecurrenceExclusion
     {
         return $this->exclusion_id;
     }
-    
+
     /**
      * Get calendar entry id
      * @return
@@ -79,7 +70,7 @@ class ilCalendarRecurrenceExclusion
     {
         return $this->cal_id;
     }
-    
+
     /**
      * Set entry id (id of calendar appointment)
      * @return
@@ -88,7 +79,7 @@ class ilCalendarRecurrenceExclusion
     {
         $this->cal_id = $a_id;
     }
-    
+
     /**
      * Get exclusion date
      * @return
@@ -97,7 +88,7 @@ class ilCalendarRecurrenceExclusion
     {
         return $this->exclusion instanceof ilDate ? $this->exclusion : null;
     }
-    
+
     /**
      * Set exclusion date
      * @param ilDate $dt [optional]
@@ -107,7 +98,7 @@ class ilCalendarRecurrenceExclusion
     {
         $this->exclusion = $dt;
     }
-    
+
     /**
      * Exclusion date to ical format
      * @return
@@ -125,7 +116,7 @@ class ilCalendarRecurrenceExclusion
                 'T' . $start->get(IL_CAL_FKT_DATE, 'His', ilTimeZone::UTC) . 'Z';
         }
     }
-    
+
     /**
      * Save exclusion date to db
      * @return
@@ -135,23 +126,23 @@ class ilCalendarRecurrenceExclusion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$this->getDate()) {
             return false;
         }
-        
+
         $query = "INSERT INTO cal_rec_exclusion (excl_id,cal_id,excl_date) " .
             "VALUES( " .
-            $ilDB->quote($next_id = $ilDB->nextId('cal_rec_exclusion'), 'integer') . ', ' .
-            $ilDB->quote($this->getEntryId(), 'integer') . ', ' .
-            $ilDB->quote($this->getDate()->get(IL_CAL_DATE, '', 'UTC'), 'timestamp') .
+            $this->db->quote($next_id = $this->db->nextId('cal_rec_exclusion'), 'integer') . ', ' .
+            $this->db->quote($this->getEntryId(), 'integer') . ', ' .
+            $this->db->quote($this->getDate()->get(IL_CAL_DATE, '', 'UTC'), 'timestamp') .
             ')';
-        $ilDB->manipulate($query);
-        
+        $this->db->manipulate($query);
+
         $this->exclusion_id = $next_id;
         return $this->getId();
     }
-    
+
     /**
      * Read exclusion
      * @return
@@ -161,9 +152,9 @@ class ilCalendarRecurrenceExclusion
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        $query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = " . $ilDB->quote($this->getId(), 'integer');
-        $res = $ilDB->query($query);
+
+        $query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = " . $this->db->quote($this->getId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->cal_id = $row->cal_id;
             $this->setDate(new ilDate($row->excl_date, IL_CAL_DATE, 'UTC'));

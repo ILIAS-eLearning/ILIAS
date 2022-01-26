@@ -66,7 +66,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param string   $a_name       element name
      * @param array    $a_attribs    element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -93,7 +93,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_name       element name
      */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -115,7 +115,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space

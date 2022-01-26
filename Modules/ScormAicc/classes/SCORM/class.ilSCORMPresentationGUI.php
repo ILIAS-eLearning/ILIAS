@@ -31,6 +31,9 @@ class ilSCORMPresentationGUI
     protected int $refId;
     protected $ctrl;
 
+    /**
+     *
+     */
     public function __construct()
     {
         global $DIC;
@@ -45,10 +48,12 @@ class ilSCORMPresentationGUI
         $this->slm = new ilObjSCORMLearningModule($_GET["ref_id"], true);
         $this->refId = (int) $_GET["ref_id"];
     }
-    
+
     /**
-    * execute command
-    */
+     * execute command
+     * @return void
+     * @throws ilCtrlException
+     */
     public function executeCommand() : void
     {
         global $DIC;
@@ -66,14 +71,17 @@ class ilSCORMPresentationGUI
             $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
         }
 
-        switch ($next_class) {
-            default:
-                $this->$cmd();
-        }
+//        switch ($next_class) {
+//            default:
+        $this->$cmd();
+//        }
     }
 
-
-    public function attrib2arr(&$a_attributes)
+    /**
+     * @param array|null $a_attributes
+     * @return array
+     */
+    public function attrib2arr(?array $a_attributes) : array
     {
         $attr = array();
 
@@ -87,11 +95,12 @@ class ilSCORMPresentationGUI
         return $attr;
     }
 
-
     /**
-    * Output main frameset. If only one SCO/Asset is given, it is displayed
-    * without the table of contents explorer frame on the left.
-    */
+     * Output main frameset. If only one SCO/Asset is given, it is displayed
+     * without the table of contents explorer frame on the left.
+     * @return void
+     * @throws ilCtrlException
+     */
     public function frameset() : void
     {
         global $DIC;
@@ -100,13 +109,13 @@ class ilSCORMPresentationGUI
         $items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
         
         //check for max_attempts and raise error if max_attempts is exceeded
-        if ($this->get_max_attempts() != 0) {
-            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
-                header('Content-Type: text/html; charset=utf-8');
-                echo($lng->txt("cont_sc_max_attempt_exceed"));
-                exit;
-            }
-        }
+//        if ($this->get_max_attempts() != 0) {
+//            if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
+//                header('Content-Type: text/html; charset=utf-8');
+//                echo($lng->txt("cont_sc_max_attempt_exceed"));
+//                exit;
+//            }
+//        }
     
         $this->increase_attemptAndsave_module_version();
         ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
@@ -144,18 +153,19 @@ class ilSCORMPresentationGUI
         exit;
     }
 
+//    /**
+//    * Get max. number of attempts allowed for this package
+//    */
+//    public function get_max_attempts() : int
+//    {
+//        return ilObjSCORMInitData::get_max_attempts($this->slm->getId());
+//    }
+
     /**
-    * Get max. number of attempts allowed for this package
-    */
-    public function get_max_attempts()
-    {
-        return ilObjSCORMInitData::get_max_attempts($this->slm->getId());
-    }
-    
-    /**
-    * Get number of actual attempts for the user
-    */
-    public function get_actual_attempts()
+     * Get number of actual attempts for the user
+     * @return int
+     */
+    public function get_actual_attempts() : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -254,9 +264,11 @@ class ilSCORMPresentationGUI
     // ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
 
     // }
+
     /**
-    * Increases attempts by one and saves module_version for this package
-    */
+     * Increases attempts by one and saves module_version for this package
+     * @return void
+     */
     public function increase_attemptAndsave_module_version() : void
     {
         global $DIC;
@@ -340,10 +352,14 @@ class ilSCORMPresentationGUI
     // ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
         
     // }
-    
+
     /**
-    * output table of content
-    */
+     * output table of content
+     * @param string $a_target
+     * @return void
+     * @throws ilCtrlException
+     * @throws ilTemplateException
+     */
     public function explorer(string $a_target = "sahs_content") : void
     {
         global $DIC;
@@ -353,6 +369,7 @@ class ilSCORMPresentationGUI
         $ilBench->start("SCORMExplorer", "initExplorer");
         
         $this->tpl = new ilGlobalTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
+//        $this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
         $exp = new ilSCORMExplorer($this->ctrl->getLinkTarget($this, "view"), $this->slm);
         $exp->setTargetGet("obj_id");
         $exp->setFrameTarget($a_target);
@@ -392,12 +409,14 @@ class ilSCORMPresentationGUI
             "&ref_id=" . $this->slm->getRefId() . "&scexpand=" . $_GET["scexpand"]);
         $this->tpl->parseCurrentBlock();
         //BUG 16794? $this->tpl->show();
+//        $this->tpl->show();
         $this->tpl->printToStdout("DEFAULT", false);
     }
 
 
     /**
     * SCORM content screen
+     * @return void
     */
     public function view() : void
     {
@@ -411,6 +430,9 @@ class ilSCORMPresentationGUI
         $this->tpl->printToStdout(false);
     }
 
+    /**
+     * @return void
+     */
     public function contentSelect() : void
     {
         global $DIC;
@@ -422,8 +444,9 @@ class ilSCORMPresentationGUI
     }
     
     /**
-    * SCORM Data for Javascript-API
-    */
+     * SCORM Data for Javascript-API
+     * @return void
+     */
     public function apiInitData() : void
     {
         //		global $DIC;
@@ -465,60 +488,63 @@ class ilSCORMPresentationGUI
         }
     }
 
-    
-
+    /**
+     * @return bool
+     */
     public function pingSession() : bool
     {
         ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
         return true;
     }
 
-    public function logMessage() : void
-    {
-        global $DIC;
-        $ilLog = ilLoggerFactory::getLogger('sahs');
-        $logString = file_get_contents('php://input');
-        $ilLog->write("ScormAicc: ApiLog: Message: " . $logString);
-    }
-
-    public function logWarning() : void
-    {
-        global $DIC;
-        $ilLog = ilLoggerFactory::getLogger('sahs');
-        $logString = file_get_contents('php://input');
-        $ilLog->write("ScormAicc: ApiLog: Warning: " . $logString, 20);
-    }
+//    public function logMessage() : void
+//    {
+//        global $DIC;
+//        $ilLog = ilLoggerFactory::getLogger('sahs');
+//        $logString = file_get_contents('php://input');
+//        $ilLog->write("ScormAicc: ApiLog: Message: " . $logString);
+//    }
+//
+//    public function logWarning() : void
+//    {
+//        global $DIC;
+//        $ilLog = ilLoggerFactory::getLogger('sahs');
+//        $logString = file_get_contents('php://input');
+//        $ilLog->write("ScormAicc: ApiLog: Warning: " . $logString, 20);
+//    }
     
-    /**
-    * set single value
-    */
-    public function setSingleVariable($a_var, $a_value) : void
-    {
-        $this->tpl->setCurrentBlock("set_value");
-        $this->tpl->setVariable("VAR", $a_var);
-        $this->tpl->setVariable("VALUE", $a_value);
-        $this->tpl->parseCurrentBlock();
-    }
+//    /**
+//    * set single value
+//    */
+//    public function setSingleVariable($a_var, $a_value) : void
+//    {
+//        $this->tpl->setCurrentBlock("set_value");
+//        $this->tpl->setVariable("VAR", $a_var);
+//        $this->tpl->setVariable("VALUE", $a_value);
+//        $this->tpl->parseCurrentBlock();
+//    }
+
+//    /**
+//    * set single value
+//    */
+//    public function setArray($a_left, $a_value, $a_name, &$v_array) : void
+//    {
+//        for ($i = 0; $i < $a_value; $i++) {
+//            $var = $a_left . "." . $i . "." . $a_name;
+//            if (isset($v_array[$var])) {
+//                $this->tpl->setCurrentBlock("set_value");
+//                $this->tpl->setVariable("VAR", $var);
+//                $this->tpl->setVariable("VALUE", $v_array[$var]);
+//                $this->tpl->parseCurrentBlock();
+//            }
+//        }
+//    }
 
     /**
-    * set single value
-    */
-    public function setArray($a_left, $a_value, $a_name, &$v_array) : void
-    {
-        for ($i = 0; $i < $a_value; $i++) {
-            $var = $a_left . "." . $i . "." . $a_name;
-            if (isset($v_array[$var])) {
-                $this->tpl->setCurrentBlock("set_value");
-                $this->tpl->setVariable("VAR", $var);
-                $this->tpl->setVariable("VALUE", $v_array[$var]);
-                $this->tpl->parseCurrentBlock();
-            }
-        }
-    }
-
-    /**
-    * Download the certificate for the active user
-    */
+     * Download the certificate for the active user
+     * @return void
+     * @throws ilCtrlException
+     */
     public function downloadCertificate() : void
     {
         global $DIC;

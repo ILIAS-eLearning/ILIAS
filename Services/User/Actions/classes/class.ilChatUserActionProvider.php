@@ -29,7 +29,6 @@ class ilChatUserActionProvider extends ilUserActionProvider
     {
         parent::__construct();
 
-        include_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
         $this->pub_ref_id = ilObjChatroom::_getPublicRefId();
 
         $chatSettings = new ilSetting('chatroom');

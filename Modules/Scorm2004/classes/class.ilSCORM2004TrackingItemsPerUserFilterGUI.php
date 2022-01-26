@@ -1,8 +1,18 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilSCORM2004TrackingItemsPerUserFilterGUI
  *
@@ -22,7 +32,7 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function parse($userSelected, $report, $reports)
+    public function parse($userSelected, $report, $reports) : void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -32,11 +42,7 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
-
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 

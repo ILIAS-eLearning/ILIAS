@@ -11,31 +11,26 @@ interface ilSaxSubsetParser
 {
     /**
      * Start element handler
-     *
      * @access public
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_name				element name
-     * @param	array		$a_attribs			element attributes array
-     *
+     * @param	resource $a_xml_parser xml parser
+     * @param	string   $a_name       element name
+     * @param	array    $a_attribs    element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void;
 
     /**
      * End element handler
-     *
      * @access public
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_name				element name
-     *
+     * @param	resource $a_xml_parser xml parser
+     * @param string      $a_name       element name
      */
-    public function handlerEndTag($a_xml_parser, $a_name);
+    public function handlerEndTag($a_xml_parser, string $a_name) : void;
     
     /**
      * Character data handler
-     *
      * @access public
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_data				character data
+     * @param	resource $a_xml_parser xml parser
+     * @param	string   $a_data       character data
      */
-    public function handlerCharacterData($a_xml_parser, $a_name);
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void;
 }

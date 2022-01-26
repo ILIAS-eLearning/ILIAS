@@ -41,7 +41,7 @@ class ilSCORMPackageParser extends ilSaxParser
     * @param	string		$a_xml_file		xml file
     * @access	public
     */
-    public function __construct(&$a_slm_object, $a_xml_file)
+    public function __construct(object $a_slm_object, string $a_xml_file)
     {
         parent::__construct($a_xml_file);
 //        $this->cnt = array();
@@ -53,10 +53,12 @@ class ilSCORMPackageParser extends ilSaxParser
     }
 
     /**
-    * set event handler
-    * should be overwritten by inherited class
-    * @access	private
-    */
+     * set event handler
+     * should be overwritten by inherited class
+     *
+     * @param $a_xml_parser
+     * @return void
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -64,20 +66,30 @@ class ilSCORMPackageParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
+    /**
+     * @return void
+     * @throws ilSaxParserException
+     */
     public function startParsing() : void
     {
         parent::startParsing();
     }
-    
-    public function getPackageTitle()
+
+    /**
+     * @return string
+     */
+    public function getPackageTitle() : string
     {
         return $this->package_title;
     }
 
-    /*
-    * update parsing status for a element begin
-    */
-    public function beginElement($a_name) : void
+    /**
+     * update parsing status for a element begin
+     *
+     * @param string $a_name
+     * @return void
+     */
+    public function beginElement(string $a_name) : void
     {
 //        if (!isset($this->status["$a_name"])) {
 //            $this->cnt[$a_name] == 1;
@@ -87,27 +99,33 @@ class ilSCORMPackageParser extends ilSaxParser
         $this->current_element[count($this->current_element)] = $a_name;
     }
 
-    /*
-    * update parsing status for an element ending
-    */
-    public function endElement($a_name) : void
+    /**
+     * update parsing status for an element ending
+     *
+     * @param string $a_name
+     * @return void
+     */
+    public function endElement(string $a_name) : void
     {
 //        $this->cnt[$a_name]--;
         unset($this->current_element[count($this->current_element) - 1]);
     }
 
-    /*
-    * returns current element
-    */
-    public function getCurrentElement()
+    /**
+     * returns current element
+     *
+     * @return string
+     */
+    public function getCurrentElement() : string
     {
         return ($this->current_element[count($this->current_element) - 1]);
     }
 
-    /*
-    * returns current element
-    */
-    public function getAncestorElement($nr = 1)
+    /**
+     * @param int $nr
+     * @return string
+     */
+    public function getAncestorElement(int $nr = 1) : string
     {
         return ($this->current_element[count($this->current_element) - 1 - $nr]);
     }
@@ -125,13 +143,14 @@ class ilSCORMPackageParser extends ilSaxParser
 //    }
 
     /**
-    * generate a tag with given name and attributes
-    *
-    * @param	string		"start" | "end" for starting or ending tag
-    * @param	string		element/tag name
-    * @param	array		array of attributes
-    */
-    public function buildTag($type, $name, $attr = "") : string
+     *     * generate a tag with given name and attributes
+     *
+     * @param string     $type  "start" | "end" for starting or ending tag
+     * @param string     $name  element/tag name
+     * @param array|null $attr  array of attributes
+     * @return string
+     */
+    public function buildTag(string $type, string $name, ?array $attr = null) : string
     {
         $tag = "<";
 
@@ -152,15 +171,23 @@ class ilSCORMPackageParser extends ilSaxParser
         return $tag;
     }
 
-    public function getCurrentParent()
+    /**
+     * @return int
+     */
+    public function getCurrentParent() : int
     {
         return $this->parent_stack[count($this->parent_stack) - 1];
     }
 
     /**
-    * handler for begin of element
-    */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+     * handler for begin of element
+     *
+     * @param        $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
@@ -261,9 +288,13 @@ class ilSCORMPackageParser extends ilSaxParser
     }
 
     /**
-    * handler for end of element
-    */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+     * handler for end of element
+     *
+     * @param        $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -295,9 +326,13 @@ class ilSCORMPackageParser extends ilSaxParser
     }
 
     /**
-    * handler for character data
-    */
-    public function handlerCharacterData($a_xml_parser, $a_data) : void
+     * handler for character data
+     *
+     * @param             $a_xml_parser
+     * @param string|null $a_data
+     * @return void
+     */
+    public function handlerCharacterData($a_xml_parser, ?string $a_data) : void
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA

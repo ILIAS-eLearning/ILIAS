@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilSCORM2004Condition
 *
@@ -21,7 +32,7 @@ class ilSCORM2004Condition extends ilSCORM2004SeqNode
     private $seqNodeId = null;
     private $referencedObjective = null;
     private $condition = null;
-    private $measureThreshold = 0.0;
+    private float $measureThreshold = 0.0;
     private $operator = null;
     
     /**
@@ -60,7 +71,7 @@ class ilSCORM2004Condition extends ilSCORM2004SeqNode
         return $this->condition;
     }
     
-    public function getMeasureThreshold()
+    public function getMeasureThreshold() : float
     {
         return $this->measureThreshold;
     }
@@ -74,32 +85,32 @@ class ilSCORM2004Condition extends ilSCORM2004SeqNode
     // Setter METHODS
     // **********************
 
-    public function setSeqNodeId($a_seqnodeid)
+    public function setSeqNodeId($a_seqnodeid) : void
     {
         $this->seqNodeId = $a_seqnodeid;
     }
     
-    public function setId($a_id)
+    public function setId($a_id) : void
     {
         $this->id = $a_id;
     }
     
-    public function setReferencedObjective($a_objective)
+    public function setReferencedObjective($a_objective) : void
     {
         $this->referencedObjective = $a_objective;
     }
     
-    public function setCondition($a_condition)
+    public function setCondition($a_condition) : void
     {
         $this->condition = $a_condition;
     }
     
-    public function setMeasureThreshold($a_measure)
+    public function setMeasureThreshold(float $a_measure) : void
     {
         $this->measureThreshold = $a_measure;
     }
     
-    public function setOperator($a_operator)
+    public function setOperator($a_operator) : void
     {
         $this->operator = $a_operator;
     }
@@ -108,7 +119,7 @@ class ilSCORM2004Condition extends ilSCORM2004SeqNode
     // Standard DB Operations for Object
     // **********************
     
-    public function insert($a_insert_node = false)
+    public function insert($a_insert_node = false) : bool
     {
         if ($a_insert_node == true) {
             $this->setSeqNodeId(parent::insert());

@@ -19,22 +19,29 @@
  */
 class ilUserActionAdminGUI
 {
+    protected ilRbacSystem $rbabsystem;
+    protected int $ref_id;
+    protected \ILIAS\User\StandardGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilUserActionContext $action_context;
 
-    public function __construct()
+    public function __construct(int $ref_id)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = $ref_id;
         $this->rbabsystem = $DIC->rbac()->system();
 
         $this->lng->loadLanguageModule("usr");
+        $this->request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
     
     public function setActionContext(ilUserActionContext $a_val = null) : void
@@ -64,7 +71,6 @@ class ilUserActionAdminGUI
     {
         ilUtil::sendInfo($this->lng->txt("user_actions_activation_info"));
 
-        include_once("./Services/User/Actions/classes/class.ilUserActionAdminTableGUI.php");
         $tab = new ilUserActionAdminTableGUI(
             $this,
             "show",
@@ -83,15 +89,14 @@ class ilUserActionAdminGUI
             $this->ctrl->redirect($this, "show");
         }
 
-        //var_dump($_POST); exit;
-        include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
+        $active = $this->request->getActionActive();
         foreach ($this->getActions() as $a) {
             ilUserActionAdmin::activateAction(
                 $this->action_context->getComponentId(),
                 $this->action_context->getContextId(),
                 $a["action_comp_id"],
                 $a["action_type_id"],
-                (int) $_POST["active"][$a["action_comp_id"] . ":" . $a["action_type_id"]]
+                (bool) $active[$a["action_comp_id"] . ":" . $a["action_type_id"]]
             );
         }
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -103,8 +108,6 @@ class ilUserActionAdminGUI
      */
     public function getActions() : array
     {
-        include_once("./Services/User/Actions/classes/class.ilUserActionProviderFactory.php");
-        include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
         $data = array();
         foreach (ilUserActionProviderFactory::getAllProviders() as $p) {
             foreach ($p->getActionTypes() as $id => $name) {

@@ -1,14 +1,17 @@
 <?php declare(strict_types=1);
 /******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system.
+ *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
+ *
  *****************************************************************************/
-
 /**
  * Class ilSCORMTrackingItems
  * @author  Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
@@ -204,7 +207,7 @@ class ilSCORMTrackingItems
         while ($data = $ilDB->fetchAssoc($res)) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
             $data["rvalue"] = "" . $data["rvalue"];
@@ -216,9 +219,10 @@ class ilSCORMTrackingItems
     }
 
     /**
+     * @param int $obj_id
      * @return array<int|string, mixed>
      */
-    public function scoTitlesForExportSelected($obj_id) : array
+    public function scoTitlesForExportSelected(int $obj_id) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -238,7 +242,12 @@ class ilSCORMTrackingItems
         return $scoTitles;
     }
 
-    public function markedLearningStatusForExportSelected($a_scos, $obj_id)
+    /**
+     * @param array $a_scos
+     * @param int   $obj_id
+     * @return array
+     */
+    public function markedLearningStatusForExportSelected(array $a_scos, int $obj_id) : array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -255,7 +264,12 @@ class ilSCORMTrackingItems
         return $a_scos;
     }
 
-    public static function userDataArrayForExport($user, $b_allowExportPrivacy = false) : array
+    /**
+     * @param int  $user
+     * @param bool $b_allowExportPrivacy
+     * @return array
+     */
+    public static function userDataArrayForExport(int $user, bool $b_allowExportPrivacy = false) : array
     {
         $userArray = array();
         if ($b_allowExportPrivacy == false) {
@@ -279,6 +293,12 @@ class ilSCORMTrackingItems
     }
 
     /**
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param bool   $b_orderBySCO
+     * @param bool   $allowExportPrivacy
+     * @param int    $obj_id
+     * @param string $lmTitle
      * @return array<int, mixed[]>
      */
     public function exportSelectedCore(
@@ -340,7 +360,7 @@ class ilSCORMTrackingItems
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
 
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
 
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -372,10 +392,16 @@ class ilSCORMTrackingItems
 
         return $returnData;
     }
-    /*
-     */
 
-    public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, $lvalue)
+    /**
+     * @param int    $obj_id
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param array  $a_empty
+     * @param string $lvalue
+     * @return array
+     */
+    public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, string $lvalue) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -487,7 +513,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'id',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -498,7 +524,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'weighting',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -509,7 +535,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'type',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -520,7 +546,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'result',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -531,7 +557,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'student_response',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -542,7 +568,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'latency',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -553,7 +579,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'time',
-                    $interactionsCounter[$i],
+                    (int) $interactionsCounter[$i],
                     'interactions'
                 )
             );
@@ -562,7 +588,7 @@ class ilSCORMTrackingItems
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
 
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
 
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -599,6 +625,12 @@ class ilSCORMTrackingItems
     }
 
     /**
+     * @param int    $obj_id
+     * @param array  $a_user
+     * @param array  $a_sco
+     * @param string $lvalue
+     * @param int    $counter
+     * @param string $topic
      * @return array<string, mixed>
      */
     public function getScormTrackingValueForInteractionsOrObjectives(
@@ -713,7 +745,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'id',
-                    $objectivesCounter[$i],
+                    (int) $objectivesCounter[$i],
                     'objectives'
                 )
             );
@@ -724,7 +756,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'score.max',
-                    $objectivesCounter[$i],
+                    (int) $objectivesCounter[$i],
                     'objectives'
                 )
             );
@@ -735,7 +767,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'score.min',
-                    $objectivesCounter[$i],
+                    (int) $objectivesCounter[$i],
                     'objectives'
                 )
             );
@@ -746,7 +778,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'score.raw',
-                    $objectivesCounter[$i],
+                    (int) $objectivesCounter[$i],
                     'objectives'
                 )
             );
@@ -757,7 +789,7 @@ class ilSCORMTrackingItems
                     $a_user,
                     $a_sco,
                     'status',
-                    $objectivesCounter[$i],
+                    (int) $objectivesCounter[$i],
                     'objectives'
                 )
             );
@@ -766,7 +798,7 @@ class ilSCORMTrackingItems
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
 
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
 
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["sco_id"]];
             $data["sco_title"] = $scoTitles[$data["sco_id"]];
@@ -821,7 +853,7 @@ class ilSCORMTrackingItems
             array($obj_id, 'sco')
         );
         while ($row = $ilDB->fetchAssoc($res)) {
-            $scoCounter = $row['counter'];
+            $scoCounter = (int) $row['counter'];
         }
 
         //data-arrays for all users
@@ -924,7 +956,7 @@ class ilSCORMTrackingItems
             $dat["LearningModuleTitle"] = "" . $lmTitle;
             $dat["LearningModuleVersion"] = "" . $data["module_version"];
 
-            $dat = array_merge($dat, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $dat = array_merge($dat, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));
 
             $dat["status"] = "" . $data["status"];
             $dat["Percentage"] = "" . $data["percentage_completed"];
@@ -945,6 +977,10 @@ class ilSCORMTrackingItems
         return $returnData;
     }
 
+    /**
+     * @param $a_time
+     * @return float|string
+     */
     public function SCORMTimeToSeconds($a_time)
     {
         if ($a_time == "") {

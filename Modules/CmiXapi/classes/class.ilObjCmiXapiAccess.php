@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,7 +27,7 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @return array<int, mixed[]>
      */
-    public static function _getCommands(): array
+    public static function _getCommands() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

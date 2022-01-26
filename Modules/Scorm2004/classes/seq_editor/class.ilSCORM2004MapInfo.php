@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilSCORM2004MapInfo
 *
@@ -21,10 +32,10 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
     private $id = null;
     private $seqNodeId = null;
     private $targetObjectiveID = null;
-    private $readSatisfiedStatus = true;
-    private $readNormalizedMeasure = true;
-    private $writeSatisfiedStatus = false;
-    private $writeNormalizedMeasure = false;
+    private bool $readSatisfiedStatus = true;
+    private bool $readNormalizedMeasure = true;
+    private bool $writeSatisfiedStatus = false;
+    private bool $writeNormalizedMeasure = false;
     /**
     * Constructor
     * @access	public
@@ -55,22 +66,22 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
         return $this->targetObjectiveID;
     }
     
-    public function getReadSatisfiedStatus()
+    public function getReadSatisfiedStatus() : bool
     {
         return $this->readSatisfiedStatus;
     }
     
-    public function getReadNormalizedMeasure()
+    public function getReadNormalizedMeasure() : bool
     {
         return $this->readNormalizedMeasure;
     }
     
-    public function getWriteSatisfiedStatus()
+    public function getWriteSatisfiedStatus() : bool
     {
         return $this->writeSatisfiedStatus;
     }
     
-    public function getWriteNormalizedMeasure()
+    public function getWriteNormalizedMeasure() : bool
     {
         return $this->writeNormalizedMeasure;
     }
@@ -79,37 +90,37 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
     // Setter METHODS
     // **********************
 
-    public function setSeqNodeId($a_seqnodeid)
+    public function setSeqNodeId($a_seqnodeid) : void
     {
         $this->seqNodeId = $a_seqnodeid;
     }
     
-    public function setId($a_id)
+    public function setId($a_id) : void
     {
         $this->id = $a_id;
     }
     
-    public function setTargetObjectiveID($a_id)
+    public function setTargetObjectiveID($a_id) : void
     {
         $this->targetObjectiveID = $a_id;
     }
     
-    public function setReadSatisfiedStatus($a_status)
+    public function setReadSatisfiedStatus(bool $a_status) : void
     {
         $this->readSatisfiedStatus = $a_status;
     }
     
-    public function setReadNormalizedMeasure($a_measure)
+    public function setReadNormalizedMeasure(bool $a_measure) : void
     {
         $this->readNormalizedMeasure = $a_measure;
     }
     
-    public function setWriteSatisfiedStatus($a_status)
+    public function setWriteSatisfiedStatus(bool $a_status) : void
     {
         $this->writeSatisfiedStatus = $a_status ;
     }
     
-    public function setWriteNormalizedMeasure($a_measure)
+    public function setWriteNormalizedMeasure(bool $a_measure) : void
     {
         $this->writeNormalizedMeasure = $a_measure;
     }
@@ -119,7 +130,7 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
     // Standard DB Operations for Object
     // **********************
     
-    public function insert($a_insert_node = false)
+    public function insert($a_insert_node = false) : bool
     {
         if ($a_insert_node == true) {
             $this->setSeqNodeId(parent::insert());
@@ -136,7 +147,7 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
         return true;
     }
     
-    public static function fetchmapInfo($a_seq_node_id)
+    public static function fetchmapInfo($a_seq_node_id) : \ilSCORM2004MapInfo
     {
         global $DIC;
 

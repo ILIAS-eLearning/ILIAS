@@ -22,12 +22,11 @@
 */
 
 /**
-* This class represents a ical parameter
-* E.g  VALUE=DATETIME
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ServicesCalendar
-*/
+ * This class represents a ical parameter
+ * E.g  VALUE=DATETIME
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilICalParameter extends ilICalItem
 {
     public function __construct(string $a_name, string $a_value = '')

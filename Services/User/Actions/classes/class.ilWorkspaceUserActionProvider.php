@@ -53,7 +53,6 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         $lng = $DIC['lng'];
 
         $coll = ilUserActionCollection::getInstance();
-        include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 
         if (!$this->wsp_activated) {
             return $coll;

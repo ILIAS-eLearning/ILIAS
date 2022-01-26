@@ -1,7 +1,18 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -18,7 +29,7 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
      * @param
      * @return
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $confirmdelete = false)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd, $confirmdelete = false)
     {
         global $DIC;
 

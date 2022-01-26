@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use \ILIAS\UI\Component\Modal\RoundTrip;
 
@@ -62,7 +62,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('desc');
     }
     
-    protected function initColumns(): void
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -136,12 +136,9 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         
         if ($this->isMultiActorReport) {
             $actor = $a_set['actor'];
-            if (empty($actor))
-            {
+            if (empty($actor)) {
                 $this->tpl->setVariable('STMT_ACTOR', 'user_not_found');
-            }
-            else
-            {
+            } else {
                 $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($a_set['actor']));
             }
         }
@@ -189,13 +186,10 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ret = 'not found';
-        try
-        {
+        try {
             $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
             $ret = $userObj->getFullname();
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $ret = $DIC->language()->txt('deleted_user');
         }
         return $ret;

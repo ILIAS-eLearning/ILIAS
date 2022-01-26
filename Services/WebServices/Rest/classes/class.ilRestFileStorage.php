@@ -1,21 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * File storage handling
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilRestFileStorage extends ilFileSystemAbstractionStorage
 {
     const AVAILABILITY_IN_DAYS = 1;
 
-    /**
-     * @var \ilLogger
-     */
-    private $logger = null;
+    private $logger;
+
+    protected ilSetting $settings;
 
 
     /**
@@ -25,50 +24,34 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     {
         global $DIC;
 
+        $this->settings = $DIC->settings();
         $this->logger = $DIC->logger()->wsrv();
-        $this->logger->logStack();
-
         parent::__construct(
-            ilFileSystemStorage::STORAGE_DATA,
+            ilFileSystemAbstractionStorage::STORAGE_DATA,
             false,
             0
         );
     }
 
-    /**
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     * @return \Slim\Http\Response | null $response
-     */
-    protected function checkWebserviceActivation(\Slim\Http\Request $request, \Slim\Http\Response $response)
+    protected function checkWebserviceActivation(Request $request, Response $response) : ?Response
     {
-        global $DIC;
-
-        $settings = $DIC->settings();
-        if (!$settings->get('soap_user_administration', 0)) {
+        if (!$this->settings->get('soap_user_administration', '0')) {
             $this->logger->warning('Webservices disabled in administration.');
 
-            $response = $response
+            return $response
                 ->withHeader('Content-Type', 'text/html')
                 ->withStatus(\Slim\Http\StatusCode::HTTP_FORBIDDEN)
                 ->write('Webservice not enabled.');
-            return $response;
         }
         return null;
     }
 
-    /**
-     * Get path prefix
-     */
-    protected function getPathPrefix():string
+    protected function getPathPrefix() : string
     {
         return 'ilRestFileStorage';
     }
 
-    /**
-     * Get path prefix
-     */
-    protected function getPathPostfix():string
+    protected function getPathPostfix() : string
     {
         return 'files';
     }
@@ -83,11 +66,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    /**
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
-     */
-    public function getFile(\Slim\Http\Request $request, \Slim\Http\Response $response)
+    public function getFile(Request $request, Response $response) : Response
     {
         $failure = $this->checkWebserviceActivation($request, $response);
         if ($failure instanceof \Slim\Http\Response) {
@@ -116,13 +95,12 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
 
             $this->logger->dump($return);
 
-            $response = $response
+            return $response
                 ->withStatus(\Slim\Http\StatusCode::HTTP_OK)
                 ->withHeader('Content-Type', 'application/json')
                 ->write($return);
-            return $response;
         }
-        $this->responeNotFound($response);
+        return $this->responeNotFound($response);
     }
 
 
@@ -131,7 +109,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
      * @param \Slim\Http\Response $response
      * @return \Slim\Http\Response $response
      */
-    protected function responeNotFound(\Slim\Http\Response $response)
+    protected function responeNotFound(Response $response) : Response
     {
         return $response
             ->withHeader('Content-Type', 'text/html')
@@ -143,11 +121,8 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
 
     /**
      * Create new file from post
-     *
-     * @param \Slim\Http\Request $request
-     * @param \Slim\Http\Response $response
      */
-    public function createFile(\Slim\Http\Request $request, \Slim\Http\Response $response)
+    public function createFile(Request $request, Response $response) : Response
     {
         $failure = $this->checkWebserviceActivation($request, $response);
         if ($failure instanceof \Slim\Http\Response) {
@@ -162,14 +137,12 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         $this->writeToFile($request_body, $path);
         $return = basename($tmpname);
 
-        $response = $response
+        return $response
             ->withHeader('ContentType', 'application/json')
             ->write($return);
-
-        return $response;
     }
 
-    public function storeFileForRest($content)
+    public function storeFileForRest(string $content) : string
     {
         $tmpname = ilUtil::ilTempnam();
         $path = $this->getPath() . '/' . basename($tmpname);
@@ -178,11 +151,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         return basename($tmpname);
     }
 
-    /**
-     * @param $tmpname
-     * @return string
-     */
-    public function getStoredFilePath($tmpname)
+    public function getStoredFilePath(string $tmpname) : string
     {
         return $this->getPath() . '/' . $tmpname;
     }
@@ -190,18 +159,32 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     /**
      * Delete deprecated files
      */
-    public function deleteDeprecated()
+    public function deleteDeprecated() : void
     {
         $max_age = time() - self::AVAILABILITY_IN_DAYS * 24 * 60 * 60;
         $ite = new DirectoryIterator($this->getPath());
         foreach ($ite as $file) {
             if ($file->getCTime() <= $max_age) {
                 try {
-                    @unlink($file->getPathname());
+                    unlink($file->getPathname());
                 } catch (Exception $e) {
                     $this->logger->warning($e->getMessage());
                 }
             }
         }
     }
+
+    public function writeToFile($a_data, $a_absolute_path) : bool
+    {
+        if (!$fp = fopen($a_absolute_path, 'w+')) {
+            return false;
+        }
+        if (fwrite($fp, $a_data) === false) {
+            fclose($fp);
+            return false;
+        }
+        fclose($fp);
+        return true;
+    }
+
 }

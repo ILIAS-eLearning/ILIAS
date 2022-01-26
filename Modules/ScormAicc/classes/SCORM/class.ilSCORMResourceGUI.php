@@ -22,13 +22,20 @@
 */
 class ilSCORMResourceGUI extends ilSCORMObjectGUI
 {
-    public function __construct($a_id)
+    /**
+     * @param int $a_id
+     */
+    public function __construct(int $a_id)
     {
         parent::__construct();
         $this->sc_object = new ilSCORMResource($a_id);
         $files = &$this->sc_object->getFiles();
     }
 
+    /**
+     * @return void
+     * @throws ilTemplateException
+     */
     public function view() : void
     {
         $this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);

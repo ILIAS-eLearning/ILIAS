@@ -1,37 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilProfileChecklistStatus
 {
-    const STEP_PROFILE_DATA = 0;
-    const STEP_PUBLISH_OPTIONS = 1;
-    const STEP_VISIBILITY_OPTIONS = 2;
+    public const STEP_PROFILE_DATA = 0;
+    public const STEP_PUBLISH_OPTIONS = 1;
+    public const STEP_VISIBILITY_OPTIONS = 2;
 
-    const STATUS_NOT_STARTED = 0;
-    const STATUS_IN_PROGRESS = 1;
-    const STATUS_SUCCESSFUL = 2;
+    public const STATUS_NOT_STARTED = 0;
+    public const STATUS_IN_PROGRESS = 1;
+    public const STATUS_SUCCESSFUL = 2;
+    protected ilPersonalProfileMode $profile_mode;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * Constructor
-     */
-    public function __construct($lng = null, $user = null)
-    {
+    public function __construct(
+        ?ilLanguage $lng = null,
+        ?ilObjUser $user = null
+    ) {
         global $DIC;
 
         $this->lng = is_null($lng)
@@ -48,9 +51,6 @@ class ilProfileChecklistStatus
         $this->profile_mode = new ilPersonalProfileMode($this->user, $DIC->settings());
     }
 
-    /**
-     * @return bool
-     */
     private function areOnScreenChatOptionsVisible() : bool
     {
         $chatSettings = new ilSetting('chatroom');
@@ -62,9 +62,6 @@ class ilProfileChecklistStatus
         );
     }
 
-    /**
-     * @return bool
-     */
     private function areChatTypingBroadcastOptionsVisible() : bool
     {
         $chatSettings = new ilSetting('chatroom');
@@ -75,13 +72,7 @@ class ilProfileChecklistStatus
         );
     }
 
-    /**
-     * Get steps
-     *
-     * @param
-     * @return
-     */
-    public function getSteps()
+    public function getSteps() : array
     {
         $lng = $this->lng;
 
@@ -98,8 +89,6 @@ class ilProfileChecklistStatus
 
     /**
      * Any visibility settings?
-     *
-     * @return bool
      */
     public function anyVisibilitySettings() : bool
     {
@@ -118,11 +107,8 @@ class ilProfileChecklistStatus
 
     /**
      * Get status of step
-     *
-     * @param int
-     * @return int
      */
-    public function getStatus(int $step)
+    public function getStatus(int $step) : int
     {
         $status = self::STATUS_NOT_STARTED;
         $user = $this->user;
@@ -157,9 +143,6 @@ class ilProfileChecklistStatus
 
     /**
      * Get status details
-     *
-     * @param int $step
-     * @return string
      */
     public function getStatusDetails(int $step) : string
     {
@@ -224,10 +207,8 @@ class ilProfileChecklistStatus
     
     /**
      * Save step success
-     *
-     * @param $step
      */
-    public function saveStepSucess($step)
+    public function saveStepSucess(int $step) : void
     {
         $user = $this->user;
         switch ($step) {

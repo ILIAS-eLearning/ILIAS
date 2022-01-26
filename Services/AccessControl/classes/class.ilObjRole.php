@@ -141,7 +141,7 @@ class ilObjRole extends ilObject
         if ($res->numRows() > 0) {
             $row = $this->db->fetchAssoc($res);
             $this->setAllowRegister((bool) $row['allow_register']);
-            $this->toggleAssignUsersStatus((bool) $row['assign_user']);
+            $this->toggleAssignUsersStatus((bool) ($row['assign_user'] ?? false));
         } else {
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new ilObjectException('There is no dataset with id: ' . $this->id);
@@ -205,9 +205,9 @@ class ilObjRole extends ilObject
 
         $roles = [];
         while ($role = $ilDB->fetchAssoc($res)) {
-            $roles[] = array("id" => $role["obj_id"],
-                             "title" => $role["title"],
-                             "auth_mode" => $role['auth_mode']
+            $roles[] = array("id" => (int) $role["obj_id"],
+                             "title" => (string) $role["title"],
+                             "auth_mode" => (string) $role['auth_mode']
             );
         }
         return $roles;
@@ -491,8 +491,10 @@ class ilObjRole extends ilObject
                 : $this->lng->txt($info['type'] . "_" . $info['operation']);
             if (substr($info['operation'], 0, 7) == "create_" &&
                 $this->objDefinition->isPlugin(substr($info['operation'], 7))) {
-                $txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7),
-                    $info['type'] . "_" . $info['operation']);
+                $txt = ilObjectPlugin::lookupTxtById(
+                    substr($info['operation'], 7),
+                    $info['type'] . "_" . $info['operation']
+                );
             }
             $rbac_operations[$info['typ_id']][$info['ops_id']] = array(
                 "ops_id" => $info['ops_id'],
@@ -568,8 +570,10 @@ class ilObjRole extends ilObject
                 $local_policies[] = $policy;
                 continue;
             }
-            if (!in_array('all', $a_filter) and !in_array(ilObject::_lookupType(ilObject::_lookupObjId($policy)),
-                    $a_filter)) {
+            if (!in_array('all', $a_filter) and !in_array(
+                ilObject::_lookupType(ilObject::_lookupObjId($policy)),
+                $a_filter
+            )) {
                 $local_policies[] = $policy;
                 continue;
             }
@@ -589,7 +593,6 @@ class ilObjRole extends ilObject
         int $a_operation_mode = self::MODE_READ_OPERATIONS,
         array $a_operation_stack = []
     ) : void {
-
         $operation_stack = array();
         $policy_stack = array();
         $node_stack = array();
@@ -797,7 +800,6 @@ class ilObjRole extends ilObject
         int $a_node,
         bool $a_init = false
     ) : bool {
-
         $has_policies = null;
         $policy_origin = null;
 

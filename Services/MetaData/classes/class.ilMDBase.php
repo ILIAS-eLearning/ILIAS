@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,58 +22,56 @@
 */
 
 /**
-* Meta Data class
-* always instantiate this class first to set/get single meta data elements
-*
-* @package ilias-core
-* @version $Id$
-*/
-
+ * Meta Data class
+ * always instantiate this class first to set/get single meta data elements
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDBase
 {
-    /*
+    /**
      * object id (NOT ref_id!) of rbac object (e.g for page objects the obj_id
      * of the content object; for media objects this is set to 0, because their
      * object id are not assigned to ref ids)
      */
-    public $rbac_id;
+    private int $rbac_id;
 
-    /*
+    /**
      * obj_id (e.g for structure objects the obj_id of the structure object)
      */
-    public $obj_id;
+    private int $obj_id;
 
-    /*
+    /**
      * type of the object (e.g st,pg,crs ...)
      */
-    public $obj_type;
-    
-    /*
+    private string $obj_type;
+
+    private int $meta_id;
+    private int $parent_id;
+    private string $parent_type;
+
+    /**
      * export mode, if true, first Identifier will be
      * set to ILIAS/il_<INSTALL_ID>_<TYPE>_<ID>
      */
-    public $export_mode = false;
+    private $export_mode = false;
 
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
 
     protected ilDBInterface $db;
 
-    /*
+    /**
      * constructor
-     *
-     * @param	$a_rbac_id	int		object id (NOT ref_id!) of rbac object (e.g for page objects
-     *								the obj_id of the content object; for media objects this
-     *								is set to 0, because their object id are not assigned to ref ids)
-     * @param	$a_obj_id	int		object id (e.g for structure objects the obj_id of the structure object)
-     * @param	$a_type		string	type of the object (e.g st,pg,crs ...)
+     * @param    $a_rbac_id           int        object id (NOT ref_id!) of rbac object (e.g for page objects
+     *                                the obj_id of the content object; for media objects this
+     *                                is set to 0, because their object id are not assigned to ref ids)
+     * @param    $a_obj_id            int        object id (e.g for structure objects the obj_id of the structure object)
+     * @param    $a_type              string    type of the object (e.g st,pg,crs ...)
      */
     public function __construct(
-        $a_rbac_id = 0,
-        $a_obj_id = 0,
-        $a_type = 0
+        int $a_rbac_id = 0,
+        int $a_obj_id = 0,
+        string $a_type = ''
     ) {
         global $DIC;
 
@@ -85,37 +83,43 @@ class ilMDBase
 
         $this->log = ilLoggerFactory::getLogger("meta");
 
-        $this->rbac_id = $a_rbac_id;
-        $this->obj_id = $a_obj_id;
+        $this->rbac_id  = $a_rbac_id;
+        $this->obj_id   = $a_obj_id;
         $this->obj_type = $a_type;
     }
 
     // SET/GET
-    public function setRBACId($a_id)
+    public function setRBACId(int $a_id) : void
     {
         $this->rbac_id = $a_id;
     }
-    public function getRBACId()
+
+    public function getRBACId() : int
     {
         return $this->rbac_id;
     }
-    public function setObjId($a_id)
+
+    public function setObjId(int $a_id) : void
     {
         $this->obj_id = $a_id;
     }
-    public function getObjId()
+
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
-    public function setObjType($a_type)
+
+    public function setObjType(string $a_type) : void
     {
         $this->obj_type = $a_type;
     }
-    public function getObjType()
+
+    public function getObjType() : string
     {
         return $this->obj_type;
     }
-    public function setMetaId($a_meta_id, $a_read_data = true)
+
+    public function setMetaId(int $a_meta_id, bool $a_read_data = true) : void
     {
         $this->meta_id = $a_meta_id;
 
@@ -123,87 +127,63 @@ class ilMDBase
             $this->read();
         }
     }
-    public function getMetaId()
+
+    public function getMetaId() : int
     {
         return $this->meta_id;
     }
-    public function setParentType($a_parent_type)
+
+    public function setParentType(string $a_parent_type) : void
     {
         $this->parent_type = $a_parent_type;
     }
-    public function getParentType()
+
+    public function getParentType() : string
     {
         return $this->parent_type;
     }
-    public function setParentId($a_id)
+
+    public function setParentId(int $a_id) : void
     {
         $this->parent_id = $a_id;
     }
-    public function getParentId()
+
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
-    
-    public function setExportMode($a_export_mode = true)
+
+    public function setExportMode(bool $a_export_mode = true) : void
     {
         $this->export_mode = $a_export_mode;
     }
-    
-    public function getExportMode()
+
+    public function getExportMode() : bool
     {
         return $this->export_mode;
     }
 
-
-    /*
-     * Should be overwritten in all inherited classes
-     *
-     * @access public
-     * @return bool
-     */
-    public function validate()
+    public function validate() : bool
     {
         return false;
     }
 
-    /*
-     * Should be overwritten in all inherited classes
-     *
-     * @access public
-     * @return bool
-     */
-    public function update()
+    public function update() : bool
     {
         return false;
     }
 
-    /*
-     * Should be overwritten in all inherited classes
-     *
-     * @access public
-     * @return bool
-     */
-    public function save()
+    public function save() : int
+    {
+        return 0;
+    }
+
+    public function delete() : bool
     {
         return false;
     }
-    /*
-     * Should be overwritten in all inherited classes
-     *
-     * @access public
-     * @return bool
-     */
-    public function delete()
-    {
-    }
 
-    /*
-     * Should be overwritten in all inherited classes
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+    public function toXML(ilXmlWriter $writer) : void
     {
     }
 }
