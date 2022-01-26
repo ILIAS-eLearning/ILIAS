@@ -61,7 +61,7 @@ class Container extends \Pimple\Container
     /**
      * Get the current user.
      */
-    public function user() : \ilObjUser
+    public function user() : \ilObjUserInterface
     {
         return $this["ilUser"];
     }

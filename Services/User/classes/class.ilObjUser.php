@@ -21,7 +21,7 @@ use ILIAS\UI\Component\Symbol\Avatar\Avatar;
  * @author	Stefan Meyer <meyer@leifos.com>
  * @author	Peter Gabriel <pgabriel@databay.de>
  */
-class ilObjUser extends ilObject
+class ilObjUser extends ilObject implements ilObjUserInterface
 {
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
