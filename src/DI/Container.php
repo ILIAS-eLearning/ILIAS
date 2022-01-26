@@ -12,6 +12,7 @@ use ILIAS\Repository;
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
 use ILIAS\Services\RBAC\RBACServices;
 use ILIAS\Services\RBAC\RBACServicesInterface;
+use ILIAS\Services\Logging\LoggingServicesInterface;
 
 /******************************************************************************
  *
@@ -93,9 +94,9 @@ class Container extends \Pimple\Container
     /**
      * Get interface to get interfaces to different loggers.
      */
-    public function logger() : \ILIAS\DI\LoggingServices
+    public function logger() : LoggingServicesInterface
     {
-        return new LoggingServices($this);
+        return new \ILIAS\Services\Logging\LoggingServices($this);
     }
 
     /**
@@ -125,7 +126,7 @@ class Container extends \Pimple\Container
     /**
      * Get the interface to the settings
      */
-    public function settings() : \ilSetting
+    public function settings() : \ILIAS\Administration\Setting
     {
         return $this["ilSetting"];
     }
