@@ -18,6 +18,7 @@ use InvalidArgumentException;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class NumberComparator
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -25,11 +26,6 @@ use InvalidArgumentException;
  */
 class NumberComparator extends BaseComparator
 {
-    /**
-     * NumberComparator constructor.
-     * @param string $test
-     * @throws InvalidArgumentException
-     */
     public function __construct(string $test)
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?)?\s*([0-9\.]+)\s*([kmg]i?)?\s*$#i', $test, $matches)) {
