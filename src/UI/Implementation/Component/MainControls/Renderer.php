@@ -198,8 +198,7 @@ class Renderer extends AbstractComponentRenderer
         //tools-section trigger
         if (count($component->getToolEntries()) > 0) {
             $btn_tools = $component->getToolsButton()
-                ->withOnClick($component->getToggleToolsSignal())
-                ->withAriaRole(IBulky::MENUITEM);
+                ->withOnClick($component->getToggleToolsSignal());
 
             $tpl->setCurrentBlock("tools_trigger");
             $tpl->setVariable("BUTTON", $default_renderer->render($btn_tools));
