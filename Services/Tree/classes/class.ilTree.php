@@ -9,23 +9,11 @@
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesTree
  */
-class ilTree
+class ilTree implements ilTreeInterface
 {
-    public const TREE_TYPE_MATERIALIZED_PATH = 'mp';
-    public const TREE_TYPE_NESTED_SET = 'ns';
-
-    public const POS_LAST_NODE = -2;
-    public const POS_FIRST_NODE = -1;
-
-    public const RELATION_CHILD = 1;
-    public const RELATION_PARENT = 2;
-    public const RELATION_SIBLING = 3;
-    public const RELATION_EQUALS = 4;
-    public const RELATION_NONE = 5;
-
     protected const DEFAULT_LANGUAGE = 'en';
     protected const DEFAULT_GAP = 50;
-
+    
     protected ilLogger $logger;
     protected ilDBInterface $db;
     protected ?ilAppEventHandler $eventHandler;

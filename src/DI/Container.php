@@ -77,7 +77,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to the repository tree.
      */
-    public function repositoryTree() : \ilTree
+    public function repositoryTree() : \ilTreeInterface
     {
         return $this["tree"];
     }
