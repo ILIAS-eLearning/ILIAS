@@ -1,9 +1,4 @@
 <?php
-require_once 'Services/Cron/classes/class.ilCronJob.php';
-require_once 'Services/Cron/classes/class.ilCronJobResult.php';
-require_once 'Modules/Test/classes/class.ilObjTest.php';
-require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
-require_once 'Services/Logging/classes/public/class.ilLoggerFactory.php';
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 

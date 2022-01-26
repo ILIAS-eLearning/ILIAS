@@ -49,7 +49,7 @@ dependence on those Processors in the system.**
 <?php
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\DI\LoggingServices;
+use ILIAS\Services\Logging\LoggingServices;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 

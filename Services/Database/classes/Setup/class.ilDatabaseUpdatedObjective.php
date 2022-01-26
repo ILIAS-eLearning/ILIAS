@@ -52,12 +52,12 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class($io) {
+        $GLOBALS["DIC"]["ilLog"] = new class($io) extends ilLog {
             public function __construct($io)
             {
                 $this->io = $io;
             }
-            public function write(): void
+            public function write($a_msg, $a_log_level = null): void
             {
             }
             public function info(): void
@@ -75,16 +75,6 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger(): object
-            {
-                return new class() {
-                    public function write(): void
-                    {
-                    }
-                };
-            }
-        };
         $GLOBALS["ilCtrlStructureReader"] = new class() {
             public function getStructure(): void
             {

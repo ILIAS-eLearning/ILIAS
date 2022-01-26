@@ -115,42 +115,10 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
-            public function __construct()
-            {
-            }
-            public function write($m, $l = ilLogLevel::INFO)
-            {
-            }
-            public function info($msg)
-            {
-            }
-            public function warning($msg)
-            {
-            }
-            public function error($msg)
-            {
-            }
-            public function debug($msg, $a = [])
-            {
-            }
-            public function dump($msg, $a = ilLogLevel::INFO)
-            {
-            }
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLog {
+        
         };
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
-            public function __construct()
-            {
-            }
-            public static function getRootLogger()
-            {
-                return $GLOBALS["DIC"]["ilLog"];
-            }
-            public static function getLogger($a)
-            {
-                return $GLOBALS["DIC"]["ilLog"];
-            }
-        };
+        
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');

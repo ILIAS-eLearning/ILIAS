@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
-use ILIAS\DI\LoggingServices;
+use ILIAS\Services\Logging\LoggingServices;
 use ILIAS\HTTP\Services;
 use Psr\Http\Message\ServerRequestInterface;
 

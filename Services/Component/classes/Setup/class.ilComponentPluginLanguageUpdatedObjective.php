@@ -112,56 +112,39 @@ class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLogger"] = new class() extends ilLogger {
-            public function __construct()
-            {
-            }
-            public function isHandling($a_level)
-            {
-                return true;
-            }
-            public function log($a_message, $a_level = ilLogLevel::INFO)
-            {
-            }
-            public function dump($a_variable, $a_level = ilLogLevel::INFO)
-            {
-            }
-            public function debug($a_message, $a_context = array())
-            {
-            }
-            public function info($a_message)
-            {
-            }
-            public function notice($a_message)
-            {
-            }
-            public function warning($a_message)
-            {
-            }
-            public function error($a_message)
-            {
-            }
-            public function critical($a_message)
-            {
-            }
-            public function alert($a_message)
-            {
-            }
-            public function emergency($a_message)
-            {
-            }
-            public function write($a_message, $a_level = ilLogLevel::INFO)
-            {
-            }
-            public function writeLanguageLog($a_topic, $a_lang_key)
-            {
-            }
-            public function logStack($a_level = null, $a_message = '')
-            {
-            }
-            public function writeMemoryPeakUsage($a_level)
-            {
-            }
+        $GLOBALS["DIC"]["ilLogger"] = new class() implements ilLoggerInterface {
+            public function isHandling($a_level){}
+    
+            public function log($a_message, $a_level = ilLogLevel::INFO){}
+    
+            public function dump($a_variable, $a_level = ilLogLevel::INFO){}
+    
+            public function debug($a_message, $a_context = []){}
+    
+            public function info($a_message){}
+    
+            public function notice($a_message){}
+    
+            public function warning($a_message){}
+    
+            public function error($a_message){}
+    
+            public function critical($a_message){}
+    
+            public function alert($a_message){}
+    
+            public function emergency($a_message){}
+    
+            public function getLogger(){}
+    
+            public function write($a_message, $a_level = ilLogLevel::INFO){}
+    
+            public function writeLanguageLog($a_topic, $a_lang_key){}
+    
+            public function logStack($a_level = null, $a_message = ''){}
+    
+            public function writeMemoryPeakUsage($a_level) {}
+    
         };
         $GLOBALS["DIC"]["ilLog"] = new class() extends ilLog {
             public function __construct()
@@ -186,18 +169,12 @@ class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
-            public function __construct()
-            {
-            }
-            public static function getRootLogger()
-            {
-                return $GLOBALS["DIC"]["ilLogger"];
-            }
-            public static function getLogger($a)
-            {
-                return $GLOBALS["DIC"]["ilLogger"];
-            }
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() implements ilLoggerFactoryInterface {
+            public function initUser($a_login) {}
+        
+            public function getSettings() {}
+        
+            public function getComponentLogger($a_component_id): ilLoggerInterface {}
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;

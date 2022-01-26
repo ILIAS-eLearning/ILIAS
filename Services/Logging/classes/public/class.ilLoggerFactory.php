@@ -18,7 +18,7 @@ use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLoggerFactory
+class ilLoggerFactory implements ilLoggerFactoryInterface
 {
     const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
     
@@ -62,16 +62,15 @@ class ilLoggerFactory
     {
         return static::$instance = new self($settings);
     }
-            
+    
     
     /**
      * Get component logger
      * @see mudules.xml or service.xml
      *
      * @param string $a_component_id
-     * @return ilLogger
      */
-    public static function getLogger($a_component_id) : ilLogger
+    public static function getLogger($a_component_id) : ilLoggerInterface
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger($a_component_id);
@@ -79,9 +78,8 @@ class ilLoggerFactory
     
     /**
      * The unique root logger has a fixed error level
-     * @return ilLogger
      */
-    public static function getRootLogger() : ilLogger
+    public static function getRootLogger() : ilLoggerInterface
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger(self::ROOT_LOGGER);
@@ -147,10 +145,9 @@ class ilLoggerFactory
     
     /**
      * Get component logger
-     * @param type $a_component_id
-     * @return ilLogger
+     * @param string $a_component_id
      */
-    public function getComponentLogger($a_component_id) : ilLogger
+    public function getComponentLogger($a_component_id) : ilLoggerInterface
     {
         if (isset($this->loggers[$a_component_id])) {
             return $this->loggers[$a_component_id];
@@ -237,7 +234,7 @@ class ilLoggerFactory
         include_once './Services/Logging/classes/extensions/class.ilTraceProcessor.php';
         $logger->pushProcessor(new ilTraceProcessor(ilLogLevel::DEBUG));
         
-                
+        
         // register new logger
         include_once './Services/Logging/classes/class.ilComponentLogger.php';
         $this->loggers[$a_component_id] = new ilComponentLogger($logger);

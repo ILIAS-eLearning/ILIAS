@@ -71,8 +71,8 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write(): void
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLog {
+            public function write($a_msg, $a_log_level = null): void
             {
             }
             public function info(): void
@@ -86,16 +86,6 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger(): object
-            {
-                return new class() {
-                    public function write(): void
-                    {
-                    }
-                };
-            }
-        };
         $GLOBALS["ilCtrlStructureReader"] = new class() {
             public function getStructure(): void
             {

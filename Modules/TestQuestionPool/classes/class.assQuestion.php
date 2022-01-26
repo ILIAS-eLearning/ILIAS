@@ -38,7 +38,7 @@ abstract class assQuestion
         self::IMG_MIME_TYPE_GIF => array('binary')
     );
 
-    protected ILIAS\DI\LoggingServices $ilLog;
+    protected ILIAS\Services\Logging\LoggingServices $ilLog;
 
     protected int $id;
 
