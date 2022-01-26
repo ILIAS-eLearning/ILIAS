@@ -28,7 +28,6 @@ use ILIAS\BackgroundTasks\Task;
  */
 class BasicBucketMeta implements BucketMeta
 {
-    
     protected int $user_id;
     protected int $state;
     protected string $title = "";

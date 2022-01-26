@@ -19,7 +19,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         if ($this->mayWrite) {
-            $this->addColumn("", "", 1);
+            $this->addColumn("", "", '1px', true);
         }
         $this->addColumn($this->lng->txt('cron_job_id'), 'title');
         $this->addColumn($this->lng->txt('cron_component'), 'component');
@@ -261,7 +261,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         } elseif ($a_set['last_run']) {
             $a_set['last_run'] = ilDatePresentation::formatDate(new ilDateTime($a_set['last_run'], IL_CAL_UNIX));
         }
-        $this->tpl->setVariable('VAL_LAST_RUN', $a_set['last_run'] ? $a_set['last_run'] : '-');
+        $this->tpl->setVariable('VAL_LAST_RUN', $a_set['last_run'] ?: '-');
 
         $actions = [];
         if ($this->mayWrite && !$a_set['running_ts']) {

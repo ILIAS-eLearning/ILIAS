@@ -154,7 +154,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         global $DIC;
 
@@ -262,10 +262,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if ($this->lom_parsing_active) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -380,7 +377,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     /**
      * @inheritDoc
      */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->lom_parsing_active) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
@@ -552,7 +549,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     {
         $this->participants = new ilGroupParticipants($this->group_obj->getId());
         $this->participants->add($this->user->getId(), IL_GRP_ADMIN);
-        $this->participants->updateNotification($this->user->getId(), (int) $this->settings->get('mail_grp_admin_notification', "1"));
+        $this->participants->updateNotification($this->user->getId(), (bool) $this->settings->get('mail_grp_admin_notification', "1"));
         
         // attach ADMINs
         if (isset($this->group_data["admin"]["attach"]) && count($this->group_data["admin"]["attach"])) {

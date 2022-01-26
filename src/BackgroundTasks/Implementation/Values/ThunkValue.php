@@ -27,7 +27,6 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ThunkValue extends AbstractValue
 {
-    
     protected Type $type;
     
     public function getType() : Type

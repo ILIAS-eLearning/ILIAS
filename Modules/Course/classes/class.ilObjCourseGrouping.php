@@ -563,7 +563,7 @@ class ilObjCourseGrouping
         return self::$assignedObjects ? self::$assignedObjects : array();
     }
 
-    public static function _checkGroupingDependencies(&$container_obj, $a_user_id = null)
+    public static function _checkGroupingDependencies($container_obj, $a_user_id = null)
     {
         global $DIC;
 

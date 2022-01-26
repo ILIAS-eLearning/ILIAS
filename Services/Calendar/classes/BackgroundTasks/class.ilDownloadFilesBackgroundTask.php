@@ -1,103 +1,68 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
-use \ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Task\TaskFactory as TaskFactory;
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilDownloadFilesBackgroundTask
 {
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
-    
-    /**
-     * @var int
-     */
-    protected $user_id;
+    private ilLogger $logger;
+    protected ilLanguage $lng;
+    protected ?ilObjUser $user;
+    protected TaskFactory $task_factory;
 
-
-    /**
-     * @var \ilObjUser|null
-     */
-    protected $user = null;
-    
-    /**
-     * @var \ILIAS\BackgroundTasks\Task\TaskFactory
-     */
-    protected $task_factory = null;
-    
-    /**
-     * Array of calendar event
-     */
-    private $events = [];
+    private int $user_id;
+    private array $events = [];
+    private string $bucket_title;
+    private bool $has_files = false;
 
     /**
-     * title of the task showed in the main menu.
-     * @var string
-     */
-    protected $bucket_title;
-
-    /**
-     * if the task has collected files to create the ZIP file.
-     * @var bool
-     */
-    protected $has_files = false;
-    
-    /**
-     * Constructor
-     * @param type $a_usr_id
+     * ilDownloadFilesBackgroundTask constructor.
+     * @param $a_usr_id
+     * @throws ilDatabaseException | DomainException
      */
     public function __construct($a_usr_id)
     {
         global $DIC;
+
         $this->logger = $DIC->logger()->cal();
         $this->user_id = $a_usr_id;
         $this->task_factory = $DIC->backgroundTasks()->taskFactory();
         $this->lng = $DIC->language();
 
-        $this->user = \ilObjectFactory::getInstanceByObjId($a_usr_id, false);
+        $user = ilObjectFactory::getInstanceByObjId($a_usr_id, false);
+        if (!$user instanceof ilObjUser) {
+            throw new DomainException('Invalid or deleted user id given: ' . $this->user_id);
+        }
+        $this->user = $user;
     }
-    
-    /**
-     * Set events
-     * @param array $a_events
-     */
-    public function setEvents(array $a_events)
+
+    public function setEvents(array $a_events) : void
     {
         $this->events = $a_events;
     }
-    
-    /**
-     * Get events
-     * @return type
-     */
-    public function getEvents()
+
+    public function getEvents() : array
     {
         return $this->events;
     }
 
-    /**
-     * set bucket title.
-     * @param $a_title
-     */
-    public function setBucketTitle($a_title)
+    public function setBucketTitle(string $a_title) : void
     {
         $this->bucket_title = $a_title;
     }
 
     /**
-     * return bucket title.
      * @return string
+     * @todo see comments
      */
-    public function getBucketTitle()
+    public function getBucketTitle() : string
     {
         //TODO: fix ilUtil zip stuff
         // Error If name starts "-"
@@ -105,15 +70,10 @@ class ilDownloadFilesBackgroundTask
         if (substr($this->bucket_title, 0, 1) === "-") {
             $this->bucket_title = ltrim($this->bucket_title, "-");
         }
-
         return $this->bucket_title;
     }
-    
-    /**
-     * Run task
-     * @return bool
-     */
-    public function run()
+
+    public function run() : bool
     {
         $definition = new ilCalendarCopyDefinition();
         $normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
@@ -128,32 +88,30 @@ class ilDownloadFilesBackgroundTask
 
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);
-        
+
         // move files from source dir to target directory
         $copy_job = $this->task_factory->createTask(ilCalendarCopyFilesToTempDirectoryJob::class, [$definition]);
         $zip_job = $this->task_factory->createTask(ilCalendarZipJob::class, [$copy_job]);
-        
+
         $download_name = new StringValue();
 
         $this->logger->debug("Normalized name = " . $normalized_name);
         $download_name->setValue($normalized_name . '.zip');
 
-        $download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class, [$zip_job, $download_name]);
+        $download_interaction = $this->task_factory->createTask(ilCalendarDownloadZipInteraction::class,
+            [$zip_job, $download_name]);
 
         // last task to bucket
         $bucket->setTask($download_interaction);
 
         $bucket->setTitle($this->getBucketTitle());
-        
+
         $task_manager = $GLOBALS['DIC']->backgroundTasks()->taskManager();
         $task_manager->run($bucket);
         return true;
     }
-    
-    /**
-     * Collect files
-     */
-    private function collectFiles(ilCalendarCopyDefinition $def)
+
+    private function collectFiles(ilCalendarCopyDefinition $def) : void
     {
         //filter here the objects, don't repeat the object Id
         $object_ids = [];
@@ -173,7 +131,6 @@ class ilDownloadFilesBackgroundTask
                 $object_ids[] = $obj_id;
 
                 $folder_date = $start->get(IL_CAL_FKT_DATE, 'Y-m-d', $this->user->getTimeZone());
-
 
                 if ($event['fullday']) {
                     $folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized

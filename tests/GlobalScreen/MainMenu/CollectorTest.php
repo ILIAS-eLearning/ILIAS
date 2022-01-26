@@ -25,7 +25,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class CollectorTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
 
     protected function setUp() : void
     {

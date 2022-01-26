@@ -519,8 +519,8 @@ class ilNewsItem
             }
             
             // get all memberships
-            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, 'crs');
-            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, 'grp');
+            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id,['crs']);
+            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, ['grp']);
             $items = array_merge($crs_mbs, $grp_mbs);
             foreach ($items as $i) {
                 $item_references = ilObject::_getAllReferences($i);
@@ -1880,7 +1880,7 @@ class ilNewsItem
                 if ($a_increase_download_cnt) {
                     $this->increaseDownloadCounter();
                 }
-                ilUtil::deliverFile($file, $m_item->getLocation(), "", false, false, false);
+                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
                 return true;
             } else {
                 ilUtil::sendFailure("File not found!", true);

@@ -105,7 +105,6 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                 
                 case 'crs':
                 case 'grp':
-
                     if (ilParticipants::hasParticipantListAccess($object_id)) {
                         $row['member'] = count(ilParticipants::getInstanceByObjId($object_id)->getParticipants());
                     } else {

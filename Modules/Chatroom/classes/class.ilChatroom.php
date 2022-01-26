@@ -112,7 +112,7 @@ class ilChatroom
                         case 'visible':
                             if (!$active) {
                                 $DIC->access()->addInfoItem(
-                                    IL_NO_OBJECT_ACCESS,
+                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
                                     $DIC->language()->txt('offline')
                                 );
                             }
@@ -125,7 +125,7 @@ class ilChatroom
                         case 'read':
                             if (!$active) {
                                 $DIC->access()->addInfoItem(
-                                    IL_NO_OBJECT_ACCESS,
+                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
                                     $DIC->language()->txt('offline')
                                 );
                                 return false;

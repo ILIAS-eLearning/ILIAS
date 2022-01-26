@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiLrsType
  *
@@ -15,7 +25,7 @@
 class ilCmiXapiLrsType
 {
     const DB_TABLE_NAME = 'cmix_lrs_types';
-    public static function getDbTableName()
+    public static function getDbTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
@@ -46,7 +56,7 @@ class ilCmiXapiLrsType
 
     protected $title;
     protected $description;
-    protected $availability = self::AVAILABILITY_CREATE;
+    protected int $availability = self::AVAILABILITY_CREATE;
     protected $lrs_endpoint;
     protected $lrs_key;
     protected $lrs_secret;
@@ -57,10 +67,9 @@ class ilCmiXapiLrsType
     protected $external_lrs;
     
     protected $time_to_delete;
-    protected $launch_type = self::LAUNCH_TYPE_LINK;
+    protected string $launch_type = self::LAUNCH_TYPE_LINK;
     
     protected $remarks;
-    protected $template;
     
     /**
      * @var bool
@@ -123,7 +132,7 @@ class ilCmiXapiLrsType
     /**
      * @param int id
      */
-    public function setTypeId($a_type_id)
+    public function setTypeId($a_type_id) : void
     {
         $this->type_id = $a_type_id;
     }
@@ -139,7 +148,7 @@ class ilCmiXapiLrsType
     /**
      * @param string title
      */
-    public function setTitle($a_title)
+    public function setTitle($a_title) : void
     {
         $this->title = $a_title;
     }
@@ -155,7 +164,7 @@ class ilCmiXapiLrsType
     /**
      * @param string description
      */
-    public function setDescription($a_description)
+    public function setDescription($a_description) : void
     {
         $this->description = $a_description;
     }
@@ -171,7 +180,7 @@ class ilCmiXapiLrsType
     /**
      * @param integer availability
      */
-    public function setAvailability($a_availability)
+    public function setAvailability(int $a_availability) : void
     {
         $this->availability = $a_availability;
     }
@@ -179,15 +188,12 @@ class ilCmiXapiLrsType
     /**
      * @return integer availability
      */
-    public function getAvailability()
+    public function getAvailability() : int
     {
         return $this->availability;
     }
     
-    /**
-     * @return bool
-     */
-    public function isAvailable()
+    public function isAvailable() : bool
     {
         if ($this->getAvailability() == self::AVAILABILITY_CREATE) {
             return true;
@@ -203,7 +209,7 @@ class ilCmiXapiLrsType
     /**
      * @param string time_to_delete
      */
-    public function setTimeToDelete($a_time_to_delete)
+    public function setTimeToDelete($a_time_to_delete) : void
     {
         $this->time_to_delete = $a_time_to_delete;
     }
@@ -216,7 +222,7 @@ class ilCmiXapiLrsType
         return $this->time_to_delete;
     }
     
-    public function setLrsEndpoint($a_endpoint)
+    public function setLrsEndpoint($a_endpoint) : void
     {
         $this->lrs_endpoint = $a_endpoint;
     }
@@ -226,7 +232,7 @@ class ilCmiXapiLrsType
         return $this->lrs_endpoint;
     }
     
-    public function setLrsKey($a_lrs_key)
+    public function setLrsKey($a_lrs_key) : void
     {
         $this->lrs_key = $a_lrs_key;
     }
@@ -236,7 +242,7 @@ class ilCmiXapiLrsType
         return $this->lrs_key;
     }
     
-    public function setLrsSecret($a_lrs_secret)
+    public function setLrsSecret($a_lrs_secret) : void
     {
         $this->lrs_secret = $a_lrs_secret;
     }
@@ -246,7 +252,7 @@ class ilCmiXapiLrsType
         return $this->lrs_secret;
     }
     
-    public function setPrivacyIdent($a_option)
+    public function setPrivacyIdent($a_option) : void
     {
         $this->privacy_ident = $a_option;
     }
@@ -256,7 +262,7 @@ class ilCmiXapiLrsType
         return $this->privacy_ident;
     }
     
-    public function setPrivacyName($a_option)
+    public function setPrivacyName($a_option) : void
     {
         $this->privacy_name = $a_option;
     }
@@ -277,7 +283,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $only_moveon
      */
-    public function setOnlyMoveon(bool $only_moveon)
+    public function setOnlyMoveon(bool $only_moveon) : void
     {
         $this->only_moveon = $only_moveon;
     }
@@ -293,7 +299,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $achieved
      */
-    public function setAchieved(bool $achieved)
+    public function setAchieved(bool $achieved) : void
     {
         $this->achieved = $achieved;
     }
@@ -309,7 +315,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $answered
      */
-    public function setAnswered(bool $answered)
+    public function setAnswered(bool $answered) : void
     {
         $this->answered = $answered;
     }
@@ -325,7 +331,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $completed
      */
-    public function setCompleted(bool $completed)
+    public function setCompleted(bool $completed) : void
     {
         $this->completed = $completed;
     }
@@ -341,7 +347,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $failed
      */
-    public function setFailed(bool $failed)
+    public function setFailed(bool $failed) : void
     {
         $this->failed = $failed;
     }
@@ -357,7 +363,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $initialized
      */
-    public function setInitialized(bool $initialized)
+    public function setInitialized(bool $initialized) : void
     {
         $this->initialized = $initialized;
     }
@@ -373,7 +379,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $passed
      */
-    public function setPassed(bool $passed)
+    public function setPassed(bool $passed) : void
     {
         $this->passed = $passed;
     }
@@ -389,7 +395,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $progressed
      */
-    public function setProgressed(bool $progressed)
+    public function setProgressed(bool $progressed) : void
     {
         $this->progressed = $progressed;
     }
@@ -405,7 +411,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $satisfied
      */
-    public function setSatisfied(bool $satisfied)
+    public function setSatisfied(bool $satisfied) : void
     {
         $this->satisfied = $satisfied;
     }
@@ -421,7 +427,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $terminated
      */
-    public function setTerminated(bool $terminated)
+    public function setTerminated(bool $terminated) : void
     {
         $this->terminated = $terminated;
     }
@@ -437,7 +443,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $hide_data
      */
-    public function setHideData(bool $hide_data)
+    public function setHideData(bool $hide_data) : void
     {
         $this->hide_data = $hide_data;
     }
@@ -453,7 +459,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $timestamp
      */
-    public function setTimestamp(bool $timestamp)
+    public function setTimestamp(bool $timestamp) : void
     {
         $this->timestamp = $timestamp;
     }
@@ -469,7 +475,7 @@ class ilCmiXapiLrsType
     /**
      * @param bool $duration
      */
-    public function setDuration(bool $duration)
+    public function setDuration(bool $duration) : void
     {
         $this->duration = $duration;
     }
@@ -485,28 +491,22 @@ class ilCmiXapiLrsType
     /**
      * @param bool $no_substatements
      */
-    public function setNoSubstatements(bool $no_substatements)
+    public function setNoSubstatements(bool $no_substatements) : void
     {
         $this->no_substatements = $no_substatements;
     }
 
-    /**
-     * @return bool
-     */
-    public function getForcePrivacySettings()
+    public function getForcePrivacySettings() : ?bool
     {
         return $this->force_privacy_settings;
     }
     
-    /**
-     * @param bool $force_privacy_settings
-     */
-    public function setForcePrivacySettings($force_privacy_settings)
+    public function setForcePrivacySettings(bool $force_privacy_settings) : void
     {
         $this->force_privacy_settings = $force_privacy_settings;
     }
     
-    public function setPrivacyCommentDefault($a_option)
+    public function setPrivacyCommentDefault($a_option) : void
     {
         $this->privacy_comment_default = $a_option;
     }
@@ -516,7 +516,7 @@ class ilCmiXapiLrsType
         return $this->privacy_comment_default;
     }
     
-    public function setExternalLrs($a_option)
+    public function setExternalLrs($a_option) : void
     {
         $this->external_lrs = $a_option;
     }
@@ -529,7 +529,7 @@ class ilCmiXapiLrsType
     /**
      * @return string launch_type
      */
-    public function getLaunchType()
+    public function getLaunchType() : string
     {
         return $this->launch_type;
     }
@@ -537,7 +537,7 @@ class ilCmiXapiLrsType
     /**
      * @param string remarks
      */
-    public function setRemarks($a_remarks)
+    public function setRemarks($a_remarks) : void
     {
         $this->remarks = $a_remarks;
     }
@@ -551,14 +551,6 @@ class ilCmiXapiLrsType
     }
     
     /**
-     * @return string template
-     */
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-    
-    /**
      * @return bool
      */
     public function isBypassProxyEnabled() : bool
@@ -569,22 +561,24 @@ class ilCmiXapiLrsType
     /**
      * @param bool $bypassProxyEnabled
      */
-    public function setBypassProxyEnabled(bool $bypassProxyEnabled)
+    public function setBypassProxyEnabled(bool $bypassProxyEnabled) : void
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
-    
-    public function read()
+
+    /**
+     * @access public
+     */
+    public function read() : bool
     {
         global $ilDB, $ilErr;
         
-        $query = "SELECT * FROM {$this->getDbTableName()} WHERE type_id = %s";
+        $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         
         $res = $ilDB->queryF($query, ['integer'], [$this->getTypeId()]);
         $row = $ilDB->fetchObject($res);
         if ($row) {
             $this->setTypeId($row->type_id);
-            
             $this->setTitle($row->title);
             $this->setDescription($row->description);
             $this->setAvailability($row->availability);
@@ -596,10 +590,8 @@ class ilCmiXapiLrsType
             $this->setForcePrivacySettings((bool) $row->force_privacy_settings);
             $this->setPrivacyCommentDefault($row->privacy_comment_default);
             $this->setExternalLrs($row->external_lrs);
-            
             $this->setTimeToDelete($row->time_to_delete);
             $this->setRemarks($row->remarks);
-            
             $this->setBypassProxyEnabled((bool) $row->bypass_proxy);
             $this->setOnlyMoveon((bool) $row->only_moveon);
             $this->setAchieved((bool) $row->achieved);
@@ -622,7 +614,7 @@ class ilCmiXapiLrsType
         return false;
     }
     
-    public function save()
+    public function save() : void
     {
         if ($this->getTypeId()) {
             $this->update();
@@ -631,23 +623,25 @@ class ilCmiXapiLrsType
         }
     }
     
-    public function create()
+    /**
+     * @access public
+     */
+    public function create() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $this->setTypeId(
-            $DIC->database()->nextId($this->getDbTableName())
-        );
-        
+        $this->setTypeId($DIC->database()->nextId(self::DB_TABLE_NAME));
         $this->update();
     }
-    
-    public function update()
+
+    /**
+     * @access public
+     */
+    public function update() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $DIC->database()->replace(
-            $this->getDbTableName(),
+            self::DB_TABLE_NAME,
             array(
                 'type_id' => array('integer', $this->getTypeId())
             ),
@@ -685,43 +679,46 @@ class ilCmiXapiLrsType
         
         return true;
     }
-    
-    public function delete()
+
+    /**
+     * @access public
+     */
+    public function delete() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $query = "DELETE FROM {$this->getDbTableName()} WHERE type_id = %s";
+
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         $DIC->database()->manipulateF($query, ['integer'], [$this->getTypeId()]);
         
         return true;
     }
     
-    public function getLrsEndpointStatementsLink()
+    public function getLrsEndpointStatementsLink() : string
     {
         return $this->getLrsEndpoint() . '/' . self::ENDPOINT_STATEMENTS_SUFFIX;
     }
     
-    public function getLrsEndpointStatementsAggregationLink()
+    public function getLrsEndpointStatementsAggregationLink() : string
     {
         return dirname(dirname($this->getLrsEndpoint())) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
     }
     
-    public function getBasicAuth()
+    public function getBasicAuth() : string
     {
         return self::buildBasicAuth($this->getLrsKey(), $this->getLrsSecret());
     }
     
-    public static function buildBasicAuth($lrsKey, $lrsSecret)
+    public static function buildBasicAuth($lrsKey, $lrsSecret) : string
     {
         return 'Basic ' . base64_encode("{$lrsKey}:{$lrsSecret}");
     }
 
-    public function getBasicAuthWithoutBasic()
+    public function getBasicAuthWithoutBasic() : string
     {
         return self::buildBasicAuthWithoutBasic($this->getLrsKey(), $this->getLrsSecret());
     }
     
-    public static function buildBasicAuthWithoutBasic($lrsKey, $lrsSecret)
+    public static function buildBasicAuthWithoutBasic($lrsKey, $lrsSecret) : string
     {
         return base64_encode("{$lrsKey}:{$lrsSecret}");
     }

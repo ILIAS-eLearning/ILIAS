@@ -1,116 +1,82 @@
-<?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+<?php declare(strict_types=1);
 
 /**
- * Description of class class
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+/**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilSessionParticipantsTableGUI extends ilTable2GUI
 {
-    protected static $all_columns = null;
-    
-    /**
-     * @var ilObject
-     */
-    private $rep_object = null;
-    
-    
-    /**
-     * Ref id of parent object
-     * @var type
-     */
-    private $parent_ref_id = 0;
-    
-    /**
-     * Ref id of parent member object course/group
-     * @var type
-     */
-    private $member_ref_id = 0;
-    
+    protected static array $all_columns = [];
 
-    
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
-    
-    
-    /**
-     * @var ilSessionPartcipants
-     */
-    private $participants = null;
-    
-    
-    /**
-     * @param object $a_parent_gui
-     * @param ilObjSession $a_parent_obj
-     * @param string $a_parent_cmd
-     * @throws \InvalidArgumentException
-     */
-    public function __construct($a_parent_gui, ilObjSession $a_parent_obj, $a_parent_cmd)
+    private ilLogger $logger;
+    private ilTree $tree;
+    private \ILIAS\DI\RBACServices $rbac;
+    private ilObjSession $rep_object;
+    private ilParticipants $participants;
+    private int $parent_ref_id = 0;
+    private int $member_ref_id = 0;
+    private array $current_filter = [];
+
+    public function __construct(object $a_parent_gui, ilObjSession $a_parent_obj, string $a_parent_cmd)
     {
-        $this->logger = $GLOBALS['DIC']->logger()->sess();
+        global $DIC;
+
+        $this->logger = $DIC->logger()->root();
+        $this->tree = $DIC->repositoryTree();
+        $this->rbac = $DIC->rbac();
 
         $this->rep_object = $a_parent_obj;
 
-        include_once './Services/Membership/classes/class.ilParticipants.php';
         $this->participants = ilParticipants::getInstance($this->getRepositoryObject()->getRefId());
         
         $this->setId('session_part_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_gui, $a_parent_cmd);
         
-        $this->parent_ref_id = $GLOBALS['DIC']->repositoryTree()->getParentId(
+        $this->parent_ref_id = $this->tree->getParentId(
             $this->getRepositoryObject()->getRefId()
         );
-        
-        $tree = $GLOBALS['DIC']->repositoryTree();
-        if ($member_ref = $tree->checkForParentType($this->parent_ref_id, 'grp')) {
+
+        if ($member_ref = $this->tree->checkForParentType($this->parent_ref_id, 'grp')) {
             $this->member_ref_id = $member_ref;
-        } elseif ($member_ref = $tree->checkForParentType($this->parent_ref_id, 'crs')) {
+        } elseif ($member_ref = $this->tree->checkForParentType($this->parent_ref_id, 'crs')) {
             $this->member_ref_id = $member_ref;
         } else {
             throw new \InvalidArgumentException("Error in tree structure. Session has no parent course/group ref_id: " . $this->getRepositoryObject()->getRefId());
         }
     }
-    
-    
-    /**
-     * @return \ilObjSession
-     */
-    protected function getRepositoryObject()
+
+    protected function getRepositoryObject() : ilObjSession
     {
         return $this->rep_object;
     }
-    
-    /**
-     * Check if registration is enabled
-     * @return bool
-     */
-    protected function isRegistrationEnabled()
+
+    protected function isRegistrationEnabled() : bool
     {
         return $this->getRepositoryObject()->enabledRegistration();
     }
-    
-    
-    /**
-     * Get participants
-     * @return ilSessionParticipants
-     */
-    protected function getParticipants()
+
+    protected function getParticipants() : ilParticipants
     {
         return $this->participants;
     }
 
-
-    /**
-     * Init table
-     */
-    public function init()
+    public function init() : void
     {
         $this->lng->loadLanguageModule('sess');
         $this->lng->loadLanguageModule('crs');
@@ -195,7 +161,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                 $this->lng->txt('objs_' . ilObject::_lookupType(ilObject::_lookupObjId($this->member_ref_id)) . '_role')
             );
 
-            $options = array();
+            $options = [];
             $options[0] = $this->lng->txt('all_roles');
             $role->setOptions($options + $this->getParentLocalRoles());
             $this->current_filter['roles'] = $role->getValue();
@@ -208,7 +174,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                 false,
                 $this->lng->txt('sess_part_filter_registered')
             );
-            $this->current_filter['filter_registration'] = (bool) $reg->getChecked();
+            $this->current_filter['filter_registration'] = $reg->getChecked();
         }
         $participated = $this->addFilterItemByMetaType(
             'filter_participated',
@@ -216,20 +182,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             false,
             $this->lng->txt('sess_part_filter_participated')
         );
-        $this->current_filter['filter_participated'] = (bool) $participated->getChecked();
+        $this->current_filter['filter_participated'] = $participated->getChecked();
     }
-    
-    /**
-     * Get selectable columns
-     * @return array
-     */
+
     public function getSelectableColumns() : array
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
-        
         self::$all_columns['roles'] = array(
             'txt' => $this->lng->txt('objs_role'),
             'default' => true
@@ -237,15 +194,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         
         return self::$all_columns;
     }
-    
-    
-    /**
-     * parse table
-     *
-     * @access public
-     * @return
-     */
-    public function parse()
+
+    public function parse() : void
     {
         $all_participants = [];
         $all_possible_participants = $this->collectParticipants();
@@ -290,11 +240,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             }
             $tmp_data['show_notification'] = $notificationShown;
 
-            $roles = array();
+            $roles = [];
             $local_roles = $this->getParentLocalRoles();
             foreach ($local_roles as $role_id => $role_name) {
                 // @todo fix performance
-                if ($GLOBALS['DIC']['rbacreview']->isAssigned($participant['usr_id'], $role_id)) {
+                if ($this->rbac->review()->isAssigned($participant['usr_id'], $role_id)) {
                     $tmp_data['role_ids'][] = $role_id;
                     $roles[] = $role_name;
                 }
@@ -309,10 +259,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
     }
     
     /**
-     * Collect participants
      * @return int[] array of parent course/group participants
      */
-    protected function collectParticipants()
+    protected function collectParticipants() : array
     {
         $part = ilParticipants::getInstance($this->member_ref_id);
         if (!$part instanceof ilParticipants) {
@@ -321,12 +270,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         return $part->getParticipants();
     }
 
-
-    /**
-     * Check if user is filtered
-     * @param type $a_user_info
-     */
-    protected function matchesFilterCriteria($a_user_info)
+    protected function matchesFilterCriteria(array $a_user_info) : bool
     {
         foreach ($this->current_filter as $filter => $filter_value) {
             if (!$filter_value) {
@@ -357,15 +301,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
         return true;
     }
-    
-    
-    /**
-     * fill row
-     *
-     * @access public
-     * @param array data set
-     */
-    public function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'participants');
 
@@ -377,13 +314,10 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
         
         foreach ($this->getSelectedColumns() as $field) {
-            switch ($field) {
-                case 'roles':
-                    $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
-                    $this->tpl->parseCurrentBlock();
-                    break;
-        
+            if ($field == 'roles') {
+                $this->tpl->setCurrentBlock('custom_fields');
+                $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles']);
+                $this->tpl->parseCurrentBlock();
             }
         }
 
@@ -411,11 +345,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('EXCUSED_CHECKED', $a_set['excused'] ? 'checked="checked"' : '');
         }
     }
-    
-    /**
-     * Get local roles of parent object
-     */
-    protected function getParentLocalRoles()
+
+    protected function getParentLocalRoles() : array
     {
         $part = null;
         $type = ilObject::_lookupType($this->member_ref_id, true);
@@ -431,7 +362,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             return [];
         }
         
-        $review = $GLOBALS['DIC']->rbac()->review();
+        $review = $this->rbac->review();
         
         $local_parent_roles = $review->getLocalRoles($this->member_ref_id);
         $this->logger->dump($local_parent_roles);

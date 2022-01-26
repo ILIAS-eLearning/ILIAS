@@ -3,6 +3,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class PHPFunctions
  *
@@ -22,7 +35,7 @@ final class PHPStreamFunctions
     /**
      * ftell wrapper
      *
-     * @param $handle
+     * @param resource $handle
      *
      * @return bool|int
      *
@@ -41,7 +54,7 @@ final class PHPStreamFunctions
      *
      * @see fclose()
      */
-    public static function fclose($handle)
+    public static function fclose($handle): void
     {
         fclose($handle);
     }
@@ -56,7 +69,7 @@ final class PHPStreamFunctions
      *
      * @return int 0 or -1
      */
-    public static function fseek($stream, $offset, $whence)
+    public static function fseek($stream, $offset, $whence): int
     {
         return fseek($stream, $offset, $whence);
     }

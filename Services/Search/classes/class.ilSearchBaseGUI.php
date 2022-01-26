@@ -66,10 +66,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tree = $DIC->repositoryTree();
-        $ilMainMenu = $DIC['ilMainMenu'];
 
         $this->lng->loadLanguageModule('search');
-        $ilMainMenu->setActive('search');
         $this->settings = new ilSearchSettings();
         $this->favourites = new ilFavouritesManager();
         $this->user = $DIC->user();

@@ -726,7 +726,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         // Assign user as admin
         $part = ilGroupParticipants::_getInstanceByObjId($new_obj->getId());
         $part->add($this->user->getId(), IL_GRP_ADMIN);
-        $part->updateNotification($this->user->getId(), $this->setting->get('mail_grp_admin_notification', "1"));
+        $part->updateNotification($this->user->getId(), (bool) $this->setting->get('mail_grp_admin_notification', "1"));
         $part->updateContact($this->user->getId(), true);
 
         // Copy learning progress settings
@@ -1397,10 +1397,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
     
     /**
-     * @see interface.ilMembershipRegistrationCodes
      * @return int[]
-     */
-    public static function lookupObjectsByCode($a_code)
+     *@see interface.ilMembershipRegistrationCodes
+          */
+    public static function lookupObjectsByCode(string $a_code): array
     {
         global $DIC;
 
@@ -1413,7 +1413,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         
         $obj_ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $obj_ids[] = $row->obj_id;
+            $obj_ids[] = (int) $row->obj_id;
         }
         return $obj_ids;
     }
@@ -1422,12 +1422,16 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * @see ilMembershipRegistrationCodes::register()
      * @inheritDoc
      */
-    public function register($a_user_id, int $a_role = IL_GRP_MEMBER, bool $a_force_registration = false) : bool
+    public function register(
+        int $a_user_id,
+        int $a_role = IL_GRP_MEMBER,
+        bool $a_force_registration = false
+    ) : void
     {
         $part = ilGroupParticipants::_getInstanceByObjId($this->getId());
 
         if ($part->isAssigned($a_user_id)) {
-            return true;
+            return;
         }
         
         if (!$a_force_registration) {
@@ -1482,7 +1486,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $part->add($a_user_id, $a_role);
         $part->sendNotification(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, $a_user_id);
         $part->sendNotification(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION, $a_user_id);
-        return true;
     }
         
     public function handleAutoFill() : void

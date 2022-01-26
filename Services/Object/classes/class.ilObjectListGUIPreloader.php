@@ -110,7 +110,9 @@ class ilObjectListGUIPreloader
             $location = $objDefinition->getLocation($type);
             if ($class && $location) { // #12775
                 $full_class = "ilObj" . $class . "Access";
-                include_once($location . "/class." . $full_class . ".php");
+                if (is_file($location . "/class." . $full_class . ".php")) {
+                    include_once($location . "/class." . $full_class . ".php");
+                }
                 if (class_exists($full_class)) {
                     call_user_func(
                         array($full_class, "_preloadData"),

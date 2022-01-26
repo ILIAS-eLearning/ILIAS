@@ -21,8 +21,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class MapTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     /**
      * @var IdentificationFactory
      */

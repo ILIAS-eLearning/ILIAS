@@ -501,7 +501,7 @@ abstract class ilMailSearchObjectGUI
         );
         $table->setId('search_' . $this->getObjectType() . '_tbl');
 
-        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), $this->getObjectType());
+        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), [$this->getObjectType()]);
         $counter = 0;
         $tableData = [];
         if ($objs_ids !== []) {

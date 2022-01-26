@@ -75,7 +75,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilUser'],
                 $DIC['ilPluginAdmin'],
                 $DIC['lng'],
-                $DIC['component.repository']
+                $DIC['component.factory']
             );
         };
         $dic['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'] = function ($dic) use ($DIC) {

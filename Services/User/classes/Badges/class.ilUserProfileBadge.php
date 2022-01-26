@@ -1,16 +1,21 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
-require_once "./Services/Badge/interfaces/interface.ilBadgeAuto.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilUserProfileBadge
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesUser
  */
 class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 {
@@ -39,7 +44,6 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
     
     public function getConfigGUIInstance() : ?ilBadgeTypeGUI
     {
-        include_once "Services/User/classes/Badges/class.ilUserProfileBadgeGUI.php";
         return new ilUserProfileBadgeGUI();
     }
     
@@ -54,7 +58,6 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         // active profile portfolio?
         $has_prtf = false;
         if ($ilSetting->get('user_portfolios')) {
-            include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
             $has_prtf = ilObjPortfolio::getDefaultPortfolio($a_user_id);
         }
         if (!$has_prtf) {
@@ -65,7 +68,6 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
         }
         
         // use getter mapping from user profile
-        include_once("./Services/User/classes/class.ilUserProfile.php");
         $up = new ilUserProfile();
         $pfields = $up->getStandardFields();
         

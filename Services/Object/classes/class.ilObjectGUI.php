@@ -418,7 +418,7 @@ class ilObjectGUI
 
             // fileupload support
             if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
-                $this->enableDragDropFileUpload();
+//                $this->enableDragDropFileUpload(); // curently disbaled due to refactoring
             }
         }
         

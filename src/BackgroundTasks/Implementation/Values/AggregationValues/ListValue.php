@@ -116,7 +116,7 @@ class ListValue extends AbstractValue
         foreach ($list as $value) {
             $valueWrapped = $this->wrapValue($value);
             $this->list[] = $valueWrapped;
-            $types[]      = $valueWrapped->getType();
+            $types[] = $valueWrapped->getType();
         }
         
         return $types;
@@ -173,7 +173,7 @@ class ListValue extends AbstractValue
             return false;
         }
         
-        $values      = $this->getList();
+        $values = $this->getList();
         $otherValues = $other->getList();
         
         if (count($values) !== count($otherValues)) {
@@ -209,7 +209,7 @@ class ListValue extends AbstractValue
         }
         
         $hierarchy = [];
-        $class     = get_class($object);
+        $class = get_class($object);
         
         do {
             $hierarchy[] = $class;

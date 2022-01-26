@@ -1,42 +1,36 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/* Copyright (c) 1998-2022 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * ilFrameTargetInfo
- * @author	 Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class ilFrameTargetInfo
 {
-    /**
-     * Get content frame name
-     * @static
-     * @param string $a_class
-     * @param string $a_type
-     * @return string
-     */
-    public static function _getFrame($a_class, $a_type = '')
+    public static function _getFrame(string $a_class) : string
     {
-        // LTI
-        global $DIC;
-        $ltiview = $DIC['lti'];
+        switch ($a_class) {
+            case 'RepositoryContent':
+            case 'MainContent':
+                return self::getLtiFrame();
 
-        switch ($a_type) {
+            case 'ExternalContent':
+                return '_blank';
+
             default:
-                switch ($a_class) {
-                    case 'RepositoryContent':
-                    case 'MainContent':
-                        // LTI
-                        if ($ltiview->isActive()) {
-                            return '_self';
-                        }
-                        return '_top';
+                return '';
+        }
+    }
 
-                    case 'ExternalContent':
-                        return '_blank';
-                }
+    protected static function getLtiFrame() : string
+    {
+        global $DIC;
+
+        if ($DIC->offsetExists('lti') && $DIC['lti']->isActive()) {
+            return '_self';
         }
 
-        return '';
+        return '_top';
     }
 }

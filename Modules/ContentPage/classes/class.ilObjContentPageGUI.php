@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
@@ -13,17 +14,17 @@ use ILIAS\Refinery\Factory as Refinery;
  * Class ilObjContentPageGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilAdministrationGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilInfoScreenGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilExportGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilLearningProgressGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilContentPagePageGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilObjStyleSheetGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilObjectTranslationGUI
- * @ilCtrl_Calls ilObjContentPageGUI: ilPageMultiLangGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCopyGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilExportGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilLearningProgressGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
@@ -101,7 +102,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         if ($DIC->access()->checkAccess('read', '', $refId)) {
             $DIC->ctrl()->setTargetScript('ilias.php');
-            $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
             if ($DIC->http()->wrapper()->query()->has('gotolp')) {
                 $DIC->ctrl()->setParameterByClass(self::class, 'gotolp', 1);
             }
@@ -110,8 +110,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ilRepositoryGUI::class,
                 self::class,
             ], self::UI_CMD_VIEW);
-        } elseif ($DIC->access()->checkAccess('visible', '', $target)) {
-            ilObjectGUI::_gotoRepositoryNode($target, 'infoScreen');
+        } elseif ($DIC->access()->checkAccess('visible', '', $refId)) {
+            ilObjectGUI::_gotoRepositoryNode($refId, 'infoScreen');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
             ilUtil::sendInfo(sprintf(
                 $DIC->language()->txt('msg_no_perm_read_item'),
@@ -119,7 +119,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             ), true);
 
             $DIC->ctrl()->setTargetScript('ilias.php');
-            $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
             $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
             $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class);
         }
@@ -483,7 +482,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         $this->infoScreenForward();
     }
-
 
     public function view() : void
     {

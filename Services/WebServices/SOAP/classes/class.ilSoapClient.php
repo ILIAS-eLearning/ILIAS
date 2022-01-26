@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -7,130 +7,81 @@
  * Extends built-in soap client and offers time (connect, response) settings
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
  * @package ilias
  */
 class ilSoapClient
 {
-    const DEFAULT_CONNECT_TIMEOUT = 10;
-    const DEFAULT_RESPONSE_TIMEOUT = 5;
+    public const DEFAULT_CONNECT_TIMEOUT = 10;
+    public const DEFAULT_RESPONSE_TIMEOUT = 5;
 
-    /**
-     * @var ilLogger
-     */
-    private $log = null;
+    private ?ilLogger $log;
+    private ?SoapClient $client = null;
     
-    /**
-     * @var SoapClient
-     */
-    private $client = null;
+    private string $uri;
+
+    private bool $use_wsdl = true;
+    private int $connect_timeout = self::DEFAULT_CONNECT_TIMEOUT;
+    private int $response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
+    private ?int $stored_socket_timeout = null;
+
+    protected ilSetting $settings;
     
-    private $uri;
-    
-    private $connect_timeout = 10;
-    private $response_timeout = 10;
-    
-    private $stored_socket_timeout = null;
-    
-    
-    /**
-     * @param string $a_uri
-     */
-    public function __construct($a_uri = '')
+    public function __construct(string $a_uri = '')
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
-        
-        $this->log = ilLoggerFactory::getLogger('wsrv');
-
+        $ilSetting = $DIC->settings();
+        $this->log = $DIC->logger()->wsrv();
         $this->uri = $a_uri;
-
         $this->use_wsdl = true;
-        $timeout = $ilSetting->get('soap_connect_timeout', self::DEFAULT_CONNECT_TIMEOUT);
-        if (!$timeout) {
-            $timeout = self::DEFAULT_CONNECT_TIMEOUT;
+        $timeout = (int) $ilSetting->get('soap_connect_timeout', (string) self::DEFAULT_CONNECT_TIMEOUT);
+        if ($timeout) {
+            $this->connect_timeout = $timeout;
         }
-        $this->connect_timeout = $timeout;
-        
         $this->response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
     }
     
-    /**
-     * Get server uri
-     * @return string
-     */
-    public function getServer()
+    public function getServer() : string
     {
         return $this->uri;
     }
     
-    /**
-     * Set connect timeout
-     * @param int $a_timeout
-     */
-    public function setTimeout($a_timeout)
+    public function setTimeout(int $a_timeout) : void
     {
         $this->connect_timeout = $a_timeout;
     }
     
-    /**
-     * Get connect timeout
-     * @return int
-     */
-    public function getTimeout()
+    public function getTimeout() : int
     {
         return $this->connect_timeout;
     }
     
-    /**
-     * @param int $a_timeout Response Timeout
-     */
-    public function setResponseTimeout($a_timeout)
+    public function setResponseTimeout(int $a_timeout) : void
     {
-        $this->response_timeout = (int) $a_timeout;
+        $this->response_timeout = $a_timeout;
     }
     
-    /**
-     * @return int Response Timeout
-     */
-    public function getResponseTimeout()
+    public function getResponseTimeout() : int
     {
         return $this->response_timeout;
     }
     
-    /**
-     * enable wsdl mode
-     * @param bool $a_stat
-     */
-    public function enableWSDL($a_stat)
+    public function enableWSDL(bool $a_stat) : void
     {
         $this->use_wsdl = $a_stat;
     }
     
-    /**
-     * Check if wsdl is enabled
-     * @return bool
-     */
-    public function enabledWSDL()
+    public function enabledWSDL() : bool
     {
         return $this->use_wsdl;
     }
     
 
-    /**
-     * Init soap client
-     */
-    public function init()
+    public function init() : bool
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         if (!strlen(trim($this->getServer()))) {
-            if (strlen(trim($ilSetting->get('soap_wsdl_path', '')))) {
-                $this->uri = $ilSetting->get('soap_wsdl_path', '');
+            if (strlen(trim($this->settings->get('soap_wsdl_path', '')))) {
+                $this->uri = (string) $this->settings->get('soap_wsdl_path', '');
             } else {
                 $this->uri = ilUtil::_getHttpPath() . '/webservice/soap/server.php?wsdl';
             }
@@ -146,7 +97,7 @@ class ilSoapClient
                 array(
                     'exceptions' => true,
                     'trace' => 1,
-                    'connection_timeout' => (int) $this->getTimeout()
+                    'connection_timeout' => $this->getTimeout()
                 )
             );
             return true;
@@ -159,40 +110,34 @@ class ilSoapClient
         }
     }
     
-    /**
-     * Set socket timeout
-     * @return boolean
-     */
-    protected function setSocketTimeout($a_wsdl_mode)
+    protected function setSocketTimeout(bool $a_wsdl_mode) : bool
     {
-        $this->stored_socket_timeout = ini_get('default_socket_timeout');
+        $this->stored_socket_timeout = (int) ini_get('default_socket_timeout');
         $this->log->debug('Default socket timeout is: ' . $this->stored_socket_timeout);
         
         if ($a_wsdl_mode) {
             $this->log->debug('WSDL mode, using socket timeout: ' . $this->getTimeout());
-            ini_set('default_socket_timeout', $this->getTimeout());
+            ini_set('default_socket_timeout', (string) $this->getTimeout());
         } else {
             $this->log->debug('Non WSDL mode, using socket timeout: ' . $this->getResponseTimeout());
-            ini_set('default_socket_timeout', $this->getResponseTimeout());
+            ini_set('default_socket_timeout', (string) $this->getResponseTimeout());
         }
         return true;
     }
     
     /**
      * Reset socket default timeout to defaults
-     * @return boolean
      */
-    protected function resetSocketTimeout()
+    protected function resetSocketTimeout() : bool
     {
-        ini_set('default_socket_timeout', $this->stored_socket_timeout);
+        ini_set('default_socket_timeout', (string) $this->stored_socket_timeout);
         $this->log->debug('Restoring default socket timeout to: ' . $this->stored_socket_timeout);
         return true;
     }
     
     /**
      * Call webservice method
-     * @param string $a_operation
-     * @param array $a_params
+     * @return mixed
      */
     public function call($a_operation, $a_params)
     {
@@ -213,5 +158,6 @@ class ilSoapClient
         } finally {
             $this->resetSocketTimeout();
         }
+        return false;
     }
 }

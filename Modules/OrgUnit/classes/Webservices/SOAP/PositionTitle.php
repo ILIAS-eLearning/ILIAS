@@ -36,7 +36,7 @@ class PositionTitle extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getPositionTitle";
     }
@@ -54,7 +54,7 @@ class PositionTitle extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('title' => Base::TYPE_STRING);
     }
@@ -63,7 +63,7 @@ class PositionTitle extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns the title of a position for a given position id";
     }

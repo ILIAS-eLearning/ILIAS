@@ -1,28 +1,29 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Awareness\User\Provider;
+use ILIAS\DI\Container;
+
 /**
  * Class ilAwarenessUserProviderContactRequests
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesAwareness
  */
-class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
+class ilAwarenessUserProviderContactRequests implements Provider
 {
     protected ilObjUser $user;
+    protected \ilLanguage $lng;
 
-    public function __construct()
+    public function __construct(Container $DIC)
     {
-        global $DIC;
-
-        parent::__construct();
-
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
     }
 
     /**
      * @inheritDoc
      */
-    public function getProviderId()
+    public function getProviderId() : string
     {
         return 'contact_approved';
     }
@@ -30,7 +31,7 @@ class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
     /**
      * @inheritDoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         $this->lng->loadLanguageModule('contact');
         return $this->lng->txt('contact_awrn_req_contacts');
@@ -39,16 +40,18 @@ class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
     /**
      * @inheritDoc
      */
-    public function getInfo()
+    public function getInfo() : string
     {
         $this->lng->loadLanguageModule('contact');
         return $this->lng->txt('contact_awrn_req_contacts_info');
     }
 
     /**
-     * @inheritDoc
+     * Get initial set of users
+     * @param ?int[] $user_ids
+     * @return int[] array of user IDs
      */
-    public function getInitialUserSet()
+    public function getInitialUserSet(?array $user_ids = null) : array
     {
         if ($this->user->isAnonymous()) {
             return [];
@@ -64,7 +67,7 @@ class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
     /**
      * @inheritDoc
      */
-    public function isHighlighted()
+    public function isHighlighted() : bool
     {
         return true;
     }

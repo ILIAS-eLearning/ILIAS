@@ -87,7 +87,7 @@ class ilCourseParticipants extends ilParticipants
      * @param int $a_usr_id
      * @param int $a_role
      */
-    public function add($a_usr_id, $a_role)
+    public function add(int $a_usr_id, int $a_role) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             $this->addRecommendation($a_usr_id);
@@ -124,7 +124,7 @@ class ilCourseParticipants extends ilParticipants
         return $roles;
     }
     
-    public function addSubscriber($a_usr_id)
+    public function addSubscriber(int $a_usr_id) : void
     {
         global $DIC;
 

@@ -42,7 +42,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
         ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option,
         ILIAS\BackgroundTasks\Bucket $bucket
     ) : Value {
-        return $input;
+        return $input[0];
     }
 
     public function getMessage(array $input) : string

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,25 +21,17 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
-
-
 /**
-* Represents a ical component.
-* E.g. VEVENT
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Represents a ical component.
+ * E.g. VEVENT
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilICalComponent extends ilICalItem
 {
     /**
      * Constructor
-     *
      * @access public
      * @param string name of component
      */
@@ -47,16 +39,15 @@ class ilICalComponent extends ilICalItem
     {
         parent::__construct($a_name);
     }
-    
+
     /**
      * get items by name
-     *
      * @access public
      * @param string name
-     *
      */
-    public function getItemsByName($a_name, $a_recursive = true)
+    public function getItemsByName(string $a_name, bool $a_recursive = true) : array
     {
+        $found = [];
         foreach ($this->getItems() as $item) {
             if ($item->getName() == $a_name) {
                 $found[] = $item;
@@ -67,6 +58,6 @@ class ilICalComponent extends ilICalItem
                 }
             }
         }
-        return $found ? $found : array();
+        return $found;
     }
 }

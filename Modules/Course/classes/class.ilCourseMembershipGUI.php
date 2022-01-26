@@ -18,9 +18,9 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
     /**
-     * @return ilAbstractMailMemberRoles
+     * @return ilAbstractMailMemberRoles|null
      */
-    protected function getMailMemberRoles()
+    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberCourseRoles();
     }
@@ -30,7 +30,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
     {
         return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -232,9 +232,9 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             
             if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
                 // remove blocked
-                $this->getMembersObject()->updateBlocked($member_id, 0);
-                $this->getMembersObject()->updateNotification($member_id, in_array($member_id, $notification));
-                $this->getMembersObject()->updateContact($member_id, in_array($member_id, $contact));
+                $this->getMembersObject()->updateBlocked($member_id, false);
+                $this->getMembersObject()->updateNotification($member_id, in_array($member_id, (bool) $notification));
+                $this->getMembersObject()->updateContact($member_id, in_array($member_id, (bool) $contact));
             } else {
                 // send notifications => unblocked
                 if ($this->getMembersObject()->isBlocked($member_id) && !in_array($member_id, $blocked)) {
@@ -339,10 +339,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         return $wait;
     }
 
-    /**
-     * @return int
-     */
-    protected function getDefaultRole()
+    protected function getDefaultRole() : ?int
     {
         return $this->getParentGUI()->object->getDefaultMemberRole();
     }

@@ -116,7 +116,7 @@ class ilMailbox
 
     private function getRootFolderId() : int
     {
-        return (int) $this->mtree->getRootId();
+        return $this->mtree->getRootId();
     }
 
     /**

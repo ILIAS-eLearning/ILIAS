@@ -162,7 +162,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         return $this->object;
     }
 
-    protected function createSendResponseMock(MockObject $mock, $response) : InvocationMocker
+    protected function createSendResponseMock(MockObject $mock, $response) : void
     {
         $mock->expects($this->once())->method('sendResponse')->with(
             $this->equalTo($response)

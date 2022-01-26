@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 define('UDF_TYPE_TEXT', 1);
 define('UDF_TYPE_SELECT', 2);
@@ -9,43 +21,37 @@ define('UDF_DUPLICATE_VALUES', 2);
 
 
 /**
-* Additional user data fields definition
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-* @ingroup ServicesUser
-*/
+ * Additional user data fields definition
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilUserDefinedFields
 {
-    public $db = null;
-    public $definitions = array();
+    protected bool $field_certificate;
+    protected bool $field_group_export;
+    protected bool $field_course_export;
+    protected bool $field_export;
+    protected bool $field_searchable;
+    protected bool $field_required;
+    protected bool $field_changeable_lua;
+    protected bool $field_changeable;
+    protected bool $field_visib_lua;
+    protected array $field_values;
+    protected int $field_type;
+    protected string $field_name;
+    protected bool $field_visible;
+    public ?ilDBInterface $db = null;
+    public array $definitions = array();
+    private int $field_visible_registration = 0;
 
-    private $field_visible_registration = 0;
-
-    /**
-     * Constructor is private -> use getInstance
-     * These definition are used e.g in User XML import.
-     * To avoid instances of this class for every user object during import,
-     * it caches this object in a singleton.
-     *
-     */
     private function __construct()
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = &$ilDB;
-
+        $this->db = $DIC->database();
         $this->__read();
     }
 
-    /**
-     * Get instance
-     * @return ilUserDefinedFields
-     */
-    public static function _getInstance()
+    public static function _getInstance() : self
     {
         static $udf = null;
 
@@ -55,7 +61,7 @@ class ilUserDefinedFields
         return $udf;
     }
 
-    public function fetchFieldIdFromImportId($a_import_id)
+    public function fetchFieldIdFromImportId(string $a_import_id) : int
     {
         global $DIC;
 
@@ -83,7 +89,8 @@ class ilUserDefinedFields
         }
         return 0;
     }
-    public function fetchFieldIdFromName($a_name)
+
+    public function fetchFieldIdFromName(string $a_name) : int
     {
         foreach ($this->definitions as $definition) {
             if ($definition['field_name'] == $a_name) {
@@ -93,20 +100,17 @@ class ilUserDefinedFields
         return 0;
     }
 
-    /**
-     * @return array
-     */
-    public function getDefinitions()
+    public function getDefinitions() : array
     {
-        return $this->definitions ? $this->definitions : array();
+        return $this->definitions ?: array();
     }
 
-    public function getDefinition($a_id)
+    public function getDefinition(int $a_id) : array
     {
         return is_array($this->definitions[$a_id]) ? $this->definitions[$a_id] : array();
     }
 
-    public function getVisibleDefinitions()
+    public function getVisibleDefinitions() : array
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -117,7 +121,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
     
-    public function getLocalUserAdministrationDefinitions()
+    public function getLocalUserAdministrationDefinitions() : array
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -128,7 +132,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
     
-    public function getChangeableLocalUserAdministrationDefinitions()
+    public function getChangeableLocalUserAdministrationDefinitions() : array
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -139,7 +143,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
 
-    public function getRegistrationDefinitions()
+    public function getRegistrationDefinitions() : array
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -150,7 +154,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
 
-    public function getSearchableDefinitions()
+    public function getSearchableDefinitions() : array
     {
         $searchable_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -172,14 +176,7 @@ class ilUserDefinedFields
         return $required_definition;
     }
 
-    /**
-     * get
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getCourseExportableFields()
+    public function getCourseExportableFields() : array
     {
         $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -190,14 +187,7 @@ class ilUserDefinedFields
         return $cexp_definition;
     }
 
-    /**
-     * get fields visible in groups
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function getGroupExportableFields()
+    public function getGroupExportableFields() : array
     {
         $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -210,10 +200,8 @@ class ilUserDefinedFields
     
     /**
      * Get exportable field
-     * @param int $a_obj_id
-     * @return
      */
-    public function getExportableFields($a_obj_id)
+    public function getExportableFields(int $a_obj_id) : array
     {
         if (ilObject::_lookupType($a_obj_id) == 'crs') {
             return $this->getCourseExportableFields();
@@ -225,20 +213,22 @@ class ilUserDefinedFields
     }
     
 
-    public function setFieldName($a_name)
+    public function setFieldName(string $a_name) : void
     {
         $this->field_name = $a_name;
     }
-    public function getFieldName()
+
+    public function getFieldName() : string
     {
         return $this->field_name;
     }
-    public function setFieldType($a_type)
+
+    public function setFieldType(int $a_type) : void
     {
         $this->field_type = $a_type;
     }
     
-    public function isPluginType()
+    public function isPluginType() : bool
     {
         if (!$this->field_type) {
             return false;
@@ -254,11 +244,12 @@ class ilUserDefinedFields
         }
     }
     
-    public function getFieldType()
+    public function getFieldType() : int
     {
         return $this->field_type;
     }
-    public function setFieldValues($a_values)
+
+    public function setFieldValues(array $a_values) : void
     {
         $this->field_values = array();
         foreach ($a_values as $value) {
@@ -267,109 +258,126 @@ class ilUserDefinedFields
             }
         }
     }
-    public function getFieldValues()
+
+    public function getFieldValues() : array
     {
-        return $this->field_values ? $this->field_values : array();
+        return $this->field_values ?: array();
     }
 
-    public function enableVisible($a_visible)
+    public function enableVisible(bool $a_visible) : void
     {
         $this->field_visible = $a_visible;
     }
-    public function enabledVisible()
+
+    public function enabledVisible() : bool
     {
         return $this->field_visible;
     }
-    public function enableVisibleLocalUserAdministration($a_visible)
+
+    public function enableVisibleLocalUserAdministration(bool $a_visible) : void
     {
         $this->field_visib_lua = $a_visible;
     }
-    public function enabledVisibleLocalUserAdministration()
+
+    public function enabledVisibleLocalUserAdministration() : bool
     {
         return $this->field_visib_lua;
     }
-    public function enableChangeable($a_changeable)
+
+    public function enableChangeable(bool $a_changeable) : void
     {
         $this->field_changeable = $a_changeable;
     }
-    public function enabledChangeable()
+
+    public function enabledChangeable() : bool
     {
         return $this->field_changeable;
     }
-    public function enableChangeableLocalUserAdministration($a_changeable)
+
+    public function enableChangeableLocalUserAdministration(bool $a_changeable) : void
     {
         $this->field_changeable_lua = $a_changeable;
     }
-    public function enabledChangeableLocalUserAdministration()
+
+    public function enabledChangeableLocalUserAdministration() : bool
     {
         return $this->field_changeable_lua;
     }
-    public function enableRequired($a_required)
+
+    public function enableRequired(bool $a_required) : void
     {
         $this->field_required = $a_required;
     }
-    public function enabledRequired()
+
+    public function enabledRequired() : bool
     {
         return $this->field_required;
     }
-    public function enableSearchable($a_searchable)
+
+    public function enableSearchable(bool $a_searchable) : void
     {
         $this->field_searchable = $a_searchable;
     }
-    public function enabledSearchable()
+
+    public function enabledSearchable() : bool
     {
         return $this->field_searchable;
     }
-    public function enableExport($a_export)
+
+    public function enableExport(bool $a_export) : void
     {
         $this->field_export = $a_export;
     }
-    public function enabledExport()
+
+    public function enabledExport() : bool
     {
         return $this->field_export;
     }
-    public function enableCourseExport($a_course_export)
+
+    public function enableCourseExport(bool $a_course_export) : void
     {
         $this->field_course_export = $a_course_export;
     }
-    public function enabledCourseExport()
+
+    public function enabledCourseExport() : bool
     {
         return $this->field_course_export;
     }
-    public function enableGroupExport($a_group_export)
+
+    public function enableGroupExport(bool $a_group_export) : void
     {
         $this->field_group_export = $a_group_export;
     }
-    public function enabledGroupExport()
+
+    public function enabledGroupExport() : bool
     {
         return $this->field_group_export;
     }
 
-    public function enableCertificate($a_c)
+    public function enableCertificate(bool $a_c) : void
     {
         $this->field_certificate = $a_c;
     }
-    public function enabledCertificate()
+
+    public function enabledCertificate() : bool
     {
         return $this->field_certificate;
     }
 
-    public function enableVisibleRegistration($a_visible_registration)
+    public function enableVisibleRegistration(bool $a_visible_registration) : void
     {
         $this->field_visible_registration = $a_visible_registration;
     }
-    public function enabledVisibleRegistration()
+
+    public function enabledVisibleRegistration() : bool
     {
         return $this->field_visible_registration;
     }
 
-    /**
-     * @param mixed[] $a_values
-     * @param bool $a_with
-     * @return array
-     */
-    public function fieldValuesToSelectArray($a_values, $a_with_selection_info = true)
-    {
+    public function fieldValuesToSelectArray(
+        array $a_values,
+        bool $a_with_selection_info = true
+    ) : array {
         global $DIC;
 
         $lng = $DIC->language();
@@ -386,7 +394,7 @@ class ilUserDefinedFields
         return [];
     }
 
-    public function validateValues()
+    public function validateValues() : int
     {
         $number = 0;
         $unique = array();
@@ -407,7 +415,7 @@ class ilUserDefinedFields
         return 0;
     }
 
-    public function nameExists($a_field_name)
+    public function nameExists(string $a_field_name) : bool
     {
         global $DIC;
 
@@ -420,7 +428,7 @@ class ilUserDefinedFields
         return (bool) $res->numRows();
     }
 
-    public function add()
+    public function add() : int
     {
         global $DIC;
 
@@ -432,7 +440,7 @@ class ilUserDefinedFields
         $values = array(
             'field_id' => array('integer',$next_id),
             'field_name' => array('text',$this->getFieldName()),
-            'field_type' => array('integer', (int) $this->getFieldType()),
+            'field_type' => array('integer', $this->getFieldType()),
             'field_values' => array('clob',serialize($this->getFieldValues())),
             'visible' => array('integer', (int) $this->enabledVisible()),
             'changeable' => array('integer', (int) $this->enabledChangeable()),
@@ -457,7 +465,8 @@ class ilUserDefinedFields
 
         return $field_id;
     }
-    public function delete($a_id)
+
+    public function delete(int $a_id)
     {
         global $DIC;
 
@@ -469,16 +478,12 @@ class ilUserDefinedFields
         $res = $ilDB->manipulate($query);
 
         // Delete usr_data entries
-        //		$ilDB->dropTableColumn('udf_data','f_'.$a_id);
-        include_once("./Services/User/classes/class.ilUserDefinedData.php");
         ilUserDefinedData::deleteEntriesOfField($a_id);
 
         $this->__read();
-
-        return true;
     }
 
-    public function update($a_id)
+    public function update(int $a_id) : void
     {
         global $DIC;
 
@@ -486,7 +491,7 @@ class ilUserDefinedFields
         
         $values = array(
             'field_name' => array('text',$this->getFieldName()),
-            'field_type' => array('integer', (int) $this->getFieldType()),
+            'field_type' => array('integer', $this->getFieldType()),
             'field_values' => array('clob',serialize($this->getFieldValues())),
             'visible' => array('integer', (int) $this->enabledVisible()),
             'changeable' => array('integer', (int) $this->enabledChangeable()),
@@ -502,14 +507,9 @@ class ilUserDefinedFields
         );
         $ilDB->update('udf_definition', $values, array('field_id' => array('integer',$a_id)));
         $this->__read();
-
-        return true;
     }
 
-
-
-    // Private
-    public function __read()
+    protected function __read() : void
     {
         global $DIC;
 
@@ -549,20 +549,18 @@ class ilUserDefinedFields
             $this->definitions[$row->field_id]['visib_lua'] = $row->visible_lua;
             $this->definitions[$row->field_id]['changeable_lua'] = $row->changeable_lua;
             $this->definitions[$row->field_id]['group_export'] = $row->group_export;
-            // fraunhpatch start
             $this->definitions[$row->field_id]['certificate'] = $row->certificate;
-            // fraunhpatch end
         }
-
-        return true;
     }
-    
 
-    public function deleteValue($a_field_id, $a_value_id)
-    {
+    public function deleteValue(
+        int $a_field_id,
+        int $a_value_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+        $old_value = "";
         
         $definition = $this->getDefinition($a_field_id);
 
@@ -582,30 +580,23 @@ class ilUserDefinedFields
         
 
         // sets value to '' where old value is $old_value
-        include_once("./Services/User/classes/class.ilUserDefinedData.php");
         ilUserDefinedData::deleteFieldValue($a_field_id, $old_value);
 
-        // fianally read data
+        // finally read data
         $this->__read();
-
-        return true;
     }
 
-    public function toXML()
+    public function toXML() : string
     {
-        include_once './Services/Xml/classes/class.ilXmlWriter.php';
         $xml_writer = new ilXmlWriter();
-
         $this->addToXML($xml_writer);
-
         return $xml_writer->xmlDumpMem(false);
     }
 
     /**
-    *	add user defined field data to xml (using usr dtd)
-    *	@param*XmlWriter $xml_writer
-    */
-    public function addToXML($xml_writer)
+     * add user defined field data to xml (using usr dtd)
+     */
+    public function addToXML(ilXmlWriter $xml_writer) : void
     {
         $xml_writer->xmlStartTag("UDFDefinitions");
         foreach ($this->getDefinitions() as $definition) {
@@ -638,11 +629,9 @@ class ilUserDefinedFields
         $xml_writer->xmlEndTag("UDFDefinitions");
     }
 
-
-    public static function _newInstance()
+    public static function _newInstance() : self
     {
         static $udf = null;
-
         return $udf = new ilUserDefinedFields();
     }
 }

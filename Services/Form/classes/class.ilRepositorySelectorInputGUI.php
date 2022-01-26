@@ -151,16 +151,11 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     public function selectRepositoryItem() : void
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
 
         $this->setValue($this->int("root_id"));
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
     
     public function reset() : void
@@ -168,14 +163,10 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
-
         $this->setValue("");
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
     
     public function render($a_mode = "property_form") : string

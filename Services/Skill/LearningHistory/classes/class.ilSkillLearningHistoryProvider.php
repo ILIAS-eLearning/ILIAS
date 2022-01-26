@@ -61,7 +61,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function getEntries($ts_start, $ts_end) : ?array
+    public function getEntries(int $ts_start, int $ts_end) : array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("skll");

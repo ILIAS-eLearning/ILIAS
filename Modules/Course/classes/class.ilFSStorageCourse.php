@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 
 /**
 *
@@ -31,12 +30,12 @@ include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 *
 * @ingroup ModulesCourse
 */
-class ilFSStorageCourse extends ilFileSystemStorage
+class ilFSStorageCourse extends ilFileSystemAbstractionStorage
 {
     const MEMBER_EXPORT_DIR = 'memberExport';
     const INFO_DIR = 'info';
     const ARCHIVE_DIR = 'archives';
-    
+
     private $log;
     /**
      * Constructor
@@ -49,11 +48,11 @@ class ilFSStorageCourse extends ilFileSystemStorage
         global $DIC;
 
         $log = $DIC['log'];
-        
+
         $this->log = $log;
         parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $a_container_id);
     }
-    
+
     /**
      * Clone course data directory
      *
@@ -67,18 +66,18 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         $source = new ilFSStorageCourse($a_source_id);
         $target = new ilFSStorageCourse($a_target_id);
-        
+
         $target->create();
         ilFileSystemStorage::_copyDirectory($source->getAbsolutePath(), $target->getAbsolutePath());
-        
+
         // Delete member export files
         $target->deleteDirectory($target->getMemberExportDirectory());
-        
+
         unset($source);
         unset($target);
         return true;
     }
-    
+
     // Info files
     /**
      * init info directory
@@ -90,7 +89,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         ilUtil::makeDirParents($this->getInfoDirectory());
     }
-    
+
     /**
      * Get course info directory
      *
@@ -101,8 +100,8 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         return $this->getAbsolutePath() . '/' . self::INFO_DIR;
     }
-    
-    
+
+
     /**
      * Init export directory and create it if it does not exist
      *
@@ -113,7 +112,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         ilUtil::makeDirParents($this->getMemberExportDirectory());
     }
-    
+
     /**
      * Get path of export directory
      *
@@ -124,7 +123,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         return $this->getAbsolutePath() . '/' . self::MEMBER_EXPORT_DIR;
     }
-    
+
     /**
      * Add new export file
      *
@@ -143,7 +142,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
 
         return true;
     }
-    
+
     /**
      * Get all member export files
      *
@@ -155,7 +154,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
         if (!@is_dir($this->getMemberExportDirectory())) {
             return array();
         }
-        
+
         $files = array();
         $dp = @opendir($this->getMemberExportDirectory());
 
@@ -163,7 +162,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
             if (is_dir($file)) {
                 continue;
             }
-            
+
             if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file, $matches) and $matches[3] == $this->getContainerId()) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
@@ -171,23 +170,23 @@ class ilFSStorageCourse extends ilFileSystemStorage
                 $file_info['type'] = $matches[2];
                 $file_info['id'] = $matches[3];
                 $file_info['size'] = filesize($this->getMemberExportDirectory() . '/' . $file);
-                
+
                 $files[$timest] = $file_info;
             }
         }
         closedir($dp);
         return $files ? $files : array();
     }
-    
+
     public function getMemberExportFile($a_name)
     {
         $file_name = $this->getMemberExportDirectory() . '/' . $a_name;
-        
+
         if (@file_exists($file_name)) {
             return file_get_contents($file_name);
         }
     }
-    
+
     /**
      * Delete Member Export File
      *
@@ -199,7 +198,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
     }
-    
+
     // ARCHIVE Methods
     /**
      * init Archive Directory
@@ -212,7 +211,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         ilUtil::makeDirParents($this->getArchiveDirectory());
     }
-    
+
     /**
      * Get archive directory
      *
@@ -223,7 +222,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         return $this->getAbsolutePath() . '/' . self::ARCHIVE_DIR;
     }
-    
+
     /**
      * Add subdirectory for archives
      *
@@ -235,7 +234,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
     {
         ilUtil::makeDirParents($this->getArchiveDirectory() . '/' . $a_name);
     }
-    
+
     /**
      * Write archive string to file
      *
@@ -251,7 +250,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
         }
         return true;
     }
-    
+
     /**
      * Zip archive directory
      *
@@ -268,7 +267,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
         }
         return 0;
     }
-    
+
     /**
      * Delete one archive
      *
@@ -281,7 +280,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
         $this->deleteFile($this->getArchiveDirectory() . '/' . $a_rel_name . '.zip');
         $this->deleteDirectory($this->getArchiveDirectory() . '/' . $a_rel_name);
     }
-    
+
     public function createArchiveOnlineVersion($a_rel_name)
     {
         ilUtil::makeDirParents(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
@@ -289,31 +288,31 @@ class ilFSStorageCourse extends ilFileSystemStorage
 
         return true;
     }
-    
+
     public function getOnlineLink($a_rel_name)
     {
         return ilUtil::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
-    
-    
+
+
     /**
      * Implementation of abstract method
      *
      * @access protected
      *
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix():string
     {
         return 'crs';
     }
-    
+
     /**
      * Implementation of abstract method
      *
      * @access protected
      *
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix():string
     {
         return 'ilCourse';
     }

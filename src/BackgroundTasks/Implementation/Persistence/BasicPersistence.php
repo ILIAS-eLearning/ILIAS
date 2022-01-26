@@ -13,17 +13,20 @@ use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
 
 /******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system.
+ *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
+ *
  *****************************************************************************/
 class BasicPersistence implements Persistence
 {
-    
     protected static BasicPersistence $instance;
     protected static array $buckets = [];
     protected array $bucketHashToObserverContainerId = [];
@@ -116,7 +119,7 @@ class BasicPersistence implements Persistence
     {
         $buckets = BucketContainer::where(['state' => $state])->get();
         
-        return array_map(fn(BucketContainer $bucket_container) : int => $bucket_container->getId(), $buckets);
+        return array_map(fn (BucketContainer $bucket_container) : int => $bucket_container->getId(), $buckets);
     }
     
     /**
@@ -355,7 +358,7 @@ class BasicPersistence implements Persistence
                                             ->orderBy('position')
                                             ->orderBy('id')
                                             ->get();
-        $inputs       = [];
+        $inputs = [];
         foreach ($valueToTasks as $valueToTask) {
             $inputs[] = $this->loadValue($valueToTask->getValueId(), $bucket, $bucketContainer);
         }

@@ -14,17 +14,17 @@
  */
 class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
 {
-    protected function getType()
+    protected function getType() : string
     {
         return "grps";
     }
     
-    protected function getParentObjType()
+    protected function getParentObjType() : string
     {
         return "grp";
     }
     
-    protected function getAdministrationFormId()
+    protected function getAdministrationFormId() : int
     {
         return ilAdministrationSettingsFormHandler::FORM_GROUP;
     }

@@ -91,7 +91,7 @@ class ilGroupParticipants extends ilParticipants
         return $roles;
     }
     
-    public function add($a_usr_id, $a_role)
+    public function add(int $a_usr_id, int $a_role) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             $this->addRecommendation($a_usr_id);
@@ -100,7 +100,7 @@ class ilGroupParticipants extends ilParticipants
         return false;
     }
     
-    public function addSubscriber($a_usr_id)
+    public function addSubscriber(int $a_usr_id) : void
     {
         parent::addSubscriber($a_usr_id);
 
@@ -120,7 +120,7 @@ class ilGroupParticipants extends ilParticipants
     /**
      * Static function to check if a user is a participant of the container object
      */
-    public static function _isParticipant($a_ref_id, $a_usr_id)
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
     {
         global $DIC;
 

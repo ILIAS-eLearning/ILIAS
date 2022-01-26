@@ -1,6 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * TableGUI class for poll answers
@@ -9,10 +24,7 @@
  */
 class ilPollAnswerTableGUI extends ilTable2GUI
 {
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -56,12 +68,12 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function getItems()
+    public function getItems() : int
     {
         $data = $this->parent_obj->object->getAnswers();
         $perc = $this->parent_obj->object->getVotePercentages();
         $total = (int) ($perc["total"] ?? 0);
-        $perc = (array) ($perc["perc"] ?? array());
+        $perc = (array) ($perc["perc"] ?? []);
         
         // add current percentages
         foreach ($data as $idx => $item) {

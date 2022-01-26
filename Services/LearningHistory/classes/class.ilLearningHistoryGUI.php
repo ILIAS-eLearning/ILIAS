@@ -1,54 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Learning history main GUI class
- *
- * @author killing@leifos.de
- * @ingroup ServicesLearningHistory
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningHistoryGUI
 {
-    const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
-    const TAB_ID_MY_CERTIFICATES = 'certificates';
-    const MAX = 50;
+    public const TAB_ID_LEARNING_HISTORY = 'lhist_learning_history';
+    public const TAB_ID_MY_CERTIFICATES = 'certificates';
+    public const MAX = 50;
+    protected ?int $to;
+    protected ?int $from;
+    protected int $user_id;
+    protected ilAccessHandler $access;
+    protected ilLearningHistoryService $lhist_service;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilLanguage $lng;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilSetting $certificateSettings;
+    protected ilTabsGUI $tabs;
+    protected bool $show_more = false;
+    protected int $last_ts = 0;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /** @var ilSetting */
-    protected $certificateSettings;
-
-    /** @var ilTabsGUI */
-    protected $tabs;
-
-    /** @var bool */
-    protected $show_more = false;
-
-    /** @var int */
-    protected $last_ts = 0;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -68,29 +55,22 @@ class ilLearningHistoryGUI
 
         $this->certificateSettings = new ilSetting("certificate");
 
+        $request = $this->lhist_service->request();
+        $to = $request->getToTS();
         $this->from = null;
-        $this->to = ((int) $_GET["to_ts"] > 0)
-            ? (int) $_GET["to_ts"]
+        $this->to = ($to > 0)
+            ? $to
             : null;
 
         $this->main_tpl->addJavaScript("./Services/LearningHistory/js/LearningHistory.js");
     }
 
-    /**
-     * Set user id
-     *
-     * @param int $user_id
-     */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }
 
-
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
         
@@ -105,11 +85,7 @@ class ilLearningHistoryGUI
         }
     }
 
-
-    /**
-     * Show
-     */
-    protected function show()
+    protected function show() : void
     {
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;
@@ -129,10 +105,7 @@ class ilLearningHistoryGUI
         }
     }
 
-    /**
-     * Render Async
-     */
-    protected function renderAsync()
+    protected function renderAsync() : void
     {
         $response["timeline"] = $this->renderTimeline($this->from, $this->to);
         $response["more"] = $this->show_more ? $this->renderButton() : "";
@@ -141,16 +114,14 @@ class ilLearningHistoryGUI
     }
 
     /**
-     * Get HTML
-     *
-     * @param null $from
-     * @param null $to
-     * @param null $classes
-     * @return string
      * @throws ilCtrlException
      */
-    public function getEmbeddedHTML($from = null, $to = null, $classes = null, $a_mode = null)
-    {
+    public function getEmbeddedHTML(
+        ?int $from = null,
+        ?int $to = null,
+        ?array $classes = null,
+        ?string $a_mode = null
+    ) : string {
         $ctrl = $this->ctrl;
 
         return $ctrl->getHTML($this, ["from" => $from, "to" => $to, "classes" => $classes, "mode" => $a_mode]);
@@ -158,22 +129,21 @@ class ilLearningHistoryGUI
 
     /**
      * Get HTML
-     *
-     * @param
-     * @return string
      */
-    public function getHTML($par)
+    public function getHTML(array $par) : string
     {
         return $this->getHistoryHtml($par["from"], $par["to"], $par["classes"], $par["mode"]);
     }
     
     /**
      * Get history html
-     *
-     * @return string
      */
-    protected function getHistoryHtml($from = null, $to = null, $classes = null, $mode = null)
-    {
+    protected function getHistoryHtml(
+        ?int $from = null,
+        ?int $to = null,
+        ?array $classes = null,
+        ?string $mode = null
+    ) : string {
         $tpl = new ilTemplate("tpl.timeline.html", true, true, "Services/LearningHistory");
 
         $tpl->setVariable("TIMELINE", $this->renderTimeline($from, $to, $classes, $mode));
@@ -189,14 +159,13 @@ class ilLearningHistoryGUI
 
     /**
      * render timeline
-     *
-     * @param int $from unix timestamp
-     * @param int $to unix timestamp
-     * @param array $classes
-     * @return string
      */
-    protected function renderTimeline(int $from = null, int $to = null, array $classes = null, string $mode = null) : string
-    {
+    protected function renderTimeline(
+        int $from = null,
+        int $to = null,
+        array $classes = null,
+        string $mode = null
+    ) : string {
         $collector = $this->lhist_service->factory()->collector();
         $ctrl = $this->ctrl;
 
@@ -237,11 +206,7 @@ class ilLearningHistoryGUI
         return $html;
     }
 
-
-    /**
-     * render Button
-     */
-    protected function renderButton()
+    protected function renderButton() : string
     {
         $ctrl = $this->ctrl;
         $f = $this->ui->factory();

@@ -260,11 +260,11 @@ class ilTestExportGUI extends ilExportGUI
         $archiveFile = $archiver->getZipExportDirectory() . '/' . $filename;
 
         if (file_exists($exportFile)) {
-            ilUtil::deliverFile($exportFile, $filename);
+            ilFileDelivery::deliverFileLegacy($exportFile, $filename);
         }
 
         if (file_exists($archiveFile)) {
-            ilUtil::deliverFile($archiveFile, $filename);
+            ilFileDelivery::deliverFileLegacy($archiveFile, $filename);
         }
 
         $ilCtrl->redirect($this, 'listExportFiles');

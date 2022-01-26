@@ -37,7 +37,7 @@ class ConcatenationJob extends AbstractJob
         $list = $input[0]->getList();
         /** @var ScalarValue[] $values */
         $values = array_map(
-            fn($a) => $a->getValue(),
+            fn ($a) => $a->getValue(),
             $list
         );
         

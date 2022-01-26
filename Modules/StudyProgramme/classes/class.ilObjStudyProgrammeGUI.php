@@ -6,7 +6,6 @@ use ILIAS\Container\Content\ViewManager;
 
 /**
  * Class ilObjStudyProgrammeGUI class
- *
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCommonActionDispatcherGUI
@@ -213,7 +212,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 switch ($cmd) {
                     case "cancelDelete":
                         $cmd = "view";
-                        // no break
+                    // no break
                     case "create":
                     case "save":
                     case "view":
@@ -291,7 +290,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         parent::cancelCreation();
     }
-
 
     /**
      * Sets the sorting of the container correctly. If it's an async call, a json string is returned.
@@ -408,9 +406,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected function initCreationForms($a_new_type) : array
     {
-        return array( self::CFORM_NEW => $this->initCreateForm($a_new_type));
+        return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));
     }
-
 
     /**
      * Method for implementing async windows-output
@@ -499,7 +496,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     /**
      * Adds subtabs based on the parent tab
-     *
      * @param $parent_tab | string of the parent tab-id
      */
     public function getSubTabs(string $parent_tab) : void
@@ -661,9 +657,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $id = explode("_", $target);
-        $ilCtrl->initBaseClass("ilRepositoryGUI");
+        $ilCtrl->setTargetScript('ilias.php');
         $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $id[0]);
-        $ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjstudyprogrammegui" ), "view");
+        $ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilobjstudyprogrammegui"), "view");
     }
 
     public function addToNavigationHistory()
