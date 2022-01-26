@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Refinery\Factory as Factory;
+use ILIAS\HTTP\Services as Services;
+
 /**
  * Export User Interface Class
  * @author       Alexander Killing <killing@leifos.de>
@@ -9,6 +12,8 @@
  */
 class ilExportGUI
 {
+    protected Factory $refinery;
+    protected Services $http;
     protected array $formats = array();
     protected array $custom_columns = array();
     protected array $custom_multi_commands = array();
@@ -24,12 +29,16 @@ class ilExportGUI
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
 
+
     public function __construct(object $a_parent_gui, ?ilObject $a_main_obj = null)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("exp");
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
@@ -45,6 +54,59 @@ class ilExportGUI
             $this->obj = $a_main_obj;
         }
     }
+
+    protected function initFileIdentifierFromQuery() : string
+    {
+        if ($this->http->wrapper()->query()->has('file')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'file',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
+    }
+
+    protected function initFileIdentifiersFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('file')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'file',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+        return [];
+    }
+
+    protected function initFormatFromPost() : string
+    {
+        if ($this->http->wrapper()->query()->has('format')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'format',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
+    }
+
+    protected function initExportOptionsFromPost() : array
+    {
+        $options = [];
+        if ($this->http->wrapper()->post()->has('cp_options')) {
+            $custom_transformer = $this->refinery->custom()->transformation(
+                function ($array) {
+                    return $array;
+                }
+            );
+            $options = $this->http->wrapper()->post()->retrieve(
+                'cp_options',
+                $custom_transformer
+            );
+        }
+        return $options;
+    }
+
 
     protected function buildExportTableGUI() : ilExportTableGUI
     {
@@ -182,7 +244,7 @@ class ilExportGUI
     public function createExportFile()
     {
         if ($this->ctrl->getCmd() == "createExportFile") {
-            $format = ilUtil::stripSlashes($_POST["format"]);
+            $format = $this->initFormatFromPost();
         } else {
             $format = substr($this->ctrl->getCmd(), 7);
         }
@@ -209,7 +271,8 @@ class ilExportGUI
      */
     public function confirmDeletion() : void
     {
-        if (!is_array($_POST["file"]) || count($_POST["file"]) == 0) {
+        $files = $this->initFileIdentifiersFromPost();
+        if (!count($files)) {
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listExportFiles");
         } else {
@@ -219,7 +282,7 @@ class ilExportGUI
             $cgui->setCancel($this->lng->txt("cancel"), "listExportFiles");
             $cgui->setConfirm($this->lng->txt("delete"), "delete");
 
-            foreach ($_POST["file"] as $i) {
+            foreach ($files as $i) {
                 if (strpos($i, ':') !== false) {
                     $iarr = explode(":", $i);
                     $filename = $iarr[1];
@@ -234,7 +297,8 @@ class ilExportGUI
 
     public function delete() : void
     {
-        foreach ($_POST["file"] as $file) {
+        $files = $this->initFileIdentifiersFromPost();
+        foreach ($files as $file) {
             $file = explode(":", $file);
 
             $file[1] = basename($file[1]);
@@ -266,12 +330,12 @@ class ilExportGUI
      */
     public function download() : void
     {
-        if (!isset($_GET["file"]) ||
-            is_array($_GET["file"])) {
+        $file = $this->initFileIdentifierFromQuery();
+        if (!$file) {
             $this->ctrl->redirect($this, "listExportFiles");
         }
 
-        $file = explode(":", trim($_GET["file"]));
+        $file = explode(":", trim($file));
         $export_dir = ilExport::_getExportDirectory(
             $this->obj->getId(),
             str_replace("..", "", $file[0]),
@@ -291,7 +355,7 @@ class ilExportGUI
         $cmd = substr($this->ctrl->getCmd(), 6);
         foreach ($this->getCustomMultiCommands() as $c) {
             if ($c["func"] == $cmd) {
-                $c["obj"]->{$c["func"]}($_POST["file"]);
+                $c["obj"]->{$c["func"]}($this->initFileIdentifiersFromPost());
             }
         }
     }
@@ -314,12 +378,14 @@ class ilExportGUI
         $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
         $eo->addOption(ilExportOptions::KEY_ROOT, 0, 0, $this->obj->getId());
 
+        $cp_options = $this->initExportOptionsFromPost();
+
         // check export limitation
         $exp_limit = new ilExportLimitation();
         try {
             $exp_limit->checkLimitation(
                 $this->getParentGUI()->object->getRefId(),
-                $_POST['cp_options']
+                $cp_options
             );
         } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
@@ -353,7 +419,7 @@ class ilExportGUI
                 continue;
             }
 
-            $mode = $_POST['cp_options'][$node['ref_id']]['type'] ?? ilExportOptions::EXPORT_OMIT;
+            $mode = $cp_options[$node['ref_id']]['type'] ?? ilExportOptions::EXPORT_OMIT;
             $eo->addOption(
                 ilExportOptions::KEY_ITEM_MODE,
                 $node['ref_id'],
