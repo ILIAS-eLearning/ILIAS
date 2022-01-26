@@ -14,15 +14,15 @@ class ilOrgUnitExportGUI extends ilExportGUI
     /**
      * @var ilToolbarGUI
      */
-    protected $toolbar;
+    protected ilToolbarGUI $toolbar;
     /**
      * @var ilLanguage
      */
-    protected $lng;
+    protected ilLanguage $lng;
     /**
      * @var ilCtrl
      */
-    protected $ctrl;
+    protected ilCtrlInterface $ctrl;
     /**
      * @var ilObjOrgUnit
      */
@@ -54,7 +54,7 @@ class ilOrgUnitExportGUI extends ilExportGUI
     }
 
 
-    public function listExportFiles()
+    public function listExportFiles() : void
     {
         if ($this->ilObjOrgUnit->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
             parent::listExportFiles();
