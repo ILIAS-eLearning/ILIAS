@@ -49,7 +49,7 @@ npm install Minervis-GmbH/tinymce-dist#master
 For an update you'll have to use:
 
 ```
-npm uninstall tinymce && npm install Minervis-GmbH/tinymce-dist#master
+npm uninstall tinymce && npm install ILIAS-eLearning/tinymce-dist#master
 ```
 
 ## Dependencies for development
