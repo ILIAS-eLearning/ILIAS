@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -13,12 +13,11 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 
 /**
  * HTML export view layout provider, hides main and meta bar
- *
  * @author <killing@leifos.de>
  */
 class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-    const HTML_EXPORT_RENDERING = 'html_export_rendering';
+    public const HTML_EXPORT_RENDERING = 'html_export_rendering';
 
     /**
      * @inheritDoc
@@ -29,6 +28,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
     }
 
     /**
+     * @inheritDoc
      * No meta bar in HTML exports
      */
     public function getMetaBarModification(CalledContexts $called_contexts) : ?MetaBarModification
@@ -36,17 +36,18 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
             return $this->globalScreen()
-                ->layout()
-                ->factory()
-                ->metabar()
-                ->withModification(function (MetaBar $current = null) : ?MetaBar {
-                    return null;
-                })->withHighPriority();
+                        ->layout()
+                        ->factory()
+                        ->metabar()
+                        ->withModification(function (MetaBar $current = null) : ?MetaBar {
+                            return null;
+                        })->withHighPriority();
         }
         return null;
     }
 
     /**
+     * @inheritDoc
      * No main bar in HTML exports
      */
     public function getMainBarModification(CalledContexts $called_contexts) : ?MainBarModification
@@ -54,18 +55,19 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
             return $this->globalScreen()
-                ->layout()
-                ->factory()
-                ->mainbar()
-                ->withModification(function (MainBar $current = null) : ?MainBar {
-                    return null;
-                })->withHighPriority();
+                        ->layout()
+                        ->factory()
+                        ->mainbar()
+                        ->withModification(function (MainBar $current = null) : ?MainBar {
+                            return null;
+                        })->withHighPriority();
         } else {
             return null;
         }
     }
 
     /**
+     * @inheritDoc
      * No breadcrumbs in HTML exports
      */
     public function getBreadCrumbsModification(CalledContexts $called_contexts) : ?BreadCrumbsModification
@@ -73,12 +75,12 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
             return $this->globalScreen()
-                ->layout()
-                ->factory()
-                ->breadcrumbs()
-                ->withModification(function (Breadcrumbs $current = null) : ?Breadcrumbs {
-                    return null;
-                })->withHighPriority();
+                        ->layout()
+                        ->factory()
+                        ->breadcrumbs()
+                        ->withModification(function (Breadcrumbs $current = null) : ?Breadcrumbs {
+                            return null;
+                        })->withHighPriority();
         } else {
             return null;
         }

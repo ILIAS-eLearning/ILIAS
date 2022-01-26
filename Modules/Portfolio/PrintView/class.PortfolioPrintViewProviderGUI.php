@@ -62,7 +62,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $c;
     }
 
-    public function getSelectionForm()
+    public function getSelectionForm() : \ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

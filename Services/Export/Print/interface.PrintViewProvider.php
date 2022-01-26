@@ -5,7 +5,6 @@
 namespace ILIAS\Export;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 interface PrintViewProvider
@@ -16,7 +15,7 @@ interface PrintViewProvider
      * the print/pdf message is added automatically
      * @return \ilPropertyFormGUI
      */
-    public function getSelectionForm();
+    public function getSelectionForm() : \ilPropertyFormGUI;
 
     /**
      * @return string[]
