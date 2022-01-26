@@ -109,9 +109,8 @@ class ilMailCronNotification extends ilCronJob
         return true;
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
     {
-        $this->init();
-        $this->settings->set('mail_notification', (string) ((int) $a_currently_active));
+        $setting->set('mail_notification', (string) ((int) $a_currently_active));
     }
 }

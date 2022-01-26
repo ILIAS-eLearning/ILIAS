@@ -14,17 +14,22 @@
  *
  *****************************************************************************/
 
-interface ilCronJobProvider
+class ilCronServicesImpl implements ilCronServices
 {
-    /**
-     * @return ilCronJob[]
-     */
-    public function getCronJobInstances() : array;
+    private \ILIAS\DI\Container $dic;
 
-    /**
-     * @param string $jobId
-     * @return ilCronJob
-     * @throws OutOfBoundsException if the passed argument does not match any cron job
-     */
-    public function getCronJobInstance(string $jobId) : ilCronJob;
+    public function __construct(\ILIAS\DI\Container $dic)
+    {
+        $this->dic = $dic;
+    }
+
+    public function manager() : ilCronManagerInterface
+    {
+        return $this->dic['cron.manager'];
+    }
+
+    public function repository() : ilCronJobRepository
+    {
+        return $this->dic['cron.repository'];
+    }
 }

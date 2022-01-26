@@ -646,19 +646,38 @@ class ilInitialisation
         }
     }
 
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
     protected static function initMail(\ILIAS\DI\Container $c) : void
     {
-        $c["mail.mime.transport.factory"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.mime.transport.factory"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailMimeTransportFactory($c->settings(), $c->event());
         };
-        $c["mail.mime.sender.factory"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.mime.sender.factory"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailMimeSenderFactory($c->settings());
         };
-        $c["mail.texttemplates.service"] = function (\ILIAS\DI\Container $c) {
+        $c["mail.texttemplates.service"] = static function (\ILIAS\DI\Container $c) {
             return new \ilMailTemplateService(new \ilMailTemplateRepository($c->database()));
+        };
+    }
+
+    protected static function initCron(\ILIAS\DI\Container $c) : void
+    {
+        $c['cron.repository'] = static function (\ILIAS\DI\Container $c) : ilCronJobRepository {
+            return new ilCronJobRepositoryImpl(
+                $c->database(),
+                $c->settings(),
+                $c->logger()->cron(),
+                $c['component.repository'],
+                $c['component.factory']
+            );
+        };
+
+        $c['cron.manager'] = static function (\ILIAS\DI\Container $c) : ilCronManagerInterface {
+            return new ilCronManager(
+                $c['cron.repository'],
+                $c->database(),
+                $c->settings(),
+                $c->logger()->cron()
+            );
         };
     }
 
@@ -1242,6 +1261,7 @@ class ilInitialisation
         self::initSettings();
         self::setSessionHandler();
         self::initMail($GLOBALS['DIC']);
+        self::initCron($GLOBALS['DIC']);
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initTermsOfService($GLOBALS['DIC']);

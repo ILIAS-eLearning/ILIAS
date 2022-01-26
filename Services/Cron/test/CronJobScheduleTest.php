@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class CronJobScheduleTest extends TestCase
 {
     private DateTimeImmutable $now;
-    private DateTimeImmutable $this_quater_start;
+    private DateTimeImmutable $this_quarter_start;
 
     private function getJob(
         bool $has_flexible_schedule,
@@ -20,7 +20,7 @@ class CronJobScheduleTest extends TestCase
         int $schedule_type,
         ?int $schedule_value
     ) : ilCronJob {
-        $job_istance = new class($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
+        $job_instance = new class($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
             private bool $has_flexible_schedule;
             private int $default_schedule_type;
             private ?int $default_schedule_value;
@@ -80,11 +80,11 @@ class CronJobScheduleTest extends TestCase
             }
         };
 
-        $job_istance->setDateTimeProviver(function () : DateTimeImmutable {
+        $job_instance->setDateTimeProviver(function () : DateTimeImmutable {
             return $this->now;
         });
 
-        return $job_istance;
+        return $job_instance;
     }
 
     public function jobProvider() : array
@@ -93,7 +93,7 @@ class CronJobScheduleTest extends TestCase
         $this->now = new DateTimeImmutable('@' . time());
 
         $offset = (((int) $this->now->format('n')) - 1) % 3;
-        $this->this_quater_start = $this->now->modify("first day of -$offset month midnight");
+        $this->this_quarter_start = $this->now->modify("first day of -$offset month midnight");
 
         return [
             'Manual Run is Always Due' => [
@@ -176,23 +176,23 @@ class CronJobScheduleTest extends TestCase
                 null,
                 false
             ],
-            'Quaterly Schedule / Did not run this Quater' => [
+            'Quarterly Schedule / Did not run this Quarter' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null),
                 false,
-                $this->this_quater_start->modify('-1 seconds')->getTimestamp(),
+                $this->this_quarter_start->modify('-1 seconds')->getTimestamp(),
                 ilCronJob::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 true
             ],
-            'Quaterly Schedule / Did run this Quater' => [
+            'Quarterly Schedule / Did run this Quarter' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null),
                 false,
-                $this->this_quater_start->modify('+30 seconds')->getTimestamp(),
+                $this->this_quarter_start->modify('+30 seconds')->getTimestamp(),
                 ilCronJob::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 false
             ],
-            'Minutly Schedule / Did not run this Minute' => [
+            'Minutely Schedule / Did not run this Minute' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
                 false,
                 $this->now->modify('-1 minute')->getTimestamp(),
@@ -200,7 +200,7 @@ class CronJobScheduleTest extends TestCase
                 1,
                 true
             ],
-            'Minutly Schedule / Did run this Minute' => [
+            'Minutely Schedule / Did run this Minute' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
                 false,
                 $this->now->modify('-30 seconds')->getTimestamp(),

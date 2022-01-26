@@ -158,7 +158,7 @@ class ilLPCronObjectStatistics extends ilCronJob
                     $count++;
                     
                     // #17928
-                    ilCronManager::ping($this->getId());
+                    $DIC->cron()->manager()->ping($this->getId());
                 }
             }
         }
@@ -198,7 +198,7 @@ class ilLPCronObjectStatistics extends ilCronJob
             $count++;
             
             // #17928
-            ilCronManager::ping($this->getId());
+            $DIC->cron()->manager()->ping($this->getId());
         }
         
         return $count;
@@ -239,7 +239,7 @@ class ilLPCronObjectStatistics extends ilCronJob
             $count++;
             
             // #17928
-            ilCronManager::ping($this->getId());
+            $DIC->cron()->manager()->ping($this->getId());
         }
         
         return $count;
