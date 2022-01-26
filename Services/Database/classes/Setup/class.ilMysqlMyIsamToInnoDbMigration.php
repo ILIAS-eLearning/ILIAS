@@ -6,6 +6,7 @@ namespace ILIAS\Setup;
 
 use ilDatabaseInitializedObjective;
 use ilDatabaseUpdatedObjective;
+use ilDBConstants;
 use ilException;
 use ILIAS\Setup;
 use ilIniFilesLoadedObjective;
@@ -82,8 +83,9 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
         if($this->db_name !== null) {
             $set = $this->database->queryF("SELECT count(*) as tables
                 FROM INFORMATION_SCHEMA.TABLES
-                WHERE ENGINE='MyISAM' AND table_schema = %s;", ['text'], [
-                $this->db_name,
+                WHERE ENGINE != %s AND table_schema = %s;", ['text', 'text'], [
+                ilDBConstants::MYSQL_ENGINE_INNODB,
+                $this->db_name
             ]);
             $row = $this->database->fetchAssoc($set);
             return (int) $row['tables'];
