@@ -1,7 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Controller class for sax element handlers.
  * Could be used to split the xml handling in different responsible classes.
@@ -11,62 +22,40 @@
  */
 class ilSaxController
 {
-    protected $default_handler = null;
-    protected $element_handlers = array();
-    protected $handlers_in_use = array();
-        
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct()
-    {
-    }
-    
+    protected ?ilSaxSubsetParser $default_handler = null;
+    protected array $element_handlers = [];
+    protected array $handlers_in_use = [];
+
     /**
      * Set handlers
      *
-     * @access public
      * @param resource xml_parser instance
-     *
      */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
-        return;
     }
-    
+
     /**
      * Set default element handler
-     *
-     * @access public
-     * @param object object that parses the xmlsubset must implement interface ilSaxSubsetParser
-     *
      */
-    public function setDefaultElementHandler(ilSaxSubsetParser $a_default_parser)
+    public function setDefaultElementHandler(ilSaxSubsetParser $a_default_parser): void
     {
         $this->default_handler = $a_default_parser;
     }
-    
+
     /**
-     * Set element handler by element name
-     *
-     * @param string element name that triggers the handler
-     * @param object object that parses the xmlsubset must implement interface ilSaxSubsetParser
-     * @access public
-     *
+     * @param ilSaxSubsetParser $a_parser object that parses the xmlsubset must implement interface ilSaxSubsetParser
+     * @param string $a_element element name that triggers the handler
      */
-    public function setElementHandler(ilSaxSubsetParser $a_parser, $a_element)
+    public function setElementHandler(ilSaxSubsetParser $a_parser, string $a_element): void
     {
         $this->element_handlers[$a_element] = $a_parser;
         $this->handlers_in_use[$a_element] = false;
     }
-    
+
     /**
      * Set default element handler
      *
@@ -85,7 +74,7 @@ class ilSaxController
      * @param	string		$a_name				element name
      * @param	array		$a_attribs			element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs)
     {
         if (isset($this->element_handlers[$a_name]) or $this->handler_in_use) {
             if (!$this->handler_in_use) {
@@ -100,14 +89,14 @@ class ilSaxController
         $this->current_handler = $this->default_handler;
         return $this->default_handler->handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
     }
-    
+
     /**
     * handler for end of element
     *
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_name				element name
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name)
     {
         if (isset($this->element_handlers[$a_name])) {
             $this->handler_in_use = false;
@@ -128,7 +117,7 @@ class ilSaxController
     * @param	resource	$a_xml_parser		xml parser
     * @param	string		$a_data				character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data)
     {
         return $this->current_handler->handlerCharacterData($a_xml_parser, $a_data);
     }
