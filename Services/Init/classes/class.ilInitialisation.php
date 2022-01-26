@@ -37,8 +37,6 @@ if (null === $DIC) {
     $DIC = new Container();
 }
 
-include_once "Services/Context/classes/class.ilContext.php";
-
 /** @defgroup ServicesInit Services/Init
  */
 
@@ -92,17 +90,8 @@ class ilInitialisation
      */
     protected static function requireCommonIncludes()
     {
-        // ilTemplate
-        if (ilContext::usesTemplate()) {
-            require_once "./Services/UICore/classes/class.ilTemplate.php";
-        }
-
-        // really always required?
-        require_once "./Services/Utilities/classes/class.ilUtil.php";
-        require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
+        /** @noRector  */
         require_once "include/inc.ilias_version.php";
-
-        include_once './Services/Authentication/classes/class.ilAuthUtils.php';
 
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
@@ -114,10 +103,11 @@ class ilInitialisation
      */
     protected static function includePhp5Compliance()
     {
-        include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
         if (ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS) {
+            /** @noRector  */
             require_once("include/inc.xml5compliance.php");
         }
+        /** @noRector  */
         require_once("include/inc.xsl5compliance.php");
     }
 
@@ -130,7 +120,6 @@ class ilInitialisation
      */
     protected static function initIliasIniFile()
     {
-        require_once("./Services/Init/classes/class.ilIniFile.php");
         $ilIliasIniFile = new ilIniFile("./ilias.ini.php");
         $ilIliasIniFile->read();
         self::initGlobal('ilIliasIniFile', $ilIliasIniFile);
@@ -203,7 +192,6 @@ class ilInitialisation
         }
         define("IL_VIRUS_CLEAN_COMMAND", '');
 
-        include_once './Services/Calendar/classes/class.ilTimeZone.php';
         $tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
         define("IL_TIMEZONE", $tz);
     }
@@ -607,7 +595,6 @@ class ilInitialisation
      */
     protected static function setCookieConstants()
     {
-        include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
         if (ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_HTTP) {
             $cookie_path = '/';
         } elseif (isset($GLOBALS['COOKIE_PATH'])) {
@@ -680,7 +667,6 @@ class ilInitialisation
     protected static function initCustomObjectIcons(\ILIAS\DI\Container $c)
     {
         $c["object.customicons.factory"] = function ($c) {
-            require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconFactory.php';
             return new ilObjectCustomIconFactory(
                 $c->filesystem()->web(),
                 $c->upload(),
@@ -876,13 +862,6 @@ class ilInitialisation
 
                 // #15347 - making sure that floats are not changed
                 setlocale(LC_NUMERIC, "C");
-
-                if (class_exists("Collator")) {
-                    $GLOBALS["ilCollator"] = new Collator($first);
-                    $GLOBALS["DIC"]["ilCollator"] = function ($c) {
-                        return $GLOBALS["ilCollator"];
-                    };
-                }
             }
         }
     }
@@ -987,8 +966,6 @@ class ilInitialisation
          */
         global $rbacsystem;
 
-        require_once 'Services/Language/classes/class.ilLanguage.php';
-
         if ($a_use_user_language) {
             if ($DIC->offsetExists('lng')) {
                 $DIC->offsetUnset('lng');
@@ -1013,7 +990,6 @@ class ilInitialisation
             "./Services/AccessControl/classes/class.ilRbacReview.php"
         );
 
-        require_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
         $rbacsystem = ilRbacSystem::getInstance();
         self::initGlobal("rbacsystem", $rbacsystem);
 
@@ -1028,8 +1004,6 @@ class ilInitialisation
             "ilAccess",
             "./Services/AccessControl/classes/class.ilAccess.php"
         );
-
-        require_once "./Services/Conditions/classes/class.ilConditionHandler.php";
     }
 
     /**
@@ -1037,7 +1011,6 @@ class ilInitialisation
      */
     protected static function initLog()
     {
-        include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
         $log = ilLoggerFactory::getRootLogger();
 
         self::initGlobal("ilLog", $log);
@@ -1056,12 +1029,7 @@ class ilInitialisation
     {
         global $DIC;
 
-        if ($a_source_file) {
-            include_once $a_source_file;
-            $GLOBALS[$a_name] = new $a_class;
-        } else {
-            $GLOBALS[$a_name] = $a_class;
-        }
+        $GLOBALS[$a_name] = is_object($a_class) ? $a_class : new $a_class;
 
         $DIC[$a_name] = function ($c) use ($a_name) {
             return $GLOBALS[$a_name];
@@ -1300,9 +1268,6 @@ class ilInitialisation
             "./Services/Object/classes/class.ilObjectDataCache.php"
         );
 
-        // needed in ilObjectDefinition
-        require_once "./Services/Xml/classes/class.ilSaxParser.php";
-
         self::initGlobal(
             "objDefinition",
             "ilObjectDefinition",
@@ -1310,7 +1275,6 @@ class ilInitialisation
         );
 
         // $tree
-        require_once "./Services/Tree/classes/class.ilTree.php";
         $tree = new ilTree(ROOT_FOLDER_ID);
         self::initGlobal("tree", $tree);
         unset($tree);
@@ -1318,7 +1282,6 @@ class ilInitialisation
         self::setSessionCookieParams();
         self::initRefinery($DIC);
 
-        require_once './Services/Init/classes/Dependencies/InitCtrlService.php';
         (new InitCtrlService())->init($DIC);
 
         // Init GlobalScreen
@@ -1382,7 +1345,6 @@ class ilInitialisation
          */
         global $ilUser;
 
-        require_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
         ilOnlineTracking::updateAccess($ilUser);
     }
 
@@ -1426,7 +1388,6 @@ class ilInitialisation
      */
     protected static function initHTTPServices(\ILIAS\DI\Container $container)
     {
-        include_once "Services/Init/classes/Dependencies/InitHttpServices.php";
         $init_http = new InitHttpServices();
         $init_http->init($container);
     }
@@ -1450,7 +1411,6 @@ class ilInitialisation
      */
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
-        include_once "Services/Init/classes/Dependencies/InitUIFramework.php";
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
 
@@ -1523,8 +1483,6 @@ class ilInitialisation
             $dispatcher->dispatch();
         }
 
-        require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
-
         self::initGlobal(
             "ilNavigationHistory",
             "ilNavigationHistory",
@@ -1580,9 +1538,6 @@ class ilInitialisation
             self::initGlobal("lti", "ilLTIViewGUI", "./Services/LTI/classes/class.ilLTIViewGUI.php");
             $GLOBALS["DIC"]["lti"]->init();
             self::initKioskMode($GLOBALS["DIC"]);
-        } else {
-            // several code parts rely on ilObjUser being always included
-            include_once "Services/User/classes/class.ilObjUser.php";
         }
     }
 
@@ -1717,7 +1672,6 @@ class ilInitialisation
         $message = "";
         if ($ilDB && $a_message_id) {
             if (!$lng) {
-                require_once "./Services/Language/classes/class.ilLanguage.php";
                 $lng = new ilLanguage($lang);
             }
 
