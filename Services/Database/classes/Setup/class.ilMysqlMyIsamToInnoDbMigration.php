@@ -53,8 +53,8 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
         /**
          * @var $client_id  string
          */
-        $this->database = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $this->database = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
         $this->db_name = $client_ini->readVariable('db', 'name');
 
     }
