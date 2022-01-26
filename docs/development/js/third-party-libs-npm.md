@@ -43,7 +43,7 @@ If you like to install a dependency from a particular branch of a public GitHub 
 you can use the following syntax (example):
 
 ```
-npm install Minervis-GmbH/tinymce-dist#master
+npm install ILIAS-eLearning/tinymce-dist#master
 ```
 
 For an update you'll have to use:
