@@ -85,7 +85,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to the i18n service.
      */
-    public function language() : \ilLanguage
+    public function language() : \ilLanguageInterface
     {
         return $this["lng"];
     }

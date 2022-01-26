@@ -23,7 +23,7 @@
  *  Die Formatfunktionen gehoeren nicht in class.Language. Die sind auch woanders einsetzbar!!!
  *  Daher->besser in class.Format
  */
-class ilLanguage
+class ilLanguage implements ilLanguageInterface
 {
     public $ilias;
     public array $text = [];
