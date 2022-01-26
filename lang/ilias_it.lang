@@ -3567,7 +3567,6 @@ common#:#filter_users_without_disk_usage#:#Solo utenti senza spazio su disco uti
 common#:#first#:#Per prima cosa
 common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo
-common#:#fm_start#:#Apri con File Manager
 common#:#fold#:#Cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
@@ -4991,7 +4990,6 @@ common#:#time_limit_from#:#A partire da (limite di tempo)
 common#:#time_limit_message#:#Messaggio (limite di tempo)
 common#:#time_limit_no_users_selected#:#Per favore scegli un utente.
 common#:#time_limit_not_valid#:#Il periodo non &
-common#:#time_limit_owner#:#Proprietario (limite di tempo)
 common#:#time_limit_reached#:#Il tuo periodo di accesso &
 common#:#time_limit_unlimited#:#Illimitato (limite di tempo)
 common#:#time_limit_until#:#Fino a (limite di tempo)
@@ -8398,13 +8396,6 @@ file#:#file_suffix_overall_white_info#:#Risultante elenco complessivo dei suffis
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Caricato da
 file#:#replace_file_info#:#Tutte le versioni del file verranno cancellate.
-fm#:#fm_settings_active#:#Abilita il File Manager
-fm#:#fm_settings_active_info#:#Gli utenti possono aprire le categorie, i corsi, i gruppi e le cartelle con il comando "Apri con File Manager" nel repository.
-fm#:#fm_settings_filesize#:#Massima dimensione del file in upload
-fm#:#fm_settings_filesize_info#:#Inserisci il filesize massimo ammesso (in Megabyte)
-fm#:#fm_settings_local#:#mostra il file system locale
-fm#:#fm_settings_local_info#:#Se abilitato, il file manager inizia con due frame, uno mostra il file system locale, l'altro contiene la vista del repository ILIAS. Se disabilitato, solo il repository ILIAS è visualizzato.
-fm#:#fm_settings_tab#:#File Manager
 fold#:#fold_copy#:#Copia cartella
 fold#:#fold_import#:#Importa Cartella
 fold#:#fold_presentation#:#Folder Presentation
@@ -16625,3 +16616,5 @@ common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do n
 common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable
