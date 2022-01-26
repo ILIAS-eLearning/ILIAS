@@ -53,7 +53,7 @@ class UpdateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         // ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
         // the setup for the command line version of the setup. Do not use this.
