@@ -721,7 +721,7 @@ class ilSurveyParticipantsGUI
             
             $reader = new ilCSVReader();
             $reader->open($_FILES['codes']['tmp_name']);
-            foreach ($reader->getDataArrayFromCSVFile() as $row) {
+            foreach ($reader->getCsvAsArray() as $row) {
                 // numeric check of used column due to #26176
                 if (sizeof($row) == 8 && is_numeric($row[5])) {
                     // used/sent/url are not relevant when importing
@@ -975,7 +975,7 @@ class ilSurveyParticipantsGUI
         if (trim($_FILES['externalmails']['tmp_name'])) {
             $reader = new ilCSVReader();
             $reader->open($_FILES['externalmails']['tmp_name']);
-            $data = $reader->getDataArrayFromCSVFile();
+            $data = $reader->getCsvAsArray();
             $fields = array_shift($data);
             foreach ($fields as $idx => $field) {
                 $fields[$idx] = $this->removeUTF8Bom($field);
