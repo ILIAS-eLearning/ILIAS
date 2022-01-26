@@ -23,6 +23,7 @@ use Iterator as PhpIterator;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class DateRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -42,7 +43,7 @@ class DateRangeFilterIterator extends FilterIterator
      */
     public function __construct(Filesystem $filesystem, PhpIterator $iterator, array $comparators)
     {
-        array_walk($comparators, function ($comparator): void {
+        array_walk($comparators, static function ($comparator) : void {
             if (!($comparator instanceof DateComparator)) {
                 if (is_object($comparator)) {
                     throw new InvalidArgumentException(sprintf(
@@ -64,7 +65,7 @@ class DateRangeFilterIterator extends FilterIterator
     /**
      * @inheritdoc
      */
-    public function accept(): bool
+    public function accept() : bool
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();
