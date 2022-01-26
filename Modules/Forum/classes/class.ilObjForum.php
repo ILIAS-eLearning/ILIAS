@@ -24,7 +24,7 @@ class ilObjForum extends ilObject
     /** @var array<int, array>  */
     private static array $forum_last_post_cache = [];
     private ilSetting $settings;
-    private \ILIAS\DI\RBACServices $rbac;
+    private \ILIAS\Services\RBAC\RBACServices $rbac;
     private ilObjUser $user;
     private ilLogger $logger;
 

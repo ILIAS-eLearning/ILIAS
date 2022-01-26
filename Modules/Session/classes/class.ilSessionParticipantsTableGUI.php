@@ -26,7 +26,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 
     private ilLogger $logger;
     private ilTree $tree;
-    private \ILIAS\DI\RBACServices $rbac;
+    private \ILIAS\Services\RBAC\RBACServices $rbac;
     private ilObjSession $rep_object;
     private ilParticipants $participants;
     private int $parent_ref_id = 0;

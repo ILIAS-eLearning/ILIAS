@@ -10,6 +10,8 @@ use ILIAS\Refinery\Factory;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Repository;
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
+use ILIAS\Services\RBAC\RBACServices;
+use ILIAS\Services\RBAC\RBACServicesInterface;
 
 /******************************************************************************
  *
@@ -43,7 +45,7 @@ class Container extends \Pimple\Container
     /**
      * Get interface to get interfaces to all things rbac.
      */
-    public function rbac() : \ILIAS\DI\RBACServices
+    public function rbac() : \ILIAS\Services\RBAC\RBACServicesInterface
     {
         return new RBACServices($this);
     }

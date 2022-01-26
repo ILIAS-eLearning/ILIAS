@@ -23,7 +23,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
     private Renderer $uiRenderer;
     private ilUIService $uiService;
     private ilCronJobRepository $repository;
-    private \ILIAS\DI\RBACServices $rbac;
+    private \ILIAS\Services\RBAC\RBACServices $rbac;
     private ilErrorHandling $error;
     private WrapperFactory $httpRequest;
     private \ILIAS\Refinery\Factory $refinery;

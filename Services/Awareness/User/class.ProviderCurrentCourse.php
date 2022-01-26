@@ -26,7 +26,7 @@ class ProviderCurrentCourse implements Provider
 {
     protected \ilLanguage $lng;
     protected \ILIAS\Awareness\StandardGUIRequest $request;
-    protected \ILIAS\DI\RBACServices $rbac;
+    protected \ILIAS\Services\RBAC\RBACServices $rbac;
     protected \ilDBInterface $db;
     protected \ilTree $tree;
     protected \ilAccessHandler $access;

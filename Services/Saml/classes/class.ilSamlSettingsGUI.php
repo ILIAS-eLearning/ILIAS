@@ -64,7 +64,7 @@ class ilSamlSettingsGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
-    protected \ILIAS\DI\RBACServices $rbac;
+    protected \ILIAS\Services\RBAC\RBACServices $rbac;
     protected ilErrorHandling $error_handler;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;

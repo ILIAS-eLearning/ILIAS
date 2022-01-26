@@ -1,7 +1,10 @@
 <?php
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\DI;
+namespace ILIAS\Services\RBAC;
+
+use ILIAS\Services\RBAC\RBACServicesInterface;
+use ILIAS\DI\Container;
 
 /******************************************************************************
  *
@@ -19,7 +22,7 @@ namespace ILIAS\DI;
 /**
  * Provides fluid interface to RBAC services.
  */
-class RBACServices
+class RBACServices implements RBACServicesInterface
 {
     protected Container $container;
 

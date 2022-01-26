@@ -15,7 +15,7 @@
 
 namespace ILIAS\Repository;
 
-use ILIAS\DI\RBACServices;
+use ILIAS\Services\RBAC\RBACServices;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\ResourceStorage;

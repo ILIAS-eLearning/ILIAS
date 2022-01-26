@@ -32,7 +32,7 @@ class ilAuthShibbolethSettingsGUI
     private \ilGlobalTemplateInterface $tpl;
     private int $ref_id;
     protected ilComponentRepository $component_repository;
-    private \ILIAS\DI\RBACServices $rbac;
+    private \ILIAS\Services\RBAC\RBACServices $rbac;
     private ilAccessHandler $access;
     private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     private \ILIAS\Refinery\Factory $refinery;
