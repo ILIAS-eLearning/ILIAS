@@ -1,8 +1,6 @@
 <?php
 
-
 namespace ILIAS\Setup;
-
 
 use ilDatabaseInitializedObjective;
 use ilDatabaseUpdatedObjective;
@@ -13,14 +11,13 @@ use ilIniFilesLoadedObjective;
 
 class ilMysqlMyIsamToInnoDbMigration implements Migration
 {
-
     protected ?string $db_name = null;
     protected ?\ilDBInterface $database = null;
 
     /**
      * @inheritDoc
      */
-    public function getLabel(): string
+    public function getLabel() : string
     {
         return "Migration to convert tables from MyISAM to Innodb service";
     }
@@ -28,7 +25,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getDefaultAmountOfStepsPerRun(): int
+    public function getDefaultAmountOfStepsPerRun() : int
     {
         return 20;
     }
@@ -36,7 +33,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Environment $environment): array
+    public function getPreconditions(Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -48,7 +45,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function prepare(Environment $environment): void
+    public function prepare(Environment $environment) : void
     {
         /**
          * @var $client_id  string
@@ -56,14 +53,13 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
         $this->database = $environment->getResource(Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Environment::RESOURCE_CLIENT_INI);
         $this->db_name = $client_ini->readVariable('db', 'name');
-
     }
 
     /**
      * @inheritDoc
      * @throws ilException
      */
-    public function step(Environment $environment): void
+    public function step(Environment $environment) : void
     {
         $errors = $this->database->migrateAllTablesToEngine();
         if (sizeof($errors) > 0) {
@@ -78,9 +74,9 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getRemainingAmountOfSteps(): int
+    public function getRemainingAmountOfSteps() : int
     {
-        if($this->db_name !== null) {
+        if ($this->db_name !== null) {
             $set = $this->database->queryF("SELECT count(*) as tables
                 FROM INFORMATION_SCHEMA.TABLES
                 WHERE ENGINE != %s AND table_schema = %s;", ['text', 'text'], [
