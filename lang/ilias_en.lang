@@ -9550,7 +9550,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -14281,12 +14281,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chat Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
