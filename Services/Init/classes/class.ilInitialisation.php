@@ -23,6 +23,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
+use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -215,7 +216,7 @@ class ilInitialisation
                 $information_repository,
                 $stakeholder_repository,
                 new LockHandlerilDB($c->database()),
-                new WhiteAndBlacklistedFileNamePolicy([], []),
+                new ilFileServicesPolicy($c->fileServiceSettings()),
                 new DBRepositoryPreloader(
                     $c->database(),
                     $resource_repository,
@@ -243,8 +244,10 @@ class ilInitialisation
     {
         global $DIC;
 
-        $DIC['filesystem.security.sanitizing.filename'] = function ($c) {
-            return new FilenameSanitizerImpl();
+        $DIC['filesystem.security.sanitizing.filename'] = function (Container $c) {
+            return new ilFileServicesFilenameSanitizer(
+                $c->fileServiceSettings()
+            );
         };
 
         $DIC['filesystem.factory'] = function ($c) {
@@ -351,7 +354,11 @@ class ilInitialisation
             }
 
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
-            $fileUploadImpl->register(new BlacklistExtensionPreProcessor(ilFileUtils::getExplicitlyBlockedFiles(), $c->language()->txt("msg_info_blacklisted")));
+            $fileUploadImpl->register(new ilFileServicesPreProcessor(
+                $c->rbac()->system(),
+                $c->fileServiceSettings(),
+                $c->language()->txt("msg_info_blacklisted"))
+            );
 
             return $fileUploadImpl;
         };

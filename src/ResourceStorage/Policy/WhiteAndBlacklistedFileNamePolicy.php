@@ -15,12 +15,14 @@ namespace ILIAS\ResourceStorage\Policy;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class WhiteAndBlacklistedFileNamePolicy
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * TODO: refactor to make the renaming internal, it uses ilFileUtil currrently
  */
-class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
+abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 {
     /**
      * @var string[]
@@ -30,7 +32,7 @@ class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
      * @var string[]
      */
     protected array $whitelisted = [];
-
+    
     /**
      * WhiteAndBlacklistedFileNamePolicy constructor.
      */
@@ -39,29 +41,23 @@ class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
         $this->blacklisted = $blacklisted;
         $this->whitelisted = $whitelisted;
     }
-
-    public function isValidExtension(string $extension) : bool
+    
+    public function isValidExtension(string $extension): bool
     {
-        return \ilFileUtils::hasValidExtension('file.' . $extension);
+        return in_array($extension, $this->whitelisted) && !in_array($extension, $this->blacklisted);
     }
-
-    public function isBlockedExtension(string $extension) : bool
+    
+    public function isBlockedExtension(string $extension): bool
     {
-        $haystack = \ilFileUtils::getExplicitlyBlockedFiles();
-        return in_array($extension, $haystack, true);
+        return in_array($extension, $this->blacklisted);
     }
-
-    public function prepareFileNameForConsumer(string $filename_with_extension) : string
-    {
-        return \ilFileUtils::getValidFilename($filename_with_extension);
-    }
-
-    public function check(string $extension) : bool
+    
+    public function check(string $extension): bool
     {
         if ($this->isBlockedExtension($extension)) {
             throw new FileNamePolicyException("Extension '$extension' is blacklisted.");
         }
         return true;
     }
-
+    
 }
