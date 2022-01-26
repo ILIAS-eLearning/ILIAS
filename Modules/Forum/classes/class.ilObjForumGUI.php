@@ -62,7 +62,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public $ilHelp;
 
     private int $selectedSorting;
-    private ilForumThreadSettinsSessionStorage $selected_post_storage;
+    private ilForumThreadSettingsSessionStorage $selected_post_storage;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -151,7 +151,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             ilSession::set('frm', $forumValues);
         }
 
-        $this->selected_post_storage = new ilForumThreadSettinsSessionStorage('frm_selected_post');
+        $this->selected_post_storage = new ilForumThreadSettingsSessionStorage('frm_selected_post');
     }
 
     private function retrieveRefId() : int
