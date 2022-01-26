@@ -33,7 +33,7 @@ class LoggingServices implements LoggingServicesInterface
     /**
      * Get interface to the global logger.
      */
-    public function root()
+    public function root(): \ilLoggerInterface
     {
         return $this->container["ilLoggerFactory"]->getRootLogger();
     }
@@ -41,9 +41,9 @@ class LoggingServices implements LoggingServicesInterface
     /**
      * Get a component logger.
      *
-     * @return	\ilLogger
+     * @return	\ilLoggerInterface
      */
-    public function __call($method_name, $args)
+    public function __call($method_name, $args): \ilLoggerInterface
     {
         assert(count($args) === 0);
         return $this->container['ilLoggerFactory']->getComponentLogger($method_name);

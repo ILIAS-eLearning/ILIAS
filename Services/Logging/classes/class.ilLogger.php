@@ -15,7 +15,7 @@ use Monolog\Processor\MemoryPeakUsageProcessor;
  * @version $Id$
  *
  */
-abstract class ilLogger
+abstract class ilLogger implements ilLoggerInterface
 {
     private $logger = null;
     
