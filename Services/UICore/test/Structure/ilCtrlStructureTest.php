@@ -166,6 +166,16 @@ class ilCtrlStructureTest extends TestCase
         $structure->setPermanentParameterByClass('Class2', $parameter_name);
     }
 
+    /**
+     * @dataProvider getProtectedParameters
+     */
+    public function testStructureSavedParametersWithProtectedKey($protected_parameter) : void
+    {
+        $structure = new ilCtrlStructure([], [], []);
+        $this->expectException(ilCtrlException::class);
+        $structure->setPermanentParameterByClass('a_class', $protected_parameter);
+    }
+
     public function testStructureTemporaryParameters() : void
     {
         $structure = new ilCtrlStructure([], [], []);
@@ -213,5 +223,15 @@ class ilCtrlStructureTest extends TestCase
         $structure->setReturnTargetByClass('Class1', $test_url);
         $this->assertEquals($test_url, $structure->getReturnTargetByClass('Class1'));
         $this->assertNull($structure->getReturnTargetByClass('Class2'));
+    }
+
+    public function getProtectedParameters() : array
+    {
+        return [
+            ['baseClass'],
+            ['cmdClass'],
+            ['cmdNode'],
+            ['rtoken'],
+        ];
     }
 }
