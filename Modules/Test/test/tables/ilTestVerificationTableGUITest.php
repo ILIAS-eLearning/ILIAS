@@ -27,7 +27,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin());
+        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
 
