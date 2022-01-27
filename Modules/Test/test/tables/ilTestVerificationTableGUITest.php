@@ -43,13 +43,13 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
                     {
                     }
 
-                    public function write($m, $l = ilLogLevel::INFO)
+                    public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
                     {
                     }
 
-                    public function info($a_message)
+                    public function info(string $a_message) : void
                     {
-                        return "testInfo";
+                        //return "testInfo";
                     }
                 };
             }
@@ -61,7 +61,7 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
                     {
                     }
 
-                    public function write($m, $l = ilLogLevel::INFO)
+                    public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
                     {
                     }
                 };

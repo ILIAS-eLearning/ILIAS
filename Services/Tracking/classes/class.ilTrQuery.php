@@ -66,7 +66,7 @@ class ilTrQuery
                 }
 
                 // lp mode might not match object/course view mode
-                if ($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE) {
+                if ($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
                     $rec["u_mode"] = ilLPObjSettings::LP_MODE_OBJECTIVES;
                 } elseif (!$rec["u_mode"]) {
                     $olp = ilObjectLP::getInstance($rec["obj_id"]);

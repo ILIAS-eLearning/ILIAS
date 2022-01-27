@@ -548,7 +548,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     public function assignMembers() : void
     {
         $this->participants = new ilGroupParticipants($this->group_obj->getId());
-        $this->participants->add($this->user->getId(), IL_GRP_ADMIN);
+        $this->participants->add($this->user->getId(), ilParticipants::IL_GRP_ADMIN);
         $this->participants->updateNotification($this->user->getId(), (bool) $this->settings->get('mail_grp_admin_notification', "1"));
         
         // attach ADMINs
@@ -556,7 +556,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             foreach ($this->group_data["admin"]["attach"] as $user) {
                 if ($id_data = $this->parseId($user)) {
                     if ($id_data['local'] or $id_data['imported']) {
-                        $this->participants->add($id_data['usr_id'], IL_GRP_ADMIN);
+                        $this->participants->add($id_data['usr_id'], ilParticipants::IL_GRP_ADMIN);
                         if (in_array($user, (array) $this->group_data['notifications'])) {
                             $this->participants->updateNotification($id_data['usr_id'], true);
                         }
@@ -581,7 +581,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             foreach ($this->group_data["member"]["attach"] as $user) {
                 if ($id_data = $this->parseId($user)) {
                     if ($id_data['local'] or $id_data['imported']) {
-                        $this->participants->add($id_data['usr_id'], IL_GRP_MEMBER);
+                        $this->participants->add($id_data['usr_id'], ilParticipants::IL_GRP_MEMBER);
                     }
                 }
             }

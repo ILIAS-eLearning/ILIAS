@@ -1,6 +1,5 @@
 <?php
 chdir("./../../../");
-require_once("Services/Init/classes/class.ilIniFile.php");
 $ini = new ilIniFile("ilias.ini.php");
 $ini->read();
 
@@ -10,7 +9,6 @@ $http = preg_replace("/^(https:\/\/)|(http:\/\/)+/", "", $http);
 $_SERVER['HTTP_HOST'] = $http;
 $_SERVER['REQUEST_URI'] = "";
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 global $DIC;

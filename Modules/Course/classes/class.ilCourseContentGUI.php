@@ -133,7 +133,7 @@ class ilCourseContentGUI
             return 'view';
         }
         if ($this->container_obj->getType() == 'crs' and
-           $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING) {
+           $this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             return 'editUserTimings';
         }
         return 'view';

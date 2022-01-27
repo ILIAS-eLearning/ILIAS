@@ -31,8 +31,17 @@
 	}
 	.bulky-label {
 		white-space: normal;
-	    margin-top: @il-mainbar-bulky-label-margin-top;
 	    display: block;
+	}
+}
+
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
+	.il-item-shy {
+		margin-bottom: @il-slate-content-spacing;
+		&:not(:hover) {
+			background: @il-main-dark-bg;
+		}
 	}
 }
 

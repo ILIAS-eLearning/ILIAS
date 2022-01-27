@@ -136,7 +136,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         if (
-            ilCourseObjectiveResultCache::getStatus($ilUser->getId(), $this->getContainerObject()->object->getId(), $this->obj_id) != IL_OBJECTIVE_STATUS_NONE and
+            ilCourseObjectiveResultCache::getStatus($ilUser->getId(), $this->getContainerObject()->object->getId(), $this->obj_id) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE and
             ilCourseObjectiveResultCache::isSuggested($ilUser->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)
         ) {
             $this->tpl->setVariable('DIV_CLASS', 'ilContainerListItemOuterHighlight');
@@ -185,14 +185,14 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->tpl->setCurrentBlock('item_progress');
         
         switch (ilCourseObjectiveResultCache::getStatus($ilUser->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)) {
-            case IL_OBJECTIVE_STATUS_NONE:
+            case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_status'));
                 $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.svg'));
                 $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_no_attempted'));
                 break;
                 
-            case IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST:
-            case IL_OBJECTIVE_STATUS_PRETEST:
+            case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST:
+            case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_pretest'));
                 if (ilCourseObjectiveResultCache::isSuggested($ilUser->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)) {
                     $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
@@ -203,8 +203,8 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                 }
                 break;
                 
-            case IL_OBJECTIVE_STATUS_FINISHED:
-            case IL_OBJECTIVE_STATUS_FINAL:
+            case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_FINISHED:
+            case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_FINAL:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_result'));
                 if (ilCourseObjectiveResultCache::isSuggested($ilUser->getId(), $this->getContainerObject()->object->getId(), $this->obj_id)) {
                     $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));

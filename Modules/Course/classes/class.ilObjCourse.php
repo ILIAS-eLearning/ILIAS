@@ -331,7 +331,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     }
     public function getSubscriptionUnlimitedStatus()
     {
-        return $this->subscription_limitation_type == IL_CRS_SUBSCRIPTION_UNLIMITED;
+        return $this->subscription_limitation_type == ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED;
     }
     public function getSubscriptionStart()
     {
@@ -351,7 +351,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     }
     public function getSubscriptionType()
     {
-        return $this->subscription_type ? $this->subscription_type : IL_CRS_SUBSCRIPTION_DIRECT;
+        return $this->subscription_type ? $this->subscription_type : ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT;
         #return $this->subscription_type ? $this->subscription_type : $this->SUBSCRIPTION_DEACTIVATED;
     }
     public function setSubscriptionType($a_value)
@@ -368,7 +368,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     }
     public function enabledObjectiveView()
     {
-        return $this->view_mode == IL_CRS_VIEW_OBJECTIVE;
+        return $this->view_mode == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE;
     }
 
     public function enabledWaitingList()
@@ -633,7 +633,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     }
     public function getArchiveType()
     {
-        return $this->archive_type ? IL_CRS_ARCHIVE_DOWNLOAD : IL_CRS_ARCHIVE_NONE;
+        return $this->archive_type ? ilCourseConstants::IL_CRS_ARCHIVE_DOWNLOAD : ilCourseConstants::IL_CRS_ARCHIVE_NONE;
     }
     public function setArchiveType($a_value)
     {
@@ -988,7 +988,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $this->cloneMetaData($new_obj);
 
         // Assign admin
-        $new_obj->getMemberObject()->add($ilUser->getId(), IL_CRS_ADMIN);
+        $new_obj->getMemberObject()->add($ilUser->getId(), ilParticipants::IL_CRS_ADMIN);
         // cognos-blu-patch: begin
         $new_obj->getMemberObject()->updateContact($ilUser->getId(), 1);
         // cognos-blu-patch: end
@@ -1120,11 +1120,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         $this->setMessage('');
 
-        if (($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED) and
+        if (($this->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED) and
            $this->getSubscriptionStart() > $this->getSubscriptionEnd()) {
             $this->appendMessage($this->lng->txt("subscription_times_not_valid"));
         }
-        if ($this->getSubscriptionType() == IL_CRS_SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword()) {
+        if ($this->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD and !$this->getSubscriptionPassword()) {
             $this->appendMessage($this->lng->txt("crs_password_required"));
         }
         if ($this->isSubscriptionMembershipLimited()) {
@@ -1424,16 +1424,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $ilDB->quote($this->getContactPhone(), 'text') . ", " .
             $ilDB->quote($this->getContactEmail(), 'text') . ", " .
             $ilDB->quote($this->getContactConsultation(), 'text') . ", " .
-            $ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED, 'integer') . ", " .
+            $ilDB->quote(ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED, 'integer') . ", " .
             $ilDB->quote($this->getSubscriptionStart(), 'integer') . ", " .
             $ilDB->quote($this->getSubscriptionEnd(), 'integer') . ", " .
-            $ilDB->quote(IL_CRS_SUBSCRIPTION_DIRECT, 'integer') . ", " .
+            $ilDB->quote(ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT, 'integer') . ", " .
             $ilDB->quote($this->getSubscriptionPassword(), 'text') . ", " .
             "0, " .
             $ilDB->quote($this->getSubscriptionMaxMembers(), 'integer') . ", " .
             "1, " .
             "0, " .
-            $ilDB->quote(IL_CRS_VIEW_TIMING_ABSOLUTE, 'integer') . ', ' .
+            $ilDB->quote(ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE, 'integer') . ', ' .
             $ilDB->quote($this->ABO_ENABLED, 'integer') . ", " .
             $ilDB->quote($this->getLatitude(), 'text') . ", " .
             $ilDB->quote($this->getLongitude(), 'text') . ", " .
@@ -1920,7 +1920,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                     $app->setStart(new ilDateTime($this->getActivationEnd(), IL_CAL_UNIX));
                     $apps[] = $app;
                 }
-                if ($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED) {
+                if ($this->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED) {
                     $app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
                     $app->setTitle($this->getTitle());
                     $app->setSubtitle('crs_cal_reg_start');
@@ -2053,7 +2053,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 );
             }
             
-            if ($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+            if ($this->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
                 if (!ilObjCourseAccess::_usingRegistrationCode()) {
                     throw new ilMembershipRegistrationException('Cant registrate to course ' . $this->getId() .
                         ', course subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
@@ -2061,7 +2061,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             }
 
             // Time Limitation
-            if ($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED) {
+            if ($this->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED) {
                 if (!$this->inSubscriptionTime()) {
                     throw new ilMembershipRegistrationException('Cant registrate to course ' . $this->getId() .
                         ', course is out of registration time.', ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
@@ -2224,7 +2224,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 $this->course_logger->warning('User is already assigned to course. uid: ' . $user_id . ' course_id: ' . $this->getRefId());
                 continue;
             }
-            $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+            $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
             $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id, true);
             $waiting_list->removeFromList($user_id);
             $this->checkLPStatusSync($user_id);

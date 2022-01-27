@@ -247,7 +247,7 @@ abstract class ilRegistrationGUI
             $course_user_data = new ilCourseUserData($this->user->getId(), $field_obj->getId());
 
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     $select = new ilSelectInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
                     $select->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
                     $select->setOptions($field_obj->prepareSelectBox());
@@ -257,7 +257,7 @@ abstract class ilRegistrationGUI
                     $cdf->addSubItem($select);
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $text = new ilTextInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
                     $text->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
                     $text->setSize(32);
@@ -289,7 +289,7 @@ abstract class ilRegistrationGUI
         $value = '';
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj) {
             switch ($field_obj->getType()) {
-                case IL_CDF_TYPE_SELECT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
 
                     // Split value id from post
                     list($field_id, $option_id) = explode('_', $_POST['cdf_' . $field_obj->getId()]);
@@ -302,7 +302,7 @@ abstract class ilRegistrationGUI
                     }
                     break;
 
-                case IL_CDF_TYPE_TEXT:
+                case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $value = $_POST['cdf_' . $field_obj->getId()];
                     break;
             }

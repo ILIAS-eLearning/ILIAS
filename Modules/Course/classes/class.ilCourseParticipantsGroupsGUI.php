@@ -156,7 +156,7 @@ class ilCourseParticipantsGroupsGUI
 
             $members_obj = ilGroupParticipants::_getInstanceByObjId($ilObjDataCache->lookupObjId((int) $_POST["grp_id"]));
             foreach ($_POST["usrs"] as $new_member) {
-                if (!$members_obj->add($new_member, IL_GRP_MEMBER)) {
+                if (!$members_obj->add($new_member, ilParticipants::IL_GRP_MEMBER)) {
                     $ilErr->raiseError("An Error occured while assigning user to group !", $ilErr->MESSAGE);
                 }
 

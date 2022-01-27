@@ -191,7 +191,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($this->in_availability) {
                     $this->course_obj->setOfflineStatus(true);
                 } elseif ($this->in_registration) {
-                    $this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+                    $this->course_obj->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED);
                 }
 
                 break;
@@ -200,7 +200,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($this->in_availability) {
                     $this->course_obj->setOfflineStatus(false);
                 } elseif ($this->in_registration) {
-                    $this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_UNLIMITED);
+                    $this->course_obj->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED);
                 }
 
                 break;
@@ -208,7 +208,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($this->in_availability) {
                     $this->course_obj->setOfflineStatus(false);
                 } elseif ($this->in_registration) {
-                    $this->course_obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
+                    $this->course_obj->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED);
                 }
                 break;
 
@@ -239,15 +239,15 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
                 switch ($a_attribs['registrationType']) {
                     case 'Confirmation':
-                        $this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_CONFIRMATION);
+                        $this->course_obj->setSubscriptionType(ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION);
                         break;
 
                     case 'Direct':
-                        $this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
+                        $this->course_obj->setSubscriptionType(ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT);
                         break;
 
                     case 'Password':
-                        $this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_PASSWORD);
+                        $this->course_obj->setSubscriptionType(ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD);
                         break;
                 }
 
@@ -267,7 +267,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Disabled':
-                $this->course_obj->getSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+                $this->course_obj->getSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED);
                 break;
 
             case "MetaData":
@@ -323,7 +323,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             // if action not set, or set and attach
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
                 // add only if member is not yet assigned as tutor or admin
-                $this->course_members->add($id_data['usr_id'], IL_CRS_MEMBER);
+                $this->course_members->add($id_data['usr_id'], ilParticipants::IL_CRS_MEMBER);
                 if ($a_attribs['blocked'] == 'Yes') {
                     $this->course_members->updateBlocked($id_data['usr_id'], true);
                 }
@@ -364,7 +364,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             // if action not set, or attach
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
                 // add only if member is not assigned yet
-                $this->course_members->add($id_data['usr_id'], IL_CRS_ADMIN);
+                $this->course_members->add($id_data['usr_id'], ilParticipants::IL_CRS_ADMIN);
                 if ($a_attribs['notification'] == 'Yes') {
                     $this->course_members->updateNotification($id_data['usr_id'], true);
                 }
@@ -411,7 +411,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             // if action not set, or attach
             if (!array_key_exists($id_data['usr_id'], $this->course_members_array)) {
                 // add only if member is not assigned yet
-                $this->course_members->add($id_data['usr_id'], IL_CRS_TUTOR);
+                $this->course_members->add($id_data['usr_id'], ilParticipants::IL_CRS_TUTOR);
                 if ($a_attribs['notification'] == 'Yes') {
                     $this->course_members->updateNotification($id_data['usr_id'], true);
                 }

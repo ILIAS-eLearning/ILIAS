@@ -422,17 +422,17 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $exploded_map = (array) explode(',', $map);
             if (in_array($role_value, $exploded_map)) {
                 switch ($name) {
-                    case IL_CRS_ADMIN:
-                    case IL_CRS_TUTOR:
-                    case IL_CRS_MEMBER:
+                    case ilParticipants::IL_CRS_ADMIN:
+                    case ilParticipants::IL_CRS_TUTOR:
+                    case ilParticipants::IL_CRS_MEMBER:
                         if ($a_obj_type == 'crs') {
                             $this->log->debug('Role: ' . $role_value . ' maps: ' . $exploded_map);
                             return $name;
                         }
                         break;
                         
-                    case IL_GRP_ADMIN:
-                    case IL_GRP_MEMBER:
+                    case ilParticipants::IL_GRP_ADMIN:
+                    case ilParticipants::IL_GRP_MEMBER:
                         if ($a_obj_type == 'grp') {
                             $this->log->debug('Role: ' . $role_value . ' maps: ' . $exploded_map);
                             return $name;

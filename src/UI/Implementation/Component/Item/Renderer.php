@@ -14,7 +14,6 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ilUtil;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -284,7 +283,6 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderProperties(Item $component, RendererInterface $default_renderer, Template $tpl) : void
     {
-        // properties
         $props = $component->getProperties();
         if (count($props) > 0) {
             $cnt = 0;

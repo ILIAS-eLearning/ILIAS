@@ -725,7 +725,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         
         // Assign user as admin
         $part = ilGroupParticipants::_getInstanceByObjId($new_obj->getId());
-        $part->add($this->user->getId(), IL_GRP_ADMIN);
+        $part->add($this->user->getId(), ilParticipants::IL_GRP_ADMIN);
         $part->updateNotification($this->user->getId(), (bool) $this->setting->get('mail_grp_admin_notification', "1"));
         $part->updateContact($this->user->getId(), true);
 
@@ -1424,7 +1424,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      */
     public function register(
         int $a_user_id,
-        int $a_role = IL_GRP_MEMBER,
+        int $a_role = ilParticipants::IL_GRP_MEMBER,
         bool $a_force_registration = false
     ) : void
     {
@@ -1505,7 +1505,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                     if ($this->getMembersObject()->isAssigned($user_id)) {
                         continue;
                     }
-                    $this->getMembersObject()->add($user_id, IL_GRP_MEMBER); // #18213
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_GRP_MEMBER); // #18213
                     $this->getMembersObject()->sendNotification(ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER, $user_id, true);
                     $waiting_list->removeFromList($user_id);
 

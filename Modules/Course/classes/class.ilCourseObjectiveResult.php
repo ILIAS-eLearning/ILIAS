@@ -2,13 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define('IL_OBJECTIVE_STATUS_EMPTY', 'empty');
-define('IL_OBJECTIVE_STATUS_PRETEST', 'pretest');
-define('IL_OBJECTIVE_STATUS_FINAL', 'final');
-define('IL_OBJECTIVE_STATUS_NONE', 'none');
-define('IL_OBJECTIVE_STATUS_FINISHED', 'finished');
-define('IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST', 'pretest_non_suggest');
-
 /**
 * class ilcourseobjective
 *
@@ -18,6 +11,13 @@ define('IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST', 'pretest_non_suggest');
 */
 class ilCourseObjectiveResult
 {
+    public const IL_OBJECTIVE_STATUS_EMPTY = 'empty';
+    public const IL_OBJECTIVE_STATUS_PRETEST = 'pretest';
+    public const IL_OBJECTIVE_STATUS_FINAL = 'final';
+    public const IL_OBJECTIVE_STATUS_NONE = 'none';
+    public const IL_OBJECTIVE_STATUS_FINISHED = 'finished';
+    public const IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST = 'pretest_non_suggest';
+
     public $db = null;
     public $user_id = null;
 
@@ -68,12 +68,12 @@ class ilCourseObjectiveResult
         return $accomplished ? $accomplished : array();
     }
 
-    public function getSuggested($a_crs_id, $a_status = IL_OBJECTIVE_STATUS_FINAL)
+    public function getSuggested($a_crs_id, $a_status = self::IL_OBJECTIVE_STATUS_FINAL)
     {
         return ilCourseObjectiveResult::_getSuggested($this->getUserId(), $a_crs_id, $a_status);
     }
     
-    public static function _getSuggested($a_user_id, $a_crs_id, $a_status = IL_OBJECTIVE_STATUS_FINAL)
+    public static function _getSuggested($a_user_id, $a_crs_id, $a_status = self::IL_OBJECTIVE_STATUS_FINAL)
     {
         global $DIC;
 
@@ -84,8 +84,8 @@ class ilCourseObjectiveResult
         // end-patch lok
 
         $finished = array();
-        if ($a_status == IL_OBJECTIVE_STATUS_FINAL or
-           $a_status == IL_OBJECTIVE_STATUS_FINISHED) {
+        if ($a_status == self::IL_OBJECTIVE_STATUS_FINAL or
+           $a_status == self::IL_OBJECTIVE_STATUS_FINISHED) {
             // check finished
             $query = "SELECT objective_id FROM crs_objective_status " .
                 "WHERE " . $ilDB->in('objective_id', $objectives, false, 'integer') . " " .
@@ -219,11 +219,11 @@ class ilCourseObjectiveResult
         $suggested = $this->getSuggested($a_course_id);
 
         if (!count($objective_ids)) {
-            return IL_OBJECTIVE_STATUS_EMPTY;
+            return self::IL_OBJECTIVE_STATUS_EMPTY;
         }
 
         if (count($accomplished) == count($objective_ids)) {
-            return IL_OBJECTIVE_STATUS_FINISHED;
+            return self::IL_OBJECTIVE_STATUS_FINISHED;
         }
 
         $all_pretest_answered = false;
@@ -238,15 +238,15 @@ class ilCourseObjectiveResult
             }
         }
         if ($all_final_answered) {
-            return IL_OBJECTIVE_STATUS_FINAL;
+            return self::IL_OBJECTIVE_STATUS_FINAL;
         }
         if ($all_pretest_answered and
            !count($suggested)) {
-            return IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
+            return self::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
         } elseif ($all_pretest_answered) {
-            return IL_OBJECTIVE_STATUS_PRETEST;
+            return self::IL_OBJECTIVE_STATUS_PRETEST;
         }
-        return IL_OBJECTIVE_STATUS_NONE;
+        return self::IL_OBJECTIVE_STATUS_NONE;
     }
 
     public function hasAccomplishedObjective($a_objective_id)

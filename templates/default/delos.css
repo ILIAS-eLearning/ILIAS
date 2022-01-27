@@ -7681,22 +7681,6 @@ ul.dropdown-menu > li > .btn:focus {
   position: relative;
   padding: 12px;
 }
-.il-item:before,
-.il-item:after {
-  display: table;
-  content: " ";
-}
-.il-item:after {
-  clear: both;
-}
-.il-item:before,
-.il-item:after {
-  display: table;
-  content: " ";
-}
-.il-item:after {
-  clear: both;
-}
 .il-item .il-item-title {
   font-size: 14px;
   display: inline-block;
@@ -9398,10 +9382,10 @@ footer {
   display: none;
 }
 .il-maincontrols-slate .btn-bulky {
-  padding: 10px 40px 15px 10px;
+  padding: 15px 40px 15px 10px;
 }
 .il-maincontrols-slate .link-bulky {
-  padding: 10px 10px 15px 10px;
+  padding: 15px 10px 15px 10px;
 }
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
@@ -9443,7 +9427,6 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  margin-top: 3px;
   margin-right: 5px;
   filter: invert(50%);
 }
@@ -9458,7 +9441,7 @@ footer {
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 1.5rem;
-  line-height: 1.7rem;
+  line-height: 1.95rem;
   text-align: left;
   word-break: normal;
 }
@@ -9771,8 +9754,15 @@ footer {
 .il-maincontrols-mainbar .bulky-label,
 .il-maincontrols-metabar .bulky-label {
   white-space: normal;
-  margin-top: 5px;
   display: block;
+}
+.il-maincontrols-mainbar .il-item-shy,
+.il-maincontrols-metabar .il-item-shy {
+  margin-bottom: 2px;
+}
+.il-maincontrols-mainbar .il-item-shy:not(:hover),
+.il-maincontrols-metabar .il-item-shy:not(:hover) {
+  background: #f9f9f9;
 }
 .il-maincontrols-mainbar .btn:active,
 .il-maincontrols-metabar .btn:active,

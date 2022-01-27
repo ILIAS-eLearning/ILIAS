@@ -160,6 +160,15 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $wait;
     }
 
+    public function getParentObject() : ilObjSession
+    {
+        /**
+         * @var ilObjSession $parent_object
+         */
+        $parent_object = parent::getParentObject();
+        return $parent_object;
+    }
+
     protected function initParticipantTableGUI() : ilSessionParticipantsTableGUI
     {
         $table = new ilSessionParticipantsTableGUI(
@@ -205,7 +214,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 }
             } else {
                 if ($participated || $registered || $contact) {
-                    $part->add($part_id, IL_SESS_MEMBER);
+                    $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
                 }
             }
             $event_part = new ilEventParticipants($this->getParentObject()->getId());

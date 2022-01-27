@@ -115,7 +115,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             $reg->setValue($this->lng->txt('mem_unlimited'));
             $this->form->addItem($reg);
             return;
-        } elseif ($this->container->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+        } elseif ($this->container->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             return;
         }
         
@@ -263,7 +263,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
         $ilUser = $DIC['ilUser'];
         
-        if ($this->container->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+        if ($this->container->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             $reg = new ilCustomInputGUI($this->lng->txt('mem_reg_type'));
             #$reg->setHtml($this->lng->txt('crs_info_reg_deactivated'));
             $reg->setAlert($this->lng->txt('crs_info_reg_deactivated'));
@@ -279,7 +279,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
 
         switch ($this->container->getSubscriptionType()) {
-            case IL_CRS_SUBSCRIPTION_DIRECT:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT:
 
                 // no "request" info if waiting list is active
                 if ($this->isWaitingListActive()) {
@@ -292,7 +292,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->form->addItem($txt);
                 break;
 
-            case IL_CRS_SUBSCRIPTION_PASSWORD:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD:
                 $txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
                 $txt->setValue($this->lng->txt('crs_subscription_options_password'));
                     
@@ -308,7 +308,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->form->addItem($txt);
                 break;
                 
-            case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
 
                 // no "request" info if waiting list is active
                 if ($this->isWaitingListActive()) {
@@ -355,7 +355,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         
 
         switch ($this->container->getSubscriptionType()) {
-            case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 if ($this->participants->isSubscriber($ilUser->getId())) {
                     $this->form->clearCommandButtons();
                     $this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));
@@ -397,7 +397,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             $this->join_error = $this->lng->txt('mem_error_preconditions');
             return false;
         }
-        if ($this->container->getSubscriptionType() == IL_CRS_SUBSCRIPTION_PASSWORD) {
+        if ($this->container->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD) {
             if (!strlen($pass = ilUtil::stripSlashes($_POST['grp_passw']))) {
                 $this->join_error = $this->lng->txt('crs_password_required');
                 return false;
@@ -460,7 +460,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
 
         switch ($this->container->getSubscriptionType()) {
-            case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 $this->participants->addSubscriber($ilUser->getId());
                 $this->participants->updateSubscriptionTime($ilUser->getId(), time());
                 $this->participants->updateSubject($ilUser->getId(), ilUtil::stripSlashes($_POST['subject']));
@@ -491,7 +491,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                     }
                 }
                 
-                $this->participants->add($ilUser->getId(), IL_CRS_MEMBER);
+                $this->participants->add($ilUser->getId(), ilParticipants::IL_CRS_MEMBER);
                 $this->participants->sendNotification($this->participants->NOTIFY_ADMINS, $ilUser->getId());
                 $this->participants->sendNotification($this->participants->NOTIFY_REGISTERED, $ilUser->getId());
 
