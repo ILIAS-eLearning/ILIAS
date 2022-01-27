@@ -57,7 +57,6 @@ class ilCourseAppEventListener
         ilLoggerFactory::getInstance()->getLogger('crs')->debug(print_r($a_parameters, true));
         ilLoggerFactory::getInstance()->getLogger('crs')->debug(print_r($new_status, true));
         
-        include_once './Modules/Course/classes/class.ilCourseParticipant.php';
         ilCourseParticipant::updateMemberRoles(
             $a_parameters['obj_id'],
             $a_parameters['usr_id'],
@@ -81,11 +80,9 @@ class ilCourseAppEventListener
         $this->getLogger()->debug('Handling event deassign user -> waiting list auto fill');
         
         // #16694
-        include_once("./Modules/Course/classes/class.ilObjCourse.php");
         $refs = ilObject::_getAllReferences($a_obj_id);
         $ref_id = array_pop($refs);
         
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
         
         $course = $factory->getInstanceByRefId($ref_id, false);
@@ -128,7 +125,6 @@ class ilCourseAppEventListener
      */
     public static function destroyTimings($a_obj_id, $a_usr_id)
     {
-        include_once './Modules/Course/classes/Timings/class.ilTimingsUser.php';
         $user_timings = ilTimingsUser::getInstanceByContainerId($a_obj_id);
         $user_timings->init();
         $user_timings->handleUnsubscribe($a_usr_id);
@@ -171,7 +167,6 @@ class ilCourseAppEventListener
             }
             
             // #13905
-            include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
             if (!ilObjUserTracking::_enabledLearningProgress()) {
                 return;
             }
@@ -187,10 +182,8 @@ class ilCourseAppEventListener
                 
                 // determine couse setting only once
                 if (!isset(self::$course_mode[$obj_id])) {
-                    include_once("./Modules/Course/classes/class.ilObjCourse.php");
                     $crs = new ilObjCourse($obj_id, false);
                     if ($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
-                        include_once './Services/Object/classes/class.ilObjectLP.php';
                         $olp = ilObjectLP::getInstance($obj_id);
                         $mode = $olp->getCurrentMode();
                     } else {
@@ -205,7 +198,6 @@ class ilCourseAppEventListener
                 switch (self::$course_mode[$obj_id]) {
                     case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
                         // #11600
-                        include_once "Modules/Course/classes/class.ilCourseParticipants.php";
                         ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, true);
                         break;
 
@@ -214,7 +206,6 @@ class ilCourseAppEventListener
                         // overwrites course passed status if it was set automatically (full sync)
                         // or toggle manually set passed status to completed (1-way-sync)
                         $do_update = $is_completed;
-                        include_once "Modules/Course/classes/class.ilCourseParticipants.php";
                         if (!$do_update) {
                             $part = new ilCourseParticipants($obj_id);
                             $passed = $part->getPassedInfo($user_id);

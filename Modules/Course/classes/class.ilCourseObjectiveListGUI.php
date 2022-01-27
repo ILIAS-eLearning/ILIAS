@@ -21,8 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');
 
 
 /**

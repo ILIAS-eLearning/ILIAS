@@ -150,7 +150,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         
         // start
         if ($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE) {
-            include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
             $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
             $dt_input->setDate(new ilDate($a_set['item']['suggestion_start'], IL_CAL_UNIX));
             if ($this->getFailureStatus()) {
@@ -181,7 +180,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable('NAME_DURATION_A', 'item[' . $a_set['ref_id'] . '][duration_a]');
         } else {
-            include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
             $dt_end = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_end]');
             $dt_end->setDate(new ilDate($a_set['item']['suggestion_end'], IL_CAL_UNIX));
             if ($this->getFailureStatus()) {
@@ -239,7 +237,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
      */
     protected function parseTitle($current_row, $item)
     {
-        include_once './Services/Link/classes/class.ilLink.php';
         switch ($item['type']) {
             case 'fold':
             case 'grp':
@@ -251,7 +248,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
                 if (strlen($item['title'])) {
                     $current_row['title'] = $item['title'];
                 } else {
-                    include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
                     $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item['ref_id']));
                     $current_row['title'] = ilSessionAppointment::_appointmentToString(
                         $app_info['start'],

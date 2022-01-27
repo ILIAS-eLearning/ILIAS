@@ -21,14 +21,8 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-include_once './Modules/Course/classes/class.ilCourseObjective.php';
-include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
-include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
-include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
 
 // begin-patch lok
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 // end-patch lok
 
 /**
@@ -164,7 +158,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('st_pg');
                     $this->tpl->setVariable('MAT_IMG', ilObject::_getIcon($pg_st['obj_id'], "tiny", $pg_st['type']));
                     $this->tpl->setVariable('MAT_ALT', $this->lng->txt('obj_' . $pg_st['type']));
-                    include_once('Modules/LearningModule/classes/class.ilLMObject.php');
                     $title = ilLMObject::_lookupTitle($pg_st['obj_id']);
                     $this->tpl->setVariable('MAT_TITLE', $title);
                     $this->tpl->parseCurrentBlock();
@@ -178,7 +171,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LM_ALT', $this->lng->txt('obj_' . $data['type']));
             
             if ($data['type'] == 'catr' or $data['type'] == 'crsr' or $data['type'] == 'grpr') {
-                include_once './Services/ContainerReference/classes/class.ilContainerReference.php';
                 $this->tpl->setVariable(
                     'LM_TITLE',
                     ilContainerReference::_lookupTargetTitle($data['obj_id'])
@@ -194,7 +186,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         if ($this->getSettings()->worksWithInitialTest()) {
             if ($this->getSettings()->hasSeparateInitialTests()) {
                 if ($a_set['initial']) {
-                    include_once './Services/Link/classes/class.ilLink.php';
                     $obj_id = ilObject::_lookupObjId($a_set['initial']);
                     $this->tpl->setCurrentBlock('initial_test_per_objective');
                     $this->tpl->setVariable('IT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
@@ -202,7 +193,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->setVariable('IT_TITLE', ilObject::_lookupTitle($obj_id));
                     $this->tpl->setVariable('IT_TITLE_LINK', ilLink::_getLink($a_set['initial']));
                     
-                    include_once './Services/Link/classes/class.ilLink.php';
                     $this->ctrl->setParameterByClass('ilobjtestgui', 'ref_id', $a_set['initial']);
                     $this->ctrl->setParameterByClass('ilobjtestgui', 'cmd', 'questionsTabGateway');
                     $this->tpl->setVariable(
@@ -243,7 +233,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('FT_ALT', $this->lng->txt('obj_tst'));
                 $this->tpl->setVariable('FT_TITLE', ilObject::_lookupTitle($obj_id));
                 
-                include_once './Services/Link/classes/class.ilLink.php';
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'ref_id', $a_set['final']);
                 $this->ctrl->setParameterByClass('ilobjtestgui', 'cmd', 'questionsTabGateway');
                 $this->tpl->setVariable(
@@ -282,7 +271,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         // end-patch lok
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
         
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['id']);
         //$alist->setListTitle($this->lng->txt("actions"));
@@ -381,7 +369,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             // begin-patch lok
             if ($this->getSettings()->worksWithInitialTest()) {
                 if ($this->getSettings()->hasSeparateInitialTests()) {
-                    include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
                     $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
                     $assignment = $assignments->getAssignmentByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
 
@@ -389,7 +376,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     if ($assignment instanceof ilLOTestAssignment) {
                         $test_id = $assignment->getTestRefId();
 
-                        include_once './Services/Object/classes/class.ilObjectFactory.php';
                         $factory = new ilObjectFactory();
                         $test_candidate = $factory->getInstanceByRefId($test_id, false);
                         if ($test_candidate instanceof ilObjTest) {
@@ -434,7 +420,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
             // begin-patch lok
             // single test assignments
             if ($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED) {
-                include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
                 $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
                 $assignment = $assignments->getAssignmentByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
             
@@ -442,7 +427,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 if ($assignment instanceof ilLOTestAssignment) {
                     $test_id = $assignment->getTestRefId();
 
-                    include_once './Services/Object/classes/class.ilObjectFactory.php';
                     $factory = new ilObjectFactory();
                     $test_candidate = $factory->getInstanceByRefId($test_id, false);
                     if ($test_candidate instanceof ilObjTest) {

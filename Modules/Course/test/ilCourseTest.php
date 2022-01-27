@@ -33,7 +33,6 @@ class ilCourseTest //extends TestCase
 
     protected function setUp() : void
     {
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
         //ilUnitUtil::performInitialisation();
     }
     
@@ -43,7 +42,6 @@ class ilCourseTest //extends TestCase
      */
     public function testMemberAgreement()
     {
-        include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
         
         global $DIC;
 

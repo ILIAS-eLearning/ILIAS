@@ -22,13 +22,6 @@
 */
 
 
-include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
-include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
-include_once('Services/Utilities/classes/class.ilSaxController.php');
-include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
-include_once 'Modules/Course/classes/class.ilCourseConstants.php';
 
 
 

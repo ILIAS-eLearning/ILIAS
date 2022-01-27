@@ -22,7 +22,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 
 /**
 * XML writer class
@@ -157,7 +156,6 @@ class ilCourseXMLWriter extends ilXmlWriter
     
     public function __buildMetaData()
     {
-        include_once 'Services/MetaData/classes/class.ilMD2XML.php';
 
         $md2xml = new ilMD2XML($this->course_obj->getId(), $this->course_obj->getId(), 'crs');
         $md2xml->startExport();
@@ -263,7 +261,6 @@ class ilCourseXMLWriter extends ilXmlWriter
 
     public function __buildWaitingList()
     {
-        include_once 'Modules/Course/classes/class.ilCourseWaitingList.php';
         $waiting_list = new ilCourseWaitingList($this->course_obj->getId());
 
         $wait = $waiting_list->getAllUsers();

@@ -24,7 +24,6 @@
 // begin-patch lok
 use ILIAS\UI\Component\Listing\Workflow\Step;
 
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 // end-patch lok
 
 /**
@@ -75,7 +74,6 @@ class ilCourseObjectivesGUI
      */
     public function __construct($a_course_id)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
         global $DIC;
 
@@ -167,7 +165,6 @@ class ilCourseObjectivesGUI
             $this->ctrl->getLinkTarget($this, "'create")
         );
         
-        include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
         $table = new ilCourseObjectivesTableGUI($this, $this->course_obj);
         $table->setTitle($this->lng->txt('crs_objectives'), '', $this->lng->txt('crs_objectives'));
         $table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId(), false));
@@ -344,7 +341,6 @@ class ilCourseObjectivesGUI
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
         }
 
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php');
         $table = new ilCourseObjectiveQuestionsTableGUI($this, $this->course_obj);
         $table->setTitle(
             $this->lng->txt('crs_objectives_edit_question_assignments'),
@@ -366,7 +362,6 @@ class ilCourseObjectivesGUI
      */
     protected function saveQuestionOverview()
     {
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
         
         global $DIC;
 
@@ -432,7 +427,6 @@ class ilCourseObjectivesGUI
 
     public function __initLMObject($a_objective_id = 0)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
         $this->objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
 
         return true;
@@ -446,7 +440,6 @@ class ilCourseObjectivesGUI
      */
     public function __initQuestionObject($a_objective_id = 0)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         $this->objectives_qst_obj = new ilCourseObjectiveQuestion($a_objective_id);
 
         return $this->objectives_qst_obj;
@@ -484,7 +477,6 @@ class ilCourseObjectivesGUI
             '',
             true
         );
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
         
         if (ilCourseObjectiveQuestion::_hasTests($this->course_obj->getId())) {
             $ilTabs->addSubTabTarget(
@@ -646,7 +638,6 @@ class ilCourseObjectivesGUI
 
         $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
         
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterialAssignmentTableGUI.php');
         $table = new ilCourseObjectiveMaterialAssignmentTableGUI($this, $this->course_obj, (int) $_GET['objective_id']);
         $table->setTitle(
             $this->lng->txt('crs_objective_wiz_materials'),
@@ -654,7 +645,6 @@ class ilCourseObjectivesGUI
             $this->lng->txt('crs_objectives')
         );
 
-        include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
         $table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
@@ -701,7 +691,6 @@ class ilCourseObjectivesGUI
         }
         if (is_array($_POST['chapters'])) {
             foreach ($_POST['chapters'] as $chapter) {
-                include_once('./Modules/LearningModule/classes/class.ilLMObject.php');
                 
                 list($ref_id, $chapter_id) = explode('_', $chapter);
                 
@@ -764,7 +753,6 @@ class ilCourseObjectivesGUI
         }
         // end-patch lok
         
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php');
         $table = new ilCourseObjectiveQuestionAssignmentTableGUI(
             $this,
             $this->course_obj,
@@ -834,7 +822,6 @@ class ilCourseObjectivesGUI
         }
         
         // TODO: not nice
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         $this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
         // not required due to percentages
         //$this->questions->updateLimits();
@@ -972,7 +959,6 @@ class ilCourseObjectivesGUI
         }
         // end-patch lok
         
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php');
         $table = new ilCourseObjectiveQuestionAssignmentTableGUI(
             $this,
             $this->course_obj,
@@ -1003,7 +989,6 @@ class ilCourseObjectivesGUI
         if (!$tst_ref_id) {
             return false;
         }
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst_ref_id));
     }
     
@@ -1035,7 +1020,6 @@ class ilCourseObjectivesGUI
      */
     protected function initFormRandom()
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         
@@ -1092,8 +1076,6 @@ class ilCourseObjectivesGUI
     
     protected function getRandomTestQplOptions()
     {
-        include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-        include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
         
         $tst_ref_id = $this->getSettings()->getTestByType($this->test_type);
         if ($tst_ref_id) {
@@ -1113,7 +1095,6 @@ class ilCourseObjectivesGUI
                 
         $list->loadDefinitions();
 
-        include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
         $translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
         $translater->loadLabels($list);
         
@@ -1174,7 +1155,6 @@ class ilCourseObjectivesGUI
             );
             $ref_id = $this->getSettings()->getTestByType($this->test_type);
             foreach (array_unique((array) $form->getInput('qpl')) as $qpl_id) {
-                include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
                 $rnd = new ilLORandomTestQuestionPools(
                     $this->course_obj->getId(),
                     (int) $_REQUEST['objective_id'],
@@ -1251,7 +1231,6 @@ class ilCourseObjectivesGUI
         }
         
         // TODO: not nice
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         $this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
         // not required due to percentages
         //$this->questions->updateLimits();
@@ -1376,7 +1355,6 @@ class ilCourseObjectivesGUI
     protected function initFormLimits($a_mode)
     {
         if (!is_object($this->form)) {
-            include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
             $this->form = new ilPropertyFormGUI();
         }
         $this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -1470,7 +1448,6 @@ class ilCourseObjectivesGUI
      */
     protected function initFormTitle($a_mode, $a_step_number)
     {
-        include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
         if ($this->form instanceof ilPropertyFormGUI) {
             return;
         }

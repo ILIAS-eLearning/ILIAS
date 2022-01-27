@@ -107,7 +107,6 @@ class ilCourseDefinedFieldDefinition
         $ilDB = $DIC['ilDB'];
         
         // Delete user entries
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         foreach (ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id) as $field_id) {
             ilCourseUserData::_deleteByField($field_id);
         }
@@ -446,7 +445,6 @@ class ilCourseDefinedFieldDefinition
 
         $ilDB = $DIC['ilDB'];
         
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         ilCourseUserData::_deleteByField($this->getId());
         
         $query = "DELETE FROM crs_f_definitions " .

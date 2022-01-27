@@ -51,7 +51,6 @@ class ilCourseObjectiveResult
 
         $ilDB = $DIC['ilDB'];
 
-        include_once 'Modules/Course/classes/class.ilCourseObjective.php';
         // begin-patch lok
         $objectives = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
         // end-patch lok
@@ -80,7 +79,6 @@ class ilCourseObjectiveResult
 
         $ilDB = $DIC['ilDB'];
 
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         // begin-patch lok
         $objectives = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
         // end-patch lok
@@ -123,7 +121,6 @@ class ilCourseObjectiveResult
     public static function getSuggestedQuestions($a_usr_id, $a_crs_id)
     {
         foreach (self::_getSuggested($a_usr_id, $a_crs_id) as $objective_id) {
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
             $obj = new ilCourseObjectiveQuestion($objective_id);
             foreach ($obj->getFinalTestQuestions() as $qst) {
                 $qsts[] = $qst['question_id'];
@@ -138,7 +135,6 @@ class ilCourseObjectiveResult
         // $a_test->removeTestResultsForUser($a_user_id);
                     
         // #15038
-        include_once "Modules/Test/classes/class.ilTestLP.php";
         $test_lp = ilTestLP::getInstance($a_test->getId());
         $test_lp->resetLPDataForUserIds(array($a_user_id));
         
@@ -155,14 +151,9 @@ class ilCourseObjectiveResult
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $assignments = ilLOTestAssignments::getInstance($a_course_id);
         foreach (array_merge(
             $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
@@ -175,7 +166,6 @@ class ilCourseObjectiveResult
 
                 $lng = $DIC['lng'];
                 
-                require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
                 $participantData = new ilTestParticipantData($ilDB, $lng);
                 $participantData->setUserIdsFilter(array($this->getUserId()));
                 $participantData->load($tst->getTestId());
@@ -214,7 +204,6 @@ class ilCourseObjectiveResult
         }
     
         // update/reset LP for course
-        include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus($a_course_id, $this->getUserId());
         
         return true;
@@ -222,8 +211,6 @@ class ilCourseObjectiveResult
 
     public function getStatus($a_course_id)
     {
-        include_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-        include_once 'Modules/Course/classes/class.ilCourseObjective.php';
         // begin-patch lok
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id, true);
         // end-patch lok
@@ -281,7 +268,6 @@ class ilCourseObjectiveResult
 
     public function readStatus($a_crs_id)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
         // begin-patch lok
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
@@ -523,7 +509,6 @@ class ilCourseObjectiveResult
         }
         if (count($passed)) {
             foreach ($passed as $crs_id) {
-                include_once('Modules/Course/classes/class.ilCourseParticipants.php');
                 $members = ilCourseParticipants::_getInstanceByObjId($crs_id);
                 $members->updatePassed($a_user_id, true);
             }
@@ -531,7 +516,6 @@ class ilCourseObjectiveResult
         
         // update tracking status
         foreach ($crs_ids as $cid) {
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($cid, $a_user_id);
         }
     }

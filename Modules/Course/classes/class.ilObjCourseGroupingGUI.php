@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjCourseGroupingGUI
@@ -62,7 +61,6 @@ class ilObjCourseGroupingGUI
     // PRIVATE
     public function __initGroupingObject()
     {
-        include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 
         $this->grp_obj = new ilObjCourseGrouping($this->id);
     }
@@ -90,7 +88,6 @@ class ilObjCourseGroupingGUI
             $this->ctrl->getLinkTarget($this, 'create')
         );
 
-        include_once 'Modules/Course/classes/class.ilCourseGroupingTableGUI.php';
         $table = new ilCourseGroupingTableGUI($this, 'listGroupings', $this->content_obj);
         
         $tpl->setContent($table->getHTML());
@@ -172,7 +169,6 @@ class ilObjCourseGroupingGUI
     
     public function initForm($a_create)
     {
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         
@@ -323,7 +319,6 @@ class ilObjCourseGroupingGUI
 
         $tmp_grouping = new ilObjCourseGrouping((int) $_GET['obj_id']);
         
-        include_once 'Modules/Course/classes/class.ilCourseGroupingAssignmentTableGUI.php';
         $table = new ilCourseGroupingAssignmentTableGUI($this, 'selectCourse', $this->content_obj, $tmp_grouping);
         
         $tpl->setContent($table->getHTML());
@@ -351,7 +346,6 @@ class ilObjCourseGroupingGUI
         }
     
         // delete all existing conditions
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         $condh = new ilConditionHandler();
         $condh->deleteByObjId((int) $_GET['obj_id']);
 

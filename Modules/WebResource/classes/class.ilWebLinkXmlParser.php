@@ -1,13 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
-include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
-
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilWebLinkXmlParserException.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 /**
 * XML  parser for weblink xml

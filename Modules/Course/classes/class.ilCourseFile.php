@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
 
 /**
 *
