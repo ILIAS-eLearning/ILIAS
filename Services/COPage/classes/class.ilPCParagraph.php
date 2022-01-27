@@ -1683,6 +1683,14 @@ class ilPCParagraph extends ilPageContent
         } else {
             $parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $par_node->parentNode);
         }
+    
+        $strrPos = function(string $a_haystack, string $a_needle, ?int $a_offset = null) : int {
+            if (function_exists("mb_strpos")) {
+                return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+            } else {
+                return strrpos($a_haystack, $a_needle, $a_offset);
+            }
+        };
 
         foreach ($parnodes as $parnode) {
             $textnodes = $xpath->query('.//text()', $parnode);
@@ -1701,7 +1709,7 @@ class ilPCParagraph extends ilPageContent
                         // if term found
                         while (is_int($pos)) {
                             // check if we are in a tex tag, see #22261
-                            $tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
+                            $tex_bpos = $strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
                             $tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
                             if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
                                 $pos += ilStr::strLen($t["term"]);
