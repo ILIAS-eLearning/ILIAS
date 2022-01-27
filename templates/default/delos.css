@@ -9705,6 +9705,19 @@ footer {
     min-width: 260px;
   }
 }
+.focus_hovered_engaged_slate_trigger_mixin {
+  background-color: white;
+  color: #2c2c2c;
+}
+.focus_hovered_engaged_slate_trigger_mixin .glyph {
+  color: #2c2c2c;
+}
+.focus_hovered_engaged_slate_trigger_mixin .icon {
+  filter: invert(50%);
+}
+.focus_hovered_engaged_slate_trigger_mixin .bulky-label {
+  color: #2c2c2c;
+}
 .il-maincontrols-mainbar .btn-bulky,
 .il-maincontrols-metabar .btn-bulky,
 .il-maincontrols-mainbar .il-link.link-bulky,
@@ -9773,35 +9786,36 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky .icon {
   filter: invert(100%);
 }
-.il-mainbar-triggers .btn-bulky:hover,
-.il-mainbar-triggers .il-link.link-bulky:hover,
 .il-mainbar-triggers .btn-bulky.engaged,
-.il-mainbar-triggers .il-link.link-bulky.engaged,
+.il-mainbar-triggers .il-link.link-bulky.engaged {
+  background-color: white;
+  color: #2c2c2c;
+}
+.il-mainbar-triggers .btn-bulky.engaged .glyph,
+.il-mainbar-triggers .il-link.link-bulky.engaged .glyph {
+  color: #2c2c2c;
+}
+.il-mainbar-triggers .btn-bulky.engaged .icon,
+.il-mainbar-triggers .il-link.link-bulky.engaged .icon {
+  filter: invert(50%);
+}
+.il-mainbar-triggers .btn-bulky.engaged .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
+  color: #2c2c2c;
+}
 .il-mainbar-triggers .btn-bulky:focus-visible,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible {
   background-color: white;
   color: #2c2c2c;
 }
-.il-mainbar-triggers .btn-bulky:hover .glyph,
-.il-mainbar-triggers .il-link.link-bulky:hover .glyph,
-.il-mainbar-triggers .btn-bulky.engaged .glyph,
-.il-mainbar-triggers .il-link.link-bulky.engaged .glyph,
 .il-mainbar-triggers .btn-bulky:focus-visible .glyph,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .glyph {
   color: #2c2c2c;
 }
-.il-mainbar-triggers .btn-bulky:hover .icon,
-.il-mainbar-triggers .il-link.link-bulky:hover .icon,
-.il-mainbar-triggers .btn-bulky.engaged .icon,
-.il-mainbar-triggers .il-link.link-bulky.engaged .icon,
 .il-mainbar-triggers .btn-bulky:focus-visible .icon,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .icon {
   filter: invert(50%);
 }
-.il-mainbar-triggers .btn-bulky:hover .bulky-label,
-.il-mainbar-triggers .il-link.link-bulky:hover .bulky-label,
-.il-mainbar-triggers .btn-bulky.engaged .bulky-label,
-.il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label,
 .il-mainbar-triggers .btn-bulky:focus-visible .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .bulky-label {
   color: #2c2c2c;
@@ -9809,6 +9823,20 @@ footer {
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover {
   transition: all 0.15s ease-in;
+  background-color: white;
+  color: #2c2c2c;
+}
+.il-mainbar-triggers .btn-bulky:hover .glyph,
+.il-mainbar-triggers .il-link.link-bulky:hover .glyph {
+  color: #2c2c2c;
+}
+.il-mainbar-triggers .btn-bulky:hover .icon,
+.il-mainbar-triggers .il-link.link-bulky:hover .icon {
+  filter: invert(50%);
+}
+.il-mainbar-triggers .btn-bulky:hover .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
+  color: #2c2c2c;
 }
 .il-mainbar-triggers .btn-bulky .glyph,
 .il-mainbar-triggers .il-link.link-bulky .glyph {
