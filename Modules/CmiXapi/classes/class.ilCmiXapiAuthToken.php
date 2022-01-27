@@ -33,47 +33,47 @@ class ilCmiXapiAuthToken
     /**
      * @var int
      */
-    protected $ref_id;
+    protected int $ref_id;
     
     /**
      * @var int
      */
-    protected $obj_id;
+    protected int $obj_id;
     
     /**
      * @var int
      */
-    protected $usr_id;
+    protected int $usr_id;
 
     /**
      * @var string
      */
-    protected $token;
+    protected string $token;
     
     /**
      * @var string
      */
-    protected $valid_until;
+    protected string $valid_until;
     
     /**
-     * @var
+     * @var int
      */
-    protected $lrs_type_id;
+    protected int $lrs_type_id;
     
     /**
-     * @var
+     * @var string|null
      */
-    protected $cmi5_session;
+    protected ?string $cmi5_session;
 
     /**
-     * @var
+     * @var string
      */
-    protected $cmi5_session_data;
+    protected string $cmi5_session_data;
 
     /**
-     * @var
+     * @var string|null
      */
-    protected $returned_for_cmi5_session;
+    protected ?string $returned_for_cmi5_session;
 
     /**
      * @return int
@@ -156,17 +156,17 @@ class ilCmiXapiAuthToken
     }
     
     /**
-     * @return mixed
+     * @return int
      */
-    public function getLrsTypeId()
+    public function getLrsTypeId() : int
     {
         return $this->lrs_type_id;
     }
     
     /**
-     * @param mixed $lrs_type_id
+     * @param int $lrs_type_id
      */
-    public function setLrsTypeId($lrs_type_id) : void
+    public function setLrsTypeId(int $lrs_type_id) : void
     {
         $this->lrs_type_id = $lrs_type_id;
     }
@@ -242,7 +242,7 @@ class ilCmiXapiAuthToken
         // 'returned_for_cmi5_session' defaults always to '' by inserting
     }
     
-    public static function deleteTokenByObjIdAndUsrId($objId, $usrId) : void
+    public static function deleteTokenByObjIdAndUsrId(int $objId, int $usrId) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
@@ -255,7 +255,7 @@ class ilCmiXapiAuthToken
         $ilDB->manipulateF($query, array('integer', 'integer'), array($objId, $usrId));
     }
 
-    public static function deleteTokenByObjIdAndRefIdAndUsrId($objId, $refId, $usrId) : void
+    public static function deleteTokenByObjIdAndRefIdAndUsrId(int $objId, int $refId, int $usrId) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
@@ -291,7 +291,7 @@ class ilCmiXapiAuthToken
     }
     
     
-    public static function selectCurrentTimestamp()
+    public static function selectCurrentTimestamp() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
@@ -300,7 +300,7 @@ class ilCmiXapiAuthToken
         $result = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($result);
         
-        return $row['CURRENT_TIMESTAMP'];
+        return (string) $row['CURRENT_TIMESTAMP'];
     }
     
     public static function createToken() : string
@@ -308,7 +308,7 @@ class ilCmiXapiAuthToken
         return (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
     }
     
-    public static function fillToken(int $usrId, int $refId, int $objId, $lrsTypeId = 0) : string
+    public static function fillToken(int $usrId, int $refId, int $objId, int $lrsTypeId = 0) : string
     {
         //$seconds = $this->getTimeToDelete();
         $seconds = 86400; // TODO: invalidation interval
@@ -341,11 +341,12 @@ class ilCmiXapiAuthToken
         
         return $token;
     }
-    
+
     /**
-                 * @param $token
-                 * @throws ilCmiXapiException
-                 */
+     * @param string $token
+     * @return ilCmiXapiAuthToken
+     * @throws ilCmiXapiException
+     */
     public static function getInstanceByToken(string $token) : \ilCmiXapiAuthToken
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -374,11 +375,15 @@ class ilCmiXapiAuthToken
         
         throw new ilCmiXapiException('no valid token found for: ' . $token);
     }
-    
+
     /**
-                 * @throws ilCmiXapiException
-                 */
-    public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId, $checkValid = true) : \ilCmiXapiAuthToken
+     * @param int  $objId
+     * @param int  $usrId
+     * @param bool $checkValid
+     * @return ilCmiXapiAuthToken
+     * @throws ilCmiXapiException
+     */
+    public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId, bool $checkValid = true) : \ilCmiXapiAuthToken
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
@@ -410,11 +415,16 @@ class ilCmiXapiAuthToken
         
         throw new ilCmiXapiException('no valid token found for: ' . $objId . '/' . $usrId);
     }
-    
+
     /**
-                 * @throws ilCmiXapiException
-                 */
-    public static function getInstanceByObjIdAndRefIdAndUsrId(int $objId, int $refId, int $usrId, $checkValid = true) : \ilCmiXapiAuthToken
+     * @param int  $objId
+     * @param int  $refId
+     * @param int  $usrId
+     * @param bool $checkValid
+     * @return ilCmiXapiAuthToken
+     * @throws ilCmiXapiException
+     */
+    public static function getInstanceByObjIdAndRefIdAndUsrId(int $objId, int $refId, int $usrId, bool $checkValid = true) : \ilCmiXapiAuthToken
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
@@ -433,13 +443,13 @@ class ilCmiXapiAuthToken
             $tokenObject = new self();
             $tokenObject->setToken($row['token']);
             $tokenObject->setValidUntil($row['valid_until']);
-            $tokenObject->setUsrId($row['usr_id']);
-            $tokenObject->setObjId($row['obj_id']);
-            $tokenObject->setRefId($row['ref_id']);
-            $tokenObject->setLrsTypeId($row['lrs_type_id']);
+            $tokenObject->setUsrId((int) $row['usr_id']);
+            $tokenObject->setObjId((int) $row['obj_id']);
+            $tokenObject->setRefId((int) $row['ref_id']);
+            $tokenObject->setLrsTypeId((int) $row['lrs_type_id']);
             $tokenObject->setCmi5Session($row['cmi5_session']);
             $tokenObject->setReturnedForCmi5Session($row['returned_for_cmi5_session']);
-            $tokenObject->setCmi5SessionData($row['cmi5_session_data']);
+            $tokenObject->setCmi5SessionData((string) $row['cmi5_session_data']);
             
             return $tokenObject;
         }
@@ -447,21 +457,20 @@ class ilCmiXapiAuthToken
         throw new ilCmiXapiException('no valid token found for: ' . $objId . '/' . $usrId);
     }
 
-    /*
-                public static function bindCmi5Session(string $token, string $cmi5_session)
-                {
-                    global $DIC;
-                    $ilDB = $DIC->database();
-                    $ilDB->manipulate("UPDATE " . self::DB_TABLE_NAME . " SET cmi5_session = " . $ilDB->quote($cmi5_session, 'text') . " WHERE token = " . $ilDB->quote($token, 'text'));
-                }
-                */
+//                public static function bindCmi5Session(string $token, string $cmi5_session)
+//                {
+//                    global $DIC;
+//                    $ilDB = $DIC->database();
+//                    $ilDB->manipulate("UPDATE " . self::DB_TABLE_NAME . " SET cmi5_session = " . $ilDB->quote($cmi5_session, 'text') . " WHERE token = " . $ilDB->quote($token, 'text'));
+//                }
     /**
-     * @param int $usrId
-     * @param int $objId
-     * @param int $refId
+     * @param int      $usrId
+     * @param int      $objId
+     * @param int|null $refId
+     * @return string
      * @throws ilCmiXapiException
      */
-    public static function getCmi5SessionByUsrIdAndObjIdAndRefId(int $usrId, int $objId, $refId = null) : string
+    public static function getCmi5SessionByUsrIdAndObjIdAndRefId(int $usrId, int $objId, ?int $refId = null) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -480,10 +489,11 @@ class ilCmiXapiAuthToken
         }
         throw new ilCmiXapiException('no valid cmi5_session found for: ' . $objId . '/' . $usrId);
     }
-    
+
     /**
-                 * @throws ilCmiXapiException
-                 */
+     * @return string
+     * @throws ilCmiXapiException
+     */
     public static function getWacSalt() : string
     {
         if (isset($salt)) {

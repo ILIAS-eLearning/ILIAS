@@ -79,6 +79,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         return 'cmix';
     }
 
+    /**
+     * @param string $a_new_type
+     * @return ilPropertyFormGUI
+     * @throws ilCtrlException
+     */
     protected function initCreateForm($a_new_type) : \ilPropertyFormGUI
     {
         global $DIC;
@@ -175,7 +180,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         if ($form->checkInput()) {
             $newObject->setContentType($form->getInput('content_type'));
 
-            $newObject->setLrsTypeId($form->getInput('lrs_type_id'));
+            $newObject->setLrsTypeId((int) $form->getInput('lrs_type_id'));
             $newObject->initLrsType();
 
             $newObject->setPrivacyIdent($newObject->getLrsType()->getPrivacyIdent());
@@ -263,8 +268,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     }
 
     /**
-     * @param $a_sub_type
-     * @param $a_sub_id
+     * @param string|null $a_sub_type
+     * @param int|null    $a_sub_id
      * @return null|ilObjectListGUI
      * @throws ilCtrlException
      */
@@ -303,7 +308,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         return $return;
     }
 
-    public static function _goto($a_target) : void
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -576,12 +581,12 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $DIC->ui()->mainTemplate()->setContent(
                 $report->getResponseDebug()
             );
+            //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
+            ilUtil::sendInfo($linkBuilder->getPipelineDebug());
+            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
         }
-        //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-        ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-        ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
     }
 
     public function addLocatorItems() : void
@@ -595,7 +600,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $this->object->getTitle(),
             $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
             "",
-            $_GET["ref_id"]
+            (int) $_GET["ref_id"]
         );
     }
 

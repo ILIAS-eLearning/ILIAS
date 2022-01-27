@@ -30,6 +30,10 @@ class ilCmiXapiLP extends ilObjectLP
     const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
     const MOVEON_NOT_APPLICABLE = 'NotApplicable';
 
+    /**
+     * @param ilRadioGroupInputGUI $modeRadio
+     * @return void
+     */
     public function initModeOptions(ilRadioGroupInputGUI $modeRadio) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -103,7 +107,11 @@ class ilCmiXapiLP extends ilObjectLP
                 break;
         }
     }
-    
+
+    /**
+     * @param ilPropertyFormGUI $form
+     * @return int
+     */
     public function fetchModeOption(ilPropertyFormGUI $form) : int
     {
         $mainMode = (int) $form->getInput('modus');
@@ -125,24 +133,30 @@ class ilCmiXapiLP extends ilObjectLP
         return $mainMode;
     }
     
-    public static function getDefaultModes($a_lp_active) : array
-    {
-        return array(
-            ilLPObjSettings::LP_MODE_DEACTIVATED,
-            ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
-            ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-            ilLPObjSettings::LP_MODE_CMIX_PASSED,
-            ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-            ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-            ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED
-        );
-    }
-    
+//    public static function getDefaultModes($a_lp_active) : array
+//    {
+//        return array(
+//            ilLPObjSettings::LP_MODE_DEACTIVATED,
+//            ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
+//            ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
+//            ilLPObjSettings::LP_MODE_CMIX_PASSED,
+//            ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
+//            ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
+//            ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED
+//        );
+//    }
+
+    /**
+     * @return int
+     */
     public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
-    
+
+    /**
+     * @return array
+     */
     public function getValidModes() : array
     {
         return array(

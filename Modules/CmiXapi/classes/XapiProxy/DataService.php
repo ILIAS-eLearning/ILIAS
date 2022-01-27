@@ -17,7 +17,7 @@ namespace XapiProxy;
  *****************************************************************************/
 class DataService
 {
-    public static function initIlias($client_id) : void
+    public static function initIlias(string $client_id) : void
     {
         define("CLIENT_ID", $client_id);
         // Im Plugin war das auskommentiert(?)
@@ -49,27 +49,18 @@ class DataService
         // ilInitialisation::initLog();//UK
     }
 }
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+
 class ilInitialisation extends \ilInitialisation
 {
     /**
-    * Function; initGlobal($a_name, $a_class, $a_source_file)
-    *  Derive from protected to public...
-    *
-    * @see \ilInitialisation::initGlobal($a_name, $a_class, $a_source_file)
-    */
+     * Function; initGlobal($a_name, $a_class, $a_source_file)
+     *  Derive from protected to public...
+     * @param string      $a_name
+     * @param string      $a_class
+     * @param string|null $a_source_file
+     * @see \ilInitialisation::initGlobal($a_name, $a_class, $a_source_file)
+     */
+//    public static function initGlobal(string $a_name, string $a_class, ?string $a_source_file = null) : void
     public static function initGlobal($a_name, $a_class, $a_source_file = null) : void
     {
         parent::initGlobal($a_name, $a_class, $a_source_file);

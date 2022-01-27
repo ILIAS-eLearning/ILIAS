@@ -60,7 +60,7 @@ class ilCmiXapiContentUploadImporter
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * ilCmiXapiContentUploadImporter constructor.
@@ -91,7 +91,7 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param $serverFile
+     * @param string $serverFile
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
@@ -152,12 +152,12 @@ class ilCmiXapiContentUploadImporter
     }
     
     /**
-     * @param $uploadFilePath
+     * @param string|null $uploadFilePath
      * @return FileUploadResult
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    protected function getUpload($uploadFilePath) : FileUploadResult
+    protected function getUpload(?string $uploadFilePath) : FileUploadResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -212,8 +212,9 @@ class ilCmiXapiContentUploadImporter
                 break;
         }
     }
-    
+
     /**
+     * @param string $xmlFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function handleXmlFile(string $xmlFilePath) : void
@@ -243,6 +244,8 @@ class ilCmiXapiContentUploadImporter
     }
 
     /**
+     * @param string $xmlFileName
+     * @param string $xmlFilePath
      * @throws ilCmiXapiInvalidUploadContentException
      */
     protected function handleXmlFileFromUpload(string $xmlFileName, string $xmlFilePath) : void
@@ -269,15 +272,25 @@ class ilCmiXapiContentUploadImporter
                 break;
         }
     }
-    
+
+    /**
+     * @param DOMDocument $dom
+     * @param             $xsdFilePath
+     * @return void
+     * @throws ilCmiXapiInvalidUploadContentException
+     */
     protected function validateXmlFile(DOMDocument $dom, $xsdFilePath) : void
     {
         if (!$dom->schemaValidate($xsdFilePath)) {
             throw new ilCmiXapiInvalidUploadContentException('invalid content xml given!');
         }
     }
-    
-    protected function handleZipContentUpload($uploadFilePath) : void
+
+    /**
+     * @param string $uploadFilePath
+     * @return void
+     */
+    protected function handleZipContentUpload(string $uploadFilePath) : void
     {
         $targetPath = $this->getAbsoluteObjectDirectory();
         $zar = new \ZipArchive();
@@ -285,7 +298,10 @@ class ilCmiXapiContentUploadImporter
         $zar->extractTo($targetPath);
         $zar->close();
     }
-    
+
+    /**
+     * @return string
+     */
     protected function getAbsoluteObjectDirectory() : string
     {
         $dirs = [
@@ -296,7 +312,10 @@ class ilCmiXapiContentUploadImporter
         
         return implode(DIRECTORY_SEPARATOR, $dirs);
     }
-    
+
+    /**
+     * @return string
+     */
     public function getWebDataDirRelativeObjectDirectory() : string
     {
         return self::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId();
@@ -304,18 +323,24 @@ class ilCmiXapiContentUploadImporter
     
     /**
      * @param FileUploadResult $uploadResult
-     * @return mixed
+     * @return string
      */
     protected function fetchFileExtension(FileUploadResult $uploadResult) : string
     {
         return pathinfo($uploadResult->getName(), PATHINFO_EXTENSION);
     }
-    
+
+    /**
+     * @return bool
+     */
     protected function hasStoredContentXml() : bool
     {
         return $this->getStoredContentXml() !== '';
     }
-    
+
+    /**
+     * @return string
+     */
     protected function getStoredContentXml() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -330,13 +355,17 @@ class ilCmiXapiContentUploadImporter
         
         return '';
     }
-    
+
+    /**
+     * @param string $xsdFileName
+     * @return string
+     */
     protected function getXsdFilePath(string $xsdFileName) : string
     {
         return ILIAS_ABSOLUTE_PATH . DIRECTORY_SEPARATOR . self::RELATIVE_XSD_DIRECTORY . DIRECTORY_SEPARATOR . $xsdFileName;
     }
     
-    protected function initObjectFromCmi5Xml($dom) : void
+    protected function initObjectFromCmi5Xml(DOMDocument $dom) : void
     {
         global $DIC;
         $xPath = new DOMXPath($dom);
@@ -410,7 +439,7 @@ class ilCmiXapiContentUploadImporter
         $lpSettings->update();
     }
     
-    protected function initObjectFromTincanXml($dom) : void
+    protected function initObjectFromTincanXml(DOMDocument $dom) : void
     {
         $xPath = new DOMXPath($dom);
         
@@ -436,7 +465,7 @@ class ilCmiXapiContentUploadImporter
         $this->object->save();
     }
 
-    private function generateActivityId($publisherId)
+    private function generateActivityId(string $publisherId)
     {
         global $DIC;
         $objId = $this->object->getId();
