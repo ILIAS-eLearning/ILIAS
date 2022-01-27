@@ -1,27 +1,19 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 
 /**
 *
@@ -31,7 +23,7 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 *
 * @ingroup ModulesRemoteLearningModule
 */
-class ilObjRemoteLearningModuleListGUI extends ilObjectListGUI
+class ilObjRemoteLearningModuleListGUI extends ilRemoteObjectBaseListGUI
 {
     /**
      * Constructor
@@ -67,7 +59,6 @@ class ilObjRemoteLearningModuleListGUI extends ilObjectListGUI
         }
         
         // general commands array
-        include_once('Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleAccess.php');
         $this->commands = ilObjRemoteLearningModuleAccess::_getCommands();
     }
 
@@ -81,15 +72,11 @@ class ilObjRemoteLearningModuleListGUI extends ilObjectListGUI
      */
     public function getProperties()
     {
-        global $lng;
-
-        include_once('Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModule.php');
-
-        if ($org = ilObjRemoteLearningModule::_lookupOrganization($this->obj_id)) {
-            $this->addCustomProperty($lng->txt('organization'), $org, false, true);
+        if ($org = $this->_lookupOrganization(ilObjRemoteLearningModule::DB_TABLE_NAME, $this->obj_id)) {
+            $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
         }
         if (!ilObjRemoteLearningModule::_lookupOnline($this->obj_id)) {
-            $this->addCustomProperty($lng->txt("status"), $lng->txt("offline"), true, true);
+            $this->addCustomProperty($this->lng->txt("status"), $this->lng->txt("offline"), true, true);
         }
     
         return array();
@@ -106,9 +93,7 @@ class ilObjRemoteLearningModuleListGUI extends ilObjectListGUI
     {
         switch ($a_cmd) {
             case 'show':
-                include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-                include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-                if (ilECSExport::_isRemote(
+                if (ilECSExportManager::_isRemote(
                     ilECSImport::lookupServerId($this->obj_id),
                     ilECSImport::_lookupEContentId($this->obj_id)
                 )) {

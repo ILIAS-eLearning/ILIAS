@@ -1,27 +1,18 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
@@ -34,7 +25,7 @@ include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.
 */
 class ilECSCategoryMapping
 {
-    private static $cached_active_rules = null;
+    private static ?array $cached_active_rules = null;
 
     /**
      * get active rules
@@ -47,12 +38,12 @@ class ilECSCategoryMapping
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+        $rules = array();
         $res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $rules[] = new ilECSCategoryMappingRule($row->mapping_id);
+            $rules[] = new ilECSCategoryMappingRule(intval($row->mapping_id));
         }
-        return $rules ? $rules : array();
+        return $rules;
     }
     
     /**
@@ -104,26 +95,25 @@ class ilECSCategoryMapping
         $all_cats = self::lookupHandledCategories();
                 
         $exists = false;
-        foreach ($references as $ref_id => $null) {
+        foreach (array_keys($references) as $ref_id) {
             if ($tree->getParentId($ref_id) == $cat) {
                 $exists = true;
             }
         }
         $ilLog->write(__METHOD__ . ': Creating/Deleting references...');
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         
         if (!$exists) {
             $ilLog->write(__METHOD__ . ': Add new reference. STEP 1');
             
             if ($obj_data = ilObjectFactory::getInstanceByRefId($a_ref_id, false)) {
-                $new_ref_id = $obj_data->createReference();
+                $obj_data->createReference();
                 $obj_data->putInTree($cat);
                 $obj_data->setPermissions($cat);
                 $ilLog->write(__METHOD__ . ': Add new reference.');
             }
         }
         // Now delete old references
-        foreach ($references as $ref_id => $null) {
+        foreach (array_keys($references) as $ref_id) {
             $parent = $tree->getParentId($ref_id);
             if ($parent == $cat) {
                 continue;
@@ -151,11 +141,12 @@ class ilECSCategoryMapping
 
         $ilDB = $DIC['ilDB'];
         
+        $ref_ids = [];
         $res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ref_ids[] = $row->container_id;
         }
-        return $ref_ids ? $ref_ids : array();
+        return $ref_ids;
     }
 
     /**
@@ -179,7 +170,6 @@ class ilECSCategoryMapping
         // will be handled by server soon?
         
         // only courses for now
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
         $course_fields = ilECSUtils::_getOptionalECourseFields();
         foreach ($course_fields as $field) {
             $options[$field] = $lng->txt("obj_rcrs") . " - " . $lng->txt("ecs_field_" . $field);
