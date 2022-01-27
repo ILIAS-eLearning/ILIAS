@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Mapping utils
@@ -26,8 +39,6 @@ class ilECSMappingUtils
      */
     public static function lookupMappingStatus($a_server_id, $a_mid, $a_tree_id)
     {
-        include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
-
         if (ilECSNodeMappingAssignments::hasAssignments($a_server_id, $a_mid, $a_tree_id)) {
             if (ilECSNodeMappingAssignments::isWholeTreeMapped($a_server_id, $a_mid, $a_tree_id)) {
                 return self::MAPPED_WHOLE_TREE;
@@ -160,6 +171,7 @@ class ilECSMappingUtils
      */
     public static function getRoleMappingInfo($a_role_type_info = 0)
     {
+        //KEEP!!! until the defines are turned into proper constants
         include_once './Services/Membership/classes/class.ilParticipants.php';
         $roles = array(
             ilParticipants::IL_CRS_ADMIN => array(
@@ -215,13 +227,12 @@ class ilECSMappingUtils
         $options[0] = $lng->txt('select_one');
         $options['local'] = $lng->txt('auth_local');
 
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
         foreach (ilLDAPServer::getServerIds() as $sid) {
             $server = ilLDAPServer::getInstanceByServerId($sid);
             $options['ldap_' . $server->getServerId()] = 'LDAP (' . $server->getName() . ')';
         }
 
-        if ($ilSetting->get('shib_active', 0)) {
+        if ($ilSetting->get('shib_active', "0")) {
             $options[ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH)] =
                 $lng->txt('auth_shibboleth');
         }
