@@ -6983,6 +6983,10 @@ button.list-group-item-danger.active:focus {
 .panel-secondary .panel-heading.ilHeader {
   padding: 6px 12px;
 }
+.panel-secondary .panel-heading.ilHeader h4 {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
 .panel-secondary .panel-heading.ilHeader h2.ilHeader {
   font-size: 17px;
 }
