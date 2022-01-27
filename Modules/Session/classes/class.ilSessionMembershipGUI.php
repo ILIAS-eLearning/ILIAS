@@ -214,7 +214,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
                 }
             } else {
                 if ($participated || $registered || $contact) {
-                    $part->add($part_id, IL_SESS_MEMBER);
+                    $part->add($part_id, ilParticipants::IL_SESS_MEMBER);
                 }
             }
             $event_part = new ilEventParticipants($this->getParentObject()->getId());

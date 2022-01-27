@@ -83,7 +83,7 @@ class ilMembershipRegistrationCodeUtils
                     $member_obj->register($ilUser->getId(), ilCourseConstants::CRS_MEMBER);
                 }
                 if ($member_obj instanceof ilObjGroup) {
-                    $member_obj->register($ilUser->getId(), IL_GRP_MEMBER, true);
+                    $member_obj->register($ilUser->getId(), ilParticipants::IL_GRP_MEMBER, true);
                 }
             }
         }

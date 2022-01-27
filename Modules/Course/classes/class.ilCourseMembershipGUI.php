@@ -172,17 +172,17 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             }
             switch ($a_type) {
                 case $this->getParentObject()->getDefaultMemberRole():
-                    $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                     break;
                 case $this->getParentObject()->getDefaultTutorRole():
-                    $this->getMembersObject()->add($user_id, IL_CRS_TUTOR);
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_TUTOR);
                     break;
                 case $this->getParentObject()->getDefaultAdminRole():
-                    $this->getMembersObject()->add($user_id, IL_CRS_ADMIN);
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_ADMIN);
                     break;
                 default:
                     if (in_array($a_type, $this->getParentObject()->getLocalCourseRoles(true))) {
-                        $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                        $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                         $this->getMembersObject()->updateRoleAssignments($user_id, (array) $a_type);
                     } else {
                         ilLoggerFactory::getLogger('crs')->notice('Can\'t find role with id .' . $a_type . ' to assign users.');
@@ -271,7 +271,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
 
         $timings_enabled =
-            (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == IL_CRS_VIEW_TIMING))
+            (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING))
         ;
         
         

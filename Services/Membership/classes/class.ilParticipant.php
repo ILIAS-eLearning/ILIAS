@@ -270,7 +270,7 @@ abstract class ilParticipant
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $this->member_roles[] = $role_id;
-                    $this->role_data[IL_CRS_MEMBER] = $role_id;
+                    $this->role_data[ilParticipants::IL_CRS_MEMBER] = $role_id;
                     if ($this->rbacReview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
                         $this->members = true;
@@ -278,7 +278,7 @@ abstract class ilParticipant
                     break;
 
                 case 'il_crs_a':
-                    $this->role_data[IL_CRS_ADMIN] = $role_id;
+                    $this->role_data[ilParticipants::IL_CRS_ADMIN] = $role_id;
                     if ($this->rbacReview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
                         $this->admins = true;
@@ -286,7 +286,7 @@ abstract class ilParticipant
                     break;
 
                 case 'il_crs_t':
-                    $this->role_data[IL_CRS_TUTOR] = $role_id;
+                    $this->role_data[ilParticipants::IL_CRS_TUTOR] = $role_id;
                     if ($this->rbacReview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
                         $this->tutors = true;
@@ -294,7 +294,7 @@ abstract class ilParticipant
                     break;
 
                 case 'il_grp_a':
-                    $this->role_data[IL_GRP_ADMIN] = $role_id;
+                    $this->role_data[ilParticipants::IL_GRP_ADMIN] = $role_id;
                     if ($this->rbacReview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
                         $this->admins = true;
@@ -303,7 +303,7 @@ abstract class ilParticipant
 
                 case 'il_grp_m':
                     $this->member_roles[] = $role_id;
-                    $this->role_data[IL_GRP_MEMBER] = $role_id;
+                    $this->role_data[ilParticipants::IL_GRP_MEMBER] = $role_id;
                     if ($this->rbacReview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
                         $this->members = true;
@@ -345,23 +345,23 @@ abstract class ilParticipant
         }
 
         switch ($a_role) {
-            case IL_CRS_ADMIN:
+            case ilParticipants::IL_CRS_ADMIN:
                 $this->admins = true;
                 break;
 
-            case IL_CRS_TUTOR:
+            case ilParticipants::IL_CRS_TUTOR:
                 $this->tutors = true;
                 break;
 
-            case IL_CRS_MEMBER:
+            case ilParticipants::IL_CRS_MEMBER:
                 $this->members = true;
                 break;
 
-            case IL_GRP_ADMIN:
+            case ilParticipants::IL_GRP_ADMIN:
                 $this->admins = true;
                 break;
 
-            case IL_GRP_MEMBER:
+            case ilParticipants::IL_GRP_MEMBER:
                 $this->members = true;
                 break;
         }
@@ -464,8 +464,8 @@ abstract class ilParticipant
     {
         $admin_role_id =
             $this->type == 'crs' ?
-                $this->role_data[IL_CRS_ADMIN] :
-                $this->role_data[IL_GRP_ADMIN];
+                $this->role_data[ilParticipants::IL_CRS_ADMIN] :
+                $this->role_data[ilParticipants::IL_GRP_ADMIN];
 
         $query = "
 		SELECT			COUNT(rolesusers.usr_id) cnt

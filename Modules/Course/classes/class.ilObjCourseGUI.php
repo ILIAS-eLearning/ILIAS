@@ -380,19 +380,19 @@ class ilObjCourseGUI extends ilContainerGUI
         $info->addAccessPeriodProperty();
 
         switch ($this->object->getSubscriptionLimitationType()) {
-            case IL_CRS_SUBSCRIPTION_DEACTIVATED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED:
                 $txt = $this->lng->txt("crs_info_reg_deactivated");
                 break;
 
             default:
                 switch ($this->object->getSubscriptionType()) {
-                    case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+                    case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                         $txt = $this->lng->txt("crs_info_reg_confirmation");
                         break;
-                    case IL_CRS_SUBSCRIPTION_DIRECT:
+                    case ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT:
                         $txt = $this->lng->txt("crs_info_reg_direct");
                         break;
-                    case IL_CRS_SUBSCRIPTION_PASSWORD:
+                    case ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD:
                         $txt = $this->lng->txt("crs_info_reg_password");
                         break;
                 }
@@ -402,7 +402,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $info->addProperty($this->lng->txt("crs_info_reg"), $txt);
 
 
-        if ($this->object->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+        if ($this->object->getSubscriptionLimitationType() != ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             if ($this->object->getSubscriptionUnlimitedStatus()) {
                 $info->addProperty(
                     $this->lng->txt("crs_reg_until"),
@@ -805,7 +805,7 @@ class ilObjCourseGUI extends ilContainerGUI
         // Additional checks: both tile and objective view activated (not supported)
         if (
             $form->getInput('list_presentation') == "tile" &&
-            $form->getInput('view_mode') == IL_CRS_VIEW_OBJECTIVE) {
+            $form->getInput('view_mode') == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
             ilUtil::sendFailure($GLOBALS['DIC']->language()->txt('crs_tile_and_objective_view_not_supported'));
             return $this->editObject($form);
         }
@@ -855,17 +855,17 @@ class ilObjCourseGUI extends ilContainerGUI
         $sub_period = $form->getItemByPostVar('subscription_period');
         
         $this->object->setSubscriptionType($sub_type);
-        if ($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+        if ($sub_type != ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             if ($sub_period->getStart() && $sub_period->getEnd()) {
-                $this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
+                $this->object->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED);
                 $this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
                 $this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
             } else {
-                $this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_UNLIMITED);
+                $this->object->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED);
             }
         } else {
-            $this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
-            $this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+            $this->object->setSubscriptionType(ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT);
+            $this->object->setSubscriptionLimitationType(ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED);
         }
         
         // registration code
@@ -917,7 +917,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
         // view mode settings
         $this->object->setViewMode((int) $form->getInput('view_mode'));
-        if ($this->object->getViewMode() == IL_CRS_VIEW_TIMING) {
+        if ($this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             $this->object->setOrderType(ilContainer::SORT_ACTIVATION);
             $this->object->setTimingMode((int) $form->getInput('timing_mode'));
         }
@@ -1118,16 +1118,18 @@ class ilObjCourseGUI extends ilContainerGUI
         
         $reg_proc = new ilRadioGroupInputGUI($this->lng->txt('crs_registration_type'), 'subscription_type');
         $reg_proc->setValue(
-            ($this->object->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED)
+            ($this->object->getSubscriptionLimitationType() != ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED)
                 ? $this->object->getSubscriptionType()
-                : IL_CRS_SUBSCRIPTION_DEACTIVATED
+                : ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
         );
         // $reg_proc->setInfo($this->lng->txt('crs_reg_type_info'));
 
-        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_direct'), IL_CRS_SUBSCRIPTION_DIRECT);
+        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_direct'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT);
         $reg_proc->addOption($opt);
         
-        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'), IL_CRS_SUBSCRIPTION_PASSWORD);
+        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD);
             
         $pass = new ilTextInputGUI($this->lng->txt("password"), 'subscription_password');
         $pass->setRequired(true);
@@ -1140,11 +1142,13 @@ class ilObjCourseGUI extends ilContainerGUI
         $opt->addSubItem($pass);
         $reg_proc->addOption($opt);
         
-        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_confirmation'), IL_CRS_SUBSCRIPTION_CONFIRMATION);
+        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_confirmation'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION);
         $opt->setInfo($this->lng->txt('crs_registration_confirmation_info'));
         $reg_proc->addOption($opt);
             
-        $opt = new ilRadioOption($this->lng->txt('crs_reg_no_selfreg'), IL_CRS_SUBSCRIPTION_DEACTIVATED);
+        $opt = new ilRadioOption($this->lng->txt('crs_reg_no_selfreg'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED);
         $opt->setInfo($this->lng->txt('crs_registration_deactivated'));
         $reg_proc->addOption($opt);
 
@@ -1306,7 +1310,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'), 'view_mode');
         $view_type->setValue($this->object->getViewMode());
         
-        $opts = new ilRadioOption($this->lng->txt('cntr_view_sessions'), IL_CRS_VIEW_SESSIONS);
+        $opts = new ilRadioOption($this->lng->txt('cntr_view_sessions'), ilCourseConstants::IL_CRS_VIEW_SESSIONS);
         $opts->setInfo($this->lng->txt('cntr_view_info_sessions'));
         $view_type->addOption($opts);
 
@@ -1345,30 +1349,30 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
             
-        $optsi = new ilRadioOption($this->lng->txt('cntr_view_simple'), IL_CRS_VIEW_SIMPLE);
+        $optsi = new ilRadioOption($this->lng->txt('cntr_view_simple'), ilCourseConstants::IL_CRS_VIEW_SIMPLE);
         $optsi->setInfo($this->lng->txt('cntr_view_info_simple'));
         $view_type->addOption($optsi);
 
-        $optbt = new ilRadioOption($this->lng->txt('cntr_view_by_type'), IL_CRS_VIEW_BY_TYPE);
+        $optbt = new ilRadioOption($this->lng->txt('cntr_view_by_type'), ilCourseConstants::IL_CRS_VIEW_BY_TYPE);
         $optbt->setInfo($this->lng->txt('cntr_view_info_by_type'));
         $view_type->addOption($optbt);
             
-        $opto = new ilRadioOption($this->lng->txt('crs_view_objective'), IL_CRS_VIEW_OBJECTIVE);
+        $opto = new ilRadioOption($this->lng->txt('crs_view_objective'), ilCourseConstants::IL_CRS_VIEW_OBJECTIVE);
         $opto->setInfo($this->lng->txt('crs_view_info_objective'));
         $view_type->addOption($opto);
 
-        $optt = new ilRadioOption($this->lng->txt('crs_view_timing'), IL_CRS_VIEW_TIMING);
+        $optt = new ilRadioOption($this->lng->txt('crs_view_timing'), ilCourseConstants::IL_CRS_VIEW_TIMING);
         $optt->setInfo($this->lng->txt('crs_view_info_timing'));
 
         // cognos-blu-patch: begin
         $timing = new ilRadioGroupInputGUI($this->lng->txt('crs_view_timings'), "timing_mode");
         $timing->setValue($this->object->getTimingMode());
 
-        $absolute = new ilRadioOption($this->lng->txt('crs_view_timing_absolute'), IL_CRS_VIEW_TIMING_ABSOLUTE);
+        $absolute = new ilRadioOption($this->lng->txt('crs_view_timing_absolute'), ilCourseConstants::IL_CRS_VIEW_TIMING_ABSOLUTE);
         $absolute->setInfo($this->lng->txt('crs_view_info_timing_absolute'));
         $timing->addOption($absolute);
 
-        $relative = new ilRadioOption($this->lng->txt('crs_view_timing_relative'), IL_CRS_VIEW_TIMING_RELATIVE);
+        $relative = new ilRadioOption($this->lng->txt('crs_view_timing_relative'), ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE);
         $relative->setInfo($this->lng->txt('crs_view_info_timing_relative'));
         $timing->addOption($relative);
 
@@ -1656,7 +1660,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
         
-        $a_new_object->getMemberObject()->add($ilUser->getId(), IL_CRS_ADMIN);
+        $a_new_object->getMemberObject()->add($ilUser->getId(), ilParticipants::IL_CRS_ADMIN);
         $a_new_object->getMemberObject()->updateNotification($ilUser->getId(), $ilSetting->get('mail_crs_admin_notification', true));
         // cognos-blu-patch: begin
         $a_new_object->getMemberObject()->updateContact($ilUser->getId(), 1);
@@ -1981,7 +1985,7 @@ class ilObjCourseGUI extends ilContainerGUI
             }
         }
 
-        if ($this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+        if ($this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING and
             $ilAccess->checkAccess('write', '', $this->ref_id)
         ) {
             $this->tabs->addTab(
@@ -1990,7 +1994,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'manageTimings')
             );
         } elseif (
-            $this->object->getViewMode() == IL_CRS_VIEW_TIMING and
+            $this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING and
             $this->object->getMemberObject()->isParticipant() and
             $ilAccess->checkAccess('read', '', $this->ref_id)) {
             $this->tabs->addTab(
@@ -2004,7 +2008,7 @@ class ilObjCourseGUI extends ilContainerGUI
         
         // learning objectives
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
-            if ($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE or ilCourseObjective::_getCountObjectives($this->object->getId())) {
+            if ($this->object->getViewMode() == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE or ilCourseObjective::_getCountObjectives($this->object->getId())) {
                 $this->tabs_gui->addTarget(
                     'crs_objectives',
                     $this->ctrl->getLinkTargetByClass('illoeditorgui', ''),

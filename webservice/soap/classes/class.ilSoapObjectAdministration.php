@@ -792,7 +792,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
                 // begin-patch fm
                 case 'crs':
-                    $newObj->getMemberObject()->add($ilUser->getId(), IL_CRS_ADMIN);
+                    $newObj->getMemberObject()->add($ilUser->getId(), ilParticipants::IL_CRS_ADMIN);
                     break;
                 // end-patch fm
                 case 'lm':

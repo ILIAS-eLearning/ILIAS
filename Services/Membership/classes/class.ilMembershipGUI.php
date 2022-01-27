@@ -1292,13 +1292,13 @@ class ilMembershipGUI
             }
 
             if ($this instanceof ilCourseMembershipGUI) {
-                $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                 $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id,
                     true);
                 $this->getParentObject()->checkLPStatusSync($user_id);
             }
             if ($this instanceof ilGroupMembershipGUI) {
-                $this->getMembersObject()->add($user_id, IL_GRP_MEMBER);
+                $this->getMembersObject()->add($user_id, ilParticipants::IL_GRP_MEMBER);
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
                     $user_id,

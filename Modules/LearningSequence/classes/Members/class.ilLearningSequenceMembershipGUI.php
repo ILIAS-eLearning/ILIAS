@@ -106,7 +106,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
             switch ($type) {
                 case $object->getDefaultAdminRole():
-                    $members->add($new_member, IL_LSO_ADMIN);
+                    $members->add($new_member, ilParticipants::IL_LSO_ADMIN);
                     $members->sendNotification(
                         ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -114,7 +114,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
                     $assigned = true;
                     break;
                 case $object->getDefaultMemberRole():
-                    $members->add($new_member, IL_LSO_MEMBER);
+                    $members->add($new_member, ilParticipants::IL_LSO_MEMBER);
                     $members->sendNotification(
                         ilLearningSequenceMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -123,7 +123,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
                     break;
                 default:
                     if (in_array($type, $object->getLocalLearningSequenceRoles(true))) {
-                        $members->add($new_member, IL_LSO_MEMBER);
+                        $members->add($new_member, ilParticipants::IL_LSO_MEMBER);
                         $members->updateRoleAssignments($new_member, array($type));
                     } else {
                         ilLoggerFactory::getLogger('lso')->notice(

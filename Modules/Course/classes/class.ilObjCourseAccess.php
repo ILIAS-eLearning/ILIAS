@@ -321,13 +321,13 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         switch ($type) {
-            case IL_CRS_SUBSCRIPTION_UNLIMITED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED:
                 return true;
 
-            case IL_CRS_SUBSCRIPTION_DEACTIVATED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED:
                 return false;
 
-            case IL_CRS_SUBSCRIPTION_LIMITED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED:
                 if (time() > $reg_start and
                    time() < $reg_end) {
                     return true;

@@ -964,7 +964,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             // listing the objectives should NOT depend on any LP status / setting
             foreach ($lp_obj_refs as $obj_id => $ref_id) {
                 // only if set in DB (default mode is not relevant
-                if (ilObjCourse::_lookupViewMode($obj_id) == IL_CRS_VIEW_OBJECTIVE) {
+                if (ilObjCourse::_lookupViewMode($obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
                     $references[$ref_id]["objectives"] = $this->parseObjectives($obj_id, $a_user_id);
                 }
             }

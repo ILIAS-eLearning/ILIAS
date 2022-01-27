@@ -326,9 +326,9 @@ class ilCourseXMLWriter extends ilXmlWriter
         // Registration
         $attr = array();
 
-        if ($this->course_obj->getSubscriptionType() == IL_CRS_SUBSCRIPTION_CONFIRMATION) {
+        if ($this->course_obj->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION) {
             $attr['registrationType'] = 'Confirmation';
-        } elseif ($this->course_obj->getSubscriptionType() == IL_CRS_SUBSCRIPTION_DIRECT) {
+        } elseif ($this->course_obj->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT) {
             $attr['registrationType'] = 'Direct';
         } else {
             $attr['registrationType'] = 'Password';
@@ -341,9 +341,9 @@ class ilCourseXMLWriter extends ilXmlWriter
 
         $this->xmlStartTag('Registration', $attr);
         
-        if ($this->course_obj->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+        if ($this->course_obj->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED) {
             $this->xmlElement('Disabled');
-        } elseif ($this->course_obj->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_UNLIMITED) {
+        } elseif ($this->course_obj->getSubscriptionLimitationType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED) {
             $this->xmlElement('Unlimited');
         } else {
             $this->xmlStartTag('TemporarilyAvailable');
@@ -378,7 +378,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlElement('MinMembers', null, (int) $this->course_obj->getSubscriptionMinMembers());
         
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
-        if ($this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING) {
+        if ($this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
 

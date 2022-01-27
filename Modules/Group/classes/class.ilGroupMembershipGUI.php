@@ -74,7 +74,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
             }
             switch ($a_type) {
                 case $this->getParentObject()->getDefaultAdminRole():
-                    $this->getMembersObject()->add($new_member, IL_GRP_ADMIN);
+                    $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_ADMIN);
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -83,7 +83,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     break;
                 
                 case $this->getParentObject()->getDefaultMemberRole():
-                    $this->getMembersObject()->add($new_member, IL_GRP_MEMBER);
+                    $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_MEMBER);
                     $this->getMembersObject()->sendNotification(
                         ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                         $new_member
@@ -93,7 +93,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     
                 default:
                     if (in_array($a_type, $this->getParentObject()->getLocalGroupRoles(true))) {
-                        $this->getMembersObject()->add($new_member, IL_GRP_MEMBER);
+                        $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_MEMBER);
                         $this->getMembersObject()->updateRoleAssignments($new_member, (array) $a_type);
                     } else {
                         ilLoggerFactory::getLogger('crs')->notice('Can not find role with id .' . $a_type . ' to assign users.');

@@ -10,24 +10,20 @@
 /**
  * @todo move these constants to ilParticipants
  */
-define("IL_CRS_ADMIN", 1);
-define("IL_CRS_TUTOR", 3);
-define("IL_CRS_MEMBER", 2);
-
-define('IL_GRP_ADMIN', 4);
-define('IL_GRP_MEMBER', 5);
-
-define('IL_SESS_MEMBER', 6);
-
-define('IL_LSO_ADMIN', 7);
-define('IL_LSO_MEMBER', 8);
-
-define("IL_ROLE_POSITION_ADMIN", 1);
-define("IL_ROLE_POSITION_TUTOR", 2);
-define("IL_ROLE_POSITION_MEMBER", 3);
-
 abstract class ilParticipants
 {
+    public const IL_CRS_ADMIN = 1;
+    public const IL_CRS_TUTOR = 3;
+    public const IL_CRS_MEMBER = 2;
+    public const IL_GRP_ADMIN = 4;
+    public const IL_GRP_MEMBER = 5;
+    public const IL_SESS_MEMBER = 6;
+    public const IL_LSO_ADMIN = 7;
+    public const IL_LSO_MEMBER = 8;
+    public const IL_ROLE_POSITION_ADMIN = 1;
+    public const IL_ROLE_POSITION_TUTOR = 2;
+    public const IL_ROLE_POSITION_MEMBER = 3;
+    
     protected string $component = '';
 
     protected int $ref_id = 0;
@@ -765,35 +761,35 @@ abstract class ilParticipants
         }
 
         switch ($a_role) {
-            case IL_CRS_ADMIN:
+            case self::IL_CRS_ADMIN:
                 $this->admins[] = $a_usr_id;
                 break;
 
-            case IL_CRS_TUTOR:
+            case self::IL_CRS_TUTOR:
                 $this->tutors[] = $a_usr_id;
                 break;
 
-            case IL_CRS_MEMBER:
+            case self::IL_CRS_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
 
-            case IL_GRP_ADMIN:
+            case self::IL_GRP_ADMIN:
                 $this->admins[] = $a_usr_id;
                 break;
 
-            case IL_GRP_MEMBER:
+            case self::IL_GRP_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
 
-            case IL_LSO_ADMIN:
+            case self::IL_LSO_ADMIN:
                 $this->admins[] = $a_usr_id;
                 break;
 
-            case IL_LSO_MEMBER:
+            case self::IL_LSO_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
 
-            case IL_SESS_MEMBER:
+            case self::IL_SESS_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
         }
@@ -879,8 +875,8 @@ abstract class ilParticipants
             $title = $this->objectDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
-                    $this->role_data[IL_CRS_MEMBER] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
+                    $this->role_data[self::IL_CRS_MEMBER] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->members = array_unique(array_merge($assigned, $this->members));
@@ -888,8 +884,8 @@ abstract class ilParticipants
                     break;
 
                 case 'il_crs_a':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
-                    $this->role_data[IL_CRS_ADMIN] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
+                    $this->role_data[self::IL_CRS_ADMIN] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
@@ -897,8 +893,8 @@ abstract class ilParticipants
                     break;
 
                 case 'il_crs_t':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_TUTOR;
-                    $this->role_data[IL_CRS_TUTOR] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_TUTOR;
+                    $this->role_data[self::IL_CRS_TUTOR] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->tutors = $this->rbacReview->assignedUsers($role_id);
@@ -906,8 +902,8 @@ abstract class ilParticipants
                     break;
 
                 case 'il_grp_a':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
-                    $this->role_data[IL_GRP_ADMIN] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
+                    $this->role_data[self::IL_GRP_ADMIN] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
@@ -915,8 +911,8 @@ abstract class ilParticipants
                     break;
 
                 case 'il_grp_m':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
-                    $this->role_data[IL_GRP_MEMBER] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
+                    $this->role_data[self::IL_GRP_MEMBER] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
@@ -924,15 +920,15 @@ abstract class ilParticipants
                     break;
 
                 case 'il_sess_':
-                    $this->role_data[IL_SESS_MEMBER] = $role_id;
+                    $this->role_data[self::IL_SESS_MEMBER] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     break;
 
                 case 'il_lso_m':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_MEMBER;
-                    $this->role_data[IL_LSO_MEMBER] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
+                    $this->role_data[self::IL_LSO_MEMBER] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
@@ -940,8 +936,8 @@ abstract class ilParticipants
                     break;
 
                 case 'il_lso_a':
-                    $auto_generated_roles[$role_id] = IL_ROLE_POSITION_ADMIN;
-                    $this->role_data[IL_LSO_ADMIN] = $role_id;
+                    $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
+                    $this->role_data[self::IL_LSO_ADMIN] = $role_id;
                     $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
                         $this->participants));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
@@ -1096,13 +1092,13 @@ abstract class ilParticipants
         }
 
         if ($this instanceof ilCourseParticipants) {
-            $this->add($tmp_obj->getId(), IL_CRS_MEMBER);
+            $this->add($tmp_obj->getId(), self::IL_CRS_MEMBER);
         }
         if ($this instanceof ilGroupParticipants) {
-            $this->add($tmp_obj->getId(), IL_GRP_MEMBER);
+            $this->add($tmp_obj->getId(), self::IL_GRP_MEMBER);
         }
         if ($this instanceof ilLearningSequenceParticipants) {
-            $this->add($tmp_obj->getId(), IL_LSO_MEMBER);
+            $this->add($tmp_obj->getId(), self::IL_LSO_MEMBER);
         }
         if ($this instanceof ilSessionParticipants) {
             $this->register($tmp_obj->getId());
