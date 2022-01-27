@@ -4320,7 +4320,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl->redirect($this, 'viewThread');
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ilObjectListGUI
+    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?ilObjectListGUI
     {
         $lg = parent::initHeaderAction();
 
