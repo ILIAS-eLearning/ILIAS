@@ -1,23 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
-use ILIAS\Refinery;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI;
 
 class ilLoggingSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    protected Factory $refinery;
 
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
+    public function __construct(Factory $refinery)
+    {
         $this->refinery = $refinery;
     }
 
@@ -32,7 +32,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation() : Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilLoggingSetupConfig(
@@ -46,7 +46,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Config $config = null) : Objective
     {
         return new ilLoggingConfigStoredObjective($config);
     }
@@ -54,7 +54,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Config $config = null) : Objective
     {
         if ($config !== null) {
             return new ilLoggingConfigStoredObjective($config);
@@ -65,7 +65,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective() : Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -73,7 +73,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Storage $storage) : Objective
     {
         return new ilLoggingMetricsCollectedObjective($storage);
     }

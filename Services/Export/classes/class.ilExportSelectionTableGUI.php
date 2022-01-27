@@ -1,61 +1,53 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Object selection for export
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilExportSelectionTableGUI extends ilTable2GUI
 {
+    protected array $post_data;
 
-    /**
-     *
-     * @param object $a_parent_class
-     * @param string $a_parent_cmd
-     * @return
-     */
-    public function __construct($a_parent_class, $a_parent_cmd)
+    protected ilAccessHandler $access;
+    protected ilObjectDefinition $objDefinition;
+    protected ilTree $tree;
+
+    public function __construct(object $a_parent_class, string $a_parent_cmd)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $objDefinition = $DIC['objDefinition'];
-
         $this->post_data = $_POST;
-        
+
+        $this->tree = $DIC->repositoryTree();
+        $this->objDefinition = $DIC['objDefinition'];
+        $this->access = $DIC->access();
+
         parent::__construct($a_parent_class, $a_parent_cmd);
-        
-        $this->lng = $lng;
+
         $this->lng->loadLanguageModule('export');
-        $this->ctrl = $ilCtrl;
-        
         $this->setTitle($this->lng->txt('export_select_resources'));
-        
-        
         $this->addColumn($this->lng->txt('title'), '');
         $this->addColumn($this->lng->txt('export_last_export'), '');
         $this->addColumn($this->lng->txt('export_last_export_file'), '');
         $this->addColumn($this->lng->txt('export_create_new_file'), '');
         $this->addColumn($this->lng->txt('export_omit_resource'), '');
-        
+
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate("tpl.export_item_selection_row.html", "Services/Export");
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);
         $this->setLimit(10000);
-        
+
         $this->setFormName('cmd');
-        
+
         $this->addCommandButton('saveItemSelection', $this->lng->txt('export_save_selection'));
         $this->addCommandButton($a_parent_cmd, $this->lng->txt('cancel'));
     }
-    
-    public function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         $a_set['copy'] = $a_set['copy'] ?? false;
         $a_set['perm_copy'] = $a_set['perm_copy'] ?? false;
@@ -63,6 +55,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         $a_set['perm_export'] = $a_set['perm_export'] ?? false;
 
         // set selected radio button
+        $selected = '';
         if ((!$a_set['copy'] or !$a_set['perm_copy']) and (!$a_set['link'])) {
             $selected = "OMIT";
         }
@@ -94,18 +87,19 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
             return;
         }
-        
+
         for ($i = 0; $i < $a_set['depth']; $i++) {
             $this->tpl->touchBlock('padding');
             $this->tpl->touchBlock('end_padding');
         }
-        $this->tpl->setVariable('TREE_IMG', ilObject::_getIcon(ilObject::_lookupObjId($a_set['ref_id']), "tiny", $a_set['type']));
+        $this->tpl->setVariable('TREE_IMG',
+            ilObject::_getIcon(ilObject::_lookupObjId($a_set['ref_id']), "tiny", $a_set['type']));
         $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
         $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
-        
-        
+
         if ($a_set['last_export']) {
-            $this->tpl->setVariable('VAL_LAST_EXPORT', ilDatePresentation::formatDate(new ilDateTime($a_set['last_export'], IL_CAL_UNIX)));
+            $this->tpl->setVariable('VAL_LAST_EXPORT',
+                ilDatePresentation::formatDate(new ilDateTime($a_set['last_export'], IL_CAL_UNIX)));
         } else {
             $this->tpl->setVariable('VAL_LAST_EXPORT', $this->lng->txt('no_file'));
         }
@@ -120,7 +114,8 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_EXPORT_E', $this->lng->txt('export_existing'));
             $this->tpl->setVariable('NAME_EXPORT_E', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT_E', ilExportOptions::EXPORT_EXISTING);
-            $this->tpl->setVariable('ID_EXPORT_E', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export_e');
+            $this->tpl->setVariable('ID_EXPORT_E',
+                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export_e');
             $this->tpl->setVariable('EXPORT_E_CHECKED', 'checked="checked"');
             $this->tpl->parseCurrentBlock();
         } elseif (!$a_set['perm_export']) {
@@ -129,14 +124,14 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        
         // Create new
         if ($a_set['perm_export'] and $a_set['export']) {
             $this->tpl->setCurrentBlock('radio_export');
             $this->tpl->setVariable('TXT_EXPORT', $this->lng->txt('export'));
             $this->tpl->setVariable('NAME_EXPORT', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT', ilExportOptions::EXPORT_BUILD);
-            $this->tpl->setVariable('ID_EXPORT', $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export');
+            $this->tpl->setVariable('ID_EXPORT',
+                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export');
             if ($selected == "EXPORT") {
                 $this->tpl->setVariable('EXPORT_CHECKED', 'checked="checked"');
             }
@@ -158,26 +153,16 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
     }
-    
-    /**
-     * parse tree
-     * @param object $a_source
-     * @return
-     */
-    public function parseContainer($a_source)
-    {
-        global $DIC;
 
-        $tree = $DIC['tree'];
-        $objDefinition = $DIC['objDefinition'];
-        $ilAccess = $DIC['ilAccess'];
-        
+    public function parseContainer(int $a_source) : void
+    {
         $first = true;
-        foreach ($tree->getSubTree($root = $tree->getNodeData($a_source)) as $node) {
+        $rows = [];
+        foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($a_source)) as $node) {
             if ($node['type'] == 'rolf') {
                 continue;
             }
-            if (!$objDefinition->allowExport($node['type'])) {
+            if (!$this->objDefinition->allowExport($node['type'])) {
                 #continue;
             }
             if ($node['type'] == "file" &&
@@ -191,22 +176,22 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             } else {
                 $r['last_export'] = 0;
             }
-            
+
             $r['last'] = false;
             $r['source'] = $first;
             $r['ref_id'] = $node['child'];
             $r['depth'] = $node['depth'] - $root['depth'];
             $r['type'] = $node['type'];
             $r['title'] = $node['title'];
-            $r['export'] = $objDefinition->allowExport($node['type']);
-            $r['perm_export'] = $ilAccess->checkAccess('write', '', $node['child']);
+            $r['export'] = $this->objDefinition->allowExport($node['type']);
+            $r['perm_export'] = $this->access->checkAccess('write', '', $node['child']);
 
             $rows[] = $r;
-            
+
             $first = false;
         }
-    
+
         $rows[] = array('last' => true);
-        $this->setData((array) $rows);
+        $this->setData($rows);
     }
 }

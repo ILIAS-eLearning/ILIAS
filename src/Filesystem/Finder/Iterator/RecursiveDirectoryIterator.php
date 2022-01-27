@@ -5,6 +5,7 @@ namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Filesystem;
+use ReturnTypeWillChange;
 
 /******************************************************************************
  *
@@ -19,6 +20,7 @@ use ILIAS\Filesystem\Filesystem;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class RecursiveDirectoryIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -45,7 +47,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function key()
+    public function key() : string
     {
         return key($this->files);
     }
@@ -53,16 +55,15 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function next(): void
+    public function next() : void
     {
         next($this->files);
     }
 
     /**
      * @inheritdoc
-     * @return Metadata
      */
-    public function current()
+    public function current() : Metadata
     {
         return current($this->files);
     }
@@ -70,24 +71,24 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function valid(): bool
+    public function valid() : bool
     {
-        return $this->current() instanceof Metadata;
+        return current($this->files) instanceof Metadata;
     }
 
     /**
      * @inheritdoc
      */
-    public function rewind(): void
+    public function rewind() : void
     {
         $contents = $this->filesystem->listContents($this->dir, false);
-        $this->files = array_combine(array_map(fn(Metadata $metadata): string => $metadata->getPath(), $contents), $contents);
+        $this->files = array_combine(array_map(static fn (Metadata $metadata) : string => $metadata->getPath(), $contents), $contents);
     }
 
     /**
      * @inheritdoc
      */
-    public function hasChildren(): bool
+    public function hasChildren() : bool
     {
         return $this->current()->isDir();
     }
@@ -95,7 +96,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * @inheritdoc
      */
-    public function getChildren(): \ILIAS\Filesystem\Finder\Iterator\RecursiveDirectoryIterator
+    public function getChildren() : \ILIAS\Filesystem\Finder\Iterator\RecursiveDirectoryIterator
     {
         return new self($this->filesystem, $this->current()->getPath());
     }

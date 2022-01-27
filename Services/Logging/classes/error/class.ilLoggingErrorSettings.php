@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,22 +8,25 @@
  */
 class ilLoggingErrorSettings
 {
-    protected $folder;
-    protected $mail;
+    protected string $folder = '';
+    protected string $mail = '';
+    protected ilIniFile $ilias_ini;
+    protected ilIniFile $gClientIniFile;
 
     protected function __construct()
     {
         global $DIC;
 
-        $ilIliasIniFile = $DIC['ilIliasIniFile'];
+        $ilIliasIniFile = $DIC->iliasIni();
         // temporary bugfix for global usage
+        $ini = null;
         if ($DIC->offsetExists('ini')) {
             $ini = $DIC['ini'];
         }
 
         $ilClientIniFile = null;
-        if (isset($DIC['ilClientIniFile'])) {
-            $ilClientIniFile = $DIC['ilClientIniFile'];
+        if ($DIC->clientIni()) {
+            $ilClientIniFile = $DIC->clientIni();
         }
 
         //realy not nice but necessary to initalize logger at setup
@@ -41,34 +44,30 @@ class ilLoggingErrorSettings
         if ($ilClientIniFile !== null) {
             $this->gClientIniFile = $ilClientIniFile;
         }
-
-        $this->folder = null;
-        $this->mail = null;
-
         $this->read();
     }
 
-    public static function getInstance()
+    public static function getInstance() : ilLoggingErrorSettings
     {
         return new ilLoggingErrorSettings();
     }
 
-    protected function setFolder($folder)
+    protected function setFolder(string $folder) : void
     {
         $this->folder = $folder;
     }
 
-    public function setMail($mail)
+    public function setMail(string $mail) : void
     {
         $this->mail = $mail;
     }
 
-    public function folder()
+    public function folder() : string
     {
         return $this->folder;
     }
 
-    public function mail()
+    public function mail() : string
     {
         return $this->mail;
     }
@@ -78,10 +77,10 @@ class ilLoggingErrorSettings
      */
     protected function read()
     {
-        $this->setFolder($this->ilias_ini->readVariable("log", "error_path"));
+        $this->setFolder((string) $this->ilias_ini->readVariable("log", "error_path"));
 
         if ($this->gClientIniFile instanceof \ilIniFile) {
-            $this->setMail($this->gClientIniFile->readVariable("log", "error_recipient"));
+            $this->setMail((string) $this->gClientIniFile->readVariable("log", "error_recipient"));
         }
     }
 

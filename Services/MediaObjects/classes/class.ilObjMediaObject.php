@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\FileUpload\MimeType;
+
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
 define("IL_MODE_FULL", 3);
@@ -1253,7 +1255,7 @@ class ilObjMediaObject extends ilObject
         string $a_file,
         bool $a_external = false
     ) : string {
-        $mime = ilMimeTypeUtil::lookupMimeType($a_file, ilMimeTypeUtil::APPLICATION__OCTET_STREAM, $a_external);
+        $mime = MimeType::lookupMimeType($a_file, MimeType::APPLICATION__OCTET_STREAM, $a_external);
         return $mime;
     }
 

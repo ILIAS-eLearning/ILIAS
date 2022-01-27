@@ -211,7 +211,7 @@ class ilSessionAppointment implements ilDatePeriod
 
     public function getStartingTime() : int
     {
-        return $this->starting_time ?? mktime(8, 0, 0, date('n', time()), date('d', time()), date('Y', time()));
+        return $this->starting_time ?? mktime(8, 0, 0, (int) date('n', time()), (int) date('j', time()), (int) date('Y', time()));
     }
     
     public function setEndingTime(int $a_ending_time) : void
@@ -221,7 +221,7 @@ class ilSessionAppointment implements ilDatePeriod
     }
     public function getEndingTime() : int
     {
-        return $this->ending_time ?? mktime(16, 0, 0, date('n', time()), date('d', time()), date('Y', time()));
+        return $this->ending_time ?? mktime(16, 0, 0, (int) date('n', time()), (int) date('j', time()), (int) date('Y', time()));
     }
 
     public function toggleFullTime(int $a_status) : void

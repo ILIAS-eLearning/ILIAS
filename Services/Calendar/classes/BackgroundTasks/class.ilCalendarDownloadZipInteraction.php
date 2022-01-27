@@ -11,6 +11,7 @@ use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Description of class class
@@ -101,7 +102,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
         ilFileDelivery::deliverFileAttached(
             $download_name->getValue(),
             $zip_name->getValue(),
-            ilMimeTypeUtil::APPLICATION__ZIP
+            MimeType::APPLICATION__ZIP
         );
 
         // @todo what kind of value is desired

@@ -16,6 +16,8 @@
 use ILIAS\COPage\PC\EditGUIRequest;
 use ILIAS\COPage\Editor\EditSessionRepository;
 
+use \ILIAS\Style;
+
 /**
  * User Interface for Editing of Page Content Objects (Paragraphs, Tables, ...)
  *
@@ -55,6 +57,7 @@ class ilPageContentGUI
         "quot" => "Quotation", "acc" => "Accent", "code" => "Code", "tex" => "Tex",
         "fn" => "Footnote", "xln" => "ExternalLink"
         );
+    protected Style\Content\CharacteristicManager $char_manager;
 
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -154,25 +157,40 @@ class ilPageContentGUI
      */
     public function getCharacteristicsOfCurrentStyle(array $a_type) : void
     {
+        global $DIC;
+        $service = new ILIAS\Style\Content\Service();
+        $access_manager = $service->internal()->manager()->access(
+            (int) $_GET["ref_id"],
+            $DIC->user()->getId()
+        );
+
         if ($this->getStyleId() > 0 &&
             ilObject::_lookupType($this->getStyleId()) == "sty") {
-            $style = new ilObjStyleSheet($this->getStyleId());
-            $chars = array();
+            $char_manager = $service->internal()->manager()->characteristic(
+                $this->getStyleId(),
+                $access_manager
+            );
+
             if (!is_array($a_type)) {
                 $a_type = array($a_type);
             }
-            foreach ($a_type as $at) {
-                $chars = array_merge($chars, $style->getCharacteristics($at, true));
-            }
+            $chars = $char_manager->getByTypes($a_type, false, false);
             $new_chars = array();
-            if (is_array($chars)) {
-                foreach ($chars as $char) {
-                    if ($this->chars[$char] != "") {	// keep lang vars for standard chars
-                        $new_chars[$char] = $this->chars[$char];
-                    } else {
-                        $new_chars[$char] = $char;
+            foreach ($chars as $char) {
+                if ($this->chars[$char->getCharacteristic()] != "") {	// keep lang vars for standard chars
+                    $title = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
+                    if ($title == "") {
+                        $title = $this->chars[$char->getCharacteristic()];
                     }
-                    asort($new_chars);
+                    $new_chars[$char->getCharacteristic()] = $title;
+                } else {
+                    $new_chars[$char->getCharacteristic()] = $char_manager->getPresentationTitle(
+                        $char->getType(),
+                        $char->getCharacteristic()
+                    );
                 }
             }
             $this->setCharacteristics($new_chars);

@@ -4,6 +4,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\FileUpload\MimeType;
 
 /******************************************************************************
  *
@@ -33,7 +34,7 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
      */
     public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
     {
-        if ($metadata->getMimeType() == ilMimeTypeUtil::APPLICATION__PDF
+        if ($metadata->getMimeType() == MimeType::APPLICATION__PDF
             && PATH_TO_GHOSTSCRIPT != ""
         ) {
             $PATH_TO_PDF = $stream->getMetadata('uri');

@@ -262,7 +262,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $questionoutput = $this->getILIASPage($questionoutput);
         }
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -318,7 +318,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $questionoutput = $this->getILIASPage($questionoutput);
         }
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -351,7 +351,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         
         $files = array();
         
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         

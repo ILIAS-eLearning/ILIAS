@@ -86,7 +86,6 @@ class ilLOMemberTestResultGUI
      */
     protected function viewResult()
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOMemberTestResultTableGUI.php';
         $result_table = new ilLOMemberTestResultTableGUI($this, $this->getParentObject(), 'viewResult');
         $result_table->setUserId($this->getUserId());
         $result_table->init();

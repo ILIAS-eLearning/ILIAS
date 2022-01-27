@@ -31,7 +31,7 @@
 class ilMDXMLCopier extends ilMDSaxParser
 {
     private array $filter = [];
-    private bool $in_meta_data = false;
+    protected bool $in_meta_data = false;
 
     public function __construct($content, $a_rbac_id, $a_obj_id, $a_obj_type)
     {

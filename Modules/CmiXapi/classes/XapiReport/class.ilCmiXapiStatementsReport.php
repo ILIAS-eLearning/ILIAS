@@ -25,40 +25,40 @@
 class ilCmiXapiStatementsReport
 {
     /**
-     * @var array
+     * @var string
      */
-    protected $response;
+    protected string $response;
     
     /**
      * @var array
      */
-    protected $statements;
+    protected array $statements;
     
     /**
      * @var int
      */
-    protected $maxCount;
+    protected int $maxCount;
     
     /**
      * @var ilCmiXapiUser[]
      */
-    protected $cmixUsersByIdent;
+    protected array $cmixUsersByIdent;
 
     /**
      * @var string
      */
-    protected $userLanguage;
+    protected string $userLanguage;
     /**
     * @var ilObjCmiXapi::CONT_TYPE_GENERIC|CONT_TYPE_CMI5
     */
-    protected $contentType;
+    protected string $contentType;
     
     /**
     * @var bool
     */
-    protected $isMixedContentType;
+    protected bool $isMixedContentType;
 
-    public function __construct(string $responseBody, $objId)
+    public function __construct(string $responseBody, int $objId)
     {
         global $DIC;
         $this->userLanguage = $DIC->user()->getLanguage();
@@ -123,13 +123,17 @@ class ilCmiXapiStatementsReport
         
         return $data;
     }
-    
-    protected function fetchDate($statement)
+
+    /**
+     * @param array $statement
+     * @return mixed
+     */
+    protected function fetchDate(array $statement)
     {
         return $statement['timestamp'];
     }
     
-    protected function fetchActor($statement) : \ilCmiXapiUser
+    protected function fetchActor(array $statement) : \ilCmiXapiUser
     {
         if ($this->isMixedContentType) {
             $ident = str_replace('mailto:', '', $statement['actor']['mbox']);
@@ -144,17 +148,17 @@ class ilCmiXapiStatementsReport
         return $this->cmixUsersByIdent[$ident];
     }
     
-    protected function fetchVerbId($statement)
+    protected function fetchVerbId(array $statement) : string
     {
         return $statement['verb']['id'];
     }
     
-    protected function fetchVerbDisplay($statement)
+    protected function fetchVerbDisplay(array $statement) : string
     {
         return $statement['verb']['display']['en-US'];
     }
     
-    protected function fetchObjectName($statement)
+    protected function fetchObjectName(array $statement) : string
     {
         $ret = urldecode($statement['object']['id']);
         $lang = self::getLanguageEntry($statement['object']['definition']['name'], $this->userLanguage);
@@ -165,17 +169,18 @@ class ilCmiXapiStatementsReport
         return $ret;
     }
     
-    protected function fetchObjectInfo($statement)
+    protected function fetchObjectInfo(array $statement) : string
     {
         return $statement['object']['definition']['description']['en-US'];
     }
 
     /**
-     * @var array
      *  with multiple language keys like [de-DE] [en-US]
+     * @param array  $obj
+     * @param string $userLanguage
      * @return array<string, mixed>
      */
-    public static function getLanguageEntry($obj, $userLanguage) : array
+    public static function getLanguageEntry(array $obj, string $userLanguage) : array
     {
         $defaultLanguage = 'en-US';
         $defaultLanguageEntry = '';

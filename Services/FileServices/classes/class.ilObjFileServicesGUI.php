@@ -51,7 +51,8 @@ class ilObjFileServicesGUI extends ilObject2GUI
     public $tpl;
     protected Factory $refinery;
     protected WrapperFactory $http;
-
+    protected ilFileServicesSettings $file_service_settings;
+    
     /**
      * Constructor
      * @access public
@@ -75,6 +76,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->http = $DIC->http()->wrapper();
         $this->ref_id = $this->http->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->refinery = $DIC->refinery();
+        $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
     }
 
     public function getType()
@@ -164,7 +166,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
 
         // default positive list
         $ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_default_positive"), "");
-        $ne->setValue(implode(", ", ilFileUtils::getDefaultValidExtensionWhiteList()));
+        $ne->setValue(implode(", ", $this->file_service_settings->getDefaultWhitelist()));
         $ne->setInfo($this->lng->txt("file_suffix_default_positive_info"));
         $form->addItem($ne);
 
@@ -194,7 +196,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
 
         // resulting overall positive list
         $ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_overall_positive"), "");
-        $ne->setValue(implode(", ", ilFileUtils::getValidExtensions()));
+        $ne->setValue(implode(", ", $this->file_service_settings->getWhiteListedSuffixes()));
         $ne->setInfo($this->lng->txt("file_suffix_overall_positive_info"));
         $form->addItem($ne);
 
@@ -228,9 +230,9 @@ class ilObjFileServicesGUI extends ilObject2GUI
 
         // set current values
         $val = [];
-        $val["suffix_repl_additional"] = $this->settings->get("suffix_repl_additional");
-        $val["suffix_custom_white_list"] = $this->settings->get("suffix_custom_white_list");
-        $val["suffix_custom_expl_black"] = $this->settings->get("suffix_custom_expl_black");
+        $val["suffix_repl_additional"] = implode(", ", $this->file_service_settings->getWhiteListNegative());
+        $val["suffix_custom_white_list"] = implode(", ", $this->file_service_settings->getWhiteListPositive());
+        $val["suffix_custom_expl_black"] = implode(", ", $this->file_service_settings->getProhibited());
         $form->setValuesByArray($val);
 
         // set content

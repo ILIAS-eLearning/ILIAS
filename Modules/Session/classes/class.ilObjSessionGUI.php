@@ -187,21 +187,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->http->wrapper()->post()->has('items')) {
             $this->requested_items = $this->http->wrapper()->post()->retrieve(
                 'items',
-                $this->refinery->custom()->transformation(
-                    function ($arr) {
-                        // keep keys(!), transform all values to int
-                        return array_column(
-                            array_map(
-                                function ($k, $v) {
-                                    return [$k, (int) $v];
-                                },
-                                array_keys($arr),
-                                $arr
-                            ),
-                            1,
-                            0
-                        );
-                    }
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
                 )
             );
         }

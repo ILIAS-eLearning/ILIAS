@@ -39,7 +39,7 @@ class ilCmiXapiSettingsGUI
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * @param ilObjCmiXapi $object
@@ -273,6 +273,7 @@ class ilCmiXapiSettingsGUI
                 $bypassProxy->addOption($opt1);
                 $opt2 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_enabled'), "1");
                 $bypassProxy->addOption($opt2);
+                $bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
                 $form->addItem($bypassProxy);
                 if ($this->object->getLrsType()->isBypassProxyEnabled()) {
                     $bypassProxy->setDisabled(true);
@@ -585,8 +586,8 @@ class ilCmiXapiSettingsGUI
             }
             
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
-                $this->object->setPrivacyIdent($form->getInput('privacy_ident'));
-                $this->object->setPrivacyName($form->getInput('privacy_name'));
+                $this->object->setPrivacyIdent((int) $form->getInput('privacy_ident'));
+                $this->object->setPrivacyName((int) $form->getInput('privacy_name'));
                 $this->object->setOnlyMoveon((bool) $form->getInput("only_moveon"));
                 $this->object->setAchieved((bool) $form->getInput("achieved"));
                 $this->object->setAnswered((bool) $form->getInput("answered"));

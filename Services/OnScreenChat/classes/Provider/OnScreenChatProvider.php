@@ -62,7 +62,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
                     return $isUser && $isEnabled;
                 })
-                ->withTitle($this->dic->language()->txt('chat'))
+                ->withTitle($this->dic->language()->txt('mm_private_chats'))
                 ->withSymbol($icon)
                 ->withContent($this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
                     function ($id) {
@@ -70,7 +70,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                     })
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
-                ->withPosition(25)
+                ->withPosition(40)
             ,
         ];
     }

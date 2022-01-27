@@ -28,11 +28,10 @@ class ilModulesCourseSuite extends TestSuite
     public static function suite()
     {
         $suite = new ilModulesCourseSuite();
-        
-        include_once("./Modules/Course/test/ilCourseTest.php");
-        $suite->addTestSuite("ilCourseTest");
 
-        include_once("./Modules/Course/test/ilCourseMailTemplateTutorContextTest.php");
+        include_once './Modules/Course/test/ilCourseTest.php';
+        $suite->addTestSuite("ilCourseTest");
+        include_once './Modules/Course/test/ilCourseMailTemplateTutorContextTest.php';
         $suite->addTestSuite("ilCourseMailTemplateTutorContextTest");
 
         return $suite;

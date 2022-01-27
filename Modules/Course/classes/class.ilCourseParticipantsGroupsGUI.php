@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Course/classes/class.ilCourseParticipantsGroupsTableGUI.php";
 
 /**
 * Class ilCourseParticipantsGroupsGUI
@@ -86,7 +85,6 @@ class ilCourseParticipantsGroupsGUI
         $confirm->setConfirm($lng->txt('confirm'), 'remove');
         $confirm->setCancel($lng->txt('cancel'), 'show');
 
-        include_once './Services/User/classes/class.ilUserUtil.php';
       
         $confirm->addItem(
             'usr_id',
@@ -119,12 +117,10 @@ class ilCourseParticipantsGroupsGUI
             return;
         }
     
-        include_once './Modules/Group/classes/class.ilGroupParticipants.php';
         $members_obj = ilGroupParticipants::_getInstanceByObjId($ilObjDataCache->lookupObjId((int) $_POST["grp_id"]));
         $members_obj->delete((int) $_POST["usr_id"]);
 
         // Send notification
-        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
         $members_obj->sendNotification(
             ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
             (int) $_POST["usr_id"]
@@ -158,14 +154,12 @@ class ilCourseParticipantsGroupsGUI
                 return;
             }
 
-            include_once './Modules/Group/classes/class.ilGroupParticipants.php';
             $members_obj = ilGroupParticipants::_getInstanceByObjId($ilObjDataCache->lookupObjId((int) $_POST["grp_id"]));
             foreach ($_POST["usrs"] as $new_member) {
                 if (!$members_obj->add($new_member, IL_GRP_MEMBER)) {
                     $ilErr->raiseError("An Error occured while assigning user to group !", $ilErr->MESSAGE);
                 }
 
-                include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
                 $members_obj->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
                     $new_member

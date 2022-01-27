@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
-require_once "./Services/Badge/interfaces/interface.ilBadgeAuto.php";
 
 /**
  * Class ilCourseLPBadge
@@ -39,7 +37,6 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
     
     public function getConfigGUIInstance() : ?ilBadgeTypeGUI
     {
-        include_once "Modules/Course/classes/Badges/class.ilCourseLPBadgeGUI.php";
         return new ilCourseLPBadgeGUI();
     }
     

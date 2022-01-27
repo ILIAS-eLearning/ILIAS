@@ -13,7 +13,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  * @since   5.3
  * @version 1.0.0
  */
-final class BlacklistExtensionPreProcessor implements PreProcessor
+class BlacklistExtensionPreProcessor implements PreProcessor
 {
 
     /**

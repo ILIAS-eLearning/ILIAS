@@ -30,7 +30,7 @@
             preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
         }
 
-        public function token()
+        public function token() : string
         {
             return $this->token;
         }

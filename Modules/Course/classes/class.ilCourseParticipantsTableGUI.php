@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 /**
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -48,7 +47,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         $this->show_learning_progress = $a_show_learning_progress;
         if ($this->show_learning_progress) {
-            include_once './Services/Tracking/classes/class.ilLPStatus.php';
         }
 
         if (null === $preloader) {
@@ -62,7 +60,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->rep_object = $rep_object;
         
         // #13208
-        include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             $this->show_lp_status_sync = false;
         }
@@ -76,10 +73,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         $this->ctrl = $ilCtrl;
 
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $this->privacy = ilPrivacySettings::getInstance();
         
-        include_once './Services/Membership/classes/class.ilParticipants.php';
         $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
 
 
@@ -248,7 +243,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
                     $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
@@ -370,7 +364,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         $this->determineOffsetAndOrder(true);
 
-        include_once './Services/User/classes/class.ilUserQuery.php';
 
         $additional_fields = $this->getSelectedColumns();
         unset($additional_fields["firstname"]);
@@ -439,7 +432,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             if ($this->current_filter['org_units']) {
                 $org_unit = $this->current_filter['org_units'];
                 
-                include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
                 $assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user['usr_id']);
                 if (!in_array($org_unit, $assigned)) {
                     continue;
@@ -506,7 +498,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // Custom user data fields
         if ($udf_ids) {
-            include_once './Services/User/classes/class.ilUserDefinedData.php';
             $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance((int) $usr_id)) {
@@ -520,7 +511,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
         // Object specific user data fields
         if ($odf_ids) {
-            include_once './Modules/Course/classes/Export/class.ilCourseUserData.php';
             $data = ilCourseUserData::_getValuesByObjId($this->getRepositoryObject()->getId());
             foreach ($data as $usr_id => $fields) {
                 $usr_id = (int) $usr_id;
@@ -536,13 +526,11 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             
             
             // add last edit date
-            include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
             foreach (ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getRepositoryObject()->getId()) as $usr_id => $edit_info) {
                 if (!isset($a_user_data[$usr_id])) {
                     continue;
                 }
                 
-                include_once './Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
                 if ($usr_id == $edit_info['update_user']) {
                     $a_user_data[$usr_id]['odf_last_update'] = '';
                     $a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['DIC']['lng']->txt('cdf_edited_by_self');

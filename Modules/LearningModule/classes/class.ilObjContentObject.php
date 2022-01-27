@@ -930,7 +930,7 @@ class ilObjContentObject extends ilObject
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
         $this->setPublicExportFile("scorm", (string) $lm_rec["public_scorm_file"]);
-        $this->setLayoutPerPage($lm_rec["layout_per_page"]);
+        $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
         $this->setRating($lm_rec["rating"]);
         $this->setRatingPages($lm_rec["rating_pages"]);
         $this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);

@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Membership/classes/class.ilRegistrationGUI.php');
 
 /**
 * GUI class for course registrations
@@ -109,7 +108,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      */
     protected function fillRegistrationPeriod() : void
     {
-        include_once('./Services/Calendar/classes/class.ilDateTime.php');
         $now = new ilDateTime(time(), IL_CAL_UNIX, 'UTC');
 
         if ($this->container->getSubscriptionUnlimitedStatus()) {
@@ -188,7 +186,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             $tpl->setVariable('NUM_MAX', $this->container->getSubscriptionMaxMembers());
 
             $tpl->setVariable('TXT_FREE', $this->lng->txt('mem_free_places') . ":");
-            include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
             $reg_info = ilObjCourseAccess::lookupRegistrationInfo($this->getContainer()->getId());
             $free = $reg_info['reg_info_free_places'];
 
@@ -198,7 +195,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $tpl->setVariable('WARN_FREE', $free);
             }
 
-            include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
             $waiting_list = new ilCourseWaitingList($this->container->getId());
             if (
                 $this->container->isSubscriptionMembershipLimited() and
@@ -443,7 +439,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         // set aggreement accepted
         $this->setAccepted(true);
 
-        include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
         $free = max(0, $this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
         $waiting_list = new ilCourseWaitingList($this->container->getId());
         if ($this->container->isSubscriptionMembershipLimited() and $this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers())) {
@@ -500,7 +495,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->participants->sendNotification($this->participants->NOTIFY_ADMINS, $ilUser->getId());
                 $this->participants->sendNotification($this->participants->NOTIFY_REGISTERED, $ilUser->getId());
 
-                include_once './Modules/Forum/classes/class.ilForumNotification.php';
                 ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $ilUser->getId());
                                 
                 if ($this->container->getType() == "crs") {
@@ -540,7 +534,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
      */
     protected function initWaitingList() : ilWaitingList
     {
-        include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
         $this->waiting_list = new ilCourseWaitingList($this->container->getId());
         return $this->waiting_list;
     }

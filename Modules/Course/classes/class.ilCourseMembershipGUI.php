@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 
 /**
  * Member-tab content
@@ -263,23 +262,19 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function initParticipantTableGUI()
     {
-        include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
         ;
         if ($show_tracking) {
-            include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
 
-        include_once('./Services/Object/classes/class.ilObjectActivation.php');
         $timings_enabled =
             (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == IL_CRS_VIEW_TIMING))
         ;
         
         
-        include_once './Modules/Course/classes/class.ilCourseParticipantsTableGUI.php';
         return new ilCourseParticipantsTableGUI(
             $this,
             $this->getParentObject(),
@@ -296,7 +291,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function initEditParticipantTableGUI(array $participants)
     {
-        include_once './Modules/Course/classes/class.ilCourseEditParticipantsTableGUI.php';
         $table = new ilCourseEditParticipantsTableGUI($this, $this->getParentObject());
         $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_header_edit_members'));
         $table->setData($this->getParentGUI()->readMemberData($participants));
@@ -334,7 +328,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function initWaitingList()
     {
-        include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
         $wait = new ilCourseWaitingList($this->getParentObject()->getId());
         return $wait;
     }
@@ -367,25 +360,20 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $lng->loadLanguageModule('trac');
 
         $is_admin = true;
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::getInstance();
 
         if ($privacy->enabledCourseAccessTimes()) {
-            include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
             $progress = ilLearningProgress::_lookupProgressByObjId($this->getParentObject()->getId());
         }
 
-        include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
         if ($show_tracking) {
-            include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
         
         if ($show_tracking) {
-            include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
             $completed = ilLPStatusWrapper::_lookupCompletedForObject($this->getParentObject()->getId());
             $in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->getParentObject()->getId());
             $failed = ilLPStatusWrapper::_lookupFailedForObject($this->getParentObject()->getId());
@@ -394,7 +382,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $profile_data = ilObjUser::_readUsersProfileData($a_members);
 
         // course defined fields
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         $cdfs = ilCourseUserData::_getValuesByObjId($this->getParentObject()->getId());
 
         $print_member = [];
@@ -402,7 +389,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             // GET USER OBJ
             if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id, false)) {
                 // udf
-                include_once './Services/User/classes/class.ilUserDefinedData.php';
                 $udf_data = new ilUserDefinedData($member_id);
                 foreach ($udf_data->getAll() as $field => $value) {
                     list($f, $field_id) = explode('_', $field);

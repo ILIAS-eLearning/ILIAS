@@ -108,7 +108,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if ($this->wiki_request->getPage() != "") {
             $tpl->setPermanentLink(
                 "wiki",
-                "",
+                $this->requested_ref_id,
                 "wpage_" . $this->getPageObject()->getId() . "_" . $this->requested_ref_id,
                 "",
                 $head_title

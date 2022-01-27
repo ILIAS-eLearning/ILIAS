@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Badge/interfaces/interface.ilBadgeTypeGUI.php";
 
 /**
  * Course LP badge gui
@@ -25,7 +24,6 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
         $lng->loadLanguageModule("trac");
     
-        include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
         $subitems = new ilRepositorySelector2InputGUI($lng->txt("objects"), "subitems", true);
         
         $exp = $subitems->getExplorerGUI();
@@ -64,7 +62,6 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $sub_items = $tree->getSubTree($root);
         array_shift($sub_items); // remove root
         
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         foreach ($sub_items as $node) {
             if (ilObjectLP::isSupportedObjectType($node["type"])) {
                 $class = ilObjectLP::getTypeClass($node["type"]);
@@ -90,14 +87,12 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
             $items->setValue($a_config["subitems"]);
                         
             /*
-            include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
             if(!ilObjUserTracking::_enabledLearningProgress())
             {
                 $lng->loadLanguageModule("trac");
                 $lp = new ilNonEditableValueGUI($lng->txt("tracking_settings"), "", true);
                 $a_form->addItem($lp);
 
-                include_once "Services/Object/classes/class.ilObjectLP.php";
 
                 $links = array();
                 foreach($a_config["subitems"] as $ref_id)
@@ -136,9 +131,6 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
      */
     public static function getInvalidLPModes()
     {
-        include_once "Services/Object/classes/class.ilObjectLP.php";
-        include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-        include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
 
         /* supported modes
             LP_MODE_TLT
@@ -184,9 +176,6 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $lng = $DIC['lng'];
         $invalid = array();
         
-        include_once "Services/Object/classes/class.ilObjectLP.php";
-        include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-        include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
 
         $invalid_modes = self::getInvalidLPModes();
         

@@ -13,6 +13,8 @@
  *
  *****************************************************************************/
 
+use ILIAS\FileUpload\MimeType;
+
 /**
  * File System Explorer GUI class
  *
@@ -666,7 +668,7 @@ class ilFileSystemGUI
 
         if ($tgt_file && is_file($tgt_file)) {
             $unzip = null;
-            if (ilMimeTypeUtil::getMimeType($tgt_file) == "application/zip") {
+            if (MimeType::getMimeType($tgt_file) == "application/zip") {
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, basename($tgt_file));
                 $url = $this->ctrl->getLinkTarget($this, "unzipFile");
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, "");

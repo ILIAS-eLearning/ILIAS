@@ -12,7 +12,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI()
+    protected function buildExportTableGUI() : ilExportTableGUI
     {
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
 
@@ -29,7 +29,7 @@ class ilDclExportGUI extends ilExportGUI
             $this->checkForExportableFields();
         }
 
-        return parent::createExportFile();
+        parent::createExportFile();
     }
 
 

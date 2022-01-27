@@ -1,20 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 
-use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\UnachievableException;
 
-class ilLoggingConfigStoredObjective implements Setup\Objective
+class ilLoggingConfigStoredObjective implements Objective
 {
-    /**
-     * @var	\ilLoggingSetupConfig
-     */
-    protected $config;
+    protected Config $config;
 
-    public function __construct(
-        \ilLoggingSetupConfig $config
-    ) {
+    public function __construct(Config $config)
+    {
         $this->config = $config;
     }
 
@@ -33,16 +32,16 @@ class ilLoggingConfigStoredObjective implements Setup\Objective
         return false;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Environment $environment) : Environment
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
         $ini->setVariable("log", "enabled", $this->config->isEnabled() ? "1" : "0");
         $ini->setVariable("log", "path", dirname($this->config->getPathToLogfile()));
@@ -50,7 +49,7 @@ class ilLoggingConfigStoredObjective implements Setup\Objective
         $ini->setVariable("log", "error_path", $this->config->getErrorlogDir());
 
         if (!$ini->write()) {
-            throw new Setup\UnachievableException("Could not write ilias.ini.php");
+            throw new UnachievableException("Could not write ilias.ini.php");
         }
 
         return $environment;
@@ -59,9 +58,9 @@ class ilLoggingConfigStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Environment $environment) : bool
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         $enabled = $this->config->isEnabled() ? "1" : "0";
 
         return

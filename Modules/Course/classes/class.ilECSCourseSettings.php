@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 
 /**
 * Class ilECSCourseSettings
@@ -28,7 +27,6 @@ class ilECSCourseSettings extends ilECSObjectSettings
         $json = $this->getJsonCore('application/ecs-course');
         
         // meta language
-        include_once('./Services/MetaData/classes/class.ilMDLanguage.php');
         $lang = ilMDLanguage::_lookupFirstLanguage($this->content_obj->getId(), $this->content_obj->getId(), $this->content_obj->getType());
         if (strlen($lang)) {
             $json->lang = $lang . '_' . strtoupper($lang);
@@ -36,7 +34,6 @@ class ilECSCourseSettings extends ilECSObjectSettings
         
         $json->status = $this->content_obj->isActivated() ? 'online' : 'offline';
         
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
         $definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());
         $this->addMetadataToJson($json, $a_server, $definition);
         

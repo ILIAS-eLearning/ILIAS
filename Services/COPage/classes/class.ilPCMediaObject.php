@@ -228,7 +228,38 @@ class ilPCMediaObject extends ilPageContent
         }
         return "";
     }
-    
+
+    /**
+     * Set caption style class of media object
+     */
+    public function setCaptionClass(string $a_class) : void
+    {
+        if (is_object($this->mob_node)) {
+            $mal_node = $this->mob_node->first_child();
+            if (is_object($mal_node)) {
+                if (!empty($a_class)) {
+                    $mal_node->set_attribute("CaptionClass", $a_class);
+                } else {
+                    if ($mal_node->has_attribute("CaptionClass")) {
+                        $mal_node->remove_attribute("CaptionClass");
+                    }
+                }
+            }
+        }
+    }
+
+    public function getCaptionClass() : string
+    {
+        if (is_object($this->mob_node)) {
+            $mal_node = $this->mob_node->first_child();
+            if (is_object($mal_node)) {
+                $class = $mal_node->get_attribute("CaptionClass");
+                return $class;
+            }
+        }
+        return "";
+    }
+
     public static function getLangVars() : array
     {
         return array("pc_mob");

@@ -367,6 +367,11 @@ class Container extends \Pimple\Container
     {
         return new \ILIAS\Awareness\Service($this);
     }
+    
+    public function fileServiceSettings(): \ilFileServicesSettings
+    {
+        return new \ilFileServicesSettings($this->settings());
+    }
 
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,

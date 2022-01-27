@@ -12,6 +12,9 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
+use ILIAS\FileUpload\MimeType;
+
 /**
  * @deprecated $
  */
@@ -223,7 +226,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
             $advsel->setListTitle('');
             foreach ($this->row_commands as $rcom) {
                 if ($rcom["allow_dir"] || $a_set["type"] != "dir") {
-                    if (($rcom["caption"] == "Unzip" && ilMimeTypeUtil::getMimeType($this->cur_dir . $a_set['entry']) == "application/zip") || $rcom["caption"] != "Unzip") {
+                    if (($rcom["caption"] == "Unzip" && MimeType::getMimeType($this->cur_dir . $a_set['entry']) == "application/zip") || $rcom["caption"] != "Unzip") {
                         $this->ctrl->setParameter($this->parent_obj, "fhsh", $hash);
                         $url = $this->ctrl->getLinkTarget($this->parent_obj, $rcom["cmd"]);
                         $this->ctrl->setParameter($this->parent_obj, "fhsh", "");

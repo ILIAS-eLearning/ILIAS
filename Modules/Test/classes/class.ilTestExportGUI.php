@@ -43,7 +43,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI()
+    protected function buildExportTableGUI() : ilExportTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
         $table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
@@ -149,7 +149,7 @@ class ilTestExportGUI extends ilExportGUI
         $ilCtrl->redirectByClass('iltestexportgui');
     }
 
-    public function listExportFiles()
+    public function listExportFiles() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -228,7 +228,7 @@ class ilTestExportGUI extends ilExportGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function download()
+    public function download() : void
     {
         /**
          * @var $lng ilLanguage
@@ -273,7 +273,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * Delete files
      */
-    public function delete()
+    public function delete() : void
     {
         /**
          * @var $lng ilLanguage

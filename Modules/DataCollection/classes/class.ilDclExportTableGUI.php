@@ -16,7 +16,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
     }
 
 
-    public function getExportFiles()
+    public function getExportFiles() : array
     {
         $types = array();
         foreach ($this->parent_obj->getFormats() as $f) {

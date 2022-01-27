@@ -193,7 +193,7 @@ class ilUserUtil
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return in_array($rec["value"], array("y", "g"));
+        return in_array($rec["value"] ?? "", array("y", "g"));
     }
 
 

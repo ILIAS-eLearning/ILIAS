@@ -29,17 +29,17 @@ class ilCmiXapiLaunchGUI
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * @var ilCmiXapiUser
      */
-    protected $cmixUser;
+    protected ilCmiXapiUser $cmixUser;
 
     /**
      * @var bool
      */
-    protected $plugin = false;
+    protected bool $plugin = false;
     
     /**
      * @param ilObjCmiXapi $object
@@ -70,6 +70,8 @@ class ilCmiXapiLaunchGUI
     
     protected function buildLaunchLink($token)
     {
+        $launchLink = "";
+
         if ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE) {
             $launchLink = $this->object->getLaunchUrl();
         } elseif ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_LOCAL) {
@@ -91,11 +93,12 @@ class ilCmiXapiLaunchGUI
         
         return $launchLink;
     }
-    
+
     /**
-                 * @return array<string, mixed>
-                 */
-    protected function getLaunchParameters($token) : array
+     * @param string $token
+     * @return array<string, mixed>
+     */
+    protected function getLaunchParameters(string $token) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -134,8 +137,12 @@ class ilCmiXapiLaunchGUI
         }
         return $params;
     }
-    
-    protected function getAuthTokenFetchLink()
+
+    /**
+     * @return string
+     * @throws ilCmiXapiException
+     */
+    protected function getAuthTokenFetchLink() : string
     {
         $link = implode('/', [
             ILIAS_HTTP_PATH, 'Modules', 'CmiXapi', 'xapitoken.php'
@@ -146,10 +153,11 @@ class ilCmiXapiLaunchGUI
         
         return $link;
     }
-    
+
     /**
-                 * @throws ilCmiXapiException
-                 */
+     * @return string
+     * @throws ilCmiXapiException
+     */
     protected function buildAuthTokenFetchParam() : string
     {
         $params = [
@@ -170,8 +178,11 @@ class ilCmiXapiLaunchGUI
         )));
         return $param;
     }
-    
-    protected function getValidToken()
+
+    /**
+     * @return string
+     */
+    protected function getValidToken() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -183,7 +194,10 @@ class ilCmiXapiLaunchGUI
         );
         return $token;
     }
-    
+
+    /**
+     * @return void
+     */
     protected function initCmixUser() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -212,8 +226,8 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-                 * @return array<string, string>
-                 */
+     * @return array<string, string>
+     */
     protected function getCmi5LearnerPreferences() : array
     {
         global $DIC;
@@ -227,12 +241,15 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-                 * Prelaunch
-                 * post cmi5LearnerPreference (agent profile)
-                 * post LMS.LaunchData
-                 * @return array<string, mixed>
-                 */
-    protected function CMI5preLaunch($token) : array
+     * Prelaunch
+     * post cmi5LearnerPreference (agent profile)
+     * post LMS.LaunchData
+     * @param string $token
+     * @return array<string, mixed>
+     * @throws ilCmiXapiException
+     * @throws ilDateTimeException
+     */
+    protected function CMI5preLaunch(string $token) : array
     {
         global $DIC;
         
@@ -403,7 +420,10 @@ class ilCmiXapiLaunchGUI
         }
         return array('cmi5_session' => $cmi5_session, 'token' => $token);
     }
-    
+
+    /**
+     * @return CliLog|ilLogger
+     */
     private function log()
     {
         global $log;

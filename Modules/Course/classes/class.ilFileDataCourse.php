@@ -29,7 +29,6 @@
 * @version $Id$
 *
 */
-require_once("./Services/FileSystem/classes/class.ilFileData.php");
                 
 class ilFileDataCourse extends ilFileData
 {

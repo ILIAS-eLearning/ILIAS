@@ -19,6 +19,7 @@ use InvalidArgumentException;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class DateComparator
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -26,11 +27,6 @@ use InvalidArgumentException;
  */
 class DateComparator extends BaseComparator
 {
-    /**
-     * DateComparator constructor.
-     * @param string $test
-     * @throws InvalidArgumentException
-     */
     public function __construct(string $test)
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?|after|since|before|until)?\s*(.+?)\s*$#i', $test, $matches)) {

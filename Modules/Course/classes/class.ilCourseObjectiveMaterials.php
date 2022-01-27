@@ -66,7 +66,6 @@ class ilCourseObjectiveMaterials
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilLog = $DIC['ilLog'];
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         #$ilLog->write(__METHOD__.': 1');
@@ -178,7 +177,6 @@ class ilCourseObjectiveMaterials
             switch ($material['type']) {
                 case 'tst':
                     
-                    include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
                     $type = ilLOTestAssignments::getInstance($container_obj_id)->getTypeByTest($material['child']);
                     if ($type != ilLOSettings::TYPE_TEST_UNDEFINED) {
                         break;
@@ -435,7 +433,6 @@ class ilCourseObjectiveMaterials
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
         
-        include_once('Modules/Course/classes/class.ilCourseObjective.php');
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
         

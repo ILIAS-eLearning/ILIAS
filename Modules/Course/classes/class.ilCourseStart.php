@@ -98,7 +98,6 @@ class ilCourseStart
         $new_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
         $start = new ilCourseStart($a_target_id, $new_obj_id);
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         foreach ($this->getStartObjects() as $start_id => $data) {
@@ -176,7 +175,6 @@ class ilCourseStart
 
     public function getPossibleStarters()
     {
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
         foreach (ilObjectActivation::getItems($this->getRefId(), false) as $node) {
             switch ($node['type']) {
                 case 'lm':
@@ -207,7 +205,6 @@ class ilCourseStart
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
         $lm_continue = new ilCourseLMHistory($this->getRefId(), $user_id);
         $continue_data = $lm_continue->getLMHistory();
 
@@ -216,8 +213,6 @@ class ilCourseStart
         
         switch ($type) {
             case 'tst':
-                include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-                include_once './Services/Conditions/classes/class.ilConditionHandler.php';
                 
                 if (!ilObjTestAccess::checkCondition($obj_id, ilConditionHandler::OPERATOR_FINISHED, '', $user_id)) {
                     return false;
@@ -229,7 +224,6 @@ class ilCourseStart
                 }
                 break;
             case 'sahs':
-                include_once 'Services/Tracking/classes/class.ilLPStatus.php';
                 if (!ilLPStatus::_hasUserCompleted($obj_id, $user_id)) {
                     return false;
                 }

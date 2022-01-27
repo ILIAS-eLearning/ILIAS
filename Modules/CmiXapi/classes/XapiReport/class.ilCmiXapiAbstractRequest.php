@@ -29,7 +29,7 @@ abstract class ilCmiXapiAbstractRequest
     /**
      * @var boolean
      */
-    public static $plugin = false;
+    public static bool $plugin = false;
 
     /**
      * ilCmiXapiAbstractRequest constructor.
@@ -69,7 +69,8 @@ abstract class ilCmiXapiAbstractRequest
         }
     }
 
-    public static function checkResponse($response, &$body, $allowedStatus = [200, 204])
+    //todo body?
+    public static function checkResponse(array $response, &$body, array $allowedStatus = [200, 204])
     {
         if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
@@ -90,6 +91,7 @@ abstract class ilCmiXapiAbstractRequest
         }
     }
 
+    //todo
     public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986) : string
     {
         if (!$params) {
