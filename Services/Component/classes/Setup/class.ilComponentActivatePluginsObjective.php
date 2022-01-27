@@ -117,22 +117,22 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public function write($m, $l = ilLogLevel::INFO)
+            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
             {
             }
-            public function info($msg)
+            public function info(string $a_message) : void
             {
             }
-            public function warning($msg)
+            public function warning(string $a_message) : void
             {
             }
-            public function error($msg)
+            public function error(string $a_message) : void
             {
             }
-            public function debug($msg, $a = [])
+            public function debug(string $a_message, array $a_context = []) : void
             {
             }
-            public function dump($msg, $a = ilLogLevel::INFO)
+            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
             {
             }
         };

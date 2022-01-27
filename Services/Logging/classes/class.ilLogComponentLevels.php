@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Logging/classes/class.ilLogComponentLevel.php';
 
 
 /**
@@ -19,6 +18,7 @@ class ilLogComponentLevels
      * @var ilLogComponentLevel[]
      */
     protected array $components = array();
+
     protected ilDBInterface $db;
     
     /**
@@ -28,15 +28,10 @@ class ilLogComponentLevels
     {
         global $DIC;
         $this->db = $DIC->database();
-
         $this->read();
     }
     
-    /**
-     *
-     * @return ilLogComponentLevels
-     */
-    public static function getInstance()
+    public static function getInstance() : ilLogComponentLevels
     {
         if (!self::$instance) {
             self::$instance = new self();
@@ -44,17 +39,11 @@ class ilLogComponentLevels
         return self::$instance;
     }
     
-    /**
-     *
-     * @global type $ilDB
-     * @param type $a_component_id
-     */
-    public static function updateFromXML($a_component_id)
+    public static function updateFromXML($a_component_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
         if (!$a_component_id) {
             return false;
         }
@@ -73,17 +62,16 @@ class ilLogComponentLevels
     }
     
     /**
-     * Get compponent level
+     * Get component levels
      * @return ilLogComponentLevel[]
      */
-    public function getLogComponents()
+    public function getLogComponents() : array
     {
         return $this->components;
     }
     
     public function read()
     {
-        
         $query = 'SELECT * FROM log_components ';
         $res = $this->db->query($query);
         

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +15,7 @@ class ilLogComponentLevel
 
     protected ilDBInterface $db;
     
-    public function __construct($a_component_id, $a_level = null)
+    public function __construct(string $a_component_id, int $a_level = null)
     {
         global $DIC;
 
@@ -28,26 +28,23 @@ class ilLogComponentLevel
         }
     }
     
-    public function getComponentId()
+    public function getComponentId() : string
     {
         return $this->compontent_id;
     }
     
-    public function setLevel($a_level)
+    public function setLevel(?int $a_level) : void
     {
         $this->component_level = $a_level;
     }
     
-    public function getLevel()
+    public function getLevel() : ?int
     {
         return $this->component_level;
     }
     
-    public function update()
+    public function update() : void
     {
-        
-        ilLoggerFactory::getLogger('log')->debug('update called');
-        
         $this->db->replace(
             'log_components',
             array('component_id' => array('text',$this->getComponentId())),
@@ -55,19 +52,14 @@ class ilLogComponentLevel
         );
     }
     
-    /**
-     * Read entry
-     * @global type $ilDB
-     */
-    public function read()
+    public function read() : void
     {
-        
         $query = 'SELECT * FROM log_components ' .
                 'WHERE component_id = ' . $this->db->quote($this->getComponentId(), 'text');
-        
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->component_level = $row->log_level;
+            $this->component_level = (int) $row->log_level;
         }
     }
 }

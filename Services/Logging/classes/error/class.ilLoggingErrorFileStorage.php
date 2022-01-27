@@ -1,6 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
-require_once './libs/composer/vendor/autoload.php';
 
 use Whoops\Exception\Formatter;
 use Whoops\Exception\Inspector;
@@ -20,21 +19,21 @@ class ilLoggingErrorFileStorage
     protected string $file_name;
 
 
-    public function __construct($inspector, $file_path, $file_name)
+    public function __construct(Inspector $inspector, string $file_path, string $file_name)
     {
         $this->inspector = $inspector;
         $this->file_path = $file_path;
         $this->file_name = $file_name;
     }
 
-    protected function createDir($path)
+    protected function createDir(string $path) : void
     {
         if (!is_dir($this->file_path)) {
             ilUtil::makeDirParents($this->file_path);
         }
     }
 
-    protected function content()
+    protected function content() : string
     {
         return $this->pageHeader()
               . $this->exceptionContent()
@@ -42,7 +41,7 @@ class ilLoggingErrorFileStorage
               ;
     }
 
-    public function write()
+    public function write() : void
     {
         $this->createDir($this->file_path);
 
@@ -53,32 +52,23 @@ class ilLoggingErrorFileStorage
         chmod($file_name, 0755);
     }
 
-    /**
-     * Get the header for the page.
-     *
-     * @return string
-     */
-    protected function pageHeader()
+    protected function pageHeader() : string
     {
         return "";
     }
 
     /**
      * Get a short info about the exception.
-     *
-     * @return string
      */
-    protected function exceptionContent()
+    protected function exceptionContent() : string
     {
         return Formatter::formatExceptionPlain($this->inspector);
     }
 
     /**
      * Get the header for the page.
-     *
-     * @return string
      */
-    protected function tablesContent()
+    protected function tablesContent() : string
     {
         $ret = "";
         foreach ($this->tables() as $title => $content) {
@@ -110,10 +100,8 @@ class ilLoggingErrorFileStorage
 
     /**
      * Get the tables that should be rendered.
-     *
-     * @return array 	$title => $table
      */
-    protected function tables()
+    protected function tables() : array
     {
         $post = $_POST;
         $server = $_SERVER;
@@ -125,7 +113,7 @@ class ilLoggingErrorFileStorage
             , "POST Data" => $post
             , "Files" => $_FILES
             , "Cookies" => $_COOKIE
-            , "Session" => isset($_SESSION) ? $_SESSION : array()
+            , "Session" => $_SESSION ?? array()
             , "Server/Request Data" => $server
             , "Environment Variables" => $_ENV
             );
@@ -133,12 +121,8 @@ class ilLoggingErrorFileStorage
 
     /**
      * Replace passwort from post array with security message
-     *
-     * @param array $post
-     *
-     * @return array
      */
-    private function hidePassword(array $post)
+    private function hidePassword(array $post) : array
     {
         if (isset($post["password"])) {
             $post["password"] = "REMOVED FOR SECURITY";
@@ -149,12 +133,8 @@ class ilLoggingErrorFileStorage
 
     /**
      * Shorts the php session id
-     *
-     * @param array 	$server
-     *
-     * @return array
      */
-    private function shortenPHPSessionId(array $server)
+    private function shortenPHPSessionId(array $server) : array
     {
         $cookie_content = $server["HTTP_COOKIE"];
         $cookie_content = explode(";", $cookie_content);

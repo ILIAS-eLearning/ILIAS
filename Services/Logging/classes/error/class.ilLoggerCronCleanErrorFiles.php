@@ -1,14 +1,4 @@
-<?php
-
-require_once("Services/Cron/classes/class.ilCronJob.php");
-require_once("Services/Logging/classes/error/class.ilLoggingErrorSettings.php");
-require_once("Services/Administration/classes/class.ilSetting.php");
-require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-require_once("Services/Form/classes/class.ilTextInputGUI.php");
-require_once("Services/Calendar/classes/class.ilDateTime.php");
-require_once("Services/Cron/classes/class.ilCronJobResult.php");
-require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
+<?php declare(strict_types=1);
 
 class ilLoggerCronCleanErrorFiles extends ilCronJob
 {
@@ -99,7 +89,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $result;
     }
 
-    protected function readLogDir($path)
+    protected function readLogDir($path) : array
     {
         $ret = array();
 
@@ -114,7 +104,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $ret;
     }
 
-    protected function deleteFile($path)
+    protected function deleteFile($path) : void
     {
         unlink($path);
     }

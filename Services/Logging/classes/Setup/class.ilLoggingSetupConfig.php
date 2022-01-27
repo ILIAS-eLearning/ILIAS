@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
+use ILIAS\Setup\Config;
 
-class ilLoggingSetupConfig implements Setup\Config
+class ilLoggingSetupConfig implements Config
 {
     protected bool $enabled;
 

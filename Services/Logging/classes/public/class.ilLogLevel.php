@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,7 +9,6 @@
  * the design of the desktop.
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  *
  */
 class ilLogLevel
@@ -27,7 +26,7 @@ class ilLogLevel
 
     
     
-    public static function getLevels()
+    public static function getLevels() : array
     {
         return array(
             self::DEBUG,
@@ -43,16 +42,11 @@ class ilLogLevel
     }
 
 
-    /**
-     * Get log level options
-     * @return type
-     */
-    public static function getLevelOptions()
+    public static function getLevelOptions() : array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
         return array(
             self::DEBUG => $lng->txt('log_level_debug'),
             self::INFO => $lng->txt('log_level_info'),

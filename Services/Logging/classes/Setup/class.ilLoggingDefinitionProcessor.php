@@ -42,7 +42,6 @@ class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
                 "Found $name-tag outside of module or service in {$this->component_id}."
             );
         }
-
         ilLogComponentLevels::updateFromXML($this->component_id);
     }
 
@@ -50,7 +49,6 @@ class ilLoggingDefinitionProcessor implements ilComponentDefinitionProcessor
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = '';
-            return;
         }
     }
 }
