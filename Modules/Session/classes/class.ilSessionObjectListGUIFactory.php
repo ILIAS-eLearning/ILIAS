@@ -43,7 +43,7 @@ class ilSessionObjectListGUIFactory
         }
         
         if (!$a_type) {
-            return self::$item_list_gui[$a_type] = $item_list_gui;
+            return null;
         }
 
         $class = $objDefinition->getClassName($a_type);

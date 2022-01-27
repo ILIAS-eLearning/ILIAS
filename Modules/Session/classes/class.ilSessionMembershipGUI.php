@@ -160,6 +160,15 @@ class ilSessionMembershipGUI extends ilMembershipGUI
         return $wait;
     }
 
+    public function getParentObject() : ilObjSession
+    {
+        /**
+         * @var ilObjSession $parent_object
+         */
+        $parent_object = parent::getParentObject();
+        return $parent_object;
+    }
+
     protected function initParticipantTableGUI() : ilSessionParticipantsTableGUI
     {
         $table = new ilSessionParticipantsTableGUI(
