@@ -14,16 +14,16 @@
  */
 class ilLogLevel
 {
-    const DEBUG = 100;
-    const INFO = 200;
-    const NOTICE = 250;
-    const WARNING = 300;
-    const ERROR = 400;
-    const CRITICAL = 500;
-    const ALERT = 550;
-    const EMERGENCY = 600;
+    public const DEBUG = 100;
+    public const INFO = 200;
+    public const NOTICE = 250;
+    public const WARNING = 300;
+    public const ERROR = 400;
+    public const CRITICAL = 500;
+    public const ALERT = 550;
+    public const EMERGENCY = 600;
     
-    const OFF = 1000;
+    public const OFF = 1000;
 
     
     
@@ -51,7 +51,7 @@ class ilLogLevel
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
         return array(
             self::DEBUG => $lng->txt('log_level_debug'),

@@ -17,7 +17,7 @@ use Monolog\Processor\MemoryPeakUsageProcessor;
  */
 abstract class ilLogger
 {
-    private $logger = null;
+    private Logger $logger;
     
     public function __construct(Logger $logger)
     {

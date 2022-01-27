@@ -17,18 +17,21 @@ include_once './Services/Logging/interfaces/interface.ilLoggingSettings.php';
 */
 class ilLoggingDBSettings implements ilLoggingSettings
 {
-    protected static $instance = null;
+    protected static ?ilLoggingDBSettings $instance = null;
     
-    private $enabled = false;
+    private bool $enabled;
     
-    private $storage = null;
+    private ilSetting $storage;
     
-    private $level = null;
-    private $cache = false;
-    private $cache_level = null;
-    private $memory_usage = false;
-    private $browser = false;
-    private $browser_users = array();
+    private int $level;
+    private bool $cache = false;
+    private int $cache_level;
+    private bool $memory_usage = false;
+    private bool $browser = false;
+    /**
+     * @var string[]
+     */
+    private array $browser_users = array();
     
     
     
@@ -39,9 +42,6 @@ class ilLoggingDBSettings implements ilLoggingSettings
      */
     private function __construct()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         
         $this->enabled = ILIAS_LOG_ENABLED;

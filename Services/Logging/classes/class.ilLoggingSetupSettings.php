@@ -12,9 +12,9 @@ include_once './Services/Logging/interfaces/interface.ilLoggingSettings.php';
 */
 class ilLoggingSetupSettings implements ilLoggingSettings
 {
-    private $enabled = false;
-    private $log_dir = '';
-    private $log_file = '';
+    private bool $enabled = false;
+    private string $log_dir = '';
+    private string $log_file = '';
     
     
     public function __construct()

@@ -3,6 +3,8 @@
 
 include_once './Services/Object/classes/class.ilObjectGUI.php';
 
+use ILIAS\DI\Container;
+
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
@@ -13,25 +15,16 @@ include_once './Services/Object/classes/class.ilObjectGUI.php';
 */
 class ilObjLoggingSettingsGUI extends ilObjectGUI
 {
-    const SECTION_SETTINGS = 'settings';
-    const SUB_SECTION_MAIN = 'log_general_settings';
-    const SUB_SECTION_COMPONENTS = 'log_components';
-    const SUB_SECTION_ERROR = 'log_error_settings';
+    protected const SECTION_SETTINGS = 'settings';
+    protected const SUB_SECTION_MAIN = 'log_general_settings';
+    protected const SUB_SECTION_COMPONENTS = 'log_components';
+    protected const SUB_SECTION_ERROR = 'log_error_settings';
     
-    
-    public $tpl;
-    public $lng;
-    public $ctrl;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
-    protected $tabs_gui;
-    protected $form;
-    protected $settings;
-    
-    
-    protected $log;
+
+
+    protected ilLoggingDBSettings $log_settings;
+    protected ilLogger $log;
+    protected ilLoggingErrorSettings $error_settings;
     
     
 
@@ -47,13 +40,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $this->type = 'logs';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-        $this->dic = $DIC;
-        $this->lng = $this->dic->language();
-
-        $this->tpl = $this->dic['tpl'];
-        $this->lng = $this->dic->language();
-        $this->ctrl = $this->dic->ctrl();
-        $this->tabs_gui = $this->dic->tabs();
+        $this->lng = $DIC->language();
 
         $this->initSettings();
         $this->initErrorSettings();
@@ -113,17 +100,14 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
      */
     public function getAdminTabs()
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
         
-        if ($ilAccess->checkAccess("read", '', $this->object->getRefId())) {
+        if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 static::SECTION_SETTINGS,
                 $this->ctrl->getLinkTargetByClass('ilobjloggingsettingsgui', "settings")
             );
         }
-        if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId())) {
+        if ($this->access->checkAccess('edit_permission', '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm")
@@ -155,7 +139,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     protected function initSettings()
     {
         include_once("Services/Logging/classes/class.ilLoggingDBSettings.php");
-        $this->settings = ilLoggingDBSettings::getInstance();
+        $this->log_settings = ilLoggingDBSettings::getInstance();
     }
     
     /**
@@ -164,7 +148,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
      */
     public function getSettings()
     {
-        return $this->settings;
+        return $this->log_settings;
     }
 
     /**
@@ -173,10 +157,9 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
      */
     public function settings(ilPropertyFormGUI $form = null)
     {
-        global $DIC;
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
         
         $this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
@@ -200,11 +183,8 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
     {
         include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 
-        global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if (!$rbacsystem->checkAccess('write', $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
         
@@ -240,11 +220,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
      */
     protected function initFormSettings()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-        $ilAccess = $DIC['ilAccess'];
 
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         include_once './Services/Search/classes/class.ilSearchSettings.php';
@@ -253,7 +228,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('logs_settings'));
         $form->setFormAction($this->ctrl->getFormAction($this));
         
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             $form->addCommandButton('updateSettings', $this->lng->txt('save'));
         }
 
@@ -313,7 +288,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $table->init();
         $table->parse();
         
-        $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML());
     }
     
     /**
@@ -349,10 +324,9 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
     protected function errorSettings()
     {
-        global $DIC;
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
         }
 
         $this->tabs_gui->setTabActive(static::SECTION_SETTINGS);
@@ -368,11 +342,8 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
     protected function updateErrorSettings()
     {
-        global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if (!$rbacsystem->checkAccess('write', $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -392,11 +363,6 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 
     protected function initFormErrorSettings()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-        $ilAccess = $DIC['ilAccess'];
 
         require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         require_once './Services/Search/classes/class.ilSearchSettings.php';
@@ -405,7 +371,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('logs_settings'));
         $form->setFormAction($this->ctrl->getFormAction($this));
 
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             $form->addCommandButton('updateErrorSettings', $this->lng->txt('save'));
         }
 

@@ -8,22 +8,24 @@
  */
 class ilLoggingErrorSettings
 {
-    protected $folder;
-    protected $mail;
+    protected string $folder = '';
+    protected string $mail = '';
+    protected ilIniFile $ilias_ini;
+    protected ilIniFile $gClientIniFile;
 
     protected function __construct()
     {
         global $DIC;
 
-        $ilIliasIniFile = $DIC['ilIliasIniFile'];
+        $ilIliasIniFile = $DIC->iliasIni();
         // temporary bugfix for global usage
         if ($DIC->offsetExists('ini')) {
             $ini = $DIC['ini'];
         }
 
         $ilClientIniFile = null;
-        if (isset($DIC['ilClientIniFile'])) {
-            $ilClientIniFile = $DIC['ilClientIniFile'];
+        if ($DIC->clientIni()) {
+            $ilClientIniFile = $DIC->clientIni();
         }
 
         //realy not nice but necessary to initalize logger at setup
@@ -42,8 +44,6 @@ class ilLoggingErrorSettings
             $this->gClientIniFile = $ilClientIniFile;
         }
 
-        $this->folder = null;
-        $this->mail = null;
 
         $this->read();
     }

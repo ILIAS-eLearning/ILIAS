@@ -7,13 +7,10 @@ use ILIAS\Setup;
 
 class ilLoggingConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilLoggingSetupConfig
-     */
-    protected $config;
+    protected ilLoggingSetupConfig $config;
 
     public function __construct(
-        \ilLoggingSetupConfig $config
+        ilLoggingSetupConfig $config
     ) {
         $this->config = $config;
     }
