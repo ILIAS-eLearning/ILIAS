@@ -23,7 +23,7 @@ abstract class ilParticipants
     public const IL_ROLE_POSITION_ADMIN = 1;
     public const IL_ROLE_POSITION_TUTOR = 2;
     public const IL_ROLE_POSITION_MEMBER = 3;
-    
+
     protected string $component = '';
 
     protected int $ref_id = 0;

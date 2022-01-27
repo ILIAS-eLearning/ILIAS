@@ -77,7 +77,7 @@ class ilLogComponentLevels
         
         $this->components = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->components[] = new ilLogComponentLevel($row->component_id, $row->log_level);
+            $this->components[] = new ilLogComponentLevel((string) $row->component_id, (int) $row->log_level);
         }
     }
 }

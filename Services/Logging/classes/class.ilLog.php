@@ -189,8 +189,9 @@ class ilLog
     * level = "<level>" possible values are fatal,warning,message
     *
     */
-    public function write(string $a_msg, ?int $a_log_level = null) : void
+    public function write(string $a_msg, $a_log_level = null) : void
     {
+        $a_log_level = (int) $a_log_level;
         if ($this->enabled and $this->current_log_level >= $this->checkLogLevel($a_log_level)) {
             $this->open();
             

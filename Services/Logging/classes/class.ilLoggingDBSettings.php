@@ -28,7 +28,7 @@ class ilLoggingDBSettings implements ilLoggingSettings
     
     private function __construct()
     {
-        $this->enabled = ILIAS_LOG_ENABLED;
+        $this->enabled = (bool) ILIAS_LOG_ENABLED;
         $this->level = ilLogLevel::INFO;
         $this->cache_level = ilLogLevel::DEBUG;
         

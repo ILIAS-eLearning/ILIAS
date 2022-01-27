@@ -174,7 +174,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public function write(string $a_msg, ?int $a_log_level = ilLogLevel::INFO) : void
+            public function write(string $a_msg, $a_log_level = ilLogLevel::INFO) : void
             {
             }
             public function info($msg)
