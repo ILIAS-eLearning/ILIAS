@@ -343,20 +343,24 @@ class Renderer extends AbstractComponentRenderer
             if ($entry instanceof Slate) {
                 $f = $this->getUIFactory();
                 $secondary_signal = $entry->getToggleSignal();
-                $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+
+                $clickable = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+                    ->withEngagedState($engaged)
                     ->withOnClick($entry_signal)
                     ->appendOnClick($secondary_signal)
                     ->withEngagedState($engaged)
                     ->withAriaRole(IBulky::MENUITEM);
 
                 $slate = $entry;
-            } else {
-                $button = $entry;
-                $button = $button->withAriaRole(IBulky::MENUITEM);
+            } elseif ($entry instanceof IBulky) {
+                $clickable = $entry;
+                $clickable = $clickable->withAriaRole(IBulky::MENUITEM);
                 $slate = null;
+            } else {
+                $clickable = $entry;
             }
 
-            $button_html = $default_renderer->render($button);
+            $clickable_html = $default_renderer->render($clickable);
 
             if ($slate) {
                 $tpl->setCurrentBlock("slate_item");
@@ -365,7 +369,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             $tpl->setCurrentBlock($use_block);
-            $tpl->setVariable("BUTTON", $button_html);
+            $tpl->setVariable("BUTTON", $clickable_html);
             $tpl->parseCurrentBlock();
         }
     }

@@ -170,4 +170,16 @@ class MetaBarTest extends ILIAS_UI_TestBase
             $this->brutallyTrimHTML($html)
         );
     }
+
+
+    public function testAcceptsBulkyLinkAsEntry() : void
+    {
+        $r = $this->getDefaultRenderer();
+
+        $bulky_link = $this->createMock(ILIAS\UI\Component\Link\Bulky::class);
+        $mb = $this->metabar
+            ->withAdditionalEntry('bulky link', $bulky_link);
+
+        $this->assertTrue(true); // Should not throw...
+    }
 }

@@ -6,7 +6,8 @@ namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls;
-use ILIAS\UI\Component\Button\Bulky;
+use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Component\MainControls\Slate\Prompt;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -37,7 +38,7 @@ class MetaBar implements MainControls\MetaBar
     private $disengage_all_signal;
 
     /**
-     * @var array<string, Bulky|Prompt>
+     * @var array<string, Button\Bulky|Link\Bulky|Slate>
      */
     protected $entries;
 
@@ -61,9 +62,9 @@ class MetaBar implements MainControls\MetaBar
      */
     public function withAdditionalEntry(string $id, $entry) : MainControls\MetaBar
     {
-        $classes = [Bulky::class, Slate::class];
+        $classes = [Button\Bulky::class, Link\Bulky::class, Slate::class];
         $check = [$entry];
-        $this->checkArgListElements("Bulky or Slate", $check, $classes);
+        $this->checkArgListElements("Bulky Button, Bulky Link or Slate", $check, $classes);
 
         $clone = clone $this;
         $clone->entries[$id] = $entry;
