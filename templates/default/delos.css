@@ -7910,10 +7910,10 @@ ul.dropdown-menu > li > .btn:focus {
   padding: 3px;
   padding-left: 100px;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb {
+.breadcrumb_wrapper .breadcrumb span.crumb a {
   color: #4c6586;
 }
-.breadcrumb_wrapper .breadcrumb span.crumb:hover {
+.breadcrumb_wrapper .breadcrumb span.crumb a:hover {
   color: #3a4c65;
 }
 .breadcrumb_wrapper .breadcrumb > span + span:before {
