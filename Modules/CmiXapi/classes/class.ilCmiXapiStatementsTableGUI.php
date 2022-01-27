@@ -31,9 +31,15 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     /**
      * @var bool
      */
-    protected $isMultiActorReport;
-    
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd, $isMultiActorReport)
+    protected bool $isMultiActorReport;
+
+    /**
+     * @param object|null $a_parent_obj
+     * @param string      $a_parent_cmd
+     * @param bool        $isMultiActorReport
+     * @throws ilCtrlException
+     */
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -117,7 +123,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->filter["period"] = $dp->getValue();
     }
     
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -153,8 +159,13 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $r->render($actionsList));
         $this->tpl->setVariable('RAW_DATA_MODAL', $r->render($rawDataModal));
     }
-    
-    protected function getActionsList(RoundTrip $rawDataModal, $data)
+
+    /**
+     * @param RoundTrip $rawDataModal
+     * @param array     $data
+     * @return \ILIAS\UI\Component\Dropdown\Dropdown
+     */
+    protected function getActionsList(RoundTrip $rawDataModal, array $data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $f = $DIC->ui()->factory();
@@ -168,8 +179,12 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         
         return $actions;
     }
-    
-    protected function getRawDataModal($data)
+
+    /**
+     * @param $data
+     * @return RoundTrip
+     */
+    protected function getRawDataModal($data) : RoundTrip
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $f = $DIC->ui()->factory();
@@ -181,8 +196,12 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         
         return $modal;
     }
-    
-    protected function getUsername(ilCmiXapiUser $cmixUser)
+
+    /**
+     * @param ilCmiXapiUser $cmixUser
+     * @return string
+     */
+    protected function getUsername(ilCmiXapiUser $cmixUser) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ret = 'not found';
