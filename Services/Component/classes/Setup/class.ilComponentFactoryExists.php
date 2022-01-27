@@ -22,7 +22,7 @@ use ILIAS\Setup;
 /**
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilComponentFactoryExistsObjective  implements Setup\Objective
+class ilComponentFactoryExistsObjective implements Setup\Objective
 {
     /**
      * @inheritdoc

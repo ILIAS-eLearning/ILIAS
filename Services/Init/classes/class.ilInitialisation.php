@@ -1234,7 +1234,7 @@ class ilInitialisation
         if (!isset($DIC["ilPluginAdmin"]) || !$DIC["ilPluginAdmin"] instanceof ilPluginAdmin) {
             self::initGlobal(
                 "ilPluginAdmin",
-                "ilPluginAdmin",
+                new ilPluginAdmin($DIC["component.repository"]),
                 "./Services/Component/classes/class.ilPluginAdmin.php"
             );
         }

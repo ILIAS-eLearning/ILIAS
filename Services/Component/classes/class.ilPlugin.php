@@ -68,8 +68,7 @@ abstract class ilPlugin
         \ilDBInterface $db,
         \ilComponentRepositoryWrite $component_repository,
         string $id
-    )
-    {
+    ) {
         if (!$component_repository->hasPluginId($id)) {
             throw new \LogicException(
                 "You tried to instantiate a plugin with an inexisting id '$id'." .
