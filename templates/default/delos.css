@@ -7875,6 +7875,16 @@ ul.dropdown-menu > li > .btn:focus {
 .il-viewcontrol-pagination .dropdown {
   display: inline;
 }
+.il-viewcontrol-pagination .btn {
+  vertical-align: top;
+}
+.il-viewcontrol-pagination .btn.engaged {
+  font-weight: 600;
+}
+.il-viewcontrol-pagination .dropdown-toggle {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .ilBlockContent .il-viewcontrol-section .btn.btn-default {
   background-color: transparent;
   border: 0;
