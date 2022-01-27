@@ -2,6 +2,8 @@
 
 namespace ILIAS\Setup;
 
+use Roave\BetterReflection\Reflection\ReflectionClass;
+
 /**
  * Class ImplementationOfInterfaceFinder
  *
@@ -40,6 +42,8 @@ class ImplementationOfInterfaceFinder
         $this->classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
     }
 
+    private static $reflectionCache = [];
+
     /**
      * The matcher finds the class names implementing the given interface, while
      * ignoring paths in self::$ignore and and the additional patterns provided.
@@ -55,10 +59,25 @@ class ImplementationOfInterfaceFinder
         array $additional_ignore = [],
         string $matching_path = null
     ) : \Iterator {
+        print_r("analyse all classes \n");
         foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
-                $r = new \ReflectionClass($class_name);
-                if ($r->isInstantiable() && $r->implementsInterface($interface)) {
+                // Cache reflection because it is not handled internal anymore
+                if (isset(self::$reflectionCache[$class_name])) {
+                    $r = self::$reflectionCache[$class_name];
+                } else {
+                    $reflection = ReflectionClass::createFromName($class_name);
+
+                    // only the needed data is cached because this would need memory in the gigabyte region.
+                    self::$reflectionCache[$class_name] = $r = [
+                        'interfaces' => array_keys($reflection->getInterfaces()),
+                        'isInstantiable' => $reflection->isInstantiable(),
+                    ];
+                }
+
+
+                if ($r['isInstantiable'] && in_array($class_name, $r['interfaces'])) {
+                //if (class_implements($class_name, $interface)) {
                     yield $class_name;
                 }
             } catch (\Throwable $e) {
