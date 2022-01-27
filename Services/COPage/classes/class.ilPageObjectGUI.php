@@ -1375,7 +1375,7 @@ class ilPageObjectGUI
 
         if ($this->getOutputMode() != "offline") {
             $enlarge_path = ilUtil::getImagePath("enlarge.svg");
-            $wb_path = ilUtil::getWebspaceDir("output") . "/";
+            $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
             $enlarge_path = "images/enlarge.svg";
             $wb_path = "";
@@ -2032,7 +2032,7 @@ class ilPageObjectGUI
 
         //echo "<b>XML:</b>".htmlentities($xml);
         // determine target frames for internal links
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
@@ -2396,7 +2396,7 @@ class ilPageObjectGUI
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
         $params = array('mode' => $mode, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);

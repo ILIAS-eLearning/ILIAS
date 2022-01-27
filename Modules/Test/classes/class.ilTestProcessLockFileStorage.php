@@ -51,7 +51,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
         });
 
         try {
-            ilUtil::makeDirParents($this->getPath());
+            ilFileUtils::makeDirParents($this->getPath());
             restore_error_handler();
         } catch (Exception $e) {
             restore_error_handler();

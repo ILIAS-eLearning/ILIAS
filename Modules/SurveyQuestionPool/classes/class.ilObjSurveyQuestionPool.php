@@ -213,10 +213,10 @@ class ilObjSurveyQuestionPool extends ilObject
         }
 
         // delete export files
-        $spl_data_dir = ilUtil::getDataDir() . "/spl_data";
+        $spl_data_dir = ilFileUtils::getDataDir() . "/spl_data";
         $directory = $spl_data_dir . "/spl_" . $this->getId();
         if (is_dir($directory)) {
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
     }
 
@@ -394,21 +394,21 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function createExportDirectory() : void
     {
-        $spl_data_dir = ilUtil::getDataDir() . "/spl_data";
-        ilUtil::makeDir($spl_data_dir);
+        $spl_data_dir = ilFileUtils::getDataDir() . "/spl_data";
+        ilFileUtils::makeDir($spl_data_dir);
         if (!is_writable($spl_data_dir)) {
             throw new ilSurveyException("Survey Questionpool Data Directory (" . $spl_data_dir . ") not writeable.");
         }
         
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $spl_dir = $spl_data_dir . "/spl_" . $this->getId();
-        ilUtil::makeDir($spl_dir);
+        ilFileUtils::makeDir($spl_dir);
         if (!is_dir($spl_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
         $export_dir = $spl_dir . "/export";
-        ilUtil::makeDir($export_dir);
+        ilFileUtils::makeDir($export_dir);
         if (!is_dir($export_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Export Directory failed.");
         }
@@ -419,7 +419,7 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function getExportDirectory() : string
     {
-        $export_dir = ilUtil::getDataDir() . "/spl_data" . "/spl_" . $this->getId() . "/export";
+        $export_dir = ilFileUtils::getDataDir() . "/spl_data" . "/spl_" . $this->getId() . "/export";
         return $export_dir;
     }
     
@@ -464,8 +464,8 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function createImportDirectory() : void
     {
-        $spl_data_dir = ilUtil::getDataDir() . "/spl_data";
-        ilUtil::makeDir($spl_data_dir);
+        $spl_data_dir = ilFileUtils::getDataDir() . "/spl_data";
+        ilFileUtils::makeDir($spl_data_dir);
         
         if (!is_writable($spl_data_dir)) {
             throw new ilSurveyException("Survey Questionpool Data Directory (" . $spl_data_dir . ") not writeable.");
@@ -473,14 +473,14 @@ class ilObjSurveyQuestionPool extends ilObject
 
         // create test directory (data_dir/spl_data/spl_<id>)
         $spl_dir = $spl_data_dir . "/spl_" . $this->getId();
-        ilUtil::makeDir($spl_dir);
+        ilFileUtils::makeDir($spl_dir);
         if (!is_dir($spl_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
         }
 
         // create import subdirectory (data_dir/spl_data/spl_<id>/import)
         $import_dir = $spl_dir . "/import";
-        ilUtil::makeDir($import_dir);
+        ilFileUtils::makeDir($import_dir);
         if (!is_dir($import_dir)) {
             throw new ilSurveyException("Creation of Survey Questionpool Import Directory failed.");
         }
@@ -488,7 +488,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
     public function getImportDirectory() : string
     {
-        return ilUtil::getDataDir() . "/spl_data" .
+        return ilFileUtils::getDataDir() . "/spl_data" .
             "/spl_" . $this->getId() . "/import";
     }
 
@@ -576,7 +576,7 @@ class ilObjSurveyQuestionPool extends ilObject
             $isZip = (strcmp(strtolower(substr($source, -3)), 'zip') == 0);
             if ($isZip) {
                 // unzip file
-                ilUtil::unzip($source);
+                ilFileUtils::unzip($source);
 
                 // determine filenames of xml files
                 $subdir = basename($source, ".zip");
@@ -589,7 +589,7 @@ class ilObjSurveyQuestionPool extends ilObject
             if ($isZip) {
                 $subdir = basename($source, ".zip");
                 if (is_dir(dirname($source) . "/" . $subdir)) {
-                    ilUtil::delDir(dirname($source) . "/" . $subdir);
+                    ilFileUtils::delDir(dirname($source) . "/" . $subdir);
                 }
             }
             if (strpos($xml, "questestinterop") > 0) {
@@ -921,7 +921,7 @@ class ilObjSurveyQuestionPool extends ilObject
                             if (is_dir($source_path)) {
                                 $target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
                                 if (!is_dir($target_path)) {
-                                    ilUtil::makeDirParents($target_path);
+                                    ilFileUtils::makeDirParents($target_path);
                                 }
                                 rename($source_path, $target_path . $question_object["question_id"]);
                             }

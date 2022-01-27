@@ -421,7 +421,7 @@ class ilExcel
                 $a_mime_type = MimeType::APPLICATION__OCTET_STREAM;
                 break;
         }
-        $tmp_name = ilUtil::ilTempnam();
+        $tmp_name = ilFileUtils::ilTempnam();
 
         $writer = IOFactory::createWriter($this->workbook, $this->format);
         $writer->save($tmp_name);
@@ -448,7 +448,7 @@ class ilExcel
     public function writeToTmpFile() : string
     {
         $writer = IOFactory::createWriter($this->workbook, $this->format);
-        $filename = ilUtil::ilTempnam();
+        $filename = ilFileUtils::ilTempnam();
         $writer->save($filename);
         
         return $filename;

@@ -30,9 +30,9 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     public static function lookupExportDirectory(string $a_obj_type, int $a_obj_id, string $a_export_type = 'xml', string $a_entity = "") : string
     {
         if ($a_export_type == 'xml') {
-            return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
+            return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
         }
-        return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_" . $a_export_type;
+        return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_" . $a_export_type;
     }
 
 

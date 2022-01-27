@@ -148,7 +148,7 @@ class ilPersonalProfileGUI
                     $ilUser->removeUserPicture();
                 }
             } else {
-                $webspace_dir = ilUtil::getWebspaceDir();
+                $webspace_dir = ilFileUtils::getWebspaceDir();
                 $image_dir = $webspace_dir . "/usr_images";
                 $store_file = "usr_" . $ilUser->getID() . "." . "jpg";
 

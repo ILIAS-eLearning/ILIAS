@@ -92,7 +92,7 @@ class ilUserPasswordManager
                     [
                         'default_password_encoder' => 'bcryptphp',
                         'ignore_security_flaw' => true,
-                        'data_directory' => ilUtil::getDataDir()
+                        'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
                 'password_encoder' => 'bcryptphp',

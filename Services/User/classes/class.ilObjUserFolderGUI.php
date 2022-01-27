@@ -1275,7 +1275,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if ($this->form->checkInput()) {
             $xml_file = $this->handleUploadedFiles();
             //importParser needs the full path to xml file
-            $xml_file_full_path = ilUtil::getDataDir() . '/' . $xml_file;
+            $xml_file_full_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
             $form = $this->initUserRoleAssignmentForm($xml_file_full_path);
 
@@ -1723,8 +1723,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             // handle zip file
             if ($single_file_upload->getMimeType() == "application/zip") {
                 // Workaround: unzip function needs full path to file. Should be replaced once Filesystem has own unzip implementation
-                $full_path = ilUtil::getDataDir() . '/user_import/usr_' . $ilUser->getId() . '_' . session_id() . "/" . $file_name;
-                ilUtil::unzip($full_path);
+                $full_path = ilFileUtils::getDataDir() . '/user_import/usr_' . $ilUser->getId() . '_' . session_id() . "/" . $file_name;
+                ilFileUtils::unzip($full_path);
 
                 $xml_file = null;
                 $file_list = $filesystem->listContents($import_dir);
@@ -1842,7 +1842,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         //Need full path to xml file to initialise form
-        $xml_path = ilUtil::getDataDir() . '/' . $xml_file;
+        $xml_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
         if ($request->getMethod() == "POST") {
             $form = $this->initUserRoleAssignmentForm($xml_path)->withRequest($request);

@@ -13,7 +13,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);

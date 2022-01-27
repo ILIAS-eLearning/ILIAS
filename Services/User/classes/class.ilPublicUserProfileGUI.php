@@ -378,8 +378,8 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
         }
         
-        $webspace_dir = ilUtil::getWebspaceDir("user");
-        $check_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir("user");
+        $check_dir = ilFileUtils::getWebspaceDir();
         $random = new \ilRandom();
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image") . "?dummy=" . $random->int(1, 999999);
         $check_file = $check_dir . "/usr_images/" . $user->getPref("profile_image");
@@ -688,7 +688,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $vcard->setName($user->getLastname(), $user->getFirstname(), "", $user->getUTitle());
         $vcard->setNickname($user->getLogin());
         
-        $webspace_dir = ilUtil::getWebspaceDir("output");
+        $webspace_dir = ilFileUtils::getWebspaceDir("output");
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image");
         if ($user->getPref("public_upload") == "y" && is_file($imagefile)) {
             $fh = fopen($imagefile, "r");

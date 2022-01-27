@@ -115,7 +115,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      */
     protected function getTempFileName($file_type)
     {
-        return ilUtil::ilTempnam() . '.' . $file_type;
+        return ilFileUtils::ilTempnam() . '.' . $file_type;
     }
 
     /**

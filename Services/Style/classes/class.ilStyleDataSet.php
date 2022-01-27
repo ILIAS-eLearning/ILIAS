@@ -428,7 +428,7 @@ class ilStyleDataSet extends ilDataSet
                 if ($dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
                     $target_dir = $dir = ilObjStyleSheet::_getImagesDirectory($newObj->getId());
-                    ilUtil::rCopy($source_dir, $target_dir);
+                    ilFileUtils::rCopy($source_dir, $target_dir);
                 }
                 break;
 

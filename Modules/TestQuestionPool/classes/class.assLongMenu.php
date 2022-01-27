@@ -78,7 +78,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
     private function buildFolderName()
     {
-        return ilUtil::getDataDir() . '/assessment/longMenuQuestion/' . $this->getId() . '/' ;
+        return ilFileUtils::getDataDir() . '/assessment/longMenuQuestion/' . $this->getId() . '/' ;
     }
 
     public function getAnswerTableName()
@@ -338,13 +338,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     
     private function clearFolder($let_folder_exists = true)
     {
-        ilUtil::delDir($this->buildFolderName(), $let_folder_exists);
+        ilFileUtils::delDir($this->buildFolderName(), $let_folder_exists);
     }
     
     private function assertDirExists()
     {
         $folder_name = $this->buildFolderName();
-        if (!ilUtil::makeDirParents($folder_name)) {
+        if (!ilFileUtils::makeDirParents($folder_name)) {
             throw new ilException('Cannot create export directory');
         }
 

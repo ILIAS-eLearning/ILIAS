@@ -15,8 +15,11 @@
 
 namespace ILIAS\Blog\Export;
 
+use ilFileUtils;
+
 /**
  * Blog HTML export
+ *
  * @author Alexander Killing <killing@leifos.de>
  */
 class BlogHtmlExport
@@ -88,8 +91,8 @@ class BlogHtmlExport
     protected function initDirectories() : void
     {
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
     }
 
     /**
@@ -154,8 +157,8 @@ class BlogHtmlExport
         $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), $type, "blog") .
             "/" . $date . "__" . IL_INST_ID . "__" .
             $this->blog->getType() . "_" . $this->blog->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
         return $zip_file;
     }
 

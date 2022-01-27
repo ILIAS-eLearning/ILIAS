@@ -271,7 +271,7 @@ abstract class ilVerificationObject extends ilObject2
     
     public function getOfflineFilename() : string
     {
-        return ilUtil::getASCIIFilename($this->getTitle()) . ".pdf";
+        return ilFileUtils::getASCIIFilename($this->getTitle()) . ".pdf";
     }
     
     protected function handleQuotaUpdate() : void

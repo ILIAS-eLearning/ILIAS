@@ -109,7 +109,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     public function getEntries() : array
     {
         if (is_dir($this->cur_dir)) {
-            $entries = ilUtil::getDir($this->cur_dir);
+            $entries = ilFileUtils::getDir($this->cur_dir);
         } else {
             $entries = array(array("type" => "dir", "entry" => ".."));
         }

@@ -133,10 +133,10 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      */
     public static function _lookupDiskUsage($a_id) : int
     {
-        $lm_data_dir = ilUtil::getWebspaceDir('filesystem') . "/lm_data";
+        $lm_data_dir = ilFileUtils::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;
 
-        return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;
+        return file_exists($lm_dir) ? ilFileUtils::dirsize($lm_dir) : 0;
     }
 
     /**

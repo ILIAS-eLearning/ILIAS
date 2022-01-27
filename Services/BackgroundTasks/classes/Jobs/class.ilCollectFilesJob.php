@@ -135,7 +135,7 @@ class ilCollectFilesJob extends AbstractJob
             if (@!is_file($source_dir)) {
                 return false;
             }
-            $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
+            $target_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_file_name);
 
             return $file_dirs = [
                 "source_dir" => $source_dir,
@@ -168,7 +168,7 @@ class ilCollectFilesJob extends AbstractJob
         if ($num_recursions <= 1 && $a_initiated_by_folder_action) {
             $temp_dir = $a_temp_dir;
         } else {
-            $temp_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_folder_name);
+            $temp_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_folder_name);
         }
 
         $subtree = $tree->getChildsByTypeFilter($a_ref_id, array("fold", "file"));

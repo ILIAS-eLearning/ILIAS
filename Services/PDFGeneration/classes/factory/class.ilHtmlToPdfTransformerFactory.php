@@ -35,9 +35,9 @@ class ilHtmlToPdfTransformerFactory
      */
     protected function generateTempPath($output)
     {
-        $dir = ilUtil::ilTempnam();
+        $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
-            ilUtil::makeDirParents($dir);
+            ilFileUtils::makeDirParents($dir);
         }
 
         $output = preg_replace('#[\\\\/:*?"<>|]#', '-', $output);

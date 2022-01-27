@@ -67,7 +67,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
         $inputFile = $this->prepareFileForExec($filepath);
 
         // create a temporary file name and remove its extension
-        $output = str_replace(".tmp", "", ilUtil::ilTempnam());
+        $output = str_replace(".tmp", "", ilFileUtils::ilTempnam());
 
         // use '#' instead of '%' as it gets replaced by 'escapeShellArg' on windows!
         $outputFile = $output . "_#02d.png";

@@ -116,7 +116,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
             if (!is_file($source_dir)) {
                 $source_dir = $file->getFile();
             }
-            $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
+            $target_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_file_name);
 
             return [
                 "source_dir" => $source_dir,
@@ -143,7 +143,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         if (($num_recursions <= 1) and ($a_initiated_by_folder_action)) {
             $temp_dir = $a_temp_dir;
         } else {
-            $temp_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_folder_name);
+            $temp_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_folder_name);
         }
 
 

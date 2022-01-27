@@ -660,7 +660,7 @@ class ilSurveyParticipantsGUI
         $codes = $this->edit_request->getCodes();
         if (count($codes) > 0) {
             $export = $this->object->getSurveyCodesForExport(null, $codes);
-            ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".csv"));
+            ilUtil::deliverData($export, ilFileUtils::getASCIIFilename($this->object->getTitle() . ".csv"));
         } else {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'codes');
@@ -673,7 +673,7 @@ class ilSurveyParticipantsGUI
     public function exportAllCodesObject() : void
     {
         $export = $this->object->getSurveyCodesForExport();
-        ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".csv"));
+        ilUtil::deliverData($export, ilFileUtils::getASCIIFilename($this->object->getTitle() . ".csv"));
     }
     
     /**

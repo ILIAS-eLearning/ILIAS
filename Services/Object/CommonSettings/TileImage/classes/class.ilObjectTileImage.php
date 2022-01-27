@@ -161,7 +161,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         return implode(
             DIRECTORY_SEPARATOR,
             [
-                ilUtil::getWebspaceDir(),
+                ilFileUtils::getWebspaceDir(),
                 $this->getRelativePath()
             ]
         );
@@ -172,7 +172,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         $target_dir = implode(
             DIRECTORY_SEPARATOR,
             [
-                ilUtil::getWebspaceDir(),
+                ilFileUtils::getWebspaceDir(),
                 $this->getRelativeDirectory()
             ]
         );

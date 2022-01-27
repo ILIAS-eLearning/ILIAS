@@ -384,7 +384,7 @@ class ilSkinStyleContainer
     public function createTempZip() : string
     {
         $rel_tmp_zip = '../' . $this->getSkin()->getId() . '.zip';
-        ilUtil::zip($this->getSkinDirectory(), $rel_tmp_zip, true);
+        ilFileUtils::zip($this->getSkinDirectory(), $rel_tmp_zip, true);
         return rtrim($this->getSkinDirectory(), '/') . '.zip';
     }
 

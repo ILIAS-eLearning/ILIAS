@@ -52,7 +52,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 
     public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null) : void
     {
-        $tmp_file = ilUtil::ilTempnam();
+        $tmp_file = ilFileUtils::ilTempnam();
         file_put_contents($tmp_file, $a_xml);
 
         // see ilAdvancedMDSettingsGUI::importRecord()

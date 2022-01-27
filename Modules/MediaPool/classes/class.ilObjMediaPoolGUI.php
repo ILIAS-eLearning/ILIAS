@@ -747,7 +747,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
 
         $mode = ($this->ctrl->getCmd() != "showPreview")
             ? "fullscreen"

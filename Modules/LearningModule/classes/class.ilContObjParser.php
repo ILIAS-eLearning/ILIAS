@@ -296,14 +296,14 @@ class ilContObjParser extends ilMDSaxParser
 
             $obj_dir = $origin_id;
             $source_dir = $imp_dir . "/" . $this->subdir . "/objects/" . $obj_dir;
-            $target_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $mob_id;
+            $target_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $mob_id;
 
             if (is_dir($source_dir)) {
-                ilUtil::makeDir($target_dir);
+                ilFileUtils::makeDir($target_dir);
 
                 if (is_dir($target_dir)) {
                     ilLoggerFactory::getLogger("mob")->debug("s:-$source_dir-,t:-$target_dir-");
-                    ilUtil::rCopy(realpath($source_dir), realpath($target_dir));
+                    ilFileUtils::rCopy(realpath($source_dir), realpath($target_dir));
                 }
             }
         }
@@ -325,10 +325,10 @@ class ilContObjParser extends ilMDSaxParser
             $file_obj = new ilObjFile($file_id, false);
             $target_dir = $file_obj->getDirectory();
             if (is_dir($source_dir)) {
-                ilUtil::makeDir($target_dir);
+                ilFileUtils::makeDir($target_dir);
 
                 if (is_dir($target_dir)) {
-                    ilUtil::rCopy(realpath($source_dir), realpath($target_dir));
+                    ilFileUtils::rCopy(realpath($source_dir), realpath($target_dir));
                 }
             }
             $file_obj->update();

@@ -1628,7 +1628,7 @@ class ilObjUserGUI extends ilObjectGUI
         if ($_FILES["userfile"]["size"] == 0) {
             ilUtil::sendFailure($this->lng->txt("msg_no_file"));
         } else {
-            $webspace_dir = ilUtil::getWebspaceDir();
+            $webspace_dir = ilFileUtils::getWebspaceDir();
             $image_dir = $webspace_dir . "/usr_images";
             $store_file = "usr_" . $this->object->getId() . "." . "jpg";
 
@@ -1639,7 +1639,7 @@ class ilObjUserGUI extends ilObjectGUI
             // move uploaded file
             $pi = pathinfo($_FILES["userfile"]["name"]);
             $uploaded_file = $image_dir . "/upload_" . $this->object->getId() . "." . $pi["extension"];
-            if (!ilUtil::moveUploadedFile(
+            if (!ilFileUtils::moveUploadedFile(
                 $_FILES["userfile"]["tmp_name"],
                 $_FILES["userfile"]["name"],
                 $uploaded_file,
@@ -1681,7 +1681,7 @@ class ilObjUserGUI extends ilObjectGUI
      */
     public function removeUserPictureObject() : void
     {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $file = $image_dir . "/usr_" . $this->object->getId() . "." . "jpg";
         $thumb_file = $image_dir . "/usr_" . $this->object->getId() . "_small.jpg";

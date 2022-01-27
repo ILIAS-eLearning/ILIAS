@@ -255,10 +255,10 @@ class ilDidacticTemplateSettingsGUI
         $import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
 
         $file = $form->getInput('file');
-        $tmp = ilUtil::ilTempnam() . '.xml';
+        $tmp = ilFileUtils::ilTempnam() . '.xml';
 
         // move uploaded file
-        ilUtil::moveUploadedFile(
+        ilFileUtils::moveUploadedFile(
             $file['tmp_name'],
             $file['name'],
             $tmp

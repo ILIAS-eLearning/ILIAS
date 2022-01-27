@@ -16,6 +16,7 @@
 namespace ILIAS\LearningModule\Export;
 
 use ILIAS\COPage\PageLinker;
+use ilFileUtils;
 
 /**
  * LM HTML Export
@@ -126,11 +127,11 @@ class LMHtmlExport
     protected function initDirectories() : void
     {
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
         foreach (["mobs", "files", "textimg", "style",
             "style/images", "content_style", "content_style", "content_style/images"] as $dir) {
-            \ilUtil::makeDir($this->target_dir . "/" . $dir);
+            ilFileUtils::makeDir($this->target_dir . "/" . $dir);
         }
     }
 
@@ -293,15 +294,15 @@ class LMHtmlExport
             $zip_target_dir = $this->lm->getExportDirectory("html");
         } else {
             $zip_target_dir = $this->lm->getExportDirectory("html_" . $this->lang);
-            \ilUtil::makeDir($zip_target_dir);
+            ilFileUtils::makeDir($zip_target_dir);
         }
 
         // zip it all
         $date = time();
         $zip_file = $zip_target_dir . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->lm->getType() . "_" . $this->lm->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
     }
 
 

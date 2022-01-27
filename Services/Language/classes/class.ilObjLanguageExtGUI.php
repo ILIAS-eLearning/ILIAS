@@ -463,7 +463,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             }
 
             // todo: refactor when importLanguageFile() is able to work with the new Filesystem service
-            $tempfile = ilUtil::ilTempnam() . ".sec";
+            $tempfile = ilFileUtils::ilTempnam() . ".sec";
             $upload->moveOneFileTo($UploadResult, '', Location::TEMPORARY, basename($tempfile), true);
             $this->object->importLanguageFile($tempfile, $_POST["mode_existing"]);
 

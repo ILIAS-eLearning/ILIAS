@@ -87,7 +87,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      */
     public function initInfoDirectory()
     {
-        ilUtil::makeDirParents($this->getInfoDirectory());
+        ilFileUtils::makeDirParents($this->getInfoDirectory());
     }
 
     /**
@@ -110,7 +110,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      */
     public function initMemberExportDirectory()
     {
-        ilUtil::makeDirParents($this->getMemberExportDirectory());
+        ilFileUtils::makeDirParents($this->getMemberExportDirectory());
     }
 
     /**
@@ -209,7 +209,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      */
     public function initArchiveDirectory()
     {
-        ilUtil::makeDirParents($this->getArchiveDirectory());
+        ilFileUtils::makeDirParents($this->getArchiveDirectory());
     }
 
     /**
@@ -232,7 +232,7 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      */
     public function addArchiveSubDirectory($a_name)
     {
-        ilUtil::makeDirParents($this->getArchiveDirectory() . '/' . $a_name);
+        ilFileUtils::makeDirParents($this->getArchiveDirectory() . '/' . $a_name);
     }
 
     /**
@@ -262,7 +262,8 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
      */
     public function zipArchive($a_rel_name, $a_zip_name)
     {
-        if (ilUtil::zip($this->getArchiveDirectory() . '/' . $a_rel_name, $this->getArchiveDirectory() . '/' . $a_zip_name)) {
+        if (ilFileUtils::zip($this->getArchiveDirectory() . '/' . $a_rel_name,
+            $this->getArchiveDirectory() . '/' . $a_zip_name)) {
             return filesize($this->getArchiveDirectory() . '/' . $a_zip_name);
         }
         return 0;
@@ -283,15 +284,16 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
 
     public function createArchiveOnlineVersion($a_rel_name)
     {
-        ilUtil::makeDirParents(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
-        ilUtil::rCopy($this->getArchiveDirectory() . '/' . $a_rel_name, CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
+        ilFileUtils::makeDirParents(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
+        ilFileUtils::rCopy($this->getArchiveDirectory() . '/' . $a_rel_name,
+            CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
 
         return true;
     }
 
     public function getOnlineLink($a_rel_name)
     {
-        return ilUtil::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
+        return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
 
 

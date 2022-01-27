@@ -276,9 +276,9 @@ class ilObjSAHSLearningModule extends ilObject
     */
     public function createDataDirectory() : void
     {
-        $lm_data_dir = ilUtil::getWebspaceDir() . "/lm_data";
-        ilUtil::makeDir($lm_data_dir);
-        ilUtil::makeDir($this->getDataDirectory());
+        $lm_data_dir = ilFileUtils::getWebspaceDir() . "/lm_data";
+        ilFileUtils::makeDir($lm_data_dir);
+        ilFileUtils::makeDir($this->getDataDirectory());
     }
 
     /**
@@ -288,7 +288,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getDataDirectory($mode = "filesystem") : string
     {
-        $lm_data_dir = ilUtil::getWebspaceDir($mode) . "/lm_data";
+        $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
 
         return $lm_dir;
@@ -1238,7 +1238,7 @@ class ilObjSAHSLearningModule extends ilObject
         $this->deleteMetaData();
 
         // delete data directory
-        ilUtil::delDir($this->getDataDirectory());
+        ilFileUtils::delDir($this->getDataDirectory());
 
         // delete scorm learning module record
         $ilDB->manipulateF(
@@ -1393,7 +1393,7 @@ class ilObjSAHSLearningModule extends ilObject
         {
             $a_dir = $a_dir."/sahs_".$match[1];
         }*/
-        ilUtil::rCopy($a_dir, $this->getDataDirectory());
+        ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
         ilUtil::renameExecutables($this->getDataDirectory());
     }
 

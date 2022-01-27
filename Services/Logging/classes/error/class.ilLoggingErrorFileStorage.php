@@ -29,7 +29,7 @@ class ilLoggingErrorFileStorage
     protected function createDir(string $path) : void
     {
         if (!is_dir($this->file_path)) {
-            ilUtil::makeDirParents($this->file_path);
+            ilFileUtils::makeDirParents($this->file_path);
         }
     }
 

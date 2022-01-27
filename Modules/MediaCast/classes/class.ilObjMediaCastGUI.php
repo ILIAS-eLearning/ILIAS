@@ -666,14 +666,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $mob->createDirectory();
             }
             
-            $file_name = ilUtil::getASCIIFilename($_FILES['file_' . $purpose]['name']);
+            $file_name = ilFileUtils::getASCIIFilename($_FILES['file_' . $purpose]['name']);
             $file_name = str_replace(" ", "_", $file_name);
 
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
             $locationType = "LocalFile";
             $location = $title;
-            ilUtil::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
+            ilFileUtils::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
             ilUtil::renameExecutables($mob_dir);
         }
         

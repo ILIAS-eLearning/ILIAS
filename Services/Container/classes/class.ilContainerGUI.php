@@ -1169,7 +1169,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function getBucketTitle() : string
     {
-        return $bucket_title = ilUtil::getASCIIFilename($this->object->getTitle());
+        return $bucket_title = ilFileUtils::getASCIIFilename($this->object->getTitle());
     }
 
     /**

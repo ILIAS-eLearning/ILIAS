@@ -191,7 +191,7 @@ class ilSessionFile
 
         if ($a_upload) {
             // now create file
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $this->getTemporaryName(),
                 $this->getFileName(),
                 $this->fss_storage->getAbsolutePath() . '/' . $this->getFileId()

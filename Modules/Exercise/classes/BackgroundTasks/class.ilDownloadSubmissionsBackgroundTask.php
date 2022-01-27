@@ -72,7 +72,7 @@ class ilDownloadSubmissionsBackgroundTask
             $download_name = ilExSubmission::getDirectoryNameFromUserData($this->participant_id);
             $bucket->setTitle($this->getParticipantBucketTitle());
         } else {
-            $download_name = ilUtil::getASCIIFilename(ilExAssignment::lookupTitle($this->ass_id));
+            $download_name = ilFileUtils::getASCIIFilename(ilExAssignment::lookupTitle($this->ass_id));
             $bucket->setTitle($download_name);
         }
 

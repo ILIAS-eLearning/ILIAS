@@ -105,14 +105,14 @@ class ilContainer extends ilObject
     // <webspace_dir>/container_data.
     public function createContainerDirectory() : void
     {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $cont_dir = $webspace_dir . "/container_data";
         if (!is_dir($cont_dir)) {
-            ilUtil::makeDir($cont_dir);
+            ilFileUtils::makeDir($cont_dir);
         }
         $obj_dir = $cont_dir . "/obj_" . $this->getId();
         if (!is_dir($obj_dir)) {
-            ilUtil::makeDir($obj_dir);
+            ilFileUtils::makeDir($obj_dir);
         }
     }
     
@@ -123,7 +123,7 @@ class ilContainer extends ilObject
     
     public static function _getContainerDirectory(int $a_id) : string
     {
-        return ilUtil::getWebspaceDir() . "/container_data/obj_" . $a_id;
+        return ilFileUtils::getWebspaceDir() . "/container_data/obj_" . $a_id;
     }
 
     // Set Found hidden files (set by getSubItems).

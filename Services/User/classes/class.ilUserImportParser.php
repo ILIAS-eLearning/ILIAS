@@ -1592,7 +1592,7 @@ class ilUserImportParser extends ilSaxParser
         string $image_data,
         string $filename
     ) : string {
-        $tempname = ilUtil::ilTempnam() . $filename;
+        $tempname = ilFileUtils::ilTempnam() . $filename;
         $fh = fopen($tempname, "wb");
         if ($fh == false) {
             return "";

@@ -127,7 +127,7 @@ class ilPreview
             $dest->getStorage()->create();
 
             // copy previews
-            ilUtil::rCopy($src->getStoragePath(), $dest->getStoragePath());
+            ilFileUtils::rCopy($src->getStoragePath(), $dest->getStoragePath());
 
             // save copy
             $dest->doCreate();

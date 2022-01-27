@@ -181,7 +181,7 @@ abstract class ilTestExport
         // make_directories
         $this->test_obj->createExportDirectory();
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::makeDir($this->export_dir);
+        ilFileUtils::makeDir($this->export_dir);
 
         include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
@@ -257,10 +257,10 @@ abstract class ilTestExport
 
         if ($deliver) {
             $worksheet->sendToClient(
-                ilUtil::getASCIIFilename(preg_replace("/\s/", '_', $this->test_obj->getTitle() . '_aggregated')) . '.xlsx'
+                ilFileUtils::getASCIIFilename(preg_replace("/\s/", '_', $this->test_obj->getTitle() . '_aggregated')) . '.xlsx'
             );
         } else {
-            $excelfile = ilUtil::ilTempnam();
+            $excelfile = ilFileUtils::ilTempnam();
             $worksheet->writeToFile($excelfile);
             return $excelfile . '.xlsx';
         }
@@ -310,7 +310,7 @@ abstract class ilTestExport
             $csv .= join($separator, $csvrow) . "\n";
         }
         if ($deliver) {
-            ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
+            ilUtil::deliverData($csv, ilFileUtils::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
             exit;
         } else {
             return $csv;
@@ -745,10 +745,10 @@ abstract class ilTestExport
                     $testname .= '_results';
                     break;
             }
-            $testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $testname)) . '.xlsx';
+            $testname = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $testname)) . '.xlsx';
             $worksheet->sendToClient($testname);
         } else {
-            $excelfile = ilUtil::ilTempnam();
+            $excelfile = ilFileUtils::ilTempnam();
             $worksheet->writeToFile($excelfile);
             return $excelfile . '.xlsx';
         }
@@ -959,7 +959,7 @@ abstract class ilTestExport
             $csv .= join($separator, $csvrow) . "\n";
         }
         if ($deliver) {
-            ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
+            ilUtil::deliverData($csv, ilFileUtils::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
             exit;
         } else {
             return $csv;
@@ -1000,8 +1000,8 @@ abstract class ilTestExport
         // create directories
         $this->test_obj->createExportDirectory();
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->test_obj->getExportDirectory();
@@ -1063,7 +1063,7 @@ abstract class ilTestExport
 
         // zip the file
         $ilBench->start("TestExport", "buildExportFile_zipFile");
-        ilUtil::zip(
+        ilFileUtils::zip(
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );

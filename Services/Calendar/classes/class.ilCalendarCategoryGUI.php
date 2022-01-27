@@ -1065,8 +1065,8 @@ class ilCalendarCategoryGUI
         $form = $this->initImportForm();
         if ($form->checkInput()) {
             $file = $form->getInput('file');
-            $tmp = ilUtil::ilTempnam();
-            ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $tmp);
+            $tmp = ilFileUtils::ilTempnam();
+            ilFileUtils::moveUploadedFile($file['tmp_name'], $file['name'], $tmp);
             $num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
             ilUtil::sendSuccess(sprintf($this->lng->txt('cal_imported_success'), $num), true);
             $this->ctrl->redirect($this, 'cancel');

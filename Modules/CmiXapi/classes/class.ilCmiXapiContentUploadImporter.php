@@ -86,7 +86,7 @@ class ilCmiXapiContentUploadImporter
     protected function sanitizeObjectDirectory() : void
     {
         ilUtil::renameExecutables(implode(DIRECTORY_SEPARATOR, [
-            \ilUtil::getWebspaceDir(), $this->getWebDataDirRelativeObjectDirectory()
+            ilFileUtils::getWebspaceDir(), $this->getWebDataDirRelativeObjectDirectory()
         ]));
     }
     
@@ -306,7 +306,7 @@ class ilCmiXapiContentUploadImporter
     {
         $dirs = [
             ILIAS_ABSOLUTE_PATH,
-            ilUtil::getWebspaceDir(),
+            ilFileUtils::getWebspaceDir(),
             $this->getWebDataDirRelativeObjectDirectory()
         ];
         

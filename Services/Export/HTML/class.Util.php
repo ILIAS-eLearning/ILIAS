@@ -5,6 +5,7 @@
 namespace ILIAS\Services\Export\HTML;
 
 use ILIAS\GlobalScreen\Services;
+use ilFileUtils;
 
 /**
  * Util
@@ -102,7 +103,7 @@ class Util
         }
         if (is_file($file)) {
             $dir = dirname($file);
-            \ilUtil::makeDirParents($target_dir . "/" . $dir);
+            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
             if (!is_file($target_dir . "/" . $file)) {
                 copy($file, $target_dir . "/" . $file);
             }

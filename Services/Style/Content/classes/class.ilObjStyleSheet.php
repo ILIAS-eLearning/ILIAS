@@ -884,7 +884,7 @@ class ilObjStyleSheet extends ilObject
                 $this->createImagesDirectory();
 
                 // cross filesystem (lib -> web) rCopy
-                ilUtil::rCopy(
+                ilFileUtils::rCopy(
                     self::$basic_style_image_dir,
                     $this->getImagesDirectory()
                 );
@@ -962,7 +962,7 @@ class ilObjStyleSheet extends ilObject
             
             // copy images
             $this->createImagesDirectory();
-            ilUtil::rCopy(
+            ilFileUtils::rCopy(
                 $from_style->getImagesDirectory(),
                 $this->getImagesDirectory()
             );
@@ -1178,7 +1178,7 @@ class ilObjStyleSheet extends ilObject
     */
     public function copyImagesToDir($a_target)
     {
-        ilUtil::rCopy($this->getImagesDirectory(), $a_target);
+        ilFileUtils::rCopy($this->getImagesDirectory(), $a_target);
     }
     
     /**
@@ -1234,15 +1234,15 @@ class ilObjStyleSheet extends ilObject
 
         $ilErr = $DIC["ilErr"];
         
-        $sty_data_dir = ilUtil::getWebspaceDir() . "/sty";
-        ilUtil::makeDir($sty_data_dir);
+        $sty_data_dir = ilFileUtils::getWebspaceDir() . "/sty";
+        ilFileUtils::makeDir($sty_data_dir);
         if (!is_writable($sty_data_dir)) {
             $ilErr->raiseError("Style data directory (" . $sty_data_dir
                 . ") not writeable.", $ilErr->FATAL);
         }
  
         $style_dir = $sty_data_dir . "/sty_" . $a_style_id;
-        ilUtil::makeDir($style_dir);
+        ilFileUtils::makeDir($style_dir);
         if (!@is_dir($style_dir)) {
             $ilErr->raiseError("Creation of style directory failed (" .
                 $style_dir . ").", $ilErr->FATAL);
@@ -1250,7 +1250,7 @@ class ilObjStyleSheet extends ilObject
 
         // create images subdirectory
         $im_dir = $style_dir . "/images";
-        ilUtil::makeDir($im_dir);
+        ilFileUtils::makeDir($im_dir);
         if (!@is_dir($im_dir)) {
             $ilErr->raiseError("Creation of Import Directory failed (" .
                 $im_dir . ").", $ilErr->FATAL);
@@ -1258,7 +1258,7 @@ class ilObjStyleSheet extends ilObject
 
         // create thumbnails directory
         $thumb_dir = $style_dir . "/images/thumbnails";
-        ilUtil::makeDir($thumb_dir);
+        ilFileUtils::makeDir($thumb_dir);
         if (!@is_dir($thumb_dir)) {
             $ilErr->raiseError("Creation of Import Directory failed (" .
                 $thumb_dir . ").", $ilErr->FATAL);
@@ -1278,7 +1278,7 @@ class ilObjStyleSheet extends ilObject
     */
     public static function _getImagesDirectory($a_style_id)
     {
-        return ilUtil::getWebspaceDir() . "/sty/sty_" . $a_style_id .
+        return ilFileUtils::getWebspaceDir() . "/sty/sty_" . $a_style_id .
             "/images";
     }
 
@@ -1379,7 +1379,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate($q);
         
         // delete style file
-        $css_file_name = ilUtil::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";
+        $css_file_name = ilFileUtils::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";
         if (is_file($css_file_name)) {
             unlink($css_file_name);
         }
@@ -1482,7 +1482,7 @@ class ilObjStyleSheet extends ilObject
         $style = $this->getStyle();
 
         if ($a_target_file == "") {
-            $css_file_name = ilUtil::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";
+            $css_file_name = ilFileUtils::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";
         } else {
             $css_file_name = $a_target_file;
         }
@@ -1704,7 +1704,7 @@ class ilObjStyleSheet extends ilObject
                 $style->writeCSSFile();
             }
 
-            $path = ilUtil::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css";
+            $path = ilFileUtils::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css";
             if ($add_random) {
                 $path .= "?dummy=$rand";
             }
@@ -1926,15 +1926,15 @@ class ilObjStyleSheet extends ilObject
     */
     public function createExportDirectory()
     {
-        $sty_data_dir = ilUtil::getDataDir() . "/sty";
-        ilUtil::makeDir($sty_data_dir);
+        $sty_data_dir = ilFileUtils::getDataDir() . "/sty";
+        ilFileUtils::makeDir($sty_data_dir);
         if (!is_writable($sty_data_dir)) {
             $this->ilias->raiseError("Style data directory (" . $sty_data_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
         }
  
         $style_dir = $sty_data_dir . "/sty_" . $this->getId();
-        ilUtil::makeDir($style_dir);
+        ilFileUtils::makeDir($style_dir);
         if (!@is_dir($style_dir)) {
             $this->ilias->raiseError("Creation of style directory failed (" .
                 $style_dir . ").", $this->ilias->error_obj->FATAL);
@@ -1942,7 +1942,7 @@ class ilObjStyleSheet extends ilObject
 
         // create export subdirectory
         $ex_dir = $style_dir . "/export";
-        ilUtil::makeDir($ex_dir);
+        ilFileUtils::makeDir($ex_dir);
         if (!@is_dir($ex_dir)) {
             $this->ilias->raiseError("Creation of Import Directory failed (" .
                 $ex_dir . ").", $this->ilias->error_obj->FATAL);
@@ -1956,13 +1956,13 @@ class ilObjStyleSheet extends ilObject
     */
     public function cleanExportDirectory()
     {
-        $sty_data_dir = ilUtil::getDataDir() . "/sty";
+        $sty_data_dir = ilFileUtils::getDataDir() . "/sty";
         $style_dir = $sty_data_dir . "/sty_" . $this->getId();
         // create export subdirectory
         $ex_dir = $style_dir . "/export";
         
         if (is_dir($ex_dir)) {
-            ilUtil::delDir($ex_dir, true);
+            ilFileUtils::delDir($ex_dir, true);
         }
     }
 
@@ -1974,13 +1974,13 @@ class ilObjStyleSheet extends ilObject
     {
         $ex_dir = $this->createExportDirectory();
         $ex_sub_dir = $ex_dir . "/" . $this->getExportSubDir();
-        ilUtil::makeDir($ex_sub_dir);
+        ilFileUtils::makeDir($ex_sub_dir);
         if (!is_writable($ex_sub_dir)) {
             $this->ilias->raiseError("Style data directory (" . $ex_sub_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
         }
         $ex_sub_images_dir = $ex_sub_dir . "/images";
-        ilUtil::makeDir($ex_sub_images_dir);
+        ilFileUtils::makeDir($ex_sub_images_dir);
         if (!is_writable($ex_sub_images_dir)) {
             $this->ilias->raiseError("Style data directory (" . $ex_sub_images_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
@@ -2019,14 +2019,14 @@ class ilObjStyleSheet extends ilObject
         $this->createExportSubDirectory();
         $this->exportXML($ex_dir . "/" . $this->getExportSubDir());
         //echo "-".$this->getImagesDirectory()."-".$ex_dir."/".$this->getExportSubDir()."/images"."-";
-        ilUtil::rCopy(
+        ilFileUtils::rCopy(
             $this->getImagesDirectory(),
             $ex_dir . "/" . $this->getExportSubDir() . "/images"
         );
         if (is_file($ex_dir . "/" . $this->getExportSubDir() . ".zip")) {
             unlink($ex_dir . "/" . $this->getExportSubDir() . ".zip");
         }
-        ilUtil::zip(
+        ilFileUtils::zip(
             $ex_dir . "/" . $this->getExportSubDir(),
             $ex_dir . "/" . $this->getExportSubDir() . ".zip"
         );
@@ -2062,15 +2062,15 @@ class ilObjStyleSheet extends ilObject
     */
     public function createImportDirectory()
     {
-        $sty_data_dir = ilUtil::getDataDir() . "/sty";
-        ilUtil::makeDir($sty_data_dir);
+        $sty_data_dir = ilFileUtils::getDataDir() . "/sty";
+        ilFileUtils::makeDir($sty_data_dir);
         if (!is_writable($sty_data_dir)) {
             $this->ilias->raiseError("Style data directory (" . $sty_data_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
         }
  
         $style_dir = $sty_data_dir . "/sty_" . $this->getId();
-        ilUtil::makeDir($style_dir);
+        ilFileUtils::makeDir($style_dir);
         if (!@is_dir($style_dir)) {
             $this->ilias->raiseError("Creation of style directory failed (" .
                 $style_dir . ").", $this->ilias->error_obj->FATAL);
@@ -2078,7 +2078,7 @@ class ilObjStyleSheet extends ilObject
 
         // create import subdirectory
         $im_dir = $style_dir . "/import";
-        ilUtil::makeDir($im_dir);
+        ilFileUtils::makeDir($im_dir);
         if (!@is_dir($im_dir)) {
             $this->ilias->raiseError("Creation of Import Directory failed (" .
                 $im_dir . ").", $this->ilias->error_obj->FATAL);
@@ -2098,7 +2098,7 @@ class ilObjStyleSheet extends ilObject
 
         // handle uploaded files
         if (is_array($a_file)) {
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $a_file["tmp_name"],
                 $a_file["name"],
                 $im_dir . "/" . $a_file["name"]
@@ -2113,7 +2113,7 @@ class ilObjStyleSheet extends ilObject
 
         // unzip file
         if (strtolower($file["extension"] == "zip")) {
-            ilUtil::unzip($im_dir . "/" . $file_name);
+            ilFileUtils::unzip($im_dir . "/" . $file_name);
             $subdir = basename($file["basename"], "." . $file["extension"]);
             if (!is_dir($im_dir . "/" . $subdir)) {
                 $subdir = "style";				// check style subdir
@@ -2130,7 +2130,7 @@ class ilObjStyleSheet extends ilObject
         // copy images
         $this->createImagesDirectory();
         if (is_dir($im_dir . "/" . $subdir . "/images")) {
-            ilUtil::rCopy(
+            ilFileUtils::rCopy(
                 $im_dir . "/" . $subdir . "/images",
                 $this->getImagesDirectory()
             );

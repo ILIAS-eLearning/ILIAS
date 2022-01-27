@@ -184,7 +184,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('SESSION_ID', $_COOKIE[session_name()]);
             $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
             $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
-            $tpl->setVariable('TXT_MAX_SIZE', ilUtil::getFileSizeInfo());
+            $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
             // allowed extentions for uploaded image files
             $tinyMCE_valid_imgs = ['gif', 'jpg', 'jpeg', 'png'];
             $tpl->setVariable(
@@ -263,7 +263,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('SESSION_ID', $_COOKIE[session_name()]);
         $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
         $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
-        $tpl->setVariable('TXT_MAX_SIZE', ilUtil::getFileSizeInfo());
+        $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
 
         $this->disableButtons('charmap');
         $buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);

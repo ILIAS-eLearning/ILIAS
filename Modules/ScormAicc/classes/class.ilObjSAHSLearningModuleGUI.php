@@ -410,7 +410,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if (in_array($fType, $cFileTypes)) {
                 $timeStamp = time();
                 $tempFile = $sFile["tmp_name"];
-                $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+                $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
                 $lmTempDir = $lmDir . $timeStamp;
                 if (!file_exists($lmTempDir)) {
                     mkdir($lmTempDir, 0755, true);
@@ -457,24 +457,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $scormFilePath = $import_dirname . "/" . $scormFile;
                 $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
                 ilFileUtils::rename($scormFilePath, $file_path);
-                ilUtil::unzip($file_path);
+                ilFileUtils::unzip($file_path);
                 unlink($file_path);
-                ilUtil::delDir($lmTempDir, false);
+                ilFileUtils::delDir($lmTempDir, false);
             } else {
                 // copy uploaded file to data directory
                 $file_path = $newObj->getDataDirectory() . "/" . $_FILES["scormfile"]["name"];
-                ilUtil::moveUploadedFile(
+                ilFileUtils::moveUploadedFile(
                     $_FILES["scormfile"]["tmp_name"],
                     $_FILES["scormfile"]["name"],
                     $file_path
                 );
-                ilUtil::unzip($file_path);
+                ilFileUtils::unzip($file_path);
             }
         } else {
             // copy uploaded file to data directory
             $file_path = $newObj->getDataDirectory() . "/" . $_POST["uploaded_file"];
             ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
-            ilUtil::unzip($file_path);
+            ilFileUtils::unzip($file_path);
         }
         ilUtil::renameExecutables($newObj->getDataDirectory());
 

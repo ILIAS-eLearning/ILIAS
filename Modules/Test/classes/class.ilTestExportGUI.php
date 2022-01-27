@@ -127,9 +127,9 @@ class ilTestExportGUI extends ilExportGUI
             $scoring = new ilTestScoring($this->obj);
             $best_solution = $scoring->calculateBestSolutionForTest();
 
-            $tmpFileName = ilUtil::ilTempnam();
+            $tmpFileName = ilFileUtils::ilTempnam();
             if (!is_dir($tmpFileName)) {
-                ilUtil::makeDirParents($tmpFileName);
+                ilFileUtils::makeDirParents($tmpFileName);
             }
 
             $directory_name = realpath($tmpFileName);
@@ -139,7 +139,7 @@ class ilTestExportGUI extends ilExportGUI
             $generator = new ilTestPDFGenerator();
             $generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
             $archive_exp->handInTestBestSolution($best_solution, $file_name);
-            ilUtil::delDir($directory_name);
+            ilFileUtils::delDir($directory_name);
             
             $archive_exp->updateTestArchive();
             $archive_exp->compressTestArchive();
@@ -306,7 +306,7 @@ class ilTestExportGUI extends ilExportGUI
                 unlink($arc_file);
             }
             if (@is_dir($exp_dir)) {
-                ilUtil::delDir($exp_dir);
+                ilFileUtils::delDir($exp_dir);
             }
         }
         ilUtil::sendSuccess($lng->txt('msg_deleted_export_files'), true);

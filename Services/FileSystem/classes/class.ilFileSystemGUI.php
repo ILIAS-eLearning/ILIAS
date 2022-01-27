@@ -299,7 +299,7 @@ class ilFileSystemGUI
         $items = [];
 
         $entries = (is_dir($a_dir))
-            ? ilUtil::getDir($a_dir)
+            ? ilFileUtils::getDir($a_dir)
             : array(array("type" => "dir", "entry" => ".."));
 
         $items = array();
@@ -614,7 +614,7 @@ class ilFileSystemGUI
         $new_dir = str_replace("/", "", $new_dir);
 
         if (!empty($new_dir)) {
-            ilUtil::makeDir($cur_dir . "/" . $new_dir);
+            ilFileUtils::makeDir($cur_dir . "/" . $new_dir);
             if (is_dir($cur_dir . "/" . $new_dir)) {
                 ilUtil::sendSuccess($lng->txt("cont_dir_created"), true);
                 $this->setPerformedCommand("create_dir", array("name" => $new_dir));
@@ -653,7 +653,7 @@ class ilFileSystemGUI
             $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
             $tgt_file = $cur_dir . "/" . $name;
 
-            ilUtil::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
+            ilFileUtils::moveUploadedFile($_FILES["new_file"]["tmp_name"], $name, $tgt_file);
         } elseif ($uploaded_file) {
             // check if the file is in the ftp directory and readable
             if (ilUploadFiles::_checkUploadFile($uploaded_file)) {
@@ -746,7 +746,7 @@ class ilFileSystemGUI
 
             if (is_dir($file)) {
                 $is_dir = true;
-                ilUtil::delDir($file);
+                ilFileUtils::delDir($file);
             }
         }
 
@@ -784,16 +784,16 @@ class ilFileSystemGUI
         $a_file = $this->main_dir . "/" . $a_file;
 
         if (is_file($a_file)) {
-            $cur_files = array_keys(ilUtil::getDir($cur_dir));
+            $cur_files = array_keys(ilFileUtils::getDir($cur_dir));
             $cur_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
 
             if ($this->getAllowDirectories()) {
-                ilUtil::unzip($a_file, true);
+                ilFileUtils::unzip($a_file, true);
             } else {
-                ilUtil::unzip($a_file, true, true);
+                ilFileUtils::unzip($a_file, true, true);
             }
 
-            $new_files = array_keys(ilUtil::getDir($cur_dir));
+            $new_files = array_keys(ilFileUtils::getDir($cur_dir));
             $new_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
 
             $diff = array_diff($new_files, $cur_files);

@@ -671,20 +671,20 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $target_dir = $export_dir . "/" . $subdir;
 
-        ilUtil::delDir($target_dir);
-        ilUtil::makeDir($target_dir);
+        ilFileUtils::delDir($target_dir);
+        ilFileUtils::makeDir($target_dir);
 
         $source_dir = $this->object->getDataDirectory();
 
-        ilUtil::rCopy($source_dir, $target_dir);
+        ilFileUtils::rCopy($source_dir, $target_dir);
 
         // zip it all
         $date = time();
         $zip_file = $export_dir . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->object->getType() . "_" . $this->object->getId() . ".zip";
-        ilUtil::zip($target_dir, $zip_file);
+        ilFileUtils::zip($target_dir, $zip_file);
 
-        ilUtil::delDir($target_dir);
+        ilFileUtils::delDir($target_dir);
     }
 
     public function redirectAfterCreation() : void

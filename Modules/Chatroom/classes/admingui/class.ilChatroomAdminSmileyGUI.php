@@ -41,7 +41,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
         if (!is_dir($path)) {
             ilUtil::sendInfo($DIC->language()->txt('chat_smilies_dir_not_exists'));
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
 
             if (!is_dir($path)) {
                 ilUtil::sendFailure($DIC->language()->txt('chat_smilies_dir_not_available'));
@@ -85,7 +85,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $path = 'chatroom/smilies';
 
         if ($withBaseDir) {
-            $path = ilUtil::getWebspaceDir() . '/' . $path;
+            $path = ilFileUtils::getWebspaceDir() . '/' . $path;
         }
 
         return $path;

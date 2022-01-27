@@ -2925,7 +2925,7 @@ class ilObjUser extends ilObject
         string $tmp_file,
         int $obj_id
     ) : bool {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $store_file = "usr_" . $obj_id . "." . "jpg";
 
@@ -3004,7 +3004,7 @@ class ilObjUser extends ilObject
             return;
         }
         
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $images = array(
             "upload_" . $a_user_id . "pic",
@@ -3024,7 +3024,7 @@ class ilObjUser extends ilObject
     public function removeUserPicture(
         bool $a_do_update = true
     ) : void {
-        $webspace_dir = ilUtil::getWebspaceDir();
+        $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $file = $image_dir . "/usr_" . $this->getId() . "." . "jpg";
         $thumb_file = $image_dir . "/usr_" . $this->getId() . "_small.jpg";
@@ -4045,7 +4045,7 @@ class ilObjUser extends ilObject
     {
         $exp = new ilExport();
         $dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
-        ilUtil::delDir($dir, true);
+        ilFileUtils::delDir($dir, true);
         $title = $this->getLastname() . ", " . $this->getLastname() . " [" . $this->getLogin() . "]";
         $exp->exportEntity(
             "personal_data",
@@ -4063,7 +4063,7 @@ class ilObjUser extends ilObject
         if (!is_dir($dir)) {
             return "";
         }
-        foreach (ilUtil::getDir($dir) as $entry) {
+        foreach (ilFileUtils::getDir($dir) as $entry) {
             if (is_int(strpos($entry["entry"], ".zip"))) {
                 return $entry["entry"];
             }

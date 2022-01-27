@@ -44,7 +44,7 @@ class ilImagemapPreview
                 $extension = "." . $matches[1];
             }
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            $this->preview_filename = ilUtil::ilTempnam() . $extension;
+            $this->preview_filename = ilFileUtils::ilTempnam() . $extension;
         }
         $this->areas = array();
         $this->points = array();

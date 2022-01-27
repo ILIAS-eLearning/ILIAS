@@ -1498,10 +1498,10 @@ class ilObjCmiXapi extends ilObject2
         if ($this->getSourceType() == self::SRC_TYPE_LOCAL) {
             $dirUtil = new ilCmiXapiContentUploadImporter($new_obj);
             $dirUtil->ensureCreatedObjectDirectory();
-            $newDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+            $newDir = implode(DIRECTORY_SEPARATOR, [ilFileUtils::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
             $dirUtil = new ilCmiXapiContentUploadImporter($this);
-            $thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
-            ilUtil::rCopy($thisDir, $newDir);
+            $thisDir = implode(DIRECTORY_SEPARATOR, [ilFileUtils::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+            ilFileUtils::rCopy($thisDir, $newDir);
         }
     }
 
@@ -1517,9 +1517,9 @@ class ilObjCmiXapi extends ilObject2
 
         // delete entire directory and its content
         $dirUtil = new ilCmiXapiContentUploadImporter($this);
-        $thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+        $thisDir = implode(DIRECTORY_SEPARATOR, [ilFileUtils::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
         if (is_dir($thisDir)) {
-            ilUtil::delDir($thisDir);
+            ilFileUtils::delDir($thisDir);
         }
 
         // delete meta data

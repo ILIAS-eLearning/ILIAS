@@ -157,7 +157,7 @@ class ilExport
         }
 
         if (in_array($a_obj_type, self::$new_file_structure)) {
-            $dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR;
+            $dir = ilFileUtils::getDataDir() . DIRECTORY_SEPARATOR;
             $dir .= 'il' . $objDefinition->getClassName($a_obj_type) . $ent . DIRECTORY_SEPARATOR;
             $dir .= self::createPathFromId($a_obj_id, $a_obj_type) . DIRECTORY_SEPARATOR;
             $dir .= ($a_type == 'xml' ? 'export' : 'export_' . $a_type);
@@ -248,7 +248,7 @@ class ilExport
         }
 
         $edir = ilExport::_getExportDirectory($a_obj_id, $a_export_type, $a_obj_type);
-        ilUtil::makeDirParents($edir);
+        ilFileUtils::makeDirParents($edir);
         return true;
     }
 
@@ -350,7 +350,7 @@ class ilExport
         $new_file = $sub_dir . '.zip';
 
         $this->export_run_dir = $export_dir . "/" . $sub_dir;
-        ilUtil::makeDirParents($this->export_run_dir);
+        ilFileUtils::makeDirParents($this->export_run_dir);
         $this->log->debug("export dir: " . $this->export_run_dir);
 
         $this->cnt = array();
@@ -365,8 +365,8 @@ class ilExport
 
         // zip the file
         $this->log->debug("zip: " . $export_dir . "/" . $new_file);
-        ilUtil::zip($this->export_run_dir, $export_dir . "/" . $new_file);
-        ilUtil::delDir($this->export_run_dir);
+        ilFileUtils::zip($this->export_run_dir, $export_dir . "/" . $new_file);
+        ilFileUtils::delDir($this->export_run_dir);
 
         // Store info about export
         if ($success) {
@@ -443,7 +443,7 @@ class ilExport
         $new_file = $sub_dir . '.zip';
 
         $this->export_run_dir = $export_dir . "/" . $sub_dir;
-        ilUtil::makeDirParents($this->export_run_dir);
+        ilFileUtils::makeDirParents($this->export_run_dir);
 
         $this->cnt = array();
         $success = $this->processExporter($comp, $class, $a_entity, $a_target_release, [$a_id]);
@@ -451,8 +451,8 @@ class ilExport
         $this->manifest_writer->xmlDumpFile($this->export_run_dir . "/manifest.xml", false);
 
         // zip the file
-        ilUtil::zip($this->export_run_dir, $export_dir . "/" . $new_file);
-        ilUtil::delDir($this->export_run_dir);
+        ilFileUtils::zip($this->export_run_dir, $export_dir . "/" . $new_file);
+        ilFileUtils::delDir($this->export_run_dir);
 
         return array(
             "success" => $success,
@@ -507,7 +507,7 @@ class ilExport
         }
         $set_dir_relative = $a_comp . "/set_" . $this->cnt[$a_comp];
         $set_dir_absolute = $this->export_run_dir . "/" . $set_dir_relative;
-        ilUtil::makeDirParents($set_dir_absolute);
+        ilFileUtils::makeDirParents($set_dir_absolute);
         $this->log->debug("dir: " . $set_dir_absolute);
 
         $this->log->debug("init exporter");

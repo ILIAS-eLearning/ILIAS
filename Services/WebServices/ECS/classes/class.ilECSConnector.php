@@ -420,8 +420,8 @@ class ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_HEADER, true);
             $this->curl->setOpt(CURLOPT_PUT, true);
-
-            $tempfile = ilUtil::ilTempnam();
+            
+            $tempfile = ilFileUtils::ilTempnam();
             $this->logger->info(__METHOD__ . ': Created new tempfile: ' . $tempfile);
 
             $fp = fopen($tempfile, 'w');

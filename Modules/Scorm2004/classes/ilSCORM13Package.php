@@ -651,7 +651,7 @@ class ilSCORM13Package
     public function dbImportSco($slm, $sco, $asset = false)
     {
         $qtis = array();
-        $d = ilUtil::getDir($this->packageFolder);
+        $d = ilFileUtils::getDir($this->packageFolder);
         foreach ($d as $f) {
             //continue;
             if ($f["type"] == 'file' && substr($f["entry"], 0, 4) == 'qti_') {
@@ -760,7 +760,7 @@ class ilSCORM13Package
                     }
                     
                     // copy whole directory
-                    ilUtil::rCopy($this->packageFolder . "/objects/" . $OriginId, $mob_dir);
+                    ilFileUtils::rCopy($this->packageFolder . "/objects/" . $OriginId, $mob_dir);
 
                     
                     // alex: fixed media import: these lines have been

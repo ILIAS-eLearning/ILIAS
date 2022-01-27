@@ -315,7 +315,7 @@ class ilExportGUI
                 unlink($exp_file);
             }
             if (@is_dir($exp_dir)) {
-                ilUtil::delDir($exp_dir);
+                ilFileUtils::delDir($exp_dir);
             }
 
             // delete entry in database

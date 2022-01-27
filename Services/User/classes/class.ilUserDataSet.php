@@ -125,8 +125,8 @@ class ilUserDataSet extends ilDataSet
         $ilLog = $DIC['ilLog'];
         
         if ($a_entity == "usr_profile") {
-            $tmp_dir = ilUtil::ilTempnam();
-            ilUtil::makeDir($tmp_dir);
+            $tmp_dir = ilFileUtils::ilTempnam();
+            ilFileUtils::makeDir($tmp_dir);
 
             $im = ilObjUser::_getPersonalPicturePath(
                 $a_set["Id"],
@@ -153,7 +153,7 @@ class ilUserDataSet extends ilDataSet
             // cleanup temp dirs for pictures
             $tmp_dir = $this->temp_picture_dirs[$a_set["Id"]];
             if ($tmp_dir != "" && is_dir($tmp_dir)) {
-                ilUtil::delDir($tmp_dir);
+                ilFileUtils::delDir($tmp_dir);
             }
         }
     }

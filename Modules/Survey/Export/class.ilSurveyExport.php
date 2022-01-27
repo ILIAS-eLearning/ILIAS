@@ -80,8 +80,8 @@ class ilSurveyExport
 
         // create directories
         $this->survey_obj->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->survey_obj->getExportDirectory();
@@ -99,12 +99,12 @@ class ilSurveyExport
         $this->exportXHTMLMediaObjects($this->export_dir . "/" . $this->subdir);
 
         // zip the file
-        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
+        ilFileUtils::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip");
 
         if (file_exists($this->export_dir . "/" . $this->subdir . ".zip")) {
             // remove export directory and contents
             if (is_dir($this->export_dir . "/" . $this->subdir)) {
-                ilUtil::delDir($this->export_dir . "/" . $this->subdir);
+                ilFileUtils::delDir($this->export_dir . "/" . $this->subdir);
             }
         }
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
