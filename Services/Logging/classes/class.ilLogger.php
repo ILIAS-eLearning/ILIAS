@@ -94,12 +94,12 @@ abstract class ilLogger
      * @deprecated since version 5.1
      * @see ilLogger->info(), ilLogger()->debug(), ...
      */
-    public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+    public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
     {
         if (!in_array($a_level, ilLogLevel::getLevels())) {
             $a_level = ilLogLevel::INFO;
         }
-        $this->getLogger()->log($a_level, $a_message);
+        $this->getLogger()->log((int) $a_level, $a_message);
     }
 
     /**
