@@ -2744,6 +2744,7 @@ common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
 common#:#cant_deactivate_if_users_assigned#:#Sie können einen Style nicht deaktivieren, wenn ihm noch Benutzer zugeordnet sind.
 common#:#cat#:#Kategorie
 common#:#cat_add#:#Kategorie anlegen
+common#:#catr_add#:#Kategorielink anlegen
 common#:#cat_added#:#Kategorie angelegt
 rbac#:#cat_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 rbac#:#cat_copy#:#Kategorie kopieren
@@ -2902,6 +2903,7 @@ common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
 common#:#crs_add#:#Kurs anlegen
+common#:#crsr_add#:#Kurslink anlegen
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_archives#:#Archive
 crs#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
@@ -3301,6 +3303,7 @@ common#:#groupings_assigned_obj_grp#:#Zugeordnete Gruppen
 common#:#groups#:#Gruppen
 common#:#grp#:#Gruppe
 common#:#grp_add#:#Gruppe anlegen
+common#:#grpr_add#:#Gruppenlink anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
 common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
@@ -13592,8 +13595,9 @@ mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "
 mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
-prg#:#prg_new#:#Neues Studienprogramm
-prg#:#prg_add#:#Studienprogramm hinzufügen
+prg#:#prg_new#:#Neues Studienprogramm anlegen
+prg#:#prg_add#:#Studienprogramm anlegen
+common#:#prgr_add#:#Link zu Studienprogramm anlegen
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_type#:#Studienprogrammtyp
 prg#:#prg_assessment#:#Studienprogrammbewertung

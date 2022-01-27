@@ -2329,6 +2329,7 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat_add#:#Add Category
+common#:#catr_add#:#Add Category Link
 common#:#cat_added#:#Category added
 rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
@@ -2473,6 +2474,7 @@ common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
+common#:#crsr_add#:#Add Course Link
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
@@ -2839,6 +2841,7 @@ common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
 common#:#groups#:#Groups
 common#:#grp_add#:#Add Group
+common#:#grpr_add#:#Add Group Link
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
@@ -13590,6 +13593,7 @@ mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
+common#:#prgr_add#:#Add Study Programme Link
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_assessment#:#Study Programme Assessment
