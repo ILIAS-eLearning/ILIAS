@@ -45,5 +45,4 @@ abstract class AbstractNotificationProvider extends AbstractProvider implements 
     {
         return [];
     }
-
 }

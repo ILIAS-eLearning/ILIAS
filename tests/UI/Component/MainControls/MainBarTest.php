@@ -252,7 +252,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 				<nav class="il-mainbar" aria-label="mainbar_aria_label">
 
 					<div class="il-mainbar-tools-button">
-						<button class="btn btn-bulky" id="id_14" role="menuitem"><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
+						<button class="btn btn-bulky" id="id_14"><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
 					</div>
 
 					<div class="il-mainbar-triggers">

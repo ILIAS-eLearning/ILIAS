@@ -1,4 +1,16 @@
-/* Copyright (c) 1998-2021 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file
 *
@@ -2293,10 +2305,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -9568,7 +9580,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -14329,12 +14341,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chat Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -16084,8 +16096,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart

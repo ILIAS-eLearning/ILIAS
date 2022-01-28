@@ -48,7 +48,4 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
 
         return $ui_notification_item->withCloseAction($url);
     }
-
-
-
 }

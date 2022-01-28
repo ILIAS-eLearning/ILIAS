@@ -62,7 +62,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone $this;
+        $clone = clone $this;
         $clone->title = $title;
 
         return $clone;
@@ -81,7 +81,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
      */
     public function withSummary(string $summary) : isItem
     {
-        $clone          = clone $this;
+        $clone = clone $this;
         $clone->summary = $summary;
 
         return $clone;
@@ -97,7 +97,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
 
     public function withVisibilityCallable(callable $is_visible) : self
     {
-        $clone                       = clone($this);
+        $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
 
         return $clone;
@@ -135,7 +135,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
 
     public function withAvailableCallable(callable $is_available) : self
     {
-        $clone                     = clone($this);
+        $clone = clone($this);
         $clone->available_callable = $is_available;
 
         return $clone;
@@ -143,7 +143,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
 
     public function withNeutralDenotation() : self
     {
-        $clone             = clone($this);
+        $clone = clone($this);
         $clone->denotation = self::DENOTATION_NEUTRAL;
 
         return $clone;
@@ -151,7 +151,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
 
     public function withImportantDenotation() : self
     {
-        $clone             = clone($this);
+        $clone = clone($this);
         $clone->denotation = self::DENOTATION_IMPORTANT;
 
         return $clone;
@@ -159,7 +159,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
 
     public function withBreakingDenotation() : self
     {
-        $clone             = clone($this);
+        $clone = clone($this);
         $clone->denotation = self::DENOTATION_BREAKING;
 
         return $clone;
@@ -169,5 +169,4 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     {
         return $this->denotation ?? self::DENOTATION_NEUTRAL;
     }
-
 }

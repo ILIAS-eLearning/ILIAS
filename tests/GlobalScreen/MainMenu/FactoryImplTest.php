@@ -94,5 +94,4 @@ class FactoryImplTest extends TestCase
         $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->repositoryLink($this->id));
         $this->assertNotInstanceOf(isInterchangeableItem::class, $this->factory->separator($this->id));
     }
-
 }

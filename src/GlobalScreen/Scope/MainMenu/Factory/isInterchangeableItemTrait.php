@@ -19,5 +19,4 @@ trait isInterchangeableItemTrait
         }
         return false;
     }
-
 }

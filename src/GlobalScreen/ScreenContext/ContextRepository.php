@@ -16,7 +16,7 @@ class ContextRepository
     /**
      * @var array
      */
-    private  $contexts = [];
+    private $contexts = [];
     const C_MAIN = 'main';
     const C_DESKTOP = 'desktop';
     const C_REPO = 'repo';
