@@ -3,6 +3,9 @@
  * ILIAS\UI\Component\Input\Field\File.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * @TODO: dropzone.js library can easily be dropped, the only thing
+ * 		  it still does is keeping track of files and uploading them.
  */
 
 // global dropzone.js setting
@@ -73,7 +76,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {int} current_file_count
 		 * @param {int} max_file_amount
 		 * @param {int} max_file_size
-		 * @param {string[]} mime_types
+		 * @param {string} mime_types
 		 * @param {boolean} is_disabled
 		 */
 		let init = function (
@@ -186,7 +189,7 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			let file_entry = removal_glyph.closest(SELECTOR.file_list);
-			let file_entry_input = file_entry.find(SELECTOR.file_entry_input);
+			let file_entry_input = getFileEntryInput(file_entry);
 
 			dropzone.options.current_file_count--;
 			maybeRemoveFileFromQueue(dropzone, file_entry_input.attr('id'));
@@ -272,6 +275,22 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {string} input_id
 		 */
 		let renderFileEntryHook = function (file, input_id) {
+			if (typeof dropzones[input_id] === 'undefined') {
+				console.error(`Error: tried rendering a file entry for '${input_id}' which is not yet initialized.`);
+				return;
+			}
+
+			// abort if the given file is not an allowed file type.
+			if (dropzones[input_id].options.acceptedFiles !== null &&
+				!dropzones[input_id].options.acceptedFiles.includes(file.type)
+			) {
+				displayErrorMessage(
+					`Files of type '${file.type}' are not allowed`,
+					$(`#${input_id} ${SELECTOR.dropzone}`)
+				)
+				return;
+			}
+
 			let preview = il.UI.Input.DynamicInputsRenderer.render(input_id);
 			if (null === preview) {
 				console.error(`Error: could not append preview for newly added file: ${file}`);
@@ -285,10 +304,14 @@ il.UI.Input = il.UI.Input || {};
 
 			// store rendered preview id temporarily in file, to retrieve
 			// the corresponding input later.
-			file.input_id = preview.find(SELECTOR.file_entry_input).attr('id');
-
-			// increment current file count and maybe disable and alert.
+			file.input_id = getFileEntryInput(preview).attr('id');
 			dropzones[input_id].options.current_file_count++;
+
+			// enqueue file to dropzone
+			if (typeof file.status === 'undefined' || file.status !== Dropzone.ADDED) {
+				registerDropzoneFile(dropzones[input_id], file);
+			}
+
 			maybeToggleActionButtonAndErrorMessage(input_id);
 		}
 
@@ -376,6 +399,27 @@ il.UI.Input = il.UI.Input || {};
 		// ==========================================
 
 		/**
+		 * @param {Dropzone} dropzone
+		 * @param {File} file
+		 */
+		let registerDropzoneFile = function (dropzone, file) {
+			file.status = Dropzone.ADDED;
+			file.accepted = true;
+			file.upload = {
+				uuid: Dropzone.uuidv4(),
+				progress: 0,
+				bytesSent: 0,
+				total: file.size,
+				filename: dropzone._renameFile(file),
+				chunked: dropzone.options.chunking && (dropzone.options.forceChunking || file.size > dropzone.options.chunkSize),
+				totalChunkCount: Math.ceil(file.size / dropzone.options.chunkSize)
+			};
+
+			dropzone.files.push(file);
+			dropzone.enqueueFile(file);
+		}
+
+		/**
 		 * @param {jQuery|null} file_entry
 		 */
 		let setupExpansionGlyphs = function (file_entry = null) {
@@ -449,6 +493,20 @@ il.UI.Input = il.UI.Input || {};
 					current_form.submit();
 				}
 			}
+		}
+
+		/**
+		 * @param {jQuery} file_entry
+		 * @return {jQuery} the file-id input
+		 */
+		let getFileEntryInput = function (file_entry) {
+			// since there could be multiple hidden inputs in the future (due
+			// to introduction as UI component) we have to check if it's one
+			// or more. When multiple are found it's always the last one.
+			let hidden_inputs = file_entry.find(SELECTOR.file_entry_input);
+			return (1 < hidden_inputs.length) ?
+				$(hidden_inputs[hidden_inputs.length - 1]) :
+				hidden_inputs;
 		}
 
 		/**

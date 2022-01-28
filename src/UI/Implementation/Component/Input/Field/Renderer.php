@@ -847,11 +847,9 @@ class Renderer extends AbstractComponentRenderer
     protected function initClientsideFileInput(FI\File $input) : FI\File
     {
         return $input->withAdditionalOnLoadCode(
-            static function ($id) use ($input) {
+            function ($id) use ($input) {
                 $current_file_count = count($input->getDynamicInputs());
-                $mime_types = json_encode($input->getAcceptedMimeTypes());
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
-
                 return "
                     $(document).ready(function () {
                         il.UI.Input.File.init(
@@ -862,7 +860,7 @@ class Renderer extends AbstractComponentRenderer
                             $current_file_count,
                             {$input->getMaxFiles()},
                             {$input->getMaxFileSize()},
-                            $mime_types,
+                            '{$this->prepareDropzoneJsMimeTypes($input->getAcceptedMimeTypes())}',
                             $is_disabled
                         );
                     });
@@ -911,5 +909,20 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $template_html;
+    }
+
+    /**
+     * Appends all given mime-types to a comma-separated string.
+     * (that's only necessary due to a dropzone.js bug).
+     * @param array<int, string> $mime_types
+     */
+    protected function prepareDropzoneJsMimeTypes(array $mime_types) : string
+    {
+        $mime_type_string = '';
+        foreach ($mime_types as $index => $mime_type) {
+            $mime_type_string .= (isset($mime_types[$index + 1])) ? "$mime_type," : $mime_type;
+        }
+
+        return $mime_type_string;
     }
 }
