@@ -121,19 +121,19 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
     {
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget($this, 'settings'),
+                'tos_agreement_documents_tab_label',
+                $this->ctrl->getLinkTargetByClass('ilTermsOfServiceDocumentGUI'),
                 '',
-                [strtolower(get_class($this))]
+                ['iltermsofservicedocumentgui']
             );
         }
 
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'tos_agreement_documents_tab_label',
-                $this->ctrl->getLinkTargetByClass('ilTermsOfServiceDocumentGUI'),
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
                 '',
-                ['iltermsofservicedocumentgui']
+                [strtolower(get_class($this))]
             );
         }
 
