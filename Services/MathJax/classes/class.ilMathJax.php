@@ -314,7 +314,7 @@ class ilMathJax
                 $tex = preg_replace("/\\\\([RZN])([^a-zA-Z])/", "\\mathbb{" . "$1" . "}" . "$2", $tex);
 
                 // check, if tags go across div borders
-                if (is_int(ilStr::strPos($tex, '<div>')) || is_int(ilStr::strPos($tex, '</div>'))) {
+                if (is_int(ilStr::strIPos($tex, '<div>')) || is_int(ilStr::strIPos($tex, '</div>'))) {
                     // keep the original code including delimiters, continue search behind
                     $cpos = $epos + ilStr::strLen($a_end);
                 } else {
