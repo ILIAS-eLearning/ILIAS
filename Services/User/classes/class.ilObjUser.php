@@ -1514,7 +1514,7 @@ class ilObjUser extends ilObject
         $r = $ilDB->query($q);
 
         while ($row = $ilDB->fetchAssoc($r)) {
-            return $row['value'];
+            return (string) $row['value'];
         }
         if (is_object($lng)) {
             return $lng->getDefaultLanguage();
