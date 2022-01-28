@@ -867,7 +867,7 @@ class ilForumTopic
         $this->createdate = $a_createdate;
     }
 
-    public function getCreateDate() : string
+    public function getCreateDate() : ?string
     {
         return $this->createdate;
     }
