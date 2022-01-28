@@ -17,7 +17,7 @@ class ilForumNotification
     private ilDBInterface $db;
     private ilObjUser $user;
     private int $notification_id;
-    private int $user_id;
+    private ?int $user_id = null;
     private int $forum_id;
     private int $thread_id;
     private bool $admin_force = false;
@@ -46,12 +46,12 @@ class ilForumNotification
         return $this->notification_id;
     }
 
-    public function setUserId(int $a_user_id) : void
+    public function setUserId(?int $a_user_id) : void
     {
         $this->user_id = $a_user_id;
     }
 
-    public function getUserId() : int
+    public function getUserId() : ?int
     {
         return $this->user_id;
     }
@@ -137,7 +137,7 @@ class ilForumNotification
 			AND frm_id = %s
 			AND user_id_noti > %s ',
             ['integer', 'integer', 'integer'],
-            [$this->getUserId(), $this->getForumId(), 0]
+            [(int) $this->getUserId(), $this->getForumId(), 0]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -156,7 +156,7 @@ class ilForumNotification
 			AND frm_id = %s
 			AND user_id_noti > %s',
             ['integer', 'integer', 'integer'],
-            [$this->getUserId(), $this->getForumId(), 0]
+            [(int) $this->getUserId(), $this->getForumId(), 0]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -174,12 +174,13 @@ class ilForumNotification
 				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, user_id_noti)
 			VALUES(%s, %s, %s, %s, %s, %s)',
             ['integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
-            [$next_id,
-             $this->getUserId(),
-             $this->getForumId(),
-             $this->getAdminForce(),
-             $this->getUserToggle(),
-             $this->user->getId()
+            [
+                $next_id,
+                (int) $this->getUserId(),
+                $this->getForumId(),
+                $this->getAdminForce(),
+                $this->getUserToggle(),
+                $this->user->getId()
             ]
         );
     }
@@ -194,7 +195,7 @@ class ilForumNotification
 			AND		admin_force_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer'],
-            [$this->getUserId(), $this->getForumId(), 1, 0]
+            [(int) $this->getUserId(), $this->getForumId(), 1, 0]
         );
     }
 
@@ -209,7 +210,7 @@ class ilForumNotification
 			AND		user_toggle_noti = %s
 			AND		user_id_noti > %s',
             ['integer', 'integer', 'integer', 'integer', 'integer'],
-            [$this->getUserId(), $this->getForumId(), 1, 1, 0]
+            [(int) $this->getUserId(), $this->getForumId(), 1, 1, 0]
         );
     }
 
@@ -218,7 +219,7 @@ class ilForumNotification
         $this->db->manipulateF(
             'UPDATE frm_notification SET user_toggle_noti = %s WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
             ['integer', 'integer', 'integer', 'integer'],
-            [$this->getUserToggle(), $this->getUserId(), $this->getForumId(), 1]
+            [$this->getUserToggle(), (int) $this->getUserId(), $this->getForumId(), 1]
         );
     }
 
@@ -359,7 +360,7 @@ class ilForumNotification
                 (int) $this->getAdminForce(),
                 (int) $this->getUserToggle(),
                 $this->getInterestedEvents(),
-                $this->getUserId(),
+                (int) $this->getUserId(),
                 $this->getForumId()
             ]
         );
@@ -440,7 +441,7 @@ class ilForumNotification
         $res = $this->db->queryF(
             'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
             ['integer', 'integer', 'integer'],
-            [$this->getUserId(), $this->getForumId(), (int) $this->getAdminForce()]
+            [(int) $this->getUserId(), $this->getForumId(), (int) $this->getAdminForce()]
         );
 
         return $this->db->numRows($res) > 0;
@@ -467,7 +468,7 @@ class ilForumNotification
         $this->db->manipulateF(
             'UPDATE frm_notification SET interested_events = %s WHERE user_id = %s AND frm_id = %s',
             ['integer', 'integer', 'integer'],
-            [$this->getInterestedEvents(), $this->getUserId(), $this->getForumId()]
+            [$this->getInterestedEvents(), (int) $this->getUserId(), $this->getForumId()]
         );
     }
 
@@ -479,7 +480,7 @@ class ilForumNotification
         $res = $this->db->queryF(
             'SELECT interested_events FROM frm_notification WHERE user_id = %s AND frm_id = %s',
             ['integer', 'integer'],
-            [$this->getUserId(), $this->getForumId()]
+            [(int) $this->getUserId(), $this->getForumId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
