@@ -242,10 +242,10 @@ class ilObjUser extends ilObject
             $this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
         }
 
-        $this->setGender($a_data["gender"]);
-        $this->setUTitle($a_data["title"]);
-        $this->setFirstname($a_data["firstname"]);
-        $this->setLastname($a_data["lastname"]);
+        $this->setGender((string) $a_data["gender"]);
+        $this->setUTitle((string) $a_data["title"]);
+        $this->setFirstname((string) $a_data["firstname"]);
+        $this->setLastname((string) $a_data["lastname"]);
         $this->setFullname();
         if (!is_array($a_data['birthday'])) {
             $this->setBirthday($a_data['birthday']);
@@ -254,22 +254,22 @@ class ilObjUser extends ilObject
         }
         
         // address data
-        $this->setInstitution($a_data["institution"]);
-        $this->setDepartment($a_data["department"]);
-        $this->setStreet($a_data["street"]);
-        $this->setCity($a_data["city"]);
-        $this->setZipcode($a_data["zipcode"]);
-        $this->setCountry($a_data["country"]);
-        $this->setSelectedCountry($a_data["sel_country"]);
-        $this->setPhoneOffice($a_data["phone_office"]);
-        $this->setPhoneHome($a_data["phone_home"]);
-        $this->setPhoneMobile($a_data["phone_mobile"]);
-        $this->setFax($a_data["fax"]);
-        $this->setMatriculation($a_data["matriculation"]);
-        $this->setEmail($a_data["email"]);
-        $this->setSecondEmail($a_data["second_email"]);
-        $this->setHobby($a_data["hobby"]);
-        $this->setClientIP($a_data["client_ip"]);
+        $this->setInstitution((string) $a_data["institution"]);
+        $this->setDepartment((string) $a_data["department"]);
+        $this->setStreet((string) $a_data["street"]);
+        $this->setCity((string) $a_data["city"]);
+        $this->setZipcode((string) $a_data["zipcode"]);
+        $this->setCountry((string) $a_data["country"]);
+        $this->setSelectedCountry((string) $a_data["sel_country"]);
+        $this->setPhoneOffice((string) $a_data["phone_office"]);
+        $this->setPhoneHome((string) $a_data["phone_home"]);
+        $this->setPhoneMobile((string) $a_data["phone_mobile"]);
+        $this->setFax((string) $a_data["fax"]);
+        $this->setMatriculation((string) $a_data["matriculation"]);
+        $this->setEmail((string) $a_data["email"]);
+        $this->setSecondEmail((string) $a_data["second_email"]);
+        $this->setHobby((string) $a_data["hobby"]);
+        $this->setClientIP((string) $a_data["client_ip"]);
         $this->setPasswordEncodingType($a_data['passwd_enc_type']);
         $this->setPasswordSalt($a_data['passwd_salt']);
 
@@ -279,12 +279,12 @@ class ilObjUser extends ilObject
         $this->setLocationZoom($a_data["loc_zoom"]);
 
         // system data
-        $this->setLastLogin($a_data["last_login"]);
-        $this->setFirstLogin($a_data["first_login"]);
+        $this->setLastLogin((string) $a_data["last_login"]);
+        $this->setFirstLogin((string) $a_data["first_login"]);
         $this->setLastProfilePrompt((string) $a_data["last_profile_prompt"]);
-        $this->setLastUpdate($a_data["last_update"]);
+        $this->setLastUpdate((string) $a_data["last_update"]);
         $this->create_date = $a_data["create_date"];
-        $this->setComment($a_data["referral_comment"]);
+        $this->setComment((string) $a_data["referral_comment"]);
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
         $this->agree_date = $a_data["agree_date"];
