@@ -1,5 +1,8 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Item;
+
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * This is how a factory for Items looks like.
@@ -25,7 +28,29 @@ interface Factory
      * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link $title Title of the item
      * @return \ILIAS\UI\Component\Item\Standard
      */
-    public function standard($title);
+    public function standard($title) : Standard;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Shy Items are used to list more decent items which don't acquire much space.
+     *   composition: >
+     *     A Shy Item contains a title and optional a description, a close action, properties (name/value), an icon as a
+     *     lead.
+     * rules:
+     *   interaction:
+     *     1: >
+     *        Clicking on the Close Button MUST remove the Shy Item permanently.
+     *   accessibility:
+     *     1: >
+     *       All interactions offered by a Shy Item MUST be accessible by only using the keyboard.
+     * ---
+     *
+     * @param string      $title
+     * @return \ILIAS\UI\Component\Item\Shy
+     */
+    public function shy(string $title) : Shy;
 
     /**
      * ---
@@ -40,7 +65,8 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Item[] $items items
      * @return \ILIAS\UI\Component\Item\Group
      */
-    public function group($title, $items);
+    public function group(string $title, array $items) : Group;
+
     /**
      * ---
      * description:
@@ -93,5 +119,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon $lead
      * @return \ILIAS\UI\Component\Item\Notification
      */
-    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $lead) : Notification;
+    public function notification($title, Icon $lead) : Notification;
 }

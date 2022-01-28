@@ -1,19 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjFileBasedLMListGUI
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjFileBasedLMListGUI extends ilObjectListGUI
 {
-    /**
-    * initialisation
-    *
-    * this method should be overwritten by derived classes
-    */
     public function init()
     {
         $this->copy_enabled = true;
@@ -29,15 +34,6 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         $this->commands = ilObjFileBasedLMAccess::_getCommands();
     }
 
-    /**
-    * Overwrite this method, if link target is not build by ctrl class
-    * (e.g. "forum.php"). This is the case
-    * for all links now, but bringing everything to ilCtrl should
-    * be realised in the future.
-    *
-    * @param	string		$a_cmd			command
-    *
-    */
     public function getCommandLink($a_cmd)
     {
         $ilCtrl = $this->ctrl;
@@ -54,21 +50,13 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
                 break;
         }
 
         return $cmd_link;
     }
 
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
     public function getCommandFrame($a_cmd)
     {
         switch ($a_cmd) {
@@ -88,15 +76,6 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $frame;
     }
 
-
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
     public function getProperties()
     {
         $lng = $this->lng;

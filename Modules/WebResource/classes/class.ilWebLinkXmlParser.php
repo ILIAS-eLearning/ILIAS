@@ -1,13 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
-include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
-
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilWebLinkXmlParserException.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
 /**
 * XML  parser for weblink xml
@@ -109,12 +102,11 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     
     /**
     * handler for begin of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @param	array		$a_attribs			element attributes array
+    * @param	resource $a_xml_parser xml parser
+    * @param string      $a_name       element name
+    * @param array       $a_attribs    element attributes array
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         global $DIC;
 
@@ -243,13 +235,12 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     
     /**
     * handler for end of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
+    * @param	resource $a_xml_parser xml parser
+    * @param	string   $a_name       element name
     * @throws	ilSaxParserException	if invalid xml structure is given
     * @throws	ilWebLinkXMLParserException	missing elements
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->in_metadata) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -329,11 +320,10 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     
     /**
     * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
+    * @param	resource $a_xml_parser xml parser
+    * @param	string   $a_data       character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data):void
     {
         if ($this->in_metadata) {
             parent::handlerCharacterData($a_xml_parser, $a_data);

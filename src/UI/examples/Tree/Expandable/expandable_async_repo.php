@@ -1,9 +1,13 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Tree\Expandable;
 
-if (key_exists('async_ref', $_GET) && $_GET['async_ref']) {
-    $ref = (int) $_GET['async_ref'];
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
+
+if ($request_wrapper->has('async_ref') && $request_wrapper->retrieve('async_ref', $refinery->kindlyTo()->bool())) {
+    $ref = $request_wrapper->retrieve('async_ref', $refinery->kindlyTo()->int());
     expandable_async_repo($ref);
     exit();
 }

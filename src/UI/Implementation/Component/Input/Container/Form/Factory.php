@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,22 +9,20 @@ use ILIAS\UI\Implementation\Component\Input;
 
 class Factory implements F\Factory
 {
-    /**
-     * @var Input\Field\Factory
-     */
-    protected $field_factory;
+    protected Input\Field\Factory $field_factory;
+    protected Input\NameSource $name_source;
 
-    public function __construct(
-        Input\Field\Factory $field_factory
-    ) {
+    public function __construct(Input\Field\Factory $field_factory, Input\NameSource $name_source)
+    {
         $this->field_factory = $field_factory;
+        $this->name_source = $name_source;
     }
 
     /**
      * @inheritdoc
      */
-    public function standard($post_url, array $inputs)
+    public function standard(string $post_url, array $inputs) : F\Standard
     {
-        return new Standard($this->field_factory, $post_url, $inputs);
+        return new Standard($this->field_factory, $this->name_source, $post_url, $inputs);
     }
 }

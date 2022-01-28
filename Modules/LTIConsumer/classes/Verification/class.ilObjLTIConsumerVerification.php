@@ -19,7 +19,7 @@ class ilObjLTIConsumerVerification extends ilVerificationObject
         $this->type = "ltiv";
     }
     
-    protected function getPropertyMap()
+    protected function getPropertyMap() : array
     {
         return array("issued_on" => self::TYPE_DATE,
             "file" => self::TYPE_STRING

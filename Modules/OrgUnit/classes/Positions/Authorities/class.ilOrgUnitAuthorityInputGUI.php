@@ -165,7 +165,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @return bool
      */
-    public function getMulti()
+    public function getMulti() : bool
     {
         return false;
     }

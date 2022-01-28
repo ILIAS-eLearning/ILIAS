@@ -27,9 +27,9 @@ class ilMailLuceneSearcher
 
         try {
             $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
-                CLIENT_ID . '_' . $this->settings->get('inst_id', 0),
+                CLIENT_ID . '_' . $this->settings->get('inst_id', '0'),
                 $user_id,
-                (string) $this->query_parser->getQuery(),
+                $this->query_parser->getQuery(),
                 $mail_folder_id
             );
         } catch (Exception $e) {

@@ -24,9 +24,9 @@ class ilMailCronOrphanedMailsDeletionCollector
 
     public function collect() : void
     {
-        $mail_only_inbox_trash = (int) $this->settings->get('mail_only_inbox_trash');
-        $last_cron_start_ts = (int) $this->settings->get('last_cronjob_start_ts', time());
-        $mail_notify_orphaned = (int) $this->settings->get('mail_notify_orphaned');
+        $mail_only_inbox_trash = (int) $this->settings->get('mail_only_inbox_trash', '0');
+        $last_cron_start_ts = (int) $this->settings->get('last_cronjob_start_ts', (string) time());
+        $mail_notify_orphaned = (int) $this->settings->get('mail_notify_orphaned', '0');
 
         $now = time();
 
@@ -61,7 +61,7 @@ class ilMailCronOrphanedMailsDeletionCollector
             }
         } else {
             // mails sollen direkt ohne vorheriger notification gelöscht werden.
-            $mail_threshold = (int) $this->settings->get('mail_threshold');
+            $mail_threshold = (int) $this->settings->get('mail_threshold', '0');
             $ts_notify = strtotime("- " . $mail_threshold . " days");
             $ts_for_deletion = date('Y-m-d', $ts_notify) . ' 23:59:59';
 
@@ -74,7 +74,7 @@ class ilMailCronOrphanedMailsDeletionCollector
 				INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
 				WHERE 		send_time <= %s";
 
-            if ((int) $this->settings->get('mail_only_inbox_trash') > 0) {
+            if ((int) $this->settings->get('mail_only_inbox_trash', '0') > 0) {
                 $mails_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
                 $types = ['timestamp', 'text', 'text'];
                 $data = [$ts_for_deletion, 'inbox', 'trash'];

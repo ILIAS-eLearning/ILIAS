@@ -46,7 +46,7 @@ class ilADTActiveRecordByType
             }
         }
     }
-    
+
     public function setElementIdColumn(string $a_name, string $a_type) : void
     {
         $this->element_column = $a_name;
@@ -73,7 +73,7 @@ class ilADTActiveRecordByType
             'ltext' => ['LocalizedText']
         ];
     }
-    
+
     /**
      * Get table name for ADT type
      * @param string $a_type
@@ -89,7 +89,6 @@ class ilADTActiveRecordByType
 
     /**
      * Map all group elements to sub tables
-     *
      * @return array
      */
     protected function mapElementsToTables() : array
@@ -104,12 +103,6 @@ class ilADTActiveRecordByType
         return $res;
     }
 
-    /**
-     * process raw data for ADT import
-     *
-     * @param string $a_sub_table
-     * @return array
-     */
     protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row)
     {
         switch ($a_sub_table) {
@@ -119,27 +112,23 @@ class ilADTActiveRecordByType
                     $a_element_id . "_long" => $a_row["loc_long"],
                     $a_element_id . "_zoom" => $a_row["loc_zoom"]
                 ];
-                break;
 
             case 'extlink':
                 return [
                     $a_element_id . '_value' => $a_row['value'],
                     $a_element_id . '_title' => $a_row['title']
                 ];
-                break;
 
             case 'ltext':
                 return [
                     $a_element_id . '_language' => $a_row['value_index'],
                     $a_element_id . '_translation' => $a_row['value']
                 ];
-                break;
 
             case 'enum':
                 return [
                     $a_element_id => $a_row['value_index']
                 ];
-                break;
 
             default:
                 if ($a_row[self::SINGLE_COLUMN_NAME] !== null) {
@@ -149,14 +138,13 @@ class ilADTActiveRecordByType
         }
         return [];
     }
-    
+
     /**
      * Read record
-     *
      * @param bool $a_return_additional_data
      * @return bool | array
      */
-    public function read($a_return_additional_data = false) : mixed
+    public function read($a_return_additional_data = false)
     {
         // reset all group elements
         $this->properties->getADT()->reset();
@@ -175,10 +163,10 @@ class ilADTActiveRecordByType
                     // match by primary key
                     foreach ($primary as $primary_field => $primary_value) {
                         if ($row[$primary_field] != $primary_value[1]) {
-                            continue(2);
+                            continue 2;
                         }
                     }
-                    
+
                     $element_id = $row[$this->getElementIdColumn()];
                     if ($this->properties->getADT()->hasElement($element_id)) {
                         $element_row = $this->processTableRowForElement($sub_table, $element_id, $row);
@@ -189,8 +177,7 @@ class ilADTActiveRecordByType
                 }
             }
         }
-        
-        
+
         $has_data = false;
         $additional = [];
 
@@ -229,16 +216,15 @@ class ilADTActiveRecordByType
                 }
             }
         }
-        
+
         if ($a_return_additional_data) {
             return $additional;
         }
         return $has_data;
     }
-    
+
     /**
      * Create/insert record
-     *
      * @param array $a_additional_data
      */
     public function write(array $a_additional_data = null) : void
@@ -287,9 +273,10 @@ class ilADTActiveRecordByType
                             $tmp[$table][$element_id][$key] = $value;
                         }
                     }
-                    
+
                     if (isset($a_additional_data[$element_id])) {
-                        $tmp[$table][$element_id] = array_merge($tmp[$table][$element_id], $a_additional_data[$element_id]);
+                        $tmp[$table][$element_id] = array_merge($tmp[$table][$element_id],
+                            $a_additional_data[$element_id]);
                     }
                 }
             }
@@ -330,13 +317,13 @@ class ilADTActiveRecordByType
                 if ($element_ids) {
                     $this->db->manipulate(
                         $q = "DELETE FROM " . $table .
-                        " WHERE " . $this->properties->buildPrimaryWhere() .
-                        " AND " . $this->db->in(
-                            $this->getElementIdColumn(),
-                            $element_ids,
-                            false,
-                            $this->element_column_type
-                        )
+                            " WHERE " . $this->properties->buildPrimaryWhere() .
+                            " AND " . $this->db->in(
+                                $this->getElementIdColumn(),
+                                $element_ids,
+                                false,
+                                $this->element_column_type
+                            )
                     );
                 }
             }
@@ -347,7 +334,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = [];
         foreach ($a_primary as $field => $def) {
@@ -362,12 +349,12 @@ class ilADTActiveRecordByType
         }
         return '';
     }
-    
+
     public static function deleteByPrimary(string $a_table, array $a_primary, string $a_type = null) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
@@ -401,7 +388,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
@@ -419,7 +406,7 @@ class ilADTActiveRecordByType
         }
         return true;
     }
-    
+
     protected static function getTableTypeMap() : array
     {
         return array(
@@ -433,7 +420,6 @@ class ilADTActiveRecordByType
 
     /**
      * Clone values by (partial) primary key
-     *
      * @param string $a_table
      * @param array  $a_primary_def
      * @param array  $a_source_primary
@@ -450,7 +436,7 @@ class ilADTActiveRecordByType
     ) : bool {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_source_primary);
         if (!$where) {
@@ -461,7 +447,7 @@ class ilADTActiveRecordByType
         $type_map = self::getTableTypeMap();
         foreach (array_keys(self::getTablesMap()) as $table) {
             $sub_table = $a_table . "_" . $table;
-            
+
             $sql = "SELECT * FROM " . $sub_table .
                 " WHERE " . $where;
             $set = $ilDB->query($sql);
@@ -477,7 +463,7 @@ class ilADTActiveRecordByType
                         }
                         $fields[$pfield] = array($ptype, $row[$pfield]);
                     }
-                                    
+
                     // value field(s)
                     switch ($table) {
                         case "location":
@@ -496,10 +482,12 @@ class ilADTActiveRecordByType
                             break;
 
                         default:
-                            $fields[self::SINGLE_COLUMN_NAME] = array($type_map[$table], $row[self::SINGLE_COLUMN_NAME]);
+                            $fields[self::SINGLE_COLUMN_NAME] = array($type_map[$table],
+                                                                      $row[self::SINGLE_COLUMN_NAME]
+                            );
                             break;
                     }
-                    
+
                     // additional data
                     if ($a_additional) {
                         foreach ($a_additional as $afield => $atype) {
@@ -524,7 +512,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
@@ -542,8 +530,7 @@ class ilADTActiveRecordByType
                     $res[] = $row;
                 }
             }
-        }
-        // type-specific table
+        } // type-specific table
         else {
             $found = null;
             foreach (self::getTablesMap() as $table => $types) {
@@ -601,17 +588,16 @@ class ilADTActiveRecordByType
 
     /**
      * Write directly
-     *
      * @param string $a_table
-     * @param array $a_primary
+     * @param array  $a_primary
      * @param string $a_type
-     * @param mixed $a_value
+     * @param mixed  $a_value
      */
     public static function writeByPrimary(string $a_table, array $a_primary, string $a_type, mixed $a_value) : void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
             return;
@@ -637,10 +623,9 @@ class ilADTActiveRecordByType
             $ilDB->manipulate($sql);
         }
     }
-    
+
     /**
      * Find entries
-     *
      * @param string $a_table
      * @param string $a_type
      * @param int    $a_field_id
@@ -657,7 +642,7 @@ class ilADTActiveRecordByType
     ) : ?array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         // type-specific table
         $found = null;
         foreach (self::getTablesMap() as $table => $types) {

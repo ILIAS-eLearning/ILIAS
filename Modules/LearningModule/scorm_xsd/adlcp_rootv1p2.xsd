@@ -10,7 +10,7 @@
             elementFormDefault="unqualified"
             version="ADL Version 1.2">
 
-        <xsd:import namespace="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+        <xsd:import namespace="https://www.imsproject.org/xsd/imscp_rootv1p1p2"
          schemaLocation="imscp_rootv1p1p2.xsd"/>
 
         <xsd:element name="location" type="locationType"/>

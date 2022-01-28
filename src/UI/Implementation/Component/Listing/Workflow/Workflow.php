@@ -1,10 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use InvalidArgumentException;
 
 /**
  * Class Workflow
@@ -14,29 +16,16 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
 {
     use ComponentHelper;
 
-    /**
-     * @var	string
-     */
-    private $title;
-
-    /**
-     * @var	array
-     */
-    private $steps;
-
-    /**
-     * @var	int
-     */
-    private $active;
+    private string $title;
+    private array $steps;
+    private int $active;
 
     /**
      * Workflow constructor.
-     * @param 	string 	$title
      * @param 	Step[] 	$steps
      */
-    public function __construct($title, array $steps)
+    public function __construct(string $title, array $steps)
     {
-        $this->checkStringArg("string", $title);
         $types = array('string',Step::class);
         $this->checkArgListElements("steps", $steps, $types);
         $this->title = $title;
@@ -47,7 +36,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -55,11 +44,10 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function withActive($active)
+    public function withActive(int $active) : C\Listing\Workflow\Workflow
     {
-        $this->checkIntArg("int", $active);
         if ($active < 0 || $active > $this->getAmountOfSteps() - 1) {
-            throw new \InvalidArgumentException("active must be be within the amount of steps", 1);
+            throw new InvalidArgumentException("active must be be within the amount of steps", 1);
         }
         $clone = clone $this;
         $clone->active = $active;
@@ -69,16 +57,15 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getActive()
+    public function getActive() : int
     {
         return $this->active;
     }
 
     /**
      * Return the amount of steps of this workflow.
-     * @return int
      */
-    public function getAmountOfSteps()
+    public function getAmountOfSteps() : int
     {
         return count($this->steps);
     }
@@ -86,7 +73,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getSteps()
+    public function getSteps() : array
     {
         return $this->steps;
     }

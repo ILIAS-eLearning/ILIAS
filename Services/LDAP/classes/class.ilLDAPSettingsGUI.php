@@ -35,6 +35,8 @@ class ilLDAPSettingsGUI
     private $ref_id = null;
     private $server = null;
     private $dic;
+
+    protected ilComponentRepository $component_repository;
     
     public function __construct($a_auth_ref_id)
     {
@@ -45,6 +47,7 @@ class ilLDAPSettingsGUI
         $this->tabs_gui = $this->dic->tabs();
         $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('ldap');
+        $this->component_repository = $DIC["component.repository"];
         
         $this->tpl = $this->dic['tpl'];
 
@@ -404,7 +407,7 @@ class ilLDAPSettingsGUI
         include_once './Services/Search/classes/class.ilQueryParser.php';
         $parser = new ilQueryParser($_SESSION['ldap_role_ass']['role_search']);
         $parser->setMinWordLength(1);
-        $parser->setCombination(QP_COMBINATION_AND);
+        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
         
         include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
@@ -525,7 +528,7 @@ class ilLDAPSettingsGUI
                 
                 // TODO: Handle minWordLength
                 $parser->setMinWordLength(1);
-                $parser->setCombination(QP_COMBINATION_AND);
+                $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
                 $parser->parse();
                 
                 include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
@@ -1295,7 +1298,7 @@ class ilLDAPSettingsGUI
         $group->addOption($radio_attribute);
         
         // Option by Plugin
-        $pl_active = (bool) $this->hasActiveRoleAssignmentPlugins();
+        $pl_active = $this->component_repository->getPluginSlotById("ldaphk")->hasActivePlugins();
         $pl = new ilRadioOption($this->lng->txt('ldap_plugin'), 3);
         $pl->setInfo($this->lng->txt('ldap_plugin_info'));
         $pl->setDisabled(!$pl_active);
@@ -1310,19 +1313,6 @@ class ilLDAPSettingsGUI
 
         $group->addOption($pl);
         $this->form->addItem($group);
-    }
-    
-    /**
-     * Check if the plugin is active
-     * @return
-     */
-    private function hasActiveRoleAssignmentPlugins()
-    {
-        global $DIC;
-
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        return count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, 'LDAP', 'ldaphk')) ? true : false;
     }
     
     

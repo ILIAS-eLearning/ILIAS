@@ -23,17 +23,17 @@ class ilSystemFolderMetricsCollectedObjective extends Setup\Metrics\CollectedObj
         $firstname = new Setup\Metrics\Metric(
             Setup\Metrics\Metric::STABILITY_CONFIG,
             Setup\Metrics\Metric::TYPE_TEXT,
-            $settings->get("admin_firstname")
+            $settings->get("admin_firstname", "")
         );
         $lastname = new Setup\Metrics\Metric(
             Setup\Metrics\Metric::STABILITY_CONFIG,
             Setup\Metrics\Metric::TYPE_TEXT,
-            $settings->get("admin_lastname")
+            $settings->get("admin_lastname", "")
         );
         $email = new Setup\Metrics\Metric(
             Setup\Metrics\Metric::STABILITY_CONFIG,
             Setup\Metrics\Metric::TYPE_TEXT,
-            $settings->get("admin_email")
+            $settings->get("admin_email", "")
         );
         $contact = new Setup\Metrics\Metric(
             Setup\Metrics\Metric::STABILITY_CONFIG,

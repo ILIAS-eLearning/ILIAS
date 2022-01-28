@@ -40,12 +40,12 @@ class TrivialOAuthDataStore extends OAuthDataStore
         return null;
     }
 
-    public function new_request_token($consumer)
+    public function new_request_token($consumer, $callback = null)
     {
         return null;
     }
 
-    public function new_access_token($token, $consumer)
+    public function new_access_token($token, $consumer, $verifier = null)
     {
         return null;
     }

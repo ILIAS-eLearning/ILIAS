@@ -1,31 +1,34 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for table NewsForContext
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesNews
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * TableGUI class for table NewsForContext
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilNewsForContextTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected int $perm_ref_id = 0;
+    protected ilAccessHandler $access;
 
 
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_perm_ref_id = 0)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        int $a_perm_ref_id = 0
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -57,7 +60,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -120,8 +123,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("content");
             $this->tpl->setVariable(
                 "VAL_CONTENT",
-                ilUtil::shortenText($a_set["content"], 80, true, true),
-                true
+                ilUtil::shortenText($a_set["content"], 80, true, true)
             );
             $this->tpl->parseCurrentBlock();
         }

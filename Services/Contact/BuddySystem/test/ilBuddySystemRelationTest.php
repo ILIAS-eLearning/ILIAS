@@ -66,6 +66,9 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 
         $relation = $relation->withTimestamp($ts + 1);
         $this->assertEquals($ts + 1, $relation->getTimestamp());
+
+        $relation = $relation->withIsOwnedByActor(true);
+        $this->assertEquals(true, $relation->isOwnedByActor());
     }
 
     public function testUsersAreNotAbleToRequestThemselves() : void

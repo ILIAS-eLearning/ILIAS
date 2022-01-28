@@ -94,6 +94,9 @@ var mainbar = function() {
                         state = mb.model.getState();
                         if(id in state.tools) {
                             mb.model.actions.engageTool(id);
+                            after_render = function() {
+                                mb.renderer.focusSubentry(id);
+                            };
                         }
                         if(id in state.entries) { //toggle
                             if(state.entries[id].engaged) {
@@ -424,6 +427,21 @@ var model = function() {
                 }
             }
             return null;
+        },
+        isInView : function (entry_id) {
+            if(!state.entries[entry_id]) { //tools
+                return true;
+            }
+            var hops = entry_id.split(':'),
+                entries = state.entries;
+            while (hops.length > 1) {
+                entry_id = hops.join(':');
+                if(!state.entries[entry_id].engaged) {
+                    return false;
+                }
+                hops.pop();
+            }
+            return true;
         }
     },
     actions = {
@@ -536,7 +554,8 @@ var model = function() {
         actions: actions,
         getState: () => factories.cloned(state),
         setState: factories.state,
-        getTopLevelEntries: helpers.getTopLevelEntries
+        getTopLevelEntries: helpers.getTopLevelEntries,
+        isInView: helpers.isInView
     },
     init = function() {
         state = factories.cloned(classes.bar);
@@ -682,6 +701,8 @@ var renderer = function($) {
     },
 
     dom_references = {},
+    dom_ref_to_element = {},
+    thrown_for = {},
     dom_element = {
         withHtmlId: function (html_id) {
             return Object.assign({}, this, {html_id: html_id});
@@ -691,16 +712,11 @@ var renderer = function($) {
             return $('#' + this.html_id);
         },
         engage: function() {
-            var element = this.getElement(),
-                loaded = element.hasClass(css.engaged);
+            var element = this.getElement();
 
             element.addClass(css.engaged);
             element.removeClass(css.disengaged);
 
-            if(! loaded) {
-                element.trigger('in_view'); //this is most important for async loading of slates,
-                                            //it triggers the GlobalScreen-Service.
-            }
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -743,12 +759,27 @@ var renderer = function($) {
             mb_hide: null,
             mb_show: null,
             additional_engage: function(){
-                this.getElement().attr('aria-expanded', true);
-                this.getElement().attr('aria-hidden', false);
+                var element = this.getElement(),
+                    entry_id = dom_ref_to_element[this.html_id],
+                    isInView = il.UI.maincontrols.mainbar.model.isInView(entry_id),
+                    thrown = thrown_for[entry_id];
+                
+                element.attr('aria-expanded', true);
+                element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
-                this.getElement().attr('role', 'region');
+                element.attr('role', 'region');
+                if(isInView && !thrown) {
+                    element.trigger('in_view'); //this is most important for async loading of slates,
+                                                //it triggers the GlobalScreen-Service.
+                    thrown_for[entry_id] = true;
+                }
+                if(!isInView) {
+                    thrown_for[entry_id] = false;
+                }
             },
             additional_disengage: function(){
+                var entry_id = dom_ref_to_element[this.html_id];
+                thrown_for[entry_id] = false;
                 this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
                 this.getElement().removeAttr('role', 'region');
@@ -832,6 +863,8 @@ var renderer = function($) {
         addEntry: function (entry_id, part, html_id) {
             dom_references[entry_id] = dom_references[entry_id] || {};
             dom_references[entry_id][part] = html_id;
+            dom_ref_to_element[html_id] = entry_id;
+            thrown_for[entry_id] = false;
         },
         renderEntry: function (entry, is_tool) {
             if(!dom_references[entry.id]){
@@ -877,7 +910,9 @@ var renderer = function($) {
             if(model_state.any_tools_visible()) { max_buttons--;}
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
+                list = btn.getElement().parent();
                 btn.getElement().appendTo(more_slate.getElement().children('.il-maincontrols-slate-content'));
+                list.remove();
             }
         },
         render: function (model_state) {
@@ -887,7 +922,13 @@ var renderer = function($) {
                 more_button = parts.triggerer.withHtmlId(dom_references[more_entry.id].triggerer),
                 more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate);
                 //reset
-                more_slate.getElement().find('.btn-bulky, .link-bulky').insertBefore(more_button.getElement());
+                btns = more_slate.getElement().find('.btn-bulky, .link-bulky');
+                for(var i = 0; i < btns.length; i = i + 1) {
+                    li = document.createElement('li');
+                    li.appendChild(btns[i]);
+                    li.setAttribute('role', 'none');
+                    $(li).insertBefore(more_button.getElement().parent());
+                }
 
             if(model_state.more_available) {
                 actions.moveToplevelTriggerersToMore(model_state);
@@ -924,6 +965,9 @@ var renderer = function($) {
                     .children().first()
                     .children().first();
             if(someting_to_focus_on[0]){
+                if(!someting_to_focus_on.attr('tabindex')) { //cannot focus w/o index
+                    someting_to_focus_on.attr('tabindex', '-1');
+                }
                 someting_to_focus_on[0].focus();
             }
         },

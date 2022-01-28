@@ -62,7 +62,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
                     $path_name = $file->getPathname();
                     if ($file->isDir()) {
-                        ilUtil::delDir($path_name);
+                        ilFileUtils::delDir($path_name);
                         ilLoggerFactory::getLogger('mail')->info(sprintf(
                             'Attachment directory (%s) deleted for mail_id: %s',
                             $path_name,
@@ -84,7 +84,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
                     }
                 }
 
-                ilUtil::delDir($path);
+                ilFileUtils::delDir($path);
                 ilLoggerFactory::getLogger('mail')->info(sprintf(
                     'Attachment directory (%s) deleted for mail_id: %s',
                     $path,
@@ -110,7 +110,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
     private function deleteMarkedAsNotified() : void
     {
-        if ((int) $this->settings->get('mail_notify_orphaned') >= 1) {
+        if ((int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->db->manipulate(
                 'DELETE FROM mail_cron_orphaned WHERE ' .
                 $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')

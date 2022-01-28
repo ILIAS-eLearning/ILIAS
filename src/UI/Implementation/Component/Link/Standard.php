@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -8,28 +8,18 @@ use ILIAS\UI\Component as C;
 
 class Standard extends Link implements C\Link\Standard
 {
+    protected string $label;
 
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * Standard constructor.
-     * @param string $label
-     * @param string $action
-     */
-    public function __construct($label, $action)
+    public function __construct(string $label, string $action)
     {
         parent::__construct($action);
-        $this->checkStringArg("label", $label);
         $this->label = $label;
     }
 
     /**
      * @inheritdoc
      */
-    public function getLabel()
+    public function getLabel() : string
     {
         return $this->label;
     }

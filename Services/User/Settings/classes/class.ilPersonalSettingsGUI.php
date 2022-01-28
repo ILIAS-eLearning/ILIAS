@@ -1,59 +1,64 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * GUI class for personal profile
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPersonalSettingsGUI: ilMailOptionsGUI
  */
 class ilPersonalSettingsGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected ilPropertyFormGUI $form;
+    protected string $entered_new_password;
+    protected string $entered_current_password;
+    protected string $password_error;
+    protected ilUserDefinedFields $user_defined_fields;
+    protected string $upload_error;
+    protected \ILIAS\User\StandardGUIRequest $request;
+    protected ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
+    public ilCtrl $ctrl;
+    protected ilUserSettingsConfig $user_settings_config;
 
-
-    public $lng;
-    public $ilias;
-    public $ctrl;
-
-    /**
-     * @var ilUserSettingsConfig
-     */
-    protected $user_settings_config;
-
-    /**
-     * constructor
-     */
     public function __construct()
     {
         global $DIC;
-
-        $ilias = $DIC['ilias'];
 
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
-        $this->ilias = $ilias;
         $this->ctrl = $DIC->ctrl();
-
-        $this->settings = $ilias->getAllSettings();
         $this->upload_error = "";
         $this->password_error = "";
         $this->lng->loadLanguageModule("user");
         $this->ctrl->saveParameter($this, "user_page");
 
         $this->user_settings_config = new ilUserSettingsConfig();
+        $this->request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+        $this->entered_new_password = $this->request->getNewPassword();
+        $this->entered_current_password = $this->request->getCurrentPassword();
     }
 
     /**
-    * execute command
-    */
-    public function executeCommand()
+     * execute command
+     */
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -61,16 +66,13 @@ class ilPersonalSettingsGUI
 
         switch ($next_class) {
             case 'ilmailoptionsgui':
-                require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
                 if (!$DIC->rbac()->system()->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
-                    $this->ilias->raiseError($DIC->language()->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+                    throw new ilPermissionException($DIC->language()->txt('permission_denied'));
                 }
 
                 $this->__initSubTabs('showMailOptions');
                 $DIC->tabs()->activateTab('mail_settings');
                 $this->setHeader();
-
-                require_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
@@ -79,16 +81,11 @@ class ilPersonalSettingsGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
     // init sub tabs
-    public function __initSubTabs($a_cmd)
+    public function __initSubTabs(string $a_cmd) : void
     {
-        /**
-         * @var $rbacsystem ilRbacSystem
-         * @var $ilTabs ilTabsGUI
-         */
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
@@ -99,8 +96,8 @@ class ilPersonalSettingsGUI
 
         $ilHelp->setScreenIdComponent("user");
         
-        $showPassword = ($a_cmd == 'showPassword') ? true : false;
-        $showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
+        $showPassword = $a_cmd == 'showPassword';
+        $showGeneralSettings = $a_cmd == 'showGeneralSettings';
 
         // old profile
 
@@ -126,7 +123,6 @@ class ilPersonalSettingsGUI
             );
         }
 
-        require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
         if ($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()) && $ilSetting->get('show_mail_settings')) {
             $this->ctrl->setParameter($this, 'referrer', 'ilPersonalSettingsGUI');
 
@@ -138,9 +134,7 @@ class ilPersonalSettingsGUI
             );
         }
 
-        include_once "./Services/Administration/classes/class.ilSetting.php";
-        
-        if ((bool) $ilSetting->get('user_delete_own_account') &&
+        if ($ilSetting->get('user_delete_own_account') &&
             $ilUser->getId() != SYSTEM_USER_ID) {
             $ilTabs->addTab(
                 "delacc",
@@ -153,7 +147,7 @@ class ilPersonalSettingsGUI
     /**
      * Set header
      */
-    public function setHeader()
+    public function setHeader() : void
     {
         $this->tpl->setTitle($this->lng->txt('personal_settings'));
     }
@@ -164,12 +158,10 @@ class ilPersonalSettingsGUI
     //
     //
 
-    /**
-     * @param bool $a_no_init
-     * @param bool $hide_form
-     */
-    public function showPassword($a_no_init = false, $hide_form = false)
-    {
+    public function showPassword(
+        bool $a_no_init = false,
+        bool $hide_form = false
+    ) : void {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
@@ -198,12 +190,7 @@ class ilPersonalSettingsGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-    * Init password form.
-    *
-    * @param        int        $a_mode        Edit Mode
-    */
-    public function initPasswordForm()
+    public function initPasswordForm() : void
     {
         global $DIC;
 
@@ -211,7 +198,6 @@ class ilPersonalSettingsGUI
         $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
     
         // Check whether password change is allowed
@@ -254,7 +240,6 @@ class ilPersonalSettingsGUI
                     
                 case AUTH_SHIBBOLETH:
                 case AUTH_CAS:
-                    require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
                     if (ilDAVActivationChecker::_isActive()) {
                         $this->form->setTitle($lng->txt("chg_ilias_and_webfolder_password"));
                     } else {
@@ -270,9 +255,9 @@ class ilPersonalSettingsGUI
     }
     
     /**
-    * Check, whether password change is allowed for user
-    */
-    protected function allowPasswordChange()
+     * Check, whether password change is allowed for user
+     */
+    protected function allowPasswordChange() : bool
     {
         global $DIC;
 
@@ -290,20 +275,13 @@ class ilPersonalSettingsGUI
         return \ilAuthUtils::isPasswordModificationHidden() && ($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired());
     }
     
-    /**
-    * Save password form
-    *
-    */
-    public function savePassword()
+    public function savePassword() : void
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-    
+
         // normally we should not end up here
         if (!$this->allowPasswordChange()) {
             $ilCtrl->redirect($this, "showPersonalData");
@@ -321,14 +299,13 @@ class ilPersonalSettingsGUI
             // local authentication for WebDAV.
             #if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
             if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
-                require_once 'Services/User/classes/class.ilUserPasswordManager.php';
-                if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, ilUtil::stripSlashes($_POST['current_password']))) {
+                if (!ilUserPasswordManager::getInstance()->verifyPassword($ilUser, $this->entered_new_password)) {
                     $error = true;
                     $cp->setAlert($this->lng->txt('passwd_wrong'));
                 }
             }
 
-            if (!ilUtil::isPassword($_POST["new_password"], $custom_error)) {
+            if (!ilUtil::isPassword($this->entered_new_password, $custom_error)) {
                 $error = true;
                 if ($custom_error != '') {
                     $np->setAlert($custom_error);
@@ -337,21 +314,21 @@ class ilPersonalSettingsGUI
                 }
             }
             $error_lng_var = '';
-            if (!ilUtil::isPasswordValidForUserContext($_POST["new_password"], $ilUser, $error_lng_var)) {
+            if (!ilUtil::isPasswordValidForUserContext($this->entered_new_password, $ilUser, $error_lng_var)) {
                 ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
                 $np->setAlert($this->lng->txt($error_lng_var));
                 $error = true;
             }
             if (
                 ($ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded()) &&
-                $_POST["current_password"] == $_POST["new_password"]) {
+                $this->entered_current_password == $this->entered_new_password) {
                 $error = true;
                 $np->setAlert($this->lng->txt("new_pass_equals_old_pass"));
             }
             
             if (!$error) {
-                $ilUser->resetPassword($_POST["new_password"], $_POST["new_password"]);
-                if ($_POST["current_password"] != $_POST["new_password"]) {
+                $ilUser->resetPassword($this->entered_new_password, $this->entered_new_password);
+                if ($this->entered_current_password != $this->entered_new_password) {
                     $ilUser->setLastPasswordChangeToNow();
                     $ilUser->setPasswordPolicyResetStatus(false);
                     $ilUser->update();
@@ -379,37 +356,22 @@ class ilPersonalSettingsGUI
     //
     //
 
-    /**
-     * @param string $setting
-     * @return bool
-     */
     public function workWithUserSetting(string $setting) : bool
     {
         return $this->user_settings_config->isVisibleAndChangeable($setting);
     }
 
-    /**
-     * @param string $setting
-     * @return bool
-     */
     public function userSettingVisible(string $setting) : bool
     {
         return $this->user_settings_config->isVisible($setting);
     }
 
-    /**
-     * @param string $setting
-     * @return bool
-     */
     public function userSettingEnabled(string $setting) : bool
     {
         return $this->user_settings_config->isChangeable($setting);
     }
 
-    /**
-    * General settings form.
-    */
-    public function showGeneralSettings($a_no_init = false)
+    public function showGeneralSettings(bool $a_no_init = false) : void
     {
         global $DIC;
 
@@ -427,11 +389,7 @@ class ilPersonalSettingsGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-    * Init general settings form.
-    *
-    */
-    public function initGeneralSettingsForm()
+    public function initGeneralSettingsForm() : void
     {
         global $DIC;
 
@@ -440,8 +398,6 @@ class ilPersonalSettingsGUI
         $styleDefinition = $DIC['styleDefinition'];
         $ilSetting = $DIC['ilSetting'];
         
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // language
@@ -455,7 +411,7 @@ class ilPersonalSettingsGUI
             $si = new ilSelectInputGUI($this->lng->txt("language"), "language");
             $si->setOptions($options);
             $si->setValue($ilUser->getLanguage());
-            $si->setDisabled($ilSetting->get("usr_settings_disable_language"));
+            $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_language"));
             $this->form->addItem($si);
         }
 
@@ -468,7 +424,6 @@ class ilPersonalSettingsGUI
                 $options = array();
                 foreach ($skins as $skin) {
                     foreach ($skin->getStyles() as $style) {
-                        include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
                         if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId()) || $style->isSubstyle()) {
                             continue;
                         }
@@ -478,18 +433,9 @@ class ilPersonalSettingsGUI
                 }
                 $si->setOptions($options);
                 $si->setValue($ilUser->skin . ":" . $ilUser->prefs["style"]);
-                $si->setDisabled($ilSetting->get("usr_settings_disable_skin_style"));
+                $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_skin_style"));
                 $this->form->addItem($si);
             }
-        }
-
-        // screen reader optimization
-        if ($this->userSettingVisible("screen_reader_optimization")) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt("user_screen_reader_optimization"), "screen_reader_optimization");
-            $cb->setChecked($ilUser->prefs["screen_reader_optimization"]);
-            $cb->setDisabled($ilSetting->get("usr_settings_disable_screen_reader_optimization"));
-            $cb->setInfo($this->lng->txt("user_screen_reader_optimization_info"));
-            $this->form->addItem($cb);
         }
 
         // help tooltips
@@ -518,7 +464,7 @@ class ilPersonalSettingsGUI
             }
             $si->setOptions($options);
             $si->setValue($ilUser->prefs["hits_per_page"]);
-            $si->setDisabled($ilSetting->get("usr_settings_disable_hits_per_page"));
+            $si->setDisabled((bool) $ilSetting->get("usr_settings_disable_hits_per_page"));
             $this->form->addItem($si);
         }
 
@@ -549,19 +495,18 @@ class ilPersonalSettingsGUI
         $this->form->addItem($lv);
 
 
-        include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
         if (ilSessionReminder::isGloballyActivated()) {
             $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
             $cb->setInfo($this->lng->txt('session_reminder_info'));
             $cb->setValue(1);
-            $cb->setChecked((int) $ilUser->getPref('session_reminder_enabled'));
+            $cb->setChecked((bool) $ilUser->getPref('session_reminder_enabled'));
 
             $expires = ilSession::getSessionExpireValue();
             $lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
             $lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilDatePresentation::secondsToString($expires, true)));
 
             $min_value = ilSessionReminder::MIN_LEAD_TIME;
-            $max_value = max($min_value, ((int) $expires / 60) - 1);
+            $max_value = max($min_value, ($expires / 60) - 1);
 
             $current_user_value = $ilUser->getPref('session_reminder_lead_time');
             if ($current_user_value < $min_value ||
@@ -588,8 +533,6 @@ class ilPersonalSettingsGUI
         // calendar settings (copied here to be reachable when calendar is inactive)
         // they cannot be hidden/deactivated
 
-        include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-        include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
         $lng->loadLanguageModule("dateplaner");
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 
@@ -619,7 +562,6 @@ class ilPersonalSettingsGUI
         
         
         // starting point
-        include_once "Services/User/classes/class.ilUserUtil.php";
         if (ilUserUtil::hasPersonalStartingPoint()) {
             $this->lng->loadLanguageModule("administration");
             $si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
@@ -662,7 +604,6 @@ class ilPersonalSettingsGUI
 
         $ilSetting = $DIC['ilSetting'];
         if ($ilSetting->get('char_selector_availability') > 0) {
-            require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
             $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
             $char_selector->getConfig()->setAvailability($ilUser->getPref('char_selector_availability'));
             $char_selector->getConfig()->setDefinition($ilUser->getPref('char_selector_definition'));
@@ -678,7 +619,7 @@ class ilPersonalSettingsGUI
     /**
      * Save general settings
      */
-    public function saveGeneralSettings()
+    public function saveGeneralSettings() : void
     {
         global $DIC;
 
@@ -692,8 +633,8 @@ class ilPersonalSettingsGUI
         if ($this->form->checkInput()) {
             if ($this->workWithUserSetting("skin_style")) {
                 //set user skin and style
-                if ($_POST["skin_style"] != "") {
-                    $sknst = explode(":", $_POST["skin_style"]);
+                if ($this->form->getInput("skin_style") != "") {
+                    $sknst = explode(":", $this->form->getInput("skin_style"));
 
                     if ($ilUser->getPref("style") != $sknst[1] ||
                         $ilUser->getPref("skin") != $sknst[0]) {
@@ -705,13 +646,13 @@ class ilPersonalSettingsGUI
 
             // language
             if ($this->workWithUserSetting("language")) {
-                $ilUser->setLanguage($_POST["language"]);
+                $ilUser->setLanguage($this->form->getInput("language"));
             }
             
             // hits per page
             if ($this->workWithUserSetting("hits_per_page")) {
-                if ($_POST["hits_per_page"] != "") {
-                    $ilUser->setPref("hits_per_page", $_POST["hits_per_page"]);
+                if ($this->form->getInput("hits_per_page") != "") {
+                    $ilUser->setPref("hits_per_page", $this->form->getInput("hits_per_page"));
                 }
             }
 
@@ -719,42 +660,28 @@ class ilPersonalSettingsGUI
             $module_id = (int) $ilSetting->get("help_module");
             if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
                 $ilSetting->get("help_mode") != "1") {
-                $ilUser->setPref("hide_help_tt", (int) !$_POST["help_tooltips"]);
+                $ilUser->setPref("hide_help_tt", (int) !$this->form->getInput("help_tooltips"));
             }
 
-            // set show users online
-            /*
-            if ($this->workWithUserSetting("show_users_online"))
-            {
-                $ilUser->setPref("show_users_online", $_POST["show_users_online"]);
-            }*/
-            
             // store last visited?
             global $DIC;
 
             $ilNavigationHistory = $DIC['ilNavigationHistory'];
-            $ilUser->setPref("store_last_visited", (int) $_POST["store_last_visited"]);
-            if ((int) $_POST["store_last_visited"] > 0) {
+            $ilUser->setPref("store_last_visited", (int) $this->form->getInput("store_last_visited"));
+            if ((int) $this->form->getInput("store_last_visited") > 0) {
                 $ilNavigationHistory->deleteDBEntries();
-                if ((int) $_POST["store_last_visited"] == 2) {
+                if ((int) $this->form->getInput("store_last_visited") == 2) {
                     $ilNavigationHistory->deleteSessionEntries();
                 }
             }
 
-            // set show users online
-            if ($this->workWithUserSetting("screen_reader_optimization")) {
-                $ilUser->setPref("screen_reader_optimization", $_POST["screen_reader_optimization"]);
-            }
-            
             // session reminder
-            include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
             if (ilSessionReminder::isGloballyActivated()) {
                 $ilUser->setPref('session_reminder_enabled', (int) $this->form->getInput('session_reminder_enabled'));
                 $ilUser->setPref('session_reminder_lead_time', $this->form->getInput('session_reminder_lead_time'));
             }
 
             // starting point
-            include_once "Services/User/classes/class.ilUserUtil.php";
             if (ilUserUtil::hasPersonalStartingPoint()) {
                 ilUserUtil::setPersonalStartingPoint(
                     $this->form->getInput('usr_start'),
@@ -767,7 +694,6 @@ class ilPersonalSettingsGUI
 
             $ilSetting = $DIC['ilSetting'];
             if ($ilSetting->get('char_selector_availability') > 0) {
-                require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
                 $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
                 $char_selector->getFormValues($this->form);
                 $ilUser->setPref('char_selector_availability', $char_selector->getConfig()->getAvailability());
@@ -777,7 +703,6 @@ class ilPersonalSettingsGUI
             $ilUser->update();
 
             // calendar settings
-            include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
             $user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
             $user_settings->setTimeZone($this->form->getInput("timezone"));
             $user_settings->setDateFormat((int) $this->form->getInput("date_format"));
@@ -796,7 +721,7 @@ class ilPersonalSettingsGUI
     /**
      * Delete own account dialog - 1st confirmation
      */
-    protected function deleteOwnAccount1()
+    protected function deleteOwnAccount1() : void
     {
         global $DIC;
 
@@ -829,7 +754,7 @@ class ilPersonalSettingsGUI
     /**
      * Delete own account dialog - login redirect
      */
-    protected function deleteOwnAccount2()
+    protected function deleteOwnAccount2() : void
     {
         global $DIC;
 
@@ -855,7 +780,7 @@ class ilPersonalSettingsGUI
         $this->tpl->printToStdout();
     }
     
-    protected function abortDeleteOwnAccount()
+    protected function abortDeleteOwnAccount() : void
     {
         global $DIC;
 
@@ -868,7 +793,7 @@ class ilPersonalSettingsGUI
         $ilCtrl->redirect($this, "showGeneralSettings");
     }
     
-    protected function deleteOwnAccountLogout()
+    protected function deleteOwnAccountLogout() : void
     {
         global $DIC;
 
@@ -888,7 +813,7 @@ class ilPersonalSettingsGUI
     /**
      * Delete own account dialog - final confirmation
      */
-    protected function deleteOwnAccount3()
+    protected function deleteOwnAccount3() : void
     {
         global $DIC;
 
@@ -918,7 +843,7 @@ class ilPersonalSettingsGUI
     /**
      * Delete own account dialog - action incl. notification email
      */
-    protected function deleteOwnAccount4()
+    protected function deleteOwnAccount4() : void
     {
         global $DIC;
 
@@ -934,7 +859,6 @@ class ilPersonalSettingsGUI
         
         // build notification
         
-        include_once "./Services/Notification/classes/class.ilSystemNotification.php";
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("user"));
         $ntf->addAdditionalInfo("profile", $ilUser->getProfileAsString($this->lng), true);

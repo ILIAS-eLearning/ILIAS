@@ -16,14 +16,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {
 
     /**
-     * @var ilDclDetailedViewDefinition
-     */
-    public $obj;
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
      * @var int
      */
     protected $tableview_id;
@@ -50,7 +42,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
             $viewdef->setActive(false);
-            $viewdef->create();
+            $viewdef->create(false);
         }
 
         parent::__construct("dclf", $tableview_id);
@@ -101,9 +93,9 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
 
     /**
-     * @return mixed|string|string[]|null
+     * @return string
      */
-    public function showPage()
+    public function showPage() : string
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -139,24 +131,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-
-    public function editActivation()
-    {
-        parent::editActivation();
-    }
-
-
-    public function edit()
-    {
-        return parent::edit();
-    }
-
-
-
-    public function setEditPreview($a_editpreview)
-    {
-        parent::setEditPreview($a_editpreview);
-    }
 
 
     /**
@@ -243,7 +217,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock()
+    public function releasePageLock() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -257,12 +231,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
     /**
      * Finalizing output processing
-     *
      * @param string $a_output
-     *
      * @return string
      */
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         // You can use this to parse placeholders and the like before outputting
 

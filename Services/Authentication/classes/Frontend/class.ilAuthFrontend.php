@@ -360,7 +360,7 @@ class ilAuthFrontend
             'afterLogin',
             array(
                 'username' => $user->getLogin())
-            );
+        );
         
         return true;
     }
@@ -456,7 +456,7 @@ class ilAuthFrontend
         $this->getLogger()->debug('Authentication failed for all authentication methods.');
 
         $user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
-        if (!in_array($user_id, array(ANONYMOUS_USER_ID))) {
+        if (is_int($user_id) && $user_id !== ANONYMOUS_USER_ID) {
             ilObjUser::_incrementLoginAttempts($user_id);
             $login_attempts = ilObjUser::_getLoginAttempts($user_id);
             

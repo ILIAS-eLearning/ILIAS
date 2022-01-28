@@ -22,9 +22,9 @@ with the il- variable set here.
 @il-danger-color: #d00;
 
 //** Neutral Color for various Backgrounds, used to be @gray-dark and @il-neutral-color
-@il-neutral-color: #434343;
+@il-neutral-color: #2c2c2c;
 //** Light version of the @il-neutral-color, used to be @gray-light
-@il-neutral-light-color: #757575;
+@il-neutral-light-color: #737373;
 
 //** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
 @il-main-border-color: #dddddd;
@@ -42,18 +42,18 @@ with the il- variable set here.
 @il-highlight-bg: lighten(@il-main-color, 50%);
 
 //** Used to be @text-color. Can be used on all background colors.
-@il-text-color: @il-neutral-color;
+@il-text-color: #161616;
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
-@il-text-light-color: @il-neutral-light-color;
+@il-text-light-color: lighten(@il-text-color, 40%);
 
 //** Used to be @link-color
 @il-link-color: @il-main-color;
 //** Used to be @link-hover-color
 @il-link-hover-color: darken(@il-link-color, 10%);
 
-//** Used to set focus on interactive elements for keyboard navigation. 
+//** Used to set focus on interactive elements for keyboard navigation.
 @il-focus-color: #0078D7;
 
 //== Extended Colors
@@ -202,8 +202,8 @@ with the il- variable set here.
 @il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
 @il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
-@il-slate-bulky-padding: 10px 40px 15px 10px;
-@il-slate-bulky-link-padding: 10px 10px 15px 10px;
+@il-slate-bulky-padding: 15px 40px 15px 10px;
+@il-slate-bulky-link-padding: 15px 10px 15px 10px;
 @il-slate-bulky-glyph-size: 2rem;
 @il-slate-bulky-glyph-margin-right: 5px;
 @il-slate-bulky-label-size: 1.5rem;
@@ -579,6 +579,12 @@ with the il- variable set here.
 @il-item-h5-margin: 4px 0px 2px 0px;
 @il-item-border-bottom: 2px solid @il-content-bg;
 @il-item-border-bottom-small: 1px solid @il-content-bg;
+@il-item-gap-base: 6px;
+@il-item-gap-large: 10px;
+@il-item-gap-small: 5px;
+@il-item-gap-xs: 1px;
+
+
 
 
 //== Charts
@@ -769,7 +775,8 @@ with the il- variable set here.
 @il-tree-node-indentation: @il-font-size-base;
 //** Vertical Space between nodes
 @il-tree-node-vertical-spacing: 3px;
-
+//** Horizontal space between expand/collapse icon, an optional node icon and node label
+@il-tree-node-horizontal-spacing: 4px;
 //== Characteristic Value Listing
 //** item rows layout
 @il-characteristic-value-border-color: @il-main-border-color;

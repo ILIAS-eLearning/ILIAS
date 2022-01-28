@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
 * Class ilSCORM2004Rule
 *
@@ -19,7 +30,7 @@ class ilSCORM2004Rule extends ilSCORM2004SeqNode
     private $id = null;
     private $seqNodeId = null;
     private $type = null;
-    private $action = true;
+    private bool $action = true;
     /**
     * Constructor
     * @access	public
@@ -50,7 +61,7 @@ class ilSCORM2004Rule extends ilSCORM2004SeqNode
         return $this->type;
     }
     
-    public function getAction()
+    public function getAction() : bool
     {
         return $this->action;
     }
@@ -59,22 +70,22 @@ class ilSCORM2004Rule extends ilSCORM2004SeqNode
     // Setter METHODS
     // **********************
 
-    public function setSeqNodeId($a_seqnodeid)
+    public function setSeqNodeId($a_seqnodeid) : void
     {
         $this->seqNodeId = $a_seqnodeid;
     }
     
-    public function setId($a_id)
+    public function setId($a_id) : void
     {
         $this->id = $a_id;
     }
     
-    public function setType($a_type)
+    public function setType($a_type) : void
     {
         $this->type = $a_type;
     }
     
-    public function setAction($a_action)
+    public function setAction(bool $a_action) : void
     {
         $this->action = $a_action;
     }
@@ -84,7 +95,7 @@ class ilSCORM2004Rule extends ilSCORM2004SeqNode
     // Standard DB Operations for Object
     // **********************
     
-    public function insert($a_insert_node = false)
+    public function insert($a_insert_node = false) : bool
     {
         if ($a_insert_node == true) {
             $this->setSeqNodeId(parent::insert());

@@ -10,7 +10,6 @@ namespace ILIAS\UI\Component\Symbol\Avatar;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:

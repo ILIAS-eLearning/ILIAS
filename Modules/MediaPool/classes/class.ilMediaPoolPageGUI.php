@@ -1,27 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilMediaPoolPage GUI class
- *
  * @author Alexander Killing <killing@leifos.de>
- *
  * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI
  */
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
-    /**
-    * Constructor
-    */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        bool $a_prevent_get_id = false,
+        string $a_lang = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -37,73 +44,22 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->setEditPreview(true);
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand() : string
-    {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
-
-        switch ($next_class) {
-            default:
-                return parent::executeCommand();
-        }
-    }
-
-    /**
-    * Set Media Pool Page Object.
-    *
-    * @param	object	$a_media_pool_page	Media Pool Page Object
-    */
-    public function setMediaPoolPage($a_media_pool_page)
-    {
+    public function setMediaPoolPage(
+        ilMediaPoolPage $a_media_pool_page
+    ) : void {
         $this->setPageObject($a_media_pool_page);
     }
 
-    /**
-    * Get Media Pool Page Object.
-    *
-    * @return	object	Media Pool Page Object
-    */
-    public function getMediaPoolPage()
+    public function getMediaPoolPage() : ilMediaPoolPage
     {
-        return $this->getPageObject();
+        /** @var ilMediaPoolPage $p */
+        $p = $this->getPageObject();
+        return $p;
     }
 
-    /**
-    * Get media pool page gui for id and title
-    */
-    public static function getGUIForTitle($a_media_pool_id, $a_title, $a_old_nr = 0)
-    {
-        global $DIC;
-
-        $id = ilMediaPoolPage::getPageIdForTitle($a_media_pool_id, $a_title);
-        $page_gui = new ilMediaPoolPageGUI($id, $a_old_nr);
-        
-        return $page_gui;
-    }
-    
-    /**
-    * View media pool page.
-    */
-    public function preview()
-    {
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $lng = $this->lng;
-        
-        return parent::preview();
-    }
-    
-    /**
-     * Show page
-     */
-    public function showPage($a_no_title = false)
-    {
+    public function showPage(
+        bool $a_no_title = false
+    ) : string {
         $tpl = $this->tpl;
 
         // get raw page content is used for including into other pages
@@ -125,32 +81,14 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         return $output;
     }
 
-    public function getTabs($a_activate = "")
-    {
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-
-        parent::getTabs($a_activate);
-    }
-    
-    /**
-     * Get raw content
-     *
-     * @param
-     * @return
-     */
-    public function getRawContent()
+    public function getRawContent() : string
     {
         $this->setRawPageContent(true);
-        $this->setLinkXML("");
+        $this->setLinkXml("");
         return $this->showPage(true);
     }
 
-    /**
-     * Set template
-     * @param ilTemplate
-     */
-    public function setTemplate($tpl)
+    public function setTemplate(ilGlobalTemplateInterface $tpl) : void
     {
         $this->tpl = $tpl;
     }

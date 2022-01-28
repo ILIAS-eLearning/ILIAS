@@ -1,56 +1,32 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-/**
-* Explorer View for SCORM Learning Modules
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
-* @version $Id$
-*
-* @ingroup ModulesScormAicc
-*/
-
-require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilSCORMExplorer extends ilExplorer
 {
 
     /**
      * id of root folder
-     * @var int root folder id
-     * @access private
      */
     public $slm_obj;
 
     /**
-    * Constructor
-    * @access	public
-    * @param	string	scriptname
-    * @param    int user_id
-    */
-    public function __construct($a_target, &$a_slm_obj)
+     * Constructor
+     * @access    public
+     * @param string $a_target
+     * @param        $a_slm_obj
+     */
+    public function __construct(string $a_target, &$a_slm_obj)
     {
         parent::__construct($a_target);
         $this->slm_obj = $a_slm_obj;
@@ -60,34 +36,45 @@ class ilSCORMExplorer extends ilExplorer
         $this->outputIcons(true);
         $this->setOrderColumn("");
     }
-    
-    public function getItem($a_node_id)
+
+    /**
+     * @param int $a_node_id
+     * @return ilSCORMItem
+     */
+    public function getItem(int $a_node_id) : \ilSCORMItem
     {
         return new ilSCORMItem($a_node_id);
     }
-    
-    public function getIconImagePathPrefix()
+
+    /**
+     * @return string
+     */
+    public function getIconImagePathPrefix() : string
     {
         return "scorm/";
     }
-    
-    public function getNodesToSkip()
+
+    /**
+     * @return int
+     */
+    public function getNodesToSkip() : int
     {
         return 2;
     }
-    
 
     /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+     * overwritten method from base class
+     *
+     * @param ilTemplate $tpl
+     * @param            $a_obj_id
+     * @param array      $a_option
+     * @return void
+     * @throws ilTemplateException
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
+        $lng = $DIC->language();
 
         $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
@@ -97,51 +84,57 @@ class ilSCORMExplorer extends ilExplorer
         $tpl->setVariable("TARGET", " target=\"" . $this->frame_target . "\"");
         $tpl->parseCurrentBlock();
 
-        $this->output[] = $tpl->get();
+        $this->output .= $tpl->get();
     }
 
     /**
-    * Creates Get Parameter
-    * @access	private
-    * @param	string
-    * @param	integer
-    * @return	string
-    */
-    public function createTarget($a_type, $a_child, $a_highlighted_subtree = false, $a_append_anch = true)
+     * Creates Get Parameter
+     * @access    private
+     * @param string $a_type
+     * @param integer
+     * @param bool   $a_highlighted_subtree
+     * @param bool   $a_append_anch
+     * @return    string
+     */
+    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string
     {
         // SET expand parameter:
         //     positive if object is expanded
         //     negative if object is compressed
-        $a_child = ($a_type == '+')
-            ? $a_child
-            : -(int) $a_child;
+        $a_node_id = ($a_type == '+')
+            ? $a_node_id
+            : -(int) $a_node_id;
 
-        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_child;
+        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;
     }
 
     /**
-     * possible output array is set
-     * @param int 	$parent_id
+     * @param $a_parent_id
+     * @param $a_depth
+     * @param $a_obj_id
+     * @param $a_highlighted_subtree
+     * @return void
      */
-    public function setOutput($parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
+    public function setOutput($a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false) : void
+//    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
-        $this->format_options = $this->createOutputArray($parent_id);
+        $this->format_options = $this->createOutputArray($a_parent_id);
     }
 
     /**
-     * recursivi creating of outputs
-     * @param int 	$a_parent_id
-     * @param array 	$options 		existing output options
-     *
-     * @return array $options
+     * recursive creating of outputs
+     * @param int   $a_parent_id
+     * @param array $options
+     * @return array
      */
-    protected function createOutputArray($a_parent_id, $options = array())
+    protected function createOutputArray(int $a_parent_id, array $options = array()) : array
     {
+        global $ilErr;
         $types_do_not_display = array("sos", "sma");
         $types_do_not_load = array("srs");
 
         if (!isset($a_parent_id)) {
-            $this->ilias->raiseError(get_class($this) . "::setOutput(): No node_id given!", $this->ilias->error_obj->WARNING);
+            $ilErr->raiseError(get_class($this) . "::setOutput(): No node_id given!", $ilErr->error_obj->WARNING);
         }
 
         if (!$this->showChilds($a_parent_id)) {
@@ -164,7 +157,7 @@ class ilSCORMExplorer extends ilExplorer
             $option["visible"] = !in_array($child["c_type"], $types_do_not_display);
 
             if ($this->showChilds($option["id"])) {
-                $option = $this->createOutputArray($option["id"], $option);
+                $option = $this->createOutputArray((int) $option["id"], $option);
             }
 
             $options["childs"][] = $option;
@@ -174,9 +167,11 @@ class ilSCORMExplorer extends ilExplorer
     }
 
     /**
-     * @inheritdoc
+     * @param        $a_ref_id
+     * @param string $a_type
+     * @return bool
      */
-    public function isVisible($a_id, $a_type)
+    public function isVisible($a_ref_id, string $a_type) : bool
     {
         if ($a_type == "sre") {
             return false;
@@ -187,12 +182,12 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * Creates output template
-     *
-     * @access	public
-     *
-     * @return	string
+     * @access    public
+     * @param bool $jsApi
+     * @return    string
+     * @throws ilTemplateException
      */
-    public function getOutput($jsApi = false)
+    public function getOutput(bool $jsApi = false) : string
     {
         $output = $this->createOutput($this->format_options, $jsApi);
 
@@ -201,13 +196,12 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * recursive creation of output templates
-     *
-     * @param array 		$option
-     * @param bool 			$jsApi
-     *
-     * @return ilTemplate 	$tpl
+     * @param array $option
+     * @param bool  $jsApi
+     * @return ilTemplate
+     * @throws ilTemplateException
      */
-    public function createOutput($option, $jsApi)
+    public function createOutput(array $option, bool $jsApi) : \ilTemplate
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -232,22 +226,17 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * can i click on the module name
-     * @param string 	$a_type
-     * @param int 		$a_id
-     * @param int 		$a_obj
      *
+     * @param $a_type
+     * @param $a_ref_id
      * @return bool
      */
-    public function isClickable($a_type, $a_id = 0, $a_obj = 0)
+    public function isClickable($a_type, $a_ref_id = 0) : bool
     {
         if ($a_type != "sit") {
             return false;
         } else {
-            if (is_object($a_obj)) {
-                $sc_object = $a_obj;
-            } else {
-                $sc_object = new ilSCORMItem($a_id);
-            }
+            $sc_object = new ilSCORMItem($a_ref_id);
             if ($sc_object->getIdentifierRef() != "") {
                 return true;
             }
@@ -257,22 +246,22 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * insert the option data in $tpl
-     *
-     * @param array 		$option
-     * @param ilTemplate 	$tpl
-     * @param bool 			$jsApi
-     *
-     * @return ilTemplate 	$tpl
+     * @param array      $option
+     * @param ilTemplate $tpl
+     * @param bool       $jsApi
+     * @return ilTemplate
+     * @throws ilTemplateException
      */
-    protected function insertObject($option, ilTemplate $tpl, $jsApi)
+    protected function insertObject(array $option, ilTemplate $tpl, bool $jsApi) : \ilTemplate
     {
+        global $ilErr;
         if (!is_array($option) || !isset($option["id"])) {
-            $this->ilias->raiseError(get_class($this) . "::insertObject(): Missing parameter or wrong datatype! " .
-                                    "options:" . var_dump($option), $this->ilias->error_obj->WARNING);
+            $ilErr->raiseError(get_class($this) . "::insertObject(): Missing parameter or wrong datatype! " .
+                                    "options:" . var_dump($option), $ilErr->error_obj->WARNING);
         }
 
         //get scorm item
-        $sc_object = new ilSCORMItem($option["id"]);
+        $sc_object = new ilSCORMItem((int) $option["id"]);
         $id_ref = $sc_object->getIdentifierRef();
 
         //get scorm resource ref id
@@ -317,16 +306,17 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * tpl is filled with option state
-     *
-     * @param ilTemplate 	$tpl
-     * @param array 		$a_option
-     * @param int 			$a_node_id
-     * @param string 		$scormtype
+     * @param ilTemplate $tpl
+     * @param array      $a_option
+     * @param int        $a_node_id
+     * @param string     $scormtype
+     * @return void
+     * @throws ilTemplateException
      */
-    public function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype = "sco")
+    public function getOutputIcons(\ilTemplate $tpl, array $a_option, int $a_node_id, string $scormtype = "sco") : void
     {
         global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $tpl->setCurrentBlock("icon");
 
@@ -341,7 +331,7 @@ class ilSCORMExplorer extends ilExplorer
             $a_node_id,
             0,
             $this->slm_obj->getId()
-            );
+        );
 
         // status
         $status = ($trdata["cmi.core.lesson_status"] == "")

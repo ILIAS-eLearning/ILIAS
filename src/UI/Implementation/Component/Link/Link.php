@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -14,26 +14,18 @@ abstract class Link implements C\Link\Link
 {
     use ComponentHelper;
 
-    /**
-     * @var string
-     */
-    protected $action;
+    protected string $action;
+    protected ?bool $open_in_new_viewport = null;
 
-    /**
-     * @var bool
-     */
-    protected $open_in_new_viewport;
-
-    public function __construct($action)
+    public function __construct(string $action)
     {
-        $this->checkStringArg("action", $action);
         $this->action = $action;
     }
 
     /**
      * @inheritdoc
      */
-    public function getAction()
+    public function getAction() : string
     {
         return $this->action;
     }
@@ -41,17 +33,17 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function withOpenInNewViewport($open_in_new_viewport)
+    public function withOpenInNewViewport(bool $open_in_new_viewport) : C\Link\Link
     {
         $clone = clone $this;
-        $clone->open_in_new_viewport = (bool) $open_in_new_viewport;
+        $clone->open_in_new_viewport = $open_in_new_viewport;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getOpenInNewViewport()
+    public function getOpenInNewViewport() : ?bool
     {
         return $this->open_in_new_viewport;
     }

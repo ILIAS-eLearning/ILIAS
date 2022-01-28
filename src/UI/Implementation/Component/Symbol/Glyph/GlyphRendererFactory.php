@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
@@ -14,7 +15,7 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
         'BulkyLink'
     ];
 
-    public function getRendererInContext(Component\Component $component, array $contexts)
+    public function getRendererInContext(Component\Component $component, array $contexts) : ComponentRenderer
     {
         if (count(array_intersect(self::USE_BUTTON_CONTEXT_FOR, $contexts)) > 0) {
             return new ButtonContextRenderer(

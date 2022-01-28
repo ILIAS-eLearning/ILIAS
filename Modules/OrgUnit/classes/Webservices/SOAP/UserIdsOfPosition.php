@@ -35,7 +35,7 @@ class UserIdsOfPosition extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getUserIdsOfPosition";
     }
@@ -53,7 +53,7 @@ class UserIdsOfPosition extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array(self::USR_IDS => Base::TYPE_INT_ARRAY);
     }
@@ -62,7 +62,7 @@ class UserIdsOfPosition extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns ids of users in a position";
     }

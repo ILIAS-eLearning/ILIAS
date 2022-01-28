@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/UIComponent/Explorer/classes/class.ilExplorer.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Explorer for ILIAS tree
@@ -14,22 +25,18 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     const SEL_TYPE_CHECK = 1;
     const SEL_TYPE_RADIO = 2;
 
-    private $checked_items = array();
-    private $post_var = '';
-    private $form_items = array();
-    private $type = 0;
+    private array $checked_items = array();
+    private string $post_var = '';
+    private array $form_items = array();
+    private int $type = 0;
     
-    private $sid = 0;
-    private $mid = 0;
+    private int $sid = 0;
+    private int $mid = 0;
     
-    private $mappings = array();
+    private array $mappings = array();
 
     public function __construct($a_target, $a_sid, $a_mid)
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        
         parent::__construct($a_target);
         
         $this->sid = $a_sid;
@@ -37,8 +44,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
         $this->type = self::SEL_TYPE_RADIO;
         
-        $this->tree = $tree;
-        $this->setRoot($tree->readRootId());
+        $this->setRoot($this->tree->readRootId());
         $this->setOrderColumn('title');
 
 
@@ -69,12 +75,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
     /**
      * no item is clickable
-     * @param <type> $a_type
+     * @param string $a_type
      * @param <type> $a_ref_id
-     * @param <type> $a_obj_id
-     * @return <type>
+     * @return bool
      */
-    public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return false;
     }
@@ -136,10 +141,6 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
     public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if (!isset($a_node_id) or !is_array($a_option)) {
             $this->ilias->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
                                     "node_id: " . $a_node_id . " options:" . var_dump($a_option), $this->ilias->error_obj->WARNING);
@@ -149,7 +150,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         foreach ($a_option["tab"] as $picture) {
             if ($picture == 'plus') {
                 $tpl->setCurrentBlock("expander");
-                $tpl->setVariable("EXP_DESC", $lng->txt("expand"));
+                $tpl->setVariable("EXP_DESC", $this->lng->txt("expand"));
                 $target = $this->createTarget('+', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -160,7 +161,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
             if ($picture == 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
-                $tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
+                $tpl->setVariable("EXP_DESC", $this->lng->txt("collapse"));
                 $target = $this->createTarget('-', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -182,7 +183,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
             $tpl->setVariable("TARGET_ID", "iconid_" . $a_node_id);
             $this->iconList[] = "iconid_" . $a_node_id;
-            $tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+            $tpl->setVariable("TXT_ALT_IMG", $this->lng->txt($a_option["desc"]));
             $tpl->parseCurrentBlock();
         }
 
@@ -252,23 +253,17 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     * @param	integer array options
     * @return	string
     */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
-        $tree = $DIC['tree'];
-
         // custom icons
         $path = ilObject::_getIcon($a_obj_id, "tiny", "root");
 
 
         $tpl->setCurrentBlock("icon");
-        $nd = $tree->getNodeData(ROOT_FOLDER_ID);
+        $nd = $this->tree->getNodeData(ROOT_FOLDER_ID);
         $title = $nd["title"];
         if ($title == "ILIAS") {
-            $title = $lng->txt("repository");
+            $title = $this->lng->txt("repository");
         }
 
         $tpl->setVariable("ICON_IMAGE", $path);
@@ -293,20 +288,20 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     
     /**
      * Format title (bold for direct mappings, italic for child mappings)
-     * @param type $title
-     * @param type $a_obj_id
-     * @param type $a_type
-     * @return type
+     * @param string $a_title
+     * @param type   $a_id
+     * @param string $a_type
+     * @return string
      */
-    public function buildTitle($title, $a_obj_id, $a_type)
+    public function buildTitle(string $a_title, $a_id, string $a_type) : string
     {
-        if ($this->isMapped($a_obj_id)) {
-            return '<font style="font-weight: bold">' . $title . '</font>';
+        if ($this->isMapped($a_id)) {
+            return '<font style="font-weight: bold">' . $a_title . '</font>';
         }
-        if ($this->hasParentMapping($a_obj_id)) {
-            return '<font style="font-style: italic">' . $title . '</font>';
+        if ($this->hasParentMapping($a_id)) {
+            return '<font style="font-style: italic">' . $a_title . '</font>';
         }
-        return $title;
+        return $a_title;
     }
     
     /**
@@ -314,14 +309,13 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
      */
     protected function initMappings()
     {
-        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
         $mappings = array();
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getSid(), $this->getMid()) as $ref_id) {
             $mappings[$ref_id] = array();
         }
         
         foreach ($mappings as $ref_id => $tmp) {
-            $this->mappings[$ref_id] = $GLOBALS['DIC']['tree']->getPathId($ref_id, 1);
+            $this->mappings[$ref_id] = $this->tree->getPathId($ref_id, 1);
         }
         return true;
     }

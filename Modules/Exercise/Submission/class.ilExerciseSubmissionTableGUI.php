@@ -317,7 +317,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
             $lcomment = new ilTextAreaInputGUI($this->lng->txt("exc_comment_for_learner"), "lcomment_" . $a_ass->getId() . "_" . $a_user_id);
             $lcomment->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $lcomment->setValue($a_row["comment"]);
+            $lcomment->setValue((string) $a_row["comment"]);
             $lcomment->setRows(10);
             $lcomment_form->addItem($lcomment);
 
@@ -464,6 +464,10 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmitted()) {
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
+            if (true || $a_row['submission_obj']->hasPrintView()) {
+                $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionPrintView");
+                $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_print_pdf"), $url)->withOpenInNewViewport(true);
+            }
         }
 
         if (!$has_no_team_yet &&

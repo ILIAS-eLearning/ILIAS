@@ -31,12 +31,9 @@
 * @ilCtrl_Calls
 * @ingroup
 */
-include_once('Services/Table/classes/class.ilTable2GUI.php');
 class ilCourseInfoFileTableGUI extends ilTable2GUI
 {
-    protected $lng = null;
-    protected $ctrl;
-    
+
     /**
      * Constructor
      *
@@ -70,7 +67,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'filesize':
@@ -86,7 +83,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_FILENAME', $a_set['filename']);

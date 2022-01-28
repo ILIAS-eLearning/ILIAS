@@ -51,7 +51,7 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
         $this->addCommandButton("cancelMultiFeedback", $lng->txt("cancel"));
     }
     
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
         $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);

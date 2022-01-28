@@ -244,11 +244,11 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
         switch ($type) {
             case 'Admin':
-                $group_members->add($tmp_user->getId(), IL_GRP_ADMIN);
+                $group_members->add($tmp_user->getId(), ilParticipants::IL_GRP_ADMIN);
                 break;
 
             case 'Member':
-                $group_members->add($tmp_user->getId(), IL_GRP_MEMBER);
+                $group_members->add($tmp_user->getId(), ilParticipants::IL_GRP_MEMBER);
                 break;
         }
         return true;

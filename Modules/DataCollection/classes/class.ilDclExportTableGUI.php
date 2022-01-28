@@ -16,7 +16,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
     }
 
 
-    public function getExportFiles()
+    public function getExportFiles() : array
     {
         $types = array();
         foreach ($this->parent_obj->getFormats() as $f) {
@@ -66,7 +66,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
     }
 
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

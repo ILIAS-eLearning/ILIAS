@@ -21,8 +21,8 @@
  */
 class ilLinkButton extends ilButtonBase
 {
-    protected string $url;
-    protected string $target;
+    protected string $url = "";
+    protected string $target = "";
     
     public static function getInstance() : self
     {

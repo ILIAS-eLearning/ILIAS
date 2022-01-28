@@ -40,7 +40,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->setTitle($this->lng->txt('mail_settings'));
         $this->setFormAction($this->ctrl->getFormAction($this->parentGui, $this->positiveCmd));
 
-        if ($this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1') {
+        if ($this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1') {
             $incoming_mail_gui = new ilIncomingMailInputGUI(
                 $this->lng->txt('mail_incoming'),
                 'incoming_type',
@@ -62,13 +62,13 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $ta->setCols(60);
         $this->addItem($ta);
 
-        if ($this->settings->get('mail_notification')) {
+        if ($this->settings->get('mail_notification', '0')) {
             $cb = new ilCheckboxInputGUI(
                 $this->lng->txt('cron_mail_notification'),
                 'cronjob_notification'
             );
             $cb->setInfo($this->lng->txt('mail_cronjob_notification_info'));
-            $cb->setValue(1);
+            $cb->setValue('1');
             $this->addItem($cb);
         }
 
@@ -82,8 +82,8 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         }
 
         if (
-            $this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1' &&
-            $this->settings->get('usr_settings_disable_mail_incoming_mail') !== '1'
+            $this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1' &&
+            $this->settings->get('usr_settings_disable_mail_incoming_mail', '0') !== '1'
         ) {
             $incoming_type = (int) $this->getInput('incoming_type');
 
@@ -121,7 +121,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             'cronjob_notification' => $this->options->isCronJobNotificationEnabled(),
         ];
 
-        if ($this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1') {
+        if ($this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1') {
             $data['incoming_type'] = $this->options->getIncomingType();
 
             $mail_address_option = $this->options->getEmailAddressMode();

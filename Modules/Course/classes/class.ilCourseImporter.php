@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
 /**
 * folder xml importer
@@ -33,8 +32,6 @@ class ilCourseImporter extends ilXmlImporter
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        include_once './Modules/Course/classes/class.ilCourseXMLParser.php';
-        include_once './Modules/Course/classes/class.ilObjCourse.php';
         
         
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -55,7 +52,6 @@ class ilCourseImporter extends ilXmlImporter
 
             // import learning objectives => without materials and fixed questions.
             // These are handled in afterContainerImportProcessing
-            include_once './Modules/Course/classes/Objectives/class.ilLOXmlParser.php';
             $parser = new ilLOXmlParser($this->course, $a_xml);
             $parser->setMapping($a_mapping);
             $parser->parse();
@@ -88,7 +84,6 @@ class ilCourseImporter extends ilXmlImporter
     {
         foreach ($this->final_processing_info as $info) {
             // import learning objectives
-            include_once './Modules/Course/classes/Objectives/class.ilLOXmlParser.php';
             $parser = new ilLOXmlParser($info['course'], $info['xml']);
             $parser->setMapping($mapping);
             $parser->parseObjectDependencies();

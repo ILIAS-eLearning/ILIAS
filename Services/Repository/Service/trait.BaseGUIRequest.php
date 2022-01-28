@@ -55,6 +55,9 @@ trait BaseGUIRequest
     // get integer parameter kindly
     protected function int($key) : int
     {
+        if ($this->str($key) == "") {
+            return 0;
+        }
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
@@ -103,6 +106,9 @@ trait BaseGUIRequest
                 return array_column(
                     array_map(
                         function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
                             return [$k, \ilUtil::stripSlashes((string) $v)];
                         },
                         array_keys($arr),
@@ -128,7 +134,7 @@ trait BaseGUIRequest
                 return array_column(
                     array_map(
                         function ($k, $v) {
-                            return [$k, \ilUtil::stripSlashes((array) $v)];
+                            return [$k, (array) $v];
                         },
                         array_keys($arr),
                         $arr
@@ -166,6 +172,19 @@ trait BaseGUIRequest
         }
         return false;
     }
+
+    /**
+     * @return mixed|null
+     */
+    protected function raw($key)
+    {
+        $no_transform = $this->refinery->custom()->transformation(function ($v) {
+            return $v;
+        });
+        return $this->get($key, $no_transform);
+    }
+
+
 
     /**
      * Get passed parameter, if not data passed, get key from http request

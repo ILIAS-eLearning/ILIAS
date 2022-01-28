@@ -54,6 +54,7 @@ abstract class ilExplorerBaseGUI
     protected string $requested_exp_cont = "";
     protected string $requested_searchterm = "";
     protected string $requested_node_id = "";
+    protected string $id;
 
     public function __construct(
         string $a_expl_id,
@@ -62,7 +63,6 @@ abstract class ilExplorerBaseGUI
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
-
         $this->log = $DIC["ilLog"];
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
@@ -129,8 +129,8 @@ abstract class ilExplorerBaseGUI
 
     public static function createHTMLExportDirs(string $a_target_dir) : void
     {
-        ilUtil::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
-        ilUtil::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
+        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
+        ilFileUtils::makeDirParents($a_target_dir . "/Services/UIComponent/Explorer2/js");
     }
 
 
@@ -270,7 +270,7 @@ abstract class ilExplorerBaseGUI
     /**
      * Is node highlighted?
      * @param object|array $a_node node
-     * @return boolean node highlighted true/false
+     * @return bool node highlighted true/false
      */
     public function isNodeHighlighted($a_node) : bool
     {
@@ -530,7 +530,6 @@ abstract class ilExplorerBaseGUI
                 $open_nodes[] = $dnode;
             }
         }
-
         // ilias config options
         $url = "";
         if (!$this->getOfflineMode()) {
@@ -594,8 +593,8 @@ abstract class ilExplorerBaseGUI
 
         iljQueryUtil::initjQuery($tpl);
 
-        $tpl->addJavascript(self::getLocalExplorerJsPath());
-        $tpl->addJavascript(self::getLocalJsTreeJsPath());
+        $tpl->addJavaScript(self::getLocalExplorerJsPath());
+        $tpl->addJavaScript(self::getLocalJsTreeJsPath());
         $tpl->addCss(self::getLocalJsTreeCssPath());
     }
     
@@ -683,7 +682,6 @@ abstract class ilExplorerBaseGUI
                     }
                     $tpl->setVariable("CB_VAL", $this->getNodeId($a_node));
                     $tpl->setVariable("CB_NAME", $this->select_postvar . "[]");
-                    $tpl->parseCurrentBlock();
                 } else {
                     $tpl->setCurrentBlock("rd");
                     if (in_array($this->getNodeId($a_node), $this->selected_nodes)) {
@@ -691,8 +689,8 @@ abstract class ilExplorerBaseGUI
                     }
                     $tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
                     $tpl->setVariable("RD_NAME", $this->select_postvar);
-                    $tpl->parseCurrentBlock();
                 }
+                $tpl->parseCurrentBlock();
             }
 
 

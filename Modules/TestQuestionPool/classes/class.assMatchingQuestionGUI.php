@@ -607,7 +607,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutions = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -632,18 +632,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $definitions = $this->object->getDefinitions();
         switch ($this->object->getShuffle()) {
             case 1:
-                $seed = $this->object->getShuffler()->getSeed();
-                $this->object->getShuffler()->setSeed($seed . '1');
-                $terms = $this->object->getShuffler()->shuffle($terms);
-                $this->object->getShuffler()->setSeed($seed . '2');
-                $definitions = $this->object->getShuffler()->shuffle($definitions);
-                $this->object->getShuffler()->setSeed($seed);
+                $terms = $this->object->getShuffler()->transform($terms);
+                $definitions = $this->object->getShuffler()->transform($definitions);
                 break;
             case 2:
-                $terms = $this->object->getShuffler()->shuffle($terms);
+                $terms = $this->object->getShuffler()->transform($terms);
                 break;
             case 3:
-                $definitions = $this->object->getShuffler()->shuffle($definitions);
+                $definitions = $this->object->getShuffler()->transform($definitions);
                 break;
         }
 
@@ -766,7 +762,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         
         $files = array();
         
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         
@@ -780,7 +776,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     // hey.
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
+        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
@@ -828,25 +824,21 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $definitions = $this->object->getDefinitions();
         switch ($this->object->getShuffle()) {
             case 1:
-                $seed = $this->object->getShuffler()->getSeed();
-                $this->object->getShuffler()->setSeed($seed . '1');
-                $terms = $this->object->getShuffler()->shuffle($terms);
+                $terms = $this->object->getShuffler()->transform($terms);
                 if (count($solutions)) {
                     $definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
                 } else {
-                    $this->object->getShuffler()->setSeed($seed . '2');
-                    $definitions = $this->object->getShuffler()->shuffle($definitions);
+                    $definitions = $this->object->getShuffler()->transform($definitions);
                 }
-                $this->object->getShuffler()->setSeed($seed);
                 break;
             case 2:
-                $terms = $this->object->getShuffler()->shuffle($terms);
+                $terms = $this->object->getShuffler()->transform($terms);
                 break;
             case 3:
                 if (count($solutions)) {
                     $definitions = $this->sortDefinitionsBySolution($solutions, $definitions);
                 } else {
-                    $definitions = $this->object->getShuffler()->shuffle($definitions);
+                    $definitions = $this->object->getShuffler()->transform($definitions);
                 }
                 break;
         }

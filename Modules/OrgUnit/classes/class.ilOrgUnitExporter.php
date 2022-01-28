@@ -116,14 +116,14 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $new_file = $sub_dir . '.zip';
 
         $export_run_dir = $export_dir . "/" . $sub_dir;
-        ilUtil::makeDirParents($export_run_dir);
+        ilFileUtils::makeDirParents($export_run_dir);
 
         $writer = $this->simpleExport($orgu_ref_id);
         $writer->xmlDumpFile($export_run_dir . "/manifest.xml", false);
 
         // zip the file
-        ilUtil::zip($export_run_dir, $export_dir . "/" . $new_file);
-        ilUtil::delDir($export_run_dir);
+        ilFileUtils::zip($export_run_dir, $export_dir . "/" . $new_file);
+        ilFileUtils::delDir($export_run_dir);
 
         // Store info about export
         $exp = new ilExportFileInfo($orgu_id);
@@ -133,7 +133,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $exp->setFilename($new_file);
         $exp->create();
 
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $export_dir . "/" . $new_file,
             $new_file
         );

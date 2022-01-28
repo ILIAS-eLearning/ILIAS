@@ -1,8 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
-include_once './Services/WebServices/ECS/classes/class.ilECSConnectorException.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  *
@@ -24,16 +34,11 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 
     /**
      * Get directory tree
-     * @global ilLog $ilLog
      * @return ilECSResult
      * @throws ilECSConnectorException
      */
     public function getDirectoryTrees($a_mid = 0)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
         $this->path_postfix = '/campusconnect/directory_trees';
 
         try {
@@ -48,7 +53,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
 
-            $ecsResult = new ilECSResult($res, false, ilECSResult::RESULT_TYPE_URL_LIST);
+            $ecsResult = new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST);
             return $ecsResult->getResult();
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());

@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
+
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
@@ -68,6 +71,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     protected $matchingMode = self::MATCHING_MODE_1_ON_1;
 
+    private RandomGroup $randomGroup;
+
     /**
      * assMatchingQuestion constructor
      *
@@ -90,11 +95,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $question = "",
         $matching_type = MT_TERMS_DEFINITIONS
     ) {
+        global $DIC;
+
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->matchingpairs = array();
         $this->matching_type = $matching_type;
         $this->terms = array();
         $this->definitions = array();
+        $this->randomGroup = $DIC->refinery()->random();
     }
 
     /**
@@ -461,7 +469,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if (strlen($term->picture)) {
                 $filename = $term->picture;
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
@@ -477,7 +485,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if (strlen($definition->picture)) {
                 $filename = $definition->picture;
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
@@ -502,7 +510,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->terms as $term) {
             if (strlen($term->picture)) {
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 $filename = $term->picture;
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
@@ -517,7 +525,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if (strlen($definition->picture)) {
                 $filename = $definition->picture;
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
 
                 if (assQuestion::isFileAvailable($imagepath_original . $filename)) {
@@ -1028,10 +1036,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $image_filename = str_replace(" ", "_", $image_filename);
             $imagepath = $this->getImagePath();
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             $savename = $image_filename;
-            if (!ilUtil::moveUploadedFile($image_tempfilename, $savename, $imagepath . $savename)) {
+            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $savename, $imagepath . $savename)) {
                 $result = false;
             } else {
                 // create thumbnail file
@@ -1380,14 +1388,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
-        
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $this->setShuffler(new ilArrayElementShuffler());
-        $seed = $this->getShuffler()->getSeed();
+
+        $this->setShuffler($this->randomGroup->shuffleArray(new RandomSeed()));
         
         $terms = array();
-        $this->getShuffler()->setSeed($this->getShuffler()->buildSeedFromString($seed . 'terms'));
-        foreach ($this->getShuffler()->shuffle($this->getTerms()) as $term) {
+        foreach ($this->getShuffler()->transform($this->getTerms()) as $term) {
             $terms[] = array(
                 "text" => $this->formatSAQuestion($term->text),
                 "id" => (int) $this->getId() . $term->identifier
@@ -1403,8 +1408,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         // when the second one (the copy) is answered.
 
         $definitions = array();
-        $this->getShuffler()->setSeed($this->getShuffler()->buildSeedFromString($seed . 'definitions'));
-        foreach ($this->getShuffler()->shuffle($this->getDefinitions()) as $def) {
+        foreach ($this->getShuffler()->transform($this->getDefinitions()) as $def) {
             $definitions[] = array(
                 "text" => $this->formatSAQuestion((string) $def->text),
                 "id" => (int) $this->getId() . $def->identifier
@@ -1610,10 +1614,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
         $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
 
-        ilUtil::delDir($origImagePath);
+        ilFileUtils::delDir($origImagePath);
         if (is_dir($dupImagePath)) {
-            ilUtil::makeDirParents($origImagePath);
-            ilUtil::rCopy($dupImagePath, $origImagePath);
+            ilFileUtils::makeDirParents($origImagePath);
+            ilFileUtils::rCopy($dupImagePath, $origImagePath);
         }
     }
 }

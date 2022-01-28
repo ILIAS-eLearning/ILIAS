@@ -13,10 +13,6 @@ class ilDclEditViewDefinition extends ilPageObject
 {
     const PARENT_TYPE = 'dclf';
     /**
-     * @var bool
-     */
-    protected $active = false;
-    /**
      * @var int
      */
     protected $table_id;
@@ -28,10 +24,9 @@ class ilDclEditViewDefinition extends ilPageObject
 
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return self::PARENT_TYPE;
     }

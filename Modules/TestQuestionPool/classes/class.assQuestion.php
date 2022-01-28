@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once dirname(__DIR__) . '../../../libs/composer/vendor/autoload.php';
 
@@ -153,7 +155,7 @@ abstract class assQuestion
     
     protected $lastChange;
 
-    protected \ilRandomArrayElementProvider $shuffler;
+    protected Transformation $shuffler;
 
     private bool $obligationsToBeConsidered = false;
 
@@ -166,7 +168,7 @@ abstract class assQuestion
         'image/png' => array('png'),
         'image/gif' => array('gif')
     );
-    
+
     /**
      * assQuestion constructor
      */
@@ -212,7 +214,7 @@ abstract class assQuestion
 
         $this->questionActionCmd = 'handleQuestionAction';
 
-        $this->shuffler = new ilDeterministicArrayElementProvider();
+        $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
     }
     
@@ -360,12 +362,12 @@ abstract class assQuestion
         return array_unique($extensions);
     }
 
-    public function getShuffler() : ilRandomArrayElementProvider
+    public function getShuffler() : Transformation
     {
         return $this->shuffler;
     }
 
-    public function setShuffler(ilRandomArrayElementProvider $shuffler) : void
+    public function setShuffler(Transformation $shuffler) : void
     {
         $this->shuffler = $shuffler;
     }
@@ -510,7 +512,7 @@ abstract class assQuestion
     public function getTitleFilenameCompliant() : string
     {
         require_once 'Services/Utilities/classes/class.ilUtil.php';
-        return ilUtil::getASCIIFilename($this->getTitle());
+        return ilFileUtils::getASCIIFilename($this->getTitle());
     }
 
     public function getId() : int
@@ -1198,12 +1200,12 @@ abstract class assQuestion
     {
         $mediatempdir = CLIENT_WEB_DIR . "/assessment/temp";
         if (!@is_dir($mediatempdir)) {
-            ilUtil::createDirectory($mediatempdir);
+            ilFileUtils::createDirectory($mediatempdir);
         }
         $temp_name = tempnam($mediatempdir, $name . "_____");
         $temp_name = str_replace("\\", "/", $temp_name);
         @unlink($temp_name);
-        if (!ilUtil::moveUploadedFile($file, $name, $temp_name)) {
+        if (!ilFileUtils::moveUploadedFile($file, $name, $temp_name)) {
             return false;
         }
         return $temp_name;
@@ -1564,7 +1566,7 @@ abstract class assQuestion
             $directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
             if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                ilUtil::delDir($directory);
+                ilFileUtils::delDir($directory);
             }
         } catch (Exception $e) {
             $this->ilLog->root()->error("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
@@ -1784,7 +1786,7 @@ abstract class assQuestion
         $this->page->setXMLContent("<PageObject><PageContent>" .
             "<Question QRef=\"il__qst_" . $this->getId() . "\"/>" .
             "</PageContent></PageObject>");
-        $this->page->create();
+        $this->page->create(false);
     }
 
     public function copyPageOfQuestion(int $a_q_id) : void
@@ -2156,7 +2158,7 @@ abstract class assQuestion
         include_once "./Services/Link/classes/class.ilInternalLink.php";
         ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
         $this->suggested_solutions = array();
-        ilUtil::delDir($this->getSuggestedSolutionPath());
+        ilFileUtils::delDir($this->getSuggestedSolutionPath());
     }
     
     /**
@@ -2226,7 +2228,7 @@ abstract class assQuestion
                     $filepath
                 );
                 if (!file_exists($filepath)) {
-                    ilUtil::makeDirParents($filepath);
+                    ilFileUtils::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
@@ -2243,11 +2245,11 @@ abstract class assQuestion
     {
         $filepath = $this->getSuggestedSolutionPath();
         $filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
-        ilUtil::delDir($filepath_original);
+        ilFileUtils::delDir($filepath_original);
         foreach ($this->suggested_solutions as $index => $solution) {
             if (strcmp($solution["type"], "file") == 0) {
                 if (!file_exists($filepath_original)) {
-                    ilUtil::makeDirParents($filepath_original);
+                    ilFileUtils::makeDirParents($filepath_original);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
@@ -2267,7 +2269,7 @@ abstract class assQuestion
                 $filepath = $this->getSuggestedSolutionPath();
                 $filepath_original = str_replace("/$this->obj_id/$this->id/solution", "/$source_questionpool_id/$source_question_id/solution", $filepath);
                 if (!file_exists($filepath)) {
-                    ilUtil::makeDirParents($filepath);
+                    ilFileUtils::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
@@ -3182,7 +3184,7 @@ abstract class assQuestion
     public static function includePluginClass($questionType, $withGuiClass)
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_factory = $DIC["component.factory"];
 
         $classes = array(
             $questionType,
@@ -3193,9 +3195,7 @@ abstract class assQuestion
             $classes[] = $questionType . 'GUI';
         }
 
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($pl_names as $pl_name) {
-            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+        foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
             if (strcmp($pl->getQuestionType(), $questionType) == 0) {
                 foreach ($classes as $class) {
                     $pl->includeClass("class.{$class}.php");
@@ -3212,12 +3212,9 @@ abstract class assQuestion
             $lng = $DIC['lng'];
             return $lng->txt($type_tag);
         }
+        $component_factory = $DIC['component.factory'];
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($pl_names as $pl_name) {
-            /** @var $pl ilQuestionsPlugin */
-            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+        foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
             if ($pl->getQuestionType() === $type_tag) {
                 return $pl->getQuestionTypeTranslation();
             }

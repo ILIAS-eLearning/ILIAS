@@ -5,21 +5,23 @@
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as I;
+use ILIAS\UI\NotImplementedException;
+use ILIAS\Data\DateFormat\DateFormat;
 
 class Factory implements I\Factory
 {
     public function text(string $title) : I\Text
     {
-        throw new \ILIAS\UI\NotImplementedException('NYI');
+        throw new NotImplementedException('NYI');
     }
 
     public function number(string $title) : I\Number
     {
-        throw new \ILIAS\UI\NotImplementedException('NYI');
+        throw new NotImplementedException('NYI');
     }
 
-    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format) //:@Todo: Does not yet exit
+    public function date(string $title, DateFormat $format) //:@Todo: Does not yet exit
     {
-        throw new \ILIAS\UI\NotImplementedException('NYI');
+        throw new NotImplementedException('NYI');
     }
 }

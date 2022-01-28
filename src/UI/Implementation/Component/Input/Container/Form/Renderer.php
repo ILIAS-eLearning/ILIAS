@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,14 +8,14 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Component\Input\Container\Form;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
-
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -23,11 +23,10 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderStandard($component, $default_renderer);
         }
 
-        throw new \LogicException("Cannot render: " . get_class($component));
+        throw new LogicException("Cannot render: " . get_class($component));
     }
 
-
-    protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer)
+    protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
 
@@ -45,17 +44,18 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
+        $error = $component->getError();
+        if (!is_null($error)) {
+            $tpl->setVariable("ERROR", $error);
+        }
         return $tpl->get();
     }
-
 
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
-        return array(
-            Component\Input\Container\Form\Standard::class,
-        );
+        return array(Component\Input\Container\Form\Standard::class);
     }
 }

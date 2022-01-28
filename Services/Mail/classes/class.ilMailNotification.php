@@ -211,7 +211,7 @@ abstract class ilMailNotification
         return $txt;
     }
 
-    public function sendMail(array $a_rcp, $a_parse_recipients = true) : void
+    public function sendMail(array $a_rcp, bool $a_parse_recipients = true) : void
     {
         $recipients = [];
         foreach ($a_rcp as $rcp) {

@@ -1,10 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User privacy settings (currently located under "Profile and Privacy")
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserPrivacySettingsGUI
 {
@@ -13,72 +24,22 @@ class ilUserPrivacySettingsGUI
     private const PROP_ENABLE_SOUND = 'play_invitation_sound';
     private const PROP_ENABLE_BROADCAST_TYPING = 'chat_broadcast_typing';
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilUserSettingsConfig $user_settings_config;
+    protected ilObjUser $user;
+    protected ilSetting $settings;
+    protected \Psr\Http\Message\RequestInterface $request;
+    protected ilProfileChecklistStatus $checklist_status;
+    protected ilPersonalProfileMode $profile_mode;
+    private \ILIAS\UI\Factory $uiFactory;
+    private \ILIAS\UI\Renderer $uiRenderer;
+    private \ILIAS\Refinery\Factory $refinery;
+    protected ilSetting $chatSettings;
+    protected ilSetting $notificationSettings;
+    protected ilAppEventHandler $event;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilUserSettingsConfig
-     */
-    protected $user_settings_config;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var \Psr\Http\Message\RequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var ilProfileChecklistStatus
-     */
-    protected $checklist_status;
-
-    /**
-     * @var ilPersonalProfileMode
-     */
-    protected $profile_mode;
-
-    /** @var \ILIAS\UI\Factory */
-    private $uiFactory;
-
-    /** @var \ILIAS\UI\Renderer */
-    private $uiRenderer;
-
-    /** @var \ILIAS\Refinery\Factory */
-    private $refinery;
-
-    /** @var array */
-    protected $chatSettings = array();
-
-    /** @var array */
-    protected $notificationSettings = array();
-
-    /** @var ilAppEventHandler */
-    protected $event;
-
-    /**
-     * constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -103,10 +64,7 @@ class ilUserPrivacySettingsGUI
         $this->profile_mode = new ilPersonalProfileMode($this->user, $this->settings);
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -126,30 +84,19 @@ class ilUserPrivacySettingsGUI
     //
     //
 
-    /**
-     * @param string $setting
-     * @return bool
-     */
     public function workWithUserSetting(string $setting) : bool
     {
         return $this->user_settings_config->isVisibleAndChangeable($setting);
     }
 
-    /**
-     * @param string $setting
-     * @return bool
-     */
     public function userSettingVisible(string $setting) : bool
     {
         return $this->user_settings_config->isVisible($setting);
     }
 
-    /**
-     * General settings form.
-     * @param null $form
-     */
-    public function showPrivacySettings($form = null)
-    {
+    public function showPrivacySettings(
+        \ILIAS\UI\Component\Input\Container\Form\Standard $form = null
+    ) : void {
         $main_tpl = $this->main_tpl;
         $user = $this->user;
         $lng = $this->lng;
@@ -181,7 +128,6 @@ class ilUserPrivacySettingsGUI
 
     /**
      * Is awareness tool setting visible
-     * @return bool
      */
     protected function isAwarnessSettingVisible() : bool
     {
@@ -194,7 +140,6 @@ class ilUserPrivacySettingsGUI
 
     /**
      * Is contact setting visible
-     * @return bool
      */
     protected function isContactSettingVisible() : bool
     {
@@ -206,9 +151,8 @@ class ilUserPrivacySettingsGUI
 
     /**
      * Init  form.
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
      */
-    public function initPrivacySettingsForm()
+    public function initPrivacySettingsForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $sections = [];
 
@@ -227,19 +171,12 @@ class ilUserPrivacySettingsGUI
             }));
     }
 
-    /**
-     * @return bool
-     */
     public function shouldDisplayChatSection() : bool
     {
         return (
             $this->chatSettings->get('chat_enabled', false)
         );
     }
-
-    /**
-     * @return bool
-     */
     private function shouldShowNotificationOptions() : bool
     {
         return (
@@ -249,9 +186,6 @@ class ilUserPrivacySettingsGUI
         );
     }
 
-    /**
-     * @return bool
-     */
     private function shouldShowOnScreenChatOptions() : bool
     {
         return (
@@ -269,11 +203,9 @@ class ilUserPrivacySettingsGUI
         );
     }
 
-    /**
-     * @param array $formSections
-     */
-    protected function populateWithAwarenessSettingsSection(array &$formSections) : void
-    {
+    protected function populateWithAwarenessSettingsSection(
+        array &$formSections
+    ) : void {
         if (!$this->isAwarnessSettingVisible()) {
             return;
         }
@@ -304,17 +236,16 @@ class ilUserPrivacySettingsGUI
             ->withValue($val)
             ->withRequired(true)
             ->withDisabled(
+                (bool)
                 $this->settings->get("usr_settings_disable_hide_own_online_status")
             );
 
         $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
     }
 
-    /**
-     * @param array $formSections
-     */
-    protected function populateWithContactsSettingsSection(array &$formSections) : void
-    {
+    protected function populateWithContactsSettingsSection(
+        array &$formSections
+    ) : void {
         if (!$this->isContactSettingVisible()) {
             return;
         }
@@ -328,17 +259,16 @@ class ilUserPrivacySettingsGUI
             )
             ->withValue($this->user->prefs['bs_allow_to_contact_me'] == 'y')
             ->withDisabled(
+                (bool)
                 $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')
             );
 
         $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
     }
 
-    /**
-     * @param array $formSections
-     */
-    protected function populateWithChatSettingsSection(array &$formSections) : void
-    {
+    protected function populateWithChatSettingsSection(
+        array &$formSections
+    ) : void {
         if (!$this->shouldDisplayChatSection()) {
             return;
         }
@@ -428,10 +358,7 @@ class ilUserPrivacySettingsGUI
         }
     }
 
-    /**
-     * Save privacy settings
-     */
-    public function savePrivacySettings()
+    public function savePrivacySettings() : void
     {
         $request = $this->request;
         $form = $this->initPrivacySettingsForm();
@@ -542,15 +469,12 @@ class ilUserPrivacySettingsGUI
         $this->showPrivacySettings($form);
     }
 
-    /**
-     * @param ilGlobalPageTemplate $main_tpl
-     * @return ilTemplate
-     */
-    protected function appendChatJsToTemplate(ilGlobalPageTemplate $pageTemplate) : ilTemplate
-    {
+    protected function appendChatJsToTemplate(
+        ilGlobalTemplateInterface $pageTemplate
+    ) : ilTemplate {
         $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'Modules/Chatroom');
         if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', false)) {
-            $pageTemplate->addJavascript('./Services/Notifications/js/browser_notifications.js');
+            $pageTemplate->addJavaScript('./Services/Notifications/js/browser_notifications.js');
 
             $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('icon_alert.svg'));
             $tpl->setVariable('BROWSER_NOTIFICATION_TOGGLE_LABEL', $this->lng->txt('osc_enable_browser_notifications_label'));

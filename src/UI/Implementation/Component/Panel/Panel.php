@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Component;
 
 /**
  * Class Panel
@@ -16,29 +17,19 @@ class Panel implements C\Panel\Panel
     use ComponentHelper;
 
     /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var \ILIAS\UI\Component\Component[] | \ILIAS\UI\Component\Component
+     * @var Component[]|Component
      */
     private $content;
+    protected string $title;
+    protected ?C\Dropdown\Standard $actions = null;
 
     /**
-     * @var \ILIAS\UI\Component\Dropdown\Standard | null
+     * @param Component[]|Component $content
      */
-    protected $actions = null;
-
-    /**
-     * @param string $title
-     * @param \ILIAS\UI\Component\Component[] | \ILIAS\UI\Component\Component $content
-     */
-    public function __construct($title, $content)
+    public function __construct(string $title, $content)
     {
-        $this->checkStringArg("title", $title);
         $content = $this->toArray($content);
-        $types = [C\Component::class];
+        $types = [Component::class];
         $this->checkArgListElements("content", $content, $types);
 
         $this->title = $title;
@@ -48,7 +39,7 @@ class Panel implements C\Panel\Panel
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -64,7 +55,7 @@ class Panel implements C\Panel\Panel
     /**
      * @inheritdoc
      */
-    public function withActions(\ILIAS\UI\Component\Dropdown\Standard $actions)
+    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Panel
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -74,7 +65,7 @@ class Panel implements C\Panel\Panel
     /**
      * @inheritdoc
      */
-    public function getActions()
+    public function getActions() : ?C\Dropdown\Standard
     {
         return $this->actions;
     }

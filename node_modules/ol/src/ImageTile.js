@@ -13,7 +13,7 @@ class ImageTile extends Tile {
    * @param {string} src Image source URI.
    * @param {?string} crossOrigin Cross origin.
    * @param {import("./Tile.js").LoadFunction} tileLoadFunction Tile load function.
-   * @param {import("./Tile.js").Options=} opt_options Tile options.
+   * @param {import("./Tile.js").Options} [opt_options] Tile options.
    */
   constructor(
     tileCoord,
@@ -70,6 +70,17 @@ class ImageTile extends Tile {
    */
   getImage() {
     return this.image_;
+  }
+
+  /**
+   * Sets an HTML image element for this tile (may be a Canvas or preloaded Image).
+   * @param {HTMLCanvasElement|HTMLImageElement} element Element.
+   */
+  setImage(element) {
+    this.image_ = element;
+    this.state = TileState.LOADED;
+    this.unlistenImage_();
+    this.changed();
   }
 
   /**

@@ -1,24 +1,24 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Listing;
 
-/**
- */
-interface Listing extends \ILIAS\UI\Component\Component
+use ILIAS\UI\Component\Component;
+
+interface Listing extends Component
 {
     /**
      * Sets the items to be listed
      *
      * @param array $items (Component|string)[]
-     * @return Listing
      */
-    public function withItems(array $items);
+    public function withItems(array $items) : Listing;
 
     /**
      * Gets the items to be listed
      *
      * @return array $items (Component|string)[]
      */
-    public function getItems();
+    public function getItems() : array;
 }

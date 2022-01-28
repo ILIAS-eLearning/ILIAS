@@ -17,7 +17,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
      */
     protected $qstObject;
     
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if (is_array($a_value)) {
             if (is_array($a_value['points'])) {
@@ -28,7 +28,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -65,7 +65,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
         return $this->checkSubItemsInput();
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
@@ -116,7 +116,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
         if ($this->qstObject->isSingleline) {
             $tpl->setCurrentBlock("image_heading");
             $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-            $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+            $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
         

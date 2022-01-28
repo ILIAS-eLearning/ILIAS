@@ -112,7 +112,7 @@ class ilChatroom
                         case 'visible':
                             if (!$active) {
                                 $DIC->access()->addInfoItem(
-                                    IL_NO_OBJECT_ACCESS,
+                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
                                     $DIC->language()->txt('offline')
                                 );
                             }
@@ -125,7 +125,7 @@ class ilChatroom
                         case 'read':
                             if (!$active) {
                                 $DIC->access()->addInfoItem(
-                                    IL_NO_OBJECT_ACCESS,
+                                    ilAccessInfo::IL_NO_OBJECT_ACCESS,
                                     $DIC->language()->txt('offline')
                                 );
                                 return false;
@@ -259,51 +259,10 @@ class ilChatroom
         return $rooms;
     }
 
-    public static function getUntrashedChatReferences($filter = []) : array
-    {
-        global $DIC;
-
-        // Check for parent because of an invalid parent node for the old public chat (thx @ jposselt ;-)).
-        // We cannot find this old public chat and clean this automatically
-        $query = '
-			SELECT od.obj_id, od.title, ore.ref_id, od.type, odp.title parent_title
-			FROM object_data od
-			INNER JOIN object_reference ore ON ore.obj_id = od.obj_id
-			INNER JOIN tree t ON t.child = ore.ref_id
-			INNER JOIN tree p ON p.child = t.parent
-			INNER JOIN object_reference orep ON orep.ref_id = p.child
-			INNER JOIN object_data odp ON odp.obj_id = orep.obj_id
-			INNER JOIN object_reference pre ON pre.ref_id = t.parent
-			INNER JOIN object_data pod ON pod.obj_id = pre.obj_id
-		';
-
-        if (isset($filter['last_activity'])) {
-            $threshold = $DIC->database()->quote($filter['last_activity'], 'integer');
-            $query .= "
-				INNER JOIN chatroom_settings ON chatroom_settings.object_id = od.obj_id
-				INNER JOIN chatroom_history ON chatroom_history.room_id = chatroom_settings.room_id AND chatroom_history.timestamp > $threshold
-			";
-        }
-
-        $query .= '
-			WHERE od.type = %s AND t.tree > 0 AND ore.deleted IS NULL
-			GROUP BY od.obj_id, od.title, ore.ref_id, od.type, odp.title
-			ORDER BY od.title
-		';
-        $res = $DIC->database()->queryF($query, ['text'], ['chtr']);
-
-        $chats = array();
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $chats[] = $row;
-        }
-
-        return $chats;
-    }
-
     public function getDescription() : string
     {
         if (!$this->object) {
-            $this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+            $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
 
         return $this->object->getDescription();
@@ -346,7 +305,7 @@ class ilChatroom
                 ['room_id' => ['integer', $this->roomId]]
             );
         } else {
-            $this->roomId = (int) $DIC->database()->nextId(self::$settingsTable);
+            $this->roomId = $DIC->database()->nextId(self::$settingsTable);
 
             $localSettings['room_id'] = [
                 'integer', $this->roomId
@@ -806,7 +765,7 @@ class ilChatroom
     {
         global $DIC;
 
-        $nextId = (int) $DIC->database()->nextId(self::$privateRoomsTable);
+        $nextId = $DIC->database()->nextId(self::$privateRoomsTable);
         $DIC->database()->insert(
             self::$privateRoomsTable,
             [
@@ -865,13 +824,11 @@ class ilChatroom
         int $subScope = 0,
         string $invitationLink = ''
     ) : void {
-        global $DIC;
-
         if ($gui && $invitationLink === '') {
             $invitationLink = $this->getChatURL($gui, $subScope);
         }
 
-        if ($recipient_id > 0 && (int) ANONYMOUS_USER_ID !== $recipient_id) {
+        if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
                 $sender_id = $sender;
                 /** @var $usr ilObjUser */
@@ -936,7 +893,7 @@ class ilChatroom
     public function getTitle() : string
     {
         if (!$this->object) {
-            $this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+            $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
 
         return $this->object->getTitle();
@@ -955,7 +912,7 @@ class ilChatroom
             return $row['title'];
         }
 
-        return 'unkown';
+        return 'unknown';
     }
 
     public function inviteUserToPrivateRoomByLogin(string $login, int $proom_id) : void
@@ -1324,7 +1281,7 @@ class ilChatroom
         $DIC->database()->queryF(
             'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
             ['integer', 'integer'],
-            [$this->roomId, (int) $sub_room]
+            [$this->roomId, $sub_room]
         );
 
         if ($sub_room) {

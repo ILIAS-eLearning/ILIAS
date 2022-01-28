@@ -1,17 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
-use ILIAS\Data\Password as PWD;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerable;
+use ILIAS\Refinery\Constraint;
+use Closure;
 
 /**
  * This implements the password input.
@@ -21,32 +22,17 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     use ComponentHelper;
     use JavaScriptBindable;
 
-    /**
-     * @var bool
-     */
-    private $revelation;
-
-    /**
-     * @var Signal
-     */
-    protected $signal_reveal;
-
-    /**
-     * @var Signal
-     */
-    protected $signal_mask;
-
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
+    private ?bool $revelation = null;
+    protected Signal $signal_reveal;
+    protected Signal $signal_mask;
+    protected SignalGeneratorInterface $signal_generator;
 
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        $label,
-        $byline,
-        $signal_generator
+        string $label,
+        ?string $byline,
+        SignalGeneratorInterface $signal_generator
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
 
@@ -67,29 +53,21 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1);
     }
 
     /**
-     * This is a shortcut to quickly get a password-field with desired contraints.
-     *
-     * @param int 	$min_length
-     * @param bool 	$lower
-     * @param bool 	$upper
-     * @param bool 	$numbers
-     * @param bool 	$special
-     * @return Password
+     * This is a shortcut to quickly get a password-field with desired constraints.
      */
-    public function withStandardConstraints($min_length = 8, $lower = true, $upper = true, $numbers = true, $special = true)
-    {
-        $this->checkIntArg('min_length', $min_length);
-        $this->checkBoolArg('lower', $lower);
-        $this->checkBoolArg('upper', $upper);
-        $this->checkBoolArg('numbers', $numbers);
-        $this->checkBoolArg('special', $special);
-
+    public function withStandardConstraints(
+        int $min_length = 8,
+        bool $lower = true,
+        bool $upper = true,
+        bool $numbers = true,
+        bool $special = true
+    ) : C\Input\Field\Input {
         $pw_validation = $this->refinery->password();
         $constraints = [
             $this->refinery->string()->hasMinLength($min_length),
@@ -107,22 +85,15 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
         if ($special) {
             $constraints[] = $pw_validation->hasSpecialChars();
         }
-        /**
-         * @var $clone Password
-         */
-        $clone = $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
-        return $clone;
+
+        return $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
     }
 
     /**
      * Get a Password like this with the revelation-option enabled (or disabled).
-     *
-     * @param bool 	$revelation
-     * @return Password
      */
-    public function withRevelation($revelation)
+    public function withRevelation(bool $revelation) : Password
     {
-        $this->checkBoolArg('revelation', $revelation);
         $clone = clone $this;
         $clone->revelation = $revelation;
         return $clone;
@@ -130,10 +101,8 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
 
     /**
      * Get the status of the revelation-option.
-     *
-     * @return bool
      */
-    public function getRevelation()
+    public function getRevelation() : ?bool
     {
         return $this->revelation;
     }
@@ -141,7 +110,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * Set the signals for this component.
      */
-    protected function initSignals()
+    protected function initSignals() : void
     {
         $this->signal_reveal = $this->signal_generator->create();
         $this->signal_mask = $this->signal_generator->create();
@@ -149,10 +118,8 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
 
     /**
      * Reset all Signals.
-     *
-     * @return Password
      */
-    public function withResetSignals()
+    public function withResetSignals() : Triggerable
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -161,20 +128,16 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
 
     /**
      * Get the signal for unmasking the input.
-     *
-     * @return Signal
      */
-    public function getRevealSignal()
+    public function getRevealSignal() : Signal
     {
         return $this->signal_reveal;
     }
 
     /**
      * Get the signal for masking the input.
-     *
-     * @return Signal
      */
-    public function getMaskSignal()
+    public function getMaskSignal() : Signal
     {
         return $this->signal_mask;
     }
@@ -182,14 +145,13 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
         return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+            return "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));";
-            return $code;
         };
     }
 }

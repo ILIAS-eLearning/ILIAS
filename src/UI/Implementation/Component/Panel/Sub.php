@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -17,14 +17,14 @@ class Sub extends Panel implements C\Panel\Sub
 
     /**
      * Component to be displayed on the right of the Sub Panel
-     * @var C\Card\Card | C\Panel\Secondary\Secondary
+     * @var C\Card\Card|C\Panel\Secondary\Secondary
      */
     private $component = null;
 
     /**
      * @inheritdoc
      */
-    public function withFurtherInformation($component)
+    public function withFurtherInformation($component) : C\Panel\Sub
     {
         $clone = clone $this;
         $clone->component = $component;

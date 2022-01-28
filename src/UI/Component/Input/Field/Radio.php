@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -12,12 +12,6 @@ interface Radio extends FormInput
 
     /**
      * Add an option-entry to the radio-input.
-     *
-     * @param 	string 	$value
-     * @param 	string 	$label
-     * @param 	string 	$byline | null
-     *
-     * @return 	Radio
      */
     public function withOption(string $value, string $label, string $byline = null) : Radio;
 
@@ -31,10 +25,6 @@ interface Radio extends FormInput
     /**
      * Get byline for a single option.
      * Returns null, if none present.
-     *
-     * @param string 	$value
-     *
-     * @return array|null
      */
-    public function getBylineFor(string $value);
+    public function getBylineFor(string $value) : ?string;
 }

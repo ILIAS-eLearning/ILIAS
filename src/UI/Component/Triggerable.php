@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -14,11 +15,10 @@ namespace ILIAS\UI\Component;
  */
 interface Triggerable extends JavaScriptBindable
 {
-
     /**
      * Get a component like this but reset (regenerate) its signals.
      *
-     * @return $this
+     * @return static
      */
     public function withResetSignals();
 }

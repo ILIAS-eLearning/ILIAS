@@ -87,7 +87,7 @@ class ilForumAutoSaveAsyncDraftAction
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
                 $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->setPostUserAlias($inputValues['alias']);
-                $draftObj->setNotify($inputValues['notify']);
+                $draftObj->setNotificationStatus($inputValues['notify']);
                 $draftObj->setUpdateUserId($this->actor->getId());
                 $draftObj->setPostAuthorId($this->actor->getId());
                 $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
@@ -131,7 +131,7 @@ class ilForumAutoSaveAsyncDraftAction
             $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
             $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
             $draftObj->setPostUserAlias($inputValues['alias']);
-            $draftObj->setNotify($inputValues['notify']);
+            $draftObj->setNotificationStatus($inputValues['notify']);
             $draftObj->setPostAuthorId($this->actor->getId());
             $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
             $draftObj->saveDraft();
@@ -182,18 +182,15 @@ class ilForumAutoSaveAsyncDraftAction
         }
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getInputValuesFromForm() : array
     {
         $inputValues = [];
 
-        $inputValues['subject'] = (string) $this->form->getInput('subject');
-        $inputValues['message'] = (string) $this->form->getInput('message');
+        $inputValues['subject'] = $this->form->getInput('subject');
+        $inputValues['message'] = $this->form->getInput('message');
         $inputValues['notify'] = (int) $this->form->getInput('notify');
         $inputValues['alias'] = ilForumUtil::getPublicUserAlias(
-            (string) $this->form->getInput('alias'),
+            $this->form->getInput('alias'),
             $this->forumProperties->isAnonymized()
         );
 

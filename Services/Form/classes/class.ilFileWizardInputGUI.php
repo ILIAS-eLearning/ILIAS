@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a file wizard property in a property form.
@@ -9,23 +20,15 @@
  */
 class ilFileWizardInputGUI extends ilFileInputGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $filenames = array();
-    protected $allowMove = false;
-    protected $imagepath_web = "";
+    protected ilGlobalTemplateInterface $tpl;
+    protected array $filenames = array();
+    protected bool $allowMove = false;
+    protected string $imagepath_web = "";
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -34,72 +37,37 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    /**
-    * Set the web image path
-    *
-    * @param string $a_path Path
-    */
-    public function setImagePathWeb($a_path)
+    public function setImagePathWeb(string $a_path) : void
     {
         $this->imagepath_web = $a_path;
     }
-    
-    /**
-    * Get the web image path
-    *
-    * @return string Path
-    */
-    public function getImagePathWeb()
+
+    public function getImagePathWeb() : string
     {
         return $this->imagepath_web;
     }
 
-    /**
-    * Set filenames
-    *
-    * @param	array	$a_value	Value
-    */
-    public function setFilenames($a_filenames)
+    public function setFilenames(array $a_filenames) : void
     {
         $this->filenames = $a_filenames;
     }
 
-    /**
-    * Get filenames
-    *
-    * @return	array	filenames
-    */
-    public function getFilenames()
+    public function getFilenames() : array
     {
         return $this->filenames;
     }
 
-    /**
-    * Set allow move
-    *
-    * @param	boolean	$a_allow_move Allow move
-    */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove(bool $a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
 
-    /**
-    * Get allow move
-    *
-    * @return	boolean	Allow move
-    */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
@@ -124,18 +92,14 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $temp_name = $pictures["tmp_name"][$index];
                 $error = $pictures["error"][$index];
 
-                $_FILES[$this->getPostVar()]["name"][$index] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"][$index]);
+                $_FILES[$this->getPostVar()]["name"][$index] = utf8_encode($_FILES[$this->getPostVar()]["name"][$index]);
 
 
                 // error handling
                 if ($error > 0) {
                     switch ($error) {
-                        case UPLOAD_ERR_INI_SIZE:
-                            $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-                            $uploadcheck = false;
-                            break;
-
                         case UPLOAD_ERR_FORM_SIZE:
+                        case UPLOAD_ERR_INI_SIZE:
                             $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                             $uploadcheck = false;
                             break;
@@ -198,12 +162,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         

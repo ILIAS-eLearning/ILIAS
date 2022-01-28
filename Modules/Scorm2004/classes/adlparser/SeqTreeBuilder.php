@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -427,7 +427,7 @@
         public static function getObjectives($iNode, $ioAct)
         {
             global $DIC;
-            $ilLog = $DIC['ilLog'];
+            $ilLog = ilLoggerFactory::getLogger('sc13');
         
         
             $ok = true;
@@ -457,7 +457,7 @@
                         // Look for 'minNormalizedMeasure'
                         $tempVal = self::lookupElement($curNode, "minNormalizedMeasure");
                         if ($tempVal) {
-                            $obj->mMinMeasure = $tempVal;
+                            $obj->mMinMeasure = (float) $tempVal;
                         }
                 
                         //get ObjectiveMaps
@@ -479,7 +479,7 @@
         public static function getADLSEQObjectives($iNode, $ioAct)
         {
             global $DIC;
-            $ilLog = $DIC['ilLog'];
+            $ilLog = ilLoggerFactory::getLogger('sc13');
             $objectives = $ioAct->mObjectives;
             $children = $iNode->childNodes;
             for ($i = 0; $i < $children->length; $i++) {

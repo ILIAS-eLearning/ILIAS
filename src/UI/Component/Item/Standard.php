@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Item;
 
-use \ILIAS\UI\Component\Symbol\Icon\Icon;
-use \ILIAS\UI\Component\Image\Image;
-use \ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
-use \ILIAS\Data\Color;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
+use ILIAS\Data\Color;
+use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
 
 /**
  * Interface Standard Item
@@ -18,7 +19,7 @@ interface Standard extends Item
     /**
      * Set a color
      */
-    public function withColor(Color $a_color) : Item;
+    public function withColor(Color $color) : Standard;
 
     /**
      * Return the given color
@@ -28,35 +29,42 @@ interface Standard extends Item
     /**
      * Set image as lead
      */
-    public function withLeadImage(Image $image) : Item;
+    public function withLeadImage(Image $image) : Standard;
 
     /**
      * Set icon as lead
      */
-    public function withLeadIcon(Icon $icon) : Item;
+    public function withLeadIcon(Icon $icon) : Standard;
 
     /**
      * Set image as lead
      */
-    public function withLeadText(string $text) : Item;
+    public function withLeadText(string $text) : Standard;
 
     /**
      * Reset lead to null
      */
-    public function withNoLead() : Item;
+    public function withNoLead() : Standard;
 
     /**
-     * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Symbol\Icon\Icon
+     * @return null|string|Image|Icon
      */
     public function getLead();
 
     /**
      * Set progress meter chart
      */
-    public function withProgress(ProgressMeter $chart) : Item;
+    public function withProgress(ProgressMeter $chart) : Standard;
+
+    public function getProgress() : ?ProgressMeter;
 
     /**
-     * @return null|ProgressMeter
+     * Create a new appointment item with a set of actions to perform on it.
      */
-    public function getProgress() : ?ProgressMeter;
+    public function withActions(DropdownStandard $actions) : Standard;
+
+    /**
+     * Get the actions of the item.
+     */
+    public function getActions() : ?DropdownStandard;
 }

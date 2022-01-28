@@ -88,6 +88,8 @@ class ilOrgUnitType
      */
     protected static $instances = array();
 
+    protected ilComponentFactory $component_factory;
+
 
     /**
      * @param int $a_id
@@ -100,12 +102,11 @@ class ilOrgUnitType
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         $ilUser = $DIC['ilUser'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_factory = $DIC['component.factory'];
         $lng = $DIC['lng'];
         $this->db = $ilDB;
         $this->log = $ilLog;
         $this->user = $ilUser;
-        $this->pluginAdmin = $ilPluginAdmin;
         $this->lng = $lng;
         if ($a_id) {
             $this->id = (int) $a_id;
@@ -455,7 +456,7 @@ class ilOrgUnitType
         $sql = 'SELECT * FROM orgu_types_adv_md_rec WHERE type_id = ' . $this->db->quote($this->getId(), 'integer');
         $set = $this->db->query($sql);
         while ($rec = $this->db->fetchObject($set)) {
-            $amd_record = new ilAdvancedMDRecord($rec->rec_id);
+            $amd_record = new ilAdvancedMDRecord((int) $rec->rec_id);
             if ($a_only_active) {
                 if ($amd_record->isActive()) {
                     $this->amd_records_assigned[1][] = $amd_record;
@@ -620,10 +621,10 @@ class ilOrgUnitType
             return false;
         }
         if (!is_dir($this->getIconPath())) {
-            ilUtil::makeDirParents($this->getIconPath());
+            ilFileUtils::makeDirParents($this->getIconPath());
         }
         $filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-        $return = ilUtil::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
+        $return = ilFileUtils::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
 
         // TODO Resize
         return $return;
@@ -754,17 +755,7 @@ class ilOrgUnitType
      */
     protected function getActivePlugins()
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->pluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'OrgUnit', 'orgutypehk');
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl_name) {
-                /** @var ilOrgUnitTypeHookPlugin $plugin */
-                $plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'OrgUnit', 'orgutypehk', $pl_name);
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsForSlot("orgutypehk");
     }
 
 
@@ -956,7 +947,7 @@ class ilOrgUnitType
      */
     public function getIconPath($append_filename = false)
     {
-        $path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
+        $path = ilFileUtils::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
         if ($append_filename) {
             $path .= $this->getIcon();
         }

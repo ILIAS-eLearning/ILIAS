@@ -16,13 +16,11 @@ class Drilldown extends Menu implements IMenu\Drilldown
 {
     use JavaScriptBindable;
 
-    /**
-     * @var Signal
-     */
-    protected $signal;
+    protected Signal $signal;
+    protected ?string $persistence_id = null;
 
     /**
-     * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
+     * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -38,5 +36,20 @@ class Drilldown extends Menu implements IMenu\Drilldown
     public function getBacklinkSignal() : Signal
     {
         return $this->signal;
+    }
+
+    public function withPersistenceId(?string $id) : self
+    {
+        if (is_null($id)) {
+            return $this;
+        }
+        $clone = clone $this;
+        $clone->persistence_id = $id;
+        return $clone;
+    }
+    
+    public function getPersistenceId() : ?string
+    {
+        return $this->persistence_id;
     }
 }

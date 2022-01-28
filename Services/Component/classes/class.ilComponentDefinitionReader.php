@@ -15,7 +15,7 @@ class ilComponentDefinitionReader
     public function __construct(
         ilComponentDefinitionProcessor ...$processor
     ) {
-        $this->processor = $processor;
+        $this->processors = $processor;
     }
 
     /**
@@ -24,7 +24,7 @@ class ilComponentDefinitionReader
      */
     public function purge() : void
     {
-        foreach ($this->processor as $p) {
+        foreach ($this->processors as $p) {
             $p->purge();
         }
     }
@@ -35,13 +35,13 @@ class ilComponentDefinitionReader
      */
     public function readComponentDefinitions() : void
     {
-        foreach ($this->getComponents() as list($type, $component, $path)) {
+        foreach ($this->getComponents() as [$type, $component, $path]) {
             $file = $this->readFile($path);
-            foreach ($this->processor as $processor) {
+            foreach ($this->processors as $processor) {
                 $processor->beginComponent($component, $type);
             }
             $this->parseComponentXML($type, $component, $file);
-            foreach ($this->processor as $processor) {
+            foreach ($this->processors as $processor) {
                 $processor->endComponent($component, $type);
             }
         }
@@ -83,14 +83,14 @@ class ilComponentDefinitionReader
 
     public function beginTag($_, string $name, array $attributes) : void
     {
-        foreach ($this->processor as $processor) {
+        foreach ($this->processors as $processor) {
             $processor->beginTag($name, $attributes);
         }
     }
 
     public function endTag($_, string $name) : void
     {
-        foreach ($this->processor as $processor) {
+        foreach ($this->processors as $processor) {
             $processor->endTag($name);
         }
     }

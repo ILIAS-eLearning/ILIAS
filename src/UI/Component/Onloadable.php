@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -10,13 +11,11 @@ namespace ILIAS\UI\Component;
  */
 interface Onloadable extends Triggerer
 {
-
     /**
      * Trigger a signal of another component on load
      *
      * @param Signal $signal A signal of another component
-     *
-     * @return $this
+     * @return static
      */
     public function withOnLoad(Signal $signal);
 
@@ -24,9 +23,7 @@ interface Onloadable extends Triggerer
      * Get a component like this, triggering a signal of another component on load.
      * In contrast to withOnLoad, the signal is appended to existing signals for the on load event.
      *
-     * @param Signal $signal
-     *
-     * @return $this
+     * @return static
      */
     public function appendOnLoad(Signal $signal);
 }

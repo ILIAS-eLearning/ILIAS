@@ -758,7 +758,7 @@ class ilDclRecordEditGUI
         $html = "";
         $query_parser = new ilQueryParser($search);
         $query_parser->setMinWordLength(1);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             $html .= $query_parser->getMessage() . "<br />";
@@ -780,7 +780,7 @@ class ilDclRecordEditGUI
             foreach ((array) $entry['refs'] as $reference) {
                 $path = new ilPathGUI();
                 $tpl->setCurrentBlock('result');
-                $tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, $reference) . " » " . $entry['title']);
+                $tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $reference) . " » " . $entry['title']);
                 $tpl->setVariable('RESULT_REF', $reference);
                 $tpl->setVariable('FIELD_ID', $dest);
                 $tpl->parseCurrentBlock();

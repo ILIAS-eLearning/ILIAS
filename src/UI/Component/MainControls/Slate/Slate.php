@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,7 +6,6 @@ namespace ILIAS\UI\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Triggerer;
@@ -49,12 +48,12 @@ interface Slate extends Component, JavaScriptBindable, Triggerer
     /**
      * @return Component[]
      */
-    public function getContents();
+    public function getContents() : array;
 
     /**
      * Signal to replace the contents of the slate.
      */
-    public function getReplaceSignal() : ReplaceSignal;
+    public function getReplaceSignal() : ?Signal;
 
     /**
      * A Signal that is triggered when the slate "comes into view", i.e. is being engaged.
@@ -62,10 +61,10 @@ interface Slate extends Component, JavaScriptBindable, Triggerer
     public function appendOnInView(Signal $signal) : Slate;
 
     /**
-     * Slates in the mainbar need to be adressable via JS, a.o. for storing
+     * Slates in the main bar need to be addressable via JS, a.o. for storing
      * current activation states or triggering them from the outside.
      */
-    public function withMainBarTreePosition(string $tree_pos);
+    public function withMainBarTreePosition(string $tree_pos) : Slate;
 
-    public function getMainBarTreePosition();
+    public function getMainBarTreePosition() : ?string;
 }

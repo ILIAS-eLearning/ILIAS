@@ -17,14 +17,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
      */
     protected $table;
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
      * @var ilDclTableViewEditGUI
      */
     protected $parent_gui;

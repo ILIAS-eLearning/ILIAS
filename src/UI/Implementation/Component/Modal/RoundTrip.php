@@ -1,88 +1,72 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
-use ILIAS\UI\Component as Component;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\ReplaceSignal;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class RoundTrip extends Modal implements Component\Modal\RoundTrip
+class RoundTrip extends Modal implements M\RoundTrip
 {
-
     /**
      * @var Button\Button[]
      */
-    protected $action_buttons = array();
+    protected array $action_buttons = array();
 
     /**
-     * @var string
+     * @var Component[]
      */
-    protected $title;
+    protected array $content;
+    protected string $title;
+    protected string $cancel_button_label = 'cancel';
+    protected ReplaceSignal $replace_signal;
 
     /**
-     * @var Component\Component[]
+     * @param Component|Component[] $content
      */
-    protected $content;
-
-    /**
-     * @var string
-     */
-    protected $cancel_button_label = 'cancel';
-
-    protected $ajax_content_url;
-    protected $replace_signal;
-
-
-    /**
-     * @param string $title
-     * @param Component\Component|Component\Component[] $content
-     * @param SignalGeneratorInterface $signal_generator
-     */
-    public function __construct($title, $content, SignalGeneratorInterface $signal_generator)
+    public function __construct(string $title, $content, SignalGeneratorInterface $signal_generator)
     {
         parent::__construct($signal_generator);
-        $this->checkStringArg('title', $title);
         $content = $this->toArray($content);
-        $types = array(Component\Component::class);
+        $types = array(Component::class);
         $this->checkArgListElements('content', $content, $types);
         $this->title = $title;
         $this->content = $content;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getContent()
+    public function getContent() : array
     {
         return $this->content;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getActionButtons()
+    public function getActionButtons() : array
     {
         return $this->action_buttons;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function withActionButtons(array $buttons)
+    public function withActionButtons(array $buttons) : M\RoundTrip
     {
         $types = array(Button\Button::class);
         $this->checkArgListElements('buttons', $buttons, $types);
@@ -91,20 +75,15 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip
         return $clone;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getCancelButtonLabel()
+    public function getCancelButtonLabel() : string
     {
         return $this->cancel_button_label;
     }
 
-    /**
-     * @param string $label
-     * @return RoundTrip
-     */
-    public function withCancelButtonLabel($label)
+    public function withCancelButtonLabel(string $label) : M\RoundTrip
     {
         $clone = clone $this;
         $clone->cancel_button_label = $label;
@@ -114,7 +93,7 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getReplaceSignal()
+    public function getReplaceSignal() : ReplaceSignal
     {
         return $this->replace_signal;
     }
@@ -122,17 +101,17 @@ class RoundTrip extends Modal implements Component\Modal\RoundTrip
     /**
      * Set the show/close/replace signals for this modal
      */
-    public function initSignals()
+    public function initSignals() : void
     {
         parent::initSignals();
         //signal generator from parent class
-        $this->replace_signal = $this->signal_generator->create("ILIAS\\UI\\Implementation\\Component\\ReplaceSignal");
+        $this->replace_signal = $this->signal_generator->create(ReplaceSignal::class);
     }
 
     /**
      * @inheritdoc
      */
-    public function withContent($content)
+    public function withContent(array $content) : M\RoundTrip
     {
         $clone = clone $this;
         $clone->content = $content;

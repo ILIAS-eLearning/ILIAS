@@ -27,7 +27,7 @@ class ilMail
     private ilAppEventHandler $eventHandler;
     private ilMailAddressTypeFactory $mailAddressTypeFactory;
     private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
-    protected $contextId;
+    protected ?string $contextId;
     protected array $contextParameters = [];
     protected ilLogger $logger;
     /** @var array<int, ilMailOptions> */
@@ -37,6 +37,7 @@ class ilMail
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
+    protected ilObjUser $actor;
 
     public function __construct(
         int $a_user_id,
@@ -51,7 +52,8 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        int $mailAdminNodeRefId = null
+        int $mailAdminNodeRefId = null,
+        ilObjUser $actor = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -60,6 +62,7 @@ class ilMail
         $this->eventHandler = $eventHandler ?? $DIC->event();
         $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
+        $this->actor = $actor ?? $DIC->user();
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
@@ -135,8 +138,6 @@ class ilMail
 
     public function formatNamesForOutput(string $recipients) : string
     {
-        global $DIC;
-
         $recipients = trim($recipients);
         if ($recipients === '') {
             return $this->lng->txt('not_available');
@@ -149,7 +150,7 @@ class ilMail
             $usrId = ilObjUser::_lookupId($recipient);
             if ($usrId > 0) {
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
-                if ($pp === 'g' || ($pp === 'y' && !$DIC->user()->isAnonymous())) {
+                if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);
                     $names[] = $user->getFullname() . ' [' . $recipient . ']';
                     continue;
@@ -399,14 +400,14 @@ class ilMail
         return $row;
     }
 
-    public function getNewDraftId(int $usrId, int $folderId) : int
+    public function getNewDraftId(int $folderId) : int
     {
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
             'mail_id' => ['integer', $nextId],
-            'user_id' => ['integer', $usrId],
+            'user_id' => ['integer', $this->user_id],
             'folder_id' => ['integer', $folderId],
-            'sender_id' => ['integer', $usrId],
+            'sender_id' => ['integer', $this->user_id],
         ]);
 
         return $nextId;
@@ -444,7 +445,7 @@ class ilMail
             [
                 'folder_id' => ['integer', $a_folder_id],
                 'attachments' => ['clob', serialize($a_attachments)],
-                'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+                'send_time' => ['timestamp', date('Y-m-d H:i:s')],
                 'rcp_to' => ['clob', $a_rcp_to],
                 'rcp_cc' => ['clob', $a_rcp_cc],
                 'rcp_bcc' => ['clob', $a_rcp_bcc],
@@ -483,7 +484,7 @@ class ilMail
         if ($usePlaceholders) {
             $message = $this->replacePlaceholders($message, $usrId);
         }
-        $message = $this->formatLinebreakMessage((string) $message);
+        $message = $this->formatLinebreakMessage($message);
         $message = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $message);
 
         $nextId = $this->db->nextId($this->table_mail);
@@ -493,7 +494,7 @@ class ilMail
             'folder_id' => ['integer', $folderId],
             'sender_id' => ['integer', $senderUsrId],
             'attachments' => ['clob', serialize($attachments)],
-            'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+            'send_time' => ['timestamp', date('Y-m-d H:i:s')],
             'rcp_to' => ['clob', $to],
             'rcp_cc' => ['clob', $cc],
             'rcp_bcc' => ['clob', $bcc],
@@ -501,7 +502,7 @@ class ilMail
             'm_subject' => ['text', $subject],
             'm_message' => ['clob', $message],
             'tpl_ctx_id' => ['text', $templateContextId],
-            'tpl_ctx_params' => ['blob', json_encode((array) $templateContextParameters, JSON_THROW_ON_ERROR)],
+            'tpl_ctx_params' => ['blob', json_encode($templateContextParameters, JSON_THROW_ON_ERROR)],
         ]);
 
         $raiseEvent = $usrId !== $this->mailbox->getUsrId();
@@ -512,13 +513,13 @@ class ilMail
         if ($raiseEvent) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
                 'id' => $nextId,
-                'subject' => (string) $subject,
+                'subject' => $subject,
                 'body' => (string) $message,
-                'from_usr_id' => (int) $senderUsrId,
+                'from_usr_id' => $senderUsrId,
                 'to_usr_id' => $usrId,
-                'rcp_to' => (string) $to,
-                'rcp_cc' => (string) $cc,
-                'rcp_bcc' => (string) $bcc,
+                'rcp_to' => $to,
+                'rcp_cc' => $cc,
+                'rcp_bcc' => $bcc,
             ]);
         }
 
@@ -1392,7 +1393,7 @@ class ilMail
     {
         global $DIC;
 
-        $signature = $DIC->settings()->get('mail_system_sys_signature');
+        $signature = $DIC->settings()->get('mail_system_sys_signature', '');
 
         $clientUrl = ilUtil::_getHttpPath();
         $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);

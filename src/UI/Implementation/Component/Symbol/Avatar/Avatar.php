@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
@@ -11,21 +12,15 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
 {
     use ComponentHelper;
     use JavaScriptBindable;
-    /**
-     * @var    string
-     */
-    private $username;
 
-    protected $alternative_text = "";
+    private string $username;
+    protected string $alternative_text = "";
 
     public function __construct(string $username)
     {
         $this->username = $username;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUsername() : string
     {
         return $this->username;

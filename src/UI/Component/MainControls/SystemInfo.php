@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\MainControls;
 
@@ -6,12 +6,13 @@ use ILIAS\Data\URI;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Triggerable;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * Interface SystemInfo
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface SystemInfo extends Component, \ILIAS\UI\Component\JavaScriptBindable, Triggerable
+interface SystemInfo extends Component, JavaScriptBindable, Triggerable
 {
     public const DENOTATION_NEUTRAL = 'neutral';
     public const DENOTATION_IMPORTANT = 'important';

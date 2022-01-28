@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\UI\Component\Input\Field\Radio;
 
 /**
  * Class ilPageLayoutGUI GUI class
@@ -11,24 +24,17 @@
  */
 class ilPageLayoutGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
+    protected ilSetting $settings;
+    protected ?ilPageLayout $layout_object = null;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    protected $layout_object = null;
-
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
-    {
+    public function __construct(
+        string $a_parent_type,
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        bool $a_prevent_get_id = false,
+        string $a_lang = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -66,9 +72,6 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $this->setStyleId($this->layout_object->getStyleId());
     }
 
-    /**
-    * execute command
-    */
     public function executeCommand() : string
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -83,18 +86,18 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         }
     }
     
-    public function create()
+    public function create() : void
     {
         $this->properties("insert");
     }
 
     /**
      * Edit page layout properties
-     *
-     * @param string $a_mode edit mode
      */
-    public function properties($a_mode = "save", $a_form = null)
-    {
+    public function properties(
+        string $a_mode = "save",
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $ilTabs = $this->tabs;
     
         $ilTabs->setTabActive('properties');
@@ -106,7 +109,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    public function initForm($a_mode)
+    public function initForm(string $a_mode) : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -169,17 +172,15 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         return $form_gui;
     }
 
-    /**
-     * Update properties
-     */
-    public function updateProperties()
+    public function updateProperties() : void
     {
         $lng = $this->lng;
         
         $form = $this->initForm("save");
         if (!$form->checkInput()) {
             $form->setValuesByPost();
-            return $this->properties("save", $form);
+            $this->properties("save", $form);
+            return;
         }
         
         $this->layout_object->setTitle($form->getInput('pgl_title'));
@@ -193,14 +194,13 @@ class ilPageLayoutGUI extends ilPageObjectGUI
     }
     
     /**
-    * output tabs
-    */
-    public function setTabs($a_tabs = "")
+     * output tabs
+     */
+    public function setTabs(ilTabsGUI $a_tabs = null) : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $lng = $this->lng;
 
         $ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->getId());
         $ilTabs->addTarget(
@@ -217,11 +217,8 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 
     /**
      * Get template selection radio
-     *
-     * @param string $module
-     * @return ?\ILIAS\UI\Component\Input\Field\Radio
      */
-    public static function getTemplateSelection(string $module)
+    public static function getTemplateSelection(string $module) : ?Radio
     {
         global $DIC;
         $ui = $DIC->ui();
@@ -236,12 +233,12 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         /** @var ilPageLayout $templ */
         foreach ($arr_templates as $templ) {
             if ($first == 0) {
-                $first = (int) $templ->getId();
+                $first = $templ->getId();
             }
             $templ->readObject();
             $radio = $radio->withOption($templ->getId(), $templ->getPreview(), $templ->getTitle());
         }
-        $radio = $radio->withValue((int) $first);
+        $radio = $radio->withValue($first);
         return $radio;
     }
 }

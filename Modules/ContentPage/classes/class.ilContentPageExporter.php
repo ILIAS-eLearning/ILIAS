@@ -1,36 +1,24 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilContentPageExporter
- */
 class ilContentPageExporter extends ilXmlExporter implements ilContentPageObjectConstants
 {
     protected ilContentPageDataSet $ds;
 
-    /**
-     * @inheritdoc
-     */
     public function init() : void
     {
         $this->ds = new ilContentPageDataSet();
         $this->ds->setDSPrefix('ds');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return [
@@ -44,9 +32,6 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $pageObjectIds = [];

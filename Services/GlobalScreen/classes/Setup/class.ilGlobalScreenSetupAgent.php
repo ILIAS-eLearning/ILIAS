@@ -1,26 +1,37 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 use ILIAS\Setup;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilGlobalScreenSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
-
+    
     /**
      * @var Refinery
      */
     protected $refinery;
-
+    
     public function __construct(Refinery $refinery)
     {
         $this->refinery = $refinery;
     }
-
+    
     /**
      * @inheritdocs
      */
@@ -28,7 +39,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         return false;
     }
-
+    
     /**
      * @inheritdocs
      */
@@ -36,7 +47,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         throw new \LogicException(self::class . " has no Config.");
     }
-
+    
     /**
      * @inheritdocs
      */
@@ -44,7 +55,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritdocs
      */
@@ -52,7 +63,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritdocs
      */
@@ -60,7 +71,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         return new \ilGlobalScreenBuildProviderMapObjective();
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -68,7 +79,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritDoc
      */

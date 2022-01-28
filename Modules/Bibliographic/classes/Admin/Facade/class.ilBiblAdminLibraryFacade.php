@@ -8,14 +8,8 @@
 class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
 {
 
-    /**
-     * @var int
-     */
-    protected $object_id;
-    /**
-     * @var int
-     */
-    protected $ref_id;
+    protected int $object_id;
+    protected int $ref_id;
 
 
     /**
@@ -33,7 +27,7 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasObjId()
+    public function iliasObjId() : int
     {
         return $this->object_id;
     }
@@ -42,7 +36,7 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasRefId()
+    public function iliasRefId() : int
     {
         return $this->ref_id;
     }
@@ -51,7 +45,7 @@ class ilBiblAdminLibraryFacade implements ilBiblAdminLibraryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function libraryFactory()
+    public function libraryFactory() : \ilBiblLibraryFactoryInterface
     {
         return new ilBiblLibraryFactory();
     }

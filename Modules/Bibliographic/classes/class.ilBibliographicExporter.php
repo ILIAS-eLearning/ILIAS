@@ -13,12 +13,9 @@
 class ilBibliographicExporter extends ilXmlExporter
 {
 
+    protected ?\ilBibliographicDataSet $ds = null;
     /**
-     * @var ilBibliographicDataSet
-     */
-    protected $ds;
-    /**
-     * @var ilDB
+     * @var mixed|null
      */
     protected $db;
 
@@ -53,7 +50,7 @@ class ilBibliographicExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->exportLibraryFile($a_id);
 

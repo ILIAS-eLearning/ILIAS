@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -14,27 +14,34 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Combined;
  */
 class CombinedSlateTest extends ILIAS_UI_TestBase
 {
+    protected I\SignalGenerator $sig_gen;
+    protected I\Button\Factory $button_factory;
+    protected I\Divider\Factory $divider_factory;
+    protected I\Symbol\Icon\Factory $icon_factory;
+
     public function setUp() : void
     {
         $this->sig_gen = new I\SignalGenerator();
-        $this->button_factory = new I\Button\Factory($this->sig_gen);
+        $this->button_factory = new I\Button\Factory();
         $this->divider_factory = new I\Divider\Factory();
         $this->icon_factory = new I\Symbol\Icon\Factory();
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function button()
+            public I\SignalGenerator $sig_gen;
+
+            public function button() : C\Button\Factory
             {
                 return $this->button_factory;
             }
-            public function glyph()
+            public function glyph() : C\Symbol\Glyph\Factory
             {
                 return new I\Symbol\Glyph\Factory();
             }
 
-            public function divider()
+            public function divider() : C\Divider\Factory
             {
                 return new I\Divider\Factory();
             }
@@ -49,14 +56,14 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function brutallyTrimHTML($html)
+    public function brutallyTrimHTML(string $html) : string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
         return trim($html);
     }
 
-    public function testRendering()
+    public function testRendering() : void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
@@ -72,12 +79,12 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithAriaRole()
+    public function testRenderingWithAriaRole() : void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
         $slate = new Combined($this->sig_gen, $name, $icon);
-        $slate = $slate->withAriaRole(Combined::MENU);
+        $slate = $slate->withAriaRole(I\MainControls\Slate\Slate::MENU);
 
         $r = $this->getDefaultRenderer();
         $html = $r->render($slate);
@@ -89,7 +96,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithSubDivider()
+    public function testRenderingWithSubDivider() : void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
@@ -117,7 +124,7 @@ EOT;
         );
     }
 
-    public function testRenderingWithSubslateAndButton()
+    public function testRenderingWithSubslateAndButton() : void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');

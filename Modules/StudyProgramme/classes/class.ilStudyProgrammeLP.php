@@ -1,41 +1,41 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Object/classes/class.ilObjectLP.php");
-
-/**
- * Class ilObjStudyProgramme
- *
- * @author : Richard Klees <richard.klees@concepts-and-training.de>
- */
 class ilStudyProgrammeLP extends ilObjectLP
 {
+    protected ?ilObjStudyProgramme $prg = null;
+
     /**
-     * @var ilObjStudyProgramme|null
+     * @param bool $lp_active
+     * @return int[]
      */
-    protected $prg = null;
-    
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes($lp_active) : array
     {
-        return array(
-            ilLPObjSettings::LP_MODE_DEACTIVATED
-        );
+        return [ilLPObjSettings::LP_MODE_DEACTIVATED];
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_STUDY_PROGRAMME;
     }
-    
-    public function getValidModes()
+
+    /**
+     * @return int[]
+     */
+    public function getValidModes() : array
     {
-        return array( ilLPObjSettings::LP_MODE_STUDY_PROGRAMME
-            , ilLPObjSettings::LP_MODE_DEACTIVATED
-            );
+        return [
+            ilLPObjSettings::LP_MODE_STUDY_PROGRAMME,
+            ilLPObjSettings::LP_MODE_DEACTIVATED
+        ];
     }
-    
-    public function getMembers($a_search = true)
+
+    /**
+     * @param bool $search
+     * @return int[]
+     */
+    public function getMembers($search = true) : array
     {
         if ($this->prg === null) {
             $this->prg = new ilObjStudyProgramme($this->obj_id, false);

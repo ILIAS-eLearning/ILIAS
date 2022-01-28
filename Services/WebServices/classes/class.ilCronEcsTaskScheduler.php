@@ -90,7 +90,7 @@ class ilCronEcsTaskScheduler extends \ilCronJob
 
         $servers = \ilECSServerSettings::getInstance();
 
-        foreach ($servers->getServers() as $server) {
+        foreach ($servers->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
             try {
                 $this->logger->info('Starting task execution for ecs server: ' . $server->getTitle());
                 $scheduler = \ilECSTaskScheduler::_getInstanceByServerId($server->getServerId());

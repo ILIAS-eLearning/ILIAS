@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -17,97 +17,66 @@ class Glyph implements C\Symbol\Glyph\Glyph
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var	string
-     */
-    private $type;
+    private static array $types = [
+        self::SETTINGS,
+        self::COLLAPSE,
+        self::COLLAPSE_HORIZONTAL,
+        self::EXPAND,
+        self::ADD,
+        self::REMOVE,
+        self::UP,
+        self::DOWN,
+        self::BACK,
+        self::NEXT,
+        self::SORT_ASCENDING,
+        self::SORT_DESCENDING,
+        self::USER,
+        self::MAIL,
+        self::NOTIFICATION,
+        self::TAG,
+        self::NOTE,
+        self::COMMENT,
+        self::BRIEFCASE,
+        self::LIKE,
+        self::LOVE,
+        self::DISLIKE,
+        self::LAUGH,
+        self::ASTOUNDED,
+        self::SAD,
+        self::ANGRY,
+        self::EYEOPEN,
+        self::EYECLOSED,
+        self::ATTACHMENT,
+        self::RESET,
+        self::APPLY,
+        self::SEARCH,
+        self::HELP,
+        self::CALENDAR,
+        self::TIME,
+        self::CLOSE,
+        self::MORE,
+        self::DISCLOSURE,
+        self::LANGUAGE,
+        self::LOGIN,
+        self::LOGOUT,
+        self::BULLETLIST,
+        self::NUMBEREDLIST,
+        self::LISTINDENT,
+        self::LISTOUTDENT,
+        self::FILTER
+    ];
 
-    /**
-     * @var	string|null
-     */
-    private $action;
+    private string $type;
+    private ?string $action;
+    private string $aria_label;
+    private array $counters;
+    private bool $highlighted;
+    private bool $active = true;
 
-    /**
-     * @var	string
-     */
-    private $aria_label;
-
-    /**
-     * @var	Counter[]
-     */
-    private $counters;
-
-    /**
-     * @var bool
-     */
-    private $highlighted = false;
-
-    /**
-     * @var bool
-     */
-    private $active = true;
-
-    private static $types = array(self::SETTINGS
-        , self::COLLAPSE
-        , self::COLLAPSE_HORIZONTAL
-        , self::EXPAND
-        , self::ADD
-        , self::REMOVE
-        , self::UP
-        , self::DOWN
-        , self::BACK
-        , self::NEXT
-        , self::SORT_ASCENDING
-        , self::SORT_DESCENDING
-        , self::USER
-        , self::MAIL
-        , self::NOTIFICATION
-        , self::TAG
-        , self::NOTE
-        , self::COMMENT
-        , self::BRIEFCASE
-        , self::LIKE
-        , self::LOVE
-        , self::DISLIKE
-        , self::LAUGH
-        , self::ASTOUNDED
-        , self::SAD
-        , self::ANGRY
-        , self::EYEOPEN
-        , self::EYECLOSED
-        , self::ATTACHMENT
-        , self::RESET
-        , self::APPLY
-        , self::SEARCH
-        , self::HELP
-        , self::CALENDAR
-        , self::TIME
-        , self::CLOSE
-        , self::MORE
-        , self::DISCLOSURE
-        , self::LANGUAGE
-        , self::LOGIN
-        , self::LOGOUT
-        , self::BULLETLIST
-        , self::NUMBEREDLIST
-        , self::LISTINDENT
-        , self::LISTOUTDENT
-        , self::FILTER
-        );
-
-
-    /**
-     * @param string		$type
-     * @param string|null	$action
-     */
-    public function __construct($type, $aria_label, $action = null)
+    public function __construct(string $type, string $aria_label, string $action = null)
     {
         $this->checkArgIsElement("type", $type, self::$types, "glyph type");
-        $this->checkStringArg("string", $aria_label);
 
-        if ($action !== null) {
-            $this->checkStringArg("action", $action);
-        }
         $this->type = $type;
         $this->aria_label = $aria_label;
         $this->action = $action;
@@ -118,14 +87,15 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
+
     /**
      * @inheritdoc
      */
-    public function getAriaLabel()
+    public function getAriaLabel() : string
     {
         return $this->aria_label;
     }
@@ -133,7 +103,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getAction()
+    public function getAction() : ?string
     {
         return $this->action;
     }
@@ -141,7 +111,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getCounters()
+    public function getCounters() : array
     {
         return array_values($this->counters);
     }
@@ -149,7 +119,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withCounter(Counter $counter)
+    public function withCounter(Counter $counter) : C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->counters[$counter->getType()] = $counter;
@@ -157,9 +127,9 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @return bool
+     * @inheritdoc
      */
-    public function isHighlighted()
+    public function isHighlighted() : bool
     {
         return $this->highlighted;
     }
@@ -167,7 +137,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withHighlight()
+    public function withHighlight() : C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->highlighted = true;
@@ -177,7 +147,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->active;
     }
@@ -185,18 +155,17 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withUnavailableAction()
+    public function withUnavailableAction() : C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->active = false;
         return $clone;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal)
+    public function withOnClick(Signal $signal) : C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -204,7 +173,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal)
+    public function appendOnClick(Signal $signal) : C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }
@@ -212,7 +181,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
     * @inheritdoc
     */
-    public function withAction($action)
+    public function withAction($action) : C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->action = $action;

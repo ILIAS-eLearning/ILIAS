@@ -312,9 +312,10 @@ class ilObjectDataSet extends ilDataSet
                 if ($dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
 
+                    /** @var ilObjectCustomIconFactory $customIconFactory */
                     $customIconFactory = $DIC['object.customicons.factory'];
                     $customIcon = $customIconFactory->getByObjId($new_id, ilObject::_lookupType($new_id));
-                    $customIcon->createFromImportDir($source_dir, $a_rec["Filename"]);
+                    $customIcon->createFromImportDir($source_dir);
                 }
                 break;
 

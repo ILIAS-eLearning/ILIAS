@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2020 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
@@ -23,7 +21,6 @@ class ilObjStudyProgrammeSettingsGUI
     const PROP_DESC = "desc";
     const PROP_DEADLINE = "deadline";
     const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
-    const PROP_ACCESS_CONTROL_BY_ORGU_POSITION = "access_ctr_by_orgu_position";
 
     const OPT_NO_DEADLINE = 'opt_no_deadline';
     const OPT_DEADLINE_PERIOD = "opt_deadline_period";
@@ -33,86 +30,31 @@ class ilObjStudyProgrammeSettingsGUI
     const OPT_VALIDITY_OF_QUALIFICATION_PERIOD = "opt_validity_qualification_period";
     const OPT_VALIDITY_OF_QUALIFICATION_DATE = "opt_validity_qualification_date";
 
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ILIAS\UI\Component\Input\Factory $input_factory;
+    protected ILIAS\UI\Renderer $renderer;
+    protected Psr\Http\Message\ServerRequestInterface $request;
+    protected ILIAS\Refinery\Factory $refinery_factory;
+    protected ILIAS\Data\Factory $data_factory;
+    protected ilStudyProgrammeTypeRepository $type_repository;
+    protected ilStudyProgrammeCommonSettingsGUI $common_settings_gui;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    public $tpl;
-
-    /**
-     * @var ilObjStudyProgramme
-     */
-    public $object;
-
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-
-    /**
-     * @var string
-     */
-    protected $tmp_heading;
-
-    /**
-     * @var ILIAS\UI\Component\Input\Factory
-     */
-    protected $input_factory;
-
-    /**
-     * @var ILIAS\UI\Renderer
-     */
-    protected $renderer;
-
-    /**
-     * @var Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    protected $refinery_factory;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var \ILIAS\Data\Factory
-     */
-    protected $data_factory;
-
-    /**
-     * @var ilStudyProgrammeTypeRepository
-     */
-    protected $type_repository;
-
-    /**
-     * @var ilStudyProgrammeCommonSettingsGUI
-     */
-    protected $common_settings_gui;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ?ilObjStudyProgramme $object;
+    protected string $tmp_heading;
+    protected int $ref_id;
 
     public function __construct(
-        \ilGlobalTemplateInterface $tpl,
-        \ilCtrl $ilCtrl,
-        \ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
+        ilCtrl $ilCtrl,
+        ilLanguage $lng,
         Factory $input_factory,
         Renderer $renderer,
         ServerRequest $request,
-        \ILIAS\Refinery\Factory $refinery_factory,
-        \ILIAS\Data\Factory $data_factory,
+        ILIAS\Refinery\Factory $refinery_factory,
+        ILIAS\Data\Factory $data_factory,
         ilStudyProgrammeTypeRepository $type_repository,
         ilStudyProgrammeCommonSettingsGUI $common_settings_gui,
         ilTabsGUI $tabs
@@ -126,19 +68,20 @@ class ilObjStudyProgrammeSettingsGUI
         $this->refinery_factory = $refinery_factory;
         $this->data_factory = $data_factory;
         $this->type_repository = $type_repository;
-        $this->object = null;
         $this->common_settings_gui = $common_settings_gui;
         $this->tabs = $tabs;
+
+        $this->object = null;
 
         $lng->loadLanguageModule("prg");
     }
 
-    public function setRefId($a_ref_id)
+    public function setRefId(int $ref_id) : void
     {
-        $this->ref_id = $a_ref_id;
+        $this->ref_id = $ref_id;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -161,7 +104,7 @@ class ilObjStudyProgrammeSettingsGUI
                         break;
                     default:
                         throw new ilException(
-                            "ilObjStudyProgrammeSettingsGUI: " . "Command not supported: $cmd"
+                            "ilObjStudyProgrammeSettingsGUI: Command not supported: $cmd"
                         );
                 }
         }
@@ -180,7 +123,7 @@ class ilObjStudyProgrammeSettingsGUI
         }
     }
 
-    protected function view()
+    protected function view() : string
     {
         $this->buildModalHeading($this->lng->txt('prg_async_settings'), isset($_GET["currentNode"]));
 
@@ -188,6 +131,9 @@ class ilObjStudyProgrammeSettingsGUI
         return $this->renderer->render($form);
     }
 
+    /**
+     * @return string|void
+     */
     protected function update()
     {
         $form = $this
@@ -196,12 +142,12 @@ class ilObjStudyProgrammeSettingsGUI
 
         $result = $form->getInputGroup()->getContent();
 
-        // This could further improved by providing a new container for asynch-forms in the
+        // This could further be improved by providing a new container for async-forms in the
         // UI-Framework.
 
         if ($result->isOK()) {
             $result->value()->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
 
             if ($this->ctrl->isAsynch()) {
                 $response = ilAsyncOutputHandler::encodeAsyncResponse(
@@ -214,7 +160,7 @@ class ilObjStudyProgrammeSettingsGUI
                 $this->ctrl->redirect($this);
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt("msg_form_save_error"));
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
 
             if ($this->ctrl->isAsynch()) {
                 $response = ilAsyncOutputHandler::encodeAsyncResponse(
@@ -229,7 +175,7 @@ class ilObjStudyProgrammeSettingsGUI
         }
     }
 
-    protected function buildModalHeading($label, $current_node)
+    protected function buildModalHeading(string $label, bool $current_node) : void
     {
         if (!$current_node) {
             $this->ctrl->saveParameterByClass('ilobjstudyprogrammesettingsgui', 'ref_id');
@@ -256,7 +202,7 @@ class ilObjStudyProgrammeSettingsGUI
     }
 
     protected function buildForm(
-        \ilObjStudyProgramme $prg,
+        ilObjStudyProgramme $prg,
         string $submit_action
     ) : ILIAS\UI\Component\Input\Container\Form\Form {
         $trans = $prg->getObjectTranslation();
@@ -300,31 +246,27 @@ class ilObjStudyProgrammeSettingsGUI
         array $sp_types,
         ilStudyProgrammeSettings $settings
     ) : array {
-        global $DIC;
-        $ilLng = $DIC->language();
-        $refinery = $DIC["refinery"];
-
         $return = [
             $this->getEditSection($ff, $trans),
             "prg_type" => $settings
                 ->getTypeSettings()
-                ->toFormInput($ff, $ilLng, $refinery, $sp_types)
+                ->toFormInput($ff, $this->lng, $this->refinery_factory, $sp_types)
             ,
             "prg_assessment" => $settings
                 ->getAssessmentSettings()
-                ->toFormInput($ff, $ilLng, $refinery)
+                ->toFormInput($ff, $this->lng, $this->refinery_factory)
             ,
             "prg_deadline" => $settings
                 ->getDeadlineSettings()
-                ->toFormInput($ff, $ilLng, $refinery, $this->data_factory)
+                ->toFormInput($ff, $this->lng, $this->refinery_factory, $this->data_factory)
             ,
             "prg_validity_of_qualification" => $settings
                 ->getValidityOfQualificationSettings()
-                ->toFormInput($ff, $ilLng, $refinery, $this->data_factory)
+                ->toFormInput($ff, $this->lng, $this->refinery_factory, $this->data_factory)
             ,
             "automail_settings" => $settings
                 ->getAutoMailSettings()
-                ->toFormInput($ff, $ilLng, $refinery)
+                ->toFormInput($ff, $this->lng, $this->refinery_factory)
         ];
 
         return $return;
@@ -333,7 +275,7 @@ class ilObjStudyProgrammeSettingsGUI
     protected function getEditSection(
         InputFieldFactory $ff,
         ilObjectTranslation $trans
-    ) {
+    ) : ILIAS\UI\Component\Input\Field\Section {
         $languages = ilMDLanguageItem::_getLanguages();
         return $ff->section(
             [

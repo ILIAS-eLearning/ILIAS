@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Button\Shy;
@@ -10,6 +8,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\MessageBox;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * Class ilObjStudyProgrammeAutoCategoriesGUI
@@ -31,60 +30,18 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
     const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    public $toolbar;
-
-    /**
-     * @var ilLng
-     */
-    public $lng;
-
-    /**
-     * @var int | null
-     */
-    public $prg_ref_id;
-
-    /**
-     * @var ilObjStudyProgramme | null
-     */
-    public $object;
-
-    /**
-     * @var MessageBox\Factory
-     */
-    protected $message_box_factory;
-
-    /**
-     * @var Button\Factory
-     */
-    protected $button_factory;
-
-    /**
-     * @var ILIAS\UI\Factory
-     */
-    public $ui_factory;
-
-    /**
-     * @var ILIAS\UI\Renderer
-     */
-    public $ui_renderer;
-
-    /**
-     * @var Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
+    public ilGlobalTemplateInterface $tpl;
+    public ilCtrl $ctrl;
+    public ilToolbarGUI $toolbar;
+    public ilLanguage $lng;
+    public ?int $prg_ref_id;
+    public ?ilObjStudyProgramme $object;
+    protected MessageBox\Factory $message_box_factory;
+    protected Button\Factory $button_factory;
+    public ILIAS\UI\Factory $ui_factory;
+    public ILIAS\UI\Renderer $ui_renderer;
+    protected Psr\Http\Message\ServerRequestInterface $request;
+    protected ilTree $tree;
 
 
     public function __construct(
@@ -111,14 +68,14 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $this->tree = $tree;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case "ilpropertyformgui":
-                $form = $this->getForm($this->creation_mode ? self::MODE_CREATE : self::MODE_EDIT);
+                $form = $this->getForm();
                 $this->ctrl->forwardCommand($form);
                 break;
             default:
@@ -137,8 +94,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                         $this->view(true);
                         break;
                     default:
-                        throw new ilException("ilObjStudyProgrammeAutoCategoriesGUI: " .
-                                              "Command not supported: $cmd");
+                        throw new ilException("ilObjStudyProgrammeAutoCategoriesGUI: Command not supported: $cmd");
                 }
         }
     }
@@ -146,10 +102,10 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Render.
      */
-    protected function view(bool $profile_not_public = false)
+    protected function view(bool $profile_not_public = false) : void
     {
         if ($profile_not_public) {
-            ilUtil::sendInfo($this->lng->txt('prg_profile_not_public'));
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt('prg_profile_not_public'));
         }
 
         $collected_modals = [];
@@ -197,7 +153,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Store data from (modal-)form.
      */
-    protected function save()
+    protected function save() : void
     {
         $form = $this->getForm();
         $form->setValuesByPost();
@@ -207,25 +163,23 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $current_ref_id = $form->getInput(self::F_CATEGORY_ORIGINAL_REF);
 
         if (ilObject::_lookupType((int) $cat_ref_id, true) !== 'cat') {
-            \ilUtil::sendFailure(sprintf($this->lng->txt('not_a_valid_cat_id'), $cat_ref_id), true);
+            $this->tpl->setOnScreenMessage(
+                "failure",
+                sprintf($this->lng->txt('not_a_valid_cat_id'), $cat_ref_id),
+                true
+            );
             return;
         }
 
-        if (
-            !is_null($current_ref_id) &&
-            $current_ref_id !== $cat_ref_id
-        ) {
+        if (!is_null($current_ref_id) && $current_ref_id !== $cat_ref_id) {
             $ids = [(int) $current_ref_id];
             $this->getObject()->deleteAutomaticContentCategories($ids);
         }
 
-
-        $this->getObject()->storeAutomaticContentCategory(
-            (int) $cat_ref_id
-        );
+        $this->getObject()->storeAutomaticContentCategory((int) $cat_ref_id);
     }
 
-    protected function deleteConfirmation()
+    protected function deleteConfirmation() : void
     {
         $get = $this->request->getQueryParams();
         $post = $this->request->getParsedBody();
@@ -234,6 +188,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $field_ids_in_get = array_key_exists($field, $get);
         $field_ids_in_post = array_key_exists($field, $post);
 
+        $msg = '';
         if ($field_ids_in_get) {
             $cat_ids = $get[$field];
             $msg = $this->lng->txt('prg_delete_single_confirmation');
@@ -241,7 +196,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $cat_ids = implode(' ', $post[$field]);
             $msg = $this->lng->txt('prg_delete_confirmation');
         } else {
-            ilUtil::sendInfo($this->lng->txt('prg_delete_nothing_selected'), true);
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt('prg_delete_nothing_selected'), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
         }
 
@@ -262,13 +217,13 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $this->tpl->setContent($this->ui_renderer->render($message_box));
     }
 
-    protected function delete()
+    protected function delete() : void
     {
         $field = self::CHECKBOX_CATEGORY_REF_IDS;
         $get = $this->request->getQueryParams();
 
         if (!array_key_exists($field, $get)) {
-            ilUtil::sendFailure($this->lng->txt('prg_delete_failure'), true);
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prg_delete_failure'), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
         }
 
@@ -283,61 +238,57 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $msg = $this->lng->txt('prg_delete_success');
         }
 
-        ilUtil::sendSuccess($msg, true);
+        $this->tpl->setOnScreenMessage("success", $msg, true);
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     /**
      * Set ref-id of StudyProgramme before using this GUI.
-     * @param int $prg_ref_id
      */
-    public function setRefId(int $prg_ref_id)
+    public function setRefId(int $prg_ref_id) : void
     {
         $this->prg_ref_id = $prg_ref_id;
     }
 
     /**
      * Get current StudyProgramme-object.
-     * @return ilObjStudyProgramme
      */
     protected function getObject() : ilObjStudyProgramme
     {
         if ($this->object === null ||
-            (int) $this->object->getRefId() !== $this->prg_ref_id
+            $this->object->getRefId() !== $this->prg_ref_id
         ) {
             $this->object = ilObjStudyProgramme::getInstanceByRefId($this->prg_ref_id);
         }
         return $this->object;
     }
 
-    protected function getModal($current_ref_id = null)
+    protected function getModal(int $current_ref_id = null) : RoundTrip
     {
         if (!is_null($current_ref_id)) {
-            $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $current_ref_id);
+            $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, (string) $current_ref_id);
         }
         $link = $this->ctrl->getLinkTarget($this, "getAsyncModalOutput", "", true);
         $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, null);
-        $modal = $this->ui_factory->modal()->roundtrip(
+        return $this->ui_factory->modal()->roundtrip(
             '',
             []
         )->withAsyncRenderUrl(
             $link
         );
-
-        return $modal;
     }
 
-    protected function getAsyncModalOutput()
+    protected function getAsyncModalOutput() : void
     {
         $current_ref_id = null;
         if (array_key_exists(self::CHECKBOX_CATEGORY_REF_IDS, $_GET)) {
-            $current_ref_id = $_GET[self::CHECKBOX_CATEGORY_REF_IDS];
+            $current_ref_id = (int) $_GET[self::CHECKBOX_CATEGORY_REF_IDS];
         }
         $form = $this->getForm($current_ref_id);
         $form_id = "form_" . $form->getId();
         $submit = $this->ui_factory->button()->primary($this->lng->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
-                return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+                return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
             }
         );
         $modal = $this->ui_factory->modal()->roundtrip(
@@ -349,7 +300,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         exit;
     }
 
-    protected function getForm($current_ref_id = null)
+    protected function getForm(?int $current_ref_id = null) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -384,7 +335,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Setup toolbar.
      */
-    protected function getToolbar(Signal $add_cat_signal)
+    protected function getToolbar(Signal $add_cat_signal) : void
     {
         $btn = $this->ui_factory->button()->primary($this->lng->txt('add_category'), '')
                                 ->withOnClick($add_cat_signal);
@@ -411,9 +362,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             ->shy($this->lng->txt('delete'), $link)
         ;
 
-        $dd = $this->ui_factory->dropdown()->standard($items);
-
-        return $dd;
+        return $this->ui_factory->dropdown()->standard($items);
     }
 
     protected function getUserRepresentation(int $usr_id) : Shy

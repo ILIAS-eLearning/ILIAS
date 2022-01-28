@@ -196,7 +196,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function handleFileUpload($a_data, $a_file_action)
     {
-        $path = ilUtil::ilTempnam();
+        $path = ilFileUtils::ilTempnam();
         $path_with_file = $path . '/' . $this->obj->getFileName();
         
         mkdir($path);
@@ -277,7 +277,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         if ($this->obj->getVersion() > 1) {
             $version_dir = $this->obj->getDirectory($this->obj->getVersion());
-            ilUtil::delDir($version_dir);
+            ilFileUtils::delDir($version_dir);
         } else {
             $this->obj->deleteVersions();
             $this->obj->delete();

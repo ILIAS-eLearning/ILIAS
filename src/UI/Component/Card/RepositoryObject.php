@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
@@ -14,56 +14,43 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
  */
 interface RepositoryObject extends Card
 {
-
     /**
      * Get a RepositoryObject card like this, but with an additional UI Icon representing the repository object type.
-     * @param Icon $icon
-     * @return RepositoryObject
      */
-    public function withObjectIcon(Icon $icon);
+    public function withObjectIcon(Icon $icon) : RepositoryObject;
 
     /**
      * Returns an UI Icon which represents the repository object type
-     * @return string|null
      */
-    public function getObjectIcon();
+    public function getObjectIcon() : ?Icon;
 
     /**
-     * Get a RepositoryObject card like this, but with an additional UI Progressmeter object
-     * @param ProgressMeter $progressmeter
-     * @return RepositoryObject
+     * Get a RepositoryObject card like this, but with an additional UI ProgressMeter object
      */
-    public function withProgress(ProgressMeter $progressmeter);
+    public function withProgress(ProgressMeter $progress_meter) : RepositoryObject;
 
     /**
-     * Get the progressmeter of the card
-     * @return ProgressMeter
+     * Get the ProgressMeter of the card
      */
-    public function getProgress();
+    public function getProgress() : ?ProgressMeter;
 
     /**
      * Get a RepositoryObject card like this, but with an additional certificate outlined icon
-     * @param bool $certificate_icon
-     * @return RepositoryObject
      */
-    public function withCertificateIcon($certificate_icon);
+    public function withCertificateIcon(bool $certificate_icon) : RepositoryObject;
 
     /**
      * Get the certificate icon
-     * @return bool
      */
-    public function getCertificateIcon();
+    public function getCertificateIcon() : ?bool;
 
     /**
      * Get a RepositoryObject card like this, but with an additional UI Dropdown object
-     * @param $dropdown Dropdown
-     * @return RepositoryObject
      */
-    public function withActions($dropdown);
+    public function withActions(Dropdown $dropdown) : RepositoryObject;
 
     /**
      * get the dropdown actions
-     * @return Dropdown
      */
-    public function getActions();
+    public function getActions() : ?Dropdown;
 }

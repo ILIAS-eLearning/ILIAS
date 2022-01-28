@@ -484,6 +484,8 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
+    abstract protected function doesExposeMembers(ilObject $object) : bool;
+
     public function showMyObjects() : void
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -499,23 +501,21 @@ abstract class ilMailSearchObjectGUI
         );
         $table->setId('search_' . $this->getObjectType() . '_tbl');
 
-        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), $this->getObjectType());
+        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), [$this->getObjectType()]);
         $counter = 0;
         $tableData = [];
         if ($objs_ids !== []) {
             $num_courses_hidden_members = 0;
             foreach ($objs_ids as $obj_id) {
-                /** @var $object ilObjCourse|ilObjGroup */
+                /** @var ilObjCourse|ilObjGroup $object */
                 $object = ilObjectFactory::getInstanceByObjId($obj_id);
 
-                $isOffline = !$object->isActivated();
-                $hasUntrashedReferences = ilObject::_hasUntrashedReference($object->getId());
-                $showMemberListEnabled = (bool) $object->getShowMembers();
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
-                $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $ref_id);
+                $object->setRefId($ref_id);
+                $showMemberListEnabled = (bool) $object->getShowMembers();
 
-                if ($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser)) {
+                if ($this->doesExposeMembers($object)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
@@ -533,7 +533,7 @@ abstract class ilMailSearchObjectGUI
                         $hiddenMembers = true;
                     }
 
-                    $path_arr = $this->tree->getPathFull($ref_id, $this->tree->getRootId());
+                    $path_arr = $this->tree->getPathFull($object->getRefId(), $this->tree->getRootId());
                     $path = '';
                     foreach ($path_arr as $data) {
                         if ($path !== '') {

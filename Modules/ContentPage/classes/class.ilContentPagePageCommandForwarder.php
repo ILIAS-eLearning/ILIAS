@@ -5,9 +5,6 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-/**
- * Class ilContentPagePageCommandForwarder
- */
 class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
     /**

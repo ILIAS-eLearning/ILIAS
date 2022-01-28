@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -26,49 +26,29 @@
 * Class for storing all rpc communication settings
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @package ilias
 */
 
-define("RPC_SERVER_PATH", "/RPC2");
-define("RPC_SERVER_ALIVE", true);
 
 class ilRPCServerSettings
 {
-    private static $instance = null;
-    
-    
-    public $rpc_host = '';
-    public $rpc_port = '';
+    public const RPC_SERVER_PATH = "/RPC2";
+    private static ?ilRPCServerSettings $instance = null;
 
-    public $log = null;
-    public $db = null;
+    public string $rpc_host = '';
+    public string $rpc_port = '';
 
-    public $settings_obj = null;
+    private ilLogger $log;
+    private ilSetting $settings;
 
-
-    /**
-     * Singleton contructor
-     * @return
-     */
     private function __construct()
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $ilias = $DIC['ilias'];
-
         $this->log = $DIC->logger()->wsrv();
-        $this->db = $ilDB;
-        $this->ilias = $ilias;
+        $this->settings = $DIC->settings();
     }
 
-    /**
-     * Get singelton instance
-     * @return object $ilRPCServerSettings
-     */
-    public static function getInstance()
+    public static function getInstance() : ilRPCServerSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -78,61 +58,53 @@ class ilRPCServerSettings
     
     /**
      * Returns true if server ip and port are set.
-     * @return bool
      */
-    public function isEnabled()
+    public function isEnabled() : bool
     {
         return strlen($this->getHost()) and strlen($this->getPort());
     }
     
-    public function getServerUrl()
+    public function getServerUrl() : string
     {
-        return 'http://' . $this->getHost() . ':' . $this->getPort() . '/' . RPC_SERVER_PATH;
+        return 'http://' . $this->getHost() . ':' . $this->getPort() . '/' . self::RPC_SERVER_PATH;
     }
     
 
-    public function getHost()
+    public function getHost() : string
     {
         if (strlen($this->rpc_host)) {
             return $this->rpc_host;
         }
-        return $this->rpc_host = $this->ilias->getSetting('rpc_server_host');
+        return $this->rpc_host = (string) $this->settings->get('rpc_server_host');
     }
-    public function setHost($a_host)
+    public function setHost($a_host) : void
     {
         $this->rpc_host = $a_host;
     }
-    public function getPort()
+    public function getPort() : string
     {
         if (strlen($this->rpc_port)) {
             return $this->rpc_port;
         }
-        return $this->rpc_port = $this->ilias->getSetting('rpc_server_port');
+        return $this->rpc_port = (string) $this->settings->get('rpc_server_port');
     }
-    public function setPort($a_port)
+    public function setPort(string $a_port) : void
     {
         $this->rpc_port = $a_port;
     }
-    public function getPath()
+    public function getPath() : string
     {
-        return RPC_SERVER_PATH;
+        return self::RPC_SERVER_PATH;
     }
 
-    public function update()
+    public function update() : void
     {
-        $this->ilias->setSetting('rpc_server_host', $this->getHost());
-        $this->ilias->setSetting('rpc_server_port', $this->getPort());
-        
-        return true;
+        $this->settings->set('rpc_server_host', $this->getHost());
+        $this->settings->set('rpc_server_port', $this->getPort());
     }
 
-    /**
-     * @return bool
-     */
-    public function pingServer()
+    public function pingServer() : bool
     {
-        include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-        
         try {
             ilRpcClientFactory::factory('RPCebug')->ping();
             return true;

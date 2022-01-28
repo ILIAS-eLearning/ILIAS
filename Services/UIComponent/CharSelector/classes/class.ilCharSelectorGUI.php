@@ -21,7 +21,9 @@ class ilCharSelectorGUI
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected stdClass $jsconfig;
+    protected stdClass $jstexts;
 
     /**
      * @static list of command classes for which the char selector is allowed
@@ -41,6 +43,9 @@ class ilCharSelectorGUI
         
     // selector is already added to the page
     private bool $added_to_page = false;
+
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     
     /**
      * @param string $a_context configuration context
@@ -48,14 +53,17 @@ class ilCharSelectorGUI
     public function __construct(
         string $a_context = ilCharSelectorConfig::CONTEXT_NONE
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $this->config = new ilCharSelectorConfig($a_context);
+        $this->refinery = $DIC->refinery();
+        $this->wrapper = $DIC->http()->wrapper();
     }
-    
+
     /**
      * Check if the CharSelector is allowed for the current GUI
      */
@@ -67,6 +75,7 @@ class ilCharSelectorGUI
         
         // get the command class
         // with correct case for checking parent classes
+        $class = false;
         foreach ($ilCtrl->getCallHistory() as $call) {
             if ($call['mode'] == 'execComm') {
                 $class = $call['class'];
@@ -209,9 +218,9 @@ class ilCharSelectorGUI
         $this->jsconfig = new stdClass();
         $this->jsconfig->pages = $this->config->getCharPages();
         $this->jsconfig->ajax_url = $ilCtrl->getLinkTargetByClass("ilcharselectorgui", "saveState", "", true);
-        $this->jsconfig->open = (int) $_SESSION['char_selector_open'];
-        $this->jsconfig->current_page = (int) $_SESSION['char_selector_current_page'];
-        $this->jsconfig->current_subpage = (int) $_SESSION['char_selector_current_subpage'];
+        $this->jsconfig->open = (int) ilSession::get('char_selector_open');
+        $this->jsconfig->current_page = (int) ilSession::get('char_selector_current_page');
+        $this->jsconfig->current_subpage = (int) ilSession::get('char_selector_current_subpage');
         
         // provide texts to be dynamically rendered in the js script
         $this->jstexts = new stdClass();
@@ -226,7 +235,7 @@ class ilCharSelectorGUI
         // The panel template is added as <script> to be not included in the DOM by default
         // It will be included by js below the main header when the selector is switched on
         $tpl->addCss(ilUtil::getStyleSheetLocation('', 'char_selector_style.css', 'Services/UIComponent/CharSelector'));
-        $tpl->addJavascript('./Services/UIComponent/CharSelector/js/ilCharSelector.js');
+        $tpl->addJavaScript('./Services/UIComponent/CharSelector/js/ilCharSelector.js');
         $tpl->addLightbox($this->getSelectorHTML(), 2);
         $tpl->addOnLoadCode('il.CharSelector.init(' . json_encode($this->jsconfig) . ',' . json_encode($this->jstexts) . ')');
         $this->added_to_page = true;
@@ -267,15 +276,25 @@ class ilCharSelectorGUI
      */
     public function saveState() : void
     {
-        $_SESSION['char_selector_open'] = (int) $_GET['open'];
-        $_SESSION['char_selector_current_page'] = (int) $_GET['current_page'];
-        $_SESSION['char_selector_current_subpage'] = (int) $_GET['current_subpage'];
-        
+        $int = $this->refinery->kindlyTo()->int();
+        ilSession::set(
+            'char_selector_open',
+            $this->wrapper->query()->retrieve("open", $int)
+        );
+        ilSession::set(
+            'char_selector_current_page',
+            $this->wrapper->query()->retrieve("current_page", $int)
+        );
+        ilSession::set(
+            'char_selector_current_subpage',
+            $this->wrapper->query()->retrieve("current_subpage", $int)
+        );
+
         // debugging output (normally ignored by the js part)
         echo json_encode(array(
-            'open' => $_SESSION['char_selector_open'],
-            'current_page' => $_SESSION['char_selector_current_page'],
-            'current_subpage' => $_SESSION['char_selector_current_subpage'],
+            'open' => ilSession::get('char_selector_open'),
+            'current_page' => ilSession::get('char_selector_current_page'),
+            'current_subpage' => ilSession::get('char_selector_current_subpage'),
         ));
         exit;
     }

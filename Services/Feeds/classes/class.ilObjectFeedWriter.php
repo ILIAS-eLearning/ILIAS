@@ -1,26 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Feed writer for objects.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjectFeedWriter extends ilFeedWriter
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ilSetting $settings;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public function __construct($a_ref_id, $a_userid = false, $a_purpose = false)
-    {
+    public function __construct(
+        int $a_ref_id,
+        ?int $a_userid = null,
+        bool $a_purpose = false
+    ) {
         global $DIC;
 
         $this->settings = $DIC->settings();
@@ -67,7 +74,7 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $feed_item->setTitle($lng->txt("mcst_media_cast_not_online"));
                 $feed_item->setDescription($lng->txt("mcst_media_cast_not_online_text"));
                 $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
-                    "&amp;target=" . $item["context_obj_type"]);
+                    "&amp;target=mcst_" . $a_ref_id);
                 $this->addItem($feed_item);
                 return;
             }
@@ -163,9 +170,10 @@ class ilObjectFeedWriter extends ilFeedWriter
                     }
                 }
                 
-                if ($go_on) {
+                if ($go_on && isset($mob)) {
                     $url = ilObjMediaObject::_lookupItemPath($item["mob_id"], true, true, $mob["purpose"]);
                     $file = ilObjMediaObject::_lookupItemPath($item["mob_id"], false, false, $mob["purpose"]);
+                    $size = 0;
                     if (is_file($file)) {
                         $size = filesize($file);
                     }

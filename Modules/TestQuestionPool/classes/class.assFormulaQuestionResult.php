@@ -327,7 +327,11 @@ class assFormulaQuestionResult
                     try {
                         $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
                     } catch (ilMathDivisionByZeroException $ex) {
-                        $frac_value = 0;
+                        if ($result) {
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
                     $frac_value = str_replace(',', '.', $frac_value);
 
@@ -353,7 +357,15 @@ class assFormulaQuestionResult
                     $frac_value = str_replace(',', '.', $value);
                 } elseif (substr_count($value, '/') == 1) {
                     $exp_val = explode('/', $value);
-                    $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                    try {
+                         $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                    } catch (ilMathDivisionByZeroException $ex) {
+                        if ($result) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
                 } else {
                     $frac_value = $value;
                 }

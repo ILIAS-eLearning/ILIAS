@@ -239,7 +239,7 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 

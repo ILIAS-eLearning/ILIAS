@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
@@ -12,13 +12,12 @@ use ILIAS\UI\Component as C;
  */
 class Factory implements C\Panel\Secondary\Factory
 {
-
     /**
      * @inheritdoc
      */
-    public function listing(string $title, array $items) : C\Panel\Secondary\Listing
+    public function listing(string $title, array $item_groups) : C\Panel\Secondary\Listing
     {
-        return new Listing($title, $items);
+        return new Listing($title, $item_groups);
     }
 
     /**

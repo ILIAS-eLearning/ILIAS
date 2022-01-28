@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Access handler for personal workspace
@@ -9,35 +20,19 @@
  */
 class ilWorkspaceAccessHandler
 {
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilRbacReview $rbacreview;
+    protected ilSetting $settings;
+    protected ilDBInterface $db;
     /**
-     * @var ilObjUser
+     * @var ilTree|ilWorkspaceTree|null
      */
-    protected $user;
+    protected ?ilTree $tree;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $tree; // [ilTree]
-
-    public function __construct(ilTree $a_tree = null)
-    {
+    public function __construct(
+        ilTree $a_tree = null
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -61,40 +56,32 @@ class ilWorkspaceAccessHandler
      *
      * @return ilWorkspaceTree
      */
-    public function getTree()
+    public function getTree() : ilTree
     {
         return $this->tree;
     }
 
-    /**
-     * check access for an object
-     *
-     * @param	string		$a_permission
-     * @param	string		$a_cmd
-     * @param	int			$a_node_id
-     * @param	string		$a_type (optional)
-     * @return	bool
-     */
-    public function checkAccess($a_permission, $a_cmd, $a_node_id, $a_type = "")
-    {
+    public function checkAccess(
+        string $a_permission,
+        string $a_cmd,
+        int $a_node_id,
+        string $a_type = ""
+    ) : bool {
         $ilUser = $this->user;
-
         return $this->checkAccessOfUser($this->tree, $ilUser->getId(), $a_permission, $a_cmd, $a_node_id, $a_type);
     }
 
     /**
      * check access for an object
-     *
-     * @param	ilTree		$a_tree
-     * @param	integer		$a_user_id
-     * @param	string		$a_permission
-     * @param	string		$a_cmd
-     * @param	int			$a_node_id
-     * @param	string		$a_type (optional)
-     * @return	bool
      */
-    public function checkAccessOfUser(ilTree $a_tree, $a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
-    {
+    public function checkAccessOfUser(
+        ilTree $a_tree,
+        int $a_user_id,
+        string $a_permission,
+        string $a_cmd,
+        int $a_node_id,
+        string $a_type = ""
+    ) : bool {
         $rbacreview = $this->rbacreview;
         $ilUser = $this->user;
         $ilSetting = $this->settings;
@@ -184,25 +171,20 @@ class ilWorkspaceAccessHandler
 
     /**
      * Set permissions after creating node/object
-     *
-     * @param int $a_parent_node_id
-     * @param int $a_node_id
      */
-    public function setPermissions($a_parent_node_id, $a_node_id)
+    public function setPermissions(int $a_parent_node_id, int $a_node_id) : void
     {
         // nothing to do as owner has irrefutable rights to any workspace object
     }
 
     /**
      * Add permission to node for object
-     *
-     * @param int $a_node_id
-     * @param int $a_object_id
-     * @param string $a_extended_data
-     * @return bool
      */
-    public function addPermission($a_node_id, $a_object_id, $a_extended_data = null)
-    {
+    public function addPermission(
+        int $a_node_id,
+        int $a_object_id,
+        string $a_extended_data = null
+    ) : bool {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
@@ -222,12 +204,11 @@ class ilWorkspaceAccessHandler
 
     /**
      * Remove permission[s] (for object) to node
-     *
-     * @param int $a_node_id
-     * @param int $a_object_id
      */
-    public function removePermission($a_node_id, $a_object_id = null)
-    {
+    public function removePermission(
+        int $a_node_id,
+        int $a_object_id = null
+    ) : int {
         $ilDB = $this->db;
         
         $query = "DELETE FROM acl_ws" .
@@ -241,23 +222,19 @@ class ilWorkspaceAccessHandler
     }
 
     /**
-     * Get all permissions to node
-     *
+     * Get all permissions of node
      * @param int $a_node_id
      * @return array
      */
-    public function getPermissions($a_node_id)
+    public function getPermissions(int $a_node_id) : array
     {
         return self::_getPermissions($a_node_id);
     }
     
     /**
      * Get all permissions to node
-     *
-     * @param int $a_node_id
-     * @return array
      */
-    public static function _getPermissions($a_node_id)
+    public static function _getPermissions(int $a_node_id) : array
     {
         global $DIC;
 
@@ -279,7 +256,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
     
-    public function hasRegisteredPermission($a_node_id)
+    public function hasRegisteredPermission(int $a_node_id) : bool
     {
         $ilDB = $this->db;
 
@@ -289,7 +266,7 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
     
-    public function hasGlobalPermission($a_node_id)
+    public function hasGlobalPermission(int $a_node_id) : bool
     {
         $ilDB = $this->db;
         $ilSetting = $this->settings;
@@ -304,7 +281,7 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
     
-    public function hasGlobalPasswordPermission($a_node_id)
+    public function hasGlobalPasswordPermission(int $a_node_id) : bool
     {
         $ilDB = $this->db;
         $ilSetting = $this->settings;
@@ -319,15 +296,15 @@ class ilWorkspaceAccessHandler
         return (bool) $ilDB->numRows($set);
     }
     
-    public static function getPossibleSharedTargets()
+    public static function getPossibleSharedTargets() : array
     {
         global $DIC;
 
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         
-        $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
-        $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
+        $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
+        $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
         
         $obj_ids = array_merge($grp_ids, $crs_ids);
         $obj_ids[] = $ilUser->getId();
@@ -341,7 +318,7 @@ class ilWorkspaceAccessHandler
         return $obj_ids;
     }
     
-    public function getSharedOwners()
+    public function getSharedOwners() : array
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -368,7 +345,7 @@ class ilWorkspaceAccessHandler
         return $user_ids;
     }
     
-    public function getSharedObjects($a_owner_id)
+    public function getSharedObjects(int $a_owner_id) : array
     {
         $ilDB = $this->db;
         
@@ -389,11 +366,14 @@ class ilWorkspaceAccessHandler
         return $res;
     }
     
-    public function findSharedObjects(array $a_filter = null, array $a_crs_ids = null, array $a_grp_ids = null)
-    {
+    public function findSharedObjects(
+        array $a_filter = null,
+        array $a_crs_ids = null,
+        array $a_grp_ids = null
+    ) : array {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+        $obj_ids = [];
         if (!$a_filter["acl_type"]) {
             $obj_ids = $this->getPossibleSharedTargets();
         } else {
@@ -452,7 +432,7 @@ class ilWorkspaceAccessHandler
                 $usr_ids[] = $row["usr_id"];
             }
             if (!sizeof($usr_ids)) {
-                return;
+                return [];
             }
             $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer");
         }
@@ -467,7 +447,7 @@ class ilWorkspaceAccessHandler
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
             if (!sizeof($part)) {
-                return;
+                return [];
             }
             $sql .= " AND " . $ilDB->in("obj.owner", $part, "", "integer");
         }
@@ -488,7 +468,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
     
-    public static function getSharedNodePassword($a_node_id)
+    public static function getSharedNodePassword(int $a_node_id) : string
     {
         global $DIC;
 
@@ -501,24 +481,25 @@ class ilWorkspaceAccessHandler
         if ($res) {
             return $res["extended_data"];
         }
+        return "";
     }
     
-    public static function keepSharedSessionPassword($a_node_id, $a_password)
+    public static function keepSharedSessionPassword(int $a_node_id, string $a_password) : void
     {
-        $_SESSION["ilshpw_" . $a_node_id] = $a_password;
+        ilSession::set("ilshpw_" . $a_node_id, $a_password);
     }
     
-    public static function getSharedSessionPassword($a_node_id)
+    public static function getSharedSessionPassword(int $a_node_id) : string
     {
-        return $_SESSION["ilshpw_" . $a_node_id];
+        return ilSession::get("ilshpw_" . $a_node_id);
     }
     
-    public static function getGotoLink($a_node_id, $a_obj_id, $a_additional = null)
+    public static function getGotoLink(int $a_node_id, int $a_obj_id, string $a_additional = "") : string
     {
         return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional . "_wsp");
     }
     
-    public function getObjectsIShare()
+    public function getObjectsIShare() : array
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -537,7 +518,7 @@ class ilWorkspaceAccessHandler
         return $res;
     }
         
-    public static function getObjectDataFromNode($a_node_id)
+    public static function getObjectDataFromNode(int $a_node_id) : ?array
     {
         global $DIC;
 

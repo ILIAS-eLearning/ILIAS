@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Popover;
 
-use \ILIAS\UI\Component;
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
@@ -11,33 +11,29 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component\Popover
  */
-class Standard extends Popover implements Component\Popover\Standard
+class Standard extends Popover implements C\Popover\Standard
 {
-
     /**
-     * @var Component\Component[]
+     * @var C\Component[]
      */
-    protected $content;
-
+    protected array $content;
 
     /**
-     * @param Component\Component|Component\Component[] $content
-     * @param SignalGeneratorInterface                  $signal_generator
+     * @param C\Component|C\Component[] $content
      */
     public function __construct($content, SignalGeneratorInterface $signal_generator)
     {
         parent::__construct($signal_generator);
         $content = $this->toArray($content);
-        $types = array( Component\Component::class );
+        $types = array(C\Component::class );
         $this->checkArgListElements('content', $content, $types);
         $this->content = $content;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getContent()
+    public function getContent() : array
     {
         return $this->content;
     }

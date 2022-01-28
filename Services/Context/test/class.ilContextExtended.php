@@ -11,12 +11,7 @@
  */
 class ilContextExtended extends ilContext
 {
-    /**
-     * Get context className
-     *
-     * @return int
-     */
-    public static function getClassName()
+    public static function getClassName() : string
     {
         return self::$class_name;
     }

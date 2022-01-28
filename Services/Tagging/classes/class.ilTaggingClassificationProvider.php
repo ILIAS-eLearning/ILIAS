@@ -43,7 +43,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $this->requested_tag_code = trim($body["tag"] ?? ($params["tag"] ?? ""));
     }
 
-    protected function init()
+    protected function init() : void
     {
         $tags_set = new ilSetting("tags");
         $this->enable_all_users = (bool) $tags_set->get("enable_all_users", false);
@@ -53,10 +53,10 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
      * @inheritDoc
      */
     public static function isActive(
-        $a_parent_ref_id,
-        $a_parent_obj_id,
-        $a_parent_obj_type
-    ) {
+        int $a_parent_ref_id,
+        int $a_parent_obj_id,
+        string $a_parent_obj_type
+    ) : bool {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -85,8 +85,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
      */
     public function render(
         array &$a_html,
-        $a_parent_gui
-    ) {
+        object $a_parent_gui
+    ) : void {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         
@@ -142,7 +142,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function importPostData($a_saved = null)
+    public function importPostData(?array $a_saved = null) : array
     {
         $type = $this->requested_type;
         $tag_code = $this->requested_tag_code;
@@ -178,7 +178,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection($a_value)
+    public function setSelection(array $a_value) : void
     {
         $this->selection = $a_value;
     }

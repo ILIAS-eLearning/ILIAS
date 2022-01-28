@@ -12,12 +12,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
-    /**
-     * Joins user to chatroom with custom username, fetched from
-     * $_REQUEST['custom_username_text'] or by calling buld method.
-     * If sucessful, $this->showRoom method is called, otherwise
-     * $this->showNameSelection.
-     */
     public function joinWithCustomName() : void
     {
         $this->redirectIfNoPermission('read');
@@ -117,7 +111,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
 
-        $connection_info = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
         $settings = $connector->getSettings();
         $known_private_room = $room->getActivePrivateRooms($this->ilUser->getId());
 
@@ -442,7 +435,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->setupTemplate();
 
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
             exit;
         }
@@ -472,13 +465,15 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     public function invitePD() : void
     {
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
 
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $user_id = $_REQUEST['usr_id'];
+
+        $user_id = $this->getRequestValue('usr_id', $this->refinery->kindlyTo()->int());
+        
         $connector = $this->gui->getConnector();
         $title = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
         $subRoomId = $room->addPrivateRoom($title, $chat_user, ['public' => false]);
@@ -489,9 +484,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $room->sendInvitationNotification($this->gui, $chat_user, $user_id, $subRoomId);
 
-        $_REQUEST['sub'] = $subRoomId;
-
-        $_SESSION['show_invitation_message'] = $user_id;
+        ilSession::set('show_invitation_message', $user_id);
 
         $this->ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
         $this->ilCtrl->redirect($this->gui, 'view');

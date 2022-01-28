@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -13,11 +13,8 @@ use ILIAS\UI\Component\Component;
  */
 interface Month extends Component, JavaScriptBindable
 {
-
     /**
      * Get the default value of the button
-     *
-     * @return	string
      */
-    public function getDefault();
+    public function getDefault() : string;
 }

@@ -209,7 +209,6 @@ class ilLOSettings
             return $row->obj_id;
         }
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         return ilLOTestAssignments::lookupContainerForTest($a_trst_ref_id);
     }
     
@@ -221,7 +220,6 @@ class ilLOSettings
      */
     public static function cloneSettings($a_copy_id, $a_container_id, $a_new_container_id)
     {
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
         
@@ -379,7 +377,6 @@ class ilLOSettings
     public function isRandomTestType($a_type)
     {
         $tst = $this->getTestByType($a_type);
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst));
     }
     

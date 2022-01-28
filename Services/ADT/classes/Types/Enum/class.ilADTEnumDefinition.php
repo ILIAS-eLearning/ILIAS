@@ -1,44 +1,42 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTEnumDefinition extends ilADTDefinition
 {
-    protected $options = []; // [array]
-    protected $numeric; // [bool]
-    
-    public function getType()
+    protected array $options = [];
+    protected bool $numeric; // [bool]
+
+    public function getType() : string
     {
         return "Enum";
     }
-    
-    
+
     // default
-    
-    public function reset()
+
+    public function reset() : void
     {
         parent::reset();
-        
+
         $this->options = array();
         $this->setNumeric(true);
     }
-    
-    
+
     // properties
-        
-    public function isNumeric()
+
+    public function isNumeric() : bool
     {
         return $this->numeric;
     }
-    
-    public function setNumeric($a_value)
+
+    public function setNumeric(bool $a_value) : void
     {
         $this->numeric = $a_value;
     }
-    
+
     public function getOptions()
     {
         return $this->options;
     }
-    
+
     public function setOptions(array $a_values)
     {
         if ($this->isNumeric()) {
@@ -48,22 +46,20 @@ class ilADTEnumDefinition extends ilADTDefinition
                 }
             }
         }
-        
+
         $this->options = $a_values;
     }
 
-    
     // comparison
-        
-    public function isComparableTo(ilADT $a_adt)
+
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be enum-based
         return ($a_adt instanceof ilADTEnum);
     }
-    
-    
+
     // ADT instance
-    
+
     public function getADTInstance()
     {
         if ($this->isNumeric()) {
@@ -71,6 +67,6 @@ class ilADTEnumDefinition extends ilADTDefinition
         } else {
             $class = "ilADTEnumText";
         }
-                        return new $class($this);
+        return new $class($this);
     }
 }

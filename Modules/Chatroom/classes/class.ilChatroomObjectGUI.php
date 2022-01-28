@@ -56,7 +56,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         $this->prepareOutput();
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if (
             $this->http->wrapper()->query()->has('admin_mode') &&

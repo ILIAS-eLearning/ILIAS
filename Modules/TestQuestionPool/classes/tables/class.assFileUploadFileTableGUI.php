@@ -102,12 +102,11 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

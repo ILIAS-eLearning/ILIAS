@@ -2,17 +2,17 @@
 
 /**
  * Class ilBiblFileReaderFactory
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblFileReaderFactory implements ilBiblFileReaderFactoryInterface
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function getByType($type, ilBiblEntryFactoryInterface $entry_factory, ilBiblFieldFactoryInterface $field_factory, ilBiblAttributeFactoryInterface $attribute_factory)
-    {
+    
+    public function getByType(
+        int $type,
+        ilBiblEntryFactoryInterface $entry_factory,
+        ilBiblFieldFactoryInterface $field_factory,
+        ilBiblAttributeFactoryInterface $attribute_factory
+    ) : ilBiblFileReaderInterface {
         switch ($type) {
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 return new ilBiblTexFileReader($entry_factory, $field_factory, $attribute_factory);

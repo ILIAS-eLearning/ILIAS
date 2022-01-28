@@ -13,22 +13,6 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
      */
     protected $obj_orgu;
     /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
      * @var
      */
     protected $parent_gui;

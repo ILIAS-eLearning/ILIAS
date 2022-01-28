@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Both role and OrgU-based permissions are relevant in many places of the PRG.
@@ -32,25 +32,15 @@ class ilPRGPermissionsHelper
         'rp_manage_members' => 'manage_members'
     ];
 
-    /**
-      * @var ilAccess
-      */
-    protected $access;
-
-    /**
-      * @var ilOrgUnitPositionAccess
-      */
-    protected $orgu_access;
-
-    /**
-      * @var ilObjStudyProgramme
-      */
-    protected $programme;
+    protected ilAccess $access;
+    protected ilOrgUnitPositionAccess $orgu_access;
+    protected ilObjStudyProgramme $programme;
+    protected array $cache = [];
 
     /**
       * @var array <mixed, array>
       */
-    protected $user_id_cache;
+    protected array $user_id_cache;
 
     public function __construct(
         ilAccess $access,
@@ -92,7 +82,7 @@ class ilPRGPermissionsHelper
     }
 
     /**
-     * return int[]
+     * @return int[]
      */
     public function getUserIdsSusceptibleTo(string $operation) : array
     {
@@ -137,7 +127,7 @@ class ilPRGPermissionsHelper
         );
 
         if (!in_array($operation, $valid)) {
-            throw new \ilException('prg does not provide this permission: ' . $operation);
+            throw new ilException('prg does not provide this permission: ' . $operation);
         }
     }
 
@@ -170,6 +160,6 @@ class ilPRGPermissionsHelper
 
     protected function getProgrammeRefId() : int
     {
-        return (int) $this->programme->getRefId();
+        return $this->programme->getRefId();
     }
 }

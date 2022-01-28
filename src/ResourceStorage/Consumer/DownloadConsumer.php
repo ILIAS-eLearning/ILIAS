@@ -4,6 +4,19 @@ namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\HTTP\Response\ResponseHeader;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class DownloadConsumer
  * @package ILIAS\ResourceStorage\Consumer
@@ -19,7 +32,7 @@ class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
 
         $file_name = $this->file_name_policy->prepareFileNameForConsumer($this->file_name ?? $revision->getInformation()->getTitle());
         $mime_type = $revision->getInformation()->getMimeType();
-
+        /** @noRector */
         $response = $DIC->http()->response();
         if ($this->file_name_policy->isValidExtension($revision->getInformation()->getSuffix())) {
             $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);

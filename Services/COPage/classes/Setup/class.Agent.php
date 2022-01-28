@@ -18,7 +18,6 @@ namespace ILIAS\COPage\Setup;
 use ILIAS\Setup;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class Agent extends Setup\Agent\NullAgent

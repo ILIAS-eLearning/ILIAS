@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
 * Class ilStudyProgrammeAutoMembershipSource
@@ -21,36 +19,12 @@ class ilStudyProgrammeAutoMembershipSource
         self::TYPE_ORGU => ilStudyProgrammeAssignment::AUTO_ASSIGNED_BY_ORGU
     ];
 
-
-    /**
-     * @var int
-     */
-    protected $prg_obj_id;
-
-    /**
-     * @var string 	one of the TYPE_-constants
-     */
-    protected $source_type;
-
-    /**
-     * @var int
-     */
-    protected $source_id;
-
-    /**
-     * @var bool
-     */
-    protected $enabled;
-
-    /**
-     * @var int
-     */
-    protected $last_edited_usr_id;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected $last_edited;
+    protected int $prg_obj_id;
+    protected string $source_type;
+    protected int $source_id;
+    protected bool $enabled;
+    protected int $last_edited_usr_id;
+    protected DateTimeImmutable $last_edited;
 
     public function __construct(
         int $prg_obj_id,
@@ -58,7 +32,7 @@ class ilStudyProgrammeAutoMembershipSource
         int $source_id,
         bool $enabled,
         int $last_edited_usr_id,
-        \DateTimeImmutable $last_edited
+        DateTimeImmutable $last_edited
     ) {
         if (!in_array($source_type, [
             self::TYPE_ROLE,
@@ -66,7 +40,7 @@ class ilStudyProgrammeAutoMembershipSource
             self::TYPE_COURSE,
             self::TYPE_ORGU
         ])) {
-            throw new \InvalidArgumentException("Invalid source-type: " . $source_type, 1);
+            throw new InvalidArgumentException("Invalid source-type: " . $source_type, 1);
         }
 
         $this->prg_obj_id = $prg_obj_id;
@@ -102,7 +76,7 @@ class ilStudyProgrammeAutoMembershipSource
         return $this->last_edited_usr_id;
     }
 
-    public function getLastEdited() : \DateTimeImmutable
+    public function getLastEdited() : DateTimeImmutable
     {
         return $this->last_edited;
     }

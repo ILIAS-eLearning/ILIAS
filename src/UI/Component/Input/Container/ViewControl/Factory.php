@@ -19,7 +19,6 @@ interface Factory
      *      The View Control Container is responsible for aligning request-parameters for all contained View Controls
      *      as well as receiving and distributing values accordingly.
      * ---
-     *
      * @param array<string,\ILIAS\UI\Component\Input\ViewControl\ViewControl> $controls
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Standard
      */

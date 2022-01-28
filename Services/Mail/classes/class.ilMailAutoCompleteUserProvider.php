@@ -7,11 +7,6 @@
  */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
-    public function __construct(string $quoted_term, string $term)
-    {
-        parent::__construct($quoted_term, $term);
-    }
-
     /**
      * @return array{login: string, firstname: string, lastname:string}
      */
@@ -54,19 +49,19 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $fields = [
             'login',
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) " .
+                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
                 "THEN firstname ELSE '' END) firstname",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) " .
+                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
                 "THEN lastname ELSE '' END) lastname",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN ((profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) " .
+                "(CASE WHEN ((profpref.value = %s OR profpref.value = %s) " .
                 "AND pubemail.value = %s) THEN email ELSE '' END) email",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text'),

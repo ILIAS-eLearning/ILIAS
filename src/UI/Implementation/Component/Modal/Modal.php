@@ -1,8 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
-use ILIAS\UI\Component as Component;
+use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Onloadable;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -13,39 +15,18 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-abstract class Modal implements Component\Modal\Modal
+abstract class Modal implements M\Modal
 {
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
+    protected SignalGeneratorInterface $signal_generator;
+    protected Signal $show_signal;
+    protected Signal $close_signal;
+    protected string $async_render_url = '';
+    protected bool $close_with_keyboard = true;
 
-    /**
-     * @var Signal
-     */
-    protected $show_signal;
-
-    /**
-     * @var Signal
-     */
-    protected $close_signal;
-    /**
-     * @var string
-     */
-    protected $async_render_url = '';
-
-    /**
-     * @var bool
-     */
-    protected $close_with_keyboard = true;
-
-    /**
-     * @param SignalGeneratorInterface $signal_generator
-     */
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
         $this->signal_generator = $signal_generator;
@@ -55,7 +36,7 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function getAsyncRenderUrl()
+    public function getAsyncRenderUrl() : string
     {
         return $this->async_render_url;
     }
@@ -63,9 +44,8 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function withAsyncRenderUrl($url)
+    public function withAsyncRenderUrl(string $url) : M\Modal
     {
-        $this->checkStringArg('url', $url);
         $clone = clone $this;
         $clone->async_render_url = $url;
         return $clone;
@@ -74,26 +54,25 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function withCloseWithKeyboard($state)
+    public function withCloseWithKeyboard(bool $state) : M\Modal
     {
         $clone = clone $this;
-        $clone->close_with_keyboard = (bool) $state;
+        $clone->close_with_keyboard = $state;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getCloseWithKeyboard()
+    public function getCloseWithKeyboard() : bool
     {
         return $this->close_with_keyboard;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getShowSignal()
+    public function getShowSignal() : Signal
     {
         return $this->show_signal;
     }
@@ -101,7 +80,7 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function getCloseSignal()
+    public function getCloseSignal() : Signal
     {
         return $this->close_signal;
     }
@@ -109,7 +88,7 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function withResetSignals()
+    public function withResetSignals() : Modal
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -119,7 +98,7 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function withOnLoad(Signal $signal)
+    public function withOnLoad(Signal $signal) : Onloadable
     {
         return $this->withTriggeredSignal($signal, 'ready');
     }
@@ -127,16 +106,15 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * @inheritdoc
      */
-    public function appendOnLoad(Signal $signal)
+    public function appendOnLoad(Signal $signal) : Onloadable
     {
         return $this->appendTriggeredSignal($signal, 'ready');
     }
 
-
     /**
      * Set the show and close signals for this modal
      */
-    public function initSignals()
+    public function initSignals() : void
     {
         $this->show_signal = $this->signal_generator->create();
         $this->close_signal = $this->signal_generator->create();

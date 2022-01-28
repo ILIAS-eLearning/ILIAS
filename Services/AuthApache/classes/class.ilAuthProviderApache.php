@@ -6,7 +6,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
+class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
     public const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
     public const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
@@ -27,17 +27,17 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         return $this->settings;
     }
 
-    public function doAuthentication(ilAuthStatus $status)
+    public function doAuthentication(ilAuthStatus $status) : bool
     {
-        if (!$this->getSettings()->get('apache_enable_auth')) {
+        if (!$this->getSettings()->get('apache_enable_auth', '0')) {
             $this->getLogger()->info('Apache auth disabled.');
             $this->handleAuthenticationFail($status, 'apache_auth_err_disabled');
             return false;
         }
 
         if (
-            !$this->getSettings()->get('apache_auth_indicator_name') ||
-            !$this->getSettings()->get('apache_auth_indicator_value')
+            !$this->getSettings()->get('apache_auth_indicator_name', '') ||
+            !$this->getSettings()->get('apache_auth_indicator_value', '')
         ) {
             $this->getLogger()->warning('Apache auth indicator match failure.');
             $this->handleAuthenticationFail($status, 'apache_auth_err_indicator_match_failure');
@@ -46,9 +46,9 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
 
         $validIndicatorValues = array_filter(array_map(
             'trim',
-            str_getcsv($this->getSettings()->get('apache_auth_indicator_value'))
+            str_getcsv($this->getSettings()->get('apache_auth_indicator_value', ''))
         ));
-        if (!in_array($_SERVER[$this->getSettings()->get('apache_auth_indicator_name')], $validIndicatorValues)) {
+        if (!in_array($_SERVER[$this->getSettings()->get('apache_auth_indicator_name', '')], $validIndicatorValues, true)) {
             $this->getLogger()->warning('Apache authentication failed (indicator name <-> value');
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
@@ -67,7 +67,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         }
 
         // Apache with ldap as data source
-        if ($this->getSettings()->get('apache_enable_ldap')) {
+        if ($this->getSettings()->get('apache_enable_ldap', '0')) {
             return $this->handleLDAPDataSource($status);
         }
 
@@ -84,23 +84,23 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         return true;
     }
 
-    public function migrateAccount(ilAuthStatus $status)
+    public function migrateAccount(ilAuthStatus $status) : void
     {
         $this->force_new_account = true;
-        if ($this->getSettings()->get('apache_enable_ldap')) {
-            return $this->handleLDAPDataSource($status);
+        if ($this->getSettings()->get('apache_enable_ldap', '0')) {
+            $this->handleLDAPDataSource($status);
         }
     }
 
-    public function createNewAccount(ilAuthStatus $status)
+    public function createNewAccount(ilAuthStatus $status) : void
     {
         $this->force_new_account = true;
-        if ($this->getSettings()->get('apache_enable_ldap')) {
-            return $this->handleLDAPDataSource($status);
+        if ($this->getSettings()->get('apache_enable_ldap', '0')) {
+            $this->handleLDAPDataSource($status);
         }
     }
 
-    public function getExternalAccountName()
+    public function getExternalAccountName() : string
     {
         return $this->migration_account;
     }
@@ -110,15 +110,15 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         $this->migration_account = $name;
     }
 
-    public function getTriggerAuthMode()
+    public function getTriggerAuthMode() : string
     {
-        return AUTH_APACHE;
+        return (string) AUTH_APACHE;
     }
 
-    public function getUserAuthModeName()
+    public function getUserAuthModeName() : string
     {
-        if ($this->getSettings()->get('apache_ldap_sid')) {
-            return 'ldap_' . (string) $this->getSettings()->get('apache_ldap_sid');
+        if ($this->getSettings()->get('apache_ldap_sid', '0')) {
+            return 'ldap_' . $this->getSettings()->get('apache_ldap_sid', '');
         }
 
         return 'apache';
@@ -127,14 +127,14 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
     protected function handleLDAPDataSource(ilAuthStatus $status) : bool
     {
         $server = ilLDAPServer::getInstanceByServerId(
-            $this->getSettings()->get('apache_ldap_sid')
+            (int) $this->getSettings()->get('apache_ldap_sid', '0')
         );
 
         $this->getLogger()->debug('Using ldap data source with server configuration: ' . $server->getName());
 
         $sync = new ilLDAPUserSynchronisation('ldap_' . $server->getServerId(), $server->getServerId());
         $sync->setExternalAccount($this->getCredentials()->getUsername());
-        $sync->setUserData(array());
+        $sync->setUserData([]);
         $sync->forceCreation($this->force_new_account);
         $sync->forceReadLdapData(true);
 

@@ -21,7 +21,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     const FORM_RE_EDIT = 2;
     const FORM_RE_CREATE = 2;
 
-    protected $gui_object;
     protected $form_edit_mode;
 
     /**
@@ -91,7 +90,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
@@ -126,36 +125,11 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         $this->setTitle($this->feed_block->getTitle());
         $this->setBlockId($this->feed_block->getId());
         
-        // get feed object
-        $this->feed = new ilExternalFeed();
-        $this->feed->setUrl($this->feed_block->getFeedUrl());
-        
         // init details
 
         $ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
     }
 
-
-
-    /**
-     * Set GuiObject.
-     *
-     * @param	object	$a_gui_object	GUI object
-     */
-    public function setGuiObject(&$a_gui_object)
-    {
-        $this->gui_object = $a_gui_object;
-    }
-
-    /**
-     * Get GuiObject.
-     *
-     * @return	object	GUI object
-     */
-    public function getGuiObject()
-    {
-        return $this->gui_object;
-    }
 
     /**
      * Set FormEditMode.
@@ -291,7 +265,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Fill data section
     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         if ($this->getDynamic()) {
             $this->setDataSection($this->getDynamicReload());
@@ -305,7 +279,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Get block HTML code.
     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -321,10 +295,9 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         
         // if no dynamic reload
         if (!$this->getDynamic()) {
-            $this->feed->fetch();
             $this->setData(array_map(function ($i) {
                 return ["item" => $i];
-            }, $this->feed->getItems()));
+            }, []));
         }
 
         //$this->setTitle($this->feed->getChannelTitle());
@@ -364,18 +337,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         $ilUser = $this->user;
 
         // @todo
-        return false;
-
-        if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS") {
-            if ($_SESSION["il_feed_js"] != "n" &&
-                ($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y")) {
-                // do not get feed dynamically, if cache hit is given.
-                if (!$this->feed->checkCacheHit()) {
-                    return true;
-                }
-            }
-        }
-        
         return false;
     }
 
@@ -453,17 +414,17 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Fill feed item row
     */
-    public function fillRow($item)
+    public function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
 
         if ($this->isRepositoryObject() && !$ilAccess->checkAccess("read", "", $this->getRefId())) {
-            $this->tpl->setVariable("TXT_TITLE", $item->getTitle());
+            $this->tpl->setVariable("TXT_TITLE", $a_set->getTitle());
         } else {
-            $ilCtrl->setParameter($this, "feed_item_id", $item->getId());
+            $ilCtrl->setParameter($this, "feed_item_id", $a_set->getId());
             $this->tpl->setCurrentBlock("feed_link");
-            $this->tpl->setVariable("VAL_TITLE", $item->getTitle());
+            $this->tpl->setVariable("VAL_TITLE", $a_set->getTitle());
             $this->tpl->setVariable(
                 "HREF_SHOW",
                 $ilCtrl->getLinkTarget($this, "showFeedItem")
@@ -486,54 +447,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         return '<div class="small">' . ((int) count($this->getData())) . " " . $lng->txt("feed_feed_items") . "</div>";
     }
 
-    /**
-    * Show Feed Item
-    */
-    public function showFeedItem()
-    {
-        $lng = $this->lng;
 
-        $this->feed->fetch();
-        foreach ($this->feed->getItems() as $item) {
-            if ($item->getId() == $_GET["feed_item_id"]) {
-                $c_item = $item;
-                break;
-            }
-        }
-        
-        $tpl = new ilTemplate("tpl.show_feed_item.html", true, true, "Services/Feeds");
-        
-        if (is_object($c_item)) {
-            if (trim($c_item->getSummary()) != "") {		// summary
-                $tpl->setCurrentBlock("content");
-                $tpl->setVariable("VAL_CONTENT", $c_item->getSummary());
-                $tpl->parseCurrentBlock();
-            }
-            if (trim($c_item->getDate()) != "" || trim($c_item->getAuthor()) != "") {		// date
-                $tpl->setCurrentBlock("date_author");
-                if (trim($c_item->getAuthor()) != "") {
-                    $tpl->setVariable("VAL_AUTHOR", $c_item->getAuthor() . " - ");
-                }
-                $tpl->setVariable("VAL_DATE", $c_item->getDate());
-                $tpl->parseCurrentBlock();
-            }
-
-            if (trim($c_item->getLink()) != "") {		// link
-                $tpl->setCurrentBlock("plink");
-                $tpl->setVariable("HREF_LINK", $c_item->getLink());
-                $tpl->setVariable("TXT_LINK", $lng->txt("feed_open_source_page"));
-                $tpl->parseCurrentBlock();
-            }
-            $tpl->setVariable("VAL_TITLE", $c_item->getTitle());			// title
-        }
-        
-        $content_block = new ilDashboardContentBlockGUI();
-        $content_block->setContent($tpl->get());
-        $content_block->setTitle($this->getTitle());
-
-        return $content_block->getHTML();
-    }
-    
     /**
     * Create Form for Block.
     */

@@ -61,6 +61,7 @@ class ilLearningProgress
         
         include_once './Services/Calendar/classes/class.ilDateTime.php';
 
+        $progress = null;
         foreach ($events as $row) {
             $tmp_date = new ilDateTime($row['last_access'], IL_CAL_UNIX);
             $row['last_access'] = $tmp_date->get(IL_CAL_UNIX);

@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+
+namespace ILIAS\UI\Implementation\Component\Dropzone;
+
+use ILIAS\UI\Component\Dropzone as D;
+
 /**
  * Class Factory
  *
@@ -8,15 +13,9 @@
  *
  * @package UI\Implementation\Component\Dropzone
  */
-
-namespace ILIAS\UI\Implementation\Component\Dropzone;
-
-class Factory implements \ILIAS\UI\Component\Dropzone\Factory
+class Factory implements D\Factory
 {
-    /**
-     * @var File\Factory
-     */
-    protected $file_factory;
+    protected File\Factory $file_factory;
 
     public function __construct(File\Factory $file_factory)
     {
@@ -26,7 +25,7 @@ class Factory implements \ILIAS\UI\Component\Dropzone\Factory
     /**
      * @inheritDoc
      */
-    public function file()
+    public function file() : D\File\Factory
     {
         return $this->file_factory;
     }

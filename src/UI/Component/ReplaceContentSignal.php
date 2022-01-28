@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component;
 
@@ -11,20 +11,13 @@ namespace ILIAS\UI\Component;
  */
 interface ReplaceContentSignal extends Signal
 {
-
     /**
      * Get the same signal returning an element from the given url
-     *
-     * @param string $url
-     *
-     * @return ReplaceContentSignal
      */
-    public function withAsyncRenderUrl($url);
+    public function withAsyncRenderUrl(string $url) : ReplaceContentSignal;
 
     /**
      * Get the url called to return the content.
-     *
-     * @return string
      */
-    public function getAsyncRenderUrl();
+    public function getAsyncRenderUrl() : string;
 }

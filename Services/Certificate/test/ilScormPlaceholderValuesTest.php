@@ -39,10 +39,10 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $objectMock->method('getPointsInPercent')
-            ->willReturn(100);
+            ->willReturn(100.0);
 
         $objectMock->method('getMaxPoints')
-            ->willReturn(100);
+            ->willReturn(100.0);
 
         $objectMock->method('getTitle')
             ->willReturn('SomeTitle');

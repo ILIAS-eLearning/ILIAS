@@ -1,25 +1,18 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
@@ -30,11 +23,6 @@
 * @ilCtrl_Calls
 * @ingroup ServicesWebServicesECS
 */
-
-include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-include_once('Services/WebServices/ECS/classes/class.ilECSResult.php');
-include_once('Services/WebServices/Curl/classes/class.ilCurlConnection.php');
-
 class ilECSConnector
 {
     const HTTP_CODE_CREATED = 201;
@@ -47,7 +35,7 @@ class ilECSConnector
 
     protected $path_postfix = '';
     
-    protected $settings;
+    protected ?\ilECSSetting $settings = null;
 
     protected $header_strings = array();
 
@@ -122,11 +110,7 @@ class ilECSConnector
      */
     public function addAuth($a_post, $a_target_mid)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        $ilLog->write(__METHOD__ . ': Add new Auth resource...');
+        $this->logger->info(__METHOD__ . ': Add new Auth resource...');
 
         $this->path_postfix = '/sys/auths';
         
@@ -145,20 +129,20 @@ class ilECSConnector
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
             if ($info != self::HTTP_CODE_CREATED) {
-                $ilLog->write(__METHOD__ . ': Cannot create auth resource, did not receive HTTP 201. ');
-                $ilLog->write(__METHOD__ . ': POST was: ' . $a_post);
-                $ilLog->write(__METHOD__ . ': HTTP code: ' . $info);
+                $this->logger->info(__METHOD__ . ': Cannot create auth resource, did not receive HTTP 201. ');
+                $this->logger->info(__METHOD__ . ': POST was: ' . $a_post);
+                $this->logger->info(__METHOD__ . ': HTTP code: ' . $info);
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 201 (created)');
-            $ilLog->write(__METHOD__ . ': POST was: ' . $a_post);
+            $this->logger->info(__METHOD__ . ': ... got HTTP 201 (created)');
+            $this->logger->info(__METHOD__ . ': POST was: ' . $a_post);
 
             $result = new ilECSResult($ret);
             $auth = $result->getResult();
 
-            $ilLog->write(__METHOD__ . ': ... got hash: ' . $auth->hash);
+            $this->logger->info(__METHOD__ . ': ... got hash: ' . $auth->hash);
 
             return $auth->hash;
         } catch (ilCurlConnectionException $exc) {
@@ -175,12 +159,8 @@ class ilECSConnector
      */
     public function getAuth($a_hash, $a_details_only = false)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         if (!strlen($a_hash)) {
-            $ilLog->write(__METHOD__ . ': No auth hash given. Aborting.');
+            $this->logger->info(__METHOD__ . ': No auth hash given. Aborting.');
             throw new ilECSConnectorException('No auth hash given.');
         }
         
@@ -196,17 +176,16 @@ class ilECSConnector
             $res = $this->call();
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
             
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
             if ($info != self::HTTP_CODE_OK) {
-                $ilLog->write(__METHOD__ . ': Cannot get auth resource, did not receive HTTP 200. ');
+                $this->logger->info(__METHOD__ . ': Cannot get auth resource, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 200 (ok)');
+            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
             
             $ecs_result = new ilECSResult($res);
             // Return ECSEContentDetails for details switch
             if ($a_details_only) {
-                include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
                 $details = new ilECSEContentDetails();
                 $details->loadFromJson($ecs_result->getResult());
                 return $details;
@@ -230,10 +209,6 @@ class ilECSConnector
      */
     public function getEventQueues()
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         $this->path_postfix = '/eventqueues';
 
         try {
@@ -242,12 +217,12 @@ class ilECSConnector
             $res = $this->call();
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
             if ($info != self::HTTP_CODE_OK) {
-                $ilLog->write(__METHOD__ . ': Cannot get event queue, did not receive HTTP 200. ');
+                $this->logger->info(__METHOD__ . ': Cannot get event queue, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 200 (ok)');
+            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
             return new ilECSResult($res);
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
@@ -265,10 +240,6 @@ class ilECSConnector
      */
     public function readEventFifo($a_delete = false)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
         $this->path_postfix = '/sys/events/fifo';
 
         try {
@@ -284,17 +255,14 @@ class ilECSConnector
 
             // Checking status code
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-            #$ilLog->write(__METHOD__.': Checking HTTP status...');
+            #$this->logger->info(__METHOD__.': Checking HTTP status...');
             if ($info != self::HTTP_CODE_OK) {
-                $ilLog->write(__METHOD__ . ': Cannot read event fifo, did not receive HTTP 200. ');
+                $this->logger->info(__METHOD__ . ': Cannot read event fifo, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            #$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
+            #$this->logger->info(__METHOD__.': ... got HTTP 200 (ok)');
 
             $result = new ilECSResult($res);
-            
-            #$GLOBALS['DIC']['ilLog']->write(__METHOD__.':------------------------------------- FIFO content'. print_r($result,true));
-            
             return $result;
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
@@ -309,10 +277,6 @@ class ilECSConnector
 
     public function getResourceList($a_path)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
         $this->path_postfix = $a_path;
 
         try {
@@ -322,14 +286,14 @@ class ilECSConnector
 
             // Checking status code
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
             if ($info != self::HTTP_CODE_OK) {
-                $ilLog->write(__METHOD__ . ': Cannot get ressource list, did not receive HTTP 200. ');
+                $this->logger->info(__METHOD__ . ': Cannot get ressource list, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 200 (ok)');
+            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
 
-            return new ilECSResult($res, false, ilECSResult::RESULT_TYPE_URL_LIST);
+            return new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST);
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }
@@ -349,14 +313,10 @@ class ilECSConnector
      */
     public function getResource($a_path, $a_econtent_id, $a_details_only = false)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         if ($a_econtent_id) {
-            $ilLog->write(__METHOD__ . ': Get resource with ID: ' . $a_econtent_id);
+            $this->logger->info(__METHOD__ . ': Get resource with ID: ' . $a_econtent_id);
         } else {
-            $ilLog->write(__METHOD__ . ': Get all resources ...');
+            $this->logger->info(__METHOD__ . ': Get all resources ...');
         }
         
         $this->path_postfix = $a_path;
@@ -372,13 +332,13 @@ class ilECSConnector
             $res = $this->call();
 
             // Checking status code
-            $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
+            $info = (int) $this->curl->getInfo(CURLINFO_HTTP_CODE);
+            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
             if ($info != self::HTTP_CODE_OK) {
-                $ilLog->write(__METHOD__ . ': Cannot get ressource, did not receive HTTP 200. ');
+                $this->logger->info(__METHOD__ . ': Cannot get ressource, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 200 (ok)');
+            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
             
             $result = new ilECSResult($res);
             $result->setHeaders($this->curl->getResponseHeaderArray());
@@ -400,13 +360,9 @@ class ilECSConnector
      * @throws ilECSConnectorException
      *
      */
-    public function addResource($a_path, $a_post)
+    public function addResource(string $a_path, array $a_post) : int
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        $ilLog->write(__METHOD__ . ': Add new EContent...');
+        $this->logger->info(__METHOD__ . ': Add new EContent...');
 
         $this->path_postfix = $a_path;
         
@@ -423,14 +379,14 @@ class ilECSConnector
             
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
     
-            $ilLog->write(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
             if ($info != self::HTTP_CODE_CREATED) {
-                $ilLog->write(__METHOD__ . ': Cannot create econtent, did not receive HTTP 201. ');
+                $this->logger->info(__METHOD__ . ': Cannot create econtent, did not receive HTTP 201. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $ilLog->write(__METHOD__ . ': ... got HTTP 201 (created)');
+            $this->logger->info(__METHOD__ . ': ... got HTTP 201 (created)');
 
-            $eid = self::_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
+            $eid = $this->_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
             return $eid;
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
@@ -448,11 +404,7 @@ class ilECSConnector
      */
     public function updateResource($a_path, $a_econtent_id, $a_post_string)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        $ilLog->write(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
+        $this->logger->info(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
         
         $this->path_postfix = $a_path;
         
@@ -468,9 +420,9 @@ class ilECSConnector
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_HEADER, true);
             $this->curl->setOpt(CURLOPT_PUT, true);
-
-            $tempfile = ilUtil::ilTempnam();
-            $ilLog->write(__METHOD__ . ': Created new tempfile: ' . $tempfile);
+            
+            $tempfile = ilFileUtils::ilTempnam();
+            $this->logger->info(__METHOD__ . ': Created new tempfile: ' . $tempfile);
 
             $fp = fopen($tempfile, 'w');
             fwrite($fp, $a_post_string);
@@ -502,11 +454,7 @@ class ilECSConnector
      */
     public function deleteResource($a_path, $a_econtent_id)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        $ilLog->write(__METHOD__ . ': Delete resource with id ' . $a_econtent_id);
+        $this->logger->info(__METHOD__ . ': Delete resource with id ' . $a_econtent_id);
 
         $this->path_postfix = $a_path;
         
@@ -539,15 +487,11 @@ class ilECSConnector
      */
     public function getMemberships($a_mid = 0)
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        $ilLog->write(__METHOD__ . ': Get existing memberships');
+        $this->logger->info(__METHOD__ . ': Get existing memberships');
 
         $this->path_postfix = '/sys/memberships';
         if ($a_mid) {
-            $ilLog->write(__METHOD__ . ': Read membership with id: ' . $a_mid);
+            $this->logger->info(__METHOD__ . ': Read membership with id: ' . $a_mid);
             $this->path_postfix .= ('/' . (int) $a_mid);
         }
         try {
@@ -559,7 +503,7 @@ class ilECSConnector
             // Checking status code
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
             if ($info != self::HTTP_CODE_OK) {
-                $ilLog->write(__METHOD__ . ': Cannot get memberships, did not receive HTTP 200. ');
+                $this->logger->info(__METHOD__ . ': Cannot get memberships, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
             
@@ -587,7 +531,7 @@ class ilECSConnector
 
             switch ($this->getServer()->getAuthType()) {
                 case ilECSSetting::AUTH_APACHE:
-                    $this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
+                    $this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, 1);
                     #$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST,0);
                     $this->curl->setOpt(CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
                     $this->curl->setOpt(
@@ -628,32 +572,30 @@ class ilECSConnector
         }
     }
     
-    
     /**
      * fetch new econtent id from location header
      *
-     * @access public
-     * @static
-     *
      * @param array header array
      */
-    protected static function _fetchEContentIdFromHeader($a_header)
+    private function _fetchEContentIdFromHeader(array $a_header) : int
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        if (!isset($a_header['Location'])) {
+        $location_parts = [];
+        foreach ($a_header as $header => $value) {
+            if (strcasecmp('Location', $header) == 0) {
+                $location_parts = explode('/', $value);
+                break;
+            }
+        }
+        if (!$location_parts) {
+            $this->logger->error(__METHOD__ . ': Cannot find location headers.');
             return false;
         }
-        $end_path = strrpos($a_header['Location'], "/");
-        
-        if ($end_path === false) {
-            $ilLog->write(__METHOD__ . ': Cannot find path seperator.');
+        if (size($location_parts) == 1) {
+            $this->logger->warn(__METHOD__ . ': Cannot find path seperator.');
             return false;
         }
-        $econtent_id = substr($a_header['Location'], $end_path + 1);
-        $ilLog->write(__METHOD__ . ': Received EContentId ' . $econtent_id);
+        $econtent_id = end($location_parts);
+        $this->logger->info(__METHOD__ . ': Received EContentId ' . $econtent_id);
         return (int) $econtent_id;
     }
 }

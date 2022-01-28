@@ -45,7 +45,7 @@ abstract class ilChatroomAbstractTest extends TestCase
     protected function createGlobalIlDBMock() : ilDBInterface
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->expects($this->any())->method('quote')->willReturnCallback(static function ($arg) : string {
+        $db->method('quote')->willReturnCallback(static function ($arg) : string {
             return "'" . $arg . "'";
         });
 

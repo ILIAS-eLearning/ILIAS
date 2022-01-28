@@ -3,15 +3,25 @@
 
 namespace ILIAS\DI;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Provides fluid interface to RBAC services.
  */
 class LoggingServices
 {
-    /**
-     * @var	Container
-     */
-    protected $container;
+    protected Container $container;
 
     public function __construct(Container $container)
     {
@@ -20,8 +30,6 @@ class LoggingServices
 
     /**
      * Get interface to the global logger.
-     *
-     * @return	\ilLogger
      */
     public function root()
     {
@@ -36,6 +44,6 @@ class LoggingServices
     public function __call($method_name, $args)
     {
         assert(count($args) === 0);
-        return $this->container["ilLoggerFactory"]->getLogger($method_name);
+        return $this->container['ilLoggerFactory']->getComponentLogger($method_name);
     }
 }

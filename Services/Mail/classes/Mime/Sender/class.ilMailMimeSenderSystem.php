@@ -16,7 +16,7 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 
     public function hasReplyToAddress() : bool
     {
-        return ((string) $this->settings->get('mail_system_sys_reply_to_addr', '')) !== '';
+        return $this->settings->get('mail_system_sys_reply_to_addr', '') !== '';
     }
 
     public function getReplyToAddress() : string
@@ -31,7 +31,7 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 
     public function hasEnvelopFromAddress() : bool
     {
-        return ((string) $this->settings->get('mail_system_sys_env_from_addr', '')) !== '';
+        return $this->settings->get('mail_system_sys_env_from_addr', '') !== '';
     }
 
     public function getEnvelopFromAddress() : string

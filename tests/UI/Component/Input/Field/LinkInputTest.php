@@ -7,29 +7,27 @@ require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Data;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory;
 
 class LinkInputTest extends ILIAS_UI_TestBase
 {
-    /**
-     * @var DefNamesource
-     */
-    private $name_source;
+    private DefNamesource $name_source;
 
     public function setUp() : void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory()
+    protected function buildFactory() : Factory
     {
         $data_factory = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->createMock(ilLanguage::class);
         $language->method("txt")
-            ->willReturn($this->returnArgument(0));
+            ->will($this->returnArgument(0));
 
-        return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+        return new Factory(
             new SignalGenerator(),
             $data_factory,
             new ILIAS\Refinery\Factory($data_factory, $language),
@@ -37,7 +35,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $factory = $this->buildFactory();
         $url = $factory->link("Test Label", "Test Byline");
@@ -45,7 +43,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Link::class, $url);
     }
 
-    public function test_rendering()
+    public function test_rendering() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();

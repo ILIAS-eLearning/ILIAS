@@ -25,7 +25,6 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         $this->arConnector = new arConnectorDB();
     }
 
-
     protected function getActiveRecordFieldTypeFromMDB2(string $a_mdb2_type) : ?string
     {
         // currently they are all the same
@@ -50,7 +49,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
 
     protected function initFieldList() : void
     {
-        $this->fields = new arFieldList();
+        $this->fields = new arFieldList($this);
 
         $fields = [];
         foreach ($this->properties->getActiveRecordFields() as $element_id => $element_fields) {
@@ -107,7 +106,8 @@ class ilADTActiveRecordWrapper extends ActiveRecord
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
             $element = $this->properties->getElement($this->field_element_map[$field_name]);
-            return $element->setFieldValue($field_name, $field_value);
+            $element->setFieldValue($field_name, $field_value);
+            return true;
         }
         return false;
     }

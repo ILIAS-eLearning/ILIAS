@@ -1,29 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 abstract class ilADTEnum extends ilADT
 {
-    protected $value; // [string]
-    
-    
-    // definition
-    
+    protected mixed $value;
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return ($a_def instanceof ilADTEnumDefinition);
     }
-    
+
     public function reset() : void
     {
         parent::reset();
-        
         $this->value = null;
     }
-    
-    
+
     // properties
-    
-    abstract protected function handleSelectionValue($a_value);
-    
+
+    abstract protected function handleSelectionValue($a_value) : mixed;
+
     public function setSelection($a_value = null)
     {
         if ($a_value !== null) {
@@ -34,21 +29,20 @@ abstract class ilADTEnum extends ilADT
         }
         $this->value = $a_value;
     }
-    
-    public function getSelection()
+
+    public function getSelection() : mixed
     {
         return $this->value;
     }
-    
-    public function isValidOption($a_value)
+
+    public function isValidOption($a_value) : bool
     {
         $a_value = $this->handleSelectionValue($a_value);
         return array_key_exists($a_value, $this->getDefinition()->getOptions());
     }
-    
-    
+
     // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -56,7 +50,7 @@ abstract class ilADTEnum extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -66,18 +60,16 @@ abstract class ilADTEnum extends ilADT
     {
         return null;
     }
-    
-    
+
     // null
-    
+
     public function isNull() : bool
     {
         return $this->getSelection() === null;
     }
-        
-    
+
     // check
-    
+
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
@@ -85,10 +77,9 @@ abstract class ilADTEnum extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -98,7 +89,7 @@ abstract class ilADTEnum extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

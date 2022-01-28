@@ -1,38 +1,35 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 class ilSessionReminderGUI
 {
-    /** @var ilSessionReminder */
-    protected $sessionReminder;
+    protected ilSessionReminder $sessionReminder;
+    protected ilGlobalTemplateInterface $page;
+    protected ilLanguage $lng;
 
-    /** @var \ilGlobalTemplateInterface */
-    protected $page;
-
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /**
-     * @param ilSessionReminder $sessionReminder
-     * @param ilGlobalTemplateInterface $page
-     * @param ilLanguage $language
-     */
     public function __construct(
         ilSessionReminder $sessionReminder,
         ilGlobalTemplateInterface $page,
-        \ilLanguage $language
+        ilLanguage $language
     ) {
         $this->sessionReminder = $sessionReminder;
         $this->page = $page;
         $this->lng = $language;
     }
 
-    /**
-     *
-     */
     public function populatePage() : void
     {
         if (!$this->sessionReminder->isActive()) {

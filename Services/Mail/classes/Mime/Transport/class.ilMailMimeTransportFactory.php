@@ -15,11 +15,11 @@ class ilMailMimeTransportFactory
 
     public function getTransport() : ilMailMimeTransport
     {
-        if (!(bool) $this->settings->get('mail_allow_external')) {
+        if (!$this->settings->get('mail_allow_external', '0')) {
             return new ilMailMimeTransportNull();
         }
 
-        if ($this->settings->get('mail_smtp_status')) {
+        if ($this->settings->get('mail_smtp_status', '0')) {
             return new ilMailMimeTransportSmtp($this->settings, $this->eventHandler);
         }
 

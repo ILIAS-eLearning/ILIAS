@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Layout;
 
@@ -14,7 +14,6 @@ interface Factory
      *     The Page is the user's view upon ILIAS in total.
      *
      * ----
-     *
      * @return  \ILIAS\UI\Component\Layout\Page\Factory
      */
     public function page() : Page\Factory;

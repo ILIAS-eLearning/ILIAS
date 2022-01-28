@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiScoringGUI
  *
@@ -25,16 +35,16 @@ class ilCmiXapiScoringGUI
     /**
      * @var ilObjCmiXapi
      */
-    public $object;
+    public ilObjCmiXapi $object;
 
     /**
      * @var ilCmiXapiAccess
      */
-    protected $access;
+    protected ilCmiXapiAccess $access;
 
-    private $tableData;
-    private $tableHtml = '';
-    private $userRank;
+    private array $tableData;
+    private string $tableHtml = '';
+    private ?int $userRank;
 
 
     /**
@@ -50,7 +60,7 @@ class ilCmiXapiScoringGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -65,23 +75,23 @@ class ilCmiXapiScoringGUI
         }
     }
 
-    protected function resetFilterCmd()
+    protected function resetFilterCmd() : void
     {
-        $table = $this->buildTableGUI();
+        $table = $this->buildTableGUI("");
         $table->resetFilter();
         $table->resetOffset();
         $this->showCmd();
     }
 
-    protected function applyFilterCmd()
+    protected function applyFilterCmd() : void
     {
-        $table = $this->buildTableGUI();
+        $table = $this->buildTableGUI("");
         $table->writeFilterToSession();
         $table->resetOffset();
         $this->showCmd();
     }
 
-    protected function showCmd()
+    protected function showCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -104,9 +114,9 @@ class ilCmiXapiScoringGUI
     }
 
     /**
-     *
+     * @return $this
      */
-    protected function initTableData()
+    protected function initTableData() : self
     {
         $filter = new ilCmiXapiStatementsReportFilter();
         $filter->setActivityId($this->object->getActivityId());
@@ -130,7 +140,11 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    private function getTableDataRange($scopeUserRank = false)
+    /**
+     * @param bool $scopeUserRank
+     * @return array
+     */
+    private function getTableDataRange(bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
             return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
@@ -139,13 +153,9 @@ class ilCmiXapiScoringGUI
             $length = 5;
             return array_slice($this->tableData, $offset, $length);
         }
-        return [];
     }
 
-    /**
-     *
-     */
-    protected function initHighScoreTable()
+    protected function initHighScoreTable() : self
     {
         if (!$this->object->getHighscoreTopTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -157,10 +167,7 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     *
-     */
-    protected function initUserRankTable()
+    protected function initUserRankTable() : self
     {
         if (!$this->object->getHighscoreOwnTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -176,7 +183,7 @@ class ilCmiXapiScoringGUI
      * @param string $tableId
      * @return ilCmiXapiScoringTableGUI
      */
-    protected function buildTableGUI($tableId) : ilCmiXapiScoringTableGUI
+    protected function buildTableGUI(string $tableId) : ilCmiXapiScoringTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
         $table = new ilCmiXapiScoringTableGUI(

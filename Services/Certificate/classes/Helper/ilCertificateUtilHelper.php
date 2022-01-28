@@ -47,27 +47,27 @@ class ilCertificateUtilHelper
      */
     public function zip(string $exportPath, string $zipPath) : void
     {
-        ilUtil::zip($exportPath, $zipPath);
+        ilFileUtils::zip($exportPath, $zipPath);
     }
 
     public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
     {
-        ilUtil::deliverFile($zipPath, $zipFileName, $mime);
+        ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
     }
 
     public function getDir(string $copyDirectory) : array
     {
-        return ilUtil::getDir($copyDirectory);
+        return ilFileUtils::getDir($copyDirectory);
     }
 
     public function unzip(string $file, bool $overwrite) : void
     {
-        ilUtil::unzip($file, $overwrite);
+        ilFileUtils::unzip($file, $overwrite);
     }
 
     public function delDir(string $path) : void
     {
-        ilUtil::delDir($path);
+        ilFileUtils::delDir($path);
     }
 
     /**
@@ -86,7 +86,7 @@ class ilCertificateUtilHelper
         bool $raise_errors = true,
         string $mode = 'move_uploaded'
     ) : bool {
-        return ilUtil::moveUploadedFile(
+        return ilFileUtils::moveUploadedFile(
             $file,
             $name,
             $target,

@@ -1,17 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class ButtonFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array( "standard" => array("context" => false)
-        , "close" => array("context" => false)
-        , "minimize" => array("context" => false)
-        , "shy" => array("context" => false)
-        , "tag" => array("context" => false)
-        , "bulky" => array("context" => false)
-        , "toggle" => array("context" => false)
-        );
+    public array $kitchensink_info_settings = [
+        "standard" => ["context" => false],
+        "close" => ["context" => false],
+        "minimize" => ["context" => false],
+        "shy" => ["context" => false],
+        "tag" => ["context" => false],
+        "bulky" => ["context" => false],
+        "toggle" => ["context" => false]
+    ];
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Button\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Button\\Factory';
 }

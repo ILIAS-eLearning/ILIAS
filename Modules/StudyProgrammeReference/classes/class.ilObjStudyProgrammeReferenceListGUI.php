@@ -59,9 +59,8 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
     
     /**
      * no activation for links
-     * @return type
      */
-    public function insertTimingsCommand()
+    public function insertTimingsCommand() : void
     {
         return;
     }
@@ -71,7 +70,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = false;
         $this->delete_enabled = true;
@@ -135,7 +134,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         // offline
         if ($this->deleted) {
             $props[] = array("alert" => true, "property" => $this->lng->txt("status"),
-                "value" => $lng->txt("reference_deleted"));
+                "value" => $this->lng->txt("reference_deleted"));
         }
 
         return $props ? $props : array();

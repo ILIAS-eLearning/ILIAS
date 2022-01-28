@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,13 +9,10 @@ namespace ILIAS\UI\Component\Input\Container\Form;
  */
 interface Standard extends Form
 {
-
     /**
      * Get the URL this form posts its result to.
-     *
-     * @return    string
      */
-    public function getPostURL();
+    public function getPostURL() : string;
 
     /**
      * Sets the caption of the submit button of the form
@@ -23,7 +20,7 @@ interface Standard extends Form
     public function withSubmitCaption(string $caption) : Standard;
 
     /**
-     * Gets the submit caption of the form
+     * Gets submit caption of the form
      */
     public function getSubmitCaption() : ?string;
 }

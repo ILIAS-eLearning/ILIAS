@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,17 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
-* Class ilObjRootFolderAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup	ServicesAccessControl
-*/
+ * Class ilObjRootFolderAccess
+ * @author     Alex Killing <alex.killing@gmx.de>
+ * @ingroup    ServicesAccessControl
+ */
 class ilObjRoleFolderAccess extends ilObjectAccess
 {
 }

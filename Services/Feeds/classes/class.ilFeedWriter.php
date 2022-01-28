@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Feed writer class.
@@ -13,30 +24,21 @@
  * - combined hash = hash(user hash + object hash)
  * - ilias checks whether ref id / user id / combined hash match
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFeedWriter
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    private string $ch_desc;
+    protected ilTree $tree;
+    protected ilLanguage $lng;
+    protected ilTemplate $tpl;
+    public string $encoding = "UTF-8";
+    public string $ch_about = "";
+    public string $ch_title = "";
+    public string $ch_link = "";
+    public string $ch_description = "";
+    public array $items = array();
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $encoding = "UTF-8";
-    public $ch_about = "";
-    public $ch_title = "";
-    public $ch_link = "";
-    public $ch_description = "";
-    public $items = array();
-
-    /**
-     * ilFeedWriter constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -45,87 +47,67 @@ class ilFeedWriter
         $this->lng = $DIC->language();
     }
     
-    /**
-    * Set feed encoding. Default is UTF-8.
-    */
-    public function setEncoding($a_enc)
+    public function setEncoding(string $a_enc) : void
     {
         $this->encoding = $a_enc;
     }
     
-    public function getEncoding()
+    public function getEncoding() : string
     {
         return $this->encoding;
     }
 
-    /**
-    * Unique URI that defines the channel
-    */
-    public function setChannelAbout($a_ab)
+    public function setChannelAbout(string $a_ab) : void
     {
         $this->ch_about = $a_ab;
     }
     
-    public function getChannelAbout()
+    public function getChannelAbout() : string
     {
         return $this->ch_about;
     }
 
-    /**
-    * Channel Title
-    */
-    public function setChannelTitle($a_title)
+    public function setChannelTitle(string $a_title) : void
     {
         $this->ch_title = $a_title;
     }
     
-    public function getChannelTitle()
+    public function getChannelTitle() : string
     {
         return $this->ch_title;
     }
 
-    /**
-    * Channel Link
-    * URL to which an HTML rendering of the channel title will link
-    */
-    public function setChannelLink($a_link)
+    public function setChannelLink(string $a_link) : void
     {
         $this->ch_link = $a_link;
     }
     
-    public function getChannelLink()
+    public function getChannelLink() : string
     {
         return $this->ch_link;
     }
 
-    /**
-    * Channel Description
-    */
-    public function setChannelDescription($a_desc)
+    public function setChannelDescription(string $a_desc) : void
     {
         $this->ch_desc = $a_desc;
     }
     
-    public function getChannelDescription()
+    public function getChannelDescription() : string
     {
         return $this->ch_desc;
     }
 
-    /**
-    * Add Item
-    * Item is an object of type ilFeedItem
-    */
-    public function addItem($a_item)
+    public function addItem(ilFeedItem $a_item) : void
     {
         $this->items[] = $a_item;
     }
     
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }
 
-    public function prepareStr($a_str)
+    public function prepareStr(string $a_str) : string
     {
         $a_str = str_replace("&", "&amp;", $a_str);
         $a_str = str_replace("<", "&lt;", $a_str);
@@ -133,10 +115,7 @@ class ilFeedWriter
         return $a_str;
     }
 
-    /**
-    * get feed xml
-    */
-    public function getFeed()
+    public function getFeed() : string
     {
         $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
         
@@ -190,13 +169,13 @@ class ilFeedWriter
         return $this->tpl->get();
     }
     
-    public function showFeed()
+    public function showFeed() : void
     {
         header("Content-Type: text/xml; charset=UTF-8;");
         echo $this->getFeed();
     }
 
-    public function getContextPath($a_ref_id)
+    public function getContextPath(int $a_ref_id) : string
     {
         $tree = $this->tree;
         $lng = $this->lng;

@@ -161,10 +161,60 @@ class ilFileUploadGUI
         
         $tpl->addOnLoadCode($onLoadCode);
         
-        // return shared code
-        return $this->getSharedHtml();
+
+        // already loaded?
+        if (self::$shared_code_loaded) {
+            return "";
+        }
+        
+        // make sure required scripts are loaded
+        self::initFileUpload();
+
+        $shared_js = $this->getSharedJS();
+        $shared_html = $this->getSharedHtml();
+        $tpl->addOnLoadCode($shared_js);
+        
+        self::$shared_code_loaded = true;
+        return $shared_html;
     }
     
+    protected function getLng() : ilLanguage
+    {
+        global $DIC;
+        $lng = $DIC['lng'];
+        $lng->loadLanguageModule("form");
+        return $lng;
+    }
+
+    protected function getSharedJS() : string
+    {
+        $lng = $this->getLng();
+        $js_shared = new ilTemplate("tpl.fileupload_shared.js", true, true, "Services/FileUpload");
+        
+        // initialize localized texts
+        $js_shared->setCurrentBlock("fileupload_texts");
+        $js_shared->setVariable("ERROR_MSG_FILE_TOO_LARGE", $lng->txt("form_msg_file_size_exceeds"));
+        $js_shared->setVariable("ERROR_MSG_WRONG_FILE_TYPE", $lng->txt("form_msg_file_wrong_file_type"));
+        $js_shared->setVariable("ERROR_MSG_EMPTY_FILE_OR_FOLDER", $lng->txt("error_empty_file_or_folder"));
+        $js_shared->setVariable("ERROR_MSG_UPLOAD_ZERO_BYTES", $lng->txt("error_upload_was_zero_bytes"));
+        $js_shared->setVariable("QUESTION_CANCEL_ALL", $lng->txt("cancel_file_upload"));
+        $js_shared->setVariable("ERROR_MSG_EXTRACT_FAILED", $lng->txt("error_extraction_failed"));
+        $js_shared->setVariable("PROGRESS_UPLOADING", $lng->txt("uploading"));
+        $js_shared->setVariable("PROGRESS_EXTRACTING", $lng->txt("extracting"));
+        $js_shared->setVariable("DROP_FILES_HERE", $lng->txt("drop_files_on_repo_obj_info"));
+        $js_shared->parseCurrentBlock();
+            
+        // initialize default values
+        $js_shared->setCurrentBlock("fileupload_defaults");
+        $js_shared->setVariable("CONCURRENT_UPLOADS", ilFileUploadSettings::getConcurrentUploads());
+        $js_shared->setVariable("MAX_FILE_SIZE", ilFileUploadUtil::getMaxFileSize());
+        $js_shared->setVariable("ALLOWED_SUFFIXES", "");
+        $js_shared->setVariable("SUPPORTED_ARCHIVES", "\"zip\"");
+        $js_shared->parseCurrentBlock();
+
+        return $js_shared->get();
+    }
+
     /**
      * Gets the code that is shared by all upload instances.
      *
@@ -172,42 +222,11 @@ class ilFileUploadGUI
      */
     protected function getSharedHtml()
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        
-        // already loaded?
-        if (self::$shared_code_loaded) {
-            return "";
-        }
-
-        // make sure required scripts are loaded
-        self::initFileUpload();
-        
+        $lng = $this->getLng();
+    
         // load script template
         $tpl_shared = new ilTemplate("tpl.fileupload_shared.html", true, true, "Services/FileUpload");
         
-        // initialize localized texts
-        $lng->loadLanguageModule("form");
-        $tpl_shared->setCurrentBlock("fileupload_texts");
-        $tpl_shared->setVariable("ERROR_MSG_FILE_TOO_LARGE", $lng->txt("form_msg_file_size_exceeds"));
-        $tpl_shared->setVariable("ERROR_MSG_WRONG_FILE_TYPE", $lng->txt("form_msg_file_wrong_file_type"));
-        $tpl_shared->setVariable("ERROR_MSG_EMPTY_FILE_OR_FOLDER", $lng->txt("error_empty_file_or_folder"));
-        $tpl_shared->setVariable("ERROR_MSG_UPLOAD_ZERO_BYTES", $lng->txt("error_upload_was_zero_bytes"));
-        $tpl_shared->setVariable("QUESTION_CANCEL_ALL", $lng->txt("cancel_file_upload"));
-        $tpl_shared->setVariable("ERROR_MSG_EXTRACT_FAILED", $lng->txt("error_extraction_failed"));
-        $tpl_shared->setVariable("PROGRESS_UPLOADING", $lng->txt("uploading"));
-        $tpl_shared->setVariable("PROGRESS_EXTRACTING", $lng->txt("extracting"));
-        $tpl_shared->setVariable("DROP_FILES_HERE", $lng->txt("drop_files_on_repo_obj_info"));
-        $tpl_shared->parseCurrentBlock();
-            
-        // initialize default values
-        $tpl_shared->setCurrentBlock("fileupload_defaults");
-        $tpl_shared->setVariable("CONCURRENT_UPLOADS", ilFileUploadSettings::getConcurrentUploads());
-        $tpl_shared->setVariable("MAX_FILE_SIZE", ilFileUploadUtil::getMaxFileSize());
-        $tpl_shared->setVariable("ALLOWED_SUFFIXES", "");
-        $tpl_shared->setVariable("SUPPORTED_ARCHIVES", "\"zip\"");
-        $tpl_shared->parseCurrentBlock();
-            
         // load panel template
         $tpl_panel = new ilTemplate("tpl.fileupload_panel_template.html", true, true, "Services/FileUpload");
         $tpl_panel->setVariable("TXT_HEADER", $lng->txt("upload_files_title"));
@@ -236,10 +255,7 @@ class ilFileUploadGUI
         $tpl_shared->setCurrentBlock("fileupload_row_tmpl");
         $tpl_shared->setVariable("ROW_TEMPLATE_HTML", $tpl_row->get());
         $tpl_shared->parseCurrentBlock();
-            
-        // shared code now loaded
-        self::$shared_code_loaded = true;
-        
+    
         // create HTML
         return $tpl_shared->get();
     }

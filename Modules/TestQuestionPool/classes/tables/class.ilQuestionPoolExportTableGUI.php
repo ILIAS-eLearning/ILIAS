@@ -50,7 +50,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, array('size', 'date'))) {
             return true;
@@ -62,7 +62,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
     /***
      *
      */
-    protected function initMultiCommands()
+    protected function initMultiCommands() : void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
     }

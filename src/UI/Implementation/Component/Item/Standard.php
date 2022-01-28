@@ -1,30 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component as C;
+use ILIAS\Data\Color;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Standard extends Item implements C\Item\Standard
 {
+    protected ?Color $color = null;
+
     /**
-     * @var \ILIAS\Data\Color color
-     */
-    protected $color = null;
-    /**
-     * @var null|string|\ILIAS\UI\Component\Image\Image
+     * @var null|string|Image
      */
     protected $lead = null;
-    /**
-     * @var null|C\Chart\ProgressMeter\ProgressMeter
-     */
-    protected $chart = null;
+    protected ?C\Chart\ProgressMeter\ProgressMeter $chart = null;
 
     /**
      * @inheritdoc
      */
-    public function withColor(\ILIAS\Data\Color $color) : C\Item\Item
+    public function withColor(Color $color) : C\Item\Standard
     {
         $clone = clone $this;
         $clone->color = $color;
@@ -34,7 +32,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function getColor() : ?\ILIAS\Data\Color
+    public function getColor() : ?Color
     {
         return $this->color;
     }
@@ -42,7 +40,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadImage(\ILIAS\UI\Component\Image\Image $image) : C\Item\Item
+    public function withLeadImage(Image $image) : C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = $image;
@@ -52,7 +50,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon) : C\Item\Item
+    public function withLeadIcon(Icon $icon) : C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = $icon;
@@ -62,18 +60,17 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadText(string $text) : C\Item\Item
+    public function withLeadText(string $text) : C\Item\Standard
     {
-        $this->checkStringArg("lead_text", $text);
         $clone = clone $this;
-        $clone->lead = (string) $text;
+        $clone->lead = $text;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function withNoLead() : C\Item\Item
+    public function withNoLead() : C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = null;
@@ -91,18 +88,33 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withProgress(C\Chart\ProgressMeter\ProgressMeter $chart) : C\Item\Item
+    public function withProgress(C\Chart\ProgressMeter\ProgressMeter $chart) : C\Item\Standard
     {
         $clone = clone $this;
         $clone->chart = $chart;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getProgress() : ?C\Chart\ProgressMeter\ProgressMeter
     {
         return $this->chart;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withActions(C\Dropdown\Standard $actions) : C\Item\Standard
+    {
+        $clone = clone $this;
+        $clone->actions = $actions;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getActions() : ?C\Dropdown\Standard
+    {
+        return $this->actions;
     }
 }

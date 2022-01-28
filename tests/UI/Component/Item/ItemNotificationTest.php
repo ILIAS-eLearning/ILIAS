@@ -1,43 +1,52 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Timon Amstutz <timon.amstutz@ilub.unibe.ch Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 
 /**
  * Test Notification Items
  */
 class ItemNotificationTest extends ILIAS_UI_TestBase
 {
+    protected I\Component\SignalGenerator $sig_gen;
+
     public function setUp() : void
     {
         $this->sig_gen = new I\Component\SignalGenerator();
     }
 
-    public function getIcon()
+    public function getIcon() : C\Symbol\Icon\Standard
     {
         return $this->getUIFactory()->symbol()->icon()->standard("name", "aria_label", "small", false);
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function item()
+            public I\Component\SignalGenerator $sig_gen;
+
+            public function item() : C\Item\Factory
             {
                 return new I\Component\Item\Factory();
             }
-            public function Link()
+
+            public function Link() : C\Link\Factory
             {
-                return new \ILIAS\UI\Implementation\Component\Link\Factory();
+                return new I\Component\Link\Factory();
             }
-            public function button()
+
+            public function button() : C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+
+            public function symbol() : C\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -45,13 +54,14 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
-            public function mainControls() : ILIAS\UI\Component\MainControls\Factory
+
+            public function mainControls() : C\MainControls\Factory
             {
                 return new I\Component\MainControls\Factory(
                     $this->sig_gen,
                     new I\Component\MainControls\Slate\Factory(
                         $this->sig_gen,
-                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        new I\Component\Counter\Factory(),
                         $this->symbol()
                     )
                 );
@@ -61,42 +71,40 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testImplementsFactoryInterface()
+    public function testImplementsFactoryInterface() : void
     {
         $f = $this->getUIFactory()->item();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Notification", $f->notification("title", $this->getIcon()));
     }
 
-
-    public function testGetTitle()
+    public function testGetTitle() : void
     {
         $f = $this->getUIFactory()->item();
         $c = $f->standard("title");
 
-        $this->assertEquals($c->getTitle(), "title");
+        $this->assertEquals("title", $c->getTitle());
     }
 
-    public function testGetTitleAsLink()
+    public function testGetTitleAsLink() : void
     {
         $f = $this->getUIFactory()->item();
         $title_link = $this->getUIFactory()->link()->standard("TestLink", "");
-        $c = $f->standard($title_link, $this->getIcon());
+        $c = $f->standard($title_link);
 
         $this->assertEquals($c->getTitle(), $title_link);
     }
 
-
-    public function testWithDescription()
+    public function testWithDescription() : void
     {
         $f = $this->getUIFactory()->item();
 
         $c = $f->notification("title", $this->getIcon())->withDescription("description");
 
-        $this->assertEquals($c->getDescription(), "description");
+        $this->assertEquals("description", $c->getDescription());
     }
 
-    public function testWithProperties()
+    public function testWithProperties() : void
     {
         $f = $this->getUIFactory()->item();
 
@@ -106,7 +114,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProperties(), $props);
     }
 
-    public function testWithActions()
+    public function testWithActions() : void
     {
         $f = $this->getUIFactory()->item();
 
@@ -119,7 +127,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function testWithLeadIcon()
+    public function testWithLeadIcon() : void
     {
         $f = $this->getUIFactory()->item();
 
@@ -130,16 +138,16 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->withLeadIcon($icon2)->getLeadIcon(), $icon2);
     }
 
-    public function testWithCloseAction()
+    public function testWithCloseAction() : void
     {
         $f = $this->getUIFactory()->item();
 
         $c = $f->notification("title", $this->getIcon())->withCloseAction("closeAction");
 
-        $this->assertEquals($c->getCloseAction(), "closeAction");
+        $this->assertEquals("closeAction", $c->getCloseAction());
     }
 
-    public function testWithAdditionalContent()
+    public function testWithAdditionalContent() : void
     {
         $f = $this->getUIFactory()->item();
 
@@ -149,7 +157,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAdditionalContent(), $content);
     }
 
-    public function testWithAggregateNotifications()
+    public function testWithAggregateNotifications() : void
     {
         $f = $this->getUIFactory()->item();
 
@@ -161,20 +169,23 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAggregateNotifications(), [$aggregate,$aggregate]);
     }
 
-    public function testRenderFullyFeatured()
+    public function testRenderFullyFeatured() : void
     {
         $f = $this->getUIFactory()->item();
-        $r = $this->getDefaultRenderer(new class implements \ILIAS\UI\Implementation\Render\JavaScriptBinding {
-            public function createId()
+        $r = $this->getDefaultRenderer(new class implements JavaScriptBinding {
+            public array $on_load_code = array();
+
+            public function createId() : string
             {
                 return "id";
             }
-            public $on_load_code = array();
-            public function addOnLoadCode($code)
+
+            public function addOnLoadCode(string $code) : void
             {
                 $this->on_load_code[] = $code;
             }
-            public function getOnLoadCodeAsync()
+
+            public function getOnLoadCodeAsync() : string
             {
             }
         });

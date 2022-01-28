@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Render;
 
-use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -18,7 +17,7 @@ trait LoaderHelper
      * @param	Component[]	$contexts
      * @return	string[]
      */
-    protected function getContextNames(array $contexts)
+    protected function getContextNames(array $contexts) : array
     {
         $names = [];
         foreach ($contexts as $context) {

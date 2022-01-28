@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,28 +11,13 @@ class Counter implements Spec
 {
     use ComponentHelper;
 
-    private static $types = array( self::NOVELTY
-        , self::STATUS
-        );
+    private static array $types = array( self::NOVELTY, self::STATUS);
+    private string $type;
+    private int $number;
 
-    /**
-     * @var	string
-     */
-    private $type;
-
-    /**
-     * @var	int
-     */
-    private $number;
-
-    /**
-     * @param string	$type
-     * @param int		$number
-     */
-    public function __construct($type, $number)
+    public function __construct(string $type, int $number)
     {
         $this->checkArgIsElement("type", $type, self::$types, "counter type");
-        $this->checkIntArg("number", $number);
         $this->type = $type;
         $this->number = $number;
     }
@@ -40,7 +25,7 @@ class Counter implements Spec
     /**
      * @inheritdoc
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
@@ -48,7 +33,7 @@ class Counter implements Spec
     /**
      * @inheritdoc
      */
-    public function getNumber()
+    public function getNumber() : int
     {
         return $this->number;
     }

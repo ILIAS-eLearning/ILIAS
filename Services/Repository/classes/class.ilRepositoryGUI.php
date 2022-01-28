@@ -40,7 +40,7 @@ use ILIAS\Repository\StandardGUIRequest;
  * @ilCtrl_Calls ilRepositoryGUI: ilPermissionGUI
  *
  */
-class ilRepositoryGUI
+class ilRepositoryGUI implements ilCtrlBaseClassInterface
 {
     protected ilObjectDefinition $objDefinition;
     protected ilLogger $log;
@@ -90,7 +90,7 @@ class ilRepositoryGUI
         $this->objDefinition = $objDefinition;
 
         $this->ctrl = $ilCtrl;
-        
+
         $this->creation_mode = false;
 
         $this->ctrl->saveParameter($this, array("ref_id"));
@@ -218,7 +218,7 @@ class ilRepositoryGUI
                     $this->show();
                 } else {	//
                     $cmd = (string) $this->ctrl->getCmd("");
-                    
+
                     // check read access for category
                     if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id) && $cmd != "showRepTree") {
                         $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
@@ -239,7 +239,7 @@ class ilRepositoryGUI
         $this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
         $this->tpl->printToStdout();
     }
-    
+
     public function showRepTree() : void
     {
         $exp = new ilRepositoryExplorerGUI($this, "showRepTree");

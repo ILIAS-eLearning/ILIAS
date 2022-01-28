@@ -1,23 +1,18 @@
-<?php
-require_once 'Modules/IndividualAssessment/interfaces/Members/interface.ilIndividualAssessmentMembersStorage.php';
-require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembers.php';
-require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMember.php';
-require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php';
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2021 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /**
  * Store member infos to DB
- *
- * @author	Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
- * @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
- *
- * @inheritdoc
  */
 class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMembersStorage
 {
     const MEMBERS_TABLE = "iass_members";
 
-    protected $db;
+    protected ilDBInterface $db;
 
-    public function __construct($ilDB)
+    public function __construct(ilDBInterface $ilDB)
     {
         $this->db = $ilDB;
     }
@@ -25,7 +20,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function loadMembers(ilObjIndividualAssessment $obj)
+    public function loadMembers(ilObjIndividualAssessment $obj) : ilIndividualAssessmentMembers
     {
         $members = new ilIndividualAssessmentMembers($obj);
         $obj_id = $obj->getId();
@@ -67,7 +62,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr)
+    public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr) : ilIndividualAssessmentMember
     {
         $obj_id = $obj->getId();
         $usr_id = $usr->getId();
@@ -105,8 +100,8 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
             $obj,
             $usr,
             $this->createGrading($record, $usr->getFullname()),
-            $examiner_id,
             (int) $record[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS],
+            $examiner_id,
             $changer_id,
             $change_time
         );
@@ -126,7 +121,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
             (string) $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE],
             (string) $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME],
             (bool) $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE],
-            (string) $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS],
+            (int) $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS],
             (string) $record[ilIndividualAssessmentMembers::FIELD_PLACE],
             $event_time,
             (bool) $record[ilIndividualAssessmentMembers::FIELD_NOTIFY],
@@ -137,45 +132,52 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function updateMember(ilIndividualAssessmentMember $member)
+    public function updateMember(ilIndividualAssessmentMember $member) : void
     {
-        $where = array("obj_id" => array("integer", $member->assessmentId())
-             , "usr_id" => array("integer", $member->id())
-        );
+        $where = [
+            "obj_id" => ["integer", $member->assessmentId()],
+            "usr_id" => ["integer", $member->id()]
+        ];
+
         $event_time = $member->eventTime();
         if (!is_null($event_time)) {
             $event_time = $event_time->getTimestamp();
         }
 
         $values = [
-            ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => array("text", $member->LPStatus()),
-            ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => array("integer", $member->examinerId()),
-            ilIndividualAssessmentMembers::FIELD_RECORD => array("text", $member->record()),
-            ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => array("text", $member->internalNote()),
-            ilIndividualAssessmentMembers::FIELD_PLACE => array("text", $member->place()),
-            ilIndividualAssessmentMembers::FIELD_EVENTTIME => array("integer", $event_time),
-            ilIndividualAssessmentMembers::FIELD_NOTIFY => array("integer", $member->notify()),
-            ilIndividualAssessmentMembers::FIELD_FINALIZED => array("integer", $member->finalized()),
-            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => array("integer", $member->notificationTS()),
-            ilIndividualAssessmentMembers::FIELD_FILE_NAME => array("text", $member->fileName()),
-            ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => array("integer", $member->viewFile()),
-            ilIndividualAssessmentMembers::FIELD_CHANGER_ID => array("integer", $member->changerId()),
-            ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => array("string", date("Y-m-d H:i:s"))
+            ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => ["text", $member->LPStatus()],
+            ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => ["integer", $member->examinerId()],
+            ilIndividualAssessmentMembers::FIELD_RECORD => ["text", $member->record()],
+            ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => ["text", $member->internalNote()],
+            ilIndividualAssessmentMembers::FIELD_PLACE => ["text", $member->place()],
+            ilIndividualAssessmentMembers::FIELD_EVENTTIME => ["integer", $event_time],
+            ilIndividualAssessmentMembers::FIELD_NOTIFY => ["integer", $member->notify()],
+            ilIndividualAssessmentMembers::FIELD_FINALIZED => ["integer", $member->finalized()],
+            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => ["integer", $member->notificationTS()],
+            ilIndividualAssessmentMembers::FIELD_FILE_NAME => ["text", $member->fileName()],
+            ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => ["integer", $member->viewFile()],
+            ilIndividualAssessmentMembers::FIELD_CHANGER_ID => ["integer", $member->changerId()],
+            ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => ["string", $this->getActualDateTime()]
         ];
 
         $this->db->update(self::MEMBERS_TABLE, $values, $where);
     }
 
+    protected function getActualDateTime() : string
+    {
+        return date("Y-m-d H:i:s");
+    }
+
     /**
      * @inheritdoc
      */
-    public function deleteMembers(ilObjIndividualAssessment $obj)
+    public function deleteMembers(ilObjIndividualAssessment $obj) : void
     {
         $sql = "DELETE FROM " . self::MEMBERS_TABLE . " WHERE obj_id = " . $this->db->quote($obj->getId(), 'integer');
         $this->db->manipulate($sql);
     }
 
-    protected function loadMemberQuery()
+    protected function loadMemberQuery() : string
     {
         return "SELECT "
             . "iassme.obj_id,"
@@ -201,10 +203,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         ;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function loadMembersQuery($obj_id)
+    protected function loadMembersQuery(int $obj_id) : string
     {
         return "SELECT ex.firstname as " . ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME
                 . "     , ex.lastname as " . ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME
@@ -227,24 +226,70 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function insertMembersRecord(ilObjIndividualAssessment $iass, array $record)
+    public function insertMembersRecord(ilObjIndividualAssessment $iass, array $record) : void
     {
-        $values = array("obj_id" => array("integer", $iass->getId())
-            , "usr_id" => array("integer", $record[ilIndividualAssessmentMembers::FIELD_USR_ID])
-            , ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => array("text", $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS])
-            , ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => array("integer", $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID])
-            , ilIndividualAssessmentMembers::FIELD_RECORD => array("text", $record[ilIndividualAssessmentMembers::FIELD_RECORD])
-            , ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => array("text", $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE])
-            , ilIndividualAssessmentMembers::FIELD_PLACE => array("text", $record[ilIndividualAssessmentMembers::FIELD_PLACE])
-            , ilIndividualAssessmentMembers::FIELD_EVENTTIME => array("integer", $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME])
-            , ilIndividualAssessmentMembers::FIELD_NOTIFY => array("integer", $record[ilIndividualAssessmentMembers::FIELD_NOTIFY])
-            , ilIndividualAssessmentMembers::FIELD_FINALIZED => array("integer", 0)
-            , ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => array("integer", -1)
-            , ilIndividualAssessmentMembers::FIELD_FILE_NAME => array("text", $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME])
-            , ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => array("integer", $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE])
-            , ilIndividualAssessmentMembers::FIELD_CHANGER_ID => array("integer", $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID])
-            , ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => array("text", $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME])
-        );
+        $values = [
+            "obj_id" => [
+                "integer",
+                $iass->getId()
+            ],
+            "usr_id" => [
+                "integer",
+                $record[ilIndividualAssessmentMembers::FIELD_USR_ID]
+            ],
+            ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => [
+                "text",
+                $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS]
+            ],
+            ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => [
+                "integer",
+                $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]
+            ],
+            ilIndividualAssessmentMembers::FIELD_RECORD => [
+                "text",
+                $record[ilIndividualAssessmentMembers::FIELD_RECORD]
+            ],
+            ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => [
+                "text",
+                $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE]
+            ],
+            ilIndividualAssessmentMembers::FIELD_PLACE => [
+                "text",
+                $record[ilIndividualAssessmentMembers::FIELD_PLACE]
+            ],
+            ilIndividualAssessmentMembers::FIELD_EVENTTIME => [
+                "integer",
+                $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME]
+            ],
+            ilIndividualAssessmentMembers::FIELD_NOTIFY => [
+                "integer",
+                $record[ilIndividualAssessmentMembers::FIELD_NOTIFY]
+            ],
+            ilIndividualAssessmentMembers::FIELD_FINALIZED => [
+                "integer",
+                0
+            ],
+            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => [
+                "integer",
+                -1
+            ],
+            ilIndividualAssessmentMembers::FIELD_FILE_NAME => [
+                "text",
+                $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME]
+            ],
+            ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => [
+                "integer",
+                $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE]
+            ],
+            ilIndividualAssessmentMembers::FIELD_CHANGER_ID => [
+                "integer",
+                $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]
+            ],
+            ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => [
+                "text",
+                $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME]
+            ]
+        ];
 
         $this->db->insert(self::MEMBERS_TABLE, $values);
     }
@@ -252,33 +297,33 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function removeMembersRecord(ilObjIndividualAssessment $iass, array $record)
+    public function removeMembersRecord(ilObjIndividualAssessment $iass, array $record) : void
     {
-        $sql = "DELETE FROM " . self::MEMBERS_TABLE . "\n"
-                . " WHERE obj_id = " . $this->db->quote($iass->getId(), 'integer') . "\n"
-                . "     AND usr_id = " . $this->db->quote($record[ilIndividualAssessmentMembers::FIELD_USR_ID], 'integer');
+        $sql =
+             "DELETE FROM " . self::MEMBERS_TABLE . PHP_EOL
+            . "WHERE obj_id = " . $this->db->quote($iass->getId(), 'integer') . PHP_EOL
+            . "AND usr_id = " . $this->db->quote($record[ilIndividualAssessmentMembers::FIELD_USR_ID], 'integer') . PHP_EOL
+        ;
 
         $this->db->manipulate($sql);
     }
 
     /**
-     * @param int|string
+     * @param string|int $filter
      */
     protected function getWhereFromFilter($filter) : string
     {
         switch ($filter) {
             case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
                 return "      AND finalized = 0 AND examiner_id IS NULL\n";
-                break;
             case ilIndividualAssessmentMembers::LP_IN_PROGRESS:
                 return "      AND finalized = 0 AND examiner_id IS NOT NULL\n";
-                break;
             case ilIndividualAssessmentMembers::LP_COMPLETED:
                 return "      AND finalized = 1 AND learning_progress = 2\n";
-                break;
             case ilIndividualAssessmentMembers::LP_FAILED:
                 return "      AND finalized = 1 AND learning_progress = 3\n";
-                break;
+            default:
+                return "";
         }
     }
 

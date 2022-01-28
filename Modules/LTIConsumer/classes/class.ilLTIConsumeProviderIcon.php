@@ -94,7 +94,7 @@ class ilLTIConsumeProviderIcon
     public function getAbsoluteFilePath()
     {
         return implode(DIRECTORY_SEPARATOR, [
-            \ilUtil::getWebspaceDir(), $this->getRelativeFilePath()
+            ilFileUtils::getWebspaceDir(), $this->getRelativeFilePath()
         ]);
     }
     
@@ -180,7 +180,7 @@ class ilLTIConsumeProviderIcon
             if (isset($results[$uploadFile])) {
                 $result = $results[$uploadFile];
                 
-                if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                if ($result->isOK()) {
                     $fileExtentsion = pathinfo($result->getName(), PATHINFO_EXTENSION);
                     $this->setFilename($this->buildFilename($fileExtentsion));
                     

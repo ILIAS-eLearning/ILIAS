@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,9 +37,8 @@ class ilObjLanguageGUI extends ilObjectGUI
 {
     /**
     * Constructor
-    * @access public
     */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
     {
         $this->type = "lng";
         parent::__construct($a_data, $a_id, $a_call_by_reference);

@@ -524,7 +524,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     public function getRandomOrderingElements()
     {
         $elements = $this->getOrderingElements();
-        $elements = $this->getShuffler()->shuffle($elements);
+        $elements = $this->getShuffler()->transform($elements);
         return $elements;
     }
     

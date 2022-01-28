@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Button;
@@ -19,62 +20,47 @@ interface Tag extends Button
     /**
      * Set relevance of Tag (e.g. to distinguish visually)
      *
-     * @param	string	 $relevance
-     * @throws 	\InvalidArgumentException 	if $relevance not in rel-constatnts
-     * @return	Tag
+     * @throws 	\InvalidArgumentException 	if $relevance not in rel-constants
      */
-    public function withRelevance($relevance);
+    public function withRelevance(string $relevance) : Tag;
 
     /**
      * Get the relevance of the Tag.
-     *
-     * @return	string
      */
-    public function getRelevance();
+    public function getRelevance() : string;
 
     /**
      * Set a fix background-color.
-     *
-     * @param	Color $col
-     * @return	Tag
      */
-    public function withBackgroundColor(Color $col);
+    public function withBackgroundColor(Color $col) : Tag;
 
     /**
      * Get the fix background-color.
-     *
-     * @return	Color|null
      */
-    public function getBackgroundColor();
+    public function getBackgroundColor() : ?Color;
 
     /**
      * Set the fix foreground-color
-     *
-     * @param	Color $col
-     * @return	Tag
      */
-    public function withForegroundColor(\ILIAS\Data\Color $col);
+    public function withForegroundColor(Color $col) : Tag;
 
     /**
      * Get the fix foreground-color.
-     *
-     * @return	Color|null
      */
-    public function getForegroundColor();
+    public function getForegroundColor() : ?Color;
 
     /**
      * Replace or set additional classes.
      * Additional classes will be replaced in calling this function.
      *
      * @param	string[] $classes
-     * @return	Tag
      */
-    public function withClasses($classes);
+    public function withClasses(array $classes) : Tag;
 
     /**
      * Get additional classes.
      *
      * @return	string[]
      */
-    public function getClasses();
+    public function getClasses() : array;
 }

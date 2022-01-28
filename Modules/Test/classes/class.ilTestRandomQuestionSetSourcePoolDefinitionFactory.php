@@ -39,6 +39,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
         $sourcePoolDefinition = $this->buildDefinitionInstance();
 
         $sourcePoolDefinition->setPoolId($originalPoolData['qpl_id']);
+        $sourcePoolDefinition->setPoolRefId($originalPoolData['qpl_ref_id']);
         $sourcePoolDefinition->setPoolTitle($originalPoolData['qpl_title']);
         $sourcePoolDefinition->setPoolPath($originalPoolData['qpl_path']);
         $sourcePoolDefinition->setPoolQuestionCount($originalPoolData['count']);

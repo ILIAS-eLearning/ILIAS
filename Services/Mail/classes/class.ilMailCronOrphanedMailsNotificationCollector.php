@@ -26,8 +26,8 @@ class ilMailCronOrphanedMailsNotificationCollector
 
     public function collect() : void
     {
-        $mail_notify_orphaned = (int) $this->setting->get('mail_notify_orphaned');
-        $mail_threshold = (int) $this->setting->get('mail_threshold');
+        $mail_notify_orphaned = (int) $this->setting->get('mail_notify_orphaned', '0');
+        $mail_threshold = (int) $this->setting->get('mail_threshold', '0');
         
         if ($mail_threshold > $mail_notify_orphaned) {
             $notify_days_before = $mail_threshold - $mail_notify_orphaned;
@@ -53,7 +53,7 @@ class ilMailCronOrphanedMailsNotificationCollector
 				INNER JOIN 	mail_obj_data mdata ON obj_id = folder_id
 				WHERE 		send_time <= %s";
 
-        if ((int) $this->setting->get('mail_only_inbox_trash') > 0) {
+        if ((int) $this->setting->get('mail_only_inbox_trash', '0') > 0) {
             $notification_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
             $types = ['timestamp', 'text', 'text'];
             $data = [$ts_for_notification, 'inbox', 'trash'];

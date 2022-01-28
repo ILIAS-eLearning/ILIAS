@@ -21,7 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
  *
@@ -70,7 +69,6 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         $this->container = $a_parent_obj;
         $this->rep_object = $rep_object;
         
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $this->privacy = ilPrivacySettings::getInstance();
         
         $this->participants = ilCourseParticipants::_getInstanceByObjId($this->rep_object->getId());
@@ -117,7 +115,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
      * @access public
      * @param array usr_data
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

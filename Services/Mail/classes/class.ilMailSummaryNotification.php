@@ -25,7 +25,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
     public function send() : void
     {
-        $is_message_enabled = $this->settings->get("mail_notification_message");
+        $is_message_enabled = (bool) $this->settings->get("mail_notification_message", '0');
 
         $res = $this->db->queryF(
             'SELECT mail.* FROM mail_options

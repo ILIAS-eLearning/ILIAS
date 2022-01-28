@@ -174,11 +174,11 @@ class ilObjQuestionPool extends ilObject
 
         // delete export files
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
         $directory = $qpl_data_dir . "/qpl_" . $this->getId();
         if (is_dir($directory)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
     }
 
@@ -644,8 +644,8 @@ class ilObjQuestionPool extends ilObject
     public function createExportDirectory()
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
-        ilUtil::makeDir($qpl_data_dir);
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
+        ilFileUtils::makeDir($qpl_data_dir);
         if (!is_writable($qpl_data_dir)) {
             $this->ilias->raiseError("Questionpool Data Directory (" . $qpl_data_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
@@ -653,16 +653,16 @@ class ilObjQuestionPool extends ilObject
         
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $qpl_dir = $qpl_data_dir . "/qpl_" . $this->getId();
-        ilUtil::makeDir($qpl_dir);
+        ilFileUtils::makeDir($qpl_dir);
         if (!@is_dir($qpl_dir)) {
             $this->ilias->raiseError("Creation of Questionpool Directory failed.", $this->ilias->error_obj->FATAL);
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-        ilUtil::makeDir($this->getExportDirectory('xls'));
+        ilFileUtils::makeDir($this->getExportDirectory('xls'));
         if (!@is_dir($this->getExportDirectory('xls'))) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->FATAL);
         }
-        ilUtil::makeDir($this->getExportDirectory('zip'));
+        ilFileUtils::makeDir($this->getExportDirectory('zip'));
         if (!@is_dir($this->getExportDirectory('zip'))) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->FATAL);
         }
@@ -681,10 +681,10 @@ class ilObjQuestionPool extends ilObject
                 break;
             case 'xls':
             case 'zip':
-                $export_dir = ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export_$type";
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export_$type";
                 break;
             default:
-                $export_dir = ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export";
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export";
                 break;
         }
         return $export_dir;
@@ -701,8 +701,8 @@ class ilObjQuestionPool extends ilObject
         $ilias = $DIC['ilias'];
         
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
-        ilUtil::makeDir($qpl_data_dir);
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
+        ilFileUtils::makeDir($qpl_data_dir);
         
         if (!is_writable($qpl_data_dir)) {
             $ilias->raiseError("Questionpool Data Directory (" . $qpl_data_dir
@@ -711,7 +711,7 @@ class ilObjQuestionPool extends ilObject
 
         // create questionpool directory (data_dir/qpl_data/qpl_import)
         $qpl_dir = $qpl_data_dir . "/qpl_import";
-        ilUtil::makeDir($qpl_dir);
+        ilFileUtils::makeDir($qpl_dir);
         if (!@is_dir($qpl_dir)) {
             $ilias->raiseError("Creation of Questionpool Directory failed.", $ilias->error_obj->FATAL);
         }
@@ -1024,7 +1024,7 @@ class ilObjQuestionPool extends ilObject
                             $target_path = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/";
                             if (!@is_dir($target_path)) {
                                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                                ilUtil::makeDirParents($target_path);
+                                ilFileUtils::makeDirParents($target_path);
                             }
                             rename($source_path, $target_path . $question_object["question_id"]);
                         }
@@ -1386,17 +1386,14 @@ class ilObjQuestionPool extends ilObject
         $types = array();
         while ($row = $ilDB->fetchAssoc($result)) {
             if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types))) {
-                global $DIC;
                 $ilLog = $DIC['ilLog'];
                 
                 if ($row["plugin"] == 0) {
                     $types[$lng->txt($row["type_tag"])] = $row;
                 } else {
-                    global $DIC;
-                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                    $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                    foreach ($pl_names as $pl_name) {
-                        $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                    $component_factory = $DIC['component.factory'];
+                    $plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
+                    foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                         if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                             $types[$pl->getQuestionTypeTranslation()] = $row;
                         }
@@ -1434,7 +1431,7 @@ class ilObjQuestionPool extends ilObject
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilLog = $DIC['ilLog'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_factory = $DIC['component.factory'];
         
         $lng->loadLanguageModule("assessment");
         $result = $ilDB->query("SELECT * FROM qpl_qst_type");
@@ -1443,9 +1440,7 @@ class ilObjQuestionPool extends ilObject
             if ($row["plugin"] == 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
             } else {
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
                     }
@@ -1545,17 +1540,14 @@ class ilObjQuestionPool extends ilObject
     {
         /* @var ilPluginAdmin $ilPluginAdmin */
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        $plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($plugins as $pluginName) {
-            if ($pluginName == $questionType) { // plugins having pname == qtype
+        $component_factory = $DIC['component.factory'];
+
+        foreach ($component_factory->getActivePluginsInSlot("qst") as $plugin) {
+            if ($plugin->getPluginName() == $questionType) { // plugins having pname == qtype
                 return true;
             }
             
             /* @var ilQuestionsPlugin $plugin */
-            $plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pluginName);
-            
             if ($plugin->getQuestionType() == $questionType) { // plugins havin an independent name
                 return true;
             }

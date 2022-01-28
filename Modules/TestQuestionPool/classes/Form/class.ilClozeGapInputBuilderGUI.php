@@ -64,7 +64,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         $error = false;
         $json = ilUtil::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);

@@ -6,7 +6,7 @@
  * @author Jesús López <lopez@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilFSWebStorageExercise extends ilFileSystemStorage
+class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
 {
     protected ilLogger $log;
     protected int $ass_id;
@@ -48,14 +48,6 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
         return 'ilExercise';
     }
 
-    public function create() : bool
-    {
-        $this->log->debug("parent create");
-
-        parent::create();
-
-        return true;
-    }
 
     public function deleteUserSubmissionDirectory(
         int $user_id
@@ -119,7 +111,7 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
                     $tmp_name = $a_files["tmp_name"][$k];
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
                         $this->path . DIRECTORY_SEPARATOR . basename($name),

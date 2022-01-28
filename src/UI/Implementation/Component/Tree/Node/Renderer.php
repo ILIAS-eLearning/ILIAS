@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,7 +9,6 @@ use ILIAS\UI\Implementation\Component\TriggeredSignal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Tree\Node;
 
 class Renderer extends AbstractComponentRenderer
@@ -18,7 +16,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -37,7 +35,6 @@ class Renderer extends AbstractComponentRenderer
         $link = $component->getLink();
 
         if (null !== $link) {
-            $tpl->touchBlock("role_none");
             $linkAsString = $this->getRefinery()
                 ->uri()
                 ->toString()
@@ -93,7 +90,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("SUBNODES", $subnodes_html);
         }
 
-        if ($link === null || count($subnodes) != 0 || $async) {
+        if ($async || $link === null || count($subnodes) !== 0) {
             $tpl->touchBlock("role_item");
         } else {
             $tpl->touchBlock("role_none");
@@ -104,11 +101,13 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Relay signals (beyond expansion) to the node's js.
-     * @param Node\Node $component
+     *
      * @param TriggeredSignal[] $triggered_signals
      */
-    protected function triggerFurtherSignals(Node\Node $component, array $triggered_signals)
-    {
+    protected function triggerFurtherSignals(
+        Node\Node $component,
+        array $triggered_signals
+    ) : Component\JavaScriptBindable {
         $signals = [];
         foreach ($triggered_signals as $s) {
             /**
@@ -141,7 +140,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(
             Node\Simple::class,

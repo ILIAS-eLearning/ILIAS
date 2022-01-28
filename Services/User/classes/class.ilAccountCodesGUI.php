@@ -1,25 +1,30 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* GUI class for account codes
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilAccountCodesGUI:
-* @ingroup ServicesUser
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * GUI class for account codes
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilAccountCodesGUI
 {
-    protected $ref_id; // [int]
+    protected ilPropertyFormGUI $form_gui;
+    protected \ILIAS\User\StandardGUIRequest $request;
+    protected int $ref_id;
+    protected array $filter;
     
-    /**
-     * Constructor
-     *
-     * @param int $a_ref_id
-     */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -27,9 +32,13 @@ class ilAccountCodesGUI
 
         $this->ref_id = $a_ref_id;
         $lng->loadLanguageModule("user");
+        $this->request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -46,11 +55,9 @@ class ilAccountCodesGUI
                 $this->$cmd();
                 break;
         }
-        
-        return true;
     }
     
-    public function listCodes()
+    public function listCodes() : void
     {
         global $DIC;
 
@@ -65,26 +72,22 @@ class ilAccountCodesGUI
             $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
         }
 
-        include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
         $button = ilLinkButton::getInstance();
         $button->setCaption("user_account_codes_add");
         $button->setUrl($ilCtrl->getLinkTarget($this, "addCodes"));
         $ilToolbar->addButtonInstance($button);
         
-        include_once("./Services/User/classes/class.ilAccountCodesTableGUI.php");
         $ctab = new ilAccountCodesTableGUI($this, "listCodes");
         $tpl->setContent($ctab->getHTML());
     }
     
-    public function initAddCodesForm()
+    public function initAddCodesForm() : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this, 'createCodes'));
         $this->form_gui->setTitle($lng->txt('user_account_codes_edit_header'));
@@ -124,7 +127,7 @@ class ilAccountCodesGUI
         $this->form_gui->addCommandButton('listCodes', $lng->txt('cancel'));
     }
     
-    public function addCodes()
+    public function addCodes() : void
     {
         global $DIC;
 
@@ -141,7 +144,7 @@ class ilAccountCodesGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
     
-    public function createCodes()
+    public function createCodes() : void
     {
         global $DIC;
 
@@ -150,6 +153,8 @@ class ilAccountCodesGUI
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
+
+        $valid = "";
 
         if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilErr->raiseError($lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
@@ -172,8 +177,6 @@ class ilAccountCodesGUI
                     break;
             }
             
-            include_once './Services/User/classes/class.ilAccountCode.php';
-            
             $stamp = time();
             for ($loop = 1; $loop <= $number; $loop++) {
                 ilAccountCode::create($valid, $stamp);
@@ -183,35 +186,36 @@ class ilAccountCodesGUI
             $ilCtrl->redirect($this, "listCodes");
         } else {
             $this->form_gui->setValuesByPost();
-            $tpl->setContent($this->form_gui->getHtml());
+            $tpl->setContent($this->form_gui->getHTML());
         }
     }
     
-    public function deleteCodes()
+    public function deleteCodes() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         
-        include_once './Services/User/classes/class.ilAccountCode.php';
-        ilAccountCode::deleteCodes($_POST["id"]);
+        $ids = $this->request->getIds();
+        ilAccountCode::deleteCodes($ids);
         
         ilUtil::sendSuccess($lng->txt('info_deleted'), true);
         $ilCtrl->redirect($this, "listCodes");
     }
 
-    public function deleteConfirmation()
+    public function deleteConfirmation() : void
     {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
 
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        $ids = $this->request->getIds();
+        if (count($ids) == 0) {
+            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->listCodes();
         }
     
         $gui = new ilConfirmationGUI();
@@ -220,8 +224,7 @@ class ilAccountCodesGUI
         $gui->setConfirm($lng->txt("confirm"), "deleteCodes");
         $gui->setFormAction($ilCtrl->getFormAction($this, "deleteCodes"));
         
-        include_once './Services/User/classes/class.ilAccountCode.php';
-        $data = ilAccountCode::loadCodesByIds($_POST["id"]);
+        $data = ilAccountCode::loadCodesByIds($ids);
         foreach ($data as $code) {
             $gui->addItem("id[]", $code["code_id"], $code["code"]);
         }
@@ -229,9 +232,8 @@ class ilAccountCodesGUI
         $tpl->setContent($gui->getHTML());
     }
     
-    public function resetCodesFilter()
+    public function resetCodesFilter() : void
     {
-        include_once("./Services/User/classes/class.ilAccountCodesTableGUI.php");
         $utab = new ilAccountCodesTableGUI($this, "listCodes");
         $utab->resetOffset();
         $utab->resetFilter();
@@ -239,9 +241,8 @@ class ilAccountCodesGUI
         $this->listCodes();
     }
     
-    public function applyCodesFilter()
+    public function applyCodesFilter() : void
     {
-        include_once("./Services/User/classes/class.ilAccountCodesTableGUI.php");
         $utab = new ilAccountCodesTableGUI($this, "listCodes");
         $utab->resetOffset();
         $utab->writeFilterToSession();
@@ -249,7 +250,7 @@ class ilAccountCodesGUI
         $this->listCodes();
     }
     
-    public function exportCodes()
+    public function exportCodes() : void
     {
         global $DIC;
 
@@ -261,10 +262,7 @@ class ilAccountCodesGUI
             $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->MESSAGE);
         }
         
-        include_once("./Services/User/classes/class.ilAccountCodesTableGUI.php");
         $utab = new ilAccountCodesTableGUI($this, "listCodes");
-        
-        include_once './Services/User/classes/class.ilAccountCode.php';
         $codes = ilAccountCode::getCodesForExport($utab->filter["code"], $utab->filter["valid_until"], $utab->filter["generated"]);
 
         if (sizeof($codes)) {

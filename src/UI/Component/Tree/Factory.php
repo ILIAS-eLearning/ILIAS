@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Tree;
 
@@ -38,14 +37,14 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     An Expandable Tree focusses on the exploration of hierarchically
+     *     An Expandable Tree focuses on the exploration of hierarchically
      *     structured data. Its nodes can be expanded to reveal the underlying
      *     nodes; nodes in the Expandable Tree can also be closed to hide all
      *     underlying nodes. This lets the user decide on the simultaneously
      *     shown levels of the data's hierarchy.
      *   composition: >
      *     A Tree is composed of Nodes.
-     *     Further levels (sub-Nodes) are indicated by an Expand Glyph
+     *     Further, levels (sub-Nodes) are indicated by an Expand Glyph
      *     for the closed state of the Node and respectively by a Collapse Glyph
      *     for the expanded state.
      *     If there are no sub-Nodes, no Glyph will be shown at all. It is possible

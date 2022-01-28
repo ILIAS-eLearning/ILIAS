@@ -58,9 +58,9 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilDclTableViewFieldSetting $a_set
+     * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $field = $a_set->getFieldObject();
         if ($field->getId() == 'comments' && !$this->parent_obj->table->getPublicCommentsEnabled()) {

@@ -115,7 +115,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      */
     protected function getTempFileName($file_type)
     {
-        return ilUtil::ilTempnam() . '.' . $file_type;
+        return ilFileUtils::ilTempnam() . '.' . $file_type;
     }
 
     /**
@@ -164,6 +164,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         } else {
             $log->info('ilWebkitHtmlToPdfTransformer error: ' . print_r($return_value, true));
         }
+        unlink($a_path_to_file);
     }
 
     /**

@@ -27,7 +27,7 @@ import {clear} from '../obj.js';
  */
 class Target extends Disposable {
   /**
-   * @param {*=} opt_target Default event target for dispatched events.
+   * @param {*} [opt_target] Default event target for dispatched events.
    */
   constructor(opt_target) {
     super();
@@ -102,13 +102,13 @@ class Target extends Disposable {
       ++dispatching[type];
       for (let i = 0, ii = listeners.length; i < ii; ++i) {
         if ('handleEvent' in listeners[i]) {
-          propagate = /** @type {import("../events.js").ListenerObject} */ (listeners[
-            i
-          ]).handleEvent(evt);
+          propagate = /** @type {import("../events.js").ListenerObject} */ (
+            listeners[i]
+          ).handleEvent(evt);
         } else {
-          propagate = /** @type {import("../events.js").ListenerFunction} */ (listeners[
-            i
-          ]).call(this, evt);
+          propagate = /** @type {import("../events.js").ListenerFunction} */ (
+            listeners[i]
+          ).call(this, evt);
         }
         if (propagate === false || evt.propagationStopped) {
           propagate = false;
@@ -147,7 +147,7 @@ class Target extends Disposable {
   }
 
   /**
-   * @param {string=} opt_type Type. If not provided,
+   * @param {string} [opt_type] Type. If not provided,
    *     `true` will be returned if this event target has any listeners.
    * @return {boolean} Has listeners.
    */

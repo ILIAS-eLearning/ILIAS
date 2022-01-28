@@ -4,7 +4,21 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Processor\PreProcessor;
+use ILIAS\FileUpload\MimeType;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCountPDFPagesPreProcessors
  *
@@ -18,9 +32,9 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
     /**
      * @inheritdoc
      */
-    public function process(FileStream $stream, Metadata $metadata)
+    public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
     {
-        if ($metadata->getMimeType() == ilMimeTypeUtil::APPLICATION__PDF
+        if ($metadata->getMimeType() == MimeType::APPLICATION__PDF
             && PATH_TO_GHOSTSCRIPT != ""
         ) {
             $PATH_TO_PDF = $stream->getMetadata('uri');

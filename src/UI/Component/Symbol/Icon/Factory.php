@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Symbol\Icon;
@@ -69,7 +70,6 @@ interface Factory
      *       Images used for Custom Icons SHOULD have equal width and height
      *       (=be quadratic) in order not to be distorted.
      * ---
-     *
      * @param   string $icon_path
      * @param   string $label
      * @param   string $size

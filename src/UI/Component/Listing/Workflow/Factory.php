@@ -1,12 +1,14 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Listing\Workflow;
+
+use ILIAS\UI\Component\Signal;
 
 /**
  * This is the interface for a workflow factory.
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -24,18 +26,15 @@ interface Factory
      *     If a step is available and carries an action, the label is rendered as shy-button.
      *   effect: >
      *     A Step MAY have an action; when clicked, the action is triggered.
-     *
      * context:
      *     - A Step MUST be used within a Workflow.
-     *
      * ----
-     *
      * @param string 	$label
      * @param string 	$description
      * @param null|string|\ILIAS\UI\Component\Signal 	$action
      * @return  \ILIAS\UI\Component\Listing\Workflow\Step
      */
-    public function step($label, $description = '', $action = null);
+    public function step(string $label, string $description = '', $action = null) : Step;
 
     /**
      * ---
@@ -52,21 +51,20 @@ interface Factory
      * rules:
      *   usage:
      *       1: >
-     *         Use a Linear Worflow for a set of tasks that should be performed one
+     *         Use a Linear Workflow for a set of tasks that should be performed one
      *         after the other and where there are no inter-dependencies other
-     *         than completeliness of the prior task.
+     *         than completeness of the prior task.
      *       2: >
-     *         You SHOULD NOT use Linear Workflow for workflows with forked pathes
+     *         You SHOULD NOT use Linear Workflow for workflows with forked paths
      *         due to user-decisions or calculations.
      *       3: >
-     *         You SHOULD NOT use Linear Workflow for continous workflows;
-     *         a inear workflow MUST have a start- and and end-point.
+     *         You SHOULD NOT use Linear Workflow for continuous workflows;
+     *         a linear workflow MUST have a start- and end-point.
      *
      * ----
-     *
      * @param string 	$title
      * @param Step[] 	$steps
      * @return  \ILIAS\UI\Component\Listing\Workflow\Linear
      */
-    public function linear($title, array $steps);
+    public function linear(string $title, array $steps) : Linear;
 }

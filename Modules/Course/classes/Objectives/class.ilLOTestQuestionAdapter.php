@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 
 /**
  * Test question filter
@@ -63,10 +61,8 @@ class ilLOTestQuestionAdapter
      */
     protected function lookupRelevantObjectiveIdsForTest($a_container_id, $a_tst_ref_id, $a_user_id)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_container_id);
         
         $relevant_objective_ids = array();
@@ -101,7 +97,6 @@ class ilLOTestQuestionAdapter
         $test_type = $assignments->getTypeByTest($a_tst_ref_id);
         
         $passed_objectives = array();
-        include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
         $results = new ilLOUserResults($a_container_id, $a_user_id);
         
         $passed = $results->getCompletedObjectiveIds();
@@ -138,7 +133,6 @@ class ilLOTestQuestionAdapter
         $this->logger->debug('Notify test start: ' . print_r($relevant_objectives, true));
 
         // delete test runs
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
         ilLOTestRun::deleteRun(
             $a_test_session->getObjectiveOrientedContainerId(),
             $a_test_session->getUserId(),
@@ -230,13 +224,11 @@ class ilLOTestQuestionAdapter
     
     protected function lookupObjectiveIdByRandomQuestionSelectionDefinitionId($a_id)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
         return ilLORandomTestQuestionPools::lookupObjectiveIdsBySequence($this->getContainerId(), $a_id);
     }
 
     protected function lookupObjectiveIdByFixedQuestionId($a_question_id)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         return ilCourseObjectiveQuestion::lookupObjectivesOfQuestion($a_question_id);
     }
     
@@ -292,8 +284,6 @@ class ilLOTestQuestionAdapter
         }
         
         foreach ($this->run as $run) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
-            include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
                 
             $old_result = ilLOUserResults::lookupResult(
                 $this->container_id,
@@ -302,7 +292,6 @@ class ilLOTestQuestionAdapter
                 $this->getAssignments()->getTypeByTest($session->getRefId())
             );
             
-            include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
             
             $limit = ilLOUtils::lookupObjectiveRequiredPercentage(
                 $this->container_id,
@@ -398,8 +387,6 @@ class ilLOTestQuestionAdapter
                 
                 $res = $run->getResult();
                 
-                include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
-                include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
                 
                 $old_result = ilLOUserResults::lookupResult(
                     $this->container_id,
@@ -430,7 +417,6 @@ class ilLOTestQuestionAdapter
                 $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . print_r($run->getResult(), true));
                 $GLOBALS['DIC']['ilLog']->write(__METHOD__ . '!!!!!!!!!!!!!!!!!!!!: ' . print_r($comp, true));
                 
-                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
                 ilLPStatusWrapper::_updateStatus($this->container_id, $this->user_id);
             }
         }
@@ -469,7 +455,6 @@ class ilLOTestQuestionAdapter
 
     protected function initTestRun(ilTestSession $session)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
         $this->run = ilLOTestRun::getRun(
             $this->container_id,
             $this->user_id,
@@ -516,7 +501,6 @@ class ilLOTestQuestionAdapter
             $points = 0;
             foreach ($seq->getQuestionIds() as $idx => $qst_id) {
                 $tst_run->addQuestion($qst_id);
-                include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
             }
             $tst_run->setMaxPoints($points);
@@ -528,7 +512,6 @@ class ilLOTestQuestionAdapter
     {
         foreach ($this->run as $tst_run) {
             $tst_run->clearQuestions();
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
             $qst = ilCourseObjectiveQuestion::lookupQuestionsByObjective(
                 ilObject::_lookupObjId($session->getRefId()),
                 $tst_run->getObjectiveId()
@@ -549,8 +532,6 @@ class ilLOTestQuestionAdapter
      */
     protected function updateRandomQuestions(ilTestSession $session, ilTestSequenceRandomQuestionSet $seq)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
         foreach ($this->run as $tst_run) {
             // Clear questions of previous run
@@ -597,7 +578,6 @@ class ilLOTestQuestionAdapter
         $lng = $DIC['lng'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
         
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
         $questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
         $questionList->setParentObjId($testObjId);
 

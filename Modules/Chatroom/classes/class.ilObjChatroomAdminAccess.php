@@ -10,7 +10,7 @@
  */
 class ilObjChatroomAdminAccess extends ilObjectAccess
 {
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true];
@@ -20,7 +20,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
 

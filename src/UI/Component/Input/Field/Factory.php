@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,7 +9,6 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -39,14 +38,11 @@ interface Factory
      *         of text-input may not be exceeded (e.g. due to database-limitations).
      *
      * ---
-     *
      * @param    string      $label
      * @param    string|null $byline
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Text
      */
-    public function text($label, $byline = null);
-
+    public function text(string $label, string $byline = null) : Text;
 
     /**
      * ---
@@ -68,14 +64,11 @@ interface Factory
      *     3: A valid input range SHOULD be specified.
      *
      * ---
-     *
      * @param    string      $label
      * @param    string|null $byline
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Numeric
      */
-    public function numeric($label, $byline = null);
-
+    public function numeric(string $label, string $byline = null) : Numeric;
 
     /**
      * ---
@@ -91,17 +84,13 @@ interface Factory
      *      There is no visible effect using groups.
      *   rivals:
      *      sections: Sections are used to generate a visible relation of fields.
-     *
      * rules: []
-     *
      * ---
-     *
      * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @param    string    $label
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Group
      */
-    public function group(array $inputs, string $label = '');
+    public function group(array $inputs, string $label = '') : Group;
 
     /**
      * ---
@@ -116,17 +105,15 @@ interface Factory
      *   effect: >
      *      If the checkbox is checked, the contained inputs are revealed, while
      *      they are hidden when the checkbox is not checked.
-     *
      * rules:
      *  usage:
      *    1: >
      *      There MUST NOT be a nesting of more than one optional and/or switchable
      *      group. The only exception to this rule is the required quantification
      *      of a subsetting by a date or number. These exceptions MUST individually
-     *      accepted by the Jour Fixe.
-     *
+     *      accept by the Jour Fixe.
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
+     * @param   array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @return	\ILIAS\UI\Component\Input\Field\OptionalGroup
      */
     public function optionalGroup(array $inputs, string $label, string $byline = null) : OptionalGroup;
@@ -144,7 +131,6 @@ interface Factory
      *   effect: >
      *      If a radiobutton is selected, the according inputs are revealed and the
      *      other groups are hidden.
-     *
      * rules:
      *  usage:
      *    1: >
@@ -152,7 +138,6 @@ interface Factory
      *      group. The only exception to this rule is the required quantification
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accepted by the Jour Fixe.
-     *
      * ---
      * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $input
      * @return	\ILIAS\UI\Component\Input\Field\SwitchableGroup
@@ -171,7 +156,6 @@ interface Factory
      *      Groups: >
      *          Groups are used as purely logical units, while sections visualize
      *          the correlation of fields.
-     *
      * rules:
      *   composition:
      *     1: Sections SHOULD comprise 2 to 5 Settings.
@@ -193,17 +177,13 @@ interface Factory
      *       services to ensure consistency throughout ILIAS.
      *     4: >
      *       In doubt consistency SHOULD be prioritized over accuracy in titles.
-     *
      * ---
-     *
      * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @param    string|null $label
      * @param    string      $byline
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Section
      */
-    public function section(array $inputs, $label, $byline = null);
-
+    public function section(array $inputs, string $label, string $byline = null) : Section;
 
     /**
      * ---
@@ -229,10 +209,9 @@ interface Factory
      *     1: The checkbox’s identifier MUST always state something positive.
      *
      * ---
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Checkbox
      */
-    public function checkbox($label, $byline = null);
+    public function checkbox(string $label, string $byline = null) : Checkbox;
 
 
     /**
@@ -244,7 +223,7 @@ interface Factory
      *     or not possible to display all available options, e.g. because the amount is too high
      *     when the options are "all users" or "all tags.
      *     Besides the tags to choose from, the user can provide own tags by typing them
-     *     into the Input (@see Tag::withOptionsAreExtendable ).
+     *     into the Input (@see Tag::withUserCreatedTagsAllowed).
      *   composition: >
      *     The Input is presented as a text-input and prepended by already selected tags
      *     presented as texts including a close-button.  (e.g. [ Amsterdam X ] )
@@ -253,7 +232,7 @@ interface Factory
      *     All mentioned elements are not taken from the UI-Service.
      *   effect: >
      *     As soon as the user types in the text-input, the Tag Input suggests matching tags from
-     *     the the given list of tags. Suggestions will appear after a defined
+     *     the given list of tags. Suggestions will appear after a defined
      *     amount of characters, one by default.
      *     Clicking on one of these tags closes the list and transfers the selected tag into
      *     the text-input, displayed as a tag with a close-button.
@@ -289,11 +268,9 @@ interface Factory
      * @param string   $byline
      * @param string[] $tags  List of tags to select from, given as a list of texts
      *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Tag
      */
-    public function tag(string $label, array $tags, $byline = null) : Tag;
-
+    public function tag(string $label, array $tags, string $byline = null) : Tag;
 
     /**
      * ---
@@ -331,14 +308,11 @@ interface Factory
      *         SHOULD enforce strong passwords by appropiate contraints.
      *
      * ---
-     *
      * @param    string      $label
      * @param    string|null $byline
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Password
      */
-    public function password($label, $byline = null);
-
+    public function password(string $label, string $byline = null) : Password;
 
     /**
      * ---
@@ -374,8 +348,7 @@ interface Factory
      *
      * @return \ILIAS\UI\Component\Input\Field\Select
      */
-    public function select($label, array $options, $byline = null);
-
+    public function select(string $label, array $options, string $byline = null) : Select;
 
     /**
      * ---
@@ -419,7 +392,7 @@ interface Factory
      * @param    string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Textarea
      */
-    public function textarea($label, $byline = null);
+    public function textarea(string $label, string $byline = null) : Textarea;
 
     /**
      * ---
@@ -457,14 +430,11 @@ interface Factory
      *     1: The presumably most relevant option SHOULD be the first option.
      *
      * ---
-     *
      * @param    string 	$label
      * @param    string|null $byline
-     *
      * @return    \ILIAS\UI\Component\Input\Field\Radio
      */
-    public function radio($label, $byline = null);
-
+    public function radio(string $label, string $byline = null) : Radio;
 
     /**
      * ---
@@ -504,10 +474,9 @@ interface Factory
      * @param string 	$label
      * @param array<string,string> 	$options 	with the select options as value=>label.
      * @param string 	$byline
-     *
      * @return \ILIAS\UI\Component\Input\Field\MultiSelect
      */
-    public function multiSelect($label, array $options, $byline = null);
+    public function multiSelect(string $label, array $options, string $byline = null) : MultiSelect;
 
     /**
      * ---
@@ -537,11 +506,9 @@ interface Factory
      * ---
      * @param string 	$label   defines the label.
      * @param string 	$byline
-     *
      * @return \ILIAS\UI\Component\Input\Field\DateTime
      */
-    public function dateTime($label, $byline = null);
-
+    public function dateTime(string $label, string $byline = null) : DateTime;
 
     /**
      * ---
@@ -566,11 +533,9 @@ interface Factory
      * ---
      * @param string 	$label   defines the label.
      * @param string 	$byline
-     *
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
-    public function duration($label, $byline = null);
-
+    public function duration(string $label, string $byline = null) : Duration;
 
     /**
      * ---
@@ -605,7 +570,6 @@ interface Factory
      * @param UploadHandler $handler
      * @param string        $label defines the label.
      * @param string        $byline
-     *
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(UploadHandler $handler, string $label, string $byline = null) : File;
@@ -635,7 +599,6 @@ interface Factory
      * ---
      * @param string $label
      * @param string|null $byline
-     *
      * @return \ILIAS\UI\Component\Input\Field\Url
      */
     public function url(string $label, string $byline = null) : Url;
@@ -665,7 +628,6 @@ interface Factory
      * ---
      * @param string $label
      * @param string|null $byline
-     *
      * @return \ILIAS\UI\Component\Input\Field\Link
      */
     public function link(string $label, string $byline = null) : Link;

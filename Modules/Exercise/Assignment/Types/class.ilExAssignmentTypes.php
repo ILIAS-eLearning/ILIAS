@@ -12,8 +12,6 @@ use ILIAS\Exercise;
  */
 class ilExAssignmentTypes
 {
-    public const STR_IDENTIFIER_PORTFOLIO = "prtf";
-
     protected Exercise\InternalService $service;
 
     protected function __construct(Exercise\InternalService $service = null)
@@ -137,11 +135,11 @@ class ilExAssignmentTypes
 
     /**
      * Get assignment type IDs for given submission type
-     * @param int $a_submission_type
+     * @param string $a_submission_type
      * @return int[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getIdsForSubmissionType(int $a_submission_type) : array
+    public function getIdsForSubmissionType(string $a_submission_type) : array
     {
         $ids = [];
         foreach ($this->getAllIds() as $id) {

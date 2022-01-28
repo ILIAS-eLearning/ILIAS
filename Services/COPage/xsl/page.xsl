@@ -85,6 +85,8 @@
 <xsl:param name="current_ts"/>
 <xsl:param name="enable_html_mob"/>
 <xsl:param name="page_perma_link"/>
+<xsl:param name="activated_protection"/>
+<xsl:param name="protection_text"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -1972,7 +1974,10 @@
 	<xsl:if test="@Class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:if>
 	<xsl:if test="not(@Class)">ilc_media_cont_MediaContainer</xsl:if>
 	</xsl:variable>
-
+	<xsl:variable name="captionclass">
+		<xsl:if test="@CaptionClass">ilc_media_caption_<xsl:value-of select="@CaptionClass"/></xsl:if>
+		<xsl:if test="not(@CaptionClass)">ilc_media_caption_MediaCaption</xsl:if>
+	</xsl:variable>
 
 	<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
 
@@ -2156,7 +2161,8 @@
 			<!-- mob caption -->
 			<xsl:choose>			<!-- derive -->
 				<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
@@ -2164,7 +2170,8 @@
 					</div></figcaption>
 				</xsl:when>
 				<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+					<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+						<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
@@ -2173,7 +2180,8 @@
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1">
-						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div class="ilc_media_caption_MediaCaption">
+						<figcaption><xsl:attribute name="style"><xsl:value-of select="$captiondisplay"/></xsl:attribute><div>
+							<xsl:attribute name="class"><xsl:value-of select="$captionclass"/></xsl:attribute>
 						<xsl:call-template name="FullscreenLink">
 							<xsl:with-param name="cmobid" select="$cmobid"/>
 						</xsl:call-template>
@@ -2471,7 +2479,7 @@
 
 			<object>
 				<xsl:attribute name="classid">clsid:D27CDB6E-AE6D-11cf-96B8-444553540000</xsl:attribute>
-				<xsl:attribute name="codebase">http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0</xsl:attribute>
+				<xsl:attribute name="codebase">https://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0</xsl:attribute>
 				<xsl:attribute name="ID"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -2505,7 +2513,7 @@
 						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="type">application/x-shockwave-flash</xsl:attribute>
-					<xsl:attribute name="pluginspage">http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
+					<xsl:attribute name="pluginspage">https://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
 					<xsl:attribute name="base"><xsl:value-of select="$base"/></xsl:attribute>
 					<xsl:call-template name="MOBParams">
 						<xsl:with-param name="curPurpose" select="$curPurpose" />
@@ -3166,7 +3174,13 @@
 				</a>
 			</xsl:if>
 			<xsl:if test="(not(./ExtLink) and not(./IntLink)) or $mode = 'edit'">
+				<xsl:if test="$mode = 'edit' and $activated_protection = 'y' and @Protected = '1'">
+					<div class="small"><xsl:value-of select="$protection_text"/></div>
+				</xsl:if>
 				<div>
+					<xsl:if test="$activated_protection = 'y' and @Protected = '1'">
+						<xsl:attribute name="data-protected">1</xsl:attribute>
+					</xsl:if>
 					<xsl:call-template name="SectionContent" />
 				</div>
 			</xsl:if>
@@ -3761,35 +3775,37 @@
 			<xsl:if test="$mode = 'edit'">
 				<xsl:attribute name="class">flex-col flex-grow copg-edit-container</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$mode = 'edit'">
-				<xsl:call-template name="EditReturnAnchors"/>
-			</xsl:if>
-			<!-- insert commands -->
-			<!-- <xsl:value-of select="@HierId"/> -->
-			<xsl:if test="$mode = 'edit'">
-				<!-- drop area (js) -->
-				<xsl:if test="$javascript = 'enable'">
-					<xsl:call-template name="DropArea">
-						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-					</xsl:call-template>
+			<div>	<!-- this div enforces margin collapsing, see bug 31536 -->
+				<xsl:if test="$mode = 'edit'">
+					<xsl:call-template name="EditReturnAnchors"/>
 				</xsl:if>
-				<!-- insert dropdown (no js) -->
-				<xsl:if test= "$javascript = 'disable'">
-					<select size="1" class="ilEditSelect">
-						<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-						</xsl:attribute>
-						<xsl:call-template name="EditMenuInsertItems"/>
-					</select>
-					<input class="ilEditSubmit" type="submit">
-						<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-						<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-					</input>
-					<br/>
+				<!-- insert commands -->
+				<!-- <xsl:value-of select="@HierId"/> -->
+				<xsl:if test="$mode = 'edit'">
+					<!-- drop area (js) -->
+					<xsl:if test="$javascript = 'enable'">
+						<xsl:call-template name="DropArea">
+							<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+							<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:if>
+					<!-- insert dropdown (no js) -->
+					<xsl:if test= "$javascript = 'disable'">
+						<select size="1" class="ilEditSelect">
+							<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+							</xsl:attribute>
+							<xsl:call-template name="EditMenuInsertItems"/>
+						</select>
+						<input class="ilEditSubmit" type="submit">
+							<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+							<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+						</input>
+						<br/>
+					</xsl:if>
 				</xsl:if>
-			</xsl:if>
-			<xsl:apply-templates select="PageContent"/>
-			<xsl:comment>End of Grid Cell</xsl:comment>
+				<xsl:apply-templates select="PageContent"/>
+				<xsl:comment>End of Grid Cell</xsl:comment>
+			</div>
 		</div>
 	</div>
 </xsl:template>
@@ -4175,7 +4191,12 @@
 	</xsl:if>
 </xsl:template>
 
-<!-- helper functions -->
+<!-- Advanced MD Page List -->
+<xsl:template match="AMDForm">
+	[[[[[AMDForm;<xsl:value-of select="@RecordIds"/>]]]]]
+</xsl:template>
+
+	<!-- helper functions -->
 
 <xsl:template name="substring-before-last">
 	<xsl:param name="originalString" select="''" />

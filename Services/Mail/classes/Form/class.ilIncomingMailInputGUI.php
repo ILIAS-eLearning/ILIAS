@@ -48,7 +48,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         return parent::render();
     }
 
-    public function getItemByPostVar($a_post_var)
+    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
     {
         $this->initializeOptions();
         return parent::getItemByPostVar($a_post_var);
@@ -76,19 +76,19 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         
         $incomingLocal = new ilRadioOption(
             $DIC->language()->txt('mail_incoming_local'),
-            ilMailOptions::INCOMING_LOCAL
+            (string) ilMailOptions::INCOMING_LOCAL
         );
         $incomingLocal->setDisabled($this->getDisabled());
 
         $incomingExternal = new ilRadioOption(
             $DIC->language()->txt('mail_incoming_smtp'),
-            ilMailOptions::INCOMING_EMAIL
+            (string) ilMailOptions::INCOMING_EMAIL
         );
         $incomingExternal->setDisabled($this->getDisabled());
 
         $incomingBoth = new ilRadioOption(
             $DIC->language()->txt('mail_incoming_both'),
-            ilMailOptions::INCOMING_BOTH
+            (string) ilMailOptions::INCOMING_BOTH
         );
         $incomingBoth->setDisabled($this->getDisabled());
 
@@ -101,18 +101,18 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 
         $sub_mail_opt1 = new ilRadioOption(
             $DIC->language()->txt('mail_first_email'),
-            ilMailOptions::FIRST_EMAIL
+            (string) ilMailOptions::FIRST_EMAIL
         );
         $sub_mail_opt1->setDisabled($this->getDisabled());
 
         $sub_mail_opt2 = new ilRadioOption(
             $DIC->language()->txt('mail_second_email'),
-            ilMailOptions::SECOND_EMAIL
+            (string) ilMailOptions::SECOND_EMAIL
         );
         $sub_mail_opt2->setDisabled($this->getDisabled());
         $sub_mail_opt3 = new ilRadioOption(
             $DIC->language()->txt('mail_both_email'),
-            ilMailOptions::BOTH_EMAIL
+            (string) ilMailOptions::BOTH_EMAIL
         );
         $sub_mail_opt3->setDisabled($this->getDisabled());
 
@@ -120,18 +120,18 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         $incomingBothAddressChoice->setDisabled($this->getDisabled());
         $sub_both_opt1 = new ilRadioOption(
             $DIC->language()->txt('mail_first_email'),
-            ilMailOptions::FIRST_EMAIL
+            (string) ilMailOptions::FIRST_EMAIL
         );
         $sub_both_opt1->setDisabled($this->getDisabled());
 
         $sub_both_opt2 = new ilRadioOption(
             $DIC->language()->txt('mail_second_email'),
-            ilMailOptions::SECOND_EMAIL
+            (string) ilMailOptions::SECOND_EMAIL
         );
         $sub_both_opt2->setDisabled($this->getDisabled());
         $sub_both_opt3 = new ilRadioOption(
             $DIC->language()->txt('mail_both_email'),
-            ilMailOptions::BOTH_EMAIL
+            (string) ilMailOptions::BOTH_EMAIL
         );
         $sub_both_opt3->setDisabled($this->getDisabled());
         $email_info = [];

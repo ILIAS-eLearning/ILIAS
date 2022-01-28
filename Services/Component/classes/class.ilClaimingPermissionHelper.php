@@ -1,35 +1,33 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Claiming permission helper base class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesComponent
  */
 abstract class ilClaimingPermissionHelper
 {
-    protected $user_id; // [int]
-    protected $ref_id; // [int]
-    protected $map; // [array]
-    protected $context_ids; // [array]
-    protected $plugins; // [array]
-    
-    protected static $instances; // [array]
+    protected int $user_id = 0;
+    protected int $ref_id = 0;
+    protected array $map = [];
+    protected array $context_ids = [];
+    protected array $plugins = [];
+    protected static array $instances = [];
         
-    
-    // constructor
-    
-    /**
-     * Constructor
-     *
-     * @param int $a_user_id
-     * @param int $a_ref_id
-     * @return self
-     */
-    protected function __construct($a_user_id, $a_ref_id)
+    protected function __construct(int $a_user_id, int $a_ref_id)
     {
         $this->setUserId($a_user_id);
         $this->setRefId($a_ref_id);
@@ -37,24 +35,8 @@ abstract class ilClaimingPermissionHelper
         $this->reset();
     }
     
-    /**
-     * Factory
-     *
-     * @param int $a_user_id
-     * @param int $a_ref_id
-     * @return self
-     */
-    public static function getInstance($a_user_id = null, $a_ref_id = null)
+    public static function getInstance(int $a_user_id, int $a_ref_id) : self
     {
-        global $DIC;
-        $ilUser = $DIC->user();
-        
-        if (!$a_user_id) {
-            $a_user_id = $ilUser->getId();
-        }
-        if (!$a_ref_id) {
-            $a_ref_id = (int) $_REQUEST["ref_id"];
-        }
         if (!isset(self::$instances[$a_user_id][$a_ref_id])) {
             self::$instances[$a_user_id][$a_ref_id] = new static($a_user_id, $a_ref_id);
         }
@@ -64,7 +46,7 @@ abstract class ilClaimingPermissionHelper
     /**
      * Reset (internal caches)
      */
-    public function reset()
+    public function reset() : void
     {
         $this->context_ids = array();
     }
@@ -72,42 +54,22 @@ abstract class ilClaimingPermissionHelper
     
     // properties
     
-    /**
-     * Set user id
-     *
-     * @param int $a_value
-     */
-    protected function setUserId($a_value)
+    protected function setUserId(int $a_value) : void
     {
-        $this->user_id = (int) $a_value;
+        $this->user_id = $a_value;
     }
     
-    /**
-     * Get user id
-     *
-     * @return int
-     */
-    protected function getUserId()
+    protected function getUserId() : int
     {
         return $this->user_id;
     }
-        
-    /**
-     * Set ref id
-     *
-     * @param int $a_value
-     */
-    protected function setRefId($a_value)
+
+    protected function setRefId(int $a_value) : void
     {
-        $this->ref_id = (int) $a_value;
+        $this->ref_id = $a_value;
     }
     
-    /**
-     * Get ref id
-     *
-     * @return int
-     */
-    protected function getRefId()
+    protected function getRefId() : int
     {
         return $this->ref_id;
     }
@@ -117,34 +79,26 @@ abstract class ilClaimingPermissionHelper
     
     /**
      * Get all context ids for context type (from DB, is cached)
-     *
-     * @see self::getValidContextIds()
-     * @param int $a_context_type
-     * @return array
      */
-    abstract protected function readContextIds($a_context_type);
-    
-    
+    abstract protected function readContextIds(int $a_context_type) : array;
+
+
     // permissions
     
     /**
      * Build map of context and actions
-     *
-     * @return array
      */
-    abstract protected function buildPermissionMap();
-        
+    abstract protected function buildPermissionMap() : array;
+
     /**
      * Check if given combination of context and action is valid
-     *
-     * @param int $a_context_type
-     * @param mixed $a_context_id
-     * @param int $a_action_id
-     * @param int $a_action_sub_id
-     * @return boolean
      */
-    protected function isValidContextAndAction($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
-    {
+    protected function isValidContextAndAction(
+        int $a_context_type,
+        int $a_context_id,
+        int $a_action_id,
+        ?int $a_action_sub_id = null
+    ) : bool {
         $valid = false;
         
         if (array_key_exists($a_context_type, $this->map)) {
@@ -180,7 +134,7 @@ abstract class ilClaimingPermissionHelper
      * @param int $a_context_type
      * @return array
      */
-    protected function getValidContextIds($a_context_type)
+    protected function getValidContextIds(int $a_context_type) : array
     {
         if (!array_key_exists($a_context_type, $this->context_ids)) {
             $this->context_ids[$a_context_type] = $this->readContextIds($a_context_type);
@@ -190,30 +144,24 @@ abstract class ilClaimingPermissionHelper
             
     /**
      * Check permission
-     *
-     * @param int $a_context_type
-     * @param int $a_context_id
-     * @param int $a_action_id
-     * @param int $a_action_sub_id
-     * @return bool
      */
-    public function hasPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
-    {
+    public function hasPermission(
+        int $a_context_type,
+        int $a_context_id,
+        int $a_action_id,
+        ?int $a_action_sub_id = null
+    ) : bool {
         if ($this->isValidContextAndAction($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id)) {
             return $this->checkPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id);
         }
         // :TODO: exception?
+        return false;
     }
     
     /**
      * Check permissions
-     *
-     * @param int $a_context_type
-     * @param int $a_context_id
-     * @param array $a_action_ids
-     * @return bool
      */
-    public function hasPermissions($a_context_type, $a_context_id, array $a_action_ids)
+    public function hasPermissions(int $a_context_type, int $a_context_id, array $a_action_ids) : array
     {
         $res = array();
         
@@ -233,25 +181,21 @@ abstract class ilClaimingPermissionHelper
     
     /**
      * Check permission (helper: rbac, plugins)
-     *
-     * @param int $a_context_type
-     * @param int $a_context_id
-     * @param int $a_action_id
-     * @param int $a_action_sub_id
-     * @return bool
      */
-    protected function checkPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
-    {
+    protected function checkPermission(
+        int $a_context_type,
+        int $a_context_id,
+        int $a_action_id,
+        ?int $a_action_sub_id = null
+    ) : bool {
         return ($this->checkRBAC() &&
             $this->checkPlugins($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id));
     }
     
     /**
      * Check permission against RBAC
-     *
-     * @return bool
      */
-    protected function checkRBAC()
+    protected function checkRBAC() : bool
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -262,22 +206,18 @@ abstract class ilClaimingPermissionHelper
     
     /**
      * Get active plugins (for current slot)
-     *
-     * @return array ilPlugin
      */
-    abstract protected function getActivePlugins();
+    abstract protected function getActivePlugins() : array;
     
     /**
      * Check permission against plugins
-     *
-     * @param int $a_context_type
-     * @param int $a_context_id
-     * @param int $a_action_id
-     * @param int $a_action_sub_id
-     * @return boolean
      */
-    protected function checkPlugins($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)
-    {
+    protected function checkPlugins(
+        int $a_context_type,
+        int $a_context_id,
+        int $a_action_id,
+        ?int $a_action_sub_id = null
+    ) : bool {
         $valid = true;
         
         if (!is_array($this->plugins)) {

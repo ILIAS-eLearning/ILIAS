@@ -259,11 +259,28 @@ class ilObjTestXMLParser extends ilSaxParser
 
     protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $attr)
     {
-        $sourcePoolDefinition->setPoolId($this->getImportMapping()->getMapping(
+        $source_pool_id = (int) $attr['poolId'];
+        $effective_pool_id = (int) $this->getImportMapping()->getMapping(
             'Modules/Test',
             'pool',
-            (int) $attr['poolId']
-        ));
+            $source_pool_id
+        );
+        $sourcePoolDefinition->setPoolId($effective_pool_id);
+
+        $derive_from_obj_id = true;
+        // The ref_id might not be given in old export files, so we have to check for existence
+        if (isset($attr['ref_id']) && is_numeric($attr['ref_id'])) {
+            if ($source_pool_id === $effective_pool_id) {
+                $derive_from_obj_id = false;
+                $sourcePoolDefinition->setPoolRefId((int) $attr['ref_id']);
+            }
+        }
+
+        if ($derive_from_obj_id) {
+            $ref_ids = ilObject::_getAllReferences($effective_pool_id);
+            $ref_id = current($ref_ids);
+            $sourcePoolDefinition->setPoolRefId($ref_id ? (int) $ref_id : null);
+        }
 
         $sourcePoolDefinition->setPoolQuestionCount((int) $attr['poolQuestCount']);
         $sourcePoolDefinition->setQuestionAmount((int) $attr['questAmount']);

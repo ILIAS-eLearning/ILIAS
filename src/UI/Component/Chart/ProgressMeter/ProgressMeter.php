@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
@@ -12,12 +12,11 @@ use ILIAS\UI\Component\Component;
  */
 interface ProgressMeter extends Component
 {
-
     /**
      * Get maximum value
      *
      * This value is used as 100%.
-     * This value will always returned "raw" because it is used to calculate the
+     * This value will always return "raw" because it is used to calculate the
      * percentage values of main, required and comparison.
      *
      * @return int|float

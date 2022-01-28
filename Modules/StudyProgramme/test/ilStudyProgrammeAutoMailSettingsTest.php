@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -49,7 +47,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
                 self::INVALID_REMINDER_NOT_RESTARTED_BY_USER,
                 self::VALID_PROCESSING_ENDS_NOT_SUCCESSFUL_DAYS_1
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -63,7 +61,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
                 self::VALID_REMINDER_NOT_RESTARTED_BY_USER_1,
                 self::INVALID_PROCESSING_ENDS_NOT_SUCCESSFUL_DAYS
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -124,7 +122,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         );
         try {
             $obj->withReminderNotRestartedByUserDays(self::INVALID_REMINDER_NOT_RESTARTED_BY_USER);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -164,7 +162,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
             $obj->withProcessingEndsNotSuccessfulDays(
                 self::INVALID_PROCESSING_ENDS_NOT_SUCCESSFUL_DAYS
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }

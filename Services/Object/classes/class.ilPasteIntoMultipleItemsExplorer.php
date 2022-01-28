@@ -12,21 +12,10 @@ use ILIAS\Repository\Clipboard\ClipboardManager;
  */
 class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
     const SEL_TYPE_CHECK = 1;
     const SEL_TYPE_RADIO = 2;
     
     public $root_id = 0;
-    public $output = '';
 
     private $checked_items = array();
     private $post_var = '';
@@ -71,12 +60,14 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $this->addFilter('grp');
         $this->addFilter('cat');
         $this->addFilter('fold');
+        $this->addFilter('lso');
         
         $this->addFormItemForType('root');
         $this->addFormItemForType('crs');
         $this->addFormItemForType('grp');
         $this->addFormItemForType('cat');
         $this->addFormItemForType('fold');
+        $this->addFormItemForType('lso');
         
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);
@@ -87,7 +78,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
             ->clipboard();
     }
     
-    public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return false;
     }
@@ -289,7 +280,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
     * @param	integer array options
     * @return	string
     */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
         $tree = $this->tree;
@@ -318,22 +309,22 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $tpl->setVariable('OBJ_TITLE', $title);
     }
     
-    public function showChilds($a_ref_id, $a_obj_id = 0)
+    public function showChilds($a_parent_id, $a_obj_id = 0) : bool
     {
         $ilAccess = $this->access;
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
         // #11778 - ilAccessHandler::doConditionCheck()
-        if ($ilAccess->checkAccess("read", "", $a_ref_id)) {
+        if ($ilAccess->checkAccess("read", "", $a_parent_id)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function isVisible($a_ref_id, $a_type)
+    public function isVisible($a_ref_id, string $a_type) : bool
     {
         $ilAccess = $this->access;
 

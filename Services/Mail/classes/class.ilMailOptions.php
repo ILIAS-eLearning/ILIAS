@@ -130,7 +130,7 @@ class ilMailOptions
             'mail_address_option' => ['integer', $this->getEmailAddressMode()],
         ];
 
-        if ($this->settings->get('mail_notification')) {
+        if ($this->settings->get('mail_notification', '0')) {
             $data['cronjob_notification'] = ['integer', (int) $this->isCronJobNotificationEnabled()];
         } else {
             $data['cronjob_notification'] = ['integer', self::lookupNotificationSetting($this->usrId)];

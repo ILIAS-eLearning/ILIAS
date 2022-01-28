@@ -1,35 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php";
-
 /**
-* Repository Explorer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * Repository Explorer
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 {
-    protected $highlighted_parent = null;
-    protected $ref_id = null;
+    protected ?int $highlighted_parent = null;
+    protected ?int $ref_id = null;
 
     /**
      * Construct
-     *
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param object $a_selection_gui
-     * @param string $a_selection_cmd
-     * @param string $a_selection_par
+     * @inheritDoc
      */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         $a_selection_gui = null,
-        $a_selection_cmd = "add",
-        $a_selection_par = "source_id"
+        string $a_selection_cmd = "add",
+        string $a_selection_par = "source_id"
     ) {
         parent::__construct(
             $a_parent_obj,
@@ -43,9 +33,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
     }
 
     /**
-     * Is node visible
-     * @param array $a_node node data
-     * @return bool visible true/false
+     * @inheritDoc
      */
     public function isNodeVisible($a_node) : bool
     {
@@ -66,9 +54,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
     }
 
     /**
-     * Is node clickable?
-     * @param array $a_node node data
-     * @return boolean node clickable true/false
+     * @inheritDoc
      */
     public function isNodeClickable($a_node) : bool
     {
@@ -83,41 +69,25 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
         return true;
     }
 
-    /**
-     * set ref id of target object
-     *
-     * @param $a_ref_id
-     */
-    public function setRefId($a_ref_id)
+    public function setRefId(int $a_ref_id) : void
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-
         $this->ref_id = $a_ref_id;
 
         //can target object be highlighted?
         $target_type = ilObject::_lookupType($a_ref_id, true);
 
         if (!in_array($target_type, $this->getTypeWhiteList())) {
-            $this->highlighted_parent = $tree->getParentId($a_ref_id);
+            $this->highlighted_parent = $this->tree->getParentId($a_ref_id);
         }
     }
 
-    /**
-     * get ref id of target object
-     *
-     * @return mixed
-     */
-    public function getRefId()
+    public function getRefId() : ?int
     {
         return $this->ref_id;
     }
 
     /**
-     * Is node highlighted?
-     * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
+     * @inheritDoc
      */
     public function isNodeHighlighted($a_node) : bool
     {

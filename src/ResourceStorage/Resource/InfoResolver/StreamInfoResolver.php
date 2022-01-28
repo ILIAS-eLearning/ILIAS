@@ -5,6 +5,19 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 use ILIAS\Filesystem\Stream\FileStream;
 use DateTimeImmutable;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StreamInfoResolver
  * @package ILIAS\ResourceStorage\Resource\InfoResolver
@@ -12,31 +25,13 @@ use DateTimeImmutable;
  */
 class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
 {
-    /**
-     * @var FileStream
-     */
-    protected $file_stream;
-    /**
-     * @var string
-     */
-    protected $path;
-    /**
-     * @var string
-     */
-    protected $file_name;
-    /**
-     * @var string
-     */
-    protected $suffix;
-    /**
-     * @var string
-     */
-    protected $mime_type;
-    /**
-     * @var DateTimeImmutable
-     */
-    protected $creation_date;
-    protected $size = 0;
+    protected \ILIAS\Filesystem\Stream\FileStream $file_stream;
+    protected string $path;
+    protected ?string $file_name = null;
+    protected string $suffix;
+    protected string $mime_type;
+    protected ?\DateTimeImmutable $creation_date = null;
+    protected int $size = 0;
 
     public function __construct(
         FileStream $stream,
@@ -57,19 +52,18 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
     protected function initMimeType() : void
     {
         $this->mime_type = 'unknown';
-        if (function_exists('mime_content_type')) {
-            if (file_exists($this->path)) {
-                $this->mime_type = mime_content_type($this->path);
-                return;
-            }
+        if (function_exists('mime_content_type') && file_exists($this->path)) {
+            $this->mime_type = mime_content_type($this->path);
+            return;
         }
         /** @noRector  */
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $this->mime_type = finfo_buffer($finfo, $this->file_stream->getContents());
-            return;
+            if ($this->file_stream->isSeekable()) {
+                $this->file_stream->rewind();
+            }
         }
-
     }
 
     protected function initSize() : void
@@ -83,6 +77,10 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
             } else {
                 $this->size = strlen($this->file_stream->getContents());
             }
+            
+            if ($this->file_stream->isSeekable()) {
+                $this->file_stream->rewind();
+            }
         }
     }
 
@@ -95,7 +93,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
     protected function initFileName() : void
     {
         $this->file_name = basename($this->path);
-        if ($this->file_name === 'memory') { // in case the stream is ofString
+        if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
             $this->file_name = $this->getRevisionTitle();
         }
     }

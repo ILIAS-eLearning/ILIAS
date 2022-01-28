@@ -316,7 +316,7 @@ class ilMailTemplateGUI
 
         foreach ($templateIds as $templateId) {
             $template = $this->service->loadTemplateForId($templateId);
-            $confirm->addItem('tpl_id[]', $templateId, $template->getTitle());
+            $confirm->addItem('tpl_id[]', (string) $templateId, $template->getTitle());
         }
 
         $this->tpl->setContent($confirm->getHTML());

@@ -696,7 +696,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
 
         if (!$this->isSingleline) {
-            ilUtil::delDir($this->getImagePath());
+            ilFileUtils::delDir($this->getImagePath());
         }
 
         // save additional data
@@ -799,9 +799,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $image_filename = str_replace(" ", "_", $image_filename);
             $imagepath = $this->getImagePath();
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
-            if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
+            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
                 $result = 2;
             } else {
                 include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -850,7 +850,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $filename = $answer->getImage();
             if (strlen($filename)) {
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
 
                 if (file_exists($imagepath_original . $filename)) {
@@ -895,7 +895,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             $filename = $answer->getImage();
             if (strlen($filename)) {
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
@@ -925,16 +925,16 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $originalObjId = parent::lookupParentObjId($this->getOriginalId());
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);
 
-        ilUtil::delDir($imagepath_original);
+        ilFileUtils::delDir($imagepath_original);
         foreach ($this->answers as $answer) {
             $filename = $answer->getImage();
             if (strlen($filename)) {
                 if (@file_exists($imagepath . $filename)) {
                     if (!file_exists($imagepath)) {
-                        ilUtil::makeDirParents($imagepath);
+                        ilFileUtils::makeDirParents($imagepath);
                     }
                     if (!file_exists($imagepath_original)) {
-                        ilUtil::makeDirParents($imagepath_original);
+                        ilFileUtils::makeDirParents($imagepath_original);
                     }
                     if (!@copy($imagepath . $filename, $imagepath_original . $filename)) {
                         $ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);

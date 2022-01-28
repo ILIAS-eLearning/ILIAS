@@ -330,7 +330,7 @@ class ilTestArchiver
      */
     protected function createArchiveForTest()
     {
-        ilUtil::makeDirParents($this->getTestArchive());
+        ilFileUtils::makeDirParents($this->getTestArchive());
         //mkdir( $this->getTestArchive(), 0777, true );
     }
 
@@ -446,7 +446,7 @@ class ilTestArchiver
         $zip_output_path = $this->getZipExportDirectory();
         $zip_output_filename = 'test_archive_obj_' . $this->test_obj_id . '_' . time() . '_.zip';
         
-        ilUtil::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
+        ilFileUtils::zip($this->getTestArchive(), $zip_output_path . self::DIR_SEP . $zip_output_filename, true);
         return;
     }
 

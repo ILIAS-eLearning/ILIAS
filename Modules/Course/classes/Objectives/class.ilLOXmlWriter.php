@@ -32,7 +32,6 @@ class ilLOXmlWriter
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjectId($a_ref_id);
         
-        include_once './Services/Xml/classes/class.ilXmlWriter.php';
         $this->writer = new ilXmlWriter();
         
         $this->log = $GLOBALS['DIC']->logger()->crs();
@@ -59,7 +58,6 @@ class ilLOXmlWriter
         $this->getWriter()->xmlStartTag('Objectives');
         
         // export settings
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $settings = ilLOSettings::getInstanceByObjId($this->obj_id);
         $settings->toXml($this->getWriter());
         
@@ -70,7 +68,6 @@ class ilLOXmlWriter
             return;
         }
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         
         $this->log->debug('Writing objective xml');
         foreach (ilCourseObjective::_getObjectiveIds($this->obj_id) as $objective_id) {

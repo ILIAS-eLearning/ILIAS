@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Reads and store cms tree in database
@@ -9,6 +22,8 @@
  */
 class ilECSTreeReader
 {
+    private ilLogger $logger;
+    
     private $server_id;
     private $mid;
 
@@ -19,6 +34,10 @@ class ilECSTreeReader
      */
     public function __construct($server_id, $mid)
     {
+        global $DIC;
+        
+        $this->logger = $DIC->logger()->wsrv();
+        
         $this->server_id = $server_id;
         $this->mid = $mid;
     }
@@ -32,35 +51,24 @@ class ilECSTreeReader
      */
     public function read()
     {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Begin read');
-        try {
-            include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
-            $dir_reader = new ilECSDirectoryTreeConnector(
-                ilECSSetting::getInstanceByServerId($this->server_id)
-            );
-            $trees = $dir_reader->getDirectoryTrees();
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' ' . print_r($trees, true));
-            if ($trees instanceof ilECSUriList) {
-                foreach ((array) $trees->getLinkIds() as $tree_id) {
-                    include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-                    include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
-
-                    if (!ilECSCmsData::treeExists($this->server_id, $this->mid, $tree_id)) {
-                        $result = $dir_reader->getDirectoryTree($tree_id);
-                        $this->storeTree($tree_id, $result->getResult());
-                    }
+        $this->logger->debug('Begin read');
+        $dir_reader = new ilECSDirectoryTreeConnector(
+            ilECSSetting::getInstanceByServerId($this->server_id)
+        );
+        $trees = $dir_reader->getDirectoryTrees();
+        $this->logger->debug(print_r($trees, true));
+        if ($trees instanceof ilECSUriList) {
+            foreach ((array) $trees->getLinkIds() as $tree_id) {
+                if (!ilECSCmsData::treeExists($this->server_id, $this->mid, $tree_id)) {
+                    $result = $dir_reader->getDirectoryTree($tree_id);
+                    $this->storeTree($tree_id, $result->getResult());
                 }
             }
-        } catch (ilECSConnectorException $e) {
-            throw $e;
         }
     }
 
     protected function storeTree($tree_id, $a_nodes)
     {
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
-
         $tree = new ilECSCmsTree($tree_id);
         
         

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -16,15 +16,12 @@ interface LoadingAnimationOnClick
      * wheel to show that a request is being processed
      * in the background.
      *
-     * @param 	bool 	$loading_animation_on_click
-     * @return 	self
+     * @return static
      */
     public function withLoadingAnimationOnClick(bool $loading_animation_on_click);
 
     /**
      * Return whether loading animation has been activated
-     *
-     * @return 	bool
      */
     public function hasLoadingAnimationOnClick() : bool;
 }

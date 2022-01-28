@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -13,15 +13,12 @@ class Month implements C\Button\Month
     use ComponentHelper;
     use JavaScriptBindable;
 
-    /**
-     * @var string
-     */
-    protected $default;
+    protected string $default;
 
     /**
      * @param string $default Label of the month directly shown as default.
      */
-    public function __construct($default)
+    public function __construct(string $default)
     {
         $this->default = $default;
     }
@@ -29,7 +26,7 @@ class Month implements C\Button\Month
     /**
      * @inheritdoc
      */
-    public function getDefault()
+    public function getDefault() : string
     {
         return $this->default;
     }

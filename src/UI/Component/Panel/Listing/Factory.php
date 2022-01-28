@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch>, Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Panel\Listing;
 
-use ILIAS\UI\Component\Item;
+use ILIAS\UI\Component\Item\Group;
 
 /**
  * Interface Factory
@@ -12,7 +12,6 @@ use ILIAS\UI\Component\Item;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -28,5 +27,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Group[] $item_groups Item groups
      * @return \ILIAS\UI\Component\Panel\Listing\Standard
      */
-    public function standard($title, $item_groups);
+    public function standard(string $title, array $item_groups) : Standard;
 }

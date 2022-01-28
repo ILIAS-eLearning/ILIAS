@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Modal;
 
 /**
@@ -10,8 +11,6 @@ interface LightboxDescriptionEnabledPage extends LightboxPage
 {
     /**
      * Get the description of this page, displayed along with the media item
-     *
-     * @return string
      */
     public function getDescription() : string;
 }

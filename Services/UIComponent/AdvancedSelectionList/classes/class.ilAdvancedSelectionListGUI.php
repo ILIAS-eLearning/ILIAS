@@ -56,14 +56,14 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
     protected string $listtitle;
     protected string $aria_listtitle = "";
-    protected bool $useimages;
+    protected bool $useimages = false;
     protected string $itemlinkclass = '';
-    protected string $mode;
-    protected array $links_mode;
-    protected string $selectionheaderclass;
-    protected string $headericon;
-    protected string $nojslinkclass;
-    protected string $on_click;
+    protected string $mode = "";
+    protected array $links_mode = [];
+    protected string $selectionheaderclass = "";
+    protected string $headericon = "";
+    protected string $nojslinkclass = "";
+    protected string $on_click = "";
 
     /** @var array<string, mixed>  */
     protected array $form_mode = [
@@ -84,6 +84,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     private \ILIAS\UI\Renderer $renderer;
     protected ilLanguage $lng;
     protected string $on_click_form_id;
+    protected ilGlobalPageTemplate $global_tpl;
 
     /*
 
@@ -115,6 +116,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
         $this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $this->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF);
+        $this->global_tpl = $DIC['tpl'];
     }
 
     /**
@@ -458,8 +460,18 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             return "";
         }
 
-        $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
-        
+        $this->global_tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+
+        $js_tpl = new ilTemplate(
+            "tpl.adv_selection_list_js_init.js",
+            true,
+            true,
+            "Services/UIComponent/AdvancedSelectionList",
+            "DEFAULT",
+            false,
+            true
+        );
+
         $tpl = new ilTemplate(
             "tpl.adv_selection_list.html",
             true,
@@ -619,12 +631,13 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     $tpl->parseCurrentBlock();
 
                     // add item to js object
-                    $tpl->setCurrentBlock("js_item");
-                    $tpl->setVariable("IT_ID", $this->getId());
-                    $tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
-                    $tpl->setVariable("IT_HID_VAL", $item["value"]);
-                    $tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
-                    $tpl->parseCurrentBlock();
+                    $js_tpl->setCurrentBlock("js_item");
+                    $js_tpl->setVariable("IT_ID", $this->getId());
+                    $js_tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
+
+                    $js_tpl->setVariable("IT_HID_VAL", $item["value"]);
+                    $js_tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
+                    $js_tpl->parseCurrentBlock();
                 }
 
                 // output hidden input, if click mode is form submission
@@ -632,6 +645,10 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     $tpl->setCurrentBlock("hidden_input");
                     $tpl->setVariable("HID", $this->getId());
                     $tpl->parseCurrentBlock();
+
+                    $js_tpl->setCurrentBlock("hidden_input");
+                    $js_tpl->setVariable("HID", $this->getId());
+                    $js_tpl->parseCurrentBlock();
                 }
 
                 // output hidden input and initialize
@@ -641,11 +658,11 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     $tpl->parseCurrentBlock();
 
                     // init hidden input with selected value
-                    $tpl->setCurrentBlock("init_hidden_input");
-                    $tpl->setVariable("H2ID", $this->getId());
-                    $tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
-                    $tpl->setVariable("HID_VALUE", $this->getSelectedValue());
-                    $tpl->parseCurrentBlock();
+                    $js_tpl->setCurrentBlock("init_hidden_input");
+                    $js_tpl->setVariable("H2ID", $this->getId());
+                    $js_tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
+                    $js_tpl->setVariable("HID_VALUE", $this->getSelectedValue());
+                    $js_tpl->parseCurrentBlock();
                 }
             }
         }
@@ -692,9 +709,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     
         // js section
         $tpl->setCurrentBlock("js_section");
-        if ($this->getAccessKey() > 0) {
-            $tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
-        }
 
         $cfg["trigger_event"] = $this->getTriggerEvent();
         $cfg["auto_hide"] = $this->getAutoHide();
@@ -703,9 +717,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $cfg["select_callback"] = $this->getSelectCallback();
         }
         $cfg["anchor_id"] = "ilAdvSelListAnchorElement_" . $this->getId();
-        $cfg["asynch"] = $this->getAsynch()
-            ? true
-            : false;
+        $cfg["asynch"] = $this->getAsynch();
         $cfg["asynch_url"] = $this->getAsynchUrl();
         $toggle = $this->getAdditionalToggleElement();
         if (is_array($toggle)) {
@@ -720,12 +732,14 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ? $this->getAriaListTitle() != ""
+                ? $this->getAriaListTitle()
                 : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }
         $tpl->setVariable("ID", $this->getId());
-        
+
+        $js_tpl->setVariable("ID", $this->getId());
+
         //$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
         switch ($this->getStyle()) {
             case self::STYLE_DEFAULT:
@@ -762,6 +776,10 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         // $tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
 
         $tpl->parseCurrentBlock();
+
+        $this->global_tpl->addOnloadCode(
+            $js_tpl->get()
+        );
 
         return $tpl->get();
     }

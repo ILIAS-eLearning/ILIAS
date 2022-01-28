@@ -62,7 +62,7 @@ abstract class BaseNotificationSetUp extends TestCase
     public function getUIFactory()
     {
         $factory = new class extends NoUIFactory {
-            public function item()
+            public function item() : ILIAS\UI\Component\Item\Factory
             {
                 return new I\Item\Factory();
             }
@@ -99,7 +99,7 @@ abstract class BaseNotificationSetUp extends TestCase
     public function getDIC()
     {
         $dic = new class extends ILIAS\DI\Container {
-            public function globalScreen()
+            public function globalScreen(): Services
             {
                 return new Services(Mockery::mock(ProviderFactory::class));
             }

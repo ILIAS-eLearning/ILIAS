@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,24 +13,17 @@ interface JavaScriptBinding
      * Create a fresh unique id.
      *
      * This MUST return a new id on every call.
-     *
-     * @return	string
      */
-    public function createId();
+    public function createId() : string;
 
     /**
      * Add some JavaScript-statements to the on-load handler of the page.
-     *
-     * @param	string	$code
-     * @return	null
      */
-    public function addOnLoadCode($code);
+    public function addOnLoadCode(string $code) : void;
 
     /**
      * Get all the registered on-load javascript code for the async context, e.g. return all code
      * inside <script> tags
-     *
-     * @return string
      */
-    public function getOnLoadCodeAsync();
+    public function getOnLoadCodeAsync() : string;
 }

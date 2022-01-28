@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once "Services/Object/classes/class.ilObject2.php";
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Remote object app base class
@@ -11,16 +22,15 @@ include_once "Services/Object/classes/class.ilObject2.php";
 *
 * @ingroup ServicesWebServicesECS
 */
-
 abstract class ilRemoteObjectBase extends ilObject2
 {
-    protected $local_information;
-    protected $remote_link;
-    protected $organization;
-    protected $mid;
+    protected ?string $local_information = null;
+    protected ?string $remote_link = null;
+    protected ?string $organization = null;
+    protected ?int $mid = null;
     protected $auth_hash = '';
     
-    protected $realm_plain = '';
+    protected string $realm_plain = '';
     
     const MAIL_SENDER = 6;
     const OBJECT_OWNER = 6;
@@ -34,12 +44,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         parent::__construct($a_id, $a_call_by_reference);
-        $this->db = $ilDB;
     }
     
     /**
@@ -52,35 +57,27 @@ abstract class ilRemoteObjectBase extends ilObject2
     {
         switch ($a_type) {
             case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
-                include_once 'Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php';
                 return new ilObjRemoteCourse();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_CATEGORY:
-                include_once 'Modules/RemoteCategory/classes/class.ilObjRemoteCategory.php';
                 return new ilObjRemoteCategory();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_FILE:
-                include_once 'Modules/RemoteFile/classes/class.ilObjRemoteFile.php';
                 return new ilObjRemoteFile();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_GLOSSARY:
-                include_once 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossary.php';
                 return new ilObjRemoteGlossary();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_GROUP:
-                include_once 'Modules/RemoteGroup/classes/class.ilObjRemoteGroup.php';
                 return new ilObjRemoteGroup();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_LEARNING_MODULE:
-                include_once 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModule.php';
                 return new ilObjRemoteLearningModule();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
-                include_once 'Modules/RemoteWiki/classes/class.ilObjRemoteWiki.php';
                 return new ilObjRemoteWiki();
                 
             case ilECSEventQueueReader::TYPE_REMOTE_TEST:
-                include_once 'Modules/RemoteTest/classes/class.ilObjRemoteTest.php';
                 return new ilObjRemoteTest();
         }
     }
@@ -105,27 +102,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      */
     abstract protected function getECSObjectType();
     
-    /**
-     * lookup organization
-     *
-     * @param int $a_obj_id
-     * @return string
-     */
-    public static function _lookupOrganization($a_obj_id)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $query = "SELECT organization FROM " . static::DB_TABLE_NAME .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->organization;
-        }
-        return '';
-    }
-    
     /**
      * Get realm plain
      * @return type
@@ -196,27 +173,6 @@ abstract class ilRemoteObjectBase extends ilObject2
     }
     
     /**
-     * lookup owner mid
-     *
-     * @param int $a_obj_id obj_id
-     * @return int
-     */
-    public static function _lookupMID($a_obj_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $query = "SELECT mid FROM " . static::DB_TABLE_NAME .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->mid;
-        }
-        return 0;
-    }
-    
-    /**
      * set remote link
      *
      * @param string $a_link link to original object
@@ -250,17 +206,14 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilUser = $DIC['ilUser'];
         
         
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-        $server_id = ilECSImport::lookupServerId($this->getId());
+        $server_id = ilECSImportManager::getInstance()->lookupServerId($this->getId());
         $server = ilECSSetting::getInstanceByServerId($server_id);
         
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
         $user = new ilECSUser($ilUser);
         $ecs_user_data = $user->toGET();
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Using ecs user data ' . $ecs_user_data);
         
         // check token mechanism enabled
-        include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
         $part = new ilECSParticipantSetting($server_id, $this->getMID());
         if (!$part->isTokenEnabled()) {
             return $this->getRemoteLink();
@@ -289,14 +242,9 @@ abstract class ilRemoteObjectBase extends ilObject2
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        
-        include_once './Services/WebServices/ECS/classes/class.ilECSAuth.php';
-        include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
-        include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
 
         try {
-            $server_id = ilECSImport::lookupServerId($this->getId());
+            $server_id = ilECSImportManager::getInstance()->lookupServerId($this->getId());
             $import_info = new ilECSImport($server_id, $this->getId());
             
             $connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($server_id));
@@ -319,7 +267,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Create remote object
      */
-    public function doCreate()
+    public function doCreate($a_clone_mode = false)
     {
         global $DIC;
 
@@ -387,8 +335,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilDB = $DIC['ilDB'];
         
         //put here your module specific stuff
-        include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-        ilECSImport::_deleteByObjId($this->getId());
+        ilECSImportManager::getInstance()->_deleteByObjId($this->getId());
         
         $query = "DELETE FROM " . $this->getTableName() .
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
@@ -406,7 +353,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setLocalInformation($row->local_information);
             $this->setRemoteLink($row->remote_link);
-            $this->setMID($row->mid);
+            $this->setMID(intval($row->mid));
             $this->setOrganization($row->organization);
             
             $this->doReadCustomFields($row);
@@ -431,12 +378,13 @@ abstract class ilRemoteObjectBase extends ilObject2
     public function createFromECSEContent(ilECSSetting $a_server, $a_ecs_content, $a_owner)
     {
         $this->create();
-                                                
+        $this->log->info("Done calling create, creating reference");
         // won't work for personal workspace
         $this->createReference();
+        $this->log->info("Done creating reference, setting permissions");
         $this->setPermissions($a_server->getImportId());
-                
-        include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
+        $this->log->info("Done setting permissions, putting object in tree");
+
         $matchable_content = ilECSUtils::getMatchableContent(
             $this->getECSObjectType(),
             $a_server->getServerId(),
@@ -444,12 +392,12 @@ abstract class ilRemoteObjectBase extends ilObject2
             $a_owner
         );
         
-        include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
         $this->putInTree(ilECSCategoryMapping::getMatchingCategory(
             $a_server->getServerId(),
             $matchable_content
         ));
-                        
+        $this->log->info("Done putting object in tree, updateing object");
+        
         $this->updateFromECSContent($a_server, $a_ecs_content, $a_owner);
     }
     
@@ -471,8 +419,8 @@ abstract class ilRemoteObjectBase extends ilObject2
         // Get organisation for owner (ObjectListGUI performance)
         $organisation = null;
         if ($a_owner) {
-            include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
-            $organisation = ilECSUtils::lookupParticipantName($a_owner, $a_server->getServerId());
+            $organisation = ilECSCommunityReader::getInstanceByServerId($a_server->getServerId())
+                ->getParticipantNameByMid($a_owner);
             $ilLog->write('found organisation: ' . $organisation);
         }
         
@@ -490,7 +438,6 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilLog->write('ilObject->update()');
         $this->update();
         
-        include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
         $matchable_content = ilECSUtils::getMatchableContent(
             $this->getECSObjectType(),
             $a_server->getServerId(),
@@ -499,7 +446,6 @@ abstract class ilRemoteObjectBase extends ilObject2
         );
                         
         // rule-based category mapping
-        include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
         ilECSCategoryMapping::handleUpdate(
             $this->getId(),
             $a_server->getServerId(),
@@ -522,10 +468,6 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilLog = $DIC['ilLog'];
         
         $ilLog->write("importing metadata from json: " . print_r($a_json, true));
-        
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         
         $mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
         $values_records = ilAdvancedMDValues::getInstancesForObjectId($this->getId(), $this->getType());
@@ -563,7 +505,6 @@ abstract class ilRemoteObjectBase extends ilObject2
                         
                 if ($type == ilECSUtils::TYPE_TIMEPLACE) {
                     if (!is_object($timePlace)) {
-                        include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');
                         if (is_object($raw_value)) {
                             $timePlace = new ilECSTimePlace();
                             $timePlace->loadFromJSON($raw_value);
@@ -610,11 +551,9 @@ abstract class ilRemoteObjectBase extends ilObject2
      */
     public function isLocalObject()
     {
-        include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-        include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-        if (ilECSExport::_isRemote(
-            ilECSImport::lookupServerId($this->getId()),
-            ilECSImport::_lookupEContentId($this->getId())
+        if (ilECSExportManager::getInstance()->_isRemote(
+            ilECSImportManager::getInstance()->lookupServerId($this->getId()),
+            ilECSImportManager::getInstance()->_lookupEContentId($this->getId())
         )) {
             return false;
         }
@@ -652,7 +591,6 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilLog = $DIC['ilLog'];
 
         // get content details
-        include_once('./Services/WebServices/ECS/classes/class.ilECSEContentDetails.php');
         $details = ilECSEContentDetails::getInstance(
             $a_server->getServerId(),
             $a_econtent_id,
@@ -668,15 +606,12 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilLog->write(__METHOD__ . ': Senders are ' . print_r($details->getSenders(), true));
         
         // check owner (sender mid)
-        include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
         if (!ilECSParticipantSettings::getInstanceByServerId($a_server->getServerId())->isImportAllowed($details->getSenders())) {
             $ilLog->write('Ignoring disabled participant. MID: ' . $details->getOwner());
             return true;
         }
         
         // new mids
-        include_once 'Services/WebServices/ECS/classes/class.ilECSImport.php';
-        include_once 'Services/WebServices/ECS/classes/class.ilECSConnector.php';
         foreach (array_intersect($a_mids, $details->getReceivers()) as $mid) {
             try {
                 $connector = new ilECSConnector($a_server);
@@ -702,7 +637,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             // Update existing
             
             // Check receiver mid
-            if ($obj_id = ilECSImport::_isImported($a_server->getServerId(), $a_econtent_id, $mid)) {
+            if ($obj_id = ilECSImportManager::getInstance()->_isImported($a_server->getServerId(), $a_econtent_id, $mid)) {
                 $ilLog->write(__METHOD__ . ': Handling update for existing object');
                 $remote = ilObjectFactory::getInstanceByObjId($obj_id, false);
                 if (!$remote instanceof ilRemoteObjectBase) {
@@ -718,7 +653,6 @@ abstract class ilRemoteObjectBase extends ilObject2
                                 
                 // update import status
                 $ilLog->write(__METHOD__ . ': Updating import status');
-                include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
                 $import = new ilECSImport($a_server->getServerId(), $this->getId());
                 $import->setEContentId($a_econtent_id);
                 // Store receiver mid
@@ -739,15 +673,11 @@ abstract class ilRemoteObjectBase extends ilObject2
      */
     protected function sendNewContentNotification($a_server_id)
     {
-        include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
         $settings = ilECSSetting::getInstanceByServerId($a_server_id);
         if (!count($rcps = $settings->getEContentRecipients())) {
             return;
         }
         
-        include_once('./Services/Mail/classes/class.ilMail.php');
-        include_once('./Services/Language/classes/class.ilLanguageFactory.php');
-
         $lang = ilLanguageFactory::_getLanguage();
         $lang->loadLanguageModule('ecs');
 
@@ -758,7 +688,6 @@ abstract class ilRemoteObjectBase extends ilObject2
             $message .= $lang->txt('desc') . ': ' . $desc . "\n";
         }
 
-        include_once('./Services/Link/classes/class.ilLink.php');
         $href = ilLink::_getStaticLink($this->getRefId(), $this->getType(), true);
         $message .= $lang->txt("perma_link") . ': ' . $href . "\n\n";
         $message .= ilMail::_getAutoGeneratedMessageString();
@@ -789,21 +718,19 @@ abstract class ilRemoteObjectBase extends ilObject2
 
         $tree = $DIC['tree'];
         $ilLog = $DIC['ilLog'];
-        
 
-        include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-        
         // there is no information about the original mid anymore.
         // Therefor delete any remote objects with given econtent id
-        $obj_ids = ilECSImport::_lookupObjIds($a_server->getServerId(), $a_econtent_id);
+        $obj_ids = ilECSImportManager::getInstance()->_lookupObjIds($a_server->getServerId(), $a_econtent_id);
         $ilLog->write(__METHOD__ . ': Received obj_ids ' . print_r($obj_ids, true));
 
         foreach ($obj_ids as $obj_id) {
             $references = ilObject::_getAllReferences($obj_id);
             foreach ($references as $ref_id) {
                 if ($tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
-                    $ilLog->write(__METHOD__ . ': Deleting obsolete remote course: ' . $tmp_obj->getTitle());
+                    $this->log->info(__METHOD__ . ': Deleting obsolete remote course: ' . $tmp_obj->getTitle());
                     $tmp_obj->delete();
+                    $this->log->info(print_r($tree->getNodeData($ref_id), true));
                     $tree->deleteTree($tree->getNodeData($ref_id));
                 }
                 unset($tmp_obj);
@@ -826,7 +753,6 @@ abstract class ilRemoteObjectBase extends ilObject2
         $ilLog = $DIC['ilLog'];
         
         try {
-            include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
             $connector = new ilECSConnector($a_server);
             $connector->addHeader('X-EcsQueryStrings', $a_sender_only ? 'sender=true' : 'all=true'); // #11301
             $list = $connector->getResourceList($this->getECSObjectType());

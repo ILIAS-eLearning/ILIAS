@@ -16,7 +16,7 @@ class ilLoginPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->setEnablePCType("LoginPageElement", true);
         $this->setEnablePCType("FileList", false);

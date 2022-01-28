@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Breadcrumbs;
 
 function breadcrumbs()
@@ -7,8 +7,6 @@ function breadcrumbs()
     global $DIC;
     $renderer = $DIC->ui()->renderer();
     $f = $DIC->ui()->factory();
-
-    $entry =
 
     $crumbs = array(
         $f->link()->standard("entry1", '#'),

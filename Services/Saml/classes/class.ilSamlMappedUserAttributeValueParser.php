@@ -30,7 +30,7 @@ class ilSamlMappedUserAttributeValueParser
             $index = (int) $matches[3];
         }
 
-        return $index >= 0 ? $index : 0;
+        return max($index, 0);
     }
 
     public function getAttributeKey() : string

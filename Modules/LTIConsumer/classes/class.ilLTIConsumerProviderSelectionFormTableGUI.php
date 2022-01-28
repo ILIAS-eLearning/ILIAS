@@ -46,17 +46,17 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
         $this->setTitle($DIC->language()->txt($newType . '_select_provider'));
     }
     
-    public function setTitle($title)
+    public function setTitle(string $title) : void
     {
         $this->table->setTitle($title);
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->table->getTitle();
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         return $this->table->getHTML();
     }

@@ -35,46 +35,6 @@ include_once './Services/LDAP/interfaces/interface.ilLDAPRoleAssignmentPlugin.ph
 */
 abstract class ilLDAPPlugin extends ilPlugin
 {
-
-    /**
-     * @see ilPlugin::getComponentName()
-     */
-    final public function getComponentName()
-    {
-        return 'LDAP';
-    }
-    
-    /**
-     * @see ilPlugin::getComponentType()
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    /**
-     * @see ilPlugin::getSlot()
-     */
-    final public function getSlot()
-    {
-        return 'LDAPHook';
-    }
-    
-    /**
-     * @see ilPlugin::getSlotId()
-     */
-    final public function getSlotId()
-    {
-        return 'ldaphk';
-    }
-    
-    /**
-     * @see ilPlugin::slotInit()
-     */
-    public function slotInit()
-    {
-    }
-    
     /**
      * Check if user data matches a keyword value combination
      * @return

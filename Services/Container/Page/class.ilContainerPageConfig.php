@@ -22,7 +22,7 @@ class ilContainerPageConfig extends ilPageConfig
 {
     protected ilSetting $settings;
 
-    public function init()
+    public function init() : void
     {
         global $DIC;
 

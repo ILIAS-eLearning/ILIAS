@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
 function with_custom_file_metadata()
@@ -7,9 +7,11 @@ function with_custom_file_metadata()
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     // Handle a file upload ajax request
-    if (isset($_GET['example']) && $_GET['example'] == 2) {
+    if ($request_wrapper->has('example') && $request_wrapper->retrieve('example', $refinery->kindlyTo()->int()) == 2) {
         $upload = $DIC->upload();
         try {
             $upload->process();

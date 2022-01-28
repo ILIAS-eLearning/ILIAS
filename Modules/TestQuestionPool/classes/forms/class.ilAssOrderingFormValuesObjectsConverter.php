@@ -162,13 +162,13 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         return (current($elementsOrValues) instanceof ilAssOrderingElement);
     }
     
-    public function manipulateFormInputValues($elementsOrValues)
+    public function manipulateFormInputValues(array $inputValues) : array
     {
-        if ($this->needsConvertToValues($elementsOrValues)) {
-            $elementsOrValues = $this->collectValuesFromElements($elementsOrValues);
+        if ($this->needsConvertToValues($inputValues)) {
+            $inputValues = $this->collectValuesFromElements($inputValues);
         }
         
-        return $elementsOrValues;
+        return $inputValues;
     }
     
     protected function collectValuesFromElements(array $elements)
@@ -237,13 +237,13 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         return !(current($valuesOrElements) instanceof ilAssOrderingElement);
     }
     
-    public function manipulateFormSubmitValues($valuesOrElements)
+    public function manipulateFormSubmitValues(array $submitValues) : array
     {
-        if ($this->needsConvertToElements($valuesOrElements)) {
-            $valuesOrElements = $this->constructElementsFromValues($valuesOrElements);
+        if ($this->needsConvertToElements($submitValues)) {
+            $submitValues = $this->constructElementsFromValues($submitValues);
         }
         
-        return $valuesOrElements;
+        return $submitValues;
     }
     
     public function constructElementsFromValues(array $values)

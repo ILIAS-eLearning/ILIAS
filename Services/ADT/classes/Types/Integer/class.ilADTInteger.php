@@ -1,38 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTInteger extends ilADT
 {
-    protected $value; // [int]
+    protected ?int $value;
 
-    
     // definition
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTIntegerDefinition;
     }
-    
+
     public function reset() : void
     {
         parent::reset();
-        
+
         $this->value = null;
     }
-    
-    
+
     // properties
-            
+
     public function setNumber($a_value = null)
     {
         $this->value = $this->getDefinition()->handleNumber($a_value);
     }
-    
-    public function getNumber()
+
+    public function getNumber() : ?int
     {
         return $this->value;
     }
 
-    
     // comparison
 
     public function equals(ilADT $a_adt) : ?bool
@@ -42,7 +39,7 @@ class ilADTInteger extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -50,7 +47,7 @@ class ilADTInteger extends ilADT
         }
         return null;
     }
-    
+
     public function isSmaller(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -59,15 +56,13 @@ class ilADTInteger extends ilADT
         return null;
     }
 
-    
     // null
-    
+
     public function isNull() : bool
     {
         return $this->getNumber() === null;
     }
-    
-    
+
     public function isValid() : bool
     {
         $valid = parent::isValid();
@@ -87,8 +82,7 @@ class ilADTInteger extends ilADT
         }
         return $valid;
     }
-    
-    
+
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
@@ -96,10 +90,9 @@ class ilADTInteger extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -109,7 +102,7 @@ class ilADTInteger extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

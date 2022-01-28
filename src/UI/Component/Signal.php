@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -12,18 +13,13 @@ namespace ILIAS\UI\Component;
  */
 interface Signal
 {
-
     /**
      * Get the ID of this signal
-     *
-     * @return string
      */
-    public function getId();
+    public function getId() : string;
 
     /**
      * Get the options of this signal
-     *
-     * @return array
      */
-    public function getOptions();
+    public function getOptions() : array;
 }

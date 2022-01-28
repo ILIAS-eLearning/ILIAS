@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +10,6 @@ interface ilLanguageDetector
 {
     /**
      * Returns the detected ISO2 language code
-     * @return string
      */
-    public function getIso2LanguageCode();
+    public function getIso2LanguageCode(): string;
 }

@@ -33,6 +33,6 @@ class ilSamlAuthFactory
 
         $fs->createDir(self::METADATA_PATH);
 
-        return rtrim(ilUtil::getDataDir(), '/') . '/' . self::METADATA_PATH;
+        return rtrim(ilFileUtils::getDataDir(), '/') . '/' . self::METADATA_PATH;
     }
 }

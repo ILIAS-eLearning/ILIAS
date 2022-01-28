@@ -35,9 +35,9 @@ class ilHtmlToPdfTransformerFactory
      */
     protected function generateTempPath($output)
     {
-        $dir = ilUtil::ilTempnam();
+        $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
-            ilUtil::makeDirParents($dir);
+            ilFileUtils::makeDirParents($dir);
         }
 
         $output = preg_replace('#[\\\\/:*?"<>|]#', '-', $output);
@@ -83,9 +83,9 @@ class ilHtmlToPdfTransformerFactory
     {
         if (file_exists($file)) {
             if (strtoupper($delivery_type) === self::PDF_OUTPUT_DOWNLOAD) {
-                ilUtil::deliverFile($file, basename($file), '', false, true);
+                ilFileDelivery::deliverFileLegacy($file, basename($file), '', false, true);
             } elseif (strtoupper($delivery_type) === self::PDF_OUTPUT_INLINE) {
-                ilUtil::deliverFile($file, basename($file), '', true, true);
+                ilFileDelivery::deliverFileLegacy($file, basename($file), '', true, true);
             } elseif (strtoupper($delivery_type) === self::PDF_OUTPUT_FILE) {
                 return $file;
             }

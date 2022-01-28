@@ -20,7 +20,7 @@
  */
 class ilObjFolderAccess extends ilObjectAccess
 {
-    private static ilSetting $folderSettings;
+    private static ?ilSetting $folderSettings = null;
 
     private static function getFolderSettings() : ilSetting
     {

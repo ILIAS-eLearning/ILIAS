@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -15,17 +15,12 @@ class Listing implements C\Listing\Listing
 {
     use ComponentHelper;
 
-    /**
-     * @var	array
-     */
-    private $items;
-
+    private array $items;
 
     /**
      * Listing constructor.
-     * @param $items
      */
-    public function __construct($items)
+    public function __construct(array $items)
     {
         $types = array('string',C\Component::class);
         $this->checkArgListElements("items", $items, $types);
@@ -35,7 +30,7 @@ class Listing implements C\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function withItems(array $items)
+    public function withItems(array $items) : C\Listing\Listing
     {
         $types = array('string',C\Component::class);
         $this->checkArgListElements("items", $items, $types);
@@ -48,7 +43,7 @@ class Listing implements C\Listing\Listing
     /**
      * @inheritdoc
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }

@@ -36,10 +36,11 @@ class ilWhiteListUrlValidator
                 $validDomain = '.' . $validDomain;
             }
 
-            if (strlen($domain) > strlen($validDomain)) {
-                if (substr($domain, (0 - strlen($validDomain))) === $validDomain) {
-                    return true;
-                }
+            if ((strlen($domain) > strlen($validDomain)) && substr(
+                $domain,
+                (0 - strlen($validDomain))
+            ) === $validDomain) {
+                return true;
             }
         }
 

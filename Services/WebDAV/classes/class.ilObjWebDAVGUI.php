@@ -1,9 +1,5 @@
 <?php
 
-use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
-use ILIAS\File\Sanitation\DownloadSanitationReportUserInteraction;
-use ILIAS\File\Sanitation\SanitationReportJob;
-
 /**
  * Class ilObjWebDAVGUI
  * @author       Lukas Zehnder <lz@studer-raimann.ch>

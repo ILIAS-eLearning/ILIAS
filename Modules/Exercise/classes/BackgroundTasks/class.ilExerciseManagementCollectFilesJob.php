@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * @author Jesús López <lopez@leifos.com>
@@ -70,7 +72,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -84,7 +86,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * run the job
      * @param array    $input
      * @param Observer $observer
-     * @return StringValue
+     * @return Value
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDatabaseException
@@ -94,7 +96,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public function run(
         array $input,
         Observer $observer
-    ) : StringValue {
+    ) : Value {
         $this->exercise_id = $input[0]->getValue();
         $this->exercise_ref_id = $input[1]->getValue();
         $assignment_id = $input[2]->getValue();
@@ -133,7 +135,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $dir = $this->target_directory . "/" . $a_directory;
 
         if (!is_dir($dir)) {
-            ilUtil::createDirectory($dir);
+            ilFileUtils::createDirectory($dir);
         }
 
         copy($a_file, $dir . "/" . basename($a_file));
@@ -168,8 +170,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      */
     protected function createUniqueTempDirectory() : void
     {
-        $this->temp_dir = ilUtil::ilTempnam();
-        ilUtil::makeDirParents($this->temp_dir);
+        $this->temp_dir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDirParents($this->temp_dir);
     }
 
     /**
@@ -184,7 +186,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         }
         $this->target_directory = $path . $this->sanitized_title;
 
-        ilUtil::makeDirParents($this->target_directory);
+        ilFileUtils::makeDirParents($this->target_directory);
     }
 
     /**
@@ -194,7 +196,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     {
         $this->logger->dump("lang key => " . $this->lng->getLangKey());
         $this->submissions_directory = $this->target_directory . DIRECTORY_SEPARATOR . $this->lng->txt("exc_ass_submission_zip");
-        ilUtil::createDirectory($this->submissions_directory);
+        ilFileUtils::createDirectory($this->submissions_directory);
     }
 
     /**
@@ -432,7 +434,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $assignment_type = $this->assignment->getType();
 
         //Sanitized title for excel file and target directory.
-        $this->sanitized_title = ilUtil::getASCIIFilename($this->assignment->getTitle());
+        $this->sanitized_title = ilFileUtils::getASCIIFilename($this->assignment->getTitle());
 
         // directories
         if (!isset($this->temp_dir)) {

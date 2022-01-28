@@ -1,22 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Grid table
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCGridCellTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected int $pos;
+    protected ilPCGrid $grid;
 
-
-    public function __construct($a_parent_obj, $a_parent_cmd, ilPCGrid $a_grid)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilPCGrid $a_grid
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -50,11 +61,7 @@ class ilPCGridCellTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_ed_grid_col_widths"));
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->pos += 10;
         $this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));

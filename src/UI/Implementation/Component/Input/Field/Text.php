@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,22 +6,16 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component\Signal;
+use ILIAS\Refinery\Constraint;
+use Closure;
 
 /**
  * This implements the text input.
  */
 class Text extends Input implements C\Input\Field\Text
 {
-    /**
-     * @var int|null
-     */
-    private $max_length = null;
-
-    /**
-     * @var bool
-     */
-    private $complex = false;
+    private ?int $max_length = null;
+    private bool $complex = false;
 
     /**
      * @inheritdoc
@@ -29,8 +23,8 @@ class Text extends Input implements C\Input\Field\Text
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        $label,
-        $byline
+        string $label,
+        ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->setAdditionalTransformation($refinery->custom()->transformation(function ($v) {
@@ -41,7 +35,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritDoc
      */
-    public function withMaxLength(int $max_length)
+    public function withMaxLength(int $max_length) : C\Input\Field\Input
     {
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMaxLength($max_length)
@@ -76,11 +70,10 @@ class Text extends Input implements C\Input\Field\Text
         return true;
     }
 
-
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1);
     }
@@ -88,14 +81,13 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
         return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+            return "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-            return $code;
         };
     }
 

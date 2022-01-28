@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -12,33 +12,26 @@
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
-
 interface ilStudyProgrammeLeaf
 {
     /**
      * Get the ILIAS object id of the leaf.
-     *
-     * @return int
      */
-    public function getId();
+    public function getId() : int;
 
     /**
      * Get the ILIAS reference id of the leaf.
-     *
-     * @return int | null
      */
-    public function getRefId();
+    public function getRefId() : ?int;
     
     /**
      * Create a reference id for this object.
      */
-    public function createReference();
+    public function createReference() : void;
     
     /**
      * Put the leaf object in the repository tree under object identified by
-     * $a_ref_id.
-     *
-     * @param int	$a_ref_id
+     * $ref_id.
      */
-    public function putInTree($a_ref_id);
+    public function putInTree(int $ref_id) : void;
 }

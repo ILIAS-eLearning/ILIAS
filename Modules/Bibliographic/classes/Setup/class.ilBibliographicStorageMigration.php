@@ -74,7 +74,7 @@ final class ilBibliographicStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
-        $r = $this->helper->getDatabase()->query("SELECT COUNT(*) AS amount FROM il_bibl_data WHERE rid IS NULL");
+        $r = $this->helper->getDatabase()->query("SELECT COUNT(*) AS amount FROM il_bibl_data WHERE rid IS NULL OR rid = ''");
         $d = $this->helper->getDatabase()->fetchObject($r);
 
         return (int) $d->amount;

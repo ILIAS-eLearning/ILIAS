@@ -50,22 +50,22 @@ class ilConfirmationTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
     
-    protected function fillRow($item)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->use_icons) {
-            if ($item["img"] != "") {
+            if ($a_set["img"] != "") {
                 $this->tpl->setCurrentBlock("img_cell");
-                $this->tpl->setVariable("IMG_ITEM", $item["img"]);
-                $this->tpl->setVariable("ALT_ITEM", $item["alt"]);
+                $this->tpl->setVariable("IMG_ITEM", $a_set["img"]);
+                $this->tpl->setVariable("ALT_ITEM", $a_set["alt"]);
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->touchBlock("blank_cell");
             }
         }
-        $this->tpl->setVariable("TXT_ITEM", $item["text"]);
-        if (isset($item['var']) && $item['var']) {
-            $this->tpl->setVariable('VAR_ITEM', $item['var']);
-            $this->tpl->setVariable('ID', $item['id']);
+        $this->tpl->setVariable("TXT_ITEM", $a_set["text"]);
+        if (isset($a_set['var']) && $a_set['var']) {
+            $this->tpl->setVariable('VAR_ITEM', $a_set['var']);
+            $this->tpl->setVariable('ID', $a_set['id']);
         }
     }
 }

@@ -66,7 +66,7 @@ class ilObjectListGUIPreloader
         $this->types[] = $a_type;
         
         if ($a_ref_id) {
-            $this->ref_ids[] = $a_ref_id;
+            $this->ref_ids[] = (int) $a_ref_id;
             $this->ref_ids_by_type[$a_type][] = $a_ref_id;
         }
     }
@@ -93,7 +93,7 @@ class ilObjectListGUIPreloader
         foreach ($this->types as $type) {
             $this->obj_ids_by_type[$type] = array_unique($this->obj_ids_by_type[$type]);
             
-            if (is_array($this->ref_ids_by_type[$type])) {
+            if (isset($this->ref_ids_by_type[$type])) {
                 $this->ref_ids_by_type[$type] = array_unique($this->ref_ids_by_type[$type]);
             }
 
@@ -110,12 +110,14 @@ class ilObjectListGUIPreloader
             $location = $objDefinition->getLocation($type);
             if ($class && $location) { // #12775
                 $full_class = "ilObj" . $class . "Access";
-                include_once($location . "/class." . $full_class . ".php");
+                if (is_file($location . "/class." . $full_class . ".php")) {
+                    include_once($location . "/class." . $full_class . ".php");
+                }
                 if (class_exists($full_class)) {
                     call_user_func(
                         array($full_class, "_preloadData"),
-                        $this->obj_ids_by_type[$type],
-                        $this->ref_ids_by_type[$type]
+                        $this->obj_ids_by_type[$type] ?? [],
+                        $this->ref_ids_by_type[$type] ?? []
                     );
                 }
             }

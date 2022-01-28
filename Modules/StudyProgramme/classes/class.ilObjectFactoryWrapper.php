@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -14,18 +14,21 @@ require_once("./Services/Object/classes/class.ilObjectFactory.php");
  */
 class ilObjectFactoryWrapper
 {
-    public static $instance = null;
+    public static ?ilObjectFactoryWrapper $instance = null;
     
-    public static function singleton()
+    public static function singleton() : ilObjectFactoryWrapper
     {
         if (self::$instance === null) {
             self::$instance = new ilObjectFactoryWrapper();
         }
         return self::$instance;
     }
-    
-    public function getInstanceByRefId($a_ref_id, $stop_on_error = true)
+
+    /**
+     * @return bool|ilObject
+     */
+    public function getInstanceByRefId(int $ref_id, bool $stop_on_error = true)
     {
-        return ilObjectFactory::getInstanceByRefId($a_ref_id, $stop_on_error);
+        return ilObjectFactory::getInstanceByRefId($ref_id, $stop_on_error);
     }
 }

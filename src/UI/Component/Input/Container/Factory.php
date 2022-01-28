@@ -1,6 +1,6 @@
-<?php
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Input\Container;
 
@@ -9,7 +9,6 @@ namespace ILIAS\UI\Component\Input\Container;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -29,7 +28,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Form\Factory
      */
-    public function form();
+    public function form() : Form\Factory;
 
     /**
      * ---
@@ -158,7 +157,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Filter\Factory
      */
-    public function filter();
+    public function filter() : Filter\Factory;
 
     /**
      * ---
@@ -187,7 +186,6 @@ interface Factory
      *        visualization.
      *
      * ---
-     *
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Factory
      */
     public function viewControl() : ViewControl\Factory;

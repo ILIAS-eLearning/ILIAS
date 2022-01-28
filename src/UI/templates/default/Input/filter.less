@@ -1,7 +1,8 @@
 .il-filter {
-	.col-md-4 {
+	.col-md-4, .col-md-6{
 		padding-top: @padding-large-vertical;
 		padding-bottom: @padding-large-vertical;
+		padding-right: 0px;
 	}
 
 	//Necessary fix for Apply-Glyph
@@ -41,6 +42,10 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		width: @il-standard-filter-input-remove-width;
+
+		.glyphicon{
+			top: 0;
+		}
 	}
 }
 
@@ -103,6 +108,8 @@
 	border-top: @il-standard-filter-input-section-border-top;
 	position: relative;
 	padding-bottom: @il-standard-filter-input-section-padding-bottom;
+	padding-right: @il-padding-large-horizontal;
+
 	margin: @il-standard-filter-input-section-margin;
 
 	.il-input-multiselect {

@@ -40,6 +40,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND'
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-$ilCtrl->initBaseClass("ilStartUpGUI");
-$ilCtrl->callBaseClass();
+$ilCtrl->callBaseClass('ilStartUpGUI');
 $ilBench->save();

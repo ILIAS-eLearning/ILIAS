@@ -1,15 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\Refinery\Constraint;
+use LogicException;
+use Closure;
 
 /**
  * This implements the radio input.
@@ -22,12 +23,12 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @var array <string,string> {$value => $label}
      */
-    protected $options = [];
+    protected array $options = [];
 
     /**
      * @var array <string,array> {$option_value => $bylines}
      */
-    protected $bylines = [];
+    protected array $bylines = [];
 
     /**
      * @inheritdoc
@@ -40,7 +41,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return null;
     }
@@ -67,7 +68,7 @@ class Radio extends Input implements C\Input\Field\Radio
     }
 
 
-    public function getBylineFor(string $value)
+    public function getBylineFor(string $value) : ?string
     {
         if (!array_key_exists($value, $this->bylines)) {
             return null;
@@ -78,13 +79,13 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $post_input)
+    public function withInput(InputData $input) : C\Input\Field\Input
     {
         if ($this->getName() === null) {
-            throw new \LogicException("Can only collect if input has a name.");
+            throw new LogicException("Can only collect if input has a name.");
         }
         if (!$this->isDisabled()) {
-            $value = $post_input->getOr($this->getName(), "");
+            $value = $input->getOr($this->getName(), "");
             $clone = $this->withValue($value);
         } else {
             $value = $this->getValue();
@@ -108,14 +109,13 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
         return function ($id) {
-            $code = "$('#$id').on('input', function(event) {
+            return"$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());";
-            return $code;
         };
     }
 }

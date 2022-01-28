@@ -10,7 +10,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
  */
-class ilMailGUI
+class ilMailGUI implements ilCtrlBaseClassInterface
 {
     private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
@@ -37,10 +37,11 @@ class ilMailGUI
 
         $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new ilMail($this->user->getId());
-        if (!$DIC->rbac()->system()->checkAccess(
-            'internal_mail',
-            $this->umail->getMailObjectReferenceId()
-        )
+        if (
+            !$DIC->rbac()->system()->checkAccess(
+                'internal_mail',
+                $this->umail->getMailObjectReferenceId()
+            )
         ) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
@@ -262,7 +263,6 @@ class ilMailGUI
         global $DIC;
 
         $DIC['ilHelp']->setScreenIdComponent("mail");
-        $DIC['ilMainMenu']->setActive("mail");
 
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
@@ -285,7 +285,7 @@ class ilMailGUI
         );
         $this->ctrl->clearParametersByClass(ilContactGUI::class);
 
-        if ($DIC->settings()->get('show_mail_settings')) {
+        if ($DIC->settings()->get('show_mail_settings', '0')) {
             $this->ctrl->setParameterByClass(
                 ilMailOptionsGUI::class,
                 'mobj_id',

@@ -29,13 +29,13 @@ class ilLTIProviderReleasedObjectsTableGUI extends ilObjectTableGUI
     
     /**
      * Fill row
-     * @param type $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
-        parent::fillRow($set);
+        parent::fillRow($a_set);
         
-        $this->tpl->setVariable('CONSUMER_TITLE', $set['consumer']);
+        $this->tpl->setVariable('CONSUMER_TITLE', $a_set['consumer']);
     }
     
     public function parse()

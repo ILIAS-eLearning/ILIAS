@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 *
@@ -53,7 +52,6 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         
         $data = array();
                 
-        include_once './Modules/Course/classes/class.ilCourseStart.php';
         $crs_start = new ilCourseStart($a_obj_course->getRefId(), $a_obj_course->getId());
         
         // add
@@ -115,7 +113,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         return $data;
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

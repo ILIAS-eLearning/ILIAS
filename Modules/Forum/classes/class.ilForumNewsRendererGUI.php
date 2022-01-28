@@ -1,33 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Forum news renderer
- *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ModuleForum
  */
 class ilForumNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    /**
-     * Get object link
-     *
-     * @return string link href url
-     */
-    public function getObjectLink()
+    public function getObjectLink() : string
     {
-        $n = $this->getNewsItem();
-        if ($n->getContextSubObjType() == "pos"
-            && $n->getContextSubObjId() > 0) {
-            $pos = $n->getContextSubObjId();
+        $link_target_suffix = '';
+        $news = $this->getNewsItem();
+
+        if ($news->getContextSubObjType() === 'pos' && $news->getContextSubObjId() > 0) {
+            $pos = $news->getContextSubObjId();
             $thread = ilObjForumAccess::_getThreadForPosting($pos);
             if ($thread > 0) {
-                $add = "_" . $thread . "_" . $pos;
+                $link_target_suffix = '_' . $thread . '_' . $pos;
             }
         }
 
-        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+        return ilLink::_getLink($this->getNewsRefId(), '', [], $link_target_suffix);
     }
 }

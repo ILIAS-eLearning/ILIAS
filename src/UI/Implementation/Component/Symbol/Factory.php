@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol;
 
@@ -10,26 +9,10 @@ use ILIAS\UI\Component\Symbol\Icon as IIcon;
 
 class Factory implements Component\Symbol\Factory
 {
+    protected Icon\Factory $icon_factory;
+    protected Glyph\Factory $glyph_factory;
+    protected Avatar\Factory $avatar_factory;
 
-    /**
-     * @var Icon\Factory
-     */
-    protected $icon_factory;
-
-    /**
-     * @var Glyph\Factory
-     */
-    protected $glyph_factory;
-    /**
-     * @var Avatar\Factory
-     */
-    protected $avatar_factory;
-
-    /**
-     * @param Icon\Factory   $icon_factory
-     * @param Glyph\Factory  $glyph_factory
-     * @param Avatar\Factory $avatar_factory
-     */
     public function __construct(
         Icon\Factory $icon_factory,
         Glyph\Factory $glyph_factory,

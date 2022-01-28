@@ -1,43 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilObjContentObjectAccess
- *
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesIliasLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjContentObjectAccess extends ilObjectAccess
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -48,25 +33,12 @@ class ilObjContentObjectAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static $lo_access;
+    public static array $lo_access;
     
-    /**
-    * checks wether a user may invoke a command or not
-    * (this method is called by ilAccessHandler::checkAccess)
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
-    */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
         $ilUser = $this->user;
         $lng = $this->lng;
-        $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
 
         if ($a_user_id == "") {
@@ -81,12 +53,12 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 /*
                 if ($ilUser->getId() == ANONYMOUS_USER_ID)
                 {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("lm_no_continue_for_anonym"));
                     return false;
                 }
                 if (ilObjContentObjectAccess::_getLastAccessedPage($a_ref_id,$a_user_id) <= 0)
                 {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("not_accessed_yet"));
                     return false;
                 }
                 */
@@ -95,7 +67,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
             // for permission query feature
             case "info":
                 if (!ilObject::lookupOfflineStatus($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
 
@@ -108,21 +80,16 @@ class ilObjContentObjectAccess extends ilObjectAccess
     // access relevant methods
     //
 
-
-    /**
-    * get last accessed page
-    *
-    * @param	int		$a_obj_id	content object id
-    * @param	int		$a_user_id	user object id
-    */
-    public static function _getLastAccessedPage($a_ref_id, $a_user_id = "")
-    {
+    public static function _getLastAccessedPage(
+        int $a_ref_id,
+        int $a_user_id = 0
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
         
-        if ($a_user_id == "") {
+        if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
         }
 
@@ -150,9 +117,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
         return 0;
     }
 
-    /**
-    * check whether goto script will succeed
-    */
     public static function _checkGoto($a_target)
     {
         global $DIC;
@@ -206,7 +170,6 @@ class ilObjContentObjectAccess extends ilObjectAccess
         $q = "SELECT obj_id, lm_id FROM lo_access WHERE " .
             "usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . " AND " .
             $ilDB->in("lm_id", $a_ref_ids, false, "integer");
-        ;
         $set = $ilDB->query($q);
         foreach ($a_ref_ids as $r) {
             self::$lo_access[$r] = 0;

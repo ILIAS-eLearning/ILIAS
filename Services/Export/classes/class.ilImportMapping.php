@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,6 @@
 
 /**
  * Import mapping
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilImportMapping
@@ -24,8 +23,8 @@ class ilImportMapping
     public string $install_id;
     public string $install_url;
     public ilLogger $log;
-    
-    protected $target_id = 0;
+
+    protected int $target_id = 0;
 
     public function __construct()
     {
@@ -53,14 +52,14 @@ class ilImportMapping
     {
         return $this->install_url;
     }
-    
-    final public function setTargetId(string $a_target_id) : void
+
+    final public function setTargetId(int $a_target_id) : void
     {
         $this->target_id = $a_target_id;
         $this->log->debug("a_target_id=" . $a_target_id);
     }
-    
-    final public function getTargetId() : string
+
+    final public function getTargetId() : int
     {
         return $this->target_id;
     }

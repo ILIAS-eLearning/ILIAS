@@ -1,19 +1,25 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Badge/interfaces/interface.ilBadgeTypeGUI.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User profile badge gui
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @ingroup ServicesUser
  */
 class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
 {
-    public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
+    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
     {
         global $DIC;
 
@@ -26,7 +32,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         $gui->showPublicProfileFields($a_form, array(), $fields, true);
     }
     
-    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config)
+    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void
     {
         if (is_array($a_config["profile"])) {
             $group = $a_form->getItemByPostVar("profile");
@@ -41,7 +47,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         }
     }
     
-    public function getConfigFromForm(ilPropertyFormGUI $a_form)
+    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
     {
         $fields = array();
         foreach (array_keys($_POST) as $id) {
@@ -53,7 +59,7 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         return array("profile" => $fields);
     }
     
-    public function validateForm(ilPropertyFormGUI $a_form)
+    public function validateForm(ilPropertyFormGUI $a_form) : bool
     {
         return true;
     }

@@ -74,7 +74,6 @@ class ilCourseUserData
 
         $ilDB = $DIC['ilDB'];
         
-        include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
         $field_ids = ilCourseDefinedFieldDefinition::_getFieldIds($a_obj_id);
         if (!count($field_ids)) {
             return array();
@@ -109,7 +108,6 @@ class ilCourseUserData
 
         $ilDB = $DIC['ilDB'];
 
-        include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
         $required = ilCourseDefinedFieldDefinition::_getRequiredFieldIds($a_obj_id);
         if (!count($required)) {
             return true;

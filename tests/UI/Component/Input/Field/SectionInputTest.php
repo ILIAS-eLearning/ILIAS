@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,11 +6,11 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field;
-use \ILIAS\Data;
+use ILIAS\Data;
 
 class SectionInputTest extends ILIAS_UI_TestBase
 {
-    public function getFieldFactory()
+    public function getFieldFactory() : Field\Factory
     {
         $factory = new Field\Factory(
             new IncrementalSignalGenerator(),
@@ -21,7 +21,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testSectionRendering()
+    public function testSectionRendering() : void
     {
         $f = $this->getFieldFactory();
         $r = $this->getDefaultRenderer();
@@ -59,7 +59,7 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
-    public function testSectionRenderingWithError()
+    public function testSectionRenderingWithError() : void
     {
         $f = $this->getFieldFactory();
         $r = $this->getDefaultRenderer();

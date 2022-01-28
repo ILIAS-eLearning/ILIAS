@@ -343,12 +343,12 @@ class ilCharSelectorConfig
 
     public function setAvailability(int $a_availability) : void
     {
-        switch ((int) $a_availability) {
+        switch ($a_availability) {
             case self::INACTIVE:
             case self::INHERIT:
             case self::ENABLED:
             case self::DISABLED:
-                $this->availability = (int) $a_availability;
+                $this->availability = $a_availability;
                 break;
             default:
                 $this->availability = self::INHERIT;

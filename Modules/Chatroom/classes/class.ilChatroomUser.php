@@ -39,7 +39,7 @@ class ilChatroomUser
                 return $session[$this->room->getRoomId()]['user_id'];
             }
 
-            $user_id = mt_rand(-99999, -20);
+            $user_id = random_int(-99999, -20);
 
             $session[$this->room->getRoomId()]['user_id'] = $user_id;
             ilSession::set('chat', $session);
@@ -107,7 +107,7 @@ class ilChatroomUser
     {
         $anonymous_name = str_replace(
             '#',
-            (string) mt_rand(0, 10000),
+            (string) random_int(0, 10000),
             $this->room->getSetting('autogen_usernames')
         );
 
