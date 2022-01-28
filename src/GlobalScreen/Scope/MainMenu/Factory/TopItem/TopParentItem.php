@@ -58,5 +58,4 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     {
         return $this->supports_async_loading;
     }
-
 }

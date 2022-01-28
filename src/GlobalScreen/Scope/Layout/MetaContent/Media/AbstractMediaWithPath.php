@@ -15,8 +15,7 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         if (!$this->isContentDataUri($content)) {
             if ($this->hasContentParameters($content)) {
                 return rtrim($content, "&") . "&" . $this->version;
-            }
-            else {
+            } else {
                 return rtrim($content, "?") . "?" . $this->version;
             }
         }
@@ -32,7 +31,7 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         return (bool) preg_match('/^(data:)([a-z\/]*)((;base64)?)(,?)([A-z0-9=]*)$/', $content);
     }
 
-    protected function hasContentParameters(string $content): bool
+    protected function hasContentParameters(string $content) : bool
     {
         return (bool) (strpos($content, "?") !== false);
     }
