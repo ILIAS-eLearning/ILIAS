@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 use ILIAS\FileSystem\Filesystem;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -8,75 +8,47 @@ use ILIAS\FileUpload\Location;
 
 class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 {
-    protected \ilWebDAVMountInstructionsDocument $document;
-
-    protected \ilWebDAVMountInstructionsRepository $mount_instructions_repository;
-
-    protected ?\ilHtmlPurifierInterface $document_purifier = null;
-
-    protected \ilObjUser $actor;
-
-    protected \ILIAS\FileUpload\FileUpload $file_upload;
-
-    /** @var Filesystem */
-    protected $tmp_filesystem;
-
+    protected ilWebDAVMountInstructionsDocument $document;
+    protected ilWebDAVMountInstructionsRepository $mount_instructions_repository;
+    protected ilHtmlPurifierInterface $document_purifier;
+    protected ilObjUser $actor;
+    protected FileUpload $file_upload;
+    protected FileSystem $tmp_filesystem;
     protected string $form_action;
-
     protected string $save_command;
-
     protected string $cancel_command;
-
     protected bool $is_editable = false;
-
-    protected string $translated_error;
-
-    protected string $translated_info;
-
-    /**
-     * ilWebDAVMountInstructionsDocumentFormGUI constructor.
-     * @param ilWebDAVMountInstructionsDocument $a_document
-     * @param ilWebDAVMountInstructionsRepository $mount_instructions_repository
-     * @param ilHtmlPurifierInterface|null $a_document_purifier
-     * @param ilObjUser $a_actor
-     * @param Filesystem $a_tmp_filesystem
-     * @param FileUpload $a_fileupload
-     * @param string $a_form_action
-     * @param string $a_save_command
-     * @param string $a_cancel_command
-     * @param bool $a_is_editable
-     */
+    protected string $translated_error = '';
+    protected string $translated_info = '';
+    
     public function __construct(
-        ilWebDAVMountInstructionsDocument $a_document,
+        ilWebDAVMountInstructionsDocument $document,
         ilWebDAVMountInstructionsRepository $mount_instructions_repository,
-        ?ilHtmlPurifierInterface $a_document_purifier,
-        ilObjUser $a_actor,
-        FileSystem $a_tmp_filesystem,
-        FileUpload $a_fileupload,
-        string $a_form_action,
-        string $a_save_command,
-        string $a_cancel_command,
-        bool $a_is_editable
+        ?ilHtmlPurifierInterface $document_purifier,
+        ilObjUser $actor,
+        FileSystem $tmp_filesystem,
+        FileUpload $fileupload,
+        string $form_action,
+        string $save_command,
+        string $cancel_command,
+        bool $is_editable
     ) {
-        $this->document = $a_document;
+        $this->document = $document;
         $this->mount_instructions_repository = $mount_instructions_repository;
-        $this->document_purifier = $a_document_purifier;
-        $this->actor = $a_actor;
-        $this->tmp_filesystem = $a_tmp_filesystem;
-        $this->file_upload = $a_fileupload;
-        $this->form_action = $a_form_action;
-        $this->save_command = $a_save_command;
-        $this->cancel_command = $a_cancel_command;
-        $this->is_editable = $a_is_editable;
+        $this->document_purifier = $document_purifier;
+        $this->actor = $actor;
+        $this->tmp_filesystem = $tmp_filesystem;
+        $this->file_upload = $fileupload;
+        $this->form_action = $form_action;
+        $this->save_command = $save_command;
+        $this->cancel_command = $cancel_command;
+        $this->is_editable = $is_editable;
 
         parent::__construct();
 
         $this->initForm();
     }
-
-    /**
-     * Initializes the property form
-     */
+    
     protected function initForm() : void
     {
         $document_already_exists = $this->document->getId() > 0;
@@ -124,7 +96,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         if ($document_already_exists) {
             $webdav_id = new ilHiddenInputGUI('webdav_id');
-            $webdav_id->setValue($this->document->getId());
+            $webdav_id->setValue((string) $this->document->getId());
             $this->addItem($webdav_id);
         } else {
             $document_upload = new ilFileInputGUI($document_label, 'document');
@@ -139,12 +111,8 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $this->addCommandButton($this->save_command, $this->lng->txt('save'));
         }
     }
-
-    /**
-     * Save uploaded mount instructions document
-     * @return bool
-     */
-    public function saveObject()
+    
+    public function saveObject() : bool
     {
         try {
             $this->document = $this->createFilledObject($this->document);
@@ -158,10 +126,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
     
-    /**
-     * Update the document with id from form
-     */
-    public function updateObject()
+    public function updateObject() : bool
     {
         try {
             $this->document = $this->createFilledObject($this->document);
@@ -174,67 +139,43 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         
         return true;
     }
-
-    /**
-     * @return bool
-     */
-    public function hasTranslatedInfo()
+    
+    public function hasTranslatedInfo() : bool
     {
         return strlen($this->translated_info) > 0;
     }
-
-    /**
-     * @return bool
-     */
-    public function hasTranslatedError()
+    
+    public function hasTranslatedError() : bool
     {
         return strlen($this->translated_error) > 0;
     }
-
-    /**
-     * @return string
-     */
-    public function getTranslatedInfo()
+    
+    public function getTranslatedInfo() : string
     {
         return $this->translated_info;
     }
-
-    /**
-     * @return string
-     */
-    public function getTranslatedError()
+    
+    public function getTranslatedError() : string
     {
         return $this->translated_error;
     }
-
-    /**
-     * @param ilWebDAVMountInstructionsDocument $document
-     * @return ilWebDAVMountInstructionsDocument
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
+    
     protected function createFilledObject(ilWebDAVMountInstructionsDocument $document) : ilWebDAVMountInstructionsDocument
     {
-        // early exit for invalid input
         if (!$this->checkInput()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
-
-        // check if document already exists in db
+        
         $document_already_exists = $document->getId() > 0;
 
         if (!$document_already_exists) {
-            /** @var  $upload_result UploadResult*/
             $upload_result = $this->getFileUploadResult();
         }
 
-        // Exit on failed file upload
         if (!$document_already_exists && !$upload_result->isOK()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
-
-        // Get values for document
+        
         $title = $this->getInput('title');
         $language = $this->getInput('lng');
         $creation_ts = $document_already_exists ? $document->getCreationTs() : ilUtil::now();
@@ -242,15 +183,16 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
         $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
+        
+        $mount_instruction_for_language_exists = $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language);
 
-        // On creating a new document -> check if language is already in use by another document
-        if (!$document_already_exists && $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language)) {
+        if (!$document_already_exists && $mount_instruction_for_language_exists) {
             throw new InvalidArgumentException($this->lng->txt("webdav_choosen_language_already_used"));
         }
-
-        // On editing document -> check if language is changed and already is in use by another document
-        if ($document_already_exists && $document->getLanguage() != $language
-            && $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language) != $document->getId()) {
+        
+        if ($document_already_exists && $document->getLanguage() != $language &&
+            $mount_instruction_for_language_exists > 0 &&
+            $mount_instruction_for_language_exists != $document->getId()) {
             throw new InvalidArgumentException($this->lng->txt("webdav_chosen_language_already_used"));
         }
 
@@ -258,19 +200,17 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $raw_mount_instructions = '';
             $processed_mount_instructions = '';
         } else {
-            // Get and process mount instructions
             $raw_mount_instructions = $this->getRawMountInstructionsFromFileUpload($upload_result);
             $document_processor = $upload_result->getMimeType() == 'text/html'
                 ? new ilWebDAVMountInstructionsHtmlDocumentProcessor($this->document_purifier)
                 : new ilWebDAVMountInstructionsTextDocumentProcessor();
             $processed_mount_instructions = $document_processor->processMountInstructions($raw_mount_instructions);
         }
-        // Get or create new id for document
+
         $id = $document_already_exists ? $document->getId()
             : $this->mount_instructions_repository->getNextMountInstructionsDocumentId();
 
-        // Create document with new values (no setter methods -> object from this class are immutable)
-        $document = new ilWebDAVMountInstructionsDocument(
+        return new ilWebDAVMountInstructionsDocument(
             $id,
             $title,
             $raw_mount_instructions,
@@ -282,32 +222,19 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $last_modified_usr_id,
             $sorting
         );
-
-        return $document;
     }
-
-    /**
-     * Gets the content of the uploaded file
-     *
-     * @param UploadResult $upload_result
-     * @return string
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
+    
     protected function getRawMountInstructionsFromFileUpload(UploadResult $upload_result) : string
     {
-        //  Check uploaded name
         if ($upload_result->getName() === '') {
             throw new InvalidArgumentException('uploaded file has no name');
         }
-
-        // Check status
+        
         if (!$upload_result->isOK()) {
             $this->getItemByPostVar('document')->setAlert($upload_result->getStatus()->getMessage());
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
 
-        // Move uploaded file to a temporary directory to read it
         $this->file_upload->moveOneFileTo(
             $upload_result,
             '/mount_instructions',
@@ -322,22 +249,15 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
 
-        // Get conetent of file
-        $raw_content = $content = $this->tmp_filesystem->read($path_to_file);
+        $raw_content = $this->tmp_filesystem->read($path_to_file);
 
-        // Delete temporary file
         $this->tmp_filesystem->delete($path_to_file);
 
         return $raw_content;
     }
-
-    /**
-     * @return UploadResult
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     */
+    
     protected function getFileUploadResult() : UploadResult
     {
-        // Early exit if file upload has errors (no uploads or uploads already processed)
         if (!$this->file_upload->hasUploads()) {
             throw new InvalidArgumentException("webdav_error_no_upload");
         } elseif ($this->file_upload->hasBeenProcessed()) {
@@ -346,7 +266,6 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         $this->file_upload->process();
 
-        /** @var UploadResult $upload_result */
         $upload_result = array_values($this->file_upload->getResults())[0];
 
         if (!$upload_result) {

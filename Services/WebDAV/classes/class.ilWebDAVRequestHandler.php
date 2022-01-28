@@ -1,84 +1,43 @@
-<?php
+<?php declare(strict_types = 1);
 
-use function Sabre\HTTP\decodePath;
-use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Server;
 
 /**
- * Class ilWebDAVRequestHandler
- *
- * This class handles the WebDAV requests on webdav.php. It sets up the sabreDAV server with its necessary plugins.
- *
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  */
 class ilWebDAVRequestHandler
 {
-    private static ?\ilWebDAVRequestHandler $instance = null;
+    private ilWebDAVDIC $webdav_dic;
     
-    public static function getInstance()
+    public function __construct(ilWebDAVDIC $webdav_dic)
     {
-        return self::$instance ? self::$instance : self::$instance = new ilWebDAVRequestHandler();
+        $this->webdav_dic = $webdav_dic;
     }
-
-    /**
-     * For the case there might be more to handle as just running the server. So we won't make any breaking changes
-     *
-     * @throws \Sabre\DAV\Exception
-     */
-    public function handleRequest()
+    public function handleRequest(array $post_array)
     {
-        $this->runWebDAVServer();
-    }
-
-    /**
-     * Creates and runs SabreDAV Server
-     *
-     * @throws \Sabre\DAV\Exception
-     */
-    protected function runWebDAVServer()
-    {
-        $server = new Sabre\DAV\Server($this->getRootDir());
+        $post_object = $_POST;
+        $_POST = $post_array;
+        $server = new Server($this->getRootDir());
+        $_POST = $post_object;
         $this->setPlugins($server);
         $server->start();
     }
     
-    
-    /**
-     * Set server plugins
-     */
-    protected function setPlugins($server)
+    protected function setPlugins(Server $server)
     {
-        global $DIC;
+        $auth_plugin = $this->webdav_dic->authplugin();
+        $server->addPlugin($auth_plugin);
 
-        // Set authentication plugin
-        $webdav_auth = new ilWebDAVAuthentication();
-        $cal = new Sabre\DAV\Auth\Backend\BasicCallBack(array($webdav_auth, 'authenticate'));
-        $plugin = new Sabre\DAV\Auth\Plugin($cal);
-        $server->addPlugin($plugin);
-
-        // Set Lock Plugin
-        $db_manager = new ilWebDAVDBManager($DIC->database());
-        $lock_backend = new ilWebDAVLockBackend($db_manager);
-        $lock_plugin = new Sabre\DAV\Locks\Plugin($lock_backend);
+        $lock_plugin = $this->webdav_dic->locksplugin();
         $server->addPlugin($lock_plugin);
-
-        /* Set Browser Plugin
-         * This plugin is used to redirect GET-Requests from browsers on collections to the mount instruction page */
-        $browser_plugin = new ilWebDAVSabreBrowserPlugin($DIC->ctrl());
+        
+        $browser_plugin = $this->webdav_dic->browserplugin();
         $server->addPlugin($browser_plugin);
     }
     
-    /**
-     * Return the first object to mount on WebDAV
-     *
-     * @return ilMountPointDAV
-     */
-    protected function getRootDir()
+    protected function getRootDir() : ilDAVMountPoint
     {
-        global $DIC;
-
-        $repo_helper = new ilWebDAVRepositoryHelper($DIC->access(), $DIC->repositoryTree());
-        $dav_helper = new ilWebDAVObjDAVHelper($repo_helper);
-        return new ilMountPointDAV($repo_helper, $dav_helper);
+        return $this->webdav_dic->dav_factory()->getMountPoint();
     }
 }

@@ -1,22 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
 
 class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
 {
     private string $text;
-
-    /**
-     * ilWebDAVMountInstructionsDocumentsContainsHtmlValidator constructor.
-     * @param $purified_html_content
-     */
+    
     public function __construct(string $purified_html_content)
     {
         $this->text = $purified_html_content;
     }
-
-    /**
-     * @return bool
-     */
+    
     public function isValid() : bool
     {
         if (!preg_match('/<[^>]+?>/', $this->text)) {
