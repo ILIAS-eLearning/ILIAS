@@ -76,7 +76,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
             return $this->lng->txt('mail_template_orphaned_context');
         }
 
-        return $row[$column];
+        return (string) $row[$column];
     }
 
     protected function fillRow(array $a_set) : void
