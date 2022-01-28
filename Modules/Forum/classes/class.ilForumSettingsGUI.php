@@ -683,7 +683,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function getParticipants() : ilParticipants
     {
-        if ($this->parent_obj->isParentObjectCrsOrGrp()) {
+        if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
