@@ -2291,7 +2291,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
             $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
             $this->ctrl->setParameter($this, 'draft_id', $draft_obj->getDraftId());
-            $this->ctrl->setParameter($this, 'page', 1);
+            $this->ctrl->setParameter($this, 'page', 0);
             $this->ctrl->setParameter(
                 $this,
                 'orderby',
