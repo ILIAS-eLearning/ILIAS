@@ -885,31 +885,6 @@ class Renderer extends AbstractComponentRenderer
             $dynamic_input_count
         ) {
             return "
-                $(document).ready(function () {
-                    il.UI.Input.DynamicInputsRenderer.init(
-                        '$id',
-                        `$dynamic_inputs_template_html`,
-                        $dynamic_input_count
-                    );
-                });
-            ";
-        });
-    }
-
-    protected function initClientsideRenderer(
-        FI\DynamicInputsAware $input,
-        string $template_html
-    ) : FI\DynamicInputsAware {
-        $dynamic_inputs_template_html = $this->replaceTemplateIds($template_html);
-        $dynamic_input_count = count($input->getDynamicInputs());
-
-        // note that $dynamic_inputs_template_html is in tilted single quotes (`),
-        // because otherwise the html syntax might collide with normal ones.
-        return $input->withAdditionalOnLoadCode(function ($id) use (
-            $dynamic_inputs_template_html,
-            $dynamic_input_count
-        ) {
-            return "
             $(document).ready(function () {
                 il.UI.Input.DynamicInputsRenderer.init(
                     '$id',
