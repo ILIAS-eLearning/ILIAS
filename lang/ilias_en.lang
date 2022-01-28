@@ -11089,7 +11089,7 @@ common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
-bibl#:#bibl_add#:#Add Bibliography
+common#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
 bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
