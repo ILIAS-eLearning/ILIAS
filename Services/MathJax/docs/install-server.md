@@ -1,6 +1,4 @@
-==================================
-Install a MathJax Server for ILIAS
-==================================
+# Install a MathJax Server for ILIAS
 
 A MathJax server for ILIAS can be installed on every machine that is accessible from the ILIAS server
 via HTTP. To run a MathJax server you have to install the following components:
@@ -19,8 +17,7 @@ additional Apache Batik library:
 If you face problems with the following guide, please look at the original documentation
 of the components above.
 
-Quick Installation Guide for Linux
-----------------------------------
+## Quick Installation Guide for Linux
 
 The MathJax server is a node.js application. You can install the main components with the node.js package
 manager (npm) that is available in many linux distributions. For example on a Ubuntu system you get
@@ -88,14 +85,15 @@ of the service, because that may conflict with other node.js based services on t
 it starts the service with an own user and group 'mathjax' that have to be created before. The status
 check looks for a process with this user.
 
-useradd mathjax
-groupadd mathjax
-chown -R mathjax:mathjax /opt/mathjax
-touch /etc/init.d/mathjax
-chmod +x /etc/init.d/mathjax
+    useradd mathjax
+    groupadd mathjax
+    chown -R mathjax:mathjax /opt/mathjax
+    touch /etc/init.d/mathjax
+    chmod +x /etc/init.d/mathjax
 
 Edit /etc/init.d/mathjax and copy the following script in it. Adjust DAEMON path if necesessary (whereis node).
 
+````
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          mathjax
@@ -211,7 +209,7 @@ case "$1" in
         ;;
 esac
 
-### End of the script.
+````
 
 Create this script as 'mathjax' in /etc.init.d with excecute permission. Then call the following
 command to link it in the runlevel directories:
@@ -221,6 +219,7 @@ command to link it in the runlevel directories:
 You may also want to do a periodic check if the server is still running and eventually restart it.
 For that purpose create the following script in /etc/cron.hourly with execute permission:
 
+````
 #!/bin/bash
 #Set the correct nodepath! (whereis node)
 nodepath=/usr/bin/node
@@ -239,5 +238,4 @@ else
     date >>/var/log/mathjax.log
     /etc/init.d/mathjax start >>/var/log/mathjax.log
 fi
-
-### End of the script.
+````
