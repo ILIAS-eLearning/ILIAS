@@ -892,7 +892,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $tpl->parseCurrentBlock();
             }
 
-            $page = 1;
+            $page = 0;
             if ($this->http->wrapper()->query()->has('page')) {
                 $page = $this->http->wrapper()->query()->retrieve(
                     'page',
