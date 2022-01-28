@@ -14,9 +14,9 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         // a data uri, otherwise the data uri will behave incorrectly.
         if (!$this->isContentDataUri($content)) {
             if ($this->hasContentParameters($content)) {
-                return rtrim($content, "&") . "&" . $this->version;
+                return rtrim($content, "&") . "&version=" . $this->version;
             } else {
-                return rtrim($content, "?") . "?" . $this->version;
+                return rtrim($content, "?") . "?version=" . $this->version;
             }
         }
 
@@ -33,6 +33,6 @@ abstract class AbstractMediaWithPath extends AbstractMedia
 
     protected function hasContentParameters(string $content) : bool
     {
-        return (bool) (strpos($content, "?") !== false);
+        return (strpos($content, "?") !== false);
     }
 }
