@@ -113,13 +113,13 @@ Components in the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 <!-- END Administration -->
 
-<!-- BEGIN AdministrativeNotification -->
+<!-- BEGIN AdministrativeNotifications -->
 * **Administrative Notifications**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-<!-- END AdministrativeNotification -->
+<!-- END AdministrativeNotifications -->
 
 <!-- BEGIN BackgroundTasks -->
 * **BackgroundTasks**
