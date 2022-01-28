@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for badge user listing
@@ -9,16 +20,19 @@
  */
 class ilBadgeUserTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    protected $award_badge; // [ilBadge]
-    protected $do_parent; // [bool]
+    protected ilTree $tree;
+    protected ilBadge $award_badge;
+    protected bool $do_parent;
+    protected array $filter = [];
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_parent_ref_id,
+        ilBadge $a_award_bagde = null,
+        int $a_parent_obj_id = null,
+        int $a_restrict_badge_id = 0
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -102,6 +116,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
     public function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null, $a_restrict_badge_id = null)
     {
         $tree = $this->tree;
+        $user_ids = null;
         
         $data = array();
                     
@@ -169,7 +184,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
                     $idx = $user_ass->getBadgeId() . "-" . $user["usr_id"];
                     
                     $badge = $badges[$user_ass->getBadgeId()];
-                    
+                    $parent = [];
                     if ($this->do_parent) {
                         $parent = $badge->getParentMeta();
                     }
@@ -181,7 +196,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
                         "type" => ilBadge::getExtendedTypeCaption($badge->getTypeInstance()),
                         "title" => $badge->getTitle(),
                         "issued" => $user_ass->getTimestamp(),
-                        "parent_id" => $parent["id"],
+                        "parent_id" => $parent["id"] ?? 0,
                         "parent_meta" => $parent
                     );
                 }

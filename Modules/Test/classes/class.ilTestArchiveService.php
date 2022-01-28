@@ -107,7 +107,7 @@ class ilTestArchiveService
      */
     private function buildOverviewFilename($activeId, $pass)
     {
-        $tmpFileName = ilUtil::ilTempnam();
+        $tmpFileName = ilFileUtils::ilTempnam();
         return dirname($tmpFileName) . '/scores-' . $this->testOBJ->getId() . '-' . $activeId . '-' . $pass . '.pdf';
     }
 }

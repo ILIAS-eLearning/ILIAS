@@ -21,7 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 * TableGUI for material assignments of course objectives
@@ -96,7 +95,6 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
             }
 
             $this->tpl->setCurrentBlock('chapter');
-            include_once('Modules/LearningModule/classes/class.ilLMObject.php');
             
             if ($this->objective_lm->isChapterAssigned($a_set['id'], $sub_data['id'])) {
                 $this->tpl->setVariable('CHAP_CHECKED', 'checked="checked"');
@@ -151,7 +149,6 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
             $subobjects = array();
 
             if ($node['type'] == 'lm') {
-                include_once('./Modules/LearningModule/classes/class.ilLMObject.php');
 
 
                 // Chapters and pages
@@ -210,10 +207,8 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
      */
     protected function initObjectiveAssignments()
     {
-        include_once('./Modules/Course/classes/class.ilCourseObjective.php');
         $this->objective = new ilCourseObjective($this->course_obj, $this->objective_id);
         
-        include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
         $this->objective_lm = new ilCourseObjectiveMaterials($this->objective_id);
     }
 }

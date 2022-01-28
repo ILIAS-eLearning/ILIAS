@@ -2172,7 +2172,7 @@ class ilExerciseManagementGUI
             $file_copied = $this->copyFileToWebDir($zip_internal_path);
 
             if ($file_copied) {
-                ilUtil::unzip($file_copied, true);
+                ilFileUtils::unzip($file_copied, true);
                 $web_filesystem->delete($zip_internal_path);
 
                 $submission_repository = $this->service->repo()->submission();

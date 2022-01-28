@@ -58,8 +58,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormCanBeSavedWithDisabledService() : void
     {
-        $this->initLangMock();
-
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
@@ -91,10 +89,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->method('getInput')
             ->willReturn(0);
 
-        $_POST = [
-            'tos_status' => 1
-        ];
-
         $form->setCheckInputCalled(true);
 
         $this->assertTrue($form->saveObject());
@@ -104,8 +98,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormCanBeSavedWithEnabledServiceWhenAtLeastOneDocumentExists() : void
     {
-        $this->initLangMock();
-
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
@@ -136,11 +128,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->exactly(3))
             ->method('getInput')
             ->willReturn(1);
-
-        $_POST = [
-            'tos_status' => 1,
-            'tos_reevaluate_on_login' => 1,
-        ];
 
         $form->setCheckInputCalled(true);
 
@@ -198,10 +185,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->method('getInput')
             ->willReturn(1);
 
-        $_POST = [
-            'tos_status' => 1
-        ];
-
         $form->setCheckInputCalled(true);
 
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();#
@@ -220,8 +203,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormCanBeSavedWithEnabledServiceWhenNoDocumentsExistButServiceIsAlreadyEnabled() : void
     {
-        $this->initLangMock();
-
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
@@ -251,11 +232,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->exactly(3))
             ->method('getInput')
             ->willReturn(1);
-
-        $_POST = [
-            'tos_status' => 1,
-            'tos_reevaluate_on_login' => 1,
-        ];
 
         $form->setCheckInputCalled(true);
 

@@ -27,9 +27,9 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
     protected ilObjUser $user;
     protected ilWorkspaceTree $ws_tree;
     protected ilWorkspaceAccessHandler $ws_access;
-    protected int $top_skill_id;
-    protected int $tref_id;
-    protected int $basic_skill_id;
+    protected int $top_skill_id = 0;
+    protected int $tref_id = 0;
+    protected int $basic_skill_id = 0;
     protected ilSkillTreeNode $skill;
 
     public function __construct(

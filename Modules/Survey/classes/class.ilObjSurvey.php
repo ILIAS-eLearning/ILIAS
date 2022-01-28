@@ -265,7 +265,7 @@ class ilObjSurvey extends ilObject
             }
             $this->deleteSurveyRecord();
 
-            ilUtil::delDir($this->getImportDirectory());
+            ilFileUtils::delDir($this->getImportDirectory());
         }
 
         $remove = parent::delete();
@@ -313,10 +313,10 @@ class ilObjSurvey extends ilObject
         $this->code_manager->deleteAll();
 
         // delete export files
-        $svy_data_dir = ilUtil::getDataDir() . "/svy_data";
+        $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";
         $directory = $svy_data_dir . "/svy_" . $this->getId();
         if (is_dir($directory)) {
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
 
         $mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->getId());
@@ -3175,8 +3175,8 @@ class ilObjSurvey extends ilObject
             $importfile = "";
             if ($isZip) {
                 $importfile = $import_dir . "/" . $file_info["name"];
-                ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
-                ilUtil::unzip($importfile);
+                ilFileUtils::moveUploadedFile($source, $file_info["name"], $importfile);
+                ilFileUtils::unzip($importfile);
                 $found = $this->locateImportFiles($import_dir);
                 if (!((strlen($found["dir"]) > 0) && (strlen($found["xml"]) > 0))) {
                     $error = $this->lng->txt("wrong_import_file_structure");
@@ -3186,7 +3186,7 @@ class ilObjSurvey extends ilObject
                 $import_subdir = $found["dir"];
             } else {
                 $importfile = tempnam($import_dir, "survey_import");
-                ilUtil::moveUploadedFile($source, $file_info["name"], $importfile);
+                ilFileUtils::moveUploadedFile($source, $file_info["name"], $importfile);
             }
 
             $this->log->debug("Import file = $importfile");
@@ -3414,21 +3414,21 @@ class ilObjSurvey extends ilObject
      */
     public function createExportDirectory() : void
     {
-        $svy_data_dir = ilUtil::getDataDir() . "/svy_data";
-        ilUtil::makeDir($svy_data_dir);
+        $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";
+        ilFileUtils::makeDir($svy_data_dir);
         if (!is_writable($svy_data_dir)) {
             throw new ilSurveyException("Survey Data Directory (" . $svy_data_dir . ") not writeable.");
         }
         
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $svy_dir = $svy_data_dir . "/svy_" . $this->getId();
-        ilUtil::makeDir($svy_dir);
+        ilFileUtils::makeDir($svy_dir);
         if (!is_dir($svy_dir)) {
             throw new ilSurveyException("Creation of Survey Directory failed.");
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
         $export_dir = $svy_dir . "/export";
-        ilUtil::makeDir($export_dir);
+        ilFileUtils::makeDir($export_dir);
         if (!is_dir($export_dir)) {
             throw new ilSurveyException("Creation of Export Directory failed.");
         }
@@ -3439,7 +3439,7 @@ class ilObjSurvey extends ilObject
      */
     public function getExportDirectory() : string
     {
-        $export_dir = ilUtil::getDataDir() . "/svy_data" . "/svy_" . $this->getId() . "/export";
+        $export_dir = ilFileUtils::getDataDir() . "/svy_data" . "/svy_" . $this->getId() . "/export";
 
         return $export_dir;
     }
@@ -3452,8 +3452,8 @@ class ilObjSurvey extends ilObject
      */
     public function createImportDirectory() : void
     {
-        $svy_data_dir = ilUtil::getDataDir() . "/svy_data";
-        ilUtil::makeDir($svy_data_dir);
+        $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";
+        ilFileUtils::makeDir($svy_data_dir);
         
         if (!is_writable($svy_data_dir)) {
             throw new ilSurveyException("Survey Data Directory (" . $svy_data_dir . ") not writeable.");
@@ -3461,14 +3461,14 @@ class ilObjSurvey extends ilObject
 
         // create test directory (data_dir/svy_data/svy_<id>)
         $svy_dir = $svy_data_dir . "/svy_" . $this->getId();
-        ilUtil::makeDir($svy_dir);
+        ilFileUtils::makeDir($svy_dir);
         if (!is_dir($svy_dir)) {
             throw new ilSurveyException("Creation of Survey Directory failed.");
         }
 
         // create import subdirectory (data_dir/svy_data/svy_<id>/import)
         $import_dir = $svy_dir . "/import";
-        ilUtil::makeDir($import_dir);
+        ilFileUtils::makeDir($import_dir);
         if (!is_dir($import_dir)) {
             throw new ilSurveyException("Creation of Import Directory failed.");
         }
@@ -3480,10 +3480,10 @@ class ilObjSurvey extends ilObject
      */
     public function getImportDirectory() : string
     {
-        $import_dir = ilUtil::getDataDir() . "/svy_data" .
+        $import_dir = ilFileUtils::getDataDir() . "/svy_data" .
             "/svy_" . $this->getId() . "/import";
         if (!is_dir($import_dir)) {
-            ilUtil::makeDirParents($import_dir);
+            ilFileUtils::makeDirParents($import_dir);
         }
         if (is_dir($import_dir)) {
             return $import_dir;

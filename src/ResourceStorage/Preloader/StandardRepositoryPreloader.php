@@ -7,35 +7,30 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StandardRepositoryPreloader
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StandardRepositoryPreloader implements RepositoryPreloader
 {
-    /**
-     * @var ResourceRepository
-     */
-    protected $resource_repository;
-    /**
-     * @var RevisionRepository
-     */
-    protected $revision_repository;
-    /**
-     * @var InformationRepository
-     */
-    protected $information_repository;
-    /**
-     * @var StakeholderRepository
-     */
-    protected $stakeholder_repository;
+    protected \ILIAS\ResourceStorage\Resource\Repository\ResourceRepository $resource_repository;
+    protected \ILIAS\ResourceStorage\Revision\Repository\RevisionRepository $revision_repository;
+    protected \ILIAS\ResourceStorage\Information\Repository\InformationRepository $information_repository;
+    protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository $stakeholder_repository;
 
-    /**
-     * @param ResourceRepository    $resource_repository
-     * @param RevisionRepository    $revision_repository
-     * @param InformationRepository $information_repository
-     * @param StakeholderRepository $stakeholder_repository
-     */
     public function __construct(
         ResourceRepository $resource_repository,
         RevisionRepository $revision_repository,

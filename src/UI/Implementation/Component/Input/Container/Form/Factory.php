@@ -10,10 +10,12 @@ use ILIAS\UI\Implementation\Component\Input;
 class Factory implements F\Factory
 {
     protected Input\Field\Factory $field_factory;
+    protected Input\NameSource $name_source;
 
-    public function __construct(Input\Field\Factory $field_factory)
+    public function __construct(Input\Field\Factory $field_factory, Input\NameSource $name_source)
     {
         $this->field_factory = $field_factory;
+        $this->name_source = $name_source;
     }
 
     /**
@@ -21,6 +23,6 @@ class Factory implements F\Factory
      */
     public function standard(string $post_url, array $inputs) : F\Standard
     {
-        return new Standard($this->field_factory, $post_url, $inputs);
+        return new Standard($this->field_factory, $this->name_source, $post_url, $inputs);
     }
 }

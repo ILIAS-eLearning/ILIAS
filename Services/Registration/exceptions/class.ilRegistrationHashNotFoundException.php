@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,29 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once 'Services/Registration/exceptions/class.ilRegistrationException.php';
-
 /**
-* Class for user related exception handling in ILIAS.
-*
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
-*
-*/
+ * Class for user related exception handling in ILIAS.
+ * @author  Michael Jansen <mjansen@databay.de>
+ * @version $Id$
+ */
 class ilRegistrationHashNotFoundException extends ilRegistrationException
 {
-    /**
-    * Constructor
-    *
-    * A message is not optional as in build in class Exception
-    *
-    * @access public
-    * @param	string	$a_message message
-    * @param	integer	$a_code code
-    *
-    */
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

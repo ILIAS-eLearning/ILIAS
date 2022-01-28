@@ -208,7 +208,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 break;
                 
             case "ilfilesystemgui":
-                $fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
+                $fs_gui = new ilFileSystemGUI(ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
                 $fs_gui->setAllowedSuffixes(ilObjMediaObject::getRestrictedFileTypes());
                 $fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
                 $fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
@@ -688,7 +688,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($form->getInput("standard_type") == "File") {
             $file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
             $file = $mob_dir . "/" . $file_name;
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $_FILES['standard_file']['tmp_name'],
                 $file_name,
                 $file
@@ -760,7 +760,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 if ($_FILES['full_file']['name'] != "") {
                     $full_file_name = ilObjMediaObject::fixFilename($_FILES['full_file']['name']);
                     $file = $mob_dir . "/" . $full_file_name;
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $_FILES['full_file']['tmp_name'],
                         $full_file_name,
                         $file
@@ -969,7 +969,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 if ($_FILES['standard_file']['name'] != "") {
                     $file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
                     $file = $mob_dir . "/" . $file_name;
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $_FILES['standard_file']['tmp_name'],
                         $file_name,
                         $file
@@ -1073,7 +1073,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     if ($_FILES['full_file']['name'] != "") {
                         $full_file_name = ilObjMediaObject::fixFilename($_FILES['full_file']['name']);
                         $file = $mob_dir . "/" . $full_file_name;
-                        ilUtil::moveUploadedFile(
+                        ilFileUtils::moveUploadedFile(
                             $_FILES['full_file']['tmp_name'],
                             $full_file_name,
                             $file
@@ -1197,7 +1197,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     ) : void {
         // determine directory
         $cur_subdir = dirname($a_file);
-        $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
+        $mob_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
         $cur_dir = (!empty($cur_subdir))
             ? $mob_dir . "/" . $cur_subdir
             : $mob_dir;
@@ -1227,7 +1227,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     ) : void {
         // determine directory
         $cur_subdir = dirname($a_file);
-        $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
+        $mob_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
         $cur_dir = (!empty($cur_subdir))
             ? $mob_dir . "/" . $cur_subdir
             : $mob_dir;
@@ -1240,7 +1240,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         if (!$this->object->hasFullscreenItem()) {	// create new fullscreen item
             $std_item = $this->object->getMediaItem("Standard");
-            $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
+            $mob_dir = ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
             $file = $mob_dir . "/" . $location;
             $full_item = new ilMediaItem();
             $full_item->setMobId($std_item->getMobId());

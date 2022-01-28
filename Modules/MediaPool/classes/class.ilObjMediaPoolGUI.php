@@ -583,7 +583,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
             $upload_factory = new ilImportDirectoryFactory();
             $media_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
-            if ($media_upload->exists() && ilMainMenuGUI::_checkAdministrationPermission()) {
+            if ($media_upload->exists() && $this->rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID)) {
                 $ilToolbar->addButton(
                     $lng->txt("mep_create_from_upload_dir"),
                     $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
@@ -747,7 +747,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
 
         $mode = ($this->ctrl->getCmd() != "showPreview")
             ? "fullscreen"
@@ -1666,7 +1666,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         $this->checkPermission("write");
 
-        if (ilMainMenuGUI::_checkAdministrationPermission()) {
+        if ($this->rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID)) {
 
             // action type
             $options = array(
@@ -1702,7 +1702,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $upload_dir = $mob_import_directory->getAbsolutePath();
 
         $files = $this->mep_request->getFiles();
-        if (ilMainMenuGUI::_checkAdministrationPermission()) {
+        if ($this->rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID)) {
             foreach ($files as $f) {
                 $f = str_replace("..", "", $f);
                 $fullpath = $upload_dir . "/" . $f;

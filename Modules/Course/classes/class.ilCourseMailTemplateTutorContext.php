@@ -67,7 +67,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         $lng->loadLanguageModule('trac');
 
         // tracking settings
-        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
         $tracking = new ilObjUserTracking();
 
 

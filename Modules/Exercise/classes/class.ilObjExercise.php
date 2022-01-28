@@ -681,7 +681,7 @@ class ilObjExercise extends ilObject
             $excel->setCell($row++, $col, ilLPMarks::_lookupMark($user_id, $this->getId()));
         }
         
-        $exc_name = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->getTitle()));
+        $exc_name = ilFileUtils::getASCIIFilename(preg_replace("/\s/", "_", $this->getTitle()));
         $excel->sendToClient($exc_name);
     }
     

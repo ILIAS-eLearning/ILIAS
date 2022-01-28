@@ -10,6 +10,19 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class TopLinkItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -19,32 +32,25 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
-
-    /**
-     * @var bool
-     */
-    protected $is_external_action = false;
-    /**
-     * @var string
-     */
-    protected $title = '';
-    /**
-     * @var string
-     */
-    protected $action = '';
-
+    
+    protected bool $is_external_action = false;
+    
+    protected string $title = '';
+    
+    protected string $action = '';
+    
     /**
      * @param string $title
      * @return hasTitle|TopLinkItem
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -52,19 +58,19 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
     {
         return $this->title;
     }
-
+    
     /**
      * @param string $action
      * @return hasAction|TopLinkItem
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -72,19 +78,19 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
     {
         return $this->action;
     }
-
+    
     /**
      * @param bool $is_external
      * @return TopLinkItem
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->is_external_action = $is_external;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return bool
      */
@@ -92,5 +98,4 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
     {
         return $this->is_external_action;
     }
-
 }

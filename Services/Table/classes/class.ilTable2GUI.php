@@ -1010,9 +1010,6 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
         $hash = "";
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-            $hash = "#" . $this->getTopAnchor();
-        }
 
         $old = $this->requested_nav_par ?? '';
 
@@ -1281,9 +1278,6 @@ class ilTable2GUI extends ilTableGUI
             // set form action
             if ($this->form_action != "" && $this->getOpenFormTag()) {
                 $hash = "";
-                if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-                    $hash = "#" . $this->getTopAnchor();
-                }
 
                 if ($this->form_multipart) {
                     $this->tpl->touchBlock("form_multipart_bl");
@@ -2015,9 +2009,6 @@ class ilTable2GUI extends ilTableGUI
         $lng = $this->lng;
 
         $hash = "";
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-            $hash = "#" . $this->getTopAnchor();
-        }
 
         $link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd) .
             "&" . $this->getNavParameter() . "=" .

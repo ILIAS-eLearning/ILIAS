@@ -6,13 +6,12 @@ use Closure;
 
 /**
  * Class Filterable
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @internal
  */
 interface Filterable
 {
-
+    
     /**
      * @param Closure $c
      */

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -453,6 +453,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
         
         default:
             # code...
+            return null;
             break;
     }
     }

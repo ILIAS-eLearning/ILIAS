@@ -1,7 +1,17 @@
 <?php
-require_once('./Services/AuthShibboleth/classes/Config/class.shibConfig.php');
-require_once('./Services/User/classes/class.ilObjUser.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class shibUser
  *
@@ -9,19 +19,10 @@ require_once('./Services/User/classes/class.ilObjUser.php');
  */
 class shibUser extends ilObjUser
 {
-
-    /**
-     * @var shibServerData
-     */
-    protected $shibServerData;
+    protected shibServerData $shibServerData;
 
 
-    /**
-     * @param shibServerData $shibServerData
-     *
-     * @return shibUser
-     */
-    public static function buildInstance(shibServerData $shibServerData)
+    public static function buildInstance(shibServerData $shibServerData) : \shibUser
     {
         $shibUser = new self();
         $shibUser->shibServerData = $shibServerData;
@@ -38,7 +39,7 @@ class shibUser extends ilObjUser
     }
 
 
-    public function updateFields()
+    public function updateFields() : void
     {
         $shibConfig = shibConfig::getInstance();
         if ($shibConfig->getUpdateFirstname()) {
@@ -96,12 +97,13 @@ class shibUser extends ilObjUser
     }
 
 
-    public function createFields()
+    public function createFields() : void
     {
         $this->setFirstname($this->shibServerData->getFirstname());
         $this->setLastname($this->shibServerData->getLastname());
         $this->setLogin($this->returnNewLoginName());
-        $this->setPasswd(md5(end(ilUtil::generatePasswords(1))), IL_PASSWD_CRYPTED);
+        $array = ilUtil::generatePasswords(1);
+        $this->setPasswd(md5(end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());
         $this->setTitle($this->shibServerData->getTitle());
@@ -128,13 +130,11 @@ class shibUser extends ilObjUser
     }
 
 
-    public function create()
+    public function create() : void
     {
         $c = shibConfig::getInstance();
         if ($c->isActivateNew()) {
             $this->setActive(false);
-            require_once('./Services/Registration/classes/class.ilRegistrationMailNotification.php');
-            require_once('./Services/Registration/classes/class.ilRegistrationSettings.php');
             $ilRegistrationSettings = new ilRegistrationSettings();
             $mail = new ilRegistrationMailNotification();
             $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
@@ -143,7 +143,7 @@ class shibUser extends ilObjUser
             $mail->send();
         }
 
-        if ($this->getLogin() != '' and $this->getLogin() != '.') {
+        if ($this->getLogin() != '' && $this->getLogin() != '.') {
             parent::create();
         } else {
             throw new ilUserException('No Login-name created');
@@ -151,10 +151,7 @@ class shibUser extends ilObjUser
     }
 
 
-    /**
-     * @return string
-     */
-    protected function returnNewLoginName()
+    protected function returnNewLoginName() : ?string
     {
         $login = substr(self::cleanName($this->getFirstname()), 0, 1) . '.' . self::cleanName($this->getLastname());
         //remove whitespaces see mantis 0023123: https://www.ilias.de/mantis/view.php?id=23123
@@ -170,12 +167,9 @@ class shibUser extends ilObjUser
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function isNew()
+    public function isNew() : bool
     {
-        return (bool) ($this->getId() == 0);
+        return $this->getId() == 0;
     }
 
 
@@ -184,21 +178,17 @@ class shibUser extends ilObjUser
      *
      * @return mixed
      */
-    protected static function cleanName($name)
+    protected static function cleanName($name) : string
     {
-        $name = strtolower(strtr(utf8_decode($name), utf8_decode('ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ'), 'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'));
-
-        return $name;
+        return strtolower(strtr(utf8_decode($name), utf8_decode('ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ'), 'SOZsozYYuAAAAAAACEEEEIIIIDNOOOOOOUUUUYsaaaaaaaceeeeiiiionoooooouuuuyy'));
     }
 
 
     /**
      * @param $login
      * @param $usr_id
-     *
-     * @return bool
      */
-    private static function loginExists($login, $usr_id)
+    private static function loginExists($login, $usr_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -208,7 +198,7 @@ class shibUser extends ilObjUser
         $query = 'SELECT usr_id FROM usr_data WHERE login = ' . $ilDB->quote($login, 'text');
         $query .= ' AND usr_id != ' . $ilDB->quote($usr_id, 'integer');
 
-        return (bool) ($ilDB->numRows($ilDB->query($query)) > 0);
+        return $ilDB->numRows($ilDB->query($query)) > 0;
     }
 
 

@@ -2,9 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/Course/exceptions/class.ilLOInvalidConfiguationException.php';
 
 /**
 * Class ilLOTestAssignmentTableGUI
@@ -134,7 +131,6 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_ID', $a_set['ref_id']);
         }
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        include_once './Services/Link/classes/class.ilLink.php';
         
         $ilCtrl->setParameterByClass('ilobjtestgui', 'ref_id', $a_set['ref_id']);
         $ilCtrl->setParameterByClass('ilobjtestgui', 'cmd', 'questionsTabGateway');
@@ -182,7 +178,6 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
     
     public function parseMultipleAssignments()
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($this->container_id);
         
         $available = $assignments->getAssignmentsByType($this->test_type);
@@ -221,7 +216,6 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
      */
     protected function doParse($a_tst_ref_id, $a_objective_id = 0)
     {
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         $tst = ilObjectFactory::getInstanceByRefId($a_tst_ref_id, false);
         
         if (!$tst instanceof ilObjTest) {
@@ -234,7 +228,6 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 
         
         if ($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS) {
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $tst_data['objective'] = ilCourseObjective::lookupObjectiveTitle($a_objective_id);
         }
         
@@ -246,8 +239,6 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
             
             default:
                 // get available assiged question pools
-                include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-                include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
                 
                 $list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
                     $GLOBALS['DIC']['ilDB'],
@@ -261,7 +252,6 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                 $list->loadDefinitions();
                 
                 // tax translations
-                include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
                 $translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
                 $translater->loadLabels($list);
                 

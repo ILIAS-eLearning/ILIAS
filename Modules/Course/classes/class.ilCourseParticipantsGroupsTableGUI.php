@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
  * name table
@@ -93,7 +92,6 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
         $parent_node = $tree->getNodeData($this->ref_id);
         $groups = $tree->getSubTree($parent_node, true, "grp");
         if (is_array($groups) && sizeof($groups)) {
-            include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
             $this->participants = $this->groups = $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
@@ -163,7 +161,6 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     public function getItems()
     {
         if ($this->groups) {
-            include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
             $part = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
             $members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'manage_members',
@@ -173,7 +170,6 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
             );
             
             if (count($members)) {
-                include_once './Services/User/classes/class.ilUserUtil.php';
                 $usr_data = array();
                 foreach ($members as $usr_id) {
                     $name = ilObjUser::_lookupName($usr_id);

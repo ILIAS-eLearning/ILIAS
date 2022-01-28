@@ -94,7 +94,7 @@ class ilLTIConsumeProviderIcon
     public function getAbsoluteFilePath()
     {
         return implode(DIRECTORY_SEPARATOR, [
-            \ilUtil::getWebspaceDir(), $this->getRelativeFilePath()
+            ilFileUtils::getWebspaceDir(), $this->getRelativeFilePath()
         ]);
     }
     

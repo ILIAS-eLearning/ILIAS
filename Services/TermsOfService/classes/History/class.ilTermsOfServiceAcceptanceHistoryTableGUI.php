@@ -41,7 +41,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setExternalSegmentation(true);
 
         iljQueryUtil::initjQuery($globalTemplate);
-        ilYuiUtil::initPanel($globalTemplate);
+        ilYuiUtil::initPanel(false, $globalTemplate);
         ilYuiUtil::initOverlay($globalTemplate);
         $globalTemplate->addJavaScript('./Services/Form/js/Form.js');
 

@@ -26,10 +26,10 @@
 class ilSkillLevelTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected int $skill_id;
+    protected int $skill_id = 0;
     protected ilBasicSkill $skill;
-    protected int $tref_id;
-    protected bool $in_use;
+    protected int $tref_id = 0;
+    protected bool $in_use = false;
     protected bool $manage_perm = false;
 
     public function __construct(

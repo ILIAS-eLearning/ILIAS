@@ -3,7 +3,6 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
 /**
  * Course waiting list
@@ -19,7 +18,7 @@ class ilCourseWaitingList extends ilWaitingList
      * Add to waiting list and raise event
      * @param int $a_usr_id
      */
-    public function addToList($a_usr_id)
+    public function addToList(int $a_usr_id) : bool
     {
         global $DIC;
 
@@ -47,7 +46,7 @@ class ilCourseWaitingList extends ilWaitingList
      * Remove from waiting list and raise event
      * @param int $a_usr_id
      */
-    public function removeFromList($a_usr_id)
+    public function removeFromList(int $a_usr_id) : void
     {
         global $DIC;
 
@@ -55,7 +54,7 @@ class ilCourseWaitingList extends ilWaitingList
         $ilLog = $DIC['ilLog'];
 
         if (!parent::removeFromList($a_usr_id)) {
-            return false;
+            return;
         }
 
         $ilLog->write(__METHOD__ . ': Raise new event: Modules/Course removeFromList');
@@ -67,6 +66,5 @@ class ilCourseWaitingList extends ilWaitingList
                 'usr_id' => $a_usr_id
             )
         );
-        return true;
     }
 }

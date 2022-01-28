@@ -22,7 +22,7 @@ use ILIAS\Administration\AdminGUIRequest;
  */
 class ilAdministrationCommandGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilSetting $settings;
     protected ilErrorHandling $error;
     protected ilTree $tree;
@@ -37,7 +37,7 @@ class ilAdministrationCommandGUI
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->settings = $DIC->settings();
         $this->error = $DIC["ilErr"];
         $this->tree = $DIC->repositoryTree();

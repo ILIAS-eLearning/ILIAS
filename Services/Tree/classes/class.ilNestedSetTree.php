@@ -672,7 +672,7 @@ class ilNestedSetTree implements ilTreeImplementation
             for ($i = $nodeDepth - 4; $i >= 0; $i--) {
                 $takeId = $takeId || $row['c' . $i] == $a_startnode_id;
                 if ($takeId) {
-                    $pathIds[] = $row['c' . $i];
+                    $pathIds[] = (int) $row['c' . $i];
                 }
             }
             $takeId = $takeId || $parentId == $a_startnode_id;

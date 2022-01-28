@@ -16,6 +16,7 @@
 namespace ILIAS\Wiki\Export;
 
 use ILIAS\User\Export\UserHtmlExport;
+use ilFileUtils;
 
 /**
  * Wiki HTML exporter class
@@ -89,7 +90,7 @@ class WikiHtmlExport
             $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() == self::MODE_USER_COMMENTS));
         }
 
-        $ascii_name = str_replace(" ", "_", \ilUtil::getASCIIFilename($this->wiki->getTitle()));
+        $ascii_name = str_replace(" ", "_", ilFileUtils::getASCIIFilename($this->wiki->getTitle()));
 
         // create export file
         \ilExport::_createExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
@@ -97,7 +98,7 @@ class WikiHtmlExport
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
-            \ilUtil::delDir($exp_dir, true);
+            ilFileUtils::delDir($exp_dir, true);
         }
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
@@ -115,8 +116,8 @@ class WikiHtmlExport
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $subdir);
 
         // initialize temporary target directory
-        \ilUtil::delDir($this->export_dir);
-        \ilUtil::makeDir($this->export_dir);
+        ilFileUtils::delDir($this->export_dir);
+        ilFileUtils::makeDir($this->export_dir);
 
         $this->log->debug("export directory: " . $this->export_dir);
 
@@ -163,8 +164,8 @@ class WikiHtmlExport
             //exit;
             $this->log->debug("zip, export dir: " . $this->export_dir);
             $this->log->debug("zip, export file: " . $zip_file);
-            \ilUtil::zip($this->export_dir, $zip_file);
-            \ilUtil::delDir($this->export_dir);
+            ilFileUtils::zip($this->export_dir, $zip_file);
+            ilFileUtils::delDir($this->export_dir);
         }
         return $zip_file;
     }

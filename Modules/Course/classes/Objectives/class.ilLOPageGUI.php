@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Course/classes/Objectives/class.ilLOPageGUI.php");
 
 /**
  * (Course) learning objective page GUI class

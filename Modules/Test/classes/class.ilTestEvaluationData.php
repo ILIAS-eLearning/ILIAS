@@ -298,7 +298,7 @@ class ilTestEvaluationData
                 if (!$remove) {
                     if (array_key_exists('group', $this->arrFilter)) {
                         include_once "./Services/Membership/classes/class.ilParticipants.php";
-                        $groups = ilParticipants::_getMembershipByType($participant->getUserID(), "grp");
+                        $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ["grp"]);
                         $foundfilter = false;
                         if (count(array_intersect($groupids, $groups))) {
                             $foundfilter = true;
@@ -311,7 +311,7 @@ class ilTestEvaluationData
                 if (!$remove) {
                     if (array_key_exists('course', $this->arrFilter)) {
                         include_once "./Services/Membership/classes/class.ilParticipants.php";
-                        $courses = ilParticipants::_getMembershipByType($participant->getUserID(), "crs");
+                        $courses = ilParticipants::_getMembershipByType($participant->getUserID(),["crs"]);
                         $foundfilter = false;
                         if (count(array_intersect($courseids, $courses))) {
                             $foundfilter = true;

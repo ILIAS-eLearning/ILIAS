@@ -16,12 +16,8 @@ use ReflectionType;
  */
 trait SymbolDecoratorTrait
 {
-
-    /**
-     * @var Closure
-     */
-    private $symbol_decorator;
-
+    private ?Closure $symbol_decorator = null;
+    
     /**
      * @param Closure $symbol_decorator
      * @return hasSymbol
@@ -35,16 +31,16 @@ trait SymbolDecoratorTrait
             $existing = $this->symbol_decorator;
             $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing) : Symbol {
                 $component = $existing($c);
-
+                
                 return $symbol_decorator($component);
             };
         } else {
             $this->symbol_decorator = $symbol_decorator;
         }
-
+        
         return $this;
     }
-
+    
     /**
      * @return Closure|null
      */
@@ -52,7 +48,7 @@ trait SymbolDecoratorTrait
     {
         return $this->symbol_decorator;
     }
-
+    
     private function checkClosure(Closure $c) : bool
     {
         try {
@@ -71,7 +67,7 @@ trait SymbolDecoratorTrait
             if ($return_type->getName() !== Symbol::class) {
                 return false;
             }
-
+            
             return true;
         } catch (\Throwable $i) {
             return false;

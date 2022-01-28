@@ -5,25 +5,11 @@ use ILIAS\Filesystem\Filesystem;
 
 abstract class ilImportDirectory implements ilImportDirectoryHandler
 {
-    /**
-     * @var string
-     */
     private const PATH_UPLOAD_PREFIX = 'upload';
+    private string $relative_path;
 
-    /**
-     * @var string
-     */
-    private $relative_path;
-
-    /**
-     * @var Filesystem
-     */
-    protected $storage;
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected Filesystem $storage;
+    protected ilLogger $logger;
 
     public function __construct(Filesystem $storage, ilLogger $logger)
     {
@@ -38,7 +24,7 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function exists() : bool
     {
@@ -46,20 +32,19 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getAbsolutePath() : string
     {
         if (!$this->exists()) {
             return '';
         }
-        return ilUtil::getDataDir() . '/' . $this->relative_path;
+        return ilFileUtils::getDataDir() . '/' . $this->relative_path;
     }
 
     abstract protected function getPathPrefix() : string;
 
-
-    private function init()
+    private function init() : void
     {
         $this->relative_path = self::PATH_UPLOAD_PREFIX . '/' . $this->getPathPrefix();
     }

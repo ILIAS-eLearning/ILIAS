@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,22 +21,17 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Base class for copying meta data from xml
-* It is possible to overwrite single elements. See handling of identifier tag
-*
-* @package ilias-core
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*/
-
-include_once 'Services/MetaData/classes/class.ilMDSaxParser.php';
-include_once 'Services/MetaData/classes/class.ilMD.php';
-
+ * Base class for copying meta data from xml
+ * It is possible to overwrite single elements. See handling of identifier tag
+ * @package ilias-core
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ */
 class ilMDXMLCopier extends ilMDSaxParser
 {
-    public $filter = array();
+    private array $filter = [];
+    protected bool $in_meta_data = false;
 
     public function __construct($content, $a_rbac_id, $a_obj_id, $a_obj_type)
     {
@@ -48,6 +43,10 @@ class ilMDXMLCopier extends ilMDSaxParser
         // set filter of tags which are handled in this class
         $this->__setFilter();
     }
+
+    /**
+     * @param resource $a_xml_parser reference to the xml parser
+     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -55,13 +54,15 @@ class ilMDXMLCopier extends ilMDSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    /**
+     * @param resource $a_xml_parser reference to the xml parser
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         if ($this->in_meta_data and !$this->__inFilter($a_name)) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
-            return true;
+            return;
         }
-            
 
         switch ($a_name) {
             case 'MetaData':
@@ -70,7 +71,7 @@ class ilMDXMLCopier extends ilMDSaxParser
                 break;
 
             case 'Identifier':
-                $par = $this->__getParent();
+                $par          = $this->__getParent();
                 $this->md_ide = $par->addIdentifier();
                 $this->md_ide->setCatalog($a_attribs['Catalog']);
                 $this->md_ide->setEntry('il__' . $this->md->getObjType() . '_' . $this->md->getObjId());
@@ -78,13 +79,16 @@ class ilMDXMLCopier extends ilMDSaxParser
                 $this->__pushParent($this->md_ide);
                 break;
         }
-        return true;
     }
-    public function handlerEndTag($a_xml_parser, $a_name)
+
+    /**
+     * @param resource $a_xml_parser reference to the xml parser
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         if ($this->in_meta_data and !$this->__inFilter($a_name)) {
             parent::handlerEndTag($a_xml_parser, $a_name);
-            return true;
+            return;
         }
         switch ($a_name) {
             case 'Identifier':
@@ -92,38 +96,30 @@ class ilMDXMLCopier extends ilMDSaxParser
                 $par->update();
                 $this->__popParent();
                 break;
-                
 
             case 'MetaData':
                 $this->in_meta_data = false;
                 parent::handlerEndTag($a_xml_parser, $a_name);
                 break;
         }
-        return true;
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    /**
+     * @param resource $a_xml_parser reference to the xml parser
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($this->in_meta_data) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
-            return true;
         }
     }
-    /*
-     * Set filter of tags which are handled in this class.
-     * @access protected
-     *
-     */
-    public function __setFilter()
+
+    public function __setFilter() : void
     {
         $this->filter[] = 'Identifier';
     }
-    /*
-     * Check if tag is filtered
-     * @access protected
-     *
-     */
-    public function __inFilter($a_tag_name)
+
+    public function __inFilter(string $a_tag_name) : bool
     {
         return in_array($a_tag_name, $this->filter);
     }

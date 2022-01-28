@@ -24,7 +24,8 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->mainTemplate = $DIC->ui()->mainTemplate();
-        $this->ref_id = $this->parent_obj->ref_id;
+        $this->ref_id = $cmd_class_instance->ref_id;
+
         $this->setId('frmevents_' . $this->ref_id . '_' . $type);
 
         parent::__construct($cmd_class_instance, $cmd);
@@ -109,8 +110,8 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         )->withActionButtons([
             $this->ui_factory->button()
                 ->primary($this->lng->txt('save'), '#')
-                ->withOnLoadCode(function ($id) use ($form) {
-                    return "$('#{$id}').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
+                ->withOnLoadCode(function (string $id) use ($form) : string {
+                    return "$('#$id').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
                 })
         ]);
 

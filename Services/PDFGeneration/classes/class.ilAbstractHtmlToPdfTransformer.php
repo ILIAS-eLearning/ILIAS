@@ -31,6 +31,6 @@ abstract class ilAbstractHtmlToPdfTransformer implements ilHtmlToPdfTransformer
      */
     protected function getTempFileName($file_type)
     {
-        return ilUtil::ilTempnam() . '.' . $file_type;
+        return ilFileUtils::ilTempnam() . '.' . $file_type;
     }
 }

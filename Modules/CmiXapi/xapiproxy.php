@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
     // hardcoded namespace
     // attention: maybe a problem with composer v2 / psr4 autoload  requires exact matching of namespace and parent folder name?
     namespace XapiProxy;
@@ -49,34 +49,19 @@
     } else {
         chdir("../../");
     }
-    
-    /**
-     * handle ILIAS Init
-     */
-    require_once __DIR__ . '/classes/XapiProxy/DataService.php';
     DataService::initIlias($client);
-    
-    /**
-     * handle XapiProxy Init
-     */
-    require_once __DIR__ . '/classes/XapiProxy/XapiProxy.php';
     $dic = $GLOBALS['DIC'];
     
-    $dic['xapiproxy'] = function ($c) use ($client, $token, $plugin) {
-        return new XapiProxy($client, $token, $plugin);
-    };
+    $dic['xapiproxy'] = fn ($c) => new XapiProxy($client, $token, $plugin);
 
     /**
      * handle Lrs Init
      */
     try {
         $dic['xapiproxy']->initLrs();
-    } catch (Exception $e) { // ?
+    } catch (\Exception $e) { // ?
         $dic['xapiproxy']->log()->error($dic['xapiproxy']->getLogMessage($e->getMessage()));
     }
-
-    require_once __DIR__ . '/classes/XapiProxy/XapiProxyRequest.php';
-    require_once __DIR__ . '/classes/XapiProxy/XapiProxyResponse.php';
     $req = new XapiProxyRequest();
     $resp = new XapiProxyResponse();
     

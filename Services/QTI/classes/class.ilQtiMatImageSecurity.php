@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-require_once 'Services/Utilities/classes/class.ilFileUtils.php';
 require_once 'Services/QTI/exceptions/class.ilQtiException.php';
 
 /**
@@ -132,14 +131,16 @@ class ilQtiMatImageSecurity
         
         $label = basename($label);
         $label = ilUtil::stripSlashes($label);
-        $label = ilUtil::getASCIIFilename($label);
+        $label = ilFileUtils::getASCIIFilename($label);
         
         $this->getImageMaterial()->setLabel($label);
     }
     
     protected function determineMimeType($content)
     {
-        return ilFileUtils::lookupContentMimeType($content);
+        $finfo = new finfo(FILEINFO_MIME);
+    
+        return $finfo->buffer($content);
     }
 
     /**

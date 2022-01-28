@@ -54,7 +54,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             case "read":
                 if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
                     !$is_admin) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
                     return false;
                 }
                 break;
@@ -64,7 +64,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             case "eval_a":
             case "eval_stat":
                 if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
                     return false;
                 }
                 break;

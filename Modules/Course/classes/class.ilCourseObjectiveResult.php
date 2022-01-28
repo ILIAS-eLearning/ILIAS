@@ -2,13 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define('IL_OBJECTIVE_STATUS_EMPTY', 'empty');
-define('IL_OBJECTIVE_STATUS_PRETEST', 'pretest');
-define('IL_OBJECTIVE_STATUS_FINAL', 'final');
-define('IL_OBJECTIVE_STATUS_NONE', 'none');
-define('IL_OBJECTIVE_STATUS_FINISHED', 'finished');
-define('IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST', 'pretest_non_suggest');
-
 /**
 * class ilcourseobjective
 *
@@ -18,6 +11,13 @@ define('IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST', 'pretest_non_suggest');
 */
 class ilCourseObjectiveResult
 {
+    public const IL_OBJECTIVE_STATUS_EMPTY = 'empty';
+    public const IL_OBJECTIVE_STATUS_PRETEST = 'pretest';
+    public const IL_OBJECTIVE_STATUS_FINAL = 'final';
+    public const IL_OBJECTIVE_STATUS_NONE = 'none';
+    public const IL_OBJECTIVE_STATUS_FINISHED = 'finished';
+    public const IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST = 'pretest_non_suggest';
+
     public $db = null;
     public $user_id = null;
 
@@ -51,7 +51,6 @@ class ilCourseObjectiveResult
 
         $ilDB = $DIC['ilDB'];
 
-        include_once 'Modules/Course/classes/class.ilCourseObjective.php';
         // begin-patch lok
         $objectives = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
         // end-patch lok
@@ -69,25 +68,24 @@ class ilCourseObjectiveResult
         return $accomplished ? $accomplished : array();
     }
 
-    public function getSuggested($a_crs_id, $a_status = IL_OBJECTIVE_STATUS_FINAL)
+    public function getSuggested($a_crs_id, $a_status = self::IL_OBJECTIVE_STATUS_FINAL)
     {
         return ilCourseObjectiveResult::_getSuggested($this->getUserId(), $a_crs_id, $a_status);
     }
     
-    public static function _getSuggested($a_user_id, $a_crs_id, $a_status = IL_OBJECTIVE_STATUS_FINAL)
+    public static function _getSuggested($a_user_id, $a_crs_id, $a_status = self::IL_OBJECTIVE_STATUS_FINAL)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         // begin-patch lok
         $objectives = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
         // end-patch lok
 
         $finished = array();
-        if ($a_status == IL_OBJECTIVE_STATUS_FINAL or
-           $a_status == IL_OBJECTIVE_STATUS_FINISHED) {
+        if ($a_status == self::IL_OBJECTIVE_STATUS_FINAL or
+           $a_status == self::IL_OBJECTIVE_STATUS_FINISHED) {
             // check finished
             $query = "SELECT objective_id FROM crs_objective_status " .
                 "WHERE " . $ilDB->in('objective_id', $objectives, false, 'integer') . " " .
@@ -123,7 +121,6 @@ class ilCourseObjectiveResult
     public static function getSuggestedQuestions($a_usr_id, $a_crs_id)
     {
         foreach (self::_getSuggested($a_usr_id, $a_crs_id) as $objective_id) {
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
             $obj = new ilCourseObjectiveQuestion($objective_id);
             foreach ($obj->getFinalTestQuestions() as $qst) {
                 $qsts[] = $qst['question_id'];
@@ -138,7 +135,6 @@ class ilCourseObjectiveResult
         // $a_test->removeTestResultsForUser($a_user_id);
                     
         // #15038
-        include_once "Modules/Test/classes/class.ilTestLP.php";
         $test_lp = ilTestLP::getInstance($a_test->getId());
         $test_lp->resetLPDataForUserIds(array($a_user_id));
         
@@ -155,14 +151,9 @@ class ilCourseObjectiveResult
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $assignments = ilLOTestAssignments::getInstance($a_course_id);
         foreach (array_merge(
             $assignments->getAssignmentsByType(ilLOSettings::TYPE_TEST_INITIAL),
@@ -175,7 +166,6 @@ class ilCourseObjectiveResult
 
                 $lng = $DIC['lng'];
                 
-                require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
                 $participantData = new ilTestParticipantData($ilDB, $lng);
                 $participantData->setUserIdsFilter(array($this->getUserId()));
                 $participantData->load($tst->getTestId());
@@ -214,7 +204,6 @@ class ilCourseObjectiveResult
         }
     
         // update/reset LP for course
-        include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus($a_course_id, $this->getUserId());
         
         return true;
@@ -222,8 +211,6 @@ class ilCourseObjectiveResult
 
     public function getStatus($a_course_id)
     {
-        include_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-        include_once 'Modules/Course/classes/class.ilCourseObjective.php';
         // begin-patch lok
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id, true);
         // end-patch lok
@@ -232,11 +219,11 @@ class ilCourseObjectiveResult
         $suggested = $this->getSuggested($a_course_id);
 
         if (!count($objective_ids)) {
-            return IL_OBJECTIVE_STATUS_EMPTY;
+            return self::IL_OBJECTIVE_STATUS_EMPTY;
         }
 
         if (count($accomplished) == count($objective_ids)) {
-            return IL_OBJECTIVE_STATUS_FINISHED;
+            return self::IL_OBJECTIVE_STATUS_FINISHED;
         }
 
         $all_pretest_answered = false;
@@ -251,15 +238,15 @@ class ilCourseObjectiveResult
             }
         }
         if ($all_final_answered) {
-            return IL_OBJECTIVE_STATUS_FINAL;
+            return self::IL_OBJECTIVE_STATUS_FINAL;
         }
         if ($all_pretest_answered and
            !count($suggested)) {
-            return IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
+            return self::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST;
         } elseif ($all_pretest_answered) {
-            return IL_OBJECTIVE_STATUS_PRETEST;
+            return self::IL_OBJECTIVE_STATUS_PRETEST;
         }
-        return IL_OBJECTIVE_STATUS_NONE;
+        return self::IL_OBJECTIVE_STATUS_NONE;
     }
 
     public function hasAccomplishedObjective($a_objective_id)
@@ -281,7 +268,6 @@ class ilCourseObjectiveResult
 
     public function readStatus($a_crs_id)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
         // begin-patch lok
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
@@ -523,7 +509,6 @@ class ilCourseObjectiveResult
         }
         if (count($passed)) {
             foreach ($passed as $crs_id) {
-                include_once('Modules/Course/classes/class.ilCourseParticipants.php');
                 $members = ilCourseParticipants::_getInstanceByObjId($crs_id);
                 $members->updatePassed($a_user_id, true);
             }
@@ -531,7 +516,6 @@ class ilCourseObjectiveResult
         
         // update tracking status
         foreach ($crs_ids as $cid) {
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
             ilLPStatusWrapper::_updateStatus($cid, $a_user_id);
         }
     }

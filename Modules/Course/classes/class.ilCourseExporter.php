@@ -2,8 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Modules/Course/classes/class.ilCourseXMLWriter.php';
-include_once './Services/Export/classes/class.ilXmlExporter.php';
 
 /**
 * Folder export
@@ -81,8 +79,6 @@ class ilCourseExporter extends ilXmlExporter
                     'ids' => $obj_id
             );
             
-            include_once './Modules/Course/classes/Objectives/class.ilLOPage.php';
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $page_ids = array();
             foreach (ilCourseObjective::_getObjectiveIds($obj_id) as $objective_id) {
                 foreach (ilLOPage::getAllPages('lobj', $objective_id) as $page_id) {
@@ -119,7 +115,6 @@ class ilCourseExporter extends ilXmlExporter
         // begin-patch optes_lok_export
         if ($a_entity == self::ENTITY_OBJECTIVE) {
             try {
-                include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
                 $writer = new ilLOXmlWriter($course_ref_id);
                 $writer->write();
                 return $writer->getXml();

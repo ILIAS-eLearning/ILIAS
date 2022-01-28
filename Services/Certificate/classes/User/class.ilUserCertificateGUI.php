@@ -196,7 +196,7 @@ class ilUserCertificateGUI
 
             foreach ($data['items'] as $certificateData) {
                 $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilUtil::getWebspaceDir() . $thumbnailImagePath;
+                $imagePath = ilFileUtils::getWebspaceDir() . $thumbnailImagePath;
                 if ($thumbnailImagePath === null
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
@@ -319,7 +319,7 @@ class ilUserCertificateGUI
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
-            if ($userCertificate->getUserId() !== (int) $user->getId()) {
+            if ($userCertificate->getUserId() !== $user->getId()) {
                 throw new ilException(sprintf(
                     'User "%s" tried to access certificate: "%s"',
                     $user->getLogin(),

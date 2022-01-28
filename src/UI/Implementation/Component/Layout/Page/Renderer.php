@@ -32,7 +32,6 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
-
     protected function renderStandardPage(
         Component\Layout\Page\Standard $component,
         RendererInterface $default_renderer
@@ -142,14 +141,15 @@ class Renderer extends AbstractComponentRenderer
             $base_url = '../../../../../../';
             $tpl->setVariable("BASE", $base_url);
 
-            array_unshift($js_files, './Services/JavaScript/js/Basic.js');
+            $additional_js_files = [
+                './Services/JavaScript/js/Basic.js',
+                ilUIFramework::BOWER_BOOTSTRAP_JS,
+                './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js',
+                iljQueryUtil::getLocaljQueryPath(),
+            ];
 
-            foreach (ilUIFramework::getJSFiles() as $il_js_file) {
-                array_unshift($js_files, $il_js_file);
-            }
+            array_unshift($js_files, ...$additional_js_files);
 
-            array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
-            array_unshift($js_files, iljQueryUtil::getLocaljQueryPath());
             $css_files[] = ['file' => './templates/default/delos.css'];
         }
 
@@ -166,7 +166,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
         $tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
-
 
         return $tpl;
     }

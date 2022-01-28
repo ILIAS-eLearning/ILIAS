@@ -1,131 +1,103 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-include_once './Services/AccessControl/classes/class.ilPermissionGUI.php';
-
 /**
-* Table for object role permissions
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * Table for object role permissions
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 {
-    private $role_id = null;
-    private $obj_ref_id = null;
+    private int $role_id;
+    private int $obj_ref_id;
 
-    private $show_admin_permissions = true;
-    private $show_options = true;
+    private bool $show_admin_permissions = true;
+    private bool $show_options = true;
+    private ilRbacReview $rbacreview;
 
-    /**
-     * Constructor
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_obj_ref_id, $a_role_id, $a_show_admin_permissions = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_obj_ref_id,
+        int $a_role_id,
+        bool $a_show_admin_permissions = false
+    ) {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $rbacreview = $DIC['rbacreview'];
-        $tpl = $DIC['tpl'];
-
         $this->show_admin_permissions = $a_show_admin_permissions;
-
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->rbacreview = $DIC->rbac()->review();
 
         $this->setId('role_options_' . $a_obj_ref_id . '_' . $a_role_id);
-        
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+
         $this->lng->loadLanguageModule('rbac');
-        
+
         $this->role_id = $a_role_id;
         $this->obj_ref_id = $a_obj_ref_id;
-        
 
         $this->setRowTemplate("tpl.obj_role_template_options_row.html", "Services/AccessControl");
         $this->setLimit(100);
         $this->setShowRowsSelector(false);
         $this->setDisableFilterHiding(true);
-        
+
         $this->setEnableHeader(false);
         $this->disable('sort');
         $this->disable('numinfo');
         $this->disable('form');
-        
+
         $this->addColumn('', '', '0');
         $this->addColumn('', '', '100%');
-        
+
         $this->setTopCommands(false);
     }
 
     /**
      * Set show options
-     * @param bool show/hide options
-     *
      */
-    public function setShowOptions($a_status)
+    public function setShowOptions(bool $a_status) : void
     {
         $this->show_options = $a_status;
     }
 
-    /**
-     * @return bool
-     */
-    public function getShowOptions()
+    public function getShowOptions() : bool
     {
         return $this->show_options;
     }
-    
-    
+
     /**
      * Get role folder of current object
-     * @return
      */
-    public function getObjectRefId()
+    public function getObjectRefId() : int
     {
         return $this->obj_ref_id;
     }
-    
-    /**
-     * Get currrent role id
-     * @return
-     */
-    public function getRoleId()
+
+    public function getRoleId() : int
     {
         return $this->role_id;
     }
-    
-    
+
     /**
      * Fill row template
-     * @return void
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        
-
         if (!$this->getShowOptions()) {
             return;
         }
-
         if (isset($a_set['recursive']) and !$this->show_admin_permissions) {
             $this->tpl->setCurrentBlock('recursive');
             $this->tpl->setVariable('TXT_RECURSIVE', $this->lng->txt('change_existing_objects'));
             $this->tpl->setVariable('DESC_RECURSIVE', $this->lng->txt('change_existing_objects_desc'));
         } elseif ($a_set['protected']) {
             $this->tpl->setCurrentBlock('protected');
-            
-            if (!$rbacreview->isAssignable($this->getRoleId(), $this->getObjectRefId())) {
+
+            if (!$this->rbacreview->isAssignable($this->getRoleId(), $this->getObjectRefId())) {
                 $this->tpl->setVariable('DISABLED_PROTECTED', 'disabled="disabled"');
             }
 
-            if ($rbacreview->isProtected($this->getObjectRefId(), $this->getRoleId())) {
+            if ($this->rbacreview->isProtected($this->getObjectRefId(), $this->getRoleId())) {
                 $this->tpl->setVariable('PROTECTED_CHECKED', 'checked="checked"');
             }
 
@@ -134,21 +106,15 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
     }
-    
+
     /**
      * Parse permissions
-     * @return
      */
-    public function parse()
+    public function parse() : void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $objDefinition = $DIC['objDefinition'];
-        
+        $row = [];
         $row[0]['recursive'] = 1;
         $row[1]['protected'] = 1;
-        
         $this->setData($row);
     }
 }

@@ -21,7 +21,7 @@
 class ilMediaItem
 {
     protected string $tried_thumb = "";
-    protected string $text_representation;
+    protected string $text_representation = "";
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
@@ -46,7 +46,7 @@ class ilMediaItem
     public int $color1;            // map area line color 1
     public int $color2;            // map area line color 2
     protected int $duration = 0;
-    protected string $upload_hash;
+    protected string $upload_hash = '';
 
     public function __construct(
         int $a_id = 0
@@ -660,7 +660,7 @@ class ilMediaItem
      */
     public function getWorkDirectory() : string
     {
-        return ilUtil::getDataDir() . "/map_workfiles/item_" . $this->getId();
+        return ilFileUtils::getDataDir() . "/map_workfiles/item_" . $this->getId();
     }
 
     /**
@@ -668,12 +668,12 @@ class ilMediaItem
      */
     public function createWorkDirectory() : void
     {
-        if (!is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
-            ilUtil::createDirectory(ilUtil::getDataDir() . "/map_workfiles");
+        if (!is_dir(ilFileUtils::getDataDir() . "/map_workfiles")) {
+            ilFileUtils::createDirectory(ilFileUtils::getDataDir() . "/map_workfiles");
         }
         $work_dir = $this->getWorkDirectory();
         if (!is_dir($work_dir)) {
-            ilUtil::createDirectory($work_dir);
+            ilFileUtils::createDirectory($work_dir);
         }
     }
 

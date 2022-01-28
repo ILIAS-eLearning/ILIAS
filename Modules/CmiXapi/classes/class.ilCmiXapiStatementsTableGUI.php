@@ -1,9 +1,20 @@
-<?php
-
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 use \ILIAS\UI\Component\Modal\RoundTrip;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiStatementsTableGUI
  *
@@ -20,9 +31,15 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     /**
      * @var bool
      */
-    protected $isMultiActorReport;
-    
-    public function __construct($a_parent_obj, $a_parent_cmd, $isMultiActorReport)
+    protected bool $isMultiActorReport;
+
+    /**
+     * @param object|null $a_parent_obj
+     * @param string      $a_parent_cmd
+     * @param bool        $isMultiActorReport
+     * @throws ilCtrlException
+     */
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -51,7 +68,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('desc');
     }
     
-    protected function initColumns()
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -81,12 +98,24 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
             $this->filter["actor"] = $ti->getValue();
         }
         
+        /**
+         * dynamic verbsList (postponed or never used)
+         */
+        /*
+        $verbs = $this->parent_obj->getVerbs(); // ToDo: Caching
+        $si = new ilSelectInputGUI('Used Verb', "verb");
+        $si->setOptions(ilCmiXapiVerbList::getInstance()->getDynamicSelectOptions($verbs));
+        $this->addFilterItem($si);
+        $si->readFromSession();
+        $this->filter["verb"] = $si->getValue();
+        */
+
         $si = new ilSelectInputGUI('Used Verb', "verb");
         $si->setOptions(ilCmiXapiVerbList::getInstance()->getSelectOptions());
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["verb"] = $si->getValue();
-        
+
         $dp = new ilCmiXapiDateDurationInputGUI('Period', 'period');
         $dp->setShowTime(true);
         $this->addFilterItem($dp);
@@ -94,9 +123,10 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->filter["period"] = $dp->getValue();
     }
     
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        
         $r = $DIC->ui()->renderer();
 
         $a_set['rowkey'] = md5(serialize($a_set));
@@ -111,7 +141,12 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('STMT_DATE', $date);
         
         if ($this->isMultiActorReport) {
-            $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($a_set['actor']));
+            $actor = $a_set['actor'];
+            if (empty($actor)) {
+                $this->tpl->setVariable('STMT_ACTOR', 'user_not_found');
+            } else {
+                $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($a_set['actor']));
+            }
         }
         
         $this->tpl->setVariable('STMT_VERB', ilCmiXapiVerbList::getVerbTranslation(
@@ -124,8 +159,13 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $r->render($actionsList));
         $this->tpl->setVariable('RAW_DATA_MODAL', $r->render($rawDataModal));
     }
-    
-    protected function getActionsList(RoundTrip $rawDataModal, $data)
+
+    /**
+     * @param RoundTrip $rawDataModal
+     * @param array     $data
+     * @return \ILIAS\UI\Component\Dropdown\Dropdown
+     */
+    protected function getActionsList(RoundTrip $rawDataModal, array $data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $f = $DIC->ui()->factory();
@@ -139,8 +179,12 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         
         return $actions;
     }
-    
-    protected function getRawDataModal($data)
+
+    /**
+     * @param $data
+     * @return RoundTrip
+     */
+    protected function getRawDataModal($data) : RoundTrip
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $f = $DIC->ui()->factory();
@@ -152,17 +196,21 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         
         return $modal;
     }
-    
-    protected function getUsername(ilCmiXapiUser $cmixUser)
+
+    /**
+     * @param ilCmiXapiUser $cmixUser
+     * @return string
+     */
+    protected function getUsername(ilCmiXapiUser $cmixUser) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
-        
-        if ($userObj) {
-            return $userObj->getFullname();
+        $ret = 'not found';
+        try {
+            $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
+            $ret = $userObj->getFullname();
+        } catch (Exception $e) {
+            $ret = $DIC->language()->txt('deleted_user');
         }
-        
-        return $DIC->language()->txt('deleted_user');
+        return $ret;
     }
 }

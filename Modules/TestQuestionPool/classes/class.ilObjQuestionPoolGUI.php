@@ -501,14 +501,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
         $DIC['ilLog']->write(__METHOD__ . ": full path " . $full_path);
         if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0) {
             $qti_file = $full_path;
             ilObjTest::_setImportDirectory($basedir);
         } else {
             // unzip file
-            ilUtil::unzip($full_path);
+            ilFileUtils::unzip($full_path);
     
             // determine filenames of xml files
             $subdir = basename($file["basename"], "." . $file["extension"]);
@@ -526,7 +526,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             // nothing found
 
             // delete import directory
-            ilUtil::delDir($basedir);
+            ilFileUtils::delDir($basedir);
 
             ilUtil::sendFailure($this->lng->txt("qpl_import_no_items"), true);
             if (!$questions_only) {
@@ -547,7 +547,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         
         if ($complete == 0) {
             // delete import directory
-            ilUtil::delDir($basedir);
+            ilFileUtils::delDir($basedir);
 
             ilUtil::sendFailure($this->lng->txt("qpl_import_non_ilias_files"), true);
             if (!$questions_only) {
@@ -733,7 +733,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         
         // delete import directory
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        ilUtil::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
+        ilFileUtils::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
 
         if ($_POST["questions_only"] == 1) {
             $this->ctrl->redirect($this, "questions");
@@ -949,7 +949,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $filename = $export_file;
             $filename = preg_replace("/.*\//", "", $filename);
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::deliverFile($export_file, $filename);
+            ilFileDelivery::deliverFileLegacy($export_file, $filename);
             exit();
         } else {
             ilUtil::sendInfo($this->lng->txt("qpl_export_select_none"), true);

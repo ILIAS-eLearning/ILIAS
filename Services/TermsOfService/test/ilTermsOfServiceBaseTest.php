@@ -92,15 +92,4 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 
         return new ilTermsOfServiceCriterionConfig($value);
     }
-
-    protected function initLangMock() : void
-    {
-        $lng = $this->getLanguageMock();
-
-        $lng
-            ->method('txt')
-            ->willReturn('translation');
-
-        $this->setGlobalVariable('lng', $lng);
-    }
 }

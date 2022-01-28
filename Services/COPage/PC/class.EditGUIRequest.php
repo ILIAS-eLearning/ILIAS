@@ -52,7 +52,11 @@ class EditGUIRequest
 
     public function getPCId() : string
     {
-        return $this->str("pcid");
+        $pc_id = $this->str("pcid");
+        if ($pc_id == "") {
+            $pc_id = $this->str("pc_id");   // e.g. PCAMDFormGUI
+        }
+        return $pc_id;
     }
 
     public function getInt($key) : int

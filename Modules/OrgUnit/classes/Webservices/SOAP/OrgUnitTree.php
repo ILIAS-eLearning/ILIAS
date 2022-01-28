@@ -35,7 +35,7 @@ class OrgUnitTree extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getOrgUnitsSimpleXML";
     }
@@ -55,7 +55,7 @@ class OrgUnitTree extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
@@ -64,7 +64,7 @@ class OrgUnitTree extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns the ILIAS Organisational Units (SimpleXML)";
     }

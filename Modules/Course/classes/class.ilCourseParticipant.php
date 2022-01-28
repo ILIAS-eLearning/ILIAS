@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Membership/classes/class.ilParticipant.php');
 
 /**
 *

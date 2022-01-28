@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 
 /**
 * Class ilLOmemberTestResultTableGUI
@@ -137,9 +135,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
      */
     public function parse()
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         $objective_ids = ilCourseObjective::_getObjectiveIds($this->getParentContainer()->getId(), true);
 
         foreach ((array) $objective_ids as $objective_id) {
@@ -184,14 +180,12 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
      */
     protected function createTestResultLink($a_type, $a_objective_id)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($this->getParentContainer()->getId());
         
         $test_ref_id = $assignments->getTestByObjective($a_objective_id, $a_type);
         if (!$test_ref_id) {
             return '';
         }
-        include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
         return ilLOUtils::getTestResultLinkForUser($test_ref_id, $this->getUserId());
     }
 }

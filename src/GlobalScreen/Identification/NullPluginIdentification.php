@@ -1,30 +1,27 @@
 <?php namespace ILIAS\GlobalScreen\Identification;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class NullPluginIdentification
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class NullPluginIdentification implements IdentificationInterface
 {
-
-    /**
-     * @var string
-     */
-    private $internal_identifier = "unknown";
-    /**
-     * @var string
-     */
-    private $identification = "unknown";
-    /**
-     * @var string
-     */
-    private $plugin_id = "unknown";
-
-
+    private string $internal_identifier;
+    private string $identification;
+    private string $plugin_id;
+    
     /**
      * NullPluginIdentification constructor.
-     *
      * @param string $plugin_id
      * @param string $identification
      * @param string $internal_identifier
@@ -35,8 +32,7 @@ class NullPluginIdentification implements IdentificationInterface
         $this->identification = $identification;
         $this->internal_identifier = $internal_identifier;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -44,17 +40,15 @@ class NullPluginIdentification implements IdentificationInterface
     {
         return $this->identification;
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function unserialize($serialized)
     {
-        return;
+        // nothing to do
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -62,8 +56,7 @@ class NullPluginIdentification implements IdentificationInterface
     {
         return $this->plugin_id;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -71,8 +64,7 @@ class NullPluginIdentification implements IdentificationInterface
     {
         return $this->internal_identifier;
     }
-
-
+    
     /**
      * @inheritDoc
      */

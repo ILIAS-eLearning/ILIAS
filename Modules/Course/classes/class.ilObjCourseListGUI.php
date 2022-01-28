@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
  * Class ilObjCourseListGUI
@@ -97,7 +96,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
         }
 
         // blocked
-        include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
         $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $ilUser->getId());
         if ($members->isBlocked($ilUser->getId()) and $members->isAssigned($ilUser->getId())) {
             $props[] = array("alert" => true, "property" => $lng->txt("member_status"),
@@ -105,13 +103,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
         }
 
         // pending subscription
-        include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
         if (ilCourseParticipants::_isSubscriber($this->obj_id, $ilUser->getId())) {
             $props[] = array("alert" => true, "property" => $lng->txt("member_status"),
                 "value" => $lng->txt("crs_status_pending"));
         }
         
-        include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
         $info = ilObjCourseAccess::lookupRegistrationInfo($this->obj_id);
         if (isset($info['reg_info_list_prop'])) {
             $props[] = array(
@@ -132,7 +128,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
         }
         
         // waiting list
-        include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
         if (ilCourseWaitingList::_isOnList($ilUser->getId(), $this->obj_id)) {
             $props[] = array(
                 "alert" => true,
@@ -168,6 +163,9 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // booking information
         $repo = ilObjCourseAccess::getBookingInfoRepo();
+        if (!$repo instanceof ilBookingReservationDBRepository) {
+            $repo = (new ilBookingReservationDBRepositoryFactory())->getRepoWithContextObjCache([$this->obj_id]);
+        }
         $book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
         $props = $book_info->appendProperties($this->obj_id, $props);
 

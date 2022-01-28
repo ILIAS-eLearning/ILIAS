@@ -77,28 +77,28 @@ class ilLearningSequenceParticipants extends ilParticipants
         return $roles;
     }
 
-    public static function _isParticipant($ref_id, $usr_id) : bool
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
     {
         global $DIC;
 
         $rbacreview = $DIC->rbac()->review();
-        $local_roles = $rbacreview->getRolesOfRoleFolder($ref_id, false);
+        $local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
 
-        return $rbacreview->isAssignedToAtLeastOneGivenRole($usr_id, $local_roles);
+        return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
     }
 
-    public function add($usr_id, $role) : bool
+    public function add(int $a_usr_id, int $a_role) : bool
     {
-        if (parent::add($usr_id, $role)) {
+        if (parent::add($a_usr_id, $a_role)) {
             return true;
         }
 
         return false;
     }
 
-    public function addSubscriber($usr_id)
+    public function addSubscriber(int $a_usr_id) : void
     {
-        parent::addSubscriber($usr_id);
+        parent::addSubscriber($a_usr_id);
 
         $this->logger->info('Raise new event: Modules/LearningSequence addSubscriber.');
         $this->app_event_handler->raise(
@@ -106,7 +106,7 @@ class ilLearningSequenceParticipants extends ilParticipants
             'addSubscriber',
             array(
                 'obj_id' => $this->getObjId(),
-                'usr_id' => $usr_id
+                'usr_id' => $a_usr_id
             )
         );
     }

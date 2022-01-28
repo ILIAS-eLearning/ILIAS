@@ -66,7 +66,7 @@ class ilObjLanguageExt extends ilObjLanguage
     public function getDataPath() : string
     {
         if (!is_dir(CLIENT_DATA_DIR . "/lang_data")) {
-            ilUtil::makeDir(CLIENT_DATA_DIR . "/lang_data");
+            ilFileUtils::makeDir(CLIENT_DATA_DIR . "/lang_data");
         }
         return CLIENT_DATA_DIR . "/lang_data";
     }

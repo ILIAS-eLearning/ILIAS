@@ -35,7 +35,7 @@ class ilMailDeliveryJob extends AbstractJob
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
-            ->withContextParameters((array) unserialize($input[10]->getValue()));
+            ->withContextParameters((array) unserialize($input[10]->getValue(), ['allowed_classes' => false]));
 
         $mail->sendMail(
             (string) $input[1]->getValue(), // To
@@ -43,7 +43,7 @@ class ilMailDeliveryJob extends AbstractJob
             (string) $input[3]->getValue(),  // Bcc
             (string) $input[4]->getValue(),  // Subject
             (string) $input[5]->getValue(),  // Message
-            (array) unserialize($input[6]->getValue()),  // Attachments
+            (array) unserialize($input[6]->getValue(), ['allowed_classes' => false]),  // Attachments
             (bool) $input[7]->getValue() // Use Placeholders
         );
 

@@ -46,7 +46,7 @@ class ilObjLanguage extends ilObject
         $this->lang_default = $lng->lang_default;
         $this->lang_user = $lng->lang_user;
         $this->lang_path = $lng->lang_path;
-        $this->cust_lang_path = $lng->cust_lang_path;
+        $this->cust_lang_path = $lng->getCustomLangPath();
         $this->separator = $lng->separator;
         $this->comment_separator = $lng->comment_separator;
     }
@@ -122,7 +122,7 @@ class ilObjLanguage extends ilObject
      */
     public function isInstalled() : bool
     {
-        if (str_starts_with($this->getStatus(), "installed")) {
+        if (strpos($this->getStatus(), "installed") === 0) {
             return true;
         } else {
             return false;
@@ -193,7 +193,7 @@ class ilObjLanguage extends ilObject
      */
     public function uninstall() : string
     {
-        if ((str_starts_with($this->status, "installed")) && ($this->key != $this->lang_default) && ($this->key != $this->lang_user)) {
+        if ((strpos($this->status, "installed") === 0) && ($this->key != $this->lang_default) && ($this->key != $this->lang_user)) {
             $this->flush('all');
             $this->setTitle($this->key);
             $this->setDescription("not_installed");
@@ -472,7 +472,7 @@ class ilObjLanguage extends ilObject
                     // [3]: comment (optional)
                     $separated = explode($this->separator, trim($val));
                     $pos = strpos($separated[2], $this->comment_separator);
-                    if (str_contains($separated[2], $this->comment_separator)) {
+                    if ($pos !== false) {
                         $separated[3] = substr($separated[2], $pos + strlen($this->comment_separator));
                         $separated[2] = substr($separated[2], 0, $pos);
                     }
@@ -748,8 +748,9 @@ class ilObjLanguage extends ilObject
      *
      * $content   expecting an ILIAS lang-file
      * Return content without header info OR false if no valid header was found
+     * @return bool|array
      */
-    public static function cut_header(array $content) : bool | array
+    public static function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {

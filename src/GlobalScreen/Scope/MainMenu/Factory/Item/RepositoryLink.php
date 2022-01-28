@@ -15,6 +15,16 @@ use ILIAS\UI\Component\Symbol\Symbol;
 use ilLink;
 use ilObject2;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class Link
  * Attention: This is not the same as the \ILIAS\UI\Component\Link\Link. Please
@@ -26,32 +36,23 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     use hasSymbolTrait;
     use SymbolDecoratorTrait;
     use isInterchangeableItemTrait;
-
-    /**
-     * @var int
-     */
-    protected $ref_id = 0;
-    /**
-     * @var string
-     */
-    protected $alt_text;
-    /**
-     * @var string
-     */
-    protected $title = '';
-
+    
+    protected int $ref_id = 0;
+    protected string $alt_text;
+    protected string $title = '';
+    
     /**
      * @param string $title
      * @return RepositoryLink
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -59,19 +60,15 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return $this->title;
     }
-
-    /**
-     * @param string $alt_text
-     * @return RepositoryLink
-     */
-    public function withAltText(string $alt_text) : RepositoryLink
+    
+    public function withAltText(string $alt_text) : self
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -79,7 +76,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return $this->alt_text;
     }
-
+    
     /**
      * @return string
      */
@@ -87,36 +84,32 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return ilLink::_getLink($this->ref_id);
     }
-
+    
     /**
      * @param string $action
      * @return hasAction
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = (int) $action;
-
+        
         return $clone;
     }
-
-    /**
-     * @param int $ref_id
-     * @return RepositoryLink
-     */
-    public function withRefId(int $ref_id) : RepositoryLink
+    
+    public function withRefId(int $ref_id) : self
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = $ref_id;
-
+        
         return $clone;
     }
-
+    
     public function getSymbol() : Symbol
     {
         return $this->symbol;
     }
-
+    
     /**
      * @return int
      */
@@ -124,7 +117,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return $this->ref_id;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -132,7 +125,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         throw new \LogicException("Repository-Links are always internal");
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -140,5 +133,4 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return false;
     }
-
 }

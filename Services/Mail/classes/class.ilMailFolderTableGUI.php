@@ -400,7 +400,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             ilMailBoxQuery::$folderId = $this->_currentFolderId;
             ilMailBoxQuery::$userId = $this->user->getId();
-            ilMailBoxQuery::$limit = (int) $this->getLimit(); // TODO: returns strings
+            ilMailBoxQuery::$limit = $this->getLimit();
             ilMailBoxQuery::$offset = $this->getOffset();
             ilMailBoxQuery::$orderDirection = $this->getOrderDirection();
             ilMailBoxQuery::$orderColumn = $this->getOrderField();
@@ -786,33 +786,34 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
     protected function addReplyRowAction(array $mail, array &$buttons) : void
     {
-        if (!$this->isDraftFolder()) {
-            if (isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] !== ANONYMOUS_USER_ID) {
-                $this->ctrl->setParameterByClass(
-                    ilMailFormGUI::class,
-                    'mobj_id',
-                    $this->_currentFolderId
+        if (
+            isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] !== ANONYMOUS_USER_ID &&
+            !$this->isDraftFolder()
+        ) {
+            $this->ctrl->setParameterByClass(
+                ilMailFormGUI::class,
+                'mobj_id',
+                $this->_currentFolderId
+            );
+            $this->ctrl->setParameterByClass(
+                ilMailFormGUI::class,
+                'mail_id',
+                (int) $mail['mail_id']
+            );
+            $this->ctrl->setParameterByClass(
+                ilMailFormGUI::class,
+                'type',
+                ilMailFormGUI::MAIL_FORM_TYPE_REPLY
+            );
+            $replyButton = $this->uiFactory
+                ->link()
+                ->standard(
+                    $this->lng->txt('reply'),
+                    $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
                 );
-                $this->ctrl->setParameterByClass(
-                    ilMailFormGUI::class,
-                    'mail_id',
-                    (int) $mail['mail_id']
-                );
-                $this->ctrl->setParameterByClass(
-                    ilMailFormGUI::class,
-                    'type',
-                    ilMailFormGUI::MAIL_FORM_TYPE_REPLY
-                );
-                $replyButton = $this->uiFactory
-                    ->link()
-                    ->standard(
-                        $this->lng->txt('reply'),
-                        $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
-                    );
-                $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-                $buttons[] = $replyButton;
-            }
+            $buttons[] = $replyButton;
         }
     }
 

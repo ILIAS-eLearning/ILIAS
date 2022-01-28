@@ -31,17 +31,17 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     /**
      * @var object|string
      */
-    protected $select_gui;
-    protected string $select_cmd;
-    protected string $select_par;
+    protected $select_gui = "";
+    protected string $select_cmd = "";
+    protected string $select_par = "";
     protected array $all_nodes = [];
     protected array $node = [];
     protected array $child_nodes = [];
     protected array $parent = [];
 
-    protected $selectable = [];
-    protected $selectable_child_nodes = [];
-    protected $has_selectable_nodes = false;
+    protected array $selectable = [];
+    protected array $selectable_child_nodes = [];
+    protected bool $has_selectable_nodes = false;
 
     protected SkillTreeFactory $skill_tree_factory;
     protected ilBasicSkillTreeRepository $tree_repo;

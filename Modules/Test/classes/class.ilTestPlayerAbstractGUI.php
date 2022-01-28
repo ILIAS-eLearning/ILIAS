@@ -955,9 +955,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $inst_id = $ilSetting->get('inst_id', null);
         $archiver = new ilTestArchiver($this->object->getId());
 
-        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->object->getId() . '/exam_pdf';
+        $path = ilFileUtils::getWebspaceDir() . '/assessment/' . $this->object->getId() . '/exam_pdf';
         if (!is_dir($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         $filename = realpath($path) . '/exam_N' . $inst_id . '-' . $this->object->getId()
                     . '-' . $active . '-' . $pass . '.pdf';
@@ -1023,7 +1023,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $objectivesList,
             $testResultHeaderLabelBuilder
         );
-        $filename = realpath(ilUtil::getWebspaceDir()) . '/assessment/scores-' . $this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
+        $filename = realpath(ilFileUtils::getWebspaceDir()) . '/assessment/scores-' . $this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
         ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
         $archiver->handInTestResult($active, $pass, $filename);
         unlink($filename);

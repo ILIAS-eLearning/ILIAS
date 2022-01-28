@@ -23,7 +23,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
         if (ilObject::_lookupType($a_id) === 'frm') {
             $writer = new ilForumXMLWriter();
             $writer->setForumId($a_id);
-            ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+            ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
             $writer->setFileTargetDirectories($this->getRelativeExportDirectory(), $this->getAbsoluteExportDirectory());
             $writer->start();
             $xml .= $writer->getXml();

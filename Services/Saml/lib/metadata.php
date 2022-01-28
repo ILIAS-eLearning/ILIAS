@@ -17,7 +17,7 @@ use SimpleSAML\Utils\Crypto;
 use SimpleSAML\XHTML\Template;
 use Symfony\Component\VarExporter\VarExporter;
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 
 $ilias_main_directory = './';
 $cookie_path = dirname($_SERVER['PHP_SELF']);
@@ -38,7 +38,7 @@ if (!is_file(getcwd() . '/ilias.ini.php')) {
 $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 
 if (isset($_GET["client_id"])) {
-    if ($cookie_path == "\\") {
+    if ($cookie_path === "\\") {
         $cookie_path = '/';
     }
 
@@ -334,9 +334,7 @@ $metaBuilder->addOrganizationInfo($metaArray20);
 
 $xml = $metaBuilder->getEntityDescriptorText();
 
-unset($metaArray20['UIInfo']);
-unset($metaArray20['metadata-set']);
-unset($metaArray20['entityid']);
+unset($metaArray20['UIInfo'], $metaArray20['metadata-set'], $metaArray20['entityid']);
 
 // sanitize the attributes array to remove friendly names
 if (isset($metaArray20['attributes']) && is_array($metaArray20['attributes'])) {
@@ -361,7 +359,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
 } else {
     header('Content-Type: application/samlmetadata+xml');
     // ilias-patch: begin
-    $ascii_filename = ilUtil::getASCIIFilename($sourceId);
+    $ascii_filename = ilFileUtils::getASCIIFilename($sourceId);
     header("Content-Disposition:attachment; filename=\"" . $ascii_filename . "\"");
     // ilias-patch: end
     echo($xml);

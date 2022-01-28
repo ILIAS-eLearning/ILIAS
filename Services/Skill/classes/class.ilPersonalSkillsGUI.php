@@ -32,8 +32,8 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  */
 class ilPersonalSkillsGUI
 {
-    public const LIST_SELECTED = "";
-    public const LIST_PROFILES = "profiles";
+    public const LIST_SELECTED = "selected";
+    public const LIST_PROFILES = "";
 
     protected string $offline_mode = "";
     protected array $actual_levels = [];
@@ -65,16 +65,16 @@ class ilPersonalSkillsGUI
     protected int $obj_id = 0;
     protected array $obj_skills = [];
     protected int $profile_id = 0;
-    protected array $profile_levels;
-    protected array $user_profiles;
-    protected array $cont_profiles;
-    protected bool $use_materials;
+    protected array $profile_levels = [];
+    protected array $user_profiles = [];
+    protected array $cont_profiles = [];
+    protected bool $use_materials = false;
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
     protected ilBasicSkillTreeRepository $tree_repo;
     protected SkillTreeService $tree_service;
     protected SkillPersonalGUIRequest $personal_gui_request;
-    protected string $requested_list_mode = "";
+    protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;
     protected int $requested_profile_id = 0;
     protected int $requested_skill_id = 0;
@@ -289,12 +289,9 @@ class ilPersonalSkillsGUI
         $tpl = $this->tpl;
 
         $next_class = $ilCtrl->getNextClass($this);
-        
 
-        // determin standard command
-        $std_cmd = "listSkills";
 
-        $cmd = $ilCtrl->getCmd($std_cmd);
+        $cmd = $ilCtrl->getCmd("render");
         
         //$tpl->setTitle($lng->txt("skills"));
         //$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
@@ -312,14 +309,6 @@ class ilPersonalSkillsGUI
         $lng = $this->lng;
         $ilTabs = $this->tabs;
 
-        // list skills
-        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
-        $ilTabs->addTab(
-            "list_skills",
-            $lng->txt("skmg_selected_skills"),
-            $ilCtrl->getLinkTarget($this, "render")
-        );
-
         if (count($this->user_profiles) > 0) {
             $ilCtrl->setParameter($this, "list_mode", self::LIST_PROFILES);
             $ilTabs->addTab(
@@ -328,6 +317,14 @@ class ilPersonalSkillsGUI
                 $ilCtrl->getLinkTarget($this, "render")
             );
         }
+
+        // list skills
+        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
+        $ilTabs->addTab(
+            "list_skills",
+            $lng->txt("skmg_selected_skills"),
+            $ilCtrl->getLinkTarget($this, "render")
+        );
 
         $ilCtrl->clearParameterByClass(get_class($this), "list_mode");
 
@@ -343,14 +340,10 @@ class ilPersonalSkillsGUI
 
     protected function render() : void
     {
-        switch ($this->requested_list_mode) {
-            case self::LIST_PROFILES:
-                $this->listAllAssignedProfiles();
-                break;
-
-            default:
-                $this->listSkills();
-                break;
+        if ($this->requested_list_mode == self::LIST_SELECTED || !count($this->user_profiles) > 0) {
+            $this->listSkills();
+        } else {
+            $this->listAllAssignedProfiles();
         }
     }
 
@@ -397,6 +390,9 @@ class ilPersonalSkillsGUI
             $filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
             $html = $tpl->get() . $html;
+        } else {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_no_skills_selected_info"));
+            $html = $this->ui_ren->render($box);
         }
 
         $main_tpl->setContent($html);
@@ -584,6 +580,7 @@ class ilPersonalSkillsGUI
                 $ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
                 $ilCtrl->setParameterByClass("ilpersonalskillsgui", "tref_id", $bs["tref"]);
                 $ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
+                $ilCtrl->setParameterByClass("ilpersonalskillsgui", "list_mode", $this->requested_list_mode);
                 if ($this->use_materials) {
                     $actions[] = $this->ui_fac->button()->shy(
                         $lng->txt('skmg_assign_materials'),
@@ -595,7 +592,7 @@ class ilPersonalSkillsGUI
                     $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation")
                 );
                 $sub = $sub->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
-                if ($this->getProfileId() > 0) {
+                if ($this->getFilter()->showMaterialsRessources() && $this->getProfileId() > 0) {
                     $sub = $sub->withFurtherInformation(
                         $this->getSuggestedResourcesForProfile($level_data, $bs["id"], $bs["tref"])
                     );
@@ -762,12 +759,14 @@ class ilPersonalSkillsGUI
         $ilToolbar = $this->toolbar;
         $ilTabs = $this->tabs;
 
-
+        $cmd = ($this->requested_list_mode == self::LIST_SELECTED || !count($this->user_profiles) > 0)
+            ? "render"
+            : "listAssignedProfile";
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "listAssignedProfile")
+            $ilCtrl->getLinkTarget($this, $cmd)
         );
-        
+
         $ilCtrl->saveParameter($this, "skill_id");
         $ilCtrl->saveParameter($this, "basic_skill_id");
         $ilCtrl->saveParameter($this, "tref_id");
@@ -947,10 +946,12 @@ class ilPersonalSkillsGUI
         $ilToolbar = $this->toolbar;
         $ilTabs = $this->tabs;
 
-
+        $cmd = ($this->requested_list_mode == self::LIST_SELECTED || !count($this->user_profiles) > 0)
+            ? "render"
+            : "listAssignedProfile";
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "listAssignedProfile")
+            $ilCtrl->getLinkTarget($this, $cmd)
         );
         
         $ilCtrl->saveParameter($this, "skill_id");
@@ -1027,8 +1028,10 @@ class ilPersonalSkillsGUI
                 $ilCtrl->saveParameter($this, "level_id");
                 $ilCtrl->saveParameter($this, "tref_id");
                 $ilCtrl->saveParameter($this, "basic_skill_id");*/
-        
-        $ilCtrl->redirect($this, "listAssignedProfile");
+
+        $cmd = ($this->requested_list_mode == self::LIST_SELECTED || !count($this->user_profiles) > 0)
+            ? "render" : "listAssignedProfile";
+        $ilCtrl->redirect($this, $cmd);
     }
 
     public function listSkillsForAdd() : void
@@ -1623,6 +1626,8 @@ class ilPersonalSkillsGUI
         // suggested resources
         if ($res_manager->isLevelTooLow($a_levels, $this->profile_levels, $this->actual_levels)) {
             $imp_resources = $res_manager->getSuggestedResources();
+            $info[] = $this->ui_fac->item()->standard($lng->txt("skmg_recommended_learning_material_info"));
+            $info_group = $this->ui_fac->item()->group("", $info);
             $items = [];
 
             foreach ($imp_resources as $r) {
@@ -1641,15 +1646,15 @@ class ilPersonalSkillsGUI
             if (count($imp_resources) > 0) {
                 $sec_panel = $this->ui_fac->panel()->secondary()->listing(
                     $lng->txt("skmg_recommended_learning_material"),
-                    array($item_group)
+                    [$info_group, $item_group]
                 );
             } else {
                 $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_needs_impr_no_res"));
                 $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
             }
         } else {
-            $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_no_needs_impr"));
-            $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
+            $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_no_needs_impr_info"));
+            $sec_panel = $this->ui_fac->panel()->secondary()->legacy($lng->txt("skmg_skill_no_needs_impr"), $sec_panel_content);
         }
 
         return $sec_panel;

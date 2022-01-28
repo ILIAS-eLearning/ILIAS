@@ -1,41 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilAccessibilityControlConceptGUI
- *
  * @author Thomas Famula <famula@leifos.de>
  */
 class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected ilSetting $settings;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected \ILIAS\HTTP\Services $http;
+    protected ilObjUser $user;
+    protected ilAccessibilitySequentialDocumentEvaluation $accessibilityEvaluation;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    protected $http;
-
-    protected $user;
-
-    protected $accessibilityEvaluation;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -60,9 +51,6 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
     }
 
 
-    /**
-     * Execute command
-     */
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd("showControlConcept");
@@ -71,10 +59,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    /**
-     * @param $tpl
-     */
-    protected function printToGlobalTemplate($tpl)
+    protected function printToGlobalTemplate(ilGlobalTemplateInterface $tpl)
     {
         global $DIC;
         $gtpl = $DIC['tpl'];
@@ -82,11 +67,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         $gtpl->printToStdout("DEFAULT", false, true);
     }
 
-    /**
-     * @param $a_tmpl
-     * @return ilGlobalTemplate
-     */
-    protected function initTemplate($a_tmpl)
+    protected function initTemplate(string $a_tmpl) : ilGlobalTemplate
     {
         $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
         $template_file = $a_tmpl;
@@ -98,7 +79,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
     /**
      * Show accessibility control concept
      */
-    protected function showControlConcept()
+    protected function showControlConcept() : void
     {
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
@@ -129,12 +110,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         self::printToGlobalTemplate($tpl);
     }
 
-    /**
-     * Get footer link
-     *
-     * @return string footer link
-     */
-    public static function getFooterLink()
+    public static function getFooterLink() : string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -146,12 +122,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         return $ilCtrl->getLinkTargetByClass("ilaccessibilitycontrolconceptgui");
     }
 
-    /**
-     * Get footer text
-     *
-     * @return string footer text
-     */
-    public static function getFooterText()
+    public static function getFooterText() : string
     {
         global $DIC;
 

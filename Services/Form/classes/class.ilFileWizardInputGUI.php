@@ -92,7 +92,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $temp_name = $pictures["tmp_name"][$index];
                 $error = $pictures["error"][$index];
 
-                $_FILES[$this->getPostVar()]["name"][$index] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"][$index]);
+                $_FILES[$this->getPostVar()]["name"][$index] = utf8_encode($_FILES[$this->getPostVar()]["name"][$index]);
 
 
                 // error handling

@@ -32,7 +32,7 @@ class SkillTreeManager
     protected \ilCtrl $ctrl;
     protected \ilErrorHandling $error;
     protected \ilLanguage $lng;
-    protected int $skmg_ref_id;
+    protected int $skmg_ref_id = 0;
     protected \ilTree $repository_tree;
     protected SkillTreeFactory $tree_factory;
     protected SkillTreeAccess $tree_access_manager;

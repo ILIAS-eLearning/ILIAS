@@ -117,8 +117,8 @@ class ilContObjectExport
 
         // create directories
         $this->cont_obj->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir . "/objects");
 
         // get Log File
         $expDir = $this->cont_obj->getExportDirectory();
@@ -164,7 +164,7 @@ class ilContObjectExport
         }
 
         // zip the file
-        ilUtil::zip(
+        ilFileUtils::zip(
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );

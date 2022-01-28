@@ -17,23 +17,14 @@ use ILIAS\MainMenu\Provider\CustomMainBarProvider;
  */
 class ilMMItemRepository
 {
+    
+    private ilDBInterface $db;
 
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-    /**
-     * @var ilGlobalCache
-     */
-    private $cache;
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    private $services;
-    /**
-     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector
-     */
-    private $main_collector;
+    private ilGlobalCache $cache;
+
+    private \ILIAS\GlobalScreen\Services $services;
+
+    private \ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector $main_collector;
 
     /**
      * ilMMItemRepository constructor.
@@ -105,8 +96,8 @@ class ilMMItemRepository
     public function getSubItemsForTable() : array
     {
         $r      = $this->db->query(
-            "SELECT sub_items.*, top_items.position AS parent_position 
-FROM il_mm_items AS sub_items 
+            "SELECT sub_items.*, top_items.position AS parent_position
+FROM il_mm_items AS sub_items
 LEFT JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
 WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_identification, sub_items.position ASC"
         );
@@ -118,7 +109,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return $return;
     }
 
-    public function flushLostItems()
+    public function flushLostItems():void
     {
         foreach ($this->getTopItems() as $item) {
             $item_facade = $this->getItemFacade($this->services->identification()->fromSerializedIdentification($item['identification']));

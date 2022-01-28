@@ -29,6 +29,22 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#sty_resize_image#:#Resize Image
+style#:#sty_resize#:#Resize
+style#:#sty_outdated#:#Outdated
+style#:#sty_remove_outdated#:#Remove Outdated Status
+style#:#sty_set_outdated#:#Set Outdated
+style#:#sty_save_hide_order_status#:#Save Order and Hidden Status
+style#:#sty_save_order_status#:#Save Order
+style#:#sty_class#:#Style Class
+style#:#sty_paste_chars#:#Paste Classes
+style#:#sty_create_new_class#:#Create new style class
+style#:#sty_overwrite_existing_class#:#Overwrite existing style class
+style#:#sty_class_name#:#Class Name
+style#:#sty_parameters#:#Parameters
+style#:#sty_titles#:#Titles
+style#:#sty_bg_img_info#:#To add images to the dropdown selection please upload them in the "Images" section of the style first.
+content#:#cont_caption_style#:#Caption Style Class
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 survey#:#svy_ext_rater_firstname#:#First name of external rater
 survey#:#svy_ext_rater_lastname#:#Last name of external rater
@@ -2060,7 +2076,7 @@ common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -2313,6 +2329,7 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat_add#:#Add Category
+common#:#catr_add#:#Add Category Link
 common#:#cat_added#:#Category added
 rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
@@ -2355,10 +2372,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -2457,6 +2474,7 @@ common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
+common#:#crsr_add#:#Add Course Link
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
@@ -2823,6 +2841,7 @@ common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
 common#:#groups#:#Groups
 common#:#grp_add#:#Add Group
+common#:#grpr_add#:#Add Group Link
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
@@ -3363,6 +3382,7 @@ common#:#note#:#Note
 common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
+common#:#mm_private_chats#:#Private Chats
 common#:#num_users#:#Number of Users
 common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
@@ -3986,7 +4006,6 @@ common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
 common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
-common#:#time_limit_owner#:#Owner (time limit)
 common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)
@@ -7413,7 +7432,7 @@ style#:#sty_ha_icont_class#:#Hor. Accordion Item Content
 style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header
 style#:#sty_haccordion_templates#:#Hor. Accordion Templates
 style#:#sty_height#:#Height
-style#:#sty_hide#:#Hide
+style#:#sty_hide#:#Hidden
 style#:#sty_horizontal#:#Horizontal
 style#:#sty_image_file#:#Image File
 style#:#sty_images#:#Images
@@ -7458,7 +7477,7 @@ style#:#sty_right#:#Right
 style#:#sty_row_foot_class#:#Row Footer
 style#:#sty_row_head_class#:#Row Header
 style#:#sty_save_active_styles#:#Save Active Styles
-style#:#sty_save_hide_status#:#Save Hide Status
+style#:#sty_save_hide_status#:#Save
 style#:#sty_sco_char#:#SCO and Objective
 style#:#sty_scope#:#Scope
 style#:#sty_section_char#:#Section
@@ -8007,8 +8026,6 @@ user#:#user_no_courses#:#No Courses Assigned
 user#:#user_no_groups#:#No Groups Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
 user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
-user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
@@ -9214,7 +9231,7 @@ skmg#:#skmg_update_order#:#Update Order
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_levels#:#Competence Levels
-skmg#:#skmg_target_levels#:#Target Levels
+skmg#:#skmg_target_levels#:#Competence Targets
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -9636,7 +9653,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -9871,7 +9888,7 @@ prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The posting is published.
 survey#:#svy_page_add_question#:#Add new %s
-skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
@@ -10646,14 +10663,6 @@ blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_keyword#:#Keyword
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-fm#:#fm_settings_tab#:#File Manager
-fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the ‘Open With File Manager’ action in the repository.
-common#:#fm_start#:#Open With File Manager
-fm#:#fm_settings_local#:#Show Local Filesystem
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
-fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed file size for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
@@ -11084,7 +11093,7 @@ common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
-bibl#:#bibl_add#:#Add Bibliography
+common#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
 bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
@@ -11207,7 +11216,7 @@ skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_assigned_skill_levels#:#Assigned Target Levels
+skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Targets
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
@@ -11234,11 +11243,12 @@ survey#:#survey_skill_max_scale_points#:#Max. Scale Points
 survey#:#survey_reached_level#:#Reached Level
 survey#:#survey_sum_of_means#:#Sum of Arithm. Means per Question
 survey#:#survey_calc_skills#:#Determine Competence Levels
-skmg#:#skmg_target_level#:#Profile Target Level
+skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_360_survey#:#360° Survey
-skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
-skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
-skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
+skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
+skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
 survey#:#survey_360_rater_mail_sent#:#Mail sent
 survey#:#survey_360_rater_message_content_registered#:#Message Content (Registered)
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -13588,6 +13598,7 @@ mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
+common#:#prgr_add#:#Add Study Programme Link
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_assessment#:#Study Programme Assessment
@@ -13917,7 +13928,7 @@ survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participan
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#svy_mail_own_results_body#:#you participated in the following survey:
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available competence levels.
 common#:#grpr_edit_info#:#Please choose one group for creating a new group link.
 common#:#grpr_edit#:#Edit Group Link
 common#:#grpr_new#:#Create Group Link
@@ -14406,12 +14417,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -14568,7 +14579,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
-common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
@@ -14648,9 +14659,9 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
-skmg#:#skmg_selected_skills#:#Competence Records
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
+skmg#:#skmg_selected_skills#:#Selected Competences
+skmg#:#skmg_hide_profile_self_eval#:#Hide Competence Target without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Competence Target will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
@@ -16159,8 +16170,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart
@@ -16721,6 +16732,8 @@ forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all fo
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
 skmg#:#skmg_form_presentation#:#Presentation
 skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.
-skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your profile target level. Please click on "actions" for that.
-skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the profile target level for the affected competences until a self-evaluation is done.
-skmg#:#skmg_recommended_learning_material#:#Recommended Learning Materials
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
+skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
+skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
+skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.

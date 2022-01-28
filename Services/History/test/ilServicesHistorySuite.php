@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestSuite;
 require_once 'libs/composer/vendor/autoload.php';
 
 /**
- * Exercise test suite
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilServicesHistorySuite extends TestSuite

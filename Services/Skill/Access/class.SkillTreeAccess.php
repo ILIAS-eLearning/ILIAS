@@ -26,9 +26,9 @@ namespace ILIAS\Skill\Access;
 class SkillTreeAccess
 {
     protected \ilRbacSystem $access;
-    protected int $ref_id;
-    protected string $obj_type;
-    protected int $usr_id;
+    protected int $ref_id = 0;
+    protected string $obj_type = "";
+    protected int $usr_id = 0;
 
     public function __construct(\ilRbacSystem $access, int $ref_id, int $usr_id)
     {

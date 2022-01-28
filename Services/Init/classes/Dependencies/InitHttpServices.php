@@ -21,6 +21,10 @@ class InitHttpServices
             return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
         };
 
+        $container['http.security'] = function ($c) {
+            throw new OutOfBoundsException('TODO');
+        };
+
         $container['http'] = function ($c) {
             return new \ILIAS\HTTP\Services($c);
         };

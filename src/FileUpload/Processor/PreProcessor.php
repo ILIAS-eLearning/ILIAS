@@ -7,6 +7,19 @@ use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class PreProcessor
  *
@@ -35,5 +48,5 @@ interface PreProcessor
      *
      * @return ProcessingStatus The new status of the file.
      */
-    public function process(FileStream $stream, Metadata $metadata);
+    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus;
 }

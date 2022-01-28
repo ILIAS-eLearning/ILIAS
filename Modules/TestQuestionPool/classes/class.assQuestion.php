@@ -512,7 +512,7 @@ abstract class assQuestion
     public function getTitleFilenameCompliant() : string
     {
         require_once 'Services/Utilities/classes/class.ilUtil.php';
-        return ilUtil::getASCIIFilename($this->getTitle());
+        return ilFileUtils::getASCIIFilename($this->getTitle());
     }
 
     public function getId() : int
@@ -1200,12 +1200,12 @@ abstract class assQuestion
     {
         $mediatempdir = CLIENT_WEB_DIR . "/assessment/temp";
         if (!@is_dir($mediatempdir)) {
-            ilUtil::createDirectory($mediatempdir);
+            ilFileUtils::createDirectory($mediatempdir);
         }
         $temp_name = tempnam($mediatempdir, $name . "_____");
         $temp_name = str_replace("\\", "/", $temp_name);
         @unlink($temp_name);
-        if (!ilUtil::moveUploadedFile($file, $name, $temp_name)) {
+        if (!ilFileUtils::moveUploadedFile($file, $name, $temp_name)) {
             return false;
         }
         return $temp_name;
@@ -1566,7 +1566,7 @@ abstract class assQuestion
             $directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
             if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                ilUtil::delDir($directory);
+                ilFileUtils::delDir($directory);
             }
         } catch (Exception $e) {
             $this->ilLog->root()->error("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
@@ -2158,7 +2158,7 @@ abstract class assQuestion
         include_once "./Services/Link/classes/class.ilInternalLink.php";
         ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
         $this->suggested_solutions = array();
-        ilUtil::delDir($this->getSuggestedSolutionPath());
+        ilFileUtils::delDir($this->getSuggestedSolutionPath());
     }
     
     /**
@@ -2228,7 +2228,7 @@ abstract class assQuestion
                     $filepath
                 );
                 if (!file_exists($filepath)) {
-                    ilUtil::makeDirParents($filepath);
+                    ilFileUtils::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
@@ -2245,11 +2245,11 @@ abstract class assQuestion
     {
         $filepath = $this->getSuggestedSolutionPath();
         $filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
-        ilUtil::delDir($filepath_original);
+        ilFileUtils::delDir($filepath_original);
         foreach ($this->suggested_solutions as $index => $solution) {
             if (strcmp($solution["type"], "file") == 0) {
                 if (!file_exists($filepath_original)) {
-                    ilUtil::makeDirParents($filepath_original);
+                    ilFileUtils::makeDirParents($filepath_original);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {
@@ -2269,7 +2269,7 @@ abstract class assQuestion
                 $filepath = $this->getSuggestedSolutionPath();
                 $filepath_original = str_replace("/$this->obj_id/$this->id/solution", "/$source_questionpool_id/$source_question_id/solution", $filepath);
                 if (!file_exists($filepath)) {
-                    ilUtil::makeDirParents($filepath);
+                    ilFileUtils::makeDirParents($filepath);
                 }
                 $filename = $solution["value"]["name"];
                 if (strlen($filename)) {

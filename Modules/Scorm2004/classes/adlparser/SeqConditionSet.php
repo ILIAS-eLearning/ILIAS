@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -54,14 +54,27 @@
     define("COMBINATION_ALL", "all");
     define("COMBINATION_ANY", "any");
     
+    /******************************************************************************
+     *
+     * This file is part of ILIAS, a powerful learning management system.
+     *
+     * ILIAS is licensed with the GPL-3.0, you should have received a copy
+     * of said license along with the source code.
+     *
+     * If this is not the case or you just want to try ILIAS, you'll find
+     * us at:
+     *      https://www.ilias.de
+     *      https://github.com/ILIAS-eLearning
+     *
+     *****************************************************************************/
     class SeqConditionSet
     {
         public $mCombination = null;
         
         //convert vector to array
         public $mConditions = null;
-        public $mRetry = false;
-        public $mRollup = false;
+        public bool $mRetry = false;
+        public bool $mRollup = false;
         
         public function __construct($iRollup)
         {

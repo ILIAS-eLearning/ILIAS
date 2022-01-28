@@ -25,8 +25,8 @@
 class ilSkillProfileCompletionRepository
 {
     protected ilDBInterface $db;
-    protected int $profile_id;
-    protected int $user_id;
+    protected int $profile_id = 0;
+    protected int $user_id = 0;
 
     public function __construct(int $a_profile_id, int $a_user_id)
     {

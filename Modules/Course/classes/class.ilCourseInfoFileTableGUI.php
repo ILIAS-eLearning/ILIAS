@@ -31,7 +31,6 @@
 * @ilCtrl_Calls
 * @ingroup
 */
-include_once('Services/Table/classes/class.ilTable2GUI.php');
 class ilCourseInfoFileTableGUI extends ilTable2GUI
 {
 

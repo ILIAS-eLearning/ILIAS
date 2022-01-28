@@ -207,7 +207,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
         $file_storage = $this->object->getFileStorage();
         $file_storage->setUserId($this->usr->getId());
-        ilUtil::deliverFile($file_storage->getFilePath(), $member->fileName());
+        ilFileDelivery::deliverFileLegacy($file_storage->getFilePath(), $member->fileName());
     }
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info) : ilInfoScreenGUI

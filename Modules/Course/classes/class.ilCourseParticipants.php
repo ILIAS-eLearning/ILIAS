@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Membership/classes/class.ilParticipants.php');
 
 /**
 *
@@ -87,7 +86,7 @@ class ilCourseParticipants extends ilParticipants
      * @param int $a_usr_id
      * @param int $a_role
      */
-    public function add($a_usr_id, $a_role)
+    public function add(int $a_usr_id, int $a_role) : bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             $this->addRecommendation($a_usr_id);
@@ -124,7 +123,7 @@ class ilCourseParticipants extends ilParticipants
         return $roles;
     }
     
-    public function addSubscriber($a_usr_id)
+    public function addSubscriber(int $a_usr_id) : void
     {
         global $DIC;
 
@@ -271,7 +270,6 @@ class ilCourseParticipants extends ilParticipants
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilUser = $DIC['ilUser'];
     
-        include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
         $mail = new ilCourseMembershipMailNotification();
         $mail->forceSendingMail($a_force_sending_mail);
 
@@ -340,7 +338,6 @@ class ilCourseParticipants extends ilParticipants
                 break;
 
             case $this->NOTIFY_WAITING_LIST:
-                include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
                 $wl = new ilCourseWaitingList($this->obj_id);
                 $pos = $wl->getPosition($a_usr_id);
                     
@@ -370,7 +367,6 @@ class ilCourseParticipants extends ilParticipants
         $ilDB = $DIC['ilDB'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
-        include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
         $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
@@ -388,7 +384,6 @@ class ilCourseParticipants extends ilParticipants
         $ilDB = $DIC['ilDB'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
-        include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
         $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
@@ -406,7 +401,6 @@ class ilCourseParticipants extends ilParticipants
         $ilDB = $DIC['ilDB'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
-        include_once './Modules/Course/classes/class.ilCourseMembershipMailNotification.php';
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
         $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));

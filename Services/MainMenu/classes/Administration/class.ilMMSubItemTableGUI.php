@@ -17,18 +17,11 @@ class ilMMSubItemTableGUI extends ilTable2GUI
     const F_TABLE_ALL_VALUE = 1;
     const F_TABLE_ONLY_ACTIVE_VALUE = 2;
     const F_TABLE_ONLY_INACTIVE_VALUE = 3;
-    /**
-     * @var ilObjMainMenuAccess
-     */
-    private $access;
-    /**
-     * @var array
-     */
-    private $filter;
-    /**
-     * @var ilMMCustomProvider
-     */
-    private $item_repository;
+
+    private ilObjMainMenuAccess $access;
+    
+    private array $filter;
+    private ilMMItemRepository $item_repository;
 
     /**
      * ilMMSubItemTableGUI constructor.
@@ -56,8 +49,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->setRowTemplate('tpl.sub_items.html', 'Services/MainMenu');
     }
-
-    protected function addFilterItems()
+    
+    protected function addFilterItems() : void
     {
         $table_entry_status = new ilSelectInputGUI(
             $this->lng->txt(self::F_TABLE_ENTRY_STATUS),
@@ -73,10 +66,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->addAndReadFilterItem($table_entry_status);
     }
 
-    /**
-     * @param $field
-     */
-    protected function addAndReadFilterItem(ilFormPropertyGUI $field)
+    protected function addAndReadFilterItem(ilFormPropertyGUI $field):void
     {
         $this->addFilterItem($field);
         $field->readFromSession();

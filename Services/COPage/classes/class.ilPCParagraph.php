@@ -639,7 +639,7 @@ class ilPCParagraph extends ilPageContent
             "((" . $ltypes . ")$ws=$ws([\"0-9])*)$ws" .
             "(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]~i", $a_text, $found)) {
             $attribs = ilUtil::attribsToArray($found[2]);
-            $inst_str = $attribs["inst"];
+            $inst_str = $attribs["inst"] ?? "";
             // pages
             if (isset($attribs["page"])) {
                 $tframestr = "";
@@ -764,7 +764,7 @@ class ilPCParagraph extends ilPageContent
 
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "media$ws=$ws([\"0-9])*)$ws)/\]~i", $a_text, $found)) {
             $attribs = ilUtil::attribsToArray($found[2]);
-            $inst_str = $attribs["inst"];
+            $inst_str = $attribs["inst"] ?? "";
             $a_text = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
                 "<IntLink Target=\"il_" . $inst_str . "_mob_" . $attribs['media'] . "\" Type=\"MediaObject\"/>",
@@ -775,7 +775,7 @@ class ilPCParagraph extends ilPageContent
         // user
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "user$ws=$ws(\"([^\"])*)\")$ws)/\]~i", $a_text, $found)) {
             $attribs = ilUtil::attribsToArray($found[2]);
-            $inst_str = $attribs["inst"];
+            $inst_str = $attribs["inst"] ?? "";
             $user_id = ilObjUser::_lookupId($attribs['user']);
             $a_text = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
@@ -871,7 +871,7 @@ class ilPCParagraph extends ilPageContent
 
         $current_list = array();
         $text = "";
-        for ($i = 0; $i <= count($segments); $i++) {
+        for ($i = 0; $i < count($segments); $i++) {
             if ($segments[$i] == "<SimpleBulletList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;
@@ -1636,7 +1636,7 @@ class ilPCParagraph extends ilPageContent
                     $ref_ids = ilObject::_getAllReferences($glo);
                     $glo_ref_id = current($ref_ids);
                     if ($glo_ref_id > 0) {
-                        $terms = ilGlossaryTerm::getTermList($glo_ref_id);
+                        $terms = ilGlossaryTerm::getTermList([$glo_ref_id]);
                         foreach ($terms as $t) {
                             if (is_int(stripos($text, $t["term"]))) {
                                 $found_terms[$t["id"]] = $t;
@@ -1683,6 +1683,14 @@ class ilPCParagraph extends ilPageContent
         } else {
             $parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $par_node->parentNode);
         }
+    
+        $strrPos = function(string $a_haystack, string $a_needle, ?int $a_offset = null) : int {
+            if (function_exists("mb_strpos")) {
+                return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+            } else {
+                return strrpos($a_haystack, $a_needle, $a_offset);
+            }
+        };
 
         foreach ($parnodes as $parnode) {
             $textnodes = $xpath->query('.//text()', $parnode);
@@ -1701,7 +1709,7 @@ class ilPCParagraph extends ilPageContent
                         // if term found
                         while (is_int($pos)) {
                             // check if we are in a tex tag, see #22261
-                            $tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
+                            $tex_bpos = $strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
                             $tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
                             if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
                                 $pos += ilStr::strLen($t["term"]);

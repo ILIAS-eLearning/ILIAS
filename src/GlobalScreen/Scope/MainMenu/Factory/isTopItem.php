@@ -2,7 +2,6 @@
 
 /**
  * Interface TopIs
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface isTopItem extends isItem

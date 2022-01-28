@@ -5,6 +5,19 @@ namespace ILIAS\ResourceStorage\Stakeholder\Repository;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface StakeholderDBRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -15,21 +28,21 @@ class StakeholderDBRepository implements StakeholderRepository
     const TABLE_NAME = 'il_resource_stkh_u';
     const TABLE_NAME_REL = 'il_resource_stkh';
     const IDENTIFICATION = 'rid';
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    protected $cache = [];
+    protected \ilDBInterface $db;
 
     /**
-     * @param \ilDBInterface $db
+     * @var mixed[]
      */
+    protected array $cache = [];
+
     public function __construct(\ilDBInterface $db)
     {
         $this->db = $db;
     }
 
+    /**
+     * @return string[]
+     */
     public function getNamesForLocking() : array
     {
         return [self::TABLE_NAME, self::TABLE_NAME_REL];
@@ -88,7 +101,7 @@ class StakeholderDBRepository implements StakeholderRepository
 
     public function deregister(ResourceIdentification $i, ResourceStakeholder $s) : bool
     {
-        $r = $this->db->manipulateF(
+        $this->db->manipulateF(
             "DELETE FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND stakeholder_id = %s",
             ['text', 'text'],
             [$i->serialize(), $s->getId()]
@@ -119,7 +132,7 @@ class StakeholderDBRepository implements StakeholderRepository
             $d['rid'] = $rid;
             $this->populateFromArray($d);
         }
-        return $this->cache[$rid];
+        return $this->cache[$rid] ?? [];
     }
 
     public function preload(array $identification_strings) : void

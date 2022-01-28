@@ -153,8 +153,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         if ($file_upload["extract"]) {
             $newdir = ilUtil::ilTempnam();
             ilUtil::makeDir($newdir);
-
-            include_once './Services/Utilities/classes/class.ilFileUtils.php';
+            
             try {
                 ilFileUtils::processZipFile($newdir, $file_upload["tmp_name"], $file_upload["keep_structure"]);
             } catch (Exception $e) {
@@ -200,7 +199,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
             if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file)) {
                 global $DIC;
                 $lng = $DIC['lng'];
-                throw new ilCloudException($lng->txt("filenames_not_supported"), ilFileUtilsException::$BROKEN_FILE);
+                throw new ilCloudException($lng->txt("filenames_not_supported"));
             }
             if ($file != '.' && $file != '..') {
                 $newpath = $dir . '/' . $file;

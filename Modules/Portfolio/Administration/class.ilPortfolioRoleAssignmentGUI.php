@@ -13,50 +13,38 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager;
+use ILIAS\Portfolio\StandardGUIRequest;
+
 /**
  * @ilCtrl_Calls ilPortfolioRoleAssignmentGUI: ilPropertyFormGUI
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioRoleAssignmentGUI
 {
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    protected $main_tpl;
-
-    /**
-     * @var \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager
-     */
-    protected $manager;
+    protected StandardGUIRequest $port_request;
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected PortfolioRoleAssignmentManager $manager;
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->toolbar = $DIC->toolbar();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->manager = new \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager();
+        $this->manager = new PortfolioRoleAssignmentManager();
+        $this->port_request = $DIC->portfolio()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -98,7 +86,7 @@ class ilPortfolioRoleAssignmentGUI
         $this->main_tpl->setContent($table->getHTML());
     }
 
-    protected function addAssignment()
+    protected function addAssignment() : void
     {
         $main_tpl = $this->main_tpl;
         $form = $this->initAssignmentForm();
@@ -160,7 +148,8 @@ class ilPortfolioRoleAssignmentGUI
         $lng = $this->lng;
         $main_tpl = $this->main_tpl;
 
-        if (!is_array($_POST["role_template_ids"]) || count($_POST["role_template_ids"]) == 0) {
+        $template_ids = $this->port_request->getRoleTemplateIds();
+        if (count($template_ids) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listAssignments");
         } else {
@@ -169,7 +158,7 @@ class ilPortfolioRoleAssignmentGUI
             $cgui->setHeaderText($lng->txt("prtf_delete_assignment_sure"));
             $cgui->setCancel($lng->txt("cancel"), "listAssignments");
             $cgui->setConfirm($lng->txt("delete"), "deleteAssignments");
-            foreach ($_POST["role_template_ids"] as $i) {
+            foreach ($template_ids as $i) {
                 $id_arr = explode("_", $i);
                 $role_title = ilObject::_lookupTitle($id_arr[0]);
                 $template_title = ilObject::_lookupTitle(
@@ -187,7 +176,8 @@ class ilPortfolioRoleAssignmentGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
-        foreach ($_POST["role_template_ids"] as $i) {
+        $template_ids = $this->port_request->getRoleTemplateIds();
+        foreach ($template_ids as $i) {
             $id_arr = explode("_", $i);
             $this->manager->delete((int) $id_arr[1], (int) $id_arr[0]);
         }

@@ -51,5 +51,4 @@ abstract class AbstractUserInteraction extends AbstractTask implements UserInter
     {
         return true;
     }
-    
 }

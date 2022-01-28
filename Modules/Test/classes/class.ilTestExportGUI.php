@@ -43,7 +43,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI()
+    protected function buildExportTableGUI() : ilExportTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
         $table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
@@ -127,9 +127,9 @@ class ilTestExportGUI extends ilExportGUI
             $scoring = new ilTestScoring($this->obj);
             $best_solution = $scoring->calculateBestSolutionForTest();
 
-            $tmpFileName = ilUtil::ilTempnam();
+            $tmpFileName = ilFileUtils::ilTempnam();
             if (!is_dir($tmpFileName)) {
-                ilUtil::makeDirParents($tmpFileName);
+                ilFileUtils::makeDirParents($tmpFileName);
             }
 
             $directory_name = realpath($tmpFileName);
@@ -139,7 +139,7 @@ class ilTestExportGUI extends ilExportGUI
             $generator = new ilTestPDFGenerator();
             $generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
             $archive_exp->handInTestBestSolution($best_solution, $file_name);
-            ilUtil::delDir($directory_name);
+            ilFileUtils::delDir($directory_name);
             
             $archive_exp->updateTestArchive();
             $archive_exp->compressTestArchive();
@@ -149,7 +149,7 @@ class ilTestExportGUI extends ilExportGUI
         $ilCtrl->redirectByClass('iltestexportgui');
     }
 
-    public function listExportFiles()
+    public function listExportFiles() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -228,7 +228,7 @@ class ilTestExportGUI extends ilExportGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function download()
+    public function download() : void
     {
         /**
          * @var $lng ilLanguage
@@ -260,11 +260,11 @@ class ilTestExportGUI extends ilExportGUI
         $archiveFile = $archiver->getZipExportDirectory() . '/' . $filename;
 
         if (file_exists($exportFile)) {
-            ilUtil::deliverFile($exportFile, $filename);
+            ilFileDelivery::deliverFileLegacy($exportFile, $filename);
         }
 
         if (file_exists($archiveFile)) {
-            ilUtil::deliverFile($archiveFile, $filename);
+            ilFileDelivery::deliverFileLegacy($archiveFile, $filename);
         }
 
         $ilCtrl->redirect($this, 'listExportFiles');
@@ -273,7 +273,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * Delete files
      */
-    public function delete()
+    public function delete() : void
     {
         /**
          * @var $lng ilLanguage
@@ -306,7 +306,7 @@ class ilTestExportGUI extends ilExportGUI
                 unlink($arc_file);
             }
             if (@is_dir($exp_dir)) {
-                ilUtil::delDir($exp_dir);
+                ilFileUtils::delDir($exp_dir);
             }
         }
         ilUtil::sendSuccess($lng->txt('msg_deleted_export_files'), true);

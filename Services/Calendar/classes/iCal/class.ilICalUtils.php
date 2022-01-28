@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,16 +22,13 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilICalUtils
 {
-    const ICAL_EOL = "\r\n";
-    const ICAL_EOL_FB = "\n";
-    const ICAL_SPACE = " ";
-    const ICAL_TAB = "\t";
+    public const ICAL_EOL = "\r\n";
+    public const ICAL_EOL_FB = "\n";
+    public const ICAL_SPACE = " ";
+    public const ICAL_TAB = "\t";
 }

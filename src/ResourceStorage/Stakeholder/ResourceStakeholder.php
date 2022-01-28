@@ -4,6 +4,19 @@ namespace ILIAS\ResourceStorage\Stakeholder;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface ResourceStakeholder
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -16,9 +29,6 @@ interface ResourceStakeholder
      */
     public function getId() : string;
 
-    /**
-     * @return string
-     */
     public function getConsumerNameForPresentation() : string;
 
     /**
@@ -26,27 +36,15 @@ interface ResourceStakeholder
      */
     public function getFullyQualifiedClassName() : string;
 
-    /**
-     * @param ResourceIdentification $identification
-     * @return bool
-     */
     public function isResourceInUse(ResourceIdentification $identification) : bool;
 
     /**
-     * @param ResourceIdentification $identification
      * @return bool true: if the Stakeholder could handle the deletion; false: if the Stakeholder could not handle
      * the deletion of the resource.
      */
     public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool;
 
-    /**
-     * @param ResourceIdentification $identification
-     * @return int
-     */
     public function getOwnerOfResource(ResourceIdentification $identification) : int;
 
-    /**
-     * @return int
-     */
     public function getOwnerOfNewResources() : int;
 }
