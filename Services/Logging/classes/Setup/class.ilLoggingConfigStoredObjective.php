@@ -43,9 +43,16 @@ class ilLoggingConfigStoredObjective implements Objective
     {
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
+        $logPath = '';
+        $logFile = '';
+        if ($this->config->getPathToLogfile()) {
+            $logPath = dirname($this->config->getPathToLogfile());
+            $logFile = basename($this->config->getPathToLogfile());
+        }
+
         $ini->setVariable("log", "enabled", $this->config->isEnabled() ? "1" : "0");
-        $ini->setVariable("log", "path", dirname($this->config->getPathToLogfile()));
-        $ini->setVariable("log", "file", basename($this->config->getPathToLogfile()));
+        $ini->setVariable("log", "path", $logPath);
+        $ini->setVariable("log", "file", $logFile);
         $ini->setVariable("log", "error_path", $this->config->getErrorlogDir());
 
         if (!$ini->write()) {
@@ -63,9 +70,16 @@ class ilLoggingConfigStoredObjective implements Objective
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         $enabled = $this->config->isEnabled() ? "1" : "0";
 
+        $logPath = '';
+        $logFile = '';
+        if ($this->config->getPathToLogfile()) {
+            $logPath = dirname($this->config->getPathToLogfile());
+            $logFile = basename($this->config->getPathToLogfile());
+        }
+
         return
-            $ini->readVariable("log", "path") !== dirname($this->config->getPathToLogfile()) ||
-            $ini->readVariable("log", "file") !== basename($this->config->getPathToLogfile()) ||
+            $ini->readVariable("log", "path") !== $logPath ||
+            $ini->readVariable("log", "file") !== $logFile ||
             $ini->readVariable("log", "error_path") !== $this->config->getErrorlogDir() ||
             $ini->readVariable("log", "enabled") !== $enabled
         ;
