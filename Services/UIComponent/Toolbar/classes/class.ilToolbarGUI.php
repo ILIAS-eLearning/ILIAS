@@ -339,12 +339,6 @@ class ilToolbarGUI
                             if ($item["id"] != "") {
                                 $tpl_items->setVariable("BID", 'id="' . $item["id"] . '"');
                             }
-                            if ($item["acc_key"] > 0) {
-                                $tpl_items->setVariable(
-                                    "BTN_ACC_KEY",
-                                    ilAccessKeyGUI::getAttribute($item["acc_key"])
-                                );
-                            }
                             if (($item['add_attrs'])) {
                                 $tpl_items->setVariable('BTN_ADD_ARG', $item['add_attrs']);
                             }

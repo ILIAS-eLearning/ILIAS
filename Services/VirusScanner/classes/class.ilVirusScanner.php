@@ -168,7 +168,7 @@ class ilVirusScanner
      */
     protected function createBufferFile($buffer)
     {
-        $bufferFile = ilUtil::ilTempnam();
+        $bufferFile = ilFileUtils::ilTempnam();
         file_put_contents($bufferFile, $buffer);
         return $bufferFile;
     }

@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
 
 /**
  * Handles course mail placeholders
@@ -126,7 +125,6 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
         } else {
             if ('crs_link' == $placeholder_id) {
-                require_once './Services/Link/classes/class.ilLink.php';
                 return ilLink::_getLink($context_parameters['ref_id'], 'crs');
             } elseif ('crs_period_start' == $placeholder_id) {
                 $periodInfo = $this->getCachedPeriodByObjId((int) $ilObjDataCache->lookupObjId($context_parameters['ref_id']));

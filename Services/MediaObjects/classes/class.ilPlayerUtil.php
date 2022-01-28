@@ -86,7 +86,7 @@ class ilPlayerUtil
     public static function copyPlayerFilesToTargetDirectory(
         string $a_target_dir
     ) : void {
-        ilUtil::rCopy(
+        ilFileUtils::rCopy(
             "./node_modules/mediaelement/build",
             $a_target_dir
         );

@@ -93,7 +93,7 @@ class CronJobScheduleTest extends TestCase
         $this->now = new DateTimeImmutable('@' . time());
 
         $offset = (((int) $this->now->format('n')) - 1) % 3;
-        $this->this_quater_start = $this->now->modify("first day of -{$offset} month midnight");
+        $this->this_quater_start = $this->now->modify("first day of -$offset month midnight");
 
         return [
             'Manual Run is Always Due' => [

@@ -34,7 +34,7 @@ class ilAdvancedMDRecordImportFiles
 
     public function __construct()
     {
-        $this->import_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/import';
+        $this->import_dir = ilFileUtils::getDataDir() . '/ilAdvancedMetaData/import';
         $this->init();
     }
 
@@ -75,7 +75,7 @@ class ilAdvancedMDRecordImportFiles
         $creation_time = time();
         $file_name = $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $creation_time . '.xml';
 
-        if (!ilUtil::moveUploadedFile($a_temp_name, '', $file_name, false)) {
+        if (!ilFileUtils::moveUploadedFile($a_temp_name, '', $file_name, false)) {
             return 0;
         }
         return $creation_time;
@@ -87,7 +87,7 @@ class ilAdvancedMDRecordImportFiles
     private function init() : void
     {
         if (!@is_dir($this->import_dir)) {
-            ilUtil::makeDirParents($this->import_dir);
+            ilFileUtils::makeDirParents($this->import_dir);
         }
     }
 }

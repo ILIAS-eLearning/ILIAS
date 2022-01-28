@@ -1,13 +1,25 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ModificationFactory
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ModificationFactory
 {
-
+    
     /**
      * @return ContentModification
      */
@@ -15,8 +27,7 @@ class ModificationFactory
     {
         return new ContentModification();
     }
-
-
+    
     /**
      * @return LogoModification
      */
@@ -24,8 +35,7 @@ class ModificationFactory
     {
         return new LogoModification;
     }
-
-
+    
     /**
      * @return MetaBarModification
      */
@@ -33,8 +43,7 @@ class ModificationFactory
     {
         return new MetaBarModification();
     }
-
-
+    
     /**
      * @return MainBarModification
      */
@@ -42,8 +51,7 @@ class ModificationFactory
     {
         return new MainBarModification();
     }
-
-
+    
     /**
      * @return BreadCrumbsModification
      */
@@ -51,8 +59,7 @@ class ModificationFactory
     {
         return new BreadCrumbsModification();
     }
-
-
+    
     /**
      * @return PageBuilderModification
      */
@@ -60,8 +67,7 @@ class ModificationFactory
     {
         return new PageBuilderModification();
     }
-
-
+    
     /**
      * @return FooterModification
      */
@@ -69,15 +75,17 @@ class ModificationFactory
     {
         return new FooterModification();
     }
-
+    
     public function title() : TitleModification
     {
         return new TitleModification();
     }
+    
     public function short_title() : ShortTitleModification
     {
         return new ShortTitleModification();
     }
+    
     public function view_title() : ViewTitleModification
     {
         return new ViewTitleModification();

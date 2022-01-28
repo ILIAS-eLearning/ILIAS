@@ -12,38 +12,32 @@ use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Tool
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating
 {
-
-    /**
-     * @var Closure
-     */
-    protected $terminated_callback;
-    /**
-     * @var Symbol
-     */
-    protected $symbol;
-    /**
-     * @var Component
-     */
-    protected $content;
-    /**
-     * @var Closure
-     */
-    protected $content_wrapper;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var Closure
-     */
-    protected $close_callback;
-
+    protected string $title;
+    protected ?Closure $terminated_callback = null;
+    protected ?Symbol $symbol = null;
+    protected ?Component $content = null;
+    protected ?Closure $content_wrapper = null;
+    protected ?Closure $close_callback = null;
+    
     /**
      * @param string $title
      * @return Tool
@@ -52,10 +46,10 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         $clone = clone($this);
         $clone->title = $title;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -63,7 +57,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         return $this->title;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -71,10 +65,10 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         $clone = clone($this);
         $clone->content_wrapper = $content_wrapper;
-
+        
         return $clone;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -82,10 +76,10 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         $clone = clone($this);
         $clone->content = $ui_component;
-
+        
         return $clone;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -93,13 +87,13 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         if ($this->content_wrapper !== null) {
             $wrapper = $this->content_wrapper;
-
+            
             return $wrapper();
         }
-
+        
         return $this->content;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -110,13 +104,13 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
             ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
-
+        
         $clone = clone($this);
         $clone->symbol = $symbol;
-
+        
         return $clone;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -124,7 +118,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         return $this->symbol;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -132,7 +126,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         return ($this->symbol instanceof Symbol);
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -140,10 +134,10 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         $clone = clone $this;
         $clone->terminated_callback = $callback;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return Closure|null
      */
@@ -151,7 +145,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     {
         return $this->terminated_callback;
     }
-
+    
     /**
      * @return bool
      */

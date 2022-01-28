@@ -21,7 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 *
@@ -73,12 +72,11 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array row data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         static $row_counter = 1;
         
@@ -154,7 +152,6 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
      */
     public function parse($a_objective_ids)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         
         $objectives = array();
         foreach ($a_objective_ids as $objective_id) {

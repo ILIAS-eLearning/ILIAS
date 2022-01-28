@@ -1128,10 +1128,10 @@ class ilObjTestGUI extends ilObjectGUI
         // copy uploaded file to import directory
         $file = pathinfo($_FILES["xmldoc"]["name"]);
         $full_path = $basedir . "/" . $_FILES["xmldoc"]["name"];
-        ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+        ilFileUtils::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 
         // unzip file
-        ilUtil::unzip($full_path);
+        ilFileUtils::unzip($full_path);
 
         // determine filenames of xml files
         $subdir = basename($file["basename"], "." . $file["extension"]);
@@ -1141,7 +1141,7 @@ class ilObjTestGUI extends ilObjectGUI
         $results_file = ilObjTest::_getImportDirectory() . '/' . $subdir . '/' . preg_replace("/test|tst/", "results", $subdir) . ".xml";
 
         if (!is_file($qti_file)) {
-            ilUtil::delDir($basedir);
+            ilFileUtils::delDir($basedir);
             ilUtil::sendFailure($this->lng->txt("tst_import_non_ilias_zip"));
             $this->createObject();
             return;
@@ -1165,7 +1165,7 @@ class ilObjTestGUI extends ilObjectGUI
         
         if (count($founditems) && $complete == 0) {
             // delete import directory
-            ilUtil::delDir($basedir);
+            ilFileUtils::delDir($basedir);
 
             ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
             $this->createObject();
@@ -1355,7 +1355,7 @@ class ilObjTestGUI extends ilObjectGUI
         
         
         // delete import directory
-        ilUtil::delDir(ilObjTest::_getImportDirectory());
+        ilFileUtils::delDir(ilObjTest::_getImportDirectory());
 
         ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
         ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() . "&baseClass=ilObjTestGUI");

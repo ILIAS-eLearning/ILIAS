@@ -703,7 +703,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                 
                 if ($uploadHandlingRequired) {
                     if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) {
-                        ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
+                        ilFileUtils::makeDirParents($this->getFileUploadPath($test_id, $active_id));
                     }
                     
                     $solutionFileVersioningUploadTS = time();
@@ -711,11 +711,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     $extension = $filename_arr["extension"];
                     $newfile = "file_" . $active_id . "_" . $pass . "_" . $solutionFileVersioningUploadTS . "." . $extension;
                     
-                    include_once 'Services/Utilities/classes/class.ilFileUtils.php';
                     $dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
                     $newfile = ilFileUtils::getValidFilename($newfile);
                     
-                    ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
+                    ilFileUtils::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"],
+                        $this->getFileUploadPath($test_id, $active_id) . $newfile);
                     
                     $this->saveCurrentSolution(
                         $active_id,
@@ -828,14 +828,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                 // hey.
                 if ($this->checkUpload()) {
                     if (!@file_exists($this->getPreviewFileUploadPath($previewSession->getUserId()))) {
-                        ilUtil::makeDirParents($this->getPreviewFileUploadPath($previewSession->getUserId()));
+                        ilFileUtils::makeDirParents($this->getPreviewFileUploadPath($previewSession->getUserId()));
                     }
                     
                     $version = time();
                     $filename_arr = pathinfo($_FILES["upload"]["name"]);
                     $extension = $filename_arr["extension"];
                     $newfile = "file_" . md5($_FILES["upload"]["name"]) . "_" . $version . "." . $extension;
-                    ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile);
+                    ilFileUtils::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"],
+                        $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile);
 
                     $userSolution[$newfile] = array(
                         'solution_id' => $newfile,
@@ -1149,7 +1150,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         
         $exporter->build();
 
-        ilUtil::deliverFile(
+        ilFileDelivery::deliverFileLegacy(
             $exporter->getFinalZipFilePath(),
             $exporter->getDispoZipFileName(),
             $exporter->getZipFileMimeType(),

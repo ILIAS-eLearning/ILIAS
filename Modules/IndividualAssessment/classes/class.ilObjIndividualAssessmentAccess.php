@@ -31,14 +31,14 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
     /**
      * @inheritdoc
      */
-    public static function checkCondition($iass_id, $a_operator, $a_value, $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                return ilIndividualAssessmentLPInterface::determineStatusOfMember($iass_id, $a_usr_id)
+                return ilIndividualAssessmentLPInterface::determineStatusOfMember($a_trigger_obj_id, $a_usr_id)
                     == ilIndividualAssessmentMembers::LP_COMPLETED;
             case ilConditionHandler::OPERATOR_FAILED:
-                return ilIndividualAssessmentLPInterface::determineStatusOfMember($iass_id, $a_usr_id)
+                return ilIndividualAssessmentLPInterface::determineStatusOfMember($a_trigger_obj_id, $a_usr_id)
                     == ilIndividualAssessmentMembers::LP_FAILED;
             default:
                 return false;

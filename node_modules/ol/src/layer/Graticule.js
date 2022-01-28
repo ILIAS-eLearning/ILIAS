@@ -52,28 +52,13 @@ const DEFAULT_STROKE_STYLE = new Stroke({
  * @private
  */
 const INTERVALS = [
-  90,
-  45,
-  30,
-  20,
-  10,
-  5,
-  2,
-  1,
-  0.5,
-  0.2,
-  0.1,
-  0.05,
-  0.01,
-  0.005,
-  0.002,
-  0.001,
+  90, 45, 30, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.01, 0.005, 0.002, 0.001,
 ];
 
 /**
  * @typedef {Object} GraticuleLabelDataType
- * @property {Point} geom
- * @property {string} text
+ * @property {Point} geom Geometry.
+ * @property {string} text Text.
  */
 
 /**
@@ -164,6 +149,7 @@ const INTERVALS = [
  * [30, 10]
  * ```
  * @property {boolean} [wrapX=true] Whether to repeat the graticule horizontally.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
@@ -172,11 +158,12 @@ const INTERVALS = [
  * Note that the view projection must define both extent and worldExtent.
  *
  * @fires import("../render/Event.js").RenderEvent
+ * @extends {VectorLayer<import("../source/Vector.js").default>}
  * @api
  */
 class Graticule extends VectorLayer {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Media pool object
@@ -9,17 +20,15 @@
  */
 class ilObjMediaPool extends ilObject
 {
-    protected $mep_tree;
-    public $for_translation = 0;
+    protected ?int $default_width = null;
+    protected ?int $default_height = null;
+    protected ilTree $mep_tree;
+    public bool $for_translation = false;
 
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_call_by_reference = true
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -29,70 +38,40 @@ class ilObjMediaPool extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-    * Set default width
-    *
-    * @param	int		default width
-    */
-    public function setDefaultWidth($a_val)
+    public function setDefaultWidth(?int $a_val) : void
     {
         $this->default_width = $a_val;
     }
     
-    /**
-    * Get default width
-    *
-    * @return	int		default width
-    */
-    public function getDefaultWidth()
+    public function getDefaultWidth() : ?int
     {
         return $this->default_width;
     }
 
-    /**
-    * Set default height
-    *
-    * @param	int		default height
-    */
-    public function setDefaultHeight($a_val)
+    public function setDefaultHeight(?int $a_val) : void
     {
         $this->default_height = $a_val;
     }
     
-    /**
-    * Get default height
-    *
-    * @return	int		default height
-    */
-    public function getDefaultHeight()
+    public function getDefaultHeight() : ?int
     {
         return $this->default_height;
     }
 
     /**
-     * Set for translation
-     *
      * @param bool $a_val lm has been imported for translation purposes
      */
-    public function setForTranslation($a_val)
+    public function setForTranslation(bool $a_val) : void
     {
         $this->for_translation = $a_val;
     }
 
-    /**
-     * Get for translation
-     *
-     * @return bool lm has been imported for translation purposes
-     */
-    public function getForTranslation()
+    public function getForTranslation() : bool
     {
         return $this->for_translation;
     }
 
-    /**
-    * Read pool data
-    */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -112,13 +91,9 @@ class ilObjMediaPool extends ilObject
 
 
     /**
-    * Get Pool Tree
-    *
-    * @param	int		Media pool ID
-    *
-    * @return	object	Tree object of media pool
-    */
-    public static function _getPoolTree($a_obj_id)
+     * @param int $a_obj_id media pool id
+     */
+    public static function _getPoolTree(int $a_obj_id) : ilTree
     {
         $tree = new ilTree($a_obj_id);
         $tree->setTreeTablePK("mep_id");
@@ -127,21 +102,12 @@ class ilObjMediaPool extends ilObject
         return $tree;
     }
     
-    /**
-     * Get pool tree
-     *
-     * @return object
-     */
-    public function getPoolTree()
+    public function getPoolTree() : ilTree
     {
         return self::_getPoolTree($this->getId());
     }
     
-    
-    /**
-    * create new media pool
-    */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
         
@@ -158,13 +124,7 @@ class ilObjMediaPool extends ilObject
         $this->createMepTree();
     }
 
-    /**
-     * Create media pool tree
-     *
-     * @param
-     * @return
-     */
-    public function createMepTree()
+    public function createMepTree() : void
     {
         // create media pool tree
         $this->mep_tree = new ilTree($this->getId());
@@ -173,22 +133,12 @@ class ilObjMediaPool extends ilObject
         $this->mep_tree->addTree($this->getId(), 1);
     }
     
-    
-    /**
-    * get media pool folder tree
-    */
-    public function &getTree()
+    public function getTree() : ilTree
     {
         return $this->mep_tree;
     }
 
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -209,17 +159,7 @@ class ilObjMediaPool extends ilObject
     }
 
 
-    /**
-    * delete object and all related data
-    *
-    * this method has been tested on may 9th 2004
-    * media pool tree, media objects and folders
-    * have been deleted correctly as desired
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -249,14 +189,16 @@ class ilObjMediaPool extends ilObject
     }
 
     /**
-    * get childs of node
-    */
-    public function getChilds($obj_id = "", $a_type = "")
-    {
+     * @param int $obj_id node id
+     */
+    public function getChilds(
+        int $obj_id = 0,
+        string $a_type = ""
+    ) : array {
         $objs = array();
         $mobs = array();
         $pgs = array();
-        if ($obj_id == "") {
+        if ($obj_id == 0) {
             $obj_id = $this->mep_tree->getRootId();
         }
 
@@ -279,12 +221,10 @@ class ilObjMediaPool extends ilObject
         return $objs;
     }
 
-    /**
-    * get childs of node
-    */
-    public function getChildsExceptFolders($obj_id = "")
-    {
-        if ($obj_id == "") {
+    public function getChildsExceptFolders(
+        int $obj_id = 0
+    ) : array {
+        if ($obj_id == 0) {
             $obj_id = $this->mep_tree->getRootId();
         }
 
@@ -293,10 +233,14 @@ class ilObjMediaPool extends ilObject
     }
 
     /**
-    * Get media objects
-    */
-    public function getMediaObjects($a_title_filter = "", $a_format_filter = "", $a_keyword_filter = '', $a_caption_filter = "")
-    {
+     * Get media objects by filter
+     */
+    public function getMediaObjects(
+        string $a_title_filter = "",
+        string $a_format_filter = "",
+        string $a_keyword_filter = '',
+        string $a_caption_filter = ""
+    ) : array {
         $ilDB = $this->db;
 
         $query = "SELECT DISTINCT mep_tree.*, object_data.* " .
@@ -339,23 +283,23 @@ class ilObjMediaPool extends ilObject
         // Keyword filter
         if ($a_keyword_filter) {
             $res = ilMDKeyword::_searchKeywords($a_keyword_filter, 'mob', 0);
-            
+            $filtered = [];
             foreach ($objs as $obj) {
                 if (in_array($obj['foreign_id'], $res)) {
                     $filtered[] = $obj;
                 }
             }
-            return (array) $filtered;
+            return $filtered;
         }
         return $objs;
     }
 
 
     /**
-     * @param int $a_id of the media pool
-     * @return array of obj_id's (int) of media objects
+     * @param int $a_id media pool id
+     * @return int[] object ids of media objects
      */
-    public static function getAllMobIds($a_id)
+    public static function getAllMobIds(int $a_id) : array
     {
         global $DIC;
 
@@ -370,15 +314,15 @@ class ilObjMediaPool extends ilObject
         $set = $ilDB->query($query);
         $ids = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $ids[] = $rec["id"];
+            $ids[] = (int) $rec["id"];
         }
         return $ids;
     }
-    
+
     /**
-    * Get used formats
-    */
-    public function getUsedFormats()
+     * @return string[]
+     */
+    public function getUsedFormats() : array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -403,27 +347,27 @@ class ilObjMediaPool extends ilObject
         return $formats;
     }
     
-    public function getParentId($obj_id = "")
+    public function getParentId(int $obj_id = 0) : ?int
     {
-        if ($obj_id == "") {
-            return false;
+        if ($obj_id == 0) {
+            return null;
         }
         if ($obj_id == $this->mep_tree->getRootId()) {
-            return false;
+            return null;
         }
 
-        return $this->mep_tree->getParentId($obj_id);
+        return (int) $this->mep_tree->getParentId($obj_id);
     }
     
     /**
      * Insert into tree
-     * @param int 	$a_obj_id (mep_item obj_id)
-     * @param int $a_parent
      */
-    public function insertInTree($a_obj_id, $a_parent = "")
-    {
+    public function insertInTree(
+        int $a_obj_id,
+        ?int $a_parent = null
+    ) : bool {
         if (!$this->mep_tree->isInTree($a_obj_id)) {
-            $parent = ($a_parent == "")
+            $parent = (is_null($a_parent))
                 ? $this->mep_tree->getRootId()
                 : $a_parent;
             $this->mep_tree->insertNode($a_obj_id, $parent);
@@ -436,12 +380,11 @@ class ilObjMediaPool extends ilObject
 
     /**
      * Delete a child of media tree
-     * @param	int		mep_item id
      */
-    public function deleteChild($obj_id)
+    public function deleteChild(int $obj_id) : void
     {
         $node_data = $this->mep_tree->getNodeData($obj_id);
-        $subtree = $this->mep_tree->getSubtree($node_data);
+        $subtree = $this->mep_tree->getSubTree($node_data);
 
         // delete tree
         if ($this->mep_tree->isInTree($obj_id)) {
@@ -479,12 +422,11 @@ class ilObjMediaPool extends ilObject
     
     /**
      * Check whether foreign id is in tree
-     *
-     * @param
-     * @return
      */
-    public static function isForeignIdInTree($a_pool_id, $a_foreign_id)
-    {
+    public static function isForeignIdInTree(
+        int $a_pool_id,
+        int $a_foreign_id
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -501,10 +443,12 @@ class ilObjMediaPool extends ilObject
     }
     
     /**
-    * Check wheter a mep item id is in the media pool
-    */
-    public static function isItemIdInTree($a_pool_id, $a_item_id)
-    {
+     * Check whether a mep item id is in the media pool
+     */
+    public static function isItemIdInTree(
+        int $a_pool_id,
+        int $a_item_id
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -518,14 +462,10 @@ class ilObjMediaPool extends ilObject
         return false;
     }
     
-    /**
-     * Create a new folder
-     *
-     * @param
-     * @return
-     */
-    public function createFolder($a_title, $a_parent = 0)
-    {
+    public function createFolder(
+        string $a_title,
+        int $a_parent = 0
+    ) : ?int {
         // perform save
         $mep_item = new ilMediaPoolItem();
         $mep_item->setTitle($a_title);
@@ -539,7 +479,7 @@ class ilObjMediaPool extends ilObject
             $this->insertInTree($mep_item->getId(), $parent);
             return $mep_item->getId();
         }
-        return false;
+        return null;
     }
     
     /**
@@ -548,8 +488,12 @@ class ilObjMediaPool extends ilObject
      * @param int target ref_id
      * @param int copy id
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
-    {
+    public function cloneObject(
+        $a_target_id,
+        $a_copy_id = 0,
+        $a_omit_tree = false
+    ) {
+        /** @var ilObjMediaPool $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         
         $new_obj->setTitle($this->getTitle());
@@ -568,15 +512,12 @@ class ilObjMediaPool extends ilObject
         return $new_obj;
     }
 
-    /**
-     * Copy tree content
-     *
-     * @param
-     * @return
-     */
-    public function copyTreeContent($a_new_obj, $a_target_parent, $a_source_parent)
-    {
-        // get all chapters of root lm
+    public function copyTreeContent(
+        ilObjMediaPool $a_new_obj,
+        int $a_target_parent,
+        int $a_source_parent
+    ) : void {
+        // get all childs
         $nodes = $this->getTree()->getChilds($a_source_parent);
         foreach ($nodes as $node) {
             $item = new ilMediaPoolItem();
@@ -619,11 +560,9 @@ class ilObjMediaPool extends ilObject
     }
 
     /**
-     * Export
-     *
-     * @param
+     * @throws ilExportException
      */
-    public function exportXML($a_mode = "")
+    public function exportXML(string $a_mode = "") : void
     {
         if (in_array($a_mode, array("master", "masternomedia"))) {
             $exp = new ilExport();

@@ -153,7 +153,7 @@ class ilDclContentExporter
 
         if (empty($filepath)) {
             $filepath = $this->getExportContentPath($format);
-            ilUtil::makeDirParents($filepath);
+            ilFileUtils::makeDirParents($filepath);
 
             $basename = (isset($this->table_id)) ? $this->tables[0]->getTitle() : 'complete';
             $filename = time() . '__' . $basename . "_" . date("Y-m-d_H-i");

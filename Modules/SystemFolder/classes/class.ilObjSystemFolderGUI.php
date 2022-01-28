@@ -69,6 +69,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     * @access	public
     */
     public $type;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    protected \ILIAS\Refinery\Factory $refinery;
 
     /**
     * Constructor
@@ -95,6 +97,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->client_ini = $DIC["ilClientIniFile"];
         $this->type = "adm";
         $this->bench = $DIC["ilBench"];
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->lng->loadLanguageModule("administration");
@@ -855,11 +859,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function saveBenchSettingsObject()
     {
-        $ilBench = $this->bench;
-        if ($_POST["enable_db_bench"]) {
-            $ilBench->enableDbBench(true, ilUtil::stripSlashes($_POST["db_bench_user"]));
+        if ($this->wrapper->post()->has("enable_db_bench")) {
+            $user_id = $this->wrapper->post()->retrieve("enable_db_bench", $this->refinery->to()->int());
+            $this->bench->enableDbBenchmarkForUser($user_id);
         } else {
-            $ilBench->enableDbBench(false);
+            $this->bench->disableDbBenchmark();
         }
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

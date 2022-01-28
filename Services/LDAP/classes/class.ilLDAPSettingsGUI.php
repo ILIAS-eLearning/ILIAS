@@ -407,7 +407,7 @@ class ilLDAPSettingsGUI
         include_once './Services/Search/classes/class.ilQueryParser.php';
         $parser = new ilQueryParser($_SESSION['ldap_role_ass']['role_search']);
         $parser->setMinWordLength(1);
-        $parser->setCombination(QP_COMBINATION_AND);
+        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
         
         include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
@@ -528,7 +528,7 @@ class ilLDAPSettingsGUI
                 
                 // TODO: Handle minWordLength
                 $parser->setMinWordLength(1);
-                $parser->setCombination(QP_COMBINATION_AND);
+                $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
                 $parser->parse();
                 
                 include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';

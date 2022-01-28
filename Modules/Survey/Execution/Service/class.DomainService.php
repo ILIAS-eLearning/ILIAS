@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Execution;
 
@@ -9,22 +19,14 @@ use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalRepoService;
 
 /**
- * Execution repos
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class DomainService
 {
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo_service;
+    protected InternalRepoService $repo_service;
+    protected InternalDomainService $domain_service;
 
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    protected static $managers = [];
+    protected static array $managers = [];
 
     public function __construct(
         InternalRepoService $repo_service,
@@ -34,22 +36,10 @@ class DomainService
         $this->repo_service = $repo_service;
     }
 
-    public function session(\ilObjSurvey $survey, int $user_id)
-    {
-        if (!isset(self::$managers[SessionManager::class][$survey->getId()][$user_id])) {
-            self::$managers[SessionManager::class][$survey->getId()][$user_id] =
-                new SessionManager(
-                    $this->repo_service->execution()->anonymousSession(),
-                    $survey,
-                    $user_id,
-                    $this->domain_service
-                );
-        }
-        return self::$managers[SessionManager::class][$survey->getId()][$user_id];
-    }
-
-    public function run(\ilObjSurvey $survey, int $user_id) : RunManager
-    {
+    public function run(
+        \ilObjSurvey $survey,
+        int $user_id
+    ) : RunManager {
         if (!isset(self::$managers[RunManager::class][$survey->getId()][$user_id])) {
             self::$managers[RunManager::class][$survey->getId()][$user_id] =
                 new RunManager(

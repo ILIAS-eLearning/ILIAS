@@ -94,7 +94,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->setData($questions);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;

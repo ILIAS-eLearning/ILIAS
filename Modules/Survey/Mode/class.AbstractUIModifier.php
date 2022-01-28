@@ -1,11 +1,21 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Mode;
 
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalService;
 
@@ -14,13 +24,10 @@ use ILIAS\Survey\InternalService;
  */
 abstract class AbstractUIModifier implements UIModifier
 {
-    /**
-     * @var InternalService
-     */
-    protected $service = null;
+    protected ?InternalService $service = null;
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
     }
 
     public function setInternalService(InternalService $internal_service) : void
@@ -33,38 +40,26 @@ abstract class AbstractUIModifier implements UIModifier
         return $this->service;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
     ) : array {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
@@ -106,7 +101,12 @@ abstract class AbstractUIModifier implements UIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
-        $gui = $this->service->ui();
+        $request = $this->service
+            ->gui()
+            ->evaluation($survey)
+            ->request();
+
+        $gui = $this->service->gui();
         $lng = $gui->lng();
 
         $this->addApprSelectionToToolbar(
@@ -121,7 +121,7 @@ abstract class AbstractUIModifier implements UIModifier
             "a" => $lng->txt("svy_eval_captions_abs"),
             "p" => $lng->txt("svy_eval_captions_perc")
         ));
-        $captions->setValue($_POST["cp"]);
+        $captions->setValue($request->getCP());
         $toolbar->addInputItem($captions, true);
 
         $view = new \ilSelectInputGUI($lng->txt("svy_eval_view"), "vw");
@@ -130,7 +130,7 @@ abstract class AbstractUIModifier implements UIModifier
             "t" => $lng->txt("svy_eval_view_tables"),
             "c" => $lng->txt("svy_eval_view_charts")
         ));
-        $view->setValue($_POST["vw"]);
+        $view->setValue($request->getVW());
         $toolbar->addInputItem($view, true);
 
         $button = \ilSubmitButton::getInstance();
@@ -147,11 +147,6 @@ abstract class AbstractUIModifier implements UIModifier
         );
     }
 
-    /**
-     * Add export and print button
-     * @param
-     * @return
-     */
     protected function addExportAndPrintButton(
         \ilToolbarGUI $toolbar,
         bool $details
@@ -177,11 +172,13 @@ abstract class AbstractUIModifier implements UIModifier
         $toolbar->addText($modal);
     }
 
-    protected function buildExportModal($a_id, $a_cmd)
-    {
-        $tpl = $this->service->ui()->mainTemplate();
-        $lng = $this->service->ui()->lng();
-        $ctrl = $this->service->ui()->ctrl();
+    protected function buildExportModal(
+        string $a_id,
+        string $a_cmd
+    ) : string {
+        $tpl = $this->service->gui()->mainTemplate();
+        $lng = $this->service->gui()->lng();
+        $ctrl = $this->service->gui()->ctrl();
 
         $form_id = "svymdfrm";
 
@@ -223,20 +220,17 @@ abstract class AbstractUIModifier implements UIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) {
-        $lng = $this->service->ui()->lng();
-        $ctrl = $this->service->ui()->ctrl();
-        $req = $this->service->ui()->evaluation($survey)->request();
+    ) : void {
+        $lng = $this->service->gui()->lng();
+        $ctrl = $this->service->gui()->ctrl();
+        $req = $this->service->gui()->evaluation($survey)->request();
 
-        $options = [];
         $evaluation_manager = $this->service->domain()->evaluation(
             $survey,
             $user_id,
             $req->getAppraiseeId(),
             $req->getRaterId()
         );
-
-        $appr_id = $evaluation_manager->getCurrentAppraisee();
 
         if ($evaluation_manager->isMultiParticipantsView()) {
             $appr_id = $evaluation_manager->getCurrentAppraisee();
@@ -279,8 +273,7 @@ abstract class AbstractUIModifier implements UIModifier
     ) : array {
         $a_results = $a_eval->getResults();
         $panels = [];
-        $ui_factory = $this->service->ui()->ui()->factory();
-        $lng = $this->service->ui()->lng();
+        $ui_factory = $this->service->gui()->ui()->factory();
 
         $a_tpl = new \ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey/Evaluation");
 
@@ -306,7 +299,7 @@ abstract class AbstractUIModifier implements UIModifier
         $anchor_id = "svyrdq" . $question->getId();
         $title = "<span id='$anchor_id'>$qst_title</span>";
         $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
-                                     ->withCard($this->getPanelCard($question_res));
+            ->withCard($this->getPanelCard($question_res));
 
         $panels[] = $panel_qst_card;
 
@@ -416,7 +409,7 @@ abstract class AbstractUIModifier implements UIModifier
     ) : string {
         $a_results = $a_eval->getResults();
         $question = $question_res->getQuestion();
-        $lng = $this->service->ui()->lng();
+        $lng = $this->service->gui()->lng();
 
         $a_tpl = new \ilTemplate("tpl.svy_results_details_text.html", true, true, "Modules/Survey/Evaluation");
 
@@ -433,9 +426,10 @@ abstract class AbstractUIModifier implements UIModifier
             } else {
                 $acc = new \ilAccordionGUI();
                 // patch BGHW: fixed accordion in pdf output
+                /*
                 if ($_GET["pdf"] == 1) {
                     $acc->setBehaviour(\ilAccordionGUI::FORCE_ALL_OPEN);
-                }
+                }*/
                 $acc->setId("svyevaltxt" . $question->getId());
 
                 $a_tpl->setVariable("TEXT_HEADING", $lng->txt("freetext_answers"));
@@ -455,10 +449,13 @@ abstract class AbstractUIModifier implements UIModifier
         return $a_tpl->get();
     }
 
-    protected function getPanelCard(\ilSurveyEvaluationResults $question_res) : \ILIAS\UI\Component\Card\Standard
-    {
-        $ui_factory = $this->service->ui()->ui()->factory();
-        $lng = $this->service->ui()->lng();
+    // in fact we want a \ILIAS\UI\Component\Card\Standard
+    // see #31743
+    protected function getPanelCard(
+        \ilSurveyEvaluationResults $question_res
+    ) : \ILIAS\UI\Component\Card\Card {
+        $ui_factory = $this->service->gui()->ui()->factory();
+        $lng = $this->service->gui()->lng();
 
         $question = $question_res->getQuestion();
         $kv = array();

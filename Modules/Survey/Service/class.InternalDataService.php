@@ -1,30 +1,29 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey;
 
-use ILIAS\Survey\Settings\SettingsFactory;/**
+/**
  * Survey internal data service
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
-
 class InternalDataService
 {
-    /**
-     * @var Code\DataFactory
-     */
-    protected $code_factory;
+    protected Code\DataFactory $code_factory;
+    protected Execution\DataFactory $execution_factory;
 
-    /**
-     * @var Execution\DataFactory
-     */
-    protected $execution_factory;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->code_factory = new Code\DataFactory();

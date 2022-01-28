@@ -12,11 +12,6 @@
 class ilObjectDefinition // extends ilSaxParser
 {
     /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
      * @var ilSetting
      */
     protected $settings;
@@ -58,7 +53,6 @@ class ilObjectDefinition // extends ilSaxParser
     {
         global $DIC;
 
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->component_repository = $DIC["component.repository"];
         $this->settings = $DIC->settings();
         $this->readDefinitionData();
@@ -214,7 +208,6 @@ class ilObjectDefinition // extends ilSaxParser
      * @param $slotId
      * @param $plugin_id
      * @return mixed
-     * @internal param $ilPluginAdmin
      */
     protected static function getGroupedPluginObjectTypes($grouped_obj, $component, $slotName, $slotId)
     {
@@ -405,20 +398,11 @@ class ilObjectDefinition // extends ilSaxParser
      */
     public function isActivePluginType($type)
     {
-        $ilPluginAdmin = $this->plugin_admin;
-        $isRepoPlugin = $ilPluginAdmin->isActive(
-            IL_COMP_SERVICE,
-            "Repository",
-            "robj",
-            ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type)
-        );
-        $isOrguPlugin = $ilPluginAdmin->isActive(
-            IL_COMP_MODULE,
-            "OrgUnit",
-            "orguext",
-            ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type)
-        );
-        return $isRepoPlugin || $isOrguPlugin;
+        if (!$this->component_repository->hasPluginId($type)) {
+            return false;
+        }
+        $plugin_slot = $this->component_repository->getPluginById($type)->getPluginSlot();
+        return $plugin_slot->getId() === "robj" || $plugin_slot->getId() === "orguext";
     }
 
     /**
@@ -1158,7 +1142,6 @@ class ilObjectDefinition // extends ilSaxParser
 
     /**
      * Loads the different plugins into the object definition.
-     * @internal param $ilPluginAdmin
      * @internal param $rec
      */
     protected function readPluginData()

@@ -178,8 +178,8 @@ class ilMediaCreationGUI
             // move title from form to accordion
             $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
                 $form_title);
-            $cf->setTitle(null);
-            $cf->setTitleIcon(null);
+            $cf->setTitle("");
+            $cf->setTitleIcon("");
             $cf->setTableWidth("100%");
 
             $acc->addItem($htpl->get(), $cf->getHTML());
@@ -239,7 +239,12 @@ class ilMediaCreationGUI
 
         $form = new \ilPropertyFormGUI();
 
-        $mcst = new ilRepositorySelector2InputGUI($lng->txt("obj_mep"), "mep", false);
+        $mcst = new ilRepositorySelector2InputGUI(
+            $lng->txt("obj_mep"),
+            "mep",
+            false,
+            $form
+        );
         $exp = $mcst->getExplorerGUI();
         $exp->setSelectableTypes(["mep"]);
         $exp->setTypeWhiteList(["root", "mep", "cat", "crs", "grp", "fold"]);
@@ -277,14 +282,14 @@ class ilMediaCreationGUI
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
             }
-            $file_name = ilUtil::getASCIIFilename($_FILES['file']["name"]);
+            $file_name = ilFileUtils::getASCIIFilename($_FILES['file']["name"]);
             $file_name = str_replace(" ", "_", $file_name);
 
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
             $locationType = "LocalFile";
             $location = $title;
-            ilUtil::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
+            ilFileUtils::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
             ilUtil::renameExecutables($mob_dir);
 
             // get mime type, if not already set!

@@ -33,7 +33,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $media_item = new ilMediaItem();
             $mob->addMediaItem($media_item);
             $media_item->setPurpose("Standard");
-            $file_name = ilUtil::getASCIIFilename($media['name']);
+            $file_name = ilFileUtils::getASCIIFilename($media['name']);
             $file_name = str_replace(" ", "_", $file_name);
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
@@ -42,7 +42,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                 $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
                 ilFileUtils::rename($move_file, $file);
             } else {
-                ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
+                ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $file);
             }
 
             ilUtil::renameExecutables($mob_dir);

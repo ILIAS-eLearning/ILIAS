@@ -31,7 +31,7 @@ class ilLMMultiSrt implements ilMobMultiSrtInt
      */
     public function getUploadDir() : string
     {
-        return ilUtil::getDataDir() . "/lm_data" .
+        return ilFileUtils::getDataDir() . "/lm_data" .
             "/lm_" . $this->lm->getId() . "/srt_tmp";
     }
 

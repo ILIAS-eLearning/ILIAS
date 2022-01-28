@@ -22,15 +22,8 @@ use OrgUnit\PublicApi\OrgUnitUserService;
  */
 class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
+    protected ilLanguage $lng;
+    protected ilObjectDataCache $obj_data_cache;
 
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
@@ -53,19 +46,13 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         }
     }
 
-    const ID = 'svy_rater_inv';
+    public const ID = 'svy_rater_inv';
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         $lng = $this->lng;
@@ -75,9 +62,6 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         return $lng->txt('svy_mail_context_rater_invitation_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         $lng = $this->lng;
@@ -87,15 +71,8 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         return $lng->txt('svy_mail_context_rater_invitation_info');
     }
 
-    /**
-     * Return an array of placeholders
-     * @return array
-     */
     public function getSpecificPlaceholders() : array
     {
-        /**
-         * @var $lng ilLanguage
-         */
         $lng = $this->lng;
 
         $lng->loadLanguageModule('survey');
@@ -125,9 +102,6 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
@@ -150,7 +124,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
 
         switch ($placeholder_id) {
             case 'svy_title':
-                return (string) $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
+                return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
 
             case 'svy_link':
                 $svy = new ilObjSurvey($context_parameters['ref_id']);

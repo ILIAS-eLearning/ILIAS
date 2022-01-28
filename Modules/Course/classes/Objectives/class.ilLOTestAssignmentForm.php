@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 
 /**
  * LO test assignment form creator
@@ -68,7 +67,6 @@ class ilLOTestAssignmentForm
     
     public function initForm($a_as_multi_assignment = false)
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('crs_loc_tst_assignment'));
         $form->setFormAction($this->ctrl->getFormAction($this->getGUI()));
@@ -122,7 +120,6 @@ class ilLOTestAssignmentForm
         $new->addSubItem($ta);
         
         // Question assignment type
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         $this->lng->loadLanguageModule('assessment');
         $qst = new ilRadioGroupInputGUI($this->lng->txt('tst_question_set_type'), 'qtype');
         $qst->setRequired(true);
@@ -174,10 +171,8 @@ class ilLOTestAssignmentForm
         
         
         if ($a_as_multi_assignment) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
             $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
             
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $objective_ids = ilCourseObjective::_getObjectiveIds($this->getContainer()->getId(), false);
 
             $options = array();
@@ -204,7 +199,6 @@ class ilLOTestAssignmentForm
      */
     protected function getAssignableTests()
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
 
         $tests = array();

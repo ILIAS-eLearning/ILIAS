@@ -22,6 +22,7 @@ abstract class Form implements C\Input\Container\Form\Form
     protected Input\NameSource $name_source;
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
+    protected ?string $error = null;
 
     /**
      * For the implementation of NameSource.
@@ -44,7 +45,7 @@ abstract class Form implements C\Input\Container\Form\Form
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function getInputs() : array
     {
@@ -52,7 +53,7 @@ abstract class Form implements C\Input\Container\Form\Form
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function getInputGroup() : C\Input\Field\Group
     {
@@ -60,7 +61,7 @@ abstract class Form implements C\Input\Container\Form\Form
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function withRequest(ServerRequestInterface $request)
     {
@@ -76,7 +77,7 @@ abstract class Form implements C\Input\Container\Form\Form
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function withAdditionalTransformation(Transformation $trafo)
     {
@@ -87,12 +88,26 @@ abstract class Form implements C\Input\Container\Form\Form
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
+     */
+    public function getError() : ?string
+    {
+        return $this->error;
+    }
+
+    protected function setError(string $error) : void
+    {
+        $this->error = $error;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getData()
     {
         $content = $this->getInputGroup()->getContent();
         if (!$content->isok()) {
+            $this->setError($content->error());
             return null;
         }
 

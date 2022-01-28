@@ -10,23 +10,15 @@ use ReflectionType;
 
 /**
  * Trait ComponentDecoratorTrait
- *
  * @package ILIAS\GlobalScreen\Scope
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 trait ComponentDecoratorTrait
 {
-
-    /**
-     * @var Closure
-     */
-    private $component_decorator;
-
-
+    private ?Closure $component_decorator = null;
+    
     /**
      * @param Closure $component_decorator
-     *
      * @return isGlobalScreenItem
      */
     public function addComponentDecorator(Closure $component_decorator) : isGlobalScreenItem
@@ -38,17 +30,16 @@ trait ComponentDecoratorTrait
             $existing = $this->component_decorator;
             $this->component_decorator = static function (Component $c) use ($component_decorator, $existing) : Component {
                 $component = $existing($c);
-
+                
                 return $component_decorator($component);
             };
         } else {
             $this->component_decorator = $component_decorator;
         }
-
+        
         return $this;
     }
-
-
+    
     /**
      * @return Closure|null
      */
@@ -56,8 +47,7 @@ trait ComponentDecoratorTrait
     {
         return $this->component_decorator;
     }
-
-
+    
     private function checkClosure(Closure $c) : bool
     {
         try {
@@ -76,7 +66,7 @@ trait ComponentDecoratorTrait
             if ($return_type->getName() !== Component::class) {
                 return false;
             }
-
+            
             return true;
         } catch (\Throwable $i) {
             return false;

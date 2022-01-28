@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\OnScreenChat\Provider\OnScreenChatProvider;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use Psr\Http\Message\ResponseInterface;
@@ -96,8 +96,8 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 $response = $this->verifyLogin();
                 break;
 
-            case 'getRenderedNotificationItems':
-                $provider = new OnScreenChatNotificationProvider(
+            case 'getRenderedConversationItems':
+                $provider = new OnScreenChatProvider(
                     $this->dic,
                     new Conversation($this->dic->database(), $this->dic->user()),
                     new Subscriber($this->dic->database(), $this->dic->user())
@@ -246,9 +246,9 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     true,
                     false
                 ),
-                'renderNotificationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
+                'renderConversationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
                     'ilonscreenchatgui',
-                    'getRenderedNotificationItems',
+                    'getRenderedConversationItems',
                     '',
                     true,
                     false

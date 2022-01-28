@@ -1,46 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
-/**
- * Class ilSystemStyleLoggerMock
- */
-class ilSystemStyleLoggerMock
+class ilSystemStyleLoggerMock extends \ILIAS\DI\LoggingServices
 {
-
-    /**
-     * ilSystemStyleLoggerMock constructor.
-     */
-    public function __construct()
+    public function __construct(\ILIAS\DI\Container $DIC)
     {
+        $this->container = $DIC;
     }
 
-    /**
-     * @return mixed
-     */
-    public function root()
+    public function root() : ilLogger
     {
         return new ilSystemStyleRootLoggerMock();
-    }
-}
-
-/**
- * Class ilSystemStyleLoggerMock
- */
-class ilSystemStyleRootLoggerMock
-{
-
-    /**
-     * ilSystemStyleLoggerMock constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * @return mixed
-     */
-    public function debug($message)
-    {
     }
 }

@@ -13,7 +13,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     protected static array $valid_tax_map = [];
     protected int $incoming_id;
     
-    public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type) : bool
+    public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type) : bool
     {
         return (bool) self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
     }
@@ -28,7 +28,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         $this->incoming_id = (int) ($body["tax_node"] ?? ($params["tax_node"] ?? null));
     }
     
-    public function render(array &$a_html, $a_parent_gui) : void
+    public function render(array &$a_html, object $a_parent_gui) : void
     {
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
             $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, $tax_id, null, null);
@@ -51,7 +51,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
     }
     
-    public function importPostData($a_saved = null) : array
+    public function importPostData(?array $a_saved = null) : array
     {
         $incoming_id = $this->incoming_id;
         if ($incoming_id !== 0) {
@@ -74,7 +74,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    public function setSelection($a_value) : void
+    public function setSelection(array $a_value) : void
     {
         $this->selection = $a_value;
     }

@@ -1,61 +1,46 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey;
 
 use ILIAS\Survey\Mode\FeatureConfig;
 use ILIAS\Survey\Mode\ModeFactory;
 use ILIAS\Survey\Code\CodeManager;
+use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\Survey\Editing\EditManager;
 
 /**
  * Survey internal domain service
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDomainService
 {
-    /**
-     * @var ModeFactory
-     */
-    protected $mode_factory;
+    use GlobalDICDomainServices;
 
-    /**
-     * @var \ilTree
-     */
-    protected $repo_tree;
+    protected ModeFactory $mode_factory;
+    protected InternalRepoService $repo_service;
+    protected InternalDataService $data_service;
 
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo_service;
-
-    /**
-     * @var InternalDataService
-     */
-    protected $data_service;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ModeFactory $mode_factory,
         InternalRepoService $repo_service,
         InternalDataService $data_service
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
+        $this->initDomainServices($DIC);
         $this->repo_tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
@@ -64,15 +49,6 @@ class InternalDomainService
         $this->data_service = $data_service;
 
         $this->mode_factory = $mode_factory;
-    }
-
-    /**
-     * Repository tree
-     * @return \ilTree
-     */
-    public function repositoryTree()
-    {
-        return $this->repo_tree;
     }
 
     public function modeFeatureConfig(int $mode) : FeatureConfig
@@ -118,11 +94,6 @@ class InternalDomainService
         );
     }
 
-    public function lng() : \ilLanguage
-    {
-        return $this->lng;
-    }
-
     public function evaluation(
         \ilObjSurvey $survey,
         int $user_id,
@@ -136,6 +107,14 @@ class InternalDomainService
             $user_id,
             $requested_appr_id,
             $requested_rater_id
+        );
+    }
+
+    public function edit() : EditManager
+    {
+        return new EditManager(
+            $this->repo_service,
+            $this
         );
     }
 }

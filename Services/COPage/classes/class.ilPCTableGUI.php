@@ -446,7 +446,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $xh = xslt_create();
         //echo "<b>XML</b>:".htmlentities($content).":<br>";
         //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-        $wb_path = ilUtil::getWebspaceDir("output");
+        $wb_path = ilFileUtils::getWebspaceDir("output");
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
             'media_mode' => 'disable',

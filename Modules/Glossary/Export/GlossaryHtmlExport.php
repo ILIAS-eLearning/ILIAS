@@ -1,59 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Glossary\Export;
+
+use ilFileUtils;
 
 /**
  * Glossary HTML Export
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class GlossaryHtmlExport
 {
-    /**
-     * @var \ilObjGlossary
-     */
-    protected $glossary;
+    protected \ilGlossaryPresentationGUI $glo_gui;
+    protected \ilObjGlossary $glossary;
+    protected string $export_dir;
+    protected string $sub_dir;
+    protected string $target_dir;
+    protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected \ILIAS\Services\Export\HTML\Util $export_util;
+    protected \ilCOPageHTMLExport $co_page_html_export;
 
-    /**
-     * @var string
-     */
-    protected $export_dir;
-
-    /**
-     * @var string
-     */
-    protected $sub_dir;
-
-    /**
-     * @var string
-     */
-    protected $target_dir;
-
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    protected $global_screen;
-
-    /**
-     * @var \ILIAS\Services\Export\HTML\Util
-     */
-    protected $export_util;
-
-    /**
-     * @var \ilCOPageHTMLExport
-     */
-    protected $co_page_html_export;
-
-    /**
-     * GlossaryHtmlExport constructor.
-     * @param \ilObjGlossary $glo
-     * @param string $exp_dir
-     * @param string $sub_dir
-     */
-    public function __construct(\ilObjGlossary $glo, string $exp_dir, string $sub_dir)
-    {
+    public function __construct(
+        \ilObjGlossary $glo,
+        string $exp_dir,
+        string $sub_dir
+    ) {
         global $DIC;
 
         $this->glossary = $glo;
@@ -71,21 +55,14 @@ class GlossaryHtmlExport
         $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
     }
 
-    /**
-     * Initialize directories
-     */
-    protected function initDirectories()
+    protected function initDirectories() : void
     {
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
     }
 
-
-    /**
-     * export html package
-     */
-    public function exportHTML()
+    public function exportHTML() : string
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
@@ -98,26 +75,20 @@ class GlossaryHtmlExport
 
         $this->co_page_html_export->exportPageElements();
 
-        $this->zipPackage();
+        return $this->zipPackage();
     }
 
-    /**
-     * Zip package
-     */
-    protected function zipPackage()
+    protected function zipPackage() : string
     {
         // zip it all
         $date = time();
         $zip_file = $this->glossary->getExportDirectory("html") . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->glossary->getType() . "_" . $this->glossary->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
+        return $zip_file;
     }
 
-    /**
-     * Get initialised template
-     * @return \ilGlobalPageTemplate
-     */
     protected function getInitialisedTemplate() : \ilGlobalPageTemplate
     {
         global $DIC;
@@ -135,10 +106,9 @@ class GlossaryHtmlExport
 
     /**
      * Init page
-     * @param int $term_id
      * @throws \ilGlossaryException
      */
-    protected function initScreen(int $term_id)
+    protected function initScreen(int $term_id) : \ilGlobalPageTemplate
     {
         $this->global_screen->layout()->meta()->reset();
 
@@ -172,7 +142,7 @@ class GlossaryHtmlExport
     /**
      * @throws \ilGlossaryException
      */
-    public function exportHTMLGlossaryTerms()
+    public function exportHTMLGlossaryTerms() : void
     {
         $tpl = $this->initScreen(0);
         $tpl->setTitle($this->glossary->getTitle());
@@ -180,7 +150,7 @@ class GlossaryHtmlExport
         $file = $this->target_dir . "/index.html";
 
         // open file
-        $fp = @fopen($file, "w+");
+        $fp = fopen($file, "w+");
         fwrite($fp, $content);
         fclose($fp);
 
@@ -191,7 +161,7 @@ class GlossaryHtmlExport
             $file = $this->target_dir . "/term_" . $term["id"] . ".html";
 
             // open file
-            $fp = @fopen($file, "w+");
+            $fp = fopen($file, "w+");
             fwrite($fp, $content);
             fclose($fp);
 

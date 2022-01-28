@@ -1,14 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilScorm2004DataSet
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilScorm2004DataSet extends ilDataSet
 {
-    protected $temp_dir = array();
+    protected array $temp_dir = array();
 
     /**
      * Note: this is currently used for SCORM authoring lms
@@ -50,6 +61,7 @@ class ilScorm2004DataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
     /**
@@ -72,10 +84,10 @@ class ilScorm2004DataSet extends ilDataSet
             switch ($a_version) {
                 case "5.1.0":
                     foreach ($a_ids as $sahs_id) {
-                        if (ilObject::_lookupType($sahs_id) == "sahs") {
+                        if (ilObject::_lookupType((int) $sahs_id) == "sahs") {
                             $this->data[] = array("Id" => $sahs_id,
-                                "Title" => ilObject::_lookupTitle($sahs_id),
-                                "Description" => ilObject::_lookupDescription($sahs_id),
+                                "Title" => ilObject::_lookupTitle((int) $sahs_id),
+                                "Description" => ilObject::_lookupDescription((int) $sahs_id),
                                 "Editable" => 1
                             );
                         }
@@ -89,6 +101,7 @@ class ilScorm2004DataSet extends ilDataSet
 
     /**
      * Determine the dependent sets of data
+     * @return mixed[]
      */
     protected function getDependencies(
         string $a_entity,
@@ -118,8 +131,8 @@ class ilScorm2004DataSet extends ilDataSet
             $zip = $export->buildExportFile();
 
             // move it to temp dir
-            $tmpdir = ilUtil::ilTempnam();
-            ilUtil::makeDir($tmpdir);
+            $tmpdir = ilFileUtils::ilTempnam();
+            ilFileUtils::makeDir($tmpdir);
             $exp_temp = $tmpdir . DIRECTORY_SEPARATOR . basename($zip);
             ilFileUtils::rename($zip, $exp_temp);
 
@@ -143,7 +156,7 @@ class ilScorm2004DataSet extends ilDataSet
         if ($a_entity == "sahs") {
             // delete our temp dir
             if (isset($this->temp_dir[$a_set["Id"]]) && is_dir($this->temp_dir[$a_set["Id"]])) {
-                ilUtil::delDir($this->temp_dir[$a_set["Id"]]);
+                ilFileUtils::delDir($this->temp_dir[$a_set["Id"]]);
             }
         }
     }
@@ -169,7 +182,7 @@ class ilScorm2004DataSet extends ilDataSet
                 $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
                 $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
 
-                $lm->setEditable($a_rec["Editable"]);
+//                $lm->setEditable($a_rec["Editable"]);
                 $lm->setImportSequencing(false);
                 $lm->setSequencingExpertMode(false);
                 $lm->setSubType("scorm2004");
@@ -180,7 +193,7 @@ class ilScorm2004DataSet extends ilDataSet
                     $file_path = $lm->getDataDirectory() . "/" . $a_rec["File"];
                     ilFileUtils::rename($source_dir . "/" . $a_rec["File"], $file_path);
 
-                    ilUtil::unzip($file_path);
+                    ilFileUtils::unzip($file_path);
                     ilUtil::renameExecutables($lm->getDataDirectory());
                     $title = $lm->readObject();
                     if ($title != "") {

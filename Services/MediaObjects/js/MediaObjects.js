@@ -51,27 +51,27 @@ il.MediaObjects = {
 			video_el_wrap.removeClass('ilNoDisplay');
 			video_el_wrap.find(".ilNoDisplay").removeClass('ilNoDisplay');
 			//video_el.attr('autoplay', 'true');
-			player = new MediaElementPlayer(video_el.attr('id'), {
-				success: function (mediaElement, domObject) {
-					// add event listener
-					mediaElement.addEventListener('play', function(e) {
-						console.log("player started");
-						il.MediaObjects.playerStarted(video_el.attr('id'));
-					}, false);		
+			const elid = video_el.attr('id');
+			player = new MediaElementPlayer(elid, {});
+			const wrap = document.getElementById(elid);
+			if (!il.MediaObjects.player_config[video_el_id]['listener_added']) {
+				wrap.addEventListener('play', function (e) {
+					il.MediaObjects.playerStarted();
+					}, false);
 				}
-
-				});
+			il.MediaObjects.player_config[video_el_id]['listener_added'] = true;
 			// this fails in safari if a flv file has been called before
-			player.play();
 			il.MediaObjects.current_player_id = video_el_id;
+			player.play();
 			il.MediaObjects.current_player = player;
 		} else {
 			// audio ?
 			audio_el = $(t).parent().find('audio');
 			if (audio_el.length > 0) {
 				player = $('#' + audio_el.attr('id'))[0].player.media;
+				const audio_el_id = audio_el.parent().attr('id');
+				il.MediaObjects.current_player_id = audio_el_id;
 				player.play();
-				il.MediaObjects.current_player_id = audio_el.attr('id');
 				il.MediaObjects.current_player = player;
 			} else {
 
@@ -92,7 +92,7 @@ il.MediaObjects = {
 					//video_el_wrap.removeClass('ilNoDisplay');
 					il.MediaObjects.current_player_id = img_el.attr('id');
 					
-					il.MediaObjects.playerStarted(il.MediaObjects.current_player_id);
+					il.MediaObjects.playerStarted();
 				} else {
 					$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
 					o_el = $(t).find('object, iframe');
@@ -163,7 +163,9 @@ il.MediaObjects = {
 		}
 	},
 	
-	playerStarted: function (id) {
+	playerStarted: function () {
+		const id = il.MediaObjects.current_player_id;
+		console.log("PLAYER STARTED: " + il.MediaObjects.current_player_id);
 		var url;
 		if (typeof il.MediaObjects.player_config[id] != "undefined" &&
 			typeof il.MediaObjects.player_config[id]['play_event_sent'] == "undefined") {
@@ -171,6 +173,7 @@ il.MediaObjects = {
 			if (url != "") {
 				url = url + "&event=play&player=" + id;
 				il.MediaObjects.player_config[id]['play_event_sent'] = true;
+				console.log("SENDING START REQUEST");
 				il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 			}
 		}

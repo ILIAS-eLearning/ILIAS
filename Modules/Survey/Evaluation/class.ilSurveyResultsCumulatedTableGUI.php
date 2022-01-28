@@ -1,22 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, array $a_results)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        array $a_results
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
@@ -66,7 +72,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         $this->getItems($a_results);
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $lng = $this->lng;
         $cols["question"] = array(
@@ -104,8 +110,9 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         return $cols;
     }
     
-    protected function getItems(array $a_results)
-    {
+    protected function getItems(
+        array $a_results
+    ) : void {
         $data = array();
             
         foreach ($a_results as $question_res) {
@@ -152,87 +159,60 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return !in_array($a_field, array("question", "question_type"));
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("TITLE", $data['title']);
+        $this->tpl->setVariable("TITLE", $a_set['title']);
     
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'question') == 0) {
                 $this->tpl->setCurrentBlock('question');
-                $this->tpl->setVariable("QUESTION", $data['question']);
+                $this->tpl->setVariable("QUESTION", $a_set['question']);
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'question_type') == 0) {
                 $this->tpl->setCurrentBlock('question_type');
-                $this->tpl->setVariable("QUESTION_TYPE", trim($data['question_type']));
+                $this->tpl->setVariable("QUESTION_TYPE", trim($a_set['question_type']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'users_answered') == 0) {
                 $this->tpl->setCurrentBlock('users_answered');
-                $this->tpl->setVariable("USERS_ANSWERED", trim($data['users_answered']));
+                $this->tpl->setVariable("USERS_ANSWERED", trim($a_set['users_answered']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'users_skipped') == 0) {
                 $this->tpl->setCurrentBlock('users_skipped');
-                $this->tpl->setVariable("USERS_SKIPPED", trim($data['users_skipped']));
+                $this->tpl->setVariable("USERS_SKIPPED", trim($a_set['users_skipped']));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'mode') == 0) {
                 $this->tpl->setCurrentBlock('mode');
-                $this->tpl->setVariable("MODE", trim($data['mode']));
+                $this->tpl->setVariable("MODE", trim($a_set['mode']));
                 // : $this->lng->txt("survey_not_available")
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'mode_nr_of_selections') == 0) {
                 $this->tpl->setCurrentBlock('mode_nr_of_selections');
-                $this->tpl->setVariable("MODE_NR_OF_SELECTIONS", trim($data['mode_nr_of_selections']));
+                $this->tpl->setVariable("MODE_NR_OF_SELECTIONS", trim($a_set['mode_nr_of_selections']));
                 // : $this->lng->txt("survey_not_available")
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'median') == 0) {
                 $this->tpl->setCurrentBlock('median');
-                $this->tpl->setVariable("MEDIAN", trim($data['median']));
+                $this->tpl->setVariable("MEDIAN", trim($a_set['median']));
                 // : $this->lng->txt("survey_not_available")
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'arithmetic_mean') == 0) {
                 $this->tpl->setCurrentBlock('arithmetic_mean');
-                $this->tpl->setVariable("ARITHMETIC_MEAN", trim($data['arithmetic_mean']));
+                $this->tpl->setVariable("ARITHMETIC_MEAN", trim($a_set['arithmetic_mean']));
                 // : $this->lng->txt("survey_not_available");
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
-        /*
-        if($data["subitems"])
-        {
-            $this->tpl->setCurrentBlock("tbl_content");
-            $this->tpl->parseCurrentBlock();
-
-            foreach($data["subitems"] as $subitem)
-            {
-                $this->fillRow($subitem);
-
-                $this->tpl->setCurrentBlock("tbl_content");
-                $this->css_row = ($this->css_row != "tblrow1")
-                    ? "tblrow1"
-                    : "tblrow2";
-                $this->tpl->setVariable("CSS_ROW", $this->css_row);
-                $this->tpl->parseCurrentBlock();
-            }
-        }
-        */
     }
 }

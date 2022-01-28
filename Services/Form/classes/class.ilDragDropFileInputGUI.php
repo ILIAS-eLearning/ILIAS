@@ -135,8 +135,8 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         $val = $this->strArray($this->getPostVar());
         $val["extract"] = (bool) $val["extract"];
         $val["keep_structure"] = (bool) $val["keep_structure"];
-        $val["name"] = ilStr::normalizeUtf8String($val["name"]);
-        $val["title"] = ilStr::normalizeUtf8String($val["title"]);
+        $val["name"] = utf8_encode($val["name"]);
+        $val["title"] = utf8_encode($val["title"]);
         return $val;
     }
     

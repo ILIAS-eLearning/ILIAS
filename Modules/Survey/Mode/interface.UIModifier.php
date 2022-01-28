@@ -1,11 +1,21 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Mode;
 
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalService;
 
@@ -30,7 +40,7 @@ interface UIModifier
      */
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array;
 
     /**
@@ -38,7 +48,7 @@ interface UIModifier
      */
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array;
 
     public function setValuesFromForm(

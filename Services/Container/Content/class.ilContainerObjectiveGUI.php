@@ -156,7 +156,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $lng = $this->lng;
         
         $status = ilCourseObjectiveResultCache::getStatus($ilUser->getId(), $this->getContainerObject()->getId());
-        if ($status == IL_OBJECTIVE_STATUS_EMPTY) {
+        if ($status == ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_EMPTY) {
             return;
         }
         $info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html', true, true, 'Modules/Course');

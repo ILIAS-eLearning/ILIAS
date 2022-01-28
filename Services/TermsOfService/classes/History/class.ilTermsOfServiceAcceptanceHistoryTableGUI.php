@@ -41,7 +41,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setExternalSegmentation(true);
 
         iljQueryUtil::initjQuery($globalTemplate);
-        ilYuiUtil::initPanel($globalTemplate);
+        ilYuiUtil::initPanel(false, $globalTemplate);
         ilYuiUtil::initOverlay($globalTemplate);
         $globalTemplate->addJavaScript('./Services/Form/js/Form.js');
 
@@ -166,7 +166,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         return 'ts' === $a_field;
     }

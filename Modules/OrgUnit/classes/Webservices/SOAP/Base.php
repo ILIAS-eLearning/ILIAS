@@ -35,7 +35,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @inheritdoc
      */
-    public function getServiceStyle()
+    public function getServiceStyle() : string
     {
         return 'rpc';
     }
@@ -44,7 +44,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @inheritdoc
      */
-    public function getServiceUse()
+    public function getServiceUse() : string
     {
         return 'encoded';
     }
@@ -90,7 +90,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @inheritdoc
      */
-    public function getServiceNamespace()
+    public function getServiceNamespace() : string
     {
         return 'urn:' . ilOrgUnitSOAPServicesPlugin::PLUGIN_NAME;
     }
@@ -105,7 +105,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @inheritdoc
      */
-    final public function getInputParams()
+    final public function getInputParams() : array
     {
         return array_merge(
             array(

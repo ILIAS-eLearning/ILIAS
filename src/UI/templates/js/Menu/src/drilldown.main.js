@@ -1,13 +1,21 @@
-var drilldown = function(model, mapping) {
+var dd = function(model, mapping, persistence) {
 
 	var 
 	model = model,
 	mapping = mapping,
+	persistence = persistence,
+
 	init = function(id, back_signal) {
 		$(document).on(back_signal, upLevel);
 		var list = mapping.parse(id);
 		mapping.parseLevel(list, model.actions.addLevel, engageLevel);
-		engageLevel(0);
+
+		var level = persistence.read();
+		if(!level) {
+			level = 0;
+		}
+
+		engageLevel(level);
 	},
 	engageLevel = function(id) {
 		model.actions.engageLevel(id);
@@ -17,22 +25,19 @@ var drilldown = function(model, mapping) {
 		model.actions.upLevel();
 		apply();
 	},
-
 	apply = function() {
-		var current = model.actions.getCurrent(),
-			idx;
-		for(idx in model.data) {
-			mapping.unsetEngaged(model.data[idx].id);
-		}
+		var current = model.actions.getCurrent();
 		mapping.setEngaged(current.id);
+		persistence.store(current.id);
 		mapping.setHeaderTitle(current.label);
 		mapping.setHeaderBacknav(current.parent != null);
 	},
 
 	public_interface = {
-		init: init
+		init: init,
+		engage: engageLevel
     };
     return public_interface;
 };
 
-export default drilldown;
+export default dd;

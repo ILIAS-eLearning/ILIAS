@@ -168,7 +168,7 @@ abstract class assQuestionGUI
             false
         );
         
-        ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $this->ui->mainTemplate());
+        ilNoteGUI::initJavascript($notesUrl, ilNote::PUBLIC, $this->ui->mainTemplate());
         
         $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
         $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
@@ -1278,10 +1278,11 @@ abstract class assQuestionGUI
                 //$file->setSuffixes(array("doc","xls","png","jpg","gif","pdf"));
                 if ($_FILES["file"]["tmp_name"] && $file->checkInput()) {
                     if (!file_exists($this->object->getSuggestedSolutionPath())) {
-                        ilUtil::makeDirParents($this->object->getSuggestedSolutionPath());
+                        ilFileUtils::makeDirParents($this->object->getSuggestedSolutionPath());
                     }
                     
-                    $res = ilUtil::moveUploadedFile($_FILES["file"]["tmp_name"], $_FILES["file"]["name"], $this->object->getSuggestedSolutionPath() . $_FILES["file"]["name"]);
+                    $res = ilFileUtils::moveUploadedFile($_FILES["file"]["tmp_name"], $_FILES["file"]["name"],
+                        $this->object->getSuggestedSolutionPath() . $_FILES["file"]["name"]);
                     if ($res) {
                         ilUtil::renameExecutables($this->object->getSuggestedSolutionPath());
                         

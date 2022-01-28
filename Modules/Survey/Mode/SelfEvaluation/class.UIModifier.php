@@ -1,12 +1,22 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Mode\SelfEvaluation;
 
-use \ILIAS\Survey\Mode;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\Mode;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -14,27 +24,24 @@ use ILIAS\Survey\InternalUIService;
  */
 class UIModifier extends Mode\AbstractUIModifier
 {
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
 
         //check the names of these vars
         $evaluation_access = new \ilRadioGroupInputGUI($lng->txt('evaluation_access'), "self_eval_res");
-        $evaluation_access->setValue($survey->getSelfEvaluationResults());
+        $evaluation_access->setValue((string) $survey->getSelfEvaluationResults());
 
-        $option = new \ilRadioOption($lng->txt("svy_self_ev_access_results_none"), \ilObjSurvey::RESULTS_SELF_EVAL_NONE);
+        $option = new \ilRadioOption($lng->txt("svy_self_ev_access_results_none"), (string) \ilObjSurvey::RESULTS_SELF_EVAL_NONE);
         $evaluation_access->addOption($option);
 
-        $option = new \ilRadioOption($lng->txt("svy_self_ev_access_results_own"), \ilObjSurvey::RESULTS_SELF_EVAL_OWN);
+        $option = new \ilRadioOption($lng->txt("svy_self_ev_access_results_own"), (string) \ilObjSurvey::RESULTS_SELF_EVAL_OWN);
         $evaluation_access->addOption($option);
 
-        $option = new \ilRadioOption($lng->txt("svy_self_ev_access_results_all"), \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
+        $option = new \ilRadioOption($lng->txt("svy_self_ev_access_results_all"), (string) \ilObjSurvey::RESULTS_SELF_EVAL_ALL);
         $evaluation_access->addOption($option);
 
         $items[] = $evaluation_access;
@@ -42,9 +49,6 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form

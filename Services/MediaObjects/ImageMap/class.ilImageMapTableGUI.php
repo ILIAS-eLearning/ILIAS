@@ -100,7 +100,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->setData($areas);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $area = $a_set["area"];
         $i = $a_set["nr"];

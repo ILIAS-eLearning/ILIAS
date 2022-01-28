@@ -22,22 +22,22 @@ use ILIAS\Administration\AdminGUIRequest;
  */
 class ilAdministrationCommandGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilSetting $settings;
     protected ilErrorHandling $error;
     protected ilTree $tree;
     protected ilObjectDefinition$obj_definition;
     protected ?ilCtrl $ctrl = null;
     protected ?ilLanguage $lng = null;
-    private ?ilContainer $container = null;
+    private ilAdministrationCommandHandling $container;
     protected AdminGUIRequest $request;
 
-    public function __construct(ilContainer $a_container)
+    public function __construct(ilAdministrationCommandHandling $a_container)
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->settings = $DIC->settings();
         $this->error = $DIC["ilErr"];
         $this->tree = $DIC->repositoryTree();
@@ -55,7 +55,7 @@ class ilAdministrationCommandGUI
         );
     }
 
-    public function getContainer() : ilContainer
+    public function getContainer() : ilAdministrationCommandHandling
     {
         return $this->container;
     }

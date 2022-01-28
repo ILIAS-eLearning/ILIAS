@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Code;
 
@@ -11,59 +21,17 @@ namespace ILIAS\Survey\Code;
  */
 class Code
 {
-    /**
-     * @var string
-     */
-    protected $code = "";
+    protected string $code = "";
+    protected ?string $user_key = null;
+    protected string $email = "";
+    protected string $last_name = "";
+    protected string $first_name = "";
+    protected int $id = 0;
+    protected int $user_id = 0;
+    protected int $survey_id = 0;
+    protected int $tstamp = 0;
+    protected int $sent = 0;
 
-    /**
-     * @var string
-     */
-    protected $user_key = null;
-
-    /**
-     * @var string
-     */
-    protected $email = "";
-
-    /**
-     * @var string
-     */
-    protected $last_name = "";
-
-    /**
-     * @var string
-     */
-    protected $first_name = "";
-
-    /**
-     * @var int
-     */
-    protected $id = 0;
-
-    /**
-     * @var int
-     */
-    protected $user_id = 0;
-
-    /**
-     * @var int
-     */
-    protected $survey_id = 0;
-
-    /**
-     * @var int
-     */
-    protected $tstamp = 0;
-
-    /**
-     * @var int
-     */
-    protected $sent = 0;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         string $code
     ) {

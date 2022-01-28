@@ -130,8 +130,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $ilSetting = $this->settings;
         $ilUser = $this->user;
                 
-        $this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
-        $this->grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
+        $this->crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
+        $this->grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
                 
         $lng->loadLanguageModule("search");
         
@@ -263,7 +263,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

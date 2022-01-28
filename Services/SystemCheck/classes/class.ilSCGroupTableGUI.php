@@ -8,7 +8,6 @@
  */
 class ilSCGroupTableGUI extends ilTable2GUI
 {
-
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
         $this->setId('sc_groups');
@@ -17,7 +16,6 @@ class ilSCGroupTableGUI extends ilTable2GUI
 
     public function init() : void
     {
-
         $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
         $this->addColumn($this->lng->txt('last_update'), 'last_update_sort', '20%');
@@ -31,23 +29,23 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
-    protected function fillRow($row)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
+        $this->tpl->setVariable('VAL_TITLE', (string) ($a_set['title'] ?? ''));
 
-        $id = (int) ($row['id'] ?? 0);
+        $id = (int) ($a_set['id'] ?? 0);
         $this->ctrl->setParameter($this->getParentObject(), 'grp_id', $id);
         $this->tpl->setVariable(
             'VAL_LINK',
             $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
         );
 
-        $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? ''));
-        $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($row['last_update'] ?? ''));
-        $this->tpl->setVariable('VAL_COMPLETED', (int) ($row['completed'] ?? 0));
-        $this->tpl->setVariable('VAL_FAILED', (int) ($row['failed'] ?? 0));
+        $this->tpl->setVariable('VAL_DESC', (string) ($a_set['description'] ?? ''));
+        $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($a_set['last_update'] ?? ''));
+        $this->tpl->setVariable('VAL_COMPLETED', (int) ($a_set['completed'] ?? 0));
+        $this->tpl->setVariable('VAL_FAILED', (int) ($a_set['failed'] ?? 0));
 
-        switch ($row['status']) {
+        switch ($a_set['status']) {
             case ilSCTask::STATUS_COMPLETED:
                 $this->tpl->setVariable('STATUS_CLASS', 'smallgreen');
                 break;
@@ -79,22 +77,22 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $data = array();
 
         foreach (ilSCGroups::getInstance()->getGroups() as $group) {
-            $item       = array();
+            $item = array();
             $item['id'] = $group->getId();
 
             $task_gui = ilSCComponentTaskFactory::getComponentTaskGUIForGroup($group->getId());
 
-            $item['title']       = $task_gui->getGroupTitle();
+            $item['title'] = $task_gui->getGroupTitle();
             $item['description'] = $task_gui->getGroupDescription();
-            $item['status']      = $group->getStatus();
+            $item['status'] = $group->getStatus();
 
             $item['completed'] = ilSCTasks::lookupCompleted($group->getId());
-            $item['failed']    = ilSCTasks::lookupFailed($group->getId());
+            $item['failed'] = ilSCTasks::lookupFailed($group->getId());
 
-            $last_update              = ilSCTasks::lookupLastUpdate($group->getId());
-            $item['last_update']      = ilDatePresentation::formatDate($last_update);
+            $last_update = ilSCTasks::lookupLastUpdate($group->getId());
+            $item['last_update'] = ilDatePresentation::formatDate($last_update);
             $item['last_update_sort'] = $last_update->get(IL_CAL_UNIX);
-            $data[]                   = $item;
+            $data[] = $item;
         }
 
         $this->setData($data);

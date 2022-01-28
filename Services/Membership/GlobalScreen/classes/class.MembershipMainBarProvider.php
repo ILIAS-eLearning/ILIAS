@@ -6,7 +6,6 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
 /**
  * Main menu entry for derived tasks
- *
  * @author <killing@leifos.de>
  */
 class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
@@ -20,7 +19,6 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
         return [];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -30,16 +28,17 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosures::getInstance();
 
         $title = $this->dic->language()->txt("my_courses_groups");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_crgr.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_crgr.svg"),
+            $title);
 
         // derived tasks list
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_memberships'))
-            ->withTitle($title)
-            ->withPosition(40)
-            ->withSymbol($icon)
-            ->withAction($dic->ctrl()->getLinkTargetByClass(["ilMembershipOverviewGUI"], ""))
-            ->withParent(StandardTopItemsProvider::getInstance()->getRepositoryIdentification())
-            ->withVisibilityCallable($access_helper->isUserLoggedIn($access_helper->isUserLoggedIn($access_helper->isRepositoryReadable())));
+                                    ->withTitle($title)
+                                    ->withPosition(40)
+                                    ->withSymbol($icon)
+                                    ->withAction($dic->ctrl()->getLinkTargetByClass(["ilMembershipOverviewGUI"], ""))
+                                    ->withParent(StandardTopItemsProvider::getInstance()->getRepositoryIdentification())
+                                    ->withVisibilityCallable($access_helper->isUserLoggedIn($access_helper->isUserLoggedIn($access_helper->isRepositoryReadable())));
 
         return $entries;
     }

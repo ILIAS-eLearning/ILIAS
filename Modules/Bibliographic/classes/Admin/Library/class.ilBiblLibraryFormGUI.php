@@ -12,10 +12,7 @@
 class ilBiblLibraryFormGUI extends ilPropertyFormGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    /**
-     * @var \ilBiblLibraryInterface
-     */
-    protected $object;
+    protected \ilBiblLibraryInterface $object;
 
 
     /**
@@ -41,7 +38,7 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
      *
      * @access private
      */
-    private function initForm()
+    private function initForm(): void
     {
         $this->setFormAction($this->ctrl()->getFormActionByClass(ilBiblLibraryGUI::class));
         $name = new ilTextInputGUI($this->lng()->txt("bibl_library_name"), 'name');
@@ -71,18 +68,18 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
     }
 
 
-    private function fillForm()
+    private function fillForm(): void
     {
         $this->setValuesByArray(array(
             'name' => $this->object->getName(),
             'url' => $this->object->getUrl(),
             'img' => $this->object->getImg(),
-            'show_in_list' => $this->object->getShowInList(),
+            'show_in_list' => $this->object->isShownInList(),
         ));
     }
 
 
-    public function saveObject()
+    public function saveObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

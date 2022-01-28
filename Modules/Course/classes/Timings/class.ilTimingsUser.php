@@ -77,7 +77,6 @@ class ilTimingsUser
         }
         $this->item_ids = $GLOBALS['tree']->getSubTreeIds($this->getContainerRefId());
         
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         ilObjectActivation::preloadData($this->item_ids);
         
         $this->initialized = true;
@@ -92,14 +91,12 @@ class ilTimingsUser
     public function handleNewMembership($a_usr_id, ilDateTime $sub_date)
     {
         foreach ($this->getItemIds() as $item_ref_id) {
-            include_once './Services/Object/classes/class.ilObjectActivation.php';
             $item = ilObjectActivation::getItem($item_ref_id);
             
             if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                 continue;
             }
             
-            include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
             $user_item = new ilTimingUser($item['obj_id'], $a_usr_id);
             
             $user_start = clone $sub_date;

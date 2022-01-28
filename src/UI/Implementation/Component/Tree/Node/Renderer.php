@@ -35,7 +35,6 @@ class Renderer extends AbstractComponentRenderer
         $link = $component->getLink();
 
         if (null !== $link) {
-            $tpl->touchBlock("role_none");
             $linkAsString = $this->getRefinery()
                 ->uri()
                 ->toString()
@@ -91,7 +90,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("SUBNODES", $subnodes_html);
         }
 
-        if ($link === null || count($subnodes) != 0 || $async) {
+        if ($async || $link === null || count($subnodes) !== 0) {
             $tpl->touchBlock("role_item");
         } else {
             $tpl->touchBlock("role_none");

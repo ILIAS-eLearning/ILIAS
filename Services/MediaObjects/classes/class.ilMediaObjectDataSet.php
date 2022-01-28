@@ -324,7 +324,7 @@ class ilMediaObjectDataSet extends ilDataSet
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
                     $target_dir = $dir = ilObjMediaObject::_getDirectory($newObj->getId());
                     $this->mob_log->debug("s:-$source_dir-,t:-$target_dir-");
-                    ilUtil::rCopy($source_dir, $target_dir);
+                    ilFileUtils::rCopy($source_dir, $target_dir);
                     ilObjMediaObject::renameExecutables($target_dir);
                     ilMediaSvgSanitizer::sanitizeDir($target_dir);	// see #20339
                 }

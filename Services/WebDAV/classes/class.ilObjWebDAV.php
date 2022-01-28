@@ -1,146 +1,96 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
- * Class ilObjWebDAV
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  * @package WebDAV
  */
 class ilObjWebDAV extends ilObject
 {
-    /**
-     * Boolean property. Set this to true, to enable WebDAV access to files.
-     */
-    private $webdavEnabled;
-    /**
-     * Boolean property. Set this to true, to enable versioning for existing files uploaded with WebDAV.
-     * Set this to false, to overwrite existing file version on file upload
-     */
-    private $webdavVersioningEnabled;
-    /**
-     * Boolean property. Set this to true, to make WebDAV item actions visible for repository items.
-     */
-    private $webdavActionsVisible;
-    /**
-     * Boolean property. Set this to true, to use customized mount instructions.
-     * If the value is false, the default mount instructions are used.
-     */
-    private $customWebfolderInstructionsEnabled;
-    /**
-     * String property. Customized mount instructions for WebDAV access to files.
-     */
-    private $customWebfolderInstructions;
-
-
-    /**
-     * ilObjWebDAV constructor.
-     * @param int  $id
-     * @param bool $call_by_reference
-     */
-    public function __construct($id = 0, bool $call_by_reference = true)
+    private bool $webdavEnabled;
+    private bool $webdavVersioningEnabled;
+    private bool $webdavActionsVisible;
+    private bool $customWebfolderInstructionsEnabled;
+    private string $customWebfolderInstructions;
+    private bool $pwd_instruction;
+    
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         $this->type = "wbdv";
         parent::__construct($id, $call_by_reference);
     }
-
-    /**
-     * @inheritDoc
-     */
+    
     public function getPresentationTitle() : string
     {
         return $this->lng->txt("webdav");
     }
-
-    /**
-     * @inheritDoc
-     */
+    
     public function getLongDescription() : string
     {
         return $this->lng->txt("webdav_description");
     }
-
-
-    /**
-     * Sets the webdavEnabled property.
-     *
-     * @param boolean    new value
-     *
-     * @return    void
-     */
-    public function setWebdavEnabled($newValue)
+    
+    public function setWebdavEnabled(bool $newValue) : void
     {
         $this->webdavEnabled = $newValue;
     }
-
-    /**
-     * Gets the webdavEnabled property.
-     *
-     * @return    boolean    value
-     */
-    public function isWebdavEnabled()
+    
+    public function isWebdavEnabled() : bool
     {
         return $this->webdavEnabled;
     }
 
-    public function setWebdavVersioningEnabled($newValue)
+    public function setWebdavVersioningEnabled(bool $newValue) : void
     {
         $this->webdavVersioningEnabled = $newValue;
     }
 
-    public function isWebdavVersioningEnabled()
+    public function isWebdavVersioningEnabled() : bool
     {
         return $this->webdavVersioningEnabled;
     }
-
-    /**
-     * create
-     *
-     * note: title, description and type should be set when this function is called
-     *
-     * @return    integer        object id
-     */
-    public function create()
+    
+    public function create() : void
     {
         parent::create();
         $this->write();
     }
-
-
-    /**
-     * update object in db
-     *
-     * @return    boolean    true on success
-     */
-    public function update()
+    
+    public function update() : void
     {
         parent::update();
         $this->write();
     }
 
-    /**
-     * write object data into db
-     *
-     * @param boolean
-     */
-    private function write()
+    private function write() : void
     {
-        global $DIC;
         $settings = new ilSetting('webdav');
 
         $settings->set('webdav_enabled', $this->webdavEnabled ? '1' : '0');
         $settings->set('webdav_versioning_enabled', $this->webdavVersioningEnabled ? '1' : '0');
     }
-
-    /**
-     * read object data from db into object
-     */
-    public function read()
+    
+    public function read() : void
     {
         parent::read();
-
-        global $DIC;
+        
         $settings = new ilSetting('webdav');
         $this->webdavEnabled = $settings->get('webdav_enabled', '0') == '1';
         // default_value = 1 for versionigEnabled because it was already standard before ilias5.4
         $this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '1') == '1';
+    }
+    
+    public function retrieveWebDAVCommandArrayForActionMenu() : array
+    {
+        global $DIC;
+        $ilUser = $DIC->user();
+
+        $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
+        $cmd = 'mount_webfolder';
+        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd() === 0)) {
+            $cmd = 'showPasswordInstruction';
+        }
+        
+        // Check if user has local password
+        return ["permission" => "read", "cmd" => $cmd, "lang_var" => "mount_webfolder", "enable_anonymous" => "false"];
     }
 }

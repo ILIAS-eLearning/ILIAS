@@ -37,7 +37,7 @@ class ilMassMailDeliveryJob extends AbstractJob
             $contextId = $input[2]->getValue();
             $mail = $mail
                 ->withContextId((string) $contextId)
-                ->withContextParameters((array) unserialize($input[3]->getValue()));
+                ->withContextParameters((array) unserialize($input[3]->getValue(), ['allowed_classes' => false]));
 
             $recipients = $mailValueObject->getRecipients();
             $recipientsCC = $mailValueObject->getRecipientsCC();

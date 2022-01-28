@@ -25,49 +25,16 @@ use ILIAS\Survey\InternalRepoService;
  */
 class EvaluationManager
 {
-    /**
-     * @var int
-     */
-    protected $requested_appr_id;
+    protected EvaluationSessionRepo $eval_repo;
+    protected int $requested_appr_id;
+    protected InternalDomainService $domain_service;
+    protected \ilObjSurvey $survey;
+    protected int $user_id;
+    protected \ILIAS\Survey\Access\AccessManager $access;
+    protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
+    protected InternalRepoService $repo_service;
+    protected string $requested_rater_id;
 
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var \ILIAS\Survey\Access\AccessManager
-     */
-    protected $access;
-
-    /**
-     * @var \ILIAS\Survey\Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo_service;
-
-    /**
-     * @var string
-     */
-    protected $requested_rater_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalDomainService $domain_service,
         InternalRepoService $repo_service,
@@ -84,6 +51,7 @@ class EvaluationManager
         $this->user_id = $user_id;
         $this->requested_appr_id = $requested_appr_id;
         $this->requested_rater_id = $requested_rater_id;
+        $this->eval_repo = $this->repo_service->evaluation();
     }
 
     /**
@@ -129,7 +97,7 @@ class EvaluationManager
         } else {
             if ($feature_config->usesAppraisees() ||
                 $survey->getMode() == \ilObjSurvey::MODE_SELF_EVAL) {
-                $appraisee_ids[] = (int) $user_id;
+                $appraisee_ids[] = $user_id;
             }
         }
         return $appraisee_ids;
@@ -195,7 +163,6 @@ class EvaluationManager
     {
         $req_rater_id = $this->requested_rater_id;
 
-        // requested appraisee is valid -> return appraisee
         $valid = array_map(function ($i) {
             return $i["user_id"];
         }, $this->getSelectableRaters());
@@ -203,5 +170,20 @@ class EvaluationManager
             return $req_rater_id;
         }
         return "";
+    }
+
+    public function setAnonEvaluationAccess(int $ref_id) : void
+    {
+        $this->eval_repo->setAnonEvaluationAccess($ref_id);
+    }
+
+    public function getAnonEvaluationAccess() : int
+    {
+        return $this->eval_repo->getAnonEvaluationAccess();
+    }
+
+    public function clearAnonEvaluationAccess() : void
+    {
+        $this->eval_repo->clearAnonEvaluationAccess();
     }
 }

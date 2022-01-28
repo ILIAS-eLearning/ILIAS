@@ -157,7 +157,7 @@ class ilTinyMCE extends ilRTE
 
         if (
             ilObjAdvancedEditing::_getRichTextEditorUserState() !== 0 &&
-            strcmp((string) ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
+            strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
         ) {
             $tpl = new ilTemplate(
                 ($cfg_template ?? "tpl.tinymce.js"),
@@ -184,7 +184,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('SESSION_ID', $_COOKIE[session_name()]);
             $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
             $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
-            $tpl->setVariable('TXT_MAX_SIZE', ilUtil::getFileSizeInfo());
+            $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
             // allowed extentions for uploaded image files
             $tinyMCE_valid_imgs = ['gif', 'jpg', 'jpeg', 'png'];
             $tpl->setVariable(
@@ -263,7 +263,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('SESSION_ID', $_COOKIE[session_name()]);
         $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
         $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
-        $tpl->setVariable('TXT_MAX_SIZE', ilUtil::getFileSizeInfo());
+        $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
 
         $this->disableButtons('charmap');
         $buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
@@ -503,9 +503,8 @@ class ilTinyMCE extends ilRTE
             $theme_advanced_buttons[] = 'copy';
             $theme_advanced_buttons[] = 'paste';
             $theme_advanced_buttons[] = 'pastetext';
-        // Changed in elba2 branch, adopted change for 4.2.x due to manits bug #8147
+            // Changed in elba2 branch, adopted change for 4.2.x due to manits bug #8147
             //array_push($theme_advanced_buttons, 'pasteword');
-        } elseif ($a_buttons_section === 3) {
         }
 
         $remove_buttons = $this->getDisabledButtons();

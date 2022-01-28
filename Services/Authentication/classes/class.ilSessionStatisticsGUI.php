@@ -660,7 +660,7 @@ class ilSessionStatisticsGUI
                         }
                         // day label
                         if ($day != $old_day) {
-                            $labels[$date] = ilCalendarUtil::_numericDayToString($day, false);
+                            $labels[$date] = ilCalendarUtil::_numericDayToString((int) $day, false);
                             $old_day = $day;
                         }
                         break;
@@ -853,7 +853,7 @@ class ilSessionStatisticsGUI
                     case "slot_begin":
                         // split weekday and time slot again
                         if ($a_scale == self::SCALE_PERIODIC_WEEK) {
-                            $csv->addColumn(ilCalendarUtil::_numericDayToString(substr($value, 0, 1)));
+                            $csv->addColumn(ilCalendarUtil::_numericDayToString((int) substr($value, 0, 1)));
                             $value = substr($value, 1, 2) . ":" . substr($value, 3, 2);
                             break;
                         }

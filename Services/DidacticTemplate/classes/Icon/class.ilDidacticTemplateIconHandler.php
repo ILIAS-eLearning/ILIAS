@@ -89,7 +89,7 @@ class ilDidacticTemplateIconHandler
     public function getAbsolutePath() : string
     {
         if ($this->webDirectory->has(self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg')) {
-            return \ilUtil::getWebspaceDir() . '/' . self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg';
+            return ilFileUtils::getWebspaceDir() . '/' . self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg';
         }
         return '';
     }

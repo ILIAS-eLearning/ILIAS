@@ -34,7 +34,8 @@ class ilForumImporter extends ilXmlImporter implements ilForumObjectConstants
 
         $copaMap = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
         foreach ($copaMap as $oldCopaId => $newCopaId) {
-            $newCopaId = substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
+            $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
+
             ilForumPage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
         }
 

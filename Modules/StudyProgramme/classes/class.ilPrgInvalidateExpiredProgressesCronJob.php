@@ -15,7 +15,7 @@
      const ID = 'prg_invalidate_expired_progresses';
 
      protected ilStudyProgrammeProgressRepository $user_progress_db;
-     protected ilLog $log;
+     protected ilLogger $log;
      protected ilLanguage $lng;
 
      public function __construct()

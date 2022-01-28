@@ -1,14 +1,19 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
-* registration confirmation script for ilias
-*
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id:
-*/
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
-// jump to setup if ILIAS is not installed
 if (!file_exists(getcwd() . '/ilias.ini.php')) {
     header('Location: ./setup/setup.php');
     exit();
@@ -17,7 +22,7 @@ if (!file_exists(getcwd() . '/ilias.ini.php')) {
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-$ilCtrl->setCmd('confirmRegistration');
-$ilCtrl->callBaseClass('ilStartUpGUI');
-
-exit();
+/** @var \ILIAS\DI\Container $DIC */
+$DIC->ctrl()->setCmd('confirmRegistration');
+$DIC->ctrl()->callBaseClass();
+$DIC->http()->close();

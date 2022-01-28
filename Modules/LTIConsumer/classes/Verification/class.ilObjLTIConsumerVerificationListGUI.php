@@ -35,7 +35,7 @@ class ilObjLTIConsumerVerificationListGUI extends ilObjectListGUI
         
         return array(
             array("alert" => false, "property" => $DIC->language()->txt("type"),
-                "value" => $lng->txt("wsp_list_ltiv"))
+                "value" => $DIC->language()->txt("wsp_list_ltiv"))
         );
     }
 }

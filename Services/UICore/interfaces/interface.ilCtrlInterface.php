@@ -19,30 +19,38 @@ interface ilCtrlInterface
     /**
      * $_GET request parameter names, used throughout ilCtrl.
      */
-    public const PARAM_CSRF_TOKEN      = 'rtoken';
-    public const PARAM_CID_PATH        = 'cmdNode';
-    public const PARAM_REDIRECT        = 'redirectSource';
-    public const PARAM_BASE_CLASS      = 'baseClass';
-    public const PARAM_CMD_CLASS       = 'cmdClass';
-    public const PARAM_CMD_MODE        = 'cmdMode';
-    public const PARAM_CMD_FALLBACK    = 'fallbackCmd';
-    public const PARAM_CMD             = 'cmd';
+    public const PARAM_CSRF_TOKEN = 'rtoken';
+    public const PARAM_CID_PATH = 'cmdNode';
+    public const PARAM_REDIRECT = 'redirectSource';
+    public const PARAM_BASE_CLASS = 'baseClass';
+    public const PARAM_CMD_CLASS = 'cmdClass';
+    public const PARAM_CMD_MODE = 'cmdMode';
+    public const PARAM_CMD_FALLBACK = 'fallbackCmd';
+    public const PARAM_CMD = 'cmd';
+
+    /**
+     * @var string[] list of protected $_GET or $_POST parameters.
+     */
+    public const PROTECTED_PARAMETERS = [
+        self::PARAM_BASE_CLASS,
+        self::PARAM_CMD_CLASS,
+        self::PARAM_CID_PATH,
+        self::PARAM_CSRF_TOKEN,
+    ];
 
     /**
      * different modes used for UI plugins (or in dev-mode).
      */
     public const CMD_MODE_PROCESS = 'execComm';
-    public const CMD_MODE_ASYNC   = 'asynch';
-    public const CMD_MODE_HTML    = 'getHtml';
+    public const CMD_MODE_ASYNC = 'asynch';
+    public const CMD_MODE_HTML = 'getHtml';
 
     /**
      * Calls the currently provided baseclass.
-     *
      * If no baseclass is provided as an argument, the current GET
-     * request MUST contain @see ilCtrlInterface::PARAM_BASE_CLASS.
-     *
-     * @param string|null $a_base_class
+     * request MUST contain @param string|null $a_base_class
      * @throws ilCtrlException if no valid baseclass is provided.
+     * @see ilCtrlInterface::PARAM_BASE_CLASS.
      */
     public function callBaseClass(string $a_base_class = null) : void;
 

@@ -4,10 +4,8 @@
 
 /**
  * StudyProgramme Administration Settings.
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  * @author       Stefan Hecken <stefan.hecken@concepts-and-training.de>
- *
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
@@ -102,7 +100,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
     public function saveSettings()
     {
         $this->checkPermission("write");
-        
+
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             if ($this->save($form)) {
@@ -115,7 +113,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
                 $this->ctrl->redirect($this, "editSettings");
             }
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }
@@ -154,10 +152,10 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 
     public function _goto($ref_id) : void
     {
-        $this->ctrl->initBaseClass("ilAdministrationGUI");
+        $this->ctrl->setTargetScript('ilias.php');
         $this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "ref_id", $ref_id);
         $this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "admin_mode", "settings");
-        $this->ctrl->redirectByClass(array( "ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI" ), "view");
+        $this->ctrl->redirectByClass(array("ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI"), "view");
     }
 
     protected function save(ilPropertyFormGUI $form) : bool

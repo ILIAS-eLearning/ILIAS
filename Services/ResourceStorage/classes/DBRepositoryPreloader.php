@@ -7,6 +7,19 @@ use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class DBRepositoryPreloader
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -14,12 +27,12 @@ use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
  */
 class DBRepositoryPreloader extends StandardRepositoryPreloader implements RepositoryPreloader
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
 
-    protected $preloaded = [];
+    /**
+     * @var mixed[]
+     */
+    protected array $preloaded = [];
 
     public function __construct(
         \ilDBInterface $db,

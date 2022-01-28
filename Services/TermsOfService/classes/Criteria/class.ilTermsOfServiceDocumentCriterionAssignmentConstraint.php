@@ -23,10 +23,10 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
         $this->document = $document;
 
         parent::__construct(
-            function (ilTermsOfServiceDocumentCriterionAssignment $value) {
+            function (ilTermsOfServiceDocumentCriterionAssignment $value) : bool {
                 return 0 === count($this->filterEqualValues($value));
             },
-            function ($txt, $value) {
+            static function ($txt, $value) : string {
                 return 'The passed assignment must be unique for the document!';
             },
             $dataFactory,
@@ -45,7 +45,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
 
         return array_filter(
             $otherValues,
-            function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value) {
+            function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value) : bool {
                 $idCurrent = $otherValue->getId();
                 $idNew = $value->getId();
 

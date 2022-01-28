@@ -16,20 +16,9 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @var \ilBiblFieldFilterInterface[]
      */
-    protected $filter_objects = array();
-    /**
-     * @var array
-     */
-    protected $applied_filter = array();
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
-    /**
-     * @var \ilObjBibliographicGUI
-     */
-    protected $parent_obj;
-
+    protected array $filter_objects = array();
+    protected array $applied_filter = array();
+    protected \ilBiblFactoryFacade $facade;
 
     /**
      * ilBiblEntryTableGUI constructor.
@@ -62,7 +51,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    public function initFilter()
+    public function initFilter() : void
     {
         $available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
 
@@ -81,7 +70,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @param $field
      */
-    protected function addAndReadFilterItem(ilTableFilterItem $field)
+    protected function addAndReadFilterItem(ilTableFilterItem $field): void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -97,7 +86,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $ilBiblEntry = $this->facade->entryFactory()->findByIdAndTypeString($a_set['entry_id'], $a_set['entry_type']);
         //TODO instanciate presentation gui class
@@ -121,7 +110,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    protected function initData()
+    protected function initData(): void
     {
         $query = new ilBiblTableQueryInfo();
         /**

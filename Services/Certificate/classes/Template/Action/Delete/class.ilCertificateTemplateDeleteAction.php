@@ -83,7 +83,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
             $this->rootDirectory . $relativePath,
             $this->rootDirectory . $newFilePath,
             'JPEG',
-            (string) 100
+            "100"
         );
     }
 }

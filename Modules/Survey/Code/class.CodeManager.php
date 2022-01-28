@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Code;
 
@@ -15,34 +25,12 @@ use ILIAS\Survey\Access\AccessManager;
  */
 class CodeManager
 {
-    /**
-     * @var CodeDBRepo
-     */
-    protected $code_repo;
+    protected CodeDBRepo $code_repo;
+    protected InternalDataService $data;
+    protected int $survey_id;
+    protected AccessManager $access;
+    protected \ilLanguage $lng;
 
-    /**
-     * @var InternalDataService
-     */
-    protected $data;
-
-    /**
-     * @var int
-     */
-    protected $survey_id;
-
-    /**
-     * @var AccessManager
-     */
-    protected $access;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         CodeDBRepo $code_repo,
         InternalDataService $data,
@@ -54,25 +42,25 @@ class CodeManager
         $this->code_repo = $code_repo;
         $this->survey_id = $survey->getSurveyId();
         $this->access = $domain_service->access(
-            (int) $survey->getRefId(),
+            $survey->getRefId(),
             $user_id
         );
         $this->lng = $domain_service->lng();
     }
 
     /**
-     * Check permission
-     * @throws \ilObjectException
+     * @throws \ilPermissionException
      */
-    protected function checkPermission()
+    protected function checkPermission() : void
     {
         if (!$this->access->canManageCodes()) {
-            throw new \ilObjectException($this->lng->txt("permission_denied"));
+            throw new \ilPermissionException($this->lng->txt("permission_denied"));
         }
     }
 
     /**
      * Delete all codes of survey
+     * @throws \ilPermissionException
      */
     public function deleteAll() : void
     {
@@ -82,8 +70,8 @@ class CodeManager
     }
 
     /**
-     * Delete code
-     * @param string $code
+     * Delete single code
+     * @throws \ilPermissionException
      */
     public function delete(string $code) : void
     {
@@ -94,8 +82,6 @@ class CodeManager
 
     /**
      * Does code exist in survey?
-     * @param string $code
-     * @return bool
      */
     public function exists(string $code) : bool
     {
@@ -105,9 +91,6 @@ class CodeManager
 
     /**
      * Saves a survey access code for a registered user to the database
-     * @param Code $code
-     * @return int
-     * @throws \ilObjectException
      * @throws \ilSurveyException
      */
     public function add(
@@ -129,9 +112,10 @@ class CodeManager
 
     /**
      * Add multiple new codes
-     * @param int $nr
+     * @param int $nr number of codes that should be generated/added
      * @return int[]
      * @throws \ilSurveyException
+     * @throws \ilPermissionException
      */
     public function addCodes(int $nr) : array
     {
@@ -140,12 +124,8 @@ class CodeManager
     }
 
     /**
-     * @param int    $code_id
-     * @param string $email
-     * @param string $last_name
-     * @param string $first_name
-     * @param int    $sent
-     * @return bool
+     * Update external data of a code
+     * @throws \ilPermissionException
      */
     public function updateExternalData(
         int $code_id,
@@ -165,8 +145,9 @@ class CodeManager
     }
 
     /**
-     * Get all codes of a survey
+     * Get all access keys of a survey
      * @return string[]
+     * @throws \ilPermissionException
      */
     public function getAll() : array
     {
@@ -177,6 +158,7 @@ class CodeManager
     /**
      * Get all codes of a survey
      * @return Code[]
+     * @throws \ilPermissionException
      */
     public function getAllData() : array
     {
@@ -186,31 +168,31 @@ class CodeManager
 
     /**
      * Bind registered user to a code
-     * @param string $code
-     * @param int    $user_id
+     * @throws \ilPermissionException
      */
-    public function bindUser(string $code, int $user_id) : void
-    {
+    public function bindUser(
+        string $code,
+        int $user_id
+    ) : void {
         $this->checkPermission();
-
         if ($user_id == ANONYMOUS_USER_ID) {
             return;
         }
-
         $this->code_repo->bindUser($this->survey_id, $code, $user_id);
     }
 
     /**
-     * Get code for a registered user
-     * @param int $user_id
-     * @return string
+     * Get access key for a registered user
      */
-    public function getByUserId(int $user_id) : string
-    {
-        //$this->checkPermission();
+    public function getByUserId(
+        int $user_id
+    ) : string {
         return $this->code_repo->getByUserId($this->survey_id, $user_id);
     }
 
+    /**
+     * Get code object for an access key
+     */
     public function getByUserKey(string $user_key) : ?Code
     {
         return $this->code_repo->getByUserKey($this->survey_id, $user_key);

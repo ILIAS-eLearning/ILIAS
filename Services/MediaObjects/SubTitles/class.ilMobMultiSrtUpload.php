@@ -61,10 +61,10 @@ class ilMobMultiSrtUpload
         }
 
         $dir = $this->getMultiSrtUploadDir();
-        ilUtil::delDir($dir, true);
-        ilUtil::makeDirParents($dir);
-        ilUtil::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
-        ilUtil::unzip($dir . "/multi_srt.zip", true);
+        ilFileUtils::delDir($dir, true);
+        ilFileUtils::makeDirParents($dir);
+        ilFileUtils::moveUploadedFile($a_file["tmp_name"], "multi_srt.zip", $dir . "/" . "multi_srt.zip");
+        ilFileUtils::unzip($dir . "/multi_srt.zip", true);
     }
 
     /**
@@ -72,7 +72,7 @@ class ilMobMultiSrtUpload
      */
     public function clearMultiSrtDirectory() : void
     {
-        ilUtil::delDir($this->getMultiSrtUploadDir());
+        ilFileUtils::delDir($this->getMultiSrtUploadDir());
     }
 
     /**
@@ -85,7 +85,7 @@ class ilMobMultiSrtUpload
         $lang_codes = ilMDLanguageItem::_getPossibleLanguageCodes();
 
         $dir = $this->getMultiSrtUploadDir();
-        $files = ilUtil::getDir($dir);
+        $files = ilFileUtils::getDir($dir);
         foreach ($files as $k => $i) {
             // check directory
             if ($i["type"] == "file" && !in_array($k, array(".", ".."))) {

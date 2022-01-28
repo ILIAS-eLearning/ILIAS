@@ -1,24 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilSurveyResultsUserTableGUI extends ilTable2GUI
 {
-    private $is_anonymized;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $is_anonymized)
-    {
+    protected int $counter;
+
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->setId("svy_usr");
@@ -27,7 +32,6 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
-        $this->is_anonymized = $is_anonymized;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->counter = 1;
@@ -56,7 +60,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
     
-    protected function formatTime($timeinseconds)
+    protected function formatTime(?int $timeinseconds) : string
     {
         if (is_null($timeinseconds)) {
             return " ";
@@ -67,28 +71,21 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("USERNAME", $data['username']);
-        $this->tpl->setVariable("QUESTION", $data['question']);
+        $this->tpl->setVariable("USERNAME", $a_set['username']);
+        $this->tpl->setVariable("QUESTION", $a_set['question']);
         $results = array_map(function ($i) {
             return htmlentities($i);
-        }, $data["results"]);
+        }, $a_set["results"]);
         $this->tpl->setVariable("RESULTS", $results
             ? implode("<br />", $results)
             : ilObjSurvey::getSurveySkippedValue());
-        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
-        
-        if ($data["finished"] !== null) {
-            if ($data["finished"] !== false) {
-                $finished .= ilDatePresentation::formatDate(new ilDateTime($data["finished"], IL_CAL_UNIX));
+        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime']));
+        $finished = "";
+        if ($a_set["finished"] !== null) {
+            if ($a_set["finished"] !== false) {
+                $finished .= ilDatePresentation::formatDate(new ilDateTime($a_set["finished"], IL_CAL_UNIX));
             } else {
                 $finished = "-";
             }
@@ -97,11 +94,11 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
         
-        if ($data["subitems"]) {
+        if ($a_set["subitems"]) {
             $this->tpl->setCurrentBlock("tbl_content");
             $this->tpl->parseCurrentBlock();
             
-            foreach ($data["subitems"] as $subitem) {
+            foreach ($a_set["subitems"] as $subitem) {
                 $this->fillRow($subitem);
                 
                 $this->tpl->setCurrentBlock("tbl_content");

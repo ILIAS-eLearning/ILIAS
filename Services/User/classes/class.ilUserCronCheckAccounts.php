@@ -1,19 +1,25 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This cron send notifications about expiring user accounts
- *
  * @author  Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- * @package ServicesUser
  */
 class ilUserCronCheckAccounts extends ilCronJob
 {
-    protected $counter = 0; // [int]
+    protected int $counter = 0;
     
     public function getId() : string
     {
@@ -88,8 +94,6 @@ class ilUserCronCheckAccounts extends ilCronJob
         $sender = $senderFactory->system();
 
         while ($row = $ilDB->fetchObject($res)) {
-            include_once 'Services/Mail/classes/class.ilMimeMail.php';
-
             $data['expires'] = $row->time_limit_until;
             $data['email'] = $row->email;
             $data['login'] = $row->login;
@@ -104,7 +108,7 @@ class ilUserCronCheckAccounts extends ilCronJob
             $mail->To($data['email']);
             $mail->Subject($this->txt($data['language'], 'account_expires_subject'), true);
             $mail->Body($this->txt($data['language'], 'account_expires_body') . " " . strftime('%Y-%m-%d %R', $data['expires']));
-            $mail->send();
+            $mail->Send();
 
             // set status 'mail sent'
             $query = "UPDATE usr_data SET time_limit_message = '1' WHERE usr_id = '" . $data['usr_id'] . "'";
@@ -127,20 +131,21 @@ class ilUserCronCheckAccounts extends ilCronJob
     }
     
     // #13288 / #12345
-    protected function txt($language, $key, $module = 'common')
-    {
-        include_once 'Services/Language/classes/class.ilLanguage.php';
+    protected function txt(
+        string $language,
+        string $key,
+        string $module = 'common'
+    ) : string {
         return ilLanguage::_lookupEntry($language, $module, $key);
     }
     
-    protected function checkNotConfirmedUserAccounts()
+    protected function checkNotConfirmedUserAccounts() : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         
-        require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
         $oRegSettigs = new ilRegistrationSettings();
         
         $query = 'SELECT usr_id FROM usr_data '

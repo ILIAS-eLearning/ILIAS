@@ -29,6 +29,9 @@ var ddmodel = function() {
             data[level.id] = level;
             return level;
         },
+        /**
+         * @param  {String} id
+         */
         engageLevel : function(id) {
             for(var idx in data) {
                 data[idx].engaged = false;

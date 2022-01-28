@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use \ILIAS\Style\Content;
+
 /**
  * TableGUI class for style editor (image list)
  *
@@ -9,11 +11,6 @@
  */
 class ilStyleMediaQueryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
     /**
      * @var ilAccessHandler
      */
@@ -25,22 +22,29 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
     protected $rbacsystem;
 
     /**
+     * @var Content\Access\StyleAccessManager
+     */
+    protected $access_manager;
+
+    /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_style_obj)
-    {
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        $a_style_obj,
+        Content\Access\StyleAccessManager $access_manager
+    ) {
         global $DIC;
 
+        $this->access_manager = $access_manager;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $rbacsystem = $DIC->rbac()->system();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setTitle($lng->txt("sty_media_queries"));
@@ -58,7 +62,7 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
         $this->getItems();
 
         // action commands
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->addCommandButton("saveMediaQueryOrder", $lng->txt("sty_save_order"));
             $this->addMultiCommand("deleteMediaQueryConfirmation", $lng->txt("delete"));
         }
@@ -77,7 +81,7 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -88,7 +92,7 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
         $this->tpl->setVariable("MQID", $a_set["id"]);
         $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
 
-        if ($this->parent_obj->checkWrite()) {
+        if ($this->access_manager->checkWrite()) {
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $ilCtrl->setParameter($this->parent_obj, "mq_id", $a_set["id"]);
             $this->tpl->setVariable(

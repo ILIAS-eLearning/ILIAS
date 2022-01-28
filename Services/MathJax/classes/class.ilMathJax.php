@@ -145,7 +145,7 @@ class ilMathJax
         $this->use_curl = extension_loaded('cURL');
 
         // set the cache directory
-        $this->cache_dir = ilUtil::getWebspaceDir() . '/temp/tex';
+        $this->cache_dir = ilFileUtils::getWebspaceDir() . '/temp/tex';
     }
 
     /**
@@ -478,7 +478,7 @@ class ilMathJax
             // generate the image tag
             switch ($this->output) {
                 case 'png':
-                    list($width, $height) = getimagesize($file);
+                    [$width, $height] = getimagesize($file);
                     $width = round($width * $this->zoom_factor);
                     $height = round($height * $this->zoom_factor);
                     $mime = 'image/png';
@@ -585,7 +585,7 @@ class ilMathJax
         if (!is_dir($cache_dir)) {
             $size = 0;
         } else {
-            $size = ilUtil::dirsize($cache_dir);
+            $size = ilFileUtils::dirsize($cache_dir);
         }
 
         $type = array("k", "M", "G", "T");
@@ -604,6 +604,6 @@ class ilMathJax
      */
     public function clearCache()
     {
-        ilUtil::delDir($this->cache_dir);
+        ilFileUtils::delDir($this->cache_dir);
     }
 }

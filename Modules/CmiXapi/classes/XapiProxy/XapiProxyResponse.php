@@ -1,9 +1,22 @@
-<?php
+<?php declare(strict_types=1);
     namespace XapiProxy;
 
     use Psr\Http\Message\ServerRequestInterface;
     use Psr\Http\Message\ResponseInterface;
 
+    /******************************************************************************
+     *
+     * This file is part of ILIAS, a powerful learning management system.
+     *
+     * ILIAS is licensed with the GPL-3.0, you should have received a copy
+     * of said license along with the source code.
+     *
+     * If this is not the case or you just want to try ILIAS, you'll find
+     * us at:
+     *      https://www.ilias.de
+     *      https://github.com/ILIAS-eLearning
+     *
+     *****************************************************************************/
     class XapiProxyResponse
     {
         private $dic;
@@ -14,27 +27,29 @@
         {
             $this->dic = $GLOBALS['DIC'];
             $this->xapiproxy = $this->dic['xapiproxy'];
-            //$this->xapiProxyRequest = $this->xapiproxy->getXapiProxyRequest();
         }
 
         public function checkResponse($response, $endpoint)
         {
-            if ($response['state'] === 'fulfilled') {
+            if ($response['state'] == 'fulfilled') {
                 $status = $response['value']->getStatusCode();
                 if ($status === 200 || $status === 204 || $status === 404) {
                     return true;
                 } else {
-                    $this->xapiproxy->log()->error($this->msg("Could not get valid response status_code: " . $status . " from " . $endpoint));
+                    $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response['value']->getBody());
                     return false;
                 }
             } else {
-                $this->xapiproxy->log()->error($this->msg("Could not fulfill request to " . $endpoint));
+                try {
+                    $this->xapiproxy->log()->error("Connection error {$endpoint}: " . $response['reason']->getMessage());
+                } catch (\Exception $e) {
+                    $this->xapiproxy->log()->error("error {$endpoint}:" . $e->getMessage());
+                }
                 return false;
             }
-            return false;
         }
         
-        public function handleResponse($request, $response, $fakePostBody = null)
+        public function handleResponse($request, $response, $fakePostBody = null) : void
         {
             // check transfer encoding bug
             if ($fakePostBody !== null) {
@@ -59,7 +74,7 @@
             }
         }
 
-        public function fakeResponseBlocked($post = null)
+        public function fakeResponseBlocked($post = null) : void
         {
             $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
             if ($post === null) {
@@ -83,7 +98,7 @@
             }
         }
 
-        public function exitResponseError()
+        public function exitResponseError() : void
         {
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
@@ -93,7 +108,7 @@
             exit;
         }
         
-        public function exitProxyError()
+        public function exitProxyError() : void
         {
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
@@ -103,7 +118,7 @@
             exit;
         }
 
-        public function sendData($obj)
+        public function sendData($obj) : void
         {
             $this->xapiproxy->log()->debug($this->msg("senData: " . $obj));
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
@@ -116,7 +131,7 @@
             exit;
         }
 
-        public function emit($response)
+        public function emit($response) : void
         {
             $this->xapiproxy->log()->debug($this->msg('emitting response'));
             if (headers_sent()) {

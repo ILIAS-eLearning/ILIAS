@@ -5,39 +5,32 @@ use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\BaseMetaBarItemRenderer;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class AbstractBaseItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractBaseItem implements isItem
 {
     use ComponentDecoratorTrait;
-    /**
-     * @var BaseMetaBarItemRenderer
-     */
-    protected $renderer;
-    /**
-     * @var int
-     */
-    protected $position = 0;
-    /**
-     * @var
-     */
-    protected $available_callable = true;
-    /**
-     * @var IdentificationInterface
-     */
-    protected $provider_identification;
-    /**
-     * @var callable
-     */
-    protected $visiblility_callable;
-
-
+    
+    protected MetaBarItemRenderer $renderer;
+    protected int $position = 0;
+    protected ?\Closure $available_callable = null;
+    protected IdentificationInterface $provider_identification;
+    protected ?\Closure $visiblility_callable = null;
+    
     /**
      * AbstractBaseItem constructor.
-     *
      * @param IdentificationInterface $provider_identification
      */
     public function __construct(IdentificationInterface $provider_identification)
@@ -45,8 +38,7 @@ abstract class AbstractBaseItem implements isItem
         $this->provider_identification = $provider_identification;
         $this->renderer = new BaseMetaBarItemRenderer();
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -54,8 +46,7 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->renderer;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -63,8 +54,7 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->provider_identification;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -72,11 +62,10 @@ abstract class AbstractBaseItem implements isItem
     {
         $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -87,16 +76,15 @@ abstract class AbstractBaseItem implements isItem
         }
         if (is_callable($this->visiblility_callable)) {
             $callable = $this->visiblility_callable;
-
+            
             $value = $callable();
-
+            
             return $value;
         }
-
+        
         return true;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -104,11 +92,10 @@ abstract class AbstractBaseItem implements isItem
     {
         $clone = clone($this);
         $clone->available_callable = $is_available;
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -116,16 +103,15 @@ abstract class AbstractBaseItem implements isItem
     {
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
-
+            
             $value = $callable();
-
+            
             return $value;
         }
-
+        
         return true;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -133,8 +119,7 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->position;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -142,7 +127,7 @@ abstract class AbstractBaseItem implements isItem
     {
         $clone = clone($this);
         $clone->position = $position;
-
+        
         return $clone;
     }
 }

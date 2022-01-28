@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Execution;
 
@@ -11,49 +21,15 @@ namespace ILIAS\Survey\Execution;
  */
 class Run
 {
-    /**
-     * @var int
-     */
-    protected $id = "";
+    protected ?int $id = null;
+    protected int $survey_id = 0;
+    protected int $user_id = 0;
+    protected string $code = "";
+    protected bool $finished = false;
+    protected int $tstamp = 0;
+    protected int $lastpage = 0;
+    protected int $appraisee_id = 0;
 
-    /**
-     * @var int
-     */
-    protected $survey_id = 0;
-
-    /**
-     * @var int
-     */
-    protected $user_id = 0;
-
-    /**
-     * @var string
-     */
-    protected $code = "";
-
-    /**
-     * @var bool
-     */
-    protected $finished = false;
-
-    /**
-     * @var int
-     */
-    protected $tstamp = 0;
-
-    /**
-     * @var int
-     */
-    protected $lastpage = 0;
-
-    /**
-     * @var int
-     */
-    protected $appraisee_id = 0;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         int $survey_id,
         int $user_id

@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Execution;
 
@@ -11,7 +21,7 @@ use ILIAS\Survey\InternalDataService;
  * DB repo for survey run. Table svy_finished.
  * Please note that there are lots of accesses to svy_finished
  * in other classes.
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class RunDBRepository
 {
@@ -19,19 +29,9 @@ class RunDBRepository
     public const STARTED_NOT_FINISHED = 0;
     public const FINISHED = 1;
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
+    protected InternalDataService $data;
 
-    /**
-     * @var InternalDataService
-     */
-    protected $data;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalDataService $data,
         \ilDBInterface $db = null
@@ -47,12 +47,11 @@ class RunDBRepository
 
     /**
      * Get all finished surveys of a user
-     *
-     * @param int $user_id user id
      * @return int[] survey ids
      */
-    public function getFinishedSurveysOfUser(int $user_id) : array
-    {
+    public function getFinishedSurveysOfUser(
+        int $user_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -70,12 +69,11 @@ class RunDBRepository
 
     /**
      * Get all unfinished surveys of a user
-     *
-     * @param int $user_id user id
      * @return int[] survey ids
      */
-    public function getUnfinishedSurveysOfUser(int $user_id) : array
-    {
+    public function getUnfinishedSurveysOfUser(
+        int $user_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -91,14 +89,9 @@ class RunDBRepository
         return $items;
     }
 
-    /**
-     * Get finished appraisees for a rater
-     *
-     * @param int $rater_id
-     * @return array
-     */
-    public function getFinishedAppraiseesForRater(int $rater_id) : array
-    {
+    public function getFinishedAppraiseesForRater(
+        int $rater_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -117,15 +110,12 @@ class RunDBRepository
         return $appraisee;
     }
 
-    /**
-     * @param int    $survey_id
-     * @param int    $user_id
-     * @param string $code
-     * @param int    $appr_id
-     * @return int|null
-     */
-    public function getCurrentRunId(int $survey_id, int $user_id, string $code = "", int $appr_id = 0)
-    {
+    public function getCurrentRunId(
+        int $survey_id,
+        int $user_id,
+        string $code = "",
+        int $appr_id = 0
+    ) : ?int {
         $db = $this->db;
 
         if ($code != "") { // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
@@ -149,8 +139,9 @@ class RunDBRepository
         return null;
     }
 
-    public function getState(int $run_id) : int
-    {
+    public function getState(
+        int $run_id
+    ) : int {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -166,13 +157,13 @@ class RunDBRepository
     }
 
     /**
-     * @param int    $survey_id
-     * @param int    $user_id
-     * @param string $code
      * @return Run[]
      */
-    public function getRunsForUser(int $survey_id, int $user_id, string $code = "") : array
-    {
+    public function getRunsForUser(
+        int $survey_id,
+        int $user_id,
+        string $code = ""
+    ) : array {
         $db = $this->db;
 
         $sql = "SELECT * FROM svy_finished" .
@@ -206,8 +197,9 @@ class RunDBRepository
         return $runs;
     }
 
-    public function getById(int $run_id) : ?Run
-    {
+    public function getById(
+        int $run_id
+    ) : ?Run {
         $db = $this->db;
 
         $sql = "SELECT * FROM svy_finished" .
@@ -227,18 +219,18 @@ class RunDBRepository
 
 
     /**
-     * Add run
-     * @param int    $survey_id
-     * @param int    $user_id
-     * @param string $code
-     * @param int    $appraisee_id
+     * Add new run
      * @return int run id
      */
-    public function add(int $survey_id, int $user_id, string $code, int $appraisee_id = 0) : int
-    {
+    public function add(
+        int $survey_id,
+        int $user_id,
+        string $code,
+        int $appraisee_id = 0
+    ) : int {
         $db = $this->db;
 
-        $next_id = (int) $db->nextId('svy_finished');
+        $next_id = $db->nextId('svy_finished');
         $affectedRows = $db->manipulateF(
             "INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp, appr_id) " .
             "VALUES (%s, %s, %s, %s, %s, %s, %s)",
@@ -247,5 +239,29 @@ class RunDBRepository
         );
 
         return $next_id;
+    }
+
+    /**
+     * Add time record
+     */
+    public function addTime(int $run_id, int $time, int $first_question) : void
+    {
+        $db = $this->db;
+        $id = $db->nextId('svy_times');
+        $db->manipulateF(
+            "INSERT INTO svy_times (id, finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s,%s)",
+            array('integer','integer', 'integer', 'integer', 'integer'),
+            array($id, $run_id, $time, null, $first_question)
+        );
+    }
+
+    public function updateTime(int $run_id, int $time, int $entered_time) : void
+    {
+        $db = $this->db;
+        $db->manipulateF(
+            "UPDATE svy_times SET left_page = %s WHERE finished_fi = %s AND entered_page = %s",
+            array('integer', 'integer', 'integer'),
+            array($time, $run_id, $entered_time)
+        );
     }
 }

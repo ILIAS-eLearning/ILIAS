@@ -37,9 +37,9 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow($set) : void
+    protected function fillRow(array $a_set) : void
     {
-        list($ac, $title, $usr, $actions) = $set;
+        list($ac, $title, $usr, $actions) = $a_set;
 
         $this->tpl->setVariable("ID", $ac->getCategoryRefId());
         $this->tpl->setVariable("TITLE", $title);

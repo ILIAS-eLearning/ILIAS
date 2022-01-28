@@ -1,10 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSCourseMappingRule
@@ -12,22 +22,22 @@ class ilECSCourseMappingRule
     const SUBDIR_ATTRIBUTE_NAME = 1;
     const SUBDIR_VALUE = 2;
     
+    private ilLogger $logger;
+    private ilTree $tree;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
+    
     private $rid;
     private $sid;
     private $mid;
     private $attribute;
     private $ref_id;
-    private $is_filter = false;
+    private bool $is_filter = false;
     private $filter;
-    private $filter_elements = [];
-    private $create_subdir = true;
-    private $subdir_type = self::SUBDIR_VALUE;
-    private $directory = '';
-    
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
+    private array $filter_elements = [];
+    private bool $create_subdir = true;
+    private int $subdir_type = self::SUBDIR_VALUE;
+    private string $directory = '';
     
     /**
      * Constructor
@@ -35,7 +45,13 @@ class ilECSCourseMappingRule
      */
     public function __construct($a_rid = 0)
     {
-        $this->logger = $GLOBALS['DIC']->logger()->wsrv();
+        global $DIC;
+        
+        $this->logger = $DIC->logger()->wsrv();
+        $this->tree = $DIC->repositoryTree();
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
+        
         $this->rid = $a_rid;
         $this->read();
     }
@@ -91,7 +107,7 @@ class ilECSCourseMappingRule
         $checked_ref_ids = [];
         foreach ($ref_ids as $ref_id) {
             if (
-                $GLOBALS['DIC']->repositoryTree()->isInTree($ref_id)) {
+                $DIC->repositoryTree()->isInTree($ref_id)) {
                 $checked_ref_ids[] = $ref_id;
             }
         }
@@ -100,7 +116,6 @@ class ilECSCourseMappingRule
     
     /**
      * Get all rule of ref_id
-     * @global type $ilDB
      * @param type $a_sid
      * @param type $a_mid
      * @param type $a_ref_id
@@ -228,17 +243,12 @@ class ilECSCourseMappingRule
      */
     public function doMapping($course, $parent_ref)
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        
         if (!$this->isSubdirCreationEnabled()) {
             return array();
         }
-        include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
         $values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
         
-        $childs = $tree->getChildsByType($parent_ref, 'cat');
+        $childs = $this->tree->getChildsByType($parent_ref, 'cat');
         foreach ($values as $value) {
             $found = false;
             foreach ((array) $childs as $child) {
@@ -263,7 +273,6 @@ class ilECSCourseMappingRule
     protected function createCategory($a_title, $a_parent_ref)
     {
         // Create category
-        include_once './Modules/Category/classes/class.ilObjCategory.php';
         $cat = new ilObjCategory();
         $cat->setOwner(SYSTEM_USER_ID);
         $cat->setTitle($a_title);
@@ -271,11 +280,11 @@ class ilECSCourseMappingRule
         $cat->createReference();
         $cat->putInTree($a_parent_ref);
         $cat->setPermissions($a_parent_ref);
-        $cat->deleteTranslation($GLOBALS['DIC']['lng']->getDefaultLanguage());
+        $cat->deleteTranslation($this->lng->getDefaultLanguage());
         $cat->addTranslation(
             $a_title,
             $cat->getLongDescription(),
-            $GLOBALS['DIC']['lng']->getDefaultLanguage(),
+            $this->lng->getDefaultLanguage(),
             1
         );
         return $cat->getRefId();
@@ -290,7 +299,6 @@ class ilECSCourseMappingRule
     public function matches($course)
     {
         if ($this->isFilterEnabled()) {
-            include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
             $values = ilECSMappingUtils::getCourseValueByMappingAttribute($course, $this->getAttribute());
             $this->logger->dump($values);
             $index = 0;
@@ -313,7 +321,6 @@ class ilECSCourseMappingRule
     
     /**
      * Get rule instance by attribute
-     * @global type $ilDB
      * @param type $a_sid
      * @param type $a_mid
      * @param type $a_ref_id
@@ -446,67 +453,53 @@ class ilECSCourseMappingRule
     
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'DELETE from ecs_cmap_rule ' .
-                'WHERE rid = ' . $ilDB->quote($this->getRuleId(), 'integer');
-        $ilDB->manipulate($query);
+            'WHERE rid = ' . $this->db->quote($this->getRuleId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
     
     /**
      * Save a new rule
-     * @global type $ilDB
      * @return boolean
      */
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $this->setRuleId($ilDB->nextId('ecs_cmap_rule'));
+        $this->setRuleId($this->db->nextId('ecs_cmap_rule'));
         $query = 'INSERT INTO ecs_cmap_rule ' .
                 '(rid,sid,mid,attribute,ref_id,is_filter,filter,create_subdir,subdir_type,directory) ' .
                 'VALUES (' .
-                $ilDB->quote($this->getRuleId(), 'integer') . ', ' .
-                $ilDB->quote($this->getServerId(), 'integer') . ', ' .
-                $ilDB->quote($this->getMid(), 'integer') . ', ' .
-                $ilDB->quote($this->getAttribute(), 'text') . ', ' .
-                $ilDB->quote($this->getRefId(), 'integer') . ', ' .
-                $ilDB->quote($this->isFilterEnabled(), 'integer') . ', ' .
-                $ilDB->quote($this->getFilter(), 'text') . ', ' .
-                $ilDB->quote($this->isSubdirCreationEnabled(), 'integer') . ', ' .
-                $ilDB->quote($this->getSubDirectoryType(), 'integer') . ', ' .
-                $ilDB->quote($this->getDirectory(), 'text') . ' ' .
+                $this->db->quote($this->getRuleId(), 'integer') . ', ' .
+                $this->db->quote($this->getServerId(), 'integer') . ', ' .
+                $this->db->quote($this->getMid(), 'integer') . ', ' .
+                $this->db->quote($this->getAttribute(), 'text') . ', ' .
+                $this->db->quote($this->getRefId(), 'integer') . ', ' .
+                $this->db->quote($this->isFilterEnabled(), 'integer') . ', ' .
+                $this->db->quote($this->getFilter(), 'text') . ', ' .
+                $this->db->quote($this->isSubdirCreationEnabled(), 'integer') . ', ' .
+                $this->db->quote($this->getSubDirectoryType(), 'integer') . ', ' .
+                $this->db->quote($this->getDirectory(), 'text') . ' ' .
                 ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         return $this->getRuleId();
     }
     
     /**
      * Update mapping rule
-     * @global type $ilDB
      */
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = 'UPDATE ecs_cmap_rule ' . ' ' .
                 'SET ' .
-                'attribute = ' . $ilDB->quote($this->getAttribute(), 'text') . ', ' .
-                'ref_id = ' . $ilDB->quote($this->getRefId(), 'integer') . ', ' .
-                'is_filter = ' . $ilDB->quote($this->isFilterEnabled(), 'integer') . ', ' .
-                'filter = ' . $ilDB->quote($this->getFilter(), 'text') . ', ' .
-                'create_subdir = ' . $ilDB->quote($this->isSubdirCreationEnabled(), 'integer') . ', ' .
-                'subdir_type = ' . $ilDB->quote($this->getSubDirectoryType(), 'integer') . ', ' .
-                'directory = ' . $ilDB->quote($this->getDirectory(), 'text') . ' ' .
-                'WHERE rid = ' . $ilDB->quote($this->getRuleId(), 'integer');
-        $ilDB->manipulate($query);
+                'attribute = ' . $this->db->quote($this->getAttribute(), 'text') . ', ' .
+                'ref_id = ' . $this->db->quote($this->getRefId(), 'integer') . ', ' .
+                'is_filter = ' . $this->db->quote($this->isFilterEnabled(), 'integer') . ', ' .
+                'filter = ' . $this->db->quote($this->getFilter(), 'text') . ', ' .
+                'create_subdir = ' . $this->db->quote($this->isSubdirCreationEnabled(), 'integer') . ', ' .
+                'subdir_type = ' . $this->db->quote($this->getSubDirectoryType(), 'integer') . ', ' .
+                'directory = ' . $this->db->quote($this->getDirectory(), 'text') . ' ' .
+                'WHERE rid = ' . $this->db->quote($this->getRuleId(), 'integer');
+        $this->db->manipulate($query);
     }
 
     /**
@@ -514,16 +507,12 @@ class ilECSCourseMappingRule
      */
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->getRuleId()) {
             return true;
         }
         $query = 'SELECT * from ecs_cmap_rule ' . ' ' .
-                'WHERE rid = ' . $ilDB->quote($this->getRuleId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE rid = ' . $this->db->quote($this->getRuleId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setServerId($row->sid);
             $this->setMid($row->mid);
@@ -546,10 +535,10 @@ class ilECSCourseMappingRule
     {
         $filter = $this->getFilter();
         //$this->logger->debug('Original filter: ' . $filter);
-        
+
         $escaped_filter = str_replace('\,', '#:#', $filter);
         //$this->logger->debug('Escaped filter: ' . $escaped_filter);
-        
+
         $filter_elements = explode(',', $escaped_filter);
         foreach ((array) $filter_elements as $filter_element) {
             $replaced = str_replace('#:#', ',', $filter_element);

@@ -140,7 +140,6 @@ class ilObjCourseGrouping
 
         $tree = $DIC['tree'];
 
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         $condition_data = ilConditionHandler::_getPersistedConditionsOfTrigger($this->getType(), $this->getId());
         $conditions = array();
         foreach ($condition_data as $condition) {
@@ -158,7 +157,6 @@ class ilObjCourseGrouping
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 
         if ($this->getId() and $this->getType() === 'crsg') {
             $query = "DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
@@ -370,7 +368,6 @@ class ilObjCourseGrouping
 
     public function deassign($a_crs_ref_id, $a_course_id)
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 
 
         $condh = new ilConditionHandler();
@@ -452,7 +449,6 @@ class ilObjCourseGrouping
     // PRIVATE
     public function __addCondition($a_target_ref_id, $a_target_obj_id)
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 
         $tmp_condh = new ilConditionHandler();
         $tmp_condh->enableAutomaticValidation(false);
@@ -483,7 +479,6 @@ class ilObjCourseGrouping
 
         // DELETE CONDITIONS
         foreach ($groupings = ilObjCourseGrouping::_getGroupings($a_course_id) as $grouping_id) {
-            include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 
             $condh = new ilConditionHandler();
             $condh->deleteByObjId($grouping_id);
@@ -536,7 +531,6 @@ class ilObjCourseGrouping
 
         $tree = $DIC['tree'];
 
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 
         // get all grouping ids the course is assigned to
         foreach (ilConditionHandler::_getPersistedConditionsOfTarget($a_course_ref_id, $a_course_id, 'crs') as $condition) {
@@ -563,7 +557,7 @@ class ilObjCourseGrouping
         return self::$assignedObjects ? self::$assignedObjects : array();
     }
 
-    public static function _checkGroupingDependencies(&$container_obj, $a_user_id = null)
+    public static function _checkGroupingDependencies($container_obj, $a_user_id = null)
     {
         global $DIC;
 
@@ -571,7 +565,6 @@ class ilObjCourseGrouping
         $lng = $DIC['lng'];
         $tree = $DIC['tree'];
 
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         
         $user_id = is_null($a_user_id) ? $ilUser->getId() : $a_user_id;
         
@@ -608,7 +601,6 @@ class ilObjCourseGrouping
                             }
                     }
                     if ($container_obj->getType() == 'crs') {
-                        include_once('Modules/Course/classes/class.ilCourseParticipants.php');
                         $members = ilCourseParticipants::_getInstanceByObjId($condition['target_obj_id']);
                         if ($members->isGroupingMember($user_id, $condition['value'])) {
                             if (!$assigned_message) {
@@ -617,7 +609,6 @@ class ilObjCourseGrouping
                             }
                         }
                     } elseif ($container_obj->getType() == 'grp') {
-                        include_once('Modules/Group/classes/class.ilGroupParticipants.php');
                         $members = ilGroupParticipants::_getInstanceByObjId($condition['target_obj_id']);
                         if ($members->isGroupingMember($user_id, $condition['value'])) {
                             if (!$assigned_message) {
@@ -662,7 +653,6 @@ class ilObjCourseGrouping
         $ilAccess = $DIC['ilAccess'];
         $tree = $DIC['tree'];
 
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 
         $trigger_ids = array();
         foreach (ilConditionHandler::_getPersistedConditionsOfTarget(

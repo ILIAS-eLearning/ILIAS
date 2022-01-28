@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -6,7 +6,6 @@
 * Class ilObjSearchController
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
@@ -17,11 +16,13 @@
 
 class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 {
-    const TYPE_USER_SEARCH = -1;
+    public const TYPE_USER_SEARCH = -1;
     
-    public $ctrl = null;
-    public $ilias = null;
-    public $lng = null;
+    protected ilCtrl $ctrl;
+    protected ILIAS $ilias;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilRbacSystem $system;
 
     /**
     * Constructor
@@ -31,21 +32,16 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
-        $this->ilias = $ilias;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
+        $this->ctrl = $DIC->ctrl();
+        $this->ilias = $DIC['ilias'];
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->system = $DIC->rbac()->system();
     }
 
-    public function getLastClass()
+    public function getLastClass() : string
     {
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
-        if (ilSearchSettings::getInstance()->enabledLucene()) {
+                if (ilSearchSettings::getInstance()->enabledLucene()) {
             $default = 'illucenesearchgui';
         } else {
             $default = 'ilsearchgui';
@@ -56,23 +52,17 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         
         $this->setLastClass($default);
         
-        return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : $default;
+        return $_SESSION['search_last_class'] ?: $default;
     }
-    public function setLastClass($a_class)
+    public function setLastClass(string $a_class) : void
     {
         $_SESSION['search_last_class'] = $a_class;
     }
 
-    public function &executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        include_once 'Services/Search/classes/class.ilSearchSettings.php';
-
         // Check hacks
-        if (!$rbacsystem->checkAccess('search', ilSearchSettings::_getSearchSettingRefId())) {
+        if (!$this->system->checkAccess('search', ilSearchSettings::_getSearchSettingRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
         $forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
@@ -80,45 +70,35 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         switch ($forward_class) {
             case 'illucenesearchgui':
                 $this->setLastClass('illucenesearchgui');
-                include_once './Services/Search/classes/Lucene/class.ilLuceneSearchGUI.php';
-                $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
+                                $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
                 break;
                 
             case 'illuceneadvancedsearchgui':
                 $this->setLastClass('illuceneadvancedsearchgui');
-                include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php';
-                $this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
+                                $this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
                 break;
             
             case 'illuceneusersearchgui':
                 $this->setLastClass('illuceneusersearchgui');
-                include_once './Services/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php';
-                $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());
+                                $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());
                 break;
                 
             case 'iladvancedsearchgui':
                 // Remember last class
                 $this->setLastClass('iladvancedsearchgui');
-
-                include_once 'Services/Search/classes/class.ilAdvancedSearchGUI.php';
-
                 $this->ctrl->forwardCommand(new ilAdvancedSearchGUI());
                 break;
 
             case 'ilsearchgui':
                 // Remember last class
                 $this->setLastClass('ilsearchgui');
-
                 // no break
             default:
-                include_once 'Services/Search/classes/class.ilSearchGUI.php';
 
                 $search_gui = new ilSearchGUI();
                 $this->ctrl->forwardCommand($search_gui);
                 break;
         }
         $this->tpl->printToStdout();
-
-        return true;
     }
 }

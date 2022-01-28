@@ -10,6 +10,16 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class Link
  * Attention: This is not the same as the \ILIAS\UI\Component\Link\Link. Please
@@ -21,36 +31,24 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
-
-    /**
-     * @var bool
-     */
-    protected $is_external_action = false;
-    /**
-     * @var string
-     */
-    protected $action = '';
-    /**
-     * @var string
-     */
-    protected $alt_text = '';
-    /**
-     * @var string
-     */
-    protected $title = '';
-
+    
+    protected bool $is_external_action = false;
+    protected string $action = '';
+    protected string $alt_text = '';
+    protected string $title = '';
+    
     /**
      * @param string $title
      * @return Link
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -58,19 +56,15 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     {
         return $this->title;
     }
-
-    /**
-     * @param string $alt_text
-     * @return Link
-     */
-    public function withAltText(string $alt_text) : Link
+    
+    public function withAltText(string $alt_text) : self
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -78,19 +72,19 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     {
         return $this->alt_text;
     }
-
+    
     /**
      * @param string $action
      * @return Link
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return string
      */
@@ -98,19 +92,19 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     {
         return $this->action;
     }
-
+    
     /**
      * @param bool $is_external
      * @return Link
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->is_external_action = $is_external;
-
+        
         return $clone;
     }
-
+    
     /**
      * @return bool
      */
@@ -118,5 +112,4 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     {
         return $this->is_external_action;
     }
-
 }

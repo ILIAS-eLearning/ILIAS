@@ -119,11 +119,62 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
+        $GLOBALS["DIC"]["ilLogger"] = new class() extends ilLogger {
             public function __construct()
             {
             }
-            public function write($m, $l = ilLogLevel::INFO)
+            public function isHandling(int $a_level) : bool
+            {
+                return true;
+            }
+            public function log(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            {
+            }
+            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
+            {
+            }
+            public function debug(string $a_message, array $a_context = array()) : void
+            {
+            }
+            public function info(string $a_message) : void
+            {
+            }
+            public function notice(string $a_message) : void
+            {
+            }
+            public function warning(string $a_message) : void
+            {
+            }
+            public function error(string $a_message) : void
+            {
+            }
+            public function critical(string $a_message) : void
+            {
+            }
+            public function alert(string $a_message) : void
+            {
+            }
+            public function emergency(string $a_message) : void
+            {
+            }
+            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            {
+            }
+            public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
+            {
+            }
+            public function logStack(?int $a_level = null, string $a_message = '') : void
+            {
+            }
+            public function writeMemoryPeakUsage(int $a_level) : void
+            {
+            }
+        };
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLog {
+            public function __construct()
+            {
+            }
+            public function write(string $a_msg, $a_log_level = ilLogLevel::INFO) : void
             {
             }
             public function info($msg)
@@ -138,7 +189,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             public function debug($msg, $a = [])
             {
             }
-            public function dump($msg, $a = ilLogLevel::INFO)
+            public function dump($a_var, ?int $a_log_level = ilLogLevel::INFO) : void
             {
             }
         };
@@ -148,11 +199,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
             public static function getRootLogger()
             {
-                return $GLOBALS["DIC"]["ilLog"];
+                return $GLOBALS["DIC"]["ilLogger"];
             }
             public static function getLogger($a)
             {
-                return $GLOBALS["DIC"]["ilLog"];
+                return $GLOBALS["DIC"]["ilLogger"];
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
@@ -166,7 +217,15 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilAppEventHandler"] = null;
+        $GLOBALS["DIC"]["ilAppEventHandler"] = new class() extends ilAppEventHandler {
+            public function __construct()
+            {
+            }
+            public function raise($a_component, $a_event, $a_parameter = "") : void
+            {
+            }
+        };
+        $GLOBALS["DIC"]["ilObjDataCache"] = new ilObjectDataCache();
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["rbacadmin"] = new class() extends ilRbacAdmin {

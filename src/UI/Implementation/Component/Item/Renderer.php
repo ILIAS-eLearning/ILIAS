@@ -4,12 +4,14 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Button\Close;
+use ILIAS\UI\Implementation\Component\Image\Image;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
@@ -18,21 +20,23 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
         if ($component instanceof Notification) {
             return $this->renderNotification($component, $default_renderer);
-        } elseif ($component instanceof Component\Item\Group) {
+        } elseif ($component instanceof Group) {
             return $this->renderGroup($component, $default_renderer);
-        } elseif ($component instanceof Component\Item\Standard) {
+        } elseif ($component instanceof Standard) {
             return $this->renderStandard($component, $default_renderer);
+        } elseif ($component instanceof Shy) {
+            return $this->renderShy($component, $default_renderer);
         }
         return "";
     }
 
-    protected function renderGroup(Component\Item\Group $component, RendererInterface $default_renderer) : string
+    protected function renderGroup(Group $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.group.html", true, true);
         $title = $component->getTitle();
@@ -62,7 +66,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderStandard(Component\Item\Item $component, RendererInterface $default_renderer) : string
+    protected function renderStandard(Item $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.item_standard.html", true, true);
 
@@ -92,7 +96,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("LEAD_TEXT", $lead);
                 $tpl->parseCurrentBlock();
             }
-            if ($lead instanceof Component\Image\Image) {
+            if ($lead instanceof Image) {
                 if ($progress != null) {
                     $tpl->setCurrentBlock("lead_image_with_progress");
                     $tpl->touchBlock("item_with_lead_and_progress");
@@ -103,7 +107,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
             }
-            if ($lead instanceof Component\Symbol\Icon\Icon) {
+            if ($lead instanceof Icon) {
                 $tpl->setCurrentBlock("lead_icon");
                 $tpl->setVariable("LEAD_ICON", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
@@ -113,7 +117,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setCurrentBlock("lead_start");
                 $tpl->parseCurrentBlock();
             }
-            if ($progress != null && $lead instanceof Component\Symbol\Icon\Icon) {
+            if ($progress != null && $lead instanceof Icon) {
                 $tpl->setCurrentBlock("progress_end_with_lead_icon");
                 $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
                 $tpl->parseCurrentBlock();
@@ -135,6 +139,51 @@ class Renderer extends AbstractComponentRenderer
         $actions = $component->getActions();
         if ($actions !== null) {
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
+
+        return $tpl->get();
+    }
+
+    protected function renderShy(Shy $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.item_shy.html", true, true);
+
+        $this->renderTitle($component, $default_renderer, $tpl);
+        $this->renderDescription($component, $tpl);
+
+        if ($component->getProperties() !== []) {
+            foreach ($component->getProperties() as $name => $value) {
+                $name = htmlentities($name);
+                if ($value instanceof Button\Shy) {
+                    $value = $default_renderer->render($value);
+                } else {
+                    $value = htmlentities($value);
+                }
+                $tpl->setCurrentBlock("property_row");
+                $tpl->setVariable("PROP_NAME_A", $name);
+                $tpl->setVariable("PROP_VAL_A", $value);
+                $tpl->parseCurrentBlock();
+            }
+            $tpl->setCurrentBlock("properties");
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getLeadIcon() !== null) {
+            $tpl->setCurrentBlock("lead_icon");
+            $tpl->setVariable("LEAD_ICON", $default_renderer->render($component->getLeadIcon()));
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getClose() !== null) {
+            $tpl->setCurrentBlock("close");
+            $tpl->setVariable("CLOSE", $default_renderer->render($component->getClose()));
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getOnLoadCode() !== null) {
+            $tpl->setCurrentBlock("id");
+            $tpl->setVariable('ID', $this->bindJavaScript($component));
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
@@ -210,43 +259,39 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderTitle(
-        Component\Item\Item $component,
-        RendererInterface $default_renderer,
-        Template $tpl
-    ) : void {
+    protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl) : void
+    {
         $title = $component->getTitle();
-        if ($title instanceof Shy || $title instanceof Link) {
+        if ($title instanceof Button\Shy || $title instanceof Link) {
             $title = $default_renderer->render($title);
+        } else {
+            $title = htmlentities($title);
         }
         $tpl->setVariable("TITLE", $title);
     }
 
-    protected function renderDescription(
-        Component\Item\Item $component,
-        Template $tpl
-    ) : void {
+    protected function renderDescription(Item $component, Template $tpl) : void
+    {
         // description
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
-            $tpl->setVariable("DESC", $desc);
+            $tpl->setVariable("DESC", htmlentities($desc));
             $tpl->parseCurrentBlock();
         }
     }
 
-    protected function renderProperties(
-        Component\Item\Item $component,
-        RendererInterface $default_renderer,
-        Template $tpl
-    ) : void {
-        // properties
+    protected function renderProperties(Item $component, RendererInterface $default_renderer, Template $tpl) : void
+    {
         $props = $component->getProperties();
         if (count($props) > 0) {
             $cnt = 0;
             foreach ($props as $name => $value) {
-                if ($value instanceof Shy) {
+                $name = htmlentities($name);
+                if ($value instanceof Button\Shy) {
                     $value = $default_renderer->render($value);
+                } else {
+                    $value = htmlentities($value);
                 }
                 $cnt++;
                 if ($cnt % 2 == 1) {
@@ -282,9 +327,10 @@ class Renderer extends AbstractComponentRenderer
     protected function getComponentInterfaceName() : array
     {
         return [
-            Component\Item\Standard::class,
-            Component\Item\Group::class,
-            Component\Item\Notification::class
+            Standard::class,
+            Shy::class,
+            Group::class,
+            Notification::class
         ];
     }
 }

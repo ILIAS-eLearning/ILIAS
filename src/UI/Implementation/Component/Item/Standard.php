@@ -99,4 +99,22 @@ class Standard extends Item implements C\Item\Standard
     {
         return $this->chart;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function withActions(C\Dropdown\Standard $actions) : C\Item\Standard
+    {
+        $clone = clone $this;
+        $clone->actions = $actions;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getActions() : ?C\Dropdown\Standard
+    {
+        return $this->actions;
+    }
 }

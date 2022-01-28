@@ -174,11 +174,11 @@ class ilObjQuestionPool extends ilObject
 
         // delete export files
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
         $directory = $qpl_data_dir . "/qpl_" . $this->getId();
         if (is_dir($directory)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
     }
 
@@ -644,8 +644,8 @@ class ilObjQuestionPool extends ilObject
     public function createExportDirectory()
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
-        ilUtil::makeDir($qpl_data_dir);
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
+        ilFileUtils::makeDir($qpl_data_dir);
         if (!is_writable($qpl_data_dir)) {
             $this->ilias->raiseError("Questionpool Data Directory (" . $qpl_data_dir
                 . ") not writeable.", $this->ilias->error_obj->FATAL);
@@ -653,16 +653,16 @@ class ilObjQuestionPool extends ilObject
         
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $qpl_dir = $qpl_data_dir . "/qpl_" . $this->getId();
-        ilUtil::makeDir($qpl_dir);
+        ilFileUtils::makeDir($qpl_dir);
         if (!@is_dir($qpl_dir)) {
             $this->ilias->raiseError("Creation of Questionpool Directory failed.", $this->ilias->error_obj->FATAL);
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-        ilUtil::makeDir($this->getExportDirectory('xls'));
+        ilFileUtils::makeDir($this->getExportDirectory('xls'));
         if (!@is_dir($this->getExportDirectory('xls'))) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->FATAL);
         }
-        ilUtil::makeDir($this->getExportDirectory('zip'));
+        ilFileUtils::makeDir($this->getExportDirectory('zip'));
         if (!@is_dir($this->getExportDirectory('zip'))) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->FATAL);
         }
@@ -681,10 +681,10 @@ class ilObjQuestionPool extends ilObject
                 break;
             case 'xls':
             case 'zip':
-                $export_dir = ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export_$type";
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export_$type";
                 break;
             default:
-                $export_dir = ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export";
+                $export_dir = ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $this->getId() . "/export";
                 break;
         }
         return $export_dir;
@@ -701,8 +701,8 @@ class ilObjQuestionPool extends ilObject
         $ilias = $DIC['ilias'];
         
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $qpl_data_dir = ilUtil::getDataDir() . "/qpl_data";
-        ilUtil::makeDir($qpl_data_dir);
+        $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
+        ilFileUtils::makeDir($qpl_data_dir);
         
         if (!is_writable($qpl_data_dir)) {
             $ilias->raiseError("Questionpool Data Directory (" . $qpl_data_dir
@@ -711,7 +711,7 @@ class ilObjQuestionPool extends ilObject
 
         // create questionpool directory (data_dir/qpl_data/qpl_import)
         $qpl_dir = $qpl_data_dir . "/qpl_import";
-        ilUtil::makeDir($qpl_dir);
+        ilFileUtils::makeDir($qpl_dir);
         if (!@is_dir($qpl_dir)) {
             $ilias->raiseError("Creation of Questionpool Directory failed.", $ilias->error_obj->FATAL);
         }
@@ -1024,7 +1024,7 @@ class ilObjQuestionPool extends ilObject
                             $target_path = CLIENT_WEB_DIR . "/assessment/" . $this->getId() . "/";
                             if (!@is_dir($target_path)) {
                                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                                ilUtil::makeDirParents($target_path);
+                                ilFileUtils::makeDirParents($target_path);
                             }
                             rename($source_path, $target_path . $question_object["question_id"]);
                         }

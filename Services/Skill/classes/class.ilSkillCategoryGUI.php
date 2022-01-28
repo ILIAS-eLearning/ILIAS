@@ -17,12 +17,14 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill category GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 {
@@ -32,7 +34,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     protected ilLanguage $lng;
     protected ilHelpGUI $help;
 
-    public function __construct(int $a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
 
@@ -45,7 +47,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->saveParameter($this, "node_id");
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     public function getType() : string
@@ -103,10 +105,10 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ilCtrl->setParameterByClass(
             "ilskillrootgui",
             "node_id",
-            $this->node_object->getSkillTree()->getRootId()
+            $this->skill_tree_node_manager->getRootId()
         );
         $ilTabs->setBackTarget(
-            $lng->txt("obj_skmg"),
+            $lng->txt("skmg_skills"),
             $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills")
         );
         $ilCtrl->setParameterByClass(
@@ -170,7 +172,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->form->addItem($cb);
 
         // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("save", $lng->txt("save"));
                 $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
@@ -178,6 +180,10 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             } else {
                 $this->form->addCommandButton("update", $lng->txt("save"));
                 $this->form->setTitle($lng->txt("skmg_edit_scat"));
+            }
+        } else {
+            foreach ($this->form->getItems() as $item) {
+                $item->setDisabled(true);
             }
         }
         
@@ -187,20 +193,17 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
     public function saveItem() : void
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
-
-        $tree = new ilSkillTree();
 
         $it = new ilSkillCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($tree->getMaxOrderNr($this->requested_node_id) + 10);
         $it->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $it->setStatus($this->form->getInput("status"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
     }
 
     /**
@@ -218,7 +221,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
     public function updateItem() : void
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -238,7 +241,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         }
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             self::addCreationButtons();
         }
         $this->setTabs("content");
@@ -338,13 +341,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $lng->txt("skmg_import_skills"),
             $ilCtrl->getLinkTargetByClass("ilskillrootgui", "showImportForm")
         );
-    }
-
-    public function cancel() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
     }
     
     /**

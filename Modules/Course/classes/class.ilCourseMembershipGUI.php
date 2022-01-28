@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 
 /**
  * Member-tab content
@@ -18,9 +17,9 @@ include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
     /**
-     * @return ilAbstractMailMemberRoles
+     * @return ilAbstractMailMemberRoles|null
      */
-    protected function getMailMemberRoles()
+    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberCourseRoles();
     }
@@ -30,7 +29,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($a_user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
     {
         return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -173,17 +172,17 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             }
             switch ($a_type) {
                 case $this->getParentObject()->getDefaultMemberRole():
-                    $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                     break;
                 case $this->getParentObject()->getDefaultTutorRole():
-                    $this->getMembersObject()->add($user_id, IL_CRS_TUTOR);
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_TUTOR);
                     break;
                 case $this->getParentObject()->getDefaultAdminRole():
-                    $this->getMembersObject()->add($user_id, IL_CRS_ADMIN);
+                    $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_ADMIN);
                     break;
                 default:
                     if (in_array($a_type, $this->getParentObject()->getLocalCourseRoles(true))) {
-                        $this->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                        $this->getMembersObject()->add($user_id, ilParticipants::IL_CRS_MEMBER);
                         $this->getMembersObject()->updateRoleAssignments($user_id, (array) $a_type);
                     } else {
                         ilLoggerFactory::getLogger('crs')->notice('Can\'t find role with id .' . $a_type . ' to assign users.');
@@ -232,9 +231,9 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             
             if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
                 // remove blocked
-                $this->getMembersObject()->updateBlocked($member_id, 0);
-                $this->getMembersObject()->updateNotification($member_id, in_array($member_id, $notification));
-                $this->getMembersObject()->updateContact($member_id, in_array($member_id, $contact));
+                $this->getMembersObject()->updateBlocked($member_id, false);
+                $this->getMembersObject()->updateNotification($member_id, in_array($member_id, (bool) $notification));
+                $this->getMembersObject()->updateContact($member_id, in_array($member_id, (bool) $contact));
             } else {
                 // send notifications => unblocked
                 if ($this->getMembersObject()->isBlocked($member_id) && !in_array($member_id, $blocked)) {
@@ -263,23 +262,19 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function initParticipantTableGUI()
     {
-        include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
         ;
         if ($show_tracking) {
-            include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
 
-        include_once('./Services/Object/classes/class.ilObjectActivation.php');
         $timings_enabled =
-            (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == IL_CRS_VIEW_TIMING))
+            (ilObjectActivation::hasTimings($this->getParentObject()->getRefId()) && ($this->getParentObject()->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING))
         ;
         
         
-        include_once './Modules/Course/classes/class.ilCourseParticipantsTableGUI.php';
         return new ilCourseParticipantsTableGUI(
             $this,
             $this->getParentObject(),
@@ -296,7 +291,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function initEditParticipantTableGUI(array $participants)
     {
-        include_once './Modules/Course/classes/class.ilCourseEditParticipantsTableGUI.php';
         $table = new ilCourseEditParticipantsTableGUI($this, $this->getParentObject());
         $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_header_edit_members'));
         $table->setData($this->getParentGUI()->readMemberData($participants));
@@ -334,15 +328,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function initWaitingList()
     {
-        include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
         $wait = new ilCourseWaitingList($this->getParentObject()->getId());
         return $wait;
     }
 
-    /**
-     * @return int
-     */
-    protected function getDefaultRole()
+    protected function getDefaultRole() : ?int
     {
         return $this->getParentGUI()->object->getDefaultMemberRole();
     }
@@ -370,25 +360,20 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $lng->loadLanguageModule('trac');
 
         $is_admin = true;
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::getInstance();
 
         if ($privacy->enabledCourseAccessTimes()) {
-            include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
             $progress = ilLearningProgress::_lookupProgressByObjId($this->getParentObject()->getId());
         }
 
-        include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
         if ($show_tracking) {
-            include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
         }
         
         if ($show_tracking) {
-            include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
             $completed = ilLPStatusWrapper::_lookupCompletedForObject($this->getParentObject()->getId());
             $in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->getParentObject()->getId());
             $failed = ilLPStatusWrapper::_lookupFailedForObject($this->getParentObject()->getId());
@@ -397,7 +382,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $profile_data = ilObjUser::_readUsersProfileData($a_members);
 
         // course defined fields
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         $cdfs = ilCourseUserData::_getValuesByObjId($this->getParentObject()->getId());
 
         $print_member = [];
@@ -405,7 +389,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             // GET USER OBJ
             if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id, false)) {
                 // udf
-                include_once './Services/User/classes/class.ilUserDefinedData.php';
                 $udf_data = new ilUserDefinedData($member_id);
                 foreach ($udf_data->getAll() as $field => $value) {
                     list($f, $field_id) = explode('_', $field);

@@ -27,13 +27,20 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Menu\Drilldown) {
             $ui_factory = $this->getUIFactory();
             $back_signal = $component->getBacklinkSignal();
+            $persistence_id = $component->getPersistenceId();
             $glyph = $ui_factory->symbol()->glyph()->collapsehorizontal();
             $btn = $ui_factory->button()->bulky($glyph, '', '#')->withOnClick($back_signal);
             $back_button_html = $default_renderer->render($btn);
 
             $component = $component->withAdditionalOnLoadCode(
-                function ($id) use ($back_signal) {
-                    return "il.UI.menu.drilldown.init('$id', '$back_signal');";
+                function ($id) use ($back_signal, $persistence_id) {
+                    $params = "'$id', '$back_signal'";
+                    if (is_null($persistence_id)) {
+                        $params .= ", null";
+                    } else {
+                        $params .= ", '$persistence_id'";
+                    }
+                    return "il.UI.menu.drilldown.init($params);";
                 }
             );
             $id = $this->bindJavaScript($component);

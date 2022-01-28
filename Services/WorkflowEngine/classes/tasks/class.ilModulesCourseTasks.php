@@ -163,7 +163,7 @@ class ilModulesCourseTasks
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         foreach ($input_params['usrIdList'] as $user_id) {
-            $participants->add($user_id, IL_CRS_MEMBER);
+            $participants->add($user_id, ilParticipants::IL_CRS_MEMBER);
         }
 
         return;
@@ -192,7 +192,7 @@ class ilModulesCourseTasks
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         foreach ($input_params['usrIdList'] as $user_id) {
-            $participants->add($user_id, IL_CRS_TUTOR);
+            $participants->add($user_id, ilParticipants::IL_CRS_TUTOR);
         }
         return;
     }
@@ -220,7 +220,7 @@ class ilModulesCourseTasks
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         foreach ($input_params['usrIdList'] as $user_id) {
-            $participants->add($user_id, IL_CRS_ADMIN);
+            $participants->add($user_id, ilParticipants::IL_CRS_ADMIN);
         }
         return;
     }

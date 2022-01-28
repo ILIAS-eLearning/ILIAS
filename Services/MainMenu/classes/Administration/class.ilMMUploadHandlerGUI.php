@@ -7,27 +7,17 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult as HandlerResultInterface;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\UI\Component\Input\Field\HandlerResult;
 
 /**
  * Class ilMMUploadHandlerGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy ilMMUploadHandlerGUI: ilObjMainMenuGUI
  */
 class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
 
-    /**
-     * @var Services
-     */
-    private $storage;
-    /**
-     * @var ilMMStorageStakeholder
-     */
-    private $stakeholder;
-
+    private Services $storage;
+    private ilMMStorageStakeholder $stakeholder;
 
     /**
      * ilUIDemoFileUploadHandlerGUI constructor.
@@ -36,10 +26,9 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         global $DIC;
         parent::__construct();
-        $this->storage = $DIC['resource_storage'];
+        $this->storage     = $DIC['resource_storage'];
         $this->stakeholder = new ilMMStorageStakeholder();
     }
-
 
     /**
      * @inheritDoc
@@ -50,22 +39,21 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         /**
          * @var $result UploadResult
          */
-        $array = $this->upload->getResults();
+        $array  = $this->upload->getResults();
         $result = end($array);
         if ($result instanceof UploadResult && $result->isOK()) {
-            $i = $this->storage->manage()->upload($result, $this->stakeholder);
-            $status = HandlerResultInterface::STATUS_OK;
+            $i          = $this->storage->manage()->upload($result, $this->stakeholder);
+            $status     = HandlerResultInterface::STATUS_OK;
             $identifier = $i->serialize();
-            $message = 'Upload ok';
+            $message    = 'Upload ok';
         } else {
-            $status = HandlerResultInterface::STATUS_FAILED;
+            $status     = HandlerResultInterface::STATUS_FAILED;
             $identifier = '';
-            $message = $result->getStatus()->getMessage();
+            $message    = $result->getStatus()->getMessage();
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
-
 
     protected function getRemoveResult(string $identifier) : HandlerResultInterface
     {
@@ -90,7 +78,6 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
         return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $r->getTitle(), $r->getSize(), $r->getMimeType());
     }
-
 
     public function getInfoForExistingFiles(array $file_ids) : array
     {

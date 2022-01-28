@@ -24,16 +24,12 @@
  */
 class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilObjUser $user;
     protected ilWorkspaceTree $ws_tree;
     protected ilWorkspaceAccessHandler $ws_access;
-    protected int $top_skill_id;
-    protected int $tref_id;
-    protected int $basic_skill_id;
+    protected int $top_skill_id = 0;
+    protected int $tref_id = 0;
+    protected int $basic_skill_id = 0;
     protected ilSkillTreeNode $skill;
 
     public function __construct(
@@ -51,7 +47,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $ilUser = $DIC->user();
 
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
-        if (!$this->ws_tree->getRootId()) {
+        if (!$this->ws_tree->readRootId()) {
             $this->ws_tree->createTreeForUser($ilUser->getId());
         }
         $this->ws_access = new ilWorkspaceAccessHandler();
@@ -62,15 +58,10 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 
 
         // build title
-        $stree = new ilSkillTree();
-        $path = $stree->getPathFull($this->basic_skill_id);
-        $title = $sep = "";
-        foreach ($path as $p) {
-            if ($p["type"] != "skrt") {
-                $title .= $sep . $p["title"];
-                $sep = " > ";
-            }
-        }
+        $tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $tree_id = $tree_repo->getTreeIdForNodeId($this->basic_skill_id);
+        $node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
+        $title = $node_manager->getWrittenPath($this->basic_skill_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getLevels());
@@ -103,7 +94,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

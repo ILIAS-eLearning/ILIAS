@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Object/classes/class.ilObjectLP.php";
 
 /**
  * Course to lp connector
@@ -59,8 +58,7 @@ class ilCourseLP extends ilObjectLP
     
     protected function checkObjectives()
     {
-        include_once "Modules/Course/classes/class.ilObjCourse.php";
-        if (ilObjCourse::_lookupViewMode($this->obj_id) == IL_CRS_VIEW_OBJECTIVE) {
+        if (ilObjCourse::_lookupViewMode($this->obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
             return true;
         }
         return false;
@@ -73,7 +71,6 @@ class ilCourseLP extends ilObjectLP
         $lng = $DIC['lng'];
     
         // #9004
-        include_once("./Modules/Course/classes/class.ilObjCourse.php");
         $crs = new ilObjCourse($this->obj_id, false);
         if ($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
             return $lng->txt("crs_status_determination_lp_info");
@@ -82,7 +79,6 @@ class ilCourseLP extends ilObjectLP
     
     public function getMembers($a_search = true)
     {
-        include_once "Modules/Course/classes/class.ilCourseParticipants.php";
         $member_obj = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
         return $member_obj->getMembers();
     }
@@ -119,7 +115,6 @@ class ilCourseLP extends ilObjectLP
     
     public function getMailTemplateId()
     {
-        include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
         return ilCourseMailTemplateTutorContext::ID;
     }
 }

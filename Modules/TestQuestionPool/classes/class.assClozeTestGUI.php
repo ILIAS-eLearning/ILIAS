@@ -1558,10 +1558,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $questionIndex
         );
 
-        $table->setTitle(sprintf(
-            $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
-            $DIC->language()->txt('gap') . ' ' . ($questionIndex + 1)
-        ));
+        $table->setTitle(
+            sprintf(
+                $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+                $DIC->language()->txt('gap') . ' ' . ($questionIndex + 1)
+            )
+        );
 
         if ($this->hasAddAnswerAction($relevantAnswers, $questionIndex)) {
             $table->addColumn('', '', '200');

@@ -1,57 +1,25 @@
 <?php
 /**
  * Interface ilBiblAttributeInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
 interface ilBiblAttributeInterface
 {
-
-    /**
-     * @return int
-     */
-    public function getEntryId();
-
-
-    /**
-     * @param int $entry_id
-     */
-    public function setEntryId($entry_id);
-
-
-    /**
-     * @return string
-     */
-    public function getName();
-
-
-    /**
-     * @param string $name
-     */
-    public function setName($name);
-
-
-    /**
-     * @return string
-     */
-    public function getValue();
-
-
-    /**
-     * @param string $value
-     */
-    public function setValue($value);
-
-
-    /**
-     * @return int
-     */
-    public function getId();
-
-
-    /**
-     * @param int $id
-     */
-    public function setId($id);
+    
+    public function getEntryId() : int;
+    
+    public function setEntryId(int $entry_id) : void;
+    
+    public function getName() : string;
+    
+    public function setName(string $name) : void;
+    
+    public function getValue() : string;
+    
+    public function setValue(string $value) : void;
+    
+    public function getId() : ?int;
+    
+    public function setId(int $id) : void;
 }

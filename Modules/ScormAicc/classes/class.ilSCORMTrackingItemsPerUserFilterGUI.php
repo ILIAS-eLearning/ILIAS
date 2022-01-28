@@ -1,8 +1,17 @@
-<?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilSCORMTrackingItemsPerUserFilterGUI
  *
@@ -22,21 +31,24 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function parse($userSelected, $report, $reports)
+    /**
+     * @param string $userSelected
+     * @param string $report
+     * @param array  $reports
+     * @return void
+     * @throws ilCtrlException
+     */
+    public function parse(string $userSelected, string $report, array $reports) : void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-
-        include_once "Services/Tracking/classes/class.ilTrQuery.php";
         $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
-
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
@@ -44,7 +56,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
             foreach ($users as $user) {
                 if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
                     if ($allowExportPrivacy == true) {
-                        $e_user = new ilObjUser($user);
+                        $e_user = new ilObjUser((int) $user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
                     } else {
                         $options[$user] = 'User Id: ' . $user;

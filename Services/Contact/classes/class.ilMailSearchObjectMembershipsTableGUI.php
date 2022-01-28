@@ -140,7 +140,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
         return $value;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $trafo = $this->refinery->custom()->transformation(function ($value) : string {
             if (!is_array($value)) {

@@ -3,7 +3,7 @@
 /**
  * @author  Lukas Scharmer <lscharmer@databay.de>
  */
-namespace ILIAS\Tests\Refinery;
+namespace ILIAS\Tests\Refinery\Random\Transformation;
 
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 use ILIAS\Refinery\Random\Seed\Seed;

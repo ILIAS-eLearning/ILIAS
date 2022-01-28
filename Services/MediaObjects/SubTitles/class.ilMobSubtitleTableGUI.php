@@ -49,7 +49,7 @@ class ilMobSubtitleTableGUI extends ilTable2GUI
         $this->addMultiCommand("confirmSrtDeletion", $lng->txt("delete"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

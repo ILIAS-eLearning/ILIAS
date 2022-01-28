@@ -26,10 +26,7 @@ class ilBibliographicDataSet extends ilDataSet
      * @var \ILIAS\ResourceStorage\Services
      */
     protected $storage;
-    /**
-     * @var ilObjBibliographicStakeholder
-     */
-    protected $stakeholder;
+    protected \ilObjBibliographicStakeholder $stakeholder;
     /**
      * @var ilObjBibliographic
      */
@@ -38,14 +35,8 @@ class ilBibliographicDataSet extends ilDataSet
      * @var ilObjUser
      */
     protected $user;
-    /**
-     * @var array
-     */
-    protected $import_temp_refs = array();
-    /**
-     * @var array
-     */
-    protected $import_temp_refs_props = array();
+    protected array $import_temp_refs = array();
+    protected array $import_temp_refs_props = array();
 
 
     public function __construct()
@@ -176,11 +167,8 @@ class ilBibliographicDataSet extends ilDataSet
 
     /**
      * Build data array, data is read from cache except bibl object itself
-     *
-     * @param string $a_entity
-     * @param array  $a_ids
      */
-    protected function _readData($a_entity, $a_ids)
+    protected function _readData(string $a_entity, array $a_ids): void
     {
         switch ($a_entity) {
             case 'bibl':
@@ -203,11 +191,7 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    /**
-     *
-     * @param int $a_id
-     */
-    public function exportLibraryFile($a_id)
+    public function exportLibraryFile(int $a_id): void
     {
         $obj = new ilObjBibliographic($a_id);
         $fileAbsolutePath = $obj->getLegacyAbsolutePath();
@@ -218,7 +202,7 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * @param ilImportMapping $a_mapping (what's it for?)
      */
-    public function importLibraryFile($a_mapping) : void
+    public function importLibraryFile(\ilImportMapping $a_mapping) : void
     {
         $bib_id = $this->import_bib_object->getId();
         $filename = $this->import_bib_object->getFilename();

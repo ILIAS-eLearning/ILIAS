@@ -1,12 +1,22 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Mode\IndividualFeedback;
 
-use \ILIAS\Survey\Mode;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\Mode;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -14,9 +24,6 @@ use ILIAS\Survey\InternalUIService;
  */
 class UIModifier extends Mode\AbstractUIModifier
 {
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
     ) : array {
@@ -25,12 +32,9 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
@@ -54,12 +58,9 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
@@ -89,9 +90,6 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
@@ -115,9 +113,6 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
-        $gui = $this->service->ui();
-        $lng = $gui->lng();
-
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -135,9 +130,6 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
-        $gui = $this->service->ui();
-        $lng = $gui->lng();
-
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -158,10 +150,10 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) {
-        $lng = $this->service->ui()->lng();
-        $ctrl = $this->service->ui()->ctrl();
-        $req = $this->service->ui()->evaluation($survey)->request();
+    ) : void {
+        $lng = $this->service->gui()->lng();
+        $ctrl = $this->service->gui()->ctrl();
+        $req = $this->service->gui()->evaluation($survey)->request();
 
         $evaluation_manager = $this->service->domain()->evaluation(
             $survey,
@@ -218,7 +210,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \SurveyQuestionEvaluation $a_eval
     ) : string {
         $a_results = $a_eval->getResults();
-        $lng = $this->service->ui()->lng();
+        $lng = $this->service->gui()->lng();
         $matrix = false;
         if (is_array($a_results)) {
             $answers = $a_results[0][1]->getAnswers();
@@ -302,23 +294,19 @@ class UIModifier extends Mode\AbstractUIModifier
 
                     // answer
                     $a_tpl->setCurrentBlock("grid_col_bl");
-                    if ($matrix) {
-                        $a_tpl->setVariable("COL_CAPTION", "-");
+                    if ($q->getQuestionType() == "SurveyTextQuestion") {
+                        $a_tpl->setVariable(
+                            "COL_CAPTION",
+                            $a_results->getScaleText($answer["text"])
+                        );
                     } else {
-                        if ($q->getQuestionType() == "SurveyTextQuestion") {
-                            $a_tpl->setVariable(
-                                "COL_CAPTION",
-                                $a_results->getScaleText($answer["text"])
-                            );
-                        } else {
-                            $scale_texts = array_map(function ($v) use ($a_results) {
-                                return $a_results->getScaleText($v);
-                            }, $answer["value"]);
-                            $a_tpl->setVariable(
-                                "COL_CAPTION",
-                                implode(", ", $scale_texts)
-                            );
-                        }
+                        $scale_texts = array_map(function ($v) use ($a_results) {
+                            return $a_results->getScaleText($v);
+                        }, $answer["value"]);
+                        $a_tpl->setVariable(
+                            "COL_CAPTION",
+                            implode(", ", $scale_texts)
+                        );
                     }
                     $a_tpl->parseCurrentBlock();
 
@@ -402,7 +390,7 @@ class UIModifier extends Mode\AbstractUIModifier
         return null;
     }
 
-    protected function getCaptionForParticipant($part_array)
+    protected function getCaptionForParticipant(array $part_array) : string
     {
         return $part_array["sortname"];
     }

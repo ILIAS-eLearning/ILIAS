@@ -688,9 +688,6 @@ class ilForumTopic
             $casted_row['post_id'] = (int) $row['post_id'];
             $casted_row['post_read'] = (int) $row['post_read'];
             $casted_row['children'] = (int) $row['children'];
-            $casted_row['rgt'] = (int) $row['rgt'];
-            $casted_row['rgt'] = (int) $row['rgt'];
-            $casted_row['rgt'] = (int) $row['rgt'];
 
             $children[] = $casted_row;
         }
@@ -798,10 +795,10 @@ class ilForumTopic
             $this->db->manipulateF(
                 'UPDATE frm_threads SET is_closed = %s WHERE thr_pk = %s',
                 ['integer', 'integer'],
-                ['0', $this->id]
+                [0, $this->id]
             );
 
-            $this->is_closed = true;
+            $this->is_closed = false;
         }
     }
 

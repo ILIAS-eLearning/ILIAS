@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\InfoScreen;
 
@@ -9,7 +19,7 @@ use ILIAS\Survey\Participants;
 use ILIAS\Survey\Execution;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\Access;
-use \Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Info screen wrapper for the survey. The screen currently acts
@@ -18,74 +28,19 @@ use \Psr\Http\Message\ServerRequestInterface;
  */
 class InfoScreenGUI
 {
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
+    protected \ilObjSurvey $survey;
+    protected \ilObjUser $user;
+    protected \ilToolbarGUI $toolbar;
+    protected \ilObjSurveyGUI $survey_gui;
+    protected Participants\StatusManager $status_manager;
+    protected Access\AccessManager $access_manager;
+    protected Execution\RunManager $run_manager;
+    protected ServerRequestInterface $request;
+    protected string $requested_code;
+    protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
+    protected \ilLanguage $lng;
+    protected \ilCtrl $ctrl;
 
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var \ilObjSurveyGUI
-     */
-    protected $survey_gui;
-
-    /**
-     * @var Participants\StatusManager
-     */
-    protected $status_manager;
-
-    /**
-     * @var Execution\SessionManager
-     */
-    protected $session_manager;
-
-    /**
-     * @var Access\AccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var Execution\RunManager
-     */
-    protected $run_manager;
-
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var string
-     */
-    protected $requested_code;
-
-    /**
-     * @var \ILIAS\Survey\Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         \ilObjSurveyGUI $survey_gui,
         \ilToolbarGUI $toolbar,
@@ -98,9 +53,10 @@ class InfoScreenGUI
         $this->user = $user;
         $this->toolbar = $toolbar;
         $this->survey_gui = $survey_gui;
-        $this->survey = $survey_gui->object;
+        /** @var \ilObjSurvey $survey */
+        $survey = $survey_gui->object;
+        $this->survey = $survey;
         $this->status_manager = $domain_service->participants()->status($this->survey, $user->getId());
-        $this->session_manager = $domain_service->execution()->session($this->survey, $user->getId());
         $this->access_manager = $domain_service->access($this->survey->getRefId(), $user->getId());
         $this->run_manager = $domain_service->execution()->run($this->survey, $user->getId());
         $this->feature_config = $domain_service->modeFeatureConfig($this->survey->getMode());
@@ -112,9 +68,6 @@ class InfoScreenGUI
         $this->requested_code = (string) ($body["anonymous_id"] ?? "");
     }
 
-    /**
-     * show information screen
-     */
     public function getInfoScreenGUI() : \ilInfoScreenGUI
     {
         $user = $this->user;
@@ -135,18 +88,18 @@ class InfoScreenGUI
 
         // handle (anonymous) code
 
-        $this->session_manager->initSession($this->requested_code);
-        $anonymous_code = $this->session_manager->getCode();
+        $this->run_manager->initSession($this->requested_code);
+        $anonymous_code = $this->run_manager->getCode();
 
         // completed message
-        if ($this->status_manager->cantStartAgain($anonymous_code)) {
+        if ($this->status_manager->cantStartAgain()) {
             \ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
         }
 
         $separator = false;
 
         // view results button
-        if ($this->status_manager->canViewUserResults($anonymous_code)) {
+        if ($this->status_manager->canViewUserResults()) {
             $button = \ilLinkButton::getInstance();
             $button->setCaption("svy_view_own_results");
             $button->setUrl($this->ctrl->getLinkTarget($this->survey_gui, "viewUserResults"));
@@ -155,7 +108,7 @@ class InfoScreenGUI
         }
 
         // confirmation mail button / input
-        if ($this->status_manager->canMailUserResults($anonymous_code)) {
+        if ($this->status_manager->canMailUserResults()) {
             if ($separator) {
                 $toolbar->addSeparator();
             }
@@ -181,7 +134,7 @@ class InfoScreenGUI
             $info->setFormAction($this->ctrl->getFormAction($this->survey_gui, "infoScreen"));
             $info->addSection($this->lng->txt("anonymization"));
             $info->addProperty("", $this->lng->txt("anonymize_anonymous_introduction"));
-            $info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", 8, "infoScreen", $this->lng->txt("submit"), true);
+            $info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", "8", "infoScreen", $this->lng->txt("submit"), true);
         }
 
         // display start / resume links/buttons
@@ -243,9 +196,8 @@ class InfoScreenGUI
 
     /**
      * Add start/resume buttons or appraisee list to info screen
-     * @param \ilInfoScreenGUI $info
-     * @param string          $anonymous_code
-     * @param                 $output_gui
+     * @param object|string $output_gui
+     * @throws \ilCtrlException
      */
     protected function addStartResumeSection(
         \ilInfoScreenGUI $info,
@@ -262,10 +214,10 @@ class InfoScreenGUI
                     $info->addHiddenElement("anonymous_id", $anonymous_code);
                 }
                 $big_button = false;
-                if ($this->run_manager->hasStarted($this->user->getId(), $anonymous_code) &&
-                    !$this->run_manager->hasFinished($this->user->getId(), $anonymous_code)) {
+                if ($this->run_manager->hasStarted() &&
+                    !$this->run_manager->hasFinished()) {
                     $big_button = array("resume", $this->lng->txt("resume_survey"));
-                } elseif (!$this->run_manager->hasStarted($this->user->getId(), $anonymous_code)) {
+                } elseif (!$this->run_manager->hasStarted()) {
                     $big_button = array("start", $this->lng->txt("start_survey"));
                 }
                 if ($big_button) {
@@ -349,8 +301,9 @@ class InfoScreenGUI
         }
     }
 
-    protected function addAppraiseeInfo(\ilInfoScreenGUI $info) : void
-    {
+    protected function addAppraiseeInfo(
+        \ilInfoScreenGUI $info
+    ) : void {
         $survey = $this->survey;
         if ($this->status_manager->isAppraisee()) {
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
@@ -399,9 +352,6 @@ class InfoScreenGUI
         }
     }
 
-    /**
-     * Display reasons, why survey cannot be started
-     */
     protected function displayNotStartableReasons() : void
     {
         $survey = $this->survey;

@@ -25,7 +25,7 @@
 class ilSkillTemplateReference extends ilSkillTreeNode
 {
     protected ilDBInterface $db;
-    protected int $skill_template_id;
+    protected int $skill_template_id = 0;
 
     public function __construct(int $a_id = 0)
     {
@@ -154,7 +154,9 @@ class ilSkillTemplateReference extends ilSkillTreeNode
      */
     public static function _lookupTrefIdsForTemplateId(int $a_tid) : array
     {
-        $tree = new ilSkillTree();
+        global $DIC;
+
+        $tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($a_tid);
         $top_template_id = $tree->getTopParentNodeId($a_tid);
         return self::_lookupTrefIdsForTopTemplateId($top_template_id);
     }

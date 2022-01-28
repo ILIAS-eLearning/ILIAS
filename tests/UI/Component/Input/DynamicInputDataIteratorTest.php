@@ -55,9 +55,10 @@ class DynamicInputDataIteratorTest extends TestCase
     {
         $test_value = 'val1';
         $parent_input_name = 'parent_input';
+        $dynamic_input_name = 'dynamic_input';
         $fake_post_array = [
             $parent_input_name => [
-                'dynamic_input' => [
+                $dynamic_input_name => [
                     $test_value,
                 ]
             ]
@@ -74,7 +75,6 @@ class DynamicInputDataIteratorTest extends TestCase
             $current
         );
 
-        $dynamic_input_name = (new DynamicInputsNameSource($parent_input_name))->getNewName();
         $this->assertEquals(
             $test_value,
             $current->getOr($dynamic_input_name, null)

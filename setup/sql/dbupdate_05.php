@@ -4407,7 +4407,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 // remove magpie cache dir
 $mcdir = CLIENT_WEB_DIR."/magpie_cache";
-ilUtil::delDir($mcdir);
+ilFileUtils::delDir($mcdir);
 ?>
 <#5675>
 <?php
@@ -4424,7 +4424,7 @@ if (!$ilDB->tableColumnExists('skl_profile_level', 'order_nr'))
 <#5676>
 <?php
 if ($ilDB->tableExists('skl_profile_level')) {
-    $profiles = ilSkillProfile::getProfiles();
+    $profiles = ilSkillProfile::getProfilesForAllSkillTrees();
     if (!empty($profiles)) {
         foreach ($profiles as $id => $profile) {
             $set = $ilDB->query(

@@ -49,34 +49,33 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
 
     /**
      * Pass data to row template
-     *
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set) : void
+    public function fillRow(array $a_set) : void
     {
         $icon = "";
-        $type = $this->type_repo->getType((int) $set['id']);
+        $type = $this->type_repo->getType((int) $a_set['id']);
 
         if ($this->web_dir->has($type->getIconPath(true))) {
-            $icon = ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true);
+            $icon = ilFileUtils::getWebspaceDir() . '/' . $type->getIconPath(true);
         }
 
-        $this->tpl->setVariable('TITLE', $set['title']);
-        $this->tpl->setVariable('DESCRIPTION', $set['description']);
-        $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
+        $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
+        $this->tpl->setVariable('DEFAULT_LANG', $a_set['default_language']);
 
-        if ($set["icon"]) {
+        if ($a_set["icon"]) {
             $this->tpl->setCurrentBlock("icon");
             $this->tpl->setVariable('ICON', $icon);
-            $this->tpl->setVariable('ICON_ALT', $set["icon"]);
+            $this->tpl->setVariable('ICON_ALT', $a_set["icon"]);
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->access->checkAccess("write", "", $this->obj_ref_id)) {
-            $this->ctrl->setParameterByClass("ilstudyprogrammetypegui", "type_id", $set['id']);
+            $this->ctrl->setParameterByClass("ilstudyprogrammetypegui", "type_id", $a_set['id']);
             $selection = new ilAdvancedSelectionListGUI();
             $selection->setListTitle($this->lng->txt('actions'));
-            $selection->setId('action_prg_type' . $set['id']);
+            $selection->setId('action_prg_type' . $a_set['id']);
             $selection->addItem(
                 $this->lng->txt('edit'),
                 'edit',

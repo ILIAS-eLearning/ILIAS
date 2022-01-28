@@ -47,11 +47,11 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     * @global type $ilObjDataCache
-     * @global ilRbacReview $rbacreview
      * @param array $a_set
+     *@global ilRbacReview $rbacreview
+     * @global type $ilObjDataCache
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

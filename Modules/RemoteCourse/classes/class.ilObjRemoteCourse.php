@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Remote course app class
@@ -159,8 +170,6 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
         // :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
         
         // adv. metadata
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php');
         $definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());
         $this->importMetadataFromJson(
             $a_ecs_content,
@@ -169,7 +178,6 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
             ilECSDataMappingSetting::MAPPING_IMPORT_RCRS
         );
         
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
         $import = new ilECSImport($a_server->getServerId(), $this->getId());
         $import->setContentId($a_ecs_content->courseID);
         $import->save();

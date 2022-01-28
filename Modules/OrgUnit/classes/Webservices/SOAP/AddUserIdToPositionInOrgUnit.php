@@ -41,7 +41,7 @@ class AddUserIdToPositionInOrgUnit extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "addUserToPositionInOrgUnit";
     }
@@ -59,7 +59,7 @@ class AddUserIdToPositionInOrgUnit extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return [];
     }
@@ -68,7 +68,7 @@ class AddUserIdToPositionInOrgUnit extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Adds a user to a position in a orgunit";
     }

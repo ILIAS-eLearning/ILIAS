@@ -78,8 +78,8 @@ abstract class ilPlugin
     protected function getPluginInfo() : ilPluginInfo
     {
         return $this->component_repository
-            ->getPluginByName(
-                $this->getPluginName()
+            ->getPluginById(
+                $this->id
             );
     }
 
@@ -97,7 +97,10 @@ abstract class ilPlugin
      * Get Plugin Name. Must be same as in class name il<Name>Plugin
      * and must correspond to plugins subdirectory name.
      */
-    abstract public function getPluginName() : string;
+    public function getPluginName() : string
+    {
+        return $this->getPluginInfo()->getName();
+    }
 
     public function getId() : string
     {
@@ -384,8 +387,14 @@ abstract class ilPlugin
      */
     public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
     {
-        $d2 = ilComponent::lookupId($a_ctype, $a_cname) . "_" . $a_slot_id . "_" .
-            ilPlugin::lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_pname);
+        global $DIC;
+
+        $component_repository = $DIC["component.repository"];
+
+        $plugin = $component_repository->getPluginName($a_pname);
+        $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
+
+        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
 
         $img = ilUtil::getImagePath($d2 . "/" . $a_img);
         if (is_int(strpos($img, "Customizing"))) {
@@ -578,9 +587,6 @@ abstract class ilPlugin
 
             $this->component_repository->removeStateInformationOf($this->getId());
 
-            $ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
-            $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
-
             $this->afterUninstall();
 
             return true;
@@ -687,54 +693,6 @@ abstract class ilPlugin
      */
     protected function afterUpdate()
     {
-    }
-
-    /**
-     * Only very little classes seem to care about this:
-     *     - Services/Repository/classes/class.ilObjectPluginGUI.php
-     *     - Services/Repository/classes/class.ilObjectPluginListGUI.php
-     *     - Services/Repository/classes/class.ilObjectPlugin.php
-     *     - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
-     *     - Services/Object/classes/class.ilObjectDefinition.php
-     *     - Services/Navigation/classes/class.ilNavigationHistory.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
-     *
-     * @param $a_ctype
-     * @param $a_cname
-     * @param $a_slot_id
-     * @param $a_plugin_id
-     *
-     * @return string | null
-     */
-    public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id)
-    {
-        global $DIC;
-        try {
-            return $DIC["component.repository"]->getPluginById($a_plugin_id)->getName();
-        } catch (\InvalidArgumentException $e) {
-            return null;
-        }
-    }
-
-    /**
-     * @param $a_ctype
-     * @param $a_cname
-     * @param $a_slot_id
-     * @param $a_plugin_name
-     *
-     * @return string | null
-     */
-    protected static function lookupIdForName(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_name) : string
-    {
-        global $DIC;
-        try {
-            return $DIC["component.repository"]->getPluginByName($a_plugin_name)->getName();
-        } catch (\InvalidArgumentException $e) {
-            return null;
-        }
     }
 
     /**

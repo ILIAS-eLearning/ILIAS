@@ -6,6 +6,16 @@ use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class AbstractBaseTool
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -13,15 +23,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
 {
     use SymbolDecoratorTrait;
-    /**
-     * @var Closure
-     */
-    protected $close_callback;
-    /**
-     * @var bool
-     */
-    protected $initially_hidden = false;
-
+    
+    protected ?Closure $close_callback = null;
+    
+    protected bool $initially_hidden = false;
+    
     /**
      * @inheritDoc
      */
@@ -29,10 +35,10 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
     {
         $clone = clone($this);
         $clone->initially_hidden = $initially_hidden;
-
+        
         return $clone;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -40,7 +46,7 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
     {
         return $this->initially_hidden;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -48,10 +54,10 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
     {
         $clone = clone($this);
         $clone->close_callback = $close_callback;
-
+        
         return $clone;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -59,7 +65,7 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
     {
         return $this->close_callback;
     }
-
+    
     /**
      * @inheritDoc
      */

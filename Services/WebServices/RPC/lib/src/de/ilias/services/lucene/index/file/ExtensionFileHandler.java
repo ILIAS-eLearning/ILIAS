@@ -30,7 +30,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.POITextExtractor;
 import org.apache.poi.extractor.ExtractorFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -43,7 +44,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
  */
 public class ExtensionFileHandler {
 
-    protected static Logger logger = Logger.getLogger(ExtensionFileHandler.class);
+    protected static Logger logger = LogManager.getLogger(ExtensionFileHandler.class);
 
     
     public ExtensionFileHandler() {

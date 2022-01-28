@@ -76,17 +76,19 @@ class AchieveCommand extends Command
         $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output) : int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
 
         if ($this->shouldListNamedObjectives($input)) {
             $this->executeListNamedObjectives($io, $output);
-            return;
+            return 0;
         }
 
         $this->executeAchieveObjective($io, $input);
+
+        return 0;
     }
 
     private function shouldListNamedObjectives(InputInterface $input) : bool

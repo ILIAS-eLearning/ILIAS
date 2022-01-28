@@ -25,7 +25,7 @@ package de.ilias.services.lucene.search;
 import java.io.IOException;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
@@ -33,6 +33,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.jdom.output.XMLOutputter;
 
 import de.ilias.services.settings.ConfigurationException;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -42,7 +43,7 @@ import de.ilias.services.settings.ConfigurationException;
  */
 public class SearchResultWriter {
 
-	protected Logger logger = Logger.getLogger(SearchResultWriter.class);
+	protected Logger logger = LogManager.getLogger(SearchResultWriter.class);
 	
 	private IndexSearcher searcher = null;
 	private ScoreDoc[] hits = null;

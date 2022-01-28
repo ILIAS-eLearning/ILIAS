@@ -2,8 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-include_once './Modules/Course/classes/Objectives/class.ilLOEditorStatus.php';
 
 /**
 * Class ilLOEditorGUI
@@ -80,7 +78,6 @@ class ilLOEditorGUI
                     $this->ctrl->getLinkTarget($this, 'listObjectives')
                 );
                 
-                include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
                 $reg_gui = new ilCourseObjectivesGUI($this->getParentObject()->getRefId());
                 $this->ctrl->forwardCommand($reg_gui);
                 break;
@@ -106,17 +103,14 @@ class ilLOEditorGUI
                     $this->ctrl->getLinkTarget($this, 'listObjectives')
                 );
 
-                include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-                $cond = new ilConditionHandlerGUI($this);
+                $cond = new ilConditionHandlerGUI();
                 $cond->setBackButtons(array());
                 $cond->setAutomaticValidation(false);
                 $cond->setTargetType("lobj");
                 $cond->setTargetRefId($this->getParentObject()->getRefId());
-                
                 $cond->setTargetId((int) $_REQUEST['objective_id']);
                 
                 // objecitve
-                include_once './Modules/Course/classes/class.ilCourseObjective.php';
                 $obj = new ilCourseObjective($this->getParentObject(), (int) $_REQUEST['objective_id']);
                 $cond->setTargetTitle($obj->getTitle());
                 $this->ctrl->forwardCommand($cond);
@@ -133,7 +127,6 @@ class ilLOEditorGUI
                 
                 $objtv_id = (int) $_REQUEST['objective_id'];
                 
-                include_once 'Modules/Course/classes/Objectives/class.ilLOPage.php';
                 if (!ilLOPage::_exists('lobj', $objtv_id)) {
                     // doesn't exist -> create new one
                     $new_page_object = new ilLOPage();
@@ -144,11 +137,9 @@ class ilLOEditorGUI
                 }
                 
                 $this->ctrl->setReturn($this, 'listObjectives');
-                include_once 'Modules/Course/classes/Objectives/class.ilLOPageGUI.php';
                 $pgui = new ilLOPageGUI($objtv_id);
                 $pgui->setPresentationTitle(ilCourseObjective::lookupObjectiveTitle($objtv_id));
 
-                include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
                 $pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
                     $this->parent_obj->getStyleSheetId(),
                     $this->parent_obj->getType()
@@ -174,7 +165,6 @@ class ilLOEditorGUI
             default:
                 if (!$cmd) {
                     // get first unaccomplished step
-                    include_once './Modules/Course/classes/Objectives/class.ilLOEditorStatus.php';
                     $cmd = ilLOEditorStatus::getInstance($this->getParentObject())->getFirstFailedStep();
                 }
                 $this->$cmd();
@@ -190,7 +180,6 @@ class ilLOEditorGUI
      */
     protected function returnFromObjectives()
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
         $_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
         return $this->listObjectives();
     }
@@ -244,7 +233,6 @@ class ilLOEditorGUI
      */
     protected function deleteAssignments($a_type)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
         foreach ($assignments->getAssignmentsByType($a_type) as $assignment) {
             $assignment->delete();
@@ -347,7 +335,6 @@ class ilLOEditorGUI
             $this->updateStartObjects();
             $this->updateTestAssignments($settings);
             
-            include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
             ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
             
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -365,7 +352,6 @@ class ilLOEditorGUI
      */
     protected function initSettingsForm()
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('crs_loc_settings_tbl'));
@@ -462,13 +448,11 @@ class ilLOEditorGUI
     {
         $GLOBALS['DIC']['ilTabs']->activateSubTab('materials');
         
-        include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($this->getParentObject()->getRefId());
         $gui->setDisabledObjectTypes(array("itgr"));
         #$gui->setAfterCreationCallback($this->getParentObject()->getRefId());
         $gui->render();
         
-        include_once './Services/Object/classes/class.ilObjectTableGUI.php';
         $obj_table = new ilObjectTableGUI(
             $this,
             'materials',
@@ -509,7 +493,6 @@ class ilLOEditorGUI
         }
         
         try {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentTableGUI.php';
             $table = new ilLOTestAssignmentTableGUI(
                 $this,
                 'testsOverview',
@@ -559,7 +542,6 @@ class ilLOEditorGUI
         }
         
         try {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentTableGUI.php';
             $table = new ilLOTestAssignmentTableGUI(
                 $this,
                 'testOverview',
@@ -612,7 +594,6 @@ class ilLOEditorGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'testsOverview');
         
         foreach ((array) $_REQUEST['tst'] as $assign_id) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
             $assignment = new ilLOTestAssignment($assign_id);
             
             
@@ -693,7 +674,6 @@ class ilLOEditorGUI
         }
         
         foreach ((array) $_REQUEST['tst'] as $assign_id) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
             $assignment = new ilLOTestAssignment($assign_id);
             $assignment->delete();
             
@@ -705,7 +685,6 @@ class ilLOEditorGUI
             $start->deleteItem($assignment->getTestRefId());
             
             // ... and assigned questions
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
             ilCourseObjectiveQuestion::deleteTest($assignment->getTestRefId());
         }
         
@@ -753,7 +732,6 @@ class ilLOEditorGUI
             $start->deleteItem($tst_id);
             
             // ... and assigned questions
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
             ilCourseObjectiveQuestion::deleteTest($tst_id);
         }
         
@@ -780,7 +758,6 @@ class ilLOEditorGUI
                 break;
         }
         if (!$form instanceof ilPropertyFormGUI) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
             $form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(), $this->getTestType());
             $form = $form_helper->initForm(true);
         }
@@ -811,7 +788,6 @@ class ilLOEditorGUI
         }
         
         if (!$form instanceof ilPropertyFormGUI) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
             $form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(), $this->getTestType());
             $form = $form_helper->initForm(false);
         }
@@ -830,8 +806,6 @@ class ilLOEditorGUI
      */
     protected function applySettingsTemplate(ilObjTest $tst)
     {
-        include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-        include_once './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php';
         
         $tpl_id = 0;
         foreach (ilSettingsTemplate::getAllSettingsTemplates('tst', true) as $nr => $template) {
@@ -856,12 +830,9 @@ class ilLOEditorGUI
             return false;
         }
 
-        include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-        include_once './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php';
         $template = new ilSettingsTemplate($tpl_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         $template_settings = $template->getSettings();
         if ($template_settings) {
-            include_once './Modules/Test/classes/class.ilObjTestGUI.php';
             $tst_gui = new ilObjTestGUI();
             $tst_gui->applyTemplate($template_settings, $tst);
         }
@@ -887,7 +858,6 @@ class ilLOEditorGUI
         
         $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
         $form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(), $this->getTestType());
         $form = $form_helper->initForm(true);
         
@@ -911,7 +881,6 @@ class ilLOEditorGUI
                 
                 $tst->saveToDb();
 
-                include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
                 $assignment = new ilLOTestAssignment();
                 $assignment->setContainerId($this->getParentObject()->getId());
                 $assignment->setAssignmentType($this->getTestType());
@@ -919,7 +888,6 @@ class ilLOEditorGUI
                 $assignment->setTestRefId($tst->getRefId());
                 $assignment->save();
             } else {
-                include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
                 $assignment = new ilLOTestAssignment();
                 $assignment->setContainerId($this->getParentObject()->getId());
                 $assignment->setAssignmentType($this->getTestType());
@@ -953,9 +921,7 @@ class ilLOEditorGUI
      */
     protected function updateMaterialAssignments(ilObjTest $test)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId()) as $objective_id) {
-            include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
             $materials = new ilCourseObjectiveMaterials($objective_id);
             foreach ($materials->getMaterials() as $key => $material) {
                 if ($material['ref_id'] == $test->getRefId()) {
@@ -975,7 +941,6 @@ class ilLOEditorGUI
         
         $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignmentForm.php';
         $form_helper = new ilLOTestAssignmentForm($this, $this->getParentObject(), $this->getTestType());
         $form = $form_helper->initForm(false);
         
@@ -1043,7 +1008,6 @@ class ilLOEditorGUI
 
         $ilToolbar = $DIC['ilToolbar'];
 
-        include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
         $_SESSION['objective_mode'] = ilCourseObjectivesGUI::MODE_UNDEFINED;
         
         
@@ -1063,7 +1027,6 @@ class ilLOEditorGUI
             $this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', "create")
         );
 
-        include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
         $table = new ilCourseObjectivesTableGUI($this, $this->getParentObject());
         $table->setTitle($this->lng->txt('crs_objectives'), '', $this->lng->txt('crs_objectives'));
         $table->parse($objectives);
@@ -1094,7 +1057,6 @@ class ilLOEditorGUI
      */
     protected function initSimpleObjectiveForm()
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('crs_loc_form_create_objectives'));
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -1114,7 +1076,6 @@ class ilLOEditorGUI
         $form = $this->initSimpleObjectiveForm();
         if ($form->checkInput()) {
             foreach ((array) $form->getInput('objectives') as $idx => $title) {
-                include_once './Modules/Course/classes/class.ilCourseObjective.php';
                 $obj = new ilCourseObjective($this->getParentObject());
                 $obj->setActive(true);
                 $obj->setTitle($title);
@@ -1148,7 +1109,6 @@ class ilLOEditorGUI
         
         $counter = 1;
         foreach ($_POST['position'] as $objective_id => $position) {
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $objective = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective->writePosition($counter++);
         }
@@ -1170,7 +1130,6 @@ class ilLOEditorGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'listObjectives');
         
         foreach ($_POST['objective'] as $objective_id) {
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $obj = new ilCourseObjective($this->getParentObject(), $objective_id);
             $name = $obj->getTitle();
             
@@ -1191,7 +1150,6 @@ class ilLOEditorGUI
     {
         $enabled = (array) $_REQUEST['objective'];
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         $objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), false);
         foreach ((array) $objectives as $objective_id) {
             $objective = new ilCourseObjective($this->getParentObject(), $objective_id);
@@ -1201,7 +1159,6 @@ class ilLOEditorGUI
             }
         }
 
-        include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -1215,7 +1172,6 @@ class ilLOEditorGUI
     {
         $disabled = (array) $_REQUEST['objective'];
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         $objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), false);
         foreach ((array) $objectives as $objective_id) {
             $objective = new ilCourseObjective($this->getParentObject(), $objective_id);
@@ -1225,7 +1181,6 @@ class ilLOEditorGUI
             }
         }
         
-        include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -1244,12 +1199,10 @@ class ilLOEditorGUI
         $rbacsystem = $DIC['rbacsystem'];
 
         foreach ($_POST['objective_ids'] as $objective_id) {
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $objective_obj = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective_obj->delete();
         }
         
-        include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_refreshStatus($this->getParentObject()->getId());
 
         ilUtil::sendSuccess($this->lng->txt('crs_objectives_deleted'), true);
@@ -1263,7 +1216,6 @@ class ilLOEditorGUI
      */
     protected function showStatus($a_section)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOEditorStatus.php';
         $status = new ilLOEditorStatus($this->getParentObject());
         $status->setSection($a_section);
         $status->setCmdClass($this);
@@ -1346,7 +1298,6 @@ class ilLOEditorGUI
         }
         
         // Member view
-        #include_once './Services/Container/classes/class.ilMemberViewGUI.php';
         #ilMemberViewGUI::showMemberViewSwitch($this->getParentObject()->getRefId());
     }
 }

@@ -623,7 +623,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $imagePath = $this->getImagePath();
 
         if (!file_exists($imagePath)) {
-            ilUtil::makeDirParents($imagePath);
+            ilFileUtils::makeDirParents($imagePath);
         }
         
         $filename = $this->buildHashedImageFilename($fileData['name'], true);
@@ -631,7 +631,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $answer->setImageFsDir($imagePath);
         $answer->setImageFile($filename);
 
-        if (!ilUtil::moveUploadedFile($fileData['tmp_name'], $fileData['name'], $answer->getImageFsPath())) {
+        if (!ilFileUtils::moveUploadedFile($fileData['tmp_name'], $fileData['name'], $answer->getImageFsPath())) {
             return 2;
         }
         
@@ -643,11 +643,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $answer = $this->getAnswer($position);
         
         if (file_exists($answer->getImageFsPath())) {
-            ilUtil::delDir($answer->getImageFsPath());
+            ilFileUtils::delDir($answer->getImageFsPath());
         }
         
         if (file_exists($answer->getThumbFsPath())) {
-            ilUtil::delDir($answer->getThumbFsPath());
+            ilFileUtils::delDir($answer->getThumbFsPath());
         }
 
         $answer->setImageFile(null);
@@ -847,7 +847,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             
             if (strlen($filename)) {
                 if (!file_exists($targetPath)) {
-                    ilUtil::makeDirParents($targetPath);
+                    ilFileUtils::makeDirParents($targetPath);
                 }
 
                 if (file_exists($sourcePath . $filename)) {

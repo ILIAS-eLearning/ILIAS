@@ -21,10 +21,7 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 // begin-patch lok
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 // end-patch lok
 
 /**
@@ -115,12 +112,11 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array row data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
             if ($a_set['random']) {
@@ -203,7 +199,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
                 continue;
             }
             
-            include_once './Modules/Test/classes/class.ilObjTest.php';
             $tmp_data['random'] = ilObjTest::_lookupRandomTest($node['obj_id']);
             $tmp_data['random'] = false;
             
@@ -258,7 +253,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
      */
     protected function initQuestionAssignments()
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         $this->objective_qst_obj = new ilCourseObjectiveQuestion($this->objective_id);
 
         return true;

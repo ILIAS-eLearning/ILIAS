@@ -758,7 +758,7 @@ class ilDclRecordEditGUI
         $html = "";
         $query_parser = new ilQueryParser($search);
         $query_parser->setMinWordLength(1);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             $html .= $query_parser->getMessage() . "<br />";

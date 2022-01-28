@@ -14,6 +14,7 @@
  */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -44,7 +45,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -54,7 +55,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         return true;
     }
 
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer) : Value
     {
         $definition = $input[0];
 
@@ -86,8 +87,8 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
      */
     protected function createUniqueTempDirectory() : string
     {
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDirParents($tmpdir);
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDirParents($tmpdir);
         $this->logger->info('New temp directory: ' . $tmpdir);
         return $tmpdir;
     }
@@ -95,7 +96,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
     protected function createTargetDirectory(string $a_tmpdir) : string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
-        ilUtil::makeDirParents($final_dir);
+        ilFileUtils::makeDirParents($final_dir);
         $this->logger->info('New final directory: ' . $final_dir);
         return $final_dir;
     }
@@ -117,7 +118,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
                 continue;
             }
             $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilWorkspaceCopyDefinition::COPY_TARGET_DIR]));
-            ilUtil::makeDirParents(
+            ilFileUtils::makeDirParents(
                 $tmpdir . '/' . dirname($copy_task[ilWorkspaceCopyDefinition::COPY_TARGET_DIR])
             );
 

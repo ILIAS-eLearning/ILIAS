@@ -109,7 +109,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $cont_type = "";

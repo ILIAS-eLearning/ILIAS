@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Code;
 
@@ -13,32 +23,20 @@ use ILIAS\Survey\InternalDataService;
  */
 class CodeDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
+    protected InternalDataService $data;
 
-    /**
-     * @var InternalDataService
-     */
-    protected $data;
 
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalDataService $data,
         \ilDBInterface $db
     ) {
-        global $DIC;
-
         $this->db = $db;
         $this->data = $data;
     }
 
     /**
      * Delete all codes of a survey
-     * @param int $survey_id
      */
     public function deleteAll(int $survey_id) : void
     {
@@ -53,9 +51,7 @@ class CodeDBRepo
     }
 
     /**
-     * Delete code
-     * @param int    $survey_id
-     * @param string $code
+     * Delete single code
      */
     public function delete(int $survey_id, string $code) : void
     {
@@ -73,8 +69,6 @@ class CodeDBRepo
 
     /**
      * Get a new unique code
-     * @param int $survey_id
-     * @return string
      */
     protected function getNew(int $survey_id) : string
     {
@@ -95,12 +89,11 @@ class CodeDBRepo
 
     /**
      * Does code exist in survey?
-     * @param int $survey_id
-     * @param string $code
-     * @return bool
      */
-    public function exists(int $survey_id, string $code) : bool
-    {
+    public function exists(
+        int $survey_id,
+        string $code
+    ) : bool {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT anonymous_id FROM svy_anonymous " .
@@ -113,10 +106,8 @@ class CodeDBRepo
 
     /**
      * Get user key for id
-     * @param int $user_id
-     * @return string|null
      */
-    protected function getUserKey(int $user_id)
+    protected function getUserKey(int $user_id) : ?string
     {
         $user_key = ($user_id > 0)
             ? md5((string) $user_id)
@@ -126,15 +117,7 @@ class CodeDBRepo
 
     /**
      * Saves a survey access code for a registered user to the database
-     * @param int    $survey_id
-     * @param string $code
-     * @param int    $user_id
-     * @param string $email
-     * @param string $last_name
-     * @param string $first_name
-     * @param int    $sent
-     * @param int    $tstamp
-     * @return int
+     * @return int new id
      * @throws \ilSurveyException
      */
     public function add(
@@ -162,7 +145,7 @@ class CodeDBRepo
             $tstamp = time();
         }
 
-        $next_id = (int) $db->nextId('svy_anonymous');
+        $next_id = $db->nextId('svy_anonymous');
 
         $db->insert("svy_anonymous", [
             "anonymous_id" => ["integer", $next_id],
@@ -187,15 +170,14 @@ class CodeDBRepo
 
     /**
      * Add multiple codes
-     * @param int $survey_id
-     * @param int $nr
+     * @param int $nr number of codes that should be generated/added
      * @return int[]
      * @throws \ilSurveyException
      */
-    public function addCodes(int $survey_id, int $nr) : array
-    {
-        $ilDB = $this->db;
-
+    public function addCodes(
+        int $survey_id,
+        int $nr
+    ) : array {
         $ids = [];
         while ($nr-- > 0) {
             $ids[] = $this->add($survey_id);
@@ -204,12 +186,7 @@ class CodeDBRepo
     }
 
     /**
-     * @param int    $code_id
-     * @param string $email
-     * @param string $last_name
-     * @param string $first_name
-     * @param int    $sent
-     * @return bool
+     * Update external data of a code
      */
     public function updateExternalData(
         int $code_id,
@@ -245,12 +222,12 @@ class CodeDBRepo
     }
 
     /**
-     * Get all codes of a survey
-     * @param int $survey_id
+     * Get all access keys of a survey
      * @return string[]
      */
-    public function getAll(int $survey_id) : array
-    {
+    public function getAll(
+        int $survey_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -268,11 +245,11 @@ class CodeDBRepo
 
     /**
      * Get all codes of a survey
-     * @param int $survey_id
      * @return Code[]
      */
-    public function getAllData(int $survey_id) : array
-    {
+    public function getAllData(
+        int $survey_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -297,8 +274,10 @@ class CodeDBRepo
         return $codes;
     }
 
-    public function getByUserKey(int $survey_id, string $survey_key) : ?Code
-    {
+    public function getByUserKey(
+        int $survey_id,
+        string $survey_key
+    ) : ?Code {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -326,12 +305,12 @@ class CodeDBRepo
 
     /**
      * Bind registered user to a code
-     * @param int    $survey_id
-     * @param string $code
-     * @param int    $user_id
      */
-    public function bindUser(int $survey_id, string $code, int $user_id) : void
-    {
+    public function bindUser(
+        int $survey_id,
+        string $code,
+        int $user_id
+    ) : void {
         $db = $this->db;
 
         $user_key = $this->getUserKey($user_id);
@@ -350,12 +329,11 @@ class CodeDBRepo
 
     /**
      * Get code for a registered user
-     * @param int $survey_id
-     * @param int $user_id
-     * @return string
      */
-    public function getByUserId(int $survey_id, int $user_id) : string
-    {
+    public function getByUserId(
+        int $survey_id,
+        int $user_id
+    ) : string {
         $db = $this->db;
 
         $user_key = $this->getUserKey($user_id);

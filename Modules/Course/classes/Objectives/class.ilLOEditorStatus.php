@@ -3,7 +3,6 @@
 
 use ILIAS\UI\Implementation\Component\Listing\Workflow\Step;
 
-include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 
 /**
  * Presentation of the status of single steps during the configuration process.
@@ -65,7 +64,6 @@ class ilLOEditorStatus
         $this->ctrl = $GLOBALS['DIC']['ilCtrl'];
         $this->lng = $GLOBALS['DIC']['lng'];
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         $this->objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId());
     }
 
@@ -531,10 +529,8 @@ class ilLOEditorStatus
      */
     protected function lookupQuestionsAssigned($a_test_ref_id) : bool
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
         if (ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($a_test_ref_id))) {
             foreach ($this->getObjectives() as $objective_id) {
-                include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
                 $seq = ilLORandomTestQuestionPools::lookupSequences(
                     $this->parent_obj->getId(),
                     $objective_id,
@@ -546,7 +542,6 @@ class ilLOEditorStatus
             }
         } else {
             foreach ($this->getObjectives() as $objective_id) {
-                include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
                 $qsts = ilCourseObjectiveQuestion::lookupQuestionsByObjective(ilObject::_lookupObjId($a_test_ref_id), $objective_id);
                 if (!count($qsts)) {
                     return false;
@@ -566,7 +561,6 @@ class ilLOEditorStatus
             return false;
         }
         
-        include_once './Modules/Course/classes/class.ilCourseObjective.php';
         $num_active = ilCourseObjective::_getCountObjectives($this->getParentObject()->getId(), true);
         if (!$num_active) {
             if ($a_set_errors) {
@@ -575,7 +569,6 @@ class ilLOEditorStatus
             return false;
         }
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), true) as $objective_id) {
-            include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
             $obj = new ilCourseObjectiveMaterials($objective_id);
             if (!count($obj->getMaterials())) {
                 if ($a_set_errors) {
@@ -629,7 +622,6 @@ class ilLOEditorStatus
             return true;
         }
         
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
         $tst = $factory->getInstanceByRefId($qt, false);
         
@@ -643,7 +635,6 @@ class ilLOEditorStatus
         
         $obj_tries = 0;
         foreach ($this->getObjectives() as $objective) {
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $obj_tries += ilCourseObjective::lookupMaxPasses($objective);
         }
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $obj_tries);
@@ -657,7 +648,6 @@ class ilLOEditorStatus
      */
     protected function checkTestOnline($a_ref_id) : bool
     {
-        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
         return !ilObjTestAccess::_isOffline(ilObject::_lookupObjId($a_ref_id));
     }
 }

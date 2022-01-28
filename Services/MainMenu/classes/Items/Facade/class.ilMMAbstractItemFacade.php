@@ -1,6 +1,8 @@
 <?php
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -22,56 +24,42 @@ use ILIAS\UI\Component\Link\Link;
  */
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 {
-    /**
-     * @var bool
-     */
-    protected $role_based_visibility = false;
-    /**
-     * @var array
-     */
-    protected $global_role_ids = [];
-    /**
-     * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation
-     */
-    protected $type_information;
-    /**
-     * @var ilMMItemStorage
-     */
-    protected $mm_item;
-    /**
-     * @var isItem
-     */
-    protected $gs_item;
-    /**
-     * @var \ILIAS\GlobalScreen\Identification\IdentificationInterface
-     */
-    protected $identification;
-    /**
-     * @var string
-     */
-    protected $default_title = "-";
-
+    
+    protected bool $role_based_visibility = false;
+    
+    protected array $global_role_ids = [];
+    
+    protected TypeInformation $type_information;
+    
+    protected ilMMItemStorage $mm_item;
+    
+    protected isItem $gs_item;
+    
+    protected IdentificationInterface $identification;
+    
+    protected string $default_title = "-";
+    
     /**
      * ilMMAbstractItemFacade constructor.
-     * @param \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification
-     * @param Main                                                       $collector
+     * @param IdentificationInterface $identification
+     * @param Main                    $collector
      * @throws Throwable
      */
     public function __construct(
-        \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification,
+        IdentificationInterface $identification,
         Main $collector
     ) {
-        $this->identification = $identification;
-        $this->gs_item = $collector->getSingleItemFromRaw($identification);
+        $this->identification   = $identification;
+        $this->gs_item          = $collector->getSingleItemFromRaw($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->gs_item));
-        $this->mm_item = ilMMItemStorage::register($this->gs_item);
+        $this->mm_item          = ilMMItemStorage::register($this->gs_item);
     }
-
+    
     public function getId() : string
     {
         return $this->identification->serialize();
     }
-
+    
     /**
      * @return bool
      */
@@ -79,7 +67,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return ilMMItemStorage::find($this->getId()) !== null;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -87,7 +75,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return false;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -95,7 +83,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->role_based_visibility;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -103,7 +91,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         $this->role_based_visibility = $role_based_visibility;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -111,7 +99,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->global_role_ids;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -119,7 +107,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         $this->global_role_ids = $global_role_ids;
     }
-
+    
     /**
      * @return bool
      */
@@ -127,7 +115,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->mm_item->getIdentification() == '';
     }
-
+    
     /**
      * @return ilMMItemStorage
      */
@@ -135,15 +123,15 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->mm_item;
     }
-
+    
     /**
-     * @return \ILIAS\GlobalScreen\Identification\IdentificationInterface
+     * @return IdentificationInterface
      */
-    public function identification() : \ILIAS\GlobalScreen\Identification\IdentificationInterface
+    public function identification() : IdentificationInterface
     {
         return $this->identification;
     }
-
+    
     /**
      * @return isItem
      */
@@ -151,21 +139,21 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->gs_item;
     }
-
+    
     public function getAmountOfChildren() : int
     {
         if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent) {
             return count($this->gs_item->getChildren());
         }
-
+        
         return 0;
     }
-
+    
     public function isAvailable() : bool
     {
         return (bool) ($this->gs_item->isAvailable() || $this->item()->isAlwaysAvailable());
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -173,7 +161,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return (bool) ($this->mm_item->isActive() && $this->item()->isAvailable()) || $this->item()->isAlwaysAvailable();
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -181,7 +169,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->item()->isAlwaysAvailable();
     }
-
+    
     /**
      * @return string
      */
@@ -189,7 +177,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->identification->getProviderNameForPresentation();
     }
-
+    
     /**
      * @return string
      */
@@ -202,18 +190,18 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($this->default_title == "-" && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle) {
             $this->default_title = $this->gs_item->getTitle();
         }
-
+        
         return $this->default_title;
     }
-
+    
     /**
      * @param string $default_title
      */
-    public function setDefaultTitle(string $default_title)
+    public function setDefaultTitle(string $default_title) : void
     {
         $this->default_title = $default_title;
     }
-
+    
     /**
      * @return string
      */
@@ -223,10 +211,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if (!$this->gs_item->isAvailable() || $this->gs_item->isAlwaysAvailable()) {
             return $DIC->ui()->renderer()->render($this->gs_item->getNonAvailableReason());
         }
-
+        
         return "";
     }
-
+    
     /**
      * @return string
      * @throws ReflectionException
@@ -235,23 +223,23 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->type_information->getTypeNameForPresentation();
     }
-
+    
     public function getParentIdentificationString() : string
     {
         if ($this->gs_item instanceof isChild) {
             $provider_name_for_presentation = $this->gs_item->getParent()->serialize();
-
+            
             $storage_parent = $this->mm_item->getParentIdentification();
             if ($storage_parent !== $provider_name_for_presentation) {
                 return $storage_parent;
             }
-
+            
             return $provider_name_for_presentation;
         }
-
+        
         return "";
     }
-
+    
     /**
      * @return bool
      */
@@ -272,10 +260,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
                 return false;
             }
         }
-
+        
         return true;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -283,12 +271,12 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->gs_item instanceof isTopItem;
     }
-
+    
     public function isChild() : bool
     {
         return $this->item() instanceof isChild;
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -297,18 +285,18 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($this->gs_item instanceof isChild) {
             return $this->gs_item->getParent() instanceof NullIdentification;
         }
-
+        
         return false;
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function setIsTopItm(bool $top_item)
+    public function setIsTopItm(bool $top_item) : void
     {
         // TODO: Implement setIsTopItm() method.
     }
-
+    
     /**
      * @inheritDoc
      */
@@ -316,7 +304,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->gs_item instanceof isInterchangeableItem;
     }
-
+    
     /**
      * FSX check if doublette
      * @inheritDoc
@@ -325,64 +313,64 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         return $this->type_information->getType();
     }
-
+    
     /**
      * @param string $parent
      */
-    public function setParent(string $parent)
+    public function setParent(string $parent) : void
     {
         $this->mm_item->setParentIdentification($parent);
     }
-
+    
     /**
      * @inheritdoc
      */
-    public function setPosition(int $position)
+    public function setPosition(int $position) : void
     {
         $this->mm_item->setPosition($position);
     }
-
+    
     /**
      * @param bool $status
      */
-    public function setActiveStatus(bool $status)
+    public function setActiveStatus(bool $status) : void
     {
         $this->mm_item->setActive($status);
     }
-
+    
     public function supportsCustomIcon() : bool
     {
         return $this->gs_item instanceof hasSymbol;
     }
-
+    
     public function getIconID() : ?string
     {
         return $this->mm_item->getIconId();
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function setIconID(string $icon_id)
+    public function setIconID(string $icon_id) : void
     {
         $this->mm_item->setIconId($icon_id);
     }
-
+    
     // CRUD
-
-    public function update()
+    
+    public function update() : void
     {
         ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
         $this->mm_item->update();
     }
-
-    public function create()
+    
+    public function create() : void
     {
         ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
         $this->mm_item->create();
         ilMMItemStorage::register($this->gs_item);
     }
-
+    
     /**
      * deletes all translations associated with the current identification.
      * @throws Exception
@@ -392,7 +380,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         $ts = ilMMItemTranslationStorage::where([
             'identification' => $this->identification->serialize(),
         ], '=')->get();
-
+        
         if (!empty($ts)) {
             foreach ($ts as $translation) {
                 if ($translation instanceof ilMMItemTranslationStorage) {
@@ -401,16 +389,16 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
             }
         }
     }
-
+    
     /**
      * @inheritDoc
      */
-    public function delete()
+    public function delete() : void
     {
         if ($this->isDeletable()) {
             $this->deleteAssociatedTranslations();
             $serialize = $this->identification->serialize();
-            $mm = ilMMItemStorage::find($serialize);
+            $mm        = ilMMItemStorage::find($serialize);
             if ($mm instanceof ilMMItemStorage) {
                 $mm->delete();
             }

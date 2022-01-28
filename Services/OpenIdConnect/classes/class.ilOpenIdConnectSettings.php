@@ -434,7 +434,7 @@ class ilOpenIdConnectSettings
         return implode(
             '/',
             [
-                \ilUtil::getWebspaceDir(),
+                ilFileUtils::getWebspaceDir(),
                 self::FILE_STORAGE . '/' . $this->getLoginElementImage()
             ]
         );

@@ -41,7 +41,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
      */
     public static function getTempFilename($a_hash, $a_field, $a_name, $a_type, $a_index = null, $a_sub_index = null)
     {
-        $a_name = ilUtil::getAsciiFileName($a_name);
+        $a_name = ilFileUtils::getAsciiFileName($a_name);
 
         $tmp_file_name = implode(
             "~~",
@@ -57,7 +57,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         );
 
         // make sure temp directory exists
-        $temp_path = ilUtil::getDataDir() . "/temp/";
+        $temp_path = ilFileUtils::getDataDir() . "/temp/";
 
         return $temp_path . $tmp_file_name;
     }
@@ -72,7 +72,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
      */
     public static function rebuildTempFileByHash($hash)
     {
-        $temp_path = ilUtil::getDataDir() . "/temp";
+        $temp_path = ilFileUtils::getDataDir() . "/temp";
         if (is_dir($temp_path)) {
             $temp_files = glob($temp_path . "/" . session_id() . "~~" . $hash . "~~*");
             if (is_array($temp_files)) {
@@ -126,7 +126,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
      */
     public function cleanupTempFiles($hash)
     {
-        $files = glob(ilUtil::getDataDir() . "/temp/" . session_id() . "~~" . $hash . "~~*");
+        $files = glob(ilFileUtils::getDataDir() . "/temp/" . session_id() . "~~" . $hash . "~~*");
 
         foreach ($files as $file) {
             if (file_exists($file)) {

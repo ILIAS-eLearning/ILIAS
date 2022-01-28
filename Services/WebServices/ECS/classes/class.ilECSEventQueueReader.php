@@ -1,28 +1,18 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Reads ECS events and stores them in the database.
@@ -50,30 +40,26 @@ class ilECSEventQueueReader
     const TYPE_COURSE_URLS = 'course_urls';
     const TYPE_ENROLMENT_STATUS = 'member_status';
     
-    protected $log;
-    protected $db;
+    private ilLogger $logger;
+    private ilDBInterface $db;
     
-    protected $events = array();
-    protected $econtent_ids = array();
+    protected array $events = array();
+    protected array $econtent_ids = array();
+    private ilECSSetting $settings;
 
     /**
      * Constructor
      *
      * @access public
      */
-    public function __construct($a_server_id)
+    public function __construct(ilECSSetting $settings)
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
-        $ilDB = $DIC['ilDB'];
+        $this->logger = $DIC->logger()->wsrv();
+        $this->db = $DIC->database();
         
-        include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-        
-        $this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
-        $this->log = $ilLog;
-        $this->db = $ilDB;
-        
+        $this->settings = $settings;
         $this->read();
     }
     
@@ -111,7 +97,6 @@ class ilECSEventQueueReader
      */
     protected static function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false)
     {
-        include_once 'Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php';
         $list = array();
         foreach ($a_types as $type) {
             $robj = ilRemoteObjectBase::getInstanceByEventType($type);
@@ -130,34 +115,22 @@ class ilECSEventQueueReader
      * @static
      * throws ilException, ilECSConnectorException
      */
-    public static function handleImportReset(ilECSSetting $server)
+    public function handleImportReset()
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
-        include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
-        include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-        
         try {
-            include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
-            include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-            include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-
             $types = self::getAllEContentTypes();
 
-            $event_queue = new ilECSEventQueueReader($server->getServerId());
-            $event_queue->deleteAllEContentEvents($types);
+            $this->deleteAllEContentEvents($types);
             
-            $list = self::getAllResourceIds($server, $types);
-            $imported = ilECSImport::getAllImportedRemoteObjects($server->getServerId());
+            $list = self::getAllResourceIds($this->settings, $types);
+            $imported = ilECSImportManager::getInstance()->getAllImportedRemoteObjects($this->settings->getServerId());
             
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Imported = ' . print_r($imported, true));
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': List = ' . print_r($list, true));
+            $this->logger->info(__METHOD__ . ': Imported = ' . print_r($imported, true));
+            $this->logger->info(__METHOD__ . ': List = ' . print_r($list, true));
             
             foreach ($list as $resource_type => $link_ids) {
                 if (!in_array($resource_type, ilECSUtils::getPossibleRemoteTypes())) {
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Ignoring resource type ' . $resource_type);
+                    $this->logger->info(__METHOD__ . ': Ignoring resource type ' . $resource_type);
                     continue;
                 }
                 
@@ -165,14 +138,14 @@ class ilECSEventQueueReader
                 foreach ((array) $link_ids as $link_id) {
                     if (!isset($imported[$link_id])) {
                         // Add create event for not imported econtent
-                        $event_queue->add(
+                        $this->add(
                             $resource_type,
                             $link_id,
                             ilECSEvent::CREATED
                         );
                     } else {
                         // Add update event for already existing events
-                        $event_queue->add(
+                        $this->add(
                             $resource_type,
                             $link_id,
                             ilECSEvent::UPDATED
@@ -187,11 +160,10 @@ class ilECSEventQueueReader
             
             if (is_array($imported)) {
                 // Delete event for deprecated econtent
-                include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
                 foreach ($imported as $econtent_id => $obj_id) {
                     $type = self::getEventTypeFromObjectType(ilObject::_lookupType($obj_id));
                     if ($type) {
-                        $event_queue->add(
+                        $this->add(
                             $type,
                             $econtent_id,
                             ilECSEvent::DESTROYED
@@ -200,10 +172,10 @@ class ilECSEventQueueReader
                 }
             }
         } catch (ilECSConnectorException $e1) {
-            $ilLog->write('Cannot connect to ECS server: ' . $e1->getMessage());
+            $this->logger->info('Cannot connect to ECS server: ' . $e1->getMessage());
             throw $e1;
         } catch (ilException $e2) {
-            $ilLog->write('Update failed: ' . $e2->getMessage());
+            $this->logger->info('Update failed: ' . $e2->getMessage());
             throw $e2;
         }
         return true;
@@ -217,19 +189,18 @@ class ilECSEventQueueReader
      * @static
      * throws ilException, ilECSConnectorException
      */
-    public static function handleExportReset(ilECSSetting $server)
+    public function handleExportReset()
     {
-        include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-
         // Delete all export events
-        $queue = new ilECSEventQueueReader($server->getServerId());
-        $queue->deleteAllExportedEvents();
+
+        $this->deleteAllExportedEvents();
 
         // Read all local export info
-        $local_econtent_ids = ilECSExport::_getAllEContentIds($server->getServerId());
+        $exportManager = ilECSExportManager::getInstance();
+        $local_econtent_ids = $exportManager->_getAllEContentIds($this->settings->getServerId());
 
         $types = self::getAllEContentTypes();
-        $list = self::getAllResourceIds($server, $types, true);
+        $list = self::getAllResourceIds($this->settings, $types, true);
         
         
         // merge in one array
@@ -239,13 +210,13 @@ class ilECSEventQueueReader
         }
         $all_remote_ids = array_unique($all_remote_ids);
         
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Resources = ' . print_r($all_remote_ids, true));
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Local = ' . print_r($local_econtent_ids, true));
+        $this->logger->info(__METHOD__ . ': Resources = ' . print_r($all_remote_ids, true));
+        $this->logger->info(__METHOD__ . ': Local = ' . print_r($local_econtent_ids, true));
         foreach ($local_econtent_ids as $local_econtent_id => $local_obj_id) {
             if (!in_array($local_econtent_id, $all_remote_ids)) {
                 // Delete this deprecated info
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Deleting deprecated econtent id ' . $local_econtent_id);
-                ilECSExport::_deleteEContentIds($server->getServerId(), array($local_econtent_id));
+                $this->logger->info(__METHOD__ . ': Deleting deprecated econtent id ' . $local_econtent_id);
+                $exportManager->_deleteEContentIds($this->settings->getServerId(), array($local_econtent_id));
             }
         }
         return true;
@@ -253,7 +224,7 @@ class ilECSEventQueueReader
 
 
     /**
-     * get server setting
+     * get server settings
      * @return ilECSSetting
      */
     public function getServer()
@@ -280,13 +251,9 @@ class ilECSEventQueueReader
      */
     public function deleteAll()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ecs_events " .
-            'WHERE server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $res = $ilDB->manipulate($query);
+            'WHERE server_id = ' . $this->db->quote($this->settings->getServerId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
     
@@ -298,14 +265,10 @@ class ilECSEventQueueReader
      */
     public function deleteAllEContentEvents(array $a_types)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ecs_events " .
-            "WHERE " . $this->db->in("type", $a_types, "", "text") . ' ' .
-            'AND server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $res = $ilDB->manipulate($query);
+            "WHERE " . $this->db->in("type", $a_types, false, "text") . ' ' .
+            'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
     
@@ -316,14 +279,10 @@ class ilECSEventQueueReader
      */
     protected function deleteAllExportedEvents()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ecs_events " .
             "WHERE type = " . $this->db->quote(self::TYPE_EXPORTED, 'text') . ' ' .
-            'AND server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $res = $ilDB->manipulate($query);
+            'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
 
@@ -336,9 +295,6 @@ class ilECSEventQueueReader
     public function refresh()
     {
         try {
-            include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
-            include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-
             $connector = new ilECSConnector($this->getServer());
             while (true) {
                 $res = $connector->readEventFifo(false);
@@ -348,12 +304,11 @@ class ilECSEventQueueReader
                 }
 
                 foreach ($res->getResult() as $result) {
-                    include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
                     $event = new ilECSEvent($result);
 
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' ---------------------------- Handling new event ');
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . print_r($event, true));
-                    $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' ---------------------------- Done! ');
+                    $this->logger->info(__METHOD__ . ' ---------------------------- Handling new event ');
+                    $this->logger->info(__METHOD__ . print_r($event, true));
+                    $this->logger->info(__METHOD__ . ' ---------------------------- Done! ');
 
                     // Fill command queue
                     $this->writeEventToDB($event);
@@ -362,7 +317,7 @@ class ilECSEventQueueReader
                 $connector->readEventFifo(true);
             }
         } catch (ilECSConnectorException $e) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Cannot read event fifo. Aborting');
+            $this->logger->error(__METHOD__ . ': Cannot read event fifo. Aborting');
         }
     }
 
@@ -371,15 +326,11 @@ class ilECSEventQueueReader
      * @global ilDB $ilDB
      * @param int $a_server_id
      */
-    public static function deleteServer($a_server_id)
+    public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM ecs_events ' .
-            'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer');
-        $ilDB->manipulate($query);
+            'WHERE server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
+        $this->db->manipulate($query);
     }
 
     /**
@@ -387,10 +338,6 @@ class ilECSEventQueueReader
      */
     private function writeEventToDB(ilECSEvent $ev)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         // this should probably be moved elsewhere
         switch ($ev->getRessourceType()) {
             case 'directory_trees':
@@ -452,10 +399,10 @@ class ilECSEventQueueReader
         }
 
         $query = "SELECT * FROM ecs_events " .
-            "WHERE type = " . $ilDB->quote($type, 'integer') . " " .
-            "AND id = " . $ilDB->quote($ev->getRessourceId(), 'integer') . " " .
-            'AND server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $res = $ilDB->query($query);
+            "WHERE type = " . $this->db->quote($type, 'integer') . " " .
+            "AND id = " . $this->db->quote($ev->getRessourceId(), 'integer') . " " .
+            'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
+        $res = $this->db->query($query);
 
         $event_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -466,13 +413,13 @@ class ilECSEventQueueReader
             // No previous entry exists => perform insert
             $query = "INSERT ecs_events (event_id,type,id,op,server_id) " .
                 "VALUES( " .
-                $ilDB->quote($ilDB->nextId('ecs_events'), 'integer') . ',' .
-                $ilDB->quote($type, 'text') . ', ' .
-                $ilDB->quote($ev->getRessourceId(), 'integer') . ', ' .
-                $ilDB->quote($ev->getStatus(), 'text') . ', ' .
-                $ilDB->quote($this->getServer()->getServerId(), 'integer') . ' ' .
+                $this->db->quote($this->db->nextId('ecs_events'), 'integer') . ',' .
+                $this->db->quote($type, 'text') . ', ' .
+                $this->db->quote($ev->getRessourceId(), 'integer') . ', ' .
+                $this->db->quote($ev->getStatus(), 'text') . ', ' .
+                $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ' .
                 ')';
-            $ilDB->manipulate($query);
+            $this->db->manipulate($query);
             return true;
         }
         // Do update
@@ -496,11 +443,11 @@ class ilECSEventQueueReader
             return true;
         }
         $query = "UPDATE ecs_events " .
-            "SET op = " . $ilDB->quote($ev->getStatus(), 'text') . " " .
-            "WHERE event_id = " . $ilDB->quote($event_id, 'integer') . ' ' .
-            'AND type = ' . $ilDB->quote($type) . ' ' .
-            'AND server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $ilDB->manipulate($query);
+            "SET op = " . $this->db->quote($ev->getStatus(), 'text') . " " .
+            "WHERE event_id = " . $this->db->quote($event_id, 'integer') . ' ' .
+            'AND type = ' . $this->db->quote($type) . ' ' .
+            'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
     
@@ -530,20 +477,16 @@ class ilECSEventQueueReader
      */
     public function add($a_type, $a_id, $a_op)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $next_id = $ilDB->nextId('ecs_events');
+        $next_id = $this->db->nextId('ecs_events');
         $query = "INSERT INTO ecs_events (event_id,type,id,op,server_id) " .
             "VALUES (" .
-            $ilDB->quote($next_id, 'integer') . ", " .
+            $this->db->quote($next_id, 'integer') . ", " .
             $this->db->quote($a_type, 'text') . ", " .
             $this->db->quote($a_id, 'integer') . ", " .
             $this->db->quote($a_op, 'text') . ", " .
-            $ilDB->quote($this->getServer()->getServerId(), 'integer') . ' ' .
+            $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ' .
             ")";
-        $res = $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         
         $new_event['event_id'] = $next_id;
         $new_event['type'] = $a_type;
@@ -563,16 +506,12 @@ class ilECSEventQueueReader
      */
     private function update($a_type, $a_id, $a_operation)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "UPDATE ecs_events " .
             "SET op = " . $this->db->quote($a_operation, 'text') . " " .
             "WHERE type = " . $this->db->quote($a_type, 'text') . " " .
             "AND id = " . $this->db->quote($a_id, 'integer') . " " .
-            'AND server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $res = $ilDB->manipulate($query);
+            'AND server_id = ' . $this->db->quote($this->settings->getServerId(), 'integer');
+        $this->db->manipulate($query);
     }
     
     /**
@@ -581,16 +520,12 @@ class ilECSEventQueueReader
      * @param int event id
      *
      */
-    public function delete($a_event_id)
+    public function deleteEvent($a_event_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ecs_events " .
             "WHERE event_id = " . $this->db->quote($a_event_id, 'integer') . " " .
-            'AND server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer');
-        $res = $ilDB->manipulate($query);
+            'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
+        $this->db->manipulate($query);
         unset($this->econtent_ids[$a_event_id]);
         return true;
     }
@@ -601,12 +536,8 @@ class ilECSEventQueueReader
      */
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM ecs_events  " .
-            'WHERE server_id = ' . $ilDB->quote($this->getServer()->getServerId(), 'integer') . ' ' .
+            'WHERE server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ' .
             'ORDER BY event_id';
         
         $res = $this->db->query($query);
@@ -620,18 +551,6 @@ class ilECSEventQueueReader
             $this->econtent_ids[$row->event_id] = $row->event_id;
             ++$counter;
         }
-        return true;
-    }
-    
-    public static function deleteByServerId($a_server_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = 'DELETE FROM ecs_events' .
-            ' WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer');
-        $ilDB->manipulate($query);
         return true;
     }
 }

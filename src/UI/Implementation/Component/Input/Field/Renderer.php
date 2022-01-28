@@ -188,7 +188,7 @@ class Renderer extends AbstractComponentRenderer
         if (!is_null($escape)) {
             $value = $escape($value);
         }
-        if ($value) {
+        if (isset($value) && strlen($value) > 0) {
             $tpl->setVariable("VALUE", $value);
         }
     }
@@ -490,29 +490,30 @@ class Renderer extends AbstractComponentRenderer
     protected function renderMultiSelectField(F\MultiSelect $component) : string
     {
         $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-        $name = $this->applyName($component, $tpl);
-
-        $value = $component->getValue();
-        $tpl->setVariable("VALUE", $value);
-
         $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable("ID", $id);
 
-        foreach ($component->getOptions() as $opt_value => $opt_label) {
-            $tpl->setCurrentBlock("option");
-            $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("VALUE", $opt_value);
-            $tpl->setVariable("LABEL", $opt_label);
+        $options = $component->getOptions();
+        if (count($options) > 0) {
+            $value = $component->getValue();
+            $name = $this->applyName($component, $tpl);
+            foreach ($options as $opt_value => $opt_label) {
+                $tpl->setCurrentBlock("option");
+                $tpl->setVariable("NAME", $name);
+                $tpl->setVariable("VALUE", $opt_value);
+                $tpl->setVariable("LABEL", $opt_label);
 
-            if ($value && in_array($opt_value, $value)) {
-                $tpl->setVariable("CHECKED", 'checked="checked"');
+                if ($value && in_array($opt_value, $value)) {
+                    $tpl->setVariable("CHECKED", 'checked="checked"');
+                }
+
+                if ($component->isDisabled()) {
+                    $tpl->setVariable("DISABLED", 'disabled="disabled"');
+                }
+                $tpl->parseCurrentBlock();
             }
-
-            if ($component->isDisabled()) {
-                $tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
-
-            $tpl->parseCurrentBlock();
+        } else {
+            $tpl->touchBlock("no_options");
         }
 
         return $this->wrapInFormContext($component, $tpl->get());
@@ -892,6 +893,31 @@ class Renderer extends AbstractComponentRenderer
                     );
                 });
             ";
+        });
+    }
+
+    protected function initClientsideRenderer(
+        FI\DynamicInputsAware $input,
+        string $template_html
+    ) : FI\DynamicInputsAware {
+        $dynamic_inputs_template_html = $this->replaceTemplateIds($template_html);
+        $dynamic_input_count = count($input->getDynamicInputs());
+
+        // note that $dynamic_inputs_template_html is in tilted single quotes (`),
+        // because otherwise the html syntax might collide with normal ones.
+        return $input->withAdditionalOnLoadCode(function ($id) use (
+            $dynamic_inputs_template_html,
+            $dynamic_input_count
+        ) {
+            return "
+            $(document).ready(function () {
+                il.UI.Input.DynamicInputsRenderer.init(
+                    '$id',
+                    `$dynamic_inputs_template_html`,
+                    $dynamic_input_count
+                );
+            });
+        ";
         });
     }
 

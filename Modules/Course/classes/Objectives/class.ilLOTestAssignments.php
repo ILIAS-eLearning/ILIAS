@@ -21,7 +21,6 @@ class ilLOTestAssignments
     {
         $this->container_id = $a_container_id;
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $this->settings = ilLOSettings::getInstanceByObjId($a_container_id);
         $this->readTestAssignments();
     }
@@ -227,7 +226,6 @@ class ilLOTestAssignments
                 'WHERE container_id = ' . $ilDB->quote($this->getContainerId(), 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
             $assignment = new ilLOTestAssignment($row->assignment_id);
             
             $this->assignments[] = $assignment;
@@ -245,7 +243,6 @@ class ilLOTestAssignments
                 continue;
             }
             
-            include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
             $writer->xmlElement(
                 'Test',
                 array(

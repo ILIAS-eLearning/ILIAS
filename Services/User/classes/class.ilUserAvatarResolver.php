@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Factory;
 
@@ -9,60 +22,22 @@ use ILIAS\UI\Factory;
  */
 class ilUserAvatarResolver
 {
-    /**
-     * @var int
-     */
-    private $user_id;
-    /**
-     * @var string
-     */
-    private $login;
-    /**
-     * @var string
-     */
-    private $firstname;
-    /**
-     * @var string
-     */
-    private $lastname;
-    /**
-     * @var bool
-     */
-    private $has_public_profile = false;
-    /**
-     * @var bool
-     */
-    private $has_public_upload = false;
-    /**
-     * @var string
-     */
-    private $uploaded_file;
-    /**
-     * @var string
-     */
-    private $abbreviation;
-    /**
-     * @var bool
-     */
-    private $force_image = false;
-    /**
-     * @var string
-     */
-    private $size = 'small';
-    /**
-     * @var Factory
-     */
-    protected $ui;
-
-    /**
-     * @var bool
-     */
-    protected $letter_avatars_activated;
+    private int $user_id;
+    private string $login;
+    private string $firstname;
+    private string $lastname;
+    private bool $has_public_profile = false;
+    private bool $has_public_upload = false;
+    private string $uploaded_file;
+    private string $abbreviation;
+    private bool $force_image = false;
+    private string $size = 'small';
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected Factory $ui;
+    protected bool $letter_avatars_activated;
     
-    /**
-     *  constructor.
-     * @param int $user_id
-     */
     public function __construct(int $user_id)
     {
         global $DIC;
@@ -111,7 +86,7 @@ class ilUserAvatarResolver
         if (defined('ILIAS_MODULE')) {
             $webspace_dir = ('.' . $webspace_dir);
         }
-        $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
+        $webspace_dir .= ('./' . ltrim(ilFileUtils::getWebspaceDir(), "./"));
 
         $image_dir = $webspace_dir . '/usr_images';
         $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
@@ -129,10 +104,9 @@ class ilUserAvatarResolver
     }
 
     /**
-     * @param bool $name_as_text_visible_closely if the name is set as text close to the Avatar, the alternative
+     * @param bool $name_as_set_as_text_closely if the name is set as text close to the Avatar, the alternative
      *                                           text for screenreaders will be set differently, to reduce redundancy
      *                                           for screenreaders. See rules on the Avatar Symbol in the UI Components
-     * @return Avatar
      */
     public function getAvatar(bool $name_as_set_as_text_closely = false) : Avatar
     {
@@ -174,17 +148,11 @@ class ilUserAvatarResolver
         return $avatar->getUrl();
     }
 
-    /**
-     * @param bool $force_image
-     */
     public function setForcePicture(bool $force_image) : void
     {
         $this->force_image = $force_image;
     }
 
-    /**
-     * @param string $size
-     */
     public function setSize(string $size) : void
     {
         if ($size === 'small' || $size === 'big') {

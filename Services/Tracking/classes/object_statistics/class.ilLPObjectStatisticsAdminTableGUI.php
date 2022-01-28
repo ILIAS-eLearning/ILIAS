@@ -67,7 +67,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

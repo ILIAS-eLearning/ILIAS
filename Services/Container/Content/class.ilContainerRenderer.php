@@ -476,7 +476,7 @@ class ilContainerRenderer
                     }
                 }
 
-                if (is_array($this->block_items[$a_block_id])) {
+                if (isset($this->block_items[$a_block_id])) {
                     foreach ($this->block_items[$a_block_id] as $item_id) {
                         if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
                             $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], (int) $item_id);

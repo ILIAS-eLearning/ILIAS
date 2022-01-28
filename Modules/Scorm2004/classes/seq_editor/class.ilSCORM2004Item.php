@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,9 +11,6 @@
  */
 class ilSCORM2004Item
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     //db fields

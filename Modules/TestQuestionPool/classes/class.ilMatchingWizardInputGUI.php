@@ -345,7 +345,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             }
             $tpl->setCurrentBlock("image_heading");
             $tpl->setVariable("ANSWER_IMAGE", $this->image_name);
-            $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+            $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
 

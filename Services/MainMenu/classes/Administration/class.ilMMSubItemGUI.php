@@ -28,7 +28,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CANCEL = 'cancel';
 
-    private function dispatchCommand($cmd)
+    private function dispatchCommand($cmd): string
     {
         global $DIC;
         switch ($cmd) {

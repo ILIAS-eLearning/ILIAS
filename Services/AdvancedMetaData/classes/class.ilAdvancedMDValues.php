@@ -15,7 +15,7 @@ class ilAdvancedMDValues
     protected string $sub_type;
 
     protected ?array $defs = null;
-    protected ?ilADTGroup $adt_group;
+    protected ?ilADTGroup $adt_group = null;
     protected ?ilADTActiveRecordByType $active_record = null;
 
     protected array $disabled = [];

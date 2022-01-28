@@ -1,12 +1,22 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Mode;
 
 use ILIAS\Survey\InternalDomainService;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalService;
 
 /**
@@ -14,16 +24,9 @@ use ILIAS\Survey\InternalService;
  */
 class ModeFactory
 {
-    protected $providers;
+    protected array $providers;
+    protected InternalService $service;
 
-    /**
-     * @var InternalService
-     */
-    protected $service;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->providers = [
@@ -34,7 +37,7 @@ class ModeFactory
         ];
     }
 
-    public function setInternalService(InternalService $service)
+    public function setInternalService(InternalService $service) : void
     {
         $this->service = $service;
     }

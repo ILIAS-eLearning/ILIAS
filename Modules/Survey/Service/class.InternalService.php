@@ -1,54 +1,37 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey;
 
-use ILIAS\Survey\Mode\ModeFactory;/**
- * Survey internal service
- * @author killing@leifos.de
- */
+use ILIAS\Survey\Mode\ModeFactory;
 
+/**
+ * Survey internal service
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class InternalService
 {
-    /**
-     * @var InternalDataService
-     */
-    protected $data;
+    protected InternalDataService $data;
+    protected InternalGUIService $gui;
+    protected InternalDomainService $domain;
+    protected InternalRepoService $repo;
+    protected ModeFactory $mode_factory;
+    protected \ilDBInterface $db;
 
-    /**
-     * @var InternalUIService
-     */
-    protected $ui;
-
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo;
-
-    /**
-     * @var ModeFactory
-     */
-    protected $mode_factory;
-
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $object_service = $DIC->object();
@@ -65,7 +48,7 @@ class InternalService
             $this->repo,
             $this->data
         );
-        $this->ui = new InternalUIService(
+        $this->gui = new InternalGUIService(
             $object_service,
             $this->mode_factory,
             $this->domain
@@ -73,36 +56,21 @@ class InternalService
         $this->mode_factory->setInternalService($this);
     }
 
-    /**
-     * @return InternalUIService
-     */
-    public function ui() : InternalUIService
+    public function gui() : InternalGUIService
     {
-        return $this->ui;
+        return $this->gui;
     }
 
-    /**
-     * Booking service repos
-     *
-     * @return InternalRepoService
-     */
     public function repo() : InternalRepoService
     {
         return $this->repo;
     }
 
-    /**
-     * Booking service data objects
-     * @return InternalDataService
-     */
     public function data() : InternalDataService
     {
         return $this->data;
     }
 
-    /**
-     * @return InternalDomainService
-     */
     public function domain() : InternalDomainService
     {
         return $this->domain;
