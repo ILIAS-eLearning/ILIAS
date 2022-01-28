@@ -75,9 +75,10 @@ class DynamicInputDataIteratorTest extends TestCase
             $current
         );
 
+        $rendered_dynamic_input_name = "{$parent_input_name}[$dynamic_input_name][]";
         $this->assertEquals(
             $test_value,
-            $current->getOr($dynamic_input_name, null)
+            $current->getOr($rendered_dynamic_input_name, null)
         );
     }
 
