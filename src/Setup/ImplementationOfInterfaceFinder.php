@@ -59,7 +59,6 @@ class ImplementationOfInterfaceFinder
         array $additional_ignore = [],
         string $matching_path = null
     ) : \Iterator {
-        print_r("analyse all classes \n");
         foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
                 // Cache reflection because it is not handled internal anymore
@@ -76,11 +75,12 @@ class ImplementationOfInterfaceFinder
                 }
 
 
-                if ($r['isInstantiable'] && in_array($class_name, $r['interfaces'])) {
-                //if (class_implements($class_name, $interface)) {
+                if ($r['isInstantiable'] && in_array($interface, $r['interfaces'])) {
+                    print_r([$interface, $r['interfaces']]);
                     yield $class_name;
                 }
             } catch (\Throwable $e) {
+                print_r($e->getMessage());
                 // noting to do here
             }
         }
