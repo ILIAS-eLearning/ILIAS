@@ -1,16 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
- * Class ilWebDAVMountInstructionsfactory
- *
  * @author Stephan Winiker <stephan.winiker@hslu.ch>
  * $Id$
  */
 class ilWebDAVMountInstructionsFactory
 {
-    private $repo;
-    private $request;
-    private $user;
+    private \ilWebDAVMountInstructionsRepositoryImpl $repo;
+    private \Psr\Http\Message\RequestInterface $request;
+    private \ilObjUser $user;
     
     public function __construct(
         ilWebDAVMountInstructionsRepositoryImpl $a_repo,
@@ -38,19 +36,21 @@ class ilWebDAVMountInstructionsFactory
             return new ilWebDAVObjectlessMountInstructions(
                 $this->repo,
                 $uri_builder,
-                new ilSetting('file_access'),
+                new ilSetting(),
                 $path_value
             );
-        } elseif (substr($path_value, 0, 4) == 'ref_') {
+        }
+        
+        if (substr($path_value, 0, 4) == 'ref_') {
             return new ilWebDAVObjectMountInstructions(
                 $this->repo,
                 $uri_builder,
-                new ilSetting('file_access'),
+                new ilSetting(),
                 $this->user->getLanguage(),
                 (int) substr($path_value, 4)
             );
-        } else {
-            throw new InvalidArgumentException("Invalid path given");
         }
+        
+        throw new InvalidArgumentException("Invalid path given");
     }
 }

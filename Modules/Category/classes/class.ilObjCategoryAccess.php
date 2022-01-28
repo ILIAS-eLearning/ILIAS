@@ -41,11 +41,8 @@ class ilObjCategoryAccess extends ilObjectAccess
 
         // BEGIN WebDAV
         if (ilDAVActivationChecker::_isActive()) {
-            if (ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired()) {
-                $commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
-            } else {
-                $commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
-            }
+            $webdav_obj = new ilObjWebDAV();
+            $commands[] = $webdav_obj->retrieveWebDAVCommandArrayForActionMenu();
         }
         // END WebDAV
         $commands[] = array("permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content");
