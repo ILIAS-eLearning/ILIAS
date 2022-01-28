@@ -688,9 +688,6 @@ class ilForumTopic
             $casted_row['post_id'] = (int) $row['post_id'];
             $casted_row['post_read'] = (int) $row['post_read'];
             $casted_row['children'] = (int) $row['children'];
-            $casted_row['rgt'] = (int) $row['rgt'];
-            $casted_row['rgt'] = (int) $row['rgt'];
-            $casted_row['rgt'] = (int) $row['rgt'];
 
             $children[] = $casted_row;
         }

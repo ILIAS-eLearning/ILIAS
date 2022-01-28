@@ -762,30 +762,19 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_settings'), 'notification_events');
 
-            $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
-            $notify_modified->setValue((string) ilForumNotificationEvents::UPDATED);
+            $notify_modified = new ilCheckboxOption($this->lng->txt('notify_modified'), (string) ilForumNotificationEvents::UPDATED);
             $cb_grp->addOption($notify_modified);
 
-            $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
-            $notify_censored->setValue((string) ilForumNotificationEvents::CENSORED);
+            $notify_censored = new ilCheckboxOption($this->lng->txt('notify_censored'), (string) ilForumNotificationEvents::CENSORED);
             $cb_grp->addOption($notify_censored);
 
-            $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
-            $notify_uncensored->setValue((string) ilForumNotificationEvents::UNCENSORED);
+            $notify_uncensored = new ilCheckboxOption($this->lng->txt('notify_uncensored'), (string) ilForumNotificationEvents::UNCENSORED);
             $cb_grp->addOption($notify_uncensored);
 
-            $notify_post_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_post_deleted'),
-                'notify_post_deleted'
-            );
-            $notify_post_deleted->setValue((string) ilForumNotificationEvents::POST_DELETED);
+            $notify_post_deleted = new ilCheckboxOption($this->lng->txt('notify_post_deleted'), (string) ilForumNotificationEvents::POST_DELETED);
             $cb_grp->addOption($notify_post_deleted);
 
-            $notify_thread_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_thread_deleted'),
-                'notify_thread_deleted'
-            );
-            $notify_thread_deleted->setValue((string) ilForumNotificationEvents::THREAD_DELETED);
+            $notify_thread_deleted = new ilCheckboxOption($this->lng->txt('notify_thread_deleted'), (string) ilForumNotificationEvents::THREAD_DELETED);
             $cb_grp->addOption($notify_thread_deleted);
             $opt_0->addSubItem($cb_grp);
 
