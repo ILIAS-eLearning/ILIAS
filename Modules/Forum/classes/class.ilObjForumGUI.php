@@ -17,6 +17,8 @@ use ILIAS\UI\Renderer;
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForumObjectConstants
 {
+    use ilForumRequestTrait;
+
     private array $viewModeOptions = [
         ilForumProperties::VIEW_TREE => 'sort_by_posts',
         ilForumProperties::VIEW_DATE_ASC => 'sort_by_date',
@@ -106,13 +108,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $ref_id = $this->retrieveRefId();
         $thr_pk = $this->retrieveThrPk();
-        $pos_pk = 0;
-        if ($this->http->wrapper()->query()->has('pos_pk')) {
-            $pos_pk = $this->http->wrapper()->query()->retrieve(
-                'pos_pk',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $pos_pk = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'pos_pk');
 
         $this->objProperties = ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($ref_id));
         $this->is_moderator = $this->access->checkAccess('moderate_frm', '', $ref_id);
@@ -156,28 +152,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     private function retrieveRefId() : int
     {
-        $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        return $ref_id;
+        return $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'ref_id');
     }
 
     private function retrieveThrPk() : int
     {
-        $thr_pk = 0;
-        if ($this->http->wrapper()->query()->has('thr_pk')) {
-            $thr_pk = $this->http->wrapper()->query()->retrieve(
-                'thr_pk',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        return $thr_pk;
+        return $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'thr_pk');
     }
 
     private function retrieveThreadIds() : array
@@ -195,15 +175,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     private function retrieveDraftId() : int
     {
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-
-        return $draft_id;
+        return $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'draft_id');
     }
 
     protected function toggleExplorerNodeStateObject() : void
@@ -354,13 +326,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $ref_id = $this->retrieveRefId();
-        $user = 0;
-        if ($this->http->wrapper()->query()->has('user')) {
-            $user = $this->http->wrapper()->query()->retrieve(
-                'user',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
 
         if (!$this->getCreationMode() && !$this->ctrl->isAsynch() && $this->access->checkAccess(
             'read',
@@ -478,8 +443,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 break;
 
             case strtolower(ilPublicUserProfileGUI::class):
-                $profile_gui = new ilPublicUserProfileGUI((int) $user);
-                $add = $this->getUserProfileAdditional($ref_id, (int) $user);
+                $user = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'user');
+                $profile_gui = new ilPublicUserProfileGUI($user);
+                $add = $this->getUserProfileAdditional($ref_id, $user);
                 $profile_gui->setAdditional($add);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 $this->tpl->setContent($ret);
