@@ -5,6 +5,19 @@ use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Processor\PreProcessor;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilVirusScannerPreProcessor
  *
@@ -17,10 +30,7 @@ use ILIAS\FileUpload\Processor\PreProcessor;
 final class ilVirusScannerPreProcessor implements PreProcessor
 {
 
-    /**
-     * @var ilVirusScanner
-     */
-    protected $scanner;
+    protected \ilVirusScanner $scanner;
 
 
     /**

@@ -1,9 +1,20 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 use ILIAS\Setup;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilVirusScannerSetupConfig implements Setup\Config
 {
     const VIRUS_SCANNER_NONE = "none";
@@ -12,40 +23,19 @@ class ilVirusScannerSetupConfig implements Setup\Config
     const VIRUS_SCANNER_CLAMAV = "clamav";
     const VIRUS_SCANNER_ICAP = "icap";
 
-    /**
-     * @var mixed
-     */
-    protected $virus_scanner;
+    protected string $virus_scanner;
 
-    /**
-     * @var string|null
-     */
-    protected $path_to_scan;
+    protected ?string $path_to_scan = null;
 
-    /**
-     * @var string|null
-     */
-    protected $path_to_clean;
+    protected ?string $path_to_clean = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_host;
+    protected ?string $icap_host = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_port;
+    protected ?string $icap_port = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_service_name;
+    protected ?string $icap_service_name = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_client_path;
+    protected ?string $icap_client_path = null;
 
     public function __construct(
         string $virus_scanner,

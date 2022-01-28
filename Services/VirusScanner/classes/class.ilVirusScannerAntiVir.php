@@ -1,16 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * Interface to the AntiVir virus protector
- * @author    Alex Killing <alex.killing@gmx.de>
- * @version   $Id$
- * @extends   ilVirusScanner
- * @deprecated since ILIAS 7.0, the last update for the virus database was 2016
- */
-
-require_once "Services/VirusScanner/classes/class.ilVirusScanner.php";
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilVirusScannerAntiVir extends ilVirusScanner
 {
     public function __construct(string $scan_command, string $clean_command)

@@ -1,17 +1,17 @@
 <?php
-//hsuhh-patch: begin
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * Interface to the ClamAV virus protector
- * @author        Ralf Schenk <rs@databay.de>
- * @version       $Id$
- * @extends       ilVirusScanner
- */
-
-
-require_once "./Services/VirusScanner/classes/class.ilVirusScanner.php";
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilVirusScannerICapRemote extends ilVirusScanner
 {
     private string $host;
@@ -158,9 +158,9 @@ class ilVirusScannerICapRemote extends ilVirusScanner
 
     /**
      * @param $string
-     * @return array
+     * @return array<string, array<string, string>>|array<string, string>
      */
-    private function parseResponse($string)
+    private function parseResponse($string): array
     {
         $response = [
             'protocol' => [],
@@ -227,11 +227,9 @@ class ilVirusScannerICapRemote extends ilVirusScanner
 
     /**
      * @param       $service
-     * @param array $body
-     * @param array $headers
-     * @return array
+     * @return array<string, array<string, string>>|array<string, string>
      */
-    public function respMod($service, $body = [], $headers = [])
+    public function respMod($service, array $body = [], array $headers = []): array
     {
         $request = $this->getRequest('RESPMOD', $service, $body, $headers);
         $response = $this->send($request);
@@ -240,11 +238,9 @@ class ilVirusScannerICapRemote extends ilVirusScanner
 
     /**
      * @param       $service
-     * @param array $body
-     * @param array $headers
-     * @return array
+     * @return array<string, array<string, string>>|array<string, string>
      */
-    public function reqMod($service, $body = [], $headers = [])
+    public function reqMod($service, array $body = [], array $headers = []): array
     {
         $request = $this->getRequest('REQMOD', $service, $body, $headers);
         $response = $this->send($request);
