@@ -14,9 +14,9 @@ class ilForumAuthorInformation
     private string $import_name;
     private array $public_profile_link_attributes;
     private string $author_name = '';
-    private string $author_short_name= '';
+    private string $author_short_name = '';
     private string $linked_public_name = '';
-    private string $linked_short_name= '';
+    private string $linked_short_name = '';
     private string $suffix = '';
     private string $profilePicture;
     private ?ilObjUser $author = null;
@@ -184,7 +184,7 @@ class ilForumAuthorInformation
 
     protected function getUserImagePath(ilObjUser $user) : string
     {
-        if (ilContext::hasHTML()) {
+        if (!ilContext::hasHTML()) {
             return '';
         }
 
