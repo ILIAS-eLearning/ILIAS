@@ -42,9 +42,11 @@ class ilStr
             return strpos($a_haystack, $a_needle, $a_offset);
         }
     }
-
     
-    public static function strIPos(string $a_haystack, string $a_needle, ?int $a_offset = null) : int
+    /**
+     * @return false|int
+     */
+    public static function strIPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_stripos")) {
             return mb_stripos($a_haystack, $a_needle, $a_offset, "UTF-8");
