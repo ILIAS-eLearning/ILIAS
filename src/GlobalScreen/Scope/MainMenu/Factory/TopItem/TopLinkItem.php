@@ -45,7 +45,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;
@@ -65,7 +65,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
         
         return $clone;
@@ -85,7 +85,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->is_external_action = $is_external;
         
         return $clone;
@@ -98,5 +98,4 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
     {
         return $this->is_external_action;
     }
-    
 }

@@ -23,7 +23,6 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol, isChild
 {
-    
     protected ?Symbol $symbol;
     protected string $title = "";
     protected string $action = "";
@@ -39,7 +38,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     
     public function withAction(string $action) : self
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
         
         return $clone;
@@ -58,7 +57,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->symbol = $symbol;
         
         return $clone;
@@ -85,7 +84,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;

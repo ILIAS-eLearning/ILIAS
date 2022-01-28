@@ -40,7 +40,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
  */
 class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollector
 {
-    
     private TypeInformationCollection $type_information_collection;
     private ?ItemInformation $information;
     /**
@@ -57,10 +56,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->information                 = $information;
-        $this->providers                   = $providers;
+        $this->information = $information;
+        $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map                         = new Map();
+        $this->map = new Map();
     }
     
     /**

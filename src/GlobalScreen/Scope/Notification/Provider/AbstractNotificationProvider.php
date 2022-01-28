@@ -25,7 +25,6 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
  */
 abstract class AbstractNotificationProvider extends AbstractProvider implements NotificationProvider
 {
-    
     protected Container $dic;
     protected IdentificationProviderInterface $if;
     protected NotificationFactory $notification_factory;
@@ -37,7 +36,7 @@ abstract class AbstractNotificationProvider extends AbstractProvider implements 
     {
         parent::__construct($dic);
         $this->notification_factory = $this->globalScreen()->notifications()->factory();
-        $this->if                   = $this->globalScreen()->identification()->core($this);
+        $this->if = $this->globalScreen()->identification()->core($this);
     }
     
     /**
@@ -47,5 +46,4 @@ abstract class AbstractNotificationProvider extends AbstractProvider implements 
     {
         return [];
     }
-    
 }

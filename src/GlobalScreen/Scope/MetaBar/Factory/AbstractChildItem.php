@@ -18,7 +18,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 abstract class AbstractChildItem extends AbstractBaseItem implements isItem, isChild
 {
-    
     protected ?IdentificationInterface $parent;
     
     /**
@@ -26,7 +25,7 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isItem, isC
      */
     public function withParent(IdentificationInterface $identification) : isItem
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->parent = $identification;
         
         return $clone;

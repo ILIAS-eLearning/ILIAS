@@ -23,7 +23,6 @@ use ILIAS\Data\ReferenceId;
  */
 class ContextRepository
 {
-    
     private array $contexts = [];
     private const C_MAIN = 'main';
     private const C_DESKTOP = 'desktop';
@@ -90,7 +89,7 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, self::C_LTI);
     }
     
-    private function get(string $class_name, string $identifier): \ILIAS\GlobalScreen\ScreenContext\ScreenContext
+    private function get(string $class_name, string $identifier) : \ILIAS\GlobalScreen\ScreenContext\ScreenContext
     {
         if (!isset($this->contexts[$identifier])) {
             $this->contexts[$identifier] = new $class_name($identifier);

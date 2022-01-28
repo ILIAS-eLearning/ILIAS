@@ -37,13 +37,13 @@ class ItemState
     public function __construct(IdentificationInterface $identification)
     {
         $this->identification = $identification;
-        $this->storage        = $this->getStorage();
+        $this->storage = $this->getStorage();
     }
     
     public function isItemActive() : bool
     {
         $hash = $this->hash($this->identification->serialize());
-        $b    = isset($this->storage[$hash]) && $this->storage[$hash] == true;
+        $b = isset($this->storage[$hash]) && $this->storage[$hash] == true;
         
         return $b;
     }

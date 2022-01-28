@@ -30,7 +30,7 @@ class ContextStack
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context): void
+    public function push(ScreenContext $context) : void
     {
         if (in_array($context, $this->stack)) {
             throw new \LogicException("A context can only be claimed once");

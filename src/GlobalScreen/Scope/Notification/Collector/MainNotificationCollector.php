@@ -75,13 +75,13 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     
     public function collectStructure() : void
     {
-        $this->notifications                = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
+        $this->notifications = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
         $this->administrative_notifications = array_merge([], ...iterator_to_array($this->returnAdministrativeNotificationsFromProviders()));
     }
     
     public function filterItemsByVisibilty(bool $async_only = false) : void
     {
-        $this->administrative_notifications = array_filter($this->administrative_notifications, static function (AdministrativeNotification $n): bool {
+        $this->administrative_notifications = array_filter($this->administrative_notifications, static function (AdministrativeNotification $n) : bool {
             return $n->isVisible();
         });
     }

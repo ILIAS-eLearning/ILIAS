@@ -23,7 +23,7 @@ class OnLoadCodeCollection extends AbstractCollection
     /**
      * @param OnLoadCode $item
      */
-    public function addItem(OnLoadCode $item): void
+    public function addItem(OnLoadCode $item) : void
     {
         $this->items[] = $item;
     }

@@ -20,7 +20,6 @@ use JsonSerializable;
  */
 class ClientSettings implements JsonSerializable
 {
-    
     private bool $hashing = true;
     private bool $logging = false;
     

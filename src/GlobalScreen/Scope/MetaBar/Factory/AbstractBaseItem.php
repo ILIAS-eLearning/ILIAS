@@ -36,7 +36,7 @@ abstract class AbstractBaseItem implements isItem
     public function __construct(IdentificationInterface $provider_identification)
     {
         $this->provider_identification = $provider_identification;
-        $this->renderer                = new BaseMetaBarItemRenderer();
+        $this->renderer = new BaseMetaBarItemRenderer();
     }
     
     /**
@@ -60,7 +60,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withVisibilityCallable(callable $is_visible) : isItem
     {
-        $clone                       = clone($this);
+        $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
         
         return $clone;
@@ -90,7 +90,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withAvailableCallable(callable $is_available) : isItem
     {
-        $clone                     = clone($this);
+        $clone = clone($this);
         $clone->available_callable = $is_available;
         
         return $clone;
@@ -125,7 +125,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withPosition(int $position) : isItem
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->position = $position;
         
         return $clone;

@@ -37,8 +37,8 @@ class JsCollection extends AbstractCollection
     private function storeItem(
         js $item
     ) : void {
-        $strip_path                      = $this->stripPath($item->getContent());
-        $this->items[$strip_path]        = $item;
+        $strip_path = $this->stripPath($item->getContent());
+        $this->items[$strip_path] = $item;
         $this->path_storage[$strip_path] = $item->getBatch();
     }
     
