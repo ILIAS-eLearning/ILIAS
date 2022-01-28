@@ -21,5 +21,4 @@ interface isItem
      * @return NotificationRenderer
      */
     public function getRenderer(UIFactory $factory) : NotificationRenderer;
-
 }

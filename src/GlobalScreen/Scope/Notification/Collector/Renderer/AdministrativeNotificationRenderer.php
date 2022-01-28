@@ -25,11 +25,10 @@ class AdministrativeNotificationRenderer extends AbstractBaseNotificationRendere
         $system_info = $this->ui_factory->mainControls()->systemInfo($item->getTitle(), $item->getSummary())->withDenotation($item->getDenotation());
 
         if ($item->hasClosedCallable()) {
-            $url         = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildCloseQuery($item);
+            $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildCloseQuery($item);
             $system_info = $system_info->withDismissAction(new URI($url));
         }
 
         return $system_info;
     }
-
 }
