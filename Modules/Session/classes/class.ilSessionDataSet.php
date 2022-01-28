@@ -371,7 +371,7 @@ class ilSessionDataSet extends ilDataSet
                 $app->setEnd($a_rec["EventEnd"]);
                 $app->setStartingTime($start->get(IL_CAL_UNIX));
                 $app->setEndingTime($end->get(IL_CAL_UNIX));
-                $app->toggleFullTime((int) $a_rec["Fulltime"]);
+                $app->toggleFullTime((bool) $a_rec["Fulltime"]);
                 $app->setSessionId($newObj->getId());
                 $app->create();
 
