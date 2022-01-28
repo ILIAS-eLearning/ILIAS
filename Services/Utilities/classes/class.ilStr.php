@@ -34,7 +34,7 @@ class ilStr
         }
     }
     
-    public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null) : int
+    public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_strpos")) {
             return mb_strpos($a_haystack, $a_needle, $a_offset, "UTF-8");
