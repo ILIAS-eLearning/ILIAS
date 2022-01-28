@@ -65,12 +65,12 @@ class ilVirusScanner
         $this->scanZipFiles = false;
     }
 
-    public function scanBuffer(string $buffer): bool
+    public function scanBuffer(string $buffer) : bool
     {
         return $this->scanFileFromBuffer($buffer);
     }
 
-    protected function scanFileFromBuffer(string $buffer): bool
+    protected function scanFileFromBuffer(string $buffer) : bool
     {
         $bufferFile = $this->createBufferFile($buffer);
         $isInfected = $this->scanFile($bufferFile);
@@ -78,14 +78,14 @@ class ilVirusScanner
         return $isInfected;
     }
 
-    protected function createBufferFile(string $buffer): string
+    protected function createBufferFile(string $buffer) : string
     {
         $bufferFile = ilFileUtils::ilTempnam();
         file_put_contents($bufferFile, $buffer);
         return $bufferFile;
     }
 
-    public function scanFile(string $file_path, string $org_name = ""): string
+    public function scanFile(string $file_path, string $org_name = "") : string
     {
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
@@ -103,7 +103,7 @@ class ilVirusScanner
         }
     }
 
-    public function logScanResult(): void
+    public function logScanResult() : void
     {
         $mess = "Virus Scanner (" . $this->type . ")";
         if ($this->scanFileOrigName) {
@@ -114,12 +114,12 @@ class ilVirusScanner
         $this->log->write($mess);
     }
 
-    protected function removeBufferFile(string $bufferFile): void
+    protected function removeBufferFile(string $bufferFile) : void
     {
         unlink($bufferFile);
     }
 
-    public function cleanFile(string $file_path, string $org_name = ""): string
+    public function cleanFile(string $file_path, string $org_name = "") : string
     {
         $this->cleanFilePath = $file_path;
         $this->cleanFileOrigName = $org_name;
@@ -139,7 +139,7 @@ class ilVirusScanner
         }
     }
 
-    public function logCleanResult(): void
+    public function logCleanResult() : void
     {
         $mess = "Virus Cleaner (" . $this->type . ")";
         if ($this->cleanFileOrigName) {
@@ -150,22 +150,22 @@ class ilVirusScanner
         $this->log->write($mess);
     }
 
-    public function fileCleaned(): bool
+    public function fileCleaned() : bool
     {
         return $this->cleanFileIsCleaned;
     }
 
-    public function getScanResult(): string
+    public function getScanResult() : string
     {
         return $this->scanResult;
     }
 
-    public function getCleanResult(): string
+    public function getCleanResult() : string
     {
         return $this->cleanResult;
     }
 
-    public function getScanMessage(): string
+    public function getScanMessage() : string
     {
         if ($this->scanFileIsInfected) {
             $ret = sprintf($this->lng->txt("virus_infected"), $this->scanFileOrigName);
@@ -185,7 +185,7 @@ class ilVirusScanner
         return $ret;
     }
 
-    public function getCleanMessage(): string
+    public function getCleanMessage() : string
     {
         if ($this->cleanFileIsCleaned) {
             $ret = sprintf($this->lng->txt("virus_cleaned"), $this->cleanFileOrigName);
@@ -205,7 +205,7 @@ class ilVirusScanner
         return $ret;
     }
 
-    public function getScanZipFiles(): bool
+    public function getScanZipFiles() : bool
     {
         return $this->scanZipFiles;
     }

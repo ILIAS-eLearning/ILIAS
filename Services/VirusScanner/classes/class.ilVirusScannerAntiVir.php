@@ -13,7 +13,6 @@ require_once "Services/VirusScanner/classes/class.ilVirusScanner.php";
 
 class ilVirusScannerAntiVir extends ilVirusScanner
 {
-
     public function __construct(string $scan_command, string $clean_command)
     {
         parent::__construct($scan_command, $clean_command);
@@ -21,9 +20,8 @@ class ilVirusScannerAntiVir extends ilVirusScanner
         $this->scanZipFiles = true;
     }
 
-    public function scanFile(string $file_path, string $org_name = ""): string
+    public function scanFile(string $file_path, string $org_name = "") : string
     {
-
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
 
@@ -41,6 +39,5 @@ class ilVirusScannerAntiVir extends ilVirusScanner
             $this->scanFileIsInfected = false;
             return "";
         }
-
     }
 }

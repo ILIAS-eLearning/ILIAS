@@ -3,7 +3,6 @@
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use Psr\Http\Message\StreamInterface;
 use ILIAS\FileUpload\Processor\PreProcessor;
 
 /**
@@ -19,7 +18,7 @@ final class ilVirusScannerPreProcessor implements PreProcessor
 {
 
     /**
-     * @var \ilVirusScanner
+     * @var ilVirusScanner
      */
     protected $scanner;
 
@@ -27,9 +26,9 @@ final class ilVirusScannerPreProcessor implements PreProcessor
     /**
      * ilVirusScannerPreProcessor constructor.
      *
-     * @param \ilVirusScanner $scanner
+     * @param ilVirusScanner $scanner
      */
-    public function __construct(\ilVirusScanner $scanner)
+    public function __construct(ilVirusScanner $scanner)
     {
         $this->scanner = $scanner;
     }

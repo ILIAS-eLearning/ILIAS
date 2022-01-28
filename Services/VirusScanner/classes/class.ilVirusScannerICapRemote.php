@@ -33,9 +33,9 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      */
     public function options($service) : array
     {
-        $request  = $this->getRequest('OPTIONS', $service);
+        $request = $this->getRequest('OPTIONS', $service);
         $response = $this->send($request);
-        if(strlen($response) > 0) {
+        if (strlen($response) > 0) {
             return $this->parseResponse($response);
         }
         return [];
@@ -48,7 +48,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param array $headers
      * @return string
      */
-    public function getRequest($method, $service, array $body = [], array $headers = []): string
+    public function getRequest($method, $service, array $body = [], array $headers = []) : string
     {
         if (!array_key_exists('Host', $headers)) {
             $headers['Host'] = $this->host;
@@ -59,23 +59,23 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         if (!array_key_exists('Connection', $headers)) {
             $headers['Connection'] = 'close';
         }
-        $bodyData     = '';
-        $hasBody      = false;
+        $bodyData = '';
+        $hasBody = false;
         $encapsulated = [];
         foreach ($body as $type => $data) {
             switch ($type) {
                 case 'req-hdr':
                 case 'res-hdr':
                     $encapsulated[$type] = strlen($bodyData);
-                    $bodyData            .= $data;
+                    $bodyData .= $data;
                     break;
                 case 'req-body':
                 case 'res-body':
                     $encapsulated[$type] = strlen($bodyData);
-                    $bodyData            .= dechex(strlen($data)) . "\r\n";
-                    $bodyData            .= $data;
-                    $bodyData            .= "\r\n";
-                    $hasBody             = true;
+                    $bodyData .= dechex(strlen($data)) . "\r\n";
+                    $bodyData .= $data;
+                    $bodyData .= "\r\n";
+                    $hasBody = true;
                     break;
             }
         }
@@ -107,14 +107,14 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     public function send($request) : string
     {
         $response = '';
-        try{
+        try {
             $this->connect();
             socket_write($this->socket, $request);
             while ($buffer = socket_read($this->socket, 2048)) {
                 $response .= $buffer;
             }
             $this->disconnect();
-        } catch(ErrorException $e){
+        } catch (ErrorException $e) {
             $this->log->warning("Cannot connect to icap://{$this->host}:{$this->port} (Socket error: " . $this->getLastSocketError() . ")");
         }
         return $response;
@@ -124,14 +124,14 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @return bool
      * @throws ErrorException
      */
-    private function connect(): bool
+    private function connect() : bool
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        try{
+        try {
             if (!socket_connect($this->socket, $this->host, $this->port)) {
                 return false;
             }
-        } catch(ErrorException $e){
+        } catch (ErrorException $e) {
             throw $e;
         }
 
@@ -142,7 +142,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * Get last error code from socket object
      * @return int Socket error code
      */
-    public function getLastSocketError(): int
+    public function getLastSocketError() : int
     {
         return socket_last_error($this->socket);
     }
@@ -164,19 +164,19 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     {
         $response = [
             'protocol' => [],
-            'headers'  => [],
-            'body'     => [],
-            'rawBody'  => ''
+            'headers' => [],
+            'body' => [],
+            'rawBody' => ''
         ];
         foreach (preg_split('/\r?\n/', $string) as $line) {
             if ([] === $response['protocol']) {
                 if (0 !== strpos($line, 'ICAP/')) {
                     throw new RuntimeException('Unknown ICAP response');
                 }
-                $parts                = preg_split('/ +/', $line, 3);
+                $parts = preg_split('/ +/', $line, 3);
                 $response['protocol'] = [
-                    'icap'    => isset($parts[0]) ? $parts[0] : '',
-                    'code'    => isset($parts[1]) ? $parts[1] : '',
+                    'icap' => isset($parts[0]) ? $parts[0] : '',
+                    'code' => isset($parts[1]) ? $parts[1] : '',
                     'message' => isset($parts[2]) ? $parts[2] : '',
                 ];
                 continue;
@@ -194,7 +194,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
             $response['rawBody'] = $body[1];
             if (array_key_exists('Encapsulated', $response['headers'])) {
                 $encapsulated = [];
-                $params       = preg_split('/, /', $response['headers']['Encapsulated']);
+                $params = preg_split('/, /', $response['headers']['Encapsulated']);
                 if (count($params) > 0) {
                     foreach ($params as $param) {
                         $parts = preg_split('/=/', $param);
@@ -233,7 +233,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      */
     public function respMod($service, $body = [], $headers = [])
     {
-        $request  = $this->getRequest('RESPMOD', $service, $body, $headers);
+        $request = $this->getRequest('RESPMOD', $service, $body, $headers);
         $response = $this->send($request);
         return $this->parseResponse($response);
     }
@@ -246,7 +246,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      */
     public function reqMod($service, $body = [], $headers = [])
     {
-        $request  = $this->getRequest('REQMOD', $service, $body, $headers);
+        $request = $this->getRequest('REQMOD', $service, $body, $headers);
         $response = $this->send($request);
         return $this->parseResponse($response);
     }

@@ -2,10 +2,8 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
+use ILIAS\Setup;
 
 class ilVirusScannerSetupAgent implements Setup\Agent
 {
@@ -36,8 +34,8 @@ class ilVirusScannerSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilVirusScannerSetupConfig(
-                $data["virusscanner"] ?? \ilVirusScannerSetupConfig::VIRUS_SCANNER_NONE,
+            return new ilVirusScannerSetupConfig(
+                $data["virusscanner"] ?? ilVirusScannerSetupConfig::VIRUS_SCANNER_NONE,
                 $data["path_to_scan"] ?? null,
                 $data["path_to_clean"] ?? null,
                 $data["icap_host"] ?? null,

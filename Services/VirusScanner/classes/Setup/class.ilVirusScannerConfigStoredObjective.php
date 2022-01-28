@@ -7,12 +7,12 @@ use ILIAS\Setup;
 class ilVirusScannerConfigStoredObjective implements Setup\Objective
 {
     /**
-     * @var	\ilVirusScannerSetupConfig
+     * @var    ilVirusScannerSetupConfig
      */
     protected $config;
 
     public function __construct(
-        \ilVirusScannerSetupConfig $config
+        ilVirusScannerSetupConfig $config
     ) {
         $this->config = $config;
     }
@@ -72,7 +72,6 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
             $ini->readVariable("tools", "icap_host") !== $this->config->getIcapHost() ||
             $ini->readVariable("tools", "icap_port") !== $this->config->getIcapPort() ||
             $ini->readVariable("tools", "icap_service_name") !== $this->config->getIcapServiceName() ||
-            $ini->readVariable("tools", "icap_client_path") !== $this->config->getIcapClientPath()
-        ;
+            $ini->readVariable("tools", "icap_client_path") !== $this->config->getIcapClientPath();
     }
 }

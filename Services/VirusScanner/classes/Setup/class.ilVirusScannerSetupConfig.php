@@ -3,7 +3,6 @@
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
-use ILIAS\Data\Password;
 
 class ilVirusScannerSetupConfig implements Setup\Config
 {
@@ -65,17 +64,17 @@ class ilVirusScannerSetupConfig implements Setup\Config
             self::VIRUS_SCANNER_ICAP
         ];
         if (!in_array($virus_scanner, $scanners)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Unknown virus scanner: '$virus_scanner'"
             );
         }
-        if($virus_scanner === self::VIRUS_SCANNER_ICAP) {
+        if ($virus_scanner === self::VIRUS_SCANNER_ICAP) {
             $this->icap_host = $this->toLinuxConvention($icap_host);
             $this->icap_port = $this->toLinuxConvention($icap_port);
             $this->icap_service_name = $this->toLinuxConvention($icap_service_name);
             $this->icap_client_path = $this->toLinuxConvention($icap_client_path);
         } elseif ($virus_scanner !== self::VIRUS_SCANNER_NONE && (!$path_to_scan || !$path_to_clean)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Missing path to scan and/or clean commands for virus scanner."
             );
         }

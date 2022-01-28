@@ -14,14 +14,14 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
         $this->options(IL_ICAP_AV_COMMAND);
     }
 
-    public function scanFile(string $file_path, string $org_name = ""): string
+    public function scanFile(string $file_path, string $org_name = "") : string
     {
         $return_string = '';
         if (is_readable($file_path)) {
             $results = ($this->reqmod(
                 'avscan',
                 [
-                    'req-hdr'  => "POST /test HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
+                    'req-hdr' => "POST /test HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
                     'req-body' => file_get_contents($file_path) //Todo: find a better way
                 ]
             ));
@@ -41,7 +41,7 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
      * @param $header
      * @return bool
      */
-    protected function analyseHeader($header): bool
+    protected function analyseHeader($header) : bool
     {
         $virus_found = false;
         if (array_key_exists(self::HEADER, $header)) {
