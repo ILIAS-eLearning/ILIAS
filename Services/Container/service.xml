@@ -6,7 +6,7 @@
 		<pageobject parent_type="cstr" class_name="ilContainerStartObjectsPage" directory="classes"/>
 	</copage>
 	<baseclasses>
-		<baseclass name="ilContainerBlockPropertiesStorage" dir="classes" />
+		<baseclass name="ilContainerBlockPropertiesStorageGUI" dir="classes"/>
 	</baseclasses>
 	<logging />
 	<web_access_checker>
