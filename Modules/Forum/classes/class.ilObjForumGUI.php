@@ -1724,7 +1724,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         ) {
             $this->ensureThreadBelongsToForum($this->object->getId(), $this->objCurrentPost->getThread());
 
-            $oForumObjects = $this->Fi();
+            $oForumObjects = $this->getForumObjects();
             $forumObj = $oForumObjects['forumObj'];
 
             $frm = new ilForum();
