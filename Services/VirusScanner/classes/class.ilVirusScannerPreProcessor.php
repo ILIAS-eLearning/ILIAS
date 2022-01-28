@@ -29,7 +29,6 @@ use ILIAS\FileUpload\Processor\PreProcessor;
  */
 final class ilVirusScannerPreProcessor implements PreProcessor
 {
-
     protected \ilVirusScanner $scanner;
 
 

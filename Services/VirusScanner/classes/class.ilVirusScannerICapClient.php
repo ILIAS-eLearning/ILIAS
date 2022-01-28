@@ -22,7 +22,7 @@ class ilVirusScannerICapClient extends ilVirusScanner
         $this->scanCommand = IL_ICAP_CLIENT;
     }
 
-    protected function buildScanCommand(string $file = '-') : string// default means piping
+    protected function buildScanCommand(string $file = '-') : string
     {
         return $this->scanCommand . ' -i ' . IL_ICAP_HOST . ' -p ' . IL_ICAP_PORT . ' -v -s ' . IL_ICAP_AV_COMMAND . ' -f ' . $file;
     }

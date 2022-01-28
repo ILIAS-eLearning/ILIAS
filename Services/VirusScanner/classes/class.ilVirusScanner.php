@@ -1,16 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * Base class for the interface to an external virus scanner
- * This class is abstract and needs to be extended for actual scanners
- * Only scanFile() and cleanFile() need to be redefined
- * Child Constructors should call ilVirusScanner()
- * Scan and Clean are independent and may work on different files
- * Logging and message generation are generic
- * @author    Fred Neumann <fred.neumann@fim.uni-erlangen.de>
- * @version   $Id$
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilVirusScanner
 {
     public string $type;
@@ -37,11 +38,6 @@ class ilVirusScanner
 
     public string $cleanResult;
 
-    /**
-     * Ilias object
-     * @var object
-     * @access private
-     */
     public $ilias;
 
     public ilLanguage $lng;

@@ -160,7 +160,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param $string
      * @return array<string, array<string, string>>|array<string, string>
      */
-    private function parseResponse($string): array
+    private function parseResponse($string) : array
     {
         $response = [
             'protocol' => [],
@@ -229,7 +229,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param       $service
      * @return array<string, array<string, string>>|array<string, string>
      */
-    public function respMod($service, array $body = [], array $headers = []): array
+    public function respMod($service, array $body = [], array $headers = []) : array
     {
         $request = $this->getRequest('RESPMOD', $service, $body, $headers);
         $response = $this->send($request);
@@ -240,7 +240,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param       $service
      * @return array<string, array<string, string>>|array<string, string>
      */
-    public function reqMod($service, array $body = [], array $headers = []): array
+    public function reqMod($service, array $body = [], array $headers = []) : array
     {
         $request = $this->getRequest('REQMOD', $service, $body, $headers);
         $response = $this->send($request);
