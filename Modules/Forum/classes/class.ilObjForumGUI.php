@@ -69,7 +69,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
-        $this->ctrl->saveParameter($this, ['ref_id', 'cmdClass']);
+        $this->ctrl->saveParameter($this, ['ref_id']);
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
