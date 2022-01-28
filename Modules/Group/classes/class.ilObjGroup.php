@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+define('GRP_REGISTRATION_DEACTIVATED', -1);
 define('GRP_REGISTRATION_DIRECT', 0);
 define('GRP_REGISTRATION_REQUEST', 1);
 define('GRP_REGISTRATION_PASSWORD', 2);
@@ -24,6 +25,7 @@ define('GRP_TYPE_PUBLIC', 3);
 */
 class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 {
+    const GRP_REGISTRATION_DEACTIVATED = -1;
     public const CAL_REG_START = 1;
     public const CAL_REG_END = 2;
     public const CAL_START = 3;
@@ -414,7 +416,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
     public function isSessionLimitEnabled() : bool
     {
-        return (bool) $this->session_limit;
+        return $this->session_limit;
     }
 
     public function setNumberOfPreviousSessions(int $a_num) : void
