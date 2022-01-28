@@ -110,7 +110,7 @@ class ilBookingParticipantGUI
      */
     public function render()
     {
-        if ($this->access->checkAccess('edit_permission', '', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $this->toolbar,

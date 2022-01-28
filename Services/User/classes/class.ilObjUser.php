@@ -617,7 +617,7 @@ class ilObjUser extends ilObject
             'inactivation_date' => array('timestamp', $this->inactivation_date)
             );
             
-        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null)) {
+        if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
             $update_array["agree_date"] = array("timestamp", $this->agree_date);
         }
         switch ($this->passwd_type) {

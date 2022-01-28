@@ -65,21 +65,21 @@ class ilCmiXapiScoringGUI
         }
     }
 
-    protected function resetFilterCmd()
-    {
-        $table = $this->buildTableGUI();
-        $table->resetFilter();
-        $table->resetOffset();
-        $this->showCmd();
-    }
-
-    protected function applyFilterCmd()
-    {
-        $table = $this->buildTableGUI();
-        $table->writeFilterToSession();
-        $table->resetOffset();
-        $this->showCmd();
-    }
+//    protected function resetFilterCmd()
+//    {
+//        $table = $this->buildTableGUI("");
+//        $table->resetFilter();
+//        $table->resetOffset();
+//        $this->showCmd();
+//    }
+//
+//    protected function applyFilterCmd()
+//    {
+//        $table = $this->buildTableGUI("");
+//        $table->writeFilterToSession();
+//        $table->resetOffset();
+//        $this->showCmd();
+//    }
 
     protected function showCmd()
     {
@@ -139,7 +139,6 @@ class ilCmiXapiScoringGUI
             $length = 5;
             return array_slice($this->tableData, $offset, $length);
         }
-        return [];
     }
 
     /**

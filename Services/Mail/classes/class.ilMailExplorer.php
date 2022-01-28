@@ -115,6 +115,19 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $content;
     }
 
+    public function getNodeIconAlt($a_node)
+    {
+        $content = $a_node['title'];
+
+        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
+            $content = $this->lng->txt('mail_folders');
+        } elseif ($a_node['depth'] < 3) {
+            $content = $this->lng->txt('mail_' . $a_node['title']);
+        }
+
+        return $content;
+    }
+
     /**
      * @inheritDoc
      */

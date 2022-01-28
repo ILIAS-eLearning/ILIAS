@@ -3597,7 +3597,6 @@ common#:#filter_users_without_disk_usage#:#Pouze uživatelé bez použitého dis
 common#:#first#:#První
 common#:#firstname#:#Jméno
 common#:#flatview#:#Skrýt boční lištu
-common#:#fm_start#:#Otevřít se správcem souborů
 common#:#fold#:#Složka
 common#:#fold_add#:#Přidat složku
 common#:#fold_added#:#Složka přidána
@@ -5029,7 +5028,6 @@ common#:#time_limit_from#:#Od (časový limit)
 common#:#time_limit_message#:#Zpráva (časový limit)
 common#:#time_limit_no_users_selected#:#Vyberte prosím uživatele.
 common#:#time_limit_not_valid#:#Perioda není platná.
-common#:#time_limit_owner#:#Vlastník (časový limit)
 common#:#time_limit_reached#:#Vaše perioda přístupu vypršela.
 common#:#time_limit_unlimited#:#Neomezeno (časový limit)
 common#:#time_limit_until#:#Do (časový limit)
@@ -8455,13 +8453,6 @@ file#:#file_suffix_overall_white#:#Úplný seznam povolených přípon
 file#:#file_suffix_overall_white_info#:#Výsledný úplný seznam přípustných přípon souborů.
 file#:#file_uploaded_by#:#Nahrál
 file#:#replace_file_info#:#Všechny dřívější verze souboru budou smazány.
-fm#:#fm_settings_active#:#Zapnout správce souborů
-fm#:#fm_settings_active_info#:#Uživatelé mohou otevírat kategorie, kurzy, skupiny a složky za použití akce v úložišti „Otevřít pomocí Správce souborů".
-fm#:#fm_settings_filesize#:#Maximální velikost souboru pro nahrávání
-fm#:#fm_settings_filesize_info#:#Zadejte maximální povolenou velikost souboru pro nahrané soubory v mebibajtech.
-fm#:#fm_settings_local#:#Zobrazit místní souborový systém
-fm#:#fm_settings_local_info#:#Je-li tato možnost zapnuta, správce souborů se spustí ve dvou oknech, jedno zobrazí místní souborový systém, druhé obsahuje pohled na úložiště systému ILIAS. Pokud je vypnuta, zobrazí se pouze úložiště systému ILIAS.
-fm#:#fm_settings_tab#:#Správce souborů
 fold#:#fold_copy#:#Kopírovat složku
 fold#:#fold_import#:#Importovat složku
 fold#:#fold_presentation#:#Prezentace složky
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

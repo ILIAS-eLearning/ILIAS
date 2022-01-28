@@ -3601,7 +3601,6 @@ common#:#filter_users_without_disk_usage#:#Samo korisnici koji ne koriste prosto
 common#:#first#:#Prvi
 common#:#firstname#:#Ime
 common#:#flatview#:#Sakrij bočnu traku
-common#:#fm_start#:#Otvorite pomoću Upravitelja datoteka
 common#:#fold#:#Mapa
 common#:#fold_add#:#Dodaj mapu
 common#:#fold_added#:#Mapa dodana
@@ -5033,7 +5032,6 @@ common#:#time_limit_from#:#Od (vremensko ograničenje)
 common#:#time_limit_message#:#Poruka (vremensko ograničenje)
 common#:#time_limit_no_users_selected#:#Odaberi korisnika.
 common#:#time_limit_not_valid#:#Razdoblje nije važeće.
-common#:#time_limit_owner#:#Vlasnik (vremensko ograničenje)
 common#:#time_limit_reached#:#Vaš korisnički račun nije aktivan.
 common#:#time_limit_unlimited#:#Neograničeno (vremensko ograničenje)
 common#:#time_limit_until#:#Do (vremensko ograničenje)
@@ -8480,13 +8478,6 @@ file#:#generate_sanitize_report#:#Izvještaj o nepristupačnim datotekama
 file#:#replace_file_info#:#Sve prethodne verzije datoteka bit će izbrisane.
 file#:#upload_info#:#Učitaj
 file#:#upload_info_desc#:#Upravljanje učitavanjima i verzijama na kartici "Verzije"
-fm#:#fm_settings_active#:#Omogući File Managera (upravitelja datoteka)
-fm#:#fm_settings_active_info#:#Korisnici mogu otvoriti kategorije, tečajeve, grupe i mape pomoću radnje 'Otvori pomoću File Managera (upravitelja datoteka)' u repozitoriju.
-fm#:#fm_settings_filesize#:#Maksimalna veličina datoteke za učitavanje
-fm#:#fm_settings_filesize_info#:#Unesite najveću dopuštenu veličinu datoteka za učitane datoteke u mebibajtima.
-fm#:#fm_settings_local#:#Prikaži lokalni datotečni sustav
-fm#:#fm_settings_local_info#:#Ako je omogućeno, File Manager (upravitelj datoteka) započinje s dva okvira, jedan prikazuje lokalni datotečni sustav, drugi sadrži pogled na repozitorij ILIAS-a. Ako je onemogućeno, prikazat će se samo repozitorij ILIAS-a.
-fm#:#fm_settings_tab#:#File Manager (upravitelj datoteka)
 fold#:#fold_copy#:#Kopiraj mapu
 fold#:#fold_import#:#Uvezi mapu
 fold#:#fold_presentation#:#Prezentacija mape
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

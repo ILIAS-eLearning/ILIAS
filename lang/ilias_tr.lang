@@ -2040,7 +2040,6 @@ common#:#filter_users_without_disk_usage#:#Kullanılmayan disk alanı ile Sadece
 common#:#first#:#İlk
 common#:#firstname#:#Ad
 common#:#flatview#:#Kenar Çubuğunu Gizle
-common#:#fm_start#:#File Manager ile Aç
 common#:#fold#:#Klasör
 common#:#fold_add#:#Klasör Ekle
 common#:#fold_added#:#Klasör eklendi
@@ -3265,7 +3264,6 @@ common#:#time_limit_from#:#Gönderen (zaman sınırı)
 common#:#time_limit_message#:#Mesaj (zaman sınırı)
 common#:#time_limit_no_users_selected#:#Bir kullanıcı seçiniz.
 common#:#time_limit_not_valid#:#Periyod geçerli değildir.
-common#:#time_limit_owner#:#Sahibi (zaman sınırı)
 common#:#time_limit_reached#:#Kullanıcı hesabınız aktif değildir.
 common#:#time_limit_unlimited#:#Sınırsız (zaman sınırı)
 common#:#time_limit_until#:#Kadar (süre)
@@ -5443,13 +5441,6 @@ file#:#file_new_version#:#Yeni Sürüm Oluşturma
 file#:#file_new_version_info#:#yeni bir dosya sürümünü oluşturun. Eski sürümler değişmeyecektir.
 file#:#file_uploaded_by#:#Yükleyen
 file#:#replace_file_info#:#Tüm eski dosya sürümlerinin silinecektir.
-fm#:#fm_settings_active#:#Dosya Yöneticisi etkinleştir
-fm#:#fm_settings_active_info#:#Kullanıcılar depodaki eylem "Dosya Yöneticisi Birlikte Aç" kategorileri kullanarak, kurslar, gruplar ve klasörleri açabilirsiniz.
-fm#:#fm_settings_filesize#:#Maksimum Yükleme Dosya Boyutu
-fm#:#fm_settings_filesize_info#:#mebibyte yüklenen dosyalar için izin verilen maksimum dosya boyutu girin.
-fm#:#fm_settings_local#:#Göster Yerel Dosyasistemi
-fm#:#fm_settings_local_info#:#Etkinse , dosya yöneticisi iki çerçeve ile başlar, bir yerel dosya sistemi gösterir, diğer ILIAS depo görünüm içerir. Devre dışı bırakılırsa, yalnızca ILIAS depo gösterilir.
-fm#:#fm_settings_tab#:#Dosya Yöneticisi
 fold#:#fold_copy#:#Klasör Kopyala
 fold#:#fold_import#:#Klasör İçe Aktar
 form#:#form_alphabet_all#:#Tüm
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

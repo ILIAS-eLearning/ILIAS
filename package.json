@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@andxor/jquery-ui-touch-punch-fix": "^1.0.2",
-    "@yaireo/tagify": "^4.3.1",
+    "@yaireo/tagify": "^4.9.4",
     "bootstrap": "3.4.1",
     "dropzone": "^5.5.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
@@ -31,7 +31,7 @@
     "pouchdb": "^7.2.1",
     "qtip2": "^3.0.3",
     "rollup-plugin-sourcemaps": "^0.6.2",
-    "tinymce": "git+https://github.com/Minervis-GmbH/tinymce-dist.git",
+    "tinymce": "github:ILIAS-eLearning/tinymce-dist#ilias7",
     "webui-popover": "^1.2.18"
   },
   "devDependencies": {

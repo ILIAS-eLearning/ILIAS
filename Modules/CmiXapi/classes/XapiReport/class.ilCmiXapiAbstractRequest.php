@@ -91,7 +91,6 @@ abstract class ilCmiXapiAbstractRequest
             }
             return false;
         }
-        return false;
     }
 
     public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986)

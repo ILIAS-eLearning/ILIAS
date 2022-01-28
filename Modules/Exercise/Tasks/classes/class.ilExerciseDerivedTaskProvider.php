@@ -63,6 +63,9 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         // open assignments
         foreach ($this->task_action->getOpenAssignmentsOfUser($user_id) as $ass) {
             $ref_id = $this->getFirstRefIdWithPermission("read", $ass->getExerciseId(), $user_id);
+            if ($ref_id == 0) {
+                continue;
+            }
             $state = ilExcAssMemberState::getInstanceByIds($ass->getId(), $user_id);
             $title = str_replace("%1", $ass->getTitle(), $lng->txt("exc_task_submission"));
             $tasks[] = $this->task_service->derived()->factory()->task(
@@ -76,6 +79,9 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         // open peer feedbacks
         foreach ($this->task_action->getOpenPeerReviewsOfUser($user_id) as $ass) {
             $ref_id = $this->getFirstRefIdWithPermission("read", $ass->getExerciseId(), $user_id);
+            if ($ref_id == 0) {
+                continue;
+            }
             $state = ilExcAssMemberState::getInstanceByIds($ass->getId(), $user_id);
             $title = str_replace("%1", $ass->getTitle(), $lng->txt("exc_task_peer_feedback"));
             $tasks[] = $this->task_service->derived()->factory()->task(
@@ -89,6 +95,9 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         // open gradings
         foreach ($this->task_action->getOpenGradingsOfUser($user_id) as $ass) {
             $ref_id = $this->getFirstRefIdWithPermission("write", $ass->getExerciseId(), $user_id);
+            if ($ref_id == 0) {
+                continue;
+            }
             $title = str_replace("%1", $ass->getTitle(), $lng->txt("exc_task_grading"));
             $tasks[] = $this->task_service->derived()->factory()->task($title, $ref_id, 0, 0);
         }

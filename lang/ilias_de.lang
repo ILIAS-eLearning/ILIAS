@@ -3152,8 +3152,8 @@ common#:#forums#:#Foren
 common#:#forums_anonymized#:#Forum anonymisiert
 common#:#forums_anonymous#:#Anonym
 common#:#forums_articles#:#Beiträge
-common#:#forums_disable_forum_notification#:#Benachrichtigung für dieses Forum beenden
-common#:#forums_enable_forum_notification#:#Benachrichtigung für dieses Forum starten
+common#:#forums_disable_forum_notification#:#Benachrichtigung für gesamtes Forum beenden
+common#:#forums_enable_forum_notification#:#Benachrichtigung für gesamtes Forum starten
 common#:#forums_forum_notification_enabled#:#Sie werden über neue Beiträge in diesem Forum benachrichtigt.
 common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
@@ -4457,7 +4457,6 @@ common#:#time_limit_from#:#Von (Zeitlimit)
 common#:#time_limit_message#:#Nachricht (Zeitlimit)
 common#:#time_limit_no_users_selected#:#Sie haben keine Benutzer ausgewählt.
 common#:#time_limit_not_valid#:#Die von Ihnen eingegebenen Zeiten sind nicht gültig.
-common#:#time_limit_owner#:#Eigentümer (Zeitlimit)
 common#:#time_limit_reached#:#Ihr Zugang ist nicht aktiv.
 common#:#time_limit_unlimited#:#Unlimitiert (Zeitlimit)
 common#:#time_limit_until#:#Bis (Zeitlimit)
@@ -6562,10 +6561,10 @@ forum#:#forums_censor_comment#:#Bemerkung des Zensors
 forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
-forum#:#forums_disable_notification#:#Benachrichtigung für Thema beenden
+forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung für Thema starten
+forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
@@ -10402,7 +10401,7 @@ dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
-dcl#:#dcl_save_order#:#Sortierung Speichern
+dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Eintrag wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
@@ -10479,14 +10478,6 @@ blog#:#blog_edit_keywords#:#Schlagwörter bearbeiten
 blog#:#blog_keyword#:#Schlagwort
 administration#:#adm_adm_role_protect#:#Administratorrolle schützen
 administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
-fm#:#fm_settings_tab#:#Dateimanager
-fm#:#fm_settings_active#:#Dateimanager aktivieren
-fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Kurse, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
-common#:#fm_start#:#Mit Dateimanager öffnen
-fm#:#fm_settings_local#:#Lokales Dateisystem anzeigen
-fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwei-Fenster-Ansicht gestartet (lokales Dateisystem und ILIAS-Magazin). Wenn deaktiviert, wird lediglich das ILIAS-Magazin dargestellt.
-fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
-fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
 common#:#chat_invite_public_room#:#Öffentlicher Chatraum
 rbac#:#sahs_copy#:#Benutzer kann SCORM-Lernmodul kopieren
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
@@ -13057,7 +13048,7 @@ common#:#clientlist_public_access#:#Öffentlicher Bereich
 common#:#clientlist_login#:#Anmelden
 common#:#clientlist_start_page#:#Öffentlicher Bereich
 common#:#clientlist_login_page#:#Anmelden
-forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewählten Foren erlauben" ausgewählt ist, können Moderatoren das Anhängen von Dateien in den jeweiligen Foren-Einstellungen gezielt aktivieren. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
+forum#:#file_upload_allowed_fora_desc#:#Anhängen von Dateien muss in jedem Forum aktiviert werden. Bei neuen Foren wird das Anhängen von Dateien standardmäßig deaktiviert.
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
@@ -16634,7 +16625,8 @@ content#:#cont_sur_block_format#:#Umgebender Block
 ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
-prg#:#prgr_new#:#Create Study Programme Link###03 11 2021 new variable
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###03 11 2021 new variable
+common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
+common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 common#:#actions_for#:#Aktionen für %s
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.

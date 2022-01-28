@@ -563,7 +563,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
         // delete resource
         $identification = $this->getResourceId();
-        if ($identification) {
+        if ($identification && $identification != '-') {
             $this->manager->remove($this->manager->find($identification), $this->stakeholder);
         }
     }

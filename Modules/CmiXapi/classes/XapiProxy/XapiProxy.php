@@ -10,7 +10,7 @@
 
         public function __construct($client, $token, $plugin=false) {
             parent::__construct($client, $token, $plugin);
-            $this->log()->debug($this->msg('proxy initialized '. (($plugin) ? 'in Plugin ' : '') . (($this->statementReducer) ? 'with StatementReducer' : '')));
+            $this->log()->debug($this->msg('proxy initialized'));
         }
 
         public function setRequestParams($request) {
@@ -150,6 +150,7 @@
                     return NULL;
                 }
             }
+            return NULL;
         }
 
         public function modifyBody($body)
@@ -194,7 +195,7 @@
                 $this->setStatus($xapiStatement);
             }
             else {
-                /* @var ilObjCmiXapi $object */
+                /* @var $object */
                 $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId());
                 if( (string)$object->getLaunchMode() === (string)\ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
                     // ToDo: check function hasContextActivitiesParentNotEqualToObject!
@@ -241,7 +242,7 @@
                         $score = $obj->result->score->scaled;
                     }
                     $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
-                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);
+                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
                 }
             }
         }

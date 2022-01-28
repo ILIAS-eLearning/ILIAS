@@ -247,7 +247,7 @@ class ilMediaPlayerGUI
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
 
-        $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
+        $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js?1");
 
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::initMediaElementJs($a_tpl);

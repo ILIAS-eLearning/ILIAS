@@ -279,6 +279,32 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
             $data[2] = "1";
         }
 
+        // BEGIN bugfix #31730
+        // if more than 2 commas are detected, the need for reassembling the filename is: possible to necessary
+        if (sizeof($data) > 2)
+        {
+          $last = sizeof($data) - 1;
+          for ($n = 1; $n < $last - 1; $n++)
+          {
+            $data[0] .= "," . $data[$n];
+          }
+
+          // trying to distinguish the next-to-last being a 'last part of the filename'
+          // or a 'version information',  based on having a dot included or not
+          if (strpos($data[$last - 1], ".") !== false)
+          {
+            $data[0] .= "," . $data[$last - 1];
+            $data[1] = $data[$last];
+            $data[2] = $data[$last];
+          }
+          else
+          {
+            $data[1] = $data[$last - 1];
+            $data[2] = $data[$last];
+          }
+        }
+        // END bugfix #31730
+        
         $result = array(
             "filename" => $data[0],
             "version" => $data[1],

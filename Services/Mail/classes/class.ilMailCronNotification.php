@@ -55,7 +55,13 @@ class ilMailCronNotification extends ilCronJob
     public function getDescription()
     {
         $this->init();
-        return  $this->lng->txt("cron_mail_notification_desc");
+
+        $this->lng->loadLanguageModule('mail');
+
+        return  sprintf(
+            $this->lng->txt("cron_mail_notification_desc"),
+            $this->lng->txt('mail_allow_external')
+        );
     }
     
     public function getDefaultScheduleType()

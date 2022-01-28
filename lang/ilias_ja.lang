@@ -3945,7 +3945,6 @@ common#:#filter_users_without_disk_usage#:#ディスクスペースを使用し�
 common#:#first#:#最初
 common#:#firstname#:#名
 common#:#flatview#:#サイドバーを非表示
-common#:#fm_start#:#ファイルマネージャで開く
 common#:#fold#:#フォルダ
 common#:#fold_add#:#フォルダを追加
 common#:#fold_added#:#フォルダの追加
@@ -5470,7 +5469,6 @@ common#:#time_limit_from#:#From (期限)
 common#:#time_limit_message#:#Message (期限)
 common#:#time_limit_no_users_selected#:#ユーザを選択してください。
 common#:#time_limit_not_valid#:#期間が有効ではありません。
-common#:#time_limit_owner#:#Owner (期限)
 common#:#time_limit_reached#:#アカウントが無効です。
 common#:#time_limit_unlimited#:#Unlimited (期限)
 common#:#time_limit_until#:#Until(期限)
@@ -9085,13 +9083,6 @@ file#:#generate_sanitize_report#:#アクセス不可なファイルに関する�
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
 file#:#upload_info#:#Upload
 file#:#upload_info_desc#:#アップロードと"Versions"タブの版数を管理
-fm#:#fm_settings_active#:#ファイルマネージャを有効化
-fm#:#fm_settings_active_info#:#ユーザは"ファイルマネージャで開く"を使用してカテゴリ、コース、グループ、フォルダを開くことができます。
-fm#:#fm_settings_filesize#:#最大アップロードファイルサイズ
-fm#:#fm_settings_filesize_info#:#アップロード用最大許容ファイルサイズをメガバイト単位で入力
-fm#:#fm_settings_local#:#ローカルファイルシステムを表示
-fm#:#fm_settings_local_info#:#有効にすると、ファイルマネージャはひとつはローカルファイルシステムをもう一方はILIASリポジトリビューを含む表示を2レームで開始します。
-fm#:#fm_settings_tab#:#ファイルマネージャ
 fold#:#fold_copy#:#フォルダを表示コピー
 fold#:#fold_import#:#インポートフォルダ
 fold#:#fold_presentation#:#フォルダープレゼンテ－ション
@@ -16622,6 +16613,8 @@ ui#:#datetime_required#:#Time/Date required###26 11 2021 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###26 11 2021 new variable
 forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###26 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

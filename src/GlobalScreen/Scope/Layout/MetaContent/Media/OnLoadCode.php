@@ -20,9 +20,9 @@ class OnLoadCode extends AbstractMedia
      * @param string $content
      * @param int    $batch
      */
-    public function __construct(string $content, int $batch = 2)
+    public function __construct(string $content, string $version, int $batch = 2)
     {
-        parent::__construct($content);
+        parent::__construct($content, $version);
         $this->batch = $batch;
     }
 

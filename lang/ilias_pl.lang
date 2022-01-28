@@ -3567,7 +3567,6 @@ common#:#filter_users_without_disk_usage#:#Tylko użytkownicy, którzy nie zajmu
 common#:#first#:#Do początku
 common#:#firstname#:#Imię
 common#:#flatview#:#Widok płaski
-common#:#fm_start#:#Otwórz menadżerem plików
 common#:#fold#:#Folder
 common#:#fold_add#:#Dodaj folder
 common#:#fold_added#:#Folder dodany
@@ -4991,7 +4990,6 @@ common#:#time_limit_from#:#Od (limit czasu)
 common#:#time_limit_message#:#Wiadomość (limit czasu)
 common#:#time_limit_no_users_selected#:#Wybierz użytkownika.
 common#:#time_limit_not_valid#:#Okres jest nieodpowiedni.
-common#:#time_limit_owner#:#Właściciel (limit czasu)
 common#:#time_limit_reached#:#Twoje konto nie jest aktywne.
 common#:#time_limit_unlimited#:#Nielimitowany (limit czasu)
 common#:#time_limit_until#:#Do (limit czasu)
@@ -8398,13 +8396,6 @@ file#:#file_suffix_overall_white_info#:#To jest ostateczna lista zatwierdzonych 
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Wysłane przez
 file#:#replace_file_info#:#Wszystkie wersje plików zostaną usunięte.
-fm#:#fm_settings_active#:#Aktywuj menedżera plików
-fm#:#fm_settings_active_info#:#Użytkownicy mogą otwierać kategorie, kursy, grupy oraz foldery, jeśli w dostępnych zasobach wykonają polecenie "Otwórz menadżerem plików".
-fm#:#fm_settings_filesize#:#Maksymalny rozmiar wysyłanych plików
-fm#:#fm_settings_filesize_info#:#Podaj maksymalny rozmiar wysyłanych plików w megabajtach.
-fm#:#fm_settings_local#:#Pokaż lokalny system plików
-fm#:#fm_settings_local_info#:#Jeśli ta opcja jest aktywna, menedżer plików zostanie uruchomiony w widoku dwuokiennym (lokalny system plików oraz dostępne zasoby ILIAS). Jeśli ta opcja jest wyłączona, pokazane zostaną tylko dostępne zasoby ILIAS.
-fm#:#fm_settings_tab#:#Menedżer plików
 fold#:#fold_copy#:#Kopiuj folder
 fold#:#fold_import#:#Importuj folder
 fold#:#fold_presentation#:#Folder Presentation
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

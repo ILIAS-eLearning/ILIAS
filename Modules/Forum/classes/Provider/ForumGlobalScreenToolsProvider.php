@@ -46,7 +46,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
             $root = $additionalData->get(self::FORUM_THREAD_ROOT);
 
             if ($root instanceof ilForumPost) {
-                $title = $this->dic->language()->txt('tree');
+                $title = $this->dic->language()->txt('forums_articles');
                 $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
 
                 $tools[] = $this->factory

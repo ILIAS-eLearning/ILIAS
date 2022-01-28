@@ -3567,7 +3567,6 @@ common#:#filter_users_without_disk_usage#:#Uniquement les utilisateurs à  l'esp
 common#:#first#:#Premier
 common#:#firstname#:#Prénom
 common#:#flatview#:#Cacher le Panneau Latéral
-common#:#fm_start#:#Ouvrir avec Gestionnaire de Fichiers
 common#:#fold#:#Dossier
 common#:#fold_add#:#Ajouter Dossier
 common#:#fold_added#:#Dossier ajouté
@@ -4991,7 +4990,6 @@ common#:#time_limit_from#:#Depuis (limite de temps)
 common#:#time_limit_message#:#Message (limite de temps)
 common#:#time_limit_no_users_selected#:#Veuillez sélectionner un utilisateur.
 common#:#time_limit_not_valid#:#La période n'est pas valide.
-common#:#time_limit_owner#:#Propriétaire (limite de temps)
 common#:#time_limit_reached#:#Votre compte utilisateur est désactivé.
 common#:#time_limit_unlimited#:#Illimité (limite de temps)
 common#:#time_limit_until#:#Jusqu'à (limite de temps)
@@ -8398,13 +8396,6 @@ file#:#file_suffix_overall_white_info#:#Liste globale résultante des suffixes d
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Déposé par
 file#:#replace_file_info#:#Toutes les versions du fichier seront supprimées.
-fm#:#fm_settings_active#:#Activer le Gestionnaire de Fichiers
-fm#:#fm_settings_active_info#:#Les utilisateurs peuvent ouvrir les catégories, cours, groupes et dossiers en utilisant l'action "Ouvrir avec le Gestionnaire de Fichier" dans le catalogue.
-fm#:#fm_settings_filesize#:#Taille Maximums de Fichiers à Télécharger
-fm#:#fm_settings_filesize_info#:#Entez la taille maximum autorisée des fichiers à télécharger (en Mo).
-fm#:#fm_settings_local#:#Montrer le Système de Fichier Local
-fm#:#fm_settings_local_info#:#Lorsque activé, le gestionnaire de fichiers s'ouvre dans 2 zones : l'une montre le système local, l'autre montre le catalogue ILIAS. Lorsque désactivé, seul le catalogue ILIAS est affiché.
-fm#:#fm_settings_tab#:#Gestionnaire de Fichiers
 fold#:#fold_copy#:#Copier Dossier
 fold#:#fold_import#:#Importer dossier
 fold#:#fold_presentation#:#Folder Presentation
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

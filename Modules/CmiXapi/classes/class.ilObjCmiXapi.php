@@ -17,10 +17,8 @@ class ilObjCmiXapi extends ilObject2
     const PLUGIN = false;
 
     const DB_TABLE_NAME = 'cmix_settings';
-    protected function dbTableName()
-    {
-        return self::DB_TABLE_NAME;
-    }
+    const DB_USERS_TABLE_NAME = 'cmix_users';
+    const DB_RESULTS_TABLE_NAME = 'cmix_results';
     
     /**
      * repository object activation settings (handled by ilObject)
@@ -96,7 +94,7 @@ class ilObjCmiXapi extends ilObject2
     protected $authFetchUrlEnabled;
     
     /**
-     * @var anonymousHomePage;
+     * @var bool;
      */
     protected $anonymousHomePage = false;
     const ANONYMOUS_HOMEPAGE = 'https://example.org';
@@ -107,6 +105,7 @@ class ilObjCmiXapi extends ilObject2
     protected $launchMethod;
     const LAUNCH_METHOD_OWN_WIN = 'ownWin';
     const LAUNCH_METHOD_NEW_WIN = 'newWin';
+    const LAUNCH_METHOD_IFRAME = 'iframe';
     
     /**
      * @var string
@@ -229,11 +228,6 @@ class ilObjCmiXapi extends ilObject2
      */
     public function __construct($a_id = 0, $a_reference = true)
     {
-        //$this->activationLimited = $activationLimited;
-        //$this->activationStartingTime = $activationStartingTime;
-        //$this->activationEndingTime = $activationEndingTime;
-        //$this->activationVisibility = $activationVisibility;
-        
         $this->lrsTypeId = 0;
         //$this->lrsType = $lrsType;
         
@@ -283,76 +277,9 @@ class ilObjCmiXapi extends ilObject2
         return new self($a_id, $a_reference);
     }
     
-    /**
-     * @return string
-     */
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = "cmix";
-    }
-    
-    /**
-     * @return bool
-     */
-    public function isActivationLimited()
-    {
-        return $this->activationLimited;
-    }
-    
-    /**
-     * @param bool $activationLimited
-     */
-    public function setActivationLimited($activationLimited)
-    {
-        $this->activationLimited = $activationLimited;
-    }
-    
-    /**
-     * @return int
-     */
-    public function getActivationStartingTime()
-    {
-        return $this->activationStartingTime;
-    }
-    
-    /**
-     * @param int $activationStartingTime
-     */
-    public function setActivationStartingTime($activationStartingTime)
-    {
-        $this->activationStartingTime = $activationStartingTime;
-    }
-    
-    /**
-     * @return int
-     */
-    public function getActivationEndingTime()
-    {
-        return $this->activationEndingTime;
-    }
-    
-    /**
-     * @param int $activationEndingTime
-     */
-    public function setActivationEndingTime($activationEndingTime)
-    {
-        $this->activationEndingTime = $activationEndingTime;
-    }
-    
-    /**
-     * @return bool
-     */
-    public function getActivationVisibility()
-    {
-        return $this->activationVisibility;
-    }
-    
-    /**
-     * @param bool $activationVisibility
-     */
-    public function setActivationVisibility($activationVisibility)
-    {
-        $this->activationVisibility = $activationVisibility;
     }
     
     /**
@@ -561,7 +488,6 @@ class ilObjCmiXapi extends ilObject2
      */
     public function getLPMode()
     {
-        // oder besser settings?
         $olp = ilObjectLP::getInstance($this->getId());
         return $olp->getCurrentMode();
     }
@@ -1075,7 +1001,7 @@ class ilObjCmiXapi extends ilObject2
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $query = "SELECT * FROM {$this->dbTableName()} WHERE obj_id = %s";
+        $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s";
         $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
         
         while ($row = $DIC->database()->fetchAssoc($res)) {
@@ -1152,7 +1078,7 @@ class ilObjCmiXapi extends ilObject2
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $DIC->database()->replace($this->dbTableName(), [
+        $DIC->database()->replace(self::DB_TABLE_NAME, [
             'obj_id' => ['integer', $this->getId()]
         ], [
             'lrs_type_id' => ['integer', $this->getLrsTypeId()],
@@ -1336,8 +1262,8 @@ class ilObjCmiXapi extends ilObject2
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $query = "
-			SELECT DISTINCT s.obj_id FROM cmix_settings s
-			INNER JOIN cmix_users u ON u.obj_id = s.obj_id
+			SELECT DISTINCT s.obj_id FROM " . self::DB_TABLE_NAME . " s
+			INNER JOIN " . self::DB_USERS_TABLE_NAME . " u ON u.obj_id = s.obj_id
 			WHERE bypass_proxy = %s
 		";
         
@@ -1561,16 +1487,13 @@ class ilObjCmiXapi extends ilObject2
         switch (true) {
             case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
                 return self::HIGHSCORE_SHOW_ALL_TABLES;
-                break;
 
             case $this->getHighscoreTopTable():
                 return self::HIGHSCORE_SHOW_TOP_TABLE;
-                break;
 
             case $this->getHighscoreOwnTable():
             default:
                 return self::HIGHSCORE_SHOW_OWN_TABLE;
-                break;
         }
     }
 
@@ -1662,7 +1585,6 @@ class ilObjCmiXapi extends ilObject2
      * @access public
      * @param int ref_id of target container
      * @param int copy id
-     * @return object new cmix object
      */
 	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
     {
@@ -1732,14 +1654,13 @@ class ilObjCmiXapi extends ilObject2
         $ilDB = $DIC['ilDB'];
 
         // delete file data entry
-        $q = "DELETE FROM cmix_settings WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
-        $this->ilias->db->query($q);
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
+        $ilDB->manipulate($query);
 
         // delete history entries
         require_once("./Services/History/classes/class.ilHistory.php");
         ilHistory::_removeEntriesForObject($this->getId());
 
-        
         // delete entire directory and its content
 		$dirUtil = new ilCmiXapiContentUploadImporter($this);
 		$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
@@ -1749,12 +1670,19 @@ class ilObjCmiXapi extends ilObject2
 
         // delete meta data
         $this->deleteMetaData();
+
+        //delete results
+		$query = "DELETE FROM " . self::DB_RESULTS_TABLE_NAME .
+				"WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
+		$ilDB->manipulate($query);
+
+        // TODO check xapidel
     }
 
     public function getRegistrations() {
         global $DIC;
         $res = $DIC->database()->queryF(
-            "SELECT DISTINCT registration FROM cmix_users WHERE obj_id = %s",
+            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME ." WHERE obj_id = %s",
             array('text'),
             array($this->getId())
         );
@@ -1950,7 +1878,7 @@ class ilObjCmiXapi extends ilObject2
         {
             $actor = [
                 'objectType' => 'Agent',
-                'mbox' => $cmixUser->getUsrIdent()
+                'mbox' => 'mailto:'.$cmixUser->getUsrIdent()
             ];
             if ($name !== '')
             {
@@ -2147,7 +2075,6 @@ class ilObjCmiXapi extends ilObject2
             $this->log()->error('error:' . $e->getMessage());
             return null;
         }
-        return null;
     }
 
     public function getLastStatementPipline($sess)
@@ -2207,4 +2134,71 @@ class ilObjCmiXapi extends ilObject2
             return \ilLoggerFactory::getLogger('cmix');
         }
     }
+    
+    
+    /**
+     * @return bool
+     */
+    public function isActivationLimited()
+    {
+        return $this->activationLimited;
+    }
+
+   
+    /**
+     * @param bool $activationLimited
+     */
+    public function setActivationLimited($activationLimited)
+    {
+        $this->activationLimited = $activationLimited;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getActivationStartingTime()
+    {
+        return $this->activationStartingTime;
+    }
+    
+    /**
+     * @param int $activationStartingTime
+     */
+    public function setActivationStartingTime($activationStartingTime)
+    {
+        $this->activationStartingTime = $activationStartingTime;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getActivationEndingTime()
+    {
+        return $this->activationEndingTime;
+    }
+    
+    /**
+     * @param int $activationEndingTime
+     */
+    public function setActivationEndingTime($activationEndingTime)
+    {
+        $this->activationEndingTime = $activationEndingTime;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function getActivationVisibility()
+    {
+        return $this->activationVisibility;
+    }
+    
+    /**
+     * @param bool $activationVisibility
+     */
+    public function setActivationVisibility($activationVisibility)
+    {
+        $this->activationVisibility = $activationVisibility;
+    }
+    
 }

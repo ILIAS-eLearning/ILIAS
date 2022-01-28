@@ -1246,7 +1246,7 @@ abstract class ilBlockGUI
             $actions = $factory->dropdown()->standard($actions)
                 ->withAriaLabel(sprintf(
                     $this->lng->txt('actions_for'),
-                    $this->getTitle()
+                    htmlspecialchars($this->getTitle())
                 ));
             $panel = $panel->withActions($actions);
         }

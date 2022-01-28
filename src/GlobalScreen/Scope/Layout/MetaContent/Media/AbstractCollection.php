@@ -9,12 +9,20 @@ use Generator;
  */
 abstract class AbstractCollection
 {
+    protected $resource_version = '';
 
     /**
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
     protected $items = [];
 
+    /**
+     * @param string $resource_version
+     */
+    public function __construct(string $resource_version)
+    {
+        $this->resource_version = $resource_version;
+    }
 
     public function clear()
     {

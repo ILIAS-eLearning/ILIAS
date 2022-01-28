@@ -100,7 +100,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     public function numericOrdering($field)
     {
         return in_array($field, array(
-            'scored_pass', 'answered_questions', 'points', 'percent_result'
+            'scored_pass', 'answered_questions', 'reached_points', 'percent_result'
         ));
     }
     

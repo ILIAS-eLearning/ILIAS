@@ -20,9 +20,9 @@ class InlineCss extends AbstractMedia
      * @param string $content
      * @param string $media
      */
-    public function __construct(string $content, string $media = self::MEDIA_SCREEN)
+    public function __construct(string $content, string $version, string $media = self::MEDIA_SCREEN)
     {
-        parent::__construct($content);
+        parent::__construct($content, $version);
         $this->media = $media;
     }
 

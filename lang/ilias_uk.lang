@@ -1617,7 +1617,6 @@ common#:#time_limit_from#:#From (time limit)###20 Jun 2005 new variable
 common#:#time_limit_message#:#Message (time limit)###20 Jun 2005 new variable
 common#:#time_limit_no_users_selected#:#Будь ласка виберіть користувача.
 common#:#time_limit_not_valid#:#Період не є корректним.
-common#:#time_limit_owner#:#Owner (time limit)###20 Jun 2005 new variable
 common#:#time_limit_reached#:#Термін дії вашого доступу скінчився.
 common#:#time_limit_unlimited#:#Unlimited (time limit)###20 Jun 2005 new variable
 common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
@@ -9070,14 +9069,6 @@ blog#:#blog_edit_keywords#:#Edit Keywords###28 08 2012 new variable
 blog#:#blog_keyword#:#Keyword###28 08 2012 new variable
 administration#:#adm_adm_role_protect#:#Protect Administrator Role###28 08 2012 new variable
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.###28 08 2012 new variable
-fm#:#fm_settings_tab#:#File Manager###28 08 2012 new variable
-fm#:#fm_settings_active#:#Enable File Manager###28 08 2012 new variable
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the "Open With File Manager" action in the repository.###28 08 2012 new variable
-common#:#fm_start#:#Open With File Manager###28 08 2012 new variable
-fm#:#fm_settings_local#:#Show Local Filesystem###28 08 2012 new variable
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.###28 08 2012 new variable
-fm#:#fm_settings_filesize#:#Maximum Upload File Size###28 08 2012 new variable
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.###28 08 2012 new variable
 dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer###02 09 2012 new variable
 dcl#:#dcl_status#:#Your status###02 09 2012 new variable
 dcl#:#dcl_mob#:#Image###02 09 2012 new variable
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

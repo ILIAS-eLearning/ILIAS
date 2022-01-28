@@ -709,7 +709,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 }
             }
             if (count($list_items) > 0) {
-                $item_groups[] = $factory->item()->group($group->getLabel(), $list_items);
+                $item_groups[] = $factory->item()->group((string) $group->getLabel(), $list_items);
             }
         }
 

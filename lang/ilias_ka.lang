@@ -2040,7 +2040,6 @@ common#:#filter_users_without_disk_usage#:#მხოლოდ მომხმა
 common#:#first#:#პირველი
 common#:#firstname#:#სახელი
 common#:#flatview#:#განმარტების დამალვა
-common#:#fm_start#:#Open With File Manager
 common#:#fold#:#ფოლდერი
 common#:#fold_add#:#ფოლდერის დამატება
 common#:#fold_added#:#ფოლდერი დამატებულია
@@ -3265,7 +3264,6 @@ common#:#time_limit_from#:#საიდან ( დროის შეზღუ�
 common#:#time_limit_message#:#შეტყობინება ( დროის შეზღუდვა)
 common#:#time_limit_no_users_selected#:#გთხოვთ მონიშნოთ მომხმარებელი
 common#:#time_limit_not_valid#:#პერიოდი არ არის სწორი
-common#:#time_limit_owner#:#მფლობელი ( დროის შეზღუდვა)
 common#:#time_limit_reached#:#თქვენი ანგარიში არა არის აქტიური
 common#:#time_limit_unlimited#:#შეუზღუდავი ( დროის შეზღუდვა)
 common#:#time_limit_until#:#სადამდე ( დროის შეზღუდვა)
@@ -5471,13 +5469,6 @@ file#:#file_new_version#:#ახალი ვერსიის შექმნ�
 file#:#file_new_version_info#:#ახალი ფაილის ვერსიის შექმნა.ძველი ვერსიები არ იქნება შეცვლილი
 file#:#file_uploaded_by#:#Uploaded by
 file#:#replace_file_info#:#ყველა წინა ვერსია წაიშლება
-fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the "Open With File Manager" action in the repository.
-fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.
-fm#:#fm_settings_local#:#Show Local Filesystem
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
-fm#:#fm_settings_tab#:#File Manager
 fold#:#fold_copy#:#Copy Folder
 fold#:#fold_import#:#ფოლდერის იმპორტი
 form#:#form_alphabet_all#:#ყველა
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

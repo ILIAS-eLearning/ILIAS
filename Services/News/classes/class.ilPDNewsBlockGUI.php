@@ -220,26 +220,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
                 $lng->txt("settings")
             );
         }
-            
-        $per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
-
-        if ($per > 0) {
-            switch ($per) {
-                case 2:
-                case 3:
-                case 5: $per_str = sprintf($lng->txt("news_period_x_days"), $per); break;
-                case 7: $per_str = $lng->txt("news_period_1_week"); break;
-                case 14: $per_str = sprintf($lng->txt("news_period_x_weeks"), 2); break;
-                case 30: $per_str = $lng->txt("news_period_1_month"); break;
-                case 60: $per_str = sprintf($lng->txt("news_period_x_months"), 2); break;
-                case 120: $per_str = sprintf($lng->txt("news_period_x_months"), 4); break;
-                case 180: $per_str = sprintf($lng->txt("news_period_x_months"), 6); break;
-                case 366: $per_str = $lng->txt("news_period_1_year"); break;
-            }
-            if ($per_str != "") {
-                $this->setTitle($this->getTitle() . ' <span style="font-weight:normal;">- ' . $per_str . "</span>");
-            }
-        }
 
         $en = "";
         if ($ilUser->getPref("il_feed_js") == "n") {

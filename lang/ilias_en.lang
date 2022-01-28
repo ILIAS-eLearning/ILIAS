@@ -1,4 +1,16 @@
-/* Copyright (c) 1998-2021 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file
 *
@@ -1998,7 +2010,7 @@ common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -2293,10 +2305,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -3923,7 +3935,6 @@ common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
 common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
-common#:#time_limit_owner#:#Owner (time limit)
 common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)
@@ -9569,7 +9580,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -10579,14 +10590,6 @@ blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_keyword#:#Keyword
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-fm#:#fm_settings_tab#:#File Manager
-fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the ‘Open With File Manager’ action in the repository.
-common#:#fm_start#:#Open With File Manager
-fm#:#fm_settings_local#:#Show Local Filesystem
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
-fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed file size for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
@@ -13041,7 +13044,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
-forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora_desc#:#The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default.
 forum#:#file_upload_allowed_fora#:#Attachments
 forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
 forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
@@ -14338,12 +14341,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chat Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -14500,7 +14503,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
-common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
@@ -16093,8 +16096,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart
@@ -16626,3 +16629,4 @@ ui#:#datetime_required#:#Time/Date required
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
 forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
 common#:#actions_for#:#Actions for %s
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.

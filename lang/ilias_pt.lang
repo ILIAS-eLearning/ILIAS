@@ -3597,7 +3597,6 @@ common#:#filter_users_without_disk_usage#:#Apenas utilizadores sem espaço usado
 common#:#first#:#Primeiro
 common#:#firstname#:#Último login
 common#:#flatview#:#Última atualização
-common#:#fm_start#:#Abri com gestor de ficheiros
 common#:#fold#:#Atualizado
 common#:#fold_add#:#Acesso de leitura às definições LDAP
 common#:#fold_added#:#Progresso de aprendizagem
@@ -5029,7 +5028,6 @@ common#:#time_limit_from#:#De (tempo limite)
 common#:#time_limit_message#:#Mensagem (tempo limite)
 common#:#time_limit_no_users_selected#:#Alinhar: direita flutuante
 common#:#time_limit_not_valid#:#O período não é válido.
-common#:#time_limit_owner#:#Proprietário (tempo limite)
 common#:#time_limit_reached#:#Estilo
 common#:#time_limit_unlimited#:#Ilimitado (tempo limite)
 common#:#time_limit_until#:#Até (tempo limite)
@@ -8456,13 +8454,6 @@ file#:#file_suffix_overall_white_info#:#Lista geral resultante de sufixos de fic
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Carregado por
 file#:#replace_file_info#:#Conjuntos de dados incluídos
-fm#:#fm_settings_active#:#Ativar gestor de ficheiros
-fm#:#fm_settings_active_info#:#Apresentação no repositório/computador pessoal
-fm#:#fm_settings_filesize#:#Tamanho máximo do ficheiro para carregar
-fm#:#fm_settings_filesize_info#:#Escolher esta opção para oferecer uma seleção de copyrights predefinidos.
-fm#:#fm_settings_local#:#Mostrar sistema de ficheiros local
-fm#:#fm_settings_local_info#:#Se estiver ativado, o gestor de ficheiros começa com duas molduras, uma mostra o sistema de ficheiros local e a outra contém a vista do repositório ILIAS. Se estiver desativado, apenas é apresentado o repositório ILIAS.
-fm#:#fm_settings_tab#:#Gestor de ficheiros
 fold#:#fold_copy#:#Copiar pasta
 fold#:#fold_import#:#Predefinições de copyrights
 fold#:#fold_presentation#:#O delimitador é usado no ecrã de edição rápida para a separação de palavras-chave e autores. O padrão é ‘,’.
@@ -16622,6 +16613,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

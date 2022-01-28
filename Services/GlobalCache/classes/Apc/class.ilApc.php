@@ -81,7 +81,7 @@ class ilApc extends ilGlobalCacheService
             $key_prefix = $this->returnKey('');
             $apcu_iterator = new APCUIterator();
             $apcu_iterator->rewind();
-            while ($current_key = $apcu_iterator->key()) {
+            while ($apcu_iterator->valid() && $current_key = $apcu_iterator->key()) {
                 // "begins with"
                 if (substr($current_key, 0, strlen($key_prefix)) === $key_prefix) {
                     $this->delete($current_key);

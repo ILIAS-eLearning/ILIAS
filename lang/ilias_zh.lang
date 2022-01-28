@@ -2690,7 +2690,6 @@ common#:#time_limit_from#:#来自(time limit)
 common#:#time_limit_message#:#消息 (time limit)
 common#:#time_limit_no_users_selected#:#请选择一个用户。
 common#:#time_limit_not_valid#:#这个时期是无效的。
-common#:#time_limit_owner#:#所有者 (time limit)
 common#:#time_limit_reached#:#您的访问周期已经过期了。
 common#:#time_limit_unlimited#:#无限制 (time limit)
 common#:#time_limit_until#:#直到 (time limit)
@@ -9064,14 +9063,6 @@ blog#:#blog_edit_keywords#:#编辑关键词
 blog#:#blog_keyword#:#关键词
 administration#:#adm_adm_role_protect#:#保护管理员角色
 administration#:#adm_adm_role_protect_info#:#如果启用，仅允许管理员 分配/取消分配 用户从/到 管理员角色。
-fm#:#fm_settings_tab#:#文件管理器
-fm#:#fm_settings_active#:#启用文件管理器
-fm#:#fm_settings_active_info#:#用户可以在知识库中使用“以文件管理器打开”的动作来打开类目、课程、组和文件夹。
-common#:#fm_start#:#以文件管理器打开
-fm#:#fm_settings_local#:#显示本地文件系统
-fm#:#fm_settings_local_info#:#如果启用，文件管理器以两个框架启动，一个显示本地文件系统，另一个包含ILIAS知识库视图。如果禁用，仅显示ILIAS知识库。
-fm#:#fm_settings_filesize#:#最大上传文件大小
-fm#:#fm_settings_filesize_info#:#输入上传文件最大允许的文件大小，单位MB(兆字节)。
 dcl#:#dcl_learning_progress#:#显示链接到的查看器的模块的学习进程。
 dcl#:#dcl_status#:#您的状态
 dcl#:#dcl_mob#:#图像
@@ -16621,6 +16612,8 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

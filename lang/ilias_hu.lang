@@ -3919,7 +3919,6 @@ common#:#time_limit_from#:#Mettől (időkorlát)
 common#:#time_limit_message#:#Üzenet (időkorlát)
 common#:#time_limit_no_users_selected#:#Válasszon ki egy felhasználót!
 common#:#time_limit_not_valid#:#Az időszak érvénytelen.
-common#:#time_limit_owner#:#Tulajdonos (időkorlát)
 common#:#time_limit_reached#:#ILIAS-fiókja nem aktív.
 common#:#time_limit_unlimited#:#Korlátlan (időkorlát)
 common#:#time_limit_until#:#Meddig (időkorlát)
@@ -10575,14 +10574,6 @@ blog#:#blog_edit_keywords#:#Kulcsszavak módosítása
 blog#:#blog_keyword#:#Kulcsszó
 administration#:#adm_adm_role_protect#:#Rendszergazdai szerep védelme
 administration#:#adm_adm_role_protect_info#:#Ha be van kapcsolva, csak a rendszergazda rendelhet felhasználókat a rendszergazda szerephez, illetve csak ő vonhatja vissza azt.
-fm#:#fm_settings_tab#:#Fájlkezelő
-fm#:#fm_settings_active#:#Fájlkezelő engedélyezése
-fm#:#fm_settings_active_info#:#A felhasználó kategóriákat, kurzusokat, csoportokat és mappákat nyithat meg a 'Megnyitás fájlkezelővel' művelet segítségével a Tartalomtárban.
-common#:#fm_start#:#Megnyitás fájlkezelővel
-fm#:#fm_settings_local#:#Helyi fájlrendszer megjelenítése
-fm#:#fm_settings_local_info#:#Ha be van kapcsolva, a fájlkezelő két kerettel indul el. Az egyik a helyi fájlrendszert, a másik az ILIAS Tartalomtár nézetét tartalmazza. Ha ki van kapcsolva, csak az ILIAS Tartalomtár látható.
-fm#:#fm_settings_filesize#:#Maximális fájlfeltöltési méret
-fm#:#fm_settings_filesize_info#:#Adja meg MB-ban a fájlfeltöltés maximális méretét.
 blog#:#blog_authors#:#Szerzők
 blog#:#blog_author#:#Írta
 blog#:#blog_enable_approval#:#Bejegyzések jóváhagyása
@@ -16622,6 +16613,8 @@ ui#:#datetime_required#:#Idő/Dátum kötelező
 ui#:#duration_end_must_not_be_earlier_than_start#:#A kezdő időpont nem lehet későbbi, mint a záró.
 forum#:#sticky_threads_sorting#:#Ragadós témák rendezése
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable

@@ -531,7 +531,7 @@
                 $fileLists.append($fileList);
 
             options.fileList = $fileList;
-            options.reloadPageWhenDone = isCurrentObj;
+            options.reloadPageWhenDone = true;
             options.isManaged = true;
 
             // add callbacks

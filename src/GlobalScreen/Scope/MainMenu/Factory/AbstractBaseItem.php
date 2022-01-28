@@ -211,7 +211,7 @@ abstract class AbstractBaseItem implements isItem
             return $this->getParent() instanceof NullIdentification || (int) $this->getParent()->serialize() === false;
         }
         if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            return $this->getParent()===null || $this->getParent() instanceof NullIdentification;
+            return $this->getParent() === null || $this->getParent() instanceof NullIdentification;
         }
         return $this instanceof isTopItem;
     }
