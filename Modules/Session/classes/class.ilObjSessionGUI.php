@@ -1471,7 +1471,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $dur->setRequired(true);
         $dur->enableToggleFullTime(
             $this->lng->txt('event_fulltime_info'),
-            (bool) $this->object->getFirstAppointment()->enabledFulltime()
+            $this->object->getFirstAppointment()->enabledFulltime()
         );
         $dur->setShowTime(true);
         $dur->setStart($this->object->getFirstAppointment()->getStart());

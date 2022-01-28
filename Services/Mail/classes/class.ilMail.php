@@ -27,7 +27,7 @@ class ilMail
     private ilAppEventHandler $eventHandler;
     private ilMailAddressTypeFactory $mailAddressTypeFactory;
     private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
-    protected ?string $contextId;
+    protected ?string $contextId = "";
     protected array $contextParameters = [];
     protected ilLogger $logger;
     /** @var array<int, ilMailOptions> */

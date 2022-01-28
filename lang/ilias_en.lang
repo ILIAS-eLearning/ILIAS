@@ -13364,6 +13364,7 @@ crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
 crs#:#crs_mail_context_member_title#:#Course: Info Page
 sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
+mail#:#deleteTemplate#:#Delete
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_unset_as_default#:#Unset as Default
