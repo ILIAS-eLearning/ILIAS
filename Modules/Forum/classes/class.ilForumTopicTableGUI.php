@@ -290,6 +290,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->tpl->setVariable('CSS_ROW', $css_row);
 
         $this->ctrl->setParameter($this->getParentObject(), 'thr_pk', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'user', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'backurl', '');
     }
 
     public function fetchData() : ilForumTopicTableGUI
