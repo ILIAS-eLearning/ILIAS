@@ -1,8 +1,5 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-define('GRP_REGISTRATION_DEACTIVATED', -1);
 define('GRP_REGISTRATION_DIRECT', 0);
 define('GRP_REGISTRATION_REQUEST', 1);
 define('GRP_REGISTRATION_PASSWORD', 2);
@@ -163,7 +160,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     
     public function isRegistrationEnabled() : bool
     {
-        return $this->getRegistrationType() != GRP_REGISTRATION_DEACTIVATED;
+        return $this->getRegistrationType() != self::GRP_REGISTRATION_DEACTIVATED;
     }
     
     public function enableUnlimitedRegistration(bool $a_status) : void
