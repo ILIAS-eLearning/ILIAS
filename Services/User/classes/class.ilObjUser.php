@@ -589,7 +589,7 @@ class ilObjUser extends ilObject
     
     public static function _lookupGender(int $a_user_id) : string
     {
-        return ilObjUser::_lookup($a_user_id, "gender");
+        return (string) ilObjUser::_lookup($a_user_id, "gender");
     }
 
     public static function _lookupClientIP(int $a_user_id) : string
