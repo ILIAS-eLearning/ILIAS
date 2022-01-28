@@ -3,12 +3,10 @@
 
 /**
  * Save container block property
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ServicesContainer
- * @ilCtrl_Calls ilContainerBlockPropertiesStorage:
+ * @author            Alex Killing <alex.killing@gmx.de>
+ * @ingroup           ServicesContainer
  */
-class ilContainerBlockPropertiesStorage
+class ilContainerBlockPropertiesStorageGUI
 {
     /**
      * @var ilCtrl
@@ -19,7 +17,6 @@ class ilContainerBlockPropertiesStorage
      * @var ilObjUser
      */
     protected $user;
-
 
     /**
      * Constructor
