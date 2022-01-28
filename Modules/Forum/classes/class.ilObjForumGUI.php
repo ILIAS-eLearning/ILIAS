@@ -2373,15 +2373,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $frm->setMDB2WhereCondition(' top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
 
             // reply: new post
-            $status = 1;
-            $send_activation_mail = 0;
+            $status = true;
+            $send_activation_mail = false;
 
             if ($this->objProperties->isPostActivationEnabled()) {
                 if (!$this->is_moderator) {
-                    $status = 0;
-                    $send_activation_mail = 1;
+                    $status = false;
+                    $send_activation_mail = true;
                 } elseif ($this->objCurrentPost->isAnyParentDeactivated()) {
-                    $status = 0;
+                    $status = false;
                 }
             }
 
@@ -2831,7 +2831,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->http->close();
     }
 
-    private function getForumObjects() : ?array
+    /**
+     * @return array{forumObj: ilObjForum, frm: ilForum, file_obj: ilFileDataForum}
+     */
+    private function getForumObjects() : array
     {
         if (null === $this->forumObjects) {
             $forumObj = $this->object;
