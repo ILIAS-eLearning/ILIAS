@@ -31,8 +31,8 @@ class ilSessionAppointment implements ilDatePeriod
     protected ilDBInterface $db;
     protected ilTree $tree;
     protected ilLanguage $lng;
-    protected ilDateTime $start;
-    protected ilDateTime $end;
+    protected ?ilDateTime $start = null;
+    protected ?ilDateTime $end = null;
     protected int $starting_time = 0;
     protected int $ending_time = 0;
     protected int $fulltime = 0;
@@ -100,8 +100,8 @@ class ilSessionAppointment implements ilDatePeriod
         $tomorrow->increment(IL_CAL_DAY, 2);
         
         $query = "SELECT event_id FROM event_appointment " .
-            "WHERE e_start > " . $ilDB->quote($now->get(IL_CAL_DATE, 'timestamp')) . ' ' .
-            "AND e_start < " . $ilDB->quote($tomorrow->get(IL_CAL_DATE, 'timestamp')) . ' ' .
+            "WHERE e_start > " . $ilDB->quote($now->get(IL_CAL_DATE), 'timestamp') . ' ' .
+            "AND e_start < " . $ilDB->quote($tomorrow->get(IL_CAL_DATE), 'timestamp') . ' ' .
             "AND " . $ilDB->in('event_id', $obj_ids, false, 'integer') . ' ' .
             "ORDER BY e_start ";
             
@@ -121,7 +121,7 @@ class ilSessionAppointment implements ilDatePeriod
             "WHERE e_start > " . $ilDB->now() . " " .
             "AND " . $ilDB->in('event_id', $obj_ids, false, 'integer') . " " .
             "ORDER BY e_start ";
-        $ilDB->setLimit(1);
+        $ilDB->setLimit(1, 0);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $event_id = $row->event_id;
@@ -151,7 +151,7 @@ class ilSessionAppointment implements ilDatePeriod
             "WHERE e_start < " . $ilDB->now() . " " .
             "AND " . $ilDB->in('event_id', $obj_ids, false, 'integer') . " " .
             "ORDER BY e_start DESC ";
-        $ilDB->setLimit(1);
+        $ilDB->setLimit(1, 0);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $event_id = (int) $row->event_id;
@@ -405,8 +405,8 @@ class ilSessionAppointment implements ilDatePeriod
                 $this->start = new ilDateTime($row->e_start, IL_CAL_DATETIME, 'UTC');
                 $this->end = new ilDateTime($row->e_end, IL_CAL_DATETIME, 'UTC');
             }
-            $this->starting_time = $this->start->getUnixTime();
-            $this->ending_time = $this->end->getUnixTime();
+            $this->starting_time = (int) $this->start->getUnixTime();
+            $this->ending_time = (int) $this->end->getUnixTime();
         }
         return true;
     }

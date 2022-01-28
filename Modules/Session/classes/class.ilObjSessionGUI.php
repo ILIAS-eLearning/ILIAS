@@ -95,9 +95,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected array $files = [];
     protected ilPropertyFormGUI $form;
     protected ilAdvancedMDRecordGUI $record_gui;
-    protected ilCalendarRecurrence $rec;
-    protected ilEventItems $event_items;
-    protected ilEventParticipants $event_part;
+    protected ?ilEventRecurrence $rec = null;
+    protected ?ilEventItems $event_items = null;
+    protected ?ilEventParticipants $event_part = null;
     protected int $requested_ref_id = 0;
     protected int $requested_user_id = 0;
     protected int $requested_file_id = 0;
@@ -106,7 +106,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected string $requested_sort_order = "";
     protected array $requested_items = [];
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = true)
+    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         global $DIC;
 
@@ -813,9 +813,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilErr->setMessage($this->lng->txt('err_check_input'));
         }
 
-        if (
-            $this->record_gui instanceof \ilAdvancedMDRecordGUI &&
-            !$this->record_gui->importEditFormPostValues()
+        if ($this->record_gui instanceof \ilAdvancedMDRecordGUI && !$this->record_gui->importEditFormPostValues()
         ) {
             $ilErr->setMessage($this->lng->txt('err_check_input'));
         }
@@ -877,7 +875,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             ilUtil::sendInfo($this->lng->txt('event_add_new_event'), true);
             $this->ctrl->returnToParent($this);
         }
-        
         return true;
     }
     
@@ -1350,8 +1347,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_list.html', 'Modules/Session');
         $this->__showButton($this->ctrl->getLinkTarget($this, 'exportCSV'), $this->lng->txt('event_csv_export'));
         
-        $this->tpl->addBlockfile("EVENTS_TABLE", "events_table", "tpl.table.html");
-        $this->tpl->addBlockfile('TBL_CONTENT', 'tbl_content', 'tpl.sess_list_row.html', 'Modules/Session');
+        $this->tpl->addBlockFile("EVENTS_TABLE", "events_table", "tpl.table.html");
+        $this->tpl->addBlockFile('TBL_CONTENT', 'tbl_content', 'tpl.sess_list_row.html', 'Modules/Session');
         
         $members_obj = $this->initContainer(true);
         $members = $members_obj->getParticipants();
@@ -1368,7 +1365,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         $course_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
         $events = [];
-        foreach ($tree->getSubtree($tree->getNodeData($course_ref_id), false, ['sess']) as $event_id) {
+        foreach ($tree->getSubTree($tree->getNodeData($course_ref_id), false, ['sess']) as $event_id) {
             $tmp_event = ilObjectFactory::getInstanceByRefId($event_id, false);
             if (!is_object($tmp_event) || $tmp_event->getType() != 'sess') {
                 continue;
@@ -1398,7 +1395,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tbl->setOrderColumn($this->requested_sort_by);
         $tbl->setOrderDirection($this->requested_sort_order);
         $tbl->setOffset($this->requested_offset);
-        $tbl->setLimit($ilUser->getPref("hits_per_page"));
+        $tbl->setLimit((int) $ilUser->getPref("hits_per_page"));
         $tbl->setMaxCount(count($members));
         $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
         
@@ -1455,11 +1452,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $ilUser = $this->user;
         $object_service = $this->object_service;
-        
-        if (is_object($this->form)) {
-            return true;
-        }
-        
         $this->lng->loadLanguageModule('dateplaner');
 
         ilYuiUtil::initDomEvent();
@@ -1479,7 +1471,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $dur->setRequired(true);
         $dur->enableToggleFullTime(
             $this->lng->txt('event_fulltime_info'),
-            $this->object->getFirstAppointment()->enabledFulltime() ? true : false
+            (bool) $this->object->getFirstAppointment()->enabledFulltime()
         );
         $dur->setShowTime(true);
         $dur->setStart($this->object->getFirstAppointment()->getStart());
@@ -1633,7 +1625,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // Show mail to members type
         $mail_type = new ilRadioGroupInputGUI($this->lng->txt('sess_mail_type'), 'mail_type');
-        $mail_type->setValue($this->object->getMailToMembersType());
+        $mail_type->setValue((string) $this->object->getMailToMembersType());
 
         $mail_tutors = new ilRadioOption(
             $this->lng->txt('sess_mail_admins_only'),
@@ -1735,7 +1727,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function loadRecurrenceSettings() : void
     {
-        $this->rec = new ilSessionRecurrence();
+        $this->rec = new ilEventRecurrence();
 
         switch ($this->form->getInput('frequence')) {
             case ilCalendarRecurrence::FREQ_DAILY:
