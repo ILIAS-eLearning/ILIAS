@@ -2,10 +2,8 @@
 
 /**
  * Class ilDclTableViewEditGUI
- *
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup      ModulesDataCollection
- *
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclDetailedViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclCreateViewDefinitionGUI
  * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclEditViewDefinitionGUI
@@ -50,10 +48,8 @@ class ilDclTableViewEditGUI
      */
     public $table;
 
-
     /**
      * ilDclTableViewEditGUI constructor.
-     *
      * @param ilDclTableViewGUI $parent_obj
      * @param ilDclTable        $table
      */
@@ -81,7 +77,6 @@ class ilDclTableViewEditGUI
         $this->tpl->setLocator();
     }
 
-
     /**
      * execute command
      */
@@ -96,8 +91,10 @@ class ilDclTableViewEditGUI
 
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
-        $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTarget($this->parent_obj));
-        $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this->parent_obj->parent_obj));
+        $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'),
+            $this->ctrl->getLinkTarget($this->parent_obj));
+        $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'),
+            $this->ctrl->getLinkTarget($this->parent_obj->parent_obj));
 
         switch ($next_class) {
             case 'ildcldetailedviewdefinitiongui':
@@ -160,29 +157,29 @@ class ilDclTableViewEditGUI
                         $renderer = $DIC->ui()->renderer();
 
                         // Set Workflow flag to true
-                        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET, "tableview_id")))->first();
+                        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET,
+                            "tableview_id")
+                        ))->first();
                         if (!is_null($view)) {
                             //setup steps
                             $step = $f->step('', '');
                             $steps = [
                                 $f->step($this->lng->txt('dcl_view_settings'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepVs() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepVs() ? 3 : 4),
                                 $f->step($this->lng->txt('dcl_create_entry_rules'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepC() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepC() ? 3 : 4),
                                 $f->step($this->lng->txt('dcl_edit_entry_rules'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepE() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepE() ? 3 : 4),
                                 $f->step($this->lng->txt('dcl_list_visibility_and_filter'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepO() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepO() ? 3 : 4),
                                 $f->step($this->lng->txt('dcl_detailed_view'))
-                                    ->withAvailability($step::AVAILABLE)->withStatus($view->getStepS() ? 3 : 1),
+                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepS() ? 3 : 1),
                             ];
 
                             //setup linear workflow
                             $wf = $f->linear($this->lng->txt('dcl_view_configuration'), $steps);
                             $settings_tpl->setVariable("WORKFLOW", $renderer->render($wf));
                         }
-
-
 
                         $settings_tpl->setVariable("SETTINGS", $ilDclTableViewEditFormGUI->getHTML());
 
@@ -201,17 +198,20 @@ class ilDclTableViewEditGUI
         }
     }
 
-
     protected function setTabs($active)
     {
-        $this->tabs_gui->addTab('general_settings', $this->lng->txt('dcl_view_settings'), $this->ctrl->getLinkTarget($this, 'editGeneralSettings'));
-        $this->tabs_gui->addTab('create_view', $this->lng->txt('dcl_create_entry_rules'), $this->ctrl->getLinkTargetByClass('ilDclCreateViewDefinitionGUI', 'presentation'));
-        $this->tabs_gui->addTab('edit_view', $this->lng->txt('dcl_edit_entry_rules'), $this->ctrl->getLinkTargetByClass('ilDclEditViewDefinitionGUI', 'presentation'));
-        $this->tabs_gui->addTab('field_settings', $this->lng->txt('dcl_list_visibility_and_filter'), $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
-        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('dcl_detailed_view'), $this->ctrl->getLinkTargetByClass('ilDclDetailedViewDefinitionGUI', 'edit'));
+        $this->tabs_gui->addTab('general_settings', $this->lng->txt('dcl_view_settings'),
+            $this->ctrl->getLinkTarget($this, 'editGeneralSettings'));
+        $this->tabs_gui->addTab('create_view', $this->lng->txt('dcl_create_entry_rules'),
+            $this->ctrl->getLinkTargetByClass('ilDclCreateViewDefinitionGUI', 'presentation'));
+        $this->tabs_gui->addTab('edit_view', $this->lng->txt('dcl_edit_entry_rules'),
+            $this->ctrl->getLinkTargetByClass('ilDclEditViewDefinitionGUI', 'presentation'));
+        $this->tabs_gui->addTab('field_settings', $this->lng->txt('dcl_list_visibility_and_filter'),
+            $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
+        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('dcl_detailed_view'),
+            $this->ctrl->getLinkTargetByClass('ilDclDetailedViewDefinitionGUI', 'edit'));
         $this->tabs_gui->setTabActive($active);
     }
-
 
     /**
      *
@@ -229,7 +229,6 @@ class ilDclTableViewEditGUI
         }
     }
 
-
     /**
      *
      */
@@ -244,7 +243,6 @@ class ilDclTableViewEditGUI
             $this->tpl->setContent($ilDclTableViewEditFormGUI->getHTML());
         }
     }
-
 
     /**
      *
@@ -286,7 +284,6 @@ class ilDclTableViewEditGUI
         $this->ctrl->redirect($this, 'editFieldSettings');
     }
 
-
     /**
      * @return ilDclTableViewEditFieldsTableGUI
      */
@@ -296,7 +293,6 @@ class ilDclTableViewEditGUI
         $this->table_gui = $table;
     }
 
-
     /**
      * return to overview
      */
@@ -305,7 +301,6 @@ class ilDclTableViewEditGUI
         $this->ctrl->setParameter($this->parent_obj, 'table_id', $this->table->getId());
         $this->ctrl->redirect($this->parent_obj);
     }
-
 
     /**
      *
@@ -327,7 +322,6 @@ class ilDclTableViewEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     protected function delete()
     {
         $this->tableview->delete();
@@ -336,20 +330,18 @@ class ilDclTableViewEditGUI
         $this->cancel();
     }
 
-
     /**
      *
      */
     public function permissionDenied()
     {
         ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
+        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class],
+            ilDclRecordListGUI::CMD_LIST_RECORDS);
     }
-
 
     /**
      * @param $cmd
-     *
      * @return bool
      */
     protected function checkAccess($cmd)
@@ -367,7 +359,6 @@ class ilDclTableViewEditGUI
             );
         }
     }
-
 
     public function copy()
     {

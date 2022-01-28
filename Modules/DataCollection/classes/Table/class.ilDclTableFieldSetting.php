@@ -2,9 +2,7 @@
 
 /**
  * Class ilDclTableFieldSetting
- *
  * defines table/field specific settings: field_order, editable, exportable
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -13,7 +11,6 @@ class ilDclTableFieldSetting extends ActiveRecord
 
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -25,7 +22,6 @@ class ilDclTableFieldSetting extends ActiveRecord
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
@@ -34,17 +30,14 @@ class ilDclTableFieldSetting extends ActiveRecord
     protected $table_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        text
      * @db_length           128
-     *
      */
     protected $field;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           8
@@ -52,23 +45,20 @@ class ilDclTableFieldSetting extends ActiveRecord
     protected $field_order;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
     protected $exportable;
 
-
     /**
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_tfield_set";
     }
-
 
     /**
      * @return int
@@ -78,7 +68,6 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
@@ -86,7 +75,6 @@ class ilDclTableFieldSetting extends ActiveRecord
     {
         $this->id = $id;
     }
-
 
     /**
      * @return int
@@ -96,7 +84,6 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->table_id;
     }
 
-
     /**
      * @param int $table_id
      */
@@ -104,7 +91,6 @@ class ilDclTableFieldSetting extends ActiveRecord
     {
         $this->table_id = $table_id;
     }
-
 
     /**
      * @return string
@@ -114,7 +100,6 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->field;
     }
 
-
     /**
      * @param string $field
      */
@@ -122,7 +107,6 @@ class ilDclTableFieldSetting extends ActiveRecord
     {
         $this->field = $field;
     }
-
 
     /**
      * @return int
@@ -132,7 +116,6 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->field_order;
     }
 
-
     /**
      * @param int $field_order
      */
@@ -140,7 +123,6 @@ class ilDclTableFieldSetting extends ActiveRecord
     {
         $this->field_order = $field_order;
     }
-
 
     /**
      * @return boolean
@@ -150,7 +132,6 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->exportable;
     }
 
-
     /**
      * @param boolean $exportable
      */
@@ -159,11 +140,9 @@ class ilDclTableFieldSetting extends ActiveRecord
         $this->exportable = $exportable;
     }
 
-
     /**
      * @param $table_id
      * @param $field
-     *
      * @return \ActiveRecord|\ilDclTableFieldSetting
      */
     public static function getInstance($table_id, $field)

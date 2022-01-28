@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclReferenceFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,13 +10,10 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
     const PROP_REFERENCE = 'table_id';
     const PROP_N_REFERENCE = 'multiple_selection';
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
-     * @param string  $direction
+     * @param string $direction
      * @param boolean $sort_by_status The specific sort object is a status field
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
@@ -44,16 +40,12 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         $sql_obj->setJoinStatement($join_str);
         $sql_obj->setOrderStatement("field_{$this->getId()} " . $direction);
 
-
         return $sql_obj;
     }
 
-
     /**
      * Returns a query-object for building the record-loader-sql-query
-     *
      * @param string $filter_value
-     *
      * @return null|ilDclRecordQueryObject
      */
     public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
@@ -95,15 +87,16 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
     /**
      * @inheritDoc
      */
     public function getValidFieldProperties()
     {
-        return array(ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_REFERENCE_LINK, ilDclBaseFieldModel::PROP_N_REFERENCE);
+        return array(ilDclBaseFieldModel::PROP_REFERENCE,
+                     ilDclBaseFieldModel::PROP_REFERENCE_LINK,
+                     ilDclBaseFieldModel::PROP_N_REFERENCE
+        );
     }
-
 
     /**
      * @return bool
@@ -117,18 +110,17 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
             || $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE);
     }
 
-
     public function getFieldRef()
     {
         return ilDclCache::getFieldCache((int) $this->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
     }
 
-
     public function afterClone($records)
     {
         /** @var ilDclReferenceFieldModel $clone */
         $clone = ilDclCache::getCloneOf($this->getId(), ilDclCache::TYPE_FIELD);
-        $reference_clone = ilDclCache::getCloneOf((int) $clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE), ilDclCache::TYPE_FIELD);
+        $reference_clone = ilDclCache::getCloneOf((int) $clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE),
+            ilDclCache::TYPE_FIELD);
         if ($reference_clone) {
             $this->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $reference_clone->getId());
             $this->updateProperties();

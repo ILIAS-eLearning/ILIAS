@@ -2,13 +2,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclRecordListGUI
@@ -26,7 +24,6 @@ class ilDclRecordListGUI
     const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
     /**
      * Stores current mode active
-     *
      * @var int
      */
     protected $mode = self::MODE_VIEW;
@@ -50,7 +47,6 @@ class ilDclRecordListGUI
      * @var array
      */
     protected static $available_modes = array(self::MODE_VIEW, self::MODE_MANAGE);
-
 
     /**
      * @param ilObjDataCollectionGUI $a_parent_obj
@@ -85,9 +81,9 @@ class ilDclRecordListGUI
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLE_ID, $this->table_id);
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
-        $this->mode = (isset($_GET[self::GET_MODE]) && in_array($_GET[self::GET_MODE], self::$available_modes)) ? (int) $_GET[self::GET_MODE] : self::MODE_VIEW;
+        $this->mode = (isset($_GET[self::GET_MODE]) && in_array($_GET[self::GET_MODE],
+                self::$available_modes)) ? (int) $_GET[self::GET_MODE] : self::MODE_VIEW;
     }
-
 
     /**
      * execute command
@@ -138,7 +134,6 @@ class ilDclRecordListGUI
         }
     }
 
-
     public function listRecords($use_tableview_filter = false)
     {
         global $DIC;
@@ -154,7 +149,8 @@ class ilDclRecordListGUI
 
         $this->createSwitchers();
 
-        $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id) and $this->table_obj->hasCustomFields();
+        $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id,
+            $this->table_id) and $this->table_obj->hasCustomFields();
         if ($permission_to_add_or_import) {
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
@@ -176,7 +172,8 @@ class ilDclRecordListGUI
 
         if (count($this->table_obj->getRecordFields()) == 0) {
             ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
-                . (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->ref_id, $this->table_id) ? $this->lng->txt("dcl_create_fields") : ""));
+                . (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->ref_id,
+                    $this->table_id) ? $this->lng->txt("dcl_create_fields") : ""));
         }
 
         $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id . "_" . $this->tableview_id);
@@ -192,7 +189,6 @@ class ilDclRecordListGUI
         $tpl->setContent($desc . $list->getHTML());
     }
 
-
     public function showImportExcel($form = null)
     {
         global $DIC;
@@ -203,10 +199,8 @@ class ilDclRecordListGUI
         $tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Init form
-     *
      * @return ilPropertyFormGUI
      */
     public function initImportForm()
@@ -231,13 +225,13 @@ class ilDclRecordListGUI
         return $form;
     }
 
-
     /**
      * Import Data from Excel sheet
      */
     public function importExcel()
     {
-        if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id)) || !$this->table_obj->getImportEnabled()) {
+        if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id,
+                $this->table_id)) || !$this->table_obj->getImportEnabled()) {
             throw new ilDclException($this->lng->txt("access_denied"));
         }
         $form = $this->initImportForm();
@@ -251,10 +245,8 @@ class ilDclRecordListGUI
         }
     }
 
-
     /**
      * Import records from Excel file
-     *
      * @param      $file
      * @param bool $simulate
      */
@@ -266,10 +258,8 @@ class ilDclRecordListGUI
         $this->endImport($result['line'], $result['warnings']);
     }
 
-
     /**
      * End import
-     *
      * @param $i
      * @param $warnings
      */
@@ -294,7 +284,6 @@ class ilDclRecordListGUI
         $tpl->setContent($output->get());
     }
 
-
     /**
      * doTableSwitch
      */
@@ -307,7 +296,6 @@ class ilDclRecordListGUI
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
-
     /**
      * doTableViewSwitch
      */
@@ -316,7 +304,6 @@ class ilDclRecordListGUI
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $_POST['tableview_id']);
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
-
 
     /**
      *
@@ -330,7 +317,6 @@ class ilDclRecordListGUI
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
 
-
     /**
      *
      */
@@ -342,7 +328,6 @@ class ilDclRecordListGUI
         $table->resetFilter();
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
-
 
     /**
      * send File to User
@@ -379,10 +364,8 @@ class ilDclRecordListGUI
         }
     }
 
-
     /**
      * Confirm deletion of multiple records
-     *
      */
     public function confirmDeleteRecords()
     {
@@ -419,10 +402,8 @@ class ilDclRecordListGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * Delete multiple records
-     *
      * @param array $record_ids
      */
     public function deleteRecords(array $record_ids = array())
@@ -454,10 +435,8 @@ class ilDclRecordListGUI
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
 
-
     /**
      * @param ilDclBaseRecordModel $record
-     *
      * @return bool
      */
     private function recordBelongsToCollection(ilDclBaseRecordModel $record)
@@ -469,10 +448,8 @@ class ilDclRecordListGUI
         return $obj_id == $obj_id_rec;
     }
 
-
     /**
      * Add subtabs
-     *
      */
     protected function setSubTabs($active_id = self::GET_MODE)
     {
@@ -481,12 +458,14 @@ class ilDclRecordListGUI
 
         /** @var ilTabsGUI $ilTabs */
         $this->ctrl->setParameter($this, self::GET_MODE, self::MODE_VIEW);
-        $ilTabs->addSubTab('mode_1', $this->lng->txt('view'), $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
+        $ilTabs->addSubTab('mode_1', $this->lng->txt('view'),
+            $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
         $this->ctrl->clearParameters($this);
 
         if ($this->table_obj->hasPermissionToDeleteRecords((int) $_GET['ref_id'])) {
             $this->ctrl->setParameter($this, self::GET_MODE, self::MODE_MANAGE);
-            $ilTabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'), $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
+            $ilTabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'),
+                $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
             $this->ctrl->clearParameters($this);
         }
 
@@ -496,7 +475,6 @@ class ilDclRecordListGUI
 
         $ilTabs->setSubTabActive($active_id);
     }
-
 
     /**
      * @return array
@@ -516,10 +494,8 @@ class ilDclRecordListGUI
         return $options;
     }
 
-
     /**
      * @param $use_tableview_filter
-     *
      * @return array
      */
     protected function getRecordListTableGUI($use_tableview_filter)
@@ -542,7 +518,8 @@ class ilDclRecordListGUI
         $limit = $list->getLimit();
         $offset = $list->getOffset();
 
-        $num_records = count($table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter()));
+        $num_records = count($table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit,
+            $offset, $list->getFilter()));
 
         // Fix no data found on new filter application when on a site other than the first
         if ($num_records === 0) {
@@ -550,7 +527,8 @@ class ilDclRecordListGUI
             $offset = 0;
         }
 
-        $data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter());
+        $data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset,
+            $list->getFilter());
         $records = $data['records'];
         $total = $data['total'];
 
@@ -562,7 +540,6 @@ class ilDclRecordListGUI
 
         return $list;
     }
-
 
     /**
      * @internal param $options
@@ -610,7 +587,6 @@ class ilDclRecordListGUI
             $ilToolbar->addSeparator();
         }
     }
-
 
     /**
      * @return bool

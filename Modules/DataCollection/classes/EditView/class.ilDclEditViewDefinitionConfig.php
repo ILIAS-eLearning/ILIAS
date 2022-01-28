@@ -4,7 +4,6 @@
 
 /**
  * Class ilDclEditViewDefinitionConfig
- *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ilDclEditViewDefinitionConfig extends ilPageConfig
@@ -13,7 +12,7 @@ class ilDclEditViewDefinitionConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init() : void
+    public function init(): void
     {
         // config
         $this->setPreventHTMLUnmasking(true);

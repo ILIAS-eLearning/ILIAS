@@ -2,14 +2,12 @@
 
 /**
  * Class ilDclTableViewTextDefaultValue
- *
  * @author  Jannik Dolf <jd@studer-raimann.ch>
  */
 class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
 {
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -21,7 +19,6 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
@@ -30,23 +27,20 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
     protected $tview_set_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           4000
      */
     protected $value;
 
-
     /**
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_stloc1_default";
     }
-
 
     /**
      * @return int
@@ -56,7 +50,6 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
@@ -64,7 +57,6 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
     {
         $this->id = $id;
     }
-
 
     /**
      * @return int
@@ -74,7 +66,6 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->tview_set_id;
     }
 
-
     /**
      * @param int $tview_set_id
      */
@@ -83,7 +74,6 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         $this->tview_set_id = $tview_set_id;
     }
 
-
     /**
      * @return string
      */
@@ -91,7 +81,6 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
     {
         return $this->value;
     }
-
 
     /**
      * @param string $value

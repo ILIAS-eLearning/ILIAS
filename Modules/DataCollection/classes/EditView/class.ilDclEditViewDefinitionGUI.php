@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclEditViewDefinitionGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
+ * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @ilCtrl_Calls ilDclEditViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclEditViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -19,7 +17,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      * @var ilDclEditViewTableGUI
      */
     protected $table_gui;
-
 
     /**
      * @param     $tableview_id
@@ -52,11 +49,10 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * execute command
      */
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -83,7 +79,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-
     /**
      *
      */
@@ -95,7 +90,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
     /**
      *
      */
@@ -106,7 +100,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $page->update();
         $this->ctrl->redirect($this, 'edit');
     }
-
 
     /**
      * confirmDelete
@@ -130,7 +123,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -141,7 +133,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
 
         $ilCtrl->redirect($this, "edit");
     }
-
 
     /**
      *
@@ -163,12 +154,11 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
 
-
     /**
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock() : void
+    public function releasePageLock(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -179,13 +169,12 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
 
-
     /**
      * Finalizing output processing
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         // You can use this to parse placeholders and the like before outputting
 
@@ -215,7 +204,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
 
         return $a_output;
     }
-
 
     /**
      * Save table entries

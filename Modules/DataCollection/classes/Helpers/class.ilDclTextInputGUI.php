@@ -2,12 +2,11 @@
 
 /**
  * Class ilDclTextInputGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilDclTextInputGUI extends ilTextInputGUI
 {
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         parent::setValueByArray($a_values);
         foreach ($this->getSubItems() as $item) {
@@ -15,8 +14,7 @@ class ilDclTextInputGUI extends ilTextInputGUI
         }
     }
 
-
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         // validate regex
         if ($this->getPostVar() == 'prop_' . ilDclBaseFieldModel::PROP_REGEX && $_POST[$this->getPostVar()]) {

@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclMultiTextInputGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
@@ -13,32 +12,27 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         $this->setIdentifiedMultiValues($values);
     }
 
-
     public function getValues()
     {
         $this->getIdentifiedMultiValues();
     }
 
-
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->setIdentifiedMultiValues($a_value);
     }
-
 
     public function getValue()
     {
         $this->getIdentifiedMultiValues();
     }
 
-
-    public function setMultiValues(array $a_values) : void
+    public function setMultiValues(array $a_values): void
     {
         $this->setIdentifiedMultiValues($a_values);
     }
 
-
-    public function getMultiValues() : array
+    public function getMultiValues(): array
     {
         $this->getIdentifiedMultiValues();
     }
@@ -47,7 +41,7 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
     //	{
     //		return $this->getPostVar();
     //	}
-    public function render(string $a_mode = "") : string
+    public function render(string $a_mode = ""): string
     {
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
         $i = 0;

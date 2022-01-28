@@ -6,11 +6,9 @@ use ILIAS\FileUpload\MimeType;
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id:
- *
  */
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 {
@@ -37,7 +35,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->create();
 
             if ($has_save_confirmation) {
-                $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
+                $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'],
+                    'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
 
                 $file_obj->appendStream(
                     \ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
@@ -66,7 +65,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
             $file_id = $file_obj->getId();
             $return = $file_id;
-        // handover for save-confirmation
+            // handover for save-confirmation
         } else {
             if (is_array($file) && isset($file['tmp_name']) && $file['tmp_name'] != "") {
                 $return = $file;
@@ -77,7 +76,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
         return $return;
     }
-
 
     /**
      * @param ilConfirmationGUI $confirmation
@@ -91,10 +89,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * Set value for record field
-     *
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
@@ -118,7 +114,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * @inheritdoc
      */
@@ -139,14 +134,11 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $file;
     }
 
-
     /**
      * Returns sortable value for the specific field-types
-     *
      * @param                           $value
      * @param ilDclBaseRecordFieldModel $record_field
      * @param bool|true                 $link
-     *
      * @return int|string
      */
     public function parseSortingValue($value, $link = true)
@@ -159,7 +151,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $file_obj->getTitle();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -171,7 +162,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         }
         $this->setValue($value);
     }
-
 
     /**
      *

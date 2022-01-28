@@ -3,14 +3,12 @@
 
 /**
  * Class ilDclBaseRecordModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclBaseRecordModel
@@ -34,7 +32,6 @@ class ilDclBaseRecordModel
     protected $table;
     /**
      * User ID
-     *
      * @var int
      */
     protected $last_edit_by;
@@ -55,7 +52,6 @@ class ilDclBaseRecordModel
      */
     protected $comments;
 
-
     /**
      * @param int $a_id
      */
@@ -67,17 +63,14 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param $value
-     *
      * @return string
      */
     private function fixDate($value)
     {
         return $value;
     }
-
 
     /**
      * doUpdate
@@ -126,7 +119,6 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Read record
      */
@@ -146,7 +138,6 @@ class ilDclBaseRecordModel
         $this->setOwner($rec["owner"]);
         $this->setLastEditBy($rec["last_edit_by"]);
     }
-
 
     /**
      * @throws ilException
@@ -170,8 +161,10 @@ class ilDclBaseRecordModel
 			Last_update,
 			owner,
 			last_edit_by
-			) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote($this->getTableId(), "integer") . ","
-            . $ilDB->quote($this->getCreateDate(), "timestamp") . "," . $ilDB->quote($this->getLastUpdate(), "timestamp") . ","
+			) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote($this->getTableId(),
+                "integer") . ","
+            . $ilDB->quote($this->getCreateDate(), "timestamp") . "," . $ilDB->quote($this->getLastUpdate(),
+                "timestamp") . ","
             . $ilDB->quote($this->getOwner(), "integer") . "," . $ilDB->quote($this->getLastEditBy(), "integer") . "
 			)";
         $ilDB->manipulate($query);
@@ -183,7 +176,6 @@ class ilDclBaseRecordModel
 
         $this->getTable()->loadRecords();
     }
-
 
     /**
      * @param $field_id
@@ -197,10 +189,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Set field id
-     *
      * @param int $a_id
      */
     public function setId($a_id)
@@ -208,10 +198,8 @@ class ilDclBaseRecordModel
         $this->id = $a_id;
     }
 
-
     /**
      * Get field id
-     *
      * @return int
      */
     public function getId()
@@ -219,10 +207,8 @@ class ilDclBaseRecordModel
         return $this->id;
     }
 
-
     /**
      * Set Table ID
-     *
      * @param int $a_id
      */
     public function setTableId($a_id)
@@ -230,10 +216,8 @@ class ilDclBaseRecordModel
         $this->table_id = $a_id;
     }
 
-
     /**
      * Get Table ID
-     *
      * @return int
      */
     public function getTableId()
@@ -241,10 +225,8 @@ class ilDclBaseRecordModel
         return $this->table_id;
     }
 
-
     /**
      * Set Creation Date
-     *
      * @param ilDateTime $a_datetime
      */
     public function setCreateDate($a_datetime)
@@ -252,10 +234,8 @@ class ilDclBaseRecordModel
         $this->create_date = $a_datetime;
     }
 
-
     /**
      * Get Creation Date
-     *
      * @return ilDateTime
      */
     public function getCreateDate()
@@ -263,10 +243,8 @@ class ilDclBaseRecordModel
         return $this->create_date;
     }
 
-
     /**
      * Set Last Update Date
-     *
      * @param ilDateTime $a_datetime
      */
     public function setLastUpdate($a_datetime)
@@ -274,10 +252,8 @@ class ilDclBaseRecordModel
         $this->last_update = $a_datetime;
     }
 
-
     /**
      * Get Last Update Date
-     *
      * @return ilDateTime
      */
     public function getLastUpdate()
@@ -285,10 +261,8 @@ class ilDclBaseRecordModel
         return $this->last_update;
     }
 
-
     /**
      * Set Owner
-     *
      * @param int $a_id
      */
     public function setOwner($a_id)
@@ -296,17 +270,14 @@ class ilDclBaseRecordModel
         $this->owner = $a_id;
     }
 
-
     /**
      * Get Owner
-     *
      * @return int
      */
     public function getOwner()
     {
         return $this->owner;
     }
-
 
     /*
      * getLastEditBy
@@ -316,7 +287,6 @@ class ilDclBaseRecordModel
         return $this->last_edit_by;
     }
 
-
     /*
      * setLastEditBy
      */
@@ -325,10 +295,8 @@ class ilDclBaseRecordModel
         $this->last_edit_by = $last_edit_by;
     }
 
-
     /**
      * Set a field value
-     *
      * @param int    $field_id
      * @param string $value
      */
@@ -345,10 +313,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Set a field value
-     *
      * @param int    $field_id
      * @param string $value
      */
@@ -363,13 +329,11 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param $excel ilExcel
      * @param $row
      * @param $col
      * @param $field ilDclBaseFieldModel
-     *
      * @return array|string
      */
     public function getRecordFieldValueFromExcel($excel, $row, $col, $field)
@@ -378,7 +342,6 @@ class ilDclBaseRecordModel
 
         return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
     }
-
 
     /**
      * @param $excel ilExcel
@@ -393,7 +356,6 @@ class ilDclBaseRecordModel
             $this->{$field->getId()} = $value;
         }
     }
-
 
     /**
      * @return array
@@ -410,12 +372,9 @@ class ilDclBaseRecordModel
         return $return;
     }
 
-
     /**
      * Get Field Value
-     *
      * @param int $field_id
-     *
      * @return array
      */
     public function getRecordFieldValue($field_id)
@@ -431,12 +390,9 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Get Field Value for Representation in a Form
-     *
      * @param $field_id
-     *
      * @return array|int|null|string
      */
     public function getRecordFieldRepresentationValue($field_id)
@@ -452,12 +408,9 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Get Field Export Value
-     *
      * @param int $field_id
-     *
      * @return array
      */
     public function getRecordFieldExportValue($field_id)
@@ -470,12 +423,9 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Get Field Export Value
-     *
      * @param int $field_id
-     *
      * @return array
      */
     public function getRecordFieldPlainText($field_id)
@@ -487,7 +437,6 @@ class ilDclBaseRecordModel
             return $this->recordfields[$field_id]->getPlainText();
         }
     }
-
 
     /**
      * @param $worksheet
@@ -514,10 +463,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param int|string $field_id
-     *
      * @return array|mixed|string
      */
     public function getRecordFieldFormulaValue($field_id)
@@ -539,7 +486,6 @@ class ilDclBaseRecordModel
     /**
      * @param       $field_id
      * @param array $options
-     *
      * @return array|mixed|string
      */
     public function getRecordFieldHTML($field_id, array $options = array())
@@ -563,11 +509,9 @@ class ilDclBaseRecordModel
         return $html;
     }
 
-
     /**
      * @param       $field_id
      * @param array $options
-     *
      * @return array|mixed|string
      */
     public function getRecordFieldSortingValue($field_id, array $options = array())
@@ -591,11 +535,9 @@ class ilDclBaseRecordModel
         return $html;
     }
 
-
     /**
      * @param       $field_id
      * @param array $options
-     *
      * @return array|string
      */
     public function getRecordFieldSingleHTML($field_id, array $options = array())
@@ -620,7 +562,6 @@ class ilDclBaseRecordModel
         return $html;
     }
 
-
     /**
      * @param $field_id
      * @param $form ilPropertyFormGUI
@@ -635,7 +576,6 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param                   $field_id
      * @param ilPropertyFormGUI $form
@@ -646,7 +586,6 @@ class ilDclBaseRecordModel
             $this->setStandardField($item->getValue());
         }
     }
-
 
     /**
      * @param $field_id
@@ -663,7 +602,6 @@ class ilDclBaseRecordModel
         $this->$field_id = $value;
     }
 
-
     /**
      * @param $field_id
      * @param $form
@@ -675,10 +613,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param $field_id
-     *
      * @return int
      */
     protected function getStandardField($field_id)
@@ -697,10 +633,8 @@ class ilDclBaseRecordModel
         return $this->$field_id;
     }
 
-
     /**
      * @param $field_id
-     *
      * @return array|string
      */
     public function getStandardFieldFormulaValue($field_id)
@@ -711,7 +645,6 @@ class ilDclBaseRecordModel
     /**
      * @param string $field_id
      * @param array  $options
-     *
      * @return array|string
      */
     public function getStandardFieldHTML($field_id, array $options = array())
@@ -734,7 +667,7 @@ class ilDclBaseRecordModel
                     $_GET['ref_id'],
                     'dcl',
                     $this->table->getCollectionObject()
-                    ->getId(),
+                                ->getId(),
                     'dcl',
                     $this->getId()
                 );
@@ -746,10 +679,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param string $field_id
-     *
      * @return array|string
      */
     public function getStandardFieldPlainText($field_id)
@@ -772,7 +703,6 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Load record fields
      */
@@ -791,7 +721,6 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Load table
      */
@@ -802,10 +731,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param $field_id
-     *
      * @return ilDclBaseRecordFieldModel
      */
     public function getRecordField($field_id)
@@ -815,10 +742,8 @@ class ilDclBaseRecordModel
         return $this->recordfields[$field_id];
     }
 
-
     /**
      * Delete
-     *
      * @param bool $omit_notification
      */
     public function doDelete($omit_notification = false)
@@ -864,7 +789,6 @@ class ilDclBaseRecordModel
 
     // TODO: Find better way to copy data (including all references)
 
-
     /**
      * @param $original_id integer
      * @param $new_fields  array($old_field_id => $new_field)
@@ -888,10 +812,8 @@ class ilDclBaseRecordModel
         ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_RECORD);
     }
 
-
     /**
      * Delete a file
-     *
      * @param $obj_id
      */
     public function deleteFile($obj_id)
@@ -902,10 +824,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * Delete MOB
-     *
      * @param $obj_id
      */
     public function deleteMob($obj_id)
@@ -916,10 +836,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     /**
      * @param array $filter
-     *
      * @return bool
      */
     public function passThroughFilter(array $filter)
@@ -930,7 +848,8 @@ class ilDclBaseRecordModel
             if (!isset($filter["filter_" . $field->getId()]) || !$filter["filter_" . $field->getId()]) {
                 continue;
             }
-            if (!ilDclCache::getFieldRepresentation($field)->passThroughFilter($this, $filter["filter_" . $field->getId()])) {
+            if (!ilDclCache::getFieldRepresentation($field)->passThroughFilter($this,
+                $filter["filter_" . $field->getId()])) {
                 return false;
             }
         }
@@ -938,10 +857,8 @@ class ilDclBaseRecordModel
         return true;
     }
 
-
     /**
      * @param int $ref_id
-     *
      * @return bool
      */
     public function hasPermissionToEdit($ref_id)
@@ -949,10 +866,8 @@ class ilDclBaseRecordModel
         return $this->getTable()->hasPermissionToEditRecord($ref_id, $this);
     }
 
-
     /**
      * @param int $ref_id
-     *
      * @return bool
      */
     public function hasPermissionToDelete($ref_id)
@@ -960,17 +875,14 @@ class ilDclBaseRecordModel
         return $this->getTable()->hasPermissionToDeleteRecord($ref_id, $this);
     }
 
-
     /**
      * @param $ref_id
-     *
      * @return bool
      */
     public function hasPermissionToView($ref_id)
     {
         return $this->getTable()->hasPermissionToViewRecord($ref_id, $this);
     }
-
 
     /**
      * @return ilDclBaseRecordFieldModel[]
@@ -982,7 +894,6 @@ class ilDclBaseRecordModel
         return $this->recordfields;
     }
 
-
     /**
      * @return ilDclTable
      */
@@ -993,16 +904,15 @@ class ilDclBaseRecordModel
         return $this->table;
     }
 
-
     /**
      * Get all comments of this record
-     *
      * @return array ilNote[]
      */
     public function getComments()
     {
         if ($this->comments === null) {
-            $this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', ilNote::PUBLIC);
+            $this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(),
+                'dcl', ilNote::PUBLIC);
         }
 
         return $this->comments;

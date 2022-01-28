@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclGenericMultiInputGUI
- *
  * @author Michael Herren <mh@studer-raimann.ch>
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
@@ -56,7 +55,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     protected $allow_empty_fields = false;
 
-
     /**
      * @return mixed
      */
@@ -65,17 +63,14 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->limit;
     }
 
-
     /**
      * set a limit of possible lines, 0 = no limit
-     *
      * @param mixed $limit
      */
     public function setLimit($limit)
     {
         $this->limit = $limit;
     }
-
 
     /**
      * @return boolean
@@ -85,7 +80,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->allow_empty_fields;
     }
 
-
     /**
      * @param boolean $allow_empty_fields
      */
@@ -94,11 +88,9 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->allow_empty_fields = $allow_empty_fields;
     }
 
-
     /**
      * Constructor
-     *
-     * @param string $a_title   Title
+     * @param string $a_title Title
      * @param string $a_postvar Post Variable
      */
     public function __construct($a_title = "", $a_postvar = "")
@@ -107,7 +99,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->setType("line_select");
         $this->setMulti(true);
     }
-
 
     /**
      * @return string
@@ -121,7 +112,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-
     /**
      * @param array $options
      */
@@ -130,10 +120,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->hooks[$key] = $options;
     }
 
-
     /**
      * @param $key
-     *
      * @return bool
      */
     public function removeHook($key)
@@ -147,7 +135,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-
     /**
      * @param       $input
      * @param array $options
@@ -159,7 +146,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->input_options[$input->getPostVar()] = $options;
     }
 
-
     /**
      * @return boolean
      */
@@ -167,7 +153,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     {
         return $this->show_label;
     }
-
 
     /**
      * @param boolean $show_label
@@ -177,17 +162,14 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->show_label = $show_label;
     }
 
-
     /**
      * Get Options.
-     *
      * @return    array    Options. Array ("value" => "option_text")
      */
     public function getInputs()
     {
         return $this->inputs;
     }
-
 
     /**
      * @param bool $a_multi
@@ -196,15 +178,13 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         bool $a_multi,
         bool $a_sortable = false,
         bool $a_addremove = true
-    ) : void {
+    ): void {
         $this->multi = $a_multi;
         $this->multi_sortable = $a_sortable;
     }
 
-
     /**
      * Set Value.
-     *
      * @param string $a_value Value
      */
     public function setValue($a_value)
@@ -225,10 +205,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->value = $a_value;
     }
 
-
     /**
      * Get Value.
-     *
      * @return    string    Value
      */
     public function getValue()
@@ -241,10 +219,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $out;
     }
 
-
     /**
      * Set value by array
-     *
      * @param array $a_values value array
      */
     public function setValueByArray($a_values)
@@ -257,12 +233,11 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    boolean        Input ok, true/false
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $lng;
 
@@ -302,7 +277,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $valid;
     }
 
-
     /**
      * @param            $key
      * @param            $value
@@ -317,7 +291,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-
     /**
      * @return array
      */
@@ -326,11 +299,9 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return (array) $this->cust_attr;
     }
 
-
     /**
      * @param                   $iterator_id
      * @param ilFormPropertyGUI $input
-     *
      * @return string
      */
     protected function createInputPostVar($iterator_id, ilFormPropertyGUI $input)
@@ -342,12 +313,9 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-
     /**
      * Render item
-     *
      * @param int $iterator_id
-     *
      * @return string
      * @throws ilException
      */
@@ -437,10 +405,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $tpl->get();
     }
 
-
     /**
      * Insert property html
-     *
      * @return    int    Size
      */
     public function insert(&$a_tpl)
@@ -470,7 +436,10 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
             $tpl->addJavascript('Modules/DataCollection/js/generic_multi_line_input.js');
             $output .= '<script type="text/javascript">$("#' . $this->getFieldId() . '").multi_line_input('
                 . json_encode($this->input_options) . ', '
-                . json_encode(array('limit' => $this->limit, 'sortable' => $this->multi_sortable, 'locale' => $DIC->language()->getLangKey()))
+                . json_encode(array('limit' => $this->limit,
+                                    'sortable' => $this->multi_sortable,
+                                    'locale' => $DIC->language()->getLangKey()
+                ))
                 . ')</script>';
         }
 
@@ -478,7 +447,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $a_tpl->setVariable("PROP_GENERIC", $output);
         $a_tpl->parseCurrentBlock();
     }
-
 
     /**
      * Get HTML for table filter
@@ -489,7 +457,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         return $html;
     }
-
 
     /**
      * Get HTML for toolbar

@@ -3,15 +3,11 @@
 
 /**
  * Class ilDclFieldEditGUI
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
- *
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclFieldEditGUI
@@ -42,10 +38,8 @@ class ilDclFieldEditGUI
      */
     protected $field_obj;
 
-
     /**
      * Constructor
-     *
      * @param ilDclTableListGUI $a_parent_obj
      * @param int               $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
      * @param int               $field_id The field_id of a existing fiel (edit mode)
@@ -65,7 +59,8 @@ class ilDclFieldEditGUI
             $this->field_obj = ilDclCache::getFieldCache($this->field_id);
         } else {
             $datatype = null;
-            if (isset($_POST['datatype']) && in_array($_POST['datatype'], array_keys(ilDclDatatype::getAllDatatype()))) {
+            if (isset($_POST['datatype']) && in_array($_POST['datatype'],
+                    array_keys(ilDclDatatype::getAllDatatype()))) {
                 $datatype = $_POST['datatype'];
             }
             $this->field_obj = ilDclFieldFactory::getFieldModelInstance($this->field_id, $datatype);
@@ -78,7 +73,6 @@ class ilDclFieldEditGUI
 
         $this->table = ilDclCache::getTableCache($this->table_id);
     }
-
 
     /**
      * execute command
@@ -109,7 +103,6 @@ class ilDclFieldEditGUI
         return true;
     }
 
-
     /**
      * create field add form
      */
@@ -121,7 +114,6 @@ class ilDclFieldEditGUI
         $this->initForm();
         $tpl->setContent($this->form->getHTML());
     }
-
 
     /**
      * create field edit form
@@ -138,7 +130,6 @@ class ilDclFieldEditGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-
     /*
      * permissionDenied
      */
@@ -148,7 +139,6 @@ class ilDclFieldEditGUI
         $tpl = $DIC['tpl'];
         $tpl->setContent("Permission denied");
     }
-
 
     /**
      * confirmDelete
@@ -172,7 +162,6 @@ class ilDclFieldEditGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -183,7 +172,6 @@ class ilDclFieldEditGUI
 
         $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
-
 
     /*
      * delete
@@ -197,7 +185,6 @@ class ilDclFieldEditGUI
         $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
-
     /*
      * cancel
      */
@@ -208,10 +195,8 @@ class ilDclFieldEditGUI
         $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
-
     /**
      * initEditCustomForm
-     *
      * @param string $a_mode values: create | edit
      */
     public function initForm($a_mode = "create")
@@ -244,7 +229,8 @@ class ilDclFieldEditGUI
 
         $text_prop = new ilTextInputGUI($lng->txt("title"), "title");
         $text_prop->setRequired(true);
-        $text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'), ilDclBaseFieldModel::_getTitleInvalidChars(false)));
+        $text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'),
+            ilDclBaseFieldModel::_getTitleInvalidChars(false)));
         $text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
         $this->form->addItem($text_prop);
 
@@ -279,10 +265,8 @@ class ilDclFieldEditGUI
         $this->form->addItem($cb);
     }
 
-
     /**
      * save Field
-     *
      * @param string $a_mode values: create | update
      */
     public function save($a_mode = "create")
@@ -340,12 +324,9 @@ class ilDclFieldEditGUI
         }
     }
 
-
     /**
      * Check input of form
-     *
      * @param $a_mode 'create' | 'update'
-     *
      * @return bool
      */
     protected function checkInput($a_mode)
@@ -384,19 +365,19 @@ class ilDclFieldEditGUI
         return $return;
     }
 
-
     /**
      * @return bool
      */
     protected function checkAccess()
     {
         if ($field_id = $this->field_obj->getId()) {
-            return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->ref_id, $this->table_id, $field_id);
+            return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->ref_id,
+                $this->table_id, $field_id);
         } else {
-            return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->ref_id, $this->table_id);
+            return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->ref_id,
+                $this->table_id);
         }
     }
-
 
     /**
      * @return ilObjDataCollection

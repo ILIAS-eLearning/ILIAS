@@ -8,10 +8,7 @@
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
- *
  * @ingroup ModulesDataCollection
- *
  */
 class ilDclFieldListGUI
 {
@@ -37,10 +34,8 @@ class ilDclFieldListGUI
      */
     protected $tabs;
 
-
     /**
      * Constructor
-     *
      * @param ilDclTableListGUI $a_parent_obj
      * @param int               $table_id
      */
@@ -66,7 +61,8 @@ class ilDclFieldListGUI
         $this->toolbar = $ilToolbar;
 
         $this->ctrl->saveParameter('ilDclTableEditGUI', 'table_id');
-        $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+        $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(),
+            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
@@ -74,7 +70,6 @@ class ilDclFieldListGUI
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
-
 
     /**
      * execute command
@@ -89,7 +84,6 @@ class ilDclFieldListGUI
         }
     }
 
-
     /**
      * Delete multiple fields
      */
@@ -103,7 +97,6 @@ class ilDclFieldListGUI
         ilUtil::sendSuccess($this->lng->txt('dcl_msg_fields_deleted'), true);
         $this->ctrl->redirect($this, 'listFields');
     }
-
 
     /**
      * Confirm deletion of multiple fields
@@ -124,7 +117,6 @@ class ilDclFieldListGUI
         $conf->setCancel($this->lng->txt('cancel'), 'listFields');
         $this->tpl->setContent($conf->getHTML());
     }
-
 
     /*
      * save
@@ -151,7 +143,6 @@ class ilDclFieldListGUI
         ilUtil::sendSuccess($this->lng->txt("dcl_table_settings_saved"));
         $this->listFields();
     }
-
 
     /**
      * list fields
@@ -187,7 +178,6 @@ class ilDclFieldListGUI
         $this->tpl->setContent($list->getHTML());
     }
 
-
     /*
      * doTableSwitch
      */
@@ -196,7 +186,6 @@ class ilDclFieldListGUI
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
-
 
     /**
      * @return bool
@@ -207,7 +196,6 @@ class ilDclFieldListGUI
 
         return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
     }
-
 
     /**
      * @return ilObjDataCollection

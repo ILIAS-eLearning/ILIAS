@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTableViewEditFieldsTableGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -42,7 +41,6 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-
     public function parseData($data)
     {
         //enable/disable comments
@@ -56,11 +54,10 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $field = $a_set->getFieldObject();
         if ($field->getId() == 'comments' && !$this->parent_obj->table->getPublicCommentsEnabled()) {
@@ -80,11 +77,9 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param ilDclBaseFieldModel $field
      * @param                     $value
-     *
      * @return mixed
      * @throws ilDclException
      */

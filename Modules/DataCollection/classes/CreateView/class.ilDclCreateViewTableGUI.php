@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclCreateViewTableGUI
- *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ilDclCreateViewTableGUI extends ilTable2GUI
@@ -45,17 +44,15 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-
     public function parseData($data)
     {
         $this->setData($data);
     }
 
-
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $lng = $DIC['lng'];

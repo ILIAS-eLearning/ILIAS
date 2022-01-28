@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclIliasRecordRepresentation
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
@@ -11,7 +10,6 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 
     /**
      * @param bool $link
-     *
      * @return string
      */
     public function getHTML($link = true)
@@ -35,7 +33,6 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $html;
     }
 
-
     public function getSingleHTML(array $options = null, $link = true)
     {
         $value = $this->getRecordField()->getValue();
@@ -51,11 +48,9 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $value;
     }
 
-
     /**
      * @param $title
      * @param $show_action_menu
-     *
      * @return string
      */
     public function getLinkHTML($title, $show_action_menu = false)
@@ -83,10 +78,8 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         }
     }
 
-
     /**
      * @param string $mode copy|link
-     *
      * @return string
      */
     protected function getActionLink($mode)

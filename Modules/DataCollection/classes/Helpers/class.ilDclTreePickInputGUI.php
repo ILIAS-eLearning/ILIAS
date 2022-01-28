@@ -3,17 +3,13 @@
 
 /**
  * Class ilDclDatatype
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @version      $Id:
- *
  * @ingroup      ModulesDataCollection
- *
  * @ilCtrl_Calls ilDclTreePickInputGUI : ilDclRecordEditGUI
- *
  */
 class ilDclTreePickInputGUI extends ilCustomInputGUI
 {
@@ -53,11 +49,10 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         $this->lng = $lng;
     }
 
-
     /**
      * @return string
      */
-    public function getHtml() : string
+    public function getHtml(): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -75,11 +70,10 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         return $out;
     }
 
-
     /**
      * @param $value
      */
-    public function setValueByArray(array $value) : void
+    public function setValueByArray(array $value): void
     {
         parent::setValueByArray($value);
         $path = new ilPathGUI();

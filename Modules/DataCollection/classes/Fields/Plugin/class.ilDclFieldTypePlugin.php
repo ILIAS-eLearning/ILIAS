@@ -3,9 +3,7 @@
 
 /**
  * Class ilDclFieldTypePlugin
- *
  * Definition of the PluginHook
- *
  * @author  Michael Herren
  * @extends ilPlugin
  */
@@ -24,10 +22,8 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
      */
     protected static $instances = array();
 
-
     /**
      * Singleton for abstract class
-     *
      * @return ilDclFieldTypePlugin
      */
     public static function getInstance()
@@ -40,7 +36,6 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return self::$instances[$class];
     }
 
-
     public function getPluginTablePrefix()
     {
         $id = $this->getId();
@@ -50,18 +45,15 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return $this->getSlotObject()->getPrefix() . "_" . $id;
     }
 
-
     public function getPluginTableName()
     {
         return $this->getPluginTablePrefix() . "_props";
     }
 
-
     public function getPluginConfigTableName()
     {
         return $this->getPluginTablePrefix() . "_config";
     }
-
 
     public function getPluginClassPrefix()
     {

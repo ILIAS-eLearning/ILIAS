@@ -2,14 +2,12 @@
 
 /**
  * Class ilDclTableViewDateDefaultValue
- *
  * @author  Jannik Dolf <jd@studer-raimann.ch>
  */
 class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
 {
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -21,7 +19,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
@@ -30,23 +27,20 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
     protected $tview_set_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        timestamp
      * @db_is_notnull       true
      */
     protected $value;
 
-
     /**
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_stloc3_default";
     }
-
 
     /**
      * @return int
@@ -56,7 +50,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
@@ -64,7 +57,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
     {
         $this->id = $id;
     }
-
 
     /**
      * @return int
@@ -74,7 +66,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->tview_set_id;
     }
 
-
     /**
      * @param int $tview_set_id
      */
@@ -82,7 +73,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
     {
         $this->tview_set_id = $tview_set_id;
     }
-
 
     /**
      * @return string
@@ -92,7 +82,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->value;
     }
 
-
     /**
      * @param string $value
      */
@@ -100,7 +89,6 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
     {
         $this->value = $value;
     }
-
 
     public function createDefaultValueRecord()
     {

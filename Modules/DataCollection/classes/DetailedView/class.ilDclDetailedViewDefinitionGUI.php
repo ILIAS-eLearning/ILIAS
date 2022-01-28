@@ -3,12 +3,10 @@
 
 /**
  * Class ilDclDetailedViewDefinitionGUI
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -19,7 +17,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * @var int
      */
     protected $tableview_id;
-
 
     /**
      * @param     $tableview_id
@@ -60,11 +57,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->parseCurrentBlock();
     }
 
-
     /**
      * execute command
      */
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -91,11 +87,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-
     /**
      * @return string
      */
-    public function showPage() : string
+    public function showPage(): string
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -131,8 +126,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-
-
     /**
      *
      */
@@ -144,7 +137,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-
     /**
      *
      */
@@ -155,7 +147,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $page->update();
         $this->ctrl->redirect($this, 'edit');
     }
-
 
     /**
      * confirmDelete
@@ -179,7 +170,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * cancelDelete
      */
@@ -190,7 +180,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
         $ilCtrl->redirect($this, "edit");
     }
-
 
     /**
      *
@@ -212,12 +201,11 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirectByClass("ilDclTableViewEditGUI", "editGeneralSettings");
     }
 
-
     /**
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock() : void
+    public function releasePageLock(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -228,13 +216,12 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
     }
 
-
     /**
      * Finalizing output processing
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         // You can use this to parse placeholders and the like before outputting
 

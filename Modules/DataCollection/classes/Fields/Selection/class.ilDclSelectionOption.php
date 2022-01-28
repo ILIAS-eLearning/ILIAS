@@ -3,23 +3,19 @@
 
 /**
  * Class ilDclSelectionOption
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclSelectionOption extends ActiveRecord
 {
     const DB_TABLE_NAME = "il_dcl_sel_opts";
 
-
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
 
-
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -31,44 +27,36 @@ class ilDclSelectionOption extends ActiveRecord
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           8
-     *
      */
     protected $field_id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           8
-     *
      */
     protected $opt_id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           8
-     *
      */
     protected $sorting;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        text
      * @db_length           128
      */
     protected $value;
-
 
     /**
      * @return int
@@ -78,7 +66,6 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
@@ -86,7 +73,6 @@ class ilDclSelectionOption extends ActiveRecord
     {
         $this->id = $id;
     }
-
 
     /**
      * @return int
@@ -96,7 +82,6 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->field_id;
     }
 
-
     /**
      * @param int $field_id
      */
@@ -104,7 +89,6 @@ class ilDclSelectionOption extends ActiveRecord
     {
         $this->field_id = $field_id;
     }
-
 
     /**
      * @return int
@@ -114,7 +98,6 @@ class ilDclSelectionOption extends ActiveRecord
         return (int) $this->opt_id;
     }
 
-
     /**
      * @param int $opt_id
      */
@@ -122,7 +105,6 @@ class ilDclSelectionOption extends ActiveRecord
     {
         $this->opt_id = $opt_id;
     }
-
 
     /**
      * @return string
@@ -132,7 +114,6 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->value;
     }
 
-
     /**
      * @param string $value
      */
@@ -140,7 +121,6 @@ class ilDclSelectionOption extends ActiveRecord
     {
         $this->value = $value;
     }
-
 
     /**
      * @return int
@@ -150,7 +130,6 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->sorting;
     }
 
-
     /**
      * @param int $sorting
      */
@@ -158,7 +137,6 @@ class ilDclSelectionOption extends ActiveRecord
     {
         $this->sorting = $sorting;
     }
-
 
     /**
      * @param $field_id
@@ -180,7 +158,6 @@ class ilDclSelectionOption extends ActiveRecord
         $option->store();
     }
 
-
     /**
      * @param $field_id
      */
@@ -191,17 +168,14 @@ class ilDclSelectionOption extends ActiveRecord
         }
     }
 
-
     /**
      * @param $field_id
-     *
      * @return self[]
      */
     public static function getAllForField($field_id)
     {
         return self::where(array("field_id" => $field_id))->orderBy('sorting')->get();
     }
-
 
     public static function getValues($field_id, $opt_ids)
     {
@@ -215,13 +189,13 @@ class ilDclSelectionOption extends ActiveRecord
             $operators['opt_id'] = '=';
         }
         $return = array();
-        foreach (self::where(array("field_id" => $field_id, "opt_id" => $opt_ids), $operators)->orderBy('sorting')->get() as $opt) {
+        foreach (self::where(array("field_id" => $field_id, "opt_id" => $opt_ids),
+            $operators)->orderBy('sorting')->get() as $opt) {
             $return[] = $opt->getValue();
         }
 
         return $return;
     }
-
 
     /**
      * @param ilDclSelectionOption $original_option

@@ -4,7 +4,6 @@
 
 /**
  * View definition page configuration
- *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ModulesDataCollection
@@ -15,7 +14,7 @@ class ilDclDetailedViewDefinitionConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init() : void
+    public function init(): void
     {
         // config
         $this->setPreventHTMLUnmasking(true);

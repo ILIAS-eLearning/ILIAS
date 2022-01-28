@@ -3,14 +3,12 @@
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclBaseRecordFieldModel
@@ -57,7 +55,6 @@ class ilDclBaseRecordFieldModel
      */
     protected $lng;
 
-
     /**
      * @param ilDclBaseRecordModel $record
      * @param ilDclBaseFieldModel  $field
@@ -78,7 +75,6 @@ class ilDclBaseRecordFieldModel
         $this->doRead();
     }
 
-
     /**
      * Read object data from database
      */
@@ -88,7 +84,8 @@ class ilDclBaseRecordFieldModel
             return;
         }
 
-        $query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote($this->getField()->getId(), "integer") . " AND record_id = "
+        $query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote($this->getField()->getId(),
+                "integer") . " AND record_id = "
             . $this->db->quote($this->getRecord()->getId(), "integer");
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
@@ -97,19 +94,19 @@ class ilDclBaseRecordFieldModel
         $this->loadValue();
     }
 
-
     /**
      * Creates an Id and a database entry.
      */
     public function doCreate()
     {
         $id = $this->db->nextId("il_dcl_record_field");
-        $query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote($id, "integer") . ", "
-            . $this->db->quote($this->getRecord()->getId(), "integer") . ", " . $this->db->quote($this->getField()->getId(), "text") . ")";
+        $query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote($id,
+                "integer") . ", "
+            . $this->db->quote($this->getRecord()->getId(),
+                "integer") . ", " . $this->db->quote($this->getField()->getId(), "text") . ")";
         $this->db->manipulate($query);
         $this->id = $id;
     }
-
 
     /**
      * Update object in database
@@ -148,7 +145,6 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * Delete record field in database
      */
@@ -167,7 +163,6 @@ class ilDclBaseRecordFieldModel
         $this->db->manipulate($query2);
     }
 
-
     /**
      * @return string|array
      */
@@ -178,7 +173,6 @@ class ilDclBaseRecordFieldModel
         return $this->value;
     }
 
-
     /**
      * @return array|string
      */
@@ -187,12 +181,9 @@ class ilDclBaseRecordFieldModel
         return $this->getValue();
     }
 
-
     /**
      * Serialize data before storing to db
-     *
      * @param $value mixed
-     *
      * @return mixed
      */
     public function serializeData($value)
@@ -204,12 +195,9 @@ class ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * Deserialize data before applying to field
-     *
      * @param $value mixed
-     *
      * @return mixed
      */
     public function deserializeData($value)
@@ -222,10 +210,8 @@ class ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * Set value for record field
-     *
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
@@ -244,7 +230,6 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * @param $form ilPropertyFormGUI
      */
@@ -255,7 +240,6 @@ class ilDclBaseRecordFieldModel
         $this->setValue($value);
     }
 
-
     /**
      * @return string
      */
@@ -264,12 +248,9 @@ class ilDclBaseRecordFieldModel
         return $this->getExportValue();
     }
 
-
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     *
      * @param mixed $value
-     *
      * @return mixed
      */
     public function parseExportValue($value)
@@ -277,12 +258,10 @@ class ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * @param $excel
      * @param $row
      * @param $col
-     *
      * @return array|string
      */
     public function getValueFromExcel($excel, $row, $col)
@@ -292,19 +271,15 @@ class ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     *
      * @param $value
-     *
      * @return int|string
      */
     public function parseValue($value)
     {
         return $value;
     }
-
 
     /**
      * @return int|string
@@ -313,7 +288,6 @@ class ilDclBaseRecordFieldModel
     {
         return $this->parseExportValue($this->getValue());
     }
-
 
     /**
      * @param $worksheet
@@ -326,7 +300,6 @@ class ilDclBaseRecordFieldModel
         $col++;
     }
 
-
     /**
      * @return mixed used for the sorting.
      */
@@ -335,12 +308,10 @@ class ilDclBaseRecordFieldModel
         return $this->getExportValue();
     }
 
-
     public function getSortingValue($link = true)
     {
         return $this->parseSortingValue($this->getValue(), $this, $link);
     }
-
 
     /**
      * @param ilConfirmationGUI $confirmation
@@ -357,21 +328,17 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * Returns sortable value for the specific field-types
-     *
      * @param                           $value
      * @param ilDclBaseRecordFieldModel $record_field
      * @param bool|true                 $link
-     *
      * @return int|string
      */
     public function parseSortingValue($value, $link = true)
     {
         return $value;
     }
-
 
     /**
      * Load the value
@@ -394,7 +361,6 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-
     /**
      * @param ilDclBaseRecordFieldModel $old_record_field
      */
@@ -404,14 +370,12 @@ class ilDclBaseRecordFieldModel
         $this->doUpdate();
     }
 
-
     /**
      *
      */
     public function afterClone()
     {
     }
-
 
     /**
      * @return ilDclBaseFieldModel
@@ -421,7 +385,6 @@ class ilDclBaseRecordFieldModel
         return $this->field;
     }
 
-
     /**
      * @return int
      */
@@ -429,7 +392,6 @@ class ilDclBaseRecordFieldModel
     {
         return $this->id;
     }
-
 
     /**
      * @return ilDclBaseRecordModel
@@ -439,7 +401,6 @@ class ilDclBaseRecordFieldModel
         return $this->record;
     }
 
-
     /**
      * @return ilDclBaseRecordRepresentation
      */
@@ -447,7 +408,6 @@ class ilDclBaseRecordFieldModel
     {
         return $this->record_representation;
     }
-
 
     /**
      * @param ilDclBaseRecordRepresentation $record_representation
@@ -457,7 +417,6 @@ class ilDclBaseRecordFieldModel
         $this->record_representation = $record_representation;
     }
 
-
     /**
      * @return ilDclBaseFieldRepresentation
      */
@@ -465,7 +424,6 @@ class ilDclBaseRecordFieldModel
     {
         return $this->field_representation;
     }
-
 
     /**
      * @param ilDclBaseFieldRepresentation $field_representation

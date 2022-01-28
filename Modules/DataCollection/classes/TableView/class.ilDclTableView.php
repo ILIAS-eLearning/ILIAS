@@ -2,7 +2,6 @@
 
 /**
  * Class ilDclTableView
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -11,7 +10,6 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -23,17 +21,14 @@ class ilDclTableView extends ActiveRecord
     protected $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           8
-     *
      */
     protected $table_id;
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        text
@@ -42,7 +37,6 @@ class ilDclTableView extends ActiveRecord
     protected $title;
     /**
      * @var array
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           256
@@ -50,7 +44,6 @@ class ilDclTableView extends ActiveRecord
     protected $roles = array();
     /**
      * @var string
-     *
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
@@ -58,7 +51,6 @@ class ilDclTableView extends ActiveRecord
     protected $description;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           8
@@ -66,7 +58,6 @@ class ilDclTableView extends ActiveRecord
     protected $tableview_order;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -74,7 +65,6 @@ class ilDclTableView extends ActiveRecord
     protected $step_vs;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -82,7 +72,6 @@ class ilDclTableView extends ActiveRecord
     protected $step_c;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -90,7 +79,6 @@ class ilDclTableView extends ActiveRecord
     protected $step_e;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -98,7 +86,6 @@ class ilDclTableView extends ActiveRecord
     protected $step_o;
     /**
      * @var bool
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
@@ -109,16 +96,14 @@ class ilDclTableView extends ActiveRecord
      */
     protected $visible_fields_cache;
 
-
     /**
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_tableview";
     }
-
 
     /**
      * @return int
@@ -128,7 +113,6 @@ class ilDclTableView extends ActiveRecord
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
@@ -136,7 +120,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->id = $id;
     }
-
 
     /**
      * @return int
@@ -146,7 +129,6 @@ class ilDclTableView extends ActiveRecord
         return $this->table_id;
     }
 
-
     /**
      * @param int $table_id
      */
@@ -154,7 +136,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->table_id = $table_id;
     }
-
 
     /**
      * @return string
@@ -164,7 +145,6 @@ class ilDclTableView extends ActiveRecord
         return $this->title;
     }
 
-
     /**
      * @param string $title
      */
@@ -172,7 +152,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->title = $title;
     }
-
 
     /**
      * @return int
@@ -182,7 +161,6 @@ class ilDclTableView extends ActiveRecord
         return $this->tableview_order;
     }
 
-
     /**
      * @param int $order
      */
@@ -190,7 +168,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->tableview_order = $order;
     }
-
 
     /**
      * @return string
@@ -200,7 +177,6 @@ class ilDclTableView extends ActiveRecord
         return $this->description;
     }
 
-
     /**
      * @param string $description
      */
@@ -208,7 +184,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->description = $description;
     }
-
 
     /**
      * @return int
@@ -218,7 +193,6 @@ class ilDclTableView extends ActiveRecord
         return $this->tableview_order;
     }
 
-
     /**
      * @param int $tableview_order
      */
@@ -226,7 +200,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->tableview_order = $tableview_order;
     }
-
 
     /**
      * @return bool
@@ -236,7 +209,6 @@ class ilDclTableView extends ActiveRecord
         return $this->step_vs;
     }
 
-
     /**
      * @param bool $step_vs
      */
@@ -244,7 +216,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->step_vs = $step_vs;
     }
-
 
     /**
      * @return bool
@@ -254,7 +225,6 @@ class ilDclTableView extends ActiveRecord
         return $this->step_c;
     }
 
-
     /**
      * @param bool $step_c
      */
@@ -262,7 +232,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->step_c = $step_c;
     }
-
 
     /**
      * @return bool
@@ -272,7 +241,6 @@ class ilDclTableView extends ActiveRecord
         return $this->step_e;
     }
 
-
     /**
      * @param bool $step_e
      */
@@ -280,7 +248,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->step_e = $step_e;
     }
-
 
     /**
      * @return bool
@@ -290,7 +257,6 @@ class ilDclTableView extends ActiveRecord
         return $this->step_o;
     }
 
-
     /**
      * @param bool $step_o
      */
@@ -298,7 +264,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->step_o = $step_o;
     }
-
 
     /**
      * @return bool
@@ -308,7 +273,6 @@ class ilDclTableView extends ActiveRecord
         return $this->step_s;
     }
 
-
     /**
      * @param bool $step_s
      */
@@ -316,7 +280,6 @@ class ilDclTableView extends ActiveRecord
     {
         $this->step_s = $step_s;
     }
-
 
     /**
      * @return array
@@ -326,7 +289,6 @@ class ilDclTableView extends ActiveRecord
         return (array) $this->roles;
     }
 
-
     /**
      * @param array $roles
      */
@@ -335,10 +297,8 @@ class ilDclTableView extends ActiveRecord
         $this->roles = $roles;
     }
 
-
     /**
      * @param $field_name
-     *
      * @return null|string
      */
     public function sleep($field_name)
@@ -350,11 +310,9 @@ class ilDclTableView extends ActiveRecord
         return null;
     }
 
-
     /**
      * @param $field_name
      * @param $field_value
-     *
      * @return mixed|null
      */
     public function wakeUp($field_name, $field_value)
@@ -365,7 +323,6 @@ class ilDclTableView extends ActiveRecord
 
         return null;
     }
-
 
     /**
      *
@@ -379,7 +336,6 @@ class ilDclTableView extends ActiveRecord
         parent::delete();
     }
 
-
     /**
      * @return ilDclTable
      */
@@ -388,11 +344,9 @@ class ilDclTableView extends ActiveRecord
         return ilDclCache::getTableCache($this->table_id);
     }
 
-
     /**
      * getFilterableFields
      * Returns all  fieldsetting-objects of this tableview which have set their filterable to true, including standard fields.
-     *
      * @return ilDclBaseFieldModel[]|ilDclTableViewFieldSetting[]
      */
     public function getFilterableFieldSettings()
@@ -404,14 +358,12 @@ class ilDclTableView extends ActiveRecord
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
             )
         )->innerjoin('il_dcl_tfield_set', 'field', 'field', array())
-            ->orderBy('il_dcl_tfield_set.field_order')
-            ->get();
+                                         ->orderBy('il_dcl_tfield_set.field_order')
+                                         ->get();
     }
-
 
     /**
      * Returns all field-objects of this tableview which have set their visibility to true, including standard fields.
-     *
      * @return ilDclBaseFieldModel[]|ilDclTableViewFieldSetting[]
      */
     public function getVisibleFields()
@@ -424,7 +376,8 @@ class ilDclTableView extends ActiveRecord
                     'visible' => true,
                     'il_dcl_tfield_set.table_id' => $this->getTableId(),
                 )
-            )->innerjoin('il_dcl_tfield_set', 'field', 'field', array())->orderBy('il_dcl_tfield_set.field_order')->get();
+            )->innerjoin('il_dcl_tfield_set', 'field', 'field',
+                array())->orderBy('il_dcl_tfield_set.field_order')->get();
             $fields = array();
             foreach ($visible as $field_rec) {
                 $fields[] = $field_rec->getFieldObject();
@@ -439,7 +392,7 @@ class ilDclTableView extends ActiveRecord
      * @return ilDclTableViewFieldSetting[]
      * @throws arException
      */
-    public function getFieldSettings() : array
+    public function getFieldSettings(): array
     {
         return ilDclTableViewFieldSetting::where(
             array(
@@ -453,7 +406,7 @@ class ilDclTableView extends ActiveRecord
      * @param $field_id
      * @return ilDclTableViewFieldSetting
      */
-    public function getFieldSetting($field_id) : ilDclTableViewFieldSetting
+    public function getFieldSetting($field_id): ilDclTableViewFieldSetting
     {
         return ilDclTableViewFieldSetting::where([
             'tableview_id' => $this->getId(),
@@ -464,14 +417,13 @@ class ilDclTableView extends ActiveRecord
     /**
      * @param bool $create_default_settings
      */
-    public function create($create_default_settings = true) : void
+    public function create($create_default_settings = true): void
     {
         parent::create();
         if ($create_default_settings) {
             $this->createDefaultSettings();
         }
     }
-
 
     /**
      * create default ilDclTableViewFieldSetting entries
@@ -491,10 +443,8 @@ class ilDclTableView extends ActiveRecord
         }
     }
 
-
     /**
      * create ilDclTableViewFieldSetting for this tableview and the given field id
-     *
      * @param $field_id
      */
     public function createFieldSetting($field_id)
@@ -521,7 +471,6 @@ class ilDclTableView extends ActiveRecord
         }
     }
 
-
     /**
      * @param ilDclTableView $orig
      * @param array          $new_fields fields mapping
@@ -542,7 +491,6 @@ class ilDclTableView extends ActiveRecord
 
         //clone default values
         $f = new ilDclDefaultValueFactory();
-
 
         //clone fieldsettings
         foreach ($orig->getFieldSettings() as $orig_fieldsetting) {
@@ -579,10 +527,8 @@ class ilDclTableView extends ActiveRecord
         ilDclCache::setCloneOf($orig->getId(), $this->getId(), ilDclCache::TYPE_TABLEVIEW);
     }
 
-
     /**
      * @param $table_id
-     *
      * @return ilDclTableView[]
      */
     public static function getAllForTableId($table_id)
@@ -590,10 +536,8 @@ class ilDclTableView extends ActiveRecord
         return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->get();
     }
 
-
     /**
      * @param $table_id
-     *
      * @return int
      */
     public static function getCountForTableId($table_id)
@@ -601,11 +545,9 @@ class ilDclTableView extends ActiveRecord
         return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->count();
     }
 
-
     /**
      * @param      $table_id
      * @param bool $create_default_settings
-     *
      * @return ilDclTableView
      */
     public static function createOrGetStandardView($table_id, $create_default_settings = true)
@@ -647,11 +589,9 @@ class ilDclTableView extends ActiveRecord
         return $view;
     }
 
-
     /**
      * Check if the configuration of the view is complete. The step "single" is
      * optional and therefore omitted.
-     *
      * @return bool
      */
     public function validateConfigCompletion()

@@ -3,7 +3,6 @@
 
 /**
  * Class ilDclDateSelectionRecordRepresentation
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclDateSelectionRecordRepresentation extends ilDclSelectionRecordRepresentation

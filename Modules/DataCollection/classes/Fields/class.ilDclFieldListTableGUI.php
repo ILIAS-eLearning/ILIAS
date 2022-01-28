@@ -4,13 +4,11 @@
 
 /**
  * Class ilDclFieldListTableGUI
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @version      $Id:
- *
  * @extends      ilTable2GUI
  * @ilCtrl_Calls ilDateTime
  */
@@ -21,7 +19,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
      * @var ilDclTable
      */
     protected $table;
-
 
     /**
      * @param ilDclFieldListGUI $a_parent_obj
@@ -82,11 +79,10 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->setData($this->table->getFields());
     }
 
-
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -144,9 +140,11 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $alist->setId($a_set->getId());
             $alist->setListTitle($lng->txt('actions'));
 
-            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->ref_id, $this->table->getId())) {
+            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->ref_id,
+                $this->table->getId())) {
                 $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
-                $alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
+                $alist->addItem($lng->txt('delete'), 'delete',
+                    $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
             }
 
             $this->tpl->setVariable('ACTIONS', $alist->getHTML());

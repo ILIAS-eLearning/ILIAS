@@ -1,8 +1,6 @@
 <?php
 
 /**
- *
- *
  * @author Michael Herren <mh@studer-raimann.ch>
  */
 class ilDclLinkButton extends ilLinkButton
@@ -10,7 +8,6 @@ class ilDclLinkButton extends ilLinkButton
     const TYPE_DATACOLLECTION_LINK = 99;
     protected $attributes;
     protected $useWrapper = false;
-
 
     /**
      * @return boolean
@@ -20,7 +17,6 @@ class ilDclLinkButton extends ilLinkButton
         return $this->useWrapper;
     }
 
-
     /**
      * @param boolean $useWrapper
      */
@@ -29,14 +25,12 @@ class ilDclLinkButton extends ilLinkButton
         $this->useWrapper = $useWrapper;
     }
 
-
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self(self::TYPE_DATACOLLECTION_LINK);
     }
 
-
-    public function prepareRender() : void
+    public function prepareRender(): void
     {
         parent::prepareRender();
 
@@ -44,8 +38,7 @@ class ilDclLinkButton extends ilLinkButton
         $this->addAttribute('target', $this->getTarget());
     }
 
-
-    public function render() : string
+    public function render(): string
     {
         $this->prepareRender();
 
@@ -63,12 +56,10 @@ class ilDclLinkButton extends ilLinkButton
         return $output;
     }
 
-
     public function addAttribute($key, $value, $wrapper = false)
     {
         $this->attributes[$this->getGroupKey($wrapper)][$key] = $value;
     }
-
 
     public function removeAttribute($key, $wrapper = false)
     {
@@ -81,7 +72,6 @@ class ilDclLinkButton extends ilLinkButton
         return false;
     }
 
-
     public function getAttribute($key, $wrapper = false)
     {
         if (isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
@@ -90,7 +80,6 @@ class ilDclLinkButton extends ilLinkButton
 
         return null;
     }
-
 
     protected function getGroupKey($wrapper)
     {
