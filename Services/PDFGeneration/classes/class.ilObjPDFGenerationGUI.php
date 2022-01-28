@@ -1,12 +1,17 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Services/Object/classes/class.ilObject2GUI.php';
-require_once 'Services/PDFGeneration/classes/class.ilPDFGeneratorUtils.php';
-require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjPDFGenerationGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -51,10 +56,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->tabs = $DIC['ilTabs'];
     }
 
-    /**
-     * @return bool
-     */
-    protected function hasWritePermission()
+    protected function hasWritePermission() : bool
     {
         return $this->checkPermissionBool('write');
     }
@@ -62,7 +64,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType() : string
     {
         return 'pdfg';
     }
@@ -70,7 +72,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd();
@@ -96,7 +98,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
     }
 
-    public function configForm()
+    public function configForm() : void
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'view'));
@@ -153,10 +155,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->setActiveTab('settings');
     }
 
-    /**
-     * @param bool $redirect_after
-     */
-    public function saveSettings($redirect_after = true)
+    public function saveSettings(bool $redirect_after = true) : void
     {
         if ($this->hasWritePermission()) {
             $form = new ilPropertyFormGUI();
@@ -188,7 +187,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     /**
      * @param $command
      */
-    protected function handleSaveAndConf($command)
+    protected function handleSaveAndConf($command) : void
     {
         if ($this->checkPermissionBool('edit')) {
             $this->saveSettings(false);
@@ -236,7 +235,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
     }
     
-    public function resetSettings()
+    public function resetSettings() : void
     {
         $renderer = ilUtil::stripSlashes($_POST['renderer']);
         $service = ilUtil::stripSlashes($_POST['service']);
@@ -246,7 +245,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "view");
     }
 
-    protected function saveConfig()
+    protected function saveConfig() : void
     {
         $form = new ilPropertyFormGUI();
 
@@ -270,7 +269,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
     }
 
-    protected function doCleanUp()
+    protected function doCleanUp() : void
     {
         ilPDFCompInstaller::doCleanUp();
         ilUtil::sendSuccess($this->lng->txt('config_saved'), true);
@@ -280,7 +279,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if (strpos($this->ctrl->getCmd(), 'saveandconf') !== 0) {
             if ($this->checkPermissionBool('read')) {
@@ -303,10 +302,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @param string $tab
-     */
-    protected function setActiveTab($tab = '')
+    protected function setActiveTab(string $tab = '') : void
     {
         $this->tabs->setTabActive($tab == '' ? $this->active_tab : $tab);
     }

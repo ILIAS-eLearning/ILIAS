@@ -1,8 +1,18 @@
 <?php
 
-require_once './Services/PDFGeneration/interfaces/interface.ilRendererConfig.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 {
     /** @var ilLanguage $lng */
@@ -28,7 +38,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
      *
      * @return \ilPropertyFormGUI|void
      */
-    public function addConfigElementsToForm(\ilPropertyFormGUI $form, $service, $purpose)
+    public function addConfigElementsToForm(\ilPropertyFormGUI $form, $service, $purpose) : void
     {
         $margin_left = new ilTextInputGUI($this->lng->txt('margin_left'), 'margin_left');
         $form->addItem($margin_left);
@@ -56,7 +66,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
      *
      * @return \ilPropertyFormGUI|void
      */
-    public function populateConfigElementsInForm(\ilPropertyFormGUI $form, $service, $purpose, $config)
+    public function populateConfigElementsInForm(\ilPropertyFormGUI $form, $service, $purpose, $config) : void
     {
         $form->getItemByPostVar('margin_left')->setValue($config['margin_left']);
         $form->getItemByPostVar('margin_right')->setValue($config['margin_right']);
@@ -88,9 +98,9 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
      * @param string             $service
      * @param string             $purpose
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose)
+    public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose) : array
     {
         $retval = array(
             'margin_left' => $form->getItemByPostVar('margin_left')->getValue(),
@@ -110,9 +120,9 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
      * @param string $service
      * @param string $purpose
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function getDefaultConfig($service, $purpose)
+    public function getDefaultConfig($service, $purpose) : array
     {
         $retval = array(
             'margin_left' => '10',
@@ -132,9 +142,8 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
      *
      * @param string              $service
      * @param string              $purpose
-     * @return void
      */
-    public function prepareGenerationRequest($service, $purpose)
+    public function prepareGenerationRequest($service, $purpose) : void
     {
         ilMathJax::getInstance()
             ->init(ilMathJax::PURPOSE_PDF)
@@ -151,10 +160,8 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
      * @param array               $config
      * @param \ilPDFGenerationJob $job
      */
-    public function generatePDF($service, $purpose, $config, $job)
+    public function generatePDF($service, $purpose, $config, $job) : void
     {
-        require_once 'libs/composer/vendor/autoload.php';
-
         // create new PDF document
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 

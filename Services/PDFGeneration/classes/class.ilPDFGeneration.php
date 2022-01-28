@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'class.ilPDFGenerationJob.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilPDFGeneration
  *
@@ -15,13 +24,8 @@ require_once 'class.ilPDFGenerationJob.php';
  */
 class ilPDFGeneration
 {
-    public static function doJob(ilPDFGenerationJob $job)
+    public static function doJob(ilPDFGenerationJob $job) : void
     {
-        /*
-         * This place currently supports online the TCPDF-Generator. In future versions/iterations, this place
-         * may serve to initialize other mechanisms and route jobs to them.
-         */
-        require_once 'class.ilTCPDFGenerator.php';
         ilTCPDFGenerator::generatePDF($job);
     }
 
@@ -30,10 +34,8 @@ class ilPDFGeneration
      * This initializes the purpose for MathJax rendering
      * It has to be called before any content is processed
      */
-    public static function prepareGeneration()
+    public static function prepareGeneration() : void
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
-
         // TCPDF supports only embedded PNG images
         // use high dpi to get a good result when the PDF is zoomed
         // zoom factor is adjusted to get the same image size as with SVG in the browser

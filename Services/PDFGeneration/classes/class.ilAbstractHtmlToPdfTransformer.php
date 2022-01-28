@@ -1,35 +1,37 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once __DIR__ . '/../interfaces/interface.ilHtmlToPdfTransformer.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilHtmlToPdfTransformer
  * @author Michael Jansen <mjansen@databay.de>
  */
 abstract class ilAbstractHtmlToPdfTransformer implements ilHtmlToPdfTransformer
 {
-    /**
-     * @return string
-     */
-    public function getPdfTempName()
+    public function getPdfTempName() : string
     {
         return $this->getTempFileName('pdf');
     }
 
-    /**
-     * @return string
-     */
-    public function getHtmlTempName()
+    public function getHtmlTempName() : string
     {
         return $this->getTempFileName('html');
     }
 
     /**
      * @param $file_type
-     * @return string
      */
-    protected function getTempFileName($file_type)
+    protected function getTempFileName($file_type) : string
     {
         return ilFileUtils::ilTempnam() . '.' . $file_type;
     }

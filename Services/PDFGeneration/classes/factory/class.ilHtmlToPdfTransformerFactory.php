@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once __DIR__ . '/../class.ilAbstractHtmlToPdfTransformer.php';
-require_once './Services/PDFGeneration/classes/class.ilPDFGenerationJob.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilHtmlToPdfTransformerFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -31,9 +40,8 @@ class ilHtmlToPdfTransformerFactory
 
     /**
      * @param $output
-     * @return string
      */
-    protected function generateTempPath($output)
+    protected function generateTempPath($output) : string
     {
         $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
@@ -53,7 +61,7 @@ class ilHtmlToPdfTransformerFactory
      * @param $purpose
      * @throws Exception
      */
-    public function deliverPDFFromHTMLString($src, $output, $delivery_type, $service, $purpose)
+    public function deliverPDFFromHTMLString($src, $output, string $delivery_type, string $service, string $purpose)
     {
         $map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
@@ -93,11 +101,7 @@ class ilHtmlToPdfTransformerFactory
         }
         return false;
     }
-    /**
-     * @param array $src
-     * @return string
-     */
-    protected function createOneFileFromArray(array $src)
+    protected function createOneFileFromArray(array $src) : string
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
         $html_content = '';

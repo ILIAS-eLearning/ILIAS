@@ -1,8 +1,17 @@
 <?php
-require_once './Services/Component/classes/class.ilPlugin.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilRendererConfig.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Abstract parent class for all pdf renderer plugin classes.
  *

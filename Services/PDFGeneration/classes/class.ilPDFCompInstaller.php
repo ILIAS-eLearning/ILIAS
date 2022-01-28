@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilPDFCompInstaller
 {
     const PURPOSE_CONF_TABLE = "pdfgen_conf";
@@ -8,14 +21,7 @@ class ilPDFCompInstaller
     const RENDERER_TABLE = "pdfgen_renderer";
     const RENDERER_AVAIL_TABLE = "pdfgen_renderer_avail";
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     * @param string $preferred
-     *
-     * @return void
-     */
-    public static function registerPurpose($service, $purpose, $preferred)
+    public static function registerPurpose(string $service, string $purpose, string $preferred) : void
     {
         self::addPurpose($service, $purpose);
         self::addPreferred($service, $purpose, $preferred);
@@ -25,7 +31,7 @@ class ilPDFCompInstaller
      * @param $service
      * @param $purpose
      */
-    protected static function addPurpose($service, $purpose)
+    protected static function addPurpose($service, $purpose) : void
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -46,7 +52,7 @@ class ilPDFCompInstaller
      * @param $purpose
      * @param $preferred
      */
-    protected static function addPreferred($service, $purpose, $preferred)
+    protected static function addPreferred($service, $purpose, $preferred) : void
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -67,7 +73,7 @@ class ilPDFCompInstaller
      * @param $service
      * @param $purpose
      */
-    public static function unregisterPurpose($service, $purpose)
+    public static function unregisterPurpose($service, $purpose) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -81,7 +87,7 @@ class ilPDFCompInstaller
      * @param $purpose
      * @param $preferred
      */
-    public static function unregisterPreferred($service, $purpose, $preferred)
+    public static function unregisterPreferred($service, $purpose, $preferred) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -91,12 +97,7 @@ class ilPDFCompInstaller
             " AND preferred = " . $ilDB->quote($preferred, "txt"));
     }
 
-    /**
-     * @param string $service
-     *
-     * @return void
-     */
-    public static function flushPurposes($service)
+    public static function flushPurposes(string $service) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -104,13 +105,7 @@ class ilPDFCompInstaller
         $ilDB->manipulate("DELETE FROM " . self::PURPOSE_PURPOSES_TABLE . " WHERE service = " . $ilDB->quote($service, "txt"));
     }
 
-    /**
-     * @param string $service
-     * @param string $purpose
-     *
-     * @return boolean
-     */
-    public static function isPurposeRegistered($service, $purpose)
+    public static function isPurposeRegistered(string $service, string $purpose) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -126,11 +121,9 @@ class ilPDFCompInstaller
     }
 
     /**
-     * @param string $service
-     *
-     * @return string[]
-     */
-    public static function getPurposesByService($service)
+                 * @return string[]
+                 */
+    public static function getPurposesByService(string $service) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -147,7 +140,7 @@ class ilPDFCompInstaller
     /**
      * @return string[]
      */
-    public static function getServices()
+    public static function getServices() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -161,10 +154,7 @@ class ilPDFCompInstaller
         return $services;
     }
 
-    /**
-     * @return bool
-     */
-    public static function checkForMultipleServiceAndPurposeCombination()
+    public static function checkForMultipleServiceAndPurposeCombination() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -177,7 +167,7 @@ class ilPDFCompInstaller
         return false;
     }
 
-    public static function doCleanUp()
+    public static function doCleanUp() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -202,7 +192,7 @@ class ilPDFCompInstaller
      * @param $purpose
      * @param $preferred
      */
-    public static function updateFromXML($service, $purpose, $preferred)
+    public static function updateFromXML($service, $purpose, $preferred) : void
     {
         $parts = explode('/', $service);
         $service = $parts[1];
@@ -216,7 +206,7 @@ class ilPDFCompInstaller
      * @param $renderer
      * @param $path
      */
-    public static function registerRenderer($renderer, $path)
+    public static function registerRenderer($renderer, $path) : void
     {
         global $DIC;
         /** @var ilDB $ilDB */
@@ -237,7 +227,7 @@ class ilPDFCompInstaller
      * @param $service
      * @param $purpose
      */
-    public static function registerRendererAvailability($renderer, $service, $purpose)
+    public static function registerRendererAvailability($renderer, $service, $purpose) : void
     {
         global $DIC;
         /** @var ilDB $ilDB */
