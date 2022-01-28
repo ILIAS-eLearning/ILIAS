@@ -299,7 +299,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitMessage($a_data['time_limit_message']);
 
         // user profile incomplete?
-        $this->setProfileIncomplete($a_data["profile_incomplete"]);
+        $this->setProfileIncomplete((bool) $a_data["profile_incomplete"]);
 
         //authentication
         $this->setAuthMode($a_data['auth_mode']);
