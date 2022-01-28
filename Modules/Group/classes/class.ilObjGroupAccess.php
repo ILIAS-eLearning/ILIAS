@@ -129,7 +129,7 @@ class ilObjGroupAccess extends ilObjectAccess
 
         $t_arr = explode("_", $a_target);
         // registration codes
-        if (substr($t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
+        if (substr((string) $t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
             return true;
         }
@@ -138,8 +138,8 @@ class ilObjGroupAccess extends ilObjectAccess
             return false;
         }
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", (int) $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $t_arr[1])) {
             return true;
         }
         return false;
