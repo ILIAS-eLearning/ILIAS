@@ -21,7 +21,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private ilForumNotification $forumNotificationObj;
     private ilPropertyFormGUI $form;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
-    private int $ref_id;
+    public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
     private ilForumProperties $properties;
