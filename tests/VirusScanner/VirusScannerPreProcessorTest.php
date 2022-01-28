@@ -1,13 +1,10 @@
 <?php
 
-namespace ILIAS\FileUpload\Processor;
-
 require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,11 +25,12 @@ class VirusScannerPreProcessorTest extends TestCase
     public function testVirusDetected()
     {
         $stream = Streams::ofString('Awesome stuff');
-        $mock = Mockery::mock(\ilVirusScanner::class);
+        $mock = $this->getMockBuilder(\ilVirusScanner::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+        $mock->expects($this->once())->method('scanFile')->with($stream->getMetadata('uri'))->willReturn("Virus found!!!");
 
-        $mock->shouldReceive("scanFile")->once()->withArgs(array( $stream->getMetadata('uri') ))->andReturn("Virus found!!!");
-
-        $subject = new VirusScannerPreProcessor($mock);
+        $subject = new ilVirusScannerPreProcessor($mock);
         $result = $subject->process($stream, new Metadata("MyVirus.exe", $stream->getSize(), 'application/vnd.microsoft.portable-executable'));
         $this->assertSame(ProcessingStatus::REJECTED, $result->getCode());
         $this->assertSame('Virus detected.', $result->getMessage());
@@ -42,11 +40,13 @@ class VirusScannerPreProcessorTest extends TestCase
     public function testNoVirusDetected()
     {
         $stream = Streams::ofString('Awesome stuff');
-        $mock = Mockery::mock(\ilVirusScanner::class);
+    
+        $mock = $this->getMockBuilder(\ilVirusScanner::class)
+                     ->disableOriginalConstructor()
+                     ->getMock();
+        $mock->expects($this->once())->method('scanFile')->with($stream->getMetadata('uri'))->willReturn("");
 
-        $mock->shouldReceive("scanFile")->once()->withArgs(array( $stream->getMetadata('uri') ))->andReturn("");
-
-        $subject = new VirusScannerPreProcessor($mock);
+        $subject = new ilVirusScannerPreProcessor($mock);
         $result = $subject->process($stream, new Metadata("MyVirus.exe", $stream->getSize(), 'application/vnd.microsoft.portable-executable'));
         $this->assertSame(ProcessingStatus::OK, $result->getCode());
     }

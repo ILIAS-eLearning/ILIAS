@@ -1,14 +1,13 @@
 <?php
 
-namespace ILIAS\FileUpload\Processor;
-
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
+use ILIAS\FileUpload\Processor\PreProcessor;
 
 /**
- * Class VirusScannerPreProcessor
+ * Class ilVirusScannerPreProcessor
  *
  * PreProcessor which denies all infected files if virusscanner is activated
  *
@@ -16,7 +15,7 @@ use Psr\Http\Message\StreamInterface;
  * @since   5.3
  * @version 1.0.0
  */
-final class VirusScannerPreProcessor implements PreProcessor
+final class ilVirusScannerPreProcessor implements PreProcessor
 {
 
     /**
@@ -26,7 +25,7 @@ final class VirusScannerPreProcessor implements PreProcessor
 
 
     /**
-     * VirusScannerPreProcessor constructor.
+     * ilVirusScannerPreProcessor constructor.
      *
      * @param \ilVirusScanner $scanner
      */
@@ -39,7 +38,7 @@ final class VirusScannerPreProcessor implements PreProcessor
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata)
+    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
     {
         // $stream->rewind();
         $uri = $stream->getMetadata()["uri"];
