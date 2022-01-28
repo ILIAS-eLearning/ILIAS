@@ -97,132 +97,181 @@ file containes the following fields:
 ## Current Maintainerships
 
 Components in the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers):
-
+<!-- BEGIN ActiveRecord -->
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+<!-- END ActiveRecord -->
 
+<!-- BEGIN Administration -->
 * **Administration**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+<!-- END Administration -->
 
+<!-- BEGIN AdministrativeNotification -->
+* **Administrative Notifications**
+	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+<!-- END AdministrativeNotification -->
+
+<!-- BEGIN BackgroundTasks -->
 * **BackgroundTasks**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+<!-- END BackgroundTasks -->
 
+<!-- BEGIN Badges -->
 * **Badges**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html); from v.9 [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
+<!-- END Badges -->
 
+<!-- BEGIN BibliographicListItem -->
 * **Bibliographic List Item**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
+<!-- END BibliographicListItem -->
 
+<!-- BEGIN Blog -->
 * **Blog**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [PaBer](https://docu.ilias.de/goto_docu_usr_33766.html)
+<!-- END Blog -->
 
+<!-- BEGIN BookingTool -->
 * **Booking Tool**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [e.coroian](https://docu.ilias.de/goto_docu_usr_37215.html)
 	* Tester: [wolfganghuebsch](https://docu.ilias.de/goto_docu_usr_18455.html)
+<!-- END BookingTool -->
 
+<!-- BEGIN Calendar -->
 * **Calendar**
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
     * Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
+<!-- END Calendar -->
 
+<!-- BEGIN CategoryRepository -->
 * **Category and Repository**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
+<!-- END CategoryRepository -->
 
+<!-- BEGIN Certificate -->
 * **Certificate**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
+<!-- END Certificate -->
 
+<!-- BEGIN Chat -->
 * **Chat**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
+<!-- END Chat -->
 
+<!-- BEGIN CloudObject -->
 * **Cloud Object**
 	* 1st Maintainer: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
 	* 2nd Maintainer: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* Testcases: [ttruffer](https://docu.ilias.de/goto_docu_usr_42894.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+<!-- END CloudObject -->
 
+<!-- BEGIN cmi5xAPIObject -->
 * **cmi5/xAPI Object**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [EMok](https://docu.ilias.de/goto_docu_usr_80682.html)
+<!-- END cmi5xAPIObject -->
 
+<!-- BEGIN Comments -->
 * **Comments**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
+<!-- END Comments -->
 
+<!-- BEGIN CompetenceManagement -->
 * **Competence Management**
 	* 1st Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
+<!-- END CompetenceManagement -->
 
+<!-- BEGIN Component -->
 * **Component**
 	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
 	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+<!-- END Component -->
 
+<!-- BEGIN Contacts -->
 * **Contacts**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+<!-- END Contacts -->
 
+<!-- BEGIN ContentPage -->
 * **ContentPage**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+<!-- END ContentPage -->
 
+<!-- BEGIN CourseManagement -->
 * **Course Management**
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
 	* Tester: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html), [TESTER MISSING FOR LOC](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+<!-- END CourseManagement -->
 
+<!-- BEGIN CronService -->
 * **Cron Service**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+<!-- END CronService -->
 
+<!-- BEGIN CSSTemplates -->
 * **CSS / Templates**
 	* 1st Maintainer: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+<!-- END CSSTemplates -->
 
 * **Dashboard**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
