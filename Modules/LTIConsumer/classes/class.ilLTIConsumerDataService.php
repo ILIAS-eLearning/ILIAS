@@ -1,6 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 
 /**
@@ -30,7 +42,7 @@ class ilLTIConsumerDataService
     // return $http_path;
     // }
     
-    public static function initIlias($client_id)
+    public static function initIlias($client_id) : void
     {
         // if (isset($_GET["client_id"]))
         // {
@@ -53,17 +65,14 @@ class ilLTIConsumerDataService
         // $_COOKIE["ilClientId"] = $_GET["client_id"];
         // }
 
-    
-        
+
+
         define("CLIENT_ID", $client_id);
         define('IL_COOKIE_HTTPONLY', true); // Default Value
         define('IL_COOKIE_EXPIRE', 0);
         define('IL_COOKIE_PATH', '/');
         define('IL_COOKIE_DOMAIN', '');
-        require_once('Services/Context/classes/class.ilContext.php');
         \ilContext::init(\ilContext::CONTEXT_SCORM);
-        //UK
-        require_once("Services/Init/classes/class.ilInitialisation.php");
         \ilInitialisation::initILIAS();
         // Remember original values
         // $_ORG_SERVER = array(
@@ -79,7 +88,7 @@ class ilLTIConsumerDataService
         // //ilInitialisation::initIliasIniFile();
         // ilInitialisation::initClientIniFile();
         // ilInitialisation::initDatabase();
-        
+
         // // Restore original, since this could lead to bad side-effects otherwise
         // $_SERVER['HTTP_HOST']   = $_ORG_SERVER['HTTP_HOST'];
         // $_SERVER['REQUEST_URI'] = $_ORG_SERVER['REQUEST_URI'];
@@ -88,15 +97,6 @@ class ilLTIConsumerDataService
     }
 }
 
-
-/**
- *  Class: ilInitialisation_Public
- *  Helper class that derives from ilInitialisation in order
- *  to 'publish' some of its methods that are (currently)
- *  required by LTI and included plugin classes
- *
- */
-require_once('Services/Init/classes/class.ilInitialisation.php');
 class ilInitialisation extends \ilInitialisation
 {
     /**
@@ -116,7 +116,7 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initDatabase()
     */
-    public static function initDatabase()
+    public static function initDatabase() : void
     {
         if (!isset($GLOBALS['ilDB'])) { //TODO DIC
             parent::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
@@ -130,7 +130,7 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initIliasIniFile()
     */
-    public static function initIliasIniFile()
+    public static function initIliasIniFile() : void
     {
         if (!isset($GLOBALS['ilIliasIniFile'])) {
             parent::initIliasIniFile();
@@ -143,7 +143,7 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initIliasIniFile()
     */
-    public static function initClientIniFile()
+    public static function initClientIniFile() : void
     {
         if (!isset($GLOBALS['initClientIniFile'])) {
             parent::initClientIniFile();
@@ -151,7 +151,7 @@ class ilInitialisation extends \ilInitialisation
     }
     
     //UK
-    public static function initLog()
+    public static function initLog() : void
     {
         if (!isset($GLOBALS['ilLog'])) {
             parent::initLog();

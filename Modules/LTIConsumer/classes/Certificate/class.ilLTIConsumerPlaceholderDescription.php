@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerPlaceholderDescription
  *
@@ -12,20 +23,11 @@
  */
 class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var ilDefaultPlaceholderDescription
-     */
-    private $defaultPlaceHolderDescriptionObject;
+    private \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
+    private ?\ilLanguage $language;
 
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private array $placeholder;
 
     /**
      * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -33,9 +35,9 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
      * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
      */
     public function __construct(
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -59,6 +61,9 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
         $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPlaceholderDescriptions() : array
     {
         return $this->placeholder;

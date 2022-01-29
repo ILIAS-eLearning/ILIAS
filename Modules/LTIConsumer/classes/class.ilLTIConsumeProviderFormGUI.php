@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumeProviderFormGUI
  *
@@ -16,12 +26,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
     /**
      * @var ilLTIConsumeProvider
      */
-    protected $provider;
+    protected ilLTIConsumeProvider $provider;
     
     /**
      * @var bool
      */
-    protected $adminContext = false;
+    protected bool $adminContext = false;
     
     /**
      * ilLTIConsumeProviderFormGUI constructor.
@@ -45,17 +55,17 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
     /**
      * @param bool $adminContext
      */
-    public function setAdminContext(bool $adminContext)
+    public function setAdminContext(bool $adminContext) : void
     {
         $this->adminContext = $adminContext;
     }
-    
+
     /**
-     * @param $formaction
-     * @param $saveCmd
-     * @param $cancelCmd
+     * @param string $formaction
+     * @param string $saveCmd
+     * @param string $cancelCmd
      */
-    public function initForm($formaction, $saveCmd, $cancelCmd)
+    public function initForm(string $formaction, string $saveCmd, string $cancelCmd) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
@@ -122,7 +132,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $providerUrlInp->setValue($this->provider->getProviderUrl());
         $providerUrlInp->setRequired(true);
         $this->addItem($providerUrlInp);
-        //Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
+//        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
         $item = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
         $item->setValue("1");
         if (!$this->provider->isProviderKeyCustomizable()) {
@@ -151,29 +161,29 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
-            ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_USER_ID
+            (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_USER_ID
         );
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_user_id_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_login'),
-            ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_LOGIN
+            (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_LOGIN
         );
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_login_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account'),
-            ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
+            (string) ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
         );
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_real_email'),
-            ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
+            (string) ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
         );
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_real_email_info'));
         $item->addOption($op);
-        $item->setValue($this->provider->getPrivacyIdent());
+        $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
             $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
         );
@@ -181,19 +191,19 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addItem($item);
         
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
-        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), ilLTIConsumeProvider::PRIVACY_NAME_NONE);
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), (string) ilLTIConsumeProvider::PRIVACY_NAME_NONE);
         $op->setInfo($DIC->language()->txt('conf_privacy_name_none_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_firstname'), ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_firstname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
         $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_lastname'), ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_lastname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
         $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_fullname'), ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_fullname'), (string) ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
         $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
         $item->addOption($op);
-        $item->setValue($this->provider->getPrivacyName());
+        $item->setValue((string) $this->provider->getPrivacyName());
         $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));
         $item->setRequired(false);
         $this->addItem($item);
@@ -231,7 +241,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $masteryScore->setMaxvalueShouldBeLess(false);
         $masteryScore->setMaxValue(100);
         $masteryScore->setSize(4);
-        $masteryScore->setValue($this->provider->getMasteryScorePercent());
+        $masteryScore->setValue((string) $this->provider->getMasteryScorePercent());
         $item->addSubItem($masteryScore);
         $this->addItem($item);
         
@@ -328,7 +338,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addItem($remarksInp);
     }
     
-    public function initProvider(ilLTIConsumeProvider $provider)
+    public function initProvider(ilLTIConsumeProvider $provider) : void
     {
         $provider->setTitle($this->getInput('title'));
         $provider->setDescription($this->getInput('description'));
@@ -350,8 +360,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         } else {
             $provider->setProviderKeyCustomizable(true);
         }
-        $provider->setPrivacyIdent($this->getInput('privacy_ident'));
-        $provider->setPrivacyName($this->getInput('privacy_name'));
+        $provider->setPrivacyIdent((int) $this->getInput('privacy_ident'));
+        $provider->setPrivacyName((int) $this->getInput('privacy_name'));
         $provider->setIncludeUserPicture((bool) $this->getInput('inc_usr_pic'));
         $provider->setIsExternalProvider((bool) $this->getInput('is_external_provider'));
         

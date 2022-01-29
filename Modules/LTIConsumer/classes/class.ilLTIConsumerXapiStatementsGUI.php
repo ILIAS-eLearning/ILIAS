@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilCmiXapiContentGUI
  *
@@ -17,12 +27,12 @@ class ilLTIConsumerXapiStatementsGUI
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
     
     /**
      * @var ilLTIConsumerAccess
      */
-    protected $access;
+    protected ilLTIConsumerAccess $access;
     
     /**
      * @param ilObjLTIConsumer $object
@@ -37,7 +47,7 @@ class ilLTIConsumerXapiStatementsGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -52,7 +62,7 @@ class ilLTIConsumerXapiStatementsGUI
         }
     }
     
-    protected function resetFilterCmd()
+    protected function resetFilterCmd() : void
     {
         $table = $this->buildTableGUI();
         $table->resetFilter();
@@ -60,7 +70,7 @@ class ilLTIConsumerXapiStatementsGUI
         $this->showCmd();
     }
     
-    protected function applyFilterCmd()
+    protected function applyFilterCmd() : void
     {
         $table = $this->buildTableGUI();
         $table->writeFilterToSession();
@@ -68,7 +78,7 @@ class ilLTIConsumerXapiStatementsGUI
         $this->showCmd();
     }
     
-    protected function showCmd()
+    protected function showCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -94,7 +104,7 @@ class ilLTIConsumerXapiStatementsGUI
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
     
-    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table)
+    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         $table->determineOffsetAndOrder();
         
@@ -105,7 +115,7 @@ class ilLTIConsumerXapiStatementsGUI
         $filter->setOrderDirection($table->getOrderDirection());
     }
     
-    protected function initActorFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table)
+    protected function initActorFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -128,7 +138,7 @@ class ilLTIConsumerXapiStatementsGUI
         }
     }
     
-    protected function initVerbFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table)
+    protected function initVerbFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
         
@@ -137,7 +147,7 @@ class ilLTIConsumerXapiStatementsGUI
         }
     }
     
-    protected function initPeriodFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table)
+    protected function initPeriodFilter(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
     {
         $period = $table->getFilterItemByPostVar('period');
         
@@ -150,7 +160,7 @@ class ilLTIConsumerXapiStatementsGUI
         }
     }
     
-    public function asyncUserAutocompleteCmd()
+    public function asyncUserAutocompleteCmd() : void
     {
         $auto = new ilCmiXapiUserAutocomplete($this->object->getId());
         $auto->setSearchFields(array('login','firstname','lastname','email'));
@@ -170,7 +180,7 @@ class ilLTIConsumerXapiStatementsGUI
      * @param ilCmiXapiStatementsTableGUI $table
      * @param ilCmiXapiStatementsReportFilter $filter
      */
-    protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter)
+    protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter) : void
     {
         $aggregateEndPointUrl = str_replace(
             'data/xAPI',

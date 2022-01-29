@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerEmbeddedContentGUI
  *
@@ -19,12 +29,12 @@ class ilLTIConsumerEmbeddedContentGUI
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
     
     /**
      * @var ilCmiXapiUser
      */
-    protected $cmixUser;
+    protected ilCmiXapiUser $cmixUser;
     
     /**
      * @param ilObjLTIConsumer $object
@@ -33,8 +43,12 @@ class ilLTIConsumerEmbeddedContentGUI
     {
         $this->object = $object;
     }
-    
-    public function executeCommand()
+
+    /**
+     * @return void
+     * @throws ilLtiConsumerException
+     */
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -46,8 +60,13 @@ class ilLTIConsumerEmbeddedContentGUI
         
         $this->{$command}();
     }
-    
-    protected function showPage()
+
+    /**
+     * @return void
+     * @throws ilCtrlException
+     * @throws ilTemplateException
+     */
+    protected function showPage() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -60,8 +79,12 @@ class ilLTIConsumerEmbeddedContentGUI
         
         $DIC->ui()->mainTemplate()->setContent($tpl->get());
     }
-    
-    protected function showEmbedded()
+
+    /**
+     * @return void
+     * @throws ilTemplateException
+     */
+    protected function showEmbedded() : void
     {
         $this->initCmixUser();
         
@@ -88,7 +111,10 @@ class ilLTIConsumerEmbeddedContentGUI
         exit;
     }
     
-    protected function getLaunchParameters()
+    /**
+     * @return array
+     */
+    protected function getLaunchParameters() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -114,7 +140,7 @@ class ilLTIConsumerEmbeddedContentGUI
         );
     }
     
-    public static function isEmbeddedLaunchRequest()
+    public static function isEmbeddedLaunchRequest() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -129,7 +155,7 @@ class ilLTIConsumerEmbeddedContentGUI
         return true;
     }
     
-    protected function initCmixUser()
+    protected function initCmixUser() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
