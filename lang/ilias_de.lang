@@ -16736,3 +16736,5 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens
 skmg#:#skmg_recommended_learning_material#:#Lerninhalte zur Zielerreichung
 skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der folgenden Lerninhalte aus. Bearbeiten Sie ihn um das Kompetenzziel zu erreichen.
 skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen und sie hier angezeigt zu bekommen. Sie können beliebig viele Kompetenzen hinzufügen.
+ui#:#duration_default_label_start#:#Beginn
+ui#:#duration_default_label_end#:#Ende
