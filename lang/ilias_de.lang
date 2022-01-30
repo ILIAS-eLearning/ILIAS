@@ -12495,7 +12495,7 @@ rbac#:#file_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 rbac#:#mcst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#lso_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 content#:#cont_progress_icons#:#Fortschritts-Icons
-content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 5.0 gespeichert.
+content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an.
 content#:#cont_self_assessment#:#Selbsttests
 content#:#cont_tries#:#Antwortversuche
 content#:#cont_tries_reset_on_visit#:#Zurücksetzen bei Aufruf der Seite
