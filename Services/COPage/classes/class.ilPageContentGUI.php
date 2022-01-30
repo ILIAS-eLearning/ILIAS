@@ -158,15 +158,15 @@ class ilPageContentGUI
     public function getCharacteristicsOfCurrentStyle(array $a_type) : void
     {
         global $DIC;
-        $service = new ILIAS\Style\Content\Service();
-        $access_manager = $service->internal()->manager()->access(
+        $service = $DIC->contentStyle()->internal();
+        $access_manager = $service->domain()->access(
             (int) $_GET["ref_id"],
             $DIC->user()->getId()
         );
 
         if ($this->getStyleId() > 0 &&
             ilObject::_lookupType($this->getStyleId()) == "sty") {
-            $char_manager = $service->internal()->manager()->characteristic(
+            $char_manager = $service->domain()->characteristic(
                 $this->getStyleId(),
                 $access_manager
             );

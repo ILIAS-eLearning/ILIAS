@@ -11,19 +11,12 @@ class CharacteristicCopyPasteSessionRepo
 {
     protected const SESSION_KEY = "sty_copy";
 
-    /**
-     * @var Session
-     */
-    protected $session;
+    protected Session $session;
 
-    /**
-     *
-     */
     public function __construct(Session $session = null)
     {
         $this->session = ($session)
-            ? $session
-            : new class() implements Session {
+            ?: new class() implements Session {
                 public function set(string $key, string $value) : void
                 {
                     \ilSession::set($key, $value);
@@ -43,9 +36,6 @@ class CharacteristicCopyPasteSessionRepo
 
     /**
      * Set characteristics
-     * @param int    $style_id
-     * @param string $style_type
-     * @param array  $characteristics
      */
     public function set(int $style_id, string $style_type, array $characteristics) : void
     {
@@ -54,35 +44,21 @@ class CharacteristicCopyPasteSessionRepo
         $this->session->set(self::SESSION_KEY, $style_cp);
     }
 
-    /**
-     * Get data
-     * @return \StdClass
-     */
-    public function getData() : \StdClass
+    public function getData() : \stdClass
     {
         $st_c = explode(":::", $this->getValue());
-        $data = new \StdClass();
+        $data = new \stdClass();
         $data->style_id = $st_c[0] ?? 0;
         $data->style_type = $st_c[1] ?? "";
         $data->characteristics = explode("::", $st_c[2] ?? "");
         return $data;
     }
 
-    /**
-     * Get value
-     * @param
-     * @return
-     */
     protected function getValue() : string
     {
         return $this->session->get(self::SESSION_KEY);
     }
 
-    /**
-     * Has entries of style type
-     * @param string $style_type
-     * @return bool
-     */
     public function hasEntries(string $style_type) : bool
     {
         $val = $this->getValue();
@@ -95,9 +71,6 @@ class CharacteristicCopyPasteSessionRepo
         return false;
     }
 
-    /**
-     * Clear
-     */
     public function clear() : void
     {
         $this->session->clear(self::SESSION_KEY);

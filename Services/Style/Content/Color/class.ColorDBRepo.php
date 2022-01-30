@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
@@ -9,35 +20,17 @@ namespace ILIAS\Style\Content;
  */
 class ColorDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
+    protected InternalDataService $factory;
 
-    /**
-     * @var DataFactory
-     */
-    protected $factory;
-
-    /**
-     * Constructor
-     * @param \ilDBInterface|null $db
-     * @param DataFactory|null   $factory
-     */
     public function __construct(
         \ilDBInterface $db,
-        DataFactory $factory
+        InternalDataService $factory
     ) {
         $this->db = $db;
         $this->factory = $factory;
     }
 
-    /**
-     * Add color
-     * @param int    $style_id
-     * @param string $a_name
-     * @param string $a_code
-     */
     public function addColor(
         int $style_id,
         string $a_name,
@@ -54,9 +47,6 @@ class ColorDBRepo
 
     /**
      * Check whether color exists
-     * @param int    $style_id
-     * @param string $a_color_name
-     * @return bool
      */
     public function colorExists(
         int $style_id,
@@ -73,13 +63,6 @@ class ColorDBRepo
         return false;
     }
 
-    /**
-     * Update color
-     * @param int    $style_id
-     * @param string $name
-     * @param string $new_name
-     * @param string $code
-     */
     public function updateColor(
         int $style_id,
         string $name,

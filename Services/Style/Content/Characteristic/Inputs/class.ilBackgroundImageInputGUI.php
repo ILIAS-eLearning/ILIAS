@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a background image property in a property form.
@@ -9,20 +20,11 @@
  */
 class ilBackgroundImageInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $value;
+    protected array $images;
+    protected ilObjUser $user;
+    protected string $value;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
 
@@ -32,60 +34,35 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
         $this->setType("background_image");
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
     
-    /**
-    * Set Images.
-    *
-    * @param	array	$a_images	Images
-    */
-    public function setImages($a_images)
+    public function setImages(array $a_images) : void
     {
         $this->images = $a_images;
     }
 
-    /**
-    * Get Images.
-    *
-    * @return	array	Images
-    */
-    public function getImages()
+    public function getImages() : array
     {
         return $this->images;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    * @return	boolean		Input ok, true/false
-    */
     public function checkInput() : bool
     {
         $lng = $this->lng;
+
+        $input = $this->getInput();
         
-        $type = $_POST[$this->getPostVar()]["type"] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]["type"]);
-        $int_value = $_POST[$this->getPostVar()]["int_value"] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]["int_value"]);
-        $ext_value = $_POST[$this->getPostVar()]["ext_value"] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]["ext_value"]);
+        $type = $input["type"] ?? "";
+        $int_value = $input["int_value"] ?? "";
+        $ext_value = $input["ext_value"] ?? "";
             
         if ($this->getRequired() && $type == "ext" && trim($ext_value) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
@@ -102,10 +79,12 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    /**
-    * Insert property html
-    */
-    public function insert(&$a_tpl)
+    public function getInput() : array
+    {
+        return $this->strArray($this->getPostVar());
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate("tpl.prop_background_image.html", true, true, "Services/Style/Content");
 
@@ -140,15 +119,8 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        $ilUser = $this->user;
-        
         if ($a_values[$this->getPostVar()]["type"] == "internal") {
             $this->setValue($a_values[$this->getPostVar()]["int_value"]);
         } else {

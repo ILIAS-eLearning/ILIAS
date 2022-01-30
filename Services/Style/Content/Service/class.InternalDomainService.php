@@ -1,40 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Access\StyleAccessManager;
+use ILIAS\DI\Container;
+use ILIAS\Repository\GlobalDICDomainServices;
 
 /**
  * Content style internal manager service
  * @author Alexander Killing <killing@leifos.de>
  */
-class ManagerFactory
+class InternalDomainService
 {
-    /**
-     * @var RepoFactory
-     */
-    protected $repo_service;
+    use GlobalDICDomainServices;
 
-    /**
-     * @var \ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
+    protected Container $dic;
+    protected InternalRepoService $repo_service;
+    protected InternalDataService $data_service;
+    protected \ilRbacSystem $rbacsystem;
 
     public function __construct(
-        \ilRbacSystem $rbacsystem,
-        RepoFactory $repo_service,
-        \ilObjUser $user
+        Container $DIC,
+        InternalRepoService $repo_service,
+        InternalDataService $data_service
     ) {
-        $this->rbacsystem = $rbacsystem;
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->repo_service = $repo_service;
-        $this->user = $user;
+        $this->initDomainServices($DIC);
+        $this->dic = $DIC;
     }
 
     // access manager
@@ -49,12 +55,6 @@ class ManagerFactory
         );
     }
 
-
-    /**
-     * @param int                $style_id
-     * @param StyleAccessManager $access_manager
-     * @return CharacteristicManager
-     */
     public function characteristic(
         int $style_id,
         StyleAccessManager $access_manager
@@ -69,9 +69,6 @@ class ManagerFactory
         );
     }
 
-    /**
-     * @return ColorManager
-     */
     public function color(
         int $style_id,
         StyleAccessManager $access_manager

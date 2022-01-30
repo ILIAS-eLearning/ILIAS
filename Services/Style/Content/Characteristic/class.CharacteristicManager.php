@@ -1,10 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
-use \ILIAS\Style\Content\Access;
+use ILIAS\Style\Content\Access;
 
 /**
  * Main business logic for characteristics
@@ -12,35 +23,12 @@ use \ILIAS\Style\Content\Access;
  */
 class CharacteristicManager
 {
-    /**
-     * @var CharacteristicDBRepo
-     */
-    protected $repo;
-
-    /**
-     * @var ColorDBRepo
-     */
-    protected $color_repo;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var CharacteristicCopyPasteSessionRepo
-     */
-    protected $session;
-
-    /**
-     * @var int
-     */
-    protected $style_id;
+    protected CharacteristicDBRepo $repo;
+    protected ColorDBRepo $color_repo;
+    protected \ilObjUser $user;
+    protected Access\StyleAccessManager $access_manager;
+    protected CharacteristicCopyPasteSessionRepo $session;
+    protected int $style_id;
 
     public function __construct(
         int $style_id,
@@ -58,17 +46,11 @@ class CharacteristicManager
         $this->style_id = $style_id;
     }
 
-    /**
-     * Add characteristic
-     * @param string $type
-     * @param string $char
-     * @param bool   $hidden
-     */
     public function addCharacteristic(
         string $type,
         string $char,
         bool $hidden = false
-    ) {
+    ) : void {
         $this->repo->addCharacteristic(
             $this->style_id,
             $type,
@@ -81,9 +63,6 @@ class CharacteristicManager
 
     /**
      * Check if characteristic exists
-     * @param string $type
-     * @param string $char
-     * @return bool
      */
     public function exists(
         string $type,
@@ -98,9 +77,6 @@ class CharacteristicManager
 
     /**
      * Get characteristic by key
-     * @param string $type
-     * @param string $characteristic
-     * @return Characteristic|null
      */
     public function getByKey(
         string $type,
@@ -115,8 +91,6 @@ class CharacteristicManager
 
     /**
      * Get characteristics by type
-     * @param string $type
-     * @return array
      */
     public function getByType(
         string $type
@@ -129,10 +103,6 @@ class CharacteristicManager
 
     /**
      * Get characteristics by type
-     * @param array $types
-     * @param bool  $include_hidden
-     * @param bool  $include_outdated
-     * @return array
      */
     public function getByTypes(
         array $types,
@@ -149,8 +119,6 @@ class CharacteristicManager
 
     /**
      * Get characteristics by supertype
-     * @param string $supertype
-     * @return array
      */
     public function getBySuperType(
         string $supertype
@@ -163,8 +131,6 @@ class CharacteristicManager
 
     /**
      * Get characteristic by key
-     * @param string $type
-     * @param string $characteristic
      * @return Characteristic|null
      */
     public function getPresentationTitle(
@@ -182,7 +148,7 @@ class CharacteristicManager
 
         $lang = $this->user->getLanguage();
 
-        if ($titles[$lang] != "") {
+        if (($titles[$lang] ?? "") != "") {
             return $titles[$lang];
         }
         if ($fallback_to_characteristic) {
@@ -193,9 +159,6 @@ class CharacteristicManager
 
     /**
      * Save titles for characteristic
-     * @param string $type
-     * @param string $characteristic
-     * @param array  $titles
      * @throws ContentStyleNoPermissionException
      */
     public function saveTitles(
@@ -216,9 +179,6 @@ class CharacteristicManager
 
     /**
      * Save characteristic hidden status
-     * @param string $type
-     * @param string $characteristic
-     * @param bool   $hide
      */
     public function saveHidden(
         string $type,
@@ -238,9 +198,6 @@ class CharacteristicManager
 
     /**
      * Save characteristic outdated status
-     * @param string $type
-     * @param string $characteristic
-     * @param bool   $outdated
      */
     public function saveOutdated(
         string $type,
@@ -260,7 +217,6 @@ class CharacteristicManager
 
     /**
      * Save characteristics order
-     * @param string $type
      * @param array $order_nrs (key is characteristic value is order nr)
      */
     public function saveOrderNrs(
@@ -286,8 +242,6 @@ class CharacteristicManager
 
     /**
      * Delete Characteristic
-     * @param string $type
-     * @param string $class
      * @throws ContentStyleNoPermissionException
      */
     public function deleteCharacteristic(
@@ -313,11 +267,6 @@ class CharacteristicManager
         \ilObjStyleSheet::_writeUpToDate($this->style_id, false);
     }
 
-    /**
-     * Set copy characteristics
-     * @param string $style_type
-     * @param array  $characteristics
-     */
     public function setCopyCharacteristics(
         string $style_type,
         array $characteristics
@@ -327,45 +276,29 @@ class CharacteristicManager
 
     /**
      * Is in copy process?
-     * @return bool
      */
     public function hasCopiedCharacteristics(string $style_type) : bool
     {
         return $this->session->hasEntries($style_type);
     }
 
-    /**
-     * Clear copy characteristics
-     */
     public function clearCopyCharacteristics() : void
     {
         $this->session->clear();
     }
 
-    /**
-     * Get copy characteristic style id
-     * @return int
-     */
     public function getCopyCharacteristicStyleId() : int
     {
         $data = $this->session->getData();
         return $data->style_id;
     }
 
-    /**
-     * Get copy characteristic style type
-     * @return string
-     */
     public function getCopyCharacteristicStyleType() : string
     {
         $data = $this->session->getData();
         return $data->style_type;
     }
 
-    /**
-     * Get copy characteristics
-     * @return array
-     */
     public function getCopyCharacteristics() : array
     {
         $data = $this->session->getData();
@@ -374,11 +307,6 @@ class CharacteristicManager
 
     /**
      * Copy characteristic
-     * @param int    $source_style_id
-     * @param string    $source_style_type
-     * @param string $source_char
-     * @param string $new_char
-     * @param array  $new_titles
      * @throws ContentStyleNoPermissionException
      */
     public function copyCharacteristicFromSource(
@@ -434,16 +362,6 @@ class CharacteristicManager
         }
     }
 
-    /**
-     * Replace a parameter
-     * @param string $a_tag
-     * @param string $a_class
-     * @param string $a_par
-     * @param string $a_val
-     * @param string $a_type
-     * @param int    $a_mq_id
-     * @param bool   $a_custom
-     */
     public function replaceParameter(
         string $a_tag,
         string $a_class,
@@ -476,15 +394,6 @@ class CharacteristicManager
         }
     }
 
-    /**
-     * Delete a parameter
-     * @param string $a_tag
-     * @param string $a_class
-     * @param string $a_par
-     * @param string $a_type
-     * @param int    $a_mq_id
-     * @param bool   $a_custom
-     */
     public function deleteParameter(
         string $a_tag,
         string $a_class,

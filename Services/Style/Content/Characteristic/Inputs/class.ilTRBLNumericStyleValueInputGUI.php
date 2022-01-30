@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a numeric style property with all/top/right/bottom/left in a property form.
@@ -9,21 +20,21 @@
  */
 class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected string $rightvalue = "";
+    protected string $leftvalue = "";
+    protected string $bottomvalue = "";
+    protected string $topvalue = "";
+    protected string $allvalue = "";
 
-    protected $value;
-    protected $allowpercentage = true;
-    
     /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
+     * @var string[]
+     */
+    protected array $dirs;
+    protected ilObjUser $user;
+    protected string $value;
+    protected bool $allowpercentage = true;
+    
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
 
@@ -34,139 +45,75 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
         $this->dirs = array("all", "top", "bottom", "left", "right");
     }
 
-    /**
-    * Set All Value.
-    *
-    * @param	string	$a_allvalue	All Value
-    */
-    public function setAllValue($a_allvalue)
+    public function setAllValue(string $a_allvalue) : void
     {
         $this->allvalue = $a_allvalue;
     }
 
-    /**
-    * Get All Value.
-    *
-    * @return	string	All Value
-    */
-    public function getAllValue()
+    public function getAllValue() : string
     {
         return $this->allvalue;
     }
 
-    /**
-    * Set Top Value.
-    *
-    * @param	string	$a_topvalue	Top Value
-    */
-    public function setTopValue($a_topvalue)
+    public function setTopValue(string $a_topvalue) : void
     {
         $this->topvalue = $a_topvalue;
     }
 
-    /**
-    * Get Top Value.
-    *
-    * @return	string	Top Value
-    */
-    public function getTopValue()
+    public function getTopValue() : string
     {
         return $this->topvalue;
     }
 
-    /**
-    * Set Bottom Value.
-    *
-    * @param	string	$a_bottomvalue	Bottom Value
-    */
-    public function setBottomValue($a_bottomvalue)
+    public function setBottomValue(string $a_bottomvalue) : void
     {
         $this->bottomvalue = $a_bottomvalue;
     }
 
-    /**
-    * Get Bottom Value.
-    *
-    * @return	string	Bottom Value
-    */
-    public function getBottomValue()
+    public function getBottomValue() : string
     {
         return $this->bottomvalue;
     }
 
-    /**
-    * Set Left Value.
-    *
-    * @param	string	$a_leftvalue	Left Value
-    */
-    public function setLeftValue($a_leftvalue)
+    public function setLeftValue(string $a_leftvalue) : void
     {
         $this->leftvalue = $a_leftvalue;
     }
 
-    /**
-    * Get Left Value.
-    *
-    * @return	string	Left Value
-    */
-    public function getLeftValue()
+    public function getLeftValue() : string
     {
         return $this->leftvalue;
     }
 
-    /**
-    * Set Right Value.
-    *
-    * @param	string	$a_rightvalue	Right Value
-    */
-    public function setRightValue($a_rightvalue)
+    public function setRightValue(string $a_rightvalue) : void
     {
         $this->rightvalue = $a_rightvalue;
     }
 
-    /**
-    * Get Right Value.
-    *
-    * @return	string	Right Value
-    */
-    public function getRightValue()
+    public function getRightValue() : string
     {
         return $this->rightvalue;
     }
     
-    /**
-    * Set Allow Percentage.
-    *
-    * @param	boolean	$a_allowpercentage	Allow Percentage
-    */
-    public function setAllowPercentage($a_allowpercentage)
+    public function setAllowPercentage(bool $a_allowpercentage) : void
     {
         $this->allowpercentage = $a_allowpercentage;
     }
 
-    /**
-    * Get Allow Percentage.
-    *
-    * @return	boolean	Allow Percentage
-    */
-    public function getAllowPercentage()
+    public function getAllowPercentage() : bool
     {
         return $this->allowpercentage;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    * @return	boolean		Input ok, true/false
-    */
     public function checkInput() : bool
     {
         $lng = $this->lng;
+
+        $input = $this->getInput();
         
         foreach ($this->dirs as $dir) {
-            $num_value = $_POST[$this->getPostVar()][$dir]["num_value"] =
-                trim(ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["num_value"]));
-            $num_unit = $_POST[$this->getPostVar()][$dir]["num_unit"] =
-                trim(ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["num_unit"]));
+            $num_value = $input[$dir]["num_value"];
+            $num_unit = $input[$dir]["num_unit"];
                 
             /*
             if ($this->getRequired() && trim($num_value) == "")
@@ -195,13 +142,16 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    /**
-    * Insert property html
-    */
-    public function insert(&$a_tpl)
+    public function getInput()
+    {
+        return $this->arrayArray($this->getPostVar());
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
-        
+
+        $value = "";
         $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
         
         foreach ($this->dirs as $dir) {
@@ -250,15 +200,8 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        $ilUser = $this->user;
-        
         $this->setAllValue($a_values[$this->getPostVar()]["all"]["num_value"] .
             $a_values[$this->getPostVar()]["all"]["num_unit"]);
         $this->setBottomValue($a_values[$this->getPostVar()]["bottom"]["num_value"] .

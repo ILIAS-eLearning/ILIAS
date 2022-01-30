@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,18 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Style\Content;
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
 
 /**
- * Wrapper interface for session
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-interface Session
+class ilServicesStyleContentSuite extends TestSuite
 {
-    public function set(string $key, string $value) : void;
+    public static function suite()
+    {
+        $suite = new self();
 
-    public function get(string $key) : string;
+        require_once("./Services/Style/Content/test/ContentStyleStandardGUIRequestTest.php");
+        $suite->addTestSuite("ContentStyleStandardGUIRequestTest");
 
-    public function clear(string $key) : void;
+        return $suite;
+    }
 }

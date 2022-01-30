@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a numeric style property in a property form.
@@ -9,21 +20,11 @@
  */
 class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $value;
-    protected $allowpercentage = true;
+    protected ilObjUser $user;
+    protected string $value = "";
+    protected bool $allowpercentage = true;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
 
@@ -33,58 +34,33 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         $this->setType("style_numeric");
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
     
-    /**
-    * Set Allow Percentage.
-    *
-    * @param	boolean	$a_allowpercentage	Allow Percentage
-    */
-    public function setAllowPercentage($a_allowpercentage)
+    public function setAllowPercentage(bool $a_allowpercentage) : void
     {
         $this->allowpercentage = $a_allowpercentage;
     }
 
-    /**
-    * Get Allow Percentage.
-    *
-    * @return	boolean	Allow Percentage
-    */
-    public function getAllowPercentage()
+    public function getAllowPercentage() : bool
     {
         return $this->allowpercentage;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    * @return	boolean		Input ok, true/false
-    */
     public function checkInput() : bool
     {
         $lng = $this->lng;
-        
-        $num_value = $_POST[$this->getPostVar()]["num_value"] =
-            trim(ilUtil::stripSlashes($_POST[$this->getPostVar()]["num_value"]));
-        $num_unit = $_POST[$this->getPostVar()]["num_unit"] =
-            trim(ilUtil::stripSlashes($_POST[$this->getPostVar()]["num_unit"]));
+
+        $input = $this->getInput();
+        $num_value = $input["num_value"];
+        $num_unit = $input["num_unit"];
             
         if ($this->getRequired() && trim($num_value) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
@@ -105,10 +81,12 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    /**
-    * Insert property html
-    */
-    public function insert(&$a_tpl)
+    public function getInput()
+    {
+        return $this->strArray($this->getPostVar());
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate("tpl.prop_style_numeric.html", true, true, "Services/Style/Content");
         
@@ -147,15 +125,8 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        $ilUser = $this->user;
-        
         $this->setValue($a_values[$this->getPostVar()]["num_value"] .
             $a_values[$this->getPostVar()]["num_unit"]);
     }

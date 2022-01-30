@@ -1,52 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
-use \ILIAS\Style\Content\Access;
+use ILIAS\Style\Content\Access;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ColorManager
 {
-    /**
-     * @var CharacteristicDBRepo
-     */
-    protected $characteristic_repo;
+    protected CharacteristicDBRepo $characteristic_repo;
+    protected ColorDBRepo $color_repo;
+    protected \ilObjUser $user;
+    protected Access\StyleAccessManager $access_manager;
+    protected int $style_id;
 
-    /**
-     * @var ColorDBRepo
-     */
-    protected $color_repo;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var int
-     */
-    protected $style_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         int $style_id,
         Access\StyleAccessManager $access_manager,
         CharacteristicDBRepo $char_repo,
         ColorDBRepo $color_repo
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->user = $DIC->user();
@@ -56,11 +43,6 @@ class ColorManager
         $this->style_id = $style_id;
     }
 
-    /**
-     * Add color
-     * @param string $a_name
-     * @param string $a_code
-     */
     public function addColor(
         string $a_name,
         string $a_code
@@ -74,8 +56,6 @@ class ColorManager
 
     /**
      * Check whether color exists
-     * @param string $name
-     * @return bool
      */
     public function colorExists(
         string $name
@@ -87,17 +67,13 @@ class ColorManager
     }
 
     /**
-     * Update color
-     * @param string $name
-     * @param string $new_name
-     * @param string $code
      * @throws ContentStyleNoPermissionException
      */
     public function updateColor(
         string $name,
         string $new_name,
         string $code
-    ) {
+    ) : void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }

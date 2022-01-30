@@ -1,11 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
-use \ILIAS\Style;
-use \ILIAS\Style\Content\Access;
+use ILIAS\Style;
+use ILIAS\Style\Content\Access;
 
 /**
  * TableGUI class for characteristics
@@ -14,63 +25,18 @@ use \ILIAS\Style\Content\Access;
  */
 class CharacteristicTableGUI extends \ilTable2GUI
 {
-    /**
-     * @var Style\Content\CharacteristicManager
-     */
-    protected $manager;
+    protected Style\Content\CharacteristicManager $manager;
+    protected Access\StyleAccessManager $access_manager;
+    protected \ilObjStyleSheet $style;
+    protected string $super_type;
+    protected bool $hideable;
+    protected int $order_cnt = 0;
+    protected bool $expandable = false;
+    protected InternalGUIService $gui_service;
+    protected array $core_styles = [];
 
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var \ilObjStyleSheet
-     */
-    protected $style;
-
-    /**
-     * @var string
-     */
-    protected $super_type;
-
-    /**
-     * @var bool
-     */
-    protected $hideable;
-
-    /**
-     * @var int
-     */
-    protected $order_cnt = 0;
-
-    /**
-     * @var bool
-     */
-    protected $expandable = false;
-
-    /**
-     * @var UIFactory
-     */
-    protected $service_ui;
-
-    /**
-     * @var array
-     */
-    protected $core_styles = [];
-
-    /**
-     * CharacteristicTableGUI constructor.
-     * @param UIFactory                 $service_ui
-     * @param object                    $a_parent_obj
-     * @param string                    $a_parent_cmd
-     * @param string                    $a_super_type
-     * @param \ilObjStyleSheet          $a_style
-     * @param CharacteristicManager     $manager
-     * @param Access\StyleAccessManager $access_manager
-     */
     public function __construct(
-        UIFactory $service_ui,
+        InternalGUIService $gui_service,
         object $a_parent_obj,
         string $a_parent_cmd,
         string $a_super_type,
@@ -78,13 +44,13 @@ class CharacteristicTableGUI extends \ilTable2GUI
         Style\Content\CharacteristicManager $manager,
         Access\StyleAccessManager $access_manager
     ) {
-        $this->service_ui = $service_ui;
+        $this->gui_service = $gui_service;
         $this->manager = $manager;
         $this->access_manager = $access_manager;
         $this->super_type = $a_super_type;
         $this->style = $a_style;
 
-        $ctrl = $this->service_ui->ctrl();
+        $ctrl = $this->gui_service->ctrl();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setExternalSorting(true);
@@ -151,9 +117,6 @@ class CharacteristicTableGUI extends \ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    /**
-     * Get items
-     */
     protected function getItems() : void
     {
         $data = [];
@@ -165,14 +128,11 @@ class CharacteristicTableGUI extends \ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
-        $ilCtrl = $this->service_ui->ctrl();
-        $ui = $this->service_ui->ui();
+        $ilCtrl = $this->gui_service->ctrl();
+        $ui = $this->gui_service->ui();
 
         $char = $a_set["obj"];
 

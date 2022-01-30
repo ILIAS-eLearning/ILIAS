@@ -1,56 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
-use \ILIAS\Filesystem;
-use \ILIAS\FileUpload\FileUpload;
+use ILIAS\Filesystem;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Content style internal repo service
  * @author Alexander Killing <killing@leifos.de>
  */
-class RepoFactory
+class InternalRepoService
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var DataFactory
-     */
-    protected $data_factory;
-
-    /**
-     * @var ColorDBRepo
-     */
-    protected $color_repo;
-
-    /**
-     * @var CharacteristicDBRepo
-     */
-    protected $characteristic_repo;
-
-    /**
-     * @var CharacteristicCopyPasteSessionRepo
-     */
-    protected $characteristic_copy_paste_repo;
-
-    /**
-     * @var ImageFileRepo
-     */
-    protected $image_repo;
-
-    /**
-     * @var FileUpload
-     */
-    protected $upload;
+    protected \ilDBInterface $db;
+    protected InternalDataService $data_factory;
+    protected ColorDBRepo $color_repo;
+    protected CharacteristicDBRepo $characteristic_repo;
+    protected CharacteristicCopyPasteSessionRepo $characteristic_copy_paste_repo;
+    protected ImageFileRepo $image_repo;
+    protected FileUpload $upload;
 
     public function __construct(
+        InternalDataService $data_factory,
         \ilDBInterface $db,
-        DataFactory $data_factory,
         Filesystem\Filesystem $web_files,
         FileUpload $upload
     ) {
@@ -75,33 +59,21 @@ class RepoFactory
             new CharacteristicCopyPasteSessionRepo();
     }
 
-    /**
-     * @return CharacteristicDBRepo
-     */
     public function characteristic(
     ) : CharacteristicDBRepo {
         return $this->characteristic_repo;
     }
 
-    /**
-     * @return CharacteristicCopyPasteSessionRepo
-     */
     public function characteristicCopyPaste(
     ) : CharacteristicCopyPasteSessionRepo {
         return $this->characteristic_copy_paste_repo;
     }
 
-    /**
-     * @return ColorDBRepo
-     */
     public function color() : ColorDBRepo
     {
         return $this->color_repo;
     }
 
-    /**
-     * @return ImageFileRepo
-     */
     public function image() : ImageFileRepo
     {
         return $this->image_repo;
