@@ -127,10 +127,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
         $this->form->addItem($ti);
 
-        $se = new ilFormSectionHeaderGUI();
-        $se ->setTitle($this->lng->txt('obj_accs_captcha'));
-        $this->form->addItem($se);
-
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
             $this->form,

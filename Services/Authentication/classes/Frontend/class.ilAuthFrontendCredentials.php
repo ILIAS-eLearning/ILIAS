@@ -16,7 +16,6 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     
     private $username = '';
     private $password = '';
-    private $captcha = '';
     private $auth_mode = '';
     
     public function __construct()
@@ -76,25 +75,6 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     {
         return $this->password;
     }
-
-    
-    /**
-     * Set captcha code
-     * @param string
-     */
-    public function setCaptchaCode($a_code)
-    {
-        $this->captcha = $a_code;
-    }
-    
-    /**
-     * Get captcha code
-     */
-    public function getCaptchaCode()
-    {
-        return $this->captcha;
-    }
-    
 
     /**
      * Set auth mode

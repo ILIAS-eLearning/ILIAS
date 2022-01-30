@@ -29,18 +29,7 @@ interface ilAuthCredentials
      * Get password
      */
     public function getPassword();
-    
-    /**
-     * Set captcha code
-     * @param type $a_code
-     */
-    public function setCaptchaCode($a_code);
-    
-    /**
-     * Get captcha code
-     */
-    public function getCaptchaCode();
-    
+
     /**
      * Set auth mode.
      * Used - for instance - for manual selection on login screen.
