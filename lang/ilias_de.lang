@@ -16631,3 +16631,4 @@ common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Si
 common#:#actions_for#:#Aktionen für %s
 common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
+exc#:#exc_fullscreen#:#Vollbild
