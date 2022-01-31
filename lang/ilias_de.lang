@@ -10717,8 +10717,8 @@ trac#:#trac_mode_plugin#:#Plugin
 common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts
 mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
-mathjax#:#mathjax_polyfill_url_desc_line1: Für MathJax 2 nicht benötigt
-mathjax#:#mathjax_polyfill_url_desc_line2: Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
 mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
 mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
@@ -13542,7 +13542,7 @@ awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige au
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
 common#:#report_accessibility_issue#:#Barriere melden
-common#:#report_accessibility_link#:#Gemeldeter Link:
+common#:#report_accessibility_link#:#Gemeldeter%20Link:
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
 common#:#mainbar_aria_label#:#Hauptleiste
