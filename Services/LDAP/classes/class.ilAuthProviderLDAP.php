@@ -42,11 +42,10 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
      * Do authentication
      * @param \ilAuthStatus $status
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         try {
             // bind
-            include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
             $query = new ilLDAPQuery($this->getServer());
             $query->bind(IL_LDAP_BIND_DEFAULT);
         } catch (ilLDAPQueryException $e) {
@@ -109,7 +108,6 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
         $user = array_change_key_case($user, CASE_LOWER);
         $this->getLogger()->dump($user, ilLogLevel::DEBUG);
         
-        include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
         $sync = new ilLDAPUserSynchronisation('ldap_' . $this->getServer()->getServerId(), $this->getServer()->getServerId());
         $sync->setExternalAccount($this->getCredentials()->getUsername());
         $sync->setUserData($user);

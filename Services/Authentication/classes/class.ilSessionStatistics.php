@@ -1,6 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -23,7 +35,7 @@ class ilSessionStatistics
 
         $ilSetting = $DIC['ilSetting'];
         
-        return (bool) $ilSetting->get('session_statistics', 1);
+        return (bool) $ilSetting->get('session_statistics', (string) 1);
         
         /* #13566 - includes somehow won't work this late in the request - doing it directly
         include_once "Services/Tracking/classes/class.ilObjUserTracking.php";

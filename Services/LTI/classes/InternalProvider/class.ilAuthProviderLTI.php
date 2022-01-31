@@ -26,7 +26,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * Do authentication
      * @param \ilAuthStatus $status
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         //fix for Ilias Consumer
         if (isset($_POST['launch_presentation_document_target']) && $_POST['launch_presentation_document_target'] == 'blank') {

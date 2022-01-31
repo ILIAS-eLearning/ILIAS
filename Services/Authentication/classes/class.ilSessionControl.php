@@ -1,6 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * @author Bjoern Heyser <bheyser@databay.de>
@@ -198,7 +210,7 @@ class ilSessionControl
         self::debug(__METHOD__ . " --> update sessions type to (" . $type . ")");
                 
         // do not handle login event in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', (string) 0) != 1) {
             return true;
         }
                 

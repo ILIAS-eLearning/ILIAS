@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Login page editor settings GUI
@@ -14,14 +25,18 @@ include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSetti
  */
 class ilAuthLoginPageEditorGUI
 {
-    /**
-     * @var $ctrl ilCtrl
-     */
-    protected $ctrl = null;
-    protected $lng = null;
-
-    private $ref_id = 0;
-    private $settings = null;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $tpl;
+    private ilTabsGUI $tabs;
+    private ilToolbarGUI $toolbar;
+    private ilRbacSystem $rbacsystem;
+    private ilSetting $setting;
+    private ilErrorHandling $ilErr;
+   
+    private int $ref_id = 0;
+    private ilAuthLoginPageEditorSettings $settings;
+    private ?ilSetting $loginSettings = null;
 
 
 
@@ -30,15 +45,20 @@ class ilAuthLoginPageEditorGUI
      * @param int $a_ref_id
      * @global ilCtrl ilCtrl
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
         
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->setting = $DIC->settings();
+        $this->ilErr = $DIC['ilErr'];
+        
+        $this->lng = $DIC['lng'];
+        
         $this->lng->loadLanguageModule('auth');
         $this->ref_id = $a_ref_id;
 
@@ -47,9 +67,8 @@ class ilAuthLoginPageEditorGUI
 
     /**
      * Get Settings
-     * @return ilAuthLoginPageEditorSettings
      */
-    public function getSettings()
+    public function getSettings() : ilAuthLoginPageEditorSettings
     {
         return $this->settings;
     }
@@ -57,7 +76,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * @return int ref_id
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
@@ -65,12 +84,12 @@ class ilAuthLoginPageEditorGUI
     /**
      * ilCtrl execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         switch ($this->ctrl->getNextClass($this)) {
             case 'illoginpagegui':
-                $GLOBALS['DIC']['ilTabs']->clearTargets();
-                $GLOBALS['DIC']['ilTabs']->setBackTarget(
+                $this->tabs->clearTargets();
+                $this->tabs->setBackTarget(
                     $this->lng->txt('back'),
                     $this->ctrl->getLinkTarget($this, 'show'),
                     '_top'
@@ -78,8 +97,6 @@ class ilAuthLoginPageEditorGUI
 
                 if ($_GET["redirectSource"] != "ilinternallinkgui") {
                     $this->forwardToPageObject();
-                } else {
-                    return '';
                 }
                 break;
 
@@ -96,21 +113,12 @@ class ilAuthLoginPageEditorGUI
     /**
      * Forward to page editor
      */
-    protected function forwardToPageObject()
+    protected function forwardToPageObject() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-
         $key = (int) $_REQUEST['key'];
         $this->ctrl->saveParameter($this, 'key', $key);
 
-        include_once("./Services/Authentication/classes/class.ilLoginPage.php");
-        include_once("./Services/Authentication/classes/class.ilLoginPageGUI.php");
-        include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
-
-        $lng->loadLanguageModule("content");
+        $this->lng->loadLanguageModule("content");
 
         if (!ilLoginPage::_exists('auth', $key)) {
             // doesn't exist -> create new one
@@ -120,15 +128,16 @@ class ilAuthLoginPageEditorGUI
             $new_page_object->createFromXML();
         }
 
-        $tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
-        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
 
         $this->ctrl->setReturnByClass('illoginpagegui', "edit");
         $page_gui = new ilLoginPageGUI($key);
 
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
-        $page_gui->setLinkXML($link_xml);
+        //TODO check what should go here $link_xml is undefined
+        //$page_gui->setLinkXML($link_xml);
         //$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
         //$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
         //$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
@@ -149,7 +158,7 @@ class ilAuthLoginPageEditorGUI
         $html = $this->ctrl->forwardCommand($page_gui);
 
         if ($html != "") {
-            $tpl->setContent($html);
+            $this->tpl->setContent($html);
         }
     }
 
@@ -157,34 +166,30 @@ class ilAuthLoginPageEditorGUI
      * Show current activated editor
      * @return void
      */
-    protected function show()
+    protected function show() : void
     {
         $this->addEditorSwitch();
 
         switch ($this->getSettings()->getMode()) {
             case ilAuthLoginPageEditorSettings::MODE_RTE:
-                return $this->showRichtextEditor();
-
+                $this->showRichtextEditor();
+                break;
             case ilAuthLoginPageEditorSettings::MODE_IPE:
-                return $this->showIliasEditor();
+                $this->showIliasEditor();
+                break;
         }
     }
 
     /**
-     * Show editore switch
-     * @global ilToolbarGUI $ilToolbar
+     * Show editor switch
      */
-    protected function addEditorSwitch()
+    protected function addEditorSwitch() : void
     {
-        global $DIC;
-
-        $ilToolbar = $DIC['ilToolbar'];
-
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
         switch ($this->getSettings()->getMode()) {
             case ilAuthLoginPageEditorSettings::MODE_RTE:
 
-                $ilToolbar->addButton(
+                $this->toolbar->addButton(
                     $this->lng->txt('login_page_switch_ipe'),
                     $this->ctrl->getLinkTarget($this, 'switchIPE')
                 );
@@ -192,19 +197,18 @@ class ilAuthLoginPageEditorGUI
 
             case ilAuthLoginPageEditorSettings::MODE_IPE:
 
-                $ilToolbar->addButton(
+                $this->toolbar->addButton(
                     $this->lng->txt('login_page_switch_rte'),
                     $this->ctrl->getLinkTarget($this, 'switchRTE')
                 );
                 break;
         }
-        return;
     }
 
     /**
-     * Switch editor mode
+     * Switch editor mode to ILIAS Page editor
      */
-    protected function switchIPE()
+    protected function switchIPE() : void
     {
         $this->getSettings()->setMode(ilAuthLoginPageEditorSettings::MODE_IPE);
         $this->getSettings()->update();
@@ -214,9 +218,9 @@ class ilAuthLoginPageEditorGUI
     }
 
     /**
-     * Switch editor mode
+     * Switch editor mode to richtext editor
      */
-    protected function switchRTE()
+    protected function switchRTE() : void
     {
         $this->getSettings()->setMode(ilAuthLoginPageEditorSettings::MODE_RTE);
         $this->getSettings()->update();
@@ -228,7 +232,7 @@ class ilAuthLoginPageEditorGUI
     /**
      * Activate languages
      */
-    protected function activate()
+    protected function activate() : void
     {
         $settings = ilAuthLoginPageEditorSettings::getInstance();
         foreach ((array) $_POST['visible_languages'] as $lang_key) {
@@ -243,17 +247,12 @@ class ilAuthLoginPageEditorGUI
     /**
      * Show ILIAS page editor summary.
      */
-    protected function showIliasEditor()
+    protected function showIliasEditor() : void
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
-        include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorTableGUI.php';
         $tbl = new ilAuthLoginPageEditorTableGUI($this, 'show');
         $tbl->parse();
 
-        $tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($tbl->getHTML());
     }
 
     /**
@@ -265,30 +264,23 @@ class ilAuthLoginPageEditorGUI
      */
     protected function showRichtextEditor()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
-        $tpl = $DIC['tpl'];
-
-        if (!$rbacsystem->checkAccess("visible,read", $this->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
         }
-        $lng->loadLanguageModule("meta");
+        $this->lng->loadLanguageModule("meta");
 
-        $tpl->addBlockFile(
+        $this->tpl->addBlockFile(
             "ADM_CONTENT",
             "adm_content",
             "tpl.auth_login_messages.html",
             "Services/Authentication"
         );
-        $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
-        $tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
-        $tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+        $this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
+        $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
+        $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
         $this->initLoginForm();
-        $tpl->setVariable('LOGIN_INFO', $this->form->getHTML());
+        $this->tpl->setVariable('LOGIN_INFO', $this->form->getHTML());
     }
 
     /**
@@ -297,16 +289,10 @@ class ilAuthLoginPageEditorGUI
      * @access protected
      * @author Michael Jansen
      */
-    protected function saveLoginInfo()
+    protected function saveLoginInfo() : void
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
-
-        if (!$rbacsystem->checkAccess("write", $this->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+        if (!$this->rbacsystem->checkAccess("write", $this->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
         }
 
         $this->initLoginForm();
@@ -323,7 +309,7 @@ class ilAuthLoginPageEditorGUI
             }
 
             if ($_POST['default_auth_mode']) {
-                $ilSetting->set('default_auth_mode', (int) $_POST['default_auth_mode']);
+                $this->setting->set('default_auth_mode', (int) $_POST['default_auth_mode']);
             }
 
             ilUtil::sendSuccess($this->lng->txt("login_information_settings_saved"), true);
@@ -335,15 +321,8 @@ class ilAuthLoginPageEditorGUI
     /**
      * Init login form
      */
-    protected function initLoginForm()
+    protected function initLoginForm() : void
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
-
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveLoginInfo'));
         $this->form->setTableWidth('80%');
@@ -351,19 +330,17 @@ class ilAuthLoginPageEditorGUI
 
         $this->form->addCommandButton('saveLoginInfo', $this->lng->txt('save'));
 
-        include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-        include_once('Services/Radius/classes/class.ilRadiusSettings.php');
         $rad_settings = ilRadiusSettings::_getInstance();
         if ($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive()) {
             $select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'), 'default_auth_mode');
-            $select->setValue($ilSetting->get('default_auth_mode', AUTH_LOCAL));
+            $select->setValue($this->setting->get('default_auth_mode', AUTH_LOCAL));
             $select->setInfo($this->lng->txt('default_auth_mode_info'));
             $options[AUTH_LOCAL] = $this->lng->txt('auth_local');
             if ($ldap_id) {
                 $options[AUTH_LDAP] = $this->lng->txt('auth_ldap');
             }
             if ($rad_settings->isActive()) {
-                $options [AUTH_RADIUS] = $this->lng->txt('auth_radius');
+                $options [ilAuthUtils::AUTH_RADIUS] = $this->lng->txt('auth_radius');
             }
             $select->setOptions($options);
             $this->form->addItem($select);
@@ -374,21 +351,23 @@ class ilAuthLoginPageEditorGUI
         }
 
         $login_settings = $this->loginSettings->getAll();
-        $languages = $lng->getInstalledLanguages();
-        $def_language = $lng->getDefaultLanguage();
+        $languages = $this->lng->getInstalledLanguages();
+        $def_language = $this->lng->getDefaultLanguage();
 
         foreach ($this->setDefLangFirst($def_language, $languages) as $lang_key) {
             $add = "";
             if ($lang_key == $def_language) {
-                $add = " (" . $lng->txt("default") . ")";
+                $add = " (" . $this->lng->txt("default") . ")";
             }
 
             $textarea = new ilTextAreaInputGUI(
-                $lng->txt("meta_l_" . $lang_key) . $add,
+                $this->lng->txt("meta_l_" . $lang_key) . $add,
                 'login_message_' . $lang_key
             );
             $textarea->setRows(10);
-            $textarea->setValue($login_settings["login_message_" . $lang_key]);
+            if (isset($login_settings["login_message_" . $lang_key])) {
+                $textarea->setValue($login_settings["login_message_" . $lang_key]);
+            }
             $textarea->setUseRte(true);
             $textarea->setRteTagSet("extended");
             $this->form->addItem($textarea);
@@ -400,7 +379,7 @@ class ilAuthLoginPageEditorGUI
             $lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
 
             $textarea = new ilTextAreaInputGUI(
-                $lng->txt("meta_l_" . $lang_key) . $add,
+                $this->lng->txt("meta_l_" . $lang_key) . $add,
                 'login_message_' . $lang_key
             );
             $textarea->setRows(10);
@@ -408,7 +387,7 @@ class ilAuthLoginPageEditorGUI
             $textarea->setUseRte(true);
             $textarea->setRteTagSet("extended");
             if (!in_array($lang_key, $languages)) {
-                $textarea->setAlert($lng->txt("not_installed"));
+                $textarea->setAlert($this->lng->txt("not_installed"));
             }
             $this->form->addItem($textarea);
         }

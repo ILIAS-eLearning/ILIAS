@@ -1,6 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Session based immediate storage.
@@ -75,7 +87,7 @@ class ilSessionIStorage
                 "vkey" => array("text", $a_key)
                 ),
             array("value" => array("text", $a_val))
-            );
+        );
     }
 
     /**
@@ -100,7 +112,7 @@ class ilSessionIStorage
             " WHERE session_id = " . $ilDB->quote($this->session_id, "text") .
             " AND component_id = " . $ilDB->quote($this->component_id, "text") .
             " AND vkey = " . $ilDB->quote($a_key, "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $value = (string) ($rec['value'] ?? '');
 

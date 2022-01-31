@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Storage of editor settings
@@ -24,7 +37,6 @@ class ilAuthLoginPageEditorSettings
 
     public function __construct()
     {
-        include_once './Services/Administration/classes/class.ilSetting.php';
         $this->storage = new ilSetting('login_editor');
         $this->read();
     }
@@ -108,10 +120,10 @@ class ilAuthLoginPageEditorSettings
      */
     public function update()
     {
-        $this->getStorage()->set('mode', $this->getMode());
+        $this->getStorage()->set('mode', (string) $this->getMode());
 
         foreach ((array) $this->languages as $lngkey => $stat) {
-            $this->storage->set($lngkey, (int) $stat);
+            $this->storage->set($lngkey, (string) $stat);
         }
     }
 
@@ -124,12 +136,12 @@ class ilAuthLoginPageEditorSettings
 
         $lng = $DIC['lng'];
         
-        $this->setMode($this->getStorage()->get('mode', self::MODE_RTE));
+        $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_RTE));
 
         // Language settings
         $this->languages = array();
         foreach ($lng->getInstalledLanguages() as $num => $lngkey) {
-            $this->enableIliasEditor($lngkey, $this->getStorage()->get($lngkey, 0));
+            $this->enableIliasEditor($lngkey, (int) $this->getStorage()->get($lngkey, (string) 0));
         }
     }
 }

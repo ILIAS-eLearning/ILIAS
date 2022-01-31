@@ -1,30 +1,22 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesRadius
@@ -39,14 +31,20 @@ class ilRadiusSettings
     const SYNC_LDAP = 2;
     
     
-    private $settings;
-    private $db;
-    private static $instance = null;
+    private ilSetting $settings;
+    private ilDBInterface $db;
+    private static ?ilRadiusSettings $instance = null;
     
-    private $account_migration = false;
+    private bool $account_migration = false;
+    private bool $creation = false;
     
-    private $servers = array();
-    public $active = false;
+    private array $servers = array();
+    private bool $active = false;
+    
+    private string $name = "";
+    private int $port = 0;
+    private string $secret = "";
+    private int $charset = 0;
     
     /**
      * singleton constructor
@@ -56,10 +54,10 @@ class ilRadiusSettings
      */
     private function __construct()
     {
-        global $ilSetting,$ilDB;
+        global $DIC;
         
-        $this->settings = $ilSetting;
-        $this->db = $ilDB;
+        $this->settings = $DIC->settings();
+        $this->db = $DIC->database();
         
         $this->read();
     }
@@ -71,7 +69,7 @@ class ilRadiusSettings
      * @static
      *
      */
-    public static function _getInstance()
+    public static function _getInstance() : ilRadiusSettings
     {
         if (isset(self::$instance) and self::$instance) {
             return self::$instance;
@@ -79,114 +77,88 @@ class ilRadiusSettings
         return self::$instance = new ilRadiusSettings();
     }
     
-    public function isActive()
+    public function isActive() : bool
     {
-        return $this->active ? true : false;
+        return $this->active;
     }
-    public function setActive($a_status)
+    public function setActive(bool $a_status) : void
     {
         $this->active = $a_status;
     }
-    public function setPort($a_port)
+    public function setPort(int $a_port) : void
     {
         $this->port = $a_port;
     }
-    public function getPort()
+    public function getPort() : int
     {
         return $this->port;
     }
-    public function setSecret($a_secret)
+    public function setSecret(string $a_secret) : void
     {
         $this->secret = $a_secret;
     }
-    public function getSecret()
+    public function getSecret() : string
     {
         return $this->secret;
     }
-    public function setServerString($a_server_string)
+    public function setServerString(string $a_server_string) : void
     {
         $this->server_string = $a_server_string;
         $this->servers = explode(',', $this->server_string);
     }
-    public function getServersAsString()
+    public function getServersAsString() : string
     {
         return implode(',', $this->servers);
     }
-    public function getServers()
+    public function getServers() : array
     {
         return $this->servers ? $this->servers : array();
     }
-    public function setName($a_name)
+    public function setName(string $a_name) : void
     {
         $this->name = $a_name;
     }
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
     
     /**
-     * Create options array for PEAR Auth constructor
-     *
-     * @access public
-     *
-     */
-    public function toPearAuthArray()
-    {
-        foreach ($this->getServers() as $server) {
-            $auth_params['servers'][] = array($server,$this->getPort(),$this->getSecret());
-        }
-        return $auth_params ? $auth_params : array();
-    }
-    
-    /**
      * Get default role for new radius users
      *
-     * @access public
      * @return int role_id
      *
      */
-    public function getDefaultRole()
+    public function getDefaultRole() : int
     {
         return $this->default_role;
     }
     
-    public function setDefaultRole($a_role)
+    public function setDefaultRole(int $a_role)
     {
         $this->default_role = $a_role;
     }
     
     /**
      * Enable creation of users
-     *
-     * @access public
-     *
      */
-    public function enabledCreation()
+    public function enabledCreation() : bool
     {
         return $this->creation;
     }
     
     /**
      * Enable creation
-     *
-     * @access public
-     * @param
-     *
      */
-    public function enableCreation($a_status)
+    public function enableCreation(bool $a_status) : void
     {
         $this->creation = $a_status;
     }
     
     /**
      * Enable account migration
-     *
-     * @access public
-     * @param bool status
-     *
      */
-    public function enableAccountMigration($a_status)
+    public function enableAccountMigration(bool $a_status) : void
     {
         $this->account_migration = $a_status;
     }
@@ -197,52 +169,43 @@ class ilRadiusSettings
      * @access public
      *
      */
-    public function isAccountMigrationEnabled()
+    public function isAccountMigrationEnabled() : bool
     {
         return $this->account_migration ? true : false;
     }
     
     /**
      * get charset
-     *
-     * @access public
-     *
      */
-    public function getCharset()
+    public function getCharset() : int
     {
-        return $this->charset ? 1 : 0;
+        return $this->charset;
     }
     
     /**
      * set charset
-     *
-     * @access public
-     * @param int charset
-     *
      */
-    public function setCharset($a_charset)
+    public function setCharset(int $a_charset) : void
     {
+        // TODO add check for valid input (may be 0 or 1 according to constants
         $this->charset = $a_charset;
     }
     
     /**
      * Save settings
-     *
-     * @access public
-     *
      */
-    public function save()
+    public function save() : bool
     {
         // first delete old servers
         $this->settings->deleteLike('radius_server%');
         
-        $this->settings->set('radius_active', $this->isActive() ? 1 : 0);
-        $this->settings->set('radius_port', $this->getPort());
+        $this->settings->set('radius_active', (string) $this->isActive());
+        $this->settings->set('radius_port', (string) $this->getPort());
         $this->settings->set('radius_shared_secret', $this->getSecret());
         $this->settings->set('radius_name', $this->getName());
-        $this->settings->set('radius_creation', $this->enabledCreation() ? 1 : 0);
-        $this->settings->set('radius_migration', $this->isAccountMigrationEnabled() ? 1 : 0);
-        $this->settings->set('radius_charset', $this->getCharset() ? 1 : 0);
+        $this->settings->set('radius_creation', (string) $this->enabledCreation());
+        $this->settings->set('radius_migration', (string) $this->isAccountMigrationEnabled());
+        $this->settings->set('radius_charset', (string) $this->getCharset());
         
         $counter = 0;
         foreach ($this->getServers() as $server) {
@@ -253,7 +216,6 @@ class ilRadiusSettings
             }
         }
         
-        include_once('./Services/AccessControl/classes/class.ilObjRole.php');
         ilObjRole::_resetAuthMode('radius');
         
         if ($this->getDefaultRole()) {
@@ -264,13 +226,10 @@ class ilRadiusSettings
     
     /**
      * Validate required
-     *
-     * @access public
-     *
      */
     public function validateRequired()
     {
-        $ok = strlen($this->getServersAsString()) and strlen($this->getPort()) and strlen($this->getSecret()) and strlen($this->getName());
+        $ok = strlen($this->getServersAsString()) and strlen($this->getSecret()) and strlen($this->getName());
         
         $role_ok = true;
         if ($this->enabledCreation() and !$this->getDefaultRole()) {
@@ -281,20 +240,14 @@ class ilRadiusSettings
     
     /**
      * Validate port
-     *
-     * @access public
-     *
      */
     public function validatePort()
     {
-        return preg_match("/^[0-9]{0,5}$/", $this->getPort()) == 1;
+        return 0 < $this->getPort() && $this->getPort() < 65535;
     }
     
     /**
      * Validate servers
-     *
-     * @access public
-     *
      */
     public function validateServers()
     {
@@ -313,36 +266,25 @@ class ilRadiusSettings
     
     /**
      * Read settings
-     *
-     * @access private
-     *
      */
     private function read()
     {
-        $all_settings = $this->settings->getAll();
-
-        $sets = array("radius_active" => "setActive",
-            "radius_port" => "setPort",
-            "radius_shared_secret" => "setSecret",
-            "radius_name" => "setName",
-            "radius_creation" => "enableCreation",
-            "radius_migration" => "enableAccountMigration",
-            "radius_charset" => "setCharset"
-            );
-        foreach ($sets as $s => $m) {
-            if (isset($all_settings[$s])) {
-                $this->$m($all_settings[$s]);
-            }
-        }
+        $this->setActive((bool) $this->settings->get("radius_active"));
+        $this->setPort((int) $this->settings->get("radius_port"));
+        $this->setSecret($this->settings->get("radius_shared_secret", ""));
+        $this->setName($this->settings->get("radius_name", ""));
+        $this->enableCreation((bool) $this->settings->get("radius_creation"));
+        $this->enableAccountMigration((bool) $this->settings->get("radius_migration"));
+        $this->setCharset((int) $this->settings->get("radius_charset"));
         
-        reset($all_settings);
+        $all_settings = $this->settings->getAll();
+        
         foreach ($all_settings as $k => $v) {
             if (substr($k, 0, 13) == "radius_server") {
                 $this->servers[] = $v;
             }
         }
         
-        include_once('./Services/AccessControl/classes/class.ilObjRole.php');
         $roles = ilObjRole::_getRolesByAuthMode('radius');
         $this->default_role = 0;
         if (isset($roles[0]) && $roles[0]) {

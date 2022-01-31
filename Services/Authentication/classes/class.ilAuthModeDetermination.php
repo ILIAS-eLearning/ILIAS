@@ -1,25 +1,19 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -28,8 +22,6 @@
 *
 * @ingroup ServicesAuthentication
 */
-
-include_once('Services/Authentication/classes/class.ilAuthUtils.php');
 
 class ilAuthModeDetermination
 {
@@ -210,17 +202,12 @@ class ilAuthModeDetermination
 
         $ilSetting = $DIC['ilSetting'];
         
-        $this->kind = $this->settings->get('kind', self::TYPE_MANUAL);
+        $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
         
-        // begin-patch ldap_multiple
-        include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-        // end-patch ldap_multiple
-
-        include_once('Services/Radius/classes/class.ilRadiusSettings.php');
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
-        $soap_active = $ilSetting->get('soap_auth_active', false);
+        $soap_active = (bool) $ilSetting->get('soap_auth_active', (string) false);
 
         // apache settings
         $apache_settings = new ilSetting('apache_auth');
@@ -250,7 +237,7 @@ class ilAuthModeDetermination
                         }
                         break;
                         
-                    case AUTH_RADIUS:
+                    case ilAuthUtils::AUTH_RADIUS:
                         if ($rad_active) {
                             $this->position[] = $auth_mode;
                         }
@@ -298,8 +285,8 @@ class ilAuthModeDetermination
         }
         // end-patch ldap_multiple
         if ($rad_active) {
-            if (!in_array(AUTH_RADIUS, $this->position)) {
-                $this->position[] = AUTH_RADIUS;
+            if (!in_array(ilAuthUtils::AUTH_RADIUS, $this->position)) {
+                $this->position[] = ilAuthUtils::AUTH_RADIUS;
             }
         }
         if ($soap_active) {

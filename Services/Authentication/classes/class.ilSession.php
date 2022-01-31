@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionControl.php');
 require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionStatistics.php');
@@ -352,9 +365,9 @@ class ilSession
         }
 
         $ilSetting = $DIC['ilSetting'];
-        if ($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED) {
+        if ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_FIXED) {
             return time() + self::getIdleValue($fixedMode);
-        } elseif ($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             return time() + (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
         }
@@ -377,10 +390,10 @@ class ilSession
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
         
-        if ($fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED) {
+        if ($fixedMode || $ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_FIXED) {
             // fixed session
             return $ilClientIniFile->readVariable('session', 'expire');
-        } elseif ($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
         }

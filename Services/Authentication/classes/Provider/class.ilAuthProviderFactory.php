@@ -1,6 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Auth provider factory
@@ -68,53 +80,42 @@ class ilAuthProviderFactory
             case AUTH_LDAP:
                 $ldap_info = explode('_', $a_authmode);
                 $this->getLogger()->debug('Using ldap authentication with credentials ');
-                include_once './Services/LDAP/classes/class.ilAuthProviderLDAP.php';
                 return new ilAuthProviderLDAP($credentials, $ldap_info[1]);
             
             case AUTH_LOCAL:
                 $this->getLogger()->debug('Using local database authentication');
-                include_once './Services/Authentication/classes/Provider/class.ilAuthProviderDatabase.php';
                 return new ilAuthProviderDatabase($credentials);
                 
             case AUTH_SOAP:
                 $this->getLogger()->debug('Using SOAP authentication.');
-                include_once './Services/SOAPAuth/classes/class.ilAuthProviderSoap.php';
                 return new ilAuthProviderSoap($credentials);
                 
             case AUTH_APACHE:
                 $this->getLogger()->debug('Using apache authentication.');
-                include_once './Services/AuthApache/classes/class.ilAuthProviderApache.php';
                 return new ilAuthProviderApache($credentials);
 
             case AUTH_CAS:
                 $this->getLogger()->debug('Using CAS authentication');
-                include_once './Services/CAS/classes/class.ilAuthProviderCAS.php';
                 return new ilAuthProviderCAS($credentials);
 
-            case AUTH_RADIUS:
+            case ilAuthUtils::AUTH_RADIUS:
                 $this->getLogger()->debug('Using radius authentication.');
-                include_once './Services/Radius/classes/class.ilAuthProviderRadius.php';
                 return new ilAuthProviderRadius($credentials);
                 
             case AUTH_SHIBBOLETH:
                 $this->getLogger()->debug('Using shibboleth authentication.');
-                include_once './Services/AuthShibboleth/classes/class.ilAuthProviderShibboleth.php';
                 return new ilAuthProviderShibboleth($credentials);
                 
             case AUTH_PROVIDER_LTI:
                 $this->getLogger()->debug('Using lti provider authentication.');
-                include_once './Services/LTI/classes/InternalProvider/class.ilAuthProviderLTI.php';
                 return new ilAuthProviderLTI($credentials);
 
             case AUTH_ECS:
                 $this->getLogger()->debug('Using ecs authentication.');
-                include_once './Services/WebServices/ECS/classes/class.ilAuthProviderECS.php';
                 return new ilAuthProviderECS($credentials);
 
             case AUTH_SAML:
                 $this->getLogger()->debug('Using apache authentication.');
-                require_once 'Services/Saml/classes/class.ilAuthProviderSaml.php';
-                require_once 'Services/Saml/classes/class.ilSamlIdp.php';
                 return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($a_authmode));
 
             case AUTH_OPENID_CONNECT:
