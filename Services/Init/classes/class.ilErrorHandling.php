@@ -6,18 +6,17 @@
 require_once 'Services/Environment/classes/class.ilRuntime.php';
 
 /**
-* Error Handling & global info handling
-* uses PEAR error class
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-* @author	Sascha Hofmann <shofmann@databay.de>
-* @author	Richard Klees <richard.klees@concepts-and-training.de>
-* @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
-* @version	$Id$
-* @extends PEAR
-* @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
-* @todo		This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
-*/
+ * Error Handling & global info handling
+ * uses PEAR error class
+ * @author      Stefan Meyer <meyer@leifos.com>
+ * @author      Sascha Hofmann <shofmann@databay.de>
+ * @author      Richard Klees <richard.klees@concepts-and-training.de>
+ * @author      Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ * @version     $Id$
+ * @extends     PEAR
+ * @todo        when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
+ * @todo        This class is a candidate for a singleton. initHandlers could only be called once per process anyways, as it checks for static $handlers_registered.
+ */
 
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
 require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
@@ -38,19 +37,19 @@ class ilErrorHandling extends PEAR
     protected bool $DEBUG_ENV;
 
     /**
-    * Error level 1: exit application immedietly
-    */
+     * Error level 1: exit application immedietly
+     */
     public int $FATAL = 1;
 
     /**
-    * Error level 2: show warning page
-    */
+     * Error level 2: show warning page
+     */
     public int $WARNING = 2;
 
     /**
-    * Error level 3: show message in recent page
-    */
-    public int $MESSAGE  = 3;
+     * Error level 3: show message in recent page
+     */
+    public int $MESSAGE = 3;
 
     /**
      * Are the whoops error handlers already registered?
@@ -64,9 +63,9 @@ class ilErrorHandling extends PEAR
     protected $error_obj = null;
 
     /**
-    * Constructor
-    * @access	public
-    */
+     * Constructor
+     * @access    public
+     */
     public function __construct()
     {
         parent::__construct();
@@ -80,18 +79,16 @@ class ilErrorHandling extends PEAR
         $this->error_obj = false;
 
         $this->initWhoopsHandlers();
-        
+
         // somehow we need to get rid of the whoops error handler
         restore_error_handler();
         set_error_handler(array($this, "handlePreWhoops"));
     }
-    
+
     /**
      * Initialize Error and Exception Handlers.
-     *
      * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
      * of an appropriate error handler.
-     *
      * @return void
      */
     protected function initWhoopsHandlers()
@@ -128,16 +125,15 @@ class ilErrorHandling extends PEAR
         return $this->defaultHandler();
     }
 
-
     public function getLastError()
     {
-       return $this->error_obj;
+        return $this->error_obj;
     }
 
     /**
-    * defines what has to happen in case of error
-    * @param object	Error
-    */
+     * defines what has to happen in case of error
+     * @param object    Error
+     */
     public function errorHandler($a_error_obj)
     {
         global $log;
@@ -231,7 +227,7 @@ class ilErrorHandling extends PEAR
                 if ($subdir) {
                     $num_subdirs = substr_count($subdir, "/");
 
-                    for ($i = 1;$i <= $num_subdirs;$i++) {
+                    for ($i = 1; $i <= $num_subdirs; $i++) {
                         $updir .= "../";
                     }
                 }
@@ -241,15 +237,16 @@ class ilErrorHandling extends PEAR
         }
     }
 
-
     public function getMessage() : string
     {
         return $this->message;
     }
+
     public function setMessage(string $a_message) : void
     {
         $this->message = $a_message;
     }
+
     public function appendMessage(string $a_message) : void
     {
         if ($this->getMessage()) {
@@ -265,7 +262,7 @@ class ilErrorHandling extends PEAR
     {
         return ilRuntime::getInstance();
     }
-    
+
     /**
      * Get an instance of Whoops/Run.
      */
@@ -273,7 +270,7 @@ class ilErrorHandling extends PEAR
     {
         return new Run();
     }
-    
+
     /**
      * Is the DEVMODE switched on?
      */
@@ -312,7 +309,8 @@ class ilErrorHandling extends PEAR
                 $message = sprintf($lng->txt("log_error_message"), $file_name);
 
                 if ($logger->mail()) {
-                    $message .= " " . sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name, $logger->mail());
+                    $message .= " " . sprintf($lng->txt("log_error_message_send_mail"), $logger->mail(), $file_name,
+                            $logger->mail());
                 }
             } else {
                 $message = 'Sorry, an error occured. A logfile has been created which can be identified via the code "' . $file_name . '"';
@@ -333,7 +331,7 @@ class ilErrorHandling extends PEAR
     protected function devmodeHandler() : HandlerInterface
     {
         global $ilLog;
-        
+
         switch (ERROR_HANDLER) {
             case "TESTING":
                 return new ilTestingHandler();
@@ -384,7 +382,7 @@ class ilErrorHandling extends PEAR
 
     /**
      * @param string $file
-     * @param array $pathTranslations
+     * @param array  $pathTranslations
      */
     protected function applyEditorPathTranslations(string &$file, array $pathTranslations) : void
     {
@@ -392,7 +390,6 @@ class ilErrorHandling extends PEAR
             $file = preg_replace('@' . $from . '@', $to, $file);
         }
     }
-
 
     /**
      * @param string $pathTranslationConfig
@@ -410,33 +407,33 @@ class ilErrorHandling extends PEAR
 
         return $pathTranslations;
     }
-    
+
     protected function loggingHandler() : HandlerInterface
     {
         // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             /**
              * Don't move this out of this callable
-             * @var ilLog $ilLog;
+             * @var ilLog $ilLog ;
              */
             global $ilLog;
 
             if (is_object($ilLog)) {
-                $message = $exception->getMessage() . ' in ' . $exception->getFile() . ":" . $exception->getLine() ;
+                $message = $exception->getMessage() . ' in ' . $exception->getFile() . ":" . $exception->getLine();
                 $message .= $exception->getTraceAsString();
                 $ilLog->error($exception->getCode() . ' ' . $message);
             }
-            
+
             // Send to system logger
             error_log($exception->getMessage());
         });
     }
-    
+
     public function handlePreWhoops($level, $message, $file, $line)
     {
         global $ilLog;
-        
-        if ($level & error_reporting()) {
+
+        if ($level&error_reporting()) {
             if (!$this->isDevmodeActive()) {
                 // log E_USER_NOTICE, E_STRICT, E_DEPRECATED, E_USER_DEPRECATED only
                 if ($level >= E_USER_NOTICE) {
@@ -447,7 +444,7 @@ class ilErrorHandling extends PEAR
                     return true;
                 }
             }
-            
+
             // trigger whoops error handling
             if ($this->whoops instanceof RunInterface) {
                 return $this->whoops->handleError($level, $message, $file, $line);

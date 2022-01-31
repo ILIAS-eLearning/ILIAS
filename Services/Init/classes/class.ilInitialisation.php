@@ -41,17 +41,14 @@ if (null === $DIC) {
  */
 
 /**
-* ILIAS Initialisation Utility Class
-* perform basic setup: init database handler, load configuration file,
-* init user authentification & error handler, load object type definitions
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Sascha Hofmann <shofmann@databay.de>
-
-* @version $Id$
-*
-* @ingroup ServicesInit
-*/
+ * ILIAS Initialisation Utility Class
+ * perform basic setup: init database handler, load configuration file,
+ * init user authentification & error handler, load object type definitions
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Sascha Hofmann <shofmann@databay.de>
+ * @version $Id$
+ * @ingroup ServicesInit
+ */
 class ilInitialisation
 {
     /**
@@ -94,7 +91,7 @@ class ilInitialisation
      */
     protected static function requireCommonIncludes() : void
     {
-        /** @noRector  */
+        /** @noRector */
         require_once "include/inc.ilias_version.php";
 
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
@@ -102,23 +99,21 @@ class ilInitialisation
 
     /**
      * This is a hack for  authentication.
-     *
      * Since the phpCAS lib ships with its own compliance functions.
      */
     protected static function includePhp5Compliance() : void
     {
         if (ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_CAS) {
-            /** @noRector  */
+            /** @noRector */
             require_once("include/inc.xml5compliance.php");
         }
-        /** @noRector  */
+        /** @noRector */
         require_once("include/inc.xsl5compliance.php");
     }
 
     /**
      * This method provides a global instance of class ilIniFile for the
      * ilias.ini.php file in variable $ilIliasIniFile.
-     *
      * It initializes a lot of constants accordingly to the settings in
      * the ilias.ini.php file.
      */
@@ -159,7 +154,8 @@ class ilInitialisation
             }
 
             if ($ilIliasIniFile->variableExists('error', 'editor_path_translations')) {
-                define("ERROR_EDITOR_PATH_TRANSLATIONS", $ilIliasIniFile->readVariable('error', 'editor_path_translations'));
+                define("ERROR_EDITOR_PATH_TRANSLATIONS",
+                    $ilIliasIniFile->readVariable('error', 'editor_path_translations'));
             }
         }
 
@@ -230,7 +226,6 @@ class ilInitialisation
             );
         };
     }
-
 
     /**
      * Bootstraps the ILIAS filesystem abstraction.
@@ -334,7 +329,6 @@ class ilInitialisation
         };
     }
 
-
     /**
      * Initializes the file upload service.
      * This service requires the http and filesystem service.
@@ -348,16 +342,17 @@ class ilInitialisation
         };
 
         $dic['upload'] = function (\ILIAS\DI\Container $c) {
-            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'], $c['http']);
+            $fileUploadImpl = new \ILIAS\FileUpload\FileUploadImpl($c['upload.processor-manager'], $c['filesystem'],
+                $c['http']);
             if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_SCANNER_TYPE') && IL_SCANNER_TYPE == "1")) {
                 $fileUploadImpl->register(new ilVirusScannerPreProcessor(ilVirusScannerFactory::_getInstance()));
             }
 
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
             $fileUploadImpl->register(new ilFileServicesPreProcessor(
-                $c->rbac()->system(),
-                $c->fileServiceSettings(),
-                $c->language()->txt("msg_info_blacklisted"))
+                    $c->rbac()->system(),
+                    $c->fileServiceSettings(),
+                    $c->language()->txt("msg_info_blacklisted"))
             );
 
             return $fileUploadImpl;
@@ -460,7 +455,7 @@ class ilInitialisation
      * the client.ini.php file.
      * Preconditions: ILIAS_WEB_DIR and CLIENT_ID must be set.
      * @return    void        true, if no error occured with client init file
-     *						otherwise false
+     *                        otherwise false
      */
     protected static function initClientIniFile() : void
     {
@@ -489,7 +484,8 @@ class ilInitialisation
             ilUtil::setCookie("ilClientId", $default_client);
             if (CLIENT_ID != "" && CLIENT_ID != $default_client) {
                 $mess = array("en" => "Client does not exist.",
-                        "de" => "Mandant ist ungültig.");
+                              "de" => "Mandant ist ungültig."
+                );
                 self::redirect("index.php?client_id=" . $default_client, null, $mess);
             } else {
                 self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile initializing client ini file abborted with: " . $ilClientIniFile->ERROR);
@@ -563,9 +559,8 @@ class ilInitialisation
     }
 
     /**
-    * initialise database object $ilDB
-    *
-    */
+     * initialise database object $ilDB
+     */
     protected static function initDatabase() : void
     {
         // build dsn of database connection and connect
@@ -578,7 +573,6 @@ class ilInitialisation
 
     /**
      * set session handler to db
-     *
      * Used in Soap/CAS
      */
     public static function setSessionHandler() : void
@@ -754,7 +748,6 @@ class ilInitialisation
 
     /**
      * initialise $ilSettings object and define constants
-     *
      * Used in Soap
      */
     protected static function initSettings() : void
@@ -963,7 +956,8 @@ class ilInitialisation
             "init_error_authentication_fail",
             array(
                 "en" => "Authentication failed.",
-                "de" => "Authentifizierung fehlgeschlagen.")
+                "de" => "Authentifizierung fehlgeschlagen."
+            )
         );
     }
 
@@ -1042,7 +1036,7 @@ class ilInitialisation
     {
         global $DIC;
 
-        $GLOBALS[$a_name] = is_object($a_class) ? $a_class : new $a_class;
+        $GLOBALS[$a_name] = is_object($a_class) ? $a_class : new $a_class();
 
         $DIC[$a_name] = function ($c) use ($a_name) {
             return $GLOBALS[$a_name];
@@ -1069,7 +1063,6 @@ class ilInitialisation
     }
 
     protected static $already_initialized;
-
 
     public static function reinitILIAS() : void
     {
@@ -1144,14 +1137,13 @@ class ilInitialisation
         };
     }
 
-
     /**
      * Set error reporting level
      */
     public static function handleErrorReporting() : void
     {
         // push the error level as high as possible / sane
-        error_reporting(E_ALL & ~E_NOTICE);
+        error_reporting(E_ALL&~E_NOTICE);
 
         // see handleDevMode() - error reporting might be overwritten again
         // but we need the client ini first
@@ -1171,7 +1163,7 @@ class ilInitialisation
 
         self::requireCommonIncludes();
 
-        $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory)->version(ILIAS_VERSION_NUMERIC);
+        $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory())->version(ILIAS_VERSION_NUMERIC);
 
         // error handler
         self::initGlobal(
@@ -1208,7 +1200,6 @@ class ilInitialisation
 
         self::initClientIniFile();
 
-
         // --- needs client ini
 
         $ilias->client_id = (string) CLIENT_ID;
@@ -1216,7 +1207,6 @@ class ilInitialisation
         if (DEVMODE) {
             self::handleDevMode();
         }
-
 
         self::handleMaintenanceMode();
 
@@ -1257,7 +1247,6 @@ class ilInitialisation
         self::initTermsOfService($GLOBALS['DIC']);
         self::initAccessibilityControlConcept($GLOBALS['DIC']);
 
-
         // --- needs settings
 
         self::initLocale();
@@ -1266,7 +1255,6 @@ class ilInitialisation
             $https->enableSecureCookies();
             $https->checkProtocolAndRedirectIfNeeded();
         }
-
 
         // --- object handling
 
@@ -1390,7 +1378,6 @@ class ilInitialisation
         self::goToLogin();
     }
 
-
     /**
      * @param \ILIAS\DI\Container $container
      */
@@ -1399,7 +1386,6 @@ class ilInitialisation
         $init_http = new InitHttpServices();
         $init_http->init($container);
     }
-
 
     /**
      * @param \ILIAS\DI\Container $c
@@ -1533,8 +1519,8 @@ class ilInitialisation
             // or not set at all (then we want the last offset, e.g. being used from a session var).
             // So I added the wrapping if statement. Seems to work (hopefully).
             // Alex April 14th 2006
-            if (isset($_GET['offset']) && $_GET['offset'] != "") {							// added April 14th 2006
-                $_GET['offset'] = (int) $_GET['offset'];		// old code
+            if (isset($_GET['offset']) && $_GET['offset'] != "") {                            // added April 14th 2006
+                $_GET['offset'] = (int) $_GET['offset'];        // old code
             }
 
             self::initGlobal("lti", "ilLTIViewGUI", "./Services/LTI/classes/class.ilLTIViewGUI.php");
@@ -1546,7 +1532,7 @@ class ilInitialisation
     /**
      * Extract current cmd from request
      */
-    protected static function getCurrentCmd():string
+    protected static function getCurrentCmd() : string
     {
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
@@ -1639,8 +1625,11 @@ class ilInitialisation
         }
 
         if ($a_current_script == 'goto.php' && in_array($target, array(
-            'usr_registration', 'usr_nameassist', 'usr_pwassist', 'usr_agreement'
-        ))) {
+                'usr_registration',
+                'usr_nameassist',
+                'usr_pwassist',
+                'usr_agreement'
+            ))) {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $target);
             return true;
         }
@@ -1691,8 +1680,11 @@ class ilInitialisation
     /**
      * Redirects to target url if context supports it
      */
-    protected static function redirect(string $a_target, string $a_message_id = '', array $a_message_static = null) : void
-    {
+    protected static function redirect(
+        string $a_target,
+        string $a_message_id = '',
+        array $a_message_static = null
+    ) : void {
         // #12739
         if (defined("ILIAS_HTTP_PATH") &&
             !stristr($a_target, ILIAS_HTTP_PATH)) {
@@ -1700,10 +1692,11 @@ class ilInitialisation
         }
 
         foreach (['ext_uid', 'soap_pw'] as $param) {
-            if (false === strpos($a_target, $param . '=') && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
+            if (false === strpos($a_target,
+                    $param . '=') && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
                 $a_target = \ilUtil::appendUrlParameterString($a_target, $param . '=' . \ilUtil::stripSlashes(
-                    $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
-                ));
+                        $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
+                    ));
             }
         }
 
@@ -1717,23 +1710,24 @@ class ilInitialisation
                 $link = self::translateMessage(
                     "init_error_redirect_click",
                     array("en" => 'Please click to continue.',
-                        "de" => 'Bitte klicken um fortzufahren.')
+                          "de" => 'Bitte klicken um fortzufahren.'
+                    )
                 );
                 $mess = $message .
                     '<br /><a href="' . $a_target . '">' . $link . '</a>';
-            }
-            // plain text
+            } // plain text
             else {
                 // not much we can do here
                 $mess = $message;
 
                 if (!trim($mess)) {
                     $mess = self::translateMessage(
-                        "init_error_redirect_info",
-                        array("en" => 'Redirect not supported by context.',
-                            "de" => 'Weiterleitungen werden durch Kontext nicht unterstützt.')
-                    ) .
-                    ' (' . $a_target . ')';
+                            "init_error_redirect_info",
+                            array("en" => 'Redirect not supported by context.',
+                                  "de" => 'Weiterleitungen werden durch Kontext nicht unterstützt.'
+                            )
+                        ) .
+                        ' (' . $a_target . ')';
                 }
             }
 
@@ -1772,7 +1766,6 @@ class ilInitialisation
         }
     }
 
-
     private static function initBackgroundTasks(\ILIAS\DI\Container $c) : void
     {
         global $ilIliasIniFile;
@@ -1805,7 +1798,6 @@ class ilInitialisation
             }
         };
     }
-
 
     private static function initInjector(\ILIAS\DI\Container $c) : void
     {

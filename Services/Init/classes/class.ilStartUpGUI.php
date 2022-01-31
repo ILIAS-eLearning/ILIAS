@@ -7,15 +7,13 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
 
 /**
-* StartUp GUI class. Handles Login and Registration.
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
-* @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
-*
-* @ingroup ServicesInit
-*/
+ * StartUp GUI class. Handles Login and Registration.
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
+ * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
+ * @ingroup      ServicesInit
+ */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
     protected const ACCOUNT_MIGRATION_MIGRATE = 1;
@@ -82,8 +80,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-
-
         $this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
         $this->user->setLanguage($this->lng->getLangKey());
     }
@@ -119,8 +115,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * execute command
-     * @see register.php
      * @return mixed
+     * @see register.php
      */
     public function executeCommand()
     {
@@ -231,11 +227,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-
     /**
-     * @todo check for forced authentication like ecs, ...
-     * Show login page
      * @param \ilPropertyFormGUI|null $form
+     * @todo check for forced authentication like ecs, ...
+     *       Show login page
      */
     protected function showLoginPage(ilPropertyFormGUI $form = null) : void
     {
@@ -257,7 +252,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $this->refinery->kindlyTo()->string()
             );
         }
-        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl, $this->setting);
+        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl,
+            $this->setting);
         $credentials->setUsername($extUid);
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
@@ -406,7 +402,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $form->setValuesByPost();
         $this->showCodeForm($uname, $form);
     }
-
 
     /**
      * Initialize the standard
@@ -592,7 +587,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-
     /**
      * Try apache auth
      */
@@ -716,10 +710,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage($form);
     }
 
-
-
-
-
     /**
      * Show login form
      */
@@ -732,7 +722,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         // If local authentication is enabled for shibboleth users, we
         // display the login form for ILIAS here.
         if (($this->setting->get("auth_mode") != AUTH_SHIBBOLETH ||
-            $this->setting->get("shib_auth_allow_local")) &&
+                $this->setting->get("shib_auth_allow_local")) &&
             $this->setting->get("auth_mode") != AUTH_CAS) {
             if (!$form instanceof ilPropertyFormGUI) {
                 $form = $this->initStandardLoginForm();
@@ -805,7 +795,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($this->setting->get("shib_active")) {
             $tpl = new ilTemplate('tpl.login_form_shibboleth.html', true, true, 'Services/Init');
 
-            $tpl->setVariable('SHIB_FORMACTION', './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
+            $tpl->setVariable('SHIB_FORMACTION',
+                './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
 
             if ($this->setting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
@@ -813,7 +804,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setVariable("IL_TARGET", $target);
                 $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->setting->get("shib_federation_name"));
                 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $this->setting->get("shib_login_button"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", sprintf($this->lng->txt("shib_general_login_instructions"), $this->setting->get("shib_federation_name")) . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
+                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    sprintf($this->lng->txt("shib_general_login_instructions"),
+                        $this->setting->get("shib_federation_name")) . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
                 $tpl->parseCurrentBlock();
             } elseif ($this->setting->get("shib_hos_type") == 'embedded_wayf') {
@@ -825,10 +818,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->setCurrentBlock("shibboleth_wayf_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));
                 $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->setting->get("shib_federation_name"));
-                $tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION", sprintf($this->lng->txt("shib_select_home_organization"), $this->setting->get("shib_federation_name")));
+                $tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION",
+                    sprintf($this->lng->txt("shib_select_home_organization"),
+                        $this->setting->get("shib_federation_name")));
                 $tpl->setVariable("TXT_CONTINUE", $this->lng->txt("btn_next"));
                 $tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $this->lng->txt("shib_home_organization"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
+                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    $this->lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
 
                 $ilShibbolethWAYF = new ilShibbolethWAYF();
@@ -839,24 +835,29 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $tpl->parseCurrentBlock();
             }
 
-            return $this->substituteLoginPageElements($GLOBALS['tpl'], $page_editor_html, $tpl->get(), '[list-shibboleth-login-form]', 'SHIB_LOGIN_FORM');
+            return $this->substituteLoginPageElements($GLOBALS['tpl'], $page_editor_html, $tpl->get(),
+                '[list-shibboleth-login-form]', 'SHIB_LOGIN_FORM');
         }
 
         return $page_editor_html;
     }
 
-
     /**
      * Substitute login page elements
      * @param ilTemplate|ilGlobalTemplateInterface $tpl
-     * @param string $page_editor_html
-     * @param string $element_html
-     * @param string $placeholder
-     * @param string $fallback_tplvar
+     * @param string                               $page_editor_html
+     * @param string                               $element_html
+     * @param string                               $placeholder
+     * @param string                               $fallback_tplvar
      * return string $page_editor_html
      */
-    protected function substituteLoginPageElements($tpl, string $page_editor_html, string $element_html, string $placeholder, string $fallback_tplvar) : string
-    {
+    protected function substituteLoginPageElements(
+        $tpl,
+        string $page_editor_html,
+        string $element_html,
+        string $placeholder,
+        string $fallback_tplvar
+    ) : string {
         if (!strlen($page_editor_html)) {
             $tpl->setVariable($fallback_tplvar, $element_html);
             return $page_editor_html;
@@ -945,7 +946,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
             $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
             $rtpl->setCurrentBlock("homelink");
-            $rtpl->setVariable("CLIENT_ID", "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey());
+            $rtpl->setVariable("CLIENT_ID",
+                "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey());
             $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
         }
@@ -1016,7 +1018,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 '[list-saml-login]',
                 '[list-shibboleth-login-form]'
             ),
-            array('','','','','','',''),
+            array('', '', '', '', '', '', ''),
             $page_editor_html
         );
     }
@@ -1123,7 +1125,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->setUsername(ilSession::get(ilAuthFrontend::MIG_EXTERNAL_ACCOUNT));
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE));
+        $provider = $provider_factory->getProviderByAuthMode($credentials,
+            ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE));
 
         $this->logger->debug('Using provider: ' . get_class($provider) . ' for further processing.');
 
@@ -1206,7 +1209,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     [$provider]
                 );
                 if (
-                    $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
+                $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
                 ) {
                     ilInitialisation::redirectToStartingPage();
                 } else {
@@ -1266,16 +1269,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->lng->txt("logout_text") . $tosWithdrawalGui->getWithdrawalTextForLogoutScreen($this->httpRequest)
         );
         $tpl->setVariable("TXT_LOGIN", $this->lng->txt("login_to_ilias"));
-        $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $this->lng->getLangKey());
+        $tpl->setVariable("CLIENT_ID",
+            "?client_id=" . $client_id . "&cmd=force_login&lang=" . $this->lng->getLangKey());
 
         self::printToGlobalTemplate($tpl);
     }
 
-
-
     /**
-    * show logout screen
-    */
+     * show logout screen
+     */
     public function doLogout()
     {
         global $DIC;
@@ -1318,12 +1320,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->ctrl->redirect($this, 'showLogout');
     }
 
-
     /**
-    * show help screen, if cookies are disabled
-    *
-    * to do: link to online help here
-    */
+     * show help screen, if cookies are disabled
+     * to do: link to online help here
+     */
     public function showNoCookiesScreen() : void
     {
         global $tpl;
@@ -1474,8 +1474,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-    * process index.php
-    */
+     * process index.php
+     */
     protected function processIndexPHP() : void
     {
         global $ilIliasIniFile, $ilAuth, $ilSetting;
@@ -1494,7 +1494,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-
     public static function _checkGoto($a_target)
     {
         global $DIC;
@@ -1502,7 +1501,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $component_factory = $DIC["component.factory"];
 
         $access = $DIC->access();
-
 
         if (is_object($ilPluginAdmin)) {
             foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
@@ -1526,7 +1524,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $type = "glo";
         }
 
-        if ($type == "pg" | $type == "st") {
+        if ($type == "pg"|$type == "st") {
             $type = "lm";
         }
 
@@ -1641,7 +1639,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 }
             }
 
-
             // check if access will be possible with all (possible) member roles added
             $rbacsystem->resetPACache($ilUser->getId(), $ref_id);
             if ($rbacsystem->checkAccess("read", $ref_id) && sizeof($block_obj)) { // #12128
@@ -1739,9 +1736,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * This method enriches the global template with some user interface elements (language selection, headlines, back buttons, ...) for public service views
-     * @param mixed   $a_tmpl The template file as a string of as an array (index 0: template file, index 1: template directory)
-     * @param bool    $a_show_back
-     * @param bool    $a_show_logout
+     * @param mixed $a_tmpl The template file as a string of as an array (index 0: template file, index 1: template directory)
+     * @param bool  $a_show_back
+     * @param bool  $a_show_logout
      */
     public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false)
     {

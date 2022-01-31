@@ -1,64 +1,57 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* INIFile Parser
-*
-* Early access in init proceess!
-* Avoid further dependencies like logging or other services
-*
-* Description:
-*
-* A Simpe Ini File Implementation to keep settings
-* in a simple file instead of in a DB
-* Based upon class.INIfile.php by Mircho Mirev <mircho@macropoint.com>
-*
-* Usage Examples:
-* $ini = new IniFile("./ini.ini");
-* Read entire group in an associative array
-* $grp = $ini->read_group("MAIN");
-* //prints the variables in the group
-* if ($grp)
-* for(reset($grp); $key=key($grp); next($grp))
-* {
-* echo "GROUP ".$key."=".$grp[$key]."<br>";
-* }
-* //set a variable to a value
-* $ini->setVariable("NEW","USER","JOHN");
-* //Save the file
-* $ini->save_data();
-*
-* @author Mircho Mirev <mircho@macropoint.com>
-* @author Peter Gabriel <peter@gabriel-online.net>
-* @version $Id$
-*
-*/
+ * INIFile Parser
+ * Early access in init proceess!
+ * Avoid further dependencies like logging or other services
+ * Description:
+ * A Simpe Ini File Implementation to keep settings
+ * in a simple file instead of in a DB
+ * Based upon class.INIfile.php by Mircho Mirev <mircho@macropoint.com>
+ * Usage Examples:
+ * $ini = new IniFile("./ini.ini");
+ * Read entire group in an associative array
+ * $grp = $ini->read_group("MAIN");
+ * //prints the variables in the group
+ * if ($grp)
+ * for(reset($grp); $key=key($grp); next($grp))
+ * {
+ * echo "GROUP ".$key."=".$grp[$key]."<br>";
+ * }
+ * //set a variable to a value
+ * $ini->setVariable("NEW","USER","JOHN");
+ * //Save the file
+ * $ini->save_data();
+ * @author  Mircho Mirev <mircho@macropoint.com>
+ * @author  Peter Gabriel <peter@gabriel-online.net>
+ * @version $Id$
+ */
 class ilIniFile
 {
     /**
-    * name of file
-    */
+     * name of file
+     */
     public string $INI_FILE_NAME = "";
 
     /**
-    * error var
-    */
+     * error var
+     */
     public string $ERROR = "";
 
     /**
-    * sections in ini-file
-    */
+     * sections in ini-file
+     */
     public array $GROUPS = array();
 
     /**
-    * actual section
-    */
+     * actual section
+     */
     public string $CURRENT_GROUP = "";
 
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct(string $a_ini_file_name)
     {
         //check if a filename is given
@@ -70,8 +63,8 @@ class ilIniFile
     }
 
     /**
-    * read from ini file
-    */
+     * read from ini file
+     */
     public function read() : bool
     {
         //check if file exists
@@ -86,8 +79,8 @@ class ilIniFile
     }
 
     /**
-    * load and parse an inifile
-    */
+     * load and parse an inifile
+     */
     public function parse() : bool
     {
         //use php4 function parse_ini_file
@@ -97,7 +90,7 @@ class ilIniFile
         if ($this->GROUPS == false) {
             // second try
             $this->fixIniFile();
-            
+
             $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
             if ($this->GROUPS == false) {
                 $this->error("file_not_accessible");
@@ -138,10 +131,10 @@ class ilIniFile
             }
         }
         fclose($fp);
-        
+
         // now write it back
         $fp = @fopen($this->INI_FILE_NAME, "w");
-        
+
         if (!empty($fp)) {
             foreach ($lines as $l) {
                 fwrite($fp, $l . "\r\n");
@@ -149,25 +142,25 @@ class ilIniFile
         }
         fclose($fp);
     }
-    
+
     /**
-    * save ini-file-data to filesystem
-    */
+     * save ini-file-data to filesystem
+     */
     public function write() : bool
     {
         $fp = @fopen($this->INI_FILE_NAME, "w");
-        
+
         if (empty($fp)) {
             $this->error("Cannot create file $this->INI_FILE_NAME");
             return false;
         }
-        
+
         //write php tags (security issue)
         $result = fwrite($fp, "; <?php exit; ?>\r\n");
 
         $groups = $this->readGroups();
         $group_cnt = count($groups);
-        
+
         for ($i = 0; $i < $group_cnt; $i++) {
             $group_name = $groups[$i];
             //prevent empty line at beginning of ini-file
@@ -176,11 +169,11 @@ class ilIniFile
             } else {
                 $res = sprintf("\r\n[%s]\r\n", $group_name);
             }
-            
+
             $result = fwrite($fp, $res);
             $group = $this->readGroup($group_name);
-            
-            for (reset($group); $key = key($group);next($group)) {
+
+            for (reset($group); $key = key($group); next($group)) {
                 $res = sprintf("%s = %s\r\n", $key, "\"" . $group[$key] . "\"");
                 $result = fwrite($fp, $res);
             }
@@ -191,16 +184,16 @@ class ilIniFile
     }
 
     /**
-    * returns the content of IniFile
-    */
+     * returns the content of IniFile
+     */
     public function show() : string
     {
         $groups = $this->readGroups();
         $group_cnt = count($groups);
-        
+
         //clear content
         $content = "";
-        
+
         // go through all groups
         for ($i = 0; $i < $group_cnt; $i++) {
             $group_name = $groups[$i];
@@ -212,66 +205,66 @@ class ilIniFile
             }
 
             $group = $this->readGroup($group_name);
-            
+
             //go through group an display all variables
-            for (reset($group); $key = key($group);next($group)) {
+            for (reset($group); $key = key($group); next($group)) {
                 $content .= sprintf("%s = %s\n", $key, $group[$key]);
             }
         }
 
         return $content;
     }
-    
+
     /**
-    * returns number of groups
-    */
+     * returns number of groups
+     */
     public function getGroupCount() : int
     {
         return count($this->GROUPS);
     }
-    
+
     /**
-    * returns an array with the names of all the groups
-    */
+     * returns an array with the names of all the groups
+     */
     public function readGroups() : array
     {
         $groups = array();
 
-        for (reset($this->GROUPS);$key = key($this->GROUPS);next($this->GROUPS)) {
+        for (reset($this->GROUPS); $key = key($this->GROUPS); next($this->GROUPS)) {
             $groups[] = $key;
         }
 
         return $groups;
     }
-    
+
     /**
-    * checks if a group exists
-    */
+     * checks if a group exists
+     */
     public function groupExists(string $a_group_name) : bool
     {
         if (!isset($this->GROUPS[$a_group_name])) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
-    * returns an associative array of the variables in one group
-    */
+     * returns an associative array of the variables in one group
+     */
     public function readGroup(string $a_group_name) : array
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
             return [];
         }
-        
+
         return $this->GROUPS[$a_group_name];
     }
-    
+
     /**
-    * adds a new group
-    */
+     * adds a new group
+     */
     public function addGroup(string $a_group_name) : bool
     {
         if ($this->groupExists($a_group_name)) {
@@ -282,10 +275,10 @@ class ilIniFile
         $this->GROUPS[$a_group_name] = array();
         return true;
     }
-    
+
     /**
-    * removes a group
-    */
+     * removes a group
+     */
     public function removeGroup(string $a_group_name) : bool
     {
         if (!$this->groupExists($a_group_name)) {
@@ -298,48 +291,47 @@ class ilIniFile
     }
 
     /**
-    * returns if a variable exists or not
-    */
+     * returns if a variable exists or not
+     */
     public function variableExists(string $a_group, string $a_var_name) : bool
     {
         return isset($this->GROUPS[$a_group][$a_var_name]);
     }
-    
-    
+
     /**
-    * reads a single variable from a group
-    */
+     * reads a single variable from a group
+     */
     public function readVariable(string $a_group, string $a_var_name) : string
     {
         if (!isset($this->GROUPS[$a_group][$a_var_name])) {
             $this->error("'" . $a_var_name . "' does not exist in '" . $a_group . "'");
             return '';
         }
-        
+
         return trim($this->GROUPS[$a_group][$a_var_name]);
     }
-    
+
     /**
-    * sets a variable in a group
-    */
+     * sets a variable in a group
+     */
     public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value) : bool
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
             return false;
         }
-        
+
         $this->GROUPS[$a_group_name][$a_var_name] = $a_var_value;
         return true;
     }
-    
+
     public function error(string $a_errmsg) : bool
     {
         $this->ERROR = $a_errmsg;
 
         return true;
     }
-    
+
     public function getError() : string
     {
         return $this->ERROR;

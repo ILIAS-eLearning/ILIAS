@@ -4,9 +4,7 @@
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilPublicSectionSettings
 {
@@ -14,16 +12,15 @@ class ilPublicSectionSettings
      * @var ilPublicSectionSettings
      */
     protected static $instance = null;
-    
-    
+
     /**
      * @var ilSetting
      */
     private ilSetting $settings;
-    
+
     private bool $enabled = false;
     private array $domains = array();
-    
+
     /**
      * read settings
      */
@@ -34,7 +31,7 @@ class ilPublicSectionSettings
         $this->settings = $DIC->settings();
         $this->read();
     }
-    
+
     public static function getInstance() : ilPublicSectionSettings
     {
         if (!self::$instance) {
@@ -42,22 +39,22 @@ class ilPublicSectionSettings
         }
         return self::$instance;
     }
-    
+
     public function setDomains(array $domains)
     {
         $this->domains = $domains;
     }
-    
+
     public function getDomains() : array
     {
         return $this->domains;
     }
-    
+
     public function isEnabled() : bool
     {
         return $this->enabled;
     }
-    
+
     public function isEnabledForDomain(string $a_domain) : bool
     {
         if (!$this->enabled) {
@@ -72,18 +69,18 @@ class ilPublicSectionSettings
         }
         return true;
     }
-    
+
     public function setEnabled(bool $stat) : void
     {
         $this->enabled = $stat;
     }
-    
+
     public function save() : void
     {
         $this->settings->set('pub_section', (string) $this->isEnabled());
         $this->settings->set('pub_section_domains', serialize($this->getDomains()));
     }
-    
+
     /**
      * read settings
      */

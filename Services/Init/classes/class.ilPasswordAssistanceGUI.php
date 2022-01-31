@@ -397,7 +397,8 @@ class ilPasswordAssistanceGUI
             $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
             $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
 
-            $tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD', $this->lng->txt('pwassist_enter_username_and_new_password'));
+            $tpl->setVariable('TXT_ENTER_USERNAME_AND_NEW_PASSWORD',
+                $this->lng->txt('pwassist_enter_username_and_new_password'));
 
             if (!$form) {
                 $form = $this->getAssignPasswordForm($pwassist_id);
