@@ -33,12 +33,4 @@ class ilGlobalTemplate extends \ilGlobalTemplate
             $a_use_cache
         );
     }
-
-    public function getMainMenu() : void
-    {
-        global $ilMainMenu;
-        //$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-        $this->main_menu = $ilMainMenu->getHTML();
-        $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-    }
 }
