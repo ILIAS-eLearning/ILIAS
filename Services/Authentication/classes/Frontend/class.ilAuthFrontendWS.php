@@ -15,8 +15,6 @@
  *****************************************************************************/
 
 /**
- * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */

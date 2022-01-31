@@ -16,18 +16,11 @@
 
 /**
 * @author Bjoern Heyser <bheyser@databay.de>
-* @version $Id$
 *
 * @ingroup ServicesAuthentication
 */
 class ilSessionControl
 {
-    /**
-     * this controls the debuggin into a
-     * separate logfile (./session.log)
-     */
-    const INTERNAL_DEBUG = false;
-
     /**
      * default value for settings that have not
      * been defined in setup or administration yet
@@ -43,7 +36,7 @@ class ilSessionControl
      *
      * @var array $setting_fields
      */
-    private static $setting_fields = array(
+    private static array $setting_fields = array(
         'session_max_count',
         'session_min_idle',
         'session_max_idle',
@@ -68,7 +61,7 @@ class ilSessionControl
      *
      * @var array $session_types_not_controlled
      */
-    public static $session_types_controlled = array(
+    public static array $session_types_controlled = array(
         self::SESSION_TYPE_USER,
         self::SESSION_TYPE_ANONYM
     );
@@ -79,7 +72,7 @@ class ilSessionControl
      *
      * @var array $session_types_not_controlled
      */
-    private static $session_types_not_controlled = array(
+    private static array $session_types_not_controlled = array(
         self::SESSION_TYPE_UNKNOWN,
         self::SESSION_TYPE_SYSTEM,
         self::SESSION_TYPE_ADMIN
@@ -94,7 +87,7 @@ class ilSessionControl
      * @global ilLanguage $lng
      * @global ilAppEventHandler $ilAppEventHandler
      */
-    public static function checkExpiredSession()
+    public static function checkExpiredSession() : void
     {
         global $DIC;
 
@@ -115,8 +108,6 @@ class ilSessionControl
         if (!$ilSetting->get("pub_section")) {
             global $DIC;
 
-            $lng = $DIC['lng'];
-
             $sid = null;
 
             if (!isset($_COOKIE[session_name()]) || !strlen($_COOKIE[session_name()])) {
@@ -134,8 +125,6 @@ class ilSessionControl
                     self::removeSessionCookie();
 
                     // Trigger expiredSessionDetected  Event
-                    global $DIC;
-
                     $ilAppEventHandler = $DIC['ilAppEventHandler'];
                     $ilAppEventHandler->raise(
                         'Services/Authentication',
@@ -153,7 +142,7 @@ class ilSessionControl
      * mark session with type regarding to the context.
      * should be called from ilAuthBase::initAuth()
      */
-    public static function initSession()
+    public static function initSession() : void
     {
         global $DIC;
 
@@ -177,13 +166,12 @@ class ilSessionControl
      * type regarding to the sessions user context.
      * when session is not allowed to be created it will be destroyed.
      */
-    public static function handleLoginEvent($a_login, ilAuthSession $auth_session)
+    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session)
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         
-        require_once 'Services/User/classes/class.ilObjUser.php';
         $user_id = ilObjUser::_lookupId($a_login);
 
         // we need the session type for the session statistics
@@ -222,7 +210,7 @@ class ilSessionControl
     /**
      * reset sessions type to unknown
      */
-    public static function handleLogoutEvent()
+    public static function handleLogoutEvent() : void
     {
         global $DIC;
 
@@ -251,7 +239,7 @@ class ilSessionControl
      * @global ilAppEventHandler $ilAppEventHandler
      * @param ilAuthSession $a_auth
      */
-    private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, $a_user_id)
+    private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, int $a_user_id) : void
     {
         global $DIC;
 
@@ -331,9 +319,9 @@ class ilSessionControl
      *
      * @global ilDB $ilDB
      * @param array $a_types
-     * @return integer num_sessions
+     * @return num_sessions
      */
-    public static function getExistingSessionCount(array $a_types)
+    public static function getExistingSessionCount(array $a_types) : int
     {
         global $DIC;
 
@@ -361,7 +349,7 @@ class ilSessionControl
      * @param array $a_types
      * @return boolean $deletionSuccess
      */
-    private static function kickOneMinIdleSession(array $a_types)
+    private static function kickOneMinIdleSession(array $a_types) : bool
     {
         global $DIC;
 
@@ -401,9 +389,8 @@ class ilSessionControl
      *
      * @global ilDB $ilDB
      * @global ilSetting $ilSetting
-     * @return <type>
      */
-    private static function kickFirstRequestAbidencer(array $a_types)
+    private static function kickFirstRequestAbidencer(array $a_types) : void
     {
         global $DIC;
 
@@ -442,15 +429,13 @@ class ilSessionControl
      *
      * @global	ilDB		$ilDB
      * @global	ilSetting	$ilSetting
-     * @param	string		$a_sid
      * @return	boolean		session_valid
      */
-    private static function isValidSession($a_sid)
+    private static function isValidSession(string $a_sid) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $ilSetting = $DIC['ilSetting'];
 
         $query = "SELECT session_id, expires FROM usr_session " .
                     "WHERE session_id = %s";
@@ -488,7 +473,7 @@ class ilSessionControl
     /**
      * removes a session cookie, so it is not sent by browser anymore
      */
-    private static function removeSessionCookie()
+    private static function removeSessionCookie() : void
     {
         ilUtil::setCookie(session_name(), 'deleted', true, true);
         self::debug('Session cookie has been removed');
@@ -499,10 +484,9 @@ class ilSessionControl
      * with administrative permissions
      *
      * @global ilRbacSystem $rbacsystem
-     * @param integer $a_user_id
      * @return boolean access
      */
-    private static function checkAdministrationPermission($a_user_id)
+    private static function checkAdministrationPermission(int $a_user_id) : bool
     {
         if (!(int) $a_user_id) {
             return false;
@@ -522,24 +506,17 @@ class ilSessionControl
     }
 
     /**
-     * logs the given debug message in ilLog
+     * logs the given debug message in \ilLogger
      *
-     * @global	ilLog	$ilLog
      * @param	string	$a_debug_log_message
      */
-    private static function debug($a_debug_log_message)
+    private static function debug(string $a_debug_log_message) : void
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
+        $logger = $DIC->logger()->auth();
 
-        if (DEVMODE) {
-            $ilLog->write($a_debug_log_message, 'message');
-        }
-
-        if (self::INTERNAL_DEBUG) {
-            error_log($a_debug_log_message . "\n", 3, 'session.log');
-        }
+        $logger->debug($a_debug_log_message);
     }
 
     /**
@@ -547,7 +524,7 @@ class ilSessionControl
      *
      * @return array setting_fields
      */
-    public static function getSettingFields()
+    public static function getSettingFields() : array
     {
         return self::$setting_fields;
     }

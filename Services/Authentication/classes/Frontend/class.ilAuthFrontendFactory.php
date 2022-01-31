@@ -38,9 +38,8 @@ class ilAuthFrontendFactory
     const CONTEXT_HTTP = 5;
     
     
-    private $context = self::CONTEXT_UNDEFINED;
-    private $credentials = null;
-    private $logger = null;
+    private int $context = self::CONTEXT_UNDEFINED;
+    private ilLogger $logger;
     
     
     /**
@@ -48,32 +47,22 @@ class ilAuthFrontendFactory
      */
     public function __construct()
     {
-        $this->logger = ilLoggerFactory::getLogger('auth');
-    }
-    
-    /**
-     *
-     * @return \ilLogger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
     }
     
     /**
      * Set context for following authentication requests
-     * @param int $a_context
      */
-    public function setContext($a_context)
+    public function setContext(int $a_context) : void
     {
         $this->context = $a_context;
     }
     
     /**
      * Get context
-     * @return int
      */
-    public function getContext()
+    public function getContext() : int
     {
         return $this->context;
     }
@@ -85,8 +74,7 @@ class ilAuthFrontendFactory
     {
         switch ($this->getContext()) {
             case self::CONTEXT_CLI:
-                $this->getLogger()->debug('Init auth frontend with standard auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCLI.php';
+                $this->logger->debug('Init auth frontend with standard auth context');
                 $frontend = new ilAuthFrontendCLI(
                     $session,
                     $status,
@@ -96,8 +84,7 @@ class ilAuthFrontendFactory
                 return $frontend;
                 
             case self::CONTEXT_WS:
-                $this->getLogger()->debug('Init auth frontend with webservice auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendWS.php';
+                $this->logger->debug('Init auth frontend with webservice auth context');
                 $frontend = new ilAuthFrontendWS(
                     $session,
                     $status,
@@ -107,8 +94,7 @@ class ilAuthFrontendFactory
                 return $frontend;
                 
             case self::CONTEXT_STANDARD_FORM:
-                $this->getLogger()->debug('Init auth frontend with standard auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthStandardFormFrontend.php';
+                $this->logger->debug('Init auth frontend with standard auth context');
                 $frontend = new ilAuthStandardFormFrontend(
                     $session,
                     $status,
@@ -118,8 +104,7 @@ class ilAuthFrontendFactory
                 return $frontend;
                 
             case self::CONTEXT_HTTP:
-                $this->getLogger()->debug('Init auth frontend with http basic auth context');
-                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendHTTP.php';
+                $this->logger->debug('Init auth frontend with http basic auth context');
                 $frontend = new ilAuthFrontendHTTP(
                     $session,
                     $status,
@@ -129,7 +114,7 @@ class ilAuthFrontendFactory
                 return $frontend;
             
             case self::CONTEXT_UNDEFINED:
-                $this->getLogger()->error('Trying to init auth with empty context');
+                $this->logger->error('Trying to init auth with empty context');
                 break;
         }
     }

@@ -103,7 +103,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
      * @param array $user
      * @return bool
      */
-    protected function updateAccount(ilAuthStatus $status, array $user)
+    protected function updateAccount(ilAuthStatus $status, array $user) : bool
     {
         $user = array_change_key_case($user, CASE_LOWER);
         $this->getLogger()->dump($user, ilLogLevel::DEBUG);
@@ -145,9 +145,8 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * Init Server
      */
-    protected function initServer($a_server_id)
+    protected function initServer($a_server_id) : void
     {
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
         $this->server = new ilLDAPServer($a_server_id);
     }
 
@@ -156,18 +155,17 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * @inheritdoc
      */
-    public function createNewAccount(ilAuthStatus $status)
+    public function createNewAccount(ilAuthStatus $status) : void
     {
         $this->force_new_account = true;
         
         try {
-            include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
             $query = new ilLDAPQuery($this->getServer());
             $query->bind(IL_LDAP_BIND_DEFAULT);
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
-            return false;
+            return;
         }
         try {
             // fetch user
@@ -176,16 +174,16 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
             );
             if (!$users) {
                 $this->handleAuthenticationFail($status, 'err_wrong_login');
-                return false;
+                return;
             }
             if (!array_key_exists($this->changeKeyCase($this->getCredentials()->getUsername()), $users)) {
                 $this->handleAuthenticationFail($status, 'err_wrong_login');
-                return false;
+                return;
             }
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot fetch LDAP user data... ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
-            return false;
+            return;
         }
 
         // authentication success update profile
@@ -197,29 +195,28 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * @inheritdoc
      */
-    public function migrateAccount(ilAuthStatus $status)
+    public function migrateAccount(ilAuthStatus $status) : void
     {
         $this->force_new_account = true;
         
         try {
-            include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
             $query = new ilLDAPQuery($this->getServer());
             $query->bind(IL_LDAP_BIND_DEFAULT);
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'auth_err_ldap_exception');
-            return false;
+            return;
         }
         
         $users = $query->fetchUser($this->getCredentials()->getUsername());
         $this->updateAccount($status, $users[$this->changeKeyCase($this->getCredentials()->getUsername())]);
-        return true;
+        return;
     }
 
     /**
      * Get trigger auth mode
      */
-    public function getTriggerAuthMode()
+    public function getTriggerAuthMode() : string
     {
         return AUTH_LDAP . '_' . $this->getServer()->getServerId();
     }
@@ -227,25 +224,23 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * Get user auth mode name
      */
-    public function getUserAuthModeName()
+    public function getUserAuthModeName() : string
     {
         return 'ldap_' . $this->getServer()->getServerId();
     }
 
     /**
      * Get external account name
-     * @return string
      */
-    public function getExternalAccountName()
+    public function getExternalAccountName() : string
     {
         return $this->migration_account;
     }
     
     /**
      * Set external account name
-     * @param string $a_name
      */
-    public function setExternalAccountName($a_name)
+    public function setExternalAccountName(string $a_name)
     {
         $this->migration_account = $a_name;
     }

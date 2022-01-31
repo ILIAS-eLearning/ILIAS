@@ -18,14 +18,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
 {
-    /** @var ServerRequestInterface */
-    private $httpRequest;
+    private ServerRequestInterface $httpRequest;
 
-    /** @var ilCtrl */
-    private $ctrl;
+    private ilCtrl $ctrl;
 
-    /** @var ilSetting */
-    private $settings;
+    private ilSetting $settings;
+    
+    private ilAuthSession $authSession;
 
     /**
      * ilAuthFrontendCredentialsApache constructor.
@@ -35,6 +34,8 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
      */
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl, ilSetting $settings)
     {
+        global $DIC;
+        $this->authSession = $DIC['ilAuthSession'];
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = $settings;
@@ -44,7 +45,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     /**
      * Check if an authentication attempt should be done when login page has been called.
      */
-    public function tryAuthenticationOnLoginPage()
+    public function tryAuthenticationOnLoginPage() : void
     {
         $cmd = '';
         if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
@@ -62,28 +63,27 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
         }
 
         if ('force_login' === $cmd || !empty($passedSso)) {
-            return false;
+            return;
         }
 
         if (!(bool) $this->settings->get('soap_auth_active', (string) false)) {
-            return false;
+            return;
         }
 
         if (empty($this->getUsername()) || empty($this->getPassword())) {
-            return false;
+            return;
         }
 
         $this->getLogger()->debug('Using SOAP authentication.');
 
         $status = ilAuthStatus::getInstance();
 
-        require_once 'Services/SOAPAuth/classes/class.ilAuthProviderSoap.php';
         $provider = new ilAuthProviderSoap($this);
 
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $this,
             [$provider]

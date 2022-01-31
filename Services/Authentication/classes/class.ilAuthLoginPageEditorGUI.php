@@ -33,18 +33,12 @@ class ilAuthLoginPageEditorGUI
     private ilRbacSystem $rbacsystem;
     private ilSetting $setting;
     private ilErrorHandling $ilErr;
+    private ilLogger $logger;
    
     private int $ref_id = 0;
     private ilAuthLoginPageEditorSettings $settings;
     private ?ilSetting $loginSettings = null;
 
-
-
-    /**
-     * Constructor
-     * @param int $a_ref_id
-     * @global ilCtrl ilCtrl
-     */
     public function __construct(int $a_ref_id)
     {
         global $DIC;
@@ -56,6 +50,7 @@ class ilAuthLoginPageEditorGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->setting = $DIC->settings();
         $this->ilErr = $DIC['ilErr'];
+        $this->logger = $DIC->logger()->auth();
         
         $this->lng = $DIC['lng'];
         
@@ -297,19 +292,16 @@ class ilAuthLoginPageEditorGUI
 
         $this->initLoginForm();
         if ($this->form->checkInput()) {
-            if (is_array($_POST)) {
-                // @todo: Move settings ilAuthLoginPageSettings
-                $this->loginSettings = new ilSetting("login_settings");
-
-                foreach ($_POST as $key => $val) {
-                    if (substr($key, 0, 14) == "login_message_") {
-                        $this->loginSettings->set($key, $val);
-                    }
+            // @todo: Move settings ilAuthLoginPageSettings
+            $this->loginSettings = new ilSetting("login_settings");
+            foreach ($this->lng->getInstalledLanguages() as $lang_key) {
+                $settingKey = "login_message_" . $lang_key;
+                if ($this->form->getInput($settingKey)) {
+                    $this->loginSettings->set($settingKey, $this->form->getInput($settingKey));
                 }
             }
-
-            if ($_POST['default_auth_mode']) {
-                $this->setting->set('default_auth_mode', (int) $_POST['default_auth_mode']);
+            if ($this->form->getInput('default_auth_mode')) {
+                $this->setting->set('default_auth_mode', (int) $this->form->getInput('default_auth_mode'));
             }
 
             ilUtil::sendSuccess($this->lng->txt("login_information_settings_saved"), true);

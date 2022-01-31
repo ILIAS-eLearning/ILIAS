@@ -26,8 +26,6 @@ class ilSessionTest //extends TestCase
 
     protected function setUp() : void
     {
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
     }
 
     /**
@@ -39,7 +37,6 @@ class ilSessionTest //extends TestCase
 
         $ilUser = $DIC['ilUser'];
         
-        include_once("./Services/Authentication/classes/class.ilSession.php");
         $result = "";
         ilSession::_writeData("123456", "Testdata");
         if (ilSession::_exists("123456")) {
@@ -76,9 +73,7 @@ class ilSessionTest //extends TestCase
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
-        include_once("./include/inc.pwassist_session_handler.php");
-        
+                
         $result = "";
         
         // write session

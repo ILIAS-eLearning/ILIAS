@@ -22,17 +22,6 @@
  */
 class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    private $settings = null;
-    
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-    
     /**
      * Init credentials from request
      */

@@ -15,28 +15,15 @@
  *****************************************************************************/
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup Services/authentication
  */
 class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 {
-
-    /**
-     * Constructor
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
 
         $this->initTable();
@@ -69,10 +56,6 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
      */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->tpl->setVariable('LANGID', $a_set['key']);
         $this->tpl->setVariable('LANGKEY_CHECKED', $a_set['status'] ? 'checked="checked' : '');
         $this->tpl->setVariable('TXT_LANGUAGE', $a_set['language']);
@@ -89,8 +72,8 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
             $this->tpl->setVariable('STATUS_ALT', $this->lng->txt('inactive'));
         }
         $this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
-        $ilCtrl->setParameter($this->getParentObject(), 'key', $a_set['id']);
-        $this->tpl->setVariable('LINK_NAME', $ilCtrl->getLinkTargetByClass('illoginpagegui', 'edit'));
+        $this->ctrl->setParameter($this->getParentObject(), 'key', $a_set['id']);
+        $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTargetByClass('illoginpagegui', 'edit'));
     }
 
 
@@ -100,11 +83,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
      */
     protected function initTable()
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.auth_login_page_editor_table_row.html', 'Services/Authentication');
         $this->setId('loginpageeditor');
         $this->setSelectAllCheckbox('languages');

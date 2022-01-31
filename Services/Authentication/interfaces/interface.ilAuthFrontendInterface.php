@@ -25,5 +25,5 @@ interface ilAuthFrontendInterface
     /**
      * Try authentication.
      */
-    public function authenticate();
+    public function authenticate() : bool;
 }

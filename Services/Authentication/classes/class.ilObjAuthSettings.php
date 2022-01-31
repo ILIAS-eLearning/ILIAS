@@ -18,16 +18,12 @@
 * Class ilObjAuthSettings
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
 *
-* @extends ilObject
 */
 
 class ilObjAuthSettings extends ilObject
 {
     /**
-    * Constructor
-    * @access	public
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
@@ -37,7 +33,7 @@ class ilObjAuthSettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
     
-    public function checkAuthLDAP()
+    public function checkAuthLDAP() : bool
     {
         $settings = $this->ilias->getAllSettings();
         
@@ -50,21 +46,21 @@ class ilObjAuthSettings extends ilObject
         return true;
     }
     
-    public function checkAuthSHIB()
+    public function checkAuthSHIB() : bool
     {
         $settings = $this->ilias->getAllSettings();
 
-        if (!$settings["shib_hos_type"] or !$settings["shib_user_default_role"] or !$settings["shib_login"]
+        if (!$settings["shib_hos_type"] or !isset($settings["shib_user_default_role"]) or !$settings["shib_login"]
              or !$settings["shib_firstname"] or !$settings["shib_lastname"]) {
             return false;
         }
 
-        $this->ilias->setSetting('shibboleth_active', true);
+        $this->ilias->setSetting('shibboleth_active', (string) true);
 
         return true;
     }
     
-    public function checkAuthRADIUS()
+    public function checkAuthRADIUS() : bool
     {
         $settings = $this->ilias->getAllSettings();
         
@@ -72,12 +68,12 @@ class ilObjAuthSettings extends ilObject
             return false;
         }
         
-        $this->ilias->setSetting('radius_active', true);
+        $this->ilias->setSetting('radius_active', (string) true);
         
         return true;
     }
 
-    public function checkAuthScript()
+    public function checkAuthScript() : bool
     {
         $settings = $this->ilias->getAllSettings();
         
@@ -89,40 +85,4 @@ class ilObjAuthSettings extends ilObject
 
         return true;
     }
-
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
-    {
-        if (!parent::update()) {
-            return false;
-        }
-
-        // put here object specific stuff
-        
-        return true;
-    }
-    
-
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
-    {
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-        
-        //put here your module specific stuff
-        
-        return true;
-    }
-} // END class.ilObjAuthSettings
+}

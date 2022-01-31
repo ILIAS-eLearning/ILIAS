@@ -28,35 +28,31 @@ interface ilAuthProviderAccountMigrationInterface
      * 11 for apache auth
      *
      * @see ilAuthUtils
-     * @return string
      */
-    public function getTriggerAuthMode();
+    public function getTriggerAuthMode() : string;
     
     /**
      * Get user auth mode name
      * ldap_1 for ldap account migration with server id 1
      * apache for apache auth
      */
-    public function getUserAuthModeName();
+    public function getUserAuthModeName() : string;
     
     /**
      * Get external account name
-     * @return string
      */
-    public function getExternalAccountName();
+    public function getExternalAccountName() : string;
     
     
     
     /**
      * Create new account
-     * @param ilAuthStatus
      */
-    public function migrateAccount(ilAuthStatus $status);
+    public function migrateAccount(ilAuthStatus $status) : void;
     
     
     /**
      * Create new ILIAS account for external_account
-     * @param ilAuthStatus
      */
-    public function createNewAccount(ilAuthStatus $status);
+    public function createNewAccount(ilAuthStatus $status) : void;
 }

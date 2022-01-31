@@ -27,9 +27,6 @@
  */
 class ilLoginPageGUI extends ilPageObjectGUI
 {
-    /**
-    * Constructor
-    */
     public function __construct(int $a_id = 0, int $a_old_nr = 0)
     {
         parent::__construct("auth", $a_id, $a_old_nr);

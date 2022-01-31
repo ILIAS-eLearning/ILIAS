@@ -22,9 +22,10 @@
  */
 class ilAuthStatus
 {
-    private static $instance = null;
+    private static ?ilAuthStatus $instance = null;
     
-    private $logger = null;
+    private ilLanguage $lng;
+    private ilLogger $logger;
     
     const STATUS_UNDEFINED = 1;
     const STATUS_AUTHENTICATED = 2;
@@ -32,10 +33,10 @@ class ilAuthStatus
     const STATUS_ACCOUNT_MIGRATION_REQUIRED = 4;
     const STATUS_CODE_ACTIVATION_REQUIRED = 5;
     
-    private $status = self::STATUS_UNDEFINED;
-    private $reason = '';
-    private $translated_reason = '';
-    private $auth_user_id = 0;
+    private int $status = self::STATUS_UNDEFINED;
+    private string $reason = '';
+    private string $translated_reason = '';
+    private int $auth_user_id = 0;
     
     
     
@@ -44,35 +45,26 @@ class ilAuthStatus
      */
     private function __construct()
     {
-        $this->logger = ilLoggerFactory::getLogger('auth');
+        global $DIC;
+        $this->lng = $DIC->language();
+        $this->logger = $DIC->logger()->auth();
     }
     
     /**
      * Get status instance
-     * @return \ilAuthStatus
      */
-    public static function getInstance() : self
+    public static function getInstance() : ilAuthStatus
     {
         if (self::$instance) {
             return self::$instance;
         }
-        return self::$instance = new self();
-    }
-    
-    /**
-     * Get logger
-     * @return \ilLogger
-     */
-    protected function getLogger()
-    {
-        return $this->logger;
+        return self::$instance = new ilAuthStatus();
     }
     
     /**
      * Set auth status
-     * @param int $a_status
      */
-    public function setStatus($a_status)
+    public function setStatus(int $a_status) : void
     {
         $this->status = $a_status;
     }
@@ -81,7 +73,7 @@ class ilAuthStatus
      * Get status
      * @return int $status
      */
-    public function getStatus()
+    public function getStatus() : int
     {
         return $this->status;
     }
@@ -90,25 +82,23 @@ class ilAuthStatus
      * Set reason
      * @param string $a_reason A laguage key, which can be translated to an end user message
      */
-    public function setReason($a_reason)
+    public function setReason(string $a_reason) : void
     {
         $this->reason = $a_reason;
     }
     
     /**
      * Set translated reason
-     * @param string $a_reason
      */
-    public function setTranslatedReason($a_reason)
+    public function setTranslatedReason(string $a_reason) : void
     {
         $this->translated_reason = $a_reason;
     }
     
     /**
      * Get reason for authentication success, fail, migration...
-     * @return string
      */
-    public function getReason()
+    public function getReason() : string
     {
         return $this->reason;
     }
@@ -116,25 +106,24 @@ class ilAuthStatus
     /**
      * Get translated reason
      */
-    public function getTranslatedReason()
+    public function getTranslatedReason() : string
     {
         if (strlen($this->translated_reason)) {
             return $this->translated_reason;
         }
-        return $GLOBALS['DIC']->language()->txt($this->getReason());
+        return $this->lng->txt($this->getReason());
     }
     
     
-    public function setAuthenticatedUserId($a_id)
+    public function setAuthenticatedUserId(int $a_id) : void
     {
         $this->auth_user_id = $a_id;
     }
     
     /**
      * Get authenticated user id
-     * @return int
      */
-    public function getAuthenticatedUserId()
+    public function getAuthenticatedUserId() : int
     {
         return $this->auth_user_id;
     }

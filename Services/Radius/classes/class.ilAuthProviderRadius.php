@@ -114,16 +114,16 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
     /**
      * get trigger auth mode
      */
-    public function getTriggerAuthMode() : int
+    public function getTriggerAuthMode() : string
     {
-        return ilAuthUtils::AUTH_RADIUS;
+        return (string) ilAuthUtils::AUTH_RADIUS;
     }
 
     /**
      * get user auth mode name
      * @return string
      */
-    public function getUserAuthModeName()
+    public function getUserAuthModeName() : string
     {
         return 'radius';
     }
@@ -132,7 +132,7 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
      * Migrate existing account to radius authentication
      * @inheritdoc
      */
-    public function migrateAccount(ilAuthStatus $status)
+    public function migrateAccount(ilAuthStatus $status) : void
     {
     }
 }

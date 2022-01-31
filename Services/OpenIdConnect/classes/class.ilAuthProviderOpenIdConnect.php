@@ -53,7 +53,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         $auth_token = ilSession::get('oidc_auth_token');
         $this->getLogger()->debug('Using token: ' . $auth_token);
 
-        if (strlen($auth_token)) {
+        if (isset($auth_token) && strlen($auth_token)) {
             ilSession::set('oidc_auth_token', '');
             $oidc = $this->initClient();
             $oidc->signOut(

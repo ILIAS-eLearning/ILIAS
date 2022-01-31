@@ -14,13 +14,8 @@
  *
  *****************************************************************************/
 
-require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionControl.php');
-require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionStatistics.php');
-require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionIStorage.php');
-
 /**
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id:$
 *
 * @externalTableAccess ilObjUser on usr_session
 * @ingroup ServicesAuthentication
@@ -62,12 +57,9 @@ class ilSession
     const SESSION_CLOSE_SIMUL = 10; // simultaneous login
     const SESSION_CLOSE_INACTIVE = 11; // inactive account
 
-    private static $closing_context = null;
+    private static ?int $closing_context = null;
 
-    /**
-     * @var bool
-     */
-    protected static $enable_web_access_without_session = false;
+    protected static bool $enable_web_access_without_session = false;
 
     /**
      * Get session data from table
@@ -78,7 +70,7 @@ class ilSession
      * @param	string		session id
      * @return	string		session data
      */
-    public static function _getData($a_session_id)
+    public static function _getData(string $a_session_id) : string
     {
         if (!$a_session_id) {
             // fix for php #70520
@@ -106,7 +98,7 @@ class ilSession
      * @param string $a_session_id
      * @return int expired unix timestamp
      */
-    public static function lookupExpireTime($a_session_id)
+    public static function lookupExpireTime(string $a_session_id) : int
     {
         global $DIC;
 
@@ -128,7 +120,7 @@ class ilSession
     * @param	string		session id
     * @param	string		session data
     */
-    public static function _writeData($a_session_id, $a_data)
+    public static function _writeData(string $a_session_id, string $a_data) : bool
     {
         global $DIC;
 
@@ -217,7 +209,7 @@ class ilSession
     * @param	string		session id
     * @return	boolean		true, if session id exists
     */
-    public static function _exists($a_session_id)
+    public static function _exists(string $a_session_id) : bool
     {
         if (!$a_session_id) {
             return false;
@@ -239,7 +231,7 @@ class ilSession
     * @param	int					closing context
     * @param	int|bool			expired at timestamp
     */
-    public static function _destroy($a_session_id, $a_closing_context = null, $a_expired_at = null)
+    public static function _destroy($a_session_id, ?int $a_closing_context = null, $a_expired_at = null)
     {
         global $DIC;
 
@@ -248,10 +240,9 @@ class ilSession
         if (!$a_closing_context) {
             $a_closing_context = self::$closing_context;
         }
-            
+
         ilSessionStatistics::closeRawEntry($a_session_id, $a_closing_context, $a_expired_at);
-        
-        
+
         if (!is_array($a_session_id)) {
             $q = "DELETE FROM usr_session WHERE session_id = " .
                 $ilDB->quote($a_session_id, "text");
@@ -274,9 +265,9 @@ class ilSession
     /**
     * Destroy session
     *
-    * @param	string		session id
+    * @param	int 		user id
     */
-    public static function _destroyByUserId($a_user_id)
+    public static function _destroyByUserId(int $a_user_id)
     {
         global $DIC;
 
@@ -319,7 +310,7 @@ class ilSession
     * @param	string		session id
     * @return	string		new session id
     */
-    public static function _duplicate($a_session_id)
+    public static function _duplicate(string $a_session_id) : string
     {
         global $DIC;
 
@@ -351,11 +342,10 @@ class ilSession
      *
      * @param	boolean	If passed, the value for fixed session is returned
      * @return	integer	The expiration timestamp in seconds
-     * @access	public
      * @static
      *
      */
-    public static function getExpireValue($fixedMode = false)
+    public static function getExpireValue(bool $fixedMode = false) : int
     {
         global $DIC;
 
@@ -379,11 +369,8 @@ class ilSession
      *
      * @param	boolean	If passed, the value for fixed session is returned
      * @return	integer	The idle time in seconds
-     * @access	public
-     * @static
-     *
      */
-    public static function getIdleValue($fixedMode = false)
+    public static function getIdleValue(bool $fixedMode = false) : int
     {
         global $DIC;
 
@@ -392,7 +379,7 @@ class ilSession
         
         if ($fixedMode || $ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_FIXED) {
             // fixed session
-            return $ilClientIniFile->readVariable('session', 'expire');
+            return (int) $ilClientIniFile->readVariable('session', 'expire');
         } elseif ($ilSetting->get('session_handling_type', (string) self::SESSION_HANDLING_FIXED) == (string) self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
@@ -404,11 +391,9 @@ class ilSession
      * Returns the session expiration value
      *
      * @return integer	The expiration value in seconds
-     * @access	public
-     * @static
      *
      */
-    public static function getSessionExpireValue()
+    public static function getSessionExpireValue() : int
     {
         return self::getIdleValue(true);
     }
@@ -419,7 +404,7 @@ class ilSession
      * @param	string	ip address
      * @return 	array	list of active user id
      */
-    public static function _getUsersWithIp($a_ip)
+    public static function _getUsersWithIp(string $a_ip) : array
     {
         global $DIC;
 
@@ -439,17 +424,13 @@ class ilSession
     
     /**
      * Set a value
-     *
-     * @param
-     * @return
      */
-    public static function set($a_var, $a_val)
+    public static function set(string $a_var, $a_val) : void
     {
         $_SESSION[$a_var] = $a_val;
     }
 
     /**
-     * @param string$a_var
      * @return mixed|null
      */
     public static function get(string $a_var)
@@ -474,20 +455,16 @@ class ilSession
     
     /**
      * set closing context (for statistics)
-     *
-     * @param int $a_context
      */
-    public static function setClosingContext($a_context)
+    public static function setClosingContext(int $a_context) : void
     {
-        self::$closing_context = (int) $a_context;
+        self::$closing_context = $a_context;
     }
     
     /**
      * get closing context (for statistics)
-     *
-     * @return int
      */
-    public static function getClosingContext()
+    public static function getClosingContext() : int
     {
         return self::$closing_context;
     }
@@ -497,16 +474,16 @@ class ilSession
     /**
      * @return boolean
      */
-    public static function isWebAccessWithoutSessionEnabled()
+    public static function isWebAccessWithoutSessionEnabled() : bool
     {
-        return (bool) self::$enable_web_access_without_session;
+        return self::$enable_web_access_without_session;
     }
 
     /**
      * @param boolean $enable_web_access_without_session
      */
-    public static function enableWebAccessWithoutSession($enable_web_access_without_session)
+    public static function enableWebAccessWithoutSession(bool $enable_web_access_without_session) : void
     {
-        self::$enable_web_access_without_session = (bool) $enable_web_access_without_session;
+        self::$enable_web_access_without_session = $enable_web_access_without_session;
     }
 }

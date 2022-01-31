@@ -38,9 +38,9 @@
  */
 class ilSessionIStorage
 {
-    protected $session_id = "";
-    protected $component_id = "";
-    protected static $values = array();
+    private string $session_id = "";
+    private string $component_id = "";
+    private static array $values = [];
     
     /**
      * Constructor
@@ -48,7 +48,7 @@ class ilSessionIStorage
      * @param string $a_component_id component id (e.g. "crs", "lm", ...)
      * @param string $a_sess_id session id
      */
-    public function __construct($a_component_id, $a_sess_id = "")
+    public function __construct(string $a_component_id, string $a_sess_id = "")
     {
         $this->component_id = $a_component_id;
         if ($a_sess_id != "") {
@@ -70,7 +70,7 @@ class ilSessionIStorage
      *
      * @param string $a_val value
      */
-    public function set($a_key, $a_val)
+    public function set(string $a_key, string $a_val)
     {
         global $DIC;
 
@@ -125,11 +125,8 @@ class ilSessionIStorage
     
     /**
      * Destroy session(s). This is called by ilSession->destroy
-     *
-     * @param
-     * @return
      */
-    public static function destroySession($a_session_id)
+    public static function destroySession(string $a_session_id) : void
     {
         global $DIC;
 

@@ -28,13 +28,16 @@ class ilAuthModeDetermination
     const TYPE_MANUAL = 0;
     const TYPE_AUTOMATIC = 1;
     
-    protected static $instance = null;
+    private static ?ilAuthModeDetermination $instance = null;
     
-    protected $db = null;
-    protected $settings = null;
+    private ilDBInterface $db;
+    private ilLogger $logger;
     
-    protected $kind = 0;
-    protected $position = array();
+    private ilSetting $settings;
+    private ilSetting $commonSettings;
+    
+    private int $kind = self::TYPE_MANUAL;
+    private array $position = [];
     
 
     /**
@@ -46,26 +49,20 @@ class ilAuthModeDetermination
     private function __construct()
     {
         global $DIC;
+      
+        $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->auth();
 
-        $ilSetting = $DIC['ilSetting'];
-        $ilDB = $DIC['ilDB'];
-        
-        $this->db = $ilDB;
+        $this->commonSettings = $DIC->settings();
 
-        include_once "./Services/Administration/classes/class.ilSetting.php";
         $this->settings = new ilSetting("auth_mode_determination");
         $this->read();
     }
     
     /**
      * Get instance
-     *
-     * @access public
-     * @static
-     *
-     * @return ilAuthModeDetermination
      */
-    public static function _getInstance()
+    public static function _getInstance() : ilAuthModeDetermination
     {
         if (self::$instance) {
             return self::$instance;
@@ -75,24 +72,16 @@ class ilAuthModeDetermination
 
     /**
      * is manual selection
-     *
-     * @access public
-
-     *
-     * @param
      */
-    public function isManualSelection()
+    public function isManualSelection() : bool
     {
         return $this->kind == self::TYPE_MANUAL;
     }
 
     /**
      * get kind
-     *
-     * @access public
-     *
      */
-    public function getKind()
+    public function getKind() : int
     {
         return $this->kind;
     }
@@ -100,22 +89,19 @@ class ilAuthModeDetermination
     /**
      * set kind of determination
      *
-     * @access public
      * @param int TYPE_MANUAL or TYPE_DETERMINATION
      *
      */
-    public function setKind($a_kind)
+    public function setKind(int $a_kind) : void
     {
+        // TODO check value range
         $this->kind = $a_kind;
     }
     
     /**
      * get auth mode sequence
-     *
-     * @access public
-     *
      */
-    public function getAuthModeSequence($a_username = '')
+    public function getAuthModeSequence(string $a_username = '') : array
     {
         if (!strlen($a_username)) {
             return $this->position ? $this->position : array();
@@ -123,36 +109,32 @@ class ilAuthModeDetermination
         $sorted = array();
         
         foreach ($this->position as $auth_key) {
-            include_once './Services/LDAP/classes/class.ilLDAPServer.php';
             $sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
             if ($sid) {
                 $server = ilLDAPServer::getInstanceByServerId($sid);
-                ilLoggerFactory::getLogger('auth')->debug('Validating username filter for ' . $server->getName());
+                $this->logger->debug('Validating username filter for ' . $server->getName());
                 if (strlen($server->getUsernameFilter())) {
                     //#17731
                     $pattern = str_replace('*', '.*?', $server->getUsernameFilter());
 
                     if (preg_match('/^' . $pattern . '$/', $a_username)) {
-                        ilLoggerFactory::getLogger('auth')->debug('Filter matches for ' . $a_username);
+                        $this->logger->debug('Filter matches for ' . $a_username);
                         array_unshift($sorted, $auth_key);
                         continue;
                     }
-                    ilLoggerFactory::getLogger('auth')->debug('Filter matches not for ' . $a_username . ' <-> ' . $server->getUsernameFilter());
+                    $this->logger->debug('Filter matches not for ' . $a_username . ' <-> ' . $server->getUsernameFilter());
                 }
             }
             $sorted[] = $auth_key;
         }
         
-        return (array) $sorted;
+        return $sorted;
     }
     
     /**
      * get number of auth modes
-     *
-     * @access public
-     *
      */
-    public function getCountActiveAuthModes()
+    public function getCountActiveAuthModes() : int
     {
         return count($this->position);
     }
@@ -160,27 +142,22 @@ class ilAuthModeDetermination
     /**
      * set auth mode sequence
      *
-     * @access public
      * @param array position => AUTH_MODE
      *
      */
-    public function setAuthModeSequence($a_pos)
+    public function setAuthModeSequence(array $a_pos) : int
     {
         $this->position = $a_pos;
     }
     
     /**
      * Save settings
-     *
-     * @access public
-     * @param
-     *
      */
-    public function save()
+    public function save() : void
     {
         $this->settings->deleteAll();
         
-        $this->settings->set('kind', $this->getKind());
+        $this->settings->set('kind', (string) $this->getKind());
         
         $counter = 0;
         foreach ($this->position as $auth_mode) {
@@ -191,23 +168,15 @@ class ilAuthModeDetermination
     
     /**
      * Read settings
-     *
-     * @access private
-     * @param
-     *
      */
     private function read()
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
         
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
-        $soap_active = (bool) $ilSetting->get('soap_auth_active', (string) false);
+        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', (string) false);
 
         // apache settings
         $apache_settings = new ilSetting('apache_auth');

@@ -17,7 +17,6 @@
 // define auth modes
 define("AUTH_LOCAL", 1);
 define("AUTH_LDAP", 2);
-//define("AUTH_RADIUS", 3);
 define("AUTH_SCRIPT", 4);
 define("AUTH_SHIBBOLETH", 5);
 define("AUTH_CAS", 6);
@@ -40,7 +39,6 @@ define('AUTH_PROVIDER_LTI', 22);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER', -200);
-define('AUTH_RADIUS_NO_ILIAS_USER', -300);
 
 // apache auhtentication failed...
 // maybe no (valid) certificate or
@@ -100,7 +98,8 @@ class ilAuthUtils
     
     const AUTH_SOAP_NO_ILIAS_USER = -100;
     const AUTH_LDAP_NO_ILIAS_USER = -200;
-    const AUTH_RADIUS_NO_ILIAS_USER = -300;
+    //TODO found no more refs to this, check if can go away
+    //const AUTH_RADIUS_NO_ILIAS_USER = -300;
     
     // apache auhtentication failed...
     // maybe no (valid) certificate or
@@ -394,7 +393,6 @@ class ilAuthUtils
                 }
                 continue;
             } elseif ($mode == AUTH_SAML) {
-                require_once 'Services/Saml/classes/class.ilSamlIdp.php';
                 foreach (ilSamlIdp::getAllIdps() as $idp) {
                     $id = AUTH_SAML . '_' . $idp->getIdpId();
                     $ret[$id] = ilAuthUtils::_getAuthModeName($id);
@@ -485,7 +483,6 @@ class ilAuthUtils
         }
         // end-patch ldap_multiple
         
-        include_once('Services/Radius/classes/class.ilRadiusSettings.php');
         $rad_settings = ilRadiusSettings::_getInstance();
         if ($rad_settings->isActive()) {
             $options[ilAuthUtils::AUTH_RADIUS]['txt'] = $rad_settings->getName();
@@ -500,15 +497,15 @@ class ilAuthUtils
             $options[AUTH_APACHE]['hide_in_ui'] = true;
         }
 
-        if ($ilSetting->get('auth_mode', AUTH_LOCAL) == AUTH_LDAP) {
+        if ($ilSetting->get('auth_mode', (string) AUTH_LOCAL) == (string) AUTH_LDAP) {
             $default = AUTH_LDAP;
-        } elseif ($ilSetting->get('auth_mode', AUTH_LOCAL) == ilAuthUtils::AUTH_RADIUS) {
+        } elseif ($ilSetting->get('auth_mode', (string) AUTH_LOCAL) == (string) ilAuthUtils::AUTH_RADIUS) {
             $default = ilAuthUtils::AUTH_RADIUS;
         } else {
             $default = AUTH_LOCAL;
         }
         
-        $default = $ilSetting->get('default_auth_mode', $default);
+        $default = $ilSetting->get('default_auth_mode', (string) $default);
         $default = (int) ($_REQUEST['auth_mode'] ?? $default);
 
         // begin-patch auth_plugin

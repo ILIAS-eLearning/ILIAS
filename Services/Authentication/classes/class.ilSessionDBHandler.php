@@ -43,7 +43,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $path
      * @param string $name session name [PHPSESSID]
      */
-    public function open($path, $name) : bool
+    public function open($path, $name)
     {
         return true;
     }
@@ -74,7 +74,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $id session id
      * @param string $data session data
      */
-    public function write($id, $data) : bool
+    public function write($id, $data)
     {
         chdir(IL_INITIAL_WD);
 
@@ -85,7 +85,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * Destroys session
      * @param string $id session id
      */
-    public function destroy($id) : bool
+    public function destroy($id)
     {
         return ilSession::_destroy($id);
     }
@@ -93,7 +93,6 @@ class ilSessionDBHandler implements SessionHandlerInterface
     /**
      * Removes sessions that weren't updated for more than gc_maxlifetime seconds
      * @param int $max_lifetime Sessions that have not updated for the last max_lifetime seconds will be removed.
-     * @return int|bool
      */
     public function gc($max_lifetime)
     {

@@ -26,55 +26,41 @@ abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
     /**
      * Does your AuthProvider needs "ext_account"? return true, false otherwise.
      *
-     * @param string $a_auth_id
-     *
-     * @return bool
+     * @param int $a_auth_id
      */
-    abstract public function isExternalAccountNameRequired($a_auth_id);
+    abstract public function isExternalAccountNameRequired(int $a_auth_id) : bool;
 
     /**
-     *
-     * @param ilAuthCredentials $credentials
-     * @param string $a_auth_mode
-     *
      * @return ilAuthProviderInterface Your special instance of
      *         ilAuthProviderInterface where all the magic
      *         happens. You get the ilAuthCredentials and
      *         the user-selected (Sub-)-Mode as well.
      */
-    abstract public function getProvider(ilAuthCredentials $credentials, $a_auth_mode);
+    abstract public function getProvider(ilAuthCredentials $credentials, string $a_auth_mode) : ilAuthProviderInterface;
 
     /**
-     *
-     * @param string $a_auth_id
      *
      * @return string Text-Representation of your Auth-mode.
      */
-    abstract public function getAuthName($a_auth_id);
+    abstract public function getAuthName(int $a_auth_id) : string;
 
     /**
-     *
-     * @param
-     *            $a_auth_id
-     *
      * @return array return an array with all your sub-modes (options) if you have some.
      *         The array comes as ['subid1' => 'Name of the Sub-Mode One', ...]
      *         you can return an empty array if you have just a "Main"-Mode.
      */
-    abstract public function getMultipleAuthModeOptions($a_auth_id);
+    abstract public function getMultipleAuthModeOptions(int $a_auth_id) : array;
 
     /**
      *
      * @param string $id
      *            (can be your Mode or – if you have any – a Sub-mode.
-     *
-     * @return bool
      */
-    abstract public function isAuthActive($id);
+    abstract public function isAuthActive(int $id) : bool;
 
     /**
      *
      * @return array IDs of your Auth-Modes and Sub-Modes.
      */
-    abstract public function getAuthIds();
+    abstract public function getAuthIds() : array;
 }
