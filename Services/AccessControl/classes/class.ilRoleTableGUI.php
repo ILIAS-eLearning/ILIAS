@@ -16,6 +16,9 @@ class ilRoleTableGUI extends ilTable2GUI
     private const TYPE_ROLT_AU = 5;
     private const TYPE_ROLT_UD = 6;
 
+    private const FILTER_ROLE_TYPE = 'role_type';
+    private const FILTER_TITLE = 'title';
+
     private const TYPE_VIEW = 1;
     private const TYPE_SEARCH = 2;
 
@@ -114,11 +117,7 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->path_gui = new ilPathGUI();
         $this->getPathGUI()->enableTextOnly(false);
         $this->getPathGUI()->enableHideLeaf(false);
-
-        // Filter initialisation
-        if ($this->getType() == self::TYPE_VIEW) {
-            $this->initFilter();
-        }
+        $this->initFilter();
     }
 
     /**
@@ -149,26 +148,23 @@ class ilRoleTableGUI extends ilTable2GUI
         }
 
         $roles = new ilSelectInputGUI($this->lng->txt('rbac_role_selection'), 'role_type');
-
         $roles->setOptions($action);
-
         $this->addFilterItem($roles);
-
         $roles->readFromSession();
+
         if (!$roles->getValue()) {
             $roles->setValue(ilRbacReview::FILTER_ALL_GLOBAL);
         }
 
         // title filter
-        $title = new ilTextInputGUI($this->lng->txt('title'), 'role_title');
+        $title = new ilTextInputGUI($this->lng->txt('title'), self::FILTER_TITLE);
         $title->setSize(16);
         $title->setMaxLength(64);
-
         $this->addFilterItem($title);
         $title->readFromSession();
 
-        $this->filter['role_type'] = $roles->getValue();
-        $this->filter['role_title'] = $title->getValue();
+        $this->filter[self::FILTER_ROLE_TYPE] = (int) $roles->getValue();
+        $this->filter[self::FILTER_TITLE] = (string) $title->getValue();
     }
 
     protected function fillRow(array $a_set) : void
@@ -256,24 +252,25 @@ class ilRoleTableGUI extends ilTable2GUI
     {
         $this->role_folder_id = $role_folder_id;
 
+        $filter_orig = '';
         if ($this->getType() == self::TYPE_VIEW) {
-            $filter_orig = $filter = $this->getFilterItemByPostVar('role_title')->getValue();
-            $type = $this->getFilterItemByPostVar('role_type')->getValue();
+            $filter_orig = $title_filter = $this->filter[self::FILTER_TITLE];
+            $type_filter = $this->filter[self::FILTER_ROLE_TYPE];
         } else {
-            $filter_orig = $filter = $this->getRoleTitleFilter();
-            $type = ilRbacReview::FILTER_ALL;
+            $filter_orig = $title_filter = $this->getRoleTitleFilter();
+            $type_filter = ilRbacReview::FILTER_ALL;
         }
 
         // the translation must be filtered
-        if ($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL) {
+        if ($type_filter == ilRbacReview::FILTER_INTERNAL || $type_filter == ilRbacReview::FILTER_ALL) {
             // roles like il_crs_... are filtered manually
-            $filter = '';
+            $title_filter = '';
         }
 
         $role_list = $this->rbacreview->getRolesByFilter(
-            $type,
+            $type_filter,
             0,
-            $filter
+            (string) $title_filter
         );
 
         $counter = 0;
@@ -290,7 +287,7 @@ class ilRoleTableGUI extends ilTable2GUI
             }
 
             $title = ilObjRole::_getTranslation($role['title']);
-            if ($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL) {
+            if ($type_filter == ilRbacReview::FILTER_INTERNAL || $type_filter == ilRbacReview::FILTER_ALL) {
                 if (strlen($filter_orig)) {
                     if (stristr($title, $filter_orig) == false) {
                         continue;
