@@ -261,41 +261,15 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        // The corresponding $ilBench->start invocation is in inc.header.php
-        $ilBench = $DIC["ilBench"];
-        $ilBench->stop("Core", "ElapsedTimeUntilFooter");
-        $ftpl->setVariable(
-            "ELAPSED_TIME",
-            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
-        );
-        // END Usability: Non-Delos Skins can display the elapsed time in the footer
-
         $this->setVariable("FOOTER", $ftpl->get());
     }
 
     protected function getMainMenu() : void
     {
-        global $DIC;
-
-        $ilMainMenu = $DIC["ilMainMenu"];
-
-        if ($this->variableExists('MAINMENU')) {
-            $ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-            $this->main_menu = $ilMainMenu->getHTML();
-            $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-        }
     }
 
     protected function fillMainMenu() : void
     {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-        if ($this->variableExists('MAINMENU')) {
-            $tpl->setVariable("MAINMENU", $this->main_menu);
-            $tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
-        }
     }
 
     protected function initHelp() : void
@@ -1314,7 +1288,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
     protected function fillPermanentLink() : void
     {
-        if (is_array($this->permanent_link)) {
+        if (!empty($this->permanent_link)) {
             $plinkgui = new ilPermanentLinkGUI(
                 $this->permanent_link["type"],
                 $this->permanent_link["id"],
