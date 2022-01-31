@@ -15,91 +15,42 @@
 */
 class ILIAS
 {
-    /**
-    * ini file
-    * @var string
-    */
-    public $INI_FILE;
+    public string $INI_FILE;
+    public string $client_id = '';
 
     /**
-    * database connector
-    * @var string
-    * @access public
-    */
-    public $dsn = "";
-
-    /**
-    * database handle
-    * @var object database
-    * @access private
-    */
-    public $db;
-
-    /**
-    * template path
-    * @var string
-    * @access private
-    */
-    public $tplPath = "./templates/";
-
-    /**
-    * user account
-    * @var object user
-    * @access public
-    */
+     * @var ilObjUser
+     * @deprecated
+     */
     public $account;
 
-    /**
-    * auth parameters
-    * @var array
-    * @access private
-    */
-    public $auth_params = array();
 
     /**
-    * auth handler
-    * @var object auth
-    * @access public
-    */
-    public $auth;
-
-    /**
-    * system settings
-    * @var array
-    * @access public
+     * @var ilIniFile
+     * @deprecated
     */
     public $ini = array();
 
     /**
-    * Error Handling
-    * @var object Error
-    * @access public
-    */
+     * @var ilIniFile
+     * @deprecated
+     */
+    public $ini_ilias;
+
+    /**
+     * @var ilDBInterface
+     * @deprecated
+     */
+    public $db;
+
+    /**
+     * @var ilErrorHandling
+     * @deprecated
+     */
     public $error_obj;
 
-    /**
-    * object factory
-    *
-    * @var object factory
-    * @access public
-    */
-    public $obj_factory;
-
-    /**
-    * styles
-    *
-    * @var	array	list of stylesheets
-    * @access	public
-    */
-    public $styles;
-
-    /**
-    * skins (template sets)
-    *
-    * @var	array	list of skins
-    * @access	public
-    */
-    public $skins;
+    protected ?ilSetting $setting = null;
+    protected ilErrorHandling $error;
     
     /**
     * Constructor
@@ -108,148 +59,76 @@ class ILIAS
     */
     public function __construct($a_client_id = 0)
     {
-        global $ilErr, $ilDB, $ilIliasIniFile, $ilClientIniFile, $ilAuth;
+        global $DIC, $ilClientIniFile, $ilIliasIniFile, $ilDB;
 
-        $this->ini_ilias = &$ilIliasIniFile;
-        $this->client_id = '';
-        if (defined('CLIENT_ID')) {
-            $this->client_id = CLIENT_ID;
-        }
         $this->ini = &$ilClientIniFile;
+        $this->ini_ilias = &$ilIliasIniFile;
         $this->db = &$ilDB;
-        $this->error_obj = &$ilErr;
-        $this->auth = &$ilAuth;
 
-        // create instance of object factory
-        include_once("./Services/Object/classes/class.ilObjectFactory.php");
-        $this->obj_factory = new ilObjectFactory();
+        // already available in DIC
+        $this->error_obj = $DIC['ilErr'];
     }
 
-    
-    
-    /**
-    * set authentication error (should be set after Auth->start() via
-    * $ilias->setAuthError($ilErr->getLastError());
-    *
-    * @param	object		$a_error_obj	pear error object
-    */
-    public function setAuthError($a_error_obj)
+    protected function getSettingObject() : ?ilSetting
     {
-        $this->auth_error = &$a_error_obj;
+        global $DIC;
+
+        if (!$this->setting instanceof ilSetting) {
+            return $this->setting = $DIC->settings();
+        }
+        return $this->setting;
     }
     
-    /**
-    * get (last) authentication error object
-    */
-    public function &getAuthError()
-    {
-        return $this->auth_error;
-    }
 
     /**
     * read one value from settingstable
-    * @access	public
-    * @param	string	keyword
-    * @param	string	default_value This value is returned, when no setting has
-    *								  been found for the keyword.
-    * @return	string	value
+     * @deprecated
     */
-    public function getSetting($a_keyword, $a_default_value = false)
+    public function getSetting(string $a_keyword, ?string $a_default_value = null) : ?string
     {
-        global $ilSetting;
-        
-        return $ilSetting->get($a_keyword, $a_default_value);
+        return $this->getSettingObject()->get($a_keyword, $a_default_value);
     }
     
     /**
     * delete one value from settingstable
-    * @access	public
-    * @param	string	keyword
-    * @return	string	value
+     * @deprecated
+     * @see $DIC->settings()->delete()
     */
-    public function deleteSetting($a_keyword)
+    public function deleteSetting(string $a_keyword) : void
     {
-        global $ilSetting;
-        
-        return $ilSetting->delete($a_keyword);
-    }
-
-
-    /**
-    * read all values from settingstable
-    * @access	public
-    * @return	array	keyword/value pairs
-    */
-    public function getAllSettings()
-    {
-        global $ilSetting;
-        
-        return $ilSetting->getAll();
+        $this->getSettingObject()->delete($a_keyword);
     }
 
     /**
-    * write one value to db-table settings
-    * @access	public
-    * @param	string		keyword
-    * @param	string		value
-    * @return	boolean		true on success
-    *
-    * TODO: change to replace-statement
-    */
-    public function setSetting($a_key, $a_val)
+     * @deprecated
+     */
+    public function getAllSettings() : array
     {
-        global $ilSetting;
-        
-        return $ilSetting->set($a_key, $a_val);
+        return $this->getSettingObject()->getAll();
     }
 
-
     /**
-    * get first available stylesheet from skindirectory
-    * @param	string
-    * @return	string	style name
-    * @access	public
-    */
-    public function getFirstStyle($a_skin)
+     * @deprecated
+     */
+    public function setSetting(string $a_key, string $a_val) : void
     {
-        if (!is_array($this->styles)) {
-            $this->getStyles($a_skin);
+        $this->getSettingObject()->set($a_key, $a_val);
+    }
+
+    public function getClientId() : string
+    {
+        if (defined('CLIENT_ID')) {
+            return (string) CLIENT_ID;
         }
-
-        return $this->styles[0]["name"];
-    }
-    
-    /**
-    * check if a template name exists on the server
-    * @param	string	template name
-    * @return	boolean	true if file exists
-    * @access	public
-    */
-    public function checkTemplate($a_name)
-    {
-        return file_exists($this->tplPath . $a_name);
-    }
-
-    /**
-    * get current user account
-    */
-    public function &getCurrentUser()
-    {
-        return $this->account;
-    }
-    
-    public function getClientId()
-    {
-        return $this->client_id;
+        return '';
     }
     
     /**
     * wrapper for downward compability
+     * @deprecated
     */
-    public function raiseError($a_msg, $a_err_obj)
+    public function raiseError(string $a_msg, int $a_err_obj)
     {
-        global $ilErr;
-
-        $ilErr->raiseError($a_msg, $a_err_obj);
+        $this->error_obj->raiseError($a_msg, $a_err_obj);
     }
 } // END class.ilias

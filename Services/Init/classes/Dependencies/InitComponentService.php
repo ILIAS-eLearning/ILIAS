@@ -4,7 +4,7 @@
  */
 class InitComponentService
 {
-    public function init(\ILIAS\DI\Container $c)
+    public function init(\ILIAS\DI\Container $c) : void
     {
         $int = $this->initInternal($c);
 

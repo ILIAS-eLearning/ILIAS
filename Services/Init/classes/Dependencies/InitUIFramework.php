@@ -4,7 +4,7 @@
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c)
+    public function init(\ILIAS\DI\Container $c) : void
     {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
