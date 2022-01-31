@@ -128,7 +128,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     {
         $notification = $this->getNotificationFromRequest();
         $notification->delete();
-        ilUtil::sendInfo($this->lng->txt('msg_success_deleted'), true);
+        ilUtil::sendSuccess($this->lng->txt('msg_success_deleted'), true);
         $this->cancel();
     }
 
