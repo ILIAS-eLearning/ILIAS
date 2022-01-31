@@ -1,11 +1,23 @@
-/* Copyright (c) 1998-2021 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file
 *
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	7.x 2021-12-05
+* @version	7.x 2022-01-31
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -197,7 +209,7 @@ survey#:#svy_eval_captions_abs#:#Abszolút
 survey#:#svy_eval_captions_perc#:#Százalék
 survey#:#svy_chart_download#:#Diagram letöltése
 survey#:#svy_export_pdf#:#Exportálás PDF-ként
-survey#:#svy_notification_tutor_results#:#Egy e-Mail a kérdőív eredményeivel
+survey#:#svy_notification_tutor_results#:#Egy e-mail a kérdőív eredményeivel
 survey#:#svy_notification_tutor_results_info#:#A feladatütemező el fogja küldeni csatolmányként a kérdőív részletes eredményeit a záró dátumkor.
 survey#:#svy_notification_tutor_results_alert#:#Adjon meg záró dátumot.
 survey#:#survey_results_tutor_subject#:#'%s' kérdőív eredményei
@@ -246,6 +258,7 @@ auth#:#auth_oidc_update_field_info#:#Automatikus frissítés
 auth#:#auth_oidc_role_mapping_table#:#ILIAS-szerepek és OpenID-attribútumok összerendelése.
 auth#:#auth_oidc_update_role_info#:#Csak az első bejelentkezéskor (automatikus szinkronizálás) alkalmazzuk
 content#:#cont_lpe_openid_connect_login#:#OpenID-felhasználónév
+content#:#cont_lpe_saml_login#:#SAML-bejelentkezés
 common#:#msg_wrong_filetypes#:#Engedélyezett fájltípusok:
 common#:#msg_to_many_files#:#Túl sok fájl választott ki, többet, mint
 common#:#msg_no_files_selected#:#Egy fájlt sem választott ki
@@ -1995,7 +2008,9 @@ common#:#withdrawal_complete_deleted#:#Sikeresen visszavonta a Szolgáltatási f
 common#:#withdrawal_complete_redirect#:#Sikeresen visszavonta a Szolgáltatási feltételek elfogadását. ILIAS-fiókja eltávolításához keresse fel szervezetét.
 common#:#withdrawal_mail_subject#:#Szolgáltatási feltételek elfogadásának visszavonása
 common#:#withdrawal_sure_account_deletion#:#Biztos, hogy visszavonja a Szolgáltatási feltételek elfogadását? ILIAS-fiókáját végérvényesen töröljük.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Biztos, hogy nem fogadja el a Szolgáltatási feltételeket? Ebben az esetben az ILIAS-fiójkját véglegesen töröljük.
 common#:#withdrawal_sure_account#:#Biztos, hogy visszavonja a Szolgáltatási feltételek elfogadását?
+common#:#withdrawal_sure_account_no_consent_yet#:#Biztos, hogy nem fogadja el a Szolgáltatási feltételeket?
 common#:#withdrawal_mail_text#:#Tisztelt Üzemeltető,[BR][BR]ezúton visszavonom a Szolgáltatási feltételek elfogadását. Kérem, módosítsa/törölje fiókomat.[BR][BR]Név: %1$s[BR]Felhasználónév: %2$s[BR]Külső fiók: %3$s[BR][BR]Üdvözlettel[BR]%1$s
 common#:#withdrawal_mail_info#:#A visszavonás jóváhagyása után a következő e-mail küldjük el az üzemeltőknek:[BR][BR]
 common#:#access_expired#:#lejárt
@@ -2290,10 +2305,10 @@ common#:#changed_to#:#amire változtat
 common#:#changing_loginname_not_possible_info#:#Ön legutóbb %s-kor cserélte a felhasználónevét. Legközelebb %s-kor cserélheti.
 common#:#chapter#:#Fejezet
 common#:#characters#:#karakter
-common#:#chat_enter_public_room_tooltip#:#Belépés nyilvános csevegésbe.
-common#:#chat_enter_public_room#:#Nyilvános csevegés
-common#:#chat_invite_public_room_tooltip#:#Meghívás nyilvános csevegésbe.
-common#:#chat_invite_public_room#:#Publikus csevegés
+common#:#chat_enter_public_room_tooltip#:#Belépés nyilvános csevegőszobába
+common#:#chat_enter_public_room#:#Nyilvános csevegőszoba
+common#:#chat_invite_public_room_tooltip#:#Meghívás nyilvános csevegőszobába
+common#:#chat_invite_public_room#:#Publikus csevegőszoba
 chatroom#:#chat_settings#:#Csevegésbeállítások
 chatroom#:#chat_use_osc#:#Képernyőbeszélgetések használata
 chatroom#:#chat_not_use_osc#:#Képernyőbeszélgetések használatának kikapcsolása
@@ -2806,8 +2821,9 @@ common#:#hide#:#Elrejtés
 common#:#hint#:#Útmutatás
 common#:#hist_lm_delete_pg#:#'%1' [%2] lapot sikeresen törölte.
 common#:#hist_lm_delete_st#:#'%1' [%2] fejezetet sikeresen törölte.
-common#:#hist_lm_pg_create#:#Sikeresen létrehozott egy lapot.
-common#:#hist_lm_st_create#:#Sikeresen létrehozott egy fejezetet.
+common#:#hist_lm_pg_create#:#A lapot sikeresen létrehozta.
+common#:#hist_lm_pg_update#:#A lapot sikeresen módosította.
+common#:#hist_lm_st_create#:#A fejezetet sikeresen létrehozota.
 common#:#hist_webr_add#:#'%1' című új weblinket sikeresen létrehozta.
 common#:#hist_webr_delete#:#'%1' című weblinket sikeresen törölte.
 common#:#hist_webr_update#:#'%1' című weblinket sikeresen módosította.
@@ -9564,7 +9580,7 @@ skmg#:#skmg_create_skill_template_reference#:#Kompetenciasablon-hivatkozás lét
 skmg#:#skmg_create_skill_category#:#Kompetenciakategória létrehozása
 skmg#:#skmg_description_info#:#A leírás a sablonból jön.
 common#:#notice#:#Jegyzet
-common#:#public_room#:#Nyilvános szoba
+common#:#public_room#:#Nyilvános csevegőszoba
 chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a <a href="%1$s" target="_blank">readme file</a>-ban talál.
 chatroom#:#chtr_new#:#Új csevegőszoba
 chatroom#:#chtr_add#:#Csevegőszoba létrehozása
@@ -13028,7 +13044,7 @@ common#:#clientlist_public_access#:#Nyilvános elérés
 common#:#clientlist_login#:#Bejelentkezés
 common#:#clientlist_start_page#:#Kezdőoldal
 common#:#clientlist_login_page#:#Bejelentkezési oldal
-forum#:#file_upload_allowed_fora_desc#:#Ha a 'Csatolmányok engedélyezése bizonyos fórumokban' be van kapcsolva, az adott fórum beállításában a fórummoderátor engedélyezheti fájlok csatolását a hozzászóláshoz. Új fórumban ez csatolás alapértelmezetten nem lehetséges.
+forum#:#file_upload_allowed_fora_desc#:#A csatolmányokat fórumonként lehet engedélyezni. Új fórumban a csatolás alapértelmezetten nem lehetséges.
 forum#:#file_upload_allowed_fora#:#Csatolmányok
 forum#:#file_upload_option_allow#:#Csatolmányok engedélyezése az összes fórumban
 forum#:#file_upload_option_disallow#:#Csatolmányok engedélyezése bizonyos fórumokban
@@ -14169,7 +14185,7 @@ rbac#:#news_add_news#:#Hír létrehozása
 rbac#:#grp_news_add_news#:#Csoportban saját hírek létrehozása és módosítása
 news#:#news_timline_add_entries_info#:#Jelenleg egy hír sincs, kattintson a 'Létrehozása' gombra.
 obj#:#obj_tool_setting_use_news#:#Hírek
-obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása.
+obj#:#obj_tool_setting_use_news_info#:#Hírblokk, illetve idővonal nézet bekapcsolása. Amennyiben aktív, a felhasználók értesítést kérhetnek a módosulásról. 
 obj#:#obj_tool_setting_use_news_open_settings#:#Beállítások megnyitása
 cont#:#cont_news_settings#:#Hírek beállításai
 cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
@@ -14330,7 +14346,7 @@ usr#:#user_actions#:#Felhasználói műveletek
 usr#:#user_action#:#Felhasználói művelet
 buddysystem#:#buddy_handle_contact_request#:#Kapcsolat kérése
 usr#:#user_actions_activation_info#:#A műveleteket csak akkor soroljuk fel a felhasználóknak, ha a kapcsolódó szolgáltatásokat bekapcsolták és az összes előfeltétel adott (például szükséges jogosultságok).
-chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyilvános chatszobába
+chatroom#:#chat_user_action_invite_public_room#:#Meghívás nyilvános csevegőszobába
 chatroom#:#chat_user_action_invite_osd#:#Meghívás képernyőbeszélgetésbe
 chatroom#:#chat_osc_no_conv#:#Jelenleg nem zajlik beszélgetés.
 chatroom#:#chat_osc_no_sub_directory#:#Almappa
@@ -15615,23 +15631,23 @@ rbac#:#lti_write#:#A felhasználó módosíthaja az LTI-Fogyasztó beállítása
 rbac#:#lti_delete#:#A felhasználó áthelyezhet vagy törölhet LTI-Fogyasztót
 rbac#:#lti_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 rbac#:#rbac_create_lti#:#LTI-Fogyasztó létrehozása
-rbac#:#cmix_visible#:#Az xAPI/cmi5 objektum látható
-rbac#:#cmix_read#:#A felhasználó láthatja a xAPI/cmi5 objektumot
+rbac#:#cmix_visible#:#Az xAPI/cmi5-objektum látható
+rbac#:#cmix_read#:#A felhasználó láthatja a xAPI/cmi5-objektumot
 rbac#:#cmix_read_outcomes#:#A felhasználó láthatja más felhasználók tanulási tapasztalatait és rangsorolásait
 rbac#:#cmix_read_learning_progress#:#A felhasználó láthatja más felhasználók tanulási haladását
 rbac#:#cmix_edit_learning_progress#:#A felhasználó szerkesztheti tanulási haladás beállításait
-rbac#:#cmix_copy#:#A felhasználó másolhat xAPI/cmi5 objektumot
-rbac#:#cmix_write#:#A felhasználó szerkesztheti xAPI/cmi5 objektum beállításait
-rbac#:#cmix_delete#:#A felhasználó áthelyezhet vagy törölhet xAPI/cmi5 objektumot
+rbac#:#cmix_copy#:#A felhasználó másolhat xAPI/cmi5-objektumot
+rbac#:#cmix_write#:#A felhasználó szerkesztheti xAPI/cmi5-objektum beállításait
+rbac#:#cmix_delete#:#A felhasználó áthelyezhet vagy törölhet xAPI/cmi5-objektumot
 rbac#:#cmix_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#rbac_create_cmix#:#xAPI/cmi5 objektum létrehozása
+rbac#:#rbac_create_cmix#:#xAPI/cmi5-objektum létrehozása
 common#:#obj_lti#:#LTI-Fogyasztó
 common#:#objs_lti#:#LTI-Fogyasztók
 common#:#obj_cmis#:#xAPI/cmi5
 common#:#obj_cmis_desc#:#A tanulásibejegyzés-tároló típusainak beállítása
 common#:#obj_cmix#:#xAPI/cmi5
-common#:#objs_cmix#:#xAPI/cmi5 objektum
-certificate#:#cmix_cert_ph_object_title#:#Az xAPI/cmi5 objektum címe
+common#:#objs_cmix#:#xAPI/cmi5-objektum
+certificate#:#cmix_cert_ph_object_title#:#Az xAPI/cmi5-objektum címe
 certificate#:#cmix_cert_ph_object_description#:#Leírás
 certificate#:#cmix_cert_ph_reached_score#:#Elért pontok százalékos értéke
 certificate#:#lti_cert_ph_object_title#:#Az LTI-fogyasztó objektum címe
@@ -15639,39 +15655,39 @@ certificate#:#lti_cert_ph_object_description#:#Leírás
 certificate#:#lti_cert_ph_mastery_score#:#Mastery Score százalékos értéke
 certificate#:#lti_cert_ph_reached_score#:#Elért pontok százalékos értéke
 wsp#:#wsp_type_cmxv#:#Tanúsítvány: xAPI/cmi5
-wsp#:#wsp_list_cmxv#:#xAPI/cmi5 objektum tanúsítványa
+wsp#:#wsp_list_cmxv#:#xAPI/cmi5-objektum tanúsítványa
 wsp#:#wsp_type_ltiv#:#Tanúsítvány: LTI-Fogyasztók
 wsp#:#wsp_list_ltiv#:#LTI-Fogyasztóobjektum tanúsítványa
 ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása
-ltiv#:#ltiv_create_info#:#Select a completed LTI-Fogyasztóobjektum to generate a certificate for it
-cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Objektum
-cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 objektum to generate a certificate for it
-trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
-trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
-trac#:#cmix_lp_mode_when_completed#:#Completed when 'befejezte'
-trac#:#cmix_lp_mode_when_completed_info#:#ILIAS status 'befejezte' is set when verb of last relevant xAPI-Statement is 'befejezte'.
+ltiv#:#ltiv_create_info#:#Válassza ki a teljesített LTI-Fogyasztóobjektumot, melyhez tanúsítványt kíván generálni
+cmxv#:#cmxv_create#:#Tanúsítvány létrehozása a xAPI/cmi5-objektumhoz
+cmxv#:#cmxv_create_info#:#Válassza ki a teljesített xAPI/cmi5-objektumot, melyhez tanúsítványt kíván generálni
+trac#:#cmix_lp_mode_deactivated#:#A tanulási haladás ki van kapcsolva
+trac#:#cmix_lp_mode_deactivated_info#:#A tanulási haladás állapota nem jelenik meg és nincs hatással a szülőobjektumokra.
+trac#:#cmix_lp_mode_when_completed#:#Sikeresen teljesített amikor 'befejezte'
+trac#:#cmix_lp_mode_when_completed_info#:#A 'befejezte' ILIAS állapotot akkor állítjuk be, amikor az utolsó releváns xAPI-Nyilatkozat értéke 'befejezte'.
 trac#:#cmix_lp_mode_with_failed#:#Also consider failed
-trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'nem teljesítette' instead of 'folyamatban'.
-trac#:#cmix_lp_mode_when_passed#:#Completed when 'sikeresen teljesítette'
-trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'befejezte' is set when verb of last relevant xAPI-Statement is 'sikeresen teljesítette' or 'satisfied'.
-trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when 'sikeresen teljesítette' or 'befejezte'
-trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'befejezte' is set when verb of last relevant xAPI-Statement is 'befejezte' or 'sikeresen teljesítette' or 'satisfied'.
+trac#:#cmix_lp_mode_with_failed_info#:#Az állapot legyen 'nem teljesítette' a 'folyamatban' helyett.
+trac#:#cmix_lp_mode_when_passed#:#Sikeresen teljesített amikor 'sikeresen teljesítette'
+trac#:#cmix_lp_mode_when_passed_info#:#A 'befejezte' ILIAS állapotot akkor állítjuk be, amikor az utolsó releváns xAPI-Nyilatkozat értéke 'sikeresen teljesítette' vagy 'elégedett'.
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Sikeresen teljesített amikor 'sikeresen teljesítette' vagy 'befejezte'
+trac#:#cmix_lp_mode_when_passed_or_completed_info#:#A 'befejezte' ILIAS állapotot akkor állítjuk be, amikor az utolsó releváns xAPI-Nyilatkozat értéke 'befejezte' vagy 'sikeresen teljesítette' vagy 'elégedett'.
 trac#:#trac_mode_lti_outcome#:#A Mastery Score-t el kell érni
-trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold.
+trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome és the mastery score threshold.
 lti#:#launch_method_own_win#:#Saját ablak
-lti#:#launch_method_own_win_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
+lti#:#launch_method_own_win_info#:#The content is opened in the same window és replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
 lti#:#launch_method_new_win#:#Új ablak
 lti#:#launch_method_new_win_info#:#The content is opened in a new window. When leaving the content this window gets closed.
 lti#:#launch_method_embedded#:#Beágyazott tartalom
 lti#:#launch_method_embedded_info#:#The content is opened within the ILIAS context. It is presented as embedded content within the content tab.
-lti#:#learning_progress_options#:#Options for Learning Progress
+lti#:#learning_progress_options#:#Tanulási haladás beállításai
 lti#:#mastery_score#:#Mastery Score
-lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Kiszolgáló Outcome Service and the mastery score threshold.
-lti#:#lti_form_section_appearance#:#Options for launch
-lti#:#launched#:#Resource was already launched.
+lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Kiszolgáló Outcome Service és the mastery score threshold.
+lti#:#lti_form_section_appearance#:#Indítás beállításai
+lti#:#launched#:#Az erőforrás már elindult.
 lti#:#lti_info_learning_progress_section#:#Info about Determination of the Learning Progress
 lti#:#lti_info_privacy_section#:#Info about personal data transmitted to the provider at launch
-lti#:#lti_info_external_provider_label#:#Additional Info about this Kiszolgáló
+lti#:#lti_info_external_provider_label#:#A Kiszolgáló kiegészítő információi
 lti#:#lti_info_external_provider_info#:#The used Kiszolgáló is an external Kiszolgáló. An external Kiszolgáló is characterized by insufficient influence on the Kiszolgáló by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.
 lti#:#lti_select_provider#:#Válasszon Kiszolgálót
 lti#:#lti_custom_new#:#Create Own Kiszolgáló Settings
@@ -15679,26 +15695,26 @@ lti#:#lti_copy#:#Fogyasztók másolása
 lti#:#lti_providing_tab#:#Az ILIAS, mint LTI-Kiszolgáló
 lti#:#lti_consuming_tab#:#Az ILIAS, mint LTI-Fogyasztó
 lti#:#global_provider_subtab#:#Globális Kiszolgálók for all Users
-lti#:#user_provider_subtab#:#Kiszolgálók Defined by Users
-lti#:#usage_subtab#:#Használat
+lti#:#user_provider_subtab#:#Felhasználó által definiált Kiszolgálók
+lti#:#usage_subtab#:#Használatban
 lti#:#tbl_provider_usage_header#:#LTI-Kiszolgáló
 lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.
 lti#:#tbl_lti_prov_used_by#:#Kiszolgáló Used by Objects in Tree
 lti#:#settings_subtab#:#Beállítások
 lti#:#lti_global_settings_form#:#Globális beállítások
-lti#:#lti_add_global_provider#:#Add Global Kiszolgáló for all Users
+lti#:#lti_add_global_provider#:#Globális Kiszolgáló hozzáadása az összes felhasználónak
 lti#:#lti_import_global_provider#:#Import Global Kiszolgáló for all Users with XML-File
-lti#:#form_import_provider#:#Import Global Kiszolgáló
-lti#:#field_provider_xml#:#XML-File
-lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Fogyasztók and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.
-lti#:#lti_add_own_provider#:#Add Own Kiszolgáló (not for all Users)
-lti#:#tbl_provider_header#:#LTI Kiszolgáló
+lti#:#form_import_provider#:#Globális Kiszolgáló importálása
+lti#:#field_provider_xml#:#XML-Fájl
+lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Fogyasztók és for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.
+lti#:#lti_add_own_provider#:#Saját Kiszolgáló létrehozása (nem az összes felhasználónak)
+lti#:#tbl_provider_header#:#LTI-Kiszolgáló
 lti#:#lti_form_provider_create#:#Create Kiszolgáló Settings
-lti#:#lti_con_prov_authentication#:#Authentication
-lti#:#lti_con_prov_privacy_settings#:#Privacy Settings
-lti#:#lti_con_prov_learning_progress_options#:#Options for Learning Progress
-lti#:#lti_con_prov_launch_options#:#Launch Options
-lti#:#lti_form_provider_edit#:#Edit Kiszolgáló Settings
+lti#:#lti_con_prov_authentication#:#Hitelesítés
+lti#:#lti_con_prov_privacy_settings#:#Adatvédelmi beállítások
+lti#:#lti_con_prov_learning_progress_options#:#Tanulási haladás beállításai
+lti#:#lti_con_prov_launch_options#:#Indítási beállítások
+lti#:#lti_form_provider_edit#:#Kiszolgáló beállításainak módosítása
 lti#:#tbl_lti_prov_icon#:#Ikon
 lti#:#tbl_lti_prov_title#:#A Kiszolgáló címe
 lti#:#tbl_lti_prov_description#:#Leírás
@@ -15710,7 +15726,7 @@ lti#:#tbl_lti_prov_provider_creator#:#Létrehozó
 lti#:#tbl_lti_prov_own_provider#:#Saját Kiszolgáló
 lti#:#lti_action_delete_providers#:#Kiszolgálós törlése
 lti#:#lti_delete_provider#:#Delete Kiszolgáló
-lti#:#lti_success_delete_provider#:#Successfully deleted
+lti#:#lti_success_delete_provider#:#Sikeresen törölte
 lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?
 lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Kiszolgáló for all Users
 lti#:#lti_success_accept_as_global_multi#:#Successfully accepted as Global Kiszolgáló for all Users
@@ -15736,12 +15752,12 @@ lti#:#lti_con_prov_availability_create#:#For Creating Objects
 lti#:#lti_con_prov_availability_existing#:#Only for existing Objects
 lti#:#lti_con_prov_availability_non#:#not available
 lti#:#lti_con_prov_url#:#URL of Kiszolgáló
-lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret
-lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.
+lti#:#lti_con_prov_provider_key_global#:#Predefined Key és Secret
+lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key és secret to use the provider.
 lti#:#lti_con_prov_key#:#Kulcs
 lti#:#lti_con_prov_secret#:#Titok
 lti#:#lti_con_prov_has_outcome_service#:#Kiszolgáló supports Outcome Service
-lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Kiszolgáló returns a value between 0 and 1 to indicate the Learning Progress.
+lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Kiszolgáló returns a value between 0 és 1 to indicate the Learning Progress.
 lti#:#lti_con_prov_always_learner#:#LTI User is always Learner
 lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Kiszolgáló, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.
 lti#:#lti_con_prov_use_provider_id#:#Kiszolgáló ID használata
@@ -15780,8 +15796,8 @@ lti#:#lti_con_prov_privacy_setting_force#:#Az objektumok beállításai nem mód
 lti#:#lti_con_prov_external_provider#:#Küldő kiszolgáló
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Kiszolgáló. An external Kiszolgáló is characterized by insufficient influence on the Kiszolgáló by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score
-lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Kiszolgáló Outcome Service and the mastery score threshold.
-lti#:#lti_con_prov_use_xapi_info#:#A kiszolgáló támogatja xAPI-nyilatkozatokat
+lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Kiszolgáló Outcome Service és the mastery score threshold.
+lti#:#lti_con_prov_use_xapi_info#:#A kiszolgáló támogatja xAPI-Nyilatkozatokat
 lti#:#lti_con_prov_xapi_launch_url#:#Az LRS-végpont URL-je
 lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
 lti#:#lti_con_prov_xapi_launch_key#:#Az LRS-végpont kulcsa
@@ -15790,7 +15806,7 @@ lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS-végpont
 lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Kiszolgáló
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
-lti#:#lti_con_prov_group_options#:#Options to group and filter Kiszolgálós
+lti#:#lti_con_prov_group_options#:#Options to group és filter Kiszolgálós
 lti#:#lti_con_prov_hints#:#Hints
 lti#:#lti_con_prov_remarks#:#Internal Remarks
 lti#:#lti_action_edit_provider#:#Edit Kiszolgáló
@@ -15805,18 +15821,18 @@ lti#:#tab_content#:#Tartalom
 lti#:#tab_settings#:#Beállítások
 lti#:#tab_statements#:#Learning Experiences
 lti#:#lti_provider_not_avail_msg#:#Az LTI-kiszolgáló értéke 'Nem érhető el'
-lti#:#subtab_object_settings#:#Object Settings
+lti#:#subtab_object_settings#:#Objektum beállításai
 lti#:#subtab_certificate#:#Tanúsítványok
 lti#:#subtab_provider_settings#:#LTI-kiszolgáló Settings
 lti#:#lti_settings_form#:#Objektum beállításai
-lti#:#provider_info#:#Used Kiszolgáló
+lti#:#provider_info#:#Haszánaltban lévőKiszolgáló
 lti#:#title_info#:#Give the object a title.
 lti#:#description_info#:#The description will be shown below the title.
-lti#:#online_info#:#This makes the object visible and usable for the users.
-lti#:#launch_method#:#Options for Launch
+lti#:#online_info#:#This makes the object visible és usable for the users.
+lti#:#launch_method#:#Indítás beállításai
 lti#:#use_xapi#:#Use xAPI-Support
-lti#:#use_xapi_info#:#This LTI Kiszolgáló supports xAPI-Statements.
-lti#:#activity_id#:#Activity ID
+lti#:#use_xapi_info#:#Ez az LTI-Kiszolgáló támogatja az xAPI-Nyilatkozatokat.
+lti#:#activity_id#:#Aktivitás-ID
 lti#:#activity_id_info#:#This Activity ID is used by the LTI Kiszolgáló to identify Statements.
 lti#:#show_statements#:#Display Learning Experiences
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'A többi felhasználó tanulási tapasztalatának megtekintése' is set.
@@ -15836,13 +15852,13 @@ lti#:#highscore_own_table#:#Participant's Own Rank
 lti#:#highscore_own_table_description#:#Participants are advised of their own position in the ranking.
 lti#:#highscore_top_table#:#Top Ranking
 lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
-lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking
-lti#:#highscore_all_tables_description#:#Participants get information about the top ranking and their own position in the ranking.
+lti#:#highscore_all_tables#:#Participant's Own Rank és Top Ranking
+lti#:#highscore_all_tables_description#:#Participants get information about the top ranking és their own position in the ranking.
 lti#:#highscore_top_num#:#Length of Top Ranking
 lti#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.
 lti#:#highscore_top_num_unit#:#entries
-cmix#:#cmix_new#:#Új xAPI/cmi5 objektum
-cmix#:#cmix_add#:#xAPI/cmi5 objektum hozzáadása
+cmix#:#cmix_new#:#Új xAPI/cmi5-objektum
+cmix#:#cmix_add#:#xAPI/cmi5-objektum hozzáadása
 cmix#:#cmix_add_cmi5_lm#:#cmi5-tananyag
 cmix#:#cmix_add_cmi5_lm_info#:#This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations.
 cmix#:#cmix_add_xapi_standard_object#:#xAPI Standard Object
@@ -15854,10 +15870,10 @@ cmix#:#cmix_add_source_url_info#:#Use this option for an external resource.
 cmix#:#cmix_add_source_local_dir#:#Local Directory
 cmix#:#cmix_add_source_local_dir_info#:#Use this option for content packages on your local device.
 cmix#:#cmix_add_source_upload_dir#:#Upload Directory
-cmix#:#cmix_add_source_upload_dir_info#:#Use this option for content packages already uploaded into the ILIAS upload directory which is also used for SCORM and HTML packages.
+cmix#:#cmix_add_source_upload_dir_info#:#Use this option for content packages already uploaded into the ILIAS upload directory which is also used for SCORM és HTML packages.
 cmix#:#cmix_add_source_upload_select#:#--- Please select ---
 cmix#:#cmix_add_source_external_app#:#Resource not launched by ILIAS
-cmix#:#cmix_add_source_external_app_info#:#Use this option for separately launched resources as e.g. apps or simulations. Users must agree to the fetching of data.
+cmix#:#cmix_add_source_external_app_info#:#Use this option for separately launched resources as e.g. apps vagy simulations. Users must agree to the fetching of data.
 cmix#:#create_registration#:#Register your E-Mail address
 cmix#:#form_create_registration#:#Regisztráció
 cmix#:#field_user_ident#:#E-mail cím
@@ -15868,8 +15884,8 @@ cmix#:#change_registration#:#E-Mail address for Registration
 cmix#:#form_change_registration#:#Registration
 cmix#:#btn_change_registration#:#Submit
 cmix#:#conf_user_registered_mail#:#Registered E-Mail-Address
-cmix#:#cmix_import#:#Import xAPI/cmi5 objektum
-cmix#:#cmix_copy#:#Copy xAPI/cmi5 objektum
+cmix#:#cmix_import#:#Import xAPI/cmi5-objektum
+cmix#:#cmix_copy#:#Copy xAPI/cmi5-objektum
 cmix#:#cmix_info_privacy_section_launch#:#Info about personal data transmitted at launch
 cmix#:#cmix_info_privacy_section#:#Info about personal data
 cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
@@ -15877,11 +15893,11 @@ cmix#:#cmix_info_external_lrs_label#:#Additional Info about this LRS
 cmix#:#cmix_info_external_lrs_info#:#This Learning Record Store is an external LRS. An external LRS is characterized by insufficient influence on the LRS by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.
 cmix#:#cmix_indication_to_user#:#Further Hints for this LRS
 cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress
-cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-típus could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.
+cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-típus could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources vagy server.
 cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
-cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
+cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource vagy Server.
 cmix#:#conf_switch_to_review#:#Switch to Review Mode###03 11 2021 new variable
 cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###03 11 2021 new variable
 cmix#:#conf_mastery_score#:#Mastery Score###03 11 2021 new variable
@@ -16080,8 +16096,8 @@ prg#:#modal_categories_title#:#Monitorozandó kategória
 prg#:#category#:#Kategória
 common#:#obj_prgr#:#Képzésiprogram-link
 common#:#obj_prgrs#:#Képzésiprogram-linkek
-prg#:#prgr_new#:#Képzési programra mutató link létrehozása
-prg#:#prgr_edit_info#:#Kérem, válasszon egy képzési programot az új link elkészítéséhez.
+common#:#prgr_new#:#Képzési programra mutató link létrehozása
+common#:#prgr_edit_info#:#Kérem, válasszon egy képzési programot az új link elkészítéséhez.
 prg#:#prgr_may_not_create_circular_reference#:#Erre a képzési programra mutató link nem hozható létre, mert a szülőobjektumának linkje már szerepel itt.
 prg#:#prg_validity_of_qualification_limit#:#Képesítés lejárata
 prg#:#prg_validity_of_qualification_restart#:#Megújítás
@@ -16166,7 +16182,7 @@ content#:#cont_grid_t_two_by_two#:#Kétszer kettő doboz
 content#:#cont_grid_t_two_by_two_info#:#Két sor jön létre két azonos szélességű oszloppal, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi) és négyoszlopos elrendezésre extra széles képernyőkön (extra nagy).
 content#:#cont_grid_t_manual#:#Kézzel készített oldalelrendezés
 content#:#cont_grid_t_manual_info#:#Lehetővé teszi az oszlopok számának és szélességének szabad megtervezését.
-dateplaner#:#cal_no_events_block#:#Nincsenek elérhető dátumai.###Egy eseménye sincs.
+dateplaner#:#cal_no_events_block#:#Egy elérhető dátum sincs.
 rep#:#rep_fav_intro1#:#Még nem választott ki egy kedvencet sem. Ehhez két lépést kell tennie:
 rep#:#rep_fav_intro2#:#Kattintson '%s' elemre és válasszon egy tanulási objektumot a rendelkezésre álló ajánlatból, például egy tananyagot vagy egy fórumot.
 rep#:#rep_fav_intro3#:#Amikor olyasmire bukkan, ami felkeltette az érdeklődését, adja hozzá a kedvenceihez: válassza a kívánt objektum <i>Műveletek</i> menüjéből a '<i>Hozzáadás a kedvencekhez</i>' lehetőséget.
@@ -16322,33 +16338,33 @@ common#:#obj_petmp#:#Oldalsablon
 common#:#obj_peusr#:#Felhasználó
 survey#:#svy_compress_view#:#Sűrített nézet
 survey#:#svy_compress_view_info#:#Ha be van kapcsolva, az összes, ugyanolyan válaszlehetőségekkel bíró egyszeres választásos kérdés matrixnézetben jelenik meg.
-cmix#:#only_moveon_label#:#Save learning success data only###XXX
+cmix#:#only_moveon_label#:#Csak a tanulási sikerre vonatkozó adatokat mentse###XXX
 cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.
-cmix#:#achieved_label#:#Statements with the verb 'achieved'
-cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
-cmix#:#answered_label#:#Statements with the verb 'answered'
+cmix#:#achieved_label#:#Nyilatkozatok az 'elért' állapottal
+cmix#:#achieved_info#:#Successfully bring about vagy reach a desired objective, level, vagy result by effort, skill, vagy courage.
+cmix#:#answered_label#:#Nyilatkozatok az 'megválaszolt' állapottal
 cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.
-cmix#:#completed_label#:#Statements with the verb 'befejezte'
-cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.
-cmix#:#failed_label#:#Statements with the verb 'nem teljesítette'
+cmix#:#completed_label#:#Nyilatkozatok a 'befejezte' állapottal
+cmix#:#completed_info#:#Indicates the actor finished vagy concluded the activity normally.
+cmix#:#failed_label#:#Nyilatkozatok a 'nem teljesítette' állapottal
 cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.
-cmix#:#initialized_label#:#Statements with the verb 'initialized'
+cmix#:#initialized_label#:#Nyilatkozatok az 'initializált' állapottal
 cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.
-cmix#:#passed_label#:#Statements with the verb 'sikeresen teljesítette'
+cmix#:#passed_label#:#Nyilatkozatok a 'sikeresen teljesítette' állapottal
 cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.
-cmix#:#progressed_label#:#Statements with the verb 'progressed'
-cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.
-cmix#:#satisfied_label#:#Statements with the verb 'satisfied'
-cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.
-cmix#:#terminated_label#:#Statements with the verb 'terminated'
+cmix#:#progressed_label#:#Nyilatkozatok a 'progressed' állapottal
+cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced vagy moved through an activity.
+cmix#:#satisfied_label#:#Nyilatkozatok az 'elégedett' állapottal
+cmix#:#satisfied_info#:#Indicates that the authority vagy activity provider determined the actor has fulfilled the criteria of the object vagy activity.
+cmix#:#terminated_label#:#Nyilatkozatok a 'megszűnt' állapottal
 cmix#:#terminated_info#:#Indicates that the actor successfully ended an activity.
-cmix#:#hide_data_label#:#Blacken data
+cmix#:#hide_data_label#:#Blokkolt adat
 cmix#:#hide_data_info#:#With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store.
-cmix#:#timestamp_label#:#Timestamp
+cmix#:#timestamp_label#:#Időbélyeg
 cmix#:#timestamp_info#:#The timestamp marks the time of an action indicated by the statement. The timestamp is set to the default value 01.01.1970 (1970-01-01T00:00:00.000Z) by this option. Please note that a Learning Record Store may automatically set a value for the stored date, which can be almost identical to the timestamp.
-cmix#:#duration_label#:#Duration
+cmix#:#duration_label#:#Időtartam
 cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.
-cmix#:#no_substatements_label#:#Do not store substatements
+cmix#:#no_substatements_label#:#Ne tárolja az alnyilatkozatokat
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
 adn#:#administrative_notification#:#Rendszerértesítések
 adn#:#administrative_notification_description#:#Rendszerértesítések megjelenítésének lehetősége az ILIAS felső sávjában
@@ -16493,12 +16509,12 @@ common#:#user_avatar_of#:#Profilkép -
 awrn#:#awrn_filter#:#Felhasználószűrő
 help#:#help_search_label#:#Keresés a súgóban
 rbac#:#delete_xapi_data#:#xAPI/cmi5 adat törlése
-trac#:#trac_mode_cmix_completed#:#Completed when verb 'befejezte' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'folyamatban'.
-trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'befejezte' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'nem teljesítette'.
-trac#:#trac_mode_cmix_passed#:#Completed when verb 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'folyamatban'.
-trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'nem teljesítette'.
-trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'befejezte' or 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'folyamatban'.
-trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'befejezte' or 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'nem teljesítette'.
+trac#:#trac_mode_cmix_completed#:#Sikeresen teljesítette, amikor 'befejezte' értéket küld. A 'nem teljesítette' küldése az ILIAS-állapot 'folyamatban' értékűre állítja.
+trac#:#trac_mode_cmix_compl_with_failed#:#Sikeresen teljesítette, amikor 'befejezte' értéket küld. A 'nem teljesítette' küldése az ILIAS-állapot 'nem teljesítette' értékűre állítja.
+trac#:#trac_mode_cmix_passed#:#Sikeresen teljesítette, amikor 'sikeresen teljesítette' vagy 'elégedett' értéket küld.  A 'nem teljesítette' küldése az ILIAS-állapot 'folyamatban' értékűre állítja.
+trac#:#trac_mode_cmix_passed_with_failed#:#Sikeresen teljesítette, amikor 'sikeresen teljesítette' vagy 'elégedett' értéket küld.  A 'nem teljesítette' küldése az ILIAS-állapot 'nem teljesítette' értékűre állítja.
+trac#:#trac_mode_cmix_completed_or_passed#:#Sikeresen teljesítette, amikor 'befejezte' vagy 'sikeresen teljesítette' vagy 'elégedett' értéket küld.  A 'nem teljesítette' küldése az ILIAS-állapot 'folyamatban' értékűre állítja.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Sikeresen teljesítette, amikor 'befejezte' vagy 'sikeresen teljesítette' vagy 'elégedett' értéket küld.  A 'nem teljesítette' küldése az ILIAS-állapot 'nem teljesítette' értékűre állítja.
 cmix#:#toplist_top_n_results#:#Ranglista
 cmix#:#toplist_your_result#:#Saját helyezésem
 lti#:#toplist_top_n_results#:#Ranglista
@@ -16537,8 +16553,8 @@ file#:#not_yet_migrated#:#Ezt a fájlobjektumot még nem migrálták és új ver
 common#:#il_lti_learner#:#LTI-Tanuló
 common#:#il_lti_instructor#:#LTI-Instruktor
 rbac#:#il_lti_global_role#:#LTI-Felhasználó
-common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
-common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_on#:#BE### Tested, it's ok.
+common#:#toggle_off#:#KI### Don't translate this label to prevent rendering problems of the related Toggle Button!
 prg#:#msg_mark_relevant#:#%s felhasználót sikeresen módosította irrelevánsra
 prg#:#msg_mark_relevant_failed#:#Nem releváns:
 prg#:#msg_mark_not_relevant#:#%s felhasználó releváns állapotát sikeresen eltávolította
@@ -16612,9 +16628,6 @@ content#:#cont_sur_block_format#:#Körülölelő fejezet
 ui#:#datetime_required#:#Idő/Dátum kötelező
 ui#:#duration_end_must_not_be_earlier_than_start#:#A kezdő időpont nem lehet későbbi, mint a záró.
 forum#:#sticky_threads_sorting#:#Ragadós témák rendezése
-common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
-common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
-common#:#actions_for#:#Actions for %s###15 12 2021 new variable
-content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
-forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable
+common#:#actions_for#:#%s műveletek
+forum#:#file_upload_option_allow_info#:#Fájl csatolása az összes fórumban lehetséges.
+exc#:#exc_fullscreen#:#Teljes képernyő
