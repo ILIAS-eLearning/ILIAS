@@ -16740,3 +16740,4 @@ skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the follo
 skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
 ui#:#duration_default_label_start#:#start
 ui#:#duration_default_label_end#:#end
+exc#:#exc_fullscreen#:#Fullscreen
