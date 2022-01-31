@@ -329,9 +329,6 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         if ($access->checkAccess('read', '', $id)) {
             $ctrl->setTargetScript('ilias.php');
             $ctrl->setParameterByClass(ilObjCmiXapiGUI::class, 'ref_id', $id);
-            if (isset($request->getQueryParams()['gotolp'])) {
-                $ctrl->setParameterByClass(ilObjCmiXapiGUI::class, 'gotolp', 1);
-            }
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjCmiXapiGUI::class]);
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
