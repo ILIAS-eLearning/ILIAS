@@ -2,6 +2,9 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Factory;
+
 /**
  * Personal Desktop-Presentation for the Study Programme
  *
@@ -19,6 +22,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
      */
     protected $logger;
     protected ilStudyProgrammeAssignmentDBRepository $sp_user_assignment_db;
+    protected RequestWrapper $request_wrapper;
+    protected Factory $refinery;
 
     /**
      * @var ilStudyProgrammeAssignment[]
@@ -36,6 +41,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->setting = $DIC['ilSetting'];
         $this->logger = ilLoggerFactory::getLogger('prg');
         $this->sp_user_assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
 
         // No need to load data, as we won't display this.
         if (!$this->shouldShowThisList()) {
@@ -46,7 +53,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         //check which kind of option is selected in settings
         $this->getVisibleOnPDMode();
         //check to display info message if option "read" is selected
-        $this->getToShowInfoMessage();
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings(
+            $DIC->user(),
+            $this->request_wrapper->retrieve("view", $this->refinery->kindlyTo()->int())
+        );
+        $this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
         
         // As this won't be visible we don't have to initialize this.
         if (!$this->userHasReadableStudyProgrammes()) {
@@ -152,12 +163,6 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return $this->access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
-    protected function getToShowInfoMessage() : void
-    {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int) $_GET['view']);
-        $this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
-    }
-
     protected function isVisible(ilStudyProgrammeAssignment $assignment) : bool
     {
         return $this->hasPermission($assignment, "visible");
@@ -174,11 +179,13 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     
     protected function shouldShowThisList() : bool
     {
-        $jump_to_selected_list = $_GET["cmd"] == "jumpToSelectedItems";
+        $cmd = $this->request_wrapper->retrieve("cmd", $this->refinery->kindlyTo()->string());
+        $expand = $this->request_wrapper->retrieve("expand", $this->refinery->kindlyTo()->bool());
+        $jump_to_selected_list = $cmd == "jumpToSelectedItems";
         $is_ilDashboardGUI = $this->ctrl->getCmdClass() == "ildashboardgui";
         $is_cmd_show = $this->ctrl->getCmd() == "show";
 
-        return ($jump_to_selected_list || ($is_ilDashboardGUI && $is_cmd_show)) && !$_GET["expand"];
+        return ($jump_to_selected_list || ($is_ilDashboardGUI && $is_cmd_show)) && !$expand;
     }
     
     protected function getUsersAssignments() : void

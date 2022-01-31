@@ -168,7 +168,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         return $this->tree;
     }
-    protected function getLogger() : ilComponentLogger
+    protected function getLogger() : ilLogger
     {
         return $this->logger;
     }
@@ -272,7 +272,7 @@ class ilObjStudyProgramme extends ilContainer
         $this->deleteSettings();
         try {
             $this->deleteAssignments();
-            $this->auto_categories_repository->deleteFor((int) $this->getId());
+            $this->auto_categories_repository->deleteFor($this->getId());
         } catch (ilStudyProgrammeTreeException $e) {
             // This would be the case when SP is in trash (#17797)
         }
@@ -287,6 +287,7 @@ class ilObjStudyProgramme extends ilContainer
     public function hasAdvancedMetadata() : bool
     {
         $sub_type_id = $this->getSettings()->getTypeSettings()->getTypeId();
+        $type = null;
         if ($sub_type_id) {
             $type = $this->type_repository->getType($sub_type_id);
         }
@@ -568,12 +569,12 @@ class ilObjStudyProgramme extends ilContainer
                     if (is_null($r_parent)) {
                         continue;
                     }
-                    array_push($queque, $r_parent);
+                    $queque[] = $r_parent;
                     $parents[] = $r_parent;
                 }
                 continue;
             }
-            array_push($queque, $parent);
+            $queque[] = $parent;
             $parents[] = $parent;
         }
         return array_reverse($parents);
@@ -729,7 +730,7 @@ class ilObjStudyProgramme extends ilContainer
     public function getCompletedCourses(int $a_user_id) : array
     {
         $node_data = $this->tree->getNodeData($this->getRefId());
-        $crsrs = $this->tree->getSubTree($node_data, true, "crsr");
+        $crsrs = $this->tree->getSubTree($node_data, true, ["crsr"]);
 
         $completed_crss = array();
         foreach ($crsrs as $ref) {
@@ -788,7 +789,7 @@ class ilObjStudyProgramme extends ilContainer
     }
 
     /**
-     * Clears child chache and adds progress for new node.
+     * Clears child cache and adds progress for new node.
      * called by ilObjStudyProgrammeReference::putInTree, e.g.
      *
      * @throws ilStudyProgrammeTreeException
@@ -1388,7 +1389,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
             $course_ref = new ilObjCourseReference();
-            $course_ref->setTitleType(ilObjCourseReference::TITLE_TYPE_REUSE);
+            $course_ref->setTitleType(ilContainerReference::TITLE_TYPE_REUSE);
             $course_ref->setTargetRefId($crs_ref_id);
             $course_ref->create();
             $course_ref->createReference();
@@ -2193,10 +2194,10 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         $required_points = $progress->getAmountOfPoints();
-        
+
+        $achieved_points = 0;
         if ($completion_mode === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
-            $achieved_points = 0;
-            
+
             $node_ref = self::getRefIdFor($progress->getNodeId());
             $children = $this->tree->getChildsByType($node_ref, "crsr");
             foreach ($children as $child) {

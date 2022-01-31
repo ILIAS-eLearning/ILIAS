@@ -15,6 +15,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     protected ilAccessHandler $access;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected int $tree_root_id;
 
@@ -57,6 +59,8 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $this->tpl = $DIC['tpl'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->ctrl = $DIC['ilCtrl'];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
 
         $this->tree_root_id = $tree_root_id;
         $this->modal_id = $modal_id;
@@ -80,7 +84,10 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      */
     public function getNodeContent($a_node) : string
     {
-        $current_ref_id = (isset($_GET["ref_id"]))? (int) $_GET["ref_id"] : -1;
+        $current_ref_id = -1;
+        if ($this->request_wrapper->has("ref_id")) {
+            $current_ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        }
 
         $is_current_node = ($a_node->getRefId() == $current_ref_id);
         $is_study_programme = ($a_node instanceof ilObjStudyProgramme);
