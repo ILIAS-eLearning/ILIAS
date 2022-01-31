@@ -5109,7 +5109,7 @@ crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
 crs#:#event#:#Session
 crs#:#events#:#Sessions
-crs#:#export_members#:#Export Participants
+crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
@@ -6854,8 +6854,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
-ps#:#ps_export_course#:#Visibility of User Profile Data in Courses
-ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups
+ps#:#ps_export_course#:#Allow export of user profile data in courses
+ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_member#:#Members
