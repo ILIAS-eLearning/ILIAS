@@ -22,49 +22,47 @@
 */
 
 /**
-* Abstract base class for all ical items (Component, Parameter and Value)
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @ingroup ServicesCalendar
-*/
-
+ * Abstract base class for all ical items (Component, Parameter and Value)
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 abstract class ilICalItem
 {
     protected string $name = '';
     protected string $value = '';
     protected array $items = [];
-    
+
     public function __construct(string $a_name, string $a_value = '')
     {
         $this->name = $a_name;
         $this->value = $a_value;
     }
-    
+
     public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
-    
+
     public function getValue() : string
     {
         return trim($this->value);
     }
-    
+
     public function getItems() : array
     {
         return $this->items;
     }
-    
+
     public function getName() : string
     {
         return $this->name;
     }
-    
+
     public function getItemsByName(string $a_name, bool $a_recursive = true) : array
     {
         return [];
     }
-    
+
     public function addItem(ilICalItem $a_item) : void
     {
         $this->items[] = $a_item;

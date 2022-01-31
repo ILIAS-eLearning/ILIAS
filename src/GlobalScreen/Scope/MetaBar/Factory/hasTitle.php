@@ -6,7 +6,6 @@
  */
 interface hasTitle extends isItem
 {
-
     public function withTitle(string $title) : hasTitle;
     
 

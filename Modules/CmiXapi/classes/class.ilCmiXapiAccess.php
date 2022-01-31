@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,7 +27,7 @@ class ilCmiXapiAccess
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * ilCmiXapiAccess constructor.
@@ -110,9 +110,10 @@ class ilCmiXapiAccess
         
         return $this->hasOutcomesAccess();
     }
-    
+
     /**
      * @param ilObjCmiXapi $object
+     * @return ilCmiXapiAccess
      */
     public static function getInstance(ilObjCmiXapi $object) : \ilCmiXapiAccess
     {

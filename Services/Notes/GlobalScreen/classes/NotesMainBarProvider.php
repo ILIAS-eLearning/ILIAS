@@ -42,7 +42,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPublicComments"))
             ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
-            ->withPosition(40)
+            ->withPosition(50)
             ->withSymbol($icon)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(

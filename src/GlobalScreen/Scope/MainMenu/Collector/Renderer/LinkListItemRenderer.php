@@ -46,7 +46,7 @@ class LinkListItemRenderer extends BaseTypeRenderer
             if (!$link->isVisible()) {
                 continue;
             }
-            $link  = $this->ui_factory->link()->bulky($this->getStandardSymbol($link), $link->getTitle(), $this->getURI($link->getAction()));
+            $link = $this->ui_factory->link()->bulky($this->getStandardSymbol($link), $link->getTitle(), $this->getURI($link->getAction()));
             $slate = $slate->withAdditionalEntry($link);
         }
         

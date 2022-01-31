@@ -171,14 +171,14 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
         $usrData['email'] = $valid['email'];
         $usrData['login'] = $internalLogin;
         $usrData['passwd'] = '';
-        $usrData['passwd_type'] = IL_PASSWD_CRYPTED;
+        $usrData['passwd_type'] = ilObjUser::PASSWD_CRYPTED;
 
         $password = '';
         if ($this->settings->get('soap_auth_allow_local')) {
             $passwords = ilUtil::generatePasswords(1);
             $password = $passwords[0];
             $usrData['passwd'] = $password;
-            $usrData['passwd_type'] = IL_PASSWD_PLAIN;
+            $usrData['passwd_type'] = ilObjUser::PASSWD_PLAIN;
         }
 
         $usrData['auth_mode'] = 'soap';

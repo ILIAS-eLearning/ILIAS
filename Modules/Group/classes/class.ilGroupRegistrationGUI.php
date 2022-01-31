@@ -449,7 +449,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             
             default:
                 
-                $this->participants->add($this->user->getId(), IL_GRP_MEMBER);
+                $this->participants->add($this->user->getId(), ilParticipants::IL_GRP_MEMBER);
                 $this->participants->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION,
                     $this->user->getId()

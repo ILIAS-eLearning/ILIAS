@@ -55,7 +55,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "removeUserFromPositionInOrgUnit";
     }
@@ -73,7 +73,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return [];
     }
@@ -82,7 +82,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Removes a user from a position in a orgunit";
     }

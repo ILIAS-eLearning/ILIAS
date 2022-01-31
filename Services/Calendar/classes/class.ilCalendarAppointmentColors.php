@@ -22,12 +22,9 @@
 */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ingroup  ServicesCalendar
-*/
-
+ * @author   Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup  ServicesCalendar
+ */
 class ilCalendarAppointmentColors
 {
     protected static $colors = array(
@@ -49,7 +46,8 @@ class ilCalendarAppointmentColors
             "#B0C4DE",
             "#CAE1FF",
             "#BCD2EE",
-            "#A2B5CD"),
+            "#A2B5CD"
+        ),
         'grp' => array(
             "#EEDD82",
             "#FFEC8B",
@@ -60,17 +58,20 @@ class ilCalendarAppointmentColors
             "#FFFFE0",
             "#FFF8DC",
             "#EEEED1",
-            "#CDCDB4"),
+            "#CDCDB4"
+        ),
         'sess' => array(
             "#C1FFC1",
             "#B4EEB4",
             "#98FB98",
-            "#90EE90"),
+            "#90EE90"
+        ),
         'exc' => array(
             "#BC6F16",
             "#BA7832",
             "#B78B4D",
-            "#B59365")
+            "#B59365"
+        )
     );
 
     protected ilDBInterface $db;
@@ -89,10 +90,9 @@ class ilCalendarAppointmentColors
         $this->categories = ilCalendarCategories::_getInstance();
         $this->read();
     }
-    
+
     /**
      * get color by appointment
-     *
      * @access public
      * @param int calendar appointment id
      * @return
@@ -110,7 +110,7 @@ class ilCalendarAppointmentColors
             return 'red';
         }
     }
-    
+
     private function read()
     {
         // Store assignment of subitem categories
@@ -124,7 +124,7 @@ class ilCalendarAppointmentColors
             #21078
             $this->cat_substitutions_colors[$c_data['cat_id']] = $c_data['color'];
         }
-        
+
         $query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories cat " .
             "JOIN cal_cat_assignments ass ON cat.cat_id = ass.cat_id " .
             "WHERE " . $this->db->in('cat.cat_id', $this->categories->getCategories(true), false, 'integer');
@@ -135,13 +135,12 @@ class ilCalendarAppointmentColors
             $this->cat_app_ass[$row->cal_id] = $row->cat_id;
         }
     }
-    
+
     public static function _getRandomColorByType(string $a_type) : string
     {
         $random = new \ilRandom();
         return self::$colors[$a_type][$random->int(0, count(self::$colors[$a_type]) - 1)];
     }
-    
 
     /**
      * get selectable colors

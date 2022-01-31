@@ -198,6 +198,10 @@ class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function setPermanentParameterByClass(string $class_name, string $parameter_name) : void
     {
+        if (in_array($parameter_name, ilCtrlInterface::PROTECTED_PARAMETERS, true)) {
+            throw new ilCtrlException("Parameter '$parameter_name' must not be saved, it could mess with the control flow.");
+        }
+
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
             throw new ilCtrlException("Cannot save parameter '$parameter_name', as it contains invalid characters.");
         }

@@ -975,7 +975,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         // allow new registrations?
         include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
-        if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED) {
+        if (ilRegistrationSettings::_lookupRegistrationType() != ilRegistrationSettings::IL_REG_DISABLED) {
             $rtpl->setCurrentBlock("new_registration");
             $rtpl->setVariable("REGISTER", $lng->txt("registration"));
             $rtpl->setVariable(
@@ -1836,7 +1836,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             if ($oRegSettings->passwordGenerationEnabled()) {
                 $passwords = ilUtil::generatePasswords(1);
                 $password = $passwords[0];
-                $user->setPasswd($password, IL_PASSWD_PLAIN);
+                $user->setPasswd($password, ilObjUser::PASSWD_PLAIN);
                 $user->setLastPasswordChangeTS(time());
             }
             $user->update();

@@ -34,7 +34,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FileDeliveryTypeFactoryTest extends TestCase
 {
-    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
     private \ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory $subject;
     /**
      * @var Services|\PHPUnit\Framework\MockObject\MockObject
@@ -46,7 +45,6 @@ class FileDeliveryTypeFactoryTest extends TestCase
         parent::setUp();
 
         $this->http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
-//        $this->http->expects($this->never());
         $this->subject = new FileDeliveryTypeFactory($this->http);
     }
 

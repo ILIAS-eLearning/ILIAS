@@ -25,7 +25,6 @@ use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
  */
 class PluginIdentification extends AbstractIdentification implements IdentificationInterface
 {
-    
     protected string $plugin_id = "";
     
     /**
@@ -37,8 +36,7 @@ class PluginIdentification extends AbstractIdentification implements Identificat
         string $classname,
         SerializerInterface $serializer,
         string $provider_presentation_name
-    )
-    {
+    ) {
         parent::__construct(
             $internal_identifier,
             $classname,

@@ -111,7 +111,7 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
                     $tmp_name = $a_files["tmp_name"][$k];
-                    ilUtil::moveUploadedFile(
+                    ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
                         $this->path . DIRECTORY_SEPARATOR . basename($name),

@@ -51,7 +51,7 @@ class MainLayoutCollector extends AbstractBaseCollector
      */
     public function __construct(array $providers)
     {
-        $this->providers            = $providers;
+        $this->providers = $providers;
         $this->modification_handler = new ModificationHandler();
     }
     
@@ -67,16 +67,16 @@ class MainLayoutCollector extends AbstractBaseCollector
         
         $called_contexts = $this->getContextStack();
         
-        $final_content_modification     = new NullModification();
-        $final_logo_modification        = new NullModification();
+        $final_content_modification = new NullModification();
+        $final_logo_modification = new NullModification();
         $final_breadcrumbs_modification = new NullModification();
-        $final_main_bar_modification    = new NullModification();
-        $final_meta_bar_modification    = new NullModification();
-        $final_page_modification        = new NullModification();
-        $final_footer_modification      = new NullModification();
-        $final_title_modification       = new NullModification();
+        $final_main_bar_modification = new NullModification();
+        $final_meta_bar_modification = new NullModification();
+        $final_page_modification = new NullModification();
+        $final_footer_modification = new NullModification();
+        $final_title_modification = new NullModification();
         $final_short_title_modification = new NullModification();
-        $final_view_title_modification  = new NullModification();
+        $final_view_title_modification = new NullModification();
         
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();

@@ -14,6 +14,7 @@
  */
 
 use ILIAS\MediaCast\StandardGUIRequest;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -76,7 +77,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $this->mimeTypes[$mt] = $mt;
         }
         
-        foreach (ilMimeTypeUtil::getExt2MimeMap() as $mt) {
+        foreach (MimeType::getExt2MimeMap() as $mt) {
 //            $this->mimeTypes[$mt] = $mt;
         }
         asort($this->mimeTypes);
@@ -665,14 +666,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $mob->createDirectory();
             }
             
-            $file_name = ilUtil::getASCIIFilename($_FILES['file_' . $purpose]['name']);
+            $file_name = ilFileUtils::getASCIIFilename($_FILES['file_' . $purpose]['name']);
             $file_name = str_replace(" ", "_", $file_name);
 
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
             $locationType = "LocalFile";
             $location = $title;
-            ilUtil::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
+            ilFileUtils::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
             ilUtil::renameExecutables($mob_dir);
         }
         

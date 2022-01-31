@@ -38,6 +38,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected ilObjectService $obj_service;
     protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $http;
+    protected ilFileServicesSettings $file_service_settings;
     
     /**
      * Constructor
@@ -50,6 +51,7 @@ class ilObjFileGUI extends ilObject2GUI
         global $DIC;
         $this->http = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+        $this->file_service_settings = $DIC->fileServiceSettings();
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         $this->log = ilLoggerFactory::getLogger(ilObjFile::OBJECT_TYPE);
@@ -295,7 +297,7 @@ class ilObjFileGUI extends ilObject2GUI
             );
 
             $suffixes = array_unique($delegate->getUploadedSuffixes());
-            if (count(array_diff($suffixes, ilFileUtils::getValidExtensions())) > 0) {
+            if (count(array_diff($suffixes, $this->file_service_settings->getWhiteListedSuffixes())) > 0) {
                 ilUtil::sendInfo(
                     $this->lng->txt('file_upload_info_file_with_critical_extension'),
                     true

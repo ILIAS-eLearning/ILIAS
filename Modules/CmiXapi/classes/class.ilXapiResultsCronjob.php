@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -61,13 +61,13 @@ class ilXapiResultsCronjob extends ilCronJob
     protected function readLastRunTS() : void
     {
         $settings = new ilSetting('cmix');
-        $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, 0);
+        $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, "0");
     }
     
     protected function writeThisAsLastRunTS() : void
     {
         $settings = new ilSetting('cmix');
-        $settings->set(self::LAST_RUN_TS_SETTING_NAME, $this->thisRunTS);
+        $settings->set(self::LAST_RUN_TS_SETTING_NAME, (string) $this->thisRunTS);
     }
     
     public function getThisRunTS() : int

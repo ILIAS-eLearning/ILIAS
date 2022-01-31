@@ -46,16 +46,16 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         return $slate;
     }
     
-    protected function buildEntry(AbstractChildItem $item): \ILIAS\UI\Component\Component
+    protected function buildEntry(AbstractChildItem $item) : \ILIAS\UI\Component\Component
     {
-        $title  = $item->getTitle();
+        $title = $item->getTitle();
         $symbol = $this->getStandardSymbol($item);
-        $type   = get_class($item);
+        $type = get_class($item);
         
         switch ($type) {
             
             case Link::class:
-                $act   = $this->getDataFactory()->uri(
+                $act = $this->getDataFactory()->uri(
                     $this->getBaseURL()
                     . '/'
                     . $item->getAction()

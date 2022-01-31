@@ -246,7 +246,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $fileStorage = new ilFSStorageFile($a_id);
         $dir         = $fileStorage->getAbsolutePath();
         
-        return ilUtil::dirsize($dir);
+        return ilFileUtils::dirsize($dir);
     }
     
     // BEGIN WebDAV: Get file extension, determine if file is inline, guess file type.

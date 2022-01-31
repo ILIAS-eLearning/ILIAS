@@ -1375,7 +1375,7 @@ class ilPageObjectGUI
 
         if ($this->getOutputMode() != "offline") {
             $enlarge_path = ilUtil::getImagePath("enlarge.svg");
-            $wb_path = ilUtil::getWebspaceDir("output") . "/";
+            $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
             $enlarge_path = "images/enlarge.svg";
             $wb_path = "";
@@ -2032,7 +2032,7 @@ class ilPageObjectGUI
 
         //echo "<b>XML:</b>".htmlentities($xml);
         // determine target frames for internal links
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
@@ -2071,7 +2071,13 @@ class ilPageObjectGUI
     public function insertPageToc(string $a_output) : string
     {
         // extract all headings
-        $offsets = ilStr::strPosAll($a_output, "ilPageTocH");
+        $offsets = [];
+        $cpos = 0;
+        while (is_int($pos = strpos($a_output, "ilPageTocH", $cpos))) {
+            $positions[] = $pos;
+            $cpos = $pos + 1;
+        }
+
         $page_heads = array();
         foreach ($offsets as $os) {
             $level = (int) substr($a_output, $os + 10, 1);
@@ -2105,6 +2111,7 @@ class ilPageObjectGUI
             $c_depth = 1;
             $c_par[1] = 0;
             $c_par[2] = 0;
+            $page_toc_ph = "<!--PageTocPH-->";
             foreach ($page_heads as $ind => $h) {
                 $i++;
                 $par = 0;
@@ -2118,7 +2125,7 @@ class ilPageObjectGUI
                     $par = $c_par[2];
                 }
 
-                $h["text"] = str_replace("<!--PageTocPH-->", "", $h["text"]);
+                $h["text"] = str_replace($page_toc_ph, "", $h["text"]);
 
                 // add the list node
                 $list->addListNode(
@@ -2157,8 +2164,9 @@ class ilPageObjectGUI
 
             if (count($numbers) > 0) {
                 foreach ($numbers as $n) {
-                    $a_output =
-                        ilStr::replaceFirsOccurence("<!--PageTocPH-->", $n . " ", $a_output);
+                    $a_output = (strpos($a_output, $page_toc_ph) !== false)
+                        ? substr_replace($a_output, $n . " ", strpos($a_output, $page_toc_ph), strlen($page_toc_ph))
+                        : $a_output;
                 }
             }
         } else {
@@ -2388,7 +2396,7 @@ class ilPageObjectGUI
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
         $params = array('mode' => $mode, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);

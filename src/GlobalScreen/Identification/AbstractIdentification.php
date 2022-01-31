@@ -34,9 +34,9 @@ abstract class AbstractIdentification implements IdentificationInterface
     public function __construct(string $internal_identifier, string $classname, SerializerInterface $serializer, string $provider_presentation_name)
     {
         $this->provider_presentation_name = $provider_presentation_name;
-        $this->serializer                 = $serializer;
-        $this->internal_identifier        = $internal_identifier;
-        $this->classname                  = $classname;
+        $this->serializer = $serializer;
+        $this->internal_identifier = $internal_identifier;
+        $this->classname = $classname;
     }
     
     /**

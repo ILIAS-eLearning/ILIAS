@@ -3,7 +3,6 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -47,7 +46,6 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('obj');
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
     }
 
     protected function initRefIdFromQuery() : int
@@ -68,7 +66,7 @@ class ilObjGroupGUI extends ilContainerGUI
     {
         global $DIC;
 
-        $ilNavigationHistory  = $DIC['ilNavigationHistory'];
+        $ilNavigationHistory = $DIC['ilNavigationHistory'];
 
         $ref_id = $this->initRefIdFromQuery();
 
@@ -476,7 +474,7 @@ class ilObjGroupGUI extends ilContainerGUI
         
         // Add user as admin and enable notification
         $members_obj = ilGroupParticipants::_getInstanceByObjId($new_object->getId());
-        $members_obj->add($this->user->getId(), IL_GRP_ADMIN);
+        $members_obj->add($this->user->getId(), ilParticipants::IL_GRP_ADMIN);
         $members_obj->updateNotification($this->user->getId(), (bool) $this->settings->get('mail_grp_admin_notification', '1'));
         $members_obj->updateContact($this->user->getId(), true);
         
@@ -549,8 +547,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
             $this->object->setTitle($form->getInput('title'));
             $this->object->setDescription($form->getInput('desc'));
-            $this->object->setGroupType($form->getInput('grp_type'));
-            $this->object->setRegistrationType($form->getInput('registration_type'));
+            $this->object->setGroupType((int) $form->getInput('grp_type'));
+            $this->object->setRegistrationType((int) $form->getInput('registration_type'));
             $this->object->setPassword($form->getInput('password'));
             $this->object->enableUnlimitedRegistration(!$form->getInput('reg_limit_time'));
             $this->object->enableMembershipLimitation((bool) $form->getInput('registration_membership_limited'));
@@ -560,11 +558,11 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->object->setRegistrationAccessCode($form->getInput('reg_code'));
             $this->object->setViewMode((int) $form->getInput('view_mode'));
             $this->object->setMailToMembersType((int) $form->getInput('mail_type'));
-            $this->object->setShowMembers((int) $form->getInput('show_members'));
+            $this->object->setShowMembers((bool) $form->getInput('show_members'));
             $this->object->setAutoNotification((bool) $form->getInput('auto_notification'));
 
             // session limit
-            $this->object->enableSessionLimit((int) $form->getInput('sl'));
+            $this->object->enableSessionLimit((bool) $form->getInput('sl'));
             $session_sp = $form->getInput('sp');
             $this->object->setNumberOfPreviousSessions(is_numeric($session_sp) ? (int) $session_sp : -1);
             $session_sn = $form->getInput('sn');
@@ -1287,7 +1285,6 @@ class ilObjGroupGUI extends ilContainerGUI
         $privacy = ilPrivacySettings::getInstance();
         
         if ($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledGroupExport()) {
-
             $field_info = ilExportFieldsInfo::_getInstanceByType($this->object->getType());
         
             $this->lng->loadLanguageModule('ps');

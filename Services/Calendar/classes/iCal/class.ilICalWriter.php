@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,14 +29,14 @@ class ilICalWriter
     // minus one to fix multi line breaks.
     protected const LINE_SIZE = 74;
     protected const BEGIN_LINE_WHITESPACE = ' ';
-    
+
     private string $ical = '';
-    
+
     public function __construct()
     {
         $this->ical = '';
     }
-    
+
     public static function escapeText(string $a_text) : string
     {
         $a_text = str_replace("\r\n", '\\n', $a_text);
@@ -45,16 +46,16 @@ class ilICalWriter
                 '/\\\/',
                 '/;/',
                 '/,/',
-                ),
+            ),
             array(
                 '\\',
                 '\;',
                 '\,',
-                ),
+            ),
             $a_text
         );
     }
-    
+
     public function addLine(string $a_line) : void
     {
         // use multibyte split
@@ -75,7 +76,7 @@ class ilICalWriter
         }
         $this->ical .= self::LINEBREAK;
     }
-    
+
     /**
      * Return ical string
      */

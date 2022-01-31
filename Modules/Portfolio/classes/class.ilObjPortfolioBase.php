@@ -304,7 +304,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
         
-        if (ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
+        if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
             chmod($path . $original, 0770);
             
             $prfa_set = new ilSetting("prfa");

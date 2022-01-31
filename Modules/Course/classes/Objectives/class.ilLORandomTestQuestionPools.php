@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 
 /**
 * Class ilLOEditorGUI
@@ -211,7 +210,6 @@ class ilLORandomTestQuestionPools
      */
     public function copy($a_copy_id, $a_new_course_id, $a_new_objective_id)
     {
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
         
@@ -344,7 +342,6 @@ class ilLORandomTestQuestionPools
             'WHERE objective_id = ' . $ilDB->quote($a_objective_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
             $writer->xmlElement(
                 'Test',
                 array(

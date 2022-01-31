@@ -25,7 +25,6 @@ class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
             'getFormAction','getCmd','getLinkTargetByClass'
         ])->getMock();
 
-        $lng = new ilLanguageMock();
         $tpl = $ui_helper->mainTemplate();
         $ui_factory = $ui_helper->factory();
         $renderer = $ui_helper->renderer();
@@ -36,13 +35,13 @@ class ilSystemStyleIconsGUITest extends ilSystemStyleBaseFSTest
         $upload = $this->getMockBuilder(FileUpload::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
         $tabs = $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->onlyMethods([])->getMock();
         $data_factory = new DataFactory();
-        $refinery = new Refinery($data_factory, $lng);
+        $refinery = new Refinery($data_factory, $this->lng);
 
-        $factory = new ilSkinFactory($this->system_style_config);
+        $factory = new ilSkinFactory($this->lng, $this->system_style_config);
 
         $this->icons_gui = new ilSystemStyleIconsGUI(
             $this->ctrl,
-            $lng,
+            $this->lng,
             $tpl,
             $ui_factory,
             $renderer,

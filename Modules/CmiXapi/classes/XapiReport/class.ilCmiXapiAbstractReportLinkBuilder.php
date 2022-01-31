@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,28 +27,27 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
     /**
      * @var int
      */
-    protected $objId;
+    protected int $objId;
     
     /**
      * @var string
      */
-    protected $aggregateEndPoint;
+    protected string $aggregateEndPoint;
 
     /**
      * @var ilCmiXapiStatementsReportFilter
      */
-    protected $filter;
-    
+    protected ilCmiXapiStatementsReportFilter $filter;
+
     /**
      * ilCmiXapiAbstractReportLinkBuilder constructor.
-     * @param $objId
-     * @param $userIdentMode
-     * @param $aggregateEndPoint
+     * @param int                             $objId
+     * @param string                          $aggregateEndPoint
      * @param ilCmiXapiStatementsReportFilter $filter
      */
     public function __construct(
-        $objId,
-        $aggregateEndPoint,
+        int $objId,
+        string $aggregateEndPoint,
         ilCmiXapiStatementsReportFilter $filter
     ) {
         $this->objId = $objId;
@@ -62,9 +61,11 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
         $url = $this->appendRequestParameters($url);
         return $url;
     }
-    
+
+    //todo ilUtil
     /**
-     * @param string $link
+     * @param $url
+     * @return string
      */
     protected function appendRequestParameters($url) : string
     {

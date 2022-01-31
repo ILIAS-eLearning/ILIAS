@@ -89,7 +89,6 @@ class ilTimingPlaned
 
     public function validate()
     {
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         $item = ilObjectActivation::getItem($this->getItemId());
         return true;
     }

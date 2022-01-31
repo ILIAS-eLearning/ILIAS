@@ -660,7 +660,7 @@ class ilMediaItem
      */
     public function getWorkDirectory() : string
     {
-        return ilUtil::getDataDir() . "/map_workfiles/item_" . $this->getId();
+        return ilFileUtils::getDataDir() . "/map_workfiles/item_" . $this->getId();
     }
 
     /**
@@ -668,12 +668,12 @@ class ilMediaItem
      */
     public function createWorkDirectory() : void
     {
-        if (!is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
-            ilUtil::createDirectory(ilUtil::getDataDir() . "/map_workfiles");
+        if (!is_dir(ilFileUtils::getDataDir() . "/map_workfiles")) {
+            ilFileUtils::createDirectory(ilFileUtils::getDataDir() . "/map_workfiles");
         }
         $work_dir = $this->getWorkDirectory();
         if (!is_dir($work_dir)) {
-            ilUtil::createDirectory($work_dir);
+            ilFileUtils::createDirectory($work_dir);
         }
     }
 

@@ -35,7 +35,7 @@ class ilSystemStyleLessGUITest extends ilSystemStyleBaseFSTest
         $data_factory = new DataFactory();
         $refinery = new Refinery($data_factory, $lng);
 
-        $factory = new ilSkinFactory($this->system_style_config);
+        $factory = new ilSkinFactory($this->lng, $this->system_style_config);
 
         $this->less_gui = new ilSystemStyleLessGUI(
             $ctrl,

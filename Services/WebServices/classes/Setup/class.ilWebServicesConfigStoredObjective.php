@@ -9,12 +9,9 @@ use ILIAS\Setup;
  */
 class ilWebServicesConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilWebServicesSetupConfig
-     */
-    protected $config;
+    protected Setup\Config $config;
 
-    public function __construct(\ilWebServicesSetupConfig $config)
+    public function __construct(Setup\Config $config)
     {
         $this->config = $config;
     }
@@ -36,9 +33,8 @@ class ilWebServicesConfigStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
+            new \ilIniFilesPopulatedObjective(),
             new \ilSettingsFactoryExistsObjective()
         ];
     }

@@ -21,20 +21,20 @@ class CallbackHandler
 {
     use Hasher;
     
-    public function run(): void
+    public function run() : void
     {
         \ilInitialisation::initILIAS();
         global $DIC;
         $DIC->ctrl()->setTargetScript("/ilias.php");
         $GS = $DIC->globalScreen();
         $GS->collector()->tool()->collectOnce();
-        $unhash         = $this->unhash($_GET['item']);
+        $unhash = $this->unhash($_GET['item']);
         $identification = $GS->identification()->fromSerializedIdentification($unhash);
-        $item           = $GS->collector()->tool()->getSingleItem($identification);
+        $item = $GS->collector()->tool()->getSingleItem($identification);
         /**
          * @var $item isToolItem
          */
-        $callback = $item->hasCloseCallback() ? $item->getCloseCallback() : static function (): void {
+        $callback = $item->hasCloseCallback() ? $item->getCloseCallback() : static function () : void {
         };
         $callback();
     }

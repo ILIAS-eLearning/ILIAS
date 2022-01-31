@@ -47,7 +47,7 @@ class CollectorFactory
     public function mainmenu() : MainMenuMainCollector
     {
         if (!$this->has(MainMenuMainCollector::class)) {
-            $providers   = $this->provider_factory->getMainBarProvider();
+            $providers = $this->provider_factory->getMainBarProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
             
             return $this->getWithMultipleArguments(MainMenuMainCollector::class, [$providers, $information]);
@@ -64,7 +64,7 @@ class CollectorFactory
     public function tool() : MainToolCollector
     {
         if (!$this->has(MainToolCollector::class)) {
-            $providers   = $this->provider_factory->getToolProvider();
+            $providers = $this->provider_factory->getToolProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
             
             return $this->getWithMultipleArguments(MainToolCollector::class, [$providers, $information]);

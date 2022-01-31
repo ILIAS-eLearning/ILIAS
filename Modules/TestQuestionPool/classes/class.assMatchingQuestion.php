@@ -469,7 +469,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if (strlen($term->picture)) {
                 $filename = $term->picture;
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
@@ -485,7 +485,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if (strlen($definition->picture)) {
                 $filename = $definition->picture;
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
@@ -510,7 +510,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->terms as $term) {
             if (strlen($term->picture)) {
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 $filename = $term->picture;
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
@@ -525,7 +525,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             if (strlen($definition->picture)) {
                 $filename = $definition->picture;
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
 
                 if (assQuestion::isFileAvailable($imagepath_original . $filename)) {
@@ -1036,10 +1036,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $image_filename = str_replace(" ", "_", $image_filename);
             $imagepath = $this->getImagePath();
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
             $savename = $image_filename;
-            if (!ilUtil::moveUploadedFile($image_tempfilename, $savename, $imagepath . $savename)) {
+            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $savename, $imagepath . $savename)) {
                 $result = false;
             } else {
                 // create thumbnail file
@@ -1614,10 +1614,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
         $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
 
-        ilUtil::delDir($origImagePath);
+        ilFileUtils::delDir($origImagePath);
         if (is_dir($dupImagePath)) {
-            ilUtil::makeDirParents($origImagePath);
-            ilUtil::rCopy($dupImagePath, $origImagePath);
+            ilFileUtils::makeDirParents($origImagePath);
+            ilFileUtils::rCopy($dupImagePath, $origImagePath);
         }
     }
 }

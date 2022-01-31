@@ -25,8 +25,8 @@ class ilScormExportUtil
      */
     public static function exportContentCSS($a_slm_object, $a_target_dir) : void
     {
-        ilUtil::makeDir($a_target_dir . "/css");
-        ilUtil::makeDir($a_target_dir . "/css/images");
+        ilFileUtils::makeDir($a_target_dir . "/css");
+        ilFileUtils::makeDir($a_target_dir . "/css/images");
 
         $active_css = ilObjStyleSheet::getContentStylePath($a_slm_object->getStyleSheetId());
         $active_css = explode('?', $active_css);

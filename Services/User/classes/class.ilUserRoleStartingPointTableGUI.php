@@ -1,30 +1,35 @@
 <?php
-/* Copyright (c) 1998-20016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for LTI consumer listing
- *
  * @author Jesús López <lopez@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesUser
  */
 class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 {
-    protected $log;
+    public const TABLE_POSITION_USER_CHOOSES = -1;
+    public const TABLE_POSITION_DEFAULT = 9999;
 
-    const TABLE_POSITION_USER_CHOOSES = -1;
-    const TABLE_POSITION_DEFAULT = 9999;
+    protected ilLogger $log;
 
-    public function __construct($a_parent_obj)
+    public function __construct(object $a_parent_obj)
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
 
         $this->log = ilLoggerFactory::getLogger("user");
 
@@ -48,24 +53,17 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         $this->addCommandButton("saveOrder", $lng->txt("save_order"));
 
         $this->setExternalSorting(true);
-
-        //require_once "./Services/AccessControl/classes/class.ilObjRole.php";
-        //$roles_without_point = ilObjRole::getGlobalRolesWithoutStartingPoint();
     }
 
     /**
      * Get data
      */
-    public function getItems()
+    public function getItems() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
 
-        include_once "Services/User/classes/class.ilUserUtil.php";
-        require_once "Services/Object/classes/class.ilObjectDataCache.php";
-        require_once "Services/AccessControl/classes/class.ilObjRole.php";
-        require_once "Services/AccessControl/classes/class.ilStartingPoint.php";
         $dc = new ilObjectDataCache();
 
         $valid_points = ilUserUtil::getPossibleStartingPoints();
@@ -98,7 +96,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
                 $options = unserialize($point['rule_options']);
 
                 $role_obj = ilObjectFactory::getInstanceByObjId($options['role_id'], false);
-                if (!$role_obj || !($role_obj instanceof \ilObjRole)) {
+                if (!($role_obj instanceof \ilObjRole)) {
                     continue;
                 }
 
@@ -137,17 +135,12 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         $this->setData($result);
     }
 
-    /**
-     * Fill a single data row.
-     */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-
-        include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle($lng->txt("actions"));

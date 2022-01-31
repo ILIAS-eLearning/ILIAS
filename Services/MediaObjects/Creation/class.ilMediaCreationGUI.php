@@ -282,14 +282,14 @@ class ilMediaCreationGUI
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
             }
-            $file_name = ilUtil::getASCIIFilename($_FILES['file']["name"]);
+            $file_name = ilFileUtils::getASCIIFilename($_FILES['file']["name"]);
             $file_name = str_replace(" ", "_", $file_name);
 
             $file = $mob_dir . "/" . $file_name;
             $title = $file_name;
             $locationType = "LocalFile";
             $location = $title;
-            ilUtil::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
+            ilFileUtils::moveUploadedFile($_FILES['file']['tmp_name'], $file_name, $file);
             ilUtil::renameExecutables($mob_dir);
 
             // get mime type, if not already set!

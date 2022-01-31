@@ -26,7 +26,9 @@ class ilSCORMObjectGUI
     public $tpl;
     public $lng;
 
-
+    /**
+     * @param $a_id
+     */
     public function __construct($a_id = 0)
     {
         global $DIC;
@@ -41,11 +43,10 @@ class ilSCORMObjectGUI
     }
 
     /**
-    * get instance of specialized GUI class
-    *
-    * static
-    */
-    public function &getInstance($a_id)
+     * @param int $a_id
+     * @return ilSCORMItemGUI|ilSCORMManifestGUI|ilSCORMOrganizationGUI|ilSCORMOrganizationsGUI|ilSCORMResourceGUI|ilSCORMResourcesGUI
+     */
+    public function &getInstance(int $a_id)
     {
         $object = new ilSCORMObject($a_id);
         switch ($object->getType()) {
@@ -76,8 +77,12 @@ class ilSCORMObjectGUI
         }
     }
 
-
-    public function displayParameter($a_name, $a_value)
+    /**
+     * @param string $a_name
+     * @param string $a_value
+     * @return void
+     */
+    public function displayParameter(string $a_name, string $a_value) : void
     {
         $this->tpl->setCurrentBlock("parameter");
         $this->tpl->setVariable("TXT_PARAMETER_NAME", $a_name);

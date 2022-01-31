@@ -313,7 +313,6 @@ class ilLOUserResults
      */
     public function getCompletedObjectiveIds()
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
         
         if (!$settings->isInitialTestQualifying() or !$settings->worksWithInitialTest()) {
@@ -367,7 +366,6 @@ class ilLOUserResults
         
         $res = array();
 
-        include_once("./Modules/Course/classes/Objectives/class.ilLOSettings.php");
         $settings = ilLOSettings::getInstanceByObjId($this->course_obj_id);
 
         $set = $ilDB->query("SELECT *" .
@@ -400,12 +398,10 @@ class ilLOUserResults
         $ilDB = $DIC['ilDB'];
                 
         // are initital test(s) qualifying?
-        include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
         $lo_set = ilLOSettings::getInstanceByObjId($a_obj_id);
         $initial_qualifying = $lo_set->isInitialTestQualifying();
         
         // this method returns LP status codes!
-        include_once "Services/Tracking/classes/class.ilLPStatus.php";
         
         $res = array();
         
@@ -457,12 +453,10 @@ class ilLOUserResults
         // change event is NOT parsed here!
         
         // are initital test(s) qualifying?
-        include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
         $lo_set = ilLOSettings::getInstanceByObjId($a_obj_id);
         $initial_qualifying = $lo_set->isInitialTestQualifying();
         
         // this method returns LP status codes!
-        include_once "Services/Tracking/classes/class.ilLPStatus.php";
                 
         $res = $tmp_completed = array();
         

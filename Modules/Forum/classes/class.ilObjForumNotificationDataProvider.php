@@ -413,7 +413,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $usrIds = [];
         while ($row = $this->db->fetchAssoc($statement)) {
             foreach ($refIds as $refId) {
-                if ($this->access->checkAccessOfUser($row['user_id'], 'read', '', $refId)) {
+                if ($this->access->checkAccessOfUser((int) $row['user_id'], 'read', '', $refId)) {
                     $usrIds[] = (int) $row['user_id'];
                 }
             }

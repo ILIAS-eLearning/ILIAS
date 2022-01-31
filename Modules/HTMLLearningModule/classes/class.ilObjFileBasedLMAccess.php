@@ -88,7 +88,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
             self::$startfile[$a_id] = $start_file . "";
         }
         
-        $dir = ilUtil::getWebspaceDir() . "/lm_data/lm_" . $a_id;
+        $dir = ilFileUtils::getWebspaceDir() . "/lm_data/lm_" . $a_id;
         
         if (($start_file != "") &&
             (is_file($dir . "/" . $start_file))) {
@@ -127,10 +127,10 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
      */
     public static function _lookupDiskUsage(int $a_id) : int
     {
-        $lm_data_dir = ilUtil::getWebspaceDir('filesystem') . "/lm_data";
+        $lm_data_dir = ilFileUtils::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;
         
-        return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;
+        return file_exists($lm_dir) ? ilFileUtils::dirsize($lm_dir) : 0;
     }
 
     public static function _preloadData($a_obj_ids, $a_ref_ids)

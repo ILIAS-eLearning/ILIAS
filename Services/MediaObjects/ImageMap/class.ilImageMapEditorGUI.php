@@ -543,7 +543,7 @@ class ilImageMapEditorGUI
         //echo htmlentities($xml); exit;
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
-        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "media";
         //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
 

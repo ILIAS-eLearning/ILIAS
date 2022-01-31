@@ -22,21 +22,16 @@
 */
 
 /**
-* Represents a ical component.
-* E.g. VEVENT
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Represents a ical component.
+ * E.g. VEVENT
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilICalComponent extends ilICalItem
 {
     /**
      * Constructor
-     *
      * @access public
      * @param string name of component
      */
@@ -44,13 +39,11 @@ class ilICalComponent extends ilICalItem
     {
         parent::__construct($a_name);
     }
-    
+
     /**
      * get items by name
-     *
      * @access public
      * @param string name
-     *
      */
     public function getItemsByName(string $a_name, bool $a_recursive = true) : array
     {

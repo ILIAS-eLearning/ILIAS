@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueHandler.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Description of class
@@ -11,13 +21,10 @@ include_once './Services/WebServices/ECS/interfaces/interface.ilECSCommandQueueH
  */
 class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 {
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    private ilLogger $log;
     
-    private $server = null;
-    private $mid = 0;
+    private ?\ilECSSetting $server = null;
+    private int $mid = 0;
     
     
     /**
@@ -25,7 +32,8 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
      */
     public function __construct(ilECSSetting $server)
     {
-        $this->log = $GLOBALS['DIC']->logger()->wsrv();
+        global $DIC;
+        $this->log = $DIC->logger()->wsrv();
         
         $this->server = $server;
         $this->init();
@@ -48,10 +56,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
      */
     public function handleCreate(ilECSSetting $server, $a_content_id)
     {
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
-        
         $this->log->debug('ECS cms tree create');
         
 
@@ -117,18 +121,15 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
     {
         $this->log->debug('ECS cms tree delete');
         
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         $data = new ilECSCmsData();
         $data->setServerId($this->getServer()->getServerId());
         $data->setMid($this->mid);
         $data->setTreeId($a_content_id);
         $data->deleteTree();
         
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
         $tree = new ilECSCmsTree($a_content_id);
         $tree->deleteTree($tree->getNodeData(ilECSCmsTree::lookupRootId($a_content_id)));
         
-        include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
         ilECSNodeMappingAssignments::deleteMappings(
             $this->getServer()->getServerId(),
             $this->mid,
@@ -155,7 +156,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
         // 4)  Sync tree
         
         try {
-            include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
             $dir_reader = new ilECSDirectoryTreeConnector($this->getServer());
             $res = $dir_reader->getDirectoryTree($a_content_id);
             $nodes = $res->getResult();
@@ -163,12 +163,11 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
                 $this->log->dump($nodes, ilLogLevel::DEBUG);
             }
         } catch (ilECSConnectorException $e) {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Tree creation failed  with mesage ' . $e->getMessage());
+            $this->log->error('Tree creation failed  with message ' . $e->getMessage());
             return false;
         }
         
         // read old tree structure
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
         $tree = new ilECSCmsTree($a_content_id);
         
         $root_node = $tree->getNodeData(ilECSCmsTree::lookupRootId($a_content_id));
@@ -187,7 +186,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
         ilECSCmsTree::deleteByTreeId($a_content_id);
         
         // Mark all nodes in cms data as deleted
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         ilECSCmsData::writeAllDeleted(
             $this->getServer()->getServerId(),
             $this->mid,
@@ -230,7 +228,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
                 $this->mid,
                 $a_content_id,
                 $node->id
-                );
+            );
             
             // update data entry
             $data = new ilECSCmsData($data_obj_id);
@@ -283,12 +281,11 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
         }
         
         // Sync tree
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTreeSynchronizer.php';
         $sync = new ilECSCmsTreeSynchronizer(
             $this->getServer(),
             $this->mid,
             $a_content_id
-            );
+        );
         $sync->sync();
         
         return true;
@@ -299,7 +296,6 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
      */
     private function init()
     {
-        include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-        $this->mid = ilECSParticipantSettings::loookupCmsMid($this->getServer()->getServerId());
+        $this->mid = ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->lookupCmsMid();
     }
 }

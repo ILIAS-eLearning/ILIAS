@@ -20,17 +20,14 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-/**
-* Represents a ical property.
-* E.g DTSTART;VALUE=DATE;TZID=Europe/Berlin:20080214
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
 
+/**
+ * Represents a ical property.
+ * E.g DTSTART;VALUE=DATE;TZID=Europe/Berlin:20080214
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilICalProperty extends ilICalItem
 {
     /**
@@ -40,7 +37,6 @@ class ilICalProperty extends ilICalItem
     {
         parent::__construct($a_name, $a_value);
     }
-
 
     /**
      * @inheritDoc

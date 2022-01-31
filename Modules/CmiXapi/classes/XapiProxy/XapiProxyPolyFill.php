@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
     namespace XapiProxy;
 
     /******************************************************************************
@@ -16,19 +16,19 @@
      *****************************************************************************/
     class XapiProxyPolyFill
     {
-        protected $client;
-        protected $token;
+        protected string $client;
+        protected string $token;
 
-        protected $plugin;
-        protected $table_prefix;
-        protected $lrsType;
-        protected $authToken = null;
-        protected $objId = null;
-        protected $specificAllowedStatements = null;
-        protected $replacedValues = null;
+        protected bool $plugin = false;
+        protected string $table_prefix;
+        protected ?\ilCmiXapiLrsType $lrsType;
+        protected ?\ilCmiXapiAuthToken $authToken = null;
+        protected ?int $objId = null;
+        protected ?array $specificAllowedStatements = null;
+        protected ?array $replacedValues = null;
         protected bool $blockSubStatements = false;
-        protected $cmdParts;
-        protected $method;
+        protected string $cmdParts = "";
+        protected string $method;
 
         protected string $defaultLrsEndpoint = '';
         protected string $defaultLrsKey = '';
@@ -49,7 +49,12 @@
         
         const TERMINATED_VERB = "http://adlnet.gov/expapi/verbs/terminated";
 
-        public function __construct($client, $token, $plugin = false)
+        /**
+         * @param string    $client
+         * @param string    $token
+         * @param bool|null $plugin
+         */
+        public function __construct(string $client, string $token, ?bool $plugin = false)
         {
             $this->client = $client;
             $this->token = $token;
@@ -63,6 +68,9 @@
             $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
         }
 
+        /**
+         * @return \CliLog|\ilLogger
+         */
         public function log()
         {
             global $log;
@@ -73,7 +81,7 @@
             }
         }
 
-        public function msg($msg)
+        public function msg($msg) : string
         {
             if ($this->plugin) {
                 return "XapiCmi5Plugin: " . $msg;
@@ -82,7 +90,7 @@
             }
         }
 
-        public function initLrs()
+        public function initLrs() : void
         {
             $this->log()->debug($this->msg('initLrs'));
 //            if ($this->plugin) {
@@ -115,7 +123,7 @@
 //            }
         }
 
-        private function getLrsTypePlugin()
+        private function getLrsTypePlugin() : void
         {
             try {
                 $lrsType = $this->getLrsTypeAndMoreByToken();
@@ -146,7 +154,9 @@
             }
         }
 
-
+        /**
+         * @return \ilCmiXapiLrsType|void|null
+         */
         private function getLrsType()
         { // Core new > 6
             try {
@@ -174,8 +184,10 @@
             \ilCmiXapiUser::saveProxySuccess($this->authToken->getObjId(), $this->authToken->getUsrId(), $this->lrsType->getPrivacyIdent());
             return $lrsType;
         }
+
         /**
          * hybrid function, maybe two distinct functions would be better?
+         * @return \ilCmiXapiLrsType|null
          */
         private function getLrsTypeAndMoreByToken()
         {
@@ -203,7 +215,7 @@
 
             $res = $db->query($query);
             while ($row = $db->fetchObject($res)) {
-                $type_id = $row->lrs_type_id;
+                $type_id = (int) $row->lrs_type_id;
                 if ($type_id) {
 //                    $lrs = ($this->plugin) ? new \ilXapiCmi5LrsType($type_id) : new \ilCmiXapiLrsType($type_id);
                     $lrs = new \ilCmiXapiLrsType($type_id);

@@ -1243,7 +1243,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $xh = xslt_create();
 
         if (!$this->offlineMode()) {
-            $wb_path = ilUtil::getWebspaceDir("output") . "/";
+            $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
             $wb_path = "";
         }
@@ -1984,7 +1984,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             if ($med_item->getLocationType() == "LocalFile") {
                                 $tpl->setVariable(
                                     "IMG_SOURCE",
-                                    ilUtil::getWebspaceDir("output") . "/mobs/mm_" . $id .
+                                    ilFileUtils::getWebspaceDir("output") . "/mobs/mm_" . $id .
                                     "/" . $med_item->getLocation()
                                 );
                             } else {
@@ -2268,7 +2268,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         string $text
     ) : void {
         $directory = $this->getOfflineDirectory() . "/codefiles/" . $page_id . "/" . $paragraph_id;
-        ilUtil::makeDirParents($directory);
+        ilFileUtils::makeDirParents($directory);
         $file = $directory . "/" . $title;
         if (!($fp = fopen($file, "w+"))) {
             die("<b>Error</b>: Could not open \"" . $file . "\" for writing" .

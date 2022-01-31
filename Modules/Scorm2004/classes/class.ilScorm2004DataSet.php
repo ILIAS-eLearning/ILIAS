@@ -131,8 +131,8 @@ class ilScorm2004DataSet extends ilDataSet
             $zip = $export->buildExportFile();
 
             // move it to temp dir
-            $tmpdir = ilUtil::ilTempnam();
-            ilUtil::makeDir($tmpdir);
+            $tmpdir = ilFileUtils::ilTempnam();
+            ilFileUtils::makeDir($tmpdir);
             $exp_temp = $tmpdir . DIRECTORY_SEPARATOR . basename($zip);
             ilFileUtils::rename($zip, $exp_temp);
 
@@ -156,7 +156,7 @@ class ilScorm2004DataSet extends ilDataSet
         if ($a_entity == "sahs") {
             // delete our temp dir
             if (isset($this->temp_dir[$a_set["Id"]]) && is_dir($this->temp_dir[$a_set["Id"]])) {
-                ilUtil::delDir($this->temp_dir[$a_set["Id"]]);
+                ilFileUtils::delDir($this->temp_dir[$a_set["Id"]]);
             }
         }
     }
@@ -182,7 +182,7 @@ class ilScorm2004DataSet extends ilDataSet
                 $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
                 $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
 
-                $lm->setEditable($a_rec["Editable"]);
+//                $lm->setEditable($a_rec["Editable"]);
                 $lm->setImportSequencing(false);
                 $lm->setSequencingExpertMode(false);
                 $lm->setSubType("scorm2004");
@@ -193,7 +193,7 @@ class ilScorm2004DataSet extends ilDataSet
                     $file_path = $lm->getDataDirectory() . "/" . $a_rec["File"];
                     ilFileUtils::rename($source_dir . "/" . $a_rec["File"], $file_path);
 
-                    ilUtil::unzip($file_path);
+                    ilFileUtils::unzip($file_path);
                     ilUtil::renameExecutables($lm->getDataDirectory());
                     $title = $lm->readObject();
                     if ($title != "") {

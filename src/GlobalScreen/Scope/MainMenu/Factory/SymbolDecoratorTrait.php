@@ -16,7 +16,6 @@ use ReflectionType;
  */
 trait SymbolDecoratorTrait
 {
-    
     private ?Closure $symbol_decorator = null;
     
     /**
@@ -29,7 +28,7 @@ trait SymbolDecoratorTrait
             throw new LogicException('first argument of closure must be type-hinted to \ILIAS\UI\Component\Symbol\Symbol');
         }
         if ($this->symbol_decorator instanceof Closure) {
-            $existing               = $this->symbol_decorator;
+            $existing = $this->symbol_decorator;
             $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing) : Symbol {
                 $component = $existing($c);
                 

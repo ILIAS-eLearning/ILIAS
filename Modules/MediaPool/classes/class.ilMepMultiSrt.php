@@ -32,7 +32,7 @@ class ilMepMultiSrt implements ilMobMultiSrtInt
      */
     public function getUploadDir() : string
     {
-        return ilUtil::getDataDir() . "/mep_data" .
+        return ilFileUtils::getDataDir() . "/mep_data" .
             "/mep_" . $this->mep->getId() . "/srt_tmp";
     }
 

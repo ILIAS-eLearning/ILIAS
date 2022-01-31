@@ -2,11 +2,9 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Consultation Hours appointment file handler
- *
- * @author Alex Killing <killing@leifos.de>
+ * @author  Alex Killing <killing@leifos.de>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentConsultationHoursFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler

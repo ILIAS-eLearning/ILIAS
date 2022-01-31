@@ -16,6 +16,7 @@
 namespace ILIAS\Portfolio\Export;
 
 use ILIAS\Blog\Export\BlogHtmlExport;
+use ilFileUtils;
 
 /**
  * Portfolio HTML export
@@ -90,8 +91,8 @@ class PortfolioHtmlExport
         \ilExport::_createExportDirectory($this->portfolio->getId(), "html", "prtf");
 
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
     }
 
     /**
@@ -192,8 +193,8 @@ class PortfolioHtmlExport
         $zip_file = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf") .
             "/" . $date . "__" . IL_INST_ID . "__" .
             $this->portfolio->getType() . "_" . $this->portfolio->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
 
         return $zip_file;
     }

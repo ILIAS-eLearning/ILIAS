@@ -15,8 +15,11 @@
 
 namespace ILIAS\Glossary\Export;
 
+use ilFileUtils;
+
 /**
  * Glossary HTML Export
+ *
  * @author Alexander Killing <killing@leifos.de>
  */
 class GlossaryHtmlExport
@@ -55,8 +58,8 @@ class GlossaryHtmlExport
     protected function initDirectories() : void
     {
         // initialize temporary target directory
-        \ilUtil::delDir($this->target_dir);
-        \ilUtil::makeDir($this->target_dir);
+        ilFileUtils::delDir($this->target_dir);
+        ilFileUtils::makeDir($this->target_dir);
     }
 
     public function exportHTML() : string
@@ -81,8 +84,8 @@ class GlossaryHtmlExport
         $date = time();
         $zip_file = $this->glossary->getExportDirectory("html") . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->glossary->getType() . "_" . $this->glossary->getId() . ".zip";
-        \ilUtil::zip($this->target_dir, $zip_file);
-        \ilUtil::delDir($this->target_dir);
+        ilFileUtils::zip($this->target_dir, $zip_file);
+        ilFileUtils::delDir($this->target_dir);
         return $zip_file;
     }
 

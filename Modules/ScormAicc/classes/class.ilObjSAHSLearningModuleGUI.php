@@ -40,9 +40,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
     /**
-    * execute command
-    */
-    public function executeCommand()
+     * execute command
+     * @return void
+     * @throws ilCtrlException
+     * @throws ilException
+     */
+    public function executeCommand() : void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -96,10 +99,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilfilesystemgui":
-                $this->fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
-                $this->fs_gui->setUseUploadDirectory(true);
-                $this->fs_gui->setTableId("sahsfs" . $this->object->getId());
-                $ret = $this->ctrl->forwardCommand($this->fs_gui);
+                $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
+                $fs_gui->setUseUploadDirectory(true);
+                $fs_gui->setTableId("sahsfs" . $this->object->getId());
+                $ret = $this->ctrl->forwardCommand($fs_gui);
                 break;
 
             case "ilcertificategui":
@@ -185,11 +188,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($this->object && !$this->object->getEditable()) {
+//                if ($this->object && !$this->object->getEditable()) {
                     $cmd = $this->ctrl->getCmd("properties");
-                } else {
-                    $cmd = $this->ctrl->getCmd("frameset");
-                }
+//                } else {
+//                    $cmd = $this->ctrl->getCmd("frameset");
+//                }
                 if ((strtolower($_GET["baseClass"]) == "iladministrationgui" ||
                     $this->getCreationMode() == true) &&
                     $cmd != "frameset") {
@@ -210,7 +213,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @return void
      * @throws ilObjectException
      */
-    public function viewObject()
+    public function viewObject() : void
     {
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             parent::viewObject();
@@ -221,14 +224,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
     * module properties
     */
-    public function properties()
+    public function properties() : void
     {
     }
 
     /**
     * save properties
     */
-    public function saveProperties()
+    public function saveProperties() : void
     {
     }
 
@@ -236,20 +239,23 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     //// CREATION
     ////
 
-//    /**
-//    * no manual SCORM creation, only import at the time
-//    */
-//    public function initCreationForms($a_new_type) : array
-//    {
-//        $forms = array();
-//
-//        $this->initUploadForm();
-//        $forms[self::CFORM_IMPORT] = $this->form;
-//
-//        $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
-//
-//        return $forms;
-//    }
+    /**
+     * no manual SCORM creation, only import at the time
+     * @param $a_new_type
+     * @return array|ilPropertyFormGUI[]
+     * @throws ilCtrlException
+     */
+    protected function initCreationForms($a_new_type) : array
+    {
+        $forms = array();
+
+        $this->initUploadForm();
+        $forms[self::CFORM_IMPORT] = $this->form;
+
+        $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
+
+        return $forms;
+    }
 
     /**
      * @return void
@@ -388,7 +394,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         switch ($subType) {
         case "scorm2004":
             $newObj = new ilObjSCORM2004LearningModule();
-            $newObj->setEditable(false);//$_POST["editable"] == 'y');
+//            $newObj->setEditable(false);//$_POST["editable"] == 'y');
 //            $newObj->setImportSequencing($_POST["import_sequencing"]);
 //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
             break;
@@ -404,7 +410,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if (in_array($fType, $cFileTypes)) {
                 $timeStamp = time();
                 $tempFile = $sFile["tmp_name"];
-                $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+                $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
                 $lmTempDir = $lmDir . $timeStamp;
                 if (!file_exists($lmTempDir)) {
                     mkdir($lmTempDir, 0755, true);
@@ -451,24 +457,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $scormFilePath = $import_dirname . "/" . $scormFile;
                 $file_path = $newObj->getDataDirectory() . "/" . $scormFile;
                 ilFileUtils::rename($scormFilePath, $file_path);
-                ilUtil::unzip($file_path);
+                ilFileUtils::unzip($file_path);
                 unlink($file_path);
-                ilUtil::delDir($lmTempDir, false);
+                ilFileUtils::delDir($lmTempDir, false);
             } else {
                 // copy uploaded file to data directory
                 $file_path = $newObj->getDataDirectory() . "/" . $_FILES["scormfile"]["name"];
-                ilUtil::moveUploadedFile(
+                ilFileUtils::moveUploadedFile(
                     $_FILES["scormfile"]["tmp_name"],
                     $_FILES["scormfile"]["name"],
                     $file_path
                 );
-                ilUtil::unzip($file_path);
+                ilFileUtils::unzip($file_path);
             }
         } else {
             // copy uploaded file to data directory
             $file_path = $newObj->getDataDirectory() . "/" . $_POST["uploaded_file"];
             ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
-            ilUtil::unzip($file_path);
+            ilFileUtils::unzip($file_path);
         }
         ilUtil::renameExecutables($newObj->getDataDirectory());
 
@@ -563,7 +569,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @return void
      */
-    public function setTabs() : void
+    protected function setTabs() : void
     {
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
@@ -590,7 +596,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @return void
      * @throws ilCtrlException
      */
-    public function getTabs()
+    protected function getTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -855,7 +861,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @return void
      */
-    public function exportModule()
+    public function exportModule() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -868,7 +874,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return "sahs";
     }

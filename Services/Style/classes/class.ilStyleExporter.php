@@ -21,7 +21,7 @@ class ilStyleExporter extends ilXmlExporter
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         if ($a_schema_version == "5.1.0") {
-            ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+            ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
             $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
             return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
         }
@@ -32,9 +32,9 @@ class ilStyleExporter extends ilXmlExporter
                 // images
                 $target = $this->getAbsoluteExportDirectory();
                 if ($target && !is_dir($target)) {
-                    ilUtil::makeDirParents($target);
+                    ilFileUtils::makeDirParents($target);
                 }
-                ilUtil::rCopy($style->getImagesDirectory(), $target);
+                ilFileUtils::rCopy($style->getImagesDirectory(), $target);
 
                 return "<StyleSheetExport>" .
                     "<ImagePath>" . $this->getRelativeExportDirectory() . "</ImagePath>" .

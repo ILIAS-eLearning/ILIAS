@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,7 +24,7 @@
  */
 class ilObjCmiXapiAdministration extends ilObject
 {
-    public function __construct($a_id = 0, $a_reference = true)
+    public function __construct(int $a_id = 0, ?bool $a_reference = true)
     {
         parent::__construct($a_id, $a_reference);
         

@@ -40,7 +40,7 @@ class ilForumXMLWriter extends ilXmlWriter
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilUtil::makeDir($this->target_dir_absolute . "/objects");
+        ilFileUtils::makeDir($this->target_dir_absolute . "/objects");
 
         $query_frm = '
             SELECT *

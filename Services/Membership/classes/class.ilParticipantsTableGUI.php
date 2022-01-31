@@ -149,7 +149,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     {
         $loc_enabled = (
             $this->getRepositoryObject()->getType() == 'crs' and
-            $this->getRepositoryObject()->getViewMode() == IL_CRS_VIEW_OBJECTIVE
+            $this->getRepositoryObject()->getViewMode() == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE
         );
 
         if (!self::$has_odf_definitions and !$loc_enabled) {

@@ -312,8 +312,8 @@ abstract class ilDataSet
                 switch ($types[$f]) {
                     case "directory":
                         if ($this->absolute_export_dir != "" && $this->relative_export_dir != "") {
-                            ilUtil::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                            ilUtil::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                            ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                            ilFileUtils::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
                             //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
                             $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
                             $this->dircnt++;

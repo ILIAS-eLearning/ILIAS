@@ -21,7 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 *
@@ -153,7 +152,6 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
      */
     public function parse($a_objective_ids)
     {
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         
         $objectives = array();
         foreach ($a_objective_ids as $objective_id) {

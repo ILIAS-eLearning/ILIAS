@@ -42,11 +42,11 @@ final class TypeInformation
         TypeHandler $type_handler = null,
         string $type_byline = null
     ) {
-        $this->instance                     = new $type(new NullIdentification());
-        $this->type                         = $type;
-        $this->type_name_for_presentation   = $type_name_for_presentation;
-        $this->type_handler                 = $type_handler ?: new BaseTypeHandler();
-        $this->renderer                     = $renderer ?: new BaseTypeRenderer();
+        $this->instance = new $type(new NullIdentification());
+        $this->type = $type;
+        $this->type_name_for_presentation = $type_name_for_presentation;
+        $this->type_handler = $type_handler ?: new BaseTypeHandler();
+        $this->renderer = $renderer ?: new BaseTypeRenderer();
         $this->type_byline_for_presentation = $type_byline ?: "";
     }
     

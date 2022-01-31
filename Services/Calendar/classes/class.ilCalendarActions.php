@@ -4,7 +4,6 @@
 
 /**
  * Checks if certain actions can be performed
- *
  * @author Alex Killing <alex.killing@gmx.de>
  * @ingroup
  */
@@ -33,7 +32,6 @@ class ilCalendarActions
 
     /**
      * Get instance
-     *
      * @return ilCalendarActions
      */
     public static function getInstance() : ilCalendarActions
@@ -66,7 +64,6 @@ class ilCalendarActions
 
     /**
      * Check un-sharing (other users) calendar
-     *
      */
     public function checkUnshareCal(int $a_cat_id) : bool
     {

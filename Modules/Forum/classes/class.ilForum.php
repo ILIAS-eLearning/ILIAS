@@ -1295,8 +1295,8 @@ class ilForum
         $fullname = '';
         $loginname = '';
 
-        if (ilObject::_exists($a_row->pos_display_user_id)) {
-            $tmp_user = new ilObjUser($a_row->pos_display_user_id);
+        if (ilObject::_exists((int) $a_row->pos_display_user_id)) {
+            $tmp_user = new ilObjUser((int) $a_row->pos_display_user_id);
             $fullname = $tmp_user->getFullname();
             $loginname = $tmp_user->getLogin();
         }

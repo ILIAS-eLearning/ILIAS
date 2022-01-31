@@ -29,7 +29,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
      */
     public function initMemberExportDirectory() : void
     {
-        ilUtil::makeDirParents($this->getMemberExportDirectory());
+        ilFileUtils::makeDirParents($this->getMemberExportDirectory());
     }
 
     /**

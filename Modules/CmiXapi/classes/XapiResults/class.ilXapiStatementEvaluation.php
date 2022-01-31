@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -29,7 +29,7 @@ class ilXapiStatementEvaluation
      * http://adlnet.gov/expapi/verbs/satisfied: should never be sent by AU
      * https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#939-satisfied
      */
-    protected $resultStatusByXapiVerbMap = array(
+    protected array $resultStatusByXapiVerbMap = array(
         ilCmiXapiVerbList::COMPLETED => "completed",
         ilCmiXapiVerbList::PASSED => "passed",
         ilCmiXapiVerbList::FAILED => "failed",
@@ -41,16 +41,16 @@ class ilXapiStatementEvaluation
         ilCmiXapiVerbList::EXPERIENCED => "experienced"
     );
     
-    /**
-     * @var ilObjCmiXapi
-     */
-    protected $object;
+    protected ilObject $object;
     
+    //todo
     /**
      * @var ilLogger
      */
-    protected $log;
-    
+    protected ilLogger $log;
+
+    protected ?int $lpMode;
+
     /**
      * ilXapiStatementEvaluation constructor.
      * @param ilLogger $log
@@ -83,7 +83,7 @@ class ilXapiStatementEvaluation
         }
     }
     
-    public function getCmixUser($xapiStatement)
+    public function getCmixUser(object $xapiStatement) : \ilCmiXapiUser
     {
         $cmixUser = null;
         if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
@@ -100,7 +100,7 @@ class ilXapiStatementEvaluation
         return $cmixUser;
     }
 
-    public function evaluateStatement($xapiStatement, $usrId) : void
+    public function evaluateStatement(object $xapiStatement, int $usrId) : void
     {
         global $DIC;
         $xapiVerb = $this->getXapiVerb($xapiStatement);
@@ -152,7 +152,7 @@ class ilXapiStatementEvaluation
         }
     }
     
-    protected function isValidXapiStatement($xapiStatement) : bool
+    protected function isValidXapiStatement(object $xapiStatement) : bool
     {
         if (!isset($xapiStatement->actor)) {
             return false;
@@ -172,7 +172,7 @@ class ilXapiStatementEvaluation
     /**
      *
      */
-    protected function isValidObject($xapiStatement) : bool
+    protected function isValidObject(object $xapiStatement) : bool
     {
         if ($xapiStatement->object->id != $this->object->getActivityId()) {
             $this->log->debug($xapiStatement->object->id . " != " . $this->object->getActivityId());
@@ -182,32 +182,32 @@ class ilXapiStatementEvaluation
     }
 
     
-    protected function getXapiVerb($xapiStatement)
+    protected function getXapiVerb(object $xapiStatement) : string
     {
         return $xapiStatement->verb->id;
     }
     
-    protected function getResultStatusForXapiVerb($xapiVerb)
+    protected function getResultStatusForXapiVerb(string $xapiVerb) : string
     {
         return $this->resultStatusByXapiVerbMap[$xapiVerb];
     }
     
-    protected function hasResultStatusRelevantXapiVerb($xapiVerb) : bool
+    protected function hasResultStatusRelevantXapiVerb(string $xapiVerb) : bool
     {
         return isset($this->resultStatusByXapiVerbMap[$xapiVerb]);
     }
     
-    protected function getResultProgressForXapiVerb($xapiVerb)
+    protected function getResultProgressForXapiVerb(string $xapiVerb)
     {
         return $this->resultProgressByXapiVerbMap[$xapiVerb];
     }
 
-    protected function hasResultProgressRelevantXapiVerb($xapiVerb) : bool
+    protected function hasResultProgressRelevantXapiVerb(string $xapiVerb) : bool
     {
         return isset($this->resultProgressByXapiVerbMap[$xapiVerb]);
     }
 
-    protected function hasXapiScore($xapiStatement) : bool
+    protected function hasXapiScore(object $xapiStatement) : bool
     {
         if (!isset($xapiStatement->result)) {
             return false;
@@ -224,12 +224,12 @@ class ilXapiStatementEvaluation
         return true;
     }
 
-    protected function getXapiScore($xapiStatement)
+    protected function getXapiScore(object $xapiStatement)
     {
         return $xapiStatement->result->score->scaled;
     }
     
-    protected function getProgressedScore($xapiStatement)
+    protected function getProgressedScore(object $xapiStatement)
     {
         if (!isset($xapiStatement->result)) {
             return false;
@@ -245,7 +245,7 @@ class ilXapiStatementEvaluation
         return $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
     }
 
-    protected function getUserResult($usrId)
+    protected function getUserResult(int $usrId) : \ilCmiXapiResult
     {
         try {
             $result = ilCmiXapiResult::getInstanceByObjIdAndUsrId($this->object->getId(), $usrId);
@@ -258,7 +258,7 @@ class ilXapiStatementEvaluation
         return $result;
     }
     
-    protected function isResultStatusToBeReplaced($oldResultStatus, $newResultStatus) : bool
+    protected function isResultStatusToBeReplaced(string $oldResultStatus, string $newResultStatus) : bool
     {
         if (!$this->isLpModeInterestedInResultStatus($newResultStatus)) {
             $this->log->debug("isLpModeInterestedInResultStatus: false");
@@ -278,7 +278,7 @@ class ilXapiStatementEvaluation
         return true;
     }
     
-    protected function isLpModeInterestedInResultStatus($resultStatus, $deactivated = true)
+    protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true)
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
             return $deactivated;
@@ -315,7 +315,7 @@ class ilXapiStatementEvaluation
         return false;
     }
     
-    protected function doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus) : bool
+    protected function doesNewResultStatusDominateOldOne(string $oldResultStatus, string $newResultStatus) : bool
     {
         if ($oldResultStatus == '') {
             return true;
@@ -332,7 +332,7 @@ class ilXapiStatementEvaluation
         return false;
     }
     
-    protected function needsAvoidFailedEvaluation($oldResultStatus, $newResultStatus) : bool
+    protected function needsAvoidFailedEvaluation(string $oldResultStatus, string $newResultStatus) : bool
     {
         if (!$this->object->isKeepLpStatusEnabled()) {
             return false;
@@ -345,7 +345,7 @@ class ilXapiStatementEvaluation
         return $oldResultStatus == 'completed' || $oldResultStatus == 'passed';
     }
 
-    protected function sendSatisfiedStatement($cmixUser) : void
+    protected function sendSatisfiedStatement(ilCmiXapiUser $cmixUser) : void
     {
         global $DIC;
         

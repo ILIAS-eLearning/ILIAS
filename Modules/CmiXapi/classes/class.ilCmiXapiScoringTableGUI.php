@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -30,7 +30,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     /**
      * @var bool
      */
-    protected $isMultiActorReport;
+    protected bool $isMultiActorReport;
 
     private \ilCmiXapiScoringGUI $_parent;
     
@@ -39,11 +39,12 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     /**
      * ilCmiXapiScoringTableGUI constructor.
      * @param ilCmiXapiScoringGUI $a_parent_obj
-     * @param $a_parent_cmd
-     * @param $isMultiActorReport
-     * @param $tableId
+     * @param string              $a_parent_cmd
+     * @param bool                $isMultiActorReport
+     * @param string              $tableId
+     * @param bool                $hasOutcomeAccess
      */
-    public function __construct(ilCmiXapiScoringGUI $a_parent_obj, string $a_parent_cmd, $isMultiActorReport, $tableId, $hasOutcomeAccess)
+    public function __construct(ilCmiXapiScoringGUI $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport, string $tableId, bool $hasOutcomeAccess)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -100,7 +101,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->setLimit((int) $this->_parent->object->getHighscoreTopNum());
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -115,7 +116,6 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
             $this->tpl->setVariable('SCORE_ACHIEVED', $a_set['date']);
             $this->tpl->parseCurrentBlock();
         }
-
 
         if ($this->_parent->object->getHighscorePercentage()) {
             $this->tpl->setCurrentBlock('percentage');
@@ -133,7 +133,13 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
 
-    protected function getUsername($data)
+    /**
+     * @param array $data
+     * @return mixed|string
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
+    protected function getUsername(array $data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

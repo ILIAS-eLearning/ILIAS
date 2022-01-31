@@ -63,9 +63,9 @@ class ilStyleImporter extends ilXmlImporter
             if (is_dir($source)) {
                 $target = $style->getImagesDirectory();
                 if (!is_dir($target)) {
-                    ilUtil::makeDirParents($target);
+                    ilFileUtils::makeDirParents($target);
                 }
-                ilUtil::rCopy($source, $target);
+                ilFileUtils::rCopy($source, $target);
             }
         }
         

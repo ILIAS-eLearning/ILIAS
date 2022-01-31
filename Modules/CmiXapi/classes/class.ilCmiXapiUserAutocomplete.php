@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,12 +27,12 @@ class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
     /**
      * @var int
      */
-    protected $objId;
+    protected int $objId;
     
     /**
      * @param int $objId
      */
-    public function __construct($objId)
+    public function __construct(int $objId)
     {
         parent::__construct();
         $this->objId = $objId;

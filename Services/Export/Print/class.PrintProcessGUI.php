@@ -1,47 +1,36 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 namespace ILIAS\Export;
 
-use \ILIAS\DI\HTTPServices;
-use \ILIAS\HTTP;
-use \ILIAS\Filesystem\Stream\Streams;
-use \ILIAS\DI\UIServices;
+use ILIAS\HTTP;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\DI\UIServices;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class PrintProcessGUI
 {
     /**
-     * @var HTTPServices
-     */
-    protected $http;
-
-    /**
      * @var callable[]
      */
-    protected $injectors = [];
+    protected array $injectors = [];
+    protected ?string $body_class = null;
 
-    /**
-     * @var UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected HTTP\Services $http;
+    protected UIServices $ui;
+    protected \ilLanguage $lng;
+    protected PrintViewProvider $provider;
 
     /**
      * PrintViewGUI constructor.
-     * @param PrintViewProvider $provider
+     * @param PrintViewProvider    $provider
      * @param \ILIAS\HTTP\Services $http
-     * @param UIServices   $ui
-     * @param \ilLanguage  $lng
-     * @param string|null  $body_class
+     * @param UIServices           $ui
+     * @param \ilLanguage          $lng
+     * @param string|null          $body_class
      */
     public function __construct(
         PrintViewProvider $provider,
@@ -55,7 +44,7 @@ class PrintProcessGUI
         $this->lng = $lng;
         $this->http = $http;
         $this->body_class = $body_class ?? "ilPrtfPdfBody";     // todo: move this class
-        $lng->loadLanguageModule("exp");
+        $this->lng->loadLanguageModule("exp");
     }
 
     /**
@@ -67,7 +56,6 @@ class PrintProcessGUI
         $this->provider->setOffline($offline);
     }
 
-
     // injectors are used to add css/js files to the template
     public function addTemplateInjector(callable $f) : void
     {
@@ -76,20 +64,20 @@ class PrintProcessGUI
 
     public function getModalElements(
         string $selection_action
-    ) : \StdClass {
+    ) : \stdClass {
         $ui = $this->ui;
         $lng = $this->lng;
 
         $ui->mainTemplate()->addJavaScript("./Services/Form/js/Form.js");
         $modal = $ui->factory()->modal()->roundtrip(
-            $lng->txt("exp_print_pdf"),
+            $this->lng->txt("exp_print_pdf"),
             $ui->factory()->legacy('some modal')
         )->withAsyncRenderUrl($selection_action);
         $print_button = $ui->factory()->button()->standard(
-            $lng->txt("exp_print_pdf"),
+            $this->lng->txt("exp_print_pdf"),
             $modal->getShowSignal()
         );
-        $elements = new \StdClass();
+        $elements = new \stdClass();
         $elements->button = $print_button;
         $elements->modal = $modal;
 
@@ -143,7 +131,6 @@ class PrintProcessGUI
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
 
-
         $content = implode(
             '<p style="page-break-after:always;"></p>',
             $pages
@@ -157,7 +144,6 @@ class PrintProcessGUI
 					});
 				//-->
 				</script>';
-
 
         $tpl->setVariable("CONTENT", $content);
         return $tpl->printToString();

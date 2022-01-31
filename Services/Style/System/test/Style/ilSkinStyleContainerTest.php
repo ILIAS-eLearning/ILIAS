@@ -38,7 +38,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->style2->setSoundDirectory('style2sound');
         $this->style2->setFontDirectory('style2font');
 
-        $this->factory = new ilSkinFactory($this->system_style_config);
+        $this->factory = new ilSkinFactory($this->lng, $this->system_style_config);
     }
 
     public function testCreateDelete() : void

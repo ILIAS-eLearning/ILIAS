@@ -261,7 +261,7 @@ class ilTestParticipantData
         $fullname .= '_' . str_replace(' ', '', $this->byActiveId[$activeId]['firstname']);
         $fullname .= '_' . $this->byActiveId[$activeId]['login'];
         
-        return ilUtil::getASCIIFilename($fullname);
+        return ilFileUtils::getASCIIFilename($fullname);
     }
     
     public function getOptionArray()

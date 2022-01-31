@@ -282,7 +282,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function getInput() : string
     {
         if ($this->usePurifier() && $this->getPurifier()) {
-            $value = $this->getPurifier()->purify($this->str($this->getPostVar()));
+            $value = $this->getPurifier()->purify($this->raw($this->getPostVar()));
         } else {
             $allowed = $this->getRteTagString();
             if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {

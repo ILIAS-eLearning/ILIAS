@@ -388,7 +388,7 @@ class ilObjSCORMInitData
             array($a_packageId,$a_user_id)
         );
         $val_rec = $ilDB->fetchAssoc($res);
-        if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
+        if ($val_rec["cnt"] == 0) {
             $ilDB->manipulateF(
                 'INSERT INTO sahs_user (obj_id, user_id, hash, hash_end) VALUES(%s, %s, %s, %s)',
                 array('integer', 'integer', 'text', 'timestamp'),

@@ -84,7 +84,7 @@ class ContextCollection
         $mapper = function (ScreenContext $c) : string {
             return $c->getUniqueContextIdentifier();
         };
-        $mine   = array_map($mapper, $this->getStack());
+        $mine = array_map($mapper, $this->getStack());
         $theirs = array_map($mapper, $other_collection->getStack());
         
         return (count(array_intersect($mine, $theirs)) > 0);

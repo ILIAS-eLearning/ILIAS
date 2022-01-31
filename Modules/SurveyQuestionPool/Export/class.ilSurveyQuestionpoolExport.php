@@ -80,7 +80,7 @@ class ilSurveyQuestionpoolExport
     ) : string {
         // create directories
         $this->spl_obj->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
+        ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);
 
         // get Log File
         $expLog = new ilLog($this->spl_obj->getExportDirectory(), "export.log");
@@ -92,7 +92,7 @@ class ilSurveyQuestionpoolExport
         fwrite($qti_file, $this->spl_obj->toXML($questions));
         fclose($qti_file);
 
-        ilUtil::zip(
+        ilFileUtils::zip(
             $this->export_dir . "/" . $this->subdir,
             $this->export_dir . "/" . $this->subdir . ".zip"
         );

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,17 +27,17 @@ class ilXapiCompliantStatementsReportLinkBuilder
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * @var ilCmiXapiLrsType
      */
-    protected $lrsType;
+    protected ilCmiXapiLrsType $lrsType;
     
     /**
      * @var ilCmiXapiStatementsReportFilter
      */
-    protected $filter;
+    protected ilCmiXapiStatementsReportFilter $filter;
     
     public function __construct(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)
     {
@@ -81,8 +81,11 @@ class ilXapiCompliantStatementsReportLinkBuilder
         
         return $link;
     }
-    
-    protected function buildParamAgent()
+
+    /**
+     * @return string
+     */
+    protected function buildParamAgent() : string
     {
         $agent = json_encode([
             'objectType' => 'Agent',
@@ -91,26 +94,32 @@ class ilXapiCompliantStatementsReportLinkBuilder
         
         return "agent={$agent}";
     }
-    
-    protected function buildParamVerb()
+
+    /**
+     * @return string
+     */
+    protected function buildParamVerb() : string
     {
         $verb = urlencode($this->filter->getVerb());
         return "verb={$verb}";
     }
-    
-    protected function buildParamSince()
+
+    /**
+     * @return string
+     */
+    protected function buildParamSince() : string
     {
         $since = urlencode($this->filter->getStartDate()->toXapiTimestamp());
         return "since={$since}";
     }
     
-    protected function buildParamUntil()
+    protected function buildParamUntil() : string
     {
         $until = urlencode($this->filter->getEndDate()->toXapiTimestamp());
         return "until={$until}";
     }
     
-    protected function buildParamActivity()
+    protected function buildParamActivity() : string
     {
         return "activity={$this->object->getActivityId()}";
     }
@@ -125,7 +134,7 @@ class ilXapiCompliantStatementsReportLinkBuilder
         return "related_activities=false";
     }
     
-    protected function buildParamLimit()
+    protected function buildParamLimit() : string
     {
         return "limit={$this->filter->getLimit()}";
     }

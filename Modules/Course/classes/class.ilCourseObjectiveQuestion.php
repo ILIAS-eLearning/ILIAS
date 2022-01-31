@@ -124,7 +124,6 @@ class ilCourseObjectiveQuestion
         $ilLog = $DIC['ilLog'];
         $ilDB = $DIC['ilDB'];
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         foreach ($this->getQuestions() as $question) {
@@ -558,7 +557,6 @@ class ilCourseObjectiveQuestion
 
     public function getMaxPointsByObjective()
     {
-        include_once './Modules/Test/classes/class.ilObjTest.php';
 
         $points = 0;
         foreach ($this->getQuestions() as $question) {
@@ -604,7 +602,6 @@ class ilCourseObjectiveQuestion
      */
     public static function _lookupMaximumPointsOfQuestion($a_question_id)
     {
-        include_once('Modules/TestQuestionPool/classes/class.assQuestion.php');
         return assQuestion::_getMaximumPoints($a_question_id);
     }
     
@@ -812,8 +809,6 @@ class ilCourseObjectiveQuestion
         $ilDB = $DIC['ilDB'];
         $tree = $DIC['tree'];
         
-        include_once './Modules/Test/classes/class.ilObjTest.php';
-        include_once('Modules/Course/classes/class.ilCourseObjective.php');
 
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
@@ -946,7 +941,6 @@ class ilCourseObjectiveQuestion
     public function toXml(ilXmlWriter $writer)
     {
         foreach ($this->getTests() as $test) {
-            include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
             $writer->xmlStartTag(
                 'Test',
                 array(

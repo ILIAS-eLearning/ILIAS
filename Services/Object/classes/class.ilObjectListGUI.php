@@ -1291,28 +1291,26 @@ class ilObjectListGUI
             // BEGIN WebDAV Display locking information
             if (ilDAVActivationChecker::_isActive()) {
                 // Show lock info
-                $webdav_lock_backend = new ilWebDAVLockBackend();
+                global $DIC;
+                $webdav_dic = new ilWebDAVDIC();
+                $webdav_dic->init($DIC);
+                $webdav_lock_backend = $webdav_dic->locksbackend();
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {
                         $lock_user = new ilObjUser($lock->getIliasOwner());
 
-                        $props[] = array(
+                        $props[] = [
                             "alert" => false,
                             "property" => $lng->txt("in_use_by"),
                             "value" => $lock_user->getLogin(),
                             "link" => "./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
-                        );
+                        ];
                     }
-                }
-                // END WebDAV Display locking information
-
-                if ($this->getDetailsLevel() == self::DETAILS_SEARCH) {
-                    return $props;
                 }
             }
             // END WebDAV Display warning for invisible files and files with special characters
         }
-
+        
         return $props;
     }
     
@@ -3176,7 +3174,7 @@ class ilObjectListGUI
             if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
                 $om++;
             }
-            if ($om != 0 && !$DIC['ilBrowser']->isMobile()) {
+            if ($om != 0 && !$DIC->http()->agent()->isMobile()) {
                 $this->default_command["frame"] = "";
                 $a_link = "javascript:void(0); onclick=startSAHS('" . $a_link . "','" . $wtarget . "'," . $om . "," . $width . "," . $height . ");";
             }

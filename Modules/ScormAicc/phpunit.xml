@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="true" backupGlobals="false" bootstrap="./test/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">classes</directory>
+      <directory suffix=".php">Editing/classes</directory>
+    </include>
+    <report>
+      <html outputDirectory="build/coverage" highLowerBound="80"/>
+    </report>
+  </coverage>
+  <testsuite name="ilModulesScormAICCSuite">
+    <file>./test/ilModulesScormAICCSuite.php</file>
+  </testsuite>
+  <logging>
+    <testdoxHtml outputFile="build/dox.html"/>
+  </logging>
+</phpunit>

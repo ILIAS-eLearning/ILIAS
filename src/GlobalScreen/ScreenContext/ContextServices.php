@@ -19,7 +19,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ContextServices
 {
-    
     private ContextRepository $context_repository;
     
     private ContextCollection $collection;
@@ -30,7 +29,7 @@ class ContextServices
     public function __construct()
     {
         $this->context_repository = new ContextRepository();
-        $this->collection         = new CalledContexts($this->context_repository);
+        $this->collection = new CalledContexts($this->context_repository);
     }
     
     /**

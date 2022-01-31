@@ -1,30 +1,23 @@
-<?php
+<?php declare(strict_types = 1);
 
 use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
 
 abstract class ilWebDAVBaseMountInstructions
 {
-    /** @var ilWebDAVMountInstructionsRepository */
-    protected $repo;
-
-    /** @var ilWebDAVUriBuilder */
-    protected $uri_builder;
-
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var string */
-    protected $language;
+    protected ilWebDAVMountInstructionsRepository $repo;
+    protected ilWebDAVUriBuilder $uri_builder;
+    protected ilSetting $settings;
+    protected string $language;
 
     public function __construct(
-        ilWebDAVMountInstructionsRepository $a_repo,
-        ilWebDAVUriBuilder $a_uri_builder,
-        ilSetting $a_settings,
+        ilWebDAVMountInstructionsRepository $repo,
+        ilWebDAVUriBuilder $uri_builder,
+        ilSetting $settings,
         string $language
     ) {
-        $this->repo = $a_repo;
-        $this->uri_builder = $a_uri_builder;
-        $this->settings = $a_settings;
+        $this->repo = $repo;
+        $this->uri_builder = $uri_builder;
+        $this->settings = $settings;
         $this->language = $language;
     }
 

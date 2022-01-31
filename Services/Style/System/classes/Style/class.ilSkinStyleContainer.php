@@ -29,14 +29,14 @@ class ilSkinStyleContainer
     protected ilFileSystemHelper $file_system;
 
     public function __construct(
+        ilLanguage $lng,
         ilSkin $skin,
         ilSystemStyleMessageStack $message_stack = null,
         ilSystemStyleConfig $system_styles_conf = null,
         ilFileSystemHelper $file_system = null
-    ) {
-        global $DIC;
 
-        $this->lng = $DIC->language();
+    ) {
+        $this->lng = $lng;
 
         $this->skin = $skin;
 
@@ -384,7 +384,7 @@ class ilSkinStyleContainer
     public function createTempZip() : string
     {
         $rel_tmp_zip = '../' . $this->getSkin()->getId() . '.zip';
-        ilUtil::zip($this->getSkinDirectory(), $rel_tmp_zip, true);
+        ilFileUtils::zip($this->getSkinDirectory(), $rel_tmp_zip, true);
         return rtrim($this->getSkinDirectory(), '/') . '.zip';
     }
 

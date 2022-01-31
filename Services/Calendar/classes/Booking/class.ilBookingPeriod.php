@@ -24,7 +24,7 @@ class ilBookingPeriod implements ilDatePeriod
     /**
      * @see ilDatePeriod::getEnd()
      */
-    public function getEnd() : ilDateTime
+    public function getEnd() : ?ilDateTime
     {
         return $this->end;
     }
@@ -32,7 +32,7 @@ class ilBookingPeriod implements ilDatePeriod
     /**
      * @see ilDatePeriod::getStart()
      */
-    public function getStart() : ilDateTime
+    public function getStart() : ?ilDateTime
     {
         return $this->start;
     }

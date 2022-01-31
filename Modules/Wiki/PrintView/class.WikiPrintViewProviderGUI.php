@@ -88,7 +88,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm()
+    public function getSelectionForm() : \ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

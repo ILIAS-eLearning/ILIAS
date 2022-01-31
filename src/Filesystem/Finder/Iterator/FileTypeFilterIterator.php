@@ -19,6 +19,7 @@ use Iterator as PhpIterator;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class FileTypeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
@@ -45,7 +46,7 @@ class FileTypeFilterIterator extends \FilterIterator
     /**
      * @inheritdoc
      */
-    public function accept(): bool
+    public function accept() : bool
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();

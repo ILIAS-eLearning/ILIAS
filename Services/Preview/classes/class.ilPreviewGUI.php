@@ -65,13 +65,13 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
         // if we are the base class, get the id's from the query string
         if (strtolower($base_class) === strtolower(ilPreviewGUI::class)) {
             $this->node_id = $query->has('node_id')
-                ? $query->retrieve('node_id', $DIC->refinery()->to()->int())
+                ? $query->retrieve('node_id', $DIC->refinery()->kindlyTo()->int())
                 : 0;
             $this->context = $query->has('context')
-                ? $query->retrieve('context', $DIC->refinery()->to()->int())
+                ? $query->retrieve('context', $DIC->refinery()->kindlyTo()->int())
                 : self::CONTEXT_REPOSITORY;
             $a_obj_id = $query->has('obj_id')
-                ? $query->retrieve('obj_id', $DIC->refinery()->to()->int())
+                ? $query->retrieve('obj_id', $DIC->refinery()->kindlyTo()->int())
                 : null;
         } else {
             $this->node_id = $a_node_id;

@@ -21,8 +21,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class MapTest extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     /**
      * @var IdentificationFactory
      */
@@ -43,9 +41,9 @@ class MapTest extends TestCase
     {
         parent::setUp();
 
-        $this->provider       = $this->getDummyProvider();
+        $this->provider = $this->getDummyProvider();
         $this->identification = new IdentificationFactory(new NullProviderFactory());
-        $this->factory        = new MainMenuItemFactory();
+        $this->factory = new MainMenuItemFactory();
     }
 
     private function getId(string $id) : IdentificationInterface
@@ -122,7 +120,6 @@ class MapTest extends TestCase
         $this->assertFalse($map->existsInFilter($p2));
         $this->assertFalse($map->existsInFilter($p3));
         $this->assertFalse($map->existsInFilter($p4));
-
     }
 
     public function testSortingTopItems() : void
@@ -143,7 +140,7 @@ class MapTest extends TestCase
 
         $generator = $map->getAllFromFilter();
 
-        $one = static function () use ($generator): isItem {
+        $one = static function () use ($generator) : isItem {
             $i = $generator->current();
             $generator->next();
             return $i;
@@ -188,7 +185,6 @@ class MapTest extends TestCase
         $i = $one();
         $this->assertSame('1', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(10, $i->getPosition());
-
     }
 
     private function getDummyProvider()

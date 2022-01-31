@@ -29,7 +29,6 @@
 * @version $Id$
 *
 */
-require_once("./Services/FileSystem/classes/class.ilFileData.php");
                 
 class ilFileDataCourse extends ilFileData
 {
@@ -144,7 +143,7 @@ class ilFileDataCourse extends ilFileData
     public function deleteDirectory($a_abs_name)
     {
         if (file_exists($a_abs_name)) {
-            ilUtil::delDir($a_abs_name);
+            ilFileUtils::delDir($a_abs_name);
             
             return true;
         }
@@ -172,7 +171,7 @@ class ilFileDataCourse extends ilFileData
 
     public function rCopy($a_from, $a_to)
     {
-        ilUtil::rCopy($a_from, $this->getCoursePath() . '/' . $a_to);
+        ilFileUtils::rCopy($a_from, $this->getCoursePath() . '/' . $a_to);
 
         return true;
     }
@@ -180,7 +179,7 @@ class ilFileDataCourse extends ilFileData
 
     public function addDirectory($a_rel_name)
     {
-        ilUtil::makeDir($this->getCoursePath() . '/' . $a_rel_name);
+        ilFileUtils::makeDir($this->getCoursePath() . '/' . $a_rel_name);
 
         return true;
     }
@@ -197,7 +196,7 @@ class ilFileDataCourse extends ilFileData
 
     public function zipFile($a_rel_name, $a_zip_name)
     {
-        ilUtil::zip($this->getCoursePath() . '/' . $a_rel_name, $this->getCoursePath() . '/' . $a_zip_name);
+        ilFileUtils::zip($this->getCoursePath() . '/' . $a_rel_name, $this->getCoursePath() . '/' . $a_zip_name);
 
         // RETURN filesize
         return filesize($this->getCoursePath() . '/' . $a_zip_name);
@@ -216,24 +215,24 @@ class ilFileDataCourse extends ilFileData
 
     public function createOnlineVersion($a_rel_name)
     {
-        ilUtil::makeDir(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
-        ilUtil::rCopy($this->getCoursePath() . '/' . $a_rel_name, CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
+        ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
+        ilFileUtils::rCopy($this->getCoursePath() . '/' . $a_rel_name, CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
 
         return true;
     }
 
     public function getOnlineLink($a_rel_name)
     {
-        return ilUtil::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
+        return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
 
 
     // METHODS FOR XML IMPORT OF COURSE
     public function createImportFile($a_tmp_name, $a_name)
     {
-        ilUtil::makeDir($this->getCoursePath() . '/import/crs_' . $this->course_id);
+        ilFileUtils::makeDir($this->getCoursePath() . '/import/crs_' . $this->course_id);
 
-        ilUtil::moveUploadedFile(
+        ilFileUtils::moveUploadedFile(
             $a_tmp_name,
             $a_name,
             $this->getCoursePath() . '/import/crs_' . $this->course_id . '/' . $a_name
@@ -243,7 +242,7 @@ class ilFileDataCourse extends ilFileData
 
     public function unpackImportFile()
     {
-        return ilUtil::unzip($this->getCoursePath() . '/import/crs_' . $this->course_id . '/' . $this->import_file_info['basename']);
+        return ilFileUtils::unzip($this->getCoursePath() . '/import/crs_' . $this->course_id . '/' . $this->import_file_info['basename']);
     }
 
     public function validateImportFile()
@@ -276,7 +275,7 @@ class ilFileDataCourse extends ilFileData
             return false;
         }
         if (!@file_exists(CLIENT_WEB_DIR . '/courses')) {
-            ilUtil::makeDir(CLIENT_WEB_DIR . '/courses');
+            ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses');
         }
 
             
@@ -288,7 +287,7 @@ class ilFileDataCourse extends ilFileData
     public function __checkImportPath()
     {
         if (!@file_exists($this->getCoursePath() . '/import')) {
-            ilUtil::makeDir($this->getCoursePath() . '/import');
+            ilFileUtils::makeDir($this->getCoursePath() . '/import');
         }
 
         if (!is_writable($this->getCoursePath() . '/import') or !is_readable($this->getCoursePath() . '/import')) {
@@ -319,7 +318,7 @@ class ilFileDataCourse extends ilFileData
     public function __initDirectory()
     {
         if (is_writable($this->getPath())) {
-            ilUtil::makeDir($this->getPath() . '/' . COURSE_PATH);
+            ilFileUtils::makeDir($this->getPath() . '/' . COURSE_PATH);
             $this->course_path = $this->getPath() . '/' . COURSE_PATH;
             
             return true;

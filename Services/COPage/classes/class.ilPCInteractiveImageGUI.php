@@ -228,7 +228,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         
         $file = $mob_dir . "/" . $_FILES['image_file']['name'];
         try {
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $_FILES['image_file']['tmp_name'],
                 $_FILES['image_file']['name'],
                 $file
@@ -285,7 +285,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
             if ($location != "" && is_file($_FILES['image_file']['tmp_name'])) {
                 $file = $mob_dir . "/" . $_FILES['image_file']['name'];
-                ilUtil::moveUploadedFile(
+                ilFileUtils::moveUploadedFile(
                     $_FILES['image_file']['tmp_name'],
                     $_FILES['image_file']['name'],
                     $file

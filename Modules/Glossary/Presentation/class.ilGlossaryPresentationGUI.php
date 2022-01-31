@@ -658,7 +658,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 
         if (!$this->offlineMode()) {
             $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output");
-            $wb_path = ilUtil::getWebspaceDir("output") . "/";
+            $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
             $enlarge_path = "images/enlarge.svg";
             $wb_path = "";

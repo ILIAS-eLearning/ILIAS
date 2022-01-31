@@ -18,6 +18,7 @@ use InvalidArgumentException;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class Base
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -28,37 +29,24 @@ abstract class BaseComparator
     private string $target = '';
     private string $operator = '==';
 
-    /**
-     * @return string
-     */
     public function getTarget() : string
     {
         return $this->target;
     }
 
-    /**
-     * @param string $target
-     */
-    public function setTarget(string $target)
+    public function setTarget(string $target) : void
     {
         $this->target = $target;
     }
 
-    /**
-     * @return string
-     */
     public function getOperator() : string
     {
         return $this->operator;
     }
 
-    /**
-     * @param string $operator
-     * @throws InvalidArgumentException
-     */
-    public function setOperator(string $operator)
+    public function setOperator(string $operator) : void
     {
-        if (0 === strlen($operator)) {
+        if ($operator === '') {
             $operator = '==';
         }
 
@@ -69,10 +57,6 @@ abstract class BaseComparator
         $this->operator = $operator;
     }
 
-    /**
-     * @param string $test
-     * @return bool
-     */
     public function test(string $test) : bool
     {
         switch ($this->operator) {
@@ -89,9 +73,9 @@ abstract class BaseComparator
                 return $test <= $this->target;
 
             case '!=':
-                return $test != $this->target;
+                return $test !== $this->target;
         }
 
-        return $test == $this->target;
+        return $test === $this->target;
     }
 }

@@ -57,7 +57,7 @@ class ilScormAiccImporter extends ilXmlImporter
             $exportDir = ilExport::_getExportDirectory($a_id);
             $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
-            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
             $lmTempDir = $lmDir . $timeStamp;
             if (!file_exists($lmTempDir)) {
                 mkdir($lmTempDir, 0755, true);
@@ -98,9 +98,9 @@ class ilScormAiccImporter extends ilXmlImporter
                             $file_path = $targetPath;
 
                             ilFileUtils::rename($scormFilePath, $targetPath);
-                            ilUtil::unzip($file_path);
+                            ilFileUtils::unzip($file_path);
                             unlink($file_path);
-                            ilUtil::delDir($lmTempDir, false);
+                            ilFileUtils::delDir($lmTempDir, false);
                             ilUtil::renameExecutables($newObj->getDataDirectory());
 
                             $newId = $newObj->getRefId();

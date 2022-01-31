@@ -40,7 +40,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
     
     public function withNotificationItem(NotificationItem $notification_item) : self
     {
-        $clone                    = clone $this;
+        $clone = clone $this;
         $clone->notification_item = $notification_item;
         
         return $clone;
@@ -59,7 +59,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
      */
     public function withOldAmount(int $amount = 0) : StandardNotification
     {
-        $clone             = clone $this;
+        $clone = clone $this;
         $clone->old_amount = $amount;
         
         return $clone;
@@ -70,7 +70,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
      */
     public function withNewAmount(int $amount = 0) : StandardNotification
     {
-        $clone             = clone $this;
+        $clone = clone $this;
         $clone->new_amount = $amount;
         
         return $clone;

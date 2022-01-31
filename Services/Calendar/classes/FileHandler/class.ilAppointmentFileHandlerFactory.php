@@ -1,9 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- *
- * @author Alex Killing <killing@leifos.com>
- *
+ * @author  Alex Killing <killing@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentFileHandlerFactory extends ilCalendarAppointmentBaseFactory
@@ -15,7 +13,6 @@ class ilAppointmentFileHandlerFactory extends ilCalendarAppointmentBaseFactory
      */
     public static function getInstance(array $a_appointment) : ilAppointmentFileHandler
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_appointment['event']->getEntryId());
         $cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
         $cat_info["type"] = $cat->getType();

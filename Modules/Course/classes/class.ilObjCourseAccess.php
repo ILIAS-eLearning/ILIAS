@@ -2,11 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-include_once './Modules/Course/classes/class.ilCourseConstants.php';
-include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
-include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjCourseAccess
@@ -30,7 +25,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function getConditionOperators() : array
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         return array(
             ilConditionHandler::OPERATOR_PASSED
         );
@@ -46,9 +40,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
-        include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php';
-        
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
                 return ilCourseParticipants::_hasPassed($a_trigger_obj_id, $a_usr_id);
@@ -100,7 +91,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
                 // Regular member
                 if ($a_permission == 'leave') {
-                    include_once './Modules/Course/classes/class.ilObjCourse.php';
                     $limit = null;
                     if (!ilObjCourse::mayLeave($a_obj_id, $a_user_id, $limit)) {
                         $ilAccess->addInfoItem(
@@ -110,14 +100,12 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                         return false;
                     }
                     
-                    include_once './Modules/Course/classes/class.ilCourseParticipants.php';
                     if (!$participants->isAssigned($a_user_id)) {
                         return false;
                     }
                 }
                 // Waiting list
                 if ($a_permission == 'join') {
-                    include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
                     if (!ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id)) {
                         return false;
                     }
@@ -127,7 +115,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
             case 'join':
 
-                include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
                 if (ilCourseWaitingList::_isOnList($a_user_id, $a_obj_id)) {
                     return false;
                 }
@@ -174,7 +161,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 break;
                 
             case 'leave':
-                include_once './Modules/Course/classes/class.ilObjCourse.php';
                 return ilObjCourse::mayLeave($a_obj_id, $a_user_id);
         }
         return true;
@@ -205,14 +191,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         // regualar users
         $commands[] = array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
 
-        include_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
         if (ilDAVActivationChecker::_isActive()) {
-            include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
-            if (ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired()) {
-                $commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
-            } else {
-                $commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
-            }
+            $webdav_obj = new ilObjWebDAV();
+            $commands[] = $webdav_obj->retrieveWebDAVCommandArrayForActionMenu();
         }
 
         $commands[] = array("permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content");
@@ -297,7 +278,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         
         $a_visible_flag = true;
         
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         $item = ilObjectActivation::getItem($ref_id);
         switch ($item['timing_type']) {
             case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -337,13 +317,13 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         switch ($type) {
-            case IL_CRS_SUBSCRIPTION_UNLIMITED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_UNLIMITED:
                 return true;
 
-            case IL_CRS_SUBSCRIPTION_DEACTIVATED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED:
                 return false;
 
-            case IL_CRS_SUBSCRIPTION_LIMITED:
+            case ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED:
                 if (time() > $reg_start and
                    time() < $reg_end) {
                     return true;
@@ -410,10 +390,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         
         if ($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible) {
             // Check for free places
-            include_once './Modules/Course/classes/class.ilCourseParticipant.php';
             $part = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $ilUser->getId());
 
-            include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
             $info['reg_info_list_size'] = ilCourseWaitingList::lookupListSize($a_obj_id);
             if ($info['reg_info_list_size']) {
                 $info['reg_info_free_places'] = 0;

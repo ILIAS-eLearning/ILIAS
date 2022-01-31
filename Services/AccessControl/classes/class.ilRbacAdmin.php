@@ -15,6 +15,7 @@ class ilRbacAdmin
 {
     protected ilDBInterface $db;
     protected ilRbacReview $rbacreview;
+    protected ilLogger $logger;
 
     /**
      * Constructor
@@ -26,6 +27,7 @@ class ilRbacAdmin
 
         $this->db = $DIC->database();
         $this->rbacreview = $DIC->rbac()->review();
+        $this->logger = $DIC->logger()->ac();
     }
 
     public function setBlockedStatus(int $a_role_id, int $a_ref_id, bool $a_blocked_status) : void
@@ -56,6 +58,7 @@ class ilRbacAdmin
     public function deleteRole(int $a_rol_id, int $a_ref_id) : void
     {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
+            $this->logger->logStack(ilLogLevel::DEBUG);
             throw new DomainException('System administrator role is not deletable.');
         }
 
@@ -100,6 +103,7 @@ class ilRbacAdmin
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
+            $this->logger->logStack(ilLogLevel::WARNING);
             throw new DomainException('System administrator role is not deletable.');
         }
 
@@ -235,7 +239,8 @@ class ilRbacAdmin
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
 
         // convert all values to integer
@@ -273,7 +278,8 @@ class ilRbacAdmin
     public function revokePermission(int $a_ref_id, int $a_rol_id = 0, bool $a_keep_protected = true) : void
     {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
 
         // bypass protected status of roles
@@ -369,7 +375,8 @@ class ilRbacAdmin
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
         $query = "DELETE FROM rbac_pa " .
             "WHERE " . $this->db->in('ref_id', $a_ref_ids, false, 'integer') . ' ' .
@@ -409,7 +416,8 @@ class ilRbacAdmin
     ) : void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
 
         // Read operations
@@ -462,7 +470,8 @@ class ilRbacAdmin
     ) : void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
         $query = "SELECT s1.type, s1.ops_id " .
             "FROM rbac_templates s1, rbac_templates s2 " .
@@ -512,7 +521,8 @@ class ilRbacAdmin
 
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
         $s1_ops = $this->rbacreview->getAllOperationsOfRole($a_source1_id, $a_source1_parent);
         $s2_ops = $this->rbacreview->getAllOperationsOfRole($a_source2_id, $a_source2_parent);
@@ -560,7 +570,8 @@ class ilRbacAdmin
         int $a_dest_parent
     ) : void {
         if ($a_dest_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
         $s1_ops = $this->rbacreview->getAllOperationsOfRole($a_source_id, $a_source_parent);
         $d_ops = $this->rbacreview->getAllOperationsOfRole($a_dest_id, $a_dest_parent);
@@ -590,7 +601,8 @@ class ilRbacAdmin
         ?string $a_type = null
     ) : void {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack(ilLogLevel::DEBUG);
+            return;
         }
         $and_type = '';
         if ($a_type !== null) {
@@ -610,7 +622,8 @@ class ilRbacAdmin
     public function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id) : void
     {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            throw new DomainException('System administrator role is not writeable.');
+            $this->logger->logStack();
+            return;
         }
         foreach ($a_ops as $op) {
             $this->db->replace(

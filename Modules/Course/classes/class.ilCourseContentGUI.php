@@ -133,7 +133,7 @@ class ilCourseContentGUI
             return 'view';
         }
         if ($this->container_obj->getType() == 'crs' and
-           $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING) {
+           $this->course_obj->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING) {
             return 'editUserTimings';
         }
         return 'view';
@@ -141,7 +141,6 @@ class ilCourseContentGUI
 
     public function __checkStartObjects()
     {
-        include_once './Modules/Course/classes/class.ilCourseStart.php';
 
         global $DIC;
 
@@ -281,7 +280,6 @@ class ilCourseContentGUI
     public function view()
     {
         // BEGIN ChangeEvent: record read event.
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
@@ -318,7 +316,6 @@ class ilCourseContentGUI
         $obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
 
         if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
@@ -355,7 +352,6 @@ class ilCourseContentGUI
             $lng->txt("crs_news")
         );
         
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
         $grouped_items = array();
         foreach (ilObjectActivation::getItems($this->container_obj->getRefId()) as $item) {
             $grouped_items[$item["type"]][] = $item;
@@ -396,7 +392,6 @@ class ilCourseContentGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
         
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
 
         $obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
@@ -476,7 +471,6 @@ class ilCourseContentGUI
         $GLOBALS['ilTabs']->setTabActive('timings_timings');
         $GLOBALS['ilTabs']->clearSubTabs();
         
-        include_once './Modules/Course/classes/Timings/class.ilTimingsPersonalTableGUI.php';
         $table = new ilTimingsPersonalTableGUI(
             $this,
             'managePersonalTimings',
@@ -513,19 +507,16 @@ class ilCourseContentGUI
         $this->tabs_gui->clearSubTabs();
         
         $failed = array();
-        include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
         foreach ((array) $_POST['item'] as $ref_id => $data) {
             $sug_start_dt = ilCalendarUtil::parseIncomingDate($data['sug_start']);
             $sug_end_dt = ilCalendarUtil::parseIncomingDate($data['sug_end']);
             
             if (($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) {
-                include_once './Services/Calendar/classes/class.ilDateTime.php';
                 if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
                     $failed[$ref_id] = 'crs_timing_err_start_end';
                     continue;
                 }
                 // update user date
-                include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
                 $tu = new ilTimingUser($ref_id, $GLOBALS['ilUser']->getId());
                 $tu->getStart()->setDate($sug_start_dt->get(IL_CAL_UNIX), IL_CAL_UNIX);
                 $tu->getEnd()->setDate($sug_end_dt->get(IL_CAL_UNIX), IL_CAL_UNIX);
@@ -610,7 +601,6 @@ class ilCourseContentGUI
             } else {
                 if (!$item['title'] &&
                     $item['type'] == 'sess') {
-                    include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
                     $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
                     $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
                 }
@@ -720,7 +710,6 @@ class ilCourseContentGUI
 
         $_SESSION['crs_timings_user_hidden'] = isset($_GET['show_details']) ? $_GET['show_details'] : $_SESSION['crs_timings_user_hidden'];
 
-        include_once 'Services/Object/classes/class.ilObjectActivation.php';
         if (ilObjectActivation::hasChangeableTimings($this->course_obj->getRefId())) {
             $this->__editAdvancedUserTimings();
         } else {
@@ -766,7 +755,6 @@ class ilCourseContentGUI
         $this->tpl->setVariable("TXT_OWN_PRESETTING", $this->lng->txt('crs_timings_planed_start'));
         $this->tpl->setVariable("TXT_INFO_OWN_PRESETTING", $this->lng->txt('crs_timings_from_until'));
 
-        include_once 'Services/Object/classes/class.ilObjectActivation.php';
         $items = ilObjectActivation::getTimingsAdministrationItems($this->course_obj->getRefId());
         foreach ($items as $item) {
             if (($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) or
@@ -778,12 +766,9 @@ class ilCourseContentGUI
 
     public function __renderUserItem($item, $level)
     {
-        include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
-        include_once './Services/MetaData/classes/class.ilMDEducational.php';
 
         $this->lng->loadLanguageModule('meta');
 
-        include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
         $usr_planed = new ilTimingUser($item['ref_id'], (int) $_GET['member_id']);
 
         for ($i = 0;$i < $level;$i++) {
@@ -804,7 +789,6 @@ class ilCourseContentGUI
         
         if (!$item['title'] &&
             $item['type'] == 'sess') {
-            include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
             $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
             $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
         }
@@ -898,7 +882,6 @@ class ilCourseContentGUI
         $this->tpl->setVariable("TXT_BTN_UPDATE", $this->lng->txt('save'));
         $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt('cancel'));
 
-        include_once 'Services/Object/classes/class.ilObjectActivation.php';
         $sorted_items = ilObjectActivation::getTimingsItems($this->course_obj->getRefId());
         
         $this->counter = 0;
@@ -940,7 +923,6 @@ class ilCourseContentGUI
         $this->tpl->setVariable("TXT_START", $this->lng->txt('crs_timings_sug_begin'));
         $this->tpl->setVariable("TXT_END", $this->lng->txt('crs_timings_sug_end'));
     
-        include_once 'Services/Object/classes/class.ilObjectActivation.php';
         $sorted_items = ilObjectActivation::getTimingsItems($this->course_obj->getRefId());
 
         $this->counter = 0;
@@ -963,9 +945,6 @@ class ilCourseContentGUI
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
 
-        include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
-        include_once './Services/Link/classes/class.ilLink.php';
-        include_once './Services/MetaData/classes/class.ilMDEducational.php';
         
         if (!$ilAccess->checkAccess('visible', '', $item['ref_id'])) {
             return false;
@@ -993,7 +972,6 @@ class ilCourseContentGUI
         
         if (!$item['title'] &&
             $item['type'] == 'sess') {
-            include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
             $app_info = ilSessionAppointment::_lookupAppointment(ilObject::_lookupObjId($item["ref_id"]));
             $item['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
         }
@@ -1086,7 +1064,6 @@ class ilCourseContentGUI
 
         $ilUser = $DIC['ilUser'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 
         $this->tabs_gui->clearSubTabs();
 
@@ -1163,7 +1140,6 @@ class ilCourseContentGUI
         
         $failed = array();
         $all_items = array();
-        include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
         foreach ((array) $_POST['item'] as $ref_id => $data) {
             $item_obj = new ilObjectActivation();
             $item_obj->read($ref_id);
@@ -1180,7 +1156,6 @@ class ilCourseContentGUI
 
 
                 if (($sug_start_dt instanceof ilDate) and ($sug_end_dt instanceof ilDate)) {
-                    include_once './Services/Calendar/classes/class.ilDateTime.php';
                     if (ilDateTime::_after($sug_start_dt, $sug_end_dt)) {
                         $failed[$ref_id] = 'crs_timing_err_start_end';
                         continue;

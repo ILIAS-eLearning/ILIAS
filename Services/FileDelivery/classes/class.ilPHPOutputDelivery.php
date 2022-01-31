@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use ILIAS\FileDelivery\Delivery as Delivery;
 use ILIAS\FileDelivery\HttpServiceAware;
+use ILIAS\FileUpload\MimeType;
 
 /******************************************************************************
  *
@@ -34,7 +35,7 @@ final class ilPHPOutputDelivery
     /**
      * @param        $download_file_name
      */
-    public function start(string $download_file_name, string $mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM): void
+    public function start(string $download_file_name, string $mime_type = MimeType::APPLICATION__OCTET_STREAM): void
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];

@@ -208,16 +208,16 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             case 'Admin':
                 require_once("Services/Administration/classes/class.ilSetting.php");
                 $settings = new ilSetting();
-                $course_members->add($tmp_user->getId(), IL_CRS_ADMIN);
+                $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_ADMIN);
                 $course_members->updateNotification($tmp_user->getId(), (bool) $settings->get('mail_crs_admin_notification', "1"));
                 break;
 
             case 'Tutor':
-                $course_members->add($tmp_user->getId(), IL_CRS_TUTOR);
+                $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_TUTOR);
                 break;
 
             case 'Member':
-                $course_members->add($tmp_user->getId(), IL_CRS_MEMBER);
+                $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_MEMBER);
                 break;
         }
 
@@ -316,13 +316,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $crs_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
         
         if ($crs_members->isAdmin($user_id)) {
-            return IL_CRS_ADMIN;
+            return ilParticipants::IL_CRS_ADMIN;
         }
         if ($crs_members->isTutor($user_id)) {
-            return IL_CRS_TUTOR;
+            return ilParticipants::IL_CRS_TUTOR;
         }
         if ($crs_members->isMember($user_id)) {
-            return IL_CRS_MEMBER;
+            return ilParticipants::IL_CRS_MEMBER;
         }
 
         return "0";

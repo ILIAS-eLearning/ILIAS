@@ -1,13 +1,17 @@
 <?php declare(strict_types=1);
 
 /******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system.
+ *
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
  * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
+ *
  *****************************************************************************/
 class ilScormAiccDataSet extends ilDataSet
 {
@@ -67,7 +71,11 @@ class ilScormAiccDataSet extends ilDataSet
     }
 
     /**
-     * @return mixed[]
+     * @param string     $a_entity
+     * @param string     $a_version
+     * @param array|null $a_rec
+     * @param array|null $a_ids
+     * @return array
      */
     protected function getDependencies(
         string $a_entity,
@@ -182,13 +190,13 @@ class ilScormAiccDataSet extends ilDataSet
             $writer->appendXML("\n");
         }
 
-        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+        $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
         $baseFileName = "sahs_" . $id;
         $scormBasePath = $exportDir . "/" . $baseFileName;
         if (!file_exists($exportDir)) {
             mkdir($exportDir, 0755, true);
         }
-        ilUtil::zip($lmDir, $scormBasePath, true);
+        ilFileUtils::zip($lmDir, $scormBasePath, true);
         $scormFilePath = $scormBasePath . ".zip";
 
         $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");

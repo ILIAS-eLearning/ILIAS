@@ -23,6 +23,7 @@ use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Skill profile GUI class
@@ -293,7 +294,7 @@ class ilSkillProfileGUI
 
         // image
         $img = $this->ui_fac->input()->field()->file(new ilSkillProfileUploadHandlerGUI(), $lng->txt("image"))
-                            ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__PNG, ilMimeTypeUtil::IMAGE__JPEG]);
+                            ->withAcceptedMimeTypes([MimeType::IMAGE__PNG, MimeType::IMAGE__JPEG]);
     
         // save commands
         $sec_des = "";

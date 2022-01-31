@@ -29,6 +29,22 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#sty_resize_image#:#Resize Image
+style#:#sty_resize#:#Resize
+style#:#sty_outdated#:#Outdated
+style#:#sty_remove_outdated#:#Remove Outdated Status
+style#:#sty_set_outdated#:#Set Outdated
+style#:#sty_save_hide_order_status#:#Save Order and Hidden Status
+style#:#sty_save_order_status#:#Save Order
+style#:#sty_class#:#Style Class
+style#:#sty_paste_chars#:#Paste Classes
+style#:#sty_create_new_class#:#Create new style class
+style#:#sty_overwrite_existing_class#:#Overwrite existing style class
+style#:#sty_class_name#:#Class Name
+style#:#sty_parameters#:#Parameters
+style#:#sty_titles#:#Titles
+style#:#sty_bg_img_info#:#To add images to the dropdown selection please upload them in the "Images" section of the style first.
+content#:#cont_caption_style#:#Caption Style Class
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 survey#:#svy_ext_rater_firstname#:#First name of external rater
 survey#:#svy_ext_rater_lastname#:#Last name of external rater
@@ -2313,6 +2329,7 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat_add#:#Add Category
+common#:#catr_add#:#Add Category Link
 common#:#cat_added#:#Category added
 rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
@@ -2355,10 +2372,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -2457,6 +2474,7 @@ common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
+common#:#crsr_add#:#Add Course Link
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
@@ -2823,6 +2841,7 @@ common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
 common#:#groups#:#Groups
 common#:#grp_add#:#Add Group
+common#:#grpr_add#:#Add Group Link
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
@@ -3363,6 +3382,7 @@ common#:#note#:#Note
 common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
+common#:#mm_private_chats#:#Private Chats
 common#:#num_users#:#Number of Users
 common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
@@ -5874,14 +5894,17 @@ jscalendar#:#time#:#Time
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
-mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
-mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
+mathjax#:#mathjax_polyfill_url_desc_line1: For MathJax 2 not needed
+mathjax#:#mathjax_polyfill_url_desc_line2: For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
@@ -5890,7 +5913,7 @@ mathjax#:#mathjax_server_installation#:# » Installation
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_timeout#:#Timeout
-mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the MathJax server in seconds
 mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
 mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
 mathjax#:#mathjax_server_for_browser#:#Use for Browser
@@ -5902,7 +5925,8 @@ mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
 mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.
+mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
+mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -7408,7 +7432,7 @@ style#:#sty_ha_icont_class#:#Hor. Accordion Item Content
 style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header
 style#:#sty_haccordion_templates#:#Hor. Accordion Templates
 style#:#sty_height#:#Height
-style#:#sty_hide#:#Hide
+style#:#sty_hide#:#Hidden
 style#:#sty_horizontal#:#Horizontal
 style#:#sty_image_file#:#Image File
 style#:#sty_images#:#Images
@@ -7453,7 +7477,7 @@ style#:#sty_right#:#Right
 style#:#sty_row_foot_class#:#Row Footer
 style#:#sty_row_head_class#:#Row Header
 style#:#sty_save_active_styles#:#Save Active Styles
-style#:#sty_save_hide_status#:#Save Hide Status
+style#:#sty_save_hide_status#:#Save
 style#:#sty_sco_char#:#SCO and Objective
 style#:#sty_scope#:#Scope
 style#:#sty_section_char#:#Section
@@ -9629,7 +9653,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -11069,7 +11093,7 @@ common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
-bibl#:#bibl_add#:#Add Bibliography
+common#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
 bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
@@ -12547,7 +12571,7 @@ rbac#:#file_read_learning_progress#:#User can view learning progress of other us
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode.
 content#:#cont_self_assessment#:#Self Assessment
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
@@ -13340,6 +13364,7 @@ crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
 crs#:#crs_mail_context_member_title#:#Course: Info Page
 sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
+mail#:#deleteTemplate#:#Delete
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_unset_as_default#:#Unset as Default
@@ -13574,6 +13599,7 @@ mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
+common#:#prgr_add#:#Add Study Programme Link
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_assessment#:#Study Programme Assessment
@@ -14392,12 +14418,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -16145,8 +16171,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart
@@ -16712,3 +16738,5 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted 
 skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
 skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
+ui#:#duration_default_label_start#:#start
+ui#:#duration_default_label_end#:#end

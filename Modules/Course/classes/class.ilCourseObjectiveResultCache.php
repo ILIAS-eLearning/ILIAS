@@ -21,7 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Modules/Course/classes/class.ilCourseObjectiveResult.php');
 
 /**
 * Caches results for a specific user and course

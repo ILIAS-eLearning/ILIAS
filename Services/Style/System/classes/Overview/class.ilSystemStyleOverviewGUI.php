@@ -304,7 +304,7 @@ class ilSystemStyleOverviewGUI
                     $skin = new ilSkin($skin_id, $skin_name);
                     $style = new ilSkinStyle($style_id, $style_name);
                     $skin->addStyle($style);
-                    $container = new ilSkinStyleContainer($skin);
+                    $container = new ilSkinStyleContainer($this->lng, $skin);
                     $container->create($this->message_stack);
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());

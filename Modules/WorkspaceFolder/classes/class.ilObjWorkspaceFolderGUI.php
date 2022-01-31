@@ -963,6 +963,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
     public function getBucketTitle() : string
     {
-        return ilUtil::getASCIIFilename($this->object->getTitle());
+        return ilFileUtils::getASCIIFilename($this->object->getTitle());
     }
 }

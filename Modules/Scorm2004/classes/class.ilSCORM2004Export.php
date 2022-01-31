@@ -297,19 +297,19 @@ class ilScorm2004Export
     {
         $ilErr = $this->err;
 
-        $lm_data_dir = ilUtil::getDataDir() . "/lm_data";
+        $lm_data_dir = ilFileUtils::getDataDir() . "/lm_data";
         if (!is_writable($lm_data_dir)) {
             $ilErr->raiseError("Content object Data Directory (" . $lm_data_dir . ") not writeable.", $ilErr->FATAL);
         }
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $lm_dir = $lm_data_dir . "/lm_" . $this->module_id;
-        ilUtil::makeDir($lm_dir);
+        ilFileUtils::makeDir($lm_dir);
         if (!@is_dir($lm_dir)) {
             $ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
         }
         
         //$export_dir = $lm_dir."/export_".$this->mode;
-        ilUtil::makeDir($this->export_dir);
+        ilFileUtils::makeDir($this->export_dir);
 
         if (!@is_dir($this->export_dir)) {
             $ilErr->raiseError("Creation of Export Directory failed.", $ilErr->FATAL);

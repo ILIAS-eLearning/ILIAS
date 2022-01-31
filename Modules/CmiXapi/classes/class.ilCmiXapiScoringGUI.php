@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,16 +35,16 @@ class ilCmiXapiScoringGUI
     /**
      * @var ilObjCmiXapi
      */
-    public $object;
+    public ilObjCmiXapi $object;
 
     /**
      * @var ilCmiXapiAccess
      */
-    protected $access;
+    protected ilCmiXapiAccess $access;
 
-    private $tableData;
+    private array $tableData;
     private string $tableHtml = '';
-    private $userRank;
+    private ?int $userRank;
 
 
     /**
@@ -75,21 +75,21 @@ class ilCmiXapiScoringGUI
         }
     }
 
-//    protected function resetFilterCmd()
-//    {
-//        $table = $this->buildTableGUI("");
-//        $table->resetFilter();
-//        $table->resetOffset();
-//        $this->showCmd();
-//    }
-//
-//    protected function applyFilterCmd()
-//    {
-//        $table = $this->buildTableGUI("");
-//        $table->writeFilterToSession();
-//        $table->resetOffset();
-//        $this->showCmd();
-//    }
+    protected function resetFilterCmd() : void
+    {
+        $table = $this->buildTableGUI("");
+        $table->resetFilter();
+        $table->resetOffset();
+        $this->showCmd();
+    }
+
+    protected function applyFilterCmd() : void
+    {
+        $table = $this->buildTableGUI("");
+        $table->writeFilterToSession();
+        $table->resetOffset();
+        $this->showCmd();
+    }
 
     protected function showCmd() : void
     {
@@ -114,7 +114,7 @@ class ilCmiXapiScoringGUI
     }
 
     /**
-     *
+     * @return $this
      */
     protected function initTableData() : self
     {
@@ -140,7 +140,11 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    private function getTableDataRange($scopeUserRank = false)
+    /**
+     * @param bool $scopeUserRank
+     * @return array
+     */
+    private function getTableDataRange(bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
             return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
@@ -151,9 +155,6 @@ class ilCmiXapiScoringGUI
         }
     }
 
-    /**
-     *
-     */
     protected function initHighScoreTable() : self
     {
         if (!$this->object->getHighscoreTopTable() || !$this->object->getHighscoreEnabled()) {
@@ -166,9 +167,6 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     *
-     */
     protected function initUserRankTable() : self
     {
         if (!$this->object->getHighscoreOwnTable() || !$this->object->getHighscoreEnabled()) {
@@ -182,6 +180,7 @@ class ilCmiXapiScoringGUI
     }
 
     /**
+     * @param string $tableId
      * @return ilCmiXapiScoringTableGUI
      */
     protected function buildTableGUI(string $tableId) : ilCmiXapiScoringTableGUI

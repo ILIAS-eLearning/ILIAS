@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\Agent\AgentDetermination;
+
 /**
  * Rich Text Editor base class
  * This class provides access methods to a Rich Text Editor (RTE)
@@ -15,7 +17,7 @@ class ilRTE
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected ilLanguage $lng;
-    protected ilBrowser $browser;
+    protected AgentDetermination $browser;
     protected ilIniFile $client_init;
     protected ?int $initialWidth = null;
 
@@ -44,7 +46,7 @@ class ilRTE
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
-        $this->browser = $DIC['ilBrowser'];
+        $this->browser = $DIC->http()->agent();
         $this->client_init = $DIC['ilClientIniFile'];
         $this->user = $DIC['ilUser'];
     }

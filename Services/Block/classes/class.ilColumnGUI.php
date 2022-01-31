@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\HTTP\Agent\AgentDetermination;
+
 define("IL_COL_LEFT", "left");
 define("IL_COL_RIGHT", "right");
 define("IL_COL_CENTER", "center");
@@ -39,7 +41,7 @@ class ilColumnGUI
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilTemplate $tpl;
-    protected ilBrowser $browser;
+    protected AgentDetermination $browser;
     protected ilSetting $settings;
 
     protected string $side = IL_COL_RIGHT;
@@ -167,7 +169,7 @@ class ilColumnGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
-        $this->browser = $DIC["ilBrowser"];
+        $this->browser = $DIC->http()->agent();
         $this->settings = $DIC->settings();
         $this->setColType($a_col_type);
         $this->setSide($a_side);

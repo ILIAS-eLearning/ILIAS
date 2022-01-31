@@ -58,7 +58,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
      */
     public function withNotifications(array $notifications) : self
     {
-        $clone                = clone($this);
+        $clone = clone($this);
         $clone->notifications = $notifications;
         
         return $clone;
@@ -95,9 +95,9 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     {
         global $DIC;
         
-        $f     = $DIC->ui()->factory();
-        $new   = $this->getAmountOfNewNotifications();
-        $old   = $this->getAmountOfOldNotifications() - $new;
+        $f = $DIC->ui()->factory();
+        $new = $this->getAmountOfNewNotifications();
+        $old = $this->getAmountOfOldNotifications() - $new;
         $glyph = $f->symbol()->glyph()->notification()->withCounter($f->counter()->novelty($new));
         if ($old > 0) {
             $glyph = $glyph->withCounter($f->counter()->status($old));
@@ -118,7 +118,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
      */
     public function withAmountOfOldNotifications(int $amount) : self
     {
-        $clone                              = clone($this);
+        $clone = clone($this);
         $clone->amount_of_old_notifications = $amount;
         
         return $clone;
@@ -138,7 +138,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
      */
     public function withAmountOfNewNotifications(int $amount) : self
     {
-        $clone                              = clone($this);
+        $clone = clone($this);
         $clone->amount_of_new_notifications = $amount;
         
         return $clone;

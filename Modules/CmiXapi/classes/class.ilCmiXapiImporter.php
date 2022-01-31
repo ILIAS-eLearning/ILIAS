@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -77,11 +77,11 @@ class ilCmiXapiImporter extends ilXmlImporter
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
 //        $this->_entity = $a_entity;
-        $this->_import_objId = $a_id;
+        $this->_import_objId = (int) $a_id;
 //        $this->_import_dirname = $a_xml;
         $this->_mapping = $a_mapping;
 
-        if (false === ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', $this->_import_objId))) {
+        if (false === ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId))) {
             $this->prepareSingleObject();
             $this->getImportDirectorySingle();
             $this->_isSingleImport = true;
@@ -114,7 +114,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         // create the questionpool class in the ILIAS database (object_data table)
         $this->_cmixObj->create(true);
         $this->_newId = $this->_cmixObj->getId();
-        $this->_mapping->addMapping('Modules/CmiXapi', 'cmix', $this->_import_objId, $this->_newId);
+        $this->_mapping->addMapping('Modules/CmiXapi', 'cmix', (string) $this->_import_objId, (string) $this->_newId);
         //$this->getImport();
         $this->_cmixObj->update();
 
@@ -129,13 +129,13 @@ class ilCmiXapiImporter extends ilXmlImporter
         global $DIC;
 //        $this->_import_dirname = $this->getImportDirectoryContainer();
 
-        if ($this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', $this->_import_objId)) {
+        if ($this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId)) {
             // container content
             $this->_cmixObj = ilObjectFactory::getInstanceByObjId($this->_newId, false);
             //$_SESSION['tst_import_subdir'] = $this->getImportPackageName();
             $this->_cmixObj->save(); // this generates test id first time
             //var_dump([$this->getImportDirectory(), $this->_import_dirname]); exit;
-            $this->_mapping->addMapping("Modules/CmiXapi", "cmix", $this->_import_objId, $this->_newId);
+            $this->_mapping->addMapping("Modules/CmiXapi", "cmix", (string) $this->_import_objId, $this->_newId);
         }
         $this->_cmixObj->save();
         $this->_cmixObj->update();
@@ -158,8 +158,8 @@ class ilCmiXapiImporter extends ilXmlImporter
             if (false === (bool) $DIC->filesystem()->web()->has($this->_relWebDir)) {
                 $DIC->filesystem()->web()->createDir($this->_relWebDir);
                 $DIC->filesystem()->web()->put($this->_relWebDir . '/content.zip', $DIC->filesystem()->temp()->read($this->_relImportDir . '/content.zip'));
-                $webDataDir = ilUtil::getWebspaceDir();
-                ilUtil::unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
+                $webDataDir = ilFileUtils::getWebspaceDir();
+                ilFileUtils::unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
                 $DIC->filesystem()->web()->delete($this->_relWebDir . '/content.zip');
             }
         }
@@ -180,7 +180,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $xml = $DIC->filesystem()->temp()->readStream($this->_relImportDir . '/properties.xml');
         if ($xml != false) {
             libxml_use_internal_errors(true);
-            $xmlRoot = simplexml_load_string($xml);
+            $xmlRoot = simplexml_load_string((string) $xml);
         }
         foreach ($this->_dataset->_cmixSettingsProperties as $key => $property) {
             $this->_moduleProperties[$key] = trim($xmlRoot->$key->__toString());

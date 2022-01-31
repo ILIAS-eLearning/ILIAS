@@ -1,7 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 //use \ILIAS\UI\Component\Modal\RoundTrip;
 /**
  * Class ilLTIConsumerScoringTableGUI
@@ -19,21 +30,24 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
     /**
      * @var bool
      */
-    protected $isMultiActorReport;
+    protected bool $isMultiActorReport;
 
     /**
-     * @var ilLTIConsumerScoringGUI
+     * @var bool
      */
-    private $_parent;
+    protected bool $hasOutcomeAccess;
+
+    private \ilLTIConsumerScoringGUI $_parent;
 
     /**
      * ilLTIConsumerScoringTableGUI constructor.
      * @param ilLTIConsumerScoringGUI $a_parent_obj
-     * @param $a_parent_cmd
-     * @param $isMultiActorReport
-     * @param $tableId
+     * @param string                  $a_parent_cmd
+     * @param bool                    $isMultiActorReport
+     * @param string                  $tableId
+     * @param bool                    $hasOutcomeAccess
      */
-    public function __construct(ilLTIConsumerScoringGUI $a_parent_obj, $a_parent_cmd, $isMultiActorReport, $tableId, $hasOutcomeAccess)
+    public function __construct(ilLTIConsumerScoringGUI $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport, string $tableId, bool $hasOutcomeAccess)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -67,7 +81,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->hasOutcomeAccess = $hasOutcomeAccess;
     }
 
-    protected function initColumns()
+    protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -90,7 +104,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->setLimit((int) $this->_parent->getObject()->getHighscoreTopNum());
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -123,7 +137,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
     
-    protected function getUsername($data)
+    protected function getUsername(array $data) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

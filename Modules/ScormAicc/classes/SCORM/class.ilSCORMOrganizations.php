@@ -22,7 +22,7 @@
 */
 class ilSCORMOrganizations extends ilSCORMObject
 {
-    public $default_organization;
+    public string $default_organization;
 
 
     /**
@@ -31,7 +31,7 @@ class ilSCORMOrganizations extends ilSCORMObject
     * @param	int		$a_id		Object ID
     * @access	public
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
         $lng = $DIC->language();
@@ -43,16 +43,26 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setType("sos");
     }
 
-    public function getDefaultOrganization()
+    /**
+     * @return string
+     */
+    public function getDefaultOrganization() : string
     {
         return $this->default_organization;
     }
 
-    public function setDefaultOrganization($a_def_org) : void
+    /**
+     * @param string $a_def_org
+     * @return void
+     */
+    public function setDefaultOrganization(string $a_def_org) : void
     {
         $this->default_organization = $a_def_org;
     }
 
+    /**
+     * @return void
+     */
     public function read() : void
     {
         global $DIC;
@@ -69,6 +79,9 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setDefaultOrganization($obj_rec["default_organization"]);
     }
 
+    /**
+     * @return void
+     */
     public function create() : void
     {
         global $DIC;
@@ -84,6 +97,9 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
+    /**
+     * @return void
+     */
     public function update() : void
     {
         global $DIC;
@@ -101,6 +117,9 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
+    /**
+     * @return void
+     */
     public function delete() : void
     {
         global $DIC;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -39,7 +39,7 @@ class ilCmiXapiSettingsGUI
     /**
      * @var ilObjCmiXapi
      */
-    protected $object;
+    protected ilObjCmiXapi $object;
     
     /**
      * @param ilObjCmiXapi $object
@@ -257,7 +257,7 @@ class ilCmiXapiSettingsGUI
             if (empty($this->object->getMasteryScore())) {
                 $this->object->setMasteryScorePercent(ilObjCmiXapi::LMS_MASTERY_SCORE);
             }
-            $masteryScore->setValue($this->object->getMasteryScorePercent());
+            $masteryScore->setValue((string) $this->object->getMasteryScorePercent());
             $optNormal->addSubItem($masteryScore);
         }
         
@@ -268,11 +268,12 @@ class ilCmiXapiSettingsGUI
                 $form->addItem($sectionHeader);
                 $bypassProxy = new ilRadioGroupInputGUI($DIC->language()->txt('conf_bypass_proxy'), 'bypass_proxy');
                 $bypassProxy->setInfo($DIC->language()->txt('conf_bypass_proxy_info'));
-                $bypassProxy->setValue($this->object->isBypassProxyEnabled());
-                $opt1 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_disabled'), 0);
+                $bypassProxy->setValue((string) $this->object->isBypassProxyEnabled());
+                $opt1 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_disabled'), "0");
                 $bypassProxy->addOption($opt1);
-                $opt2 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_enabled'), 1);
+                $opt2 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_enabled'), "1");
                 $bypassProxy->addOption($opt2);
+                $bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
                 $form->addItem($bypassProxy);
                 if ($this->object->getLrsType()->isBypassProxyEnabled()) {
                     $bypassProxy->setDisabled(true);
@@ -286,35 +287,35 @@ class ilCmiXapiSettingsGUI
             $userIdent = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
             $op = new ilRadioOption(
                 $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
-                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_USER_ID
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_USER_ID
             );
             $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_user_id_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
                 $DIC->language()->txt('conf_privacy_ident_il_uuid_login'),
-                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_LOGIN
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_LOGIN
             );
             $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_login_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
                 $DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account'),
-                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
             );
             $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
                 $DIC->language()->txt('conf_privacy_ident_il_uuid_random'),
-                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
             );
             $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_random_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
                 $DIC->language()->txt('conf_privacy_ident_real_email'),
-                ilCmiXapiLrsType::PRIVACY_IDENT_REAL_EMAIL
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_REAL_EMAIL
             );
             $op->setInfo($DIC->language()->txt('conf_privacy_ident_real_email_info'));
             $userIdent->addOption($op);
-            $userIdent->setValue($this->object->getPrivacyIdent());
+            $userIdent->setValue((string) $this->object->getPrivacyIdent());
             $userIdent->setInfo(
                 $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
             );
@@ -322,19 +323,31 @@ class ilCmiXapiSettingsGUI
             $form->addItem($userIdent);
             
             $userName = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
-            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), ilCmiXapiLrsType::PRIVACY_NAME_NONE);
+            $op = new ilRadioOption(
+                $DIC->language()->txt('conf_privacy_name_none'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_NONE
+            );
             $op->setInfo($DIC->language()->txt('conf_privacy_name_none_info'));
             $userName->addOption($op);
-            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_firstname'), ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME);
+            $op = new ilRadioOption(
+                $DIC->language()->txt('conf_privacy_name_firstname'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME
+            );
             $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
             $userName->addOption($op);
-            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_lastname'), ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME);
+            $op = new ilRadioOption(
+                $DIC->language()->txt('conf_privacy_name_lastname'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME
+            );
             $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
             $userName->addOption($op);
-            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_fullname'), ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME);
+            $op = new ilRadioOption(
+                $DIC->language()->txt('conf_privacy_name_fullname'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME
+            );
             $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
             $userName->addOption($op);
-            $userName->setValue($this->object->getPrivacyName());
+            $userName->setValue((string) $this->object->getPrivacyName());
             $userName->setInfo($DIC->language()->txt('conf_privacy_name_info'));
             $userName->setRequired(false);
             $form->addItem($userName);
@@ -472,20 +485,29 @@ class ilCmiXapiSettingsGUI
         $form->addItem($item);
         
         $highscore = new ilCheckboxInputGUI($DIC->language()->txt("highscore_enabled"), "highscore_enabled");
-        $highscore->setValue(1);
+        $highscore->setValue("1");
         $highscore->setChecked($this->object->getHighscoreEnabled());
         $highscore->setInfo($DIC->language()->txt("highscore_description"));
         $form->addItem($highscore);
         $highscore_tables = new ilRadioGroupInputGUI($DIC->language()->txt('highscore_mode'), 'highscore_mode');
         $highscore_tables->setRequired(true);
-        $highscore_tables->setValue($this->object->getHighscoreMode());
-        $highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), ilObjCmiXapi::HIGHSCORE_SHOW_OWN_TABLE);
+        $highscore_tables->setValue((string) $this->object->getHighscoreMode());
+        $highscore_table_own = new ilRadioOption(
+            $DIC->language()->txt('highscore_own_table'),
+            (string) ilObjCmiXapi::HIGHSCORE_SHOW_OWN_TABLE
+        );
         $highscore_table_own->setInfo($DIC->language()->txt('highscore_own_table_description'));
         $highscore_tables->addOption($highscore_table_own);
-        $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), ilObjCmiXapi::HIGHSCORE_SHOW_TOP_TABLE);
+        $highscore_table_other = new ilRadioOption(
+            $DIC->language()->txt('highscore_top_table'),
+            (string) ilObjCmiXapi::HIGHSCORE_SHOW_TOP_TABLE
+        );
         $highscore_table_other->setInfo($DIC->language()->txt('highscore_top_table_description'));
         $highscore_tables->addOption($highscore_table_other);
-        $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), ilObjCmiXapi::HIGHSCORE_SHOW_ALL_TABLES);
+        $highscore_table_other = new ilRadioOption(
+            $DIC->language()->txt('highscore_all_tables'),
+            (string) ilObjCmiXapi::HIGHSCORE_SHOW_ALL_TABLES
+        );
         $highscore_table_other->setInfo($DIC->language()->txt('highscore_all_tables_description'));
         $highscore_tables->addOption($highscore_table_other);
         $highscore->addSubItem($highscore_tables);
@@ -494,21 +516,21 @@ class ilCmiXapiSettingsGUI
         $highscore_top_num->setRequired(true);
         $highscore_top_num->setMinValue(1);
         $highscore_top_num->setSuffix($DIC->language()->txt("highscore_top_num_unit"));
-        $highscore_top_num->setValue($this->object->getHighscoreTopNum(null));
+        $highscore_top_num->setValue((string) $this->object->getHighscoreTopNum(null));
         $highscore_top_num->setInfo($DIC->language()->txt("highscore_top_num_description"));
         $highscore->addSubItem($highscore_top_num);
         $highscore_achieved_ts = new ilCheckboxInputGUI($DIC->language()->txt("highscore_achieved_ts"), "highscore_achieved_ts");
-        $highscore_achieved_ts->setValue(1);
+        $highscore_achieved_ts->setValue("1");
         $highscore_achieved_ts->setChecked($this->object->getHighscoreAchievedTS());
         $highscore_achieved_ts->setInfo($DIC->language()->txt("highscore_achieved_ts_description"));
         $highscore->addSubItem($highscore_achieved_ts);
         $highscore_percentage = new ilCheckboxInputGUI($DIC->language()->txt("highscore_percentage"), "highscore_percentage");
-        $highscore_percentage->setValue(1);
+        $highscore_percentage->setValue("1");
         $highscore_percentage->setChecked($this->object->getHighscorePercentage());
         $highscore_percentage->setInfo($DIC->language()->txt("highscore_percentage_description"));
         $highscore->addSubItem($highscore_percentage);
         $highscore_wtime = new ilCheckboxInputGUI($DIC->language()->txt("highscore_wtime"), "highscore_wtime");
-        $highscore_wtime->setValue(1);
+        $highscore_wtime->setValue("1");
         $highscore_wtime->setChecked($this->object->getHighscoreWTime());
         $highscore_wtime->setInfo($DIC->language()->txt("highscore_wtime_description"));
         $highscore->addSubItem($highscore_wtime);
@@ -564,8 +586,8 @@ class ilCmiXapiSettingsGUI
             }
             
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
-                $this->object->setPrivacyIdent($form->getInput('privacy_ident'));
-                $this->object->setPrivacyName($form->getInput('privacy_name'));
+                $this->object->setPrivacyIdent((int) $form->getInput('privacy_ident'));
+                $this->object->setPrivacyName((int) $form->getInput('privacy_name'));
                 $this->object->setOnlyMoveon((bool) $form->getInput("only_moveon"));
                 $this->object->setAchieved((bool) $form->getInput("achieved"));
                 $this->object->setAnswered((bool) $form->getInput("answered"));

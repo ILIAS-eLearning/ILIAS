@@ -385,8 +385,8 @@ class ilPageLayoutAdministrationGUI
     {
         $exp = new ilExport();
 
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDir($tmpdir);
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($tmpdir);
 
         $succ = $exp->exportEntity(
             "pgtp",

@@ -47,7 +47,7 @@ class ilUserCertificateZip
         $certificateId = $this->objectId;
 
         $directory = $this->webDirectory . $this->certificatePath . time() . '__' . $this->installionId . '__' . $type . '__' . $certificateId . '__certificate/';
-        ilUtil::makeDirParents($directory);
+        ilFileUtils::makeDirParents($directory);
 
         return $directory;
     }
@@ -76,8 +76,8 @@ class ilUserCertificateZip
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;
 
-        ilUtil::zip($dir, $zipFilePath);
-        ilUtil::delDir($dir);
+        ilFileUtils::zip($dir, $zipFilePath);
+        ilFileUtils::delDir($dir);
 
         if ($deliver) {
             ilFileDelivery::deliverFileLegacy($zipFilePath, $zipFile, 'application/zip', false, true);

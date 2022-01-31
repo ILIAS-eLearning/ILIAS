@@ -16,7 +16,6 @@
  */
 abstract class AbstractOriginalPagePartProvider
 {
-    
     protected PagePartProvider $original;
     
     /**

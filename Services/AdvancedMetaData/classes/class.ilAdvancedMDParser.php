@@ -52,7 +52,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
 
     public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null) : void
     {
-        $tmp_file = ilUtil::ilTempnam();
+        $tmp_file = ilFileUtils::ilTempnam();
         file_put_contents($tmp_file, $a_xml);
 
         // see ilAdvancedMDSettingsGUI::importRecord()
@@ -68,7 +68,6 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         } catch (ilSaxParserException $exc) {
             $this->log->error('Parsing failed with message: ' . $exc->getMessage());
             return;
-
         } finally {
             unlink($tmp_file);
         }
@@ -88,7 +87,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->local_rec_map[$a_old_id] = $new_id;
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -99,13 +98,17 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Value':
-                $this->initValue((string) $a_attribs['id'], (string) $a_attribs['sub_type'], (int) $a_attribs['sub_id'],
-                    (int) $a_attribs['local_rec_id']);
+                $this->initValue(
+                    (string) $a_attribs['id'],
+                    (string) $a_attribs['sub_type'],
+                    (int) $a_attribs['sub_id'],
+                    (int) $a_attribs['local_rec_id']
+                );
                 break;
         }
     }
 
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -131,7 +134,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
@@ -157,8 +160,11 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
         $new_sub_id = '';
         if ($a_sub_type && strcmp($a_sub_type, '-') !== 0) {
-            $new_sub_id = $this->mapping->getMapping("Services/AdvancedMetaData", "advmd_sub_item",
-                "advmd:" . $a_sub_type . ":" . $a_sub_id);
+            $new_sub_id = $this->mapping->getMapping(
+                "Services/AdvancedMetaData",
+                "advmd_sub_item",
+                "advmd:" . $a_sub_type . ":" . $a_sub_id
+            );
             if (!$new_sub_id) {
                 return;
             }
@@ -167,8 +173,12 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         // init local record?
         // done here because we need object context
         if (is_array($this->local_record)) {
-            $this->createLocalRecord($this->local_record['id'], $this->local_record['xml'], $new_parent_id,
-                $a_sub_type);
+            $this->createLocalRecord(
+                $this->local_record['id'],
+                $this->local_record['xml'],
+                $new_parent_id,
+                $a_sub_type
+            );
             $this->local_record = null;
         }
 
@@ -192,8 +202,12 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         if ($a_sub_type) {
             $rec_idx = $rec_id . ";" . $a_sub_type . ";" . $new_sub_id;
             if (!array_key_exists($rec_idx, $this->value_records)) {
-                $this->value_records[$rec_idx] = new ilAdvancedMDValues($rec_id, $new_parent_id, $a_sub_type,
-                    $new_sub_id);
+                $this->value_records[$rec_idx] = new ilAdvancedMDValues(
+                    $rec_id,
+                    $new_parent_id,
+                    $a_sub_type,
+                    $new_sub_id
+                );
             }
         } else {
             $rec_idx = $rec_id . ";;";
@@ -228,8 +242,10 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
                 }
             } else {
                 $this->log->debug("- No Field id. local rec: " . $a_local_rec_id .
-                    ", rec id:" . $rec_id . ", import id: " . $a_import_id . ", map: " . print_r($this->local_rec_fields_map,
-                        true));
+                    ", rec id:" . $rec_id . ", import id: " . $a_import_id . ", map: " . print_r(
+                        $this->local_rec_fields_map,
+                        true
+                    ));
             }
         }
 

@@ -180,9 +180,9 @@ class SurveyQuestion
         if (!empty($materials_filename)) {
             $materialspath = $this->getMaterialsPath();
             if (!file_exists($materialspath)) {
-                ilUtil::makeDirParents($materialspath);
+                ilFileUtils::makeDirParents($materialspath);
             }
-            if (ilUtil::moveUploadedFile(
+            if (ilFileUtils::moveUploadedFile(
                 $materials_tempfilename,
                 $materials_filename,
                 $materialspath . $materials_filename
@@ -781,7 +781,7 @@ class SurveyQuestion
 
         $directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
         if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory)) {
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
 
         $mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
@@ -1043,7 +1043,7 @@ class SurveyQuestion
             $materialspath = $this->getMaterialsPath();
             $materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
             if (!file_exists($materialspath)) {
-                ilUtil::makeDirParents($materialspath);
+                ilFileUtils::makeDirParents($materialspath);
             }
             if (!copy($materialspath_original . $filename, $materialspath . $filename)) {
                 throw new ilSurveyException("Unable to duplicate materials.");

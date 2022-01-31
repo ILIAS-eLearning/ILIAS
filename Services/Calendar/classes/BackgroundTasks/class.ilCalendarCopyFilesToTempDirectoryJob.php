@@ -13,9 +13,7 @@ use ILIAS\BackgroundTasks\Types\TupleType;
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
 {
@@ -29,7 +27,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     public function __construct()
     {
         global $DIC;
-        
+
         $this->logger = $DIC->logger()->cal();
     }
 
@@ -39,16 +37,16 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     public function getInputTypes() : array
     {
         return
-        [
-            new SingleType(ilCalendarCopyDefinition::class)
-        ];
+            [
+                new SingleType(ilCalendarCopyDefinition::class)
+            ];
     }
 
     /**
      * @inheritDoc
-     *@todo output should be file type
+     * @todo output should be file type
      */
-    public function getOutputType(): Type
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -76,46 +74,45 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
         // create temp directory
         $tmpdir = $this->createUniqueTempDirectory();
         $targetdir = $this->createTargetDirectory($tmpdir);
-        
+
         // copy files from source to temp directory
         //$this->copyFiles($targetdir, $input[0]);
         $this->copyFiles($targetdir, $cal_copy_def);
-        
+
         // zip
-        
+
         // return zip file name
         $this->logger->debug('Returning new tempdirectory: ' . $targetdir);
-        
+
         $out = new StringValue();
         $out->setValue($targetdir);
         return $out;
     }
-    
+
     /**
      * @return string absolute path to new temp directory
      * @todo refactor to new file system access
      * Create unique temp directory
      */
-    protected function createUniqueTempDirectory(): string
+    protected function createUniqueTempDirectory() : string
     {
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDirParents($tmpdir);
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDirParents($tmpdir);
         $this->logger->info('New temp directory: ' . $tmpdir);
         return $tmpdir;
     }
 
-
     protected function createTargetDirectory(string $a_tmpdir) : string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
-        ilUtil::makeDirParents($final_dir);
+        ilFileUtils::makeDirParents($final_dir);
         $this->logger->info('New final directory: ' . $final_dir);
         return $final_dir;
     }
-    
+
     /**
      * Copy files
-     * @param string $tmpdir
+     * @param string                   $tmpdir
      * @param ilCalendarCopyDefinition $definition
      */
     protected function copyFiles(string $tmpdir, ilCalendarCopyDefinition $definition) : void
@@ -126,10 +123,10 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
                 continue;
             }
             $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR]));
-            ilUtil::makeDirParents(
+            ilFileUtils::makeDirParents(
                 $tmpdir . '/' . dirname($copy_task[ilCalendarCopyDefinition::COPY_TARGET_DIR])
             );
-            
+
             $this->logger->debug(
                 'Copying from: ' .
                 $copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR] .
@@ -143,7 +140,6 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
             );
         }
     }
-
 
     /**
      * @inheritdoc

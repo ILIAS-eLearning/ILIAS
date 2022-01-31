@@ -8,9 +8,12 @@ declare(strict_types=1);
 class ilSkinFactory
 {
     protected ilSystemStyleConfig $config;
+    protected ilLanguage $lng;
 
-    public function __construct(?ilSystemStyleConfig $config = null)
+    public function __construct(ilLanguage $lng, ?ilSystemStyleConfig $config = null)
     {
+        $this->lng = $lng;
+
         if ($config) {
             $this->config = $config;
         } else {
@@ -73,15 +76,17 @@ class ilSkinFactory
 
         if ($skin_id != 'default') {
             return new ilSkinStyleContainer(
+                $this->lng,
                 $this->skinFromXML($this->config->getCustomizingSkinPath() . $skin_id . '/template.xml'),
                 $message_stack,
                 $this->config
             );
         } else {
             return new ilSkinStyleContainer(
+                $this->lng,
                 $this->skinFromXML($this->config->getDefaultTemplatePath()),
                 $message_stack,
-                $this->config
+                $this->config,
             );
         }
     }
@@ -108,7 +113,7 @@ class ilSkinFactory
         $temp_zip_path = $skin_path . '/' . $name;
         rename($import_zip_path, $temp_zip_path);
 
-        ilUtil::unzip($temp_zip_path);
+        ilFileUtils::unzip($temp_zip_path);
         unlink($temp_zip_path);
 
         return $this->skinStyleContainerFromId($skin_id, $message_stack);

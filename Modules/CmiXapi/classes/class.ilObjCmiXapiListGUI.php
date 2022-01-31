@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -84,8 +84,12 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         
         return $props;
     }
-    
-    public function getCommandLink($a_cmd)
+
+    /**
+     * @param string $a_cmd
+     * @return string
+     */
+    public function getCommandLink($a_cmd) : string
     {
         global $ilCtrl;
         

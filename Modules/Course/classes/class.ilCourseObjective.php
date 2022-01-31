@@ -160,12 +160,9 @@ class ilCourseObjective
             ilLoggerFactory::getLogger('crs')->debug('Added new objective nr: ' . $objective_id);
             
             // Clone crs_objective_tst entries
-            include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
             $objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
             $objective_qst->cloneDependencies($objective_id, $a_copy_id);
             
-            include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-            include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
             $random_i = new ilLORandomTestQuestionPools(
                 $this->getCourse()->getId(),
                 $row->objective_id,
@@ -182,7 +179,6 @@ class ilCourseObjective
             );
             $random_q->copy($a_copy_id, $new_course->getId(), $objective_id);
             
-            include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
             $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
             $assignment_it = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_INITIAL);
             if ($assignment_it) {
@@ -197,7 +193,6 @@ class ilCourseObjective
             ilLoggerFactory::getLogger('crs')->debug('Finished copying question dependencies');
             
             // Clone crs_objective_lm entries (assigned course materials)
-            include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
             $objective_material = new ilCourseObjectiveMaterials($row->objective_id);
             $objective_material->cloneDependencies($objective_id, $a_copy_id);
         }
@@ -286,7 +281,6 @@ class ilCourseObjective
         // end-patch lok
         
         // refresh learning progress status after adding new objective
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
         
         return $this->objective_id = $next_id;
@@ -349,12 +343,10 @@ class ilCourseObjective
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
         $tmp_obj_qst = new ilCourseObjectiveQuestion($this->getObjectiveId());
         $tmp_obj_qst->deleteAll();
 
-        include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 
         $tmp_obj_lm = new ilCourseObjectiveMaterials($this->getObjectiveId());
         $tmp_obj_lm->deleteAll();
@@ -366,7 +358,6 @@ class ilCourseObjective
         $res = $ilDB->manipulate($query);
 
         // refresh learning progress status after deleting objective
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->course_obj->getId());
 
         return true;
@@ -586,7 +577,6 @@ class ilCourseObjective
         $res = $ilDB->manipulate($query);
 
         // refresh learning progress status after deleting objectives
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($course_id);
 
         return true;
@@ -611,20 +601,16 @@ class ilCourseObjective
         $writer->xmlElement('Description', array(), $this->getDescription());
         
         // materials
-        include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
         $materials = new ilCourseObjectiveMaterials($this->getObjectiveId());
         $materials->toXml($writer);
         
         // test/questions
-        include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
         $test = new ilCourseObjectiveQuestion($this->getObjectiveId());
         $test->toXml($writer);
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
         $assignments->toXml($writer, $this->getObjectiveId());
         
-        include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
         ilLORandomTestQuestionPools::toXml($writer, $this->getObjectiveId());
         
         $writer->xmlEndTag('Objective');

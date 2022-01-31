@@ -296,7 +296,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
             '',
             0,
             9999,
-            $this->current_filter['login'],
+            (string) $this->current_filter['login'],
             '',
             null,
             false,

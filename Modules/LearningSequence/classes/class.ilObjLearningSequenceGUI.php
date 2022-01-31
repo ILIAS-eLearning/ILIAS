@@ -544,7 +544,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->settings
         );
 
-        $participant->add($this->user->getId(), IL_LSO_ADMIN);
+        $participant->add($this->user->getId(), ilParticipants::IL_LSO_ADMIN);
         $participant->updateNotification($this->user->getId(),
             (bool) $this->settings->get('mail_lso_admin_notification', "1"));
 

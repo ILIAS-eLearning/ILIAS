@@ -54,7 +54,7 @@ class MigrateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -66,6 +66,8 @@ class MigrateCommand extends Command
         } else {
             $this->listMigrations($input, $io);
         }
+
+        return 0;
     }
 
     protected function runMigration(InputInterface $input, IOWrapper $io) : void
@@ -80,7 +82,7 @@ class MigrateCommand extends Command
         }
         $migration = $migrations[$migration_name];
 
-        $steps = (int)$input->getOption('steps');
+        $steps = (int) $input->getOption('steps');
 
         switch ($steps) {
             case Migration::INFINITE:
@@ -108,7 +110,7 @@ class MigrateCommand extends Command
                 ...$preconditions
             );
         }
-        $steps_text = $steps === Migration::INFINITE ? 'all' : (string)$steps;
+        $steps_text = $steps === Migration::INFINITE ? 'all' : (string) $steps;
         $io->inform("Preparing Environment for {$steps_text} steps in {$migration_name}");
         try {
             $this->achieveObjective($objective, $env, $io);

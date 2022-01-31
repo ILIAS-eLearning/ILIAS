@@ -472,8 +472,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public function createImportDirectory() : void
     {
-        $glo_data_dir = ilUtil::getDataDir() . "/glo_data";
-        ilUtil::makeDir($glo_data_dir);
+        $glo_data_dir = ilFileUtils::getDataDir() . "/glo_data";
+        ilFileUtils::makeDir($glo_data_dir);
         if (!is_writable($glo_data_dir)) {
             throw new ilGlossaryException("Glossary Data Directory (" . $glo_data_dir
                 . ") not writeable.");
@@ -481,13 +481,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
         // create glossary directory (data_dir/glo_data/glo_<id>)
         $glo_dir = $glo_data_dir . "/glo_" . $this->getId();
-        ilUtil::makeDir($glo_dir);
+        ilFileUtils::makeDir($glo_dir);
         if (!is_dir($glo_dir)) {
             throw new ilGlossaryException("Creation of Glossary Directory failed.");
         }
         // create Import subdirectory (data_dir/glo_data/glo_<id>/import)
         $import_dir = $glo_dir . "/import";
-        ilUtil::makeDir($import_dir);
+        ilFileUtils::makeDir($import_dir);
         if (!is_dir($import_dir)) {
             throw new ilGlossaryException("Creation of Export Directory failed.");
         }
@@ -495,7 +495,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
     public function getImportDirectory() : string
     {
-        $export_dir = ilUtil::getDataDir() . "/glo_data" . "/glo_" . $this->getId() . "/import";
+        $export_dir = ilFileUtils::getDataDir() . "/glo_data" . "/glo_" . $this->getId() . "/import";
 
         return $export_dir;
     }

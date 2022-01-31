@@ -1574,7 +1574,7 @@ class ilSCORM13PlayerGUI
         //		if (!file_exists($logDir)) ilUtil::makeDirParents($logDir);
         $logDir = $this->slm->getDataDirectory() . "/logs";
         if (!file_exists($logDir)) {
-            ilUtil::makeDir($logDir);
+            ilFileUtils::makeDir($logDir);
         }
         return $logDir;
     }

@@ -370,7 +370,7 @@ class ilSurveyEvaluationGUI
             
         $surveyname = $this->object->getTitle() . " " . $type . " " . date("Y-m-d");
         $surveyname = preg_replace("/\s/", "_", trim($surveyname));
-        $surveyname = ilUtil::getASCIIFilename($surveyname);
+        $surveyname = ilFileUtils::getASCIIFilename($surveyname);
         
         // send to client
         switch ($this->request->getExportFormat()) {
@@ -1030,7 +1030,7 @@ class ilSurveyEvaluationGUI
         // #11179
         $surveyname = $this->object->getTitle() . " " . $this->lng->txt("svy_eval_user") . " " . date("Y-m-d");
         $surveyname = preg_replace("/\s/", "_", trim($surveyname));
-        $surveyname = ilUtil::getASCIIFilename($surveyname);
+        $surveyname = ilFileUtils::getASCIIFilename($surveyname);
         
         switch ($this->request->getExportFormat()) {
             case self::TYPE_XLS:
@@ -1467,7 +1467,7 @@ class ilSurveyEvaluationGUI
 
         $parts = parse_url(ILIAS_HTTP_PATH);
 
-        $target = ilUtil::ilTempnam() . "." . $a_suffix;
+        $target = ilFileUtils::ilTempnam() . "." . $a_suffix;
         $path = $parts["path"];
         if (empty($path)) {
             $path = "''";

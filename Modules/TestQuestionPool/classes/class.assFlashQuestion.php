@@ -122,9 +122,8 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             file_exists($_SESSION['flash_upload_filename']) && is_file($_SESSION['flash_upload_filename'])
         ) {
             $path = $this->getFlashPath();
-            \ilUtil::makeDirParents($path);
-
-            require_once 'Services/Utilities/classes/class.ilFileUtils.php';
+            ilFileUtils::makeDirParents($path);
+            
             \ilFileUtils::rename($_SESSION['flash_upload_filename'], $path . $this->getApplet());
             unset($_SESSION['flash_upload_filename']);
         }
@@ -335,7 +334,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         }
         
         if (!file_exists($flashpath)) {
-            ilUtil::makeDirParents($flashpath);
+            ilFileUtils::makeDirParents($flashpath);
         }
         $filename = $this->getApplet();
         if (!copy($flashpath_original . $filename, $flashpath . $filename)) {
@@ -355,7 +354,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         $flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
         $flashpath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $flashpath_original);
         if (!file_exists($flashpath)) {
-            ilUtil::makeDirParents($flashpath);
+            ilFileUtils::makeDirParents($flashpath);
         }
         $filename = $this->getApplet();
         if (!copy($flashpath_original . $filename, $flashpath . $filename)) {
@@ -458,9 +457,9 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             $flashfile = str_replace(" ", "_", $flashfile);
             $flashpath = $this->getFlashPath();
             if (!file_exists($flashpath)) {
-                ilUtil::makeDirParents($flashpath);
+                ilFileUtils::makeDirParents($flashpath);
             }
-            if (ilUtil::moveUploadedFile($tmpfile, $flashfile, $flashpath . $flashfile)) {
+            if (ilFileUtils::moveUploadedFile($tmpfile, $flashfile, $flashpath . $flashfile)) {
                 $result = $flashfile;
             }
         }

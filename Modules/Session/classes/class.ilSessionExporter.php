@@ -1,7 +1,21 @@
-<?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Exporter class for sessions
@@ -14,29 +28,18 @@ class ilSessionExporter extends ilXmlExporter
 {
     private ilSessionDataSet $ds;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
-        include_once("./Modules/Session/classes/class.ilSessionDataSet.php");
         $this->ds = new ilSessionDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
     }
-    
-    /**
-     * Get tail dependencies
-     * @param string $a_entity
-     * @param string $a_target_release
-     * @param array  $a_ids
-     * @return array
-     */
+
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $deps = [];
         
-        $advmd_ids = array();
+        $advmd_ids = [];
         foreach ($a_ids as $id) {
             $rec_ids = $this->getActiveAdvMDRecords($id);
             if (sizeof($rec_ids)) {
@@ -53,7 +56,7 @@ class ilSessionExporter extends ilXmlExporter
             );
         }
         
-        $md_ids = array();
+        $md_ids = [];
         foreach ($a_ids as $sess_id) {
             $md_ids[] = $sess_id . ":0:sess";
         }
@@ -81,14 +84,9 @@ class ilSessionExporter extends ilXmlExporter
         return $deps;
     }
 
-    /**
-     * get activated adv md records
-     * @param type $a_id
-     * @return type
-     */
-    protected function getActiveAdvMDRecords($a_id)
+    protected function getActiveAdvMDRecords(int $a_id) : array
     {
-        $active = array();
+        $active = [];
         
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType('sess') as $record_obj) {
             foreach ($record_obj->getAssignedObjectTypes() as $obj_info) {
@@ -107,26 +105,12 @@ class ilSessionExporter extends ilXmlExporter
         }
         return $active;
     }
-    
 
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
@@ -153,12 +137,12 @@ class ilSessionExporter extends ilXmlExporter
                 "xsd_file" => "ilias_sess_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
-                "max" => ""),
+                "max" => "6.999"),
             "7.0" => array(
                 "namespace" => "http://www.ilias.de/Modules/Session/sess/7",
                 "xsd_file" => "ilias_sess_7.xsd",
                 "uses_dataset" => true,
-                "min" => "5.4.0",
+                "min" => "7.0",
                 "max" => ""),
         );
     }

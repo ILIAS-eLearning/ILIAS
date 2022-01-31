@@ -57,7 +57,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
         $type = $this->type_repo->getType((int) $a_set['id']);
 
         if ($this->web_dir->has($type->getIconPath(true))) {
-            $icon = ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true);
+            $icon = ilFileUtils::getWebspaceDir() . '/' . $type->getIconPath(true);
         }
 
         $this->tpl->setVariable('TITLE', $a_set['title']);

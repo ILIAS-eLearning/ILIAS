@@ -149,7 +149,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
             $news_item = new ilNewsItem($item["id"]);
             $news_item->read();
             $mobId = $news_item->getMobId();
-            $size += ilUtil::dirsize(ilObjMediaObject::_getDirectory($mobId));
+            $size += ilFileUtils::dirsize(ilObjMediaObject::_getDirectory($mobId));
         }
         return $size;
     }

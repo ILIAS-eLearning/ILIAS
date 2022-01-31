@@ -65,7 +65,7 @@ class ilSystemStyleMainGUI
         $this->toolbar = $DIC->toolbar();
         $this->upload = $DIC->upload();
         $this->tree = $DIC->repositoryTree();
-        $this->skin_factory = new ilSkinFactory();
+        $this->skin_factory = new ilSkinFactory($this->lng);
         $this->user = $DIC->user();
 
         $this->message_stack = new ilSystemStyleMessageStack();
@@ -84,7 +84,7 @@ class ilSystemStyleMainGUI
         $this->help->setScreenId('system_styles');
 
         $config = new ilSystemStyleConfig();
-        $skin_factory = new ilSkinFactory();
+        $skin_factory = new ilSkinFactory($this->lng);
 
         if ($this->request_wrapper->query()->has('skin_id') && $this->request_wrapper->query()->has('style_id')) {
             $skin_id = $this->request_wrapper->query()->retrieve('skin_id', $this->refinery->kindlyTo()->string());
@@ -189,7 +189,7 @@ class ilSystemStyleMainGUI
                         ilSystemStyleDocumentationGUI::SHOW_TREE,
                         true
                     );
-                    $this->tpl->setPermanentLink('stys', (int)$this->ref_id, $goto_link);
+                    $this->tpl->setPermanentLink('stys', (int) $this->ref_id, $goto_link);
                     $entries = new Entries();
                     $entries->addEntriesFromArray(include ilSystemStyleDocumentationGUI::DATA_PATH);
                     $documentation_gui = new ilSystemStyleDocumentationGUI(

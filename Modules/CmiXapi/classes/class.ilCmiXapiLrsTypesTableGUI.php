@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -52,22 +52,31 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1%');
     }
     
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('LRS_TYPE_TITLE', $a_set['title']);
         $this->tpl->setVariable('LRS_TYPE_AVAILABILITY', $this->getAvailabilityLabel($a_set['availability']));
         $this->tpl->setVariable('LRS_TYPE_USAGES', $a_set['usages'] ? $a_set['usages'] : '');
         $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set)->getHTML());
     }
-    
-    protected function getAvailabilityLabel($availability)
+
+    /**
+     * @param string $availability
+     * @return string
+     */
+    protected function getAvailabilityLabel(string $availability) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return $DIC->language()->txt('conf_availability_' . $availability);
     }
-    
-    protected function getActionsList($data) : \ilAdvancedSelectionListGUI
+
+    /**
+     * @param array $data
+     * @return ilAdvancedSelectionListGUI
+     * @throws ilCtrlException
+     */
+    protected function getActionsList(array $data) : \ilAdvancedSelectionListGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

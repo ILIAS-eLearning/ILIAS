@@ -22,8 +22,8 @@ class ilObjRole extends ilObject
 
     public ?int $parent = null;
 
-    public $allow_register;
-    public $assign_users;
+    protected $allow_register = false;
+    protected $assign_users = false;
 
     /**
      * Constructor
@@ -38,6 +38,9 @@ class ilObjRole extends ilObject
         $this->logger = $DIC->logger()->ac();
         $this->type = "role";
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacreview = $DIC->rbac()->review();
     }
 
     public static function createDefaultRole(
@@ -56,7 +59,7 @@ class ilObjRole extends ilObject
             " AND title=" . $ilDB->quote($a_tpl_name, "text"));
         $tpl_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tpl_id = $row->obj_id;
+            $tpl_id = (int) $row->obj_id;
         }
         if (!$tpl_id) {
             return null;
@@ -68,7 +71,6 @@ class ilObjRole extends ilObject
         $role->create();
 
         $GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(), $a_ref_id, 'y');
-
         $GLOBALS['DIC']['rbacadmin']->copyRoleTemplatePermissions(
             $tpl_id,
             ROLE_FOLDER_ID,
@@ -109,7 +111,7 @@ class ilObjRole extends ilObject
 
     public function toggleAssignUsersStatus(bool $a_assign_users) : void
     {
-        $this->assign_users = (int) $a_assign_users;
+        $this->assign_users = $a_assign_users;
     }
 
     public function getAssignUsersStatus() : bool
@@ -117,7 +119,7 @@ class ilObjRole extends ilObject
         return $this->assign_users;
     }
 
-    public static function _getAssignUsersStatus($a_role_id)
+    public static function _getAssignUsersStatus(int $a_role_id) : bool
     {
         global $DIC;
 
@@ -205,9 +207,9 @@ class ilObjRole extends ilObject
 
         $roles = [];
         while ($role = $ilDB->fetchAssoc($res)) {
-            $roles[] = array("id" => $role["obj_id"],
-                             "title" => $role["title"],
-                             "auth_mode" => $role['auth_mode']
+            $roles[] = array("id" => (int) $role["obj_id"],
+                             "title" => (string) $role["title"],
+                             "auth_mode" => (string) $role['auth_mode']
             );
         }
         return $roles;
@@ -491,8 +493,10 @@ class ilObjRole extends ilObject
                 : $this->lng->txt($info['type'] . "_" . $info['operation']);
             if (substr($info['operation'], 0, 7) == "create_" &&
                 $this->objDefinition->isPlugin(substr($info['operation'], 7))) {
-                $txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7),
-                    $info['type'] . "_" . $info['operation']);
+                $txt = ilObjectPlugin::lookupTxtById(
+                    substr($info['operation'], 7),
+                    $info['type'] . "_" . $info['operation']
+                );
             }
             $rbac_operations[$info['typ_id']][$info['ops_id']] = array(
                 "ops_id" => $info['ops_id'],
@@ -568,8 +572,10 @@ class ilObjRole extends ilObject
                 $local_policies[] = $policy;
                 continue;
             }
-            if (!in_array('all', $a_filter) and !in_array(ilObject::_lookupType(ilObject::_lookupObjId($policy)),
-                    $a_filter)) {
+            if (!in_array('all', $a_filter) and !in_array(
+                ilObject::_lookupType(ilObject::_lookupObjId($policy)),
+                $a_filter
+            )) {
                 $local_policies[] = $policy;
                 continue;
             }
@@ -589,7 +595,6 @@ class ilObjRole extends ilObject
         int $a_operation_mode = self::MODE_READ_OPERATIONS,
         array $a_operation_stack = []
     ) : void {
-
         $operation_stack = array();
         $policy_stack = array();
         $node_stack = array();
@@ -797,7 +802,6 @@ class ilObjRole extends ilObject
         int $a_node,
         bool $a_init = false
     ) : bool {
-
         $has_policies = null;
         $policy_origin = null;
 

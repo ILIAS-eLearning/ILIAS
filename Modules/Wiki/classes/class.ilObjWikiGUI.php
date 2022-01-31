@@ -1109,7 +1109,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->checkPermission("read");
 
         $ilTabs->clearTargets();
-        $tpl->setHeaderActionMenu(null);
+        $tpl->setHeaderActionMenu("");
 
         $page = ($this->requested_page != "")
             ? $this->requested_page

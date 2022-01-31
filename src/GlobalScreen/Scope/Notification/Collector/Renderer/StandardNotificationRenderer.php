@@ -31,7 +31,7 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
      * @param StandardNotification
      * @return \ILIAS\UI\Component\Item\Notification|mixed
      */
-    public function getNotificationComponentForItem(isItem $item): \ILIAS\UI\Component\Component
+    public function getNotificationComponentForItem(isItem $item) : \ILIAS\UI\Component\Component
     {
         $ui_notification_item = $item->getNotificationItem();
         
@@ -55,5 +55,4 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
         
         return $ui_notification_item->withCloseAction($url);
     }
-    
 }

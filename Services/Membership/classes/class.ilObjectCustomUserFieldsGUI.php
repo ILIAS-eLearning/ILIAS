@@ -299,11 +299,11 @@ class ilObjectCustomUserFieldsGUI
         }
 
         //		Text type
-        $ty_te = new ilRadioOption($this->lng->txt('ps_type_txt_long'), (string) IL_CDF_TYPE_TEXT);
+        $ty_te = new ilRadioOption($this->lng->txt('ps_type_txt_long'), (string) ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT);
         $ty->addOption($ty_te);
 
         //		Select Type
-        $ty_se = new ilRadioOption($this->lng->txt('ps_type_select_long'), (string) IL_CDF_TYPE_SELECT);
+        $ty_se = new ilRadioOption($this->lng->txt('ps_type_select_long'), (string) ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT);
         $ty->addOption($ty_se);
 
         // Select Type Values

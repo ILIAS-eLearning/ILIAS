@@ -292,23 +292,23 @@ class ilMemberExport
                 switch ($field) {
                     case 'role':
                         switch ($this->user_course_data[$usr_id]['role']) {
-                            case IL_CRS_ADMIN:
+                            case ilParticipants::IL_CRS_ADMIN:
                                 $this->addCol($this->lng->txt('crs_admin'), $row, $col++);
                                 break;
 
-                            case IL_CRS_TUTOR:
+                            case ilParticipants::IL_CRS_TUTOR:
                                 $this->addCol($this->lng->txt('crs_tutor'), $row, $col++);
                                 break;
 
-                            case IL_CRS_MEMBER:
+                            case ilParticipants::IL_CRS_MEMBER:
                                 $this->addCol($this->lng->txt('crs_member'), $row, $col++);
                                 break;
 
-                            case IL_GRP_ADMIN:
+                            case ilParticipants::IL_GRP_ADMIN:
                                 $this->addCol($this->lng->txt('il_grp_admin'), $row, $col++);
                                 break;
 
-                            case IL_GRP_MEMBER:
+                            case ilParticipants::IL_GRP_MEMBER:
                                 $this->addCol($this->lng->txt('il_grp_member'), $row, $col++);
                                 break;
 
@@ -442,11 +442,11 @@ class ilMemberExport
         foreach ($a_user_ids as $user_id) {
             // Read course related data
             if ($this->members->isAdmin($user_id)) {
-                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? IL_CRS_ADMIN : IL_GRP_ADMIN;
+                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? ilParticipants::IL_CRS_ADMIN : ilParticipants::IL_GRP_ADMIN;
             } elseif ($this->members->isTutor($user_id)) {
-                $this->user_course_data[$user_id]['role'] = IL_CRS_TUTOR;
+                $this->user_course_data[$user_id]['role'] = ilParticipants::IL_CRS_TUTOR;
             } elseif ($this->members->isMember($user_id)) {
-                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? IL_CRS_MEMBER : IL_GRP_MEMBER;
+                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? ilParticipants::IL_CRS_MEMBER : ilParticipants::IL_GRP_MEMBER;
             } else {
                 $this->user_course_data[$user_id]['role'] = 'subscriber';
             }

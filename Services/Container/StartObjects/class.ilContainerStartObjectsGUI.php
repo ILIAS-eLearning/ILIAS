@@ -26,7 +26,7 @@ class ilContainerStartObjectsGUI
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilLanguage $lng;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
     protected ilSetting $settings;
     protected ilToolbarGUI $toolbar;

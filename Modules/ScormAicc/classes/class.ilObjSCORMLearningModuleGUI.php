@@ -351,7 +351,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
+//        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
         $values["open_mode"] = $this->object->getOpenMode();
         $values["width_0"] = $this->object->getWidth();
         $values["width_1"] = $this->object->getWidth();
@@ -550,7 +550,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 $file_path = $this->object->getDataDirectory() . "/" . $_FILES["scormfile"]["name"] . "." . $module_version;
                 $file_path = str_replace(".zip." . $module_version, "." . $module_version . ".zip", $file_path);
                 //move to data directory and add subfix for versioning
-                ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"], $_FILES["scormfile"]["name"], $file_path);
+                ilFileUtils::moveUploadedFile($_FILES["scormfile"]["tmp_name"], $_FILES["scormfile"]["name"],
+                    $file_path);
             } else {
                 //build targetdir in lm_data
                 $file_path = $this->object->getDataDirectory() . "/" . $_POST["uploaded_file"] . "." . $module_version;
@@ -560,7 +561,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             }
 
             //unzip and replace old extracted files
-            ilUtil::unzip($file_path, true);
+            ilFileUtils::unzip($file_path, true);
             ilUtil::renameExecutables($this->object->getDataDirectory()); //(security)
 
             //increase module version
@@ -594,12 +595,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             $this->object->setDescription($_POST["Fobject_description"]);
 
             //check if OfflineMode-Zip has to be created
-            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-            if ($tmpOfflineMode == true) {
-                if ($this->object->getOfflineMode() == false) {
-                    $this->object->zipLmForOfflineMode();
-                }
-            }
+//            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+//            if ($tmpOfflineMode == true) {
+//                if ($this->object->getOfflineMode() == false) {
+//                    $this->object->zipLmForOfflineMode();
+//                }
+//            }
             if (isset($_POST["mastery_score"])) {
                 $this->object->setMasteryScore($_POST["mastery_score"]);
                 // $this->object->updateMasteryScoreValues();
@@ -621,7 +622,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 $t_width = $_POST["width_1"];
             }
             $this->object->setOfflineStatus(!($_POST['cobj_online']));
-            $this->object->setOfflineMode($tmpOfflineMode);
+//            $this->object->setOfflineMode($tmpOfflineMode);
             $this->object->setOpenMode($_POST["open_mode"]);
             $this->object->setWidth($t_width);
             $this->object->setHeight($t_height);
