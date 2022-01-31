@@ -3,56 +3,45 @@
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UICore\PageContentProvider;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
-* StartUp GUI class. Handles Login and Registration.
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
-* @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
-*
-* @ingroup ServicesInit
-*/
+ * StartUp GUI class. Handles Login and Registration.
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
+ * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
+ * @ingroup      ServicesInit
+ */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
-    const ACCOUNT_MIGRATION_MIGRATE = 1;
-    const ACCOUNT_MIGRATION_NEW = 2;
+    protected const ACCOUNT_MIGRATION_MIGRATE = 1;
+    protected const ACCOUNT_MIGRATION_NEW = 2;
 
-    /** @var \ilCtrl */
-    protected $ctrl;
-    protected $lng;
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+    protected ilLogger $logger;
+    protected ilGlobalTemplateInterface $mainTemplate;
+    protected ilObjUser $user;
+    protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
+    protected ServerRequestInterface $httpRequest;
+    protected \ILIAS\DI\Container $dic;
+    protected ilAuthSession $authSession;
+    protected ilAppEventHandler $eventHandler;
+    protected ilSetting $setting;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var \ilLogger | null
-     */
-    protected $logger;
+    protected RefineryFactory $refinery;
+    protected HTTPServices $http;
 
-    /** @var \ilGlobalTemplate */
-    protected $mainTemplate;
-
-    /** @var \ilObjUser */
-    protected $user;
-
-    /** @var \ilTermsOfServiceDocumentEvaluation */
-    protected $termsOfServiceEvaluation;
-
-    /** @var ServerRequestInterface*/
-    protected $httpRequest;
-
-    /** @var \ILIAS\DI\Container $dic */
-    protected $dic;
     /**
      * ilStartUpGUI constructor.
-     * @param \ilObjUser|null              $user
-     * @param \ilTermsOfServiceDocumentEvaluation|null
-     * @param \ilGlobalTemplate|null       $mainTemplate
-     * @param ServerRequestInterface|null $httpRequest
      */
     public function __construct(
-        \ilObjUser $user = null,
-        \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-        \ilGlobalTemplate $mainTemplate = null,
+        ilObjUser $user = null,
+        ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
+        ilGlobalTemplate $mainTemplate = null,
         ServerRequestInterface $httpRequest = null
     ) {
         global $DIC;
@@ -83,10 +72,27 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('auth');
         $this->logger = ilLoggerFactory::getLogger('init');
+        $this->authSession = $DIC['ilAuthSession'];
+        $this->eventHandler = $DIC->event();
+        $this->setting = $DIC->settings();
+        $this->access = $DIC->access();
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
-
         $this->user->setLanguage($this->lng->getLangKey());
+    }
+
+    protected function initTargetFromQuery() : string
+    {
+        if ($this->http->wrapper()->query()->has('target')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'target',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
     }
 
     /**
@@ -109,6 +115,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * execute command
+     * @return mixed
      * @see register.php
      */
     public function executeCommand()
@@ -130,21 +137,22 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
             default:
                 if (method_exists($this, $cmd)) {
-                    return $this->$cmd();
+                    $this->$cmd();
+                    return null;
                 }
         }
 
         // because this class now implements ilCtrlSecurityInterface,
         // it may occur that commands are null, therefore I added
         // this as a fallback method.
-        return $this->showLoginPageOrStartupPage();
+        $this->showLoginPageOrStartupPage();
+        return null;
     }
 
     /**
      * Get logger
-     * @return \ilLogger
      */
-    public function getLogger()
+    public function getLogger() : ilLogger
     {
         return $this->logger;
     }
@@ -153,7 +161,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * jump to registration gui
      * @see register.php
      */
-    public function jumpToRegistration()
+    public function jumpToRegistration() : void
     {
         $this->ctrl->setCmdClass("ilaccountregistrationgui");
         $this->ctrl->setCmd("");
@@ -164,7 +172,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * jump to password assistance
      * @see pwassist.php
      */
-    public function jumpToPasswordAssistance()
+    public function jumpToPasswordAssistance() : void
     {
         $this->ctrl->setCmdClass("ilpasswordassistancegui");
         $this->ctrl->setCmd("");
@@ -174,14 +182,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login page or redirect to startup page if user is not authenticated.
      */
-    protected function showLoginPageOrStartupPage()
+    protected function showLoginPageOrStartupPage() : void
     {
-
         /**
          * @var ilAuthSession
          */
-        $auth_session = $GLOBALS['DIC']['ilAuthSession'];
-        $ilAppEventHandler = $GLOBALS['DIC']['ilAppEventHandler'];
+        $auth_session = $this->authSession;
+        $ilAppEventHandler = $this->eventHandler;
 
         $force_login = false;
         if (isset($_REQUEST['cmd']) &&
@@ -207,51 +214,54 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 );
             }
             $this->logger->debug('Show login page');
-            return $this->showLoginPage();
+            $this->showLoginPage();
+            return;
         }
 
-        /**
-         * @var ilAuthSession
-         */
         if ($auth_session->isValid()) {
             $this->logger->debug('Valid session -> redirect to starting page');
-            return ilInitialisation::redirectToStartingPage();
+            ilInitialisation::redirectToStartingPage();
+            return;
         }
         $this->logger->debug('No valid session -> show login');
         $this->showLoginPage();
     }
 
-
     /**
-     * @todo check for forced authentication like ecs, ...
-     * Show login page
      * @param \ilPropertyFormGUI|null $form
+     * @todo check for forced authentication like ecs, ...
+     *       Show login page
      */
     protected function showLoginPage(ilPropertyFormGUI $form = null) : void
     {
-        global $tpl, $ilSetting;
+        global $tpl;
 
         $this->getLogger()->debug('Showing login page');
 
         $extUid = '';
-        if (isset($_GET['ext_uid']) && is_string($_GET['ext_uid'])) {
-            $extUid = $_GET['ext_uid'];
+        if ($this->http->wrapper()->query()->has('ext_uid')) {
+            $extUid = $this->http->wrapper()->query()->retrieve(
+                'ext_uid',
+                $this->refinery->kindlyTo()->string()
+            );
         }
         $soapPw = '';
-        if (isset($_GET['soap_pw']) && is_string($_GET['soap_pw'])) {
-            $soapPw = $_GET['soap_pw'];
+        if ($this->http->wrapper()->query()->has('soap_pw')) {
+            $extUid = $this->http->wrapper()->query()->retrieve(
+                'soap_pw',
+                $this->refinery->kindlyTo()->string()
+            );
         }
-
-        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl, $ilSetting);
-        $credentials->setUsername(ilUtil::stripSlashes($extUid));
-        $credentials->setPassword(ilUtil::stripSlashes($soapPw));
+        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl,
+            $this->setting);
+        $credentials->setUsername($extUid);
+        $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
 
         $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
         $frontend->tryAuthenticationOnLoginPage();
 
         $tpl = self::initStartUpTemplate("tpl.login.html");
-
         $this->mainTemplate->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
@@ -267,22 +277,21 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
-        if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
-            ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
+        if ($this->authSession->isExpired()) {
+            ilUtil::sendFailure($this->lng->txt('auth_err_expired'));
         }
-
         if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
         }
-
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $tosWithdrawalGui->setWithdrawalInfoForLoginScreen($this->httpRequest);
-
         self::printToGlobalTemplate($tpl);
     }
 
-
-    public static function printToGlobalTemplate($tpl)
+    /**
+     * @param ilTemplate|ilGlobalTemplateInterface
+     */
+    public static function printToGlobalTemplate($tpl) : void
     {
         global $DIC;
         $gtpl = $DIC['tpl'];
@@ -292,12 +301,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     protected function showCodeForm($a_username = null, $a_form = null)
     {
-        global $tpl, $lng;
+        global $tpl;
 
         self::initStartUpTemplate("tpl.login_reactivate_code.html");
-
-        ilUtil::sendFailure($lng->txt("time_limit_reached"));
-
+        ilUtil::sendFailure($this->lng->txt("time_limit_reached"));
         if (!$a_form) {
             $a_form = $this->initCodeForm($a_username);
         }
@@ -306,59 +313,41 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tpl->printToStdout("DEFAULT", false);
     }
 
-    protected function initCodeForm($a_username)
+    protected function initCodeForm(string $a_username) : ilPropertyFormGUI
     {
-        global $lng, $ilCtrl;
-
-        $lng->loadLanguageModule("auth");
-
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
+        $this->lng->loadLanguageModule("auth");
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this, 'showcodeform'));
-        $form->setTitle($lng->txt('auth_account_code_title'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'showcodeform'));
+        $form->setTitle($this->lng->txt('auth_account_code_title'));
 
-        $count = new ilTextInputGUI($lng->txt('auth_account_code'), 'code');
+        $count = new ilTextInputGUI($this->lng->txt('auth_account_code'), 'code');
         $count->setRequired(true);
-        $count->setInfo($lng->txt('auth_account_code_info'));
+        $count->setInfo($this->lng->txt('auth_account_code_info'));
         $form->addItem($count);
 
         // #11658
         $uname = new ilHiddenInputGUI("uname");
         $uname->setValue($a_username);
         $form->addItem($uname);
-
-        $form->addCommandButton('processCode', $lng->txt('send'));
-
+        $form->addCommandButton('processCode', $this->lng->txt('send'));
         return $form;
     }
 
     /**
      * @todo has to be refactored.
-     * @global ilLanguage $lng
-     * @global type $ilAuth
-     * @global type $ilCtrl
-     * @return boolean
      */
     protected function processCode()
     {
-        global $lng, $ilAuth, $ilCtrl;
-
         $uname = $_POST["uname"];
-
         $form = $this->initCodeForm($uname);
         if ($uname && $form->checkInput()) {
             $code = $form->getInput("code");
-
-            include_once "Services/User/classes/class.ilAccountCode.php";
             if (ilAccountCode::isUnusedCode($code)) {
                 $valid_until = ilAccountCode::getCodeValidUntil($code);
-
                 if (!$user_id = ilObjUser::_lookupId($uname)) {
                     $this->showLoginPage();
                     return false;
                 }
-
                 $invalid_code = false;
                 $user = new ilObjUser($user_id);
 
@@ -390,39 +379,35 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
                 if (!$invalid_code) {
                     $user->setActive(true);
-
                     ilAccountCode::useCode($code);
-
                     // apply registration code role assignments
                     ilAccountCode::applyRoleAssignments($user, $code);
-
-                    // apply registration code time limits
+                    // apply registration code tie limits
                     ilAccountCode::applyAccessLimits($user, $code);
 
                     $user->update();
 
-                    $ilCtrl->setParameter($this, "cu", 1);
-                    $GLOBALS['DIC']->language()->loadLanguageModule('auth');
+                    $this->ctrl->setParameter($this, "cu", 1);
+                    $this->lng->loadLanguageModule('auth');
                     ilUtil::sendSuccess($GLOBALS['DIC']->language()->txt('auth_activation_code_success'), true);
-                    $ilCtrl->redirect($this, "showLoginPage");
+                    $this->ctrl->redirect($this, "showLoginPage");
                 }
             }
 
-            $lng->loadLanguageModule("user");
+            $this->lng->loadLanguageModule("user");
             $field = $form->getItemByPostVar("code");
-            $field->setAlert($lng->txt("user_account_code_not_valid"));
+            $field->setAlert($this->lng->txt("user_account_code_not_valid"));
         }
 
         $form->setValuesByPost();
         $this->showCodeForm($uname, $form);
     }
 
-
     /**
      * Initialize the standard
      * @return \ilPropertyFormGUI
      */
-    protected function initStandardLoginForm()
+    protected function initStandardLoginForm() : ilPropertyFormGUI
     {
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -481,26 +466,22 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Trying shibboleth authentication
      */
-    protected function doShibbolethAuthentication()
+    protected function doShibbolethAuthentication() : void
     {
         $this->getLogger()->debug('Trying shibboleth authentication');
 
-        include_once './Services/AuthShibboleth/classes/class.ilAuthFrontendCredentialsShibboleth.php';
         $credentials = new ilAuthFrontendCredentialsShibboleth();
         $credentials->initFromRequest();
 
-        include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_SHIBBOLETH);
 
-        include_once './Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             array($provider)
@@ -510,49 +491,37 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                include_once './Services/Init/classes/class.ilInitialisation.php';
+                $this->logger->debug('Authentication successful; Redirecting to starting page.');
                 ilInitialisation::redirectToStartingPage();
                 return;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+                $this->ctrl->redirect($this, 'showAccountMigration');
+                return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 ilUtil::sendFailure($status->getTranslatedReason(), true);
-                $GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
-                return false;
+                $this->ctrl->redirect($this, 'showLoginPage');
+                return;
         }
-
         ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
-        return false;
     }
 
-    /**
-     * Try CAS auth
-     */
-    protected function doCasAuthentication()
+    protected function doCasAuthentication() : void
     {
-        global $DIC;
-
         $this->getLogger()->debug('Trying cas authentication');
-
-        include_once './Services/CAS/classes/class.ilAuthFrontendCredentialsCAS.php';
         $credentials = new ilAuthFrontendCredentialsCAS();
 
-        include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_CAS);
 
-        include_once './Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             array($provider)
@@ -567,16 +536,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
             default:
-                ilUtil::sendFailure($DIC->language()->txt($status->getReason()));
+                ilUtil::sendFailure($this->lng->txt($status->getReason()));
                 $this->showLoginPage();
-                return false;
         }
     }
 
     /**
      * Handle lti requests
      */
-    protected function doLTIAuthentication()
+    protected function doLTIAuthentication() : void
     {
         $this->getLogger()->debug('Trying lti authentication');
 
@@ -591,7 +559,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             array($provider)
@@ -606,24 +574,23 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 return;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+                $this->ctrl->redirect($this, 'showAccountMigration');
+                return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                ilUtil::sendFailure($GLOBALS['lng']->txt($status->getReason()), true);
-                $GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
-                return false;
+                ilUtil::sendFailure($this->lng->txt($status->getReason()), true);
+                $this->ctrl->redirect($this, 'showLoginPage');
+                return;
         }
 
         ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
-        return false;
     }
-
 
     /**
      * Try apache auth
      */
-    protected function doApacheAuthentication()
+    protected function doApacheAuthentication() : void
     {
         $this->getLogger()->debug('Trying apache authentication');
 
@@ -638,7 +605,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $frontend_factory = new \ilAuthFrontendFactory();
         $frontend_factory->setContext(\ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             array($provider)
@@ -649,13 +616,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         switch ($status->getStatus()) {
             case \ilAuthStatus::STATUS_AUTHENTICATED:
                 if ($credentials->hasValidTargetUrl()) {
-                    \ilLoggerFactory::getLogger('auth')->debug(sprintf(
+                    $this->logger->debug(sprintf(
                         'Authentication successful. Redirecting to starting page: %s',
                         $credentials->getTargetUrl()
                     ));
                     $this->ctrl->redirectToURL($credentials->getTargetUrl());
                 } else {
-                    \ilLoggerFactory::getLogger('auth')->debug(
+                    $this->logger->debug(
                         'Authentication successful, but no valid target URL given. Redirecting to default starting page.'
                     );
                     \ilInitialisation::redirectToStartingPage();
@@ -677,13 +644,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         \ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
-        return false;
     }
 
     /**
      * Check form input; authenticate user
      */
-    protected function doStandardAuthentication()
+    protected function doStandardAuthentication() : void
     {
         $form = $this->initStandardLoginForm();
         if ($form->checkInput()) {
@@ -712,7 +678,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $frontend_factory = new ilAuthFrontendFactory();
             $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
             $frontend = $frontend_factory->getFrontend(
-                $GLOBALS['DIC']['ilAuthSession'],
+                $this->authSession,
                 $status,
                 $credentials,
                 $providers
@@ -723,47 +689,41 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             switch ($status->getStatus()) {
                 case ilAuthStatus::STATUS_AUTHENTICATED:
                     ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                    include_once './Services/Init/classes/class.ilInitialisation.php';
                     ilInitialisation::redirectToStartingPage();
                     return;
 
                 case ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED:
                     $uname = ilObjUser::_lookupLogin($status->getAuthenticatedUserId());
-                    return $this->showLoginPage($this->initCodeForm($uname));
+                    $this->showLoginPage($this->initCodeForm($uname));
+                    return;
 
                 case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                    return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');
+                    $this->ctrl->redirect($this, 'showAccountMigration');
 
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                     ilUtil::sendFailure($status->getTranslatedReason());
-                    return $this->showLoginPage($form);
+                    $this->showLoginPage($form);
+                    return;
             }
         }
         ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->showLoginPage($form);
-        return false;
     }
-
-
-
-
 
     /**
      * Show login form
-     * @global ilSetting $ilSetting
-     * @param string $page_editor_html
      */
-    protected function showLoginForm($page_editor_html, ilPropertyFormGUI $form = null)
+    protected function showLoginForm(string $page_editor_html, ilPropertyFormGUI $form = null) : string
     {
-        global $ilSetting,$lng,$tpl;
+        global $tpl;
 
         // @todo move this to auth utils.
         // login via ILIAS (this also includes radius and ldap)
         // If local authentication is enabled for shibboleth users, we
         // display the login form for ILIAS here.
-        if (($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH ||
-            $ilSetting->get("shib_auth_allow_local")) &&
-            $ilSetting->get("auth_mode") != AUTH_CAS) {
+        if (($this->setting->get("auth_mode") != AUTH_SHIBBOLETH ||
+                $this->setting->get("shib_auth_allow_local")) &&
+            $this->setting->get("auth_mode") != AUTH_CAS) {
             if (!$form instanceof ilPropertyFormGUI) {
                 $form = $this->initStandardLoginForm();
             }
@@ -781,20 +741,16 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * Show login information
-     * @param string $page_editor_html
-     * @return string $page_editor_html
      */
-    protected function showLoginInformation($page_editor_html, $tpl)
+    protected function showLoginInformation(string $page_editor_html, $tpl) : string
     {
-        global $lng;
-
         if (strlen($page_editor_html)) {
             // page editor active return
             return $page_editor_html;
         }
 
         $loginSettings = new ilSetting("login_settings");
-        $information = $loginSettings->get("login_message_" . $lng->getLangKey());
+        $information = $loginSettings->get("login_message_" . $this->lng->getLangKey());
 
         if (strlen(trim($information))) {
             $tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
@@ -804,21 +760,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * Show cas login
-     * @global ilSetting $ilSetting
-     * @param string $page_editor_html
-     * @return string $page_editor_html
      */
-    protected function showCASLoginForm($page_editor_html)
+    protected function showCASLoginForm(string $page_editor_html) : string
     {
-        global $ilSetting, $lng;
-
-
         // cas login link
-        if ($ilSetting->get("cas_active")) {
+        if ($this->setting->get("cas_active")) {
             $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
-            $tpl->setVariable("TXT_CAS_LOGIN", $lng->txt("login_to_ilias_via_cas"));
+            $tpl->setVariable("TXT_CAS_LOGIN", $this->lng->txt("login_to_ilias_via_cas"));
             $tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.png"));
-            $tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
+            $tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $this->setting->get("cas_login_instructions"));
             $this->ctrl->setParameter($this, "forceCASLogin", "1");
             $tpl->setVariable("TARGET_CAS_LOGIN", $this->ctrl->getLinkTarget($this, "doCasAuthentication"));
             $this->ctrl->setParameter($this, "forceCASLogin", "");
@@ -836,72 +786,78 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * Show shibboleth login form
-     * @param string $page_editor_html
-     * @return string $page_editor_html
      */
-    protected function showShibbolethLoginForm($page_editor_html)
+    protected function showShibbolethLoginForm(string $page_editor_html) : string
     {
-        global $ilSetting, $lng;
-
-        // Refactoring with ilFormPropertyGUI
-        // [...]
+        $target = $this->initTargetFromQuery();
 
         // shibboleth login link
-        if ($ilSetting->get("shib_active")) {
+        if ($this->setting->get("shib_active")) {
             $tpl = new ilTemplate('tpl.login_form_shibboleth.html', true, true, 'Services/Init');
 
-            $tpl->setVariable('SHIB_FORMACTION', './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
+            $tpl->setVariable('SHIB_FORMACTION',
+                './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
 
-            if ($ilSetting->get("shib_hos_type") == 'external_wayf') {
+            if ($this->setting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
-                $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
-                $tpl->setVariable("IL_TARGET", $_GET["target"]);
-                $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", sprintf($lng->txt("shib_general_login_instructions"), $ilSetting->get("shib_federation_name")) . ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.');
-                $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
+                $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));
+                $tpl->setVariable("IL_TARGET", $target);
+                $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->setting->get("shib_federation_name"));
+                $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $this->setting->get("shib_login_button"));
+                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    sprintf($this->lng->txt("shib_general_login_instructions"),
+                        $this->setting->get("shib_federation_name")) . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
+                $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
                 $tpl->parseCurrentBlock();
-            } elseif ($ilSetting->get("shib_hos_type") == 'embedded_wayf') {
+            } elseif ($this->setting->get("shib_hos_type") == 'embedded_wayf') {
                 $tpl->setCurrentBlock("shibboleth_custom_login");
-                $customInstructions = stripslashes($ilSetting->get("shib_login_instructions"));
+                $customInstructions = stripslashes($this->setting->get("shib_login_instructions"));
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $customInstructions);
                 $tpl->parseCurrentBlock();
             } else {
                 $tpl->setCurrentBlock("shibboleth_wayf_login");
-                $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
-                $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
-                $tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION", sprintf($lng->txt("shib_select_home_organization"), $ilSetting->get("shib_federation_name")));
-                $tpl->setVariable("TXT_CONTINUE", $lng->txt("btn_next"));
-                $tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $lng->txt("shib_home_organization"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.');
-                $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
+                $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));
+                $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->setting->get("shib_federation_name"));
+                $tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION",
+                    sprintf($this->lng->txt("shib_select_home_organization"),
+                        $this->setting->get("shib_federation_name")));
+                $tpl->setVariable("TXT_CONTINUE", $this->lng->txt("btn_next"));
+                $tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $this->lng->txt("shib_home_organization"));
+                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    $this->lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt("administrator") . '</a>.');
+                $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $this->setting->get("shib_login_instructions"));
 
                 $ilShibbolethWAYF = new ilShibbolethWAYF();
 
                 $tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $ilShibbolethWAYF->showNotice());
                 $tpl->setVariable("SHIB_IDP_LIST", $ilShibbolethWAYF->generateSelection());
-                $tpl->setVariable("ILW_TARGET", $_GET["target"]);
+                $tpl->setVariable("ILW_TARGET", $target);
                 $tpl->parseCurrentBlock();
             }
 
-            return $this->substituteLoginPageElements($GLOBALS['tpl'], $page_editor_html, $tpl->get(), '[list-shibboleth-login-form]', 'SHIB_LOGIN_FORM');
+            return $this->substituteLoginPageElements($GLOBALS['tpl'], $page_editor_html, $tpl->get(),
+                '[list-shibboleth-login-form]', 'SHIB_LOGIN_FORM');
         }
 
         return $page_editor_html;
     }
 
-
     /**
      * Substitute login page elements
-     * @param ilTemplate $tpl
-     * @param string $page_editor_html
-     * @param string $element_html
-     * @param string $placeholder
-     * @param string $fallback_tplvar
+     * @param ilTemplate|ilGlobalTemplateInterface $tpl
+     * @param string                               $page_editor_html
+     * @param string                               $element_html
+     * @param string                               $placeholder
+     * @param string                               $fallback_tplvar
      * return string $page_editor_html
      */
-    protected function substituteLoginPageElements($tpl, $page_editor_html, $element_html, $placeholder, $fallback_tplvar)
-    {
+    protected function substituteLoginPageElements(
+        $tpl,
+        string $page_editor_html,
+        string $element_html,
+        string $placeholder,
+        string $fallback_tplvar
+    ) : string {
         if (!strlen($page_editor_html)) {
             $tpl->setVariable($fallback_tplvar, $element_html);
             return $page_editor_html;
@@ -918,13 +874,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * Get HTML of ILIAS login page editor
      * @return string html
      */
-    protected function getLoginPageEditorHTML()
+    protected function getLoginPageEditorHTML() : string
     {
-        global $lng, $tpl;
+        global $tpl;
 
         include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
         $lpe = ilAuthLoginPageEditorSettings::getInstance();
-        $active_lang = $lpe->getIliasEditorLanguage($lng->getLangKey());
+        $active_lang = $lpe->getIliasEditorLanguage($this->lng->getLangKey());
 
         if (!$active_lang) {
             return '';
@@ -952,15 +908,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * Show registration, password forgotten, client slection links
-     * @global ilLanguage $lng
-     * @global ilSetting $ilSetting
-     * @global <type> $ilIliasIniFile
-     * @param string $page_editor_html
-     * @return string
      */
-    protected function showRegistrationLinks($page_editor_html)
+    protected function showRegistrationLinks(string $page_editor_html) : string
     {
-        global $lng, $ilSetting, $ilIliasIniFile, $ilAccess;
+        global $tpl, $ilIliasIniFile;
 
         $rtpl = new ilTemplate('tpl.login_registration_links.html', true, true, 'Services/Init');
 
@@ -968,7 +919,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
         if (ilRegistrationSettings::_lookupRegistrationType() != ilRegistrationSettings::IL_REG_DISABLED) {
             $rtpl->setCurrentBlock("new_registration");
-            $rtpl->setVariable("REGISTER", $lng->txt("registration"));
+            $rtpl->setVariable("REGISTER", $this->lng->txt("registration"));
             $rtpl->setVariable(
                 "CMD_REGISTER",
                 $this->ctrl->getLinkTargetByClass("ilaccountregistrationgui", "")
@@ -976,10 +927,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->parseCurrentBlock();
         }
         // allow password assistance? Surpress option if Authmode is not local database
-        if ($ilSetting->get("password_assistance")) {
+        if ($this->setting->get("password_assistance")) {
             $rtpl->setCurrentBlock("password_assistance");
-            $rtpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));
-            $rtpl->setVariable("FORGOT_USERNAME", $lng->txt("forgot_username"));
+            $rtpl->setVariable("FORGOT_PASSWORD", $this->lng->txt("forgot_password"));
+            $rtpl->setVariable("FORGOT_USERNAME", $this->lng->txt("forgot_username"));
             $rtpl->setVariable(
                 "CMD_FORGOT_PASSWORD",
                 $this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "")
@@ -988,27 +939,28 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 "CMD_FORGOT_USERNAME",
                 $this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "showUsernameAssistanceForm")
             );
-            $rtpl->setVariable("LANG_ID", $lng->getLangKey());
+            $rtpl->setVariable("LANG_ID", $this->lng->getLangKey());
             $rtpl->parseCurrentBlock();
         }
 
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
-            $ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
             $rtpl->setCurrentBlock("homelink");
-            $rtpl->setVariable("CLIENT_ID", "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $lng->getLangKey());
-            $rtpl->setVariable("TXT_HOME", $lng->txt("home"));
+            $rtpl->setVariable("CLIENT_ID",
+                "?client_id=" . $_COOKIE["ilClientId"] . "&lang=" . $this->lng->getLangKey());
+            $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
         }
 
         if ($ilIliasIniFile->readVariable("clients", "list")) {
             $rtpl->setCurrentBlock("client_list");
-            $rtpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
+            $rtpl->setVariable("TXT_CLIENT_LIST", $this->lng->txt("to_client_list"));
             $rtpl->setVariable("CMD_CLIENT_LIST", $this->ctrl->getLinkTarget($this, "showClientList"));
             $rtpl->parseCurrentBlock();
         }
 
         return $this->substituteLoginPageElements(
-            $GLOBALS['tpl'],
+            $tpl,
             $page_editor_html,
             $rtpl->get(),
             '[list-registration-link]',
@@ -1018,11 +970,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * Show terms of service link
-     * @param string $page_editor_html
-     * @return string
      */
     protected function showTermsOfServiceLink(string $page_editor_html) : string
     {
+        global $tpl;
+
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
         }
@@ -1034,7 +986,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
 
             return $this->substituteLoginPageElements(
-                $GLOBALS['tpl'],
+                $tpl,
                 $page_editor_html,
                 $utpl->get(),
                 '[list-user-agreement]',
@@ -1053,10 +1005,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * Purge page editor html from unused placeholders
-     * @param string $page_editor_html
-     * @return string
      */
-    protected function purgePlaceholders($page_editor_html)
+    protected function purgePlaceholders(string $page_editor_html) : string
     {
         return str_replace(
             array(
@@ -1068,14 +1018,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 '[list-saml-login]',
                 '[list-shibboleth-login-form]'
             ),
-            array('','','','','','',''),
+            array('', '', '', '', '', '', ''),
             $page_editor_html
         );
     }
 
     /**
      * Show account migration screen
-     * @param string $message
      */
     public function showAccountMigration(string $message = '') : void
     {
@@ -1170,16 +1119,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function doMigrationNewAccount() : bool
     {
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername(ilSession::get(ilAuthFrontend::MIG_EXTERNAL_ACCOUNT));
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE));
+        $provider = $provider_factory->getProviderByAuthMode($credentials,
+            ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE));
 
         $this->logger->debug('Using provider: ' . get_class($provider) . ' for further processing.');
 
@@ -1209,11 +1156,26 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function doMigration() : bool
     {
-        $this->logger->debug('Starting account migration for user: ' . (string) ilSession::get('mig_ext_account'));
+        $username = '';
+        if ($this->http->wrapper()->post()->has('mig_username')) {
+            $username = $this->http->wrapper()->post()->retrieve(
+                'mig_username',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $password = '';
+        if ($this->http->wrapper()->post()->has('mig_password')) {
+            $password = $this->http->wrapper()->post()->retrieve(
+                'mig_password',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $this->logger->debug('Starting account migration for user: ' . ilSession::get('mig_ext_account'));
 
         $credentials = new ilAuthFrontendCredentials();
-        $credentials->setUsername((string) $_POST['mig_username']);
-        $credentials->setPassword((string) $_POST['mig_password']);
+        $credentials->setUsername($username);
+        $credentials->setPassword($password);
 
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LOCAL);
@@ -1223,7 +1185,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             array($provider)
@@ -1233,7 +1195,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                $this->getLogger()->debug('Account migration: authentication successful for ' . (string) $_POST['mig_username']);
+                $this->getLogger()->debug('Account migration: authentication successful for ' . $username);
 
                 $provider = $provider_factory->getProviderByAuthMode(
                     $credentials,
@@ -1247,7 +1209,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     [$provider]
                 );
                 if (
-                    $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
+                $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
                 ) {
                     ilInitialisation::redirectToStartingPage();
                 } else {
@@ -1257,7 +1219,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 break;
 
             default:
-                $this->getLogger()->info('Account migration failed for user ' . (string) $_POST['mig_username']);
+                $this->getLogger()->info('Account migration failed for user ' . $username);
                 $this->showAccountMigration($GLOBALS['lng']->txt('err_wrong_login'));
                 return false;
         }
@@ -1266,27 +1228,30 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show logout screen
      */
-    protected function showLogout()
+    protected function showLogout() : void
     {
         global $DIC;
 
-        $lng = $DIC->language();
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
 
         $tpl = self::initStartUpTemplate("tpl.logout.html");
-
-        $client_id = $_GET['client_id'];
-
+        $client_id = '';
+        if ($this->http->wrapper()->query()->has('client_id')) {
+            $client_id = $this->http->wrapper()->query()->retrieve(
+                'client_id',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
             $tpl->setCurrentBlock("homelink");
-            $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&lang=" . $lng->getLangKey());
-            $tpl->setVariable("TXT_HOME", $lng->txt("home"));
+            $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&lang=" . $this->lng->getLangKey());
+            $tpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $tpl->parseCurrentBlock();
         }
 
         if ($ilIliasIniFile->readVariable("clients", "list")) {
             $tpl->setCurrentBlock("client_list");
-            $tpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
+            $tpl->setVariable("TXT_CLIENT_LIST", $this->lng->txt("to_client_list"));
             $this->ctrl->setParameter($this, "client_id", $client_id);
             $tpl->setVariable(
                 "CMD_CLIENT_LIST",
@@ -1298,33 +1263,28 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
 
-        $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
+        $tpl->setVariable("TXT_PAGEHEADLINE", $this->lng->txt("logout"));
         $tpl->setVariable(
             "TXT_LOGOUT_TEXT",
-            $lng->txt("logout_text") . $tosWithdrawalGui->getWithdrawalTextForLogoutScreen($this->httpRequest)
+            $this->lng->txt("logout_text") . $tosWithdrawalGui->getWithdrawalTextForLogoutScreen($this->httpRequest)
         );
-        $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-        $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
+        $tpl->setVariable("TXT_LOGIN", $this->lng->txt("login_to_ilias"));
+        $tpl->setVariable("CLIENT_ID",
+            "?client_id=" . $client_id . "&cmd=force_login&lang=" . $this->lng->getLangKey());
 
         self::printToGlobalTemplate($tpl);
     }
 
-
-
     /**
-    * show logout screen
-    */
+     * show logout screen
+     */
     public function doLogout()
     {
         global $DIC;
 
-        $ilSetting = $DIC->settings();
-        $user = $DIC->user();
-        $lng = $DIC->language();
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-        $ilAppEventHandler->raise(
+        $this->eventHandler->raise(
             'Services/Authentication',
             'beforeLogout',
             [
@@ -1332,22 +1292,20 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ]
         );
 
-        $user_language = $user->getLanguage();
+        $user_language = $this->user->getLanguage();
 
-        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($user);
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $this);
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-        $GLOBALS['DIC']['ilAuthSession']->logout();
-
-        $GLOBALS['ilAppEventHandler']->raise(
+        $this->authSession->logout();
+        $this->eventHandler->raise(
             'Services/Authentication',
             'afterLogout',
             array(
                 'username' => $this->user->getLogin()
             )
         );
-
         if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
@@ -1363,107 +1321,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-    * show client list
-    */
-    public function showClientList()
-    {
-        global $tpl, $ilIliasIniFile, $lng;
-
-        if (!$ilIliasIniFile->readVariable("clients", "list")) {
-            $this->processIndexPHP();
-            return;
-        }
-
-        // fix #21612
-        $tpl->hideFooter(); // no client yet
-
-        $tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
-
-        // load client list template
-        $tpl = self::initStartUpTemplate("tpl.client_list.html");
-
-        // load template for table
-        $tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
-
-        // load template for table content data
-        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-
-        // load table content data
-        require_once("setup/classes/class.ilClientList.php");
-        require_once("setup/classes/class.ilClient.php");
-        require_once("./Services/Table/classes/class.ilTableGUI.php");
-        $clientlist = new \ilClientList();
-        $list = $clientlist->getClients();
-
-        if (count($list) == 0) {
-            header("Location: ./setup/setup.php");
-            exit();
-        }
-
-        $hasPublicSection = false;
-        foreach ($list as $key => $client) {
-            $client->setDSN();
-            if ($client->checkDatabaseExists(true)) {
-                $client->connect();
-                if ($client->ini->readVariable("client", "access") and $client->getSetting("setup_ok")) {
-                    $this->ctrl->setParameter($this, "client_id", $key);
-                    $tmp = array();
-                    $tmp[] = $client->getName();
-                    $tmp[] = "<a href=\"" . "login.php?cmd=force_login&client_id=" . urlencode($key) . "\">" . $lng->txt("clientlist_login_page") . "</a>";
-
-                    if ($client->getSetting('pub_section')) {
-                        $hasPublicSection = true;
-                        $tmp[] = "<a href=\"" . "ilias.php?baseClass=ilRepositoryGUI&client_id=" . urlencode($key) . "\">" . $lng->txt("clientlist_start_page") . "</a>";
-                    } else {
-                        $tmp[] = '';
-                    }
-
-                    $data[] = $tmp;
-                }
-            }
-        }
-
-        // create table
-        $tbl = new ilTableGUI('', false);
-
-        // title & header columns
-        if ($hasPublicSection) {
-            $tbl->setTitle($lng->txt("clientlist_available_clients"));
-            $tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), $lng->txt("clientlist_public_access")));
-            $tbl->setHeaderVars(array("name", "index", "login"));
-            $tbl->setColumnWidth(array("50%","25%","25%"));
-        } else {
-            $tbl->setTitle($lng->txt("clientlist_available_clients"));
-            $tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), ''));
-            $tbl->setHeaderVars(array("name", "login", ''));
-            $tbl->setColumnWidth(array("70%","25%",'1px'));
-        }
-
-        // control
-        $tbl->setOrderColumn($_GET["sort_by"], "name");
-        $tbl->setOrderDirection($_GET["sort_order"]);
-        $tbl->setLimit($_GET["limit"]);
-        $tbl->setOffset($_GET["offset"]);
-
-        // content
-        $tbl->setData($data);
-
-        $tbl->disable("icon");
-        $tbl->disable("numinfo");
-        $tbl->disable("sort");
-        $tbl->disable("footer");
-
-        // render table
-        $html_for_nothing = $tbl->render();
-        self::printToGlobalTemplate($tbl->getTemplateObject());
-    }
-
-    /**
-    * show help screen, if cookies are disabled
-    *
-    * to do: link to online help here
-    */
-    public function showNoCookiesScreen()
+     * show help screen, if cookies are disabled
+     * to do: link to online help here
+     */
+    public function showNoCookiesScreen() : void
     {
         global $tpl;
 
@@ -1519,7 +1380,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $document = $this->termsOfServiceEvaluation->document();
             if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
                 if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
-                    $helper->deleteAcceptanceHistoryByUser((int) $this->user->getId());
+                    $helper->deleteAcceptanceHistoryByUser($this->user->getId());
                     $this->ctrl->redirectToUrl('logout.php');
                 }
             }
@@ -1554,6 +1415,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     protected function showTermsOfService(bool $accepted = false) : void
     {
         $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
+        $target = $this->initTargetFromQuery();
 
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
@@ -1577,7 +1439,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                         ilSession::set('orig_request_target', '');
                         ilUtil::redirect($target);
                     } else {
-                        ilUtil::redirect('index.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
+                        ilUtil::redirect('index.php?target=' . $target . '&client_id=' . CLIENT_ID);
                     }
                 }
 
@@ -1612,35 +1474,25 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-    * process index.php
-    */
-    protected function processIndexPHP()
+     * process index.php
+     */
+    protected function processIndexPHP() : void
     {
         global $ilIliasIniFile, $ilAuth, $ilSetting;
 
         // In case of an valid session, redirect to starting page
-        if ($GLOBALS['DIC']['ilAuthSession']->isValid()) {
-            include_once './Services/Init/classes/class.ilInitialisation.php';
+        if ($this->authSession->isValid()) {
             ilInitialisation::redirectToStartingPage();
             return;
         }
 
-        // no valid session => show client list, if no client info is given
-        if (
-            !isset($_GET["client_id"]) &&
-            ($_GET["cmd"] == "") &&
-            $ilIliasIniFile->readVariable("clients", "list")) {
-            return $this->showClientList();
-        }
-
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
-            return ilInitialisation::goToPublicSection();
+            ilInitialisation::goToPublicSection();
         }
 
         // otherwise show login page
-        return $this->showLoginPage();
+        $this->showLoginPage();
     }
-
 
     public static function _checkGoto($a_target)
     {
@@ -1649,7 +1501,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $component_factory = $DIC["component.factory"];
 
         $access = $DIC->access();
-
 
         if (is_object($ilPluginAdmin)) {
             foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
@@ -1673,7 +1524,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $type = "glo";
         }
 
-        if ($type == "pg" | $type == "st") {
+        if ($type == "pg"|$type == "st") {
             $type = "lm";
         }
 
@@ -1788,7 +1639,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 }
             }
 
-
             // check if access will be possible with all (possible) member roles added
             $rbacsystem->resetPACache($ilUser->getId(), $ref_id);
             if ($rbacsystem->checkAccess("read", $ref_id) && sizeof($block_obj)) { // #12128
@@ -1808,18 +1658,24 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return $ret;
     }
 
-    public function confirmRegistration()
+    public function confirmRegistration() : void
     {
         ilUtil::setCookie('iltest', 'cookie', false);
-
-        if (!isset($_GET['rh']) || !strlen(trim($_GET['rh']))) {
+        $regitration_hash = '';
+        if ($this->http->wrapper()->query()->has('rh')) {
+            $regitration_hash = $this->http->wrapper()->query()->retrieve(
+                'rh',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if (!strlen($regitration_hash) || !strlen(trim($regitration_hash))) {
             $this->ctrl->redirectToURL('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
         }
 
         try {
             $oRegSettings = new ilRegistrationSettings();
 
-            $usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
+            $usr_id = ilObjUser::_verifyRegistrationHash(trim($regitration_hash));
             /** @var \ilObjUser $user */
             $user = ilObjectFactory::getInstanceByObjId($usr_id);
             $user->setActive(true);
@@ -1835,6 +1691,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $target = $user->getPref('reg_target');
             if (strlen($target) > 0) {
                 // Used for ilAccountMail in ilAccountRegistrationMail, which relies on this super global ...
+                // @todo: fixme
                 $_GET['target'] = $target;
             }
 
@@ -1879,11 +1736,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
     /**
      * This method enriches the global template with some user interface elements (language selection, headlines, back buttons, ...) for public service views
-     * @param mixed   $a_tmpl The template file as a string of as an array (index 0: template file, index 1: template directory)
-     * @param bool    $a_show_back
-     * @param bool    $a_show_logout
+     * @param mixed $a_tmpl The template file as a string of as an array (index 0: template file, index 1: template directory)
+     * @param bool  $a_show_back
+     * @param bool  $a_show_logout
      */
-    public static function initStartUpTemplate($a_tmpl, $a_show_back = false, $a_show_logout = false)
+    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false)
     {
         /**
          * @var $tpl       ilTemplate
@@ -1939,17 +1796,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         }
         PageContentProvider::setShortTitle($short_title);
 
-        $header_title = (string) ilObjSystemFolder::_getHeaderTitle();
+        $header_title = ilObjSystemFolder::_getHeaderTitle();
         PageContentProvider::setTitle($header_title);
 
         return $tpl;
     }
 
-    /**
-     * @param string $page_editor_html
-     * @return string
-     */
-    protected function showSamlLoginForm($page_editor_html)
+    protected function showSamlLoginForm(string $page_editor_html) : string
     {
         require_once 'Services/Saml/classes/class.ilSamlIdp.php';
         require_once 'Services/Saml/classes/class.ilSamlSettings.php';
@@ -1958,15 +1811,16 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $tpl = new ilTemplate('tpl.login_form_saml.html', true, true, 'Services/Saml');
 
             $return = '';
-            if (isset($_GET['target'])) {
-                $return = '?returnTo=' . urlencode(ilUtil::stripSlashes($_GET['target']));
+            $target = $this->initTargetFromQuery();
+            if (strlen($target)) {
+                $return = '?returnTo=' . urlencode(ilUtil::stripSlashes($target));
             }
 
             $tpl->setVariable('SAML_SCRIPT_URL', './saml.php' . $return);
-            $tpl->setVariable('TXT_LOGIN', $GLOBALS['DIC']->language()->txt('saml_log_in'));
-            $tpl->setVariable('LOGIN_TO_ILIAS_VIA_SAML', $GLOBALS['DIC']->language()->txt('login_to_ilias_via_saml'));
-            $tpl->setVariable('TXT_SAML_LOGIN_TXT', $GLOBALS['DIC']->language()->txt('saml_login_form_txt'));
-            $tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $GLOBALS['DIC']->language()->txt('saml_login_form_info_txt'));
+            $tpl->setVariable('TXT_LOGIN', $this->lng->txt('saml_log_in'));
+            $tpl->setVariable('LOGIN_TO_ILIAS_VIA_SAML', $this->lng->txt('login_to_ilias_via_saml'));
+            $tpl->setVariable('TXT_SAML_LOGIN_TXT', $this->lng->txt('saml_login_form_txt'));
+            $tpl->setVariable('TXT_SAML_LOGIN_INFO_TXT', $this->lng->txt('saml_login_form_info_txt'));
 
             return $this->substituteLoginPageElements(
                 $GLOBALS['tpl'],
@@ -1980,34 +1834,25 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return $page_editor_html;
     }
 
-    /**
-     * @param $page_editor_html
-     * @return string
-     */
-    protected function showOpenIdConnectLoginForm($page_editor_html)
+    protected function showOpenIdConnectLoginForm(string $page_editor_html) : string
     {
-        global $DIC;
-
-        $lang = $DIC->language();
-
         $oidc_settings = ilOpenIdConnectSettings::getInstance();
         if ($oidc_settings->getActive()) {
             $tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
 
-            $lang->loadLanguageModule('auth');
-            $tpl->setVariable('TXT_OIDCONNECT_HEADER', $lang->txt('auth_oidc_login_element_info'));
+            $this->lng->loadLanguageModule('auth');
+            $tpl->setVariable('TXT_OIDCONNECT_HEADER', $this->lng->txt('auth_oidc_login_element_info'));
 
-            $target = empty($_GET['target']) ? '' : ('?target=' . (string) $_GET['target']);
+            $target = $this->initTargetFromQuery();
+            $target_str = empty($target) ? '' : ('?target=' . $target);
             switch ($oidc_settings->getLoginElementType()) {
                 case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT:
-
-
-                    $tpl->setVariable('SCRIPT_OIDCONNECT_T', ILIAS_HTTP_PATH . '/openidconnect.php' . $target);
+                    $tpl->setVariable('SCRIPT_OIDCONNECT_T', ILIAS_HTTP_PATH . '/openidconnect.php' . $target_str);
                     $tpl->setVariable('TXT_OIDC', $oidc_settings->getLoginElemenText());
                     break;
 
                 case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG:
-                    $tpl->setVariable('SCRIPT_OIDCONNECT_I', ILIAS_HTTP_PATH . '/openidconnect.php' . $target);
+                    $tpl->setVariable('SCRIPT_OIDCONNECT_I', ILIAS_HTTP_PATH . '/openidconnect.php' . $target_str);
                     $tpl->setVariable('IMG_SOURCE', $oidc_settings->getImageFilePath());
                     break;
             }
@@ -2029,8 +1874,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function doOpenIdConnectAuthentication()
     {
-        global $DIC;
-
         $this->getLogger()->debug('Trying openid connect authentication');
 
         $credentials = new ilAuthFrontendCredentialsOpenIdConnect();
@@ -2044,7 +1887,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             array($provider)
@@ -2054,28 +1897,22 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                include_once './Services/Init/classes/class.ilInitialisation.php';
+                $this->logger->debug('Authentication successful; Redirecting to starting page.');
                 ilInitialisation::redirectToStartingPage();
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 ilUtil::sendFailure($status->getTranslatedReason(), true);
-                $GLOBALS['ilCtrl']->redirect($this, 'showLoginPage');
-                return false;
+                $this->ctrl->redirect($this, 'showLoginPage');
+                return;
         }
-
         ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
-        return false;
     }
 
-    protected function doSamlAuthentication() : bool
+    protected function doSamlAuthentication() : void
     {
-        global $DIC;
-
         $this->getLogger()->debug('Trying saml authentication');
-
         $request = $this->httpRequest;
         $params = $request->getQueryParams();
 
@@ -2093,8 +1930,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $auth->storeParam('target', $params['returnTo']);
         }
 
-        ilLoggerFactory::getLogger('auth')->debug('Started SAML authentication request');
-
+        $this->logger->debug('Started SAML authentication request');
         if (!$auth->isAuthenticated()) {
             ilLoggerFactory::getLogger('auth')->debug('User is not authenticated, yet');
             if (!isset($request->getQueryParams()['idpentityid'], $request->getQueryParams()['saml_idp_id'])) {
@@ -2108,22 +1944,22 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                         $idp->getEntityId()
                     ));
 
-                    $DIC->ctrl()->setParameter($this, 'idpentityid', $idp->getEntityId());
-                    $DIC->ctrl()->setParameter($this, 'saml_idp_id', $idp->getIdpId());
-                    $DIC->ctrl()->setTargetScript('saml.php');
-                    $DIC->ctrl()->redirect($this, 'doSamlAuthentication');
+                    $this->ctrl->setParameter($this, 'idpentityid', $idp->getEntityId());
+                    $this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdpId());
+                    $this->ctrl->setTargetScript('saml.php');
+                    $this->ctrl->redirect($this, 'doSamlAuthentication');
                 } elseif ($activeIdps === []) {
-                    ilLoggerFactory::getLogger('auth')->debug('Did not find any active IDP, skipp authentication process');
-                    $GLOBALS['DIC']->ctrl()->redirect($this, 'showLoginPage');
+                    $this->logger->debug('Did not find any active IDP, skipp authentication process');
+                    $this->ctrl->redirect($this, 'showLoginPage');
                 } else {
-                    ilLoggerFactory::getLogger('auth')->debug('Found multiple active IPDs, presenting IDP selection...');
+                    $this->logger->debug('Found multiple active IPDs, presenting IDP selection...');
                     $this->showSamlIdpSelection($auth, $activeIdps);
-                    return false;
+                    return;
                 }
             }
 
             $auth->storeParam('idpId', (int) $request->getQueryParams()['saml_idp_id']);
-            ilLoggerFactory::getLogger('auth')->debug(sprintf(
+            $this->logger->debug(sprintf(
                 'Stored relevant IDP id in session: %s',
                 (string) $auth->getParam('idpId')
             ));
@@ -2132,35 +1968,33 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         // re-init
         $auth = $factory->auth();
 
-        ilLoggerFactory::getLogger('auth')->debug('Checking SAML authentication status...');
-
+        $this->logger->debug('Checking SAML authentication status...');
         $auth->protectResource();
-
-        ilLoggerFactory::getLogger('auth')->debug(
+        $this->logger->debug(
             'SAML authentication successful, continuing with ILIAS internal authentication process...'
         );
 
         $idpId = (int) $auth->getParam('idpId');
 
-        ilLoggerFactory::getLogger('auth')->debug(sprintf(
+        $this->logger->debug(sprintf(
             'Internal SAML IDP id fetched from session: %s',
             (string) $idpId
         ));
 
         if ($idpId < 1) {
-            ilLoggerFactory::getLogger('auth')->debug(
+            $this->logger->debug(
                 'No valid internal IDP id found (most probably due to IDP initiated SSO), trying fallback determination...'
             );
             $authData = $auth->getAuthDataArray();
             if (isset($authData['saml:sp:IdP'])) {
                 $idpId = ilSamlIdp::geIdpIdByEntityId($authData['saml:sp:IdP']);
-                ilLoggerFactory::getLogger('auth')->debug(sprintf(
+                $this->logger->debug(sprintf(
                     'Searching active ILIAS IDP by entity id "%s" results in: %s',
                     $authData['saml:sp:IdP'],
                     (string) $idpId
                 ));
             } else {
-                ilLoggerFactory::getLogger('auth')->debug(
+                $this->logger->debug(
                     'Could not execute fallback determination, no IDP entity ID found SAML authentication session data'
                 );
             }
@@ -2181,7 +2015,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
-            $GLOBALS['DIC']['ilAuthSession'],
+            $this->authSession,
             $status,
             $credentials,
             [$provider]
@@ -2191,22 +2025,22 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                return ilInitialisation::redirectToStartingPage($target);
+                $this->logger->debug('Authentication successful; Redirecting to starting page.');
+                ilInitialisation::redirectToStartingPage($target);
+                return;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                return $GLOBALS['DIC']->ctrl()->redirect($this, 'showAccountMigration');
+                $this->ctrl->redirect($this, 'showAccountMigration');
+                return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 ilUtil::sendFailure($status->getTranslatedReason(), true);
-                $GLOBALS['DIC']->ctrl()->redirect($this, 'showLoginPage');
-                return false;
+                $this->ctrl->redirect($this, 'showLoginPage');
+                return;
         }
 
         ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->showLoginPage();
-
-        return false;
     }
 
     /**
@@ -2216,18 +2050,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     protected function showSamlIdpSelection(ilSamlAuth $auth, array $idps) : void
     {
         global $DIC;
-
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
         $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
-
         $DIC->ctrl()->setTargetScript('saml.php');
-
         $items = [];
-
         $table = new ilSamlIdpSelectionTableGUI($this, 'doSamlAuthentication');
-
         foreach ($idps as $idp) {
             $DIC->ctrl()->setParameter($this, 'saml_idp_id', $idp->getIdpId());
             $DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getEntityId()));
@@ -2244,7 +2073,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $table->setData($items);
         $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
-
         $this->mainTemplate->printToStdout('DEFAULT', false);
     }
 }

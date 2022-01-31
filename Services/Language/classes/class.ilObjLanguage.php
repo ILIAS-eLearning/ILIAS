@@ -270,7 +270,6 @@ class ilObjLanguage extends ilObject
                 $ilPluginAdmin = $DIC["ilPluginAdmin"];
 
                 // refresh languages of activated plugins
-                include_once "./Services/Component/classes/class.ilPluginSlot.php";
                 $slots = ilPluginSlot::getAllSlots();
                 foreach ($slots as $slot) {
                     $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
@@ -427,7 +426,7 @@ class ilObjLanguage extends ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+        $scopeExtension = "";
         if (!empty($scope)) {
             if ($scope == "global") {
                 $scope = "";
@@ -478,7 +477,7 @@ class ilObjLanguage extends ilObject
                     }
 
                     // check if the value has a local change
-                    $local_value = $local_changes[$separated[0]][$separated[1]];
+                    $local_value = $local_changes[$separated[0]][$separated[1]] ?? "";
 
                     if (empty($scope)) {
                         // import of a global language file
@@ -488,7 +487,7 @@ class ilObjLanguage extends ilObject
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
                             // check for double entries in global file
-                            if ($double_checker[$separated[0]][$separated[1]][$this->key]) {
+                            if ($double_checker[$separated[0]][$separated[1]][$this->key] ?? false) {
                                 $this->ilias->raiseError(
                                     "Duplicate Language Entry in $lang_file:\n$val",
                                     $this->ilias->error_obj->MESSAGE
@@ -504,7 +503,7 @@ class ilObjLanguage extends ilObject
                                 $this->key,
                                 $separated[2],
                                 $change_date,
-                                $separated[3]
+                                $separated[3] ?? null
                             );
 
                             $lang_array[$separated[0]][$separated[1]] = $separated[2];
@@ -785,7 +784,7 @@ class ilObjLanguage extends ilObject
     public function check(string $scope = "") : bool
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
-
+        $scopeExtension = "";
         if (!empty($scope)) {
             if ($scope == "global") {
                 $scope = "";
@@ -824,6 +823,7 @@ class ilObjLanguage extends ilObject
         
         // check (counting) elements of each lang-entry
         $line = 0;
+        $n = 0;
         foreach ($content as $key => $val) {
             $separated = explode($this->separator, trim($val));
             $num = count($separated);

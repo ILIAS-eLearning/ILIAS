@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c)
+    public function init(\ILIAS\DI\Container $c) : void
     {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
@@ -36,7 +37,7 @@ class InitUIFramework
             );
         };
         $c["ui.signal_generator"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\SignalGenerator;
+            return new ILIAS\UI\Implementation\Component\SignalGenerator();
         };
         $c["ui.factory.counter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Counter\Factory();

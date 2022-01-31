@@ -399,9 +399,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if ($access->checkAccess('read', '', $id)) {
             $ctrl->setTargetScript('ilias.php');
             $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'ref_id', $id);
-            if (isset($request->getQueryParams()['gotolp'])) {
-                $ctrl->setParameterByClass(ilObjLTIConsumerGUI::class, 'gotolp', 1);
-            }
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class]);
         } elseif ($access->checkAccess('visible', '', $id)) {
             ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');

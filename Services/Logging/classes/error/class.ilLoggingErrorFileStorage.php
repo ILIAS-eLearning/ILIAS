@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 use Whoops\Exception\Formatter;

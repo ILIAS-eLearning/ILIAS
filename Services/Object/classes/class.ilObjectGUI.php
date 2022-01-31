@@ -195,14 +195,7 @@ class ilObjectGUI
          * @var ilTab
          */
         $this->tabs_gui = $ilTabs;
-
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = $ilErr;
-        }
-
+        $this->ilErr = $DIC['ilErr'];
         $this->objDefinition = $objDefinition;
         $this->tpl = $tpl;
         $this->html = "";
