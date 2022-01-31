@@ -106,19 +106,19 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
     {
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget($this, 'settings'),
+                'tos_agreement_documents_tab_label',
+                $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
                 '',
-                [strtolower(self::class)]
+                [strtolower(ilTermsOfServiceDocumentGUI::class)]
             );
         }
 
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                'tos_agreement_documents_tab_label',
-                $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
                 '',
-                [strtolower(ilTermsOfServiceDocumentGUI::class)]
+                [strtolower(self::class)]
             );
         }
 

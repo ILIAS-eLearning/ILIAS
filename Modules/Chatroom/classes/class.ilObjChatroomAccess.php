@@ -71,7 +71,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 
                 if (!$active) {
                     $DIC->access()->addInfoItem(
-                        IL_NO_OBJECT_ACCESS,
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
                     );
                 }
@@ -90,7 +90,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
                 $active = self::isActivated($a_ref_id, $a_obj_id);
                 if (!$active) {
                     $DIC->access()->addInfoItem(
-                        IL_NO_OBJECT_ACCESS,
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
                     );
                     return false;

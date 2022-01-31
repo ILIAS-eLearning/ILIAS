@@ -16,6 +16,8 @@
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Description of class class
@@ -46,7 +48,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
@@ -56,7 +58,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         return true;
     }
 
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
     {
         $this->logger->debug('Start collecting files!');
         $this->logger->dump($input);
@@ -114,7 +116,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
             if (!is_file($source_dir)) {
                 $source_dir = $file->getFile();
             }
-            $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
+            $target_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_file_name);
 
             return [
                 "source_dir" => $source_dir,
@@ -141,7 +143,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         if (($num_recursions <= 1) and ($a_initiated_by_folder_action)) {
             $temp_dir = $a_temp_dir;
         } else {
-            $temp_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_folder_name);
+            $temp_dir = $a_temp_dir . '/' . ilFileUtils::getASCIIFilename($a_folder_name);
         }
 
 

@@ -191,7 +191,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return ilCalendarUtil::getUserDateFormat(false, true);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $usr_id = (int) $a_set['usr_id'];
         if ($this->may_edit_anything) {

@@ -6,7 +6,6 @@ require_once __DIR__ . '/ilCtrlPathTestBase.php';
 
 /**
  * Class ilCtrlArrayClassPathTest
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
@@ -42,8 +41,8 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
 
     public function testArrayPathWithUnrelatedTargets() : void
     {
-        $parent_class = ilCtrlCommandClass2TestGUI::class;
-        $child_class  = ilValidTestPluginGUI::class;
+        $parent_class = ilCtrlBaseClass2TestGUI::class;
+        $child_class = ilCtrlCommandClass2TestGUI::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,
             $this->createMock(ilCtrlContextInterface::class),
@@ -62,10 +61,9 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath(null))
-        ;
+            ->willReturn($this->getPath(null));
 
-        $first_target_class  = ilCtrlCommandClass1TestGUI::class;
+        $first_target_class = ilCtrlCommandClass1TestGUI::class;
         $second_target_class = ilCtrlCommandClass2TestGUI::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,
@@ -85,11 +83,10 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath(null))
-        ;
+            ->willReturn($this->getPath(null));
 
-        $base_class          = ilCtrlBaseClass2TestGUI::class;
-        $first_target_class  = ilCtrlCommandClass1TestGUI::class;
+        $base_class = ilCtrlBaseClass2TestGUI::class;
+        $first_target_class = ilCtrlCommandClass1TestGUI::class;
         $second_target_class = ilCtrlCommandClass2TestGUI::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,
@@ -106,10 +103,9 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('1:4'))
-        ;
+            ->willReturn($this->getPath('1:4'));
 
-        $first_target_class  = ilCtrlCommandClass1TestGUI::class;
+        $first_target_class = ilCtrlCommandClass1TestGUI::class;
         $second_target_class = ilCtrlCommandClass2TestGUI::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,
@@ -127,11 +123,10 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('0:2'))
-        ;
+            ->willReturn($this->getPath('0:2'));
 
-        $new_base_class      = ilCtrlBaseClass2TestGUI::class;
-        $first_target_class  = ilCtrlCommandClass1TestGUI::class;
+        $new_base_class = ilCtrlBaseClass2TestGUI::class;
+        $first_target_class = ilCtrlCommandClass1TestGUI::class;
         $second_target_class = ilCtrlCommandClass2TestGUI::class;
         $path = new ilCtrlArrayClassPath(
             $this->structure,

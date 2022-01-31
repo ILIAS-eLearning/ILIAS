@@ -30,6 +30,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_SKILL_TREE = 'show_skill_tree';
     public const SHOW_TEMPLATE_TREE = 'show_template_tree';
+    public const SKILL_TREE_ID = 'skill_tree_id';
 
 
     /**
@@ -59,6 +60,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_SKILL_TREE, true)) {
+            $tree_id = $additional_data->get(self::SKILL_TREE_ID);
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id);
             };
@@ -68,8 +70,8 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l) {
-                    return $l($this->getSkillTree());
+                ->withContentWrapper(function () use ($l, $tree_id) {
+                    return $l($this->getSkillTree($tree_id));
                 });
         }
 
@@ -77,6 +79,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_skmg.svg"), $title);
 
         if ($additional_data->is(self::SHOW_TEMPLATE_TREE, true)) {
+            $tree_id = $additional_data->get(self::SKILL_TREE_ID);
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id);
             };
@@ -86,23 +89,25 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Templates")
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l) {
-                    return $l($this->getTemplateTree());
+                ->withContentWrapper(function () use ($l, $tree_id) {
+                    return $l($this->getTemplateTree($tree_id));
                 });
         }
         return $tools;
     }
 
-    private function getSkillTree() : string
+    private function getSkillTree(int $tree_id) : string
     {
-        $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree");
+        $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                                           "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
 
         return $exp->getHTML();
     }
 
-    private function getTemplateTree() : string
+    private function getTemplateTree(int $tree_id) : string
     {
-        $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree");
+        $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                                                   "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
 
         return $exp->getHTML();
     }

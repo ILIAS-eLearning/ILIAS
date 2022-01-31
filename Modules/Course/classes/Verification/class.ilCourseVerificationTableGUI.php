@@ -70,7 +70,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->dic->ctrl();
 

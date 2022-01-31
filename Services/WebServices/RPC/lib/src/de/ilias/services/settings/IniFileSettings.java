@@ -24,7 +24,8 @@ package de.ilias.services.settings;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Reads settings from ILIAS ini file.
@@ -36,7 +37,7 @@ import org.apache.log4j.Logger;
  */
 public class IniFileSettings 
 {
-	protected static final Logger logger = Logger.getLogger(IniFileSettings.class);
+	protected static final Logger logger = LogManager.getLogger(IniFileSettings.class);
 	protected static HashMap<String, IniFileSettings> instances = new HashMap<String, IniFileSettings>();
 	
 }

@@ -6,6 +6,19 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BaseConsumer
  * @package ILIAS\ResourceStorage\Consumer
@@ -14,32 +27,14 @@ abstract class BaseConsumer implements DeliveryConsumer
 {
     use GetRevisionTrait;
 
-    /**
-     * @var StorageHandler
-     */
-    protected $storage_handler;
-    /**
-     * @var StorableResource
-     */
-    protected $resource;
-    /**
-     * @var int|null
-     */
-    protected $revision_number = null;
-    /**
-     * @var FileNamePolicy
-     */
-    protected $file_name_policy;
-    /**
-     * @var string
-     */
-    protected $file_name = '';
+    protected \ILIAS\ResourceStorage\StorageHandler\StorageHandler $storage_handler;
+    protected \ILIAS\ResourceStorage\Resource\StorableResource $resource;
+    protected ?int $revision_number = null;
+    protected \ILIAS\ResourceStorage\Policy\FileNamePolicy $file_name_policy;
+    protected string $file_name = '';
 
     /**
      * DownloadConsumer constructor.
-     * @param StorableResource $resource
-     * @param StorageHandler   $storage_handler
-     * @param FileNamePolicy   $file_name_policy
      */
     public function __construct(
         StorableResource $resource,

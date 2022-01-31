@@ -1,6 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Storage of course attributes for assignment rules
@@ -10,9 +22,12 @@
 class ilECSCourseAttribute
 {
     private $id = 0;
-    private $server_id = 0;
-    private $mid = 0;
-    private $name = '';
+    private int $server_id = 0;
+    private int $mid = 0;
+    private string $name = '';
+    
+    private ilLogger $logger;
+    private ilDBInterface $db;
 
     /**
      * Constructor
@@ -20,6 +35,11 @@ class ilECSCourseAttribute
      */
     public function __construct($a_id = 0)
     {
+        global $DIC;
+        
+        $this->logger = $DIC->logger()->wsrv();
+        $this->db = $DIC->database();
+        
         $this->id = $a_id;
         
         $this->read();
@@ -71,42 +91,32 @@ class ilECSCourseAttribute
     
     /**
      * Delete attribute
-     * @global type $ilDB
      * @return boolean
      */
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM ecs_crs_mapping_atts " .
-                'WHERE id = ' . $ilDB->quote($this->getId(), 'integer');
-        $ilDB->manipulate($query);
+                'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
+        $this->db->manipulate($query);
         return true;
     }
 
     /**
      * Save a new entry
-     * @global type $ilDB
      * @return boolean
      */
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $this->id = $ilDB->nextId('ecs_crs_mapping_atts');
+        $this->id = $this->db->nextId('ecs_crs_mapping_atts');
         
         $query = 'INSERT INTO ecs_crs_mapping_atts (id,sid,mid,name) ' .
                 'VALUES ( ' .
-                $ilDB->quote($this->getId(), 'integer') . ', ' .
-                $ilDB->quote($this->getServerId(), 'integer') . ', ' .
-                $ilDB->quote($this->getMid(), 'integer') . ', ' .
-                $ilDB->quote($this->getName(), 'text') . ' ' .
+                $this->db->quote($this->getId(), 'integer') . ', ' .
+                $this->db->quote($this->getServerId(), 'integer') . ', ' .
+                $this->db->quote($this->getMid(), 'integer') . ', ' .
+                $this->db->quote($this->getName(), 'text') . ' ' .
                 ') ';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         return true;
     }
 
@@ -117,18 +127,14 @@ class ilECSCourseAttribute
      */
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->getId()) {
             return true;
         }
         
         
         $query = 'SELECT * FROM ecs_crs_mapping_atts ' .
-                'WHERE id = ' . $ilDB->quote($this->getId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setName($row->name);
         }

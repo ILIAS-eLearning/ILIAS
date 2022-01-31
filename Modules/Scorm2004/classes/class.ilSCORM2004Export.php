@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -8,9 +8,6 @@
  */
 class ilScorm2004Export
 {
-    /**
-     * @var Logger
-     */
     protected $log;
 
     private $err;			// error object
@@ -72,36 +69,36 @@ class ilScorm2004Export
         
         $this->date = time();
         
-        $this->export_dir = $this->getExportDirectory();
+//        $this->export_dir = $this->getExportDirectory();
         $this->subdir = $this->getExportSubDirectory();
         $this->filename = $this->getExportFileName();
     }
 
-    public function getExportDirectory()
-    {
-        return $this->getExportDirectoryForType($this->mode);
-    }
-    
-    public function getExportDirectoryForType($type)
-    {
-        $ret = ilUtil::getDataDir() . "/lm_data" . "/lm_" . $this->module_id . "/export_";
-        switch ($type) {
-            case "ISO":
-                return $ret . "_iso";
-            case "PDF":
-                return $ret . "_pdf";
-            case "SCORM 2004 3rd":
-                return $ret . "_scorm2004";
-            case "SCORM 2004 4th":
-                return $ret . "_scorm2004_4th";
-            case "HTML":
-                return $ret . "_html";
-            case "HTMLOne":
-                return $ret . "_html_one";
-            case "SCORM 1.2":
-                return $ret . "_scorm12";
-        }
-    }
+//    public function getExportDirectory()
+//    {
+//        return $this->getExportDirectoryForType($this->mode);
+//    }
+//
+//    public function getExportDirectoryForType($type)
+//    {
+//        $ret = ilUtil::getDataDir() . "/lm_data" . "/lm_" . $this->module_id . "/export_";
+//        switch ($type) {
+//            case "ISO":
+//                return $ret . "_iso";
+//            case "PDF":
+//                return $ret . "_pdf";
+//            case "SCORM 2004 3rd":
+//                return $ret . "_scorm2004";
+//            case "SCORM 2004 4th":
+//                return $ret . "_scorm2004_4th";
+//            case "HTML":
+//                return $ret . "_html";
+//            case "HTMLOne":
+//                return $ret . "_html_one";
+//            case "SCORM 1.2":
+//                return $ret . "_scorm12";
+//        }
+//    }
     
     public function getExportSubDirectory()
     {
@@ -130,189 +127,189 @@ class ilScorm2004Export
         return $this->inst_id;
     }
 
-    /**
-    *   build export file (complete zip file)
-    *
-    *   @access public
-    *   @return
-    */
-    public function buildExportFile()
-    {
-        switch ($this->mode) {
-            case "SCORM 2004 3rd":
-                return $this->buildExportFileSCORM("2004 3rd");
-            case "SCORM 2004 4th":
-                return $this->buildExportFileSCORM("2004 4th");
-            case "SCORM 1.2":
-                return $this->buildExportFileSCORM("12");
-            case "HTML":
-                return $this->buildExportFileHTML();
-            case "HTMLOne":
-                return $this->buildExportFileHTMLOne();
-            case "PDF":
-                return $this->buildExportFilePDF();
-        }
-    }
-
-    /**
-    * build xml export file
-    */
-    public function buildExportFileSCORM($ver)
-    {
-
-        // init the mathjax rendering for HTML export
-        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-        // create directories
-        $this->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-
-        // get Log File
-        $expDir = $this->export_dir;
-        $expLog = new ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-
-        // get xml content
-        
-        $this->cont_obj->exportScorm($this->inst_id, $this->export_dir . "/" . $this->subdir, $ver, $expLog);
-
-        // zip the file
-        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip", true);
-
-        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
-        
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-
-        return $this->export_dir . "/" . $this->subdir . ".zip";
-    }
-    
-    /**
-    * build xml export file
-    */
-    public function buildExportFileHTML()
-    {
-        // init the mathjax rendering for HTML export
-        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-        // create directories
-        $this->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-
-        // get Log File
-        $expDir = $this->export_dir;
-        $expLog = new ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-
-        // get xml content
-        $this->cont_obj->exportHTML($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
-
-        // zip the file
-        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip", true);
-        
-        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
-        
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-
-        return $this->export_dir . "/" . $this->subdir . ".zip";
-    }
-    
-    /**
-    * build xml export file
-    */
-    public function buildExportFileHTMLOne()
-    {
-        // init the mathjax rendering for HTML export
-        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-        // create directories
-        $this->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-
-        // get Log File
-        $expDir = $this->export_dir;
-        $expLog = new ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-
-        // get xml content
-        $this->cont_obj->exportHTMLOne($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
-
-        // zip the file
-        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip", true);
-        
-        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
-        
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-
-        return $this->export_dir . "/" . $this->subdir . ".zip";
-    }
-
-    public function buildExportFilePDF()
-    {
-
-        // don't render mathjax before fo code is generated
-        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_DEFERRED_PDF);
-
-        // create directories
-        $this->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-
-        // get Log File
-        $expDir = $this->export_dir;
-        $expLog = new ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-
-        $fo_string = $this->cont_obj->exportPDF($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
-        
-        // now render mathjax for pdf generation
-        $fo_string = ilMathJax::getInstance()
-            ->init(ilMathJax::PURPOSE_PDF)
-            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-            ->insertLatexImages($fo_string);
-
-
-        fputs(fopen($this->export_dir . "/" . $this->subdir . '/temp.fo', 'w+'), $fo_string);
-
-        try {
-            $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo_string);
-            //ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');
-            fputs(fopen($this->export_dir . '/' . $this->subdir . '.pdf', 'w+'), $pdf_base64->scalar);
-        } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
-            return false;
-        }
-
-        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
-        
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-
-        return $this->export_dir . "/" . $this->subdir . ".pdf";
-    }
+//    /**
+//    *   build export file (complete zip file)
+//    *
+//    *   @access public
+//    *   @return
+//    */
+//    public function buildExportFile()
+//    {
+//        switch ($this->mode) {
+//            case "SCORM 2004 3rd":
+//                return $this->buildExportFileSCORM("2004 3rd");
+//            case "SCORM 2004 4th":
+//                return $this->buildExportFileSCORM("2004 4th");
+//            case "SCORM 1.2":
+//                return $this->buildExportFileSCORM("12");
+//            case "HTML":
+//                return $this->buildExportFileHTML();
+//            case "HTMLOne":
+//                return $this->buildExportFileHTMLOne();
+//            case "PDF":
+//                return $this->buildExportFilePDF();
+//        }
+//    }
+//
+//    /**
+//    * build xml export file
+//    */
+//    public function buildExportFileSCORM($ver)
+//    {
+//
+//        // init the mathjax rendering for HTML export
+//        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+//
+//        // create directories
+//        $this->createExportDirectory();
+//        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
+//
+//        // get Log File
+//        $expDir = $this->export_dir;
+//        $expLog = new ilLog($expDir, "export.log");
+//        $expLog->delete();
+//        $expLog->setLogFormat("");
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
+//
+//        // get xml content
+//
+//        $this->cont_obj->exportScorm($this->inst_id, $this->export_dir . "/" . $this->subdir, $ver, $expLog);
+//
+//        // zip the file
+//        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip", true);
+//
+//        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
+//
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
+//
+//        return $this->export_dir . "/" . $this->subdir . ".zip";
+//    }
+//
+//    /**
+//    * build xml export file
+//    */
+//    public function buildExportFileHTML()
+//    {
+//        // init the mathjax rendering for HTML export
+//        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+//
+//        // create directories
+//        $this->createExportDirectory();
+//        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
+//
+//        // get Log File
+//        $expDir = $this->export_dir;
+//        $expLog = new ilLog($expDir, "export.log");
+//        $expLog->delete();
+//        $expLog->setLogFormat("");
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
+//
+//        // get xml content
+//        $this->cont_obj->exportHTML($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
+//
+//        // zip the file
+//        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip", true);
+//
+//        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
+//
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
+//
+//        return $this->export_dir . "/" . $this->subdir . ".zip";
+//    }
+//
+//    /**
+//    * build xml export file
+//    */
+//    public function buildExportFileHTMLOne()
+//    {
+//        // init the mathjax rendering for HTML export
+//        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
+//
+//        // create directories
+//        $this->createExportDirectory();
+//        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
+//
+//        // get Log File
+//        $expDir = $this->export_dir;
+//        $expLog = new ilLog($expDir, "export.log");
+//        $expLog->delete();
+//        $expLog->setLogFormat("");
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
+//
+//        // get xml content
+//        $this->cont_obj->exportHTMLOne($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
+//
+//        // zip the file
+//        ilUtil::zip($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".zip", true);
+//
+//        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
+//
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
+//
+//        return $this->export_dir . "/" . $this->subdir . ".zip";
+//    }
+//
+//    public function buildExportFilePDF()
+//    {
+//
+//        // don't render mathjax before fo code is generated
+//        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_DEFERRED_PDF);
+//
+//        // create directories
+//        $this->createExportDirectory();
+//        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
+//
+//        // get Log File
+//        $expDir = $this->export_dir;
+//        $expLog = new ilLog($expDir, "export.log");
+//        $expLog->delete();
+//        $expLog->setLogFormat("");
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
+//
+//        $fo_string = $this->cont_obj->exportPDF($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
+//
+//        // now render mathjax for pdf generation
+//        $fo_string = ilMathJax::getInstance()
+//            ->init(ilMathJax::PURPOSE_PDF)
+//            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+//            ->insertLatexImages($fo_string);
+//
+//
+//        fputs(fopen($this->export_dir . "/" . $this->subdir . '/temp.fo', 'w+'), $fo_string);
+//
+//        try {
+//            $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo_string);
+//            //ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');
+//            fputs(fopen($this->export_dir . '/' . $this->subdir . '.pdf', 'w+'), $pdf_base64->scalar);
+//        } catch (Exception $e) {
+//            ilUtil::sendFailure($e->getMessage(), true);
+//            return false;
+//        }
+//
+//        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
+//
+//        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
+//
+//        return $this->export_dir . "/" . $this->subdir . ".pdf";
+//    }
     
     public function createExportDirectory()
     {
         $ilErr = $this->err;
 
-        $lm_data_dir = ilUtil::getDataDir() . "/lm_data";
+        $lm_data_dir = ilFileUtils::getDataDir() . "/lm_data";
         if (!is_writable($lm_data_dir)) {
             $ilErr->raiseError("Content object Data Directory (" . $lm_data_dir . ") not writeable.", $ilErr->FATAL);
         }
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $lm_dir = $lm_data_dir . "/lm_" . $this->module_id;
-        ilUtil::makeDir($lm_dir);
+        ilFileUtils::makeDir($lm_dir);
         if (!@is_dir($lm_dir)) {
             $ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
         }
         
         //$export_dir = $lm_dir."/export_".$this->mode;
-        ilUtil::makeDir($this->export_dir);
+        ilFileUtils::makeDir($this->export_dir);
 
         if (!@is_dir($this->export_dir)) {
             $ilErr->raiseError("Creation of Export Directory failed.", $ilErr->FATAL);

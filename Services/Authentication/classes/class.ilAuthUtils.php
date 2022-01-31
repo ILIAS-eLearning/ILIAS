@@ -49,7 +49,6 @@ define('AUTH_USER_WRONG_IP', -600);
 define('AUTH_USER_INACTIVE', -601);
 define('AUTH_USER_TIME_LIMIT_EXCEEDED', -602);
 define('AUTH_USER_SIMULTANEOUS_LOGIN', -603);
-define('AUTH_CAPTCHA_INVALID', -604);
 
 
 include_once './Services/Authentication/classes/class.ilAuthFactory.php';
@@ -745,21 +744,7 @@ class ilAuthUtils
      */
     public static function getAuthPlugins()
     {
-        $pls = $GLOBALS['DIC']['ilPluginAdmin']->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            'Authentication',
-            'authhk'
-        );
-        $pl_objs = array();
-        foreach ($pls as $pl) {
-            $pl_objs[] = $GLOBALS['DIC']['ilPluginAdmin']->getPluginObject(
-                IL_COMP_SERVICE,
-                'Authentication',
-                'authhk',
-                $pl
-            );
-        }
-        return $pl_objs;
+        return $GLOBALS['DIC']['component.factory']->getActivePluginsInSlot('authhk');
     }
     // end-patch auth_plugins
     
@@ -797,8 +782,8 @@ class ilAuthUtils
                 if (!empty($auth_name)) {
                     return $lng->txt('auth_' . $auth_name);
                 } else {
-                return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
-        }
+                    return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
+                }
     }
-}
+    }
 }

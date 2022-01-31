@@ -9,6 +9,8 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Implementation\Factory;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * Class ilTestBaseClass
@@ -215,5 +217,12 @@ class ilTestBaseTestCase extends TestCase
     protected function addGlobal_uiRenderer() : void
     {
         $this->setGlobalVariable("ui.renderer", $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
+    }
+
+    protected function addGlobal_refinery() : void
+    {
+        $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $this->setGlobalVariable("refinery", $refineryMock);
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 class ilWebDAVMountInstructionsTableDataProvider
 {
@@ -7,7 +7,7 @@ class ilWebDAVMountInstructionsTableDataProvider
         $this->mount_instructions_repository = $a_mount_instructions_repository;
     }
 
-    public function getList()
+    public function getList() : array
     {
         $items = $this->mount_instructions_repository->getAllMountInstructions();
         return array('items' => $items,

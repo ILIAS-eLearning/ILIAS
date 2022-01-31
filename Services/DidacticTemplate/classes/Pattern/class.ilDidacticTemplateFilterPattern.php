@@ -22,6 +22,7 @@ abstract class ilDidacticTemplateFilterPattern
     private int $pattern_sub_type = 0;
 
     protected ilDBInterface $db;
+    protected ilLogger $logger;
 
     /**
      * Constructor
@@ -32,6 +33,7 @@ abstract class ilDidacticTemplateFilterPattern
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->otpl();
 
         $this->setPatternId($a_pattern_id);
         if ($this->getPatternId()) {

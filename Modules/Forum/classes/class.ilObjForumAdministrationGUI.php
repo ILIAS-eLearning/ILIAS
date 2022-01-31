@@ -14,7 +14,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     private \ILIAS\DI\RBACServices $rbac;
     private ilErrorHandling $error;
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         /**
          * @var $DIC \ILIAS\DI\Container
@@ -112,8 +112,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->settings->set('forum_notification', (string) $form->getInput('forum_notification'));
         }
 
-        ilCaptchaUtil::setActiveForForum((bool) $form->getInput('activate_captcha_anonym'));
-
         $this->settings->set('save_post_drafts', (string) $form->getInput('save_post_drafts'));
         $this->settings->set('autosave_drafts', (string) $form->getInput('autosave_drafts'));
         $this->settings->set('autosave_drafts_ival', (string) $form->getInput('autosave_drafts_ival'));
@@ -132,7 +130,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics'),
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora'),
             'forum_notification' => (int) $this->settings->get('forum_notification', '0') === 1,
-            'activate_captcha_anonym' => ilCaptchaUtil::isActiveForForum(),
             'file_upload_allowed_fora' => (int) $this->settings->get(
                 'file_upload_allowed_fora',
                 (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
@@ -171,15 +168,20 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->lng->txt('file_upload_allowed_fora'),
             'file_upload_allowed_fora'
         );
-        $file_upload->addOption(new ilRadioOption(
+        $option_all_forums = new ilRadioOption(
             $this->lng->txt('file_upload_option_allow'),
-            (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
-        ));
-        $file_upload->addOption(new ilRadioOption(
+            (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED,
+            $this->lng->txt('file_upload_option_allow_info')
+        );
+        $file_upload->addOption($option_all_forums);
+
+        $option_per_forum = new ilRadioOption(
             $this->lng->txt('file_upload_option_disallow'),
-            (string) ilForumProperties::FILE_UPLOAD_INDIVIDUAL
-        ));
-        $file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
+            (string) ilForumProperties::FILE_UPLOAD_INDIVIDUAL,
+            $this->lng->txt('file_upload_allowed_fora_desc')
+        );
+        $file_upload->addOption($option_per_forum);
+
         $form->addItem($file_upload);
 
         if (ilCronManager::isJobActive('frm_notification')) {
@@ -199,14 +201,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $check->setInfo($this->lng->txt('enable_send_attachments_desc'));
         $check->setValue('1');
         $form->addItem($check);
-
-        $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
-        $cap->setInfo($this->lng->txt('adm_captcha_anonymous_frm'));
-        $cap->setValue('1');
-        if (!ilCaptchaUtil::checkFreetype()) {
-            $cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
-        }
-        $form->addItem($cap);
 
         $drafts = new ilCheckboxInputGUI($this->lng->txt('adm_save_drafts'), 'save_post_drafts');
         $drafts->setInfo($this->lng->txt('adm_save_drafts_desc'));
@@ -252,15 +246,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
                 return [['editSettings', $fields]];
 
-            case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-                $fields = [
-                    'adm_captcha_anonymous_short' => [
-                        ilCaptchaUtil::isActiveForForum(),
-                        ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ]
-                ];
-
-                return ['obj_frma' => ['editSettings', $fields]];
         }
         return [];
     }

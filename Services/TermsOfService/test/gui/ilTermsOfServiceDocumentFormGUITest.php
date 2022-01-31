@@ -16,8 +16,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 {
     public function testDocumentFormIsProperlyBuiltForNewDocuments() : void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -115,8 +113,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormForNewDocumentsCanBeSavedForValidInput() : void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -274,11 +270,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $_FILES['document'] = [];
-        $_POST = [
-            'title' => 'phpunit',
-            'document' => '',
-            '' => ''
-        ];
+
         $form->setCheckInputCalled(true);
 
         $this->assertTrue($form->saveObject());
@@ -335,8 +327,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testDocumentFormIsProperlyBuiltForExistingDocuments() : void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -385,8 +375,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormForExistingDocumentsCanBeSavedForValidInput() : void
     {
-        $this->initLangMock();
-
         $expectedSorting = 10;
 
         $document = $this
@@ -464,11 +452,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->method('checkInput')
             ->willReturn(true);
 
-        $_POST = [
-            'title' => 'phpunit',
-            'document' => '',
-            '' => ''
-        ];
         $form->setCheckInputCalled(true);
 
         $this->assertTrue($form->saveObject());
@@ -599,11 +582,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->method('checkInput')
             ->willReturn(true);
 
-        $_POST = [
-            'title' => '',
-            'document' => '',
-            '' => ''
-        ];
         $form->setCheckInputCalled(true);
 
         $this->assertFalse($form->saveObject());

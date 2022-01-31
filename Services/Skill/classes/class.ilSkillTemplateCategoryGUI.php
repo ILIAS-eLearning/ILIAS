@@ -17,11 +17,13 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill template category GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillTemplateCategoryGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillTemplateCategoryGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 {
@@ -31,9 +33,9 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
     protected ilLanguage $lng;
     protected ilHelpGUI $help;
 
-    protected int $tref_id;
+    protected int $tref_id = 0;
 
-    public function __construct(int $a_node_id = 0, int $a_tref_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0, int $a_tref_id = 0)
     {
         global $DIC;
 
@@ -44,10 +46,10 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $this->help = $DIC["ilHelp"];
         $ilCtrl = $DIC->ctrl();
         
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, "node_id");
         $this->tref_id = $a_tref_id;
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     public function getType() : string
@@ -108,8 +110,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         if ($this->tref_id == 0) {
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
-                "obj_id",
-                $this->node_object->getSkillTree()->getRootId()
+                "node_id",
+                $this->skill_tree_node_manager->getRootId()
             );
             $ilTabs->setBackTarget(
                 $lng->txt("skmg_skill_templates"),
@@ -117,8 +119,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
             );
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
-                "obj_id",
-                $this->requested_obj_id
+                "node_id",
+                $this->requested_node_id
             );
         }
  
@@ -133,13 +135,41 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
     public function initForm(string $a_mode = "edit") : void
     {
-        parent::initForm($a_mode);
-        if ($a_mode == "create") {
-            $ni = $this->form->getItemByPostVar("order_nr");
-            $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr($this->requested_obj_id, true);
-            $ni->setValue($max + 10);
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+
+        $this->form = new ilPropertyFormGUI();
+
+        // title
+        $ti = new ilTextInputGUI($lng->txt("title"), "title");
+        $ti->setMaxLength(200);
+        $ti->setSize(50);
+        $ti->setRequired(true);
+        $this->form->addItem($ti);
+
+        // description
+        $ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
+        $ta->setRows(5);
+        $this->form->addItem($ta);
+
+        // save and cancel commands
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
+            if ($a_mode == "create") {
+                $this->form->addCommandButton("save", $lng->txt("save"));
+                $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+                $this->form->setTitle($lng->txt("skmg_create_" . $this->getType()));
+            } else {
+                $this->form->addCommandButton("update", $lng->txt("save"));
+                $this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
+            }
+        } else {
+            foreach ($this->form->getItems() as $item) {
+                $item->setDisabled(true);
+            }
         }
+
+        $ilCtrl->setParameter($this, "node_id", $this->requested_node_id);
+        $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
     public function listItems() : void
@@ -151,7 +181,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         }
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             if ($this->tref_id == 0) {
                 self::addCreationButtons();
             }
@@ -162,7 +192,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listItems",
-            $this->requested_obj_id,
+            $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCTP,
             $this->tref_id
         );
@@ -180,14 +210,14 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $ilUser = $DIC->user();
         $admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
-        $requested_obj_id = $admin_gui_request->getObjId();
+        $requested_node_id = $admin_gui_request->getNodeId();
         
         $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "tmpmode", 1);
         
         $ilCtrl->setParameterByClass(
             "ilbasicskilltemplategui",
-            "obj_id",
-            $requested_obj_id
+            "node_id",
+            $requested_node_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skill_template"),
@@ -195,8 +225,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         );
         $ilCtrl->setParameterByClass(
             "ilskilltemplatecategorygui",
-            "obj_id",
-            $requested_obj_id
+            "node_id",
+            $requested_node_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skill_template_category"),
@@ -235,21 +265,20 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
     public function saveItem() : void
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             return;
         }
 
         $it = new ilSkillTemplateCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($this->form->getInput("order_nr"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, ilTree::POS_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
     }
 
     public function updateItem() : void
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             return;
         }
 
@@ -280,7 +309,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $this->setTabs("usage");
 
         $usage_info = new ilSkillUsage();
-        $usages = $usage_info->getAllUsagesOfTemplate($this->requested_obj_id);
+        $usages = $usage_info->getAllUsagesOfTemplate($this->requested_node_id);
 
         $html = "";
         foreach ($usages as $k => $usage) {
@@ -289,5 +318,13 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         }
 
         $tpl->setContent($html);
+    }
+
+    public function redirectToParent(bool $a_tmp_mode = false) : void
+    {
+        $ilCtrl = $this->ctrl;
+
+        $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $this->requested_node_id);
+        $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
     }
 }

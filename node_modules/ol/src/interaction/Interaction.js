@@ -5,6 +5,15 @@ import BaseObject from '../Object.js';
 import InteractionProperty from './Property.js';
 import {easeOut, linear} from '../easing.js';
 
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("../ObjectEventType").Types|
+ *     'change:active', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("../ObjectEventType").Types|
+ *     'change:active', Return>} InteractionOnSignature
+ */
+
 /**
  * Object literal with config options for interactions.
  * @typedef {Object} InteractionOptions
@@ -31,10 +40,25 @@ import {easeOut, linear} from '../easing.js';
  */
 class Interaction extends BaseObject {
   /**
-   * @param {InteractionOptions=} opt_options Options.
+   * @param {InteractionOptions} [opt_options] Options.
    */
   constructor(opt_options) {
     super();
+
+    /***
+     * @type {InteractionOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {InteractionOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {InteractionOnSignature<void>}
+     */
+    this.un;
 
     if (opt_options && opt_options.handleEvent) {
       this.handleEvent = opt_options.handleEvent;
@@ -102,7 +126,7 @@ class Interaction extends BaseObject {
 /**
  * @param {import("../View.js").default} view View.
  * @param {import("../coordinate.js").Coordinate} delta Delta.
- * @param {number=} opt_duration Duration.
+ * @param {number} [opt_duration] Duration.
  */
 export function pan(view, delta, opt_duration) {
   const currentCenter = view.getCenterInternal();
@@ -119,8 +143,8 @@ export function pan(view, delta, opt_duration) {
 /**
  * @param {import("../View.js").default} view View.
  * @param {number} delta Delta from previous zoom level.
- * @param {import("../coordinate.js").Coordinate=} opt_anchor Anchor coordinate in the user projection.
- * @param {number=} opt_duration Duration.
+ * @param {import("../coordinate.js").Coordinate} [opt_anchor] Anchor coordinate in the user projection.
+ * @param {number} [opt_duration] Duration.
  */
 export function zoomByDelta(view, delta, opt_anchor, opt_duration) {
   const currentZoom = view.getZoom();

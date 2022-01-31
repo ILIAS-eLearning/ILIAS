@@ -120,7 +120,7 @@ class ilRepUtil
                 $subnodes = $tree->getSubtree($tree->getNodeData($id));
 
                 foreach ($subnodes as $subnode) {
-                    $rbacadmin->revokePermission($subnode["child"]);
+                    $rbacadmin->revokePermission((int) $subnode["child"]);
 
                     $affected_ids[$subnode["child"]] = $subnode["child"];
                     $affected_parents[$subnode["child"]] = $subnode["parent"];
@@ -511,7 +511,7 @@ class ilRepUtil
         
         // delete object instances (repository/trash)
         
-        $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, $a_type);
+        $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, [$a_type]);
         if ($ref_ids_in_tree) {
             $this->deleteObjects(null, $ref_ids_in_tree);
         }

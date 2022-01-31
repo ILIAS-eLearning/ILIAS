@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,12 +10,10 @@
  */
 class ilLangDeprecated
 {
-    const ILIAS_CLASS_FILE_RE = 'class\..*\.php$';
+    const ILIAS_CLASS_FILE_RE = "class\..*\.php$";
 
-    /**
-     * @var array
-     */
-    protected $candidates = array();
+    protected array $candidates;
+    private \ilDBInterface $db;
 
     /**
      * ilLangDeprecated constructor.
@@ -28,10 +26,8 @@ class ilLangDeprecated
 
     /**
      * Get deprecated lang vars
-     *
-     * @return array
      */
-    public function getDeprecatedLangVars()
+    public function getDeprecatedLangVars() : array
     {
         $this->getCandidates();
         $this->parseCodeFiles();
@@ -42,10 +38,8 @@ class ilLangDeprecated
      * Get candidates from the db. Base are all lang vars of the
      * english lang file reduced by the ones being accessed (having entries in lng_log)
      */
-    protected function getCandidates()
+    protected function getCandidates() : void
     {
-        $this->candidates = array();
-
         $log = array();
         $set = $this->db->query("SELECT module, identifier FROM lng_log ");
         while ($rec = $this->db->fetchAssoc($set)) {
@@ -63,7 +57,7 @@ class ilLangDeprecated
     /**
      * Parse Code Files
      */
-    protected function parseCodeFiles()
+    protected function parseCodeFiles() : void
     {
         foreach ($this->getCodeFiles(ILIAS_ABSOLUTE_PATH) as $file) {
             $this->parseCodeFile($file->getPathname());
@@ -71,10 +65,9 @@ class ilLangDeprecated
     }
 
     /**
-     * @param $path string
-     * @return \Generator
+     * Get code files
      */
-    protected function getCodeFiles($path)
+    protected function getCodeFiles(string $path) : \Generator
     {
         foreach (
             new \RegexIterator(
@@ -92,22 +85,10 @@ class ilLangDeprecated
 
     /**
      * Parse code file and reduce candidates
-     *
-     * @param $file_path
      */
-    protected function parseCodeFile($file_path)
+    protected function parseCodeFile(string $file_path) : void
     {
         $tokens = token_get_all(file_get_contents($file_path));
-
-        /*if (is_int(strpos($file_path, "TrackingItemsTableGUI")))
-        {
-            $transl = array_map(function($e) {
-                return array(token_name($e[0]), $e[1], $e[2]);
-            }, $tokens);
-
-            var_dump($transl); exit;
-        }*/
-
         $num_tokens = count($tokens);
 
         for ($i = 0; $i < $num_tokens; $i++) {
@@ -117,7 +98,6 @@ class ilLangDeprecated
 
             $token = $tokens[$i][0];
             switch ($token) {
-
                 case T_STRING:
                 case T_CONSTANT_ENCAPSED_STRING:
                     $lv = str_replace(array("'", '"'), "", $tokens[$i][1]);

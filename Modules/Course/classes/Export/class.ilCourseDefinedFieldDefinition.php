@@ -21,13 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("IL_CDF_SORT_ID", 'field_id');
-define("IL_CDF_SORT_NAME", 'field_name');
-
-define('IL_CDF_TYPE_TEXT', 1);
-define('IL_CDF_TYPE_SELECT', 2);
-
-
 /**
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
@@ -37,6 +30,11 @@ define('IL_CDF_TYPE_SELECT', 2);
 */
 class ilCourseDefinedFieldDefinition
 {
+    public const IL_CDF_SORT_ID = 'field_id';
+    public const IL_CDF_SORT_NAME = 'field_name';
+    public const IL_CDF_TYPE_TEXT = 1;
+    public const IL_CDF_TYPE_SELECT = 2;
+
     private $db;
     private $obj_id;
 
@@ -107,7 +105,6 @@ class ilCourseDefinedFieldDefinition
         $ilDB = $DIC['ilDB'];
         
         // Delete user entries
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         foreach (ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id) as $field_id) {
             ilCourseUserData::_deleteByField($field_id);
         }
@@ -136,10 +133,10 @@ class ilCourseDefinedFieldDefinition
      * @param int container obj_id
      * @return ilCourseDefinedFieldDefinition[]
      */
-    public static function _getFields($a_container_id, $a_sort = IL_CDF_SORT_NAME)
+    public static function _getFields($a_container_id, $a_sort = self::IL_CDF_SORT_NAME)
     {
         $fields = [];
-        foreach (ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id, IL_CDF_SORT_ID) as $field_id) {
+        foreach (ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id, self::IL_CDF_SORT_ID) as $field_id) {
             $fields[] = new ilCourseDefinedFieldDefinition($a_container_id, $field_id);
         }
         return $fields;
@@ -203,7 +200,7 @@ class ilCourseDefinedFieldDefinition
      * @param int container obj_id
      * @return array array of field ids
      */
-    public static function _getFieldIds($a_container_id, $a_sort = IL_CDF_SORT_ID)
+    public static function _getFieldIds($a_container_id, $a_sort = self::IL_CDF_SORT_ID)
     {
         global $DIC;
 
@@ -211,7 +208,7 @@ class ilCourseDefinedFieldDefinition
         
         $query = "SELECT field_id FROM crs_f_definitions " .
             "WHERE obj_id = " . $ilDB->quote($a_container_id, 'integer') . " " .
-            "ORDER BY " . IL_CDF_SORT_ID;
+            "ORDER BY " . self::IL_CDF_SORT_ID;
         $res = $ilDB->query($query);
         $field_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
@@ -446,7 +443,6 @@ class ilCourseDefinedFieldDefinition
 
         $ilDB = $DIC['ilDB'];
         
-        include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         ilCourseUserData::_deleteByField($this->getId());
         
         $query = "DELETE FROM crs_f_definitions " .

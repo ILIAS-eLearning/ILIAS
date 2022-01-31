@@ -1,24 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Yahoo YUI Library Utility functions
- *
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilYuiUtil
 {
-    const YUI_BASE = "./libs/bower/bower_components/yui2/build";
-
+    protected const YUI_BASE = "./libs/bower/bower_components/yui2/build";
 
     /**
      * Init YUI Connection module
-     *
-     * @param ilGlobalTemplateInterface|null $a_main_tpl
      */
-    public static function initConnection(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initConnection(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -33,11 +41,10 @@ class ilYuiUtil
 
     /**
      * Init YUI Event
-     *
-     * @param ilGlobalTemplateInterface|null $a_main_tpl
      */
-    public static function initEvent(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initEvent(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -52,11 +59,10 @@ class ilYuiUtil
 
     /**
      * Init YUI Dom
-     *
-     * @param ilGlobalTemplateInterface|null $a_main_tpl
      */
-    public static function initDom(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initDom(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -71,11 +77,12 @@ class ilYuiUtil
 
     /**
      * Init YUI Drag and Drop
-     *
-     * @param ilGlobalTemplateInterface|null $a_main_tpl
+     * used in Modules/Survey, Services/Calendar, Services/COPage, Services/Form (Jan 2022)
+     * @deprecated
      */
-    public static function initDragDrop(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initDragDrop(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -92,11 +99,12 @@ class ilYuiUtil
 
     /**
      * Init YUI DomEvent
-     *
-     * @param ilGlobalTemplateInterface|null $a_main_tpl
+     * used in Services/Calendar, Modules/Session, Modules/Test (Jan 2022)
+     * @deprecated
      */
-    public static function initDomEvent(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initDomEvent(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -110,16 +118,13 @@ class ilYuiUtil
 
     /**
      * Init yui panel
-     *
-     * @access public
-     *
-     * @param bool                           $a_resize
-     * @param ilGlobalTemplateInterface|null $a_main_tpl
-     *
-     * @return void
+     * used in Modules/Test, Services/TermsOfService (Jan 2022)
+     * @deprecated
      */
-    public static function initPanel($a_resize = false, ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initPanel(
+        bool $a_resize = false,
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -142,9 +147,11 @@ class ilYuiUtil
 
 
     /**
-     * Init YUI Connection module
+     * Init YUI connection and animation module
+     * used in Modules/Test (Jan 2022)
+     * @deprecated
      */
-    public static function initConnectionWithAnimation()
+    public static function initConnectionWithAnimation() : void
     {
         global $DIC;
 
@@ -159,9 +166,12 @@ class ilYuiUtil
 
     /**
      * Init YUI Overlay module
+     * used in Modules/Test, Services/TermsOfService, Services/Tracking, Services/UIComponent
+     * @deprecated
      */
-    public static function initOverlay(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    public static function initOverlay(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {
@@ -179,12 +189,8 @@ class ilYuiUtil
     /**
      * init button control
      * In the moment used for calendar color picker button
-     *
-     * @access public
-     * @return void
-     * @static
      */
-    public static function initButtonControl()
+    public static function initButtonControl() : void
     {
         global $DIC;
 
@@ -203,9 +209,10 @@ class ilYuiUtil
     }
 
     /**
-     *
+     * used in Services/Authentication (Session Reminder) Jan 2022
+     * @deprecated
      */
-    public static function initCookie()
+    public static function initCookie() : void
     {
         /**
          * @var $tpl ilTemplate
@@ -221,7 +228,7 @@ class ilYuiUtil
     /**
      * Get local path of a YUI js file
      */
-    public static function getLocalPath($a_name = "")
+    public static function getLocalPath(string $a_name = "") : string
     {
         return self::YUI_BASE . "/" . $a_name;
     }
@@ -230,8 +237,9 @@ class ilYuiUtil
     /**
      * Add container css
      */
-    protected static function addContainerCss(ilGlobalTemplateInterface $a_main_tpl = null)
-    {
+    protected static function addContainerCss(
+        ?ilGlobalTemplateInterface $a_main_tpl = null
+    ) : void {
         global $DIC;
 
         if ($a_main_tpl == null) {

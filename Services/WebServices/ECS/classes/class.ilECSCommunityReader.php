@@ -1,26 +1,18 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
@@ -32,20 +24,19 @@
 * @ilCtrl_Calls
 * @ingroup ServicesWebServicesECS
 */
-
 class ilECSCommunityReader
 {
-    private static $instances = null;
+    private static ?array $instances = null;
 
-    protected $position = 0;
+    private int $position = 0;
 
-    protected $log;
-    protected $settings = null;
-    protected $connector = null;
+    private ilLogger $logger;
+    private ilECSSetting $settings;
+    private ilECSConnector $connector;
     
-    protected $communities = array();
-    protected $participants = array();
-    protected $own_ids = array();
+    private array $communities = array();
+    private array $participants = array();
+    private array $own_ids = array();
 
     /**
      * Singleton constructor
@@ -53,40 +44,18 @@ class ilECSCommunityReader
      * @access private
      * @throws ilECSConnectorException
      */
-    private function __construct(ilECSSetting $setting = null)
+    private function __construct(ilECSSetting $setting)
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
-        
-        include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-        include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
-        include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-        include_once('Services/WebServices/ECS/classes/class.ilECSCommunity.php');
+        $this->logger = $DIC->logger()->wsrv();
+        $this->logger->debug(print_r($setting->getServerId(), true));
+        $this->settings = $setting;
 
-        if ($setting) {
-            $this->settings = $setting;
-        } else {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Using deprecated call');
-            $GLOBALS['DIC']['ilLog']->logStack();
-        }
         $this->connector = new ilECSConnector($this->settings);
-        $this->log = $ilLog;
         
         $this->read();
-    }
-    
-    /**
-     * get singleton instance
-     *
-     * @access public
-     * @static
-     * @return ilECSCommunityReader
-     */
-    public static function _getInstance()
-    {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Using deprecated call');
-        return self::getInstanceByServerId(15);
+        $this->logger->debug(__METHOD__ . ': Finished reading communities');
     }
 
     /**
@@ -94,7 +63,7 @@ class ilECSCommunityReader
      * @param int $a_server_id
      * @return ilECSCommunityReader
      */
-    public static function getInstanceByServerId($a_server_id)
+    public static function getInstanceByServerId(int $a_server_id)
     {
         if (isset(self::$instances[$a_server_id])) {
             return self::$instances[$a_server_id];
@@ -188,6 +157,13 @@ class ilECSCommunityReader
         return isset($this->participants[$a_mid]) ? $this->participants[$a_mid] : false;
     }
 
+    public function getParticipantNameByMid($a_mid)
+    {
+        return isset($this->participants[$a_mid]) ?
+            $this->participants[$a_mid]-> getParticipantName():
+            '';
+    }
+
     /**
      * Get community by mid
      * @param int $a_mid
@@ -231,7 +207,6 @@ class ilECSCommunityReader
      */
     public function getEnabledParticipants()
     {
-        include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
         $ps = ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId());
         $en = $ps->getEnabledParticipants();
         foreach ($this->getCommunities() as $community) {
@@ -252,12 +227,9 @@ class ilECSCommunityReader
      */
     private function read()
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-        
         try {
             $res = $this->connector->getMemberships();
+
             if (!is_array($res->getResult())) {
                 return false;
             }
@@ -272,7 +244,7 @@ class ilECSCommunityReader
                 $this->communities[] = $tmp_comm;
             }
         } catch (ilECSConnectorException $e) {
-            $ilLog->write(__METHOD__ . ': Error connecting to ECS server. ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ': Error connecting to ECS server. ' . $e->getMessage());
             throw $e;
         }
     }

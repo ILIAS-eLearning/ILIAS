@@ -244,7 +244,7 @@ class assOrderingQuestionImport extends assQuestionImport
                     $image = base64_decode($answer["answerimage"]["content"]);
                     $imagepath = $this->object->getImagePath();
                     if (!file_exists($imagepath)) {
-                        ilUtil::makeDirParents($imagepath);
+                        ilFileUtils::makeDirParents($imagepath);
                     }
                     $imagepath .= $answer["answerimage"]["label"];
                     $fh = fopen($imagepath, "wb");

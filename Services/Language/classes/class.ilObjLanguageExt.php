@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Language/classes/class.ilObjLanguage.php";
@@ -13,18 +13,17 @@ require_once "./Services/Language/classes/class.ilObjLanguage.php";
 */
 class ilObjLanguageExt extends ilObjLanguage
 {
-    
     /**
     * Constructor
     */
-    public function __construct($a_id = 0, $a_call_by_reference = false)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = false)
     {
         parent::__construct($a_id, $a_call_by_reference);
     }
     
     /**
     * Read and get the global language file as an object
-    * @return   object  	global language file
+    * @return  object  global language file
     */
     public function getGlobalLanguageFile()
     {
@@ -35,9 +34,9 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Set the local status of the language
     *
-    * @param   boolean       local status (true/false)
+    * $a_local       local status (true/false)
     */
-    public function setLocal($a_local = true)
+    public function setLocal(bool $a_local = true) : void
     {
         if ($this->isInstalled()) {
             if ($a_local == true) {
@@ -53,7 +52,7 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get the full language description
     *
-    * @return   string       description
+    * Return       description
     */
     public function getLongDescription() : string
     {
@@ -62,23 +61,22 @@ class ilObjLanguageExt extends ilObjLanguage
 
 
     /**
-     * Get the path for language data written by ILIAS
-     * @return string
+     * Return the path for language data written by ILIAS
      */
-    public function getDataPath()
+    public function getDataPath() : string
     {
-        if (!is_dir(CLIENT_DATA_DIR . '/lang_data')) {
-            ilUtil::makeDir(CLIENT_DATA_DIR . '/lang_data');
+        if (!is_dir(CLIENT_DATA_DIR . "/lang_data")) {
+            ilFileUtils::makeDir(CLIENT_DATA_DIR . "/lang_data");
         }
-        return CLIENT_DATA_DIR . '/lang_data';
+        return CLIENT_DATA_DIR . "/lang_data";
     }
     
     /**
     * Get the language files path
     *
-    * @return   string       path of language files folder
+    * Return path of language files folder
     */
-    public function getLangPath()
+    public function getLangPath() : string
     {
         return $this->lang_path;
     }
@@ -86,9 +84,9 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get the customized language files path
     *
-    * @return   string       path of customized language files folder
+    * Return path of customized language files folder
     */
-    public function getCustLangPath()
+    public function getCustLangPath() : string
     {
         return $this->cust_lang_path;
     }
@@ -96,9 +94,9 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get all remarks from the database
     *
-    * @return   array       module.separator.topic => remark
+    * Return array  module.separator.topic => remark
     */
-    public function getAllRemarks()
+    public function getAllRemarks() : array
     {
         return self::_getRemarks($this->key);
     }
@@ -106,12 +104,12 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get all values from the database
     *
-    * @param    array       list of modules
-    * @param    string      search pattern
-    * @param    array       list of topics
-    * @return   array       module.separator.topic => value
+    * $a_modules       list of modules
+    * $a_pattern       search pattern
+    * $a_topics        list of topics
+    * Return array     module.separator.topic => value
     */
-    public function getAllValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getAllValues(array $a_modules = array(), string $a_pattern = "", array $a_topics = array()) : array
     {
         return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
     }
@@ -121,14 +119,14 @@ class ilObjLanguageExt extends ilObjLanguage
     * Get only the changed values from the database
     * which differ from the original language file.
     *
-    * @param    array       list of modules
-    * @param    string      search pattern
-    * @param    array       list of topics
-    * @return   array       module.separator.topic => value
+    * $a_modules       list of modules
+    * $a_pattern       search pattern
+    * $a_topics        list of topics
+    * Return array     module.separator.topic => value
     */
-    public function getChangedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getChangedValues(array $a_modules = array(), string $a_pattern = "", array $a_topics = array()) : array
     {
-        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, 'changed');
+        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, "changed");
     }
 
 
@@ -136,25 +134,22 @@ class ilObjLanguageExt extends ilObjLanguage
     * Get only the unchanged values from the database
     * which are equal to the original language file.
     *
-    * @param    array       list of modules
-    * @param    array       search pattern
-    * @param    array       list of topics
-    * @return   array       module.separator.topic => value
+    * Return array    module.separator.topic => value
     */
-    public function getUnchangedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getUnchangedValues(array $a_modules = array(), string $a_pattern = "", array $a_topics = array()) : array
     {
-        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, 'unchanged');
+        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, "unchanged");
     }
 
     /**
     * Get only the entries which don't exist in the global language file
     *
-    * @param    array       list of modules
-    * @param    array       search pattern
-    * @param    array       list of topics
-    * @return   array       module.separator.topic => value
+    * $a_modules       list of modules
+    * $a_pattern       search pattern
+    * $a_topics        list of topics
+    * Return array     module.separator.topic => value
     */
-    public function getAddedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getAddedValues(array $a_modules = array(), string $a_pattern = '', array $a_topics = array())
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_values = $global_file_obj->getAllValues();
@@ -170,12 +165,12 @@ class ilObjLanguageExt extends ilObjLanguage
     * Note: This function checks the comments in the globel lang file,
     *       not the remarks in the database!
     *
-    * @param    array       list of modules
-    * @param    array       search pattern
-    * @param    array       list of topics
-    * @return   array       module.separator.topic => value
+    * $a_modules         list of modules
+    * $a_pattern         search pattern
+    * $a_topics          list of topics
+    * Return   array     module.separator.topic => value
     */
-    public function getCommentedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getCommentedValues(array $a_modules = array(), string $a_pattern = "", array $a_topics = array()) : array
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_comments = $global_file_obj->getAllComments();
@@ -190,13 +185,13 @@ class ilObjLanguageExt extends ilObjLanguage
     *
     * The returned array contains:
     * 1. all entries that exist globally, with their local values,
-    *	 ordered like in the global language file
+    *    ordered like in the global language file
     * 2. all additional local entries,
-    *	 ordered by module and identifier
+    *    ordered by module and identifier
     *
-    * @return   array       module.separator.topic => value
+    * Return   array       module.separator.topic => value
     */
-    public function getMergedValues()
+    public function getMergedValues() : array
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_values = $global_file_obj->getAllValues();
@@ -210,13 +205,13 @@ class ilObjLanguageExt extends ilObjLanguage
     *
     * The returned array contains:
     * 1. all remarks that exist globally, with their local values,
-    *	 ordered like in the global language file
+    *    ordered like in the global language file
     * 2. all additional local remarks,
-    *	 ordered by module and identifier
+    *    ordered by module and identifier
     *
-    * @return   array       module.separator.topic => value
+    * Return   array       module.separator.topic => value
     */
-    public function getMergedRemarks()
+    public function getMergedRemarks() : array
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_comments = $global_file_obj->getAllComments();
@@ -227,20 +222,18 @@ class ilObjLanguageExt extends ilObjLanguage
         return array_merge($global_comments, $local_remarks);
     }
 
-
-
     /**
     * Import a language file into the ilias database
     *
-    * @param    string  	handling of existing values
-    *						('keepall','keepnew','replace','delete')
+    * $a_mode_existing      handling of existing values
+    *                       ('keepall','keepnew','replace','delete')
     */
-    public function importLanguageFile($a_file, $a_mode_existing = 'keepnew')
+    public function importLanguageFile(string $a_file, string $a_mode_existing = "keepnew") : void
     {
         global $DIC;
         $ilDB = $DIC->database();
         /** @var ilErrorHandling $ilErr */
-        $ilErr = $DIC['ilErr'];
+        $ilErr = $DIC["ilErr"];
 
         // read the new language file
         require_once "./Services/Language/classes/class.ilLanguageFile.php";
@@ -251,22 +244,22 @@ class ilObjLanguageExt extends ilObjLanguage
 
         switch ($a_mode_existing) {
             // keep all existing entries
-            case 'keepall':
+            case "keepall":
                 $to_keep = $this->getAllValues();
                 break;
 
             // keep existing online changes
-            case 'keepnew':
+            case "keepnew":
                 $to_keep = $this->getChangedValues();
                 break;
 
             // replace all existing definitions
-            case 'replace':
+            case "replace":
                 $to_keep = array();
                 break;
 
            // delete all existing entries
-            case 'delete':
+            case "delete":
                 ilObjLanguage::_deleteLangData($this->key, false);
                 $ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
                     $ilDB->quote($this->key, "text"));
@@ -290,11 +283,10 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get all modules of a language
     *
-    * @access   static
-    * @param    string      language key
-    * @return   array       list of modules
+    * $a_lang_key      language key
+    * Return list of modules
     */
-    public static function _getModules($a_lang_key)
+    public static function _getModules(string $a_lang_key) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -314,12 +306,11 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get all remarks of a language
     *
-    * @access   static
-    * @param    string      language key
-    * @param    boolean     include empty remarks for local changes
-    * @return   array       module.separator.topic => remarks
+    * $a_lang_key          language key
+    * $a_all_changed       include empty remarks for local changes
+    * Return   array       module.separator.topic => remarks
     */
-    public static function _getRemarks($a_lang_key, $a_all_changed = false)
+    public static function _getRemarks(string $a_lang_key, bool $a_all_changed = false) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -348,21 +339,20 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get the translations of specified topics
     *
-    * @access   static
-    * @param    string      language key
-    * @param    array       list of modules
-    * @param    array       list of topics
-    * @param    array       search pattern
-    * @param    string      local change state ('changed', 'unchanged', '')
-    * @return   array       module.separator.topic => value
+    * $a_lang_key         language key
+    * $a_modules          list of modules
+    * $a_topics           list of topics
+    * $a_pattern          search pattern
+    * $a_state            local change state ('changed', 'unchanged', '')
+    * Return   array      module.separator.topic => value
     */
     public static function _getValues(
-        $a_lang_key,
-        $a_modules = array(),
-        $a_topics = array(),
-        $a_pattern = '',
-        $a_state = ''
-    ) {
+        string $a_lang_key,
+        array $a_modules = array(),
+        array $a_topics = array(),
+        string $a_pattern = '',
+        string $a_state = ''
+    ) : array {
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
@@ -396,18 +386,14 @@ class ilObjLanguageExt extends ilObjLanguage
         return $values;
     }
 
-
-
-
     /**
     * Save a set of translation in the database
     *
-    * @access   static
-    * @param    string      language key
-    * @param    array       module.separator.topic => value
-    * @param    array       module.separator.topic => remarks
+    * $a_lang_key      language key
+    * $a_values        module.separator.topic => value
+    * $a_remarks       module.separator.topic => remarks
     */
-    public static function _saveValues($a_lang_key, $a_values = array(), $a_remarks = array())
+    public static function _saveValues(string $a_lang_key, array $a_values = array(), array $a_remarks = array()) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -469,19 +455,17 @@ class ilObjLanguageExt extends ilObjLanguage
         }
 
 
-        require_once('class.ilCachedLanguage.php');
+        require_once("class.ilCachedLanguage.php");
         ilCachedLanguage::getInstance($a_lang_key)->flush();
     }
-
 
     /**
     * Delete a set of translation in the database
     *
-    * @access   static
-    * @param    string      language key
-    * @param    array       module.separator.topic => value
+    * $a_lang_key       language key
+    * $a_values         module.separator.topic => value
     */
-    public static function _deleteValues($a_lang_key, $a_values = array())
+    public static function _deleteValues(string $a_lang_key, array $a_values = array()) : void
     {
         global $DIC;
         $ilDB = $DIC->database();

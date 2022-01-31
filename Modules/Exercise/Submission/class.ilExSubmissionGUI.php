@@ -260,7 +260,7 @@ class ilExSubmissionGUI
         if (!$this->assignment->notStartedYet()) {
             // deliver file
             $p = $storage->getFeedbackFilePath($this->submission->getFeedbackId(), $file);
-            ilUtil::deliverFile($p, $file);
+            ilFileDelivery::deliverFileLegacy($p, $file);
         }
     
         return true;
@@ -283,7 +283,7 @@ class ilExSubmissionGUI
             ? $this->assignment->getGlobalFeedbackFilePath()
             : $this->assignment->getGlobalFeedbackFileStoragePath() . $this->assignment->getFeedbackFile();
 
-        ilUtil::deliverFile($file, $this->assignment->getFeedbackFile());
+        ilFileDelivery::deliverFileLegacy($file, $this->assignment->getFeedbackFile());
     }
     
     public function downloadFileObject() : bool
@@ -304,7 +304,7 @@ class ilExSubmissionGUI
             foreach ($files as $lfile) {
                 if ($lfile["name"] == $file) {
                     // deliver file
-                    ilUtil::deliverFile($lfile["fullpath"], $file);
+                    ilFileDelivery::deliverFileLegacy($lfile["fullpath"], $file);
                     exit();
                 }
             }

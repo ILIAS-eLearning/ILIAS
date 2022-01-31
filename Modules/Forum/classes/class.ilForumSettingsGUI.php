@@ -20,8 +20,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
     private ilPropertyFormGUI $form;
-    private ilPropertyFormGUI $notificationSettingsForm;
-    private int $ref_id;
+    private ?ilPropertyFormGUI $notificationSettingsForm = null;
+    public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
     private ilForumProperties $properties;
@@ -73,10 +73,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     false
                 );
 
-                $new_type = '';
-                if (isset($this->http->request()->getQueryParams()['new_type'])) {
-                    $new_type = $this->http->request()->getQueryParams()['new_type'];
-                }
+                $new_type = (string) ($this->dic->http()->request()->getQueryParams()['new_type'] ?? '');
                 if ($cmd === 'create' || $new_type === 'sty') {
                     $style_gui->setCreationMode();
                 }
@@ -110,11 +107,24 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
+    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    {
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('rep_activation_availability'));
+        $form->addItem($section);
+
+        $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
+        $online->setInfo($this->lng->txt('frm_activation_online_info'));
+        $form->addItem($online);
+    }
+
     public function getCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $this->settingsTabs();
         $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_BASIC_SETTINGS);
         $a_form->setTitle($this->lng->txt('frm_settings_form_header'));
+
+        $this->addAvailabilitySection($a_form);
 
         $presentationHeader = new ilFormSectionHeaderGUI();
         $presentationHeader->setTitle($this->lng->txt('frm_settings_presentation_header'));
@@ -224,7 +234,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
                             'cmd',
-                            $this->dic->refinery()->string()
+                            $this->dic->refinery()->kindlyTo()->string()
                         );
                     }
 
@@ -287,6 +297,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         $a_values['default_view'] = $default_view;
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
+
+        $object = $this->parent_obj->object;
+        $a_values['activation_online'] = !($object->getOfflineStatus() === null) && !$object->getOfflineStatus();
     }
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
@@ -324,6 +337,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
         $this->parent_obj->objProperties->update();
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
+
+        $object = $this->parent_obj->object;
+        $object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $object->update();
     }
 
     public function showMembers() : void
@@ -666,7 +683,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function getParticipants() : ilParticipants
     {
-        if ($this->parent_obj->isParentObjectCrsOrGrp()) {
+        if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -745,30 +762,19 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
             $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_settings'), 'notification_events');
 
-            $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
-            $notify_modified->setValue((string) ilForumNotificationEvents::UPDATED);
+            $notify_modified = new ilCheckboxOption($this->lng->txt('notify_modified'), (string) ilForumNotificationEvents::UPDATED);
             $cb_grp->addOption($notify_modified);
 
-            $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
-            $notify_censored->setValue((string) ilForumNotificationEvents::CENSORED);
+            $notify_censored = new ilCheckboxOption($this->lng->txt('notify_censored'), (string) ilForumNotificationEvents::CENSORED);
             $cb_grp->addOption($notify_censored);
 
-            $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
-            $notify_uncensored->setValue((string) ilForumNotificationEvents::UNCENSORED);
+            $notify_uncensored = new ilCheckboxOption($this->lng->txt('notify_uncensored'), (string) ilForumNotificationEvents::UNCENSORED);
             $cb_grp->addOption($notify_uncensored);
 
-            $notify_post_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_post_deleted'),
-                'notify_post_deleted'
-            );
-            $notify_post_deleted->setValue((string) ilForumNotificationEvents::POST_DELETED);
+            $notify_post_deleted = new ilCheckboxOption($this->lng->txt('notify_post_deleted'), (string) ilForumNotificationEvents::POST_DELETED);
             $cb_grp->addOption($notify_post_deleted);
 
-            $notify_thread_deleted = new ilCheckboxInputGUI(
-                $this->lng->txt('notify_thread_deleted'),
-                'notify_thread_deleted'
-            );
-            $notify_thread_deleted->setValue((string) ilForumNotificationEvents::THREAD_DELETED);
+            $notify_thread_deleted = new ilCheckboxOption($this->lng->txt('notify_thread_deleted'), (string) ilForumNotificationEvents::THREAD_DELETED);
             $cb_grp->addOption($notify_thread_deleted);
             $opt_0->addSubItem($cb_grp);
 
@@ -932,7 +938,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             )
         ) {
             $this->properties->setStyleSheetId(
-                (int) ($this->http->request()->getQueryParams()['style_id'] ?? 0)
+                (int) ($this->dic->http()->request()->getQueryParams()['style_id'] ?? 0)
             );
             $this->properties->update();
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);

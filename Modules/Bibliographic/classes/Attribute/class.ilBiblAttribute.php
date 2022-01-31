@@ -27,32 +27,24 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
 
 
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype integer
      * @con_length    11
      */
-    protected $entry_id;
+    protected int $entry_id;
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    32
      */
-    protected $name;
+    protected string $name;
     /**
-     * @var
-     *
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    4000
      */
-    protected $value;
+    protected string $value;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -61,13 +53,13 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $id;
+    protected ?int $id = null;
 
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getEntryId()
+    public function getEntryId() : int
     {
         return $this->entry_id;
     }
@@ -76,16 +68,16 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $entry_id
      */
-    public function setEntryId($entry_id)
+    public function setEntryId(int $entry_id) : void
     {
         $this->entry_id = $entry_id;
     }
 
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -94,16 +86,16 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $name
      */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -112,16 +104,16 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setValue(string $value) : void
     {
         $this->value = $value;
     }
 
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -130,7 +122,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }

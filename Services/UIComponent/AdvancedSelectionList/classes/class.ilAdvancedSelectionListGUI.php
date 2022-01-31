@@ -709,9 +709,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     
         // js section
         $tpl->setCurrentBlock("js_section");
-        if ($this->getAccessKey() > 0) {
-            $tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
-        }
 
         $cfg["trigger_event"] = $this->getTriggerEvent();
         $cfg["auto_hide"] = $this->getAutoHide();
@@ -735,7 +732,8 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ?: $this->lng->txt("actions");
+                ? $this->getAriaListTitle()
+                : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }
         $tpl->setVariable("ID", $this->getId());

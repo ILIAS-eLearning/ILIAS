@@ -196,7 +196,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     protected function renderRepoTree() : string
     {
         global $DIC;
-
         $tree = $DIC->repositoryTree();
         $ref_id = $this->request->getRefId();
         if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {

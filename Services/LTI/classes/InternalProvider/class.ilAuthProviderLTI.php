@@ -67,15 +67,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         if (isset($lti_context_ids) && is_array($lti_context_ids)) {
             if (!in_array($this->ref_id, $lti_context_ids)) {
                 $this->getLogger()->debug("push new lti ref_id: " . $this->ref_id);
-                array_push($lti_context_ids,$this->ref_id);
+                array_push($lti_context_ids, $this->ref_id);
                 $_SESSION['lti_context_ids'] = $lti_context_ids;
-                 $this->getLogger()->debug(var_export(TRUE),$_SESSION['lti_context_ids']);
+                $this->getLogger()->debug(var_export(true), $_SESSION['lti_context_ids']);
             }
-        }
-        else {
+        } else {
             $this->getLogger()->debug("lti_context_ids is not set. Create new array...");
             $_SESSION['lti_context_ids'] = array($this->ref_id);
-            $this->getLogger()->debug(var_export(TRUE),$_SESSION['lti_context_ids']);
+            $this->getLogger()->debug(var_export(true), $_SESSION['lti_context_ids']);
         }
 
         // for testing external css
@@ -232,7 +231,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         // set "plain md5" password (= no valid password)
         $newUser["passwd"] = "";
-        $newUser["passwd_type"] = IL_PASSWD_CRYPTED;
+        $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
 
         $newUser["auth_mode"] = 'lti_' . $consumer->getExtConsumerId();
         $newUser['ext_account'] = $this->getCredentials()->getUsername();

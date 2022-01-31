@@ -16,7 +16,7 @@ class ilMassMailTaskProcessor
     private ilLanguage $language;
     private ilLogger $logger;
     private ilMailValueObjectJsonService $objectJsonService;
-    private string $anonymousUserId;
+    private int $anonymousUserId;
 
     public function __construct(
         TaskManager $taskManager = null,
@@ -25,7 +25,7 @@ class ilMassMailTaskProcessor
         ilLogger $logger = null,
         Container $dic = null,
         ilMailValueObjectJsonService $objectJsonService = null,
-        string $anonymousUserId = ANONYMOUS_USER_ID
+        int $anonymousUserId = ANONYMOUS_USER_ID
     ) {
         if (null === $dic) {
             global $DIC;
@@ -149,7 +149,7 @@ class ilMassMailTaskProcessor
             serialize($contextParameters),
         ]);
 
-        if ($userId === (int) $this->anonymousUserId) {
+        if ($userId === $this->anonymousUserId) {
             return $task;
         }
 

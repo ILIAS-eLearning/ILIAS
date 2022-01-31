@@ -857,7 +857,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
                 $pdf = $pdfAction->createPDF($user_id, $objectId);
                 if (strlen($pdf)) {
-                    $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
+                    $zipAction->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_",
+                            ilFileUtils::getASCIIFilename($name)) . ".pdf");
                 }
             }
             $zipArchive = $zipAction->zipCertificatesInArchiveDirectory($archive_dir, true);

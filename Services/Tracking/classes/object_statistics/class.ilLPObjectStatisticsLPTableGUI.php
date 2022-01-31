@@ -120,7 +120,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         }
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field != "title") {
             return true;
@@ -131,7 +131,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -355,7 +355,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

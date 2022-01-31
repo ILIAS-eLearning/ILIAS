@@ -10,6 +10,7 @@ function ui()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
+
     $url = 'src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
     $page_demo = $f->button()->primary('See UI in fullscreen-mode', $url);
 
@@ -18,13 +19,13 @@ function ui()
     ]);
 }
 
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
 
-
-if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
+if ($request_wrapper->has('new_ui') && $request_wrapper->retrieve('new_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../../');
     _initIliasForPreview();
-
-    global $DIC;
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
@@ -63,7 +64,7 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
 }
 
 
-if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
+if ($request_wrapper->has('replaced') && $request_wrapper->retrieve('replaced', $refinery->kindlyTo()->string()) == '1') {
     echo('Helo. Content from RPC.');
     exit();
 }

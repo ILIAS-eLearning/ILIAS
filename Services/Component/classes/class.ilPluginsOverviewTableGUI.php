@@ -18,12 +18,15 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      */
     protected $filter_data;
 
+    protected ilComponentRepository $component_repository;
+
     public function __construct(ilObjComponentSettingsGUI $a_parent_obj, array $filter_data, string $a_parent_cmd = "")
     {
         global $DIC;
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->filter_data = $filter_data;
+        $this->component_repository = $DIC["component.repository"];
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -36,7 +39,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("active"), self::F_PLUGIN_ACTIVE);
         $this->addColumn($this->lng->txt("action"));
 
-        $this->setDefaultOrderField(self::F_PLUGIN_NAME);
+        $this->setExternalSorting(true);
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -44,132 +47,35 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
             "tpl.plugin_overview_row.html",
             "Services/Component"
         );
-        $this->getComponents();
+        $this->setPluginData();
         $this->setLimit(10000);
     }
 
-    protected function getComponents() : void
+    protected function setPluginData() : void
     {
         $plugins = [];
-        $modules = $this->getModulesCoreItems();
-        $this->addPluginData($plugins, $modules, IL_COMP_MODULE);
 
-        $services = $this->getServicesCoreItems();
-        $this->addPluginData($plugins, $services, IL_COMP_SERVICE);
-
-        // apply filters
-
-        $active_filters = array_filter($this->filter_data, static function ($value) : bool {
-            return !empty($value);
-        });
-
-        $plugins = array_filter($plugins, static function (array $plugin_data) use ($active_filters) : bool {
-            $matches_filter = true;
-            if (isset($active_filters[self::F_PLUGIN_NAME])) {
-                $matches_filter = strpos($plugin_data[self::F_PLUGIN_NAME], $active_filters[self::F_PLUGIN_NAME]) !== false;
-            }
-            if (isset($active_filters[self::F_PLUGIN_ID])) {
-                $matches_filter = strpos($plugin_data[self::F_PLUGIN_ID], $active_filters[self::F_PLUGIN_ID]) !== false;
-            }
-            if (isset($active_filters[self::F_PLUGIN_ACTIVE])) {
-                $v = (int) $active_filters[self::F_PLUGIN_ACTIVE] === 1;
-                $matches_filter = $plugin_data[self::F_PLUGIN_ACTIVE] === $v && $matches_filter;
-            }
-            if (isset($active_filters[self::F_SLOT_NAME])) {
-                $matches_filter = in_array($plugin_data[self::F_SLOT_NAME], $active_filters[self::F_SLOT_NAME], true) && $matches_filter;
-            }
-            if (isset($active_filters[self::F_COMPONENT_NAME])) {
-                $matches_filter = in_array($plugin_data['component_type'] . '/' . $plugin_data['component_name'], $active_filters[self::F_COMPONENT_NAME], true) && $matches_filter;
-            }
-
-            return $matches_filter;
-        });
-
-        $this->setData($plugins);
-    }
-
-    protected function getModulesCoreItems() : array
-    {
-        return ilModule::getAvailableCoreModules();
-    }
-
-    protected function getServicesCoreItems() : array
-    {
-        return ilService::getAvailableCoreServices();
-    }
-
-    /**
-     * @param array $plugins
-     * @param array $core_items
-     * @param       $core_type
-     */
-    protected function addPluginData(array &$plugins, array $core_items, string $core_type)
-    {
-        foreach ($core_items as $core_item) {
-            $plugin_slots = ilComponent::lookupPluginSlots($core_type, $core_item["subdir"]);
-            foreach ($plugin_slots as $plugin_slot) {
-                $slot = new ilPluginSlot($core_type, $core_item["subdir"], $plugin_slot["id"]);
-                foreach ($slot->getPluginsInformation() as $plugin) {
-                    if ($core_type && $slot && $core_item["subdir"] && is_array($plugin) && count($plugin) > 0) {
-                        $plugins[] = $this->gatherPluginData($core_type, $slot, $core_item["subdir"], $plugin);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @param string       $a_type
-     * @param ilPluginSlot $a_slot
-     * @param string       $a_slot_subdir
-     * @param array        $a_plugin
-     * @return array
-     * @throws ilPluginException
-     */
-    protected function gatherPluginData(string $a_type, ilPluginSlot $a_slot, string $a_slot_subdir, array $a_plugin) : array
-    {
-        if (!$a_plugin["component_type"]) {
-            return array();
-        }
-        $plugin_db_data = ilPlugin::getPluginRecord($a_plugin["component_type"], $a_plugin[self::F_COMPONENT_NAME], $a_plugin["slot_id"], $a_plugin["name"]);
-
-        $config_class = null;
-        if (ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin, $plugin_db_data)) {
-            $config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin));
+        foreach ($this->component_repository->getPlugins() as $id => $plugin) {
+            $plugins[] = $plugin;
         }
 
-        return array(
-            self::F_SLOT_NAME => $a_slot->getSlotName(),
-            "component_type" => $a_type,
-            self::F_COMPONENT_NAME => $a_slot_subdir,
-            "slot_id" => $a_slot->getSlotId(),
-            self::F_PLUGIN_ID => $a_plugin["id"],
-            self::F_PLUGIN_NAME => $a_plugin["name"],
-            "must_install" => $a_plugin["must_install"],
-            self::F_PLUGIN_ACTIVE => $a_plugin["is_active"],
-            "activation_possible" => $a_plugin["activation_possible"],
-            "needs_update" => $a_plugin["needs_update"],
-            "config_class" => $config_class,
-            "has_lang" => (bool) sizeof(
-                ilPlugin::getAvailableLangFiles(
-                    $a_slot->getPluginsDirectory() . "/" . $a_plugin["name"] . "/lang"
-                )
-            )
-        );
+        // TODO: restore sortation and filters.
+
+        // use this instead of setData to circumvent checks in DEVMODE that require
+        // rows to be arrays.
+        $this->row_data = $plugins;
+        return;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
 
-        $this->tpl->setVariable("TXT_SLOT_NAME", $a_set[self::F_SLOT_NAME]);
-        $this->tpl->setVariable(
-            "TXT_COMP_NAME",
-            $a_set["component_type"] . "/" . $a_set[self::F_COMPONENT_NAME]
-        );
+        $this->tpl->setVariable("TXT_SLOT_NAME", $a_set->getPluginSlot()->getName());
+        $this->tpl->setVariable("TXT_COMP_NAME", $a_set->getComponent()->getQualifiedName());
 
-        if ($a_set[self::F_PLUGIN_ACTIVE]) {
+        if ($a_set->isActive()) {
             $this->tpl->setCurrentBlock("active");
             $this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("yes"));
             $this->tpl->parseCurrentBlock();
@@ -179,12 +85,12 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set[self::F_PLUGIN_NAME]);
-        $this->tpl->setVariable("TXT_PLUGIN_ID", $a_set[self::F_PLUGIN_ID]);
+        $this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set->getName());
+        $this->tpl->setVariable("TXT_PLUGIN_ID", $a_set->getId());
 
         if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
             $actions = $this->getActionMenuEntries($a_set);
-            $this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set[self::F_PLUGIN_ID]));
+            $this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set->getId()));
         }
     }
 
@@ -210,36 +116,37 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      * @param array $a_set
      * @return array
      */
-    protected function getActionMenuEntries(array $a_set) : array
+    protected function getActionMenuEntries(ilPluginInfo $plugin) : array
     {
-        $this->setParameter($a_set);
+        global $DIC;
+        $this->setParameter($plugin);
 
         $actions = array();
-        $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, $a_set[self::F_PLUGIN_ID]);
+        $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, $plugin->getId());
         $this->addCommandToActions($actions, "info", "showPlugin");
 
-        if ($a_set["must_install"]) {
+        if (!$plugin->isInstalled()) {
             $this->addCommandToActions($actions, "cmps_install", ilObjComponentSettingsGUI::CMD_INSTALL_PLUGIN);
         } else {
-            if ($a_set["config_class"]) {
+            if (ilPlugin::hasConfigureClass($plugin)) {
                 $actions[$this->lng->txt("cmps_configure")]
                     = $this->ctrl->getLinkTargetByClass($a_set["config_class"], ilObjComponentSettingsGUI::CMD_CONFIGURE);
             }
 
-            if ($a_set["has_lang"]) {
+            if ($this->hasLang($plugin)) {
                 $this->addCommandToActions($actions, "cmps_refresh", ilObjComponentSettingsGUI::CMD_REFRESH_LANGUAGES);
             }
 
-            if ($a_set[self::F_PLUGIN_ACTIVE]) {
+            if ($plugin->isActive()) {
                 $this->addCommandToActions($actions, "cmps_deactivate", ilObjComponentSettingsGUI::CMD_DEACTIVATE_PLUGIN);
             }
 
-            if ($a_set["activation_possible"]) {
+            if ($plugin->isActivationPossible() && !$plugin->isActive()) {
                 $this->addCommandToActions($actions, "cmps_activate", ilObjComponentSettingsGUI::CMD_ACTIVATE_PLUGIN);
             }
 
             // update button
-            if ($a_set["needs_update"]) {
+            if ($plugin->isUpdateRequired()) {
                 $this->addCommandToActions($actions, "cmps_update", ilObjComponentSettingsGUI::CMD_UPDATE_PLUGIN);
             }
 
@@ -252,12 +159,12 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         return $actions;
     }
 
-    protected function setParameter(array $a_set) : void
+    protected function setParameter(ilPluginInfo $plugin) : void
     {
-        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CTYPE, $a_set["component_type"]);
-        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CNAME, $a_set[self::F_COMPONENT_NAME]);
-        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_SLOT_ID, $a_set["slot_id"]);
-        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_PLUGIN_NAME, $a_set[self::F_PLUGIN_NAME]);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CTYPE, $plugin->getComponent()->getType());
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CNAME, $plugin->getComponent()->getName());
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_SLOT_ID, $plugin->getPluginSlot()->getId());
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_PLUGIN_NAME, $plugin->getName());
     }
 
     protected function clearParameter() : void
@@ -272,5 +179,14 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
     {
         $actions[$this->lng->txt($caption)]
             = $this->ctrl->getLinkTarget($this->parent_obj, $command);
+    }
+
+    protected function hasLang(ilPluginInfo $plugin) : bool
+    {
+        return (bool) sizeof(
+            ilPlugin::getAvailableLangFiles(
+                $plugin->getPath() . "/" . $plugin->getName() . "/lang"
+            )
+        );
     }
 }

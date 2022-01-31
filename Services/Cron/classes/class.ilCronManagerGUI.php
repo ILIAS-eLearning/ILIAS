@@ -543,8 +543,9 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
                 $item['class'],
                 $item['path']
             );
-
-            $job->addToExternalSettingsForm($a_form_id, $fields, (bool) $item['job_status']);
+            if (!is_null($job)) {
+                $job->addToExternalSettingsForm($a_form_id, $fields, (bool) $item['job_status']);
+            }
         }
 
         if ($fields !== []) {

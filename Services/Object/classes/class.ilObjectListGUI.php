@@ -89,7 +89,7 @@ class ilObjectListGUI
     public $download_checkbox_state = self::DOWNLOAD_CHECKBOX_NONE;
     
     protected $obj_id;
-    protected $ref_id;
+    protected int $ref_id;
     protected $type;
     protected $sub_obj_id;
     protected $sub_obj_type;
@@ -1072,7 +1072,7 @@ class ilObjectListGUI
         }
 
         if ($this->context == self::CONTEXT_REPOSITORY) {
-            $access = $ilAccess->checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+            $access = $ilAccess->checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type, (int) $a_obj_id);
             if ($ilAccess->getPreventCachingLastResult()) {
                 $this->prevent_access_caching = true;
             }
@@ -1100,8 +1100,8 @@ class ilObjectListGUI
             $this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
         }
         $this->access_cache = array();
-        $this->ref_id = $a_ref_id;
-        $this->obj_id = $a_obj_id;
+        $this->ref_id = (int) $a_ref_id;
+        $this->obj_id = (int) $a_obj_id;
         $this->setTitle($a_title);
         $this->setDescription($a_description);
         #$this->description = $a_description;
@@ -1291,28 +1291,26 @@ class ilObjectListGUI
             // BEGIN WebDAV Display locking information
             if (ilDAVActivationChecker::_isActive()) {
                 // Show lock info
-                $webdav_lock_backend = new ilWebDAVLockBackend();
+                global $DIC;
+                $webdav_dic = new ilWebDAVDIC();
+                $webdav_dic->init($DIC);
+                $webdav_lock_backend = $webdav_dic->locksbackend();
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {
                         $lock_user = new ilObjUser($lock->getIliasOwner());
 
-                        $props[] = array(
+                        $props[] = [
                             "alert" => false,
                             "property" => $lng->txt("in_use_by"),
                             "value" => $lock_user->getLogin(),
                             "link" => "./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
-                        );
+                        ];
                     }
-                }
-                // END WebDAV Display locking information
-
-                if ($this->getDetailsLevel() == self::DETAILS_SEARCH) {
-                    return $props;
                 }
             }
             // END WebDAV Display warning for invisible files and files with special characters
         }
-
+        
         return $props;
     }
     
@@ -1790,29 +1788,29 @@ class ilObjectListGUI
 
         // add common properties (comments, notes, tags)
         $dummy = new ilNote();      // this is only needed to make constants available, constants should be refactored
-        if (((isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0) ||
-            (isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0) ||
+        if (((isset(self::$cnt_notes[$note_obj_id][ilNote::PRIVATE]) && self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] > 0) ||
+            (isset(self::$cnt_notes[$note_obj_id][ilNote::PUBLIC]) && self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] > 0) ||
             (isset(self::$cnt_tags[$note_obj_id]) && self::$cnt_tags[$note_obj_id] > 0) ||
             (isset(self::$tags[$note_obj_id]) && is_array(self::$tags[$note_obj_id]))) &&
             ($ilUser->getId() != ANONYMOUS_USER_ID)) {
             $nl = true;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
-                && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0) {
+                && self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] > 0) {
                 $props[] = array("alert" => false,
                     "property" => $lng->txt("notes_comments"),
                     "value" => "<a href='#' onclick=\"return " .
                         ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js) . "\">" .
-                        self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] . "</a>",
+                        self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] . "</a>",
                     "newline" => $nl);
                 $nl = false;
             }
 
-            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0) {
+            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] > 0) {
                 $props[] = array("alert" => false,
                     "property" => $lng->txt("notes"),
                     "value" => "<a href='#' onclick=\"return " .
                         ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js) . "\">" .
-                        self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] . "</a>",
+                        self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] . "</a>",
                     "newline" => $nl);
                 $nl = false;
             }
@@ -2095,7 +2093,7 @@ class ilObjectListGUI
                 $a_href,
                 $a_img,
                 $a_text,
-                $a_frame,
+                (string) $a_frame,
                 "",
                 $prevent_background_click,
                 $a_onclick
@@ -2536,6 +2534,12 @@ class ilObjectListGUI
         }
 
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
+        $this->current_selection_list->setAriaListTitle(
+            sprintf(
+                $this->lng->txt('actions_for'),
+                $this->getTitle()
+            )
+        );
         $this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
         $this->current_selection_list->setAsynchUrl($a_asynch_url);
         if ($a_header_actions) {
@@ -2863,7 +2867,7 @@ class ilObjectListGUI
         }
         
         if ($a_notes_url) {
-            ilNoteGUI::initJavascript($a_notes_url, IL_NOTE_PRIVATE, $a_tpl);
+            ilNoteGUI::initJavascript($a_notes_url, ilNote::PRIVATE, $a_tpl);
         }
         
         if ($a_tags_url) {
@@ -2983,30 +2987,30 @@ class ilObjectListGUI
                 : $this->sub_obj_type;
             $cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
 
-            if ($this->notes_enabled && isset($cnt[$this->obj_id][IL_NOTE_PRIVATE]) && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0) {
+            if ($this->notes_enabled && isset($cnt[$this->obj_id][ilNote::PRIVATE]) && $cnt[$this->obj_id][ilNote::PRIVATE] > 0) {
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "notes",
                     $f->symbol()->glyph()->note("#")
-                    ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][IL_NOTE_PRIVATE])),
+                    ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][ilNote::PRIVATE])),
                     ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js)
                 );
             }
 
-            if ($comments_enabled && isset($cnt[$this->obj_id][IL_NOTE_PUBLIC]) && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0) {
+            if ($comments_enabled && isset($cnt[$this->obj_id][ilNote::PUBLIC]) && $cnt[$this->obj_id][ilNote::PUBLIC] > 0) {
                 $lng->loadLanguageModule("notes");
                 
                 /*$this->addHeaderIcon("comments",
                     ilUtil::getImagePath("comment_unlabeled.svg"),
-                    $lng->txt("notes_public_comments").": ".$cnt[$this->obj_id][IL_NOTE_PUBLIC],
+                    $lng->txt("notes_public_comments").": ".$cnt[$this->obj_id][ilNote::PUBLIC],
                     ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js),
-                    $cnt[$this->obj_id][IL_NOTE_PUBLIC]);*/
+                    $cnt[$this->obj_id][ilNote::PUBLIC]);*/
 
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "comments",
                     $f->symbol()->glyph()->comment("#")
-                    ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][IL_NOTE_PUBLIC])),
+                    ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][ilNote::PUBLIC])),
                     ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
                 );
             }
@@ -3102,7 +3106,8 @@ class ilObjectListGUI
                 );
             }
         }
-        
+
+        $this->title = ilObject::_lookupTitle($this->obj_id);
         $htpl->setVariable(
             "ACTION_DROP_DOWN",
             $this->insertCommands(false, false, "", true)
@@ -3169,7 +3174,7 @@ class ilObjectListGUI
             if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
                 $om++;
             }
-            if ($om != 0 && !$DIC['ilBrowser']->isMobile()) {
+            if ($om != 0 && !$DIC->http()->agent()->isMobile()) {
                 $this->default_command["frame"] = "";
                 $a_link = "javascript:void(0); onclick=startSAHS('" . $a_link . "','" . $wtarget . "'," . $om . "," . $width . "," . $height . ");";
             }
@@ -3809,7 +3814,11 @@ class ilObjectListGUI
 
         $dropdown = $ui->factory()
             ->dropdown()
-            ->standard($actions);
+            ->standard($actions)
+            ->withAriaLabel(sprintf(
+                $this->lng->txt('actions_for'),
+                $title
+            ));
 
         $def_command = $this->getDefaultCommand();
 
@@ -3933,7 +3942,11 @@ class ilObjectListGUI
                 });
             $actions[] = $button;*/
         }
-        $dropdown = $ui->factory()->dropdown()->standard($actions);
+        $dropdown = $ui->factory()->dropdown()->standard($actions)
+                       ->withAriaLabel(sprintf(
+                           $this->lng->txt('actions_for'),
+                           $title
+                       ));
 
         $img = $this->object_service->commonSettings()->tileImage()->getByObjId((int) $obj_id);
         if ($img->exists()) {

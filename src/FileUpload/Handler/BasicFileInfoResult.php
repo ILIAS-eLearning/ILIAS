@@ -4,6 +4,19 @@ namespace ILIAS\FileUpload\Handler;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BasicFileInfoResult
  *
@@ -11,37 +24,15 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
  */
 class BasicFileInfoResult implements FileInfoResult
 {
-
-    /**
-     * @var string
-     */
-    private $mime_type;
-    /**
-     * @var string
-     */
-    private $file_identifier;
-    /**
-     * @var int
-     */
-    private $size;
-    /**
-     * @var string
-     */
-    private $name;
-    /**
-     * @var string
-     */
-    private $file_identification_key;
+    private string $mime_type;
+    private string $file_identifier;
+    private int $size;
+    private string $name;
+    private string $file_identification_key;
 
 
     /**
      * BasicFileInfoResult constructor.
-     *
-     * @param string $file_identification_key
-     * @param string $file_identifier
-     * @param string $name
-     * @param int    $size
-     * @param string $mime_type
      */
     public function __construct(string $file_identification_key, string $file_identifier, string $name, int $size, string $mime_type)
     {
@@ -80,7 +71,7 @@ class BasicFileInfoResult implements FileInfoResult
     /**
      * @inheritDoc
      */
-    final public function jsonSerialize()
+    final public function jsonSerialize() : array
     {
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 

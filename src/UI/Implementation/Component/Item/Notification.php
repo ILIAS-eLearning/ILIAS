@@ -11,6 +11,7 @@ use ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link;
+use ILIAS\UI\Component as C;
 
 class Notification extends Item implements INotification, IJavaScriptBindable
 {
@@ -109,5 +110,23 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     public function getLeadIcon() : Icon
     {
         return $this->lead_icon;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withActions(C\Dropdown\Standard $actions) : C\Item\Notification
+    {
+        $clone = clone $this;
+        $clone->actions = $actions;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getActions() : ?C\Dropdown\Standard
+    {
+        return $this->actions;
     }
 }

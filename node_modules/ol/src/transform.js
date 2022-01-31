@@ -1,6 +1,7 @@
 /**
  * @module ol/transform
  */
+import {WORKER_OFFSCREEN_CANVAS} from './has.js';
 import {assert} from './asserts.js';
 
 /**
@@ -203,7 +204,7 @@ export function compose(transform, dx1, dy1, sx, sy, angle, dx2, dy2) {
 /**
  * Creates a composite transform given an initial translation, scale, rotation, and
  * final translation (in that order only, not commutative). The resulting transform
- * string can be applied as `transform` porperty of an HTMLElement's style.
+ * string can be applied as `transform` property of an HTMLElement's style.
  * @param {number} dx1 Initial translation x.
  * @param {number} dy1 Initial translation y.
  * @param {number} sx Scale factor x.
@@ -265,11 +266,24 @@ export function determinant(mat) {
 }
 
 /**
- * A string version of the transform.  This can be used
+ * @type {HTMLElement}
+ * @private
+ */
+let transformStringDiv;
+
+/**
+ * A rounded string version of the transform.  This can be used
  * for CSS transforms.
  * @param {!Transform} mat Matrix.
  * @return {string} The transform as a string.
  */
 export function toString(mat) {
-  return 'matrix(' + mat.join(', ') + ')';
+  const transformString = 'matrix(' + mat.join(', ') + ')';
+  if (WORKER_OFFSCREEN_CANVAS) {
+    return transformString;
+  }
+  const node =
+    transformStringDiv || (transformStringDiv = document.createElement('div'));
+  node.style.transform = transformString;
+  return node.style.transform;
 }

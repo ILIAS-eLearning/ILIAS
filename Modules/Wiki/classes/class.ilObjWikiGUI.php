@@ -31,6 +31,7 @@ use ILIAS\Wiki\Editing\EditingGUIRequest;
  */
 class ilObjWikiGUI extends ilObjectGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
     protected ilTabsGUI $tabs;
@@ -56,6 +57,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->locator = $DIC["ilLocator"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->http = $DIC->http();
         
         $this->type = "wiki";
 
@@ -1107,7 +1109,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->checkPermission("read");
 
         $ilTabs->clearTargets();
-        $tpl->setHeaderActionMenu(null);
+        $tpl->setHeaderActionMenu("");
 
         $page = ($this->requested_page != "")
             ? $this->requested_page
@@ -1410,41 +1412,28 @@ class ilObjWikiGUI extends ilObjectGUI
         
         return $page_ids;
     }
-    
-    public function printViewObject() : void
+
+    public function getPrintView() : \ILIAS\Export\PrintProcessGUI
     {
-        global $tpl;
-        $tpl = $this->tpl;
-
-        $tabs = $this->tabs_gui;
-
-        $tabs->clearTargets();
-        $tabs->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTargetByClass("ilwikipagegui", "printViewSelection")
+        $provider = new \ILIAS\Wiki\WikiPrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->object->getRefId(),
+            $this->getPrintPageIds()
         );
-        
-        $page_ids = $this->getPrintPageIds();
-        if (!$page_ids) {
-            $this->ctrl->redirect($this, "");
-        }
-                                
-        $this->setContentStyleSheet();
 
-        $page_content = "";
-        foreach ($page_ids as $p_id) {
-            $page_gui = new ilWikiPageGUI($p_id);
-            /** @var ilObjWiki $wiki */
-            $wiki = $this->object;
-            $page_gui->setWiki($wiki);
-            $page_gui->setOutputMode("print");
-            $page_content .= $page_gui->showPage();
-            
-            $page_content .= '<p style="page-break-after:always;"></p>';
-        }
-        
-        $tpl->addOnLoadCode("il.Util.print();");
-        $tpl->setContent($page_content);
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
+    public function printViewObject($a_pdf_export = false)
+    {
+        $print_view = $this->getPrintView();
+        $print_view->sendPrintView();
     }
 
     public function performSearchObject() : void

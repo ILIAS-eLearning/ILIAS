@@ -1,36 +1,57 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Style\Content;
 
 /**
  * Style Import Parser
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilStyleImportParser extends ilSaxParser
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected string $cdata = "";
+    protected array $cur_template_classes;
+    protected array $cur_template;
+    protected array $current_tags = [];
+    protected string $current_type = "";
+    protected string $current_class = "";
+    protected string $current_tag = "";
+    protected array $styles;
+    protected ilObjStyleSheet $style_obj;
+    protected ilTree $tree;
+    protected Content\ColorManager $color_manager;
+    protected array $chars = [];
 
-
-    /**
-    * Constructor
-    *
-    * @param	string		$a_xml_file		xml file
-    * @param	int			$a_mode			IL_EXTRACT_ROLES | IL_USER_IMPORT
-    *
-    * @access	public
-    */
-    public function __construct($a_xml_file, &$a_style_obj)
-    {
+    public function __construct(
+        string $a_xml_file,
+        ilObjStyleSheet $a_style_obj
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
-        $lng = $DIC->language();
-        $tree = $DIC->repositoryTree();
+
+        $service = $DIC->contentStyle()->internal();
+        $access_manager = $service->domain()->access(0, $DIC->user()->getId());
+        $access_manager->enableWrite(true);
+
+        $this->color_manager = $service->domain()->color(
+            $a_style_obj->getId(),
+            $access_manager
+        );
 
         $this->style_obj = $a_style_obj;
 
@@ -38,11 +59,6 @@ class ilStyleImportParser extends ilSaxParser
     }
 
 
-    /**
-    * set event handler
-    * should be overwritten by inherited class
-    * @access	private
-    */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -50,9 +66,6 @@ class ilStyleImportParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    /**
-    * start the parser
-    */
     public function startParsing()
     {
         $this->styles = array();
@@ -61,12 +74,11 @@ class ilStyleImportParser extends ilSaxParser
         $this->style_obj->setCharacteristics($this->chars);
     }
 
-
-    /**
-    * handler for begin of element
-    */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
-    {
+    public function handlerBeginTag(
+        $a_xml_parser,
+        string $a_name,
+        array $a_attribs
+    ) : void {
         switch ($a_name) {
             case "Style":
                 $this->current_tag = $a_attribs["Tag"];
@@ -103,7 +115,7 @@ class ilStyleImportParser extends ilSaxParser
                 break;
                 
             case "StyleColor":
-                $this->style_obj->addColor($a_attribs["Name"], $a_attribs["Code"]);
+                $this->color_manager->addColor($a_attribs["Name"], $a_attribs["Code"]);
                 break;
 
             case "StyleTemplate":
@@ -121,12 +133,10 @@ class ilStyleImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
-
-    /**
-    * handler for end of element
-    */
-    public function handlerEndTag($a_xml_parser, $a_name)
-    {
+    public function handlerEndTag(
+        $a_xml_parser,
+        string $a_name
+    ) : void {
         switch ($a_name) {
             case "Title":
                 $this->style_obj->setTitle($this->cdata);
@@ -151,11 +161,10 @@ class ilStyleImportParser extends ilSaxParser
         }
     }
 
-    /**
-    * handler for character data
-    */
-    public function handlerCharacterData($a_xml_parser, $a_data)
-    {
+    public function handlerCharacterData(
+        $a_xml_parser,
+        string $a_data
+    ) : void {
         // i don't know why this is necessary, but
         // the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
         // in character data, but we don't want that, because it's the

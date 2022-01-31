@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Counter/counter.js');
+        $registry->register('./src/UI/templates/js/Counter/dist/counter.js');
     }
 
     /**

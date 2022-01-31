@@ -315,7 +315,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         if (!file_exists($imagepath)) {
-            ilUtil::makeDirParents($imagepath);
+            ilFileUtils::makeDirParents($imagepath);
         }
         $filename = $this->getImageFilename();
 
@@ -337,7 +337,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         if (!file_exists($imagepath)) {
-            ilUtil::makeDirParents($imagepath);
+            ilFileUtils::makeDirParents($imagepath);
         }
         $filename = $this->getImageFilename();
         if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
@@ -448,9 +448,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (!empty($image_tempfilename)) {
             $imagepath = $this->getImagePath();
             if (!file_exists($imagepath)) {
-                ilUtil::makeDirParents($imagepath);
+                ilFileUtils::makeDirParents($imagepath);
             }
-            if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
+            if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
                 $this->ilias->raiseError("The image could not be uploaded!", $this->ilias->error_obj->MESSAGE);
             }
             global $DIC;

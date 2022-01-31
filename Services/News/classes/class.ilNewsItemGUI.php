@@ -35,10 +35,10 @@ class ilNewsItemGUI
     protected ilToolbarGUI $toolbar;
 
     protected bool $enable_edit = false;
-    protected int $context_obj_id;
-    protected string $context_obj_type;
-    protected int $context_sub_obj_id;
-    protected string $context_sub_obj_type;
+    protected int $context_obj_id = 0;
+    protected string $context_obj_type = "";
+    protected int $context_sub_obj_id = 0;
+    protected string $context_sub_obj_type = "";
     protected int $form_edit_mode;
     protected int $requested_ref_id;
     protected int $requested_news_item_id;
@@ -80,8 +80,8 @@ class ilNewsItemGUI
         // Init Context.
         $this->setContextObjId($ilCtrl->getContextObjId());
         $this->setContextObjType($ilCtrl->getContextObjType());
-        $this->setContextSubObjId($ilCtrl->getContextSubObjId());
-        $this->setContextSubObjType($ilCtrl->getContextSubObjType());
+        //$this->setContextSubObjId($ilCtrl->getContextSubObjId());
+        //$this->setContextSubObjType($ilCtrl->getContextSubObjType());
 
         $lng->loadLanguageModule("news");
 

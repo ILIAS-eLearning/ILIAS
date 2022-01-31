@@ -44,9 +44,9 @@ interface Factory
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
      *
      * ---
-     * @param 	string		$label
-     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal| Divider\Horizontal> $items
-     * @return 	\ILIAS\UI\Component\Menu\Drilldown
+     * @param 	string $label
+     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
+     * @return \ILIAS\UI\Component\Menu\Drilldown
      */
     public function drilldown(string $label, array $items) : Drilldown;
 
@@ -80,7 +80,6 @@ interface Factory
      *          or purpose of contained entries.
      *
      * ---
-     * @param 	string $label
      * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
      * @return 	\ILIAS\UI\Component\Menu\Sub
      */

@@ -1,40 +1,25 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Exceptions/classes/class.ilException.php';
+declare(strict_types=1);
 
 /**
  * Class for advanced editing exception handling in ILIAS.
- *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id$
- *
  */
 abstract class ilSystemStyleExceptionBase extends ilException
 {
-    const UNKNONW_EXCEPTION = -1;
-
     /**
      * @var string
      */
-    protected $message = "";
+    protected $message = '';
 
     /**
      * @var int
      */
     protected $code = -1;
 
-    /**
-     * @var string
-     */
-    protected $add_info = "";
+    protected string $add_info = '';
 
-    /**
-     * ilSystemStyleException constructor.
-     * @param int $exception_code
-     * @param string $exception_info
-     */
-    public function __construct($exception_code = -1, $exception_info = "")
+    public function __construct(int $exception_code = -1, string $exception_info = '')
     {
         $this->code = $exception_code;
         $this->add_info = $exception_info;
@@ -42,14 +27,11 @@ abstract class ilSystemStyleExceptionBase extends ilException
         parent::__construct($this->message, $this->code);
     }
 
-    abstract protected function assignMessageToCode();
+    abstract protected function assignMessageToCode() : void;
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString() : string
     {
-        return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
-        . "{$this->getTraceAsString()}";
+        return get_class($this) . " '$this->message' in $this->file($this->line)\n"
+            . "{$this->getTraceAsString()}";
     }
 }

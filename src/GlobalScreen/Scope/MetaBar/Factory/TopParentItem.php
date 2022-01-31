@@ -5,28 +5,30 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class BaseItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, isParent
 {
-
+    
     /**
      * @var isChild[]
      */
-    protected $children = [];
-    /**
-     * @var Glyph
-     */
-    protected $glyph;
-    /**
-     * @var string
-     */
-    protected $title = "";
-
-
+    protected array $children = [];
+    protected ?Symbol $symbol = null;
+    protected string $title = "";
+    
     /**
      * @inheritDoc
      */
@@ -35,38 +37,34 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
         parent::__construct($provider_identification);
         $this->renderer = new TopParentItemRenderer();
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         $clone = clone($this);
-        $clone->glyph = $symbol;
-
+        $clone->symbol = $symbol;
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function getSymbol() : Symbol
     {
-        return $this->glyph;
+        return $this->symbol;
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function hasSymbol() : bool
     {
-        return ($this->glyph instanceof Symbol);
+        return ($this->symbol instanceof Symbol);
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -74,11 +72,10 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     {
         $clone = clone($this);
         $clone->title = $title;
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -86,8 +83,7 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     {
         return $this->title;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -95,8 +91,7 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     {
         return $this->children;
     }
-
-
+    
     /**
      * @inheritDoc
      */
@@ -104,22 +99,20 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
     {
         $clone = clone($this);
         $clone->children = $children;
-
+        
         return $clone;
     }
-
-
+    
     /**
      * @inheritDoc
      */
     public function appendChild(isChild $child) : isParent
     {
         $this->children[] = $child;
-
+        
         return $this;
     }
-
-
+    
     /**
      * @inheritDoc
      */

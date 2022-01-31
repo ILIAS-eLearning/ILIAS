@@ -8,7 +8,6 @@ use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilCtrlContextTest
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class ilCtrlContextTest extends TestCase
@@ -38,17 +37,16 @@ class ilCtrlContextTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->values   = [];
+        $this->values = [];
         $this->refinery = $this->createMock(Refinery::class);
-        $this->factory  = $this->createMock(ilCtrlPathFactory::class);
-        $this->request  = $this->createMock(ArrayBasedRequestWrapper::class);
+        $this->factory = $this->createMock(ilCtrlPathFactory::class);
+        $this->request = $this->createMock(ArrayBasedRequestWrapper::class);
         $this->request->method('has')->willReturn(true);
         $this->request
             ->method('retrieve')
             ->willReturnCallback(function ($key) {
                 return $this->values[$key] ?? null;
-            })
-        ;
+            });
     }
 
     /**
@@ -60,7 +58,8 @@ class ilCtrlContextTest extends TestCase
         return new class($cid_path) extends ilCtrlAbstractPath {
             // override parent constructor, so we don't
             // have to mock the ilCtrlStructure.
-            public function __construct(string $cid_path = null) {
+            public function __construct(string $cid_path = null)
+            {
                 $this->cid_path = $cid_path;
             }
         };
@@ -77,7 +76,11 @@ class ilCtrlContextTest extends TestCase
         return new class($this->factory, $this->request, $this->refinery) extends ilCtrlContext {
             // override parent constructor, so the request values
             // are not adopted immediately.
-            public function __construct(ilCtrlPathFactory $path_factory, ArrayBasedRequestWrapper $request_wrapper, Refinery $refinery) {
+            public function __construct(
+                ilCtrlPathFactory $path_factory,
+                ArrayBasedRequestWrapper $request_wrapper,
+                Refinery $refinery
+            ) {
                 $this->path_factory = $path_factory;
                 $this->path = $path_factory->null();
                 $this->request_wrapper = $request_wrapper;
@@ -86,7 +89,8 @@ class ilCtrlContextTest extends TestCase
 
             // provide a public method that manually adopts the
             // request values.
-            public function adopt() : void {
+            public function adopt() : void
+            {
                 $this->adoptRequestParameters();
             }
         };
@@ -97,21 +101,19 @@ class ilCtrlContextTest extends TestCase
         $expected_cid_path = 'test_cid_path';
         $this->factory
             ->method('existing')
-            ->willReturn($this->getPath($expected_cid_path))
-        ;
+            ->willReturn($this->getPath($expected_cid_path));
 
         $this->factory
             ->method('find')
-            ->willReturn($this->getPath($expected_cid_path))
-        ;
+            ->willReturn($this->getPath($expected_cid_path));
 
         $context = $this->getContextWithManualAdoption([
-            ilCtrlInterface::PARAM_CMD_MODE     => 'test_cmd_mode',
-            ilCtrlInterface::PARAM_REDIRECT     => 'test_redirect_source',
-            ilCtrlInterface::PARAM_BASE_CLASS   => 'test_base_class',
-            ilCtrlInterface::PARAM_CMD_CLASS    => 'test_cmd_class',
-            ilCtrlInterface::PARAM_CMD          => 'test_cmd',
-            ilCtrlInterface::PARAM_CID_PATH     => $expected_cid_path,
+            ilCtrlInterface::PARAM_CMD_MODE => 'test_cmd_mode',
+            ilCtrlInterface::PARAM_REDIRECT => 'test_redirect_source',
+            ilCtrlInterface::PARAM_BASE_CLASS => 'test_base_class',
+            ilCtrlInterface::PARAM_CMD_CLASS => 'test_cmd_class',
+            ilCtrlInterface::PARAM_CMD => 'test_cmd',
+            ilCtrlInterface::PARAM_CID_PATH => $expected_cid_path,
         ]);
 
         $this->assertFalse($context->isAsync());
@@ -164,8 +166,7 @@ class ilCtrlContextTest extends TestCase
         $expected_cid_path = '0';
         $this->factory
             ->method('find')
-            ->willReturn($this->getPath($expected_cid_path))
-        ;
+            ->willReturn($this->getPath($expected_cid_path));
 
         $context = $this->getContextWithManualAdoption();
         $this->assertNull($context->getBaseClass());
@@ -200,8 +201,7 @@ class ilCtrlContextTest extends TestCase
         $context
             ->setObjType('test_type')
             ->setObjId(42)
-            ->setTargetScript('test_script')
-        ;
+            ->setTargetScript('test_script');
 
         $this->assertEquals('test_type', $context->getObjType());
         $this->assertEquals(42, $context->getObjId());
@@ -213,8 +213,7 @@ class ilCtrlContextTest extends TestCase
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
         $this->factory
             ->method('find')
-            ->willReturn($this->getPath('some_path'))
-        ;
+            ->willReturn($this->getPath('http://localhost'));
 
         $this->assertNull($context->getCmdClass());
         $context->setCmdClass(ilCtrlCommandClass1TestGUI::class);
@@ -234,8 +233,7 @@ class ilCtrlContextTest extends TestCase
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
         $this->factory
             ->method('find')
-            ->willReturn($this->getPath('some_path'))
-        ;
+            ->willReturn($this->getPath('http://localhost'));
 
         $context->setBaseClass(ilCtrlBaseClass1TestGUI::class);
         $this->assertEquals(ilCtrlBaseClass1TestGUI::class, $context->getCmdClass());
@@ -259,13 +257,11 @@ class ilCtrlContextTest extends TestCase
         // is required, therefore we have to creat the test ctrl
         // structure.
 
-        $structure_artifact  = require __DIR__ . '/Data/Structure/test_ctrl_structure.php';
-        $plugin_artifact     = require __DIR__ . '/Data/Structure/test_plugin_ctrl_structure.php';
+        $structure_artifact = require __DIR__ . '/Data/Structure/test_ctrl_structure.php';
         $base_class_artifact = require __DIR__ . '/Data/Structure/test_base_classes.php';
 
         $structure = new ilCtrlStructure(
             $structure_artifact,
-            $plugin_artifact,
             $base_class_artifact,
             []
         );

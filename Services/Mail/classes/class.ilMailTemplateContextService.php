@@ -74,6 +74,7 @@ class ilMailTemplateContextService
         if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() !== $a_id) {
             throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
         }
+
         return $first_context;
     }
 
@@ -82,14 +83,14 @@ class ilMailTemplateContextService
      * @param string[] $a_id
      * @return ilMailTemplateContext[]
      */
-    public static function getTemplateContexts(array $a_id = null) : array
+    public static function getTemplateContexts(?array $a_id = null) : array
     {
         global $DIC;
         $templates = [];
 
         $query = 'SELECT * FROM mail_tpl_ctx';
         $where = [];
-        if (count($a_id)) {
+        if (is_array($a_id) && count($a_id)) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
         if (count($where)) {
@@ -123,8 +124,7 @@ class ilMailTemplateContextService
         }
         $class_file = $a_path . 'class.' . $a_class . '.php';
 
-
-        if (file_exists($class_file) && class_exists($a_class)) {
+        if (class_exists($a_class) && file_exists($class_file)) {
             if ($isCreationContext) {
                 $reflClass = new ReflectionClass($a_class);
                 $context = $reflClass->newInstanceWithoutConstructor();

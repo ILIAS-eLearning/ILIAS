@@ -62,7 +62,7 @@ class ilHistoryTableGUI extends ilTable2GUI
         $this->getDataFromDb();
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TXT_USER", ilUserUtil::getNamePresentation($a_set["user_id"], false, false));
         $this->tpl->setVariable(

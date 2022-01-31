@@ -1,44 +1,24 @@
 <?php
 /**
  * Interface ilBiblAttributeFactoryInterface
- *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
 interface ilBiblAttributeFactoryInterface
 {
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @param int                   $object_id
-     *
-     * @return array
-     */
-    public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, $object_id);
-
+    public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, int $object_id) : array;
 
     /**
-     * @param \ilBiblEntryInterface $entry
-     *
      * @return \ilBiblAttributeInterface[]
      */
-    public function getAttributesForEntry(ilBiblEntryInterface $entry);
-
+    public function getAttributesForEntry(ilBiblEntryInterface $entry) : array;
 
     /**
      * @param \ilBiblAttributeInterface[] $attributes
-     *
      * @return \ilBiblAttributeInterface[]
      */
-    public function sortAttributes(array $attributes);
+    public function sortAttributes(array $attributes) : array;
 
-
-    /**
-     * @param string  $name
-     * @param string  $value
-     * @param integer $entry_id
-     *
-     * @return true on success | false on failure
-     */
-    public function createAttribute($name, $value, $entry_id);
+    public function createAttribute(string $name, string $value, int $entry_id) : bool;
 }

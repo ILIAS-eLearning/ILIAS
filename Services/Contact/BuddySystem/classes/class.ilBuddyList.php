@@ -46,7 +46,7 @@ class ilBuddyList
     {
         global $DIC;
 
-        return self::getInstanceByUserId((int) $DIC->user()->getId());
+        return self::getInstanceByUserId($DIC->user()->getId());
     }
 
     protected function __construct(int $ownerId)
@@ -165,7 +165,7 @@ class ilBuddyList
      */
     public function getIgnoredRelationsForOwner() : ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
             return $relation->getBuddyUsrId() === $this->getOwnerId();
         });
     }

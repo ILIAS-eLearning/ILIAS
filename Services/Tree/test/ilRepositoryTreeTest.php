@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -7,7 +7,7 @@ class ilRepositoryTreeTest extends TestCase
 {
     protected Container $dic;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->initRepositoryTreeDependencies();
         parent::setUp();
@@ -33,9 +33,9 @@ class ilRepositoryTreeTest extends TestCase
         $tree = new ilTree(1);
 
         $user = $this->getMockBuilder(ilObjUser::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getCurrentLanguage'])
-            ->getMock();
+                     ->disableOriginalConstructor()
+                     ->onlyMethods(['getCurrentLanguage'])
+                     ->getMock();
         $user->method('getCurrentLanguage')->willReturn('');
         $this->setGlobalVariable('ilUser', $user);
         $tree->initLangCode();
@@ -59,8 +59,6 @@ class ilRepositoryTreeTest extends TestCase
         };
     }
 
-
-
     protected function initRepositoryTreeDependencies() : void
     {
         $this->dic = new Container();
@@ -70,13 +68,13 @@ class ilRepositoryTreeTest extends TestCase
         $this->setGlobalVariable('ilAppEventHandler', $this->createMock(ilAppEventHandler::class));
 
         $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+                       ->disableOriginalConstructor()
+                       ->getMock();
 
         $logger_factory = $this->getMockBuilder(ilLoggerFactory::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['getComponentLogger'])
-            ->getMock();
+                               ->disableOriginalConstructor()
+                               ->onlyMethods(['getComponentLogger'])
+                               ->getMock();
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
     }

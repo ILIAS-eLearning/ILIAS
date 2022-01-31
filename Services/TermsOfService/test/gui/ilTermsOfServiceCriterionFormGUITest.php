@@ -9,8 +9,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
 {
     public function testFormIsProperlyBuiltForNewCriterionAssignment() : void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -87,8 +85,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormIsProperlyBuiltForExistingCriterionAssignment() : void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -169,8 +165,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
 
     public function testFormForNewCriterionAssignmentCanBeSavedForValidInput() : void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -267,10 +261,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->once())
             ->method('checkInput')
             ->willReturn(true);
-
-        $_POST = [
-            'criterion' => $criterionType1->getTypeIdent()
-        ];
 
         $form->setCheckInputCalled(true);
 
@@ -422,10 +412,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->exactly(2))
             ->method('checkInput')
             ->willReturn(true);
-
-        $_POST = [
-            'criterion' => $criterionType1->getTypeIdent()
-        ];
 
         $form->setCheckInputCalled(true);
 

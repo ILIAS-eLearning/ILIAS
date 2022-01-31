@@ -1,12 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Import directory interface
- *
- * @author	Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup	ServicesExport
+ * @author     Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup    ServicesExport
  */
 interface ilImportDirectoryHandler
 {

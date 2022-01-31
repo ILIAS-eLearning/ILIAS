@@ -731,18 +731,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTableWidth('100%');
         $this->form->setTitle($this->lng->txt('auth_auth_settings'));
-        $this->form->addCommandButton('updateAuthModeDetermination', $this->lng->txt('save'));
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-        $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
-        $cap->setInfo($this->lng->txt('adm_captcha_anonymous_auth'));
-        $cap->setValue(1);
-        if (!ilCaptchaUtil::checkFreetype()) {
-            $cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->form->addCommandButton('updateAuthModeDetermination', $this->lng->txt('save'));
         }
-        $cap->setChecked(ilCaptchaUtil::isActiveForLogin());
-        $this->form->addItem($cap);
-        
+
         // Are there any authentication methods that support automatic determination ?
         include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
         $det = ilAuthModeDetermination::_getInstance();
@@ -832,9 +825,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
         $det->setAuthModeSequence($position ? $position : array());
         $det->save();
-
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-        ilCaptchaUtil::setActiveForLogin((bool) $_POST['activate_captcha_anonym']);
 
         ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         $this->authSettingsObject();
@@ -1268,7 +1258,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         $form->addItem($txt);
 
-        if ($this->dic->rbac()->system()->checkAccess('visible, read', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $form->addCommandButton('saveApacheSettings', $this->lng->txt('save'));
         }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -1286,26 +1276,4 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $registration_gui = new ilRegistrationSettingsGUI();
         $this->ctrl->redirect($registration_gui);
     }
-
-    /**
-     * @param string $a_form_id
-     * @return array
-     */
-    public function addToExternalSettingsForm($a_form_id)
-    {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-                require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-                $fields_login = array(
-                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForLogin(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                );
-
-                $fields_registration = array(
-                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForRegistration(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
-                );
-
-
-                return array('adm_auth_login' => array('authSettings', $fields_login), 'adm_auth_reg' => array('registrationSettings', $fields_registration));
-        }
-    }
-} // END class.ilObjAuthSettingsGUI
+}

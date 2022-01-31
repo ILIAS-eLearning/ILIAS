@@ -262,7 +262,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
                 $tpl->setCurrentBlock("image_heading");
                 $tpl->setVariable("ANSWER_IMAGE", $this->lng->txt('answer_image'));
-                $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+                $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
                 $tpl->parseCurrentBlock();
             }
         }

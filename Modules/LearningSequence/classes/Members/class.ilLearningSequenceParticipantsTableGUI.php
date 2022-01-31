@@ -94,14 +94,14 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow($set)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_ID', $set['usr_id']);
-        $this->tpl->setVariable('VAL_NAME', $set['lastname'] . ', ' . $set['firstname']);
-        $this->tpl->setVariable('VAL_LOGIN', $set['login']);
+        $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
+        $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
+        $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
 
         if (
-            !$this->access->checkAccessOfUser($set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
+            !$this->access->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getRepositoryObject()->getRefId()) &&
             is_array($info = $this->access->getInfo())
         ) {
             $this->tpl->setCurrentBlock('access_warning');
@@ -109,7 +109,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($set['usr_id'])) {
+        if (!ilObjUser::_lookupActive($a_set['usr_id'])) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
@@ -119,8 +119,8 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             switch ($field) {
                 case 'prtf':
                     $tmp = array();
-                    if (is_array($set['prtf'])) {
-                        foreach ($set['prtf'] as $prtf_url => $prtf_txt) {
+                    if (is_array($a_set['prtf'])) {
+                        foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
                     }
@@ -130,17 +130,17 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                     break;
                 case 'roles':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $set['roles_label']);
+                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['roles_label']);
                     $this->tpl->parseCurrentBlock();
                     break;
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', isset($set[$field]) ? (string) $set[$field] : '');
+                    $this->tpl->setVariable('VAL_CUST', isset($a_set[$field]) ? (string) $a_set[$field] : '');
                     $this->tpl->parseCurrentBlock();
                     break;
             }
@@ -153,23 +153,23 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ilObjUserTracking::_enabledLearningProgress()
 
         ) {
-            $this->tpl->setVariable('FIRST_ACCESS', $this->getFirstAccess((int) $set['usr_id']));
-            $this->tpl->setVariable('LAST_ACCESS', $this->getLastAccess((int) $set['usr_id']));
+            $this->tpl->setVariable('FIRST_ACCESS', $this->getFirstAccess((int) $a_set['usr_id']));
+            $this->tpl->setVariable('LAST_ACCESS', $this->getLastAccess((int) $a_set['usr_id']));
         }
 
-        $this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int) $set['usr_id']));
-        $this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int) $set['usr_id']));
+        $this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int) $a_set['usr_id']));
+        $this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int) $a_set['usr_id']));
 
-        if ($this->getParticipants()->isAdmin($set['usr_id'])) {
-            $this->tpl->setVariable('VAL_NOTIFICATION_ID', $set['usr_id']);
+        if ($this->getParticipants()->isAdmin($a_set['usr_id'])) {
+            $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
             $this->tpl->setVariable(
                 'VAL_NOTIFICATION_CHECKED',
-                $set['notification'] ? 'checked="checked"' : ''
+                $a_set['notification'] ? 'checked="checked"' : ''
             );
         }
 
-        $this->showActionLinks($set);
-        $this->tpl->setVariable('VAL_LOGIN', $set['login']);
+        $this->showActionLinks($a_set);
+        $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
     }
 
     protected function getFirstAccess(int $user_id) : string
@@ -344,7 +344,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         if ($udf_ids) {
             $data = ilUserDefinedData::lookupData($ls_participants, $udf_ids);
             foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
+                if (!$this->checkAcceptance((int) $usr_id)) {
                     continue;
                 }
 
@@ -363,7 +363,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->setData($user_data);
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $ef = $this->getExportFieldsInfo();
         $columns = $ef->getSelectableFieldsInfo(

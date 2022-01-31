@@ -85,6 +85,28 @@ class ilLSLocalDI extends Container
             );
         };
 
+        $this["player.urlbuilder.lp"] = function ($c) use ($dic, $data_factory) : LSUrlBuilder {
+            $player_base_url = $dic['ilCtrl']->getLinkTargetByClass(
+                'ilObjLearningSequenceLPPollingGUI',
+                \LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP,
+                '',
+                false,
+                false
+            );
+            $player_base_url = $data_factory->uri(ILIAS_HTTP_PATH . '/' . $player_base_url);
+
+            return new LSUrlBuilder($player_base_url);
+        };
+        $this["gui.learner.lp"] = function ($c) use ($dic) : ilObjLearningSequenceLPPollingGUI {
+            return new ilObjLearningSequenceLPPollingGUI(
+                $dic["ilCtrl"],
+                $c["usr.id"],
+                $dic['ilObjDataCache'],
+                $dic->refinery(),
+                $dic->http()->wrapper()->query()
+            );
+        };
+
         $this["gui.toc"] = function ($c) use ($dic) : ilLSTOCGUI {
             return new ilLSTOCGUI(
                 $c["player.urlbuilder"]
@@ -129,7 +151,8 @@ class ilLSLocalDI extends Container
                 $dic["ui.factory"],
                 $c["player.urlbuilder"],
                 $dic["lng"],
-                $c["globalsetttings"]
+                $c["globalsetttings"],
+                $c["player.urlbuilder.lp"]
             );
         };
 

@@ -15,7 +15,6 @@ class ilLOUtils
      */
     public static function isCompleted($a_cont_oid, $a_test_rid, $a_objective_id, $max_points, $reached, $limit_perc)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
         
         if (self::lookupRandomTest(ilObject::_lookupObjId($a_test_rid))) {
@@ -43,15 +42,12 @@ class ilLOUtils
      */
     public static function lookupObjectiveRequiredPercentage($a_container_id, $a_objective_id, $a_test_ref_id, $a_max_points)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $settings = ilLOSettings::getInstanceByObjId($a_container_id);
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         $a_test_type = $assignments->getTypeByTest($a_test_ref_id);
         
         if ($assignments->isSeparateTest($a_test_ref_id)) {
-            include_once './Services/Object/classes/class.ilObjectFactory.php';
             $factory = new ilObjectFactory();
             $tst = $factory->getInstanceByRefId($a_test_ref_id, false);
             if ($tst instanceof ilObjTest) {
@@ -68,10 +64,8 @@ class ilLOUtils
         
         $tst_ref_id = $a_test_ref_id;
         if (self::lookupRandomTest(ilObject::_lookupObjId($tst_ref_id))) {
-            include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
             return (int) ilLORandomTestQuestionPools::lookupLimit($a_container_id, $a_objective_id, $a_test_type);
         } else {
-            include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
             $limit = ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
             return $limit;
         }
@@ -90,7 +84,6 @@ class ilLOUtils
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
         /**
          * @var ilLOTestAssignments
          */
@@ -117,7 +110,6 @@ class ilLOUtils
      */
     public static function lookupRandomTest($a_test_obj_id)
     {
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         return ilObjTest::_lookupRandomTest($a_test_obj_id);
     }
     
@@ -136,8 +128,6 @@ class ilLOUtils
         if (!$tst instanceof ilObjTest) {
             return '';
         }
-        include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-        include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
         $list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $GLOBALS['DIC']['ilDB'],
             $tst,
@@ -149,7 +139,6 @@ class ilLOUtils
                 
         $list->loadDefinitions();
 
-        include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
         $translator = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['DIC']['ilDB']);
         $translator->loadLabels($list);
         
@@ -196,7 +185,6 @@ class ilLOUtils
         return false;
         
         // check if pass exists
-        include_once './Modules/Test/classes/class.ilObjTest.php';
         if (
             !ilObjTest::isParticipantsLastPassActive(
                 $a_test_ref_id,
@@ -207,7 +195,6 @@ class ilLOUtils
         }
 
         // check if multiple pass exists
-        include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
         $last_objectives = ilLOTestRun::lookupObjectives(
             $a_container_id,
             $GLOBALS['DIC']['ilUser']->getId(),
@@ -243,7 +230,6 @@ class ilLOUtils
         if ($valid) {
             $testObjId = ilObject::_lookupObjId($a_test_ref_id);
             if (!$tutor) {
-                require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
                 if (ilObjTestAccess::visibleUserResultExists($testObjId, $a_user_id)) {
                     $ilCtrl->setParameterByClass('ilObjTestGUI', 'ref_id', $a_test_ref_id);
                     $ctrlClasses = array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestResultsGUI');
@@ -252,7 +238,6 @@ class ilLOUtils
                     return $link;
                 }
             } else {
-                include_once 'Modules/Test/classes/class.ilObjTest.php';
                 $testId = ilObjTest::_getTestIDFromObjectID($testObjId);
                 if ($testId) {
                     $userActiveId = ilObjTest::_getActiveIdOfUser($a_user_id, $testId);

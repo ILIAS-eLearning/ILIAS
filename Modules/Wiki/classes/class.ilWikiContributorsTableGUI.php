@@ -66,7 +66,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
         $this->setData($contributors);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         

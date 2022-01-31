@@ -2,6 +2,19 @@
 
 namespace ILIAS\HTTP\Cookies;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface Cookie
  *
@@ -18,24 +31,18 @@ interface Cookie
 
     /**
      * Cookie name.
-     *
-     * @return string
      */
     public function getName() : string;
 
 
     /**
      * Cookie value.
-     *
-     * @return string|null
      */
     public function getValue() : ?string;
 
 
     /**
      * Expiration date as unix timestamp.
-     *
-     * @return int
      */
     public function getExpires() : int;
 
@@ -43,40 +50,30 @@ interface Cookie
     /**
      * Max age measured in seconds.
      * If the max age is zero no max age is set.
-     *
-     * @return int
      */
     public function getMaxAge() : int;
 
 
     /**
      * Cookie path.
-     *
-     * @return string
      */
     public function getPath() : ?string;
 
 
     /**
      * Cookie domain.
-     *
-     * @return string
      */
     public function getDomain() : ?string;
 
 
     /**
      * True if it's secure cookie otherwise false.
-     *
-     * @return bool
      */
     public function getSecure() : bool;
 
 
     /**
      * True if the cookie is http only otherwise false.
-     *
-     * @return bool
      */
     public function getHttpOnly() : bool;
 
@@ -85,8 +82,6 @@ interface Cookie
      * Sets the cookie value.
      *
      * @param null|string $value The cookie value.
-     *
-     * @return Cookie
      */
     public function withValue(string $value = null) : Cookie;
 
@@ -99,16 +94,12 @@ interface Cookie
      * then the expires key will be removed from the cookie.
      *
      * @param null|\DateTimeInterface|int|string $expires The expiration time of the Cookie.
-     *
-     * @return Cookie
      */
     public function withExpires($expires = null) : Cookie;
 
 
     /**
      * Sets the expiration date to +5 years.
-     *
-     * @return Cookie
      */
     public function rememberForLongTime() : Cookie;
 
@@ -116,8 +107,6 @@ interface Cookie
     /**
      * Expire the cookie.
      * Useful if the cookie should be deleted at the client side.
-     *
-     * @return Cookie
      */
     public function expire() : Cookie;
 
@@ -127,8 +116,6 @@ interface Cookie
      * The most browser prefer max age over expiration date.
      *
      * @param null|int $maxAge Lifetime in seconds.
-     *
-     * @return Cookie
      */
     public function withMaxAge(int $maxAge = null) : Cookie;
 
@@ -137,8 +124,6 @@ interface Cookie
      * Sets the cookie path.
      *
      * @param null|string $path The cookie path.
-     *
-     * @return Cookie
      */
     public function withPath(string $path = null) : Cookie;
 
@@ -147,8 +132,6 @@ interface Cookie
      * Sets the domain name for the cookie.
      *
      * @param null|string $domain Cookie domain.
-     *
-     * @return Cookie
      */
     public function withDomain(string $domain = null) : Cookie;
 
@@ -157,8 +140,6 @@ interface Cookie
      * Sets if the cookie is a secure cookie or not.
      *
      * @param null|bool $secure Secure flag.
-     *
-     * @return Cookie
      */
     public function withSecure(bool $secure = null) : Cookie;
 
@@ -167,8 +148,6 @@ interface Cookie
      * Sets if the cookie is http only.
      *
      * @param null|bool $httpOnly http only flag.
-     *
-     * @return Cookie
      */
     public function withHttpOnly(bool $httpOnly = null) : Cookie;
 

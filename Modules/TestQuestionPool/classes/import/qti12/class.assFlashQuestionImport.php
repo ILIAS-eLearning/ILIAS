@@ -62,7 +62,7 @@ class assFlashQuestionImport extends assQuestionImport
         $flashapplet = base64_decode($item->getMetadataEntry("swf"));
         if (!file_exists($this->object->getFlashPath())) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::makeDirParents($this->object->getFlashPath());
+            ilFileUtils::makeDirParents($this->object->getFlashPath());
         }
         $filename = $this->object->getFlashPath() . $this->object->getApplet();
         $fh = fopen($filename, "wb");

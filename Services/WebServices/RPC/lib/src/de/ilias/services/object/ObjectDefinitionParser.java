@@ -40,7 +40,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.jdom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -50,6 +50,7 @@ import de.ilias.services.lucene.index.file.path.PathCreatorFactory;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Parser for  Lucene object definitions.
@@ -59,7 +60,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class ObjectDefinitionParser {
 
-	protected Logger logger = Logger.getLogger(ObjectDefinitionParser.class);
+	protected Logger logger = LogManager.getLogger(ObjectDefinitionParser.class);
 	private Vector<File> objectPropertyFiles = new Vector<File>();
 	private ClientSettings settings;
 	private ObjectDefinitions definitions;

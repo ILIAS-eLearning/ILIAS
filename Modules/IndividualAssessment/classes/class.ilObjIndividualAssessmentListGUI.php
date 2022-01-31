@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once("./Services/Object/classes/class.ilObjectListGUI.php");
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
 {
-
-    /**
-    * initialisation
-    */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -23,11 +20,8 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         $this->enableSubstitutions($this->substitutions->isActive());
 
         // general commands array
-        include_once('./Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentAccess.php');
         $this->commands = ilObjIndividualAssessmentAccess::_getCommands();
     }
-
-
 
     /**
     * Get command target frame
@@ -36,7 +30,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame($a_cmd) : string
     {
         switch ($a_cmd) {
             default:
@@ -47,11 +41,14 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink($a_cmd) : string
     {
         switch ($a_cmd) {
             case 'edit':
-                $return = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name,'ilIndividualassessmentsettingsgui'), "edit");
+                $return = $this->ctrl->getLinkTargetByClass(
+                    array($this->gui_class_name,'ilIndividualassessmentsettingsgui'),
+                    "edit"
+                );
                 break;
             case 'infoScreen':
                 $return = $this->ctrl->getLinkTargetByClass($this->gui_class_name, "view");
@@ -71,7 +68,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties() : array
     {
         return [];
     }

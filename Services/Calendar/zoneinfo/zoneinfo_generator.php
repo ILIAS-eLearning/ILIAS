@@ -7,8 +7,6 @@
 
     chdir('../../..');
     
-    include_once('include/inc.header.php');
-    include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
     
     foreach (ilCalendarUtil::_getShortTimeZoneList() as $tz_name => $tmp) {
         $name_underscore = str_replace('/', '_', $tz_name);

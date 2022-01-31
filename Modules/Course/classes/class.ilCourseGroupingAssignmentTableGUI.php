@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 *
@@ -114,7 +113,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         return $path;
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

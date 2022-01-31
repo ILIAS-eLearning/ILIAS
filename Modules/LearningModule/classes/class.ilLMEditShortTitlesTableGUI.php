@@ -20,7 +20,6 @@
 class ilLMEditShortTitlesTableGUI extends ilTable2GUI
 {
     protected string $lang;
-    protected $ctrl;
     protected ilObjLearningModule $lm;
 
     public function __construct(
@@ -52,7 +51,7 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
         $this->addCommandButton("save", $this->lng->txt("save"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("DEFAULT_TITLE", $a_set["default_title"]);

@@ -98,7 +98,7 @@ class ilStudyProgrammeAutoMailSettings
                     [$input->numeric(
                         $ilLng->txt('prg_user_not_restarted_time_input'),
                         $ilLng->txt('prg_user_not_restarted_time_input_info')
-                    )->withAdditionalTransformation($refinery->int()->isGreaterThan(0))],
+                    )->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))],
                     $ilLng->txt("send_info_to_re_assign_mail"),
                     $ilLng->txt("send_info_to_re_assign_mail_info")
                 )
@@ -108,7 +108,7 @@ class ilStudyProgrammeAutoMailSettings
                     [$input->numeric(
                         $ilLng->txt('prg_processing_ends_no_success'),
                         $ilLng->txt('prg_processing_ends_no_success_info')
-                    )->withAdditionalTransformation($refinery->int()->isGreaterThan(0))],
+                    )->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))],
                     $ilLng->txt("send_risky_to_fail_mail"),
                     $ilLng->txt("send_risky_to_fail_mail_info")
                 )

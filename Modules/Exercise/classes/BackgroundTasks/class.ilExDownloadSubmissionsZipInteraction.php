@@ -8,6 +8,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Bucket;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
@@ -34,12 +36,12 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         ];
     }
 
-    public function getRemoveOption() : UserInteractionOption
+    public function getRemoveOption() : Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -55,7 +57,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         array $input,
         Option $user_selected_option,
         Bucket $bucket
-    ) : array {
+    ) : Value {
         global $DIC;
         $download_name = $input[0]; //directory name.
         $zip_name = $input[1]; // zip job

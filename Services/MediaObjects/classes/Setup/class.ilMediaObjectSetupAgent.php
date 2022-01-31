@@ -52,6 +52,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
             ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR
         );
 
+        /** @var ilMediaObjectSetupConfig $config */
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/MediaObject",
             false,
@@ -62,6 +63,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @var ilMediaObjectSetupConfig $config */
         if ($config !== null) {
             return new ilMediaObjectConfigStoredObjective($config);
         }

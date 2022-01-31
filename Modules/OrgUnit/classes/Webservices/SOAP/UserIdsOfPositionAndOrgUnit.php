@@ -29,7 +29,7 @@ class UserIdsOfPositionAndOrgUnit extends Base
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return "getUserIdsOfPositionAndOrgUnit";
     }
@@ -50,7 +50,7 @@ class UserIdsOfPositionAndOrgUnit extends Base
     /**
      * @inheritdoc
      */
-    public function getOutputParams()
+    public function getOutputParams() : array
     {
         return array('usr_ids' => Base::TYPE_INT_ARRAY);
     }
@@ -59,7 +59,7 @@ class UserIdsOfPositionAndOrgUnit extends Base
     /**
      * @inheritdoc
      */
-    public function getDocumentation()
+    public function getDocumentation() : string
     {
         return "Returns ids of users in a position of a given Org Unit";
     }

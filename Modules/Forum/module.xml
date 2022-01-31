@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="frm" class_name="Forum" dir="classes" default_pos="70" default_pres_pos="90"
-			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1">
+			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1" offline_handling="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>

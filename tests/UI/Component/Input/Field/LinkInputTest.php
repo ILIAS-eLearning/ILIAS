@@ -25,7 +25,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $data_factory = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         $language->method("txt")
-            ->willReturn($this->returnArgument(0));
+            ->will($this->returnArgument(0));
 
         return new Factory(
             new SignalGenerator(),

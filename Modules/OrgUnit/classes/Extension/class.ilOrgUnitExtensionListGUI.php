@@ -8,30 +8,6 @@
  */
 abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
 {
-
-    /**
-     * @return ilOrgUnitExtensionPlugin
-     */
-    protected function getPlugin() : ?ilObjectPlugin
-    {
-        if (!$this->plugin) {
-            $this->plugin = ilPlugin::getPluginObject(
-                IL_COMP_MODULE,
-                "OrgUnit",
-                "orguext",
-                ilPlugin::lookupNameForId(
-                    IL_COMP_MODULE,
-                    "OrgUnit",
-                    "orguext",
-                    $this->getType()
-                )
-            );
-        }
-
-        return $this->plugin;
-    }
-
-
     protected function initListActions() : void
     {
         $this->delete_enabled = true;

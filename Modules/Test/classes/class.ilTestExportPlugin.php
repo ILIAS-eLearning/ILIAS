@@ -29,49 +29,6 @@ abstract class ilTestExportPlugin extends ilPlugin
         'xml',
         'csv'
     );
-    
-    /**
-     * Get Component Type
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_MODULE;
-    }
-
-    /**
-     * Get Component Name.
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
-    {
-        return "Test";
-    }
-
-    /**
-     * Get Slot Name.
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
-    {
-        return "Export";
-    }
-
-    /**
-     * Get Slot ID.
-     * @return        string        Slot Id
-     */
-    final public function getSlotId()
-    {
-        return "texp";
-    }
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-    }
 
     /**
      * @param ilObjTest $test

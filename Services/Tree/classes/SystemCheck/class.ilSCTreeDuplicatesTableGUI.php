@@ -7,7 +7,6 @@
  */
 class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 {
-
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
         $this->setId('sysc_tree_duplicates');
@@ -25,7 +24,10 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('sysc_duplicates_repository'), '');
         $this->addColumn($this->lng->txt('sysc_duplicates_trash'), '');
 
-        $this->addCommandButton('deleteDuplicatesFromRepository', $this->lng->txt('sysc_delete_duplicates_from_repository'));
+        $this->addCommandButton(
+            'deleteDuplicatesFromRepository',
+            $this->lng->txt('sysc_delete_duplicates_from_repository')
+        );
         $this->addCommandButton('deleteDuplicatesFromTrash', $this->lng->txt('sysc_delete_duplicates_from_trash'));
     }
 
@@ -34,19 +36,16 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         $this->setData(array(array('id' => $a_duplicate_id)));
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
-
-        $id         = (int) ($a_set['id'] ?? 0);
+        $id = (int) ($a_set['id'] ?? 0);
         $duplicates = ilSCTreeTasks::findDuplicates($id);
 
         $this->tpl->setVariable('DUP_ID', $id);
 
         foreach ($duplicates as $a_id => $node) {
-
             $child_id = (int) ($node['child'] ?? 0);
             if (isset($node['tree']) && $node['tree'] == 1) {
-
                 $childs = ilSCTreeTasks::getChilds($node['tree'], $child_id);
 
                 $start_depth = (int) ($node['depth'] ?? 0);
@@ -63,7 +62,6 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
                 }
             }
             if (isset($node['tree']) && $node['tree'] < 1) {
-
                 $childs = ilSCTreeTasks::getChilds($node['tree'], $child_id);
 
                 $start_depth = (int) ($node['depth'] ?? 0);
@@ -79,7 +77,6 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 
     protected function fillObjectRow(int $a_tree_id, int $a_ref_id, int $a_start_depth, string $a_prefix) : void
     {
-
         $child_data = ilSCTreeTasks::getNodeInfo($a_tree_id, $a_ref_id);
 
         $depth = (int) ($child_data['depth'] ?? 0);
@@ -92,7 +89,10 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         if (isset($child_data['description']) && $child_data['description']) {
             $this->tpl->setVariable($a_prefix . 'VAL_DESC', $child_data['description']);
         }
-        $this->tpl->setVariable($a_prefix . 'TYPE_IMG', ilUtil::getTypeIconPath((string) ($child_data['type'] ?? ''), (int) ($child_data['obj_id'] ?? 0)));
+        $this->tpl->setVariable(
+            $a_prefix . 'TYPE_IMG',
+            ilUtil::getTypeIconPath((string) ($child_data['type'] ?? ''), (int) ($child_data['obj_id'] ?? 0))
+        );
         $this->tpl->setVariable($a_prefix . 'TYPE_STR', $this->lng->txt('obj_' . ($child_data['type'] ?? '')));
     }
 }

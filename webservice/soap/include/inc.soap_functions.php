@@ -1198,7 +1198,7 @@ class ilSoapFunctions
         ilInitialisation::initILIAS();
         ilContext::init(ilContext::CONTEXT_SOAP);
         global $DIC;
-        $soapHook = new ilSoapHook($DIC['ilPluginAdmin']);
+        $soapHook = new ilSoapHook($DIC['component.factory']);
         // Method name may be invoked with namespace e.g. 'myMethod' vs 'ns:myMethod'
         if (strpos($name, ':') !== false) {
             list($_, $name) = explode(':', $name);

@@ -68,7 +68,7 @@ class ilPCFileListTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_files"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->getParentObject()->checkStyleSelection()) {
             $this->tpl->setCurrentBlock("class_sel");

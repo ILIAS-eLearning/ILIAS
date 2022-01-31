@@ -708,7 +708,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getTitleFilenameCompliant()
     {
         require_once 'Services/Utilities/classes/class.ilUtil.php';
-        return ilUtil::getASCIIFilename($this->getTitle());
+        return ilFileUtils::getASCIIFilename($this->getTitle());
     }
 
     /**
@@ -836,11 +836,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         // delete export files
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $tst_data_dir = ilUtil::getDataDir() . "/tst_data";
+        $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
         $directory = $tst_data_dir . "/tst_" . $this->getId();
         if (is_dir($directory)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
-            ilUtil::delDir($directory);
+            ilFileUtils::delDir($directory);
         }
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
@@ -865,8 +865,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function createExportDirectory()
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $tst_data_dir = ilUtil::getDataDir() . "/tst_data";
-        ilUtil::makeDir($tst_data_dir);
+        $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
+        ilFileUtils::makeDir($tst_data_dir);
         if (!is_writable($tst_data_dir)) {
             $this->ilias->raiseError("Test Data Directory (" . $tst_data_dir
                 . ") not writeable.", $this->ilias->error_obj->MESSAGE);
@@ -874,13 +874,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $tst_dir = $tst_data_dir . "/tst_" . $this->getId();
-        ilUtil::makeDir($tst_dir);
+        ilFileUtils::makeDir($tst_dir);
         if (!@is_dir($tst_dir)) {
             $this->ilias->raiseError("Creation of Test Directory failed.", $this->ilias->error_obj->MESSAGE);
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
         $export_dir = $tst_dir . "/export";
-        ilUtil::makeDir($export_dir);
+        ilFileUtils::makeDir($export_dir);
         if (!@is_dir($export_dir)) {
             $this->ilias->raiseError("Creation of Export Directory failed.", $this->ilias->error_obj->MESSAGE);
         }
@@ -893,8 +893,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getExportDirectory()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $export_dir = ilUtil::getDataDir() . "/tst_data" . "/tst_" . $this->getId() . "/export";
+        $export_dir = ilFileUtils::getDataDir() . "/tst_data" . "/tst_" . $this->getId() . "/export";
         return $export_dir;
     }
 
@@ -969,8 +968,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilias = $DIC['ilias'];
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $tst_data_dir = ilUtil::getDataDir() . "/tst_data";
-        ilUtil::makeDir($tst_data_dir);
+        $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
+        ilFileUtils::makeDir($tst_data_dir);
 
         if (!is_writable($tst_data_dir)) {
             $ilias->raiseError("Test Data Directory (" . $tst_data_dir
@@ -979,13 +978,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         // create test directory (data_dir/tst_data/tst_import)
         $tst_dir = $tst_data_dir . "/tst_import";
-        ilUtil::makeDir($tst_dir);
+        ilFileUtils::makeDir($tst_dir);
         if (!@is_dir($tst_dir)) {
             $ilias->raiseError("Creation of test import directory failed.", $ilias->error_obj->FATAL);
         }
 
         // assert that this is empty and does not contain old data
-        ilUtil::delDir($tst_dir, true);
+        ilFileUtils::delDir($tst_dir, true);
 
         return $tst_dir;
     }
@@ -2131,7 +2130,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $customstyles = array();
         if (is_dir($css_path)) {
             $results = array();
-            include_once "./Services/Utilities/classes/class.ilFileUtils.php";
             ilFileUtils::recursive_dirscan($css_path, $results);
             if (is_array($results["file"])) {
                 foreach ($results["file"] as $filename) {
@@ -3483,7 +3481,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         foreach ($activeIds as $active_id) {
             // remove file uploads
             if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id")) {
-                ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
+                ilFileUtils::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
             }
             
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
@@ -5604,7 +5602,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getAvailableQuestions($arrFilter, $completeonly = 0)
     {
         global $DIC;
-        $pluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
+        $component_factory = $DIC['component.factory'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
@@ -5670,11 +5669,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     continue;
                 }
                 
-                if (!$pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $row['plugin_name'])) {
+                $plugin = $component_repository->getPluginByName($row['plugin_name']);
+                if (!$plugin->isActive()) {
                     continue;
                 }
                 
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $row['plugin_name']);
+                $pl = $component_factory->getPlugin($plugin->getId());
                 $row[ 'ttype' ] = $pl->getQuestionTypeTranslation();
                 
                 $rows[] = $row;
@@ -9988,7 +9988,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilLog = $DIC['ilLog'];
 
         include_once "./Services/Utilities/classes/class.ilUtil.php";
-        $fo_file = ilUtil::ilTempnam() . ".fo";
+        $fo_file = ilFileUtils::ilTempnam() . ".fo";
         $fp = fopen($fo_file, "w");
         fwrite($fp, $fo);
         fclose($fp);
@@ -9997,7 +9997,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         try {
             $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
             $filename = (strlen($title)) ? $title : $this->getTitle();
-            ilUtil::deliverData($pdf_base64->scalar, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
+            ilUtil::deliverData($pdf_base64->scalar, ilFileUtils::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
             return true;
         } catch (Exception $e) {
             $ilLog->write(__METHOD__ . ': ' . $e->getMessage());

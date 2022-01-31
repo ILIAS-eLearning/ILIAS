@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileUpload\MimeType;
+
 /**
  * Class ilDclBaseFieldModel
  *
@@ -29,14 +31,20 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->setType("file");
             $file_obj->setTitle($file["name"]);
             $file_obj->setFileName($file["name"]);
-            $file_obj->setFileType(ilMimeTypeUtil::getMimeType("", $file["name"], $file["type"]));
+            $file_obj->setFileType(MimeType::getMimeType("", $file["name"], $file["type"]));
             $file_obj->setFileSize($file["size"]);
             $file_obj->setMode("object");
             $file_obj->create();
 
             if ($has_save_confirmation) {
                 $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
-                $file_obj->storeUnzipedFile($move_file, $file["name"]);
+
+                $file_obj->appendStream(
+                    \ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
+                    $file_obj->getTitle()
+                );
+
+                $file_obj->setFileName($file["name"]);
             } else {
                 $move_file = $file['tmp_name'];
                 /**

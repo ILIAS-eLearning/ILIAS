@@ -226,7 +226,7 @@ class assKprimChoiceImport extends assQuestionImport
                 $imagepath = $this->object->getImagePath();
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
-                    ilUtil::makeDirParents($imagepath);
+                    ilFileUtils::makeDirParents($imagepath);
                 }
                 $imagepath .= $answer["imagefile"]["label"];
                 if ($fh = fopen($imagepath, "wb")) {

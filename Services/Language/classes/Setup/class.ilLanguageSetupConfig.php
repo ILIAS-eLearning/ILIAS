@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,20 +6,10 @@ use ILIAS\Setup;
 
 class ilLanguageSetupConfig implements Setup\Config
 {
-    /**
-     * @var string
-     */
-    protected $default_language;
 
-    /**
-     * @var	string[]
-     */
-    protected $install_languages;
-
-    /**
-     * @var	string[]
-     */
-    protected $install_local_languages;
+    protected string $default_language;
+    protected array $install_languages;
+    protected array $install_local_languages;
 
     public function __construct(
         string $default_language,
@@ -49,6 +39,9 @@ class ilLanguageSetupConfig implements Setup\Config
         $this->install_local_languages = array_values($install_local_languages);
     }
 
+    /**
+     * Check the language name
+     */
     protected function checkLanguageName(string $l) : void
     {
         if (!strlen($l) == 2) {
@@ -58,13 +51,16 @@ class ilLanguageSetupConfig implements Setup\Config
         }
     }
 
+    /**
+     * Return default language
+     */
     public function getDefaultLanguage() : string
     {
         return $this->default_language;
     }
 
     /**
-     * @return	string[]
+     * Return installed languages
      */
     public function getInstallLanguages() : array
     {
@@ -72,7 +68,7 @@ class ilLanguageSetupConfig implements Setup\Config
     }
 
     /**
-     * @return	string[]
+     * Return installed local languages
      */
     public function getInstallLocalLanguages() : array
     {

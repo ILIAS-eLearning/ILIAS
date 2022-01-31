@@ -4,9 +4,9 @@
 		<include>
 			<directory suffix=".php">classes</directory>
 		</include>
-		<!--<report>
+		<report>
 			<html outputDirectory="build/coverage" highLowerBound="80"/>
-		</report>-->
+		</report>
 	</coverage>
 	<testsuite name="ilModulesChatroomSuite">
 		<file>./test/ilModulesChatroomSuite.php</file>

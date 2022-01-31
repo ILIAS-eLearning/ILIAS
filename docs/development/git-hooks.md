@@ -78,7 +78,7 @@ just checked out.
 
 ##### Additional Custom Actions
 You can merge some additional custom actions with the standard actions of the captainhook.json:
-Create your own config-file and add actions or settings you to merge with the default. Make sure, 
+Create your own config-file and add actions or settings you want to merge with the default. Make sure, 
 you have the config option `includes` defined to include the standard-configuration `captainhook.json`, 
 e.g a file `captainhook.local.json` (which will be ignored in the repo):
 

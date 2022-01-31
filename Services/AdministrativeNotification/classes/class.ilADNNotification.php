@@ -1,4 +1,13 @@
-<?php /** @noinspection ALL */
+<?php /******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+/** @noinspection ALL */
 
 /**
  * Class ilADNNotification
@@ -7,7 +16,7 @@
  */
 class ilADNNotification extends ActiveRecord
 {
-
+    
     const POS_TOP = 1;
     const POS_RIGHT = 2;
     const POST_LEFT = 3;
@@ -22,11 +31,8 @@ class ilADNNotification extends ActiveRecord
     const LINK_TYPE_NONE = 0;
     const LINK_TYPE_REF_ID = 1;
     const LINK_TYPE_URL = 2;
-    /**
-     * @var array
-     */
-    protected static $allowed_user_ids = array(0, 13, 6);
-
+    protected static array $allowed_user_ids = array(0, 13, 6);
+    
     /**
      * @return string
      */
@@ -34,7 +40,7 @@ class ilADNNotification extends ActiveRecord
     {
         return self::TABLE_NAME;
     }
-
+    
     /**
      * @return string
      * @deprecated
@@ -43,40 +49,30 @@ class ilADNNotification extends ActiveRecord
     {
         return self::TABLE_NAME;
     }
-
-    /**
-     * @param ilObjUser $ilObjUser
-     */
-    public function dismiss(ilObjUser $ilObjUser)
+    
+    public function dismiss(ilObjUser $ilObjUser) : void
     {
         if ($this->isUserAllowedToDismiss($ilObjUser)) {
             ilADNDismiss::dismiss($ilObjUser, $this);
         }
     }
-
-    /**
-     * @param ilObjUser $ilObjUser
-     * @return bool
-     */
-    protected function hasUserDismissed(ilObjUser $ilObjUser)
+    
+    protected function hasUserDismissed(ilObjUser $ilObjUser) : bool
     {
         if (!$this->getDismissable()) {
             return false;
         }
-
+        
         return ilADNDismiss::hasDimissed($ilObjUser, $this);
     }
-
-    public function resetForAllUsers()
+    
+    public function resetForAllUsers() : void
     {
         foreach (ilADNDismiss::where(array('notification_id' => $this->getId()))->get() as $not) {
             $not->delete();
         }
     }
-
-    /**
-     * @return string
-     */
+    
     public function getFullTimeFormated() : string
     {
         if ($this->getEventStart() == 0 && $this->getEventEnd() == 0) {
@@ -91,20 +87,13 @@ class ilADNNotification extends ActiveRecord
                     $this->getEventEnd());
         }
     }
-
-    /**
-     * @param ilObjUser $ilUser
-     * @return bool
-     */
-    public function isUserAllowedToDismiss(ilObjUser $ilUser)
+    
+    public function isUserAllowedToDismiss(ilObjUser $ilUser) : bool
     {
         return ($this->getDismissable() and $ilUser->getId() != 0 and $ilUser->getId() != ANONYMOUS_USER_ID);
     }
-
-    /**
-     * @return int
-     */
-    public function getActiveType()
+    
+    public function getActiveType() : int
     {
         if ($this->isPermanent()) {
             return $this->getType();
@@ -116,34 +105,28 @@ class ilADNNotification extends ActiveRecord
             return $this->getType();
         }
     }
+    
 
-    /**
-     * @return bool
-     */
-    protected function isVisible()
+    protected function isVisible():bool
     {
         if ($this->isPermanent()) {
             return true;
         }
-        $hasEventStarted = $this->hasEventStarted();
+        $hasEventStarted   = $this->hasEventStarted();
         $hasDisplayStarted = $this->hasDisplayStarted();
-        $hasEventEnded = !$this->hasEventEnded();
-        $hasDisplayEnded = !$this->hasDisplayEnded();
-
+        $hasEventEnded     = !$this->hasEventEnded();
+        $hasDisplayEnded   = !$this->hasDisplayEnded();
+        
         return ($hasEventStarted or $hasDisplayStarted) and ($hasEventEnded or $hasDisplayEnded);
     }
-
-    /**
-     * @param ilObjUser $ilObjUser
-     * @return bool
-     */
-    public function isVisibleForUser(ilObjUser $ilObjUser)
+    
+    public function isVisibleForUser(ilObjUser $ilObjUser):bool
     {
         if ($ilObjUser->getId() == 0 && $this->isInterruptive()) {
             return false;
         }
         if (!$this->isVisible()) {
-
+            
             return false;
         }
         if ($this->hasUserDismissed($ilObjUser)) {
@@ -152,31 +135,27 @@ class ilADNNotification extends ActiveRecord
         if (!$this->isVisibleRoleUserRoles($ilObjUser)) {
             return false;
         }
-
+        
         return true;
     }
-
-    /**
-     * @param ilObjUser $ilObjUser
-     * @return bool
-     */
-    protected function isVisibleRoleUserRoles(ilObjUser $ilObjUser)
+    
+ 
+    protected function isVisibleRoleUserRoles(ilObjUser $ilObjUser) : bool
     {
         if (!$this->isLimitToRoles()) {
             return true;
         }
         global $DIC;
-
+        
         if ($ilObjUser->getId() === 0 && in_array(0, $this->getLimitedToRoleIds())) {
             return true;
         }
-
+        
         return $DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole($ilObjUser->getId(),
             $this->getLimitedToRoleIds());
     }
-
+    
     /**
-     * @var int
      * @con_is_primary true
      * @con_sequence   true
      * @con_is_unique  true
@@ -184,168 +163,145 @@ class ilADNNotification extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id;
+    protected ?int $id = null;
     /**
-     * @var string
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $title = '';
+    protected string $title = '';
     /**
-     * @var string
      * @con_has_field  true
      * @con_fieldtype  clob
      */
-    protected $body = '';
+    protected string $body = '';
     /**
-     * @var DateTimeImmutable
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $event_start;
+    protected ?\DateTimeImmutable $event_start = null;
     /**
-     * @var DateTimeImmutable
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $event_end;
+    protected ?\DateTimeImmutable $event_end = null;
     /**
-     * @var DateTimeImmutable
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $display_start;
+    protected ?\DateTimeImmutable $display_start = null;
     /**
-     * @var DateTimeImmutable
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $display_end;
+    protected ?\DateTimeImmutable $display_end = null;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $type = self::TYPE_INFO;
+    protected int $type = self::TYPE_INFO;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $type_during_event = self::TYPE_ERROR;
+    protected int $type_during_event = self::TYPE_ERROR;
     /**
-     * @var bool
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $dismissable = true;
+    protected bool $dismissable = true;
     /**
-     * @var bool
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $permanent = true;
+    protected bool $permanent = true;
     /**
-     * @var array
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $allowed_users = array(0, 6, 13);
+    protected array $allowed_users = array(0, 6, 13);
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $parent_id = null;
+    protected ?int $parent_id = null;
     /**
-     * @var DateTimeImmutable
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $create_date;
+    protected ?\DateTimeImmutable $create_date = null;
     /**
-     * @var DateTimeImmutable
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $last_update;
+    protected \DateTimeImmutable $last_update;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $created_by = null;
+    protected ?int $created_by = null;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $last_update_by = null;
+    protected ?int $last_update_by = null;
     /**
-     * @var bool
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $active = true;
+    protected bool $active = true;
     /**
-     * @var array
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    256
      */
-    protected $limited_to_role_ids = [];
+    protected array $limited_to_role_ids = [];
     /**
-     * @var bool
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $limit_to_roles = false;
+    protected bool $limit_to_roles = false;
     /**
-     * @var bool
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $interruptive = false;
+    protected bool $interruptive = false;
     /**
-     * @var string
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    256
      */
-    protected $link = '';
+    protected string $link = '';
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $link_type = self::LINK_TYPE_NONE;
+    protected int $link_type = self::LINK_TYPE_NONE;
     /**
-     * @var string
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    256
      */
-    protected $link_target = '_top';
-
+    protected string $link_target = '_top';
+    
     /**
      * @param string $field_name
      * @param string $field_value
@@ -361,7 +317,7 @@ class ilADNNotification extends ActiveRecord
             case 'create_date':
             case 'last_update':
                 return (new DateTimeImmutable())->setTimestamp((int) $field_value);
-
+            
             case 'allowed_users':
                 if ($field_value === null) {
                     $array_unique = self::$allowed_user_ids;
@@ -372,9 +328,9 @@ class ilADNNotification extends ActiveRecord
                     }
                     $array_unique = array_unique($json_decode);
                 }
-
+                
                 sort($array_unique);
-
+                
                 return $array_unique;
                 break;
             case 'limited_to_role_ids':
@@ -382,7 +338,7 @@ class ilADNNotification extends ActiveRecord
                 break;
         }
     }
-
+    
     /**
      * @param string $field_name
      * @return bool|mixed|string
@@ -407,7 +363,7 @@ class ilADNNotification extends ActiveRecord
                 foreach ($this->allowed_users as $user_id) {
                     $allowed_users[] = (int) $user_id;
                 }
-
+                
                 return json_encode(array_unique($allowed_users));
                 break;
             case 'limited_to_role_ids':
@@ -415,7 +371,7 @@ class ilADNNotification extends ActiveRecord
                 break;
         }
     }
-
+    
     public function create() : void
     {
         global $DIC;
@@ -423,195 +379,195 @@ class ilADNNotification extends ActiveRecord
         $this->setCreatedBy($DIC->user()->getId());
         parent::create();
     }
-
+    
     public function setBody(string $body) : void
     {
         $this->body = $body;
     }
-
+    
     public function getBody() : string
     {
         return (string) $this->body;
     }
-
+    
     public function setDisplayEnd(DateTimeImmutable $display_end) : void
     {
         $this->display_end = $display_end;
     }
-
+    
     public function getDisplayEnd() : DateTimeImmutable
     {
         return $this->display_end ?? new DateTimeImmutable();
     }
-
+    
     public function setDisplayStart(DateTimeImmutable $display_start) : void
     {
         $this->display_start = $display_start;
     }
-
+    
     public function getDisplayStart() : DateTimeImmutable
     {
         return $this->display_start ?? new DateTimeImmutable();
     }
-
+    
     public function setEventEnd(DateTimeImmutable $event_end) : void
     {
         $this->event_end = $event_end;
     }
-
+    
     public function getEventEnd() : DateTimeImmutable
     {
         return $this->event_end ?? new DateTimeImmutable();
     }
-
+    
     public function setEventStart(DateTimeImmutable $event_start) : void
     {
         $this->event_start = $event_start;
     }
-
+    
     public function getEventStart() : DateTimeImmutable
     {
         return $this->event_start ?? new DateTimeImmutable();
     }
-
+    
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
-
+    
     public function getId() : int
     {
         return (int) $this->id;
     }
-
+    
     public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
-
+    
     public function getTitle() : string
     {
         return (string) $this->title;
     }
-
+    
     public function setType(int $type) : void
     {
         $this->type = $type;
     }
-
+    
     public function getType() : int
     {
         return (int) $this->type;
     }
-
+    
     public function setTypeDuringEvent(int $type_during_event) : void
     {
         $this->type_during_event = $type_during_event;
     }
-
+    
     public function getTypeDuringEvent() : int
     {
         return (int) $this->type_during_event;
     }
-
+    
     public function setDismissable(bool $dismissable) : void
     {
         $this->dismissable = $dismissable;
     }
-
+    
     public function getDismissable() : bool
     {
         return (bool) $this->dismissable;
     }
-
+    
     protected function hasEventStarted() : bool
     {
         return $this->getTime() > $this->getEventStart();
     }
-
+    
     protected function hasDisplayStarted() : bool
     {
         return $this->getTime() > $this->getDisplayStart();
     }
-
+    
     protected function hasEventEnded() : bool
     {
         return $this->getTime() > $this->getEventEnd();
     }
-
+    
     protected function hasDisplayEnded() : bool
     {
         return $this->getTime() > $this->getDisplayEnd();
     }
-
+    
     public function setPermanent(bool $permanent) : void
     {
         $this->permanent = $permanent;
     }
-
+    
     public function isPermanent() : bool
     {
         return (bool) $this->permanent;
     }
-
+    
     public function isDuringEvent() : bool
     {
         return $this->hasEventStarted() && !$this->hasEventEnded();
     }
-
+    
     public function setCreateDate(DateTimeImmutable $create_date) : void
     {
         $this->create_date = $create_date;
     }
-
+    
     public function getCreateDate() : DateTimeImmutable
     {
         return $this->create_date ?? new DateTimeImmutable();
     }
-
+    
     public function setCreatedBy(int $created_by) : void
     {
         $this->created_by = $created_by;
     }
-
+    
     public function getCreatedBy() : int
     {
         return (int) $this->created_by;
     }
-
+    
     protected function getTime() : DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
-
+    
     public function isActive() : bool
     {
         return $this->active;
     }
-
+    
     public function setActive(bool $active) : void
     {
         $this->active = $active;
     }
-
+    
     public function getLimitedToRoleIds() : array
     {
         return (array) $this->limited_to_role_ids;
     }
-
+    
     public function setLimitedToRoleIds(array $limited_to_role_ids) : void
     {
         $this->limited_to_role_ids = $limited_to_role_ids;
     }
-
+    
     public function isLimitToRoles() : bool
     {
         return (bool) $this->limit_to_roles;
     }
-
+    
     public function setLimitToRoles(bool $limit_to_roles) : void
     {
         $this->limit_to_roles = $limit_to_roles;
     }
-
+    
 }

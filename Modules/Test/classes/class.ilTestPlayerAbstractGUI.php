@@ -1,6 +1,11 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
+use ILIAS\Refinery\Random\Seed\GivenSeed;
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilTestPlayerCommands.php';
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
@@ -61,6 +66,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected $testSequence = null;
 
+    private RandomGroup $randomGroup;
+
     /**
     * ilTestOutputGUI constructor
     *
@@ -81,6 +88,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->processLocker = null;
         $this->testSession = null;
         $this->assSettings = null;
+        $this->randomGroup = $DIC->refinery()->random();
     }
 
     protected function checkReadAccess()
@@ -882,14 +890,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $activePlugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
-
-        if (!count($activePlugins)) {
-            return false;
-        }
-        
-        return true;
+        $component_repository = $DIC["component.repository"];
+        return $component_repository->getPluginSlotById("tsig")->hasActivePlugins();
     }
 
     /**
@@ -953,9 +955,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $inst_id = $ilSetting->get('inst_id', null);
         $archiver = new ilTestArchiver($this->object->getId());
 
-        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->object->getId() . '/exam_pdf';
+        $path = ilFileUtils::getWebspaceDir() . '/assessment/' . $this->object->getId() . '/exam_pdf';
         if (!is_dir($path)) {
-            ilUtil::makeDirParents($path);
+            ilFileUtils::makeDirParents($path);
         }
         $filename = realpath($path) . '/exam_N' . $inst_id . '-' . $this->object->getId()
                     . '-' . $active . '-' . $pass . '.pdf';
@@ -1021,7 +1023,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $objectivesList,
             $testResultHeaderLabelBuilder
         );
-        $filename = realpath(ilUtil::getWebspaceDir()) . '/assessment/scores-' . $this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
+        $filename = realpath(ilFileUtils::getWebspaceDir()) . '/assessment/scores-' . $this->object->getId() . '-' . $active . '-' . $pass . '.pdf';
         ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
         $archiver->handInTestResult($active, $pass, $filename);
         unlink($filename);
@@ -2534,17 +2536,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     
     /**
      * @param $questionId
-     * @return ilArrayElementShuffler
+     * @return Transformation
      */
     protected function buildQuestionAnswerShuffler($questionId)
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
         $fixedSeed = $this->buildFixedShufflerSeed($questionId);
-        $shuffler->setSeed($fixedSeed);
-        
-        return $shuffler;
+
+        return $this->randomGroup->shuffleArray(new GivenSeed($fixedSeed));
     }
 
     /**

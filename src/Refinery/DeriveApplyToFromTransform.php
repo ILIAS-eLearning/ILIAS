@@ -5,6 +5,8 @@
 namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
+use ILIAS\Data\Result\Ok;
+use ILIAS\Data\Result\Error;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -20,12 +22,12 @@ trait DeriveApplyToFromTransform
 
     public function applyTo(Result $result) : Result
     {
-        try {
-            $value = $this->transform($result->value());
-        } catch (\Exception $exception) {
-            return new Result\Error($exception);
-        }
-
-        return new Result\Ok($value);
+        return $result->then(function ($value) : Result {
+            try {
+                return new Ok($this->transform($value));
+            } catch (\Exception $exception) {
+                return new Error($exception);
+            }
+        });
     }
 }

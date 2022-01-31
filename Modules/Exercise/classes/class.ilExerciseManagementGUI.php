@@ -2115,7 +2115,15 @@ class ilExerciseManagementGUI
     /**
      * Open HTML view for portfolio submissions
      */
-    public function openSubmissionViewObject() : void
+    public function openSubmissionPrintViewObject()
+    {
+        $this->openSubmissionViewObject(true);
+    }
+
+    /**
+     * Open HTML view for portfolio submissions
+     */
+    public function openSubmissionViewObject(bool $print_version = false)
     {
         global $DIC;
 
@@ -2127,11 +2135,19 @@ class ilExerciseManagementGUI
 
         $submission_time = $submission->getLastSubmission();
 
-        $zip_original_full_path = $this->getSubmissionZipFilePath($submission);
+        // e.g. /<datadir>/<clientid>/ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
+        $zip_original_full_path = $this->getSubmissionZipFilePath($submission, $print_version);
 
+        // e.g. ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
         $zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
 
         list($obj_date, $obj_id) = explode("_", basename($zip_original_full_path));
+
+        $obj_id = (int) $obj_id;
+        $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
+        if ($print_version) {
+            $obj_id .= "print";
+        }
 
         $obj_dir = $this->assignment->getAssignmentType()->getStringIdentifier() . "_" . $obj_id;
 
@@ -2148,7 +2164,6 @@ class ilExerciseManagementGUI
         ilWACSignedPath::signFolderOfStartFile($index_html_file);
 
         $web_filesystem = $DIC->filesystem()->web();
-
         if ($last_opening > $submission_time && $web_filesystem->has($index_html_file)) {
             ilUtil::redirect($index_html_file);
         }
@@ -2157,8 +2172,7 @@ class ilExerciseManagementGUI
             $file_copied = $this->copyFileToWebDir($zip_internal_path);
 
             if ($file_copied) {
-                ilUtil::unzip($file_copied, true);
-
+                ilFileUtils::unzip($file_copied, true);
                 $web_filesystem->delete($zip_internal_path);
 
                 $submission_repository = $this->service->repo()->submission();
@@ -2183,9 +2197,15 @@ class ilExerciseManagementGUI
      * @return string|null
      */
     protected function getSubmissionZipFilePath(
-        ilExSubmission $submission
+        ilExSubmission $submission,
+        bool $print_versions = false
     ) : ?string {
-        $submitted = $submission->getFiles();
+        $submitted = $submission->getFiles(
+            null,
+            false,
+            null,
+            $print_versions
+        );
 
         if (count($submitted) > 0) {
             $submitted = array_pop($submitted);
@@ -2241,8 +2261,8 @@ class ilExerciseManagementGUI
     protected function getWebFilePathFromExternalFilePath(
         string $external_file_path
     ) : string {
-        list($external_path, $internal_file_path) = explode(CLIENT_ID . "/", $external_file_path);
-
+        list($external_path, $internal_file_path) = explode(CLIENT_ID . "/ilExercise", $external_file_path);
+        $internal_file_path = "ilExercise" . $internal_file_path;
         return $internal_file_path;
     }
 

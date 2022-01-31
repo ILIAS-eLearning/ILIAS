@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilADNDismiss
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -27,10 +40,7 @@ class ilADNDismiss extends ActiveRecord
         return self::TABLE_NAME;
     }
 
-    /**
-     * @var array
-     */
-    protected static $request_cache = array();
+    protected static array $request_cache = array();
 
     /**
      * @param ilObjUser         $ilObjUser
@@ -79,7 +89,6 @@ class ilADNDismiss extends ActiveRecord
     }
 
     /**
-     * @var int
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -87,21 +96,19 @@ class ilADNDismiss extends ActiveRecord
      * @con_length     8
      * @con_sequence   true
      */
-    protected $id = 0;
+    protected ?int $id = null;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $usr_id = 0;
+    protected int $usr_id = 0;
     /**
-     * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $notification_id = 0;
+    protected int $notification_id = 0;
 
     /**
      * @return int

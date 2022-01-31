@@ -64,7 +64,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
         $tree = $f->tree()
             ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
+            ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
 
         return $tree;
@@ -98,6 +98,11 @@ class ilMailExplorer extends ilTreeExplorerGUI
         }
 
         return $content;
+    }
+
+    public function getNodeIconAlt($a_node) : string
+    {
+        return $this->getNodeContent($a_node);
     }
 
     public function getNodeIcon($a_node) : string

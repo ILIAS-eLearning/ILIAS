@@ -103,7 +103,6 @@ class ilLOXmlParser
      */
     protected function parseSettings(SimpleXMLElement $root)
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $settings = ilLOSettings::getInstanceByObjId($this->getCourse()->getId());
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Handling element: ' . (string) $root->Settings->getName());
         foreach ($root->Settings as $set) {
@@ -134,7 +133,6 @@ class ilLOXmlParser
     protected function parseObjectives(SimpleXMLElement $root)
     {
         foreach ($root->Objective as $obj) {
-            include_once './Modules/Course/classes/class.ilCourseObjective.php';
             $new_obj = new ilCourseObjective($this->getCourse());
             $new_obj->setActive((bool) (string) $obj->attributes()->online);
             $new_obj->setTitle((string) $obj->Title);
@@ -162,7 +160,6 @@ class ilLOXmlParser
             
             $mapping_ref_id = $this->getMappingInfoForItem($mat_ref_id);
             if ($mapping_ref_id) {
-                include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
                 $new_mat = new ilCourseObjectiveMaterials($a_objective_id);
                 $new_mat->setLMRefId($mapping_ref_id);
                 
@@ -225,7 +222,6 @@ class ilLOXmlParser
                 if (!$mapping_ref_id) {
                     continue;
                 }
-                include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
                 $assignment = new ilLOTestAssignment();
                 $assignment->setContainerId($this->getCourse()->getId());
                 $assignment->setTestRefId($mapping_ref_id);
@@ -259,7 +255,6 @@ class ilLOXmlParser
                 if (!$mapping_ref_id) {
                     continue;
                 }
-                include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
                 $quest = new ilCourseObjectiveQuestion($a_objective_id);
                 $quest->setTestRefId($mapping_ref_id);
                 $quest->setTestObjId(ilObject::_lookupObjId($mapping_ref_id));

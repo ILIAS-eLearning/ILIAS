@@ -6,7 +6,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\DI;
 
-class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObjective
+class ilComponentActivatePluginsObjective implements Setup\Objective
 {
     /**
      * @var string
@@ -47,13 +47,12 @@ class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObje
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $setup_config = $environment->getConfigFor('common');
-        $db_config = $environment->getConfigFor('database');
-
         return [
-            new \ilIniFilesPopulatedObjective($setup_config),
-            new \ilDatabasePopulatedObjective($db_config),
-            new \ilComponentPluginAdminInitObjective()
+            new \ilIniFilesLoadedObjective(),
+            new \ilDatabaseInitializedObjective(),
+            new \ilComponentPluginAdminInitObjective(),
+            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentFactoryExistsObjective()
         ];
     }
 
@@ -62,21 +61,25 @@ class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObje
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
+        $info = $component_repository->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (!is_null($plugin) && $plugin['activation_possible'] && $plugin['supports_cli_setup']) {
-            $pl = ilPlugin::getPluginObject(
-                $plugin['component_type'],
-                $plugin['component_name'],
-                $plugin['slot_id'],
-                $plugin['name']
+        if (!$info->supportsCLISetup()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name does not support command line setup."
             );
-
-            $pl->activate();
         }
 
+        if (!$info->isActivationPossible()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name can not be activated."
+            );
+        }
+
+        $ORIG_DIC = $this->initEnvironment($environment);
+        $plugin = $component_factory->getPlugin($info->getId());
+        $plugin->activate();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;
@@ -87,17 +90,10 @@ class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObje
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_repository->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (is_null($plugin) || !$plugin['supports_cli_setup']) {
-            return false;
-        }
-
-        $GLOBALS["DIC"] = $ORIG_DIC;
-
-        return $plugin['activation_possible'];
+        return $plugin->isActivationPossible($environment);
     }
 
     protected function initEnvironment(Setup\Environment $environment) : ?ILIAS\DI\Container
@@ -121,22 +117,22 @@ class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObje
             public function __construct()
             {
             }
-            public function write($m, $l = ilLogLevel::INFO)
+            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
             {
             }
-            public function info($msg)
+            public function info(string $a_message) : void
             {
             }
-            public function warning($msg)
+            public function warning(string $a_message) : void
             {
             }
-            public function error($msg)
+            public function error(string $a_message) : void
             {
             }
-            public function debug($msg, $a = [])
+            public function debug(string $a_message, array $a_context = []) : void
             {
             }
-            public function dump($msg, $a = ilLogLevel::INFO)
+            public function dump($a_variable, int $a_level = ilLogLevel::INFO) : void
             {
             }
         };
@@ -175,8 +171,6 @@ class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObje
                 $this->prefs["language"] = "en";
             }
         };
-
-        $this->initCtrlService();
 
         if (!defined('DEBUG')) {
             define('DEBUG', false);

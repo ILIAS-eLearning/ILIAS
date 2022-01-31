@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,105 +27,100 @@
 * Class for parsing search queries. An instance of this object is required for every Search class (MetaSearch ...)
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-define('QP_COMBINATION_AND', 'and');
-define('QP_COMBINATION_OR', 'or');
 
 class ilQueryParser
 {
     /**
      * Minimum of characters required for search
      */
-    const MIN_WORD_LENGTH = 3;
+    public const MIN_WORD_LENGTH = 3;
+    public const QP_COMBINATION_AND = 'and';
+    public const QP_COMBINATION_OR  = 'or';
 
-    public $lng = null;
+    protected ilLanguage $lng;
+    protected ilSearchSettings $settings;
 
-    public $min_word_length = 0;
-    public $global_min_length = null;
+    private int $min_word_length = 0;
+    private int $global_min_length = 0;
 
-    public $query_str;
-    public $quoted_words = array();
-    public $message; // Translated error message
-    public $combination; // combiniation of search words e.g 'and' or 'or'
-    protected $settings = null;
-    protected $wildcards_allowed; // [bool]
-
+    private string $query_str;
+    private array $quoted_words = array();
+    private string $message; // Translated error message
+    private string $combination; // combiniation of search words e.g 'and' or 'or'
+    private bool $wildcards_allowed; // [bool]
     /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($a_query_str)
+     * @var string[]
+     */
+    private array $words;
+
+
+    public function __construct(string $a_query_str)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $this->lng = $DIC->language();
+        $this->settings = ilSearchSettings::getInstance();
 
         if (!defined('MIN_WORD_LENGTH')) {
             define('MIN_WORD_LENGTH', self::MIN_WORD_LENGTH);
         }
 
-        $this->lng = $lng;
 
         $this->query_str = $a_query_str;
         $this->message = '';
-
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
-        $this->settings = ilSearchSettings::getInstance();
 
         $this->setMinWordLength(1);
         
         $this->setAllowedWildcards(false);
     }
 
-    public function setMinWordLength($a_length)
+    public function setMinWordLength(int $a_length) : void
     {
         $this->min_word_length = $a_length;
-        return true;
     }
-    public function getMinWordLength()
+
+    public function getMinWordLength() : int
     {
         return $this->min_word_length;
     }
     
-    public function setGlobalMinLength($a_value)
+    public function setGlobalMinLength(int $a_value) : void
     {
-        if ($a_value !== null) {
-            $a_value = (int) $a_value;
-            if ($a_value < 1) {
-                return;
-            }
+        if ($a_value < 1) {
+            return;
         }
+
         $this->global_min_length = $a_value;
     }
     
-    public function getGlobalMinLength()
+    public function getGlobalMinLength() : int
     {
         return $this->global_min_length;
     }
     
-    public function setAllowedWildcards($a_value)
+    public function setAllowedWildcards(bool $a_value) : void
     {
-        $this->wildcards_allowed = (bool) $a_value;
+        $this->wildcards_allowed = $a_value;
     }
     
-    public function getAllowedWildcards()
+    public function getAllowedWildcards() : bool
     {
         return $this->wildcards_allowed;
     }
 
-    public function setMessage($a_msg)
+    public function setMessage(string $a_msg) : void
     {
         $this->message = $a_msg;
     }
-    public function getMessage()
+    public function getMessage() : string
     {
         return $this->message;
     }
-    public function appendMessage($a_msg)
+    public function appendMessage(string $a_msg) : void
     {
         if (strlen($this->getMessage())) {
             $this->message .= '<br />';
@@ -133,37 +128,44 @@ class ilQueryParser
         $this->message .= $a_msg;
     }
 
-    public function setCombination($a_combination)
+    public function setCombination(string $a_combination) : void
     {
         $this->combination = $a_combination;
     }
-    public function getCombination()
+    public function getCombination() : string
     {
         return $this->combination;
     }
 
-    public function getQueryString()
+    public function getQueryString() : string
     {
         return trim($this->query_str);
     }
-    public function getWords()
+
+    /**
+     * @return string[]
+     */
+    public function getWords() : array
     {
-        return $this->words ? $this->words : array();
+        return $this->words ?? array();
     }
 
-    public function getQuotedWords($with_quotation = false) : array
+    /**
+     * @return string[]
+     */
+    public function getQuotedWords(bool $with_quotation = false) : array
     {
         if ($with_quotation) {
-            return $this->quoted_words ? $this->quoted_words : array();
+            return $this->quoted_words ?: array();
         } else {
             foreach ($this->quoted_words as $word) {
                 $tmp_word[] = str_replace('\"', '', $word);
             }
-            return $tmp_word ? $tmp_word : array();
+            return $tmp_word ?? array();
         }
     }
 
-    public function getLuceneQueryString()
+    public function getLuceneQueryString() : string
     {
         $counter = 0;
         $tmp_str = "";
@@ -175,14 +177,10 @@ class ilQueryParser
         }
         return $tmp_str;
     }
-    public function parse()
+    public function parse() : bool
     {
         $this->words = array();
 
-        #if(!strlen($this->getQueryString()))
-        #{
-        #	return false;
-        #}
 
         $words = explode(' ', trim($this->getQueryString()));
         foreach ($words as $word) {
@@ -221,7 +219,7 @@ class ilQueryParser
         return true;
     }
 
-    public function __parseQuotation()
+    public function __parseQuotation() : bool
     {
         if (!strlen($this->getQueryString())) {
             $this->quoted_words[] = '';
@@ -253,9 +251,10 @@ class ilQueryParser
                 $this->quoted_words[$idx] = $word;
             }
         }
+        return true;
     }
 
-    public function validate()
+    public function validate() : bool
     {
         // Words with less than 3 characters
         if (strlen($this->getMessage())) {

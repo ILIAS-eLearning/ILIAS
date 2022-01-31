@@ -1,34 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilBadgeRenderer
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBadgeRenderer
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $factory;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $renderer;
-
-    protected $assignment; // [ilBadgeAssignment]
-    protected $badge; // [ilBadge]
+    protected ilLanguage $lng;
+    protected \ILIAS\UI\Factory $factory;
+    protected \ILIAS\UI\Renderer $renderer;
+    protected ilBadgeAssignment $assignment;
+    protected ilBadge $badge;
     
-    public function __construct(ilBadgeAssignment $a_assignment = null, ilBadge $a_badge = null)
-    {
+    public function __construct(
+        ilBadgeAssignment $a_assignment = null,
+        ilBadge $a_badge = null
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -42,7 +41,7 @@ class ilBadgeRenderer
         }
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         $components = array();
 
@@ -60,7 +59,7 @@ class ilBadgeRenderer
         return $this->renderer->render($components);
     }
     
-    public function renderModalContent()
+    public function renderModalContent() : string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("badge");

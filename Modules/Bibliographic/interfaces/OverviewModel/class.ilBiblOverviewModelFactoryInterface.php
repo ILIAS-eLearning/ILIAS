@@ -1,17 +1,13 @@
 <?php
 /**
  * Class ilBiblOverviewModelFactoryInterface
- *
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
 interface ilBiblOverviewModelFactoryInterface
 {
-
     /**
-     * @param ilBiblTypeInterface $type
-     *
-     * @return ilBiblOverviewModelInterface
+     * @return ilBiblOverviewModelInterface[]
      */
-    public function getAllOverviewModelsByType(ilBiblTypeInterface $type);
+    public function getAllOverviewModelsByType(ilBiblTypeInterface $type) : array;
 }

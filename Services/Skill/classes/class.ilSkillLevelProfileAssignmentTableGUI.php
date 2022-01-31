@@ -26,15 +26,11 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  */
 class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    protected int $skill_id;
-    protected int $tref_id;
+    protected int $skill_id = 0;
+    protected int $tref_id = 0;
     protected ilBasicSkill $skill;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_level_id;
+    protected int $requested_level_id = 0;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id)
     {
@@ -55,8 +51,10 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->skill = new ilBasicSkill($this->skill_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->skill->getLevelData());
-        $this->setTitle($this->skill->getTitle() . ", " .
-            $lng->txt("skmg_skill_levels"));
+        $this->setTitle(
+            $this->skill->getTitle() . ", " .
+                $lng->txt("skmg_skill_levels")
+        );
         
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("actions"));
@@ -65,7 +63,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_level_profile_assignment_row.html", "Services/Skill");
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

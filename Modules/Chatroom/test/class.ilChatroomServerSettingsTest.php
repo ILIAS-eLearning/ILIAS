@@ -158,7 +158,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $instance = 'master';
         $scope = 123;
 
-        $this->settings->setProtocol($protocol . '');
+        $this->settings->setProtocol($protocol);
         $this->settings->setDomain($domain);
         $this->settings->setPort($port);
         $this->settings->setIliasUrl($iliasDomain);

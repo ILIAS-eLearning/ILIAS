@@ -182,7 +182,6 @@ class ilLOTestAssignment
      */
     public function cloneSettings($a_copy_id, $a_target_id, $a_objective_id)
     {
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
         

@@ -5,6 +5,16 @@ namespace ILIAS\GlobalScreen\Client;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
+
 /**
  * Class Notifications
  * Handles Async Calls for the Notification Center
@@ -13,12 +23,11 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 class Notifications
 {
     use Hasher;
-
+    
     /**
      * Collected set of collected notifications
-     * @var StandardNotificationGroup[]
      */
-    protected $notification_groups;
+    protected array $notification_groups;
     /**
      * Name of the GET param used in the async calls
      */
@@ -43,31 +52,28 @@ class Notifications
      * Location of the endpoint handling async notification requests
      */
     const NOTIFY_ENDPOINT = ILIAS_HTTP_PATH . "/src/GlobalScreen/Client/notify.php";
-    /**
-     * @var array
-     */
-    protected $identifiers_to_handle;
-    /**
-     * @var string|null
-     */
-    protected $single_identifier_to_handle;
-    /**
-     * @var \ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification[]
-     */
-    protected $administrative_notifications;
-
-    public function run()
+    protected array $identifiers_to_handle = [];
+    protected ?string $single_identifier_to_handle;
+    protected array $administrative_notifications = [];
+    
+    public function run() : void
     {
         /**
          * @DI $DI
          */
         global $DIC;
-        $this->notification_groups          = $DIC->globalScreen()->collector()->notifications()->getNotifications();
+        $this->notification_groups = $DIC->globalScreen()->collector()->notifications()->getNotifications();
         $this->administrative_notifications = $DIC->globalScreen()->collector()->notifications()->getAdministrativeNotifications();
-        $this->identifiers_to_handle        = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
-        $this->single_identifier_to_handle  = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
-
-        switch ($DIC->http()->request()->getQueryParams()[self::MODE]) {
+        $this->identifiers_to_handle = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
+        $this->single_identifier_to_handle = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
+        
+        $mode = 0;
+        $query = $DIC->http()->wrapper()->query();
+        if ($query->has(self::MODE)) {
+            $mode = $query->retrieve(self::MODE, $DIC->refinery()->to()->string());
+        }
+        
+        switch ($mode) {
             case self::MODE_OPENED:
                 $this->handleOpened();
                 break;
@@ -76,7 +82,7 @@ class Notifications
                 break;
         }
     }
-
+    
     /**
      * Loops through all available open callable provided by the notification
      * providers
@@ -94,7 +100,7 @@ class Notifications
             }
         }
     }
-
+    
     /**
      * Runs the closed callable if such a callable is provided
      */
@@ -117,5 +123,4 @@ class Notifications
             }
         }
     }
-
 }

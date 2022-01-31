@@ -26,8 +26,8 @@ class ilContainerLocalProfiles
 {
     protected ilDBInterface $db;
     protected array $profiles = [];
-    protected int $obj_id;
-    protected int $mem_rol_id;
+    protected int $obj_id = 0;
+    protected int $mem_rol_id = 0;
 
     public function __construct(int $a_obj_id)
     {

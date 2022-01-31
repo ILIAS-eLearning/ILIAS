@@ -29,7 +29,64 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#sty_resize_image#:#Resize Image
+style#:#sty_resize#:#Resize
+style#:#sty_outdated#:#Outdated
+style#:#sty_remove_outdated#:#Remove Outdated Status
+style#:#sty_set_outdated#:#Set Outdated
+style#:#sty_save_hide_order_status#:#Save Order and Hidden Status
+style#:#sty_save_order_status#:#Save Order
+style#:#sty_class#:#Style Class
+style#:#sty_paste_chars#:#Paste Classes
+style#:#sty_create_new_class#:#Create new style class
+style#:#sty_overwrite_existing_class#:#Overwrite existing style class
+style#:#sty_class_name#:#Class Name
+style#:#sty_parameters#:#Parameters
+style#:#sty_titles#:#Titles
+style#:#sty_bg_img_info#:#To add images to the dropdown selection please upload them in the "Images" section of the style first.
+content#:#cont_caption_style#:#Caption Style Class
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+survey#:#svy_ext_rater_firstname#:#First name of external rater
+survey#:#svy_ext_rater_lastname#:#Last name of external rater
+survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.
+survey#:#svy_select_rater#:#Select Rater
+survey#:#svy_all_raters#:#All Raters
+survey#:#svy_privacy_info#:#Privacy
+survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.
+survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.
+survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
+survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
+content#:#cont_sec_protected_text#:#The following section is protected and can not be edited.
+content#:#cont_sec_protected#:#Protected
+prtf#:#prtf_sec_protected_info#:#Protected sections cannot be edited by portfolio owners.
+prtf#:#prtf_role_assignment#:#Role Assignment
+prtf#:#prtf_add_assignment#:#Add Assignment
+prtf#:#prtf_role_title#:#Role
+prtf#:#prtf_template_title#:#Portfolio Template
+prtf#:#prtf_delete_assignment#:#Delete Assignments
+prtf#:#prtf_delete_assignment_sure#:#Do you really want to delete the following assignment(s)?
+survey#:#svy_rater#:#Rater
+survey#:#svy_dont_send#:#Don't send a message
+survey#:#svy_save_and_continue#:#Save and Continue
+survey#:#svy_external_rater#:#Add External Rater
+survey#:#svy_external_rater_info#:#The rater is not registered on this platform.
+survey#:#svy_search_user#:#Search User
+survey#:#svy_search_user_info#:#Search for users or roles and pick participants.
+survey#:#svy_add_internal_user#:#Add User
+survey#:#svy_add_internal_user_info#:#The rater has a registered user on this platform.
+survey#:#svy_type_of_rater#:#Type of Rater
+survey#:#svy_add_rater#:#Add Rater
+survey#:#svy_ind_feedb_mode#:#Individual Feedback
+survey#:#svy_ind_feedb_info#:#Users get distinct evaluations by others.
+exc#:#exc_print_pdf#:#Print/PDF
+exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
+exp#:#exp_show_print_view#:#Show Print View
+exp#:#exp_print_pdf#:#Print/PDF
+prtf#:#prtf_edit_data#:#Edit Data
+content#:#cont_ed_insert_amdfrm#:#Insert Advanced Metadata
+prtt#:#prtt_select_datasets#:#Select Datasets
+prtt#:#prtt_pfpg#:#Portfolio Page
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
@@ -269,6 +326,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+content#:#cont_lpe_saml_login#:#SAML Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
 common#:#msg_no_files_selected#:#No files selected
@@ -1955,6 +2013,7 @@ cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
 cmps#:#cmps_name#:#Name
+cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.
 cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
 cmps#:#cmps_needs_update#:#Needs update.
@@ -1996,7 +2055,6 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
-common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
@@ -2016,7 +2074,9 @@ common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account d
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -2269,6 +2329,7 @@ common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system langu
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#cat_add#:#Add Category
+common#:#catr_add#:#Add Category Link
 common#:#cat_added#:#Category added
 rbac#:#cat_cat_administrate_users#:#User can create and administrate local user accounts in this category
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
@@ -2311,10 +2372,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -2413,6 +2474,7 @@ common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
+common#:#crsr_add#:#Add Course Link
 common#:#crs_added#:#Course added
 common#:#crs_archives#:#Archives
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
@@ -2779,6 +2841,7 @@ common#:#groupings_assigned_obj_grp#:#Assigned Groups
 common#:#groupings#:#Membership Limitations
 common#:#groups#:#Groups
 common#:#grp_add#:#Add Group
+common#:#grpr_add#:#Add Group Link
 common#:#grp_added#:#Group added
 common#:#grp_btn_unsubscribe#:#Unsubscribe from Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
@@ -2829,6 +2892,7 @@ common#:#hint#:#Hint
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
@@ -3318,6 +3382,7 @@ common#:#note#:#Note
 common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
+common#:#mm_private_chats#:#Private Chats
 common#:#num_users#:#Number of Users
 common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
@@ -3941,7 +4006,6 @@ common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
 common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
-common#:#time_limit_owner#:#Owner (time limit)
 common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)
@@ -5640,7 +5704,6 @@ forum#:#forums_your_reply#:#Your Reply
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_default_view#:#Default View
-forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
@@ -5831,14 +5894,17 @@ jscalendar#:#time#:#Time
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
-mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
-mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
+mathjax#:#mathjax_polyfill_url_desc_line1: For MathJax 2 not needed
+mathjax#:#mathjax_polyfill_url_desc_line2: For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
@@ -5847,7 +5913,7 @@ mathjax#:#mathjax_server_installation#:# » Installation
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_timeout#:#Timeout
-mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the MathJax server in seconds
 mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
 mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
 mathjax#:#mathjax_server_for_browser#:#Use for Browser
@@ -5859,7 +5925,8 @@ mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
 mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.
+mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
+mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -7365,7 +7432,7 @@ style#:#sty_ha_icont_class#:#Hor. Accordion Item Content
 style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header
 style#:#sty_haccordion_templates#:#Hor. Accordion Templates
 style#:#sty_height#:#Height
-style#:#sty_hide#:#Hide
+style#:#sty_hide#:#Hidden
 style#:#sty_horizontal#:#Horizontal
 style#:#sty_image_file#:#Image File
 style#:#sty_images#:#Images
@@ -7410,7 +7477,7 @@ style#:#sty_right#:#Right
 style#:#sty_row_foot_class#:#Row Footer
 style#:#sty_row_head_class#:#Row Header
 style#:#sty_save_active_styles#:#Save Active Styles
-style#:#sty_save_hide_status#:#Save Hide Status
+style#:#sty_save_hide_status#:#Save
 style#:#sty_sco_char#:#SCO and Objective
 style#:#sty_scope#:#Scope
 style#:#sty_section_char#:#Section
@@ -7959,8 +8026,6 @@ user#:#user_no_courses#:#No Courses Assigned
 user#:#user_no_groups#:#No Groups Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
 user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
-user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
@@ -8584,6 +8649,7 @@ administration#:#language_remove_local_file#:#Delete the custom language file
 rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 forum#:#frm_edit_title#:#Edit Title
+forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
 administration#:#language_merged_global#:#The local changes were merged into the standard language file.
@@ -9165,7 +9231,7 @@ skmg#:#skmg_update_order#:#Update Order
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_levels#:#Competence Levels
-skmg#:#skmg_target_levels#:#Target Levels
+skmg#:#skmg_target_levels#:#Competence Targets
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -9587,7 +9653,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -9822,7 +9888,7 @@ prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The posting is published.
 survey#:#svy_page_add_question#:#Add new %s
-skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
@@ -10597,14 +10663,6 @@ blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_keyword#:#Keyword
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-fm#:#fm_settings_tab#:#File Manager
-fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the ‘Open With File Manager’ action in the repository.
-common#:#fm_start#:#Open With File Manager
-fm#:#fm_settings_local#:#Show Local Filesystem
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
-fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed file size for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
@@ -11032,9 +11090,10 @@ common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
+bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
-bibl#:#bibl_add#:#Add Bibliography
+common#:#bibl_add#:#Add Bibliography
 bibl#:#bibl_import#:#Import Bibliography
 bibl#:#download_original_file#:#Download Original File
 bibl#:#Type#:#Type
@@ -11137,7 +11196,7 @@ survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_self_evaluation#:#Self-Evaluation
 survey#:#survey_360_self_raters#:#Appraisees Select Own Raters
-survey#:#survey_360_self_appraisee#:#Open 360° Feedback
+survey#:#survey_360_self_appraisee#:#Open Feedback
 survey#:#survey_360_results#:#Access To Results For Appraisees
 survey#:#survey_360_results_none#:#No Access to Results
 survey#:#survey_360_results_own#:#Access to Feedback of Own Raters
@@ -11157,7 +11216,7 @@ skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_assigned_skill_levels#:#Assigned Target Levels
+skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Targets
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
@@ -11184,11 +11243,12 @@ survey#:#survey_skill_max_scale_points#:#Max. Scale Points
 survey#:#survey_reached_level#:#Reached Level
 survey#:#survey_sum_of_means#:#Sum of Arithm. Means per Question
 survey#:#survey_calc_skills#:#Determine Competence Levels
-skmg#:#skmg_target_level#:#Profile Target Level
+skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_360_survey#:#360° Survey
-skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your target competence level.
-skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately there are currently no learning resources available providing learning material aligned to your target competence level.
-skmg#:#skmg_skill_no_needs_impr#:#Your competence level is sufficient for the selected profile.
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
+skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
+skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
 survey#:#survey_360_rater_mail_sent#:#Mail sent
 survey#:#survey_360_rater_message_content_registered#:#Message Content (Registered)
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -11941,6 +12001,7 @@ mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_filter_only_unread#:#Only Unread
+mail#:#mail_filter_only_user_mails#:#Hide System Notifications
 mail#:#mail_filter_only_with_attachments#:#With Attachments
 mail#:#mail_filter_period#:#Period
 mail#:#mail_filter_period_from#:#From
@@ -12510,7 +12571,7 @@ rbac#:#file_read_learning_progress#:#User can view learning progress of other us
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode.
 content#:#cont_self_assessment#:#Self Assessment
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
@@ -13058,7 +13119,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
-forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora_desc#:#The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default.
 forum#:#file_upload_allowed_fora#:#Attachments
 forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
 forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
@@ -13303,6 +13364,7 @@ crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
 crs#:#crs_mail_context_member_title#:#Course: Info Page
 sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
+mail#:#deleteTemplate#:#Delete
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_unset_as_default#:#Unset as Default
@@ -13537,6 +13599,7 @@ mail#:#mail_notification_membership_section#:#Membership
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#prg_new#:#New Study Programme
 prg#:#prg_add#:#Add Study Programme
+common#:#prgr_add#:#Add Study Programme Link
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_assessment#:#Study Programme Assessment
@@ -13866,7 +13929,7 @@ survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participan
 survey#:#survey_results_started#:#Survey started
 survey#:#survey_results_not_started#:#Survey not started
 survey#:#svy_mail_own_results_body#:#you participated in the following survey:
-assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available levels.
+assessment#:#ass_competence_respect_level_ordering#:#Please note that the competence thresholds have to be defined in an ascending order according to the available competence levels.
 common#:#grpr_edit_info#:#Please choose one group for creating a new group link.
 common#:#grpr_edit#:#Edit Group Link
 common#:#grpr_new#:#Create Group Link
@@ -14199,7 +14262,7 @@ rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline_landing_page#:#Landing Page
@@ -14355,12 +14418,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -14517,7 +14580,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
-common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
@@ -14597,9 +14660,9 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
-skmg#:#skmg_selected_skills#:#Competence Records
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
+skmg#:#skmg_selected_skills#:#Selected Competences
+skmg#:#skmg_hide_profile_self_eval#:#Hide Competence Target without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Competence Target will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
@@ -14900,6 +14963,7 @@ copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
+copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.
 common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_cpad#_desc#:#Content Page Administration
@@ -16107,8 +16171,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart
@@ -16649,4 +16713,31 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when
 prg#:#status_unchanged#:#Status unchanged
 common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
 common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+common#:#actions_for#:#Actions for %s
 violation#:#not_a_string#:#Given value is not a String
+common#:#actions_for#:#Actions for %s
+validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
+validation#:#not_an_array#:#Given value is not an array
+validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.
+skmg#:#skmg_add_skill_tree#:#Add Competence Tree
+skmg#:#skmg_skill_tree#:#Competence Tree
+skmg#:#skmg_skill_trees#:#Competence Trees
+skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion
+rbac#:#obj_skee#:#Competence Tree
+rbac#:#read_comp#:#User has read access to Competences and Competence Templates
+rbac#:#read_profiles#:#User has read access to Competence Profiles
+rbac#:#manage_comp#:#User can change Competences
+rbac#:#manage_comp_temp#:#User can change Competence Templates
+rbac#:#manage_profiles#:#User can change Competence Profiles
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.
+skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
+skmg#:#skmg_form_presentation#:#Presentation
+skll#:#skll_lhist_skill_profile_fulfilled#:#Competence Profile $3$ was fulfilled.
+skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
+skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
+skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
+skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
+skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
+ui#:#duration_default_label_start#:#start
+ui#:#duration_default_label_end#:#end
+exc#:#exc_fullscreen#:#Fullscreen

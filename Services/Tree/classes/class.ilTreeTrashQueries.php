@@ -146,7 +146,7 @@ class ilTreeTrashQueries
          */
         $res_max_entries = $this->db->query($query_count);
         while ($max_entries_row = $res_max_entries->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-            $max_entries = $max_entries_row->max_entries;
+            $max_entries = (int) $max_entries_row->max_entries;
         }
 
         $this->db->setLimit($limit, $offset);
@@ -155,13 +155,13 @@ class ilTreeTrashQueries
         $items = [];
         while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
             $item = new \ilTreeTrashItem();
-            $item->setObjId($row->obj_id);
-            $item->setRefId($row->ref_id);
-            $item->setTitle($row->title);
-            $item->setDescription($row->description);
-            $item->setType($row->type);
-            $item->setDeleted($row->deleted);
-            $item->setDeletedBy($row->deleted_by);
+            $item->setObjId((int) $row->obj_id);
+            $item->setRefId((int) $row->ref_id);
+            $item->setTitle((string) $row->title);
+            $item->setDescription((string) $row->description);
+            $item->setType((string) $row->type);
+            $item->setDeleted((string) $row->deleted);
+            $item->setDeletedBy((int) $row->deleted_by);
             $items[] = $item;
         }
         return $items;

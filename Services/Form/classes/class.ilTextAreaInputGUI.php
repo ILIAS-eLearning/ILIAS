@@ -37,7 +37,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $disabled_buttons = array();
     protected bool $usePurifier = false;
     protected ?ilHtmlPurifierInterface $Purifier = null;
-    protected ?string $root_block_element = null;
+    protected ?string $root_block_element = "";
     
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
@@ -239,7 +239,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
         
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
@@ -282,7 +282,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function getInput() : string
     {
         if ($this->usePurifier() && $this->getPurifier()) {
-            $value = $this->getPurifier()->purify($this->str($this->getPostVar()));
+            $value = $this->getPurifier()->purify($this->raw($this->getPostVar()));
         } else {
             $allowed = $this->getRteTagString();
             if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
@@ -310,8 +310,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         } else {
             if ($this->getUseRte()) {
                 $rtestring = ilRTE::_getRTEClassname();
-                $rte = new $rtestring($this->rteSupport['version']);
-
+                $rte = new $rtestring((string) $this->rteSupport['version']);
                 $rte->setInitialWidth($this->getInitialRteWidth());
                 
                 // @todo: Check this.
