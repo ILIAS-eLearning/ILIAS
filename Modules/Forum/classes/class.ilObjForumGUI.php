@@ -846,6 +846,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->parseCurrentBlock();
     }
 
+    /**
+     * @param ilTemplate $tpl
+     * @param string $action
+     * @param ilForumPost $referencePosting
+     * @param ilForumPostDraft[] $drafts
+     * @return void
+     * @throws ilCtrlException
+     * @throws ilTemplateException
+     */
     protected function renderDraftContent(
         ilTemplate $tpl,
         string $action,
@@ -1133,8 +1142,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $authorinfo = new ilForumAuthorInformation(
             $node->getPosAuthorId(),
             $node->getDisplayUserId(),
-            $node->getUserAlias(),
-            $node->getImportName(),
+            (string) $node->getUserAlias(),
+            (string) $node->getImportName(),
             [
                 'href' => $this->ctrl->getLinkTarget($this, 'showUser')
             ]
@@ -1177,8 +1186,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $authorinfo = new ilForumAuthorInformation(
                 $node->getPosAuthorId(),
                 $update_user_id,
-                $node->getUserAlias(),
-                $node->getImportName(),
+                (string) $node->getUserAlias(),
+                (string) $node->getImportName(),
                 [
                     'href' => $this->ctrl->getLinkTarget($this, 'showUser')
                 ]
@@ -2796,8 +2805,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $authorinfo = new ilForumAuthorInformation(
             $this->objCurrentPost->getPosAuthorId(),
             $this->objCurrentPost->getDisplayUserId(),
-            $this->objCurrentPost->getUserAlias(),
-            $this->objCurrentPost->getImportName()
+            (string) $this->objCurrentPost->getUserAlias(),
+            (string) $this->objCurrentPost->getImportName()
         );
 
         $html = ilRTE::_replaceMediaObjectImageSrc($frm->prepareText(
@@ -5744,8 +5753,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $authorinfo = new ilForumAuthorInformation(
                         $node->getPosAuthorId(),
                         $node->getDisplayUserId(),
-                        $node->getUserAlias(),
-                        $node->getImportName()
+                        (string) $node->getUserAlias(),
+                        (string) $node->getImportName()
                     );
 
                     $oEditReplyForm->setValuesByPost();
