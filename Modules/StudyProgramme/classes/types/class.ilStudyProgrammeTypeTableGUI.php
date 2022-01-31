@@ -51,7 +51,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
      * Pass data to row template
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $icon = "";
         $type = $this->type_repo->getType((int) $a_set['id']);

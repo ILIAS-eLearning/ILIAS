@@ -7,15 +7,14 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function __construct(ilStudyProgrammeMailMemberSearchGUI $parent_obj, string $parent_cmd = "")
+    public function __construct(ilStudyProgrammeMailMemberSearchGUI $parent_obj, int $root_obj_id, string $parent_cmd = "")
     {
         global $DIC;
 
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
 
-        $obj_id = ilObject::_lookupObjectId($parent_obj->ref_id);
-        $this->setId('mmsearch_' . $obj_id);
+        $this->setId('mmsearch_' . $root_obj_id);
         parent::__construct($parent_obj, $parent_cmd);
         $this->lng->loadLanguageModule('prg');
         $this->setTitle($this->lng->txt('members'));
@@ -40,7 +39,7 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

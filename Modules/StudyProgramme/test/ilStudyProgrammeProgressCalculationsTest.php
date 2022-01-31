@@ -38,7 +38,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
         return $prg;
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->progress_repo = new ProgressRepoMock();
         $this->assignment_repo = new AssignmentRepoMock();
