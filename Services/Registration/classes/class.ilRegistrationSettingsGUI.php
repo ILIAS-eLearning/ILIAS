@@ -139,24 +139,32 @@ class ilRegistrationSettingsGUI
         $form_gui->setTitle($this->lng->txt('reg_settings_header'));
 
         $reg_type = new ilRadioGroupInputGUI($this->lng->txt('reg_type'), 'reg_type');
-        $reg_type->addOption(new ilRadioOption($this->lng->txt('reg_disabled'),
-            (string) ilRegistrationSettings::IL_REG_DISABLED));
+        $reg_type->addOption(new ilRadioOption(
+            $this->lng->txt('reg_disabled'),
+            (string) ilRegistrationSettings::IL_REG_DISABLED
+        ));
         $option = new ilRadioOption($this->lng->txt('reg_direct'), (string) ilRegistrationSettings::IL_REG_DIRECT);
         $option->setInfo($this->lng->txt('reg_direct_info'));
-        $cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'),
-            'reg_codes_' . ilRegistrationSettings::IL_REG_DIRECT);
+        $cd = new ilCheckboxInputGUI(
+            $this->lng->txt('reg_allow_codes'),
+            'reg_codes_' . ilRegistrationSettings::IL_REG_DIRECT
+        );
         $cd->setInfo($this->lng->txt('reg_allow_codes_info'));
         $option->addSubItem($cd);
         $reg_type->addOption($option);
         $option = new ilRadioOption($this->lng->txt('reg_approve'), (string) ilRegistrationSettings::IL_REG_APPROVE);
         $option->setInfo($this->lng->txt('reg_approve_info'));
-        $cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'),
-            'reg_codes_' . ilRegistrationSettings::IL_REG_APPROVE);
+        $cd = new ilCheckboxInputGUI(
+            $this->lng->txt('reg_allow_codes'),
+            'reg_codes_' . ilRegistrationSettings::IL_REG_APPROVE
+        );
         $cd->setInfo($this->lng->txt('reg_allow_codes_info'));
         $option->addSubItem($cd);
         $reg_type->addOption($option);
-        $option = new ilRadioOption($this->lng->txt('reg_type_confirmation'),
-            (string) ilRegistrationSettings::IL_REG_ACTIVATION);
+        $option = new ilRadioOption(
+            $this->lng->txt('reg_type_confirmation'),
+            (string) ilRegistrationSettings::IL_REG_ACTIVATION
+        );
         $option->setInfo($this->lng->txt('reg_type_confirmation_info'));
         $lt = new ilNumberInputGUI($this->lng->txt('reg_confirmation_hash_life_time'), 'reg_hash_life_time');
         $lt->setSize(6); // #8511
@@ -166,13 +174,17 @@ class ilRegistrationSettingsGUI
         $lt->setInfo($this->lng->txt('reg_confirmation_hash_life_time_info'));
         $lt->setSuffix($this->lng->txt('seconds'));
         $option->addSubItem($lt);
-        $cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'),
-            'reg_codes_' . ilRegistrationSettings::IL_REG_ACTIVATION);
+        $cd = new ilCheckboxInputGUI(
+            $this->lng->txt('reg_allow_codes'),
+            'reg_codes_' . ilRegistrationSettings::IL_REG_ACTIVATION
+        );
         $cd->setInfo($this->lng->txt('reg_allow_codes_info'));
         $option->addSubItem($cd);
         $reg_type->addOption($option);
-        $option = new ilRadioOption($this->lng->txt('registration_reg_type_codes'),
-            (string) ilRegistrationSettings::IL_REG_CODES);
+        $option = new ilRadioOption(
+            $this->lng->txt('registration_reg_type_codes'),
+            (string) ilRegistrationSettings::IL_REG_CODES
+        );
         $option->setInfo($this->lng->txt('registration_reg_type_codes_info'));
         $reg_type->addOption($option);
         $form_gui->addItem($reg_type);
@@ -181,14 +193,6 @@ class ilRegistrationSettingsGUI
         $pwd_gen->setValue('1');
         $pwd_gen->setInfo($this->lng->txt('reg_info_pwd'));
         $form_gui->addItem($pwd_gen);
-
-        $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
-        $cap->setInfo($this->lng->txt('adm_captcha_anonymous_reg'));
-        $cap->setValue('1');
-        if (!ilCaptchaUtil::checkFreetype()) {
-            $cap->setAlert(ilCaptchaUtil::getPreconditionsMessage());
-        }
-        $form_gui->addItem($cap);
 
         $approver = new ilTextInputGUI($this->lng->txt('reg_notification'), 'reg_approver');
         $approver->setSize(32);
@@ -248,8 +252,7 @@ class ilRegistrationSettingsGUI
             'reg_approver' => $this->registration_settings->getApproveRecipientLogins(),
             'reg_role_type' => $role_type,
             'reg_access_limitation' => $this->registration_settings->getAccessLimitation(),
-            'reg_allowed_domains' => implode(';', $this->registration_settings->getAllowedDomains()),
-            'activate_captcha_anonym' => ilCaptchaUtil::isActiveForRegistration()
+            'reg_allowed_domains' => implode(';', $this->registration_settings->getAllowedDomains())
         );
 
         $allow_codes = $this->registration_settings->getAllowCodes();
@@ -318,8 +321,10 @@ class ilRegistrationSettingsGUI
         if (!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (string) $hash_life_time)) {
             $this->registration_settings->setRegistrationHashLifetime(ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE);
         } else {
-            $this->registration_settings->setRegistrationHashLifetime(max((int) $hash_life_time,
-                ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE));
+            $this->registration_settings->setRegistrationHashLifetime(max(
+                (int) $hash_life_time,
+                ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE
+            ));
         }
 
         if ($error_code = $this->registration_settings->validate()) {
@@ -337,7 +342,6 @@ class ilRegistrationSettingsGUI
             }
         }
 
-        ilCaptchaUtil::setActiveForRegistration((bool) $form->getInput('activate_captcha_anonym'));
         $this->registration_settings->save();
         ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
         $this->view();
@@ -490,14 +494,15 @@ class ilRegistrationSettingsGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('reg_role_access_limitations'));
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
-
             $role_access = new ilRadioGroupInputGUI($role['title'], "role_access_" . $role['id']);
 
             $op_unlimited = new ilRadioOption($this->lng->txt('reg_access_limitation_mode_unlimited'), "unlimited");
 
             $op_absolute = new ilRadioOption($this->lng->txt('reg_access_limitation_mode_absolute'), "absolute");
-            $absolute_date = new ilDateTime(date("d.m.Y", $this->access_limitations_obj->getAbsolute($role['id'])),
-                IL_CAL_DATE);
+            $absolute_date = new ilDateTime(
+                date("d.m.Y", $this->access_limitations_obj->getAbsolute($role['id'])),
+                IL_CAL_DATE
+            );
             $date = new ilDateTimeInputGUI("", "absolute_date_" . $role['id']);
             $date->setDate($absolute_date);
             $op_absolute->addSubItem($date);
@@ -523,7 +528,6 @@ class ilRegistrationSettingsGUI
         $form->addCommandButton("view", $this->lng->txt("cancel"));
 
         return $form;
-
     }
 
     public function saveAssignment() : bool
@@ -655,7 +659,8 @@ class ilRegistrationSettingsGUI
                 case 'absolute':
                     $txt_access_value = $this->lng->txt('reg_access_limitation_limited_until');
                     $txt_access_value .= " " . ilDatePresentation::formatDate(
-                            new ilDateTime($this->access_limitations_obj->getAbsolute((int) $role['id']), IL_CAL_UNIX));
+                        new ilDateTime($this->access_limitations_obj->getAbsolute((int) $role['id']), IL_CAL_UNIX)
+                    );
                     break;
 
                 case 'relative':
@@ -899,7 +904,6 @@ class ilRegistrationSettingsGUI
         }
 
         if ($valid) {
-
             $stamp = time();
             for ($loop = 1; $loop <= $number; $loop++) {
                 $code_types = (array) $this->form_gui->getInput('code_type');
@@ -999,12 +1003,19 @@ class ilRegistrationSettingsGUI
         $this->checkAccess('read');
         $utab = new ilRegistrationCodesTableGUI($this, "listCodes");
 
-        $codes = ilRegistrationCode::getCodesForExport($utab->filter["code"], $utab->filter["role"],
-            $utab->filter["generated"], $utab->filter["alimit"]);
+        $codes = ilRegistrationCode::getCodesForExport(
+            $utab->filter["code"],
+            $utab->filter["role"],
+            $utab->filter["generated"],
+            $utab->filter["alimit"]
+        );
 
         if (sizeof($codes)) {
-            ilUtil::deliverData(implode("\r\n", $codes), "ilias_registration_codes_" . date("d-m-Y") . ".txt",
-                "text/plain");
+            ilUtil::deliverData(
+                implode("\r\n", $codes),
+                "ilias_registration_codes_" . date("d-m-Y") . ".txt",
+                "text/plain"
+            );
         } else {
             ilUtil::sendFailure($this->lng->txt("registration_export_codes_no_data"));
             $this->listCodes();
