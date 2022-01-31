@@ -11,7 +11,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     public const MESSAGE_INPUT = 'message';
     public const FILE_UPLOAD_INPUT = 'file_upload';
     public const ALLOW_NOTIFICATION_INPUT = 'allow_notification';
-    public const CAPTCHA_INPUT = 'captcha';
 
     /** @var string[] */
     private array $input_items = [];
@@ -133,15 +132,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         }
     }
 
-    private function addCaptchaInput() : void
-    {
-        if ($this->user->isAnonymous() && !$this->user->isCaptchaVerified() && ilCaptchaUtil::isActiveForForum()) {
-            $captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
-            $captcha->setRequired(true);
-            $this->addItem($captcha);
-        }
-    }
-
     private function generateInputItems() : void
     {
         $this->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
@@ -171,10 +161,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
 
                 case self::ALLOW_NOTIFICATION_INPUT:
                     $this->addAllowNotificationInput();
-                    break;
-
-                case self::CAPTCHA_INPUT:
-                    $this->addCaptchaInput();
                     break;
             }
         }

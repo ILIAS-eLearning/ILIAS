@@ -473,14 +473,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $pi->setRequired(true);
         $form->addItem($pi);
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-        if (ilCaptchaUtil::isActiveForLogin()) {
-            require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
-            $captcha = new ilCaptchaInputGUI($this->lng->txt('captcha_code'), 'captcha_code');
-            $captcha->setRequired(true);
-            $form->addItem($captcha);
-        }
-
         $form->addCommandButton("doStandardAuthentication", $this->lng->txt("log_in"));
 
         return $form;
@@ -701,7 +693,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $credentials = new ilAuthFrontendCredentials();
             $credentials->setUsername($form->getInput('username'));
             $credentials->setPassword($form->getInput('password'));
-            $credentials->setCaptchaCode($form->getInput('captcha_code'));
 
             // set chosen auth mode
             include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';

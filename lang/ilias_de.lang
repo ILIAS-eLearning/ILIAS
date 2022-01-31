@@ -16736,3 +16736,4 @@ skmg#:#skmg_recommended_learning_material_info#:#Wählen Sie genau einen der fol
 skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewählt. Klicken Sie auf den Button "Kompetenz hinzufügen" um eine Kompetenz auszuwählen und sie hier angezeigt zu bekommen. Sie können beliebig viele Kompetenzen hinzufügen.
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_default_label_end#:#Ende
+exc#:#exc_fullscreen#:#Vollbild

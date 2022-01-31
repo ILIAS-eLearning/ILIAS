@@ -4031,16 +4031,6 @@ class ilObjUser extends ilObject
         return $num_rows == count($a_usr_ids);
     }
 
-    public function isCaptchaVerified() : bool
-    {
-        return (bool) ilSession::get("user_captcha_verified");
-    }
-    
-    public function setCaptchaVerified(bool $a_val) : void
-    {
-        ilSession::set("user_captcha_verified", $a_val);
-    }
-    
     public function exportPersonalData() : void
     {
         $exp = new ilExport();

@@ -846,6 +846,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->parseCurrentBlock();
     }
 
+    /**
+     * @param ilTemplate $tpl
+     * @param string $action
+     * @param ilForumPost $referencePosting
+     * @param ilForumPostDraft[] $drafts
+     * @return void
+     * @throws ilCtrlException
+     * @throws ilTemplateException
+     */
     protected function renderDraftContent(
         ilTemplate $tpl,
         string $action,
@@ -1133,8 +1142,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $authorinfo = new ilForumAuthorInformation(
             $node->getPosAuthorId(),
             $node->getDisplayUserId(),
-            $node->getUserAlias(),
-            $node->getImportName(),
+            (string) $node->getUserAlias(),
+            (string) $node->getImportName(),
             [
                 'href' => $this->ctrl->getLinkTarget($this, 'showUser')
             ]
@@ -1177,8 +1186,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $authorinfo = new ilForumAuthorInformation(
                 $node->getPosAuthorId(),
                 $update_user_id,
-                $node->getUserAlias(),
-                $node->getImportName(),
+                (string) $node->getUserAlias(),
+                (string) $node->getImportName(),
                 [
                     'href' => $this->ctrl->getLinkTarget($this, 'showUser')
                 ]
@@ -2150,16 +2159,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->replyEditForm->addItem($oFileUploadGUI);
         }
 
-        if (
-            $this->user->isAnonymous() &&
-            !$this->user->isCaptchaVerified() &&
-            ilCaptchaUtil::isActiveForForum()
-        ) {
-            $captcha = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
-            $captcha->setRequired(true);
-            $this->replyEditForm->addItem($captcha);
-        }
-
         $attachments_of_node = $oFDForum->getFilesOfPost();
         if (count($attachments_of_node) && in_array($this->requestAction, ['showedit', 'ready_showedit'])) {
             $oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI($this->lng->txt('forums_delete_file'), 'del_file');
@@ -2508,8 +2507,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 return;
             }
 
-            $this->doCaptchaCheck();
-
             // init objects
             $oForumObjects = $this->getForumObjects();
             $forumObj = $oForumObjects['forumObj'];
@@ -2808,8 +2805,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $authorinfo = new ilForumAuthorInformation(
             $this->objCurrentPost->getPosAuthorId(),
             $this->objCurrentPost->getDisplayUserId(),
-            $this->objCurrentPost->getUserAlias(),
-            $this->objCurrentPost->getImportName()
+            (string) $this->objCurrentPost->getUserAlias(),
+            (string) $this->objCurrentPost->getImportName()
         );
 
         $html = ilRTE::_replaceMediaObjectImageSrc($frm->prepareText(
@@ -3825,7 +3822,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $default_form->addInputItem(ilForumThreadFormGUI::MESSAGE_INPUT);
         $default_form->addInputItem(ilForumThreadFormGUI::FILE_UPLOAD_INPUT);
         $default_form->addInputItem(ilForumThreadFormGUI::ALLOW_NOTIFICATION_INPUT);
-        $default_form->addInputItem(ilForumThreadFormGUI::CAPTCHA_INPUT);
 
         $default_form->generateDefaultForm();
 
@@ -3910,8 +3906,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $minimal_form = $this->buildMinimalThreadForm($createFromDraft);
 
         if ($form->checkInput()) {
-            $this->doCaptchaCheck();
-
             $userIdForDisplayPurposes = $this->user->getId();
             if ($this->isWritingWithPseudonymAllowed()) {
                 $userIdForDisplayPurposes = 0;
@@ -4812,8 +4806,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $form = $this->buildThreadForm();
         if ($form->checkInput()) {
-            $this->doCaptchaCheck();
-
             if (0 === $autoSavedDraftId) {
                 $draft = new ilForumPostDraft();
             } else {
@@ -4895,8 +4887,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $form = $this->buildThreadForm(true);
         if ($form->checkInput()) {
-            $this->doCaptchaCheck();
-
             $userAlias = ilForumUtil::getPublicUserAlias(
                 $form->getInput('alias'),
                 $this->objProperties->isAnonymized()
@@ -5001,8 +4991,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->viewThreadObject();
                 return;
             }
-
-            $this->doCaptchaCheck();
 
             $oForumObjects = $this->getForumObjects();
             $forumObj = $oForumObjects['forumObj'];
@@ -5137,8 +5125,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $oReplyEditForm = $this->getReplyEditForm();
         if ($oReplyEditForm->checkInput()) {
-            $this->doCaptchaCheck();
-
             // init objects
             $oForumObjects = $this->getForumObjects();
             $forumObj = $oForumObjects['forumObj'];
@@ -5723,13 +5709,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
     }
 
-    protected function doCaptchaCheck() : void
-    {
-        if ($this->user->isAnonymous() && !$this->user->isCaptchaVerified() && ilCaptchaUtil::isActiveForForum()) {
-            $this->user->setCaptchaVerified(true);
-        }
-    }
-
     private function renderPostingForm(ilTemplate $tpl, ilForum $frm, ilForumPost $node, string $action) : void
     {
         $ref_id = $this->retrieveRefId();
@@ -5774,8 +5753,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $authorinfo = new ilForumAuthorInformation(
                         $node->getPosAuthorId(),
                         $node->getDisplayUserId(),
-                        $node->getUserAlias(),
-                        $node->getImportName()
+                        (string) $node->getUserAlias(),
+                        (string) $node->getImportName()
                     );
 
                     $oEditReplyForm->setValuesByPost();
