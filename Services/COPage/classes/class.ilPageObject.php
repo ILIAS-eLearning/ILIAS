@@ -1105,7 +1105,7 @@ abstract class ilPageObject
      * If no node is given, then the whole dom will be scanned
      * @param php4DOMNode|DOMNode|null $a_node
      */
-    public function handleDeleteContent($a_node = null)
+    public function handleDeleteContent($a_node = null, $a_update = true)
     {
         if (!isset($a_node)) {
             $xpc = xpath_new_context($this->dom);
@@ -1124,7 +1124,7 @@ abstract class ilPageObject
 
             /** @var DOMElement $node */
             if ($node->firstChild->nodeName == 'Plugged') {
-                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild);
+                ilPCPlugged::handleDeletedPluggedNode($this, $node->firstChild, $a_update);
             }
         }
     }
@@ -3183,7 +3183,7 @@ abstract class ilPageObject
     public function deleteContent($a_hid, $a_update = true, $a_pcid = "")
     {
         $curr_node = $this->getContentNode($a_hid, $a_pcid);
-        $this->handleDeleteContent($curr_node);
+        $this->handleDeleteContent($curr_node, $a_update);
         $curr_node->unlink_node($curr_node);
         if ($a_update) {
             return $this->update();
@@ -3212,7 +3212,7 @@ abstract class ilPageObject
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parent_node();
                     if ($parent_node->node_name() != "TableRow") {
-                        $this->handleDeleteContent($curr_node);
+                        $this->handleDeleteContent($curr_node, $a_update);
                         $curr_node->unlink_node($curr_node);
                     }
                 }
@@ -3386,7 +3386,7 @@ abstract class ilPageObject
             if (!is_int(strpos($hier_id, "_"))) {
                 if ($hier_id != "pg" && $hier_id >= $a_hid) {
                     $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node);
+                    $this->handleDeleteContent($curr_node, $a_update);
                     $curr_node->unlink_node($curr_node);
                 }
             }
@@ -3412,7 +3412,7 @@ abstract class ilPageObject
             if (!is_int(strpos($hier_id, "_"))) {
                 if ($hier_id != "pg" && $hier_id < $a_hid) {
                     $curr_node = $this->getContentNode($hier_id);
-                    $this->handleDeleteContent($curr_node);
+                    $this->handleDeleteContent($curr_node, $a_update);
                     $curr_node->unlink_node($curr_node);
                 }
             }
