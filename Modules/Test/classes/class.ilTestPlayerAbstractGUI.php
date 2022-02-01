@@ -1540,11 +1540,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $sideListActive = $ilUser->getPref('side_list_of_questions');
 
         if ($sideListActive) {
-            $this->tpl->addCss(
-                ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"),
-                "screen"
-            );
-
             $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
 
             require_once 'Modules/Test/classes/class.ilTestQuestionSideListGUI.php';
