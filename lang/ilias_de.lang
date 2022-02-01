@@ -5967,7 +5967,7 @@ crs#:#event_unregister#:#Abmelden
 crs#:#event_unregistered#:#Sie wurden abgemeldet.
 crs#:#event_updated#:#Die Änderungen wurden gespeichert
 crs#:#events#:#Sitzungen
-crs#:#export_members#:#Teilnehmerexport
+crs#:#export_members#:#Export der Teilnehmendendaten
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#sess_attendance_list#:#Teilnehmerliste
 crs#:#sess_gen_attendance_list#:#Liste erstellen
@@ -8021,11 +8021,11 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwort
 ps#:#ps_export_admin#:#Administratoren
 ps#:#ps_export_confirm#:#Nutzungsvereinbarung für Kursmitglieder aktivieren
 ps#:#ps_export_confirm_group#:#Nutzungsvereinbarung für Gruppenmitglieder aktivieren
-ps#:#ps_export_course#:#Persönliche Daten in Kursen anzeigen und exportieren
+ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
 ps#:#ps_export_files#:#Exportdateien
-ps#:#ps_export_groups#:#Persönliche Daten in Gruppen anzeigen und exportieren
+ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
 ps#:#ps_export_member#:#Teilnehmer
 ps#:#ps_export_settings#:#Einstellungen zum Export
 ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
@@ -10717,8 +10717,8 @@ trac#:#trac_mode_plugin#:#Plugin
 common#:#qpl_copy#:#Fragenpool für Tests kopieren
 mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts
 mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
-mathjax#:#mathjax_polyfill_url_desc_line1: Für MathJax 2 nicht benötigt
-mathjax#:#mathjax_polyfill_url_desc_line2: Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
 mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
 mathjax#:#mathjax_script_url_desc_line2#:#Für MathJax 3 z.B. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js

@@ -105,9 +105,9 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initGlobal($a_name, $a_class, $a_source_file)
     */
-    public static function initGlobal($a_name, $a_class, $a_source_file = null)
+    public static function initGlobal($a_name, $a_class, $a_source_file = null) : void
     {
-        return parent::initGlobal($a_name, $a_class, $a_source_file);
+        parent::initGlobal($a_name, $a_class, $a_source_file);
     }
 
     /**

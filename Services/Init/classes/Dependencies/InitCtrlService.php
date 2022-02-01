@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -6,9 +6,7 @@ use ILIAS\DI\Container;
 
 /**
  * Class InitCtrlService wraps the initialization of ilCtrl.
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
- *
  * This class exists because due to dependency-injection the
  * initialization of ilCtrl got a little more complicated -
  * and is used on several occasions.
@@ -17,10 +15,8 @@ final class InitCtrlService
 {
     /**
      * Initializes the ilCtrl service.
-     *
      * This method EXPECTS that $GLOBALS['DIC'] is already initialized
      * with the http services and the refinery factory.
-     *
      * @param Container $dic
      * @throws ilCtrlException if the initialization fails.
      */
@@ -71,7 +67,6 @@ final class InitCtrlService
     /**
      * Aborts if another dependency required by the ctrl service
      * is not yet available.
-     *
      * @param Container $dic
      * @throws ilCtrlException if a necessary dependency is not yet
      *                         initialized.

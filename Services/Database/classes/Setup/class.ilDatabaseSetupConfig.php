@@ -118,7 +118,7 @@ class ilDatabaseSetupConfig implements Setup\Config
              * @param	string		value
              * @return mixed|void return value string or boolean 'false' on failure
              */
-            public function readVariable($a_group, $a_var_name)
+            public function readVariable(string $a_group, string $a_var_name)
             {
                 if ($a_group !== "db") {
                     throw new \LogicException(
@@ -151,11 +151,11 @@ class ilDatabaseSetupConfig implements Setup\Config
             {
                 $this->config = $config;
             }
-            public function read(): void
+            public function read(): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function parse(): void
+            public function parse(): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
@@ -163,51 +163,51 @@ class ilDatabaseSetupConfig implements Setup\Config
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function write(): void
+            public function write(): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function show(): void
+            public function show(): string
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function getGroupCount(): void
+            public function getGroupCount(): int
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function readGroups(): void
+            public function readGroups(): array
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function groupExists($a_group_name): void
+            public function groupExists(string $a_group_name): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function readGroup($a_group_name): void
+            public function readGroup(string $a_group_name): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function addGroup($a_group_name): void
+            public function addGroup(string $a_group_name): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function removeGroup($a_group_name): void
+            public function removeGroup(string $a_group_name): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function variableExists($a_group, $a_var_name): void
+            public function variableExists(string $a_group, string $a_var_name): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function setVariable($a_group_name, $a_var_name, $a_var_value): void
+            public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function error($a_errmsg): void
+            public function error(string $a_errmsg): bool
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function getError(): void
+            public function getError(): string
             {
                 throw new \LogicException("Just a mock here...");
             }

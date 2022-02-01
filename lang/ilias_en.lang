@@ -5206,7 +5206,7 @@ crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
 crs#:#event#:#Session
 crs#:#events#:#Sessions
-crs#:#export_members#:#Export Participants
+crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
@@ -5897,8 +5897,8 @@ jscalendar#:#wk#:#wk
 mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
-mathjax#:#mathjax_polyfill_url_desc_line1: For MathJax 2 not needed
-mathjax#:#mathjax_polyfill_url_desc_line2: For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script
 mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
@@ -6951,8 +6951,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
-ps#:#ps_export_course#:#Visibility of User Profile Data in Courses
-ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups
+ps#:#ps_export_course#:#Allow export of user profile data in courses
+ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_member#:#Members
@@ -16713,7 +16713,6 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when
 prg#:#status_unchanged#:#Status unchanged
 common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
 common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
-common#:#actions_for#:#Actions for %s
 violation#:#not_a_string#:#Given value is not a String
 common#:#actions_for#:#Actions for %s
 validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
