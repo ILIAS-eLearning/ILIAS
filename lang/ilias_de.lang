@@ -16737,3 +16737,15 @@ skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewäh
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_default_label_end#:#Ende
 exc#:#exc_fullscreen#:#Vollbild
+cont#:#cont_tile_size_1#:#klein (bis zu sechs Kacheln in einer Zeile)
+cont#:#cont_tile_size_0#:#normal (bis zu vier Kacheln in einer Zeile)
+cont#:#cont_tile_size_2#:#groß (bis zu drei Kacheln in einer Zeile)
+cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
+cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
+cont#:#cont_tile_size#:#Kachelgröße
+itgr#:#itgr_tile_size#:#Kachelgröße
+itgr#:#itgr_tile#:#Kacheln
+itgr#:#itgr_list#:#Liste
+itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
+itgr#:#itgr_list_default#:#Standard
+itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.

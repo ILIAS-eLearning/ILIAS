@@ -16708,3 +16708,15 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet.
 ui#:#duration_default_label_start#:#start
 ui#:#duration_default_label_end#:#end
 exc#:#exc_fullscreen#:#Fullscreen
+cont#:#cont_tile_size_1#:#small (up to six tiles in a row)
+cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)
+cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
+cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
+cont#:#cont_tile_size_4#:#full (one tile in a row)
+cont#:#cont_tile_size#:#Tile Size
+itgr#:#itgr_tile_size#:#Tile Size
+itgr#:#itgr_tile#:#Tiles
+itgr#:#itgr_list#:#List
+itgr#:#itgr_list_presentation#:#Item Presentation
+itgr#:#itgr_list_default#:#Default
+itgr#:#itgr_list_default_info#:#Inherits value from upper container.
