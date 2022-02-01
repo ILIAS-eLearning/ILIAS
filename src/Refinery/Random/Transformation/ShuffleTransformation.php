@@ -41,7 +41,7 @@ class ShuffleTransformation implements Transformation
     public function transform($array)
     {
         if (!is_array($array)) {
-            throw new ConstraintViolationException('not an array', 'not_an_array');
+            throw new ConstraintViolationException('not an array', 'no_array');
         }
         $this->seed->seedRandomGenerator();
         \shuffle($array);
