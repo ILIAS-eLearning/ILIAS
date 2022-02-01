@@ -52,7 +52,7 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr'],
                 $c['ilIndividualAssessmentMemberGUI'],
                 $dic->refinery(),
-                $dic->http()->wrapper()->query()
+                $dic->http()->wrapper()
             );
         };
 
