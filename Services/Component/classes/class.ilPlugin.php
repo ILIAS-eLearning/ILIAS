@@ -250,7 +250,7 @@ abstract class ilPlugin
         $this->component_repository->setActivation($this->getId(), false);
         $this->afterDeactivation();
 
-        return $result;
+        return true;
     }
 
     /**
