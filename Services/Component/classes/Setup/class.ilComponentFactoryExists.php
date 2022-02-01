@@ -55,7 +55,7 @@ class ilComponentFactoryExistsObjective  implements Setup\Objective
     {
         return [
             new \ilDatabaseUpdatedObjective(),
-            new \ilComponentDatabaseExistsObjective()
+            new \ilComponentRepositoryExistsObjective()
         ];
     }
 
@@ -65,7 +65,7 @@ class ilComponentFactoryExistsObjective  implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $component_db = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
 
         $component_factory = new ilComponentFactoryImplementation(
             $component_repository,

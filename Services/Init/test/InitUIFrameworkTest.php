@@ -63,7 +63,6 @@ class InitUIFrameworkTest extends TestCase
         global $DIC;
         $initial_state = $DIC;
         $DIC = new \ILIAS\DI\Container();
-        $DIC["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
 
         $example_componanent = $this->dic->ui()->factory()->divider()->vertical();
         $example_out = $this->dic->ui()->renderer()->render($example_componanent);

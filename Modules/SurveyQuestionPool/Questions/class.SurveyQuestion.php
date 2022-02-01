@@ -1300,7 +1300,6 @@ class SurveyQuestion
             $component_factory = $DIC["component.factory"];
             foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                 if (strcmp($pl->getQuestionType(), $question_type) == 0) {
-                    $pl->includeClass("class." . $type . ".php");
                     return true;
                 }
             }

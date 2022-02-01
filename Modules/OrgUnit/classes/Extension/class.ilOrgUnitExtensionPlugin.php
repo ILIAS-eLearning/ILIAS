@@ -28,9 +28,13 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];
-        return ilPlugin::_getImagePath(IL_COMP_MODULE, "OrgUnit", "orguext", $component_repository->getPluginById($a_type)->getName(), "icon_"
-            . $a_type
-            . ".svg");
+        return ilRepositoryObjectPlugin::_getImagePath(
+            IL_COMP_MODULE,
+            "OrgUnit",
+            "orguext",
+            $component_repository->getPluginById($a_type)->getName(),
+            "icon_" . $a_type . ".svg"
+        );
     }
 
 

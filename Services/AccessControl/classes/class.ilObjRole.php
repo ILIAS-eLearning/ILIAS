@@ -364,7 +364,7 @@ class ilObjRole extends ilObject
     {
         $role_title_parts = explode('_', $a_role_title);
 
-        $test2 = (int) $role_title_parts[3];
+        $test2 = (int) ($role_title_parts[3] ?? 0);
         if ($test2 > 0) {
             unset($role_title_parts[3]);
         }

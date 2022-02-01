@@ -343,16 +343,12 @@ class ilTabsGUI
         if (isset($DIC["ilUser"])) {
             $ilUser = $DIC->user();
         }
-        $ilPluginAdmin = null;
-        if (isset($DIC["ilPluginAdmin"])) {
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        }
-        if (isset($DIC["component.repository"])) {
+        if (isset($DIC["component.factory"])) {
             $component_factory = $DIC["component.factory"];
         }
 
         // user interface hook [uihk]
-        if (!$this->getSetupMode()) {
+        if (!$this->getSetupMode() && $component_factory) {
             foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
                 $gui_class = $plugin->getUIClassInstance();
                 $resp = $gui_class->modifyGUI(

@@ -57,7 +57,7 @@ class ilColumnGUI
     protected bool $admincommands = false;
     protected bool $movementmode = false;
     protected bool $enablemovement = false;
-    protected ilAdvancedSelectionListGUI $action_menu;
+    protected ?ilAdvancedSelectionListGUI $action_menu = null;
     
     //
     // This two arrays may be replaced by some
@@ -513,13 +513,14 @@ class ilColumnGUI
                 }
             }
         }
+        /*
         if (count($hidden_blocks) > 0) {
             foreach ($hidden_blocks as $id => $title) {
                 $ilCtrl->setParameter($this, 'block', $id);
                 $this->action_menu->addItem($title, '', $ilCtrl->getLinkTarget($this, 'activateBlock'));
                 $ilCtrl->setParameter($this, 'block', '');
             }
-        }
+        }*/
         
         // create block selection list
         if (!$this->getRepositoryMode() || $this->getEnableEdit()) {
@@ -733,7 +734,6 @@ class ilColumnGUI
             }
         } else {	// get all subitems
             $rep_items = $this->getRepositoryItems();
-
             foreach ($this->rep_block_types as $block_type) {
                 if ($this->isGloballyActivated($block_type)) {
                     if (!isset($rep_items[$block_type]) || !is_array($rep_items[$block_type])) {
@@ -753,7 +753,7 @@ class ilColumnGUI
                             $nr = $def_nr++;
                         }
                         $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-                        if ($side === false) {
+                        if ($side == false) {
                             $side = IL_COL_RIGHT;
                         }
             

@@ -3153,8 +3153,6 @@ abstract class assQuestion
     {
         if (self::isCoreQuestionType($question_type)) {
             self::includeCoreClass($question_type, $gui);
-        } else {
-            self::includePluginClass($question_type, $gui);
         }
     }
 
@@ -3179,30 +3177,6 @@ abstract class assQuestion
 
         $feedbackClassName = self::getFeedbackClassNameByQuestionType($questionType);
         require_once "Modules/TestQuestionPool/classes/feedback/class.{$feedbackClassName}.php";
-    }
-
-    public static function includePluginClass($questionType, $withGuiClass)
-    {
-        global $DIC;
-        $component_factory = $DIC["component.factory"];
-
-        $classes = array(
-            $questionType,
-            self::getFeedbackClassNameByQuestionType($questionType)
-        );
-
-        if ($withGuiClass) {
-            $classes[] = $questionType . 'GUI';
-        }
-
-        foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
-            if (strcmp($pl->getQuestionType(), $questionType) == 0) {
-                foreach ($classes as $class) {
-                    $pl->includeClass("class.{$class}.php");
-                }
-                break;
-            }
-        }
     }
 
     public static function _getQuestionTypeName($type_tag) : string

@@ -797,22 +797,17 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
 
         $ilLocator = $DIC["ilLocator"];
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
         $html = "";
 
-        if (is_object($ilPluginAdmin)) {
-            $uip = new ilUIHookProcessor(
-                "Services/Locator",
-                "main_locator",
-                ["locator_gui" => $ilLocator]
-            );
-            if (!$uip->replaced()) {
-                $html = $ilLocator->getHTML();
-            }
-            $html = $uip->getHTML($html);
-        } else {
+        $uip = new ilUIHookProcessor(
+            "Services/Locator",
+            "main_locator",
+            ["locator_gui" => $ilLocator]
+        );
+        if (!$uip->replaced()) {
             $html = $ilLocator->getHTML();
         }
+        $html = $uip->getHTML($html);
 
         $this->setVariable("LOCATOR", $html);
     }

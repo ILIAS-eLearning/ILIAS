@@ -29,7 +29,6 @@ abstract class ilContainerContentGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
-    protected ilPluginAdmin $plugin_admin;
     protected ilDBInterface $db;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $settings;
@@ -60,7 +59,6 @@ abstract class ilContainerContentGUI
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->db = $DIC->database();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();

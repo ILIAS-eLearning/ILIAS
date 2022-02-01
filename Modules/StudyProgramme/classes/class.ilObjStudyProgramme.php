@@ -45,7 +45,6 @@ class ilObjStudyProgramme extends ilContainer
 
     protected Filesystem $webdir;
     protected ilObjUser $ilUser;
-    protected ilPluginAdmin $plugin_admin;
     protected ilStudyProgrammeSettingsDBRepository $settings_repository;
     protected ?ilObjectFactoryWrapper $object_factory = null;
     protected ilObjectCustomIconFactory $custom_icon_factory;
@@ -84,7 +83,6 @@ class ilObjStudyProgramme extends ilContainer
         $this->tree = $tree;
         $this->ilUser = $ilUser;
         $this->db = $DIC['ilDB'];
-        $this->plugin_admin = $DIC['ilPluginAdmin'];
         $this->lng = $DIC['lng'];
         $this->logger = ilLoggerFactory::getLogger($this->type);
 

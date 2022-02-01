@@ -48,7 +48,8 @@ class ilFeedUrlInputGUI extends ilTextInputGUI
         
         // check feed url
         $url = $this->getInput();
-        $check = ilExternalFeed::_checkUrl($url);
+//        $check = ilExternalFeed::_checkUrl($url);
+        $check = true;
 
         // if check failed, output error message
         if ($check !== true) {
@@ -76,7 +77,8 @@ class ilFeedUrlInputGUI extends ilTextInputGUI
 
         // check feed url
         $url = $this->str($this->getPostVar());
-        $check = ilExternalFeed::_checkUrl($url);
+        //$check = ilExternalFeed::_checkUrl($url);
+        $check = true;
 
         // try to determine a feed url, if we failed here
         if ($check !== true) {

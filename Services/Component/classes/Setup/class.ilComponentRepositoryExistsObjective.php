@@ -2,7 +2,7 @@
 
 use ILIAS\Setup;
 
-class ilComponentDatabaseExistsObjective  implements Setup\Objective
+class ilComponentRepositoryExistsObjective  implements Setup\Objective
 {
     /**
      * @inheritdoc
@@ -51,11 +51,12 @@ class ilComponentDatabaseExistsObjective  implements Setup\Objective
             new ilPluginStateDBOverIlDBInterface(
                 $data_factory,
                 $db
-            )
+            ),
+            $data_factory->version(ILIAS_VERSION_NUMERIC)
         );
 
         return $environment->withResource(
-            Setup\Environment::RESOURCE_COMPONENT_DATABASE,
+            Setup\Environment::RESOURCE_COMPONENT_REPOSITORY,
             $component_repository
         );
     }
@@ -65,6 +66,6 @@ class ilComponentDatabaseExistsObjective  implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        return is_null($environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE));
+        return is_null($environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY));
     }
 }

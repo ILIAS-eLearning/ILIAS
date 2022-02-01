@@ -1497,19 +1497,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     public static function _checkGoto($a_target)
     {
         global $DIC;
-        global $objDefinition, $ilPluginAdmin, $ilUser;
+        global $objDefinition, $ilUser;
         $component_factory = $DIC["component.factory"];
 
         $access = $DIC->access();
 
-        if (is_object($ilPluginAdmin)) {
-            foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
-                $gui_class = $ui_plugin->getUIClassInstance();
-                $resp = $gui_class->checkGotoHook($a_target);
-                if ($resp["target"] !== false) {
-                    $a_target = $resp["target"];
-                    break;
-                }
+        foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
+            $gui_class = $ui_plugin->getUIClassInstance();
+            $resp = $gui_class->checkGotoHook($a_target);
+            if ($resp["target"] !== false) {
+                $a_target = $resp["target"];
+                break;
             }
         }
 
