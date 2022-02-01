@@ -1,8 +1,17 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once './Services/Object/classes/class.ilObject.php';
-
+<?php declare(strict_types=1);
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIAdministration
  * @author Jesús López <lopez@leifos.com>
@@ -11,7 +20,7 @@ require_once './Services/Object/classes/class.ilObject.php';
  */
 class ilObjLTIAdministration extends ilObject
 {
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "ltis";
         parent::__construct($a_id, $a_call_by_reference);
@@ -20,7 +29,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return string[] Array of lti provider supportting object types
      */
-    public function getLTIObjectTypes()
+    public function getLTIObjectTypes() : array
     {
         $obj_def = new ilObjectDefinition();
         return $obj_def->getLTIProviderTypes();
@@ -29,11 +38,9 @@ class ilObjLTIAdministration extends ilObject
     /**
      * @return array available roles for LTI
      */
-    public function getLTIRoles()
+    public function getLTIRoles() : array
     {
         global $rbacreview;
-
-        require_once("Services/AccessControl/classes/class.ilObjRole.php");
 
         $global_roles = $rbacreview->getGlobalRoles();
 
@@ -49,10 +56,9 @@ class ilObjLTIAdministration extends ilObject
     }
 
     /**
-     * @param integer $a_consumer_id
      * @param array $a_obj_types
      */
-    public function saveConsumerObjectTypes($a_consumer_id, $a_obj_types)
+    public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types) : void
     {
         global $ilDB;
 
@@ -69,10 +75,9 @@ class ilObjLTIAdministration extends ilObject
     }
 
     /**
-     * @param integer $a_consumer_id
      * @return array consumer active objects
      */
-    public function getActiveObjectTypes($a_consumer_id)
+    public function getActiveObjectTypes(int $a_consumer_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -89,7 +94,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * Check if any consumer is enabled for an object type
      */
-    public static function isEnabledForType($a_type)
+    public static function isEnabledForType(string $a_type) : bool
     {
         /**
          * @var ilDBInterface
@@ -111,7 +116,7 @@ class ilObjLTIAdministration extends ilObject
      * @param string object type
      * @return ilLTIToolConsumer[]
      */
-    public static function getEnabledConsumersForType($a_type)
+    public static function getEnabledConsumersForType(string $a_type) : array
     {
         /**
          * @var ilDBInterface
@@ -134,8 +139,9 @@ class ilObjLTIAdministration extends ilObject
     /**
      * Lookup ref_id
      */
-    public static function lookupLTISettingsRefId()
+    public static function lookupLTISettingsRefId() : ?int
     {
+        $lti_ref_id = null;
         $res = $GLOBALS['DIC']->database()->queryF(
             '
 			SELECT object_reference.ref_id FROM object_reference, tree, object_data
@@ -147,15 +153,16 @@ class ilObjLTIAdministration extends ilObject
             array(SYSTEM_FOLDER_ID, 'ltis')
         );
         while ($row = $GLOBALS['DIC']->database()->fetchAssoc($res)) {
-            $lti_ref_id = $row['ref_id'];
+            $lti_ref_id = (int) $row['ref_id'];
         }
         return $lti_ref_id;
     }
     
     /**
      * Read released objects
+     * @return array<int, array<string, mixed>>
      */
-    public static function readReleaseObjects()
+    public static function readReleaseObjects() : array
     {
         $db = $GLOBALS['DIC']->database();
         

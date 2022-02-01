@@ -1,4 +1,4 @@
-<?php namespace ILIAS\LTI\Screen;
+<?php declare(strict_types=1); namespace ILIAS\LTI\Screen;
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
@@ -21,6 +21,19 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 use ILIAS\Container\Screen\MemberViewLayoutProvider;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class LtiViewLayoutProvider
  *
@@ -105,7 +118,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) use ($is_exit_mode, $screen_context_stack): ?Metabar {
+                function (MetaBar $metabar) use ($is_exit_mode, $screen_context_stack) : ?Metabar {
                     $metabar = $metabar->withClearedEntries();
                     if ($is_exit_mode) {
                         return $metabar;

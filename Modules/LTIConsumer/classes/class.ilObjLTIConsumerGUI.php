@@ -658,7 +658,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
             ilUtil::sendInfo($linkBuilder->getPipelineDebug());
-            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), 1) . '</pre>');
+            ilUtil::sendQuestion('<pre>' . print_r($report->getTableData(), true) . '</pre>');
         } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
         }
@@ -735,8 +735,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+                //todo check
+                $info->setBlockProperty("news", "settings", "true");
+                $info->setBlockProperty("news", "public_notifications_option", "true");
             }
         }
 

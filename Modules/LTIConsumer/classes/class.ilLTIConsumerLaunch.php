@@ -109,9 +109,9 @@ class ilLTIConsumerLaunch
      * 					data => array (key => value)
      * 				)
      *
-     * @return array	signed data
+     * @return array|string	signed data
      */
-    public static function signOAuth(array $a_params) : array
+    public static function signOAuth(array $a_params)
     {
         switch ($a_params['sign_method']) {
             case "HMAC_SHA1":
@@ -120,9 +120,8 @@ class ilLTIConsumerLaunch
             case "PLAINTEXT":
                 $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_PLAINTEXT();
                 break;
-//                todo
 //            case "RSA_SHA1":
-//                $method = new OAuthSignatureMethod_RSA_SHA1();
+//                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_RSA_SHA1();
 //                break;
                 
             default:
@@ -133,7 +132,7 @@ class ilLTIConsumerLaunch
         $request->sign_request($method, $consumer, $a_params["token"]);
         
         // Pass this back up "out of band" for debugging
-        self::$last_oauth_base_string = $request->get_signature_base_string();
+//        self::$last_oauth_base_string = $request->get_signature_base_string();
         // die(self::$last_oauth_base_string);
         
         return $request->get_parameters();

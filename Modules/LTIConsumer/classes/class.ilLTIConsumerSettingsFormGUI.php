@@ -176,19 +176,19 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $item->addSubItem($subitem);
             
             $highscore = new ilCheckboxInputGUI($DIC->language()->txt("highscore_enabled"), "highscore_enabled");
-            $highscore->setValue(1);
+            $highscore->setValue("1");
             $highscore->setChecked($this->object->getHighscoreEnabled());
             $highscore->setInfo($DIC->language()->txt("highscore_description"));
             $highscore_tables = new ilRadioGroupInputGUI($DIC->language()->txt('highscore_mode'), 'highscore_mode');
             $highscore_tables->setRequired(true);
             $highscore_tables->setValue((string) $this->object->getHighscoreMode());
-            $highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE);
+            $highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), (string) ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE);
             $highscore_table_own->setInfo($DIC->language()->txt('highscore_own_table_description'));
             $highscore_tables->addOption($highscore_table_own);
-            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE);
+            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), (string) ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE);
             $highscore_table_other->setInfo($DIC->language()->txt('highscore_top_table_description'));
             $highscore_tables->addOption($highscore_table_other);
-            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES);
+            $highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), (string) ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES);
             $highscore_table_other->setInfo($DIC->language()->txt('highscore_all_tables_description'));
             $highscore_tables->addOption($highscore_table_other);
             $highscore->addSubItem($highscore_tables);
@@ -197,7 +197,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
             $highscore_top_num->setRequired(true);
             $highscore_top_num->setMinValue(1);
             $highscore_top_num->setSuffix($DIC->language()->txt("highscore_top_num_unit"));
-            $highscore_top_num->setValue((string) $this->object->getHighscoreTopNum(null));
+            $highscore_top_num->setValue((string) $this->object->getHighscoreTopNum(0));
             $highscore_top_num->setInfo($DIC->language()->txt("highscore_top_num_description"));
             $highscore->addSubItem($highscore_top_num);
             $highscore_achieved_ts = new ilCheckboxInputGUI($DIC->language()->txt("highscore_achieved_ts"), "highscore_achieved_ts");

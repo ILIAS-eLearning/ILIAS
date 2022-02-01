@@ -375,7 +375,7 @@ class ilLTIConsumerAdministrationGUI
 
         // PROVIDER ICON
         $pId = $provider->getId();
-        if (null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), $pId)) {
+        if (null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), (string) $pId)) {
             $provider->setProviderIconFilename($pIconFileName);
             $provider->update();
             $provider->update();
@@ -832,11 +832,11 @@ class ilLTIConsumerAdministrationGUI
     }
 
     /**
-     * @param ilTable2GUI $parentGui
+     * @param ilLTIConsumerAdministrationGUI $parentGui
      * @param string      $parentCmd
      * @return ilLTIConsumerProviderTableGUI
      */
-    protected function buildProviderTable(ilTable2GUI $parentGui, string $parentCmd) : \ilLTIConsumerProviderTableGUI
+    protected function buildProviderTable(ilLTIConsumerAdministrationGUI $parentGui, string $parentCmd) : \ilLTIConsumerProviderTableGUI
     {
         $table = new ilLTIConsumerProviderTableGUI(
             $parentGui,
@@ -943,12 +943,12 @@ class ilLTIConsumerAdministrationGUI
 //        return '';
 //    }
     
-    protected function showSettingsCmd(?ilPropertyFormGUI $form = null) : string
+    protected function showSettingsCmd(?ilPropertyFormGUI $form = null) : void
     {
 //        todo - check
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        return ''; // no settings at all currently
+        return; // no settings at all currently
         
         $DIC->tabs()->activateSubTab('settings');
         
@@ -959,18 +959,18 @@ class ilLTIConsumerAdministrationGUI
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
     
-    protected function saveSettingsCmd() : string
+    protected function saveSettingsCmd() : void
     {
 //        todo - check
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        return ''; // no settings at all currently
+        return; // no settings at all currently
         
         $form = $this->buildSettingsForm();
         
         if (!$form->checkInput()) {
             $this->showSettingsCmd($form);
-            return '';
+            return;
         }
         
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
