@@ -1,13 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/classes/Provider/class.ilAuthProvider.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthProviderInterface.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthProviderAccountMigrationInterface.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class class
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
@@ -20,16 +27,15 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
     /**
      * @var ilRadiusSettings
      */
-    private $settings = null;
+    private ilRadiusSettings $settings;
     
-    private $external_account = '';
+    private string $external_account = '';
     
     
     public function __construct(\ilAuthCredentials $credentials)
     {
         parent::__construct($credentials);
         
-        include_once './Services/Radius/classes/class.ilRadiusSettings.php';
         $this->settings = ilRadiusSettings::_getInstance();
     }
     
@@ -38,7 +44,7 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
      * create new account
      * @param \ilAuthStatus $status
      */
-    public function createNewAccount(\ilAuthStatus $status)
+    public function createNewAccount(\ilAuthStatus $status) : void
     {
     }
 
@@ -46,7 +52,7 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
      * do authentication
      * @param \ilAuthStatus $status
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         $radius = radius_auth_open();
         
@@ -100,25 +106,24 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
      * get external account name
      * @return string Get external account for accoun migration
      */
-    public function getExternalAccountName()
+    public function getExternalAccountName() : string
     {
         return $this->external_account;
     }
 
     /**
      * get trigger auth mode
-     * @return string
      */
-    public function getTriggerAuthMode()
+    public function getTriggerAuthMode() : string
     {
-        return AUTH_RADIUS;
+        return (string) ilAuthUtils::AUTH_RADIUS;
     }
 
     /**
      * get user auth mode name
      * @return string
      */
-    public function getUserAuthModeName()
+    public function getUserAuthModeName() : string
     {
         return 'radius';
     }
@@ -127,7 +132,7 @@ class ilAuthProviderRadius extends ilAuthProvider implements ilAuthProviderInter
      * Migrate existing account to radius authentication
      * @inheritdoc
      */
-    public function migrateAccount(ilAuthStatus $status)
+    public function migrateAccount(ilAuthStatus $status) : void
     {
     }
 }

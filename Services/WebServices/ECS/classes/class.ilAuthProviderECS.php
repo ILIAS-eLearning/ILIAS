@@ -99,7 +99,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      * Get server settings
      * @return ilECSServerSettings
      */
-    public function getServerSettings()
+    public function getServerSettings() : ilECSServerSettings
     {
         return $this->servers;
     }
@@ -110,7 +110,7 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
      * @param \ilAuthStatus $status
      * @return boolean
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(\ilAuthStatus $status) : bool
     {
         $this->getLogger()->debug('Starting ECS authentication');
         if (!$this->getServerSettings()->activeServerExists()) {
