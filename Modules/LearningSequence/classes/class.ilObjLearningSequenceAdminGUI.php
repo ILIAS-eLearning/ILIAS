@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
 use ILIAS\UI\Component\Input;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * LearningSequence Administration Settings
@@ -14,9 +16,13 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
     const CMD_SAVE = 'save';
     const F_POLL_INTERVAL = 'polling';
 
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected \ILIAS\Refinery\Factory $refinery;
+
     protected ilLSGlobalSettingsDB $settings_db;
 
-    public function __construct(array $data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
         $this->type = 'lsos';
 

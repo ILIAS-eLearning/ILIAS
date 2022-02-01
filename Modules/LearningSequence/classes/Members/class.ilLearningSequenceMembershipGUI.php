@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+
 /**
  * GUI class for learning sequence membership features.
  *
@@ -20,6 +22,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     protected ilRbacReview $rbac_review;
     protected ilSetting $settings;
     protected ilToolbarGUI $toolbar;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
         ilObjectGUI $repository_gui,
@@ -28,7 +33,10 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         ilPrivacySettings $privacy_settings,
         ilRbacReview $rbac_review,
         ilSetting $settings,
-        ilToolbarGUI $toolbar
+        ilToolbarGUI $toolbar,
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        ArrayBasedRequestWrapper $post_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         parent::__construct($repository_gui, $obj);
 
@@ -38,6 +46,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         $this->rbac_review = $rbac_review;
         $this->settings = $settings;
         $this->toolbar = $toolbar;
+        $this->request_wrapper = $request_wrapper;
+        $this->post_wrapper = $post_wrapper;
+        $this->refinery = $refinery;
     }
 
     protected function printMembers() : void
@@ -64,7 +75,7 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
     protected function getDefaultCommand() : string
     {
-        return $_GET['back_cmd'];
+        return $this->request_wrapper->retrieve("back_cmd", $this->refinery->kindlyTo()->string());
     }
 
     /**
@@ -159,12 +170,18 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     {
         $members = $this->getParentObject()->getLSParticipants();
 
-        $participants = (array) $_POST['visible_member_ids'];
-        $notification = (array) $_POST['notification'];
+        $participants = $this->post_wrapper->retrieve(
+            "visible_member_ids",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
+        $notification = $this->post_wrapper->retrieve(
+            "notification",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
 
         foreach ($participants as $participant) {
             if ($members->isAdmin($participant)) {
-                $members->updateNotification($participant, in_array($participant, (bool) $notification));
+                $members->updateNotification($participant, in_array($participant, $notification));
                 continue;
             }
             $members->updateNotification($participant, false);
@@ -231,11 +248,11 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     /**
      * @param array<int|string> $user_ids
      * @param string[] $columns
-     * @return array<int|string, array<mixed>>
+     * @return array<int|string, array>
      */
-    public function readMemberData(array $user_ids, array $columns = null) : array
+    public function readMemberData(array $usr_ids, array $columns = null) : array
     {
-        return $this->getParentObject()->readMemberData($user_ids, $columns);
+        return $this->getParentObject()->readMemberData($usr_ids, $columns);
     }
 
     protected function updateLPFromStatus()
