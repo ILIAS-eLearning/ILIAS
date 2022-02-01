@@ -21,6 +21,9 @@
         +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 /**
  * Administration, Side-Block presentation of calendar categories
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -55,6 +58,9 @@ class ilCalendarCategoryGUI
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
     protected ilTree $tree;
+    protected HttpServices $http;
+    protected RefineryFactory $refinery;
+
 
     /**
      * Constructor
@@ -79,6 +85,8 @@ class ilCalendarCategoryGUI
         $this->seed = $seed;
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         if (
             in_array($this->ctrl->getNextClass(), array("", "ilcalendarcategorygui")) &&
@@ -86,16 +94,26 @@ class ilCalendarCategoryGUI
             if ($a_ref_id > 0) {        // no manage screen in repository
                 $this->ctrl->returnToParent($this);
             }
-            if ((int) $_GET['category_id'] > 0) {
+            if ($this->initCategoryIdFromQuery() > 0) {
                 // reset category id on manage screen (redirect needed to initialize categories correctly)
                 $this->ctrl->setParameter($this, "category_id", "");
                 $this->ctrl->setParameterByClass("ilcalendarpresentationgui", "category_id", "");
                 $this->ctrl->redirect($this, "manage");
             }
         }
-        $this->category_id = (int) $_GET['category_id'];
-
+        $this->category_id = $this->initCategoryIdFromQuery();
         $this->actions = ilCalendarActions::getInstance();
+    }
+
+    protected function initCategoryIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('category_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     public function executeCommand() : void
@@ -104,14 +122,21 @@ class ilCalendarCategoryGUI
         $this->ctrl->saveParameter($this, 'category_id');
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
-        if (array_key_exists('backvm', $_REQUEST)) {
+        if ($this->http->wrapper()->query()->has('backvm')) {
             $this->ctrl->setParameter($this, 'backvm', 1);
         }
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, 'details');
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $app_id = 0;
+                if ($this->http->wrapper()->query()->has('app_id')) {
+                    $app_id = $this->http->wrapper()->query()->retrieve(
+                        'app_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $app_id);
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -126,10 +151,9 @@ class ilCalendarCategoryGUI
 
     protected function cancel() : void
     {
-        if (array_key_exists('backvm', $_REQUEST)) {
+        if ($this->http->wrapper()->query()->has('backvm')) {
             $this->ctrl->redirect($this, 'manage');
         }
-
         $this->ctrl->returnToParent($this);
     }
 
@@ -297,7 +321,7 @@ class ilCalendarCategoryGUI
     {
         $cat_ids = (is_array($_POST['selected_cat_ids']) && count($_POST['selected_cat_ids']) > 0)
             ? $_POST['selected_cat_ids']
-            : ($_GET["category_id"] > 0 ? array($_GET["category_id"]) : null);
+            : ($this->initCategoryIdFromQuery() > 0 ? array($this->initCategoryIdFromQuery()) : null);
 
         if (!is_array($cat_ids)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -896,7 +920,14 @@ class ilCalendarCategoryGUI
 
     protected function switchCalendarMode() : void
     {
-        ilCalendarUserSettings::_getInstance()->setCalendarSelectionType((int) $_GET['calendar_mode']);
+        $mode = 0;
+        if ($this->http->wrapper()->query()->has('calendar_mode')) {
+            $mode = $this->http->wrapper()->query()->retrieve(
+                'calendar_mode',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        ilCalendarUserSettings::_getInstance()->setCalendarSelectionType($mode);
         ilCalendarUserSettings::_getInstance()->save();
 
         $this->ctrl->returnToParent($this);
@@ -1067,7 +1098,7 @@ class ilCalendarCategoryGUI
             $file = $form->getInput('file');
             $tmp = ilFileUtils::ilTempnam();
             ilFileUtils::moveUploadedFile($file['tmp_name'], $file['name'], $tmp);
-            $num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
+            $num = $this->doImportFile($tmp, $this->initCategoryIdFromQuery());
             ilUtil::sendSuccess(sprintf($this->lng->txt('cal_imported_success'), $num), true);
             $this->ctrl->redirect($this, 'cancel');
         }

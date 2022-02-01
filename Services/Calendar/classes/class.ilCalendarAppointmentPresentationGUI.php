@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
+
 
 /**
  * Class ilCalendarAppointmentPresentationGUI
@@ -25,6 +28,9 @@ class ilCalendarAppointmentPresentationGUI
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilGlobalTemplateInterface $tpl;
+    protected HttpServices $http;
+    protected RefineryFactory $refinery;
+
 
     protected ?Item $list_item = null;
 
@@ -32,6 +38,8 @@ class ilCalendarAppointmentPresentationGUI
     {
         global $DIC;
 
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
@@ -77,7 +85,14 @@ class ilCalendarAppointmentPresentationGUI
 
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $app_id = 0;
+                if ($this->http->wrapper()->query()->has('app_id')) {
+                    $app_id = $this->http->wrapper()->query()->retrieve(
+                        'app_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $app_id);
                 $this->ctrl->forwardCommand($app);
                 break;
 

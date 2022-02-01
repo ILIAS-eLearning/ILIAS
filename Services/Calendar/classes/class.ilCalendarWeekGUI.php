@@ -57,9 +57,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 
                 // initial date for new calendar appointments
-                $idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
+                $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $idate, (int) $_GET['app_id']);
+                $app = new ilCalendarAppointmentGUI($this->seed, $idate, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -411,8 +411,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
     protected function setUpCalendar() : void
     {
-        if (isset($_GET["bkid"])) {
-            $this->user_id = (int) $_GET["bkid"];
+        $bkid = $this->initBookingUserFromQuery();
+        if ($bkid) {
+            $this->user_id = $bkid;
             $this->disable_empty = true;
             $this->no_add = true;
         } elseif ($this->user->getId() == ANONYMOUS_USER_ID) {
