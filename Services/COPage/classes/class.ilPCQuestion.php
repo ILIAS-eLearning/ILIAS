@@ -391,8 +391,7 @@ class ilPCQuestion extends ilPageContent
     {
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             return array("./Modules/Scorm2004/templates/default/question_handling.css",
-                "Modules/TestQuestionPool/templates/default/test_javascript.css",
-                'Modules/Test/templates/default/ta.css');
+                "Modules/TestQuestionPool/templates/default/test_javascript.css");
         }
         return array();
     }
