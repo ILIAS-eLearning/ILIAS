@@ -136,6 +136,20 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
             " obj_id = " . $db->quote($typ_id, "integer")
         );
 
+        // ...object_description (feed objects)
+        $this->log("Delete object_description entries of feed objects.");
+        $this->manipulate(
+            "DELETE FROM object_description WHERE " .
+            " " . $db->in("obj_id", $obj_ids, false, "integer")
+        );
+
+        //... role data of local roles
+        $this->log("Delete role_data entries of local roles of feed objects.");
+        $this->manipulate(
+            "DELETE FROM role_data WHERE " .
+            " " . $db->in("role_id", $local_roles, false, "integer")
+        );
+
         // ...object_reference
         $this->log("Delete object_reference entries of feed objects.");
         $this->manipulate(
@@ -178,6 +192,15 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
             " ops_id = " . $db->quote($create_ops_id, "integer")
         );
 
+
+        // ...conditions
+        $this->log("Delete conditions of feed objects.");
+        $this->manipulate(
+            "DELETE FROM conditions WHERE " .
+            " " . $db->in("target_ref_id", $ref_ids, false, "integer") .
+            " OR " . $db->in("trigger_ref_id", $ref_ids, false, "integer")
+        );
+
         // ...il_external_feed_block
         $this->log("Empty il_external_feed_block.");
         $this->manipulate("DELETE FROM il_external_feed_block");
@@ -204,9 +227,8 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
             ["text"],
             ["feed"]
         );
+        $obj_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $this->log("Found title: " . $rec["title"] . ", ref id: " . $rec["ref_id"]);
-            $ref_ids[$rec["ref_id"]] = $rec["ref_id"];
             $obj_ids[$rec["obj_id"]] = $rec["obj_id"];
         }
 
