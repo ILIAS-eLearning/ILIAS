@@ -204,7 +204,7 @@ class ilLSStateDB
                         unset($states[$item_ref_id]);
                     }
                     $serialized = $this->serializeStates($states);
-                    $this->update($db, $lso_ref_id, $usr_id, $current_item, $serialized);
+                    $this->update($db, $lso_ref_id, (int) $usr_id, $current_item, $serialized);
                 }
             }
         );
@@ -254,7 +254,7 @@ class ilLSStateDB
     /**
      * @param int   $lso_ref_id
      * @param int[] $usr_ids
-     * @return array<string, array<mixed>>
+     * @return array<string, array>
      */
     protected function select(int $lso_ref_id, array $usr_ids = []) : array
     {
