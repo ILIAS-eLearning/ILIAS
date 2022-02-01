@@ -74,7 +74,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
         $tpl->addJavaScript("./Services/Form/js/Form.js");
         $tpl->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-        $tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
         $this->lng->toJSMap(['answer' => $this->lng->txt('answer')]);
 
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
