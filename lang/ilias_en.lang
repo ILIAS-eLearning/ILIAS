@@ -16720,3 +16720,4 @@ itgr#:#itgr_list#:#List
 itgr#:#itgr_list_presentation#:#Item Presentation
 itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
+user#:#user_local_role#:#Local Role
