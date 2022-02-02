@@ -1,10 +1,21 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
@@ -28,9 +39,6 @@ abstract class ilMathBaseAdapterTest extends TestCase
      */
     protected function setUp() : void
     {
-        require_once 'Services/Math/classes/class.ilMath.php';
-        require_once 'Services/Math/classes/class.EvalMath.php';
-
         ilMath::setDefaultAdapter($this->mathAdapter);
         $this->evalMath = new EvalMath();
         parent::setUp();
@@ -54,7 +62,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      * @dataProvider addData
      */
-    public function testAdd($a, $b, $result, $scale)
+    public function testAdd(string $a, string $b, string $result, int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->add($a, $b, $scale));
     }
@@ -62,7 +70,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider subData
      */
-    public function testSub($a, $b, $result, $scale)
+    public function testSub(string $a, string $b, string $result, int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->sub($a, $b, $scale));
     }
@@ -70,7 +78,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider mulData
      */
-    public function testMul($a, $b, $result, $scale)
+    public function testMul(string $a, string $b, string $result, int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->mul($a, $b, $scale));
     }
@@ -78,7 +86,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider divData
      */
-    public function testDiv($a, $b, $result, $scale)
+    public function testDiv(string $a, string $b, string $result, int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->div($a, $b, $scale));
     }
@@ -86,7 +94,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider sqrtData
      */
-    public function testSqrt($a, $result, $scale)
+    public function testSqrt(string $a, string $result, ?int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->sqrt($a, $scale));
     }
@@ -94,7 +102,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider powData
      */
-    public function testPow($a, $b, $result, $scale)
+    public function testPow(string $a, string $b, string $result, int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->pow($a, $b, $scale));
     }
@@ -102,7 +110,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider modData
      */
-    public function testMod($a, $b, $result)
+    public function testMod(string $a, string $b, string $result)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->mod($a, $b));
     }
@@ -110,7 +118,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider equalsData
      */
-    public function testEquals($a, $b, $result, $scale)
+    public function testEquals(string $a, string $b, bool $result, ?int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->equals($a, $b, $scale));
     }
@@ -118,7 +126,7 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider calcData
      */
-    public function testCalculation($formula, $result, $scale)
+    public function testCalculation(string $formula, string $result, int $scale)
     {
         $this->assertEqualNumbers($result, ilMath::_applyScale($this->evalMath->evaluate($formula), $scale));
     }

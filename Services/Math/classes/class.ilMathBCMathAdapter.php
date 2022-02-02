@@ -1,8 +1,17 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Math/classes/class.ilMathBaseAdapter.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMathBCMathAdapter
  * @author Michael Jansen <mjansen@databay.de>
@@ -48,7 +57,6 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     public function div($left_operand, $right_operand, $scale = null)
     {
         if ($right_operand == 0) {
-            require_once 'Services/Math/exceptions/class.ilMathDivisionByZeroException.php';
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
@@ -61,7 +69,6 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     public function mod($left_operand, $right_operand)
     {
         if ($right_operand == 0) {
-            require_once 'Services/Math/exceptions/class.ilMathDivisionByZeroException.php';
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
@@ -102,7 +109,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function comp($left_operand, $right_operand, $scale = null)
+    public function comp($left_operand, $right_operand, $scale = null) : int
     {
         return bccomp($left_operand, $right_operand, $scale);
     }

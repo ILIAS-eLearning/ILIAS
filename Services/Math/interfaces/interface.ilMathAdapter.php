@@ -1,6 +1,17 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface ilMathAdapter
  * @author Michael Jansen <mjansen@databay.de>
@@ -94,12 +105,11 @@ interface ilMathAdapter
      * @param  int $scale
      * @return mixed
      */
-    public function applyScale($left_operand, $scale = null);
+    public function applyScale($left_operand, int $scale = null);
 
     /**
      * @param mixed $value
-     * @param int $precision
      * @return string
      */
-    public function round($value, $precision = 0);
+    public function round($value, int $precision = 0);
 }
