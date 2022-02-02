@@ -54,8 +54,8 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->providers                   = $providers;
-        $this->information                 = $information;
+        $this->providers = $providers;
+        $this->information = $information;
         $this->type_information_collection = new TypeInformationCollection();
         
         // Tool
@@ -103,7 +103,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
     
     public function prepareItemsForUIRepresentation() : void
     {
-        array_walk($this->tools, function (isToolItem $tool): void {
+        array_walk($this->tools, function (isToolItem $tool) : void {
             $this->applyTypeInformation($tool);
         });
     }
@@ -158,14 +158,14 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
     
     private function getVisibleFilter() : callable
     {
-        return static function (isToolItem $tool): bool {
+        return static function (isToolItem $tool) : bool {
             return ($tool->isAvailable() && $tool->isVisible());
         };
     }
     
     private function getItemSorter() : callable
     {
-        return static function (isToolItem $a, isToolItem $b): int {
+        return static function (isToolItem $a, isToolItem $b) : int {
             return $a->getPosition() - $b->getPosition();
         };
     }

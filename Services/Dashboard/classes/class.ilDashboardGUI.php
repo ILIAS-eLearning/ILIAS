@@ -36,7 +36,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     protected ilObjUser $user;
     protected ilSetting $settings;
     protected ilRbacSystem $rbacsystem;
-    protected ilPluginAdmin $plugin_admin;
     protected ilHelpGUI $help;
     public \ilGlobalTemplateInterface $tpl;
     public \ilLanguage $lng;
@@ -58,7 +57,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
         $lng = $DIC->language();

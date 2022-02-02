@@ -22,7 +22,6 @@
 class ilPCPlugged extends ilPageContent
 {
     protected ilLanguage $lng;
-    protected ilPluginAdmin $plugin_admin;
     public php4DOMElement $plug_node;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;

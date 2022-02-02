@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumeProviderIcon
  *
@@ -15,23 +25,23 @@ class ilLTIConsumeProviderIcon
 {
     const MAX_ICON_SIZE = 32;
     
-    protected static $RELATIVE_DIRECTORY_PATH = [
+    protected static array $RELATIVE_DIRECTORY_PATH = [
         'lti_data', 'provider_icon'
     ];
     
-    protected static $SUPPORTED_FILE_EXTENSIONS = [
+    protected static array $SUPPORTED_FILE_EXTENSIONS = [
         'png', 'jpg', 'jpeg'
     ];
     
     /**
      * @var int
      */
-    protected $providerId;
+    protected int $providerId;
     
     /**
      * @var string
      */
-    protected $filename;
+    protected string $filename;
     
     /**
      * ilLTIConsumeProviderIcon constructor.
@@ -49,7 +59,7 @@ class ilLTIConsumeProviderIcon
         $this->ensureExistingRelativeDirectory();
     }
     
-    public function buildFilename($fileExtension)
+    public function buildFilename(string $fileExtension) : string
     {
         return "{$this->providerId}.{$fileExtension}";
     }
@@ -65,7 +75,7 @@ class ilLTIConsumeProviderIcon
     /**
      * @param string $filename
      */
-    public function setFilename(string $filename)
+    public function setFilename(string $filename) : void
     {
         $this->filename = $filename;
     }
@@ -73,7 +83,7 @@ class ilLTIConsumeProviderIcon
     /**
      * @return string
      */
-    public function getRelativeDirectory()
+    public function getRelativeDirectory() : string
     {
         return implode(DIRECTORY_SEPARATOR, self::$RELATIVE_DIRECTORY_PATH);
     }
@@ -81,7 +91,7 @@ class ilLTIConsumeProviderIcon
     /**
      * @return string
      */
-    public function getRelativeFilePath()
+    public function getRelativeFilePath() : string
     {
         return implode(DIRECTORY_SEPARATOR, [
             $this->getRelativeDirectory(), $this->getFilename()
@@ -91,7 +101,7 @@ class ilLTIConsumeProviderIcon
     /**
      * @return string
      */
-    public function getAbsoluteFilePath()
+    public function getAbsoluteFilePath() : string
     {
         return implode(DIRECTORY_SEPARATOR, [
             ilFileUtils::getWebspaceDir(), $this->getRelativeFilePath()
@@ -101,7 +111,7 @@ class ilLTIConsumeProviderIcon
     /**
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function ensureExistingRelativeDirectory()
+    protected function ensureExistingRelativeDirectory() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -113,7 +123,7 @@ class ilLTIConsumeProviderIcon
     /**
      * @return bool
      */
-    public function exists()
+    public function exists() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -128,7 +138,7 @@ class ilLTIConsumeProviderIcon
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function delete()
+    protected function delete() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -139,7 +149,7 @@ class ilLTIConsumeProviderIcon
         $this->setFilename('');
     }
     
-    protected function convert()
+    protected function convert() : void
     {
         // convert to square with same side length (optimal for tile view)
         
@@ -164,7 +174,7 @@ class ilLTIConsumeProviderIcon
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function save(string $uploadFile)
+    protected function save(string $uploadFile) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -204,7 +214,7 @@ class ilLTIConsumeProviderIcon
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function handleUploadInputSubission(ilImageFileInputGUI $fileInput)
+    public function handleUploadInputSubission(ilImageFileInputGUI $fileInput) : void
     {
         if ($fileInput->getDeletionFlag()) {
             $this->delete();
@@ -218,11 +228,11 @@ class ilLTIConsumeProviderIcon
             $this->save($fileData['tmp_name']);
         }
     }
-    
+
     /**
      * @return array
      */
-    public static function getSupportedFileExtensions()
+    public static function getSupportedFileExtensions() : array
     {
         return self::$SUPPORTED_FILE_EXTENSIONS;
     }

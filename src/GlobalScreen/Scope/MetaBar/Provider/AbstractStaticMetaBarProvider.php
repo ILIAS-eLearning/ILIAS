@@ -35,6 +35,6 @@ abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements
     {
         parent::__construct($dic);
         $this->meta_bar = $this->globalScreen()->metaBar();
-        $this->if       = $this->globalScreen()->identification()->core($this);
+        $this->if = $this->globalScreen()->identification()->core($this);
     }
 }

@@ -16,7 +16,6 @@
  */
 class NullPluginIdentification implements IdentificationInterface
 {
-    
     private string $internal_identifier;
     private string $identification;
     private string $plugin_id;
@@ -29,8 +28,8 @@ class NullPluginIdentification implements IdentificationInterface
      */
     public function __construct(string $plugin_id, string $identification = "", string $internal_identifier = "")
     {
-        $this->plugin_id           = $plugin_id;
-        $this->identification      = $identification;
+        $this->plugin_id = $plugin_id;
+        $this->identification = $identification;
         $this->internal_identifier = $internal_identifier;
     }
     

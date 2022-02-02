@@ -31,11 +31,47 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         $this->db = $DIC->database();
     }
 
+    /**
+     * Only very little classes seem to care about this:
+     *    - Services/Repository/classes/class.ilRepositoryObjectPlugin.php
+     *    - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
+     *
+     * @param string $a_ctype
+     * @param string $a_cname
+     * @param string $a_slot_id
+     * @param string $a_pname
+     * @param string $a_img
+     *
+     * @return string
+     */
+    public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
+    {
+        global $DIC;
+
+        $component_repository = $DIC["component.repository"];
+
+        $plugin = $component_repository->getPluginName($a_pname);
+        $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
+
+        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
+
+        $img = ilUtil::getImagePath($d2 . "/" . $a_img);
+        if (is_int(strpos($img, "Customizing"))) {
+            return $img;
+        }
+
+        $d = $plugin->getPath();
+
+        return $d . "/templates/images/" . $a_img;
+    }
+
+
+
     public static function _getIcon(string $a_type) : string
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];
-        return ilPlugin::_getImagePath(
+        return self::_getImagePath(
             IL_COMP_SERVICE,
             "Repository",
             "robj",
@@ -54,7 +90,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         return $component_repository->getPluginById($a_id)->getName();
     }
     
-    protected function beforeActivation()
+    protected function beforeActivation() : bool
     {
         $ilDB = $this->db;
         
@@ -167,7 +203,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     
     abstract protected function uninstallCustom() : void;
     
-    final protected function beforeUninstall()
+    final protected function beforeUninstall() : bool
     {
         if ($this->beforeUninstallCustom()) {
             $rep_util = new ilRepUtil();

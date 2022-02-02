@@ -169,6 +169,11 @@ class ilTemplate extends HTML_Template_ITX
      */
     public function setCurrentBlock(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
     {
+        // I can't believe how garbage this is.
+        if (ilGlobalTemplateInterface::DEFAULT_BLOCK === $part) {
+            $part = self::IT_DEFAULT_BLOCK;
+        }
+
         $this->activeBlock = $part;
         return parent::setCurrentBlock($part);
     }

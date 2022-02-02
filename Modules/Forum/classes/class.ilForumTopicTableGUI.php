@@ -230,7 +230,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $authorinfo = new ilForumAuthorInformation(
             $thread->getThrAuthorId(),
             $thread->getDisplayUserId(),
-            $thread->getUserAlias(),
+            (string) $thread->getUserAlias(),
             (string) $thread->getImportName(),
             [
                 'class' => 'il_ItemProperty',
@@ -266,8 +266,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $authorinfo = new ilForumAuthorInformation(
                 $objLastPost->getPosAuthorId(),
                 $objLastPost->getDisplayUserId(),
-                $objLastPost->getUserAlias(),
-                $objLastPost->getImportName(),
+                (string) $objLastPost->getUserAlias(),
+                (string) $objLastPost->getImportName(),
                 [
                     'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
                 ]

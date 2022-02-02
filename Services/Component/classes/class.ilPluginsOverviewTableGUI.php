@@ -67,7 +67,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         return;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow($a_set) : void
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
@@ -113,13 +113,14 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $a_set
-     * @return array
+     * @return array<string, string> where key is the caption and value is the action
      */
     protected function getActionMenuEntries(ilPluginInfo $plugin) : array
     {
         global $DIC;
         $this->setParameter($plugin);
+
+        $language_handler = new ilPluginLanguage($plugin);
 
         $actions = array();
         $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, $plugin->getId());
@@ -128,12 +129,12 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         if (!$plugin->isInstalled()) {
             $this->addCommandToActions($actions, "cmps_install", ilObjComponentSettingsGUI::CMD_INSTALL_PLUGIN);
         } else {
-            if (ilPlugin::hasConfigureClass($plugin)) {
+            if ($plugin->isCompliantToILIAS() && class_exists($plugin->getConfigGUIClassName())) {
                 $actions[$this->lng->txt("cmps_configure")]
-                    = $this->ctrl->getLinkTargetByClass($a_set["config_class"], ilObjComponentSettingsGUI::CMD_CONFIGURE);
+                    = $this->ctrl->getLinkTargetByClass($plugin->getConfigGUIClassName(), ilObjComponentSettingsGUI::CMD_CONFIGURE);
             }
 
-            if ($this->hasLang($plugin)) {
+            if ($language_handler->hasAvailableLangFiles()) {
                 $this->addCommandToActions($actions, "cmps_refresh", ilObjComponentSettingsGUI::CMD_REFRESH_LANGUAGES);
             }
 
@@ -179,14 +180,5 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
     {
         $actions[$this->lng->txt($caption)]
             = $this->ctrl->getLinkTarget($this->parent_obj, $command);
-    }
-
-    protected function hasLang(ilPluginInfo $plugin) : bool
-    {
-        return (bool) sizeof(
-            ilPlugin::getAvailableLangFiles(
-                $plugin->getPath() . "/" . $plugin->getName() . "/lang"
-            )
-        );
     }
 }

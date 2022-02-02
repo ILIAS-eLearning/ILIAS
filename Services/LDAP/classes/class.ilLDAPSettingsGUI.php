@@ -1039,7 +1039,6 @@ class ilLDAPSettingsGUI
     
     private function initServer()
     {
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
         if (!$_REQUEST['ldap_server_id']) {
             $_REQUEST['ldap_server_id'] = 0;
         }

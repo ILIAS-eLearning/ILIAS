@@ -42,8 +42,8 @@ class DecoratedPagePartProvider implements PagePartProvider
     public function __construct(PagePartProvider $original, Closure $deco, string $purpose)
     {
         $this->original = $original;
-        $this->deco     = $deco;
-        $this->purpose  = $purpose;
+        $this->deco = $deco;
+        $this->purpose = $purpose;
     }
     
     private function getDecoratedOrOriginal(string $purpose, $original)

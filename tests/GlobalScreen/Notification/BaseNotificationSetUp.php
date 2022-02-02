@@ -99,7 +99,7 @@ abstract class BaseNotificationSetUp extends TestCase
     public function getDIC()
     {
         $dic = new class extends ILIAS\DI\Container {
-            public function globalScreen(): Services
+            public function globalScreen() : Services
             {
                 return new Services(Mockery::mock(ProviderFactory::class));
             }

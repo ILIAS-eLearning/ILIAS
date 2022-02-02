@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Style\Content;
 
@@ -9,38 +20,17 @@ namespace ILIAS\Style\Content;
  */
 class CharacteristicDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
+    protected InternalDataService $factory;
 
-    /**
-     * @var DataFactory
-     */
-    protected $factory;
-
-    /**
-     * Constructor
-     * @param \ilDBInterface $db
-     * @param DataFactory   $factory
-     */
     public function __construct(
         \ilDBInterface $db,
-        DataFactory $factory
+        InternalDataService $factory
     ) {
         $this->db = $db;
         $this->factory = $factory;
     }
 
-    /**
-     * Add characteristic
-     * @param int    $style_id
-     * @param string $type
-     * @param string $char
-     * @param bool   $hidden
-     * @param int   $order_nr
-     * @param bool   $outdated
-     */
     public function addCharacteristic(
         int $style_id,
         string $type,
@@ -61,12 +51,6 @@ class CharacteristicDBRepo
         ]);
     }
 
-    /**
-     * Check if characteristic exists
-     * @param int    $style_id
-     * @param string $type
-     * @param string $char
-     */
     public function exists(
         int $style_id,
         string $type,
@@ -86,14 +70,6 @@ class CharacteristicDBRepo
         return false;
     }
 
-
-    /**
-     * Get characteristic by key
-     * @param int    $style_id
-     * @param string $type
-     * @param string $characteristic
-     * @return Characteristic|null
-     */
     public function getByKey(
         int $style_id,
         string $type,
@@ -131,12 +107,6 @@ class CharacteristicDBRepo
         return null;
     }
 
-    /**
-     * Get characteristics by type
-     * @param int    $style_id
-     * @param string $type
-     * @return Characteristic[]
-     */
     public function getByType(
         int $style_id,
         string $type
@@ -147,14 +117,6 @@ class CharacteristicDBRepo
         );
     }
 
-    /**
-     * Get characteristics by types
-     * @param int   $style_id
-     * @param array $types
-     * @param bool  $include_hidden
-     * @param bool  $include_outdated
-     * @return array
-     */
     public function getByTypes(
         int $style_id,
         array $types,
@@ -202,8 +164,6 @@ class CharacteristicDBRepo
 
     /**
      * Get characteristics by supertype
-     * @param int    $style_id
-     * @param string $super_type
      * @return Characteristic[]
      */
     public function getBySuperType(
@@ -222,11 +182,6 @@ class CharacteristicDBRepo
 
     /**
      * Save titles for characteristic
-     *
-     * @param int    $style_id
-     * @param string $type
-     * @param string $characteristic
-     * @param array  $titles
      */
     public function saveTitles(
         int $style_id,
@@ -256,10 +211,6 @@ class CharacteristicDBRepo
 
     /**
      * Save characteristic hidden status
-     * @param int    $style_id
-     * @param string $type
-     * @param string $characteristic
-     * @param bool   $hide
      */
     public function saveHidden(
         int $style_id,
@@ -284,10 +235,6 @@ class CharacteristicDBRepo
 
     /**
      * Save characteristic outdated status
-     * @param int    $style_id
-     * @param string $type
-     * @param string $characteristic
-     * @param bool   $outdated
      */
     public function saveOutdated(
         int $style_id,
@@ -310,13 +257,6 @@ class CharacteristicDBRepo
         );
     }
 
-    /**
-     * Save order nr
-     * @param int    $style_id
-     * @param string $type
-     * @param string $characteristic
-     * @param int   $order_nr
-     */
     public function saveOrderNr(
         int $style_id,
         string $type,
@@ -338,13 +278,6 @@ class CharacteristicDBRepo
         );
     }
 
-    /**
-     * Delete Characteristic
-     * @param int    $style_id
-     * @param string $type
-     * @param string $tag
-     * @param string $class
-     */
     public function deleteCharacteristic(
         int $style_id,
         string $type,
@@ -372,18 +305,6 @@ class CharacteristicDBRepo
     // Parameter
     //
 
-    /**
-     * Replace a parameter
-     *
-     * @param int    $style_id
-     * @param string $a_tag
-     * @param string $a_class
-     * @param string $a_par
-     * @param string $a_val
-     * @param string $a_type
-     * @param int    $a_mq_id
-     * @param bool   $a_custom
-     */
     public function replaceParameter(
         int $style_id,
         string $a_tag,
@@ -436,17 +357,6 @@ class CharacteristicDBRepo
         }
     }
 
-    /**
-     * Delete a parameter
-     *
-     * @param int    $style_id
-     * @param string $tag
-     * @param string $class
-     * @param string $par
-     * @param string $type
-     * @param int    $mq_id
-     * @param bool   $custom
-     */
     public function deleteParameter(
         int $style_id,
         string $tag,
@@ -470,12 +380,6 @@ class CharacteristicDBRepo
         $db->manipulate($q);
     }
 
-    /**
-     * Update color name
-     * @param int    $style_id
-     * @param string $old_name
-     * @param string $new_name
-     */
     public function updateColorName(
         int $style_id,
         string $old_name,

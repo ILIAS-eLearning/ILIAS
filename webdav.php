@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * This script provides a WebDAV interface for the ILIAS repository.
@@ -8,25 +8,21 @@
 *
 * @package webdav
 */
-// Initialize
-// -----------------------------------------------------
-// Retrieve the client id from PATH_INFO
-// Component 1 contains the ILIAS client_id.
+
 require_once("Services/Init/classes/class.ilInitialisation.php");
 $path_info_components = explode('/', $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 $show_mount_instr = isset($_GET['mount-instructions']);
 
-try{
-    // Set context for authentication
+try {
     ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
 
-    // Launch ILIAS using the client id we have determined
     $_GET["client_id"] = $client_id;
-    $context =  ilContext::CONTEXT_WEBDAV;
+    $context = ilContext::CONTEXT_WEBDAV;
     ilContext::init($context);
+    $post_array = $_POST;
     ilInitialisation::initILIAS();
-} catch(InvalidArgumentException $e) {
+} catch (InvalidArgumentException $e) {
     header("HTTP/1.1 400 Bad Request");
     header("X-WebDAV-Status: 400 Bad Request", true);
     echo '<?xml version="1.0" encoding="utf-8"?>
@@ -48,19 +44,13 @@ if (!ilDAVActivationChecker::_isActive()) {
     exit;
 }
 
-if ($show_mount_instr) {
-    // Show mount instructions page for WebDAV
-    $f = new ilWebDAVMountInstructionsFactory(
-        new ilWebDAVMountInstructionsRepositoryImpl($DIC->database()),
-        $DIC->http()->request(),
-        $DIC->user()
-    );
-    $mount_instructions = $f->getMountInstructionsObject();
+$webdav_dic = new ilWebDAVDIC();
+$webdav_dic->init($DIC);
 
-    $mount_gui = new ilWebDAVMountInstructionsGUI($mount_instructions);
+if ($show_mount_instr) {
+    $mount_gui = $webdav_dic->mountinstructions();
     $mount_gui->renderMountInstructionsContent();
 } else {
-    // Launch the WebDAV Server
-    $server =  ilWebDAVRequestHandler::getInstance();
-    $server->handleRequest();
+    $server = new ilWebDAVRequestHandler($webdav_dic);
+    $server->handleRequest($post_array);
 }

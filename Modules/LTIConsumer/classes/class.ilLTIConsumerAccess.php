@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerAccess
  *
@@ -17,7 +27,7 @@ class ilLTIConsumerAccess
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
     
     /**
      * ilLTIConsumerAccess constructor.
@@ -27,12 +37,12 @@ class ilLTIConsumerAccess
     {
         $this->object = $object;
     }
-    
+
     /**
-     * @param $permission
+     * @param string $permission
      * @return bool
      */
-    protected function checkAccess($permission)
+    protected function checkAccess(string $permission) : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -45,14 +55,14 @@ class ilLTIConsumerAccess
         );
     }
     
-    public function hasWriteAccess()
+    public function hasWriteAccess() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return $this->checkAccess('write');
     }
     
-    public function hasOutcomesAccess()
+    public function hasOutcomesAccess() : bool
     {
         if ($this->checkAccess('read_outcomes')) {
             return true;
@@ -61,7 +71,7 @@ class ilLTIConsumerAccess
         return false;
     }
     
-    public function hasEditPermissionsAccess()
+    public function hasEditPermissionsAccess() : bool
     {
         return $this->checkAccess('edit_permission');
     }
@@ -69,7 +79,7 @@ class ilLTIConsumerAccess
     /**
      * @return bool
      */
-    public function hasLearningProgressAccess()
+    public function hasLearningProgressAccess() : bool
     {
         return ilLearningProgressAccess::checkAccess($this->object->getRefId());
     }
@@ -77,7 +87,7 @@ class ilLTIConsumerAccess
     /**
      * @return bool
      */
-    public function hasStatementsAccess()
+    public function hasStatementsAccess() : bool
     {
         if (!$this->object->getUseXapi()) {
             return false;
@@ -93,8 +103,9 @@ class ilLTIConsumerAccess
     /**
      * @return bool
      */
-    public function hasHighscoreAccess()
+    public function hasHighscoreAccess() : bool
     {
+//        Todo -check
         if (!$this->object->getUseXapi()) {
             return false;
         }
@@ -110,7 +121,7 @@ class ilLTIConsumerAccess
      * @param ilObjLTIConsumer $object
      * @return ilLTIConsumerAccess
      */
-    public static function getInstance(ilObjLTIConsumer $object)
+    public static function getInstance(ilObjLTIConsumer $object) : ilLTIConsumerAccess
     {
         return new self($object);
     }
@@ -118,13 +129,13 @@ class ilLTIConsumerAccess
     /**
      * @return bool
      */
-    public static function hasCustomProviderCreationAccess()
+    public static function hasCustomProviderCreationAccess() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return $DIC->rbac()->system()->checkAccess(
             'add_consume_provider',
-            ilObjLTIAdministration::lookupLTISettingsRefId()
+            (int) ilObjLTIAdministration::lookupLTISettingsRefId()
         );
     }
 }

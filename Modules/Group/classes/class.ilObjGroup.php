@@ -1,8 +1,5 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-define('GRP_REGISTRATION_DEACTIVATED', -1);
 define('GRP_REGISTRATION_DIRECT', 0);
 define('GRP_REGISTRATION_REQUEST', 1);
 define('GRP_REGISTRATION_PASSWORD', 2);
@@ -63,7 +60,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     private int $reg_min_members = 0;
     private int $reg_max_members = 0;
     private bool $waiting_list = false;
-    private bool $auto_fill_from_waiting;
+    private bool $auto_fill_from_waiting = false;
     private ?ilDate $leave_end = null;
     private bool $show_members = true;
     private bool $session_limit = false;
@@ -163,7 +160,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     
     public function isRegistrationEnabled() : bool
     {
-        return $this->getRegistrationType() != GRP_REGISTRATION_DEACTIVATED;
+        return $this->getRegistrationType() != self::GRP_REGISTRATION_DEACTIVATED;
     }
     
     public function enableUnlimitedRegistration(bool $a_status) : void
@@ -417,7 +414,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
     public function isSessionLimitEnabled() : bool
     {
-        return (bool) $this->session_limit;
+        return $this->session_limit;
     }
 
     public function setNumberOfPreviousSessions(int $a_num) : void
@@ -958,15 +955,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
     /**
     * get group status open template
-    * @access	public
     */
-    public function getGrpStatusOpenTemplateId()
+    public function getGrpStatusOpenTemplateId() : int
     {
         $q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
         $res = $this->ilias->db->query($q);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
-        return $row["obj_id"];
+        return (int) $row["obj_id"];
     }
     
     public static function lookupGroupStatusTemplateId(int $a_obj_id) : int
@@ -1094,14 +1090,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             if ($parent_role['parent'] == $this->getRefId()) {
                 continue;
             }
-            if ($this->rbacreview->isProtected($parent_role['parent'], $parent_role['rol_id'])) {
+            if ($this->rbacreview->isProtected((int) $parent_role['parent'], (int) $parent_role['rol_id'])) {
                 $operations = $this->rbacreview->getOperationsOfRole(
-                    $parent_role['obj_id'],
+                    (int) $parent_role['obj_id'],
                     $this->getType(),
-                    $parent_role['parent']
+                    (int) $parent_role['parent']
                 );
                 $this->rbacadmin->grantPermission(
-                    $parent_role['obj_id'],
+                    (int) $parent_role['obj_id'],
                     $operations,
                     $this->getRefId()
                 );
@@ -1110,8 +1106,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
             $this->rbacadmin->initIntersectionPermissions(
                 $this->getRefId(),
-                $parent_role['obj_id'],
-                $parent_role['parent'],
+                (int) $parent_role['obj_id'],
+                (int) $parent_role['parent'],
                 $this->getGrpStatusOpenTemplateId(),
                 ROLE_FOLDER_ID
             );
@@ -1326,7 +1322,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      */
     protected function prepareAppointments($a_mode = 'create') : array
     {
-
         switch ($a_mode) {
             case 'create':
             case 'update':
@@ -1400,7 +1395,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * @return int[]
      *@see interface.ilMembershipRegistrationCodes
           */
-    public static function lookupObjectsByCode(string $a_code): array
+    public static function lookupObjectsByCode(string $a_code) : array
     {
         global $DIC;
 
@@ -1426,8 +1421,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         int $a_user_id,
         int $a_role = ilParticipants::IL_GRP_MEMBER,
         bool $a_force_registration = false
-    ) : void
-    {
+    ) : void {
         $part = ilGroupParticipants::_getInstanceByObjId($this->getId());
 
         if ($part->isAssigned($a_user_id)) {
@@ -1437,7 +1431,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if (!$a_force_registration) {
             // Availability
             if (!$this->isRegistrationEnabled()) {
-
                 if (!ilObjGroupAccess::_usingRegistrationCode()) {
                     throw new ilMembershipRegistrationException('Cannot registrate to group ' . $this->getId() .
                         ', group subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);

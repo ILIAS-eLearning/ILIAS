@@ -39,6 +39,8 @@ class ilLDAPServer
     private $enabled_authentication = true;
     private $authentication_mapping = 0;
     private $escape_dn = false;
+    
+    private bool $active = false;
 
     public function __construct($a_server_id = 0)
     {
@@ -209,13 +211,15 @@ class ilLDAPServer
 
         $ilDB = $DIC['ilDB'];
         
+        $server_ids = [];
+        
         $query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
         
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
             $server_ids[] = $row->server_id;
         }
-        return $server_ids ? $server_ids : array();
+        return $server_ids;
     }
 
     /**

@@ -3081,34 +3081,6 @@ class ilUtil
         return array( $targetFilesystem, $targetDir );
     }
 
-
-    /**
-     * Include Mathjax
-     * @deprecated
-     */
-    public function includeMathjax($a_tpl = null)
-    {
-        ilMathJax::getInstance()->includeMathJax($a_tpl);
-    }
-
-    /**
-     * replace [tex]...[/tex] tags with formula image code
-     * @deprecated
-    */
-    public static function insertLatexImages($a_text, $a_start = '[tex]', $a_end = '[/tex]')
-    {
-        return ilMathJax::getInstance()->insertLatexImages($a_text, $a_start, $a_end);
-    }
-
-    /**
-     * replace [tex]...[/tex] tags with formula image code for offline use
-     * @deprecated
-    */
-    public static function buildLatexImages($a_text, $a_dir)
-    {
-        return ilMathJax::getInstance()->insertLatexImages($a_text, '[tex]', '[/tex]', $a_dir . '/teximg', './teximg');
-    }
-
     /**
     * Prepares a string for a text area output where latex code may be in it
     * If the text is HTML-free, CHR(13) will be converted to a line break
@@ -3404,7 +3376,7 @@ class ilUtil
 
     /**
      * Get HTML for a system message
-     *
+     * @deprecated replace with UI Compoenten in ilGlobalPageTemplate
      * ATTENTION: This method is deprecated. Use MessageBox from the
      * UI-framework instead.
      */

@@ -22,7 +22,6 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
  */
 class StandardPageBuilder implements PageBuilder
 {
-    
     protected UIServices $ui;
     protected MetaContent $meta;
     
@@ -32,7 +31,7 @@ class StandardPageBuilder implements PageBuilder
     public function __construct()
     {
         global $DIC;
-        $this->ui   = $DIC->ui();
+        $this->ui = $DIC->ui();
         $this->meta = $DIC->globalScreen()->layout()->meta();
     }
     
@@ -43,13 +42,13 @@ class StandardPageBuilder implements PageBuilder
     public function build(PagePartProvider $parts) : Page
     {
         $header_image = $parts->getLogo();
-        $main_bar     = $parts->getMainBar();
-        $meta_bar     = $parts->getMetaBar();
+        $main_bar = $parts->getMainBar();
+        $meta_bar = $parts->getMetaBar();
         $bread_crumbs = $parts->getBreadCrumbs();
-        $footer       = $parts->getFooter();
-        $title        = $parts->getTitle();
-        $short_title  = $parts->getShortTitle();
-        $view_title   = $parts->getViewTitle();
+        $footer = $parts->getFooter();
+        $title = $parts->getTitle();
+        $short_title = $parts->getShortTitle();
+        $view_title = $parts->getViewTitle();
         
         $standard = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],

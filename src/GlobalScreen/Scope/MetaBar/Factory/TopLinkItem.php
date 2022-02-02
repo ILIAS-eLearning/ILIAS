@@ -21,7 +21,6 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbol
 {
-    
     protected ?Symbol $symbol = null;
     protected string $title = "";
     protected string $action = "";
@@ -37,7 +36,7 @@ class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbo
     
     public function withAction(string $action) : self
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
         
         return $clone;
@@ -56,7 +55,7 @@ class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbo
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->symbol = $symbol;
         
         return $clone;
@@ -83,7 +82,7 @@ class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbo
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
         
         return $clone;

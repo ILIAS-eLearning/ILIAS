@@ -216,16 +216,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        // The corresponding $ilBench->start invocation is in inc.header.php
-        $ilBench = $DIC["ilBench"];
-        $ilBench->stop("Core", "ElapsedTimeUntilFooter");
-        $ftpl->setVariable(
-            "ELAPSED_TIME",
-            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
-        );
-        // END Usability: Non-Delos Skins can display the elapsed time in the footer
-
         $this->setVariable("FOOTER", $ftpl->get());
     }
 
@@ -247,41 +237,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     private function getMainMenu()
     {
-        global $DIC;
-
-        $ilMainMenu = $DIC["ilMainMenu"];
-
-        if ($this->variableExists('MAINMENU')) {
-            $ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-            $this->main_menu = $ilMainMenu->getHTML();
-            $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-        }
     }
 
     private function fillMainMenu()
     {
-        global $DIC;
-        $tpl = $DIC["tpl"];
-        if ($this->variableExists('MAINMENU')) {
-            $tpl->setVariable("MAINMENU", $this->main_menu);
-            $tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
-        }
     }
 
-
-    //***********************************
-    //
-    // HELP
-    //
-    //***********************************
-
-    /**
-     * Init help
-     */
     private function initHelp()
     {
-        include_once("./Services/Help/classes/class.ilHelpGUI.php");
-        //ilHelpGUI::initHelp($this);
     }
 
 
@@ -861,23 +824,17 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         $ilLocator = $DIC["ilLocator"];
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
         $html = "";
-        if (is_object($ilPluginAdmin)) {
-            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-            $uip = new ilUIHookProcessor(
-                "Services/Locator",
-                "main_locator",
-                array("locator_gui" => $ilLocator)
-            );
-            if (!$uip->replaced()) {
-                $html = $ilLocator->getHTML();
-            }
-            $html = $uip->getHTML($html);
-        } else {
+        $uip = new ilUIHookProcessor(
+            "Services/Locator",
+            "main_locator",
+            array("locator_gui" => $ilLocator)
+        );
+        if (!$uip->replaced()) {
             $html = $ilLocator->getHTML();
         }
+        $html = $uip->getHTML($html);
+    }
 
         $this->setVariable("LOCATOR", $html);
     }

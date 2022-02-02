@@ -24,5 +24,4 @@ trait SlateSessionStateCode
     {
         return $slate;
     }
-    
 }

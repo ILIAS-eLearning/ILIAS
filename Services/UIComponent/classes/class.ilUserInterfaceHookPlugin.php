@@ -27,7 +27,6 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
          * @var $obj ilUIHookPluginGUI
          */
         $class = "il" . $this->getPluginName() . "UIHookGUI";
-        $this->includeClass("class." . $class . ".php");
         $obj = new $class();
         $obj->setPluginObject($this);
 

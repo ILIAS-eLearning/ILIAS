@@ -72,7 +72,7 @@ class ilConditionHandlerGUI
     protected function initConditionIdFromQuery() : int
     {
         if ($this->http->wrapper()->query()->has('condition_id')) {
-            $this->http->wrapper()->query()->retrieve(
+            return $this->http->wrapper()->query()->retrieve(
                 'condition_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -128,18 +128,18 @@ class ilConditionHandlerGUI
     protected function initListModeFromPost() : string
     {
         if ($this->http->wrapper()->post()->has('list_mode')) {
-            $this->http->wrapper()->post()->retrieve(
+            return $this->http->wrapper()->post()->retrieve(
                 'list_mode',
                 $this->refinery->kindlyTo()->string()
             );
         }
-
+        return "";
     }
 
     protected function initSourceIdFromQuery() : int
     {
         if ($this->http->wrapper()->query()->has('source_id')) {
-            $this->http->wrapper()->query()->retrieve(
+            return $this->http->wrapper()->query()->retrieve(
                 'source_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -489,8 +489,10 @@ class ilConditionHandlerGUI
             $obl = new ilNumberInputGUI($this->lng->txt('precondition_num_obligatory'), 'required');
             $obl->setInfo($this->lng->txt('precondition_num_optional_info'));
 
-            $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget($this->getTargetRefId(),
-                $this->getTargetId());
+            $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget(
+                $this->getTargetRefId(),
+                $this->getTargetId()
+            );
             $obl->setValue($num_required > 0 ? $num_required : null);
             $obl->setRequired(true);
             $obl->setSize(1);
@@ -564,7 +566,6 @@ class ilConditionHandlerGUI
 
         // Update relevant sco's
         if ($condition['trigger_type'] == 'sahs') {
-
             $olp = ilObjectLP::getInstance($condition['trigger_obj_id']);
             $collection = $olp->getCollectionInstance();
             if ($collection) {
@@ -726,8 +727,11 @@ class ilConditionHandlerGUI
     public function __getConditionsOfTarget() : array
     {
         $cond = [];
-        foreach (ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId(),
-            $this->getTargetType()) as $condition) {
+        foreach (ilConditionHandler::_getPersistedConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        ) as $condition) {
             if ($condition['operator'] == 'not_member') {
                 continue;
             } else {
@@ -784,12 +788,16 @@ class ilConditionHandlerGUI
             $rad_opt = new ilRadioGroupInputGUI($this->lng->txt('cond_ref_handling'), 'ref_handling');
             $rad_opt->setValue($condition['ref_handling'] ?? ilConditionHandler::SHARED_CONDITIONS);
 
-            $opt2 = new ilRadioOption($this->lng->txt('cond_ref_shared'),
-                (string) ilConditionHandler::SHARED_CONDITIONS);
+            $opt2 = new ilRadioOption(
+                $this->lng->txt('cond_ref_shared'),
+                (string) ilConditionHandler::SHARED_CONDITIONS
+            );
             $rad_opt->addOption($opt2);
 
-            $opt1 = new ilRadioOption($this->lng->txt('cond_ref_unique'),
-                (string) ilConditionHandler::UNIQUE_CONDITIONS);
+            $opt1 = new ilRadioOption(
+                $this->lng->txt('cond_ref_unique'),
+                (string) ilConditionHandler::UNIQUE_CONDITIONS
+            );
             $rad_opt->addOption($opt1);
 
             $form->addItem($rad_opt);

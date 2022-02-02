@@ -94,21 +94,21 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     /**
      * @param $items
      */
-    private function sortItems(&$items): void
+    private function sortItems(&$items) : void
     {
         usort($items, $this->getItemSorter());
     }
     
     private function getItemSorter() : callable
     {
-        return static function (isItem $a, isItem $b): int {
+        return static function (isItem $a, isItem $b) : int {
             return $a->getPosition() - $b->getPosition();
         };
     }
     
     private function getChildSorter() : callable
     {
-        return function (isItem &$item): void {
+        return function (isItem &$item) : void {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
                 $this->sortItems($children);
@@ -119,7 +119,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     
     protected function getVisibleFilter() : callable
     {
-        return static function (isItem $item): bool {
+        return static function (isItem $item) : bool {
             return ($item->isAvailable() && $item->isVisible());
         };
     }

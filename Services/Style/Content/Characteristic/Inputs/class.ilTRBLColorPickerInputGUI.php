@@ -6,16 +6,21 @@
  */
 class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 {
-    protected $hex;
-
+    protected bool $acceptnamedcolors = false;
+    protected string $defaultcolor = "";
+    protected string $allvalue = "";
+    protected string $leftvalue = "";
+    protected string $rightvalue = "";
+    protected string $bottomvalue = "";
+    protected string $topvalue = "";
 
     /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
+     * @var string[]
+     */
+    protected array $dirs = [];
+    protected string $hex = "";
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
 
@@ -25,12 +30,7 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         $this->dirs = array("all", "top", "bottom", "left", "right");
     }
     
-    /**
-    * Set All Value.
-    *
-    * @param	string	$a_allvalue	All Value
-    */
-    public function setAllValue($a_allvalue)
+    public function setAllValue(string $a_allvalue) : void
     {
         $a_allvalue = trim($a_allvalue);
         if ($this->getAcceptNamedColors() && substr($a_allvalue, 0, 1) == "!") {
@@ -40,22 +40,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    /**
-    * Get All Value.
-    *
-    * @return	string	All Value
-    */
-    public function getAllValue()
+    public function getAllValue() : string
     {
         return $this->allvalue;
     }
 
-    /**
-    * Set Top Value.
-    *
-    * @param	string	$a_topvalue	Top Value
-    */
-    public function setTopValue($a_topvalue)
+    public function setTopValue(string $a_topvalue) : void
     {
         $a_topvalue = trim($a_topvalue);
         if ($this->getAcceptNamedColors() && substr($a_topvalue, 0, 1) == "!") {
@@ -65,22 +55,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    /**
-    * Get Top Value.
-    *
-    * @return	string	Top Value
-    */
-    public function getTopValue()
+    public function getTopValue() : string
     {
         return $this->topvalue;
     }
 
-    /**
-    * Set Bottom Value.
-    *
-    * @param	string	$a_bottomvalue	Bottom Value
-    */
-    public function setBottomValue($a_bottomvalue)
+    public function setBottomValue(string $a_bottomvalue) : void
     {
         $a_bottomvalue = trim($a_bottomvalue);
         if ($this->getAcceptNamedColors() && substr($a_bottomvalue, 0, 1) == "!") {
@@ -90,22 +70,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    /**
-    * Get Bottom Value.
-    *
-    * @return	string	Bottom Value
-    */
-    public function getBottomValue()
+    public function getBottomValue() : string
     {
         return $this->bottomvalue;
     }
 
-    /**
-    * Set Left Value.
-    *
-    * @param	string	$a_leftvalue	Left Value
-    */
-    public function setLeftValue($a_leftvalue)
+    public function setLeftValue(string $a_leftvalue) : void
     {
         $a_leftvalue = trim($a_leftvalue);
         if ($this->getAcceptNamedColors() && substr($a_leftvalue, 0, 1) == "!") {
@@ -115,22 +85,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    /**
-    * Get Left Value.
-    *
-    * @return	string	Left Value
-    */
-    public function getLeftValue()
+    public function getLeftValue() : string
     {
         return $this->leftvalue;
     }
 
-    /**
-    * Set Right Value.
-    *
-    * @param	string	$a_rightvalue	Right Value
-    */
-    public function setRightValue($a_rightvalue)
+    public function setRightValue(string $a_rightvalue) : void
     {
         $a_rightvalue = trim($a_rightvalue);
         if ($this->getAcceptNamedColors() && substr($a_rightvalue, 0, 1) == "!") {
@@ -140,66 +100,36 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    /**
-    * Get Right Value.
-    *
-    * @return	string	Right Value
-    */
-    public function getRightValue()
+    public function getRightValue() : string
     {
         return $this->rightvalue;
     }
 
-    /**
-    * Set Default Color.
-    *
-    * @param	mixed	$a_defaultcolor	Default Color
-    */
-    public function setDefaultColor($a_defaultcolor)
+    public function setDefaultColor(string $a_defaultcolor) : void
     {
         $this->defaultcolor = $a_defaultcolor;
     }
 
-    /**
-    * Get Default Color.
-    *
-    * @return	mixed	Default Color
-    */
-    public function getDefaultColor()
+    public function getDefaultColor() : string
     {
         return $this->defaultcolor;
     }
 
-    /**
-    * Set Accept Named Colors (Leading '!').
-    *
-    * @param	boolean	$a_acceptnamedcolors	Accept Named Colors (Leading '!')
-    */
-    public function setAcceptNamedColors($a_acceptnamedcolors)
+    public function setAcceptNamedColors(bool $a_acceptnamedcolors) : void
     {
         $this->acceptnamedcolors = $a_acceptnamedcolors;
     }
 
-    /**
-    * Get Accept Named Colors (Leading '!').
-    *
-    * @return	boolean	Accept Named Colors (Leading '!')
-    */
-    public function getAcceptNamedColors()
+    public function getAcceptNamedColors() : bool
     {
         return $this->acceptnamedcolors;
     }
 
-    /**
-     * check input
-     * @access public
-     * @return bool
-     */
     public function checkInput() : bool
     {
+        $input = $this->getInput();
         foreach ($this->dirs as $dir) {
-            $value = $_POST[$this->getPostVar()][$dir]["value"] =
-                ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["value"]);
+            $value = $input[$dir]["value"];
 
             if (trim($value) != "") {
                 switch ($dir) {
@@ -213,11 +143,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
         return true;
     }
+
+    public function getInput() : array
+    {
+        return $this->arrayArray($this->getPostVar());
+    }
     
-    /**
-    * Insert property html
-    * @return	void	Size
-    */
     public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;

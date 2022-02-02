@@ -1,6 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Session based immediate storage.
@@ -26,9 +38,9 @@
  */
 class ilSessionIStorage
 {
-    protected $session_id = "";
-    protected $component_id = "";
-    protected static $values = array();
+    private string $session_id = "";
+    private string $component_id = "";
+    private static array $values = [];
     
     /**
      * Constructor
@@ -36,7 +48,7 @@ class ilSessionIStorage
      * @param string $a_component_id component id (e.g. "crs", "lm", ...)
      * @param string $a_sess_id session id
      */
-    public function __construct($a_component_id, $a_sess_id = "")
+    public function __construct(string $a_component_id, string $a_sess_id = "")
     {
         $this->component_id = $a_component_id;
         if ($a_sess_id != "") {
@@ -58,7 +70,7 @@ class ilSessionIStorage
      *
      * @param string $a_val value
      */
-    public function set($a_key, $a_val)
+    public function set(string $a_key, string $a_val)
     {
         global $DIC;
 
@@ -75,7 +87,7 @@ class ilSessionIStorage
                 "vkey" => array("text", $a_key)
                 ),
             array("value" => array("text", $a_val))
-            );
+        );
     }
 
     /**
@@ -100,7 +112,7 @@ class ilSessionIStorage
             " WHERE session_id = " . $ilDB->quote($this->session_id, "text") .
             " AND component_id = " . $ilDB->quote($this->component_id, "text") .
             " AND vkey = " . $ilDB->quote($a_key, "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $value = (string) ($rec['value'] ?? '');
 
@@ -113,11 +125,8 @@ class ilSessionIStorage
     
     /**
      * Destroy session(s). This is called by ilSession->destroy
-     *
-     * @param
-     * @return
      */
-    public static function destroySession($a_session_id)
+    public static function destroySession(string $a_session_id) : void
     {
         global $DIC;
 

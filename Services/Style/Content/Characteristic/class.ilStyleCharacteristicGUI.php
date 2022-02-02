@@ -1,11 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \ILIAS\UI\Component\Input\Container\Form;
-use \Psr\Http\Message;
-use \ILIAS\Style\Content;
-use \ILIAS\Style\Content\Access;
+use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\Style\Content;
+use ILIAS\Style\Content\Access;
 
 /**
  * Characteristics UI
@@ -14,108 +24,62 @@ use \ILIAS\Style\Content\Access;
  */
 class ilStyleCharacteristicGUI
 {
-    use Content\UI;
-
-    /**
-     * @var ilObjStyleSheet
-     */
-    protected $object;
-
-    /**
-     * @var string
-     */
-    protected $super_type;
-
-    /**
-     * @var string
-     */
-    protected $current_tag;
-
-    /**
-     * "XXX:hover"
-     * @var string
-     */
-    protected $current_class;
-
-    /**
-     * "XXX"
-     * @var string
-     */
-    protected $current_base_class;
-
-    /**
-     * "hover"
-     * @var string
-     */
-    protected $current_pseudo_class;
-
-    /**
-     * @var string
-     */
-    protected $style_type;
-
-    /**
-     * @var int
-     */
-    protected $mq_id;
-
-    /**
-     * @var Content\CharacteristicManager
-     */
-    protected $manager;
-
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var Content\ImageManager
-     */
-    protected $image_manager;
+    protected string $requested_char;
+    protected Content\StandardGUIRequest $request;
+    protected ilObjStyleSheet $object;
+    protected string $super_type;
+    protected string $current_tag;
+    protected string $current_class;        // "XXX:hover"
+    protected string $current_base_class;   // "XXX"
+    protected string $current_pseudo_class;        // "hover"
+    protected string $style_type;
+    protected int $mq_id;
+    protected Content\CharacteristicManager $manager;
+    protected Access\StyleAccessManager $access_manager;
+    protected Content\ImageManager $image_manager;
+    protected Content\InternalGUIService $gui_service;
+    protected Content\InternalDomainService $domain_service;
 
     public function __construct(
-        Content\UIFactory $ui_factory,
+        Content\InternalDomainService $domain_service,
+        Content\InternalGUIService $gui_service,
         ilObjStyleSheet $style_sheet,
         string $super_type,
         Access\StyleAccessManager $access_manager,
         Content\CharacteristicManager $manager,
         Content\ImageManager $image_manager
     ) {
-        $this->initUI($ui_factory);
-
+        $this->gui_service = $gui_service;
+        $this->domain_service = $domain_service;
         $this->access_manager = $access_manager;
         $this->object = $style_sheet;
         $this->super_type = $super_type;
         $this->manager = $manager;
         $this->image_manager = $image_manager;
+        $this->request = $gui_service->standardRequest();
 
-        $params = $this->request->getQueryParams();
-        $cur = explode(".", $params["tag"] ?? "");
+        $cur = explode(".", $this->request->getTag());
         $this->current_tag = (string) $cur[0];
-        $this->current_class = (string) $cur[1];
+        $this->current_class = (string) ($cur[1] ?? "");
 
-        $t = explode(":", $cur[1]);
+        $t = explode(":", $cur[1] ?? "");
         $this->current_base_class = (string) $t[0];
         $this->current_pseudo_class = (string) ($t[1] ?? "");
 
-        $this->style_type = (string) ($params["style_type"] ?? "");
-        $this->requested_char = (string) ($params["char"] ?? "");
-        $this->mq_id = (int) ($params["mq_id"] ?? 0);
+        $this->style_type = $this->request->getStyleType();
+        $this->requested_char = $this->request->getCharacteristic();
+        $this->mq_id = $this->request->getMediaQueryId();
     }
 
-    /**
-     * @param bool $a_custom
-     * @return array
-     */
-    protected function extractParametersOfTag(bool $a_custom = false) : array
-    {
+    protected function extractParametersOfTag(
+        bool $a_custom = false
+    ) : array {
         $style = $this->object->getStyle();
         $parameters = array();
         foreach ($style as $tag) {
             foreach ($tag as $par) {
                 if ($par["tag"] == $this->current_tag && $par["class"] == $this->current_class
-                    && $par["type"] == $this->style_type && (int) $this->mq_id == (int) $par["mq_id"]
+                    && $par["type"] == $this->style_type && $this->mq_id == (int) $par["mq_id"]
                     && (int) $a_custom == (int) $par["custom"]) {
                     $parameters[$par["parameter"]] = $par["value"];
                 }
@@ -129,7 +93,7 @@ class ilStyleCharacteristicGUI
      */
     public function executeCommand() : void
     {
-        $ctrl = $this->ctrl;
+        $ctrl = $this->gui_service->ctrl();
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd();
@@ -148,16 +112,13 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    /**
-     * List characeristics
-     */
     public function listCharacteristics() : void
     {
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        $ilToolbar = $this->toolbar;
-        $tpl = $this->tpl;
+        $lng = $this->domain_service->lng();
+        $ilTabs = $this->gui_service->tabs();
+        $ilCtrl = $this->gui_service->ctrl();
+        $ilToolbar = $this->gui_service->toolbar();
+        $tpl = $this->gui_service->mainTemplate();
 
         $this->setListSubTabs();
 
@@ -169,12 +130,6 @@ class ilStyleCharacteristicGUI
             : "text_block";
         $ilCtrl->setParameter($this, "style_type", $style_type);
         $ilTabs->activateSubTab("sty_" . $style_type . "_char");
-
-        // workaround to include default rte styles
-        if ($this->super_type == "rte") {
-            $tpl->addCss("Modules/Scorm2004/templates/default/player.css");
-            $tpl->addInlineCss(ilSCORM13Player::getInlineCss());
-        }
 
         // add new style?
         $all_super_types = ilObjStyleSheet::_getStyleSuperTypes();
@@ -202,7 +157,7 @@ class ilStyleCharacteristicGUI
             );
         }
 
-        $table_gui = $this->service_ui->characteristic()->CharacteristicTableGUI(
+        $table_gui = $this->gui_service->characteristic()->CharacteristicTableGUI(
             $this,
             "edit",
             $style_type,
@@ -211,17 +166,14 @@ class ilStyleCharacteristicGUI
             $this->access_manager
         );
 
-        $this->tpl->setContent($table_gui->getHTML());
+        $tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-     * Sub tabs for each super type
-     */
     public function setListSubTabs() : void
     {
-        $tabs = $this->tabs;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
+        $lng = $this->domain_service->lng();
+        $tabs = $this->gui_service->tabs();
+        $ctrl = $this->gui_service->ctrl();
 
         $types = ilObjStyleSheet::_getStyleSuperTypes();
 
@@ -231,48 +183,44 @@ class ilStyleCharacteristicGUI
             $tabs->addSubTab(
                 "sty_" . $super_type . "_char",
                 $lng->txt("sty_" . $super_type . "_char"),
-                $this->ctrl->getLinkTarget($this, "listCharacteristics")
+                $ctrl->getLinkTarget($this, "listCharacteristics")
             );
         }
 
         $ctrl->setParameter($this, "style_type", $this->style_type);
     }
 
-    /**
-     * Add characteristic
-     */
     public function addCharacteristic() : void
     {
-        $tpl = $this->tpl;
+        $tpl = $this->gui_service->mainTemplate();
 
         $form = $this->initCharacteristicForm();
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save Characteristic
-     */
     public function saveCharacteristic() : void
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $tpl = $this->gui_service->mainTemplate();
+        $lng = $this->domain_service->lng();
 
         $form = $this->initCharacteristicForm();
 
-        if ($form) {
-            if ($this->object->characteristicExists($_POST["new_characteristic"], $this->style_type)) {
+        if ($form->checkInput()) {
+            $new_characteristic = $form->getInput("new_characteristic");
+            $type = $form->getInput("type");
+            if ($this->object->characteristicExists($new_characteristic, $this->style_type)) {
                 $char_input = $form->getItemByPostVar("new_characteristic");
                 $char_input->setAlert($lng->txt("sty_characteristic_already_exists"));
             } else {
-                $this->object->addCharacteristic($_POST["type"], $_POST["new_characteristic"]);
+                $this->object->addCharacteristic($type, $new_characteristic);
                 ilUtil::sendInfo($lng->txt("sty_added_characteristic"), true);
                 $ilCtrl->setParameter(
                     $this,
                     "tag",
-                    ilObjStyleSheet::_determineTag($_POST["type"]) . "." . $_POST["new_characteristic"]
+                    ilObjStyleSheet::_determineTag($type) . "." . $new_characteristic
                 );
-                $ilCtrl->setParameter($this, "style_type", $_POST["type"]);
+                $ilCtrl->setParameter($this, "style_type", $type);
                 $ilCtrl->redirectByClass("ilstylecharacteristicgui", "editTagStyle");
             }
         }
@@ -280,24 +228,22 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Characteristic deletion confirmation screen
-     */
     public function deleteCharacteristicConfirmation() : void
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $tpl = $this->gui_service->mainTemplate();
+        $lng = $this->domain_service->lng();
 
         //var_dump($_POST);
 
-        if (!is_array($_POST["char"]) || count($_POST["char"]) == 0) {
+        $chars = $this->request->getCharacteristics();
+        if (count($chars) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
             // check whether there are any core style classes included
             $core_styles = ilObjStyleSheet::_getCoreStyles();
-            foreach ($_POST["char"] as $char) {
+            foreach ($chars as $char) {
                 if (!empty($core_styles[$char])) {
                     $this->deleteCoreCharMessage();
                     return;
@@ -310,7 +256,7 @@ class ilStyleCharacteristicGUI
             $cgui->setCancel($lng->txt("cancel"), "cancelCharacteristicDeletion");
             $cgui->setConfirm($lng->txt("delete"), "deleteCharacteristic");
 
-            foreach ($_POST["char"] as $char) {
+            foreach ($chars as $char) {
                 $char_comp = explode(".", $char);
                 $cgui->addItem("char[]", $char, $char_comp[2]);
             }
@@ -319,14 +265,12 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    /**
-     * Message that appears, when user tries to delete core characteristics
-     */
+    // Message that appears, when user tries to delete core characteristics
     public function deleteCoreCharMessage() : void
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $tpl = $this->gui_service->mainTemplate();
+        $lng = $this->domain_service->lng();
 
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
@@ -334,7 +278,9 @@ class ilStyleCharacteristicGUI
 
         $core_styles = ilObjStyleSheet::_getCoreStyles();
         $cnt = 0;
-        foreach ($_POST["char"] as $char) {
+
+        $chars = $this->request->getCharacteristics();
+        foreach ($chars as $char) {
             if (!empty($core_styles[$char])) {
                 $cnt++;
                 $char_comp = explode(".", $char);
@@ -343,9 +289,7 @@ class ilStyleCharacteristicGUI
                 $cgui->addHiddenItem("char[]", $char);
             }
         }
-        $all_core_styles = ($cnt == count($_POST["char"]))
-            ? true
-            : false;
+        $all_core_styles = ($cnt == count($chars));
 
         if ($all_core_styles) {
             $cgui->setHeaderText($lng->txt("sty_all_styles_obligatory"));
@@ -359,13 +303,10 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($cgui->getHTML());
     }
 
-    /**
-     * Cancel characteristic deletion
-     */
     public function cancelCharacteristicDeletion() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
 
         ilUtil::sendInfo($lng->txt("action_aborted"), true);
         $ilCtrl->redirect($this, "listCharacteristics");
@@ -377,20 +318,19 @@ class ilStyleCharacteristicGUI
      */
     public function deleteCharacteristic() : void
     {
-        $ilCtrl = $this->ctrl;
+        $ilCtrl = $this->gui_service->ctrl();
 
-        if (is_array($_POST["char"])) {
-            foreach ($_POST["char"] as $char) {
-                $char_comp = explode(".", $char);
-                $type = $char_comp[0];
-                $tag = $char_comp[1];
-                $class = $char_comp[2];
+        $chars = $this->request->getCharacteristics();
+        foreach ($chars as $char) {
+            $char_comp = explode(".", $char);
+            $type = $char_comp[0];
+            $tag = $char_comp[1];
+            $class = $char_comp[2];
 
-                $this->manager->deleteCharacteristic(
-                    $type,
-                    $class
-                );
-            }
+            $this->manager->deleteCharacteristic(
+                $type,
+                $class
+            );
         }
 
         $ilCtrl->redirect($this, "listCharacteristics");
@@ -398,12 +338,11 @@ class ilStyleCharacteristicGUI
 
     /**
      * Init tag style editing form
-     * @return ilPropertyFormGUI
      */
     public function initCharacteristicForm() : ilPropertyFormGUI
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $lng = $this->domain_service->lng();
+        $ilCtrl = $this->gui_service->ctrl();
 
         $form = new ilPropertyFormGUI();
 
@@ -442,15 +381,11 @@ class ilStyleCharacteristicGUI
         return $form;
     }
 
-
-    /**
-     * Set tabs
-     */
     protected function setTabs() : void
     {
-        $tabs = $this->tabs;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
+        $tabs = $this->gui_service->tabs();
+        $ctrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
 
         $tabs->clearTargets();
 
@@ -476,18 +411,14 @@ class ilStyleCharacteristicGUI
         );
     }
 
-    /**
-     * Set parameter sub tabs
-     */
     protected function setParameterSubTabs() : void
     {
-        $tabs = $this->tabs;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-
+        $tabs = $this->gui_service->tabs();
+        $ctrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
 
         $pc = $this->object->_getPseudoClasses($this->current_tag);
-        if (is_array($pc) && count($pc) > 0) {
+        if (count($pc) > 0) {
             // style classes
             $ctrl->setParameter($this, "tag", $this->current_tag . "." . $this->current_base_class);
             $tabs->addSubTab(
@@ -519,19 +450,17 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    /**
-     * Edit tag style.
-     */
     protected function editTagStyle() : void
     {
-        $tpl = $this->tpl;
-        $ilToolbar = $this->toolbar;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $tpl = $this->gui_service->mainTemplate();
+        $ilToolbar = $this->gui_service->toolbar();
+        $lng = $this->domain_service->lng();
+        $ilCtrl = $this->gui_service->ctrl();
+        $tabs = $this->gui_service->tabs();
 
         $this->setTabs();
         $this->setParameterSubTabs();
-        $this->tabs->activateTab("parameters");
+        $tabs->activateTab("parameters");
 
         // media query selector
         $mqs = $this->object->getMediaQueries();
@@ -551,12 +480,6 @@ class ilStyleCharacteristicGUI
             $ilToolbar->addFormButton($lng->txt("sty_switch"), "switchMQuery");
         }
 
-        // workaround to include default rte styles
-        if ($this->super_type == "rte") {
-            $tpl->addCss("Modules/Scorm2004/templates/default/player.css");
-            $tpl->addInlineCss(ilSCORM13Player::getInlineCss());
-        }
-
         $form = $this->initTagStyleForm();
         $this->getValues($form);
         $this->outputTagStyleEditScreen($form);
@@ -564,14 +487,14 @@ class ilStyleCharacteristicGUI
 
     /**
      * Init tag style editing form
-     *
-     * @return ilPropertyFormGUI
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws ilCtrlException
      * @throws ilFormException
      */
     protected function initTagStyleForm() : ilPropertyFormGUI
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $lng = $this->domain_service->lng();
+        $ilCtrl = $this->gui_service->ctrl();
 
         $ilCtrl->saveParameter($this, array("mq_id"));
 
@@ -585,7 +508,7 @@ class ilStyleCharacteristicGUI
             // filter groups of properties that should only be
             // displayed with matching tag
             $filtered_groups = ilObjStyleSheet::_getFilteredGroups();
-            if (is_array($filtered_groups[$k]) && !in_array($this->current_tag, $filtered_groups[$k])) {
+            if (isset($filtered_groups[$k]) && !in_array($this->current_tag, $filtered_groups[$k])) {
                 continue;
             }
 
@@ -697,11 +620,11 @@ class ilStyleCharacteristicGUI
         $form_gui->addItem($sh);
 
         // custom parameters
-        $ti = new ilTextInputGUI($this->lng->txt("sty_custom_par"), "custom_par");
+        $ti = new ilTextInputGUI($lng->txt("sty_custom_par"), "custom_par");
         $ti->setMaxLength(300);
         $ti->setSize(80);
         $ti->setMulti(true);
-        $ti->setInfo($this->lng->txt("sty_custom_par_info"));
+        $ti->setInfo($lng->txt("sty_custom_par_info"));
         $form_gui->addItem($ti);
 
 
@@ -709,13 +632,12 @@ class ilStyleCharacteristicGUI
         $form_gui->addCommandButton("updateTagStyle", $lng->txt("save_return"));
         $form_gui->addCommandButton("refreshTagStyle", $lng->txt("save_refresh"));
 
-        $form_gui->setFormAction($this->ctrl->getFormAction($this));
+        $form_gui->setFormAction($ilCtrl->getFormAction($this));
         return $form_gui;
     }
 
     /**
      * FORM: Get current values from persistent object.
-     * @param ilPropertyFormGUI $form
      */
     protected function getValues(ilPropertyFormGUI $form) : void
     {
@@ -723,7 +645,7 @@ class ilStyleCharacteristicGUI
         $parameters = ilObjStyleSheet::_getStyleParameters();
         foreach ($parameters as $p => $v) {
             $filtered_groups = ilObjStyleSheet::_getFilteredGroups();
-            if (is_array($filtered_groups[$v["group"]]) && !in_array($this->current_tag, $filtered_groups[$v["group"]])) {
+            if (isset($filtered_groups[$v["group"]]) && !in_array($this->current_tag, $filtered_groups[$v["group"]])) {
                 continue;
             }
             $p = explode(".", $p);
@@ -737,15 +659,15 @@ class ilStyleCharacteristicGUI
                 case "border_width":
                 case "border_style":
                 case "trbl_color":
-                    $input->setAllValue($cur_parameters[$v["subpar"][0]]);
-                    $input->setTopValue($cur_parameters[$v["subpar"][1]]);
-                    $input->setRightValue($cur_parameters[$v["subpar"][2]]);
-                    $input->setBottomValue($cur_parameters[$v["subpar"][3]]);
-                    $input->setLeftValue($cur_parameters[$v["subpar"][4]]);
+                    $input->setAllValue($cur_parameters[$v["subpar"][0]] ?? "");
+                    $input->setTopValue($cur_parameters[$v["subpar"][1]] ?? "");
+                    $input->setRightValue($cur_parameters[$v["subpar"][2]] ?? "");
+                    $input->setBottomValue($cur_parameters[$v["subpar"][3]] ?? "");
+                    $input->setLeftValue($cur_parameters[$v["subpar"][4]] ?? "");
                     break;
 
                 default:
-                    $input->setValue($cur_parameters[$p]);
+                    $input->setValue($cur_parameters[$p] ?? "");
                     break;
             }
         }
@@ -759,12 +681,9 @@ class ilStyleCharacteristicGUI
         $input->setValue($vals);
     }
 
-    /**
-     * Output tag style edit screen.
-     */
     protected function outputTagStyleEditScreen(ilPropertyFormGUI $form) : void
     {
-        $tpl = $this->tpl;
+        $tpl = $this->gui_service->mainTemplate();
 
         // set style sheet
         $tpl->setCurrentBlock("ContentStyle");
@@ -782,7 +701,7 @@ class ilStyleCharacteristicGUI
 
         $ts_tpl->setVariable(
             "FORM",
-            $form->getHtml()
+            $form->getHTML()
         );
 
         $this->setTitle();
@@ -790,22 +709,16 @@ class ilStyleCharacteristicGUI
         $tpl->setContent($ts_tpl->get());
     }
 
-    /**
-     * Set title
-     */
     protected function setTitle() : void
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
+        $tpl = $this->gui_service->mainTemplate();
+        $lng = $this->domain_service->lng();
         $tpl->setTitle($this->current_class . " (" . $lng->txt("sty_type_" . $this->style_type) . ")");
     }
 
-    /**
-     * save and refresh tag editing
-     */
     protected function refreshTagStyle() : void
     {
-        $ilCtrl = $this->ctrl;
+        $ilCtrl = $this->gui_service->ctrl();
 
         $form = $this->initTagStyleForm();
 
@@ -818,12 +731,9 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    /**
-     * save and refresh tag editing
-     */
     protected function updateTagStyle() : void
     {
-        $ilCtrl = $this->ctrl;
+        $ilCtrl = $this->gui_service->ctrl();
 
         $form = $this->initTagStyleForm();
         if ($form->checkInput()) {
@@ -835,9 +745,6 @@ class ilStyleCharacteristicGUI
         }
     }
 
-    /**
-     * Save tag style.
-     */
     protected function saveTagStyle(ilPropertyFormGUI $form) : void
     {
         $avail_pars = ilObjStyleSheet::_getStyleParameters($this->current_tag);
@@ -845,7 +752,7 @@ class ilStyleCharacteristicGUI
             $var = str_replace("-", "_", $par);
             $basepar_arr = explode(".", $par);
             $basepar = $basepar_arr[0];
-            if ($basepar_arr[1] != "" && $basepar_arr[1] != $this->current_tag) {
+            if (($basepar_arr[1] ?? "") != "" && $basepar_arr[1] != $this->current_tag) {
                 continue;
             }
 
@@ -860,11 +767,11 @@ class ilStyleCharacteristicGUI
                     break;
 
                 case "color":
-                    $color = trim($_POST[$basepar]);
+                    $color = trim($form->getInput($basepar));
                     if ($color != "" && trim(substr($color, 0, 1) != "!")) {
                         $color = "#" . $color;
                     }
-                    $this->writeStylePar($basepar, (string) $color);
+                    $this->writeStylePar($basepar, $color);
                     break;
 
                 case "trbl_numeric":
@@ -888,12 +795,12 @@ class ilStyleCharacteristicGUI
                             || $val == "")
                             ? $val
                             : "#" . $val;
-                        $this->writeStylePar($v["subpar"][$k], (string) $val);
+                        $this->writeStylePar($v["subpar"][$k], $val);
                     }
                     break;
 
                 default:
-                    $this->writeStylePar($basepar, (string) $_POST[$basepar]);
+                    $this->writeStylePar($basepar, (string) $form->getInput($basepar));
                     break;
             }
         }
@@ -905,14 +812,13 @@ class ilStyleCharacteristicGUI
             $this->style_type,
             $this->mq_id
         );
-        if (is_array($_POST["custom_par"])) {
-            foreach ($_POST["custom_par"] as $cpar) {
-                $par_arr = explode(":", $cpar);
-                if (count($par_arr) == 2) {
-                    $par = trim($par_arr[0]);
-                    $val = trim(str_replace(";", "", $par_arr[1]));
-                    $this->writeStylePar($par, $val, true);
-                }
+        $custom_par = $form->getInput("custom_par");
+        foreach ($custom_par as $cpar) {
+            $par_arr = explode(":", $cpar);
+            if (count($par_arr) == 2) {
+                $par = trim($par_arr[0]);
+                $val = trim(str_replace(";", "", $par_arr[1]));
+                $this->writeStylePar($par, $val, true);
             }
         }
 
@@ -921,12 +827,8 @@ class ilStyleCharacteristicGUI
 
     /**
      * Write style parameter
-     *
-     * @param string $par
-     * @param string $value
-     * @param bool   $a_custom
      */
-    protected function writeStylePar(string $par, string $value, bool $a_custom = false)
+    protected function writeStylePar(string $par, string $value, bool $a_custom = false) : void
     {
         if ($this->style_type == "") {
             return;
@@ -943,30 +845,29 @@ class ilStyleCharacteristicGUI
         );
     }
 
-    /**
-     * Edit tag titles
-     */
     protected function editTagTitles() : void
     {
         $this->setTabs();
-        $tpl = $this->tpl;
-        $tabs = $this->tabs;
+        $tpl = $this->gui_service->mainTemplate();
+        $ui = $this->gui_service->ui();
+        $tabs = $this->gui_service->tabs();
+
         $form = $this->getTagTitlesForm();
         $this->setTitle();
         $tabs->activateTab("titles");
-        $tpl->setContent($this->ui->renderer()->render($form));
+        $tpl->setContent($ui->renderer()->render($form));
     }
 
     /**
-     * Init titles form.
-     * @return Form\Standard
+     * @throws ilCtrlException
      */
     protected function getTagTitlesForm() : Form\Standard
     {
-        $ui = $this->ui;
+        $ui = $this->gui_service->ui();
         $f = $ui->factory();
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
+        $ctrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
+        $fields = [];
 
         $lng->loadLanguageModule("meta");
 
@@ -990,15 +891,12 @@ class ilStyleCharacteristicGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    /**
-     * Save titles
-     */
     public function saveTagTitles() : void
     {
-        $request = $this->request;
+        $request = $this->gui_service->http()->request();
         $form = $this->getTagTitlesForm();
-        $lng = $this->lng;
-        $ctrl = $this->ctrl;
+        $lng = $this->domain_service->lng();
+        $ctrl = $this->gui_service->ctrl();
         $manager = $this->manager;
 
         if ($request->getMethod() == "POST") {
@@ -1026,28 +924,31 @@ class ilStyleCharacteristicGUI
     /**
      * Save hide status for characteristics
      * @throws Content\ContentStyleNoPermissionException
+     * @throws ilCtrlException
      */
-    public function saveStatus()
+    public function saveStatus() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
+
+        $all_chars = $this->request->getAllCharacteristics();
+        $hidden = $this->request->getHidden();
+        $order = $this->request->getOrder();
 
         // save hide status
-        if (is_array($_POST["all_chars"])) {
-            foreach ($_POST["all_chars"] as $char) {
-                $ca = explode(".", $char);
-                $this->manager->saveHidden(
-                    $ca[0],
-                    $ca[2],
-                    (is_array($_POST["hide"]) && in_array($char, $_POST["hide"]))
-                );
-            }
+        foreach ($all_chars as $char) {
+            $ca = explode(".", $char);
+            $this->manager->saveHidden(
+                $ca[0],
+                $ca[2],
+                (in_array($char, $hidden))
+            );
         }
 
         // save order
-        if (is_array($_POST["order"])) {
+        if (count($order) > 0) {
             $order_by_type = [];
-            foreach ($_POST["order"] as $char => $order_nr) {
+            foreach ($order as $char => $order_nr) {
                 $ca = explode(".", $char);
                 $order_by_type[$ca[0]][$ca[2]] = $order_nr;
             }
@@ -1063,24 +964,22 @@ class ilStyleCharacteristicGUI
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
-    /**
-     * Set outdated
-     */
-    protected function setOutdated()
+    protected function setOutdated() : void
     {
-        $data = $this->request->getParsedBody();
-        if (is_array($data) && is_array($data["char"])) {
-            if (is_array($data["char"])) {
-                foreach ($data["char"] as $c) {
-                    $c_parts = explode(".", $c);
-                    if (!\ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
-                        $this->manager->saveOutdated(
-                            $c_parts[0],
-                            $c_parts[2],
-                            true
-                        );
-                        ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
-                    }
+        $lng = $this->domain_service->lng();
+        $ctrl = $this->gui_service->ctrl();
+
+        $chars = $this->request->getCharacteristics();
+        if (count($chars) > 0) {
+            foreach ($chars as $c) {
+                $c_parts = explode(".", $c);
+                if (!\ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
+                    $this->manager->saveOutdated(
+                        $c_parts[0],
+                        $c_parts[2],
+                        true
+                    );
+                    ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
                 }
             }
         } else {
@@ -1089,31 +988,28 @@ class ilStyleCharacteristicGUI
                 $this->requested_char,
                 true
             );
-            ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
         }
 
-        $this->ctrl->redirect($this, "listCharacteristics");
+        $ctrl->redirect($this, "listCharacteristics");
     }
 
-    /**
-     * Remove outdated state
-     */
-    protected function removeOutdated()
+    protected function removeOutdated() : void
     {
-        $data = $this->request->getParsedBody();
+        $lng = $this->domain_service->lng();
+        $ctrl = $this->gui_service->ctrl();
+        $chars = $this->request->getCharacteristics();
 
-        if (is_array($data) && is_array($data["char"])) {
-            if (is_array($data["char"])) {
-                foreach ($data["char"] as $c) {
-                    $c_parts = explode(".", $c);
-                    if (!\ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
-                        $this->manager->saveOutdated(
-                            $c_parts[0],
-                            $c_parts[2],
-                            false
-                        );
-                        ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
-                    }
+        if (count($chars) > 0) {
+            foreach ($chars as $c) {
+                $c_parts = explode(".", $c);
+                if (!\ilObjStyleSheet::isCoreStyle($c_parts[0], $c_parts[2])) {
+                    $this->manager->saveOutdated(
+                        $c_parts[0],
+                        $c_parts[2],
+                        false
+                    );
+                    ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
                 }
             }
         } else {
@@ -1122,69 +1018,57 @@ class ilStyleCharacteristicGUI
                 $this->requested_char,
                 false
             );
-            ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
         }
 
-        $this->ctrl->redirect($this, "listCharacteristics");
+        $ctrl->redirect($this, "listCharacteristics");
     }
 
-    /**
-     * Copy style classes
-     *
-     * @param
-     * @return
-     */
     public function copyCharacteristics() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
 
-        $body = $this->request->getParsedBody();
+        $chars = $this->request->getCharacteristics();
 
-        if (!is_array($body["char"]) || count($body["char"]) == 0) {
+        if (count($chars) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
         } else {
             $this->manager->setCopyCharacteristics(
                 $this->style_type,
-                $body["char"]
+                $chars
             );
             ilUtil::sendSuccess($lng->txt("sty_copied_please_select_target"), true);
         }
         $ilCtrl->redirect($this, "listCharacteristics");
     }
 
-    /**
-     * Paste characteristics overview
-     *
-     * @param
-     * @return
-     */
-    public function pasteCharacteristicsOverview()
+    public function pasteCharacteristicsOverview() : void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
+        $tpl = $this->gui_service->mainTemplate();
+        $ilTabs = $this->gui_service->tabs();
+        $ui = $this->gui_service->ui();
 
         $ilTabs->clearTargets();
 
         if ($this->manager->getCopyCharacteristicStyleId() ==
-        $this->object->getid()) {
+        $this->object->getId()) {
             $form = $this->getPasteWithinStyleForm();
-            $tpl->setContent($this->ui->renderer()->render($form));
         } else {
             $form = $this->getPasteFromOtherStyleForm();
-            $tpl->setContent($this->ui->renderer()->render($form));
         }
+        $tpl->setContent($ui->renderer()->render($form));
     }
 
     /**
      * Init past within style form
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     * @throws ilCtrlException
      */
-    public function getPasteWithinStyleForm()
+    public function getPasteWithinStyleForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $ui = $this->ui;
+        $ui = $this->gui_service->ui();
         $f = $ui->factory();
-        $ctrl = $this->ctrl;
+        $ctrl = $this->gui_service->ctrl();
 
         $sections = [];
         foreach ($this->manager->getCopyCharacteristics() as $char) {
@@ -1202,14 +1086,14 @@ class ilStyleCharacteristicGUI
 
     /**
      * Init past from other style form
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     * @throws ilCtrlException
      */
-    public function getPasteFromOtherStyleForm()
+    public function getPasteFromOtherStyleForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $ui = $this->ui;
-        $lng = $this->lng;
+        $ui = $this->gui_service->ui();
+        $lng = $this->domain_service->lng();
         $f = $ui->factory();
-        $ctrl = $this->ctrl;
+        $ctrl = $this->gui_service->ctrl();
 
         $sections = [];
         $fields = [];
@@ -1251,16 +1135,13 @@ class ilStyleCharacteristicGUI
 
     /**
      * Get character title form section
-     * @param string $char
-     * @return array
      */
     protected function getCharacterTitleFormFields(string $char) : array
     {
-        $ui = $this->ui;
+        $ui = $this->gui_service->ui();
         $f = $ui->factory();
-
-        $refinery = $this->refinery;
-        $lng = $this->lng;
+        $refinery = $this->domain_service->refinery();
+        $lng = $this->domain_service->lng();
         $style_type = $this->style_type;
         $style_obj = $this->object;
 
@@ -1291,23 +1172,21 @@ class ilStyleCharacteristicGUI
         return $fields;
     }
 
-    /**
-     * Paste characteristics within file
-     */
     public function pasteCharacteristicsWithinStyle() : void
     {
-        $request = $this->request;
+        $ui = $this->gui_service->ui();
+        $request = $this->gui_service->http()->request();
         $form = $this->getPasteWithinStyleForm();
-        $tpl = $this->tpl;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
+        $tpl = $this->gui_service->mainTemplate();
+        $ctrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
         $manager = $this->manager;
 
         if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_null($data)) {
-                $tpl->setContent($this->ui->renderer()->render($form));
+                $tpl->setContent($ui->renderer()->render($form));
                 return;
             }
             foreach ($this->manager->getCopyCharacteristics() as $char) {
@@ -1335,23 +1214,24 @@ class ilStyleCharacteristicGUI
     }
 
     /**
-     * Paste characteristics within file
      * @throws Content\ContentStyleNoPermissionException
+     * @throws ilCtrlException
      */
     public function pasteCharacteristicsFromOtherStyle() : void
     {
-        $request = $this->request;
+        $request = $this->gui_service->http()->request();
         $form = $this->getPasteFromOtherStyleForm();
-        $tpl = $this->tpl;
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
+        $tpl = $this->gui_service->mainTemplate();
+        $ctrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
+        $ui = $this->gui_service->ui();
         $manager = $this->manager;
 
         if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_null($data)) {
-                $tpl->setContent($this->ui->renderer()->render($form));
+                $tpl->setContent($ui->renderer()->render($form));
                 return;
             }
             foreach ($this->manager->getCopyCharacteristics() as $char) {
@@ -1393,28 +1273,26 @@ class ilStyleCharacteristicGUI
         $ctrl->redirect($this, "listCharacteristics");
     }
 
-    /**
-     * Paste characteristics
-     *
-     * @param
-     * @return
-     */
-    public function pasteCharacteristics()
+    public function pasteCharacteristics() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $ilCtrl = $this->gui_service->ctrl();
+        $lng = $this->domain_service->lng();
 
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $from_char => $to_title) {
+        $titles = $this->request->getTitles();
+        $conflict_action = $this->request->getConflictAction();
+        if (count($titles) > 0) {
+            foreach ($titles as $from_char => $to_title) {
                 $fc = explode(".", $from_char);
 
-                if ($_POST["conflict_action"][$from_char] == "overwrite" ||
+                if ($conflict_action[$from_char] == "overwrite" ||
                     !$this->object->characteristicExists($to_title, $fc[0])) {
-                    $this->object->copyCharacteristic(
-                        $_POST["from_style_id"],
+                    // @todo check this
+                    $this->manager->copyCharacteristicFromSource(
+                        $this->request->getFromStyleId(),
                         $fc[0],
                         $fc[2],
-                        $to_title
+                        $fc[2],
+                        ["en" => $to_title]
                     );
                 }
             }

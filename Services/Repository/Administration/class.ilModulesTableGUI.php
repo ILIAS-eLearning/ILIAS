@@ -22,7 +22,6 @@ class ilModulesTableGUI extends ilTable2GUI
 {
     protected ilObjectDefinition $obj_definition;
     protected ilSetting $settings;
-    protected ilPluginAdmin $plugin_admin;
     protected array $pos_group_options;
     protected int $old_grp_id;
     protected ilComponentRepository $component_repository;
@@ -38,7 +37,6 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->obj_definition = $DIC["objDefinition"];
         $this->settings = $DIC->settings();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->component_repository = $DIC["component.repository"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();

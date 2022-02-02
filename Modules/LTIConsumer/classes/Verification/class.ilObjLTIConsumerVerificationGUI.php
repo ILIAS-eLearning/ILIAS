@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilObjLTIConsumerVerificationGUI
  *
@@ -14,7 +24,7 @@
  */
 class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
 {
-    public function getType()
+    public function getType() : string
     {
         return "ltiv";
     }
@@ -22,7 +32,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     /**
      * List all tests in which current user participated
      */
-    public function create()
+    public function create() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -32,8 +42,6 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
         );
-        
-        include_once "Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php";
         $table = new ilLTIConsumerVerificationTableGUI($this, "create");
         $this->tpl->setContent($table->getHTML());
     }
@@ -41,7 +49,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -65,7 +73,8 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
+                return;
             }
 
             if ($newObj) {
@@ -84,7 +93,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         $this->create();
     }
     
-    public function deliver()
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         
@@ -92,14 +101,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
             ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
-    
+
     /**
      * Render content
-     *
      * @param bool $a_return
-     * @param string $a_url
+     * @param bool $a_url
+     * @return string
      */
-    public function render($a_return = false, $a_url = false)
+    public function render(bool $a_return = false, bool $a_url = false) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -116,7 +125,6 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 $valid = false;
                 $message = $DIC->language()->txt("url_not_found");
             } elseif (!$a_url) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
@@ -133,13 +141,12 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 return '<div>' . $caption . ' (' . $message . ')</div>';
             }
         }
+        return '';
     }
     
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        include_once "Services/COPage/classes/class.ilPCVerification.php";
+        global $DIC;
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
@@ -147,13 +154,12 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
     }
     
-    public static function _goto($a_target)
+    public static function _goto($a_target) : void
     {
         $id = explode("_", $a_target);
         
         $_GET["baseClass"] = "ilsharedresourceGUI";
         $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
         exit;
     }
 }

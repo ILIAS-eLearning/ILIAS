@@ -1,7 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once './Services/CAS/classes/class.ilCASSettings.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
@@ -107,7 +118,7 @@ class ilCASSettingsGUI
         // Form checkbox
         $check = new ilCheckboxInputGUI($this->lng->txt("active"), 'active');
         $check->setChecked($this->getSettings()->isActive() ? true : false);
-        $check->setValue(1);
+        $check->setValue("1");
         $form->addItem($check);
 
         $text = new ilTextInputGUI($this->lng->txt('server'), 'server');
@@ -119,7 +130,7 @@ class ilCASSettingsGUI
         $form->addItem($text);
 
         $port = new ilNumberInputGUI($this->lng->txt("port"), 'port');
-        $port->setValue($this->getSettings()->getPort());
+        $port->setValue((string) $this->getSettings()->getPort());
         $port->setRequired(true);
         $port->setMinValue(0);
         $port->setMaxValue(65535);
@@ -148,7 +159,7 @@ class ilCASSettingsGUI
         // Disabled
         $dis = new ilRadioOption(
             $this->lng->txt('disabled'),
-            self::SYNC_DISABLED,
+            (string) self::SYNC_DISABLED,
             ''
         );
         #$dis->setInfo($this->lng->txt('auth_radius_sync_disabled_info'));
@@ -157,7 +168,7 @@ class ilCASSettingsGUI
         // CAS
         $rad = new ilRadioOption(
             $this->lng->txt('auth_sync_cas'),
-            self::SYNC_CAS,
+            (string) self::SYNC_CAS,
             ''
         );
         $rad->setInfo($this->lng->txt('auth_sync_cas_info'));
@@ -171,13 +182,12 @@ class ilCASSettingsGUI
 
 
         // LDAP
-        include_once './Services/LDAP/classes/class.ilLDAPServer.php';
         $server_ids = ilLDAPServer::getAvailableDataSources(AUTH_CAS);
 
         if (count($server_ids)) {
             $ldap = new ilRadioOption(
                 $this->lng->txt('auth_radius_ldap'),
-                ilCASSettings::SYNC_LDAP,
+                (string) ilCASSettings::SYNC_LDAP,
                 ''
             );
             $ldap->setInfo($this->lng->txt('auth_radius_ldap_info'));
@@ -202,8 +212,8 @@ class ilCASSettingsGUI
         } else {
             $sync->setValue(
                 $this->getSettings()->isUserCreationEnabled() ?
-                    ilCASSettings::SYNC_CAS :
-                    ilCASSettings::SYNC_DISABLED
+                  (string) ilCASSettings::SYNC_CAS :
+                  (string) ilCASSettings::SYNC_DISABLED
             );
         }
 
@@ -216,7 +226,7 @@ class ilCASSettingsGUI
         $create = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'local');
         $create->setInfo($this->lng->txt('auth_cas_allow_local_desc'));
         $create->setChecked($this->getSettings()->isLocalAuthenticationEnabled() ? true : false);
-        $create->setValue(1);
+        $create->setValue("1");
         $form->addItem($create);
 
         if ($this->dic->rbac()->system()->checkAccess('write', $this->ref_id)) {
@@ -250,17 +260,16 @@ class ilCASSettingsGUI
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $this->getSettings()->setActive($form->getInput('active'));
+            $this->getSettings()->setActive((bool) $form->getInput('active'));
             $this->getSettings()->setServer($form->getInput('server'));
-            $this->getSettings()->setPort($form->getInput('port'));
+            $this->getSettings()->setPort((int) $form->getInput('port'));
             $this->getSettings()->setUri($form->getInput('uri'));
-            $this->getSettings()->setDefaultRole($form->getInput('role'));
-            $this->getSettings()->enableLocalAuthentication($form->getInput('local'));
+            $this->getSettings()->setDefaultRole((int) $form->getInput('role'));
+            $this->getSettings()->enableLocalAuthentication((bool) $form->getInput('local'));
             $this->getSettings()->setLoginInstruction($form->getInput('instruction'));
-            $this->getSettings()->enableUserCreation($form->getInput('sync') == ilCASSettings::SYNC_CAS ? true : false);
+            $this->getSettings()->enableUserCreation((int) $form->getInput('sync') == ilCASSettings::SYNC_CAS ? true : false);
             $this->getSettings()->save();
 
-            include_once './Services/LDAP/classes/class.ilLDAPServer.php';
             switch ((int) $form->getInput('sync')) {
                 case ilCASSettings::SYNC_DISABLED:
                     ilLDAPServer::disableDataSourceForAuthMode(AUTH_CAS);
@@ -305,7 +314,7 @@ class ilCASSettingsGUI
         
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle($role_id);
+            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
         }
         
         return $select;

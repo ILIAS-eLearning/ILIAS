@@ -1,8 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilLTIConsumerScoringGUI
  *
@@ -25,16 +35,16 @@ class ilLTIConsumerScoringGUI
     /**
      * @var ilObjLTIConsumer
      */
-    protected $object;
+    protected ilObjLTIConsumer $object;
 
     /**
      * @var ilLTIConsumerAccess
      */
-    protected $access;
+    protected ilLTIConsumerAccess $access;
 
-    private $tableData;
-    private $tableHtml = '';
-    private $userRank;
+    private array $tableData;
+    private string $tableHtml = '';
+    private int $userRank;
 
 
     /**
@@ -50,7 +60,7 @@ class ilLTIConsumerScoringGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
     
@@ -65,7 +75,7 @@ class ilLTIConsumerScoringGUI
         }
     }
 
-    protected function showCmd()
+    protected function showCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -90,7 +100,7 @@ class ilLTIConsumerScoringGUI
     /**
      * @return $this
      */
-    protected function initTableData()
+    protected function initTableData() : self
     {
         $aggregateEndPointUrl = str_replace(
             'data/xAPI',
@@ -127,10 +137,10 @@ class ilLTIConsumerScoringGUI
     }
 
     /**
-     * @param bool $scopeUserRank
+     * @param bool|null $scopeUserRank
      * @return array
      */
-    private function getTableDataRange($scopeUserRank = false)
+    private function getTableDataRange(?bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
             return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
@@ -145,7 +155,7 @@ class ilLTIConsumerScoringGUI
     /**
      * @return $this
      */
-    protected function initHighScoreTable()
+    protected function initHighScoreTable() : self
     {
         if (!$this->object->getHighscoreTopTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -160,7 +170,7 @@ class ilLTIConsumerScoringGUI
     /**
      * @return $this
      */
-    protected function initUserRankTable()
+    protected function initUserRankTable() : self
     {
         if (!$this->object->getHighscoreOwnTable() || !$this->object->getHighscoreEnabled()) {
             $this->tableHtml .= '';
@@ -176,7 +186,7 @@ class ilLTIConsumerScoringGUI
      * @param string $tableId
      * @return ilLTIConsumerScoringTableGUI
      */
-    protected function buildTableGUI($tableId) : ilLTIConsumerScoringTableGUI
+    protected function buildTableGUI(string $tableId) : ilLTIConsumerScoringTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
         $table = new ilLTIConsumerScoringTableGUI(
@@ -189,10 +199,7 @@ class ilLTIConsumerScoringGUI
         return $table;
     }
 
-    /**
-     * @return ilObjLTIConsumer
-     */
-    public function getObject()
+    public function getObject() : \ilObjLTIConsumer
     {
         return $this->object;
     }

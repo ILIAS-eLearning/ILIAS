@@ -37,7 +37,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     
     public function withTitle(string $title) : self
     {
-        $clone        = clone $this;
+        $clone = clone $this;
         $clone->title = $title;
         
         return $clone;

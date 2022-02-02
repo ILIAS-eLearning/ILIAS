@@ -51,7 +51,7 @@ class ModificationHandler
      */
     public function __construct()
     {
-        $this->current_page_builder       = new StandardPageBuilder();
+        $this->current_page_builder = new StandardPageBuilder();
         $this->current_page_part_provider = new StandardPagePartProvider();
     }
     
@@ -67,7 +67,7 @@ class ModificationHandler
      * MUST return a Page as well.
      * Have a look at the README.md for an example.
      */
-    public function modifyPageWithClosure(Closure $closure_returning_page): void
+    public function modifyPageWithClosure(Closure $closure_returning_page) : void
     {
         $this->current_page_builder = new DecoratedPageBuilder($this->current_page_builder, $closure_returning_page);
     }
@@ -76,7 +76,7 @@ class ModificationHandler
      * @param Closure $closure_returning_content
      * Have a look at the README.md for an example.
      */
-    public function modifyContentWithClosure(Closure $closure_returning_content): void
+    public function modifyContentWithClosure(Closure $closure_returning_content) : void
     {
         $this->replaceWithAutoWiredInstance(Legacy::class, $closure_returning_content);
     }
@@ -85,7 +85,7 @@ class ModificationHandler
      * @param Closure $closure_returning_main_bar
      * Have a look at the README.md for an example.
      */
-    public function modifyMainBarWithClosure(Closure $closure_returning_main_bar): void
+    public function modifyMainBarWithClosure(Closure $closure_returning_main_bar) : void
     {
         $this->replaceWithAutoWiredInstance(MainBar::class, $closure_returning_main_bar);
     }
@@ -94,7 +94,7 @@ class ModificationHandler
      * @param Closure $closure_returning_meta_bar
      * Have a look at the README.md for an example.
      */
-    public function modifyMetaBarWithClosure(Closure $closure_returning_meta_bar): void
+    public function modifyMetaBarWithClosure(Closure $closure_returning_meta_bar) : void
     {
         $this->replaceWithAutoWiredInstance(MetaBar::class, $closure_returning_meta_bar);
     }
@@ -103,7 +103,7 @@ class ModificationHandler
      * @param Closure $closure_returning_image
      * Have a look at the README.md for an example.
      */
-    public function modifyLogoWithClosure(Closure $closure_returning_image): void
+    public function modifyLogoWithClosure(Closure $closure_returning_image) : void
     {
         $this->replaceWithAutoWiredInstance(Image::class, $closure_returning_image);
     }
@@ -112,7 +112,7 @@ class ModificationHandler
      * @param Closure $closure_returning_breadcrumbs
      * Have a look at the README.md for an example.
      */
-    public function modifyBreadCrumbsWithClosure(Closure $closure_returning_breadcrumbs): void
+    public function modifyBreadCrumbsWithClosure(Closure $closure_returning_breadcrumbs) : void
     {
         $this->replaceWithAutoWiredInstance(Breadcrumbs::class, $closure_returning_breadcrumbs);
     }

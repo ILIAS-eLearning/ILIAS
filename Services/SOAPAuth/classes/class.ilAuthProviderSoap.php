@@ -76,7 +76,7 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * @inheritDoc
      */
-    public function doAuthentication(ilAuthStatus $status)
+    public function doAuthentication(ilAuthStatus $status) : bool
     {
         try {
             $this->initClient();

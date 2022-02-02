@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitHttpServices
 {
-    public function init(\ILIAS\DI\Container $container){
+    public function init(\ILIAS\DI\Container $container)
+    {
         $container['http.request_factory'] = function ($c) {
             return new \ILIAS\HTTP\Request\RequestFactoryImpl();
         };

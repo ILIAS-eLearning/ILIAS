@@ -13,18 +13,22 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
     private $node_id;
     private $mode;
 
+    protected ilObjectDefinition $obj_definition;
+
     /**
      * Constructor
      * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
+     * @param string   $a_parent_cmd
      */
     public function __construct($a_parent_obj, $a_parent_cmd = "", $a_node_id, $a_mode)
     {
+        global $DIC;
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setId('lpobjs_' . $this->getNode());
-        
+
         $this->setShowRowsSelector(false);
-        
+
+        $this->obj_definition = $DIC["objDefinition"];
         $this->node_id = $a_node_id;
         $this->mode = $a_mode;
     }
@@ -122,7 +126,44 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 }
                 include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if (ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id'])) {
-                    $lp_settings_link = ilLink::_getLink($a_set['ref_id'], $a_set['type'], array('gotolp' => 1));
+                    $gui_class = "ilObj" . $this->obj_definition->getClassName($a_set['type']) . "GUI";
+                    $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'ref_id', $a_set['ref_id']);
+                    if ('sahs' === $a_set['type']) {
+                        $obj_id = ilObject::_lookupObjectId($a_set['ref_id']);
+                        switch (ilObjSAHSLearningModule::_lookupSubType($obj_id)) {
+                            case "scorm2004":
+                                $scorm_class = ilObjSCORM2004LearningModuleGUI::class;
+                                break;
+
+                            case "scorm":
+                                $scorm_class = ilObjSCORMLearningModuleGUI::class;
+                                break;
+
+                            default:
+                                $scorm_class = '';
+                                break;
+                        }
+
+                        $lp_settings_link = $this->ctrl->getLinkTargetByClass([
+                            $gui_class,
+                            $scorm_class,
+                            ilLearningProgressGUI::class,
+                            ilLPListOfSettingsGUI::class,
+                        ]);
+                    } elseif ('lm' === $a_set['type']) {
+                        $lp_settings_link = $this->ctrl->getLinkTargetByClass([
+                            ilLMEditorGUI::class,
+                            ilObjLearningModuleGUI::class,
+                            ilLearningProgressGUI::class,
+                        ]);
+                    } else {
+                        $lp_settings_link = $this->ctrl->getLinkTargetByClass([
+                            ilRepositoryGUI::class,
+                            $gui_class,
+                            ilLearningProgressGUI::class,
+                        ]);
+                    }
+
                     $a_set["mode"] = '<a href="' . $lp_settings_link . '">' . $a_set['mode'] . '</a>'; // :TODO: il_ItemAlertProperty?
                 }
 
