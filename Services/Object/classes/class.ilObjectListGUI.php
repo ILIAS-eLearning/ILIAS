@@ -1298,9 +1298,8 @@ class ilObjectListGUI
             // BEGIN WebDAV Display locking information
             if (ilDAVActivationChecker::_isActive()) {
                 // Show lock info
-                global $DIC;
                 $webdav_dic = new ilWebDAVDIC();
-                $webdav_dic->init($DIC);
+                $webdav_dic->initWithoutDIC();
                 $webdav_lock_backend = $webdav_dic->locksbackend();
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {

@@ -8,6 +8,12 @@ use Sabre\DAV\Auth\Backend\BasicCallBack;
 
 class ilWebDAVDIC extends Container
 {
+    public function initWithoutDIC()
+    {
+        global $DIC;
+        $this->init($DIC);
+    }
+    
     public function init(ILIASContainer $DIC)
     {
         $this['dav_settings'] = fn ($c) : ilSetting => new ilSetting('webdav');
