@@ -21,79 +21,79 @@ class ilWkhtmlToPdfConfig
 
     protected array $config = [];
 
-    protected float $zoom;
+    protected float $zoom = 1.0;
 
-    protected bool $external_links;
+    protected bool $external_links = false;
 
-    protected bool $enabled_forms;
+    protected bool $enabled_forms = false;
 
-    protected string $user_stylesheet;
+    protected string $user_stylesheet = '';
 
-    protected bool $greyscale;
+    protected bool $greyscale = false;
 
-    protected bool $low_quality;
+    protected bool $low_quality = false;
 
-    protected string $orientation;
+    protected string $orientation = 'Portrait';
 
-    protected bool $print_media_type;
+    protected bool $print_media_type = false;
 
-    protected string $page_size;
+    protected string $page_size = 'A4';
 
-    protected int $javascript_delay;
+    protected int $javascript_delay = 100;
 
-    protected string $margin_left;
+    protected string $margin_left = '';
 
-    protected string $margin_right;
+    protected string $margin_right = '';
 
-    protected string $margin_top;
+    protected string $margin_top = '';
 
-    protected string $margin_bottom;
+    protected string $margin_bottom = '';
 
-    protected int $header_type;
+    protected int $header_type = 0;
 
-    protected string $header_text_left;
+    protected string $header_text_left = '';
 
-    protected string $header_text_center;
+    protected string $header_text_center = '';
 
-    protected string $header_text_right;
+    protected string $header_text_right = '';
 
-    protected int $header_text_spacing;
+    protected int $header_text_spacing = 0;
 
-    protected bool $header_text_line;
+    protected bool $header_text_line = false;
 
-    protected string $header_html;
+    protected string $header_html = '';
 
-    protected int $header_html_spacing;
+    protected int $header_html_spacing = 0;
 
-    protected bool $header_html_line;
+    protected bool $header_html_line = false;
 
-    protected int $footer_type;
+    protected int $footer_type = 0;
 
-    protected string $footer_text_left;
+    protected string $footer_text_left = '';
 
-    protected string $footer_text_center;
+    protected string $footer_text_center = '';
 
-    protected string $footer_text_right;
+    protected string $footer_text_right = '';
 
-    protected int $footer_text_spacing;
+    protected int $footer_text_spacing = 0;
 
-    protected bool $footer_text_line;
+    protected bool $footer_text_line = false;
 
-    protected string $footer_html;
+    protected string $footer_html = '';
 
-    protected int $footer_html_spacing;
+    protected int $footer_html_spacing = 0;
 
-    protected bool $footer_html_line;
+    protected bool $footer_html_line = false;
 
-    protected string $checkbox_svg;
+    protected string $checkbox_svg = '';
 
-    protected string $checkbox_checked_svg;
+    protected string $checkbox_checked_svg = '';
 
-    protected string $radio_button_svg;
+    protected string $radio_button_svg = '';
 
-    protected string $radio_button_checked_svg;
+    protected string $radio_button_checked_svg = '';
 
-    protected string $path;
+    protected string $path = '';
 
     protected string $overwrite_default_font = '';
 
@@ -110,7 +110,7 @@ class ilWkhtmlToPdfConfig
         }
     }
 
-    protected function readConfigFromArray(ilWkhtmlToPdfConfig $config) : void
+    protected function readConfigFromArray(array $config) : void
     {
         $this->setKeyIfExists('setZoom', 'zoom', $config);
         $this->setKeyIfExists('setEnabledForms', 'enable_forms', $config);
@@ -151,7 +151,13 @@ class ilWkhtmlToPdfConfig
         $this->setKeyIfExists('setOverwriteDefaultFont', 'overwrite_font', $config);
     }
 
-    protected function setKeyIfExists(string $function, string $key, ilWkhtmlToPdfConfig $config) : void
+    /**
+     * @param string $function
+     * @param string $key
+     * @param ilWkhtmlToPdfConfig|array $config
+     * @return void
+     */
+    protected function setKeyIfExists(string $function, string $key, $config) : void
     {
         if (array_key_exists($key, $config)) {
             $this->{$function}($config[$key]);

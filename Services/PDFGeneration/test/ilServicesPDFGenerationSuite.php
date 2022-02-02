@@ -23,7 +23,10 @@ class ilServicesPDFGenerationSuite extends TestSuite
     public static function suite() : \ilServicesPDFGenerationSuite
     {
         $suite = new self();
+        require_once 'Services/PDFGeneration/test/ilPdfGeneratorConstantsTest.php';
         $suite->addTestSuite('ilPdfGeneratorConstantsTest');
+        require_once 'Services/PDFGeneration/test/ilWkhtmlToPdfConfigTest.php';
+        $suite->addTestSuite('ilWkhtmlToPdfConfigTest');
 
         return $suite;
     }
