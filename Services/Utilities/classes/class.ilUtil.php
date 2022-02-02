@@ -3376,7 +3376,7 @@ class ilUtil
 
     /**
      * Get HTML for a system message
-     *
+     * @deprecated replace with UI Compoenten in ilGlobalPageTemplate
      * ATTENTION: This method is deprecated. Use MessageBox from the
      * UI-framework instead.
      */

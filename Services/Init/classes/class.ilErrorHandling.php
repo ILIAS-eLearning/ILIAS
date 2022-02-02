@@ -320,7 +320,8 @@ class ilErrorHandling extends PEAR
                 }
             }
 
-            ilUtil::sendFailure($message, true);
+            $GLOBALS['DIC']->ui()->mainTemplate()->setOnScreenMessage('failure', $message, true);
+            
             ilUtil::redirect("error.php");
         });
     }
