@@ -1,4 +1,5 @@
 <?php
+require_once 'Services/Math/test/ilMathBaseAdapterTest.php';
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -12,10 +13,6 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- */
 class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 {
     /**
@@ -37,7 +34,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
     public function powData() : array
     {
         return array_merge([
-            ['2', '64', '18446744073709551616', null],
+            ['2', '64', '18446744073709551616', 0],
         ], parent::powData());
     }
 }

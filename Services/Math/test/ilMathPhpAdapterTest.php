@@ -1,4 +1,5 @@
 <?php
+require_once 'Services/Math/test/ilMathBaseAdapterTest.php';
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -12,10 +13,6 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- */
 class ilMathPhpAdapterTest extends ilMathBaseAdapterTest
 {
     /**
