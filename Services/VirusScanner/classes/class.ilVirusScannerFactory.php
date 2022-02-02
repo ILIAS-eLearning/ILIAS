@@ -17,10 +17,7 @@
  */
 class ilVirusScannerFactory
 {
-    /**
-     * @return ilVirusScannerAntiVir|ilVirusScannerClamAV|ilVirusScannerICapClient|ilVirusScannerICapRemoteAvClient|ilVirusScannerSophos|null
-     */
-    public static function _getInstance()
+    public static function _getInstance() : ilVirusScanner
     {
         $vs = null;
 

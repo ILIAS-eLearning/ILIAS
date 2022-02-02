@@ -42,14 +42,14 @@ class ilVirusScanner
 
     public ilLanguage $lng;
 
-    public ilLog $log;
+    public ilLogger $log;
 
     public function __construct(string $scan_command, string $clean_command)
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        $lng = $DIC['lng'];
-        $log = $DIC['log'];
+        $lng = $DIC->language();
+        $log = $DIC->logger();
 
         $this->ilias = $ilias;
         $this->lng = $lng;

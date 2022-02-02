@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\Refinery;
+use ILIAS\Refinery\Factory;
 use ILIAS\Setup;
 
 /******************************************************************************
@@ -20,25 +21,19 @@ class ilVirusScannerSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    protected \ILIAS\Refinery\Factory $refinery;
+    protected Factory $refinery;
 
     public function __construct(
-        Refinery\Factory $refinery
+        Factory $refinery
     ) {
         $this->refinery = $refinery;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasConfig() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(fn ($data) : \ilVirusScannerSetupConfig => new ilVirusScannerSetupConfig(
@@ -52,17 +47,11 @@ class ilVirusScannerSetupAgent implements Setup\Agent
         ));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
         return new ilVirusScannerConfigStoredObjective($config);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
@@ -71,25 +60,16 @@ class ilVirusScannerSetupAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
     {
         return new ilVirusScannerMetricsCollectedObjective($storage);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMigrations() : array
     {
         return [];

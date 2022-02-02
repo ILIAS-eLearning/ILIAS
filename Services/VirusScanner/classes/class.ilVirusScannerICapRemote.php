@@ -27,11 +27,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         $this->port = IL_ICAP_PORT;
     }
 
-    /**
-     * @param $service
-     * @return array
-     */
-    public function options($service) : array
+    public function options(string $service) : array
     {
         $request = $this->getRequest('OPTIONS', $service);
         $response = $this->send($request);
@@ -41,14 +37,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         return [];
     }
 
-    /**
-     * @param       $method
-     * @param       $service
-     * @param array $body
-     * @param array $headers
-     * @return string
-     */
-    public function getRequest($method, $service, array $body = [], array $headers = []) : string
+    public function getRequest(string $method, string $service, array $body = [], array $headers = []) : string
     {
         if (!array_key_exists('Host', $headers)) {
             $headers['Host'] = $this->host;
@@ -100,11 +89,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         return $request;
     }
 
-    /**
-     * @param $request
-     * @return string
-     */
-    public function send($request) : string
+    public function send(string $request) : string
     {
         $response = '';
         try {
@@ -120,10 +105,6 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         return $response;
     }
 
-    /**
-     * @return bool
-     * @throws ErrorException
-     */
     private function connect() : bool
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
@@ -138,18 +119,11 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         return true;
     }
 
-    /**
-     * Get last error code from socket object
-     * @return int Socket error code
-     */
     public function getLastSocketError() : int
     {
         return socket_last_error($this->socket);
     }
 
-    /**
-     *
-     */
     private function disconnect()
     {
         socket_shutdown($this->socket);
@@ -157,10 +131,9 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     }
 
     /**
-     * @param $string
      * @return array<string, array<string, string>>|array<string, string>
      */
-    private function parseResponse($string) : array
+    private function parseResponse(string $string) : array
     {
         $response = [
             'protocol' => [],
@@ -226,7 +199,6 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     }
 
     /**
-     * @param       $service
      * @return array<string, array<string, string>>|array<string, string>
      */
     public function respMod($service, array $body = [], array $headers = []) : array
@@ -237,10 +209,9 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     }
 
     /**
-     * @param       $service
      * @return array<string, array<string, string>>|array<string, string>
      */
-    public function reqMod($service, array $body = [], array $headers = []) : array
+    public function reqMod(string $service, array $body = [], array $headers = []) : array
     {
         $request = $this->getRequest('REQMOD', $service, $body, $headers);
         $response = $this->send($request);

@@ -48,11 +48,7 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
         return $return_string;
     }
 
-    /**
-     * @param $header
-     * @return bool
-     */
-    protected function analyseHeader($header) : bool
+    protected function analyseHeader(array $header) : bool
     {
         $virus_found = false;
         if (array_key_exists(self::HEADER, $header)) {
