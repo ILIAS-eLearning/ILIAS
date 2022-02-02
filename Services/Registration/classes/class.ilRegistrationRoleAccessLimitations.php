@@ -64,7 +64,6 @@ class ilRegistrationRoleAccessLimitations
 
     public function save() : bool
     {
-
         foreach ($this->access_limitations as $key => $data) {
             $limit_value = "";
 
@@ -107,7 +106,7 @@ class ilRegistrationRoleAccessLimitations
 
     public function getMode(int $a_role_id) : string
     {
-        return $this->access_limitations[$a_role_id] ? $this->access_limitations[$a_role_id]['mode'] : 'null';
+        return isset($this->access_limitations[$a_role_id]) ? $this->access_limitations[$a_role_id]['mode'] : 'null';
     }
 
     public function setMode(string $a_mode, int $a_role_id) : void

@@ -51,8 +51,8 @@ class IdentificationFactory
     final public function __construct(ProviderFactory $provider_factory)
     {
         $this->serializer_factory = new SerializerFactory();
-        $this->map                = new IdentificationMap();
-        $this->provider_factory   = $provider_factory;
+        $this->map = new IdentificationMap();
+        $this->provider_factory = $provider_factory;
     }
     
     /**

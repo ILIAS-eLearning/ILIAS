@@ -36,11 +36,15 @@ trait ObjectiveHelper
                     $io->finishedLastObjective();
                 }
                 $iterator->setEnvironment($environment);
-            } catch (UnachievableException $e) {
+            } catch (\Throwable $e) {
                 $iterator->markAsFailed($current);
                 if ($io) {
-                    $io->error($e->getMessage());
+                    $message = $e->getMessage();
                     $io->failedLastObjective();
+                    if ($io->isVerbose()) {
+                        $message .= "\n" . debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+                    }
+                    $io->error($message);
                 }
             }
             $iterator->next();

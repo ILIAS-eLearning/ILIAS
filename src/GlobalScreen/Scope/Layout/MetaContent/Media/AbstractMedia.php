@@ -19,7 +19,6 @@
  */
 abstract class AbstractMedia
 {
-
     protected string $content = "";
 
     protected string  $version = '';

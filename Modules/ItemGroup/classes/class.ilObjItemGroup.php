@@ -75,6 +75,26 @@ class ilObjItemGroup extends ilObject2
         $this->item_data_ar->setBehaviour($a_val);
     }
 
+    public function getListPresentation() : string
+    {
+        return $this->item_data_ar->getListPresentation();
+    }
+
+    public function setListPresentation(string $a_val) : void
+    {
+        $this->item_data_ar->setListPresentation($a_val);
+    }
+
+    public function getTileSize() : int
+    {
+        return $this->item_data_ar->getTileSize();
+    }
+
+    public function setTileSize(int $a_val) : void
+    {
+        $this->item_data_ar->setTileSize($a_val);
+    }
+
     public function getBehaviour() : int
     {
         return $this->item_data_ar->getBehaviour();
@@ -111,6 +131,8 @@ class ilObjItemGroup extends ilObject2
     {
         $new_obj->setHideTitle($this->getHideTitle());
         $new_obj->setBehaviour($this->getBehaviour());
+        $new_obj->setListPresentation($this->getListPresentation());
+        $new_obj->setTileSize($this->getTileSize());
         $new_obj->update();
     }
 

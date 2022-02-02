@@ -26,7 +26,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 abstract class AbstractDynamicToolProvider extends AbstractProvider implements DynamicToolProvider
 {
-
     protected ToolIdentificationProviderInterface $identification_provider;
   
     protected ContextCollection $context_collection;
@@ -39,8 +38,8 @@ abstract class AbstractDynamicToolProvider extends AbstractProvider implements D
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
-        $this->context_collection      = $this->globalScreen()->tool()->context()->collection();
-        $this->factory                 = $this->globalScreen()->tool()->factory();
+        $this->context_collection = $this->globalScreen()->tool()->context()->collection();
+        $this->factory = $this->globalScreen()->tool()->factory();
         $this->identification_provider = $this->globalScreen()->identification()->tool($this);
     }
 }

@@ -22,8 +22,8 @@ class ilObjRole extends ilObject
 
     public ?int $parent = null;
 
-    public $allow_register;
-    public $assign_users;
+    protected $allow_register = false;
+    protected $assign_users = false;
 
     /**
      * Constructor
@@ -38,6 +38,9 @@ class ilObjRole extends ilObject
         $this->logger = $DIC->logger()->ac();
         $this->type = "role";
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacreview = $DIC->rbac()->review();
     }
 
     public static function createDefaultRole(
@@ -56,7 +59,7 @@ class ilObjRole extends ilObject
             " AND title=" . $ilDB->quote($a_tpl_name, "text"));
         $tpl_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tpl_id = $row->obj_id;
+            $tpl_id = (int) $row->obj_id;
         }
         if (!$tpl_id) {
             return null;
@@ -68,7 +71,6 @@ class ilObjRole extends ilObject
         $role->create();
 
         $GLOBALS['DIC']['rbacadmin']->assignRoleToFolder($role->getId(), $a_ref_id, 'y');
-
         $GLOBALS['DIC']['rbacadmin']->copyRoleTemplatePermissions(
             $tpl_id,
             ROLE_FOLDER_ID,
@@ -109,7 +111,7 @@ class ilObjRole extends ilObject
 
     public function toggleAssignUsersStatus(bool $a_assign_users) : void
     {
-        $this->assign_users = (int) $a_assign_users;
+        $this->assign_users = $a_assign_users;
     }
 
     public function getAssignUsersStatus() : bool
@@ -117,7 +119,7 @@ class ilObjRole extends ilObject
         return $this->assign_users;
     }
 
-    public static function _getAssignUsersStatus($a_role_id)
+    public static function _getAssignUsersStatus(int $a_role_id) : bool
     {
         global $DIC;
 
@@ -362,7 +364,7 @@ class ilObjRole extends ilObject
     {
         $role_title_parts = explode('_', $a_role_title);
 
-        $test2 = (int) $role_title_parts[3];
+        $test2 = (int) ($role_title_parts[3] ?? 0);
         if ($test2 > 0) {
             unset($role_title_parts[3]);
         }

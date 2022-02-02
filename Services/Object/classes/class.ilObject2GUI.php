@@ -58,14 +58,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $ilAccess = $DIC["ilAccess"];
         $this->object_service = $DIC->object();
         $this->favourites = new ilFavouritesManager();
-
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = $ilErr;
-        }
-
+        $this->ilErr = $DIC['ilErr'];
         $this->id_type = $a_id_type;
         $this->parent_id = $a_parent_node_id;
         $this->type = $this->getType();

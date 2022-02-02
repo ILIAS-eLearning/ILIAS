@@ -35,7 +35,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin());
+        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin($this->createMock(ilComponentRepository::class)));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable("ilSetting", $this->createMock(ilSetting::class));
         $this->setGlobalVariable("rbacreview", $this->createMock(ilRbacReview::class));

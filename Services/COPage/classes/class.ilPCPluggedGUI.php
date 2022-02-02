@@ -21,7 +21,6 @@
 class ilPCPluggedGUI extends ilPageContentGUI
 {
     protected string $pluginname = "";
-    protected ilPluginAdmin $plugin_admin;
     protected ilTabsGUI $tabs;
     protected ?ilPageComponentPlugin $current_plugin = null;
     protected ilComponentRepository $component_repository;
@@ -63,7 +62,6 @@ class ilPCPluggedGUI extends ilPageContentGUI
      */
     public function executeCommand()
     {
-        $ilPluginAdmin = $this->plugin_admin;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -109,7 +107,6 @@ class ilPCPluggedGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $ilPluginAdmin = $this->plugin_admin;
         $html = "";
         
         $this->displayValidationError();

@@ -64,7 +64,8 @@
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
 		"simplesamlphp/simplesamlphp": "^1.19.4",
-		"seld/jsonlint": "^1.8"
+		"seld/jsonlint": "^1.8",
+		"jasig/phpcas": "^1.4"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -91,7 +92,6 @@
 		"exclude-from-classmap": [
 			"./Services/Migration",
 			"./*/*/lib", "./*/*/test",
-			"./Services/CAS/phpcas",
 			"./Customizing/**/vendor"
 		]
 	},
@@ -470,6 +470,16 @@
 			"last_update_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
 			"approved-by": "Jour Fix",
 			"approved-date": "2021-11-29"
+		},
+	        "jasig/phpcas" : {
+			"source" : "https://github.com/apereo/phpCAS",
+			"used_version" : "v1.4.0",
+			"wrapped_by": null,
+			"added_by" : "Alex Killing <killing@leifos.de>",
+			"last_update" : "2022-01-28",
+			"last_update_by" : "Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de",
+			"approved-by" : "In Codebase since 2006",
+			"approved-date" : "YYYY-MM-DD"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

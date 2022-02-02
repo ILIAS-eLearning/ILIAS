@@ -8305,9 +8305,6 @@ ul.dropdown-menu > li > .btn:focus {
 .il-filter-inputs-active {
   background-color: #f9f9f9;
   padding: 3px 8px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 .il-filter-inputs-active span {
   display: inline-block;
@@ -8316,6 +8313,10 @@ ul.dropdown-menu > li > .btn:focus {
   float: left;
   background-color: white;
   font-size: 0.8em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 90vw;
 }
 .il-filter-input-section {
   border-top: 1px solid #dddddd;
@@ -15499,33 +15500,6 @@ td.legendLabel {
 }
 div.ilChartWrapper {
   max-width: 100%;
-}
-/* Services/Captcha */
-div.iosCaptchaInfoContainer {
-  margin: 10px 0 0 0;
-}
-div.iosCaptchaInputCommandContainer {
-  margin: 10px 0 0 0;
-}
-div.iosCaptchaInputCommandContainer .reload {
-  width: 19px;
-  height: 19px !important;
-  font-size: 100%;
-  vertical-align: top;
-  margin: 0;
-  padding: 0;
-}
-div.iosCaptchaInputCommandContainer .reload img {
-  width: 19px;
-  height: 19px;
-  margin: 0;
-  padding: 3;
-}
-div.iosCaptchaInputCommandContainer .audio {
-  width: 19px;
-  height: 19px;
-  margin: 0 10px 0 12px;
-  vertical-align: middle;
 }
 /* Services/User */
 div.ilProfile {

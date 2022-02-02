@@ -31,7 +31,6 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     protected ilStudyProgrammeSettingsRepository $settings_repo;
     protected ILIAS\Filesystem\Filesystem $webdir;
     protected ilObjUser $usr;
-    protected ilPluginAdmin $plugin_admin;
     protected ilLanguage $lng;
 
     protected ilComponentFactory $component_factory;
@@ -41,7 +40,6 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         ilStudyProgrammeSettingsRepository $settings_repo,
         ILIAS\Filesystem\Filesystem $webdir,
         ilObjUser $usr,
-        ilPluginAdmin $plugin_admin,
         ilLanguage $lng,
         ilComponentFactory $component_factory
     ) {
@@ -49,7 +47,6 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $this->settings_repo = $settings_repo;
         $this->webdir = $webdir;
         $this->usr = $usr;
-        $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
         $this->usr = $usr;
         $this->component_factory = $component_factory;
@@ -95,7 +92,6 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             (int) $row[self::FIELD_ID],
             $this,
             $this->webdir,
-            $this->plugin_admin,
             $this->lng,
             $this->usr,
             $this->component_factory

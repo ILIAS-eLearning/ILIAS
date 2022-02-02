@@ -289,12 +289,11 @@ class ilMailTemplateGUI
         if (count($templateIds) === 0) {
             $templateId = 0;
             if ($this->http->wrapper()->query()->has('tpl_id')) {
-                $templateId = $this->http->wrapper()->query()->retrieve(
+                $templateIds = [$this->http->wrapper()->query()->retrieve(
                     'tpl_id',
                     $this->refinery->kindlyTo()->int()
-                );
+                )];
             }
-            $templateIds = [$templateId];
         }
 
         if (0 === count($templateIds)) {

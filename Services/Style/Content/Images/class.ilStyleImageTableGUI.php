@@ -1,11 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-
-use \ILIAS\Style\Content\Access;
-use \ILIAS\Style\Content;
+use ILIAS\Style\Content\Access;
+use ILIAS\Style\Content;
 
 /**
  * TableGUI class for style editor (image list)
@@ -14,35 +23,12 @@ use \ILIAS\Style\Content;
  */
 class ilStyleImageTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \ilObjStyleSheet
-     */
-    protected $style_obj;
-
-    /**
-     * @var Access\StyleAccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var Content\ImageManager
-     */
-    protected $image_manager;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected \ilObjStyleSheet $style_obj;
+    protected Access\StyleAccessManager $access_manager;
+    protected \ILIAS\DI\UIServices $ui;
+    protected Content\ImageManager $image_manager;
 
     /**
     * Constructor
@@ -95,7 +81,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
     /**
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      */
-    public function getItems()
+    public function getItems() : void
     {
         $images = [];
         /** @var Content\Image $i */
@@ -124,7 +110,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($image->getWidth() > 0 && $image->getWidth() > 0) {
+        if ($image->getWidth() > 0 && $image->getHeight() > 0) {
             $this->tpl->setVariable(
                 "VAL_WIDTH_HEIGHT",
                 $image->getWidth() . "px x " . $image->getHeight() . "px"

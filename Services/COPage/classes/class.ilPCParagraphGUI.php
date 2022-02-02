@@ -77,17 +77,17 @@ class ilPCParagraphGUI extends ilPageContentGUI
     {
         global $DIC;
 
-        $service = new ILIAS\Style\Content\Service();
+        $service = $DIC->contentStyle()->internal();
 
         $st_chars = ilPCParagraphGUI::_getStandardCharacteristics();
         $chars = ilPCParagraphGUI::_getStandardCharacteristics();
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
-            $access_manager = $service->internal()->manager()->access(
+            $access_manager = $service->domain()->access(
                 (int) $_GET["ref_id"],
                 $DIC->user()->getId()
             );
-            $char_manager = $service->internal()->manager()->characteristic(
+            $char_manager = $service->domain()->characteristic(
                 $a_style_id,
                 $access_manager
             );

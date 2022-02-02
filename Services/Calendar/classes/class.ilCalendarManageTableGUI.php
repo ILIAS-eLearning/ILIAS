@@ -38,6 +38,8 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         $this->setId("calmng");
         parent::__construct($a_parent_obj, 'manage');
 
+        $this->user = $DIC->user();
+
         $this->actions = ilCalendarActions::getInstance();
         $this->lng->loadLanguageModule('dateplaner');
         $this->setFormName('categories');
@@ -165,7 +167,6 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 ''
             )
         );
-        $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $_GET["category_id"]);
         $this->tpl->setVariable('BGCOLOR', $a_set['color']);
         $this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
     }

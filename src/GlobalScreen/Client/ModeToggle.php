@@ -39,7 +39,7 @@ class ModeToggle
     public function toggle() : void
     {
         $current_mode = $this->getMode();
-        $new_mode     = $current_mode == self::MODE1 ? self::MODE2 : self::MODE1;
+        $new_mode = $current_mode == self::MODE1 ? self::MODE2 : self::MODE1;
         setcookie(self::GS_MODE, $new_mode, 0, "/");
         $_COOKIE[ItemState::COOKIE_NS_GS] = "";
         header('Location: ' . $_SERVER['HTTP_REFERER']);

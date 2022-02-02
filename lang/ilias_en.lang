@@ -3390,7 +3390,6 @@ rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
-common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_adm#:#Administration
@@ -3420,7 +3419,6 @@ common#:#obj_extt_desc#:#Configure external software or services that are suppor
 common#:#obj_extt#:#Third Party Software
 common#:#obj_facs_desc#:#Settings for files and file handling
 common#:#obj_facs#:#Files
-common#:#obj_feed#:#Web Feed
 common#:#obj_file_inline#:#Learning Module File
 common#:#obj_file#:#File
 common#:#obj_file_duplicate#:#Duplicate File
@@ -3515,7 +3513,6 @@ common#:#objs_catr#:#Category Link
 common#:#objs_crs#:#Courses
 common#:#objs_crsr#:#Course Link
 common#:#objs_exc#:#Exercises
-common#:#objs_feed#:#Web Feeds
 common#:#objs_file#:#Files
 common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
@@ -5206,7 +5203,7 @@ crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
 crs#:#event#:#Session
 crs#:#events#:#Sessions
-crs#:#export_members#:#Export Participants
+crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
@@ -5615,18 +5612,6 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
-feed#:#block_feed_block_feed_url#:#Feed URL
-feed#:#block_feed_block_head#:#External Web Feed
-feed#:#block_feed_block_title#:#Title
-feed#:#feed_disable_rep_feeds_info#:#Disables presentation of external web feeds in case of an unexpected problem due to an external feed source.
-feed#:#feed_disable_rep_feeds#:#Hide Web Feeds
-feed#:#feed_feed_items#:#Feed Item(s)
-feed#:#feed_loading_feed#:#Loading Feed...
-feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.
-feed#:#feed_open_source_page#:#Open in New Window
-feed#:#feed_settings#:#External Web Feeds Settings
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -5894,14 +5879,17 @@ jscalendar#:#time#:#Time
 jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
-mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
-mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
+mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
+mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed
+mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_script_url#:#URL of the MathJax Script
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
 mathjax#:#mathjax_home_link#:# » MathJax
 mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
@@ -5910,7 +5898,7 @@ mathjax#:#mathjax_server_installation#:# » Installation
 mathjax#:#mathjax_server_address#:#Server Address
 mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
 mathjax#:#mathjax_server_timeout#:#Timeout
-mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server in seconds
+mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the MathJax server in seconds
 mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
 mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
 mathjax#:#mathjax_server_for_browser#:#Use for Browser
@@ -5922,7 +5910,8 @@ mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
 mathjax#:#mathjax_server_cache_size#:#Cache Size
 mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
 mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.
+mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
+mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -6947,8 +6936,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
-ps#:#ps_export_course#:#Visibility of User Profile Data in Courses
-ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups
+ps#:#ps_export_course#:#Allow export of user profile data in courses
+ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_member#:#Members
@@ -7097,7 +7086,6 @@ rbac#:#rbac_create_catr#:#Create Category Link
 rbac#:#rbac_create_crs#:#Create Course
 rbac#:#rbac_create_crsr#:#Create Course Link
 rbac#:#rbac_create_exc#:#Create Exercise
-rbac#:#rbac_create_feed#:#Create Web Feed
 rbac#:#rbac_create_file#:#Upload File
 rbac#:#rbac_create_frm#:#Create Forum
 rbac#:#rbac_create_glo#:#Create Glossary
@@ -8293,7 +8281,6 @@ wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has b
 wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
-feed#:#feed_import#:#Import Feed
 dateplaner#:#cal_repeat_until#:#Repeat until
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events
 sess#:#sess_import#:#Import Session
@@ -10038,10 +10025,7 @@ crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Copy Learning Module
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
-content#:#cont_captcha_verification#:#User Verification
-content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Wrong Input
-forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Generate List
@@ -10455,7 +10439,6 @@ pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
-pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
@@ -12016,14 +11999,8 @@ mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
 form#:#form_retype_email#:#Retype E-Mail
 form#:#email_not_match#:#Your entries for the e-mail address don't match! Please re-enter your e-mail address.
-form#:#captcha_code#:#User Verification
 content#:#save_new#:#Save and New
-cptch#:#captcha_code_info#:#Please type in the letters and characters of the image.
-administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
-cptch#:#captcha_code_reload#:#Load new image
-cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
-cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
 obj#:#obj_features#:#Additional Features
 obj#:#obj_tool_setting_info_tab#:#Info Tab
 adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
@@ -12077,12 +12054,8 @@ content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achiev
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
 content#:#cont_auto_suspend#:#Safeguard tracking data
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
-administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
-administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
-administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_auth_reg#:#Authentication Registration
 administration#:#adm_auth_login#:#Authentication Login
-administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
 common#:#obj_wiks#:#Wiki
@@ -12567,7 +12540,7 @@ rbac#:#file_read_learning_progress#:#User can view learning progress of other us
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode.
 content#:#cont_self_assessment#:#Self Assessment
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
@@ -13360,6 +13333,7 @@ crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
 crs#:#crs_mail_context_member_title#:#Course: Info Page
 sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
+mail#:#deleteTemplate#:#Delete
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
 mail#:#mail_template_unset_as_default#:#Unset as Default
@@ -13536,7 +13510,7 @@ awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
 common#:#report_accessibility_issue#:#Report Accessibility Issue
-common#:#report_accessibility_link#:#Reported Link:
+common#:#report_accessibility_link#:#Reported%20Link:
 common#:#accessibility_control_concept#:#Accessibility Control Concept
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
 common#:#mainbar_aria_label#:#Mainbar
@@ -16351,7 +16325,6 @@ survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale value
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
-feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
@@ -16708,11 +16681,10 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when
 prg#:#status_unchanged#:#Status unchanged
 common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
 common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
-common#:#actions_for#:#Actions for %s
 violation#:#not_a_string#:#Given value is not a String
 common#:#actions_for#:#Actions for %s
 validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
-validation#:#not_an_array#:#Given value is not an array
+validation#:#no_array#:#Given value is not an array
 validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_skill_tree#:#Competence Tree
@@ -16733,3 +16705,19 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted 
 skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
 skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
 skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet. Click on the button "Add Competence" to select a competence and to see it here. You can add any number of competences.
+ui#:#duration_default_label_start#:#start
+ui#:#duration_default_label_end#:#end
+exc#:#exc_fullscreen#:#Fullscreen
+cont#:#cont_tile_size_1#:#small (up to six tiles in a row)
+cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)
+cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
+cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
+cont#:#cont_tile_size_4#:#full (one tile in a row)
+cont#:#cont_tile_size#:#Tile Size
+itgr#:#itgr_tile_size#:#Tile Size
+itgr#:#itgr_tile#:#Tiles
+itgr#:#itgr_list#:#List
+itgr#:#itgr_list_presentation#:#Item Presentation
+itgr#:#itgr_list_default#:#Default
+itgr#:#itgr_list_default_info#:#Inherits value from upper container.
+user#:#user_local_role#:#Local Role

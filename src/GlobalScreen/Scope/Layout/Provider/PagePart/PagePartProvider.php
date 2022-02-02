@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
-
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;

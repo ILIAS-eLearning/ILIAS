@@ -58,6 +58,26 @@ class ilItemGroupAR extends ActiveRecord
      */
     protected ?int $behaviour = 0;
 
+    /**
+     * @var string
+     *
+     * @con_has_field true
+     * @con_fieldtype text
+     * @con_length    10
+     * @con_is_notnull false
+     */
+    protected ?string $list_presentation = "";
+
+    /**
+     * @var int
+     *
+     * @con_has_field true
+     * @con_fieldtype integer
+     * @con_length    1
+     * @con_is_notnull false
+     */
+    protected ?int $tile_size = 0;
+
     public function getId() : int
     {
         return $this->id;
@@ -86,5 +106,25 @@ class ilItemGroupAR extends ActiveRecord
     public function getBehaviour() : int
     {
         return $this->behaviour;
+    }
+
+    public function getListPresentation() : string
+    {
+        return (string) $this->list_presentation;
+    }
+
+    public function setListPresentation(string $a_val) : void
+    {
+        $this->list_presentation = $a_val;
+    }
+
+    public function getTileSize() : int
+    {
+        return (int) $this->tile_size;
+    }
+
+    public function setTileSize(int $a_val) : void
+    {
+        $this->tile_size = $a_val;
     }
 }

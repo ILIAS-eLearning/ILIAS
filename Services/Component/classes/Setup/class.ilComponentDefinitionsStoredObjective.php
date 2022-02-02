@@ -112,7 +112,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         }
 
         $reader = new \ilComponentDefinitionReader(
-            new \ilGeneralComponentDefinitionProcessor($db),
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor($db),

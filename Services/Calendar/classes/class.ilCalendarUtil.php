@@ -32,10 +32,10 @@ class ilCalendarUtil
     public static string $init_done;
     protected static bool $init_datetimepicker = false;
 
-    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null) : string
+    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null) : ?string
     {
         if (is_null($date)) {
-            return $date;
+            return null;
         }
         if ($date instanceof \ilDate) {
             return $date->get(IL_CAL_DATE);

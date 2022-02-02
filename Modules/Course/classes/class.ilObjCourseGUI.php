@@ -46,7 +46,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
         // CONTROL OPTIONS
         $this->ctrl = $ilCtrl;
-        $this->ctrl->saveParameter($this, array("ref_id","cmdClass"));
+        $this->ctrl->saveParameter($this, ['ref_id']);
 
         $this->type = "crs";
         parent::__construct('', (int) $_GET['ref_id'], true, false);

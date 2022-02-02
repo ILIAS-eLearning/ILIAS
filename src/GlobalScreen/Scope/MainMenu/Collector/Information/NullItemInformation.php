@@ -37,5 +37,4 @@ class NullItemInformation implements ItemInformation
     {
         return $item;
     }
-    
 }

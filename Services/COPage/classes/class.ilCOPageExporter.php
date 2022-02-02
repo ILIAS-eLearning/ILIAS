@@ -45,8 +45,6 @@ class ilCOPageExporter extends ilXmlExporter
     public function init() : void
     {
         global $DIC;
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         /** @var ilComponentRepository $component_repository */
         $component_repository = $DIC["component.repository"];
 

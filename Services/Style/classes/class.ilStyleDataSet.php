@@ -385,8 +385,10 @@ class ilStyleDataSet extends ilDataSet
      */
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
-        $service = new ILIAS\Style\Content\Service();
-        $access_manager = $service->internal()->manager()->access(
+        global $DIC;
+
+        $service = $DIC->contentStyle()->internal();
+        $access_manager = $service->domain()->access(
             0,
             $this->user->getId()
         );
@@ -395,12 +397,12 @@ class ilStyleDataSet extends ilDataSet
         $style_id = (is_object($this->current_obj))
             ? $this->current_obj->getId()
             : 0;
-        $characteristic_manager = $service->internal()->manager()->characteristic(
+        $characteristic_manager = $service->domain()->characteristic(
             $style_id,
             $access_manager
         );
 
-        $color_manager = $service->internal()->manager()->color(
+        $color_manager = $service->domain()->color(
             $style_id,
             $access_manager
         );

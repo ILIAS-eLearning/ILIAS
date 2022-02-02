@@ -54,7 +54,7 @@ class ilScormAiccImporter extends ilXmlImporter
         // case i container
         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            $exportDir = ilExport::_getExportDirectory($a_id);
+            $exportDir = ilExport::_getExportDirectory((int) $a_id);
             $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
             $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";

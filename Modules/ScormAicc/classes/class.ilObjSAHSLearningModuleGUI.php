@@ -731,14 +731,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $parts = explode("_", $a_target);
 
-        if ($ilAccess->checkAccess("write", "", $parts[0])) {
+        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
             $_GET["cmd"] = "";
             $_GET["baseClass"] = "ilSAHSEditGUI";
             $_GET["ref_id"] = $parts[0];
             $_GET["obj_id"] = $parts[1];
             exit;
         }
-        if ($ilAccess->checkAccess("visible", "", $parts[0]) || $ilAccess->checkAccess("read", "", $parts[0])) {
+        if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
             $_GET["cmd"] = "infoScreen";
             $_GET["baseClass"] = "ilSAHSPresentationGUI";
             $_GET["ref_id"] = $parts[0];

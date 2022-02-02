@@ -13,7 +13,7 @@ class ilObjMailGUI extends ilObjectGUI
     public const PASSWORD_PLACE_HOLDER = '***********************';
     protected ilTabsGUI $tabs;
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
         $this->type = 'mail';

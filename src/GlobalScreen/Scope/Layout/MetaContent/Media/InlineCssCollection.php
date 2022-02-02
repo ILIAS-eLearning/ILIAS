@@ -23,7 +23,7 @@ class InlineCssCollection extends AbstractCollection
     /**
      * @param InlineCss $item
      */
-    public function addItem(InlineCss $item): void
+    public function addItem(InlineCss $item) : void
     {
         $this->items[] = $item;
     }

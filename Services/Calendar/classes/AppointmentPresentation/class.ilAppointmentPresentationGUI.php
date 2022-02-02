@@ -2,6 +2,9 @@
 
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
+
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -24,6 +27,9 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
+    protected RefineryFactory $refinery;
+    protected HttpServices $http;
+
 
     protected ?Item $list_item = null;
 
@@ -47,6 +53,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     ) {
         global $DIC;
 
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->appointment = $a_appointment;
         $this->infoscreen = $a_info_screen;
         $this->toolbar = $a_toolbar;
@@ -162,8 +170,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
                 $download_btn->setUrl(
                     $this->ctrl->getLinkTarget($this, 'downloadFiles')
                 );
-                $this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-
+                $this->ctrl->setParameter($this, "app_id", '');
                 $toolbar->addButtonInstance($download_btn);
                 $toolbar->addSeparator();
             }
@@ -410,8 +417,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
             )
         );
 
-        $this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $_GET["category_id"]);
-
+        $this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", '');
         $this->addInfoProperty($this->lng->txt("calendar"), $link);
         $this->addListItemProperty($this->lng->txt("calendar"), $link);
     }
@@ -475,7 +481,14 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
      */
     public function getUserName(int $a_user_id, bool $a_force_name = false) : string
     {
-        $type = ilObject::_lookupType((int) $_GET["ref_id"], true);
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $type = ilObject::_lookupType($ref_id, true);
         $ctrl_path = array();
         if ($type == "crs") {
             $ctrl_path[] = "ilobjcoursegui";
@@ -483,7 +496,14 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         if ($type == "grp") {
             $ctrl_path[] = "ilobjgroupgui";
         }
-        if (strtolower($_GET["baseClass"]) == "ildashboardgui") {
+        $baseClass = '';
+        if ($this->http->wrapper()->query()->has('baseClass')) {
+            $baseClass = $this->http->wrapper()->query()->retrieve(
+                'baseClass',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if (strtolower($baseClass) == "ildashboardgui") {
             $ctrl_path[] = "ildashboardgui";
         }
         $ctrl_path[] = "ilCalendarPresentationGUI";
@@ -509,7 +529,13 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     {
         //calendar in the sidebar (marginal calendar)
         if (empty($this->appointment)) {
-            $entry_id = (int) $_GET['app_id'];
+            $entry_id = 0;
+            if ($this->http->wrapper()->query()->has('app_id')) {
+                $entry_id = $this->http->wrapper()->query()->retrieve(
+                    'app_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
             $entry = new ilCalendarEntry($entry_id);
             //if the entry exists
             if ($entry->getStart()) {

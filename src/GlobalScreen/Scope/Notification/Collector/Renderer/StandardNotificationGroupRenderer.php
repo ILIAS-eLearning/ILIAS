@@ -29,7 +29,7 @@ class StandardNotificationGroupRenderer extends AbstractBaseNotificationRenderer
      * @param isItem|canHaveSymbol $item
      * @return Notification
      */
-    public function getNotificationComponentForItem(isItem $item): \ILIAS\UI\Component\Component
+    public function getNotificationComponentForItem(isItem $item) : \ILIAS\UI\Component\Component
     {
         if (!$item instanceof StandardNotificationGroup) {
             throw new \LogicException("item is not a StandardNotificationGroup");

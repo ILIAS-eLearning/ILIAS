@@ -119,6 +119,11 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ta->setInfo($this->lng->txt("itgr_desc_info"));
         $a_form->addItem($ta);
 
+        // presentation
+        $pres = new ilFormSectionHeaderGUI();
+        $pres->setTitle($this->lng->txt('obj_presentation'));
+        $a_form->addItem($pres);
+
         // show title
         $cb = new ilCheckboxInputGUI($this->lng->txt("itgr_show_title"), "show_title");
         $cb->setInfo($this->lng->txt("itgr_show_title_info"));
@@ -130,6 +135,35 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $si->setInfo($this->lng->txt("itgr_behaviour_info"));
         $si->setOptions($options);
         $cb->addSubItem($si);
+
+        // tile/list
+        $lpres = new ilRadioGroupInputGUI($this->lng->txt('itgr_list_presentation'), "list_presentation");
+
+        $std_list = new ilRadioOption($this->lng->txt('itgr_list_default'), "");
+        $std_list->setInfo($this->lng->txt('itgr_list_default_info'));
+        $lpres->addOption($std_list);
+
+        $item_list = new ilRadioOption($this->lng->txt('itgr_list'), "list");
+        $lpres->addOption($item_list);
+
+        $tile_view = new ilRadioOption($this->lng->txt('itgr_tile'), "tile");
+        $lpres->addOption($tile_view);
+
+        // tile size
+        $si = new ilRadioGroupInputGUI($this->lng->txt("itgr_tile_size"), "tile_size");
+        $dummy_container = new ilContainer();
+        $this->lng->loadLanguageModule("cont");
+        foreach ($dummy_container->getTileSizes() as $key => $txt) {
+            $op = new ilRadioOption($txt, $key);
+            $si->addOption($op);
+        }
+        $lpres->addSubItem($si);
+        $si->setValue($this->object->getTileSize());
+
+        $lpres->setValue($this->object->getListPresentation());
+        $a_form->addItem($lpres);
+
+        return $a_form;
     }
 
     protected function afterSave(ilObject $a_new_object)
@@ -282,6 +316,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
     {
         $a_values["show_title"] = !$this->object->getHideTitle();
         $a_values["behaviour"] = $this->object->getBehaviour();
+        $a_values["list_presentation"] = $this->object->getListPresentation();
+        $a_values["tile_size"] = $this->object->getTileSize();
     }
 
     protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -291,6 +327,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
             ? $a_form->getInput("behaviour")
             : ilItemGroupBehaviour::ALWAYS_OPEN;
         $this->object->setBehaviour($behaviour);
+        $this->object->setListPresentation($a_form->getInput("list_presentation"));
+        $this->object->setTileSize($a_form->getInput("tile_size"));
     }
 
     protected function initCreateForm($a_new_type)

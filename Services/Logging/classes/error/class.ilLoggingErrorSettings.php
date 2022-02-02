@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,39 +10,20 @@ class ilLoggingErrorSettings
 {
     protected string $folder = '';
     protected string $mail = '';
-    protected ilIniFile $ilias_ini;
-    protected ilIniFile $gClientIniFile;
+    protected ?ilIniFile $ilias_ini = null;
+    protected ?ilIniFile $gClientIniFile = null;
 
     protected function __construct()
     {
         global $DIC;
 
-        $ilIliasIniFile = $DIC->iliasIni();
-        // temporary bugfix for global usage
-        $ini = null;
-        if ($DIC->offsetExists('ini')) {
-            $ini = $DIC['ini'];
+        if ($DIC->offsetExists('ilIliasIniFile')) {
+            $this->ilias_ini = $DIC->iliasIni();
+        } elseif ($DIC->offsetExists('ini')) {
+            $this->ilias_ini = $DIC['ini'];
         }
-
-        $ilClientIniFile = null;
-        if ($DIC->clientIni()) {
-            $ilClientIniFile = $DIC->clientIni();
-        }
-
-        //realy not nice but necessary to initalize logger at setup
-        //ilias_ini is named only as $ini in inc.setup_header.php
-        if (!$ilIliasIniFile) {
-            if (!$ini) {
-                throw new Exception("No ILIAS ini");
-            } else {
-                $this->ilias_ini = $ini;
-            }
-        } else {
-            $this->ilias_ini = $ilIliasIniFile;
-        }
-
-        if ($ilClientIniFile !== null) {
-            $this->gClientIniFile = $ilClientIniFile;
+        if ($DIC->offsetExists('ilClientIniFile')) {
+            $this->gClientIniFile = $DIC->clientIni();
         }
         $this->read();
     }
@@ -77,8 +58,9 @@ class ilLoggingErrorSettings
      */
     protected function read()
     {
-        $this->setFolder((string) $this->ilias_ini->readVariable("log", "error_path"));
-
+        if ($this->ilias_ini instanceof ilIniFile) {
+            $this->setFolder((string) $this->ilias_ini->readVariable("log", "error_path"));
+        }
         if ($this->gClientIniFile instanceof \ilIniFile) {
             $this->setMail((string) $this->gClientIniFile->readVariable("log", "error_recipient"));
         }

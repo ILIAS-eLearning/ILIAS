@@ -22,7 +22,6 @@ use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
  */
 class BasicScreenContext implements ScreenContext
 {
-    
     protected ReferenceId $reference_id;
     protected Collection $additional_data;
     protected string $context_identifier = '';
@@ -34,8 +33,8 @@ class BasicScreenContext implements ScreenContext
     public function __construct(string $context_identifier)
     {
         $this->context_identifier = $context_identifier;
-        $this->additional_data    = new Collection();
-        $this->reference_id       = new ReferenceId(0);
+        $this->additional_data = new Collection();
+        $this->reference_id = new ReferenceId(0);
     }
     
     /**
@@ -59,7 +58,7 @@ class BasicScreenContext implements ScreenContext
      */
     public function withReferenceId(ReferenceId $reference_id) : ScreenContext
     {
-        $clone               = clone $this;
+        $clone = clone $this;
         $clone->reference_id = $reference_id;
         
         return $clone;
@@ -70,7 +69,7 @@ class BasicScreenContext implements ScreenContext
      */
     public function withAdditionalData(Collection $collection) : ScreenContext
     {
-        $clone                  = clone $this;
+        $clone = clone $this;
         $clone->additional_data = $collection;
         
         return $clone;

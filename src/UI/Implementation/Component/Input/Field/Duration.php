@@ -22,9 +22,6 @@ class Duration extends Group implements C\Input\Field\Duration
     use ComponentHelper;
     use JavaScriptBindable;
 
-    const DEFAULT_START_LABEL = 'start';
-    const DEFAULT_END_LABEL = 'end';
-
     protected DateFormat $format;
     protected DateTimeImmutable $min_date;
     protected DateTimeImmutable $max_date;
@@ -41,8 +38,8 @@ class Duration extends Group implements C\Input\Field\Duration
         ?string $byline
     ) {
         $inputs = [
-            $field_factory->dateTime(self::DEFAULT_START_LABEL),
-            $field_factory->dateTime(self::DEFAULT_END_LABEL)
+            $field_factory->dateTime($lng->txt('duration_default_label_start')),
+            $field_factory->dateTime($lng->txt('duration_default_label_end'))
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);

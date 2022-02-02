@@ -43,11 +43,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
 
     public function getPluginTablePrefix()
     {
-        $id = $this->getId();
-        if (!$id) {
-            $id = $this->getPluginInfo()->getId();
-        }
-        return $this->getSlotObject()->getPrefix() . "_" . $id;
+        return $this->getLanguageHandler()->getPrefix();
     }
 
 

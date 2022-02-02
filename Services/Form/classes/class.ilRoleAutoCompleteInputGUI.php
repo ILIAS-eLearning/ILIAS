@@ -20,10 +20,13 @@
  */
 class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 {
+    /**
+     * @param string|object $a_class
+     */
     public function __construct(
         string $a_title,
         string $a_postvar,
-        string $a_class,
+        $a_class,
         string $a_autocomplete_cmd
     ) {
         global $DIC;

@@ -73,7 +73,6 @@ class ilStudyProgrammeDIC
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $DIC->filesystem()->web(),
                 $DIC['ilUser'],
-                $DIC['ilPluginAdmin'],
                 $DIC['lng'],
                 $DIC['component.factory']
             );

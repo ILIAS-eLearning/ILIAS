@@ -368,7 +368,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $component_repository = $DIC['component.repository'];
 
         $options = array();

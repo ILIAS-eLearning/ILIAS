@@ -69,8 +69,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                 if ($data["components"] === "all") {
                     $settings->activateAll();
                 } else {
-                    foreach ($data["components"] as $cmp) {
-                        $settings->addActivatedComponent($cmp);
+                    foreach ($data["components"] as $cmp => $active) {
+                        if ($active) {
+                            $settings->addActivatedComponent($cmp);
+                        }
                     }
                 }
             }
@@ -135,5 +137,4 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     {
         return [];
     }
-
 }

@@ -51,9 +51,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 
                 // initial date for new calendar appointments
-                $idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
+                $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);
 
-                $app = new ilCalendarAppointmentGUI($this->seed, $idate, (int) $_GET['app_id']);
+                $app = new ilCalendarAppointmentGUI($this->seed, $idate, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -85,8 +85,9 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
         ilYuiUtil::initDragDrop();
 
-        if (isset($_GET["bkid"])) {
-            $user_id = $_GET["bkid"];
+        $bkid = $this->initBookingUserFromQuery();
+        if ($bkid) {
+            $user_id = $bkid;
             $no_add = true;
         } elseif ($this->user->getId() == ANONYMOUS_USER_ID) {
             $user_id = $this->user->getId();
