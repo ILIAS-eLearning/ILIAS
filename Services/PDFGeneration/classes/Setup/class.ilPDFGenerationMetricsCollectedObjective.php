@@ -18,7 +18,7 @@ use ILIAS\Setup;
 class ilPDFGenerationMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
     /**
-     * @return \ilIniFilesLoadedObjective[]
+     * @return ilIniFilesLoadedObjective[]
      */
     public function getTentativePreconditions(Setup\Environment $environment) : array
     {

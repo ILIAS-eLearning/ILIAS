@@ -17,10 +17,7 @@ use ILIAS\Setup;
  *****************************************************************************/
 class ilPDFGenerationConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilPDFGenerationSetupConfig
-     */
-    protected $config;
+    protected ilPDFGenerationSetupConfig $config;
 
     public function __construct(
         \ilPDFGenerationSetupConfig $config
@@ -44,7 +41,7 @@ class ilPDFGenerationConfigStoredObjective implements Setup\Objective
     }
 
     /**
-     * @return \ilIniFilesLoadedObjective[]
+     * @return ilIniFilesLoadedObjective[]
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
@@ -66,9 +63,6 @@ class ilPDFGenerationConfigStoredObjective implements Setup\Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Setup\Environment $environment) : bool
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);

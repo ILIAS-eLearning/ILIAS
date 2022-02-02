@@ -12,15 +12,9 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilObjPDFGeneration
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilObjPDFGeneration extends ilObject2
 {
-    /**
-     *
-     */
+
     protected function initType() : void
     {
         $this->type = 'pdfg';

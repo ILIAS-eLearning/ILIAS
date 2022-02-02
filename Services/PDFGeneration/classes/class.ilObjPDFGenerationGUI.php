@@ -12,18 +12,9 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilObjPDFGenerationGUI
- * @author Michael Jansen <mjansen@databay.de>
- * @ilCtrl_Calls ilObjPDFGenerationGUI: ilPermissionGUI
- * @ilCtrl_IsCalledBy ilObjPDFGenerationGUI : ilAdministrationGUI
- */
 class ilObjPDFGenerationGUI extends ilObject2GUI
 {
-    /**
-     * @var string
-     */
-    protected $active_tab;
+    protected string $active_tab;
 
     /**
      * @var ilToolbarGUI
@@ -40,20 +31,14 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
      */
     protected $tabs;
 
-    /**
-     * @param int $a_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
-     */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
-        /** @var $ilias ILIAS */
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->lng->loadLanguageModule('pdfgen');
         $this->toolbar = $DIC['ilToolbar'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->tabs = $DIC['ilTabs'];
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
     }
 
     protected function hasWritePermission() : bool
@@ -61,17 +46,11 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         return $this->checkPermissionBool('write');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType() : string
     {
         return 'pdfg';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
@@ -183,11 +162,8 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "view");
         }
     }
-
-    /**
-     * @param $command
-     */
-    protected function handleSaveAndConf($command) : void
+    
+    protected function handleSaveAndConf(string $command) : void
     {
         if ($this->checkPermissionBool('edit')) {
             $this->saveSettings(false);

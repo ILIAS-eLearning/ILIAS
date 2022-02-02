@@ -12,25 +12,12 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilPDFGenerationJob
- *
- * Data-object blueprint that holds all PDF-generation related settings.
- * If you add to the methods, see to it that they follow the fluent interface, meaning
- * that all setters return $this for developer convenience.
- *
- * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
- */
 class ilPDFGenerationJob
 {
-    private $pages;					/** @var $pages string[] HTML pages */
-    private $filename;				/** @var $filename string Filename */
-    private $output_mode;			/** @var $output_mode string Output mode, one D, F or I */
-    /**
-     * @return $this
-     */
+    private array $pages;
+    private string $filename;
+    private string $output_mode;
+
     public function setFilename(string $filename) : self
     {
         $this->filename = $filename;
@@ -42,47 +29,29 @@ class ilPDFGenerationJob
         return $this->filename;
     }
 
-    /**
-     * @param $pages string[] Array of html-strings.
-     *
-     * @return $this
-     */
     public function setPages(array $pages) : self
     {
         $this->pages = $pages;
         return $this;
     }
 
-    /**
-     * @return string[] Array of html-strings.
-     */
-    public function getPages()
+    public function getPages() : array
     {
         return $this->pages;
     }
 
-    /**
-     * @param $page
-     * @return $this
-     */
-    public function addPage($page) : self
+    public function addPage(array $page) : self
     {
         $this->pages[] = $page;
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function flushPages() : self
     {
         $this->pages = array();
         return $this;
     }
 
-    /**
-                 * @return $this
-                 */
     public function setOutputMode(string $output_mode) : self
     {
         $this->output_mode = $output_mode;

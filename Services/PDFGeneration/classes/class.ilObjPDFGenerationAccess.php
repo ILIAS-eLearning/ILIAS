@@ -12,10 +12,6 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilObjPDFGenerationAccess
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilObjPDFGenerationAccess extends ilObjectAccess
 {
 }

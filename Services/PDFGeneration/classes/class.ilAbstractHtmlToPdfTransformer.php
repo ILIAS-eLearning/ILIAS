@@ -12,10 +12,6 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilHtmlToPdfTransformer
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilAbstractHtmlToPdfTransformer implements ilHtmlToPdfTransformer
 {
     public function getPdfTempName() : string
@@ -28,10 +24,7 @@ abstract class ilAbstractHtmlToPdfTransformer implements ilHtmlToPdfTransformer
         return $this->getTempFileName('html');
     }
 
-    /**
-     * @param $file_type
-     */
-    protected function getTempFileName($file_type) : string
+    protected function getTempFileName(string $file_type) : string
     {
         return ilFileUtils::ilTempnam() . '.' . $file_type;
     }

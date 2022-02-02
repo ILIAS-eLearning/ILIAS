@@ -29,11 +29,6 @@ class ilPDFGeneration
         ilTCPDFGenerator::generatePDF($job);
     }
 
-    /**
-     * Prepare the PDF generation
-     * This initializes the purpose for MathJax rendering
-     * It has to be called before any content is processed
-     */
     public static function prepareGeneration() : void
     {
         // TCPDF supports only embedded PNG images

@@ -19,7 +19,7 @@ class ilWkhtmlToPdfConfig
 
     protected bool $phpunit = false;
 
-    protected array $config = array();
+    protected array $config = [];
 
     protected float $zoom;
 
@@ -151,14 +151,14 @@ class ilWkhtmlToPdfConfig
         $this->setKeyIfExists('setOverwriteDefaultFont', 'overwrite_font', $config);
     }
 
-    protected function setKeyIfExists(string $function, string $key, string $config) : void
+    protected function setKeyIfExists(string $function, string $key, ilWkhtmlToPdfConfig $config) : void
     {
         if (array_key_exists($key, $config)) {
             $this->{$function}($config[$key]);
         }
     }
 
-    protected function readConfigFromObject(\ilWkhtmlToPdfConfig $config) : void
+    protected function readConfigFromObject(ilWkhtmlToPdfConfig $config) : void
     {
         $this->setZoom($config->getZoom());
         $this->setEnabledForms($config->getEnabledForms());

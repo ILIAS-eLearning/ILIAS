@@ -12,36 +12,21 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * Class ilHtmlToPdfTransformerFactory
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilHtmlToPdfTransformerFactory
 {
     const PDF_OUTPUT_DOWNLOAD = 'D';
     const PDF_OUTPUT_INLINE = 'I';
     const PDF_OUTPUT_FILE = 'F';
 
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage $lng
-     */
-    protected $lng;
-
-    /**
-     * ilHtmlToPdfTransformerFactory constructor.
-     * @param $component
-     */
-    public function __construct($component = '')
+    public function __construct(string $component = '')
     {
         global $lng;
         $this->lng = $lng;
     }
 
-    /**
-     * @param $output
-     */
-    protected function generateTempPath($output) : string
+    protected function generateTempPath(string $output) : string
     {
         $dir = ilFileUtils::ilTempnam();
         if (!is_dir($dir)) {
@@ -54,14 +39,9 @@ class ilHtmlToPdfTransformerFactory
     }
 
     /**
-     * @param $src
-     * @param $output
-     * @param $delivery_type
-     * @param $service
-     * @param $purpose
      * @throws Exception
      */
-    public function deliverPDFFromHTMLString($src, $output, string $delivery_type, string $service, string $purpose)
+    public function deliverPDFFromHTMLString(array $src, string $output, string $delivery_type, string $service, string $purpose)
     {
         $map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);
@@ -81,13 +61,7 @@ class ilHtmlToPdfTransformerFactory
         return $this->deliverPDF($output, $delivery_type);
     }
 
-
-    /**
-     * @param $file
-     * @param $delivery_type
-     * @return mixed
-     */
-    protected function deliverPDF($file, $delivery_type)
+    protected function deliverPDF(string $file, string $delivery_type)
     {
         if (file_exists($file)) {
             if (strtoupper($delivery_type) === self::PDF_OUTPUT_DOWNLOAD) {

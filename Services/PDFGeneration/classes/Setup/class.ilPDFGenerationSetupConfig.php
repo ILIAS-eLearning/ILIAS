@@ -20,7 +20,7 @@ class ilPDFGenerationSetupConfig implements Setup\Config
     /**
      * @var string|null
      */
-    protected $path_to_phantom_js;
+    protected ?string $path_to_phantom_js;
 
     public function __construct(
         ?string $path_to_phantom_js

@@ -15,10 +15,10 @@
  *****************************************************************************/
 class ilPDFGenerationDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected ?string $component = null;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
