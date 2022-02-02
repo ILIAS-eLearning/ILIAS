@@ -16750,3 +16750,5 @@ itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
 itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
 user#:#user_local_role#:#Lokale Rolle
+form#:#form_use_camera#:#Kamera benutzen
+form#:#form_take_snapshot#:#Schnappschuss machen

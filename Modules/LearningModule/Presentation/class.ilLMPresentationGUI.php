@@ -16,13 +16,11 @@
 /**
  * Class ilLMPresentationGUI
  * GUI class for learning module presentation
- * @author       Alex Killing <alex.killing@gmx.de>
- * @version      $Id$
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
- * @ingroup      ModulesIliasLearningModule
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
@@ -141,12 +139,16 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             // moved this into the if due to #0027200
             if (!$embed_mode) {
                 if ($this->service->getPresentationStatus()->isTocNecessary()) {
-                    $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_TOC_TOOL,
-                        true);
+                    $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+                        ilLMGSToolProvider::SHOW_TOC_TOOL,
+                        true
+                    );
                 }
             }
-            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_LINK_SLATES,
-                true);
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+                ilLMGSToolProvider::SHOW_LINK_SLATES,
+                true
+            );
         }
 
         if ($embed_mode) {
@@ -156,8 +158,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 "ref_id" => $this->lm->getRefId(),
                 "frame" => ""
             ];
-            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(\ilLMGSToolProvider::LM_QUERY_PARAMS,
-                $params);
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+                \ilLMGSToolProvider::LM_QUERY_PARAMS,
+                $params
+            );
         }
     }
 
@@ -333,23 +337,39 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($this->requested_notification_switch > 0) {
                     switch ($this->requested_notification_switch) {
                         case 1:
-                            ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(),
-                                $this->lm->getId(), false);
+                            ilNotification::setNotification(
+                                ilNotification::TYPE_LM,
+                                $this->user->getId(),
+                                $this->lm->getId(),
+                                false
+                            );
                             break;
 
                         case 2:
-                            ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(),
-                                $this->lm->getId(), true);
+                            ilNotification::setNotification(
+                                ilNotification::TYPE_LM,
+                                $this->user->getId(),
+                                $this->lm->getId(),
+                                true
+                            );
                             break;
 
                         case 3:
-                            ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(),
-                                $this->getCurrentPageId(), false);
+                            ilNotification::setNotification(
+                                ilNotification::TYPE_LM_PAGE,
+                                $this->user->getId(),
+                                $this->getCurrentPageId(),
+                                false
+                            );
                             break;
 
                         case 4:
-                            ilNotification::setNotification(ilNotification::TYPE_LM_PAGE, $this->user->getId(),
-                                $this->getCurrentPageId(), true);
+                            ilNotification::setNotification(
+                                ilNotification::TYPE_LM_PAGE,
+                                $this->user->getId(),
+                                $this->getCurrentPageId(),
+                                true
+                            );
                             break;
                     }
                     $ilCtrl->redirect($this, "layout");
@@ -743,9 +763,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             if ($rbacsystem->checkAccess("write", $this->requested_ref_id)) {
                 $tpl_menu->setCurrentBlock("edit_page");
                 $page_id = $this->getCurrentPageId();
-                $tpl_menu->setVariable("EDIT_LINK",
+                $tpl_menu->setVariable(
+                    "EDIT_LINK",
                     ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
-                    "&obj_id=" . $page_id . "&to_page=1");
+                    "&obj_id=" . $page_id . "&to_page=1"
+                );
                 $tpl_menu->setVariable("EDIT_TXT", $this->lng->txt("edit_page"));
                 $tpl_menu->setVariable("EDIT_TARGET", $buttonTarget);
                 $tpl_menu->parseCurrentBlock();
@@ -801,8 +823,13 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true,
-                false),
+            $this->ctrl->getLinkTargetByClass(
+                array("ilcommonactiondispatchergui", "iltagginggui"),
+                "",
+                "",
+                true,
+                false
+            ),
             $this->tpl
         );
 
@@ -1341,8 +1368,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $info = new ilInfoScreenGUI($this->lm_gui);
         $info->enablePrivateNotes();
-        $info->enableLearningProgress();
-
+        //$info->enableLearningProgress();
         $info->enableNews();
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
             $news_set = new ilSetting("news");
@@ -1482,8 +1508,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     break;
             }
 
-            if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(),
-                $node["obj_id"])) {
+            if (!ilObjContentObject::_checkPreconditionsOfPage(
+                $this->lm->getRefId(),
+                $this->lm->getId(),
+                $node["obj_id"]
+            )) {
                 $text .= " (" . $this->lng->txt("cont_no_access") . ")";
             }
 
@@ -1730,8 +1759,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 }
             }
             if ($activated &&
-                ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(),
-                    $node["obj_id"])) {
+                ilObjContentObject::_checkPreconditionsOfPage(
+                    $this->lm->getRefId(),
+                    $this->lm->getId(),
+                    $node["obj_id"]
+                )) {
                 // output learning module header
                 if ($node["type"] == "du") {
                     $output_header = true;
@@ -2039,8 +2071,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $nodes2 = $nodes;
             foreach ($nodes2 as $node2) {
                 if ($node2["type"] == "st"
-                    && ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(),
-                        $node2["obj_id"])) {
+                    && ilObjContentObject::_checkPreconditionsOfPage(
+                        $this->lm->getRefId(),
+                        $this->lm->getId(),
+                        $node2["obj_id"]
+                    )) {
                     for ($j = 1; $j < $node2["depth"]; $j++) {
                         $tpl->setCurrentBlock("indent");
                         $tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.png"));

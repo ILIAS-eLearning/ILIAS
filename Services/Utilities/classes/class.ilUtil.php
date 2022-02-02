@@ -3047,39 +3047,7 @@ class ilUtil
         }
         return $ref_ids ?: [];
     }
-
-
-    /**
-     * @param $a_target
-     * @internal
-     * @return array
-     */
-    protected static function sanitateTargetPath($a_target)
-    {
-        switch (true) {
-            case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-            case strpos($a_target, './' . ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
-            case strpos($a_target, CLIENT_WEB_DIR) === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::WEB;
-                break;
-            case strpos($a_target, CLIENT_DATA_DIR . "/temp") === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
-                break;
-            case strpos($a_target, CLIENT_DATA_DIR) === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
-                break;
-            case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
-                break;
-            default:
-                throw new InvalidArgumentException("Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location.");
-        }
-
-        $absTargetDir = dirname($a_target);
-        $targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
-
-        return array( $targetFilesystem, $targetDir );
-    }
+    
 
     /**
     * Prepares a string for a text area output where latex code may be in it

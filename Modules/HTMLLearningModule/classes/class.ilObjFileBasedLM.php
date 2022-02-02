@@ -177,4 +177,9 @@ class ilObjFileBasedLM extends ilObject
 
         return $new_obj;
     }
+
+    public function isInfoEnabled() : bool
+    {
+        return ilObjContentObjectAccess::isInfoEnabled($this->getId());
+    }
 }

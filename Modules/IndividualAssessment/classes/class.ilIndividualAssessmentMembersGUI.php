@@ -41,6 +41,7 @@ class ilIndividualAssessmentMembersGUI
     protected ilIndividualAssessmentMemberGUI $member_gui;
     protected ILIAS\Refinery\Factory $refinery;
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
 
     public function __construct(
         ilObjIndividualAssessment $object,
@@ -56,7 +57,7 @@ class ilIndividualAssessmentMembersGUI
         ilErrorHandling $error_object,
         ilIndividualAssessmentMemberGUI $member_gui,
         ILIAS\Refinery\Factory $refinery,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper
+        ILIAS\HTTP\Wrapper\WrapperFactory $wrapper
     ) {
         $this->object = $object;
         $this->ctrl = $ctrl;
@@ -71,7 +72,8 @@ class ilIndividualAssessmentMembersGUI
         $this->error_object = $error_object;
         $this->member_gui = $member_gui;
         $this->refinery = $refinery;
-        $this->request_wrapper = $request_wrapper;
+        $this->request_wrapper = $wrapper->query();
+        $this->post_wrapper = $wrapper->post();
 
         $this->ref_id = $object->getRefId();
     }
@@ -184,7 +186,7 @@ class ilIndividualAssessmentMembersGUI
      */
     public function addUsersFromSearch(array $user_ids) : void
     {
-        if ($user_ids && !empty($user_ids)) {
+        if (!empty($user_ids)) {
             $this->addUsers($user_ids);
         }
 
@@ -248,7 +250,7 @@ class ilIndividualAssessmentMembersGUI
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
         }
-        $usr_id = $_POST['usr_id'];
+        $usr_id = $this->post_wrapper->retrieve("usr_id", $this->refinery->kindlyTo()->int());
         $iass = $this->object;
         $iass->loadMembers()
             ->withoutPresentUser(new ilObjUser($usr_id))
@@ -274,9 +276,6 @@ class ilIndividualAssessmentMembersGUI
         return $ret;
     }
 
-    /**
-     * @param string[] 	$get
-     */
     protected function getModeControl(ViewControl\Factory $vc_factory) : ViewControl\Mode
     {
         $active = $this->getActiveLabelForModeByFilter(
