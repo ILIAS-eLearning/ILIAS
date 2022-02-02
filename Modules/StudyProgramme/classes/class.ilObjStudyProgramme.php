@@ -1727,14 +1727,10 @@ class ilObjStudyProgramme extends ilContainer
         $now = new DateTimeImmutable();
         foreach ($prg->getProgressesOf($user_id) as $progress) {
             $progress_deadline = $progress->getDeadline();
-            $succeed = (is_null($progress_deadline) || $progress_deadline >= $now)
-                && !in_array($progress->getStatus(), [
-                    ilStudyProgrammeProgress::STATUS_COMPLETED,
-                    ilStudyProgrammeProgress::STATUS_NOT_RELEVANT,
-                    ilStudyProgrammeProgress::STATUS_FAILED
-                ]);
-
-            if ($succeed) {
+            if (
+                (is_null($progress_deadline) || $progress_deadline >= $now)
+                && $progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+            ) {
                 $prg->succeed($progress->getId(), $obj_id);
             }
         }
