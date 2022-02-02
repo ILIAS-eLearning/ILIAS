@@ -92,17 +92,6 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
-    public function testGetCommandLineConfigWithHeaderTextWithLine()
-    {
-        $this->config->setHeaderType(ilPDFGenerationConstants::HEADER_TEXT);
-        $this->config->setHeaderTextLeft('Left');
-        $this->config->setHeaderTextCenter('Center');
-        $this->config->setHeaderTextRight('Right');
-        $this->config->setHeaderTextLine(true);
-        $exp = $this->default_start . '--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --header-left "Left" --header-center "Center" --header-right "Right" --header-spacing 0 --header-line --quiet ' . self::COOKIE_STRING;
-        $this->assertSame($exp, $this->config->getCommandLineConfig());
-    }
-
     public function testGetCommandLineConfigWithHeaderHtmlWithoutLine()
     {
         $this->config->setHeaderType(ilPDFGenerationConstants::HEADER_HTML);
@@ -124,15 +113,6 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
-    public function testGetCommandLineConfigWithHeaderHtmlWithLine()
-    {
-        $this->config->setHeaderType(ilPDFGenerationConstants::HEADER_HTML);
-        $this->config->setHeaderHtml('<div><b>Test</b></div>');
-        $this->config->setHeaderHtmlLine(true);
-        $exp = $this->default_start . '--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --header-html "<div><b>Test</b></div>" --header-spacing 0 --header-line --quiet ' . self::COOKIE_STRING;
-        $this->assertSame($exp, $this->config->getCommandLineConfig());
-    }
-
     public function testGetCommandLineConfigWithFooterTextWithoutLine()
     {
         $this->config->setFooterType(ilPDFGenerationConstants::FOOTER_TEXT);
@@ -141,17 +121,6 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->config->setFooterTextRight('Right');
         $this->config->setFooterTextSpacing(2);
         $exp = $this->default_start . '--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --footer-left "Left" --footer-center "Center" --footer-right "Right" --footer-spacing 2 --quiet ' . self::COOKIE_STRING;
-        $this->assertSame($exp, $this->config->getCommandLineConfig());
-    }
-
-    public function testGetCommandLineConfigWithFooterTextWithLine()
-    {
-        $this->config->setFooterType(ilPDFGenerationConstants::FOOTER_TEXT);
-        $this->config->setFooterTextLeft('Left');
-        $this->config->setFooterTextCenter('Center');
-        $this->config->setFooterTextRight('Right');
-        $this->config->setFooterTextLine(true);
-        $exp = $this->default_start . '--orientation Portrait --page-size A4 --javascript-delay 500 --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --footer-left "Left" --footer-center "Center" --footer-right "Right" --footer-spacing 0 --footer-line --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
