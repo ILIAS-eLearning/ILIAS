@@ -1284,7 +1284,7 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
 }
 h2,
 .h2 {
@@ -12408,7 +12408,7 @@ div.il_info {
 a#il_mhead_t_focus {
   color: #3b5620;
   vertical-align: middle;
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
@@ -12420,7 +12420,7 @@ a#il_mhead_t_focus[href] {
   cursor: pointer;
 }
 h1.ilHeader {
-  padding-top: 3px;
+  padding: 10px 0 0;
 }
 @media only screen and (max-width: 768px) {
   h1.ilHeader {
@@ -12481,12 +12481,10 @@ div.ilHeaderDesc {
   font-size: 0.75rem;
   padding: 0;
   color: #161616;
-  font-weight: 300;
 }
 div.ilHeaderAlert {
   font-size: 0.75rem;
   padding: 0;
-  font-weight: 300;
   color: #B54F00;
 }
 div.il_HeaderInner {
