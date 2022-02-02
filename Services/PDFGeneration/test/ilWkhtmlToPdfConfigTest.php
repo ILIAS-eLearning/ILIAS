@@ -258,13 +258,6 @@ class ilWkhtmlToPdfConfigTest  extends TestCase
         $this->assertTrue($this->config->supportMultiSourcesFiles());
     }
 
-    public function testSetPathShouldReturnPath()
-    {
-        $this->config->setPath('/MY/LITTLE/PATH');
-        $this->assertSame('/MY/LITTLE/PATH', $this->config->getPath());
-        $this->assertSame('/usr/local/bin/wkhtmltopdf', $this->config->getWKHTMLToPdfDefaultPath());
-    }
-
     public function testGetConfigShouldReturnConfigObject()
     {
         $this->assertSame(array(), $this->config->getConfig());
