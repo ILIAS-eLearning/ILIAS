@@ -23,6 +23,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
     protected bool $cache = false;
     protected string $alt = "";
     protected string $image = "";
+    protected bool $allow_capture;
 
     public function __construct(
         string $a_title = "",
@@ -49,6 +50,16 @@ class ilImageFileInputGUI extends ilFileInputGUI
     public function getALlowDeletion() : bool
     {
         return $this->allow_deletion;
+    }
+
+    public function setAllowCapture(bool $a_val) : void
+    {
+        $this->allow_capture = $a_val;
+    }
+
+    public function getAllowCapture() : bool
+    {
+        return $this->allow_capture;
     }
 
     /**
@@ -93,7 +104,15 @@ class ilImageFileInputGUI extends ilFileInputGUI
         
         $quota_exceeded = $quota_legend = false;
         $i_tpl = new ilTemplate("tpl.prop_image_file.html", true, true, "Services/Form");
-        
+
+        if ($this->getAllowCapture()) {
+            $i_tpl->setCurrentBlock("capture");
+            $i_tpl->setVariable("POST_VAR_V", $this->getPostVar());
+            $i_tpl->setVariable("TXT_USE_CAMERA", $lng->txt("form_use_camera"));
+            $i_tpl->setVariable("TXT_TAKE_SNAPSHOT", $lng->txt("form_take_snapshot"));
+            $i_tpl->parseCurrentBlock();
+        }
+
         if ($this->getImage() != "") {
             if (!$this->getDisabled() && $this->getALlowDeletion()) {
                 $i_tpl->setCurrentBlock("delete_bl");
@@ -121,6 +140,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
             } else {
                 $i_tpl->setVariable("SRC_IMAGE", $this->getImage());
             }
+            $i_tpl->setVariable("POST_VAR_I", $this->getPostVar());
             $i_tpl->setVariable("ALT_IMAGE", $this->getAlt());
             $i_tpl->parseCurrentBlock();
         }

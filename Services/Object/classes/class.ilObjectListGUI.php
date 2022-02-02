@@ -161,6 +161,8 @@ class ilObjectListGUI
     protected static $tpl_file_name = "tpl.container_list_item.html";
     protected static $tpl_component = "Services/Container";
 
+    protected bool $lp_cmd_enabled = false;
+
     /**
      * @var bool
      */
@@ -745,6 +747,11 @@ class ilObjectListGUI
     public function enableInfoScreen($a_info_screen)
     {
         $this->info_screen_enabled = $a_info_screen;
+    }
+
+    protected function enableLearningProgress(bool $enabled) : void
+    {
+        $this->lp_cmd_enabled = $enabled;
     }
 
     /**
@@ -2401,7 +2408,7 @@ class ilObjectListGUI
             ilUtil::getImagePath("icon_info.svg")
         );
     }
-    
+
     /**
      * Insert common social commands (comments, notes, tagging)
      *
@@ -2625,6 +2632,8 @@ class ilObjectListGUI
             if ($this->getInfoScreenStatus()) {
                 $this->insertInfoScreenCommand();
             }
+
+            $this->insertLPCommand();
 
             if (!$this->isMode(IL_LIST_AS_TRIGGER)) {
                 // edit timings
@@ -4087,5 +4096,25 @@ class ilObjectListGUI
     public function checkInfoPageOnAsynchronousRendering() : bool
     {
         return false;
+    }
+
+    /**
+     * insert learning progress command
+     */
+    public function insertLPCommand() : void
+    {
+        if ($this->std_cmd_only || !$this->lp_cmd_enabled) {
+            return;
+        }
+        $relevant = ilLPStatus::hasListGUIStatus($this->obj_id);
+        if ($relevant) {
+            $cmd_link = $this->getCommandLink("learningProgress");
+            $this->insertCommand(
+                $cmd_link,
+                $this->lng->txt("learning_progress"),
+                "",
+                ""
+            );
+        }
     }
 }
