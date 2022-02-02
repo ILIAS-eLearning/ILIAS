@@ -8587,6 +8587,9 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   margin-right: 0;
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
+  padding-right: 6px;
+}
+.il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist.desclist-column {
   position: relative;
   min-height: 1px;
   padding-right: 15px;
@@ -8594,7 +8597,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   padding-left: 0;
 }
 @media (min-width: 768px) {
-  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist {
+  .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-desclist.desclist-column {
     float: left;
     width: 58.33333333%;
   }

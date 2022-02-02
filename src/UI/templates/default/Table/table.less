@@ -90,8 +90,11 @@
 
         .il-table-presentation-desclist {
             //Using column mixin, to make this responsive
-            .make-sm-column(7);
-            padding-left: 0;
+            padding-right: @padding-small-horizontal;
+            &.desclist-column {
+                .make-sm-column(7);
+                padding-left: 0;
+            }
         }
 
         .il-table-presentation-details {
