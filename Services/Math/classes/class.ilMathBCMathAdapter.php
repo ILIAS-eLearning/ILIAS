@@ -30,7 +30,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function add($left_operand, $right_operand, $scale = null)
+    public function add($left_operand, $right_operand, int $scale = null)
     {
         return bcadd($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
     }
@@ -38,7 +38,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function sub($left_operand, $right_operand, $scale = null)
+    public function sub($left_operand, $right_operand, int $scale = null)
     {
         return bcsub($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
     }
@@ -46,7 +46,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function mul($left_operand, $right_operand, $scale = null)
+    public function mul($left_operand, $right_operand, int $scale = null)
     {
         return bcmul($this->normalize($left_operand), $this->normalize($right_operand), $this->normalize($scale));
     }
@@ -54,7 +54,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function div($left_operand, $right_operand, $scale = null)
+    public function div($left_operand, $right_operand, int $scale = null)
     {
         if ($right_operand == 0) {
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
@@ -78,7 +78,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function pow($left_operand, $right_operand, $scale = null)
+    public function pow($left_operand, $right_operand, int $scale = null)
     {
         $left_operand = $this->normalize($left_operand);
         $right_operand = $this->normalize($right_operand);
@@ -101,7 +101,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function sqrt($operand, $scale = null)
+    public function sqrt($operand, int $scale = null)
     {
         return bcsqrt($operand, $scale);
     }
@@ -109,7 +109,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * {@inheritdoc}
      */
-    public function comp($left_operand, $right_operand, $scale = null) : int
+    public function comp($left_operand, $right_operand, int $scale = null) : int
     {
         return bccomp($left_operand, $right_operand, $scale);
     }

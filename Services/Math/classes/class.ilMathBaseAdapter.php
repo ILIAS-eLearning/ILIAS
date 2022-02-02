@@ -54,10 +54,10 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
     /**
      * @param int|float $left_operand
      * @param int|float  $right_operand
-     * @param int $scale
+     * @param int|null $scale
      * @return bool
      */
-    public function equals($left_operand, $right_operand, $scale = null) : bool
+    public function equals($left_operand, $right_operand, int $scale = null) : bool
     {
         return $this->comp($left_operand, $right_operand, $scale) === 0;
     }

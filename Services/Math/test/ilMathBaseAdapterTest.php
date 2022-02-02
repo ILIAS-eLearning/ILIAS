@@ -102,13 +102,14 @@ abstract class ilMathBaseAdapterTest extends TestCase
     /**
      *  @dataProvider powData
      */
-    public function testPow(string $a, string $b, string $result, int $scale)
+    public function testPow(string $a, string $b, string $result, ?int $scale)
     {
         $this->assertEqualNumbers($result, $this->mathAdapter->pow($a, $b, $scale));
     }
 
     /**
-     *  @dataProvider modData
+     * @dataProvider modData
+     * @throws ilMathDivisionByZeroException
      */
     public function testMod(string $a, string $b, string $result)
     {

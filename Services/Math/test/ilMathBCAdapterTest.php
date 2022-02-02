@@ -34,7 +34,7 @@ class ilMathBCAdapterTest extends ilMathBaseAdapterTest
     public function powData() : array
     {
         return array_merge([
-            ['2', '64', '18446744073709551616', 0],
+            ['2', '64', '18446744073709551616', null],
         ], parent::powData());
     }
 }
