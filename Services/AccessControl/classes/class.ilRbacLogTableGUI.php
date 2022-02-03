@@ -83,7 +83,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $data = ilRbacLog::getLogItems($a_ref_id, $this->getLimit(), $this->getOffset(), $a_current_filter);
 
         $this->setData($data["set"]);
-        $this->setMaxCount($data["cnt"]);
+        $this->setMaxCount((int) $data["cnt"]);
     }
 
     protected function fillRow(array $a_set) : void

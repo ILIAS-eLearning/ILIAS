@@ -34,7 +34,7 @@ class ilObjUserFolder extends ilObject
     }
 
 
-    public function delete()
+    public function delete() : bool
     {
         return false;
     }

@@ -61,7 +61,7 @@ class ilContainer extends ilObject
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
     public array $items = [];
-    protected ilObjectDefinition $obj_definition;
+    protected ?ilObjectDefinition $obj_definition;
     protected int $order_type = 0;
     protected bool $hiddenfilesfound = false;
     protected bool $news_timeline = false;
@@ -376,10 +376,10 @@ class ilContainer extends ilObject
      * @param int copy id
      * @return object new object
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjCourse $new_obj */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
@@ -444,24 +444,24 @@ class ilContainer extends ilObject
      * @param int copy id
      * return bool
      */
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $target_id, int $copy_id) : bool
     {
         $ilLog = $this->log;
         
-        parent::cloneDependencies($a_target_id, $a_copy_id);
+        parent::cloneDependencies($target_id, $copy_id);
 
-        ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id, $a_copy_id);
+        ilContainerSorting::_getInstance($this->getId())->cloneSorting($target_id, $copy_id);
 
         // fix internal links to other objects
-        ilContainer::fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $this->getRefId());
+        ilContainer::fixInternalLinksAfterCopy($target_id, $copy_id, $this->getRefId());
         
         // fix item group references in page content
-        ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $a_copy_id);
+        ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $copy_id);
         
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $collection->cloneCollection($a_target_id, $a_copy_id);
+            $collection->cloneCollection($target_id, $copy_id);
         }
 
         return true;
@@ -544,7 +544,7 @@ class ilContainer extends ilObject
      *
      * @return    bool    true if all object data were removed; false if only a references were removed
      */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -784,7 +784,7 @@ class ilContainer extends ilObject
         return false;
     }
     
-    public function create()
+    public function create() : int
     {
         global $DIC;
 
@@ -819,20 +819,20 @@ class ilContainer extends ilObject
         return $ret;
     }
 
-    public function putInTree($a_parent_ref)
+    public function putInTree(int $parent_ref) : void
     {
-        parent::putInTree($a_parent_ref);
+        parent::putInTree($parent_ref);
 
         // copy title, icon actions visibilities
-        if (self::_lookupContainerSetting(ilObject::_lookupObjId($a_parent_ref), "hide_header_icon_and_title")) {
+        if (self::_lookupContainerSetting(ilObject::_lookupObjId($parent_ref), "hide_header_icon_and_title")) {
             self::_writeContainerSetting($this->getId(), "hide_header_icon_and_title", true);
         }
-        if (self::_lookupContainerSetting(ilObject::_lookupObjId($a_parent_ref), "hide_top_actions")) {
+        if (self::_lookupContainerSetting(ilObject::_lookupObjId($parent_ref), "hide_top_actions")) {
             self::_writeContainerSetting($this->getId(), "hide_top_actions", true);
         }
     }
 
-    public function update()
+    public function update() : bool
     {
         $ret = parent::update();
 
@@ -855,7 +855,7 @@ class ilContainer extends ilObject
         return $ret;
     }
     
-    public function read()
+    public function read() : void
     {
         parent::read();
 

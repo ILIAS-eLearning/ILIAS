@@ -147,7 +147,7 @@ class ilRepositoryExplorer extends ilExplorer
     public function getImage(string $a_name, string $a_type = "", $a_obj_id = "") : string
     {
         if ($a_type != "") {
-            return ilObject::_getIcon($a_obj_id, "tiny", $a_type);
+            return ilObject::_getIcon((int) $a_obj_id, "tiny", $a_type);
         }
         
         return parent::getImage($a_name);
@@ -305,7 +305,7 @@ class ilRepositoryExplorer extends ilExplorer
         $ilCtrl = $this->ctrl;
 
         // custom icons
-        $path = ilObject::_getIcon($a_obj_id, "tiny", "root");
+        $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
 
         $tpl->setCurrentBlock("icon");
         $nd = $tree->getNodeData(ROOT_FOLDER_ID);

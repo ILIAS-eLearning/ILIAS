@@ -25,7 +25,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected ilSetting $folder_settings;
 
     public function __construct(
-        ?array $a_data,
+        $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true

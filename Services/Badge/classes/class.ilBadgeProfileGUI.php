@@ -172,7 +172,7 @@ class ilBadgeProfileGUI
 
             if ($badge["object"]["type"] != "bdga") {
                 $parent_icon = $this->factory->symbol()->icon()->custom(
-                    ilObject::_getIcon($badge["object"]["id"], "big", $badge["object"]["type"]),
+                    ilObject::_getIcon((int) $badge["object"]["id"], "big", $badge["object"]["type"]),
                     $this->lng->txt("obj_" . $badge["object"]["type"]),
                     "medium"
                 );

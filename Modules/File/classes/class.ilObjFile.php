@@ -40,10 +40,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     
     protected int $page_count = 0;
     protected bool $rating = false;
-    /**
-     * @var \ilLogger // not yet typed in parent class
-     */
-    protected $log;
+    protected ?ilLogger $log;
     protected string $filename = '';
     protected string $filetype = '';
     protected int $filesize;

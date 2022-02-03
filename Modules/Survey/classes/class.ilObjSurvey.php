@@ -202,14 +202,15 @@ class ilObjSurvey extends ilObject
             ->data();
     }
 
-    public function create($a_upload = false)
+    public function create($a_upload = false) : int
     {
-        parent::create();
+        $id = parent::create();
         if (!$a_upload) {
             $this->createMetaData();
         }
         $this->setOfflineStatus(true);
         $this->update($a_upload);
+        return $id;
     }
 
     protected function doCreateMetaData() : void
@@ -217,7 +218,7 @@ class ilObjSurvey extends ilObject
         $this->saveAuthorToMetadata();
     }
 
-    public function update($a_upload = false)
+    public function update($a_upload = false) : bool
     {
         if (!$a_upload) {
             $this->updateMetaData();
@@ -232,14 +233,14 @@ class ilObjSurvey extends ilObject
         return true;
     }
 
-    public function createReference()
+    public function createReference() : int
     {
         $result = parent::createReference();
         $this->saveToDb();
         return $result;
     }
 
-    public function read()
+    public function read() : void
     {
         parent::read();
         $this->loadFromDb();
@@ -254,7 +255,7 @@ class ilObjSurvey extends ilObject
         $this->questions[] = $question_id;
     }
     
-    public function delete()
+    public function delete() : bool
     {
         if ($this->countReferences() == 1) {
             $this->deleteMetaData();
@@ -3228,7 +3229,7 @@ class ilObjSurvey extends ilObject
         return $error;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $ilDB = $this->db;
         

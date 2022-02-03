@@ -54,7 +54,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     protected int $style = 0;
     private bool $dd_pullright = true;
 
-    protected string $listtitle;
+    protected string $listtitle = "";
     protected string $aria_listtitle = "";
     protected bool $useimages = false;
     protected string $itemlinkclass = '';

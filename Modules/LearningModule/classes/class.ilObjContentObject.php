@@ -96,9 +96,9 @@ class ilObjContentObject extends ilObject
      */
     public function create(
         bool $a_no_meta_data = false
-    ) : void {
+    ) : int {
         $this->setOfflineStatus(true);
-        parent::create();
+        $id = parent::create();
         
         // meta data will be created by
         // import parser
@@ -108,9 +108,10 @@ class ilObjContentObject extends ilObject
 
         $this->createProperties();
         $this->updateAutoGlossaries();
+        return $id;
     }
 
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -190,12 +191,13 @@ class ilObjContentObject extends ilObject
         return $this->lm_tree;
     }
 
-    public function update()
+    public function update() : bool
     {
         $this->updateMetaData();
         parent::update();
         $this->updateProperties();
         $this->updateAutoGlossaries();
+        return true;
     }
 
     public function updateAutoGlossaries() : void
@@ -2013,7 +2015,7 @@ class ilObjContentObject extends ilObject
         return $mess;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         /** @var ilObjLearningModule $new_obj */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);

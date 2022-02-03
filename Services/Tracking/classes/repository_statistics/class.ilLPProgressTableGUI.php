@@ -202,7 +202,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("ICON_SRC", ilObject::_getIcon("", "tiny", $a_set["type"]));
+        $this->tpl->setVariable("ICON_SRC", ilObject::_getIcon(0, "tiny", $a_set["type"]));
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 

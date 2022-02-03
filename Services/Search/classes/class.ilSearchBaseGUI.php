@@ -106,7 +106,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->tpl->loadStandardTemplate();
         
         $this->tpl->setTitleIcon(
-            ilObject::_getIcon("", "big", "src"),
+            ilObject::_getIcon(0, "big", "src"),
             ""
         );
         $this->tpl->setTitle($this->lng->txt("search"));

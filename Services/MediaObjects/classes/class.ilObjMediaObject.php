@@ -46,27 +46,27 @@ class ilObjMediaObject extends ilObject
     }
 
     public static function _exists(
-        $a_id,
-        $a_reference = false,
-        $a_type = null
-    ) {
+        int $a_id,
+        bool $a_reference = false,
+        ?string $a_type = null
+    ) : bool {
         if (is_int(strpos($a_id, "_"))) {
             $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
         }
         
-        if (parent::_exists($a_id, false) && ilObject::_lookupType($a_id) == "mob") {
+        if (parent::_exists($a_id) && ilObject::_lookupType($a_id) == "mob") {
             return true;
         }
         return false;
     }
 
-    public function delete()
+    public function delete() : bool
     {
         $mob_logger = ilLoggerFactory::getLogger('mob');
         $mob_logger->debug("ilObjMediaObject: Delete called for media object ID '" . $this->getId() . "'.");
 
         if (!($this->getId() > 0)) {
-            return;
+            return false;
         }
 
         $usages = $this->getUsages();
@@ -103,6 +103,7 @@ class ilObjMediaObject extends ilObject
             }
             $mob_logger->debug("ilObjMediaObject: ... not deleted.");
         }
+        return true;
     }
 
     protected function beforeMDUpdateListener(string $a_element) : bool
@@ -274,9 +275,9 @@ class ilObjMediaObject extends ilObject
         return $this->origin_id;
     }
 
-    public function create($a_create_meta_data = false, $a_save_media_items = true)
+    public function create($a_create_meta_data = false, $a_save_media_items = true) : int
     {
-        parent::create();
+        $id = parent::create();
 
         if (!$a_create_meta_data) {
             $this->createMetaData();
@@ -302,9 +303,11 @@ class ilObjMediaObject extends ilObject
             'obj_type' => 'mob',
             'obj_id' => $this->getId())
         );
+
+        return $id;
     }
 
-    public function update($a_upload = false)
+    public function update($a_upload = false) : bool
     {
         parent::update();
         
@@ -340,6 +343,8 @@ class ilObjMediaObject extends ilObject
                     'obj_type' => 'mob',
                     'obj_id' => $this->getId())
         );
+
+        return true;
     }
 
     /**

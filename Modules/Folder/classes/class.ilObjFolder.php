@@ -42,7 +42,7 @@ class ilObjFolder extends ilContainer
         $this->folder_tree = $a_tree;
     }
     
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         
@@ -54,7 +54,7 @@ class ilObjFolder extends ilContainer
         return $new_obj;
     }
 
-    public function putInTree($a_parent_ref)
+    public function putInTree(int $a_parent_ref) : void
     {
         $tree = $this->tree;
         
@@ -71,7 +71,7 @@ class ilObjFolder extends ilContainer
         }
     }
     
-    public function cloneDependencies($a_target_id, $a_copy_id)
+    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
@@ -109,7 +109,7 @@ class ilObjFolder extends ilContainer
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }
     
-    public function read()
+    public function read() : void
     {
         parent::read();
         

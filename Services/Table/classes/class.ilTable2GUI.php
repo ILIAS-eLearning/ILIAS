@@ -2434,12 +2434,12 @@ class ilTable2GUI extends ilTableGUI
      * Get current filter value
      * @return mixed
      */
-    protected function getFilterValue(ilTableFilterItem $a_item) : string
+    protected function getFilterValue(ilTableFilterItem $a_item)
     {
         if (method_exists($a_item, "getChecked")) {
             return (string) $a_item->getChecked();
         } elseif (method_exists($a_item, "getValue")) {
-            return $a_item->getValue();
+            return $a_item->getValue() ?: "";
         } elseif (method_exists($a_item, "getDate")) {
             return $a_item->getDate()->get(IL_CAL_DATE);
         }

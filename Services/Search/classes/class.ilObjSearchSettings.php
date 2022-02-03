@@ -33,7 +33,7 @@ class ilObjSearchSettings extends ilObject
 
 
 
-    public function update()
+    public function update() : bool
     {
         if (!parent::update()) {
             return false;

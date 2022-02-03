@@ -54,12 +54,12 @@ class ilObjSAHSLearningModule extends ilObject
      * @param bool $upload
      * @return void
      */
-    public function create(bool $upload = false) : void
+    public function create(bool $upload = false) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        parent::create();
+        $id = parent::create();
         if (!$upload) {
             $this->createMetaData();
         }
@@ -74,6 +74,7 @@ class ilObjSAHSLearningModule extends ilObject
                 0, $this->getLocalization()
                 )
         );
+        return $id;
     }
 
     /**
@@ -1408,8 +1409,7 @@ class ilObjSAHSLearningModule extends ilObject
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilSaxParserException
      */
-//    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false)
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
