@@ -42,8 +42,12 @@ class ilPDFGenerationConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "phantomjs", $this->config->getPathToPhantomJS());
+    
+        $ini->setVariable(
+            "tools",
+            "phantomjs",
+            $this->config->getPathToPhantomJS() ?? ''
+        );
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");

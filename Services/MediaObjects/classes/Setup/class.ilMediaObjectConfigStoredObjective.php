@@ -55,8 +55,13 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "ffmpeg", $this->config->getPathToFFMPEG());
+    
+        $ini->setVariable(
+            "tools",
+            "ffmpeg",
+            $this->config->getPathToFFMPEG()
+            ?? ''
+        );
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");
