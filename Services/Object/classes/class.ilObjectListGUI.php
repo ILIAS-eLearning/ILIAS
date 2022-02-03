@@ -1103,9 +1103,6 @@ class ilObjectListGUI
     public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
     {
         $this->offline_mode = false;
-        if ($this->type == "sahs") {
-            $this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
-        }
         $this->access_cache = array();
         $this->ref_id = (int) $a_ref_id;
         $this->obj_id = (int) $a_obj_id;
