@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpService;
 
 /**
 * TableGUI class for learning progress
@@ -13,6 +15,8 @@
 class ilLPTableBaseGUI extends ilTable2GUI
 {
     public const HIT_LIMIT = 5000;
+    protected RefineryFactory $refinery;
+    protected HttpService $http;
 
     protected array $filter = [];
     protected bool $anonymized;
@@ -33,6 +37,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
         $this->setting = $DIC->settings();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
@@ -44,6 +50,32 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $olp = ilObjectLP::getInstance($this->obj_id);
             $this->anonymized = $olp->isAnonymized();
         }
+    }
+
+    protected function initItemIdFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('item_id')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'item_id',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
+    protected function initUidFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('uid')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'uid',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
     }
 
     public function executeCommand() : bool
@@ -64,23 +96,30 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
 
                 case "hideSelected":
-                    $to_hide = $_POST["item_id"];
+                    $to_hide = $this->initItemIdFromPost();
                     break;
 
                 case "hide":
-                    $to_hide = array((int) $_GET["hide"]);
+                    $hide = 0;
+                    if ($this->http->wrapper()->query()->has('hide')) {
+                        $hide = $this->http->wrapper()->query()->retrieve(
+                            'hide',
+                            $this->refinery->kindlyTo()->int()
+                        );
+                    }
+                    $to_hide = [$hide];
                     break;
                 
                 case "mailselectedusers":
-                    if (!sizeof($_POST["uid"])) {
+                    if (!$this->initUidFromPost()) {
                         ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
                     } else {
-                        $this->sendMail($_POST["uid"], $this->parent_obj, $this->parent_cmd);
+                        $this->sendMail($this->initUidFromPost(), $this->parent_obj, $this->parent_cmd);
                     }
                     break;
                     
                 case 'addToClipboard':
-                    if (!sizeof($_POST['uid'])) {
+                    if (!$this->initUidFromPost()) {
                         ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
                     } else {
                         $this->addToClipboard();
@@ -924,7 +963,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
      */
     protected function addToClipboard() : void
     {
-        $users = (array) $_POST['uid'];
+        $users = $this->initUidFromPost();
         include_once './Services/User/classes/class.ilUserClipboard.php';
         $clip = ilUserClipboard::getInstance($this->user->getId());
         $clip->add($users);

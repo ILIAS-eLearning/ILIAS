@@ -128,7 +128,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->filter["name"] = $item->getValue();
         
         // #14949 - is called before constructor, so we have to do it ourselves
-        if (isset($_GET[$this->prefix . "_tpl"])) {
+        if ($this->http->wrapper()->query()->has($this->prefix . '_tpl')) {
             $this->filter["name"] = null;
             $this->setFilterValue($item, '');
         }

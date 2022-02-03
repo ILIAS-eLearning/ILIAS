@@ -1,6 +1,10 @@
 <?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
+
 /**
  * Class ilObjUserTrackingGUI
  *
@@ -14,6 +18,8 @@
  */
 class ilLearningProgressBaseGUI
 {
+    protected RefineryFactory $refinery;
+    protected HttpServices $http;
     protected ilGlobalTemplateInterface $tpl;
     protected ilHelpGUI $help;
     protected ilCtrlInterface $ctrl;
@@ -59,7 +65,6 @@ class ilLearningProgressBaseGUI
     {
         global $DIC;
 
-
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->help = $DIC->help();
         $this->ctrl = $DIC->ctrl();
@@ -73,6 +78,9 @@ class ilLearningProgressBaseGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->rbacreview = $DIC->rbac()->review();
         $this->tree = $DIC->repositoryTree();
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->mode = $a_mode;
         $this->ref_id = $a_ref_id;
@@ -109,13 +117,24 @@ class ilLearningProgressBaseGUI
         return $this->obj_id;
     }
 
+    protected function initUserIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('user_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
     public function getUserId() : int
     {
         if ($this->usr_id) {
             return $this->usr_id;
         }
-        if ((int) $_GET['user_id']) {
-            return (int) $_GET['user_id'];
+        if ($this->initUserIdFromQuery()) {
+            return $this->initUserIdFromQuery();
         }
         return 0;
     }

@@ -22,7 +22,48 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function __construct(int $a_mode, int $a_ref_id)
     {
         parent::__construct($a_mode, $a_ref_id);
-        $this->__initDetails((int) $_REQUEST['details_id']);
+        $this->__initDetails($this->initDetailsIdFromRequest());
+    }
+
+    protected function initUserDetailsIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('userdetails_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'userdetrails_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+    protected function initUserIdFromRequest() : int
+    {
+        if ($this->initUserIdFromQuery()) {
+            return $this->initUserIdFromQuery();
+        }
+        if ($this->http->wrapper()->post()->has('user_id')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initDetailsIdFromRequest() : int
+    {
+        if ($this->http->wrapper()->query()->has('details_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'details_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->post()->has('details_id')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'details_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     public function executeCommand() : void
@@ -31,7 +72,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
         switch ($this->ctrl->getNextClass()) {
             case 'iltruserobjectspropstablegui':
-                $user_id = (int) $_GET["user_id"];
+                $user_id = $this->initUserIdFromQuery();
                 $this->ctrl->setParameter($this, "user_id", $user_id);
 
                 $this->ctrl->setParameter($this, "details_id", $this->details_id);
@@ -80,9 +121,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
     public function updateUser()
     {
-        if (isset($_GET["userdetails_id"])) {
+        $details_id = $this->initUserDetailsIdFromQuery();
+        if ($details_id) {
             $parent = $this->details_id;
-            $this->__initDetails((int) $_GET["userdetails_id"]);
+            $this->__initDetails($details_id);
         }
         
         include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -91,16 +133,16 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             $this->ctrl->returnToParent($this);
         }
         
-        $this->__updateUser($_REQUEST['user_id'], $this->details_obj_id);
+        $this->__updateUser($this->initUserIdFromRequest(), $this->details_obj_id);
         ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'), true);
                         
         $this->ctrl->setParameter($this, "details_id", $this->details_id); // #15043
         
         // #14993
-        if (!isset($_GET["userdetails_id"])) {
+        if (!$details_id) {
             $this->ctrl->redirect($this, "details");
         } else {
-            $this->ctrl->setParameter($this, "userdetails_id", (int) $_GET["userdetails_id"]);
+            $this->ctrl->setParameter($this, "userdetails_id", $details_id);
             $this->ctrl->redirect($this, "userdetails");
         }
     }
@@ -109,8 +151,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     {
         $cancel = '';
         $parent_id = $this->details_id;
-        if (isset($_GET["userdetails_id"])) {
-            $this->__initDetails((int) $_GET["userdetails_id"]);
+        $details_id = $this->initUserDetailsIdFromQuery();
+        if ($details_id) {
+            $this->__initDetails($details_id);
             $sub_id = $this->details_id;
             $cancel = "userdetails";
         } else {
@@ -129,7 +172,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $info->setFormAction($this->ctrl->getFormAction($this));
         $this->__showObjectDetails($info, $this->details_obj_id);
 
-        $this->tpl->setVariable("ADM_CONTENT", $this->__showEditUser((int) $_GET['user_id'], $parent_id, strlen($cancel) > 0 ? $cancel : null, $sub_id) . "<br />" . $info->getHTML());
+        $user_id = $this->initUserIdFromQuery();
+        $this->tpl->setVariable("ADM_CONTENT", $this->__showEditUser($user_id, $parent_id, strlen($cancel) > 0 ? $cancel : null, $sub_id) . "<br />" . $info->getHTML());
     }
 
     public function details() : void
@@ -180,13 +224,19 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
         $this->ctrl->setParameter($this, "details_id", $this->details_id);
 
-        $print_view = (bool) $_GET['prt'];
+        $print_view = false;
+        if ($this->http->wrapper()->query()->has('prt')) {
+            $print_view = $this->http->wrapper()->query()->retrieve(
+                'prt',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
         if (!$print_view) {
             // Show back button
             $this->toolbar->addButton($this->lng->txt('trac_view_list'), $this->ctrl->getLinkTarget($this, 'details'));
         }
 
-        $user_id = (int) $_GET["user_id"];
+        $user_id = $this->initUserIdFromQuery();
         $this->ctrl->setParameter($this, "user_id", $user_id);
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_loo.html', 'Services/Tracking');
 

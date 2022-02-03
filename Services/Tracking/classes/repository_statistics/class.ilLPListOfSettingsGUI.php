@@ -38,6 +38,20 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
     }
 
+    protected function initItemIdsFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('item_ids')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'item_ids',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
+
     /**
      * Show settings tables
      */
@@ -181,14 +195,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
     protected function assign() : void
     {
-        if (!$_POST['item_ids']) {
+        if (!$this->initItemIdsFromPost()) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
-        if (count($_POST['item_ids'])) {
+        if (count($this->initItemIdsFromPost())) {
             $collection = $this->obj_lp->getCollectionInstance();
             if ($collection && $collection->hasSelectableItems()) {
-                $collection->activateEntries($_POST['item_ids']);
+                $collection->activateEntries($this->initItemIdsFromPost());
             }
             
             // #15045 - has to be done before LP refresh!
@@ -204,15 +218,15 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
     protected function deassign() : void
     {
-        if (!$_POST['item_ids']) {
+        if (!$this->initItemIdsFromPost()) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
             return;
         }
-        if (count($_POST['item_ids'])) {
+        if (count($this->initItemIdsFromPost())) {
             $collection = $this->obj_lp->getCollectionInstance();
             if ($collection && $collection->hasSelectableItems()) {
-                $collection->deactivateEntries($_POST['item_ids']);
+                $collection->deactivateEntries($this->initItemIdsFromPost());
             }
             
             // #15045 - has to be done before LP refresh!
@@ -231,7 +245,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
      */
     protected function groupMaterials() : void
     {
-        if (!count((array) $_POST['item_ids'])) {
+        if (!count((array) $this->initItemIdsFromPost())) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
@@ -239,7 +253,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
             // Assign new grouping id
-            $collection->createNewGrouping((array) $_POST['item_ids']);
+            $collection->createNewGrouping($this->initItemIdsFromPost());
 
             // refresh learning progress
             include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -255,14 +269,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
      */
     protected function releaseMaterials() : void
     {
-        if (!count((array) $_POST['item_ids'])) {
+        if (!count((array) $this->initItemIdsFromPost())) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
 
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
-            $collection->releaseGrouping((array) $_POST['item_ids']);
+            $collection->releaseGrouping($this->initItemIdsFromPost());
             
             // refresh learning progress
             include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -278,7 +292,16 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
      */
     protected function saveObligatoryMaterials() : void
     {
-        if (!is_array((array) $_POST['grp'])) {
+        $groups = [];
+        if ($this->http->wrapper()->post()->has('grp')) {
+            $groups = $this->http->wrapper()->post()->retrieve(
+                'grp',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($groups)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
@@ -286,7 +309,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         try {
             $collection = $this->obj_lp->getCollectionInstance();
             if ($collection && $collection->hasSelectableItems()) {
-                $collection->saveObligatoryMaterials((array) $_POST['grp']);
+                $collection->saveObligatoryMaterials($groups);
 
                 // refresh learning progress
                 include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -301,7 +324,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $this->ctrl->redirect($this, 'show');
         }
     }
-    
+
+    /**
+     * @throws ilCtrlException
+     * @todo fix POST tlt
+     */
     protected function updateTLT() : void
     {
         include_once "Services/MetaData/classes/class.ilMD.php";
@@ -371,11 +398,18 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     
     protected function handleLPUsageInfo() : string
     {
-        $ref_id = $_GET["ref_id"];
-        if (!$ref_id) {
-            $ref_id = $_REQUEST["ref_id"];
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->http->wrapper()->post()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->post()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
-        
         $coll = array();
         if ($ref_id &&
             $this->getLPPathInfo((int) $ref_id, $coll)) {

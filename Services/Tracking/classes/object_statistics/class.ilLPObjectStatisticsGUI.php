@@ -29,9 +29,15 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         parent::__construct($a_mode, $a_ref_id);
     
         if (!$this->ref_id) {
-            $this->ref_id = (int) $_REQUEST["ref_id"];
+            if ($this->http->wrapper()->query()->has('ref_id')) {
+                $this->ref_id = $this->http->wrapper()->query()->retrieve(
+                    'ref_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
         }
     }
+
 
     protected function setTabs() : void
     {
@@ -117,16 +123,16 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function showAccessGraph() : void
     {
-        if (!$_POST["item_id"]) {
+        if (!$this->initItemIdFromPost()) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->access();
         }
         
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php");
-        $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", $_POST["item_id"]);
+        $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", $this->initItemIdFromPost());
 
-        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
     }
 
     public function applyTypesFilter() : void
@@ -170,7 +176,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function showTypesGraph() : void
     {
-        if (!$_POST["item_id"]) {
+        if (!$this->initItemIdFromPost()) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->types();
             return;
@@ -179,9 +185,9 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
 
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
-        $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", $_POST["item_id"]);
+        $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", $this->initItemIdFromPost());
 
-        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
     }
 
     public function applyDailyFilter() : void
@@ -226,7 +232,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function showDailyGraph() : void
     {
-        if (!$_POST["item_id"]) {
+        if (!$this->initItemIdFromPost()) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->daily();
             return;
@@ -235,9 +241,9 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
 
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php");
-        $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", $_POST["item_id"]);
+        $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", $this->initItemIdFromPost());
 
-        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
     }
 
     public function admin() : void
@@ -271,7 +277,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function confirmDeleteData() : void
     {
-        if (!$_POST["item_id"]) {
+        if (!$this->initItemIdFromPost()) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->admin();
             return;
@@ -291,7 +297,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $cgui->setConfirm($this->lng->txt("delete"), "deleteData");
 
         // list objects that should be deleted
-        foreach ($_POST["item_id"] as $i) {
+        foreach ($this->initItemIdFromPost() as $i) {
             $caption = $this->lng->txt("month_" . str_pad(substr($i, 5), 2, "0", STR_PAD_LEFT) . "_long") .
             " " . substr($i, 0, 4);
             
@@ -303,14 +309,14 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function deleteData() : void
     {
-        if (!$_POST["item_id"]) {
+        if (!$this->initItemIdFromPost()) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->admin();
             return;
         }
 
         include_once "Services/Tracking/classes/class.ilTrQuery.php";
-        ilTrQuery::deleteObjectStatistics($_POST["item_id"]);
+        ilTrQuery::deleteObjectStatistics($this->initItemIdFromPost());
         ilUtil::sendSuccess($this->lng->txt("trac_data_deleted"));
         $this->admin();
     }
@@ -357,7 +363,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
     public function showLearningProgressGraph()
     {
-        if (!$_POST["item_id"]) {
+        if (!$this->initItemIdFromPost()) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->learningProgress();
             return;
@@ -366,15 +372,21 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
 
         include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
-        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $_POST["item_id"], true, true);
+        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $this->initItemIdFromPost(), true, true);
                 
-        $this->tpl->setContent($lp_table->getGraph($_POST["item_id"]) . $lp_table->getHTML());
+        $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
     }
 
     public function showLearningProgressDetails() : void
     {
-        include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
-        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($_GET["item_id"]), true, false, true);
+        $item_id = 0;
+        if ($this->http->wrapper()->query()->has('item_id')) {
+            $item_id = $this->http->wrapper()->query()->retrieve(
+                'item_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($item_id), true, false, true);
         
         $a_tpl = new ilTemplate("tpl.lp_object_statistics_lp_details.html", true, true, "Services/Tracking");
         $a_tpl->setVariable("CONTENT", $lp_table->getHTML());

@@ -86,9 +86,14 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     {
         // Show back button to crs if called from crs. Otherwise if called from personal desktop or administration
         // show back to list
-        if ((int) $_GET['crs_id']) {
-            $this->ctrl->setParameter($this, 'details_id', (int) $_GET['crs_id']);
-            
+        $crs_id = 0;
+        if ($this->http->wrapper()->query()->has('crs_id')) {
+            $crs_id = $this->http->wrapper()->query()->retrieve(
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($crs_id) {
+            $this->ctrl->setParameter($this, 'details_id', $crs_id);
             $this->toolbar->addButton(
                 $this->lng->txt('trac_view_crs'),
                 $this->ctrl->getLinkTarget($this, 'details')
@@ -167,11 +172,13 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
      */
     public function __initUser(int $a_usr_id = 0) : bool
     {
-        if ($_POST['user_id']) {
-            $a_usr_id = $_POST['user_id'];
-            $this->ctrl->setParameter($this, 'user_id', $_POST['user_id']);
+        if ($this->http->wrapper()->post()->has('user_id')) {
+            $a_usr_id = $this->http->wrapper()->post()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->int()
+            );
+            $this->ctrl->setParameter($this, 'user_id', $a_usr_id);
         }
-
         if ($a_usr_id) {
             $user = ilObjectFactory::getInstanceByObjId($a_usr_id);
             if (!$user instanceof ilObjUser) {

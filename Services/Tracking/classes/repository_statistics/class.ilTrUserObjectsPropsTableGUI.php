@@ -333,8 +333,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             }
             $this->tpl->setCurrentBlock('title_linked');
 
+            $base_class = '';
+            if ($this->http->wrapper()->query()->has('baseClass')) {
+                $base_class = $this->http->wrapper()->query()->retrieve(
+                    'baseClass',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
             // link structure gets too complicated
-            if ($_GET["baseClass"] != "ilDashboardGUI" && $_GET["baseClass"] != "ilAdministrationGUI") {
+            if ($base_class != "ilDashboardGUI" && $base_class != "ilAdministrationGUI") {
                 $old = $this->ctrl->getParameterArrayByClass('illplistofobjectsgui');
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $a_set["ref_id"]);
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'details_id', $a_set["ref_id"]);
