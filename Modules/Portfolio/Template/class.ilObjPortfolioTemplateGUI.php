@@ -20,8 +20,9 @@
  *
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectMetaDataGUI
+.php
  */
 class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 {
@@ -106,37 +107,19 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $exp_gui->addFormat("xml");
                 $this->ctrl->forwardCommand($exp_gui);
                 break;
-            
-            case "ilobjstylesheetgui":
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $this->port_request->getNewType() == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
 
-                if ($cmd == "confirmedDelete") {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
-
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
-                break;
-
-            case 'ilobjectmetadatagui':
+            case "ilobjectcontentstylesettingsgui":
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->tabs->activateTab("advmd");
-                $md_gui = new ilObjectMetaDataGUI($this->object, "pfpg");
-                $this->ctrl->forwardCommand($md_gui);
+                $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("style");
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
 
             default:

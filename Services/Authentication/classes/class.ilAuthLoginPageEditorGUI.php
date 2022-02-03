@@ -38,6 +38,7 @@ class ilAuthLoginPageEditorGUI
     private int $ref_id = 0;
     private ilAuthLoginPageEditorSettings $settings;
     private ?ilSetting $loginSettings = null;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(int $a_ref_id)
     {
@@ -58,6 +59,9 @@ class ilAuthLoginPageEditorGUI
         $this->ref_id = $a_ref_id;
 
         $this->settings = ilAuthLoginPageEditorSettings::getInstance();
+        $this->content_style_domain = $DIC->contentStyle()
+            ->domain()
+            ->styleForRefId($a_ref_id);
     }
 
     /**
@@ -139,7 +143,7 @@ class ilAuthLoginPageEditorGUI
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
         //		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
         $page_gui->setPresentationTitle("");
-        $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
+        $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setTemplateOutput(false);
         //$page_gui->setLocator($contObjLocator);
         $page_gui->setHeader("");

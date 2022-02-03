@@ -50,6 +50,9 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected string $requested_file_id;
     protected int $requested_mob_id;
     protected string $requested_export_type;
+    protected \ILIAS\Style\Content\Service $content_style_service;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         string $export_format = "",
@@ -78,6 +81,8 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->service = $DIC->glossary()
                        ->internal();
         $this->initByRequest();
+        $this->content_style_service =
+            $DIC->contentStyle();
     }
 
     /**
@@ -128,6 +133,9 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         }
 
         $this->requested_letter = $request->getLetter();
+
+        $this->content_style_domain = $this->content_style_service->domain()->styleForRefId($this->glossary->getRefId());
+        $this->content_style_gui = $this->content_style_service->gui();
     }
 
     public function injectTemplate(ilGlobalTemplateInterface $tpl) : void
@@ -231,10 +239,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     public function basicPageGuiInit(
         \ilPageObjectGUI $a_page_gui
     ) : void {
-        $a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->glossary->getStyleSheetId(),
-            "glo"
-        ));
+        $a_page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         if (!$this->offlineMode()) {
             $a_page_gui->setOutputMode("presentation");
             $this->fill_on_load_code = true;
@@ -340,10 +345,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $tpl = $this->tpl;
 
         if (!$this->offlineMode()) {
-            $tpl->addCss(ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->glossary->getStyleSheetId(),
-                "glo"
-            )));
+            $this->content_style_gui->addCss($tpl, $this->glossary->getRefId());
             $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
         } else {
             $tpl->addCss("content.css");
@@ -466,7 +468,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $this->basicPageGuiInit($page_gui);
             $page_gui->setGlossary($this->glossary);
             $page_gui->setOutputMode($a_page_mode);
-            $page_gui->setStyleId($this->glossary->getStyleSheetId());
+            $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
             $page = $page_gui->getPageObject();
 
             // internal links
@@ -631,7 +633,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId())
+            ilObjStyleSheet::getContentStylePath($this->content_style_domain->getEffectiveStyleId())
         );
 
         //$int_links = $page_object->getInternalLinks();

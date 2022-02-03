@@ -24,10 +24,21 @@ use ILIAS\DI\Container;
 class Service
 {
     protected Container $DIC;
+    protected InternalService $internal;
+    protected DomainService $domain;
+    protected GUIService $gui;
 
     public function __construct(Container $DIC)
     {
         $this->DIC = $DIC;
+
+        $this->internal = new InternalService($this->DIC);
+        $this->gui = new GUIService(
+            $this->internal
+        );
+        $this->domain = new DomainService(
+            $this->internal
+        );
     }
 
     /**
@@ -35,6 +46,16 @@ class Service
      */
     public function internal() : InternalService
     {
-        return new InternalService($this->DIC);
+        return $this->internal;
+    }
+
+    public function gui() : GUIService
+    {
+        return $this->gui;
+    }
+
+    public function domain() : DomainService
+    {
+        return $this->domain;
     }
 }

@@ -22,7 +22,7 @@ use ILIAS\Wiki\Editing\EditingGUIRequest;
  *
  * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
  * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
@@ -41,6 +41,8 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\DI\UIServices $ui;
     protected bool $req_with_comments = false;
     protected EditingGUIRequest $edit_request;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         $a_data,
@@ -83,6 +85,11 @@ class ilObjWikiGUI extends ilObjectGUI
         }
 
         $this->req_with_comments = $this->edit_request->getWithComments();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        if (is_object($this->object)) {
+            $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+        }
     }
     
     public function executeCommand() : string
@@ -141,10 +148,7 @@ class ilObjWikiGUI extends ilObjectGUI
                     $this->edit_request->getOldNr(),
                     $this->object->getRefId()
                 );
-                $wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->object->getStyleSheetId(),
-                    "wiki"
-                ));
+                $wpage_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
                 $this->setContentStyleSheet();
                 if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
                     (
@@ -180,30 +184,21 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 $tpl->setContent($ret);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $this->edit_request->getNewType() == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
 
-                if ($cmd == "confirmedDelete") {
-                    $this->object->setStyleSheetId(0);
-                    $this->object->update();
-                }
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->addHeaderAction();
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs("style");
 
-                $ret = $this->ctrl->forwardCommand($style_gui);
-
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case "ilexportgui":
                 $this->addHeaderAction();
                 $ilTabs->activateTab("export");
@@ -539,7 +534,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilHelp->setScreenIdComponent("wiki");
         
         // wiki tabs
-        if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
+        if (in_array($ilCtrl->getCmdClass(), array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
             )) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui")))) {
@@ -659,7 +654,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ilTabs->addSubTab(
                     "style",
                     $lng->txt("wiki_style"),
-                    $ilCtrl->getLinkTarget($this, 'editStyleProperties')
+                    $ilCtrl->getLinkTargetByClass("ilObjectContentStyleSettingsGUI", "")
                 );
             }
 
@@ -1134,10 +1129,7 @@ class ilObjWikiGUI extends ilObjectGUI
             0,
             $this->object->getRefId()
         );
-        $wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->object->getStyleSheetId(),
-            "wiki"
-        ));
+        $wpage_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $this->setContentStyleSheet();
 
@@ -1471,143 +1463,16 @@ class ilObjWikiGUI extends ilObjectGUI
     public function setContentStyleSheet() : void
     {
         $tpl = $this->tpl;
-        $tpl->addCss(ilObjStyleSheet::getContentStylePath(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->object->getStyleSheetId(),
-                "wiki"
-            )
-        ));
+
+        if ($tpl == null) {
+            $tpl = $this->tpl;
+        }
+
+        $this->content_style_gui->addCss($tpl, $this->object->getRefId());
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
     
-    public function editStylePropertiesObject() : void
-    {
-        $ilTabs = $this->tabs;
-        $tpl = $this->tpl;
-        
-        $this->checkPermission("write");
-        
-        $this->initStylePropertiesForm();
-        $tpl->setContent($this->form_gui->getHTML());
-        
-        $ilTabs->activateTab("settings");
-        $this->setSettingsSubTabs("style");
-        
-        $this->setSideBlock();
-    }
     
-    public function initStylePropertiesForm() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
-        $lng->loadLanguageModule("style");
-
-        $this->form_gui = new ilPropertyFormGUI();
-        
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form_gui->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->requested_ref_id
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form_gui->addItem($st);
-
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-
-                    // delete command
-                    $this->form_gui->addCommandButton(
-                        "editStyle",
-                        $lng->txt("style_edit_style")
-                    );
-                    $this->form_gui->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("style_delete_style")
-                    );
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("style_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form_gui->addItem($style_sel);
-                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-                $this->form_gui->addCommandButton(
-                    "saveStyleSettings",
-                    $lng->txt("save")
-                );
-                $this->form_gui->addCommandButton(
-                    "createStyle",
-                    $lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form_gui->setTitle($lng->txt("wiki_style"));
-        $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
-    }
-
-    public function createStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-    
-    public function editStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    public function deleteStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-
-    public function saveStyleSettingsObject() : void
-    {
-        $ilSetting = $this->settings;
-    
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId(
-                $this->edit_request->getStyleId()
-            );
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
-    }
-
     //
     // Important pages
     //

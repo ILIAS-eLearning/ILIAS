@@ -52,6 +52,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected StandardGUIRequest $std_request;
     protected ViewManager $view_manager;
     protected ilComponentFactory $component_factory;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function __construct(
         $a_data,
@@ -113,6 +114,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->container_filter_service = new ilContainerFilterService();
         $this->initFilter();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        $this->content_style_domain = $cs->domain();
     }
 
     public function executeCommand()
@@ -131,10 +135,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 } else {
                     return;
                 }
-                break;
-
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
                 break;
 
             default:
@@ -175,35 +175,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         parent::afterUpdate();
     }
 
-    public function forwardToStyleSheet() : void
-    {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $ilTabs->clearTargets();
-
-        $cmd = $ilCtrl->getCmd();
-        $this->ctrl->setReturn($this, "editStyleProperties");
-        $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-        $style_gui->omitLocator();
-        if ($cmd == "create" || $this->std_request->getNewType() == "sty") {
-            $style_gui->setCreationMode(true);
-        }
-
-        if ($cmd == "confirmedDelete") {
-            $this->object->setStyleSheetId(0);
-            $this->object->update();
-        }
-
-        $ret = $this->ctrl->forwardCommand($style_gui);
-
-        if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-            $style_id = $ret;
-            $this->object->setStyleSheetId($style_id);
-            $this->object->update();
-            $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-        }
-    }
 
     public function forwardToPageObject() : string
     {
@@ -233,8 +204,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // page object
 
         $lng->loadLanguageModule("content");
-
-        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+        $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
         // $this->tpl->setCurrentBlock("SyntaxStyle");
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
         // $this->tpl->parseCurrentBlock();
@@ -253,11 +223,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // get page object
         $this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
         $page_gui = new ilContainerPageGUI($this->object->getId());
+        $style = $this->content_style_domain->styleForRefId($this->object->getRefId());
         $page_gui->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->object->getStyleSheetId(),
-                $this->object->getType()
-            )
+            $style->getEffectiveStyleId()
         );
 
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
@@ -279,8 +247,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $ilTabs->addTarget(
             "obj_sty",
-            $ilCtrl->getLinkTarget($this, 'editStyleProperties'),
-            "editStyleProperties"
+            $ilCtrl->getLinkTargetByClass("ilObjectContentStyleSettingsGUI", ''),
+            "editStyleProperties",
+            "ilobjectcontentstylesettingsgui"
         );
     }
 
@@ -300,10 +269,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         )) {
             return "";
         }
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
-        );
+        $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
         $this->tpl->setCurrentBlock("SyntaxStyle");
         $this->tpl->setVariable(
             "LOCATION_SYNTAX_STYLESHEET",
@@ -315,12 +281,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ot = ilObjectTranslation::getInstance($this->object->getId());
         $lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
         $page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
-        $page_gui->setStyleId(
-            ilObjStyleSheet::getEffectiveContentStyleId(
-                $this->object->getStyleSheetId(),
-                $this->object->getType()
-            )
-        );
+        $style = $this->content_style_domain->styleForRefId($this->object->getRefId());
+        $page_gui->setStyleId($style->getEffectiveStyleId());
 
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
@@ -2092,161 +2054,30 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         return $path;
     }
 
-    //
-    // Style editing
-    //
 
-    public function editStylePropertiesObject() : void
+    public function editStylePropertiesObject()
     {
-        $ilTabs = $this->tabs;
-        $tpl = $this->tpl;
-
-        $this->checkPermission("write");
-
-        $this->initStylePropertiesForm();
-        $tpl->setContent($this->form->getHTML());
-
-        $ilTabs->activateTab("obj_sty");
+        $this->content_style_gui
+            ->redirectToObjectSettings();
     }
 
-    public function initStylePropertiesForm() : void
+    protected function showContainerPageTabs()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        $tpl = $this->tpl;
-
-        $tpl->setTreeFlatIcon("", "");
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
-            $lng->txt("back"),
-            "./goto.php?target=" . $this->object->getType() . "_" .
-            $this->object->getRefId(),
-            "_top"
-        );
-
+        $ctrl = $this->ctrl;
+        $tabs = $this->tabs;
         $page_gui = new ilContainerPageGUI($this->object->getId());
-        $style_id = $this->object->getStyleSheetId();
+        $style_id = $this->content_style_domain
+            ->styleForRefId($this->object->getRefId())
+            ->getEffectiveStyleId();
         if (ilObject::_lookupType($style_id) == "sty") {
             $page_gui->setStyleId($style_id);
         } else {
             $style_id = 0;
         }
         $page_gui->setTabHook($this, "addPageTabs");
-        $ilCtrl->getHTML($page_gui);
-        $ilTabs->setTabActive("obj_sty");
-
-        $lng->loadLanguageModule("style");
-
-        $this->form = new ilPropertyFormGUI();
-
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        //		$style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("wiki_current_style"));
-            $st->setValue(
-                ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")"
-            );
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->requested_ref_id
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-
-                    // delete command
-                    $this->form->addCommandButton(
-                        "editStyle",
-                        $lng->txt("style_edit_style")
-                    );
-                    $this->form->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("style_delete_style")
-                    );
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("style_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-                $this->form->addCommandButton(
-                    "saveStyleSettings",
-                    $lng->txt("save")
-                );
-                $this->form->addCommandButton(
-                    "createStyle",
-                    $lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form->setTitle($lng->txt("obj_sty"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
-
-    public function createStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-
-    public function editStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    public function deleteStyleObject() : void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-
-    public function saveStyleSettingsObject() : void
-    {
-        $ilSetting = $this->settings;
-
-        $this->initStylePropertiesForm();
-        $form = $this->form;
-        $form->checkInput();
-
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-                || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId((int) $form->getInput("style_id"));
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
+        $ctrl->getHTML($page_gui);
+        $tabs->setTabActive("obj_sty");
+        $tabs->setBackTarget($this->lng->txt('back'), ilLink::_getLink($this->ref_id));
     }
 
     public function getAsynchItemListObject() : void

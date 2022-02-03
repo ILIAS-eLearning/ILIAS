@@ -15,7 +15,7 @@
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
@@ -315,7 +315,6 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         if ($this->object->getContactEmail()) {
-            
             $emails = explode(",", $this->object->getContactEmail());
             foreach ($emails as $email) {
                 $email = trim($email);
@@ -463,7 +462,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $privacy = ilPrivacySettings::getInstance();
         
         if ($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledCourseExport()) {
-            
             $field_info = ilExportFieldsInfo::_getInstanceByType($this->object->getType());
         
             $this->lng->loadLanguageModule('ps');
@@ -506,7 +504,6 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     public function editInfoObject(ilPropertyFormGUI $a_form = null)
     {
-
         global $DIC;
 
         $ilErr = $DIC['ilErr'];
@@ -1124,12 +1121,16 @@ class ilObjCourseGUI extends ilContainerGUI
         );
         // $reg_proc->setInfo($this->lng->txt('crs_reg_type_info'));
 
-        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_direct'),
-            ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT);
+        $opt = new ilRadioOption(
+            $this->lng->txt('crs_subscription_options_direct'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_DIRECT
+        );
         $reg_proc->addOption($opt);
         
-        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),
-            ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD);
+        $opt = new ilRadioOption(
+            $this->lng->txt('crs_subscription_options_password'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD
+        );
             
         $pass = new ilTextInputGUI($this->lng->txt("password"), 'subscription_password');
         $pass->setRequired(true);
@@ -1142,13 +1143,17 @@ class ilObjCourseGUI extends ilContainerGUI
         $opt->addSubItem($pass);
         $reg_proc->addOption($opt);
         
-        $opt = new ilRadioOption($this->lng->txt('crs_subscription_options_confirmation'),
-            ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION);
+        $opt = new ilRadioOption(
+            $this->lng->txt('crs_subscription_options_confirmation'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION
+        );
         $opt->setInfo($this->lng->txt('crs_registration_confirmation_info'));
         $reg_proc->addOption($opt);
             
-        $opt = new ilRadioOption($this->lng->txt('crs_reg_no_selfreg'),
-            ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED);
+        $opt = new ilRadioOption(
+            $this->lng->txt('crs_reg_no_selfreg'),
+            ilCourseConstants::IL_CRS_SUBSCRIPTION_DEACTIVATED
+        );
         $opt->setInfo($this->lng->txt('crs_registration_deactivated'));
         $reg_proc->addOption($opt);
 
@@ -2379,11 +2384,17 @@ class ilObjCourseGUI extends ilContainerGUI
                 $cp->setType('crs');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
-                break;
 
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
                 
             case 'ilexportgui':
                 $this->tabs_gui->setTabActive('export');
@@ -2603,7 +2614,6 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
 
                 if ($cmd == 'listObjectives') {
-
                     $this->ctrl->setReturn($this, "");
                     $obj_gui = new ilCourseObjectivesGUI($this->object->getRefId());
                     $ret = &$this->ctrl->forwardCommand($obj_gui);

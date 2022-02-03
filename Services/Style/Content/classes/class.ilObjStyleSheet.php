@@ -628,6 +628,18 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate($q);
     }
 
+    public static function writeOwner($obj_id, $style_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "UPDATE style_data SET owner_obj = " .
+            $ilDB->quote((int) $obj_id, "integer") .
+            " WHERE id = " . $ilDB->quote($style_id, "integer");
+        $ilDB->manipulate($q);
+    }
+
     public static function _lookupUpToDate(int $a_id) : bool
     {
         global $DIC;
@@ -1402,6 +1414,10 @@ class ilObjStyleSheet extends ilObject
         string $a_image_dir = ""
     ) : void {
         $style = $this->getStyle();
+
+        if (!is_dir(ilUtil::getWebspaceDir() . "/css")) {
+            ilUtil::makeDirParents(ilUtil::getWebspaceDir() . "/css");
+        }
 
         if ($a_target_file == "") {
             $css_file_name = ilFileUtils::getWebspaceDir() . "/css/style_" . $this->getId() . ".css";

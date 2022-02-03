@@ -36,6 +36,8 @@ class ilGlossaryTermGUI
     protected ilLogger $log;
     protected ?ilObjGlossary $term_glossary = null;
     protected $toolbar;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function __construct(
         int $a_id = 0
@@ -73,6 +75,9 @@ class ilGlossaryTermGUI
                 $this->term_glossary = new ilObjGlossary(ilGlossaryTerm::_lookGlossaryID($a_id), false);
             }
         }
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        $this->content_style_domain = $cs->domain();
     }
 
     public function executeCommand() : void
@@ -356,7 +361,11 @@ class ilGlossaryTermGUI
         $ilTabs->activateTab("definitions");
 
         // content style
-        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
+        $this->content_style_gui->addCss(
+            $this->tpl,
+            $this->term_glossary->getRefId(),
+            $this->term_glossary->getId()
+        );
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
 
@@ -388,7 +397,11 @@ class ilGlossaryTermGUI
         for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
-            $page_gui->setStyleId($this->term_glossary->getStyleSheetId());
+            $page_gui->setStyleId(
+                $this->content_style_domain->styleForObjId(
+                    $this->term_glossary->getId()
+                )->getEffectiveStyleId()
+            );
             $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
             $page_gui->setTemplateOutput(false);
             $output = $page_gui->preview();
@@ -459,7 +472,11 @@ class ilGlossaryTermGUI
         $this->setTabs();
         $ilTabs->activateTab("definitions");
 
-        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
+        $this->content_style_gui->addCss(
+            $this->tpl,
+            $this->term_glossary->getRefId(),
+            $this->term_glossary->getId()
+        );
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
         $this->tpl->setTitle(
@@ -475,7 +492,11 @@ class ilGlossaryTermGUI
         $definition = new ilGlossaryDefinition($this->request->getDefinitionId());
         $page_gui = new ilGlossaryDefPageGUI($definition->getId());
         $page_gui->setTemplateOutput(false);
-        $page_gui->setStyleId($this->term_glossary->getStyleSheetId());
+        $page_gui->setStyleId(
+            $this->content_style_domain->styleForObjId(
+                $this->term_glossary->getId()
+            )->getEffectiveStyleId()
+        );
         $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
         $page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);
         $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $this->ref_id);

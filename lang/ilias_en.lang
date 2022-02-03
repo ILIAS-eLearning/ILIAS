@@ -29,6 +29,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+style#:#style_support_reuse#:#Re-Use
+style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.
 style#:#sty_resize_image#:#Resize Image
 style#:#sty_resize#:#Resize
 style#:#sty_outdated#:#Outdated

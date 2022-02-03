@@ -22,7 +22,7 @@ use ILIAS\Category\StandardGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
@@ -157,9 +157,9 @@ class ilObjCategoryGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
                 $this->renderObject();
                 break;
@@ -194,11 +194,19 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $cp->setType('cat');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                $this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-                
+
             case 'ilusertablegui':
                 $u_table = new ilUserTableGUI($this, "listUsers");
                 $u_table->initFilter();
@@ -290,9 +298,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 
                 $this->prepareOutput();
                 if (is_object($this->object)) {
-                    $this->tpl->setVariable(
-                        "LOCATION_CONTENT_STYLESHEET",
-                        ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                    $this->content_style_gui->addCss(
+                        $this->tpl,
+                        $this->object->getRefId()
                     );
                 }
 
@@ -528,14 +536,9 @@ class ilObjCategoryGUI extends ilContainerGUI
         $settings->save();
         
         // inherit parents content style, if not individual
-        $parent_ref_id = $tree->getParentId($a_new_object->getRefId());
-        $parent_id = ilObject::_lookupObjId($parent_ref_id);
-        $style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
-        if ($style_id > 0) {
-            if (ilObjStyleSheet::_lookupStandard($style_id)) {
-                ilObjStyleSheet::writeStyleUsage($a_new_object->getId(), $style_id);
-            }
-        }
+        $this->content_style_domain
+            ->styleForRefId($a_new_object->getRefId())
+            ->inheritFromParent();
 
         // always send a message
         ilUtil::sendSuccess($this->lng->txt("cat_added"), true);

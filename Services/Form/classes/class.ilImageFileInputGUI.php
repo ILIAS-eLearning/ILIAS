@@ -23,7 +23,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
     protected bool $cache = false;
     protected string $alt = "";
     protected string $image = "";
-    protected bool $allow_capture;
+    protected bool $allow_capture = false;
 
     public function __construct(
         string $a_title = "",

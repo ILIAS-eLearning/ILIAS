@@ -78,6 +78,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected int $requested_notification_switch = 0;
     protected bool $abstract = false;
     protected ilObjectTranslation $ot;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Service $cs;
 
     public function __construct(
         string $a_export_format = "",
@@ -163,6 +166,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $params
             );
         }
+
+        $this->cs = $DIC->contentStyle();
     }
 
     public function getUnsafeGetCommands() : array
@@ -244,6 +249,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
+        $this->content_style_gui = $this->cs->gui();
+        $this->content_style_domain = $this->cs->domain()->styleForRefId($this->lm->getRefId());
     }
 
     public function getService() : \ilLMPresentationService
@@ -1065,7 +1072,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected function setContentStyles() : void
     {
         // content style
-        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+        $this->content_style_gui->addCss(
+            $this->tpl,
+            $this->lm->getRefId()
+        );
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
@@ -1185,10 +1195,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function basicPageGuiInit(\ilPageObjectGUI $a_page_gui) : void
     {
-        $a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-            $this->lm->getStyleSheetId(),
-            "lm"
-        ));
+        $a_page_gui->setStyleId(
+            $this->content_style_domain->getEffectiveStyleId()
+        );
         if (!$this->offlineMode()) {
             $a_page_gui->setOutputMode("presentation");
             $this->fill_on_load_code = true;
@@ -1683,10 +1692,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         if ($this->lm->getFooterPage() > 0 && !$this->lm->getHideHeaderFooterPrint()) {
             if (ilLMObject::_exists($this->lm->getFooterPage())) {
                 $page_object_gui = $this->getLMPageGUI($this->lm->getFooterPage());
-                $page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->lm->getStyleSheetId(),
-                    "lm"
-                ));
+                $page_object_gui->setStyleId(
+                    $this->content_style_domain->getEffectiveStyleId()
+                );
 
                 // determine target frames for internal links
                 $page_object_gui->setLinkFrame($this->requested_frame);
@@ -1701,10 +1709,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         if ($this->lm->getHeaderPage() > 0 && !$this->lm->getHideHeaderFooterPrint()) {
             if (ilLMObject::_exists($this->lm->getHeaderPage())) {
                 $page_object_gui = $this->getLMPageGUI($this->lm->getHeaderPage());
-                $page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->lm->getStyleSheetId(),
-                    "lm"
-                ));
+                $page_object_gui->setStyleId(
+                    $this->content_style_domain->getEffectiveStyleId()
+                );
 
                 // determine target frames for internal links
                 $page_object_gui->setLinkFrame($this->requested_frame);
@@ -1823,10 +1830,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $page_id = $node["obj_id"];
                     $page_object_gui = $this->getLMPageGUI($page_id);
                     $page_object = $page_object_gui->getPageObject();
-                    $page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                        $this->lm->getStyleSheetId(),
-                        "lm"
-                    ));
+                    $page_object_gui->setStyleId(
+                        $this->content_style_domain->getEffectiveStyleId()
+                    );
 
                     // get lm page
                     $lm_pg_obj = new ilLMPageObject($this->lm, $page_id);

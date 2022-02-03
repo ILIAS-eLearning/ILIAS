@@ -33,10 +33,18 @@ class ilContainerStartObjectsGUI
     protected ilObject $object;
     protected ilContainerStartObjects $start_object;
     protected StandardGUIRequest $request;
-    
+    /**
+     * @var \ILIAS\Style\Content\GUIService
+     */
+    protected $content_style_gui;
+
+    /**
+     * @var \ILIAS\Style\Content\Object\ObjectFacade
+     */
+    protected $content_style_domain;
+
     public function __construct(ilObject $a_parent_obj)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->access = $DIC->access();
@@ -64,6 +72,9 @@ class ilContainerStartObjectsGUI
             ->standardRequest();
         
         $this->lng->loadLanguageModule("crs");
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain()->styleForRefId($a_parent_obj->getRefId());
+        $this->content_style_gui = $cs->gui();
     }
     
     public function executeCommand() : void
@@ -86,20 +97,16 @@ class ilContainerStartObjectsGUI
                     unset($new_page_object);
                 }
 
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
-                        $this->object->getStyleSheetId(),
-                        $this->object->getType()
-                    ))
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
 
                 $this->ctrl->setReturnByClass("ilcontainerstartobjectspagegui", "edit");
                 $pgui = new ilContainerStartObjectsPageGUI($this->object->getId());
-                $pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-                    $this->object->getStyleSheetId(),
-                    $this->object->getType()
-                ));
+                $pgui->setStyleId(
+                    $this->content_style_domain->getEffectiveStyleId()
+                );
 
                 $ret = $this->ctrl->forwardCommand($pgui);
                 if ($ret) {

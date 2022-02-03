@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,6 @@
 
 namespace ILIAS\Style\Content;
 
-use Psr\Http\Message;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 
@@ -70,6 +69,31 @@ class InternalGUIService
             $this->domain_service->refinery(),
             $passed_query_params,
             $passed_post_data
+        );
+    }
+
+    // get class name of object settings gui class
+    public function objectSettingsClass(bool $lower = true) : string
+    {
+        $class = \ilObjectContentStyleSettingsGUI::class;
+        if ($lower) {
+            $class = strtolower($class);
+        }
+        return $class;
+    }
+
+    // get instance of objecgt settings gui class
+    public function objectSettingsGUI(
+        ?int $selected_style_id,
+        int $ref_id,
+        int $obj_id = 0
+    ) : \ilObjectContentStyleSettingsGUI {
+        return new \ilObjectContentStyleSettingsGUI(
+            $this->domain_service,
+            $this,
+            $selected_style_id,
+            $ref_id,
+            $obj_id
         );
     }
 }
