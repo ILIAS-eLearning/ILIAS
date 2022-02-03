@@ -39,7 +39,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         $this->ctrl->setReturn($this, "show");
         $this->ctrl->saveParameter($this, 'user_id', $this->getUserId());
         switch ($this->ctrl->getNextClass()) {
@@ -134,7 +134,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $info->setContentObjType((string) $this->obj_type);
         $info->enableLearningProgress(true);
         $info->setFormAction($ilCtrl->getFormAction($this));
-        $this->__appendUserInfo($info, $this->tracked_user);
         $this->__appendLPDetails($info, $this->details_obj_id, $this->tracked_user->getId());
         $this->__showObjectDetails($info, $this->details_obj_id, false);
         
@@ -179,19 +178,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $ilUser = $DIC['ilUser'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilCtrl = $DIC['ilCtrl'];
-
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_list_progress.html', 'Services/Tracking');
         
         // User info
         include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($ilCtrl->getFormAction($this));
-        
-        if ($this->__appendUserInfo($info, $this->tracked_user)) {
-            $this->tpl->setCurrentBlock("info_user");
-            $this->tpl->setVariable("USER_INFO", $info->getHTML());
-            $this->tpl->parseCurrentBlock();
-        }
 
         include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
         $lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user, null, false, null, false, null, null, $this->getMode());

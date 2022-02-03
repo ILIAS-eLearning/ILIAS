@@ -69,4 +69,9 @@ class ProfileGUIRequest
     {
         return $this->str("term");
     }
+
+    public function getUserFileCapture() : string
+    {
+        return $this->str("userfile_capture");
+    }
 }

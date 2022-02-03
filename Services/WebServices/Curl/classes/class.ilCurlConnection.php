@@ -175,14 +175,12 @@ class ilCurlConnection
      */
     private function parseHeader($handle, string $header) : int
     {
-        $this->header_plain = $header;
-
-        $lines = explode('\r\n', $this->getResponseHeader());
-        foreach ($lines as $line) {
-            list($name, $value) = explode(':', $line, 2);
-            $this->header_arr[$name] = $value;
+        $len = strlen($header);
+        $header = explode(':', $header, 2);
+        if (count($header) < 2) { // ignore invalid headers
+            $this->header_arr[strtolower(trim($header[0]))] = trim($header[1]);
         }
-        return strlen($this->getResponseHeader());
+        return $len;
     }
 
     final public function close() : void

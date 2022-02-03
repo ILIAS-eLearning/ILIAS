@@ -73,12 +73,12 @@ class ilHttpConfigStoredObjective implements Setup\Objective
         $ini->setVariable(
             ilHTTPS::SETTINGS_GROUP_HTTPS,
             ilHTTPS::SETTING_AUTO_HTTPS_DETECT_HEADER_NAME,
-            $this->config->getHeaderName()
+            (string) $this->config->getHeaderName()
         );
         $ini->setVariable(
             ilHTTPS::SETTINGS_GROUP_HTTPS,
             ilHTTPS::SETTING_AUTO_HTTPS_DETECT_HEADER_VALUE,
-            $this->config->getHeaderValue()
+            (string) $this->config->getHeaderValue()
         );
 
 

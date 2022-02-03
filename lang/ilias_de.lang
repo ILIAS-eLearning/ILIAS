@@ -16713,7 +16713,7 @@ common#:#file_system_clean_temp_dir_cron_info#:#Dieser Cronjob räumt das temp-V
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 common#:#actions_for#:#Aktionen für %s
 validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
-validation#:#not_an_array#:#Wert ist kein Feld
+validation#:#no_array#:#Wert ist kein Feld
 validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich '%s'.
 skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
 skmg#:#skmg_skill_tree#:#Kompetenzbaum
@@ -16737,3 +16737,18 @@ skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewäh
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_default_label_end#:#Ende
 exc#:#exc_fullscreen#:#Vollbild
+cont#:#cont_tile_size_1#:#klein (bis zu sechs Kacheln in einer Zeile)
+cont#:#cont_tile_size_0#:#normal (bis zu vier Kacheln in einer Zeile)
+cont#:#cont_tile_size_2#:#groß (bis zu drei Kacheln in einer Zeile)
+cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
+cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
+cont#:#cont_tile_size#:#Kachelgröße
+itgr#:#itgr_tile_size#:#Kachelgröße
+itgr#:#itgr_tile#:#Kacheln
+itgr#:#itgr_list#:#Liste
+itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
+itgr#:#itgr_list_default#:#Standard
+itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
+user#:#user_local_role#:#Lokale Rolle
+form#:#form_use_camera#:#Kamera benutzen
+form#:#form_take_snapshot#:#Schnappschuss machen

@@ -626,8 +626,9 @@ class ilUserProfile
                 case "picture":
                     if (ilUserProfile::userSettingVisible("upload") && $a_user) {
                         $ii = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
+                        $ii->setAllowCapture(true);
                         $ii->setDisabled((bool) $ilSetting->get("usr_settings_disable_upload"));
-                        
+
                         $upload = $a_form->getFileUpload("userfile");
                         if ($upload["name"] ?? false) {
                             $ii->setPending($upload["name"]);

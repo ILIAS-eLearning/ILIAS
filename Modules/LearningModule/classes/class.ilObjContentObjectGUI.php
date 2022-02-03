@@ -275,7 +275,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $info = new ilInfoScreenGUI($this);
                 $info->enablePrivateNotes();
                 $info->enableLearningProgress();
-        
                 $info->enableNews();
                 if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
                     $info->enableNewsEditing();
@@ -563,6 +562,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->form->setTitle($lng->txt("cont_lm_properties"));
         $this->form->addCommandButton("saveProperties", $lng->txt("save"));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
+
+        ilObjectServiceSettingsGUI::initServiceSettingsForm(
+            $this->object->getId(),
+            $this->form,
+            [
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
+            ]
+        );
     }
 
     /**
@@ -615,6 +622,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ilUser->getId(),
             $this->lm->getId()
         );
+
+        $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
 
         $this->form->setValuesByArray($values);
     }
@@ -680,6 +689,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $ilUser->getId(),
                 $this->lm->getId(),
                 (bool) $this->form->getInput("notification_blocked_users")
+            );
+
+            // services
+            ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+                $this->object->getId(),
+                $this->form,
+                array(
+                    ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
+                )
             );
 
 
@@ -1910,12 +1928,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
 
         // info
-        $ilTabs->addTab(
-            "info",
-            $lng->txt("info_short"),
-            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", 'showSummary')
-        );
-            
+        if ($this->object->isInfoEnabled()) {
+            $ilTabs->addTab(
+                "info",
+                $lng->txt("info_short"),
+                $this->ctrl->getLinkTargetByClass("ilinfoscreengui", 'showSummary')
+            );
+        }
+
         // settings
         $ilTabs->addTab(
             "settings",
@@ -3093,5 +3113,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         // #12281
         parent::redrawHeaderActionObject();
+    }
+
+    /**
+     * Learning progress
+     */
+    protected function learningProgress() : void
+    {
+        $this->ctrl->redirectByClass(array('illearningprogressgui'), '');
     }
 }

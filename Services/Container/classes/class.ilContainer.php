@@ -49,6 +49,12 @@ class ilContainer extends ilObject
     public const SORT_NEW_ITEMS_ORDER_CREATION = 1;
     public const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
+    public const TILE_NORMAL = 0;
+    public const TILE_SMALL = 1;
+    public const TILE_LARGE = 2;
+    public const TILE_EXTRA_LARGE = 3;
+    public const TILE_FULL = 4;
+
     public static bool $data_preloaded = false;
 
     protected ilAccessHandler $access;
@@ -67,7 +73,7 @@ class ilContainer extends ilObject
     protected bool $news_block_activated = false;
     protected bool $use_news = false;
     protected ilRecommendedContentManager $recommended_content_manager;
-
+    
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -90,6 +96,21 @@ class ilContainer extends ilObject
             $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
         }
         $this->recommended_content_manager = new ilRecommendedContentManager();
+    }
+
+    /**
+     * @return array<int,string>
+     */
+    public function getTileSizes() : array
+    {
+        $lng = $this->lng;
+        return [
+            self::TILE_SMALL => $lng->txt("cont_tile_size_1"),
+            self::TILE_NORMAL => $lng->txt("cont_tile_size_0"),
+            self::TILE_LARGE => $lng->txt("cont_tile_size_2"),
+            self::TILE_EXTRA_LARGE => $lng->txt("cont_tile_size_3"),
+            self::TILE_FULL => $lng->txt("cont_tile_size_4")
+        ];
     }
 
     public function getObjectTranslation() : ?ilObjectTranslation

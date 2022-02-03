@@ -383,9 +383,9 @@ class ilLTIConsumeProvider
     }
     
     /**
-     * @param ilImageFileInputGUI $providerIconUploadInput
+     * @param ilImageFileInputGUI|ilFormPropertyGUI $providerIconUploadInput
      */
-    public function setProviderIconUploadInput(ilImageFileInputGUI $providerIconUploadInput) : void
+    public function setProviderIconUploadInput(ilFormPropertyGUI $providerIconUploadInput) : void
     {
         $this->providerIconUploadInput = $providerIconUploadInput;
     }

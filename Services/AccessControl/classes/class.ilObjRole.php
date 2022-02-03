@@ -143,7 +143,7 @@ class ilObjRole extends ilObject
         if ($res->numRows() > 0) {
             $row = $this->db->fetchAssoc($res);
             $this->setAllowRegister((bool) $row['allow_register']);
-            $this->toggleAssignUsersStatus((bool) $row['assign_user']);
+            $this->toggleAssignUsersStatus((bool) ($row['assign_user'] ?? false));
         } else {
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new ilObjectException('There is no dataset with id: ' . $this->id);

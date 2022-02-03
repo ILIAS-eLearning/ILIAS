@@ -32,13 +32,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
     */
     public function getCommandFrame($a_cmd) : string
     {
-        switch ($a_cmd) {
-            default:
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-        }
-
-        return $frame;
+        return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
     public function getCommandLink($a_cmd) : string

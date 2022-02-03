@@ -1,69 +1,57 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.php';
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    private $logger = null;
+    private ilLogger $logger;
     
-    private $username = '';
-    private $password = '';
-    private $auth_mode = '';
+    private string $username = '';
+    private string $password = '';
+    private string $auth_mode = '';
     
     public function __construct()
     {
-        $this->logger = ilLoggerFactory::getLogger('auth');
-    }
-    
-    /**
-     * Get logger
-     * @return \ilLogger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-    
-    /**
-     * Set Logger
-     * @param ilLogger $logger
-     */
-    public function setLogger(ilLogger $logger)
-    {
-        $this->logger = $logger;
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
     }
 
     /**
      * Set username
-     * @param string username
      */
-    public function setUsername($a_name)
+    public function setUsername(string $a_name) : void
     {
-        $this->getLogger()->debug('Username: "' . $a_name . '"');
+        $this->logger->debug('Username: "' . $a_name . '"');
         $this->username = trim($a_name);
     }
 
     /**
      * Get username
      */
-    public function getUsername()
+    public function getUsername() : string
     {
         return $this->username;
     }
 
     /**
      * Set password
-     * @param string $a_password
      */
-    public function setPassword($a_password)
+    public function setPassword(string $a_password) : void
     {
         $this->password = $a_password;
     }
@@ -71,16 +59,15 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Get password
      */
-    public function getPassword()
+    public function getPassword() : string
     {
         return $this->password;
     }
 
     /**
      * Set auth mode
-     * @param type $a_auth_mode
      */
-    public function setAuthMode($a_auth_mode)
+    public function setAuthMode(string $a_auth_mode) : void
     {
         $this->auth_mode = $a_auth_mode;
     }
@@ -88,7 +75,7 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Get auth mode
      */
-    public function getAuthMode()
+    public function getAuthMode() : string
     {
         return $this->auth_mode;
     }

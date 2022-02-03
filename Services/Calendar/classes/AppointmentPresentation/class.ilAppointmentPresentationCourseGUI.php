@@ -58,7 +58,7 @@ class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI im
                         $this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilobjcoursegui"), 'sendfile')
                     )));
 
-                    $this->ctrl->setParameterByClass('ilobjcoursegui', 'ref_id', $_GET["ref_id"]);
+                    $this->ctrl->setParameterByClass('ilobjcoursegui', 'ref_id', '');
                 }
                 ksort($links, SORT_NATURAL|SORT_FLAG_CASE);
 

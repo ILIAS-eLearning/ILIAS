@@ -152,7 +152,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
         $this->__showObjectDetails($info, $this->details_obj_id);
-        $this->__appendUserInfo($info, (int) $_GET['user_id']);
         // $this->__appendLPDetails($info,$this->details_obj_id,(int)$_GET['user_id']);
 
         $this->tpl->setVariable("ADM_CONTENT", $this->__showEditUser((int) $_GET['user_id'], $parent_id, $cancel, $sub_id) . "<br />" . $info->getHTML());
@@ -262,7 +261,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $info = new ilInfoScreenGUI($this);
         $info->setFormAction($this->ctrl->getFormAction($this));
         $this->__showObjectDetails($info, $this->details_obj_id);
-        $this->__appendUserInfo($info, $user_id);
         // $this->__appendLPDetails($info,$this->details_obj_id,$user_id);
         $this->tpl->setVariable("INFO_TABLE", $info->getHTML());
 

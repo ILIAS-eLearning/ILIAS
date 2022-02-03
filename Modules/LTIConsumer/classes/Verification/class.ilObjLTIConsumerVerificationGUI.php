@@ -49,7 +49,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -73,7 +73,8 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
+                return;
             }
 
             if ($newObj) {
@@ -100,13 +101,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
             ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
-    
+
     /**
      * Render content
-     *
-     * @param string $a_url
+     * @param bool $a_return
+     * @param bool $a_url
+     * @return string
      */
-    public function render(bool $a_return = false, $a_url = false)
+    public function render(bool $a_return = false, bool $a_url = false) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -139,6 +141,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 return '<div>' . $caption . ' (' . $message . ')</div>';
             }
         }
+        return '';
     }
     
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void

@@ -86,7 +86,11 @@ class StandardGUIRequest
 
     public function getRoleId() : int
     {
-        return $this->int("rolid");
+        $role_id = $this->int("rolid");
+        if ($role_id == 0) {
+            $role_id = $this->int("role_id");
+        }
+        return $role_id;
     }
 
     public function getActionActive() : array

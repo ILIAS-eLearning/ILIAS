@@ -676,6 +676,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
                 
                 return $DIC->language()->txt('lti_con_prov_availability_non');
         }
+        return '';
     }
     
     protected function getOwnProviderLabel(array $data) : string

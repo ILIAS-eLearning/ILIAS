@@ -3390,7 +3390,6 @@ rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
-common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_adm#:#Administration
@@ -3420,7 +3419,6 @@ common#:#obj_extt_desc#:#Configure external software or services that are suppor
 common#:#obj_extt#:#Third Party Software
 common#:#obj_facs_desc#:#Settings for files and file handling
 common#:#obj_facs#:#Files
-common#:#obj_feed#:#Web Feed
 common#:#obj_file_inline#:#Learning Module File
 common#:#obj_file#:#File
 common#:#obj_file_duplicate#:#Duplicate File
@@ -3515,7 +3513,6 @@ common#:#objs_catr#:#Category Link
 common#:#objs_crs#:#Courses
 common#:#objs_crsr#:#Course Link
 common#:#objs_exc#:#Exercises
-common#:#objs_feed#:#Web Feeds
 common#:#objs_file#:#Files
 common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
@@ -5615,18 +5612,6 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_resource#:#Resource
 export#:#export_select_resources#:#Select Resources
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL
-feed#:#block_feed_block_feed_url#:#Feed URL
-feed#:#block_feed_block_head#:#External Web Feed
-feed#:#block_feed_block_title#:#Title
-feed#:#feed_disable_rep_feeds_info#:#Disables presentation of external web feeds in case of an unexpected problem due to an external feed source.
-feed#:#feed_disable_rep_feeds#:#Hide Web Feeds
-feed#:#feed_feed_items#:#Feed Item(s)
-feed#:#feed_loading_feed#:#Loading Feed...
-feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.
-feed#:#feed_open_source_page#:#Open in New Window
-feed#:#feed_settings#:#External Web Feeds Settings
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -7101,7 +7086,6 @@ rbac#:#rbac_create_catr#:#Create Category Link
 rbac#:#rbac_create_crs#:#Create Course
 rbac#:#rbac_create_crsr#:#Create Course Link
 rbac#:#rbac_create_exc#:#Create Exercise
-rbac#:#rbac_create_feed#:#Create Web Feed
 rbac#:#rbac_create_file#:#Upload File
 rbac#:#rbac_create_frm#:#Create Forum
 rbac#:#rbac_create_glo#:#Create Glossary
@@ -8297,7 +8281,6 @@ wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has b
 wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_link#:#URL
-feed#:#feed_import#:#Import Feed
 dateplaner#:#cal_repeat_until#:#Repeat until
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events
 sess#:#sess_import#:#Import Session
@@ -10042,10 +10025,7 @@ crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Copy Learning Module
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
-content#:#cont_captcha_verification#:#User Verification
-content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Wrong Input
-forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Generate List
@@ -10459,7 +10439,6 @@ pd#:#block_show_pdnotes#:#Show Notes
 pd#:#block_show_chatviewer#:#Show Chat Viewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_show_pdfrmpostdraft#:#Show Postings Drafts
-pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
 common#:#crs_list_reg_start#:#Registration Begin
 common#:#crs_list_reg_end#:#Registration End
@@ -12020,14 +11999,8 @@ mail#:#search_content#:#Search Result
 book#:#book_reservation_available#:#%s available
 form#:#form_retype_email#:#Retype E-Mail
 form#:#email_not_match#:#Your entries for the e-mail address don't match! Please re-enter your e-mail address.
-form#:#captcha_code#:#User Verification
 content#:#save_new#:#Save and New
-cptch#:#captcha_code_info#:#Please type in the letters and characters of the image.
-administration#:#adm_captcha_anonymous_short#:#Captcha
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
-cptch#:#captcha_code_reload#:#Load new image
-cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
-cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
 obj#:#obj_features#:#Additional Features
 obj#:#obj_tool_setting_info_tab#:#Info Tab
 adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
@@ -12081,12 +12054,8 @@ content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achiev
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
 content#:#cont_auto_suspend#:#Safeguard tracking data
 content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
-administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
-administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
-administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_auth_reg#:#Authentication Registration
 administration#:#adm_auth_login#:#Authentication Login
-administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
 common#:#obj_wiks#:#Wiki
@@ -16356,7 +16325,6 @@ survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale value
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
-feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
@@ -16716,7 +16684,7 @@ common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-d
 violation#:#not_a_string#:#Given value is not a String
 common#:#actions_for#:#Actions for %s
 validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
-validation#:#not_an_array#:#Given value is not an array
+validation#:#no_array#:#Given value is not an array
 validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_skill_tree#:#Competence Tree
@@ -16740,3 +16708,18 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected any competences yet.
 ui#:#duration_default_label_start#:#start
 ui#:#duration_default_label_end#:#end
 exc#:#exc_fullscreen#:#Fullscreen
+cont#:#cont_tile_size_1#:#small (up to six tiles in a row)
+cont#:#cont_tile_size_0#:#normal (up to four tiles in a row)
+cont#:#cont_tile_size_2#:#large (up to three tiles in a row)
+cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
+cont#:#cont_tile_size_4#:#full (one tile in a row)
+cont#:#cont_tile_size#:#Tile Size
+itgr#:#itgr_tile_size#:#Tile Size
+itgr#:#itgr_tile#:#Tiles
+itgr#:#itgr_list#:#List
+itgr#:#itgr_list_presentation#:#Item Presentation
+itgr#:#itgr_list_default#:#Default
+itgr#:#itgr_list_default_info#:#Inherits value from upper container.
+user#:#user_local_role#:#Local Role
+form#:#form_use_camera#:#Use Camera
+form#:#form_take_snapshot#:#Take Snapshot

@@ -449,34 +449,6 @@ class ilLearningProgressBaseGUI
         return false;
     }
 
-    public function __appendUserInfo(&$info, $a_user)
-    {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        
-        // #13525 - irrelevant personal data is not to be presented
-        return;
-
-        if (!is_object($a_user)) {
-            $a_user = ilObjectFactory::getInstanceByObjId($a_user);
-        }
-
-        if ($a_user->getId() != $ilUser->getId()) {
-            $info->addSection($this->lng->txt("trac_user_data"));
-            // $info->addProperty($this->lng->txt('username'),$a_user->getLogin());
-            // $info->addProperty($this->lng->txt('name'),$a_user->getFullname());
-            $info->addProperty(
-                $this->lng->txt('last_login'),
-                ilDatePresentation::formatDate(new ilDateTime($a_user->getLastLogin(), IL_CAL_DATETIME))
-            );
-            $info->addProperty(
-                $this->lng->txt('trac_total_online'),
-                ilDatePresentation::secondsToString(ilOnlineTracking::getOnlineTime($a_user->getId()))
-            );
-            return true;
-        }
-    }
 
     public function __appendLPDetails(&$info, $item_id, $user_id)
     {
@@ -489,80 +461,60 @@ class ilLearningProgressBaseGUI
         // Section learning_progress
         // $info->addSection($this->lng->txt('trac_learning_progress'));
         // see ilLPTableBaseGUI::parseTitle();
-        $info->addSection($this->lng->txt("trac_progress") . ": " . ilObject::_lookupTitle($item_id));
+
+        $info->addSection($this->lng->txt("trac_progress"));
         
         $olp = ilObjectLP::getInstance($item_id);
         $info->addProperty(
             $this->lng->txt('trac_mode'),
             $olp->getModeText($olp->getCurrentMode())
         );
-        
-        switch ($type) {
-            case 'lm':
-            case 'htlm':
-                include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-                $progress = ilLearningProgress::_getProgress($user_id, $item_id);
-            
-                if ($progress['access_time']) {
-                    $info->addProperty(
-                        $this->lng->txt('last_access'),
-                        ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX))
-                    );
-                } else {
-                    $info->addProperty($this->lng->txt('last_access'), $this->lng->txt('trac_not_accessed'));
-                }
-                $info->addProperty($this->lng->txt('trac_visits'), (int) $progress['visits']);
-                if (ilObjectLP::supportsSpentSeconds($type)) {
-                    $info->addProperty($this->lng->txt('trac_spent_time'), ilDatePresentation::secondsToString($progress['spent_seconds']));
-                }
-                // fallthrough
-                
-                // no break
-            case 'exc':
-            case 'tst':
-            case 'file':
-            case 'mcst':
-            case 'svy':
-            case 'crs':
-            case 'sahs':
-            case 'grp':
-            case 'iass':
-            case 'copa':
-            case 'frm':
-            case 'cmix':
-            case 'lti':
-            case 'sess':
-            case 'lso':
-                // display status as image
-                include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-                $status = $this->__readStatus($item_id, $user_id);
-                $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-                $status_text = ilLearningProgressBaseGUI::_getStatusText($status);
-                $info->addProperty(
-                    $this->lng->txt('trac_status'),
-                    ilUtil::img($status_path, $status_text) . " " . $status_text
-                );
-                
-                // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
-                $mode = $olp->getCurrentMode();
-                if (in_array($mode, array(ilLPObjSettings::LP_MODE_TLT,
-                    ilLPObjSettings::LP_MODE_VISITS,
-                    // ilLPObjSettings::LP_MODE_OBJECTIVES,
-                    ilLPObjSettings::LP_MODE_LTI_OUTCOME,
-                    ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
-                    ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-                    ilLPObjSettings::LP_MODE_CMIX_PASSED,
-                    ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-                    ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-                    ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
-                    ilLPObjSettings::LP_MODE_SCORM,
-                    ilLPObjSettings::LP_MODE_TEST_PASSED))) {
-                    include_once 'Services/Tracking/classes/class.ilLPStatus.php';
-                    $perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
-                    $info->addProperty($this->lng->txt('trac_percentage'), (int) $perc . "%");
-                }
-                break;
 
+        if (ilObjectLP::isSupportedObjectType($type)) {
+            $status = $this->__readStatus($item_id, $user_id);
+            $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+            $status_text = ilLearningProgressBaseGUI::_getStatusText($status);
+            $info->addProperty(
+                $this->lng->txt('trac_status'),
+                ilUtil::img($status_path, $status_text) . " " . $status_text
+            );
+
+            // status
+            $i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
+            $i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
+            $i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect(
+                (int) ilLPMarks::_hasCompleted(
+                    $user_id,
+                    $item_id
+                ),
+                'lp_edit',
+                array(0 => $this->lng->txt('trac_not_completed'),
+                      1 => $this->lng->txt('trac_completed')),
+                false,
+                true
+            ));
+            $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+            $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
+
+
+            // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
+            $mode = $olp->getCurrentMode();
+            if (in_array($mode, array(ilLPObjSettings::LP_MODE_TLT,
+                ilLPObjSettings::LP_MODE_VISITS,
+                // ilLPObjSettings::LP_MODE_OBJECTIVES,
+                ilLPObjSettings::LP_MODE_LTI_OUTCOME,
+                ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
+                ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
+                ilLPObjSettings::LP_MODE_CMIX_PASSED,
+                ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
+                ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
+                ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
+                ilLPObjSettings::LP_MODE_SCORM,
+                ilLPObjSettings::LP_MODE_TEST_PASSED))) {
+                include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+                $perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
+                $info->addProperty($this->lng->txt('trac_percentage'), (int) $perc . "%");
+            }
         }
         
         include_once 'Services/Tracking/classes/class.ilLPMarks.php';
@@ -575,6 +527,34 @@ class ilLearningProgressBaseGUI
         
         if (strlen($comment = ilLPMarks::_lookupComment($user_id, $item_id))) {
             $info->addProperty($this->lng->txt('trac_comment'), $comment);
+        }
+
+        // More infos for lm's
+        if (in_array($type, ["lm", "htlm"])) {
+            $progress = ilLearningProgress::_getProgress($user_id, $item_id);
+            if ($progress['access_time']) {
+                $info->addProperty(
+                    $this->lng->txt('trac_last_access'),
+                    ilDatePresentation::formatDate(new ilDateTime($progress['access_time'], IL_CAL_UNIX))
+                );
+            } else {
+                $info->addProperty(
+                    $this->lng->txt('trac_last_access'),
+                    $this->lng->txt('trac_not_accessed')
+                );
+            }
+
+            $info->addProperty(
+                $this->lng->txt('trac_visits'),
+                (int) $progress['visits']
+            );
+
+            if ($type == 'lm') {
+                $info->addProperty(
+                    $this->lng->txt('trac_spent_time'),
+                    ilDatePresentation::secondsToString($progress['spent_seconds'])
+                );
+            }
         }
     }
 

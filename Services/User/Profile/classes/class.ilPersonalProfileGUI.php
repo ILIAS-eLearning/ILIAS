@@ -143,7 +143,7 @@ class ilPersonalProfileGUI
         $ilUser = $DIC['ilUser'];
 
         if ($this->workWithUserSetting("upload")) {
-            if (!$this->form->hasFileUpload("userfile")) {
+            if (!$this->form->hasFileUpload("userfile") && $this->profile_request->getUserFileCapture() == "") {
                 if ($this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
                     $ilUser->removeUserPicture();
                 }
@@ -157,17 +157,31 @@ class ilPersonalProfileGUI
                 $ilUser->update();
 
                 // move uploaded file
-
-                $pi = pathinfo($_FILES["userfile"]["name"]);
-                $uploaded_file = $this->form->moveFileUpload(
-                    $image_dir,
-                    "userfile",
-                    "upload_" . $ilUser->getId() . "." . $pi["extension"]
-                );
-                if (!$uploaded_file) {
-                    ilUtil::sendFailure($this->lng->txt("upload_error", true));
-                    $this->ctrl->redirect($this, "showProfile");
+                // begin patch profile-image-patch – Killing 1.3.2021
+                if ($this->form->hasFileUpload("userfile")) {
+                    $pi = pathinfo($_FILES["userfile"]["name"]);
+                    $uploaded_file = $this->form->moveFileUpload(
+                        $image_dir,
+                        "userfile",
+                        "upload_" . $ilUser->getId() . "." . $pi["extension"]
+                    );
+                    if (!$uploaded_file) {
+                        ilUtil::sendFailure($this->lng->txt("upload_error", true));
+                        $this->ctrl->redirect($this, "showProfile");
+                    }
+                } else {        // cam capture png
+                    $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
+                    $img = $this->profile_request->getUserFileCapture();
+                    $img = str_replace('data:image/png;base64,', '', $img);
+                    $img = str_replace(' ', '+', $img);
+                    $data = base64_decode($img);
+                    $success = file_put_contents($uploaded_file, $data);
+                    if (!$success) {
+                        ilUtil::sendFailure($this->lng->txt("upload_error", true));
+                        $this->ctrl->redirect($this, "showProfile");
+                    }
                 }
+                // end patch profile-image-patch – Killing 1.3.2021
                 chmod($uploaded_file, 0770);
 
                 // take quality 100 to avoid jpeg artefacts when uploading jpeg files

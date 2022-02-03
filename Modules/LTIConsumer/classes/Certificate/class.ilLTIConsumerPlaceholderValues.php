@@ -27,7 +27,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
     private ?\ilCertificateObjectHelper $objectHelper;
 
-    private \ilCertificateUserObjectHelper $userObjectHelper;
+//    private \ilCertificateUserObjectHelper $userObjectHelper;
 
     private ?\ilCertificateUtilHelper $utilHelper;
 
@@ -78,7 +78,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $userObjectHelper) {
             $userObjectHelper = new ilCertificateUserObjectHelper();
         }
-        $this->userObjectHelper = $userObjectHelper;
+//        $this->userObjectHelper = $userObjectHelper;
 
         if (null === $lpStatusHelper) {
             $lpStatusHelper = new ilCertificateLPStatusHelper();

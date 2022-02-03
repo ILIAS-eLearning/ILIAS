@@ -102,21 +102,21 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         
         if ($this->isAdminContext()) {
             $availabilityInp = new ilRadioGroupInputGUI($lng->txt('lti_con_prov_availability'), 'availability');
-            $availabilityInp->setValue($this->provider->getAvailability());
+            $availabilityInp->setValue((string) $this->provider->getAvailability());
             $availabilityInp->setRequired(true);
             $optionCreate = new ilRadioOption(
                 $lng->txt('lti_con_prov_availability_create'),
-                ilLTIConsumeProvider::AVAILABILITY_CREATE
+                (string) ilLTIConsumeProvider::AVAILABILITY_CREATE
             );
             $availabilityInp->addOption($optionCreate);
             $optionCreate = new ilRadioOption(
                 $lng->txt('lti_con_prov_availability_existing'),
-                ilLTIConsumeProvider::AVAILABILITY_EXISTING
+                (string) ilLTIConsumeProvider::AVAILABILITY_EXISTING
             );
             $availabilityInp->addOption($optionCreate);
             $optionCreate = new ilRadioOption(
                 $lng->txt('lti_con_prov_availability_non'),
-                ilLTIConsumeProvider::AVAILABILITY_NONE
+                (string) ilLTIConsumeProvider::AVAILABILITY_NONE
             );
             $availabilityInp->addOption($optionCreate);
             $this->addItem($availabilityInp);
@@ -350,7 +350,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $provider->setMasteryScorePercent($this->getInput('mastery_score'));
         
         if ($this->isAdminContext()) {
-            $provider->setAvailability($this->getInput('availability'));
+            $provider->setAvailability((int) $this->getInput('availability'));
         }
         
         if ($this->getInput('provider_key_global') == 1) {

@@ -47,8 +47,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                 $this->ctrl->setReturn($this, '');
                 $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
                 // initial date for new calendar appointments
-                $idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
-                $app = new ilCalendarAppointmentGUI($this->seed, $idate, (int) $_GET['app_id']);
+                $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);
+                $app = new ilCalendarAppointmentGUI($this->seed, $idate, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -84,8 +84,9 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (isset($_GET["bkid"])) {
-            $user_id = $_GET["bkid"];
+        $bkid = $this->initBookingUserFromQuery();
+        if ($bkid) {
+            $user_id = $bkid;
             $disable_empty = true;
             $no_add = true;
         } else {

@@ -1,124 +1,143 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+use ILIAS\LTI\ToolProvider;
+use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
+use ILIAS\LTI\HTTPMessage;
+use ILIAS\LTI\ToolProvider\OAuthDataStore;
+use ILIAS\LTI\ToolProvider\Context;
+use ILIAS\LTI\ToolProvider\ResourceLink;
+use ILIAS\LTI\ToolProvider\User;
+use ILIAS\LTI\ToolProvider\ResourceLinkShareKey;
+#use ILIAS\LTI\Profile\Item;
 
-use IMSGlobal\LTI\ToolProvider;
-use IMSGlobal\LTI\Profile\Item;
-use IMSGlobal\LTI\ToolProvider\DataConnector\DataConnector;
-use IMSGlobal\LTI\ToolProvider\MediaType;
-use IMSGlobal\LTI\Profile;
-use IMSGlobal\LTI\HTTPMessage;
-use IMSGlobal\LTI\OAuth;
+#use ILIAS\LTI\ToolProvider\MediaType;
+use ILIAS\LTI\Profile;
 
+#use ILIAS\LTI\OAuth;
 
-use IMSGlobal\LTI\ToolProvider\OAuthDataStore;
-use IMSGlobal\LTI\ToolProvider\Context;
-use IMSGlobal\LTI\ToolProvider\ResourceLink;
-use IMSGlobal\LTI\ToolProvider\User;
+/******************************************************************************
+ * This file is part of ILIAS, a powerful learning management system.
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *****************************************************************************/
 
 /**
  * LTI provider for LTI launch
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- *
  */
 class ilLTIToolProvider extends ToolProvider\ToolProvider
 {
     /**
-     * @var \ilLogger
+     * Permitted LTI versions for messages.
+     * @var string[]
      */
-    protected $logger = null;
+    private static array $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
 
-
-    public $debugMode = true; //ACHTUNG weg bei Produktiv-Umgebung
-    /**
- * Permitted LTI versions for messages.
- */
-    private static $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
     /**
      * List of supported message types and associated class methods.
+     * @var array<string, string>
      */
-    private static $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
-                                          'ContentItemSelectionRequest' => 'onContentItem',
-                                          'ToolProxyRegistrationRequest' => 'register');
+    private static array $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
+                                                'ContentItemSelectionRequest' => 'onContentItem',
+                                                'ToolProxyRegistrationRequest' => 'register'
+    );
+
     /**
      * List of supported message types and associated class methods
-     *
-     * @var array $METHOD_NAMES
      */
-    private static $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
-                                         'ContentItemSelectionRequest' => 'onContentItem',
-                                         'ToolProxyRegistrationRequest' => 'onRegister');
+    private static array $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
+                                               'ContentItemSelectionRequest' => 'onContentItem',
+                                               'ToolProxyRegistrationRequest' => 'onRegister'
+    );
+
     /**
      * Names of LTI parameters to be retained in the consumer settings property.
-     *
-     * @var array $LTI_CONSUMER_SETTING_NAMES
      */
-    private static $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
+    private static array $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
+
     /**
      * Names of LTI parameters to be retained in the context settings property.
-     *
-     * @var array $LTI_CONTEXT_SETTING_NAMES
      */
-    private static $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
-                                                      'custom_lineitems_url', 'custom_results_url',
-                                                      'custom_context_memberships_url');
+    private static array $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
+                                                            'custom_lineitems_url',
+                                                            'custom_results_url',
+                                                            'custom_context_memberships_url'
+    );
+
     /**
      * Names of LTI parameters to be retained in the resource link settings property.
-     *
-     * @var array $LTI_RESOURCE_LINK_SETTING_NAMES
      */
-    private static $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid', 'lis_outcome_service_url',
-                                                            'ext_ims_lis_basic_outcome_url', 'ext_ims_lis_resultvalue_sourcedids',
-                                                            'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
-                                                            'ext_ims_lti_tool_setting', 'ext_ims_lti_tool_setting_id', 'ext_ims_lti_tool_setting_url',
-                                                            'custom_link_setting_url',
-                                                            'custom_lineitem_url', 'custom_result_url');
+    private static array $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid',
+                                                                  'lis_outcome_service_url',
+                                                                  'ext_ims_lis_basic_outcome_url',
+                                                                  'ext_ims_lis_resultvalue_sourcedids',
+                                                                  'ext_ims_lis_memberships_id',
+                                                                  'ext_ims_lis_memberships_url',
+                                                                  'ext_ims_lti_tool_setting',
+                                                                  'ext_ims_lti_tool_setting_id',
+                                                                  'ext_ims_lti_tool_setting_url',
+                                                                  'custom_link_setting_url',
+                                                                  'custom_lineitem_url',
+                                                                  'custom_result_url'
+    );
+
     /**
      * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
-     *
-     * @var array $CUSTOM_SUBSTITUTION_VARIABLES
      */
-    private static $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
-                                                          'User.image' => 'user_image',
-                                                          'User.username' => 'username',
-                                                          'User.scope.mentor' => 'role_scope_mentor',
-                                                          'Membership.role' => 'roles',
-                                                          'Person.sourcedId' => 'lis_person_sourcedid',
-                                                          'Person.name.full' => 'lis_person_name_full',
-                                                          'Person.name.family' => 'lis_person_name_family',
-                                                          'Person.name.given' => 'lis_person_name_given',
-                                                          'Person.email.primary' => 'lis_person_contact_email_primary',
-                                                          'Context.id' => 'context_id',
-                                                          'Context.type' => 'context_type',
-                                                          'Context.title' => 'context_title',
-                                                          'Context.label' => 'context_label',
-                                                          'CourseOffering.sourcedId' => 'lis_course_offering_sourcedid',
-                                                          'CourseSection.sourcedId' => 'lis_course_section_sourcedid',
-                                                          'CourseSection.label' => 'context_label',
-                                                          'CourseSection.title' => 'context_title',
-                                                          'ResourceLink.id' => 'resource_link_id',
-                                                          'ResourceLink.title' => 'resource_link_title',
-                                                          'ResourceLink.description' => 'resource_link_description',
-                                                          'Result.sourcedId' => 'lis_result_sourcedid',
-                                                          'BasicOutcome.url' => 'lis_outcome_service_url',
-                                                          'ToolConsumerProfile.url' => 'custom_tc_profile_url',
-                                                          'ToolProxy.url' => 'tool_proxy_url',
-                                                          'ToolProxy.custom.url' => 'custom_system_setting_url',
-                                                          'ToolProxyBinding.custom.url' => 'custom_context_setting_url',
-                                                          'LtiLink.custom.url' => 'custom_link_setting_url',
-                                                          'LineItems.url' => 'custom_lineitems_url',
-                                                          'LineItem.url' => 'custom_lineitem_url',
-                                                          'Results.url' => 'custom_results_url',
-                                                          'Result.url' => 'custom_result_url',
-                                                          'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url');
-
+    private static array $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
+                                                                'User.image' => 'user_image',
+                                                                'User.username' => 'username',
+                                                                'User.scope.mentor' => 'role_scope_mentor',
+                                                                'Membership.role' => 'roles',
+                                                                'Person.sourcedId' => 'lis_person_sourcedid',
+                                                                'Person.name.full' => 'lis_person_name_full',
+                                                                'Person.name.family' => 'lis_person_name_family',
+                                                                'Person.name.given' => 'lis_person_name_given',
+                                                                'Person.email.primary' => 'lis_person_contact_email_primary',
+                                                                'Context.id' => 'context_id',
+                                                                'Context.type' => 'context_type',
+                                                                'Context.title' => 'context_title',
+                                                                'Context.label' => 'context_label',
+                                                                'CourseOffering.sourcedId' => 'lis_course_offering_sourcedid',
+                                                                'CourseSection.sourcedId' => 'lis_course_section_sourcedid',
+                                                                'CourseSection.label' => 'context_label',
+                                                                'CourseSection.title' => 'context_title',
+                                                                'ResourceLink.id' => 'resource_link_id',
+                                                                'ResourceLink.title' => 'resource_link_title',
+                                                                'ResourceLink.description' => 'resource_link_description',
+                                                                'Result.sourcedId' => 'lis_result_sourcedid',
+                                                                'BasicOutcome.url' => 'lis_outcome_service_url',
+                                                                'ToolConsumerProfile.url' => 'custom_tc_profile_url',
+                                                                'ToolProxy.url' => 'tool_proxy_url',
+                                                                'ToolProxy.custom.url' => 'custom_system_setting_url',
+                                                                'ToolProxyBinding.custom.url' => 'custom_context_setting_url',
+                                                                'LtiLink.custom.url' => 'custom_link_setting_url',
+                                                                'LineItems.url' => 'custom_lineitems_url',
+                                                                'LineItem.url' => 'custom_lineitem_url',
+                                                                'Results.url' => 'custom_results_url',
+                                                                'Result.url' => 'custom_result_url',
+                                                                'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url'
+    );
 
     /**
-         * ilLTIToolProvider constructor.
-         * @param DataConnector $dataConnector
-         */
+     * @var \ilLogger
+     */
+    protected ?\ilLogger $logger = null;
+
+    /**
+     * @var bool
+     */
+    public bool $debugMode = true;
+
+    /**
+     * ilLTIToolProvider constructor.
+     * @param DataConnector $dataConnector
+     */
     public function __construct(DataConnector $dataConnector)
     {
         global $DIC;
@@ -127,20 +146,86 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         parent::__construct($dataConnector);
     }
 
-
     /**
- * Process an incoming request
- */
-    public function handleRequest()
+     * Check if a share arrangement is in place.
+     * @return boolean True if no error is reported
+     */
+    private function checkForShare() : bool
     {
-        if ($this->ok) {
-            if ($this->authenticate()) {
-                $this->doCallback();
+        $ok = true;
+        $doSaveResourceLink = true;
+
+        $id = $this->resourceLink->primaryResourceLinkId;
+
+        $shareRequest = isset($_POST['custom_share_key']) && !empty($_POST['custom_share_key']);
+        if ($shareRequest) {
+            if (!$this->allowSharing) {
+                $ok = false;
+                $this->reason = 'Your sharing request has been refused because sharing is not being permitted.';
+            } else {
+                // Check if this is a new share key
+                $shareKey = new ResourceLinkShareKey($this->resourceLink, $_POST['custom_share_key']);
+                if (!is_null($shareKey->resourceLinkId)) {
+                    // Update resource link with sharing primary resource link details
+                    $key = $shareKey->resourceLinkId;
+                    $ok = ($id !== $this->resourceLink->getRecordId());
+                    if ($ok) {
+                        $this->resourceLink->primaryResourceLinkId = $id;
+                        $this->resourceLink->shareApproved = $shareKey->autoApprove;
+                        $ok = $this->resourceLink->save();
+                        if ($ok) {
+                            $doSaveResourceLink = false;
+                            $this->user->getResourceLink()->primaryResourceLinkId = $id;
+                            $this->user->getResourceLink()->shareApproved = $shareKey->autoApprove;
+                            $this->user->getResourceLink()->updated = time();
+                            // Remove share key
+                            $shareKey->delete();
+                        } else {
+                            $this->reason = 'An error occurred initialising your share arrangement.';
+                        }
+                    } else {
+                        $this->reason = 'It is not possible to share your resource link with yourself.';
+                    }
+                }
+                if ($ok) {
+                    $ok = !is_null($key);
+                    if (!$ok) {
+                        $this->reason = 'You have requested to share a resource link but none is available.';
+                    } else {
+                        $ok = (!is_null($this->user->getResourceLink()->shareApproved) && $this->user->getResourceLink()->shareApproved);
+                        if (!$ok) {
+                            $this->reason = 'Your share request is waiting to be approved.';
+                        }
+                    }
+                }
+            }
+        } else {
+            // Check no share is in place
+            $ok = is_null($id);
+            if (!$ok) {
+                $this->reason = 'You have not requested to share a resource link but an arrangement is currently in place.';
             }
         }
-        // if return url is given, this redirects in case of errors
-        $this->result();
-        return $this->ok;
+        // Look up primary resource link
+        if ($ok && !is_null($id)) {
+            // $consumer = new ToolConsumer($key, $this->dataConnector);
+            $consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
+            $ok = !is_null($consumer->created);
+            if ($ok) {
+                $resourceLink = ResourceLink::fromConsumer($consumer, $id);
+                $ok = !is_null($resourceLink->created);
+            }
+            if ($ok) {
+                if ($doSaveResourceLink) {
+                    $this->resourceLink->save();
+                }
+                $this->resourceLink = $resourceLink;
+            } else {
+                $this->reason = 'Unable to load resource link being shared.';
+            }
+        }
+
+        return $ok;
     }
 
     ###
@@ -149,10 +234,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
 
     /**
      * Process a valid launch request
-     *
-     * @return boolean True if no error
      */
-    protected function onLaunch()
+    protected function onLaunch() : void
     {
         // save/update current user
         if ($this->user instanceof User) {
@@ -170,36 +253,35 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
 
     /**
      * Process a valid content-item request
-     *
      * @return boolean True if no error
      */
-    protected function onContentItem()
+    protected function onContentItem() : void
     {
         $this->onError();
     }
 
     /**
      * Process a valid tool proxy registration request
-     *
      * @return boolean True if no error
      */
-    protected function onRegister()
+    protected function onRegister() : void
     {
         $this->onError();
     }
 
     /**
-     * Process a response to an invalid request
-     *
-     * @return boolean True if no further error processing required
+     * Process an incoming request
      */
-    protected function onError()
+    public function handleRequest() : void
     {
-        // only return error status
-        return $this->ok;
-
-        //$this->doCallback('onError');
-        // return parent::onError(); //Stefan M.
+        if ($this->ok) {
+            if ($this->authenticate()) {
+                $this->doCallback();
+            }
+        }
+        // if return url is given, this redirects in case of errors
+        $this->result();
+//        return $this->ok;
     }
 
     ###
@@ -207,105 +289,20 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
     ###
 
     /**
-     * Call any callback function for the requested action.
-     *
-     * This function may set the redirect_url and output properties.
-     *
-     * @return boolean True if no error reported
-     */
-    private function doCallback($method = null)
-    {
-        $callback = $method;
-        if (is_null($callback)) {
-            $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
-        }
-        if (method_exists($this, $callback)) {
-            $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
-        } elseif (is_null($method) && $this->ok) {
-            $this->ok = false;
-            $this->reason = "Message type not supported: {$_POST['lti_message_type']}";
-        }
-        if ($this->ok && ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest')) {
-            $this->consumer->save();
-        }
-    }
-
-    /**
-     * Perform the result of an action.
-     *
-     * This function may redirect the user to another URL rather than returning a value.
-     *
-     * @return string Output to be displayed (redirection, or display HTML or message)
-     */
-    private function result()
-    {
-        $ok = false;
-        if (!$this->ok) {
-            $ok = $this->onError();
-        }
-        if (!$ok) {
-            if (!$this->ok) {
-                // If not valid, return an error message to the tool consumer if a return URL is provided
-                if (!empty($this->returnUrl)) {
-                    $errorUrl = $this->returnUrl;
-                    if (strpos($errorUrl, '?') === false) {
-                        $errorUrl .= '?';
-                    } else {
-                        $errorUrl .= '&';
-                    }
-                    if ($this->debugMode && !is_null($this->reason)) {
-                        $errorUrl .= 'lti_errormsg=' . urlencode("Debug error: $this->reason");
-                    } else {
-                        $errorUrl .= 'lti_errormsg=' . urlencode($this->message);
-                        if (!is_null($this->reason)) {
-                            $errorUrl .= '&lti_errorlog=' . urlencode("Debug error: $this->reason");
-                        }
-                    }
-                    if (!is_null($this->consumer) && isset($_POST['lti_message_type']) && ($_POST['lti_message_type'] === 'ContentItemSelectionRequest')) {
-                        $formParams = array();
-                        if (isset($_POST['data'])) {
-                            $formParams['data'] = $_POST['data'];
-                        }
-                        $version = (isset($_POST['lti_version'])) ? $_POST['lti_version'] : self::LTI_VERSION1;
-                        $formParams = $this->consumer->signParameters($errorUrl, 'ContentItemSelection', $version, $formParams);
-                        $page = self::sendForm($errorUrl, $formParams);
-                        echo $page;
-                    } else {
-                        header("Location: {$errorUrl}");
-                    }
-                    exit; //ACHTUNG HIER PROBLEM UK
-                } else {
-                    if (!is_null($this->errorOutput)) {
-                        echo $this->errorOutput;
-                    } elseif ($this->debugMode && !empty($this->reason)) {
-                        echo "Debug error: {$this->reason}";
-                    } else {
-                        echo "Error: {$this->message}";
-                    }
-                }
-            } elseif (!is_null($this->redirectUrl)) {
-                header("Location: {$this->redirectUrl}");
-                exit;
-            } elseif (!is_null($this->output)) {
-                echo $this->output;
-            }
-        }
-    }
-
-    /**
      * Check the authenticity of the LTI launch request.
-     *
      * The consumer, resource link and user objects will be initialised if the request is valid.
-     *
      * @return boolean True if the request has been successfully validated.
      */
-    private function authenticate()
+    private function authenticate() : bool
     {
 
 // Get the consumer
         $doSaveConsumer = false;
         // Check all required launch parameters
-        $this->ok = isset($_POST['lti_message_type']) && array_key_exists($_POST['lti_message_type'], self::$MESSAGE_TYPES);
+        $this->ok = isset($_POST['lti_message_type']) && array_key_exists(
+            $_POST['lti_message_type'],
+            self::$MESSAGE_TYPES
+        );
         if (!$this->ok) {
             $this->reason = 'Invalid or missing lti_message_type parameter.';
         }
@@ -323,7 +320,10 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             } elseif ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
                 if (isset($_POST['accept_media_types']) && (strlen(trim($_POST['accept_media_types'])) > 0)) {
-                    $mediaTypes = array_filter(explode(',', str_replace(' ', '', $_POST['accept_media_types'])), 'strlen');
+                    $mediaTypes = array_filter(
+                        explode(',', str_replace(' ', '', $_POST['accept_media_types'])),
+                        'strlen'
+                    );
                     $mediaTypes = array_unique($mediaTypes);
                     $this->ok = count($mediaTypes) > 0;
                     if (!$this->ok) {
@@ -335,7 +335,10 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $this->ok = false;
                 }
                 if ($this->ok && isset($_POST['accept_presentation_document_targets']) && (strlen(trim($_POST['accept_presentation_document_targets'])) > 0)) {
-                    $documentTargets = array_filter(explode(',', str_replace(' ', '', $_POST['accept_presentation_document_targets'])), 'strlen');
+                    $documentTargets = array_filter(explode(
+                        ',',
+                        str_replace(' ', '', $_POST['accept_presentation_document_targets'])
+                    ), 'strlen');
                     $documentTargets = array_unique($documentTargets);
                     $this->ok = count($documentTargets) > 0;
                     if (!$this->ok) {
@@ -366,9 +369,9 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             } elseif ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest') {
                 $this->ok = ((isset($_POST['reg_key']) && (strlen(trim($_POST['reg_key'])) > 0)) &&
-                             (isset($_POST['reg_password']) && (strlen(trim($_POST['reg_password'])) > 0)) &&
-                             (isset($_POST['tc_profile_url']) && (strlen(trim($_POST['tc_profile_url'])) > 0)) &&
-                             (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)));
+                    (isset($_POST['reg_password']) && (strlen(trim($_POST['reg_password'])) > 0)) &&
+                    (isset($_POST['tc_profile_url']) && (strlen(trim($_POST['tc_profile_url'])) > 0)) &&
+                    (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)));
                 if ($this->debugMode && !$this->ok) {
                     $this->reason = 'Missing message parameters.';
                 }
@@ -403,27 +406,27 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->consumer->last_access = $now;
                 try {
                     $store = new OAuthDataStore($this);
-                    $server = new OAuth\OAuthServer($store);
-                    $method = new OAuth\OAuthSignatureMethod_HMAC_SHA1();
+                    $server = new \ILIAS\LTIOAuth\OAuthServer($store);
+                    $method = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
                     $server->add_signature_method($method);
-                    $request = OAuth\OAuthRequest::from_request();
-                    $res = $server->verify_request($request);
+                    $request = \ILIAS\LTIOAuth\OAuthRequest::from_request();
+//                    $res = $server->verify_request($request);
                 } catch (\Exception $e) {
                     $this->ok = false;
                     if (empty($this->reason)) {
-                        if ($this->debugMode) {
-                            $consumer = new OAuth\OAuthConsumer($this->consumer->getKey(), $this->consumer->secret);
-                            $signature = $request->build_signature($method, $consumer, false);
-                            $this->reason = $e->getMessage();
-                            if (empty($this->reason)) {
-                                $this->reason = 'OAuth exception';
-                            }
-                            $this->details[] = 'Timestamp: ' . time();
-                            $this->details[] = "Signature: {$signature}";
-                            $this->details[] = "Base string: {$request->base_string}]";
-                        } else {
-                            $this->reason = 'OAuth signature check failed - perhaps an incorrect secret or timestamp.';
-                        }
+//                        if ($this->debugMode) {
+//                            $consumer = new \ILIAS\LTIOAuth\OAuthConsumer($this->consumer->getKey(), $this->consumer->secret);
+//                            $signature = $request->build_signature($method, $consumer, false);
+//                            $this->reason = $e->getMessage();
+//                            if (empty($this->reason)) {
+//                                $this->reason = 'OAuth exception';
+//                            }
+//                            $this->details[] = 'Timestamp: ' . time();
+//                            $this->details[] = "Signature: {$signature}";
+//                            $this->details[] = "Base string: {$request->base_string}]";
+//                        } else {
+                        $this->reason = 'OAuth signature check failed - perhaps an incorrect secret or timestamp.';
+//                        }
                     }
                 }
             }
@@ -440,7 +443,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 if ($this->consumer->protected) {
                     if (!is_null($this->consumer->consumerGuid)) {
                         $this->ok = empty($_POST['tool_consumer_instance_guid']) ||
-                             ($this->consumer->consumerGuid === $_POST['tool_consumer_instance_guid']);
+                            ($this->consumer->consumerGuid === $_POST['tool_consumer_instance_guid']);
                         if (!$this->ok) {
                             $this->reason = 'Request is from an invalid tool consumer.';
                         }
@@ -473,19 +476,39 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             if ($this->ok) {
                 if ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
                     if (isset($_POST['accept_unsigned'])) {
-                        $this->ok = $this->checkValue($_POST['accept_unsigned'], array('true', 'false'), 'Invalid value for accept_unsigned parameter: %s.');
+                        $this->ok = $this->checkValue(
+                            $_POST['accept_unsigned'],
+                            array('true', 'false'),
+                            'Invalid value for accept_unsigned parameter: %s.'
+                        );
                     }
                     if ($this->ok && isset($_POST['accept_multiple'])) {
-                        $this->ok = $this->checkValue($_POST['accept_multiple'], array('true', 'false'), 'Invalid value for accept_multiple parameter: %s.');
+                        $this->ok = $this->checkValue(
+                            $_POST['accept_multiple'],
+                            array('true', 'false'),
+                            'Invalid value for accept_multiple parameter: %s.'
+                        );
                     }
                     if ($this->ok && isset($_POST['accept_copy_advice'])) {
-                        $this->ok = $this->checkValue($_POST['accept_copy_advice'], array('true', 'false'), 'Invalid value for accept_copy_advice parameter: %s.');
+                        $this->ok = $this->checkValue(
+                            $_POST['accept_copy_advice'],
+                            array('true', 'false'),
+                            'Invalid value for accept_copy_advice parameter: %s.'
+                        );
                     }
                     if ($this->ok && isset($_POST['auto_create'])) {
-                        $this->ok = $this->checkValue($_POST['auto_create'], array('true', 'false'), 'Invalid value for auto_create parameter: %s.');
+                        $this->ok = $this->checkValue(
+                            $_POST['auto_create'],
+                            array('true', 'false'),
+                            'Invalid value for auto_create parameter: %s.'
+                        );
                     }
                     if ($this->ok && isset($_POST['can_confirm'])) {
-                        $this->ok = $this->checkValue($_POST['can_confirm'], array('true', 'false'), 'Invalid value for can_confirm parameter: %s.');
+                        $this->ok = $this->checkValue(
+                            $_POST['can_confirm'],
+                            array('true', 'false'),
+                            'Invalid value for can_confirm parameter: %s.'
+                        );
                     }
                 } elseif (isset($_POST['launch_presentation_document_target'])) {
                     $this->ok = $this->checkValue(
@@ -503,12 +526,17 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->reason = 'Invalid lti_version parameter';
             }
             if ($this->ok) {
-                $http = new HTTPMessage($_POST['tc_profile_url'], 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
+                $http = new HTTPMessage(
+                    $_POST['tc_profile_url'],
+                    'GET',
+                    null,
+                    'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json'
+                );
                 $this->ok = $http->send();
                 if (!$this->ok) {
                     $this->reason = 'Tool consumer profile not accessible.';
                 } else {
-                    $tcProfile = json_decode($http->response);
+                    $tcProfile = json_decode((string) $http->response);
                     $this->ok = !is_null($tcProfile);
                     if (!$this->ok) {
                         $this->reason = 'Invalid JSON in tool consumer profile.';
@@ -538,7 +566,10 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
                 if (!empty($missing)) {
                     ksort($missing);
-                    $this->reason = 'Required capability not offered - \'' . implode('\', \'', array_keys($missing)) . '\'';
+                    $this->reason = 'Required capability not offered - \'' . implode(
+                        '\', \'',
+                        array_keys($missing)
+                    ) . '\'';
                     $this->ok = false;
                 }
             }
@@ -573,9 +604,14 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
         } elseif ($this->ok && !empty($_POST['custom_tc_profile_url']) && empty($this->consumer->profile)) {
-            $http = new HTTPMessage($_POST['custom_tc_profile_url'], 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
+            $http = new HTTPMessage(
+                $_POST['custom_tc_profile_url'],
+                'GET',
+                null,
+                'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json'
+            );
             if ($http->send()) {
-                $tcProfile = json_decode($http->response);
+                $tcProfile = json_decode((string) $http->response);
                 if (!is_null($tcProfile)) {
                     $this->consumer->profile = $tcProfile;
                     $doSaveConsumer = true;
@@ -636,7 +672,11 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 if (isset($_POST['custom_content_item_id'])) {
                     $contentItemId = $_POST['custom_content_item_id'];
                 }
-                $this->resourceLink = ResourceLink::fromConsumer($this->consumer, trim($_POST['resource_link_id']), $contentItemId);
+                $this->resourceLink = ResourceLink::fromConsumer(
+                    $this->consumer,
+                    trim($_POST['resource_link_id']),
+                    $contentItemId
+                );
                 if (!empty($this->context)) {
                     $this->resourceLink->setContextId($this->context->getRecordId());
                 }
@@ -694,7 +734,14 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 // Save other custom parameters
                 foreach ($_POST as $name => $value) {
                     if ((strpos($name, 'custom_') === 0) &&
-                        !in_array($name, array_merge(self::$LTI_CONSUMER_SETTING_NAMES, self::$LTI_CONTEXT_SETTING_NAMES, self::$LTI_RESOURCE_LINK_SETTING_NAMES))) {
+                        !in_array(
+                            $name,
+                            array_merge(
+                                self::$LTI_CONSUMER_SETTING_NAMES,
+                                self::$LTI_CONTEXT_SETTING_NAMES,
+                                self::$LTI_RESOURCE_LINK_SETTING_NAMES
+                            )
+                        )) {
                         $this->resourceLink->setSetting($name, $value);
                     }
                 }
@@ -771,7 +818,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $doSaveConsumer = true;
                 }
             } elseif (isset($_POST['ext_launch_presentation_css_url']) &&
-                 ($this->consumer->cssPath !== $_POST['ext_launch_presentation_css_url'])) {
+                ($this->consumer->cssPath !== $_POST['ext_launch_presentation_css_url'])) {
                 $this->consumer->cssPath = $_POST['ext_launch_presentation_css_url'];
                 $doSaveConsumer = true;
             } elseif (!empty($this->consumer->cssPath)) {
@@ -788,13 +835,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             $this->context->save();//ACHTUNG TODO UWE
         }
 
-        $this->logger->dump(get_class($this->context));
-
+//        $this->logger->dump(get_class($this->context));
 
         if ($this->ok && isset($this->resourceLink)) {
 
 // Check if a share arrangement is in place for this resource link
-            // $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
+            $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
             // Persist changes to resource link
             $this->resourceLink->save();
 
@@ -814,96 +860,13 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
     }
 
     /**
-     * Check if a share arrangement is in place.
-     *
-     * @return boolean True if no error is reported
-     */
-    private function checkForShare()
-    {
-        $ok = true;
-        $doSaveResourceLink = true;
-
-        $id = $this->resourceLink->primaryResourceLinkId;
-
-        $shareRequest = isset($_POST['custom_share_key']) && !empty($_POST['custom_share_key']);
-        if ($shareRequest) {
-            if (!$this->allowSharing) {
-                $ok = false;
-                $this->reason = 'Your sharing request has been refused because sharing is not being permitted.';
-            } else {
-                // Check if this is a new share key
-                $shareKey = new ResourceLinkShareKey($this->resourceLink, $_POST['custom_share_key']);
-                if (!is_null($shareKey->primaryConsumerKey) && !is_null($shareKey->primaryResourceLinkId)) {
-                    // Update resource link with sharing primary resource link details
-                    $key = $shareKey->primaryConsumerKey;
-                    $id = $shareKey->primaryResourceLinkId;
-                    $ok = ($key !== $this->consumer->getKey()) || ($id != $this->resourceLink->getId());
-                    if ($ok) {
-                        $this->resourceLink->primaryConsumerKey = $key;
-                        $this->resourceLink->primaryResourceLinkId = $id;
-                        $this->resourceLink->shareApproved = $shareKey->autoApprove;
-                        $ok = $this->resourceLink->save();
-                        if ($ok) {
-                            $doSaveResourceLink = false;
-                            $this->user->getResourceLink()->primaryConsumerKey = $key;
-                            $this->user->getResourceLink()->primaryResourceLinkId = $id;
-                            $this->user->getResourceLink()->shareApproved = $shareKey->autoApprove;
-                            $this->user->getResourceLink()->updated = time();
-                            // Remove share key
-                            $shareKey->delete();
-                        } else {
-                            $this->reason = 'An error occurred initialising your share arrangement.';
-                        }
-                    } else {
-                        $this->reason = 'It is not possible to share your resource link with yourself.';
-                    }
-                }
-                if ($ok) {
-                    $ok = !is_null($key);
-                    if (!$ok) {
-                        $this->reason = 'You have requested to share a resource link but none is available.';
-                    } else {
-                        $ok = (!is_null($this->user->getResourceLink()->shareApproved) && $this->user->getResourceLink()->shareApproved);
-                        if (!$ok) {
-                            $this->reason = 'Your share request is waiting to be approved.';
-                        }
-                    }
-                }
-            }
-        } else {
-            // Check no share is in place
-            $ok = is_null($id);
-            if (!$ok) {
-                $this->reason = 'You have not requested to share a resource link but an arrangement is currently in place.';
-            }
-        }
-        // Look up primary resource link
-        if ($ok && !is_null($id)) {
-            // $consumer = new ToolConsumer($key, $this->dataConnector);
-            $consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
-            $ok = !is_null($consumer->created);
-            if ($ok) {
-                $resourceLink = ResourceLink::fromConsumer($consumer, $id);
-                $ok = !is_null($resourceLink->created);
-            }
-            if ($ok) {
-                if ($doSaveResourceLink) {
-                    $this->resourceLink->save();
-                }
-                $this->resourceLink = $resourceLink;
-            } else {
-                $this->reason = 'Unable to load resource link being shared.';
-            }
-        }
-
-        return $ok;
-    }
-    /**
      * Validate a parameter value from an array of permitted values.
-     *
+     * @param string $value
+     * @param array  $values
+     * @param string $reason
      * @return boolean True if value is valid
      */
-    private function checkValue($value, $values, $reason)
+    private function checkValue(string $value, array $values, string $reason) : bool
     {
         $ok = in_array($value, $values);
         if (!$ok && !empty($reason)) {
@@ -911,5 +874,106 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         }
 
         return $ok;
+    }
+
+    /**
+     * Call any callback function for the requested action.
+     * This function may set the redirect_url and output properties.
+     * @param string|null $method
+     * @return void True if no error reported
+     */
+    private function doCallback(?string $method = null) : void
+    {
+        $callback = $method;
+        if (is_null($callback)) {
+            $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
+        }
+        if (method_exists($this, $callback)) {
+            $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
+        } elseif (is_null($method) && $this->ok) {
+            $this->ok = false;
+            $this->reason = "Message type not supported: {$_POST['lti_message_type']}";
+        }
+        if ($this->ok && ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest')) {
+            $this->consumer->save();
+        }
+    }
+
+    /**
+     * Perform the result of an action.
+     * This function may redirect the user to another URL rather than returning a value.
+     * string Output to be displayed (redirection, or display HTML or message)
+     */
+    private function result() : void
+    {
+        $ok = false;
+        if (!$this->ok) {
+            $this->onError();
+        }
+        if (!$ok) {
+            if (!$this->ok) {
+                // If not valid, return an error message to the tool consumer if a return URL is provided
+                if (!empty($this->returnUrl)) {
+                    $errorUrl = $this->returnUrl;
+                    if (strpos($errorUrl, '?') === false) {
+                        $errorUrl .= '?';
+                    } else {
+                        $errorUrl .= '&';
+                    }
+                    if ($this->debugMode && !is_null($this->reason)) {
+                        $errorUrl .= 'lti_errormsg=' . urlencode("Debug error: $this->reason");
+                    } else {
+                        $errorUrl .= 'lti_errormsg=' . urlencode($this->message);
+                        if (!is_null($this->reason)) {
+                            $errorUrl .= '&lti_errorlog=' . urlencode("Debug error: $this->reason");
+                        }
+                    }
+                    if (!is_null($this->consumer) && isset($_POST['lti_message_type']) && ($_POST['lti_message_type'] === 'ContentItemSelectionRequest')) {
+                        $formParams = array();
+                        if (isset($_POST['data'])) {
+                            $formParams['data'] = $_POST['data'];
+                        }
+                        $version = (isset($_POST['lti_version'])) ? $_POST['lti_version'] : self::LTI_VERSION1;
+                        $formParams = $this->consumer->signParameters(
+                            $errorUrl,
+                            'ContentItemSelection',
+                            $version,
+                            $formParams
+                        );
+                        $page = self::sendForm($errorUrl, $formParams);
+                        echo $page;
+                    } else {
+                        header("Location: {$errorUrl}");
+                    }
+                    exit; //ACHTUNG HIER PROBLEM UK
+                } else {
+                    if (!is_null($this->errorOutput)) {
+                        echo $this->errorOutput;
+                    } elseif ($this->debugMode && !empty($this->reason)) {
+                        echo "Debug error: {$this->reason}";
+                    } else {
+                        echo "Error: {$this->message}";
+                    }
+                }
+            } elseif (!is_null($this->redirectUrl)) {
+                header("Location: {$this->redirectUrl}");
+                exit;
+            } elseif (!is_null($this->output)) {
+                echo $this->output;
+            }
+        }
+    }
+
+    /**
+     * Process a response to an invalid request
+     * boolean True if no further error processing required
+     */
+    protected function onError() : void
+    {
+        // only return error status
+//        return $this->ok;
+
+        $this->doCallback('onError');
+        // return parent::onError(); //Stefan M.
     }
 }

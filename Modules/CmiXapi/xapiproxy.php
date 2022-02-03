@@ -31,6 +31,10 @@
         $token = $basicAuth[1];
     } else {
         header('HTTP/1.1 401 Authorization Required');
+        header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        header('Access-Control-Allow-Headers: X-Experience-API-Version,Accept,Authorization,Etag,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With');
         exit;
     }
 
@@ -52,20 +56,20 @@
     DataService::initIlias($client);
     $dic = $GLOBALS['DIC'];
     
-    $dic['xapiproxy'] = fn ($c) => new XapiProxy($client, $token, $plugin);
+    $xapiproxy = new XapiProxy($client, $token, $plugin);
 
     /**
      * handle Lrs Init
      */
     try {
-        $dic['xapiproxy']->initLrs();
-    } catch (\Exception $e) { // ?
-        $dic['xapiproxy']->log()->error($dic['xapiproxy']->getLogMessage($e->getMessage()));
+        $xapiproxy->initLrs();
+    } catch (\Exception $e) {
+        $xapiproxy->log()->error($dic['xapiproxy']->getLogMessage($e->getMessage()));
     }
-    $req = new XapiProxyRequest();
-    $resp = new XapiProxyResponse();
+    $req = new XapiProxyRequest($xapiproxy);
+    $resp = new XapiProxyResponse($xapiproxy);
     
-    $dic['xapiproxy']->setXapiProxyRequest($req);
-    $dic['xapiproxy']->setXapiProxyResponse($resp);
+    $xapiproxy->setXapiProxyRequest($req);
+    $xapiproxy->setXapiProxyResponse($resp);
 
     $req->handle();

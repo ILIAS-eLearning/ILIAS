@@ -855,7 +855,8 @@ class ilObject
             $md_creator->setDescription($this->getLongDescription());
             $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
             $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-            $md_creator->setLanguage($ilUser->getPref('language'));
+            // see https://docu.ilias.de/goto_docu_wiki_wpage_4891_1357.html
+            //$md_creator->setLanguage($ilUser->getPref('language'));
             $md_creator->create();
             $this->doCreateMetaData();
         }

@@ -1,6 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -14,32 +26,20 @@ class ilSessionStatistics
     
     /**
      * Is session statistics active at all?
-     *
-     * @return bool
      */
-    public static function isActive()
+    public static function isActive() : bool
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         
-        return (bool) $ilSetting->get('session_statistics', 1);
-        
-        /* #13566 - includes somehow won't work this late in the request - doing it directly
-        include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
-        return ilObjUserTracking::_enabledSessionStatistics();
-        */
+        return (bool) $ilSetting->get('session_statistics', (string) 1);
     }
     
     /**
      * Create raw data entry
-     *
-     * @param int $a_session_id
-     * @param int $a_session_type
-     * @param int $a_timestamp
-     * @param int $a_user_id
      */
-    public static function createRawEntry($a_session_id, $a_session_type, $a_timestamp, $a_user_id)
+    public static function createRawEntry(string $a_session_id, int $a_session_type, int $a_timestamp, int $a_user_id)
     {
         global $DIC;
 
@@ -72,7 +72,7 @@ class ilSessionStatistics
      * @param int $a_context
      * @param int|bool $a_expired_at
      */
-    public static function closeRawEntry($a_session_id, $a_context = null, $a_expired_at = null)
+    public static function closeRawEntry($a_session_id, ?int $a_context = null, $a_expired_at = null)
     {
         global $DIC;
 
@@ -127,10 +127,9 @@ class ilSessionStatistics
     /**
      * Get next slot to aggregate
      *
-     * @param integer $a_now
      * @return array begin, end
      */
-    protected static function getCurrentSlot($a_now)
+    protected static function getCurrentSlot(int $a_now) : array
     {
         global $DIC;
 
@@ -173,7 +172,7 @@ class ilSessionStatistics
      * @param integer $a_time
      * @return integer
      */
-    protected static function getNumberOfActiveRawSessions($a_time)
+    protected static function getNumberOfActiveRawSessions(int $a_time) : int
     {
         global $DIC;
 
@@ -185,7 +184,7 @@ class ilSessionStatistics
             " AND " . $ilDB->in("type", ilSessionControl::$session_types_controlled, false, "integer");
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
-        return $row["counter"];
+        return (int) $row["counter"];
     }
     
     /**
@@ -195,7 +194,7 @@ class ilSessionStatistics
      * @param integer $a_end
      * @return array
      */
-    protected static function getRawData($a_begin, $a_end)
+    protected static function getRawData(int $a_begin, int $a_end) : array
     {
         global $DIC;
 
@@ -217,10 +216,9 @@ class ilSessionStatistics
     /**
      * Create new slot (using table lock)
      *
-     * @param integer $a_now
      * @return array begin, end
      */
-    protected static function createNewAggregationSlot($a_now)
+    protected static function createNewAggregationSlot(int $a_now) : array
     {
         global $DIC;
 
@@ -256,7 +254,7 @@ class ilSessionStatistics
      *
      * @param integer $a_now
      */
-    public static function aggretateRaw($a_now)
+    public static function aggretateRaw(int $a_now) : void
     {
         if (!self::isActive()) {
             return;

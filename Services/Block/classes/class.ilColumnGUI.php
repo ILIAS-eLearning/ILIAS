@@ -72,8 +72,6 @@ class ilColumnGUI
         "ilPDMailBlockGUI" => "Services/Mail/",
         "ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
         "ilPDNewsBlockGUI" => "Services/News/",
-        "ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
-        "ilPDExternalFeedBlockGUI" => "Services/Feeds/",
         'ilPollBlockGUI' => 'Modules/Poll/',
         'ilClassificationBlockGUI' => 'Services/Classification/',
         "ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
@@ -87,8 +85,6 @@ class ilColumnGUI
         "ilNewsForContextBlockGUI" => "news",
         "ilCalendarBlockGUI" => "cal",
         "ilPDCalendarBlockGUI" => "pdcal",
-        "ilExternalFeedBlockGUI" => "feed",
-        "ilPDExternalFeedBlockGUI" => "pdfeed",
         "ilPDSelectedItemsBlockGUI" => "pditems",
         'ilPollBlockGUI' => 'poll',
         'ilClassificationBlockGUI' => 'clsfct',
@@ -139,9 +135,6 @@ class ilColumnGUI
         "fold" => array(),
         "pd" => array()
     );
-    /*
-        "pd" => array("ilPDExternalFeedBlockGUI")
-        );*/
 
     // check global activation for these block types
     // @todo: add calendar

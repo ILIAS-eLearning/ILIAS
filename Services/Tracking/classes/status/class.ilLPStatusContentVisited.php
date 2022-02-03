@@ -43,6 +43,7 @@ class ilLPStatusContentVisited extends ilLPStatus
         switch ($ilObjDataCache->lookupType($a_obj_id)) {
             case 'file':
             case 'copa':
+            case 'htlm':
                 if (\ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }

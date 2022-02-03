@@ -1,5 +1,18 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilOpenIdConnectSettingsGUI
@@ -553,7 +566,7 @@ class ilOpenIdConnectSettings
             $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '');
         }
 
-        $this->setActive((bool) $this->storage->get('active', 0));
+        $this->setActive((bool) $this->storage->get('active', (string) 0));
         $this->setProvider($this->storage->get('provider', ''));
         $this->setClientId($this->storage->get('client_id', ''));
         $this->setSecret($this->storage->get('secret', ''));
@@ -561,12 +574,12 @@ class ilOpenIdConnectSettings
         $this->setLoginElementImage($this->storage->get('le_img', ''));
         $this->setLoginElementText((string) $this->storage->get('le_text'));
         $this->setLoginElementType((int) $this->storage->get('le_type'));
-        $this->setLoginPromptType((int) $this->storage->get('prompt_type', self::LOGIN_ENFORCE));
-        $this->setLogoutScope((int) $this->storage->get('logout_scope', self::LOGOUT_SCOPE_GLOBAL));
-        $this->useCustomSession((bool) $this->storage->get('custom_session'), false);
-        $this->setSessionDuration((int) $this->storage->get('session_duration', 60));
-        $this->allowSync((bool) $this->storage->get('allow_sync'), false);
-        $this->setRole((int) $this->storage->get('role'), 0);
+        $this->setLoginPromptType((int) $this->storage->get('prompt_type', (string) self::LOGIN_ENFORCE));
+        $this->setLogoutScope((int) $this->storage->get('logout_scope', (string) self::LOGOUT_SCOPE_GLOBAL));
+        $this->useCustomSession((bool) $this->storage->get('custom_session'), (string) false);
+        $this->setSessionDuration((int) $this->storage->get('session_duration', (string) 60));
+        $this->allowSync((bool) $this->storage->get('allow_sync'), (string) false);
+        $this->setRole((int) $this->storage->get('role'), (string) 0);
         $this->setUidField((string) $this->storage->get('uid'), '');
         $this->setRoleMappings((array) unserialize($this->storage->get('role_mappings', serialize([]))));
     }
