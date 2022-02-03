@@ -53,7 +53,12 @@ class ilLoggingConfigStoredObjective implements Objective
         $ini->setVariable("log", "enabled", $this->config->isEnabled() ? "1" : "0");
         $ini->setVariable("log", "path", $logPath);
         $ini->setVariable("log", "file", $logFile);
-        $ini->setVariable("log", "error_path", $this->config->getErrorlogDir());
+        $ini->setVariable(
+            "log",
+            "error_path",
+            $this->config->getErrorlogDir
+            () ?? ''
+        );
 
         if (!$ini->write()) {
             throw new UnachievableException("Could not write ilias.ini.php");
