@@ -34,8 +34,7 @@ class ilCronStartUp
         require_once './Services/Context/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_CRON);
 
-        // define client
-        // @see mantis 20371, to get rid of this, the authencation service has to provide a mechanism to pass the client_id
+        // @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
         $_GET['client_id'] = $this->client;
 
         require_once './include/inc.header.php';
