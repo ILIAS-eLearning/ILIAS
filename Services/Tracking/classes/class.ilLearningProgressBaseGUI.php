@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
@@ -658,12 +658,7 @@ class ilLearningProgressBaseGUI
         if ($objDefinition->isPluginTypeName($a_type)) {
             return false;
         }
-        
         $class = "ilObj" . $objDefinition->getClassName($a_type) . "Access";
-        include_once $objDefinition->getLocation($a_type) . "/class." . $class . ".php";
-        return call_user_func(array($class,'_isOffline'), $a_obj_id);
-
-        // PHP 5.3 only ?
-        //return $class::_isOffline($obj_id);
+        return (bool) $class::_isOffline($a_obj_id);
     }
 }

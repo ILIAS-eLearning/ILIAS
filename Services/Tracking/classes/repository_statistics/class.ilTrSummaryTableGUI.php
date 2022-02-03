@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
@@ -13,7 +13,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     protected ?ilObjectLP $olp = null;
     protected bool $is_root;
     protected int $ref_id;
-    protected string $type;
+    protected ?string $type = null;
     protected int $obj_id;
 
 

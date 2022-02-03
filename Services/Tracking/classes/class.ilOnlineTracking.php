@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -62,7 +62,7 @@ class ilOnlineTracking
                 return false;
             }
             $row = $ilDB->fetchAssoc($res);
-            self::$last_access_time = $row['access_time'];
+            self::$last_access_time = (int) $row['access_time'];
         }
 
         $time_span = (int) $ilSetting->get('tracking_time_span', '300');

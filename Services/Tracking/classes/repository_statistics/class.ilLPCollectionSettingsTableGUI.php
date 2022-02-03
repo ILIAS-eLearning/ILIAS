@@ -10,39 +10,32 @@
  */
 class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 {
-    private $node_id;
-    private $mode;
+    private int $node_id;
+    private int $mode;
 
     protected ilObjectDefinition $obj_definition;
 
-    /**
-     * Constructor
-     * @param ilObject $a_parent_obj
-     * @param string   $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_mode)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd, int $a_node_id, int $a_mode)
     {
         global $DIC;
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setId('lpobjs_' . $this->getNode());
-
-        $this->setShowRowsSelector(false);
 
         $this->obj_definition = $DIC["objDefinition"];
         $this->node_id = $a_node_id;
         $this->mode = $a_mode;
+
+        $this->setId('lpobjs_' . $this->getNode());
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->setShowRowsSelector(false);
+
     }
 
-    /**
-     * Get node id of current learning progress item
-     * @return int $node_id
-     */
-    public function getNode()
+    public function getNode() : int
     {
         return $this->node_id;
     }
     
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
@@ -50,7 +43,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
     /**
      * Read and parse items
      */
-    public function parse(ilLPCollection $a_collection)
+    public function parse(ilLPCollection $a_collection) : void
     {
         $this->setData($a_collection->getTableGUIData($this->getNode()));
         $this->initTable();
@@ -69,17 +62,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * Fill template row
-     * @param array $a_set
-     */
     protected function fillRow(array $a_set) : void
     {
-        global $DIC;
-
-        $objDefinition = $DIC['objDefinition'];
-        $ilAccess = $DIC['ilAccess'];
-        
         include_once './Services/Link/classes/class.ilLink.php';
 
         $this->tpl->setCurrentBlock('item_row');
@@ -87,7 +71,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('COLL_TITLE', $a_set['title']);
         $this->tpl->setVariable('COLL_DESC', $a_set['description']);
             
-        if ($objDefinition->isPluginTypeName($a_set["type"])) {
+        if ($this->obj_definition->isPluginTypeName($a_set["type"])) {
             $alt = ilObjectPlugin::lookupTxtById($a_set['type'], "obj_" . $a_set['type']);
         } else {
             $alt = $this->lng->txt('obj_' . $a_set['type']);
@@ -268,12 +252,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function initTable()
+    protected function initTable() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         switch ($this->getMode()) {
             case ilLPObjSettings::LP_MODE_COLLECTION:

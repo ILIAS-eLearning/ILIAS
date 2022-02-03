@@ -211,7 +211,7 @@ class ilLPMarks
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->u_comment;
+            return (string) $row->u_comment;
         }
         return '';
     }

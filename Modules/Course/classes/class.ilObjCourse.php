@@ -1723,8 +1723,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
             foreach ($role_arr as $role_id) {
                 if ($rbacreview->isAssignable($role_id, $this->getRefId()) == true) {
-                    $role_Obj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
-
+                    $role_Obj = ilObjectFactory::getInstanceByObjId($role_id);
                     if ($a_translate) {
                         $role_name = ilObjRole::_getTranslation($role_Obj->getTitle());
                     } else {

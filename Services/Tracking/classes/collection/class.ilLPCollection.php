@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -32,7 +32,7 @@ abstract class ilLPCollection
         }
     }
     
-    public static function getInstanceByMode(int $a_obj_id, int $a_mode) : ilLPCollection
+    public static function getInstanceByMode(int $a_obj_id, int $a_mode) : ?ilLPCollection
     {
         $path = "Services/Tracking/classes/collection/";
         
@@ -59,7 +59,7 @@ abstract class ilLPCollection
                 include_once $path . "class.ilLPCollectionOfMediaObjects.php";
                 return new ilLPCollectionOfMediaObjects($a_obj_id, $a_mode);
         }
-        throw new DomainException('Invalid mode given: ' . $a_mode);
+        return null;
     }
     
     public static function getCollectionModes() : array

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -77,10 +77,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             foreach ($this->obj_lp->getValidModes() as $mode_key) {
                 $opt = new ilRadioOption(
                     $this->obj_lp->getModeText($mode_key),
-                    $mode_key,
+                    (string) $mode_key,
                     $this->obj_lp->getModeInfoText($mode_key)
                 );
-                $opt->setValue($mode_key);
+                $opt->setValue((string) $mode_key);
                 $mod->addOption($opt);
 
                 // :TODO: Subitem for visits ?!
@@ -90,7 +90,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $vis->setMaxLength(4);
                     $vis->setInfo(sprintf(
                         $this->lng->txt('trac_visits_info'),
-                        ilObjUserTracking::_getValidTimeSpan()
+                        (string) ilObjUserTracking::_getValidTimeSpan()
                     ));
                     $vis->setRequired(true);
                     $vis->setValue((string) $this->obj_settings->getVisits());
@@ -143,7 +143,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $this->obj_lp->resetCaches();
             
             $this->obj_settings->setMode($new_mode);
-            $this->obj_settings->setVisits($new_visits);
+            $this->obj_settings->setVisits((int) $new_visits);
             $this->obj_settings->update($refresh_lp);
             
             if ($mode_changed &&
@@ -378,7 +378,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         
         $coll = array();
         if ($ref_id &&
-            $this->getLPPathInfo($ref_id, $coll)) {
+            $this->getLPPathInfo((int) $ref_id, $coll)) {
             include_once "Services/Link/classes/class.ilLink.php";
             
             $tpl = new ilTemplate("tpl.lp_obj_settings_tree_info.html", true, true, "Services/Tracking");

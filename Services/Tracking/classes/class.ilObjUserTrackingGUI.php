@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -246,7 +246,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $valid->setSize(4);
         $valid->setSuffix($this->lng->txt('seconds'));
         $valid->setInfo($this->lng->txt('info_valid_request'));
-        $valid->setValue($this->object->getValidTimeSpan());
+        $valid->setValue((string) $this->object->getValidTimeSpan());
         $valid->setMinValue(1);
         $valid->setMaxValue(9999);
         $valid->setRequired(true);
@@ -283,7 +283,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $lp_active = $form->getInput('learning_progress_tracking');
             
-            $this->object->enableLearningProgress($lp_active);
+            $this->object->enableLearningProgress((bool) $lp_active);
             
             if ($lp_active) {
                 $ext_data = (array) $form->getInput("lp_extdata");
@@ -300,14 +300,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $this->object->setExtendedData($code);
             }
 
-            $this->object->enableChangeEventTracking($form->getInput('change_event_tracking'));
-            $this->object->enableObjectStatistics($form->getInput('object_statistics'));
+            $this->object->enableChangeEventTracking((bool) $form->getInput('change_event_tracking'));
+            $this->object->enableObjectStatistics((bool) $form->getInput('object_statistics'));
             $this->object->enableUserRelatedData(!$form->getInput('user_related'));
-            $this->object->setValidTimeSpan($form->getInput('valid_request'));
+            $this->object->setValidTimeSpan((int) $form->getInput('valid_request'));
             // $this->object->setLearningProgressDesktop($form->getInput('lp_desktop'));
-            $this->object->setLearningProgressLearner($form->getInput('lp_learner'));
-            $this->object->enableSessionStatistics($form->getInput('session_statistics'));
-            $this->object->setLearningProgressListGUI($form->getInput('lp_list'));
+            $this->object->setLearningProgressLearner((bool) $form->getInput('lp_learner'));
+            $this->object->enableSessionStatistics((bool) $form->getInput('session_statistics'));
+            $this->object->setLearningProgressListGUI((bool) $form->getInput('lp_list'));
             $this->object->updateSettings();
             
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

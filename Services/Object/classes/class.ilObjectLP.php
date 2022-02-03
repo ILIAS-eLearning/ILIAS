@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -9,21 +9,15 @@
  */
 class ilObjectLP
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+    protected ilObjectDefinition $objectDefinition;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $obj_id; // [int]
-    protected $collection_instance; // [ilLPCollection]
-    protected $mode; // [int]
+    protected int $obj_id;
+    protected ?ilLPCollection $collection_instance = null;
+    protected ?int $mode = null;
     
-    protected static $type_defaults; // [array]
+    protected static array $type_defaults = [];
     
     protected function __construct($a_obj_id)
     {
@@ -31,14 +25,13 @@ class ilObjectLP
 
         $this->tree = $DIC->repositoryTree();
         $this->db = $DIC->database();
+        $this->objectDefinition = $DIC['objDefinition'];
+
         $this->obj_id = (int) $a_obj_id;
+
     }
 
-    /**
-     * @param int $a_obj_id
-     * @return ilObjectLP
-     */
-    public static function getInstance($a_obj_id)
+    public static function getInstance(int $a_obj_id) : ilObjectLP
     {
         static $instances = array();
         
@@ -53,11 +46,10 @@ class ilObjectLP
             }
             $instances[$a_obj_id] = $instance;
         }
-    
         return $instances[$a_obj_id];
     }
             
-    public static function getTypeClass($a_type)
+    public static function getTypeClass(string $a_type) : string
     {
         global $DIC;
 
@@ -144,7 +136,6 @@ class ilObjectLP
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
-
         $valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc",
             "sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti', 'crsr', 'frm');
 
@@ -159,13 +150,13 @@ class ilObjectLP
         return false;
     }
         
-    public function resetCaches()
+    public function resetCaches() : void
     {
         $this->mode = null;
         $this->collection_instance = null;
     }
     
-    public function isAnonymized()
+    public function isAnonymized() : bool
     {
         // see ilLPCollectionOfRepositoryObjects::validateEntry()
         return false;
@@ -176,17 +167,17 @@ class ilObjectLP
     // MODE
     //
     
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
     
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return array();
     }
     
-    public function getCurrentMode()
+    public function getCurrentMode() : int
     {
         if ($this->mode === null) {
             // using global type default if LP is inactive
@@ -211,7 +202,7 @@ class ilObjectLP
         return $this->mode;
     }
     
-    public function isActive()
+    public function isActive() : bool
     {
         // :TODO: check LP activation?
         
@@ -223,12 +214,12 @@ class ilObjectLP
         return true;
     }
     
-    public function getModeText($a_mode)
+    public function getModeText(int $a_mode) : string
     {
         return ilLPObjSettings::_mode2Text($a_mode);
     }
     
-    public function getModeInfoText($a_mode)
+    public function getModeInfoText(int $a_mode) : string
     {
         return ilLPObjSettings::_mode2InfoText($a_mode);
     }
@@ -239,16 +230,11 @@ class ilObjectLP
     }
     
     
-    //
-    // COLLECTION
-    //
-        
-    public function getCollectionInstance()
+    public function getCollectionInstance() : ?ilLPCollection
     {
         if ($this->collection_instance === null) {
             $this->collection_instance = ilLPCollection::getInstanceByMode($this->obj_id, $this->getCurrentMode());
         }
-        
         return $this->collection_instance;
     }
             
@@ -257,12 +243,12 @@ class ilObjectLP
     // MEMBERS
     //
     
-    public function getMembers($a_search = true)
+    public function getMembers(bool $a_search = true) : array
     {
         $tree = $this->tree;
         
         if (!$a_search) {
-            return;
+            return [];
         }
         
         $ref_ids = ilObject::_getAllReferences($this->obj_id);
@@ -278,6 +264,7 @@ class ilObjectLP
                 return $all;
             }
         }
+        return [];
     }
     
     
@@ -285,7 +272,7 @@ class ilObjectLP
     // RESET
     //
     
-    final public function resetLPDataForCompleteObject($a_recursive = true)
+    final public function resetLPDataForCompleteObject(bool $a_recursive = true) : void
     {
         $user_ids = $this->gatherLPUsers();
         if (sizeof($user_ids)) {
@@ -293,7 +280,7 @@ class ilObjectLP
         }
     }
     
-    final public function resetLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+    final public function resetLPDataForUserIds(array $a_user_ids, bool $a_recursive = true) : void
     {
         if ((bool) $a_recursive &&
             method_exists($this, "getPossibleCollectionItems")) { // #15203
@@ -318,12 +305,12 @@ class ilObjectLP
         }
     }
         
-    protected function resetCustomLPDataForUserIds(array $a_user_ids, $a_recursive = true)
+    protected function resetCustomLPDataForUserIds(array $a_user_ids, bool $a_recursive = true) : void
     {
         // this should delete all data that is relevant for the supported LP modes
     }
     
-    protected function gatherLPUsers()
+    protected function gatherLPUsers() : array
     {
         $user_ids = ilLPMarks::_getAllUserIds($this->obj_id);
         
@@ -337,7 +324,7 @@ class ilObjectLP
     // EVENTS
     //
         
-    final public static function handleMove($a_source_ref_id)
+    final public static function handleMove(int $a_source_ref_id) : void
     {
         global $DIC;
 
@@ -391,12 +378,12 @@ class ilObjectLP
         }
     }
     
-    final public function handleToTrash()
+    final public function handleToTrash() : void
     {
         $this->updateParentCollections();
     }
     
-    final public function handleDelete()
+    final public function handleDelete() : void
     {
         ilLPMarks::deleteObject($this->obj_id);
 
@@ -410,41 +397,30 @@ class ilObjectLP
         $this->updateParentCollections();
     }
     
-    final protected function updateParentCollections()
+    final protected function updateParentCollections() : void
     {
-        $ilDB = $this->db;
-        
         // update parent collections?
-        $set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM " .
+        $set = $this->db->query("SELECT ut_lp_collections.obj_id obj_id FROM " .
                 "object_reference JOIN ut_lp_collections ON " .
-                "(object_reference.obj_id = " . $ilDB->quote($this->obj_id, "integer") .
+                "(object_reference.obj_id = " . $this->db->quote($this->obj_id, "integer") .
                 " AND object_reference.ref_id = ut_lp_collections.item_id)");
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        while ($rec = $this->db->fetchAssoc($set)) {
             if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold"))) {
                 // remove from parent collection
                 $query = "DELETE FROM ut_lp_collections" .
-                    " WHERE obj_id = " . $ilDB->quote($rec["obj_id"], "integer") .
-                    " AND item_id = " . $ilDB->quote($this->obj_id, "integer");
-                $ilDB->manipulate($query);
+                    " WHERE obj_id = " . $this->db->quote($rec["obj_id"], "integer") .
+                    " AND item_id = " . $this->db->quote($this->obj_id, "integer");
+                $this->db->manipulate($query);
                 
                 ilLPStatusWrapper::_refreshStatus($rec["obj_id"]);
             }
         }
     }
     
-    
-    //
-    // LP-relevant memberships
-    //
-    
     /**
      * Find (lp-relevant) members for given object ids
-     *
-     * @param array $a_res
-     * @param int $a_usr_id
-     * @param array $a_obj_ids
      */
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         // should be overwritten by object-type-specific class
         return false;
@@ -452,15 +428,14 @@ class ilObjectLP
     
     /**
      * Find (lp-relevant) memberships by path
-     *
-     * @param array $a_res
-     * @param int $a_usr_id
-     * @param int $a_parent_ref_id
-     * @param array $a_obj_ids
-     * @param bool $a_mapped_ref_ids
-     * @return array
      */
-    protected static function findMembershipsByPath(array &$a_res, $a_usr_id, $a_parent_ref_id, array $a_obj_ids, $a_mapped_ref_ids = false)
+    protected static function findMembershipsByPath(
+        array &$a_res,
+        int $a_usr_id,
+        int $a_parent_ref_id,
+        array $a_obj_ids,
+        bool $a_mapped_ref_ids = false
+    ) : array
     {
         global $DIC;
 
@@ -509,20 +484,24 @@ class ilObjectLP
     
     /**
      * Get all objects where given user is member (from LP POV)
-     *
-     * @param int $a_usr_id
-     * @param array $a_obj_ids
-     * @param int $a_parent_ref_id
-     * @param bool $a_mapped_ref_ids
+     * @param int      $a_usr_id
+     * @param array    $a_obj_ids
+     * @param int|null $a_parent_ref_id
+     * @param bool     $a_mapped_ref_ids
      * @return array
      */
-    public static function getLPMemberships($a_usr_id, array $a_obj_ids, $a_parent_ref_id = null, $a_mapped_ref_ids = false)
+    public static function getLPMemberships(
+        int $a_usr_id,
+        array $a_obj_ids,
+        ?int $a_parent_ref_id = null,
+        bool $a_mapped_ref_ids = false
+    ) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
-        
+
         // see ilTrQuery::getParticipantsForObject() [single object only]
         // this is optimized for larger number of objects, e.g. list GUIs
 
@@ -620,9 +599,9 @@ class ilObjectLP
         return $res;
     }
     
-    public function getMailTemplateId()
+    public function getMailTemplateId() : string
     {
-        // type-specific
+        return '';
     }
     
     
@@ -630,51 +609,46 @@ class ilObjectLP
     // type-specific support of features (should be enhanced)
     //
     
-    public static function supportsSpentSeconds($a_obj_type)
+    public static function supportsSpentSeconds(string $a_obj_type) : bool
     {
         return !in_array($a_obj_type, ["exc", "file", "mcst", "mob", "htlm", "copa", 'cmix', 'lti', 'frm']);
     }
     
-    public static function supportsMark($a_obj_type)
+    public static function supportsMark(string $a_obj_type) : bool
     {
         return !in_array($a_obj_type, array("lm", "dbk"));
     }
     
-    public static function supportsMatrixView($a_obj_type)
+    public static function supportsMatrixView(string $a_obj_type) : bool
     {
         return !in_array($a_obj_type, ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr']);
     }
     
-    
-    // type-wide default
-        
     /**
      * Get available type-specific default modes (no administration needed)
-     * @param bool $a_lp_active
-     * @return array
      */
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(ilLPObjSettings::LP_MODE_UNDEFINED);
     }
     
-    protected static function getTypeDefaultFromDB($a_type)
+    protected static function getTypeDefaultFromDB(string $a_type) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         
         if (!is_array(self::$type_defaults)) {
-            self::$type_defaults = array();
+            self::$type_defaults = [];
             $set = $ilDB->query("SELECT * FROM ut_lp_defaults");
             while ($row = $ilDB->fetchAssoc($set)) {
-                self::$type_defaults[$row["type_id"]] = $row["lp_mode"];
+                self::$type_defaults[(int) $row["type_id"]] = (int) $row["lp_mode"];
             }
         }
         return self::$type_defaults[$a_type];
     }
     
-    public static function saveTypeDefaults(array $a_data)
+    public static function saveTypeDefaults(array $a_data) : void
     {
         global $DIC;
 
@@ -689,13 +663,7 @@ class ilObjectLP
         }
     }
     
-    /**
-     * Get current type default
-     *
-     * @param string $a_type
-     * @return int
-     */
-    public static function getTypeDefault($a_type)
+    public static function getTypeDefault(string $a_type) : int
     {
         $db = self::getTypeDefaultFromDB($a_type);
         if ($db !== null) {

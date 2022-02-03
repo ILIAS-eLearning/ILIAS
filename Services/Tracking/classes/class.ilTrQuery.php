@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -1030,82 +1030,81 @@ class ilTrQuery
         return $sql;
     }
 
-    protected static function buildColumns(array &$a_fields, array $a_additional_fields = null, bool $a_aggregate = false):array
+    protected static function buildColumns(array &$a_fields, array $a_additional_fields = null, bool $a_aggregate = false) : array
     {
-        if (sizeof($a_additional_fields)) {
-            $udf = null;
-            foreach ($a_additional_fields as $field) {
-                if (substr($field, 0, 4) != "udf_") {
-                    $function = null;
-                    if ($a_aggregate) {
-                        $pos = strrpos($field, "_");
-                        if ($pos === false) {
-                            continue;
-                        }
-                        $function = strtoupper(substr($field, $pos + 1));
-                        $field = substr($field, 0, $pos);
-                        if (!in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT"))) {
-                            continue;
-                        }
-                    }
-
-                    switch ($field) {
-                        case 'org_units':
-                            break;
-                        
-                        case "language":
-                            if ($function) {
-                                $a_fields[] = $function . "(value) " . $field . "_" . strtolower($function);
-                            } else {
-                                $a_fields[] = "value as " . $field;
-                            }
-                            break;
-                        
-                        case "read_count":
-                        case "spent_seconds":
-                            if (!$function) {
-                                $a_fields[] = "(" . $field . "+childs_" . $field . ") " . $field;
-                            } else {
-                                if ($function == "AVG") {
-                                    $a_fields[] = "ROUND(AVG(" . $field . "+childs_" . $field . "), 2) " . $field . "_" . strtolower($function);
-                                } else {
-                                    $a_fields[] = $function . "(COALESCE(" . $field . ", 0) + COALESCE(childs_" . $field . ", 0)) " . $field . "_" . strtolower($function);
-                                }
-                            }
-                            break;
-
-                        case "read_count_spent_seconds":
-                            if ($function == "AVG") {
-                                $a_fields[] = "ROUND(AVG((spent_seconds+childs_spent_seconds)/(read_count+childs_read_count)), 2) " . $field . "_" . strtolower($function);
-                            }
-                            break;
-
-                        default:
-                            if ($function) {
-                                if ($function == "AVG") {
-                                    $a_fields[] = "ROUND(AVG(" . $field . "), 2) " . $field . "_" . strtolower($function);
-                                } else {
-                                    $a_fields[] = $function . "(" . $field . ") " . $field . "_" . strtolower($function);
-                                }
-                            } else {
-                                $a_fields[] = $field;
-                            }
-                            break;
-                    }
-                } else {
-                    $udf[] = substr($field, 4);
-                }
-            }
-            
-            // clean-up
-            $a_fields = array_unique($a_fields);
-            if (is_array($udf)) {
-                $udf = array_unique($udf);
-            }
-            
-            return $udf;
+        if ($a_additional_fields === null || !count($a_additional_fields)) {
+            return [];
         }
-        return [];
+        $udf = [];
+        foreach ($a_additional_fields as $field) {
+            if (substr($field, 0, 4) != "udf_") {
+                $function = null;
+                if ($a_aggregate) {
+                    $pos = strrpos($field, "_");
+                    if ($pos === false) {
+                        continue;
+                    }
+                    $function = strtoupper(substr($field, $pos + 1));
+                    $field = substr($field, 0, $pos);
+                    if (!in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT"))) {
+                        continue;
+                    }
+                }
+
+                switch ($field) {
+                    case 'org_units':
+                        break;
+
+                    case "language":
+                        if ($function) {
+                            $a_fields[] = $function . "(value) " . $field . "_" . strtolower($function);
+                        } else {
+                            $a_fields[] = "value as " . $field;
+                        }
+                        break;
+
+                    case "read_count":
+                    case "spent_seconds":
+                        if (!$function) {
+                            $a_fields[] = "(" . $field . "+childs_" . $field . ") " . $field;
+                        } else {
+                            if ($function == "AVG") {
+                                $a_fields[] = "ROUND(AVG(" . $field . "+childs_" . $field . "), 2) " . $field . "_" . strtolower($function);
+                            } else {
+                                $a_fields[] = $function . "(COALESCE(" . $field . ", 0) + COALESCE(childs_" . $field . ", 0)) " . $field . "_" . strtolower($function);
+                            }
+                        }
+                        break;
+
+                    case "read_count_spent_seconds":
+                        if ($function == "AVG") {
+                            $a_fields[] = "ROUND(AVG((spent_seconds+childs_spent_seconds)/(read_count+childs_read_count)), 2) " . $field . "_" . strtolower($function);
+                        }
+                        break;
+
+                    default:
+                        if ($function) {
+                            if ($function == "AVG") {
+                                $a_fields[] = "ROUND(AVG(" . $field . "), 2) " . $field . "_" . strtolower($function);
+                            } else {
+                                $a_fields[] = $function . "(" . $field . ") " . $field . "_" . strtolower($function);
+                            }
+                        } else {
+                            $a_fields[] = $field;
+                        }
+                        break;
+                }
+            } else {
+                $udf[] = substr($field, 4);
+            }
+        }
+
+        // clean-up
+        $a_fields = array_unique($a_fields);
+        if (count($udf)) {
+            $udf = array_unique($udf);
+        }
+        return $udf;
     }
 
     /**

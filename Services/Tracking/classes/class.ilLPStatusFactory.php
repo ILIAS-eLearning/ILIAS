@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -102,7 +102,7 @@ class ilLPStatusFactory
         }
     }
 
-    public static function _getInstance(int $a_obj_id, ?int $a_mode = null) : ilObjectLP
+    public static function _getInstance(int $a_obj_id, ?int $a_mode = null) : ilLPStatus
     {
         if ($a_mode === null) {
             include_once 'Services/Object/classes/class.ilObjectLP.php';

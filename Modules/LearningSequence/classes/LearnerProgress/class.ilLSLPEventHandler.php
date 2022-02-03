@@ -23,9 +23,10 @@ class ilLSLPEventHandler
     public function updateLPForChildEvent(array $parameter) : void
     {
         $refs = $this->getRefIdsOfObjId((int) $parameter['obj_id']);
+        ilLoggerFactory::getLogger('root')->dump($refs);
         foreach ($refs as $ref_id) {
             $lso_id = $this->getParentLSOObjId((int) $ref_id);
-            if ($lso_id !== false) {
+            if ($lso_id !== null) {
                 $usr_id = $parameter['usr_id'];
                 $this->lpstatus::_updateStatus($lso_id, $usr_id);
             }

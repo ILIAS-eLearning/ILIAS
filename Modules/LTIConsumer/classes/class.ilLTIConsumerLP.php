@@ -26,7 +26,7 @@ class ilLTIConsumerLP extends ilObjectLP
     /**
      * @return int[]
      */
-    public static function getDefaultModes($a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -40,7 +40,7 @@ class ilLTIConsumerLP extends ilObjectLP
     }
     
     /**
-     * @return int[]
+     * @return array
      */
     public function getValidModes() : array
     {

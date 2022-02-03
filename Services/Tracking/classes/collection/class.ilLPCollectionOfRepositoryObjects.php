@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
@@ -18,9 +18,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     {
         global $DIC;
 
-        parent::__construct($a_obj_id, $a_mode);
         $this->tree = $DIC->repositoryTree();
         $this->objDefinition = $DIC['objDefinition'];
+
+        parent::__construct($a_obj_id, $a_mode);
     }
 
     public function getPossibleItems(int $a_ref_id, bool $a_full_data = false) : array
@@ -74,11 +75,11 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                                 $all_possible[] = $item_ref_id;
                             } else {
                                 $all_possible[$item_ref_id] = array(
-                                    'ref_id' => $item_ref_id,
-                                    'obj_id' => $node['obj_id'],
-                                    'title' => $node['title'],
-                                    'description' => $node['description'],
-                                    'type' => $node['type']
+                                    'ref_id' => (int) $item_ref_id,
+                                    'obj_id' => (int) $node['obj_id'],
+                                    'title' => (string) $node['title'],
+                                    'description' => (string) $node['description'],
+                                    'type' => (string) $node['type']
                                 );
                             }
                             break;
@@ -94,11 +95,11 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                                     $all_possible[] = $item_ref_id;
                                 } else {
                                     $all_possible[$item_ref_id] = array(
-                                        'ref_id' => $item_ref_id,
-                                        'obj_id' => $node['obj_id'],
-                                        'title' => $node['title'],
-                                        'description' => $node['description'],
-                                        'type' => $node['type']
+                                        'ref_id' => (int) $item_ref_id,
+                                        'obj_id' => (int) $node['obj_id'],
+                                        'title' => (string) $node['title'],
+                                        'description' => (string) $node['description'],
+                                        'type' => (string) $node['type']
                                     );
                                 }
                             }

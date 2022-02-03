@@ -96,7 +96,7 @@ class ilAdministrationSettingsFormHandler
         if (is_subclass_of($class_name, "ilObject2GUI")) {
             $gui_obj = new $class_name($ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
         } else {
-            $gui_obj = new $class_name("", $ref_id, true, false);
+            $gui_obj = new $class_name([], $ref_id, true, false);
         }
 
         $gui_obj->setCreationMode(true);
