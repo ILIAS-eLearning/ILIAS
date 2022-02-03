@@ -66,7 +66,7 @@ class ilLTICronOutcomeService extends ilCronJob
 
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 
-        $info = ilCronManager::getCronJobData($this->getId());
+        $info = $DIC->cron()->repository()->getCronJobData($this->getId());
         $last_ts = $info['job_status_ts'];
         if (!$last_ts) {
             $last_ts = time() - 24 * 3600;

@@ -28,7 +28,8 @@ class ilHTMLLearningModuleLP extends ilObjectLP
         } else {
             return array(
                 ilLPObjSettings::LP_MODE_DEACTIVATED,
-                ilLPObjSettings::LP_MODE_MANUAL
+                ilLPObjSettings::LP_MODE_MANUAL,
+                ilLPObjSettings::LP_MODE_CONTENT_VISITED
             );
         }
     }
@@ -42,7 +43,8 @@ class ilHTMLLearningModuleLP extends ilObjectLP
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
-            ilLPObjSettings::LP_MODE_MANUAL
+            ilLPObjSettings::LP_MODE_MANUAL,
+            ilLPObjSettings::LP_MODE_CONTENT_VISITED
         );
     }
 }

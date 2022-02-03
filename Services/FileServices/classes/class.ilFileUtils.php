@@ -1,6 +1,7 @@
 <?php
 /** @defgroup ServicesUtilities Services/Utilities
  */
+
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\UploadResult;
@@ -19,6 +20,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilFileUtils
  *
@@ -32,8 +34,11 @@ class ilFileUtils
     /**
      * @deprecated Will be removed completely with ILIAS 9
      */
-    public static function processZipFile($a_directory, string $a_file, $structure) : void
-    {
+    public static function processZipFile(
+        $a_directory,
+        string $a_file,
+        $structure
+    ) : void {
         global $DIC;
         
         $lng = $DIC->language();
@@ -60,13 +65,19 @@ class ilFileUtils
         
         // if there are no files unziped (->broken file!)
         if (empty($filearray)) {
-            throw new ilFileUtilsException($lng->txt("archive_broken"), ilFileUtilsException::$BROKEN_FILE);
+            throw new ilFileUtilsException(
+                $lng->txt("archive_broken"),
+                ilFileUtilsException::$BROKEN_FILE
+            );
         }
         
         // virus handling
         foreach ($filearray["file"] as $key => $value) {
             // remove "invisible" files
-            if (substr($value, 0, 1) == "." || stristr($filearray["path"][$key], "/__MACOSX/")) {
+            if (substr($value, 0, 1) == "." || stristr(
+                $filearray["path"][$key],
+                "/__MACOSX/"
+            )) {
                 unlink($filearray["path"][$key] . $value);
                 unset($filearray["path"][$key]);
                 unset($filearray["file"][$key]);
@@ -82,7 +93,10 @@ class ilFileUtils
                     ilFileUtilsException::$INFECTED_FILE
                 );
             } elseif ($vir[1] != "") {
-                throw new ilFileUtilsException($vir[1], ilFileUtilsException::$INFECTED_FILE);
+                throw new ilFileUtilsException(
+                    $vir[1],
+                    ilFileUtilsException::$INFECTED_FILE
+                );
             }
         }
         
@@ -96,7 +110,9 @@ class ilFileUtils
             }
             if (isset($doublettes)) {
                 throw new ilFileUtilsException(
-                    $lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes,
+                    $lng->txt("exc_upload_error") . "<br />" . $lng->txt(
+                        "zip_structure_error"
+                    ) . $doublettes,
                     ilFileUtilsException::$DOUBLETTES_FOUND
                 );
             }
@@ -159,7 +175,8 @@ class ilFileUtils
     {
         
         // From http://w3.org/International/questions/qa-forms-utf-8.html
-        return (preg_match('%^(?:
+        return (preg_match(
+            '%^(?:
 			[\x09\x0A\x0D\x20-\x7E]            # ASCII
 			| [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
 			|  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
@@ -168,7 +185,9 @@ class ilFileUtils
 			|  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
 			| [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
 			|  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
-			)*$%xs', $string)) ? $string : utf8_encode($string);
+			)*$%xs',
+            $string
+        )) ? $string : utf8_encode($string);
     }
     
     /**
@@ -177,7 +196,9 @@ class ilFileUtils
     public static function getValidFilename(string $a_filename) : string
     {
         global $DIC;
-        $sanitizer = new ilFileServicesFilenameSanitizer($DIC->fileServiceSettings());
+        $sanitizer = new ilFileServicesFilenameSanitizer(
+            $DIC->fileServiceSettings()
+        );
         
         return $sanitizer->sanitize($a_filename);
     }
@@ -189,7 +210,9 @@ class ilFileUtils
     {
         $pi = pathinfo($a_target);
         global $DIC;
-        $sanitizer = new ilFileServicesFilenameSanitizer($DIC->fileServiceSettings());
+        $sanitizer = new ilFileServicesFilenameSanitizer(
+            $DIC->fileServiceSettings()
+        );
         
         if (!$sanitizer->isClean($a_target)) {
             throw new ilFileUtilsException("Invalid target file");
@@ -215,8 +238,11 @@ class ilFileUtils
      * @deprecated in favour of Filesystem::copyDir() located at the filesystem service.
      * @see        Filesystem::copyDir()
      */
-    public static function rCopy(string $a_sdir, string $a_tdir, bool $preserveTimeAttributes = false) : bool
-    {
+    public static function rCopy(
+        string $a_sdir,
+        string $a_tdir,
+        bool $preserveTimeAttributes = false
+    ) : bool {
         $sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
         $targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
         
@@ -235,7 +261,10 @@ class ilFileUtils
                 continue;
             }
             try {
-                $itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
+                $itemPath = $targetDir . '/' . substr(
+                    $item->getPath(),
+                    strlen($sourceDir)
+                );
                 $stream = $sourceFS->readStream($item->getPath());
                 $targetFS->writeStream($itemPath, $stream);
             } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
@@ -255,15 +284,15 @@ class ilFileUtils
      * are not working with PHP's file_exists function.
      *
      * @param string $a_dir The directory name to be created
-     * @access public
+     * @access     public
      * @static
      *
      * @return bool
      *
-     * @author Helmut Schottmüller <hschottm@tzi.de>
+     * @author     Helmut Schottmüller <hschottm@tzi.de>
      * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
      *
-     * @see \ILIAS\Filesystem\Filesystem::createDir()
+     * @see        \ILIAS\Filesystem\Filesystem::createDir()
      */
     public static function makeDirParents($a_dir)
     {
@@ -321,9 +350,10 @@ class ilFileUtils
      *
      * @deprecated in favour of the filesystem service which should be used to operate on the storage directory.
      *
-     * @see \ILIAS\DI\Container::filesystem()
-     * @see \ILIAS\Filesystem\Filesystems::storage()
-     */public static function getDataDir()
+     * @see        \ILIAS\DI\Container::filesystem()
+     * @see        \ILIAS\Filesystem\Filesystems::storage()
+     */
+    public static function getDataDir()
     {
         return CLIENT_DATA_DIR;
     }
@@ -335,7 +365,8 @@ class ilFileUtils
      * @return integer. Returns -1, if the directory does not exist.
      * @static
      *
-     */public static function dirsize($directory)
+     */
+    public static function dirsize($directory)
     {
         $size = 0;
         if (!is_dir($directory)) {
@@ -345,13 +376,19 @@ class ilFileUtils
         }
         if ($DIR = opendir($directory)) {
             while (($dirfile = readdir($DIR)) !== false) {
-                if (is_link($directory . DIRECTORY_SEPARATOR . $dirfile) || $dirfile == '.' || $dirfile == '..') {
+                if (is_link(
+                    $directory . DIRECTORY_SEPARATOR . $dirfile
+                ) || $dirfile == '.' || $dirfile == '..') {
                     continue;
                 }
                 if (is_file($directory . DIRECTORY_SEPARATOR . $dirfile)) {
-                    $size += filesize($directory . DIRECTORY_SEPARATOR . $dirfile);
+                    $size += filesize(
+                        $directory . DIRECTORY_SEPARATOR . $dirfile
+                    );
                 } elseif (is_dir($directory . DIRECTORY_SEPARATOR . $dirfile)) {
-                    $dirSize = ilFileUtils::dirsize($directory . DIRECTORY_SEPARATOR . $dirfile);
+                    $dirSize = ilFileUtils::dirsize(
+                        $directory . DIRECTORY_SEPARATOR . $dirfile
+                    );
                     if ($dirSize >= 0) {
                         $size += $dirSize;
                     } else {
@@ -366,38 +403,75 @@ class ilFileUtils
     
     /**
      * creates a new directory and inherits all filesystem permissions of the parent directory
-    * You may pass only the name of your new directory or with the entire path or relative path information.
-    *
-    * examples:
-    * a_dir = /tmp/test/your_dir
-    * a_dir = ../test/your_dir
-    * a_dir = your_dir (--> creates your_dir in current directory)
-    *
-    * @access	public
-    * @param	string	[path] + directory name
-    * @return	boolean
-    * @static
-    *
-    * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
-    *
-    * @see \ILIAS\Filesystem\Filesystem::createDir()
-    */public static function makeDir($a_dir)
+     * You may pass only the name of your new directory or with the entire path or relative path information.
+     *
+     * examples:
+     * a_dir = /tmp/test/your_dir
+     * a_dir = ../test/your_dir
+     * a_dir = your_dir (--> creates your_dir in current directory)
+     *
+     * @access     public
+     * @param string    [path] + directory name
+     * @return    boolean
+     * @static
+     *
+     * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
+     *
+     * @see        \ILIAS\Filesystem\Filesystem::createDir()
+     */
+    public static function makeDir($a_dir)
     {
         $a_dir = trim($a_dir);
-    
+        
         // remove trailing slash (bugfix for php 4.2.x)
         if (substr($a_dir, -1) == "/") {
             $a_dir = substr($a_dir, 0, -1);
         }
-    
+        
         // check if a_dir comes with a path
-        if (!($path = substr($a_dir, 0, strrpos($a_dir, "/") - strlen($a_dir)))) {
+        if (!($path = substr(
+            $a_dir,
+            0,
+            strrpos($a_dir, "/") - strlen($a_dir)
+        ))) {
             $path = ".";
         }
-    
+        
         // create directory with file permissions of parent directory
         umask(0000);
         return @mkdir($a_dir, fileperms($path));
+    }
+    
+    protected static function sanitateTargetPath(string $a_target) : array
+    {
+        switch (true) {
+            case strpos($a_target, ILIAS_WEB_DIR . '/' . CLIENT_ID) === 0:
+            case strpos(
+                $a_target,
+                './' . ILIAS_WEB_DIR . '/' . CLIENT_ID
+            ) === 0:
+            case strpos($a_target, CLIENT_WEB_DIR) === 0:
+                $targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+                break;
+            case strpos($a_target, CLIENT_DATA_DIR . "/temp") === 0:
+                $targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
+                break;
+            case strpos($a_target, CLIENT_DATA_DIR) === 0:
+                $targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
+                break;
+            case strpos($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
+                $targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
+                break;
+            default:
+                throw new InvalidArgumentException(
+                    "Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location."
+                );
+        }
+        
+        $absTargetDir = dirname($a_target);
+        $targetDir = LegacyPathHelper::createRelativePath($absTargetDir);
+        
+        return [$targetFilesystem, $targetDir];
     }
     
     /**
@@ -417,37 +491,41 @@ class ilFileUtils
      *
      * @deprecated in favour of the FileUpload service.
      *
-     * @see \ILIAS\DI\Container::upload()
-     */public static function moveUploadedFile(
+     * @see        \ILIAS\DI\Container::upload()
+     */
+    public static function moveUploadedFile(
         $a_file,
         $a_name,
         $a_target,
         $a_raise_errors = true,
         $a_mode = "move_uploaded"
-    ) {
+    ) : bool {
         global $DIC;
         $target_filename = basename($a_target);
-    
+        
         $target_filename = ilFileUtils::getValidFilename($target_filename);
-    
+        
         // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
-        [$target_filesystem, $target_dir] = ilUtil::sanitateTargetPath($a_target);
-    
+        [$target_filesystem, $target_dir] = self::sanitateTargetPath($a_target);
+        
         $upload = $DIC->upload();
-    
+        
         // If the upload has not yet been processed make sure he gets processed now.
         if (!$upload->hasBeenProcessed()) {
             $upload->process();
         }
-    
+        
         try {
             if (!$upload->hasUploads()) {
-                throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
+                throw new ilException(
+                    $DIC->language()->txt("upload_error_file_not_found")
+                );
             }
             $upload_result = $upload->getResults()[$a_file];
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
-                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                if ($processing_status->getCode(
+                    ) === ProcessingStatus::REJECTED) {
                     throw new ilException($processing_status->getMessage());
                 }
             } else {
@@ -459,45 +537,52 @@ class ilFileUtils
             } else {
                 throw $e;
             }
-        
+            
             return false;
         }
-    
-        $upload->moveOneFileTo($upload_result, $target_dir, $target_filesystem, $target_filename, true);
-    
+        
+        $upload->moveOneFileTo(
+            $upload_result,
+            $target_dir,
+            $target_filesystem,
+            $target_filename,
+            true
+        );
+        
         return true;
     }
     
     /**
      *    zips given directory/file into given zip.file
-    *
-    * @static
-    *
-    */public static function zip($a_dir, $a_file, $compress_content = false)
+     *
+     * @static
+     *
+     */
+    public static function zip($a_dir, $a_file, $compress_content = false)
     {
         $cdir = getcwd();
-    
+        
         if ($compress_content) {
             $a_dir .= "/*";
             $pathinfo = pathinfo($a_dir);
             chdir($pathinfo["dirname"]);
         }
-    
+        
         $pathinfo = pathinfo($a_file);
         $dir = $pathinfo["dirname"];
         $file = $pathinfo["basename"];
-    
+        
         if (!$compress_content) {
             chdir($dir);
         }
-    
+        
         $zip = PATH_TO_ZIP;
-    
+        
         if (!$zip) {
             chdir($cdir);
             return false;
         }
-    
+        
         if (is_array($a_dir)) {
             $source = "";
             foreach ($a_dir as $dir) {
@@ -512,7 +597,7 @@ class ilFileUtils
                 $source = $name;
             }
         }
-    
+        
         $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
         ilUtil::execQuoted($zip, $zipcmd);
         chdir($cdir);
@@ -522,27 +607,28 @@ class ilFileUtils
     /**
      * removes a dir and all its content (subdirs and files) recursively
      *
-     * @access    public
+     * @access     public
      *
-     * @param string    $a_dir          dir to delete
-     * @param bool      $a_clean_only
+     * @param string $a_dir dir to delete
+     * @param bool   $a_clean_only
      *
-     * @author    Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
+     * @author     Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
      * @static
      *
      * @deprecated in favour of Filesystem::deleteDir() located at the filesystem service.
      *
-     * @see \ILIAS\Filesystem\Filesystem::deleteDir()
-     */public static function delDir($a_dir, $a_clean_only = false)
+     * @see        \ILIAS\Filesystem\Filesystem::deleteDir()
+     */
+    public static function delDir($a_dir, $a_clean_only = false)
     {
         if (!is_dir($a_dir) || is_int(strpos($a_dir, ".."))) {
             return;
         }
-    
+        
         $current_dir = opendir($a_dir);
-    
+        
         $files = [];
-    
+        
         // this extra loop has been necessary because of a strange bug
         // at least on MacOS X. A looped readdir() didn't work
         // correctly with larger directories
@@ -551,15 +637,17 @@ class ilFileUtils
         while ($entryname = readdir($current_dir)) {
             $files[] = $entryname;
         }
-    
+        
         foreach ($files as $file) {
-            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file != "..")) {
+            if (is_dir(
+                $a_dir . "/" . $file
+            ) and ($file != "." and $file != "..")) {
                 ilFileUtils::delDir($a_dir . "/" . $file);
             } elseif ($file != "." and $file != "..") {
                 unlink($a_dir . "/" . $file);
             }
         }
-    
+        
         closedir($current_dir);
         if (!$a_clean_only) {
             @rmdir($a_dir);
@@ -569,26 +657,27 @@ class ilFileUtils
     /**
      * @param string $a_initial_filename
      * @return mixed|string
-     */public static function getSafeFilename($a_initial_filename)
+     */
+    public static function getSafeFilename($a_initial_filename)
     {
         $file_peaces = explode('.', $a_initial_filename);
-    
+        
         $file_extension = array_pop($file_peaces);
-    
+        
         if (SUFFIX_REPL_ADDITIONAL) {
             $string_extensions = SUFFIX_REPL_DEFAULT . "," . SUFFIX_REPL_ADDITIONAL;
         } else {
             $string_extensions = SUFFIX_REPL_DEFAULT;
         }
-    
+        
         $sufixes = explode(",", $string_extensions);
-    
+        
         if (in_array($file_extension, $sufixes)) {
             $file_extension = "sec";
         }
-    
+        
         array_push($file_peaces, $file_extension);
-    
+        
         $safe_filename = "";
         foreach ($file_peaces as $piece) {
             $safe_filename .= "$piece";
@@ -596,7 +685,7 @@ class ilFileUtils
                 $safe_filename .= ".";
             }
         }
-    
+        
         return $safe_filename;
     }
     
@@ -613,45 +702,50 @@ class ilFileUtils
      *
      * @deprecated in favour of Filesystem::listContents() located at the filesystem service.
      *
-     * @see \ILIAS\Filesystem\Filesystem::listContents()
-     */public static function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
+     * @see        \ILIAS\Filesystem\Filesystem::listContents()
+     */
+    public static function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
     {
         $current_dir = opendir($a_dir . $a_sub_dir);
-    
+        
         $dirs = [];
         $files = [];
         $subitems = [];
         while ($entry = readdir($current_dir)) {
             if (is_dir($a_dir . "/" . $entry)) {
                 $dirs[$entry] = ["type" => "dir",
-                             "entry" => $entry,
-                             "subdir" => $a_sub_dir
-            ];
+                                 "entry" => $entry,
+                                 "subdir" => $a_sub_dir
+                ];
                 if ($a_rec && $entry != "." && $entry != "..") {
-                    $si = ilFileUtils::getDir($a_dir, true, $a_sub_dir . "/" . $entry);
+                    $si = ilFileUtils::getDir(
+                        $a_dir,
+                        true,
+                        $a_sub_dir . "/" . $entry
+                    );
                     $subitems = array_merge($subitems, $si);
                 }
             } else {
                 if ($entry != "." && $entry != "..") {
                     $size = filesize($a_dir . $a_sub_dir . "/" . $entry);
                     $files[$entry] = ["type" => "file",
-                                  "entry" => $entry,
-                                  "size" => $size,
-                                  "subdir" => $a_sub_dir
-                ];
+                                      "entry" => $entry,
+                                      "size" => $size,
+                                      "subdir" => $a_sub_dir
+                    ];
                 }
             }
         }
         ksort($dirs);
         ksort($files);
-    
+        
         return array_merge($dirs, $files, $subitems);
     }
     
     /**
      * get webspace directory
      *
-     * @param    string $mode             use "filesystem" for filesystem operations
+     * @param string $mode                use "filesystem" for filesystem operations
      *                                    and "output" for output operations, e.g. images
      *
      * @static
@@ -660,9 +754,10 @@ class ilFileUtils
      *
      * @deprecated in favour of the filesystem service which should be used for operations on the web dir.
      *
-     * @see \ILIAS\DI\Container::filesystem()
-     * @see Filesystems::web()
-     */public static function getWebspaceDir($mode = "filesystem")
+     * @see        \ILIAS\DI\Container::filesystem()
+     * @see        Filesystems::web()
+     */
+    public static function getWebspaceDir($mode = "filesystem")
     {
         if ($mode == "filesystem") {
             return "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
@@ -686,7 +781,8 @@ class ilFileUtils
      * @deprecated in favour of Filesystem::createDir() located at the filesystem service.
      *
      * @see        \ILIAS\Filesystem\Filesystem::createDir()
-     */public static function createDirectory($a_dir, $a_mod = 0755)
+     */
+    public static function createDirectory($a_dir, $a_mod = 0755)
     {
         ilFileUtils::makeDir($a_dir);
     }
@@ -751,7 +847,11 @@ class ilFileUtils
         $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
         
         // OS do not allow the following characters in filenames: \/:*?"<>|
-        $ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
+        $ascii_filename = preg_replace(
+            '/[:\x5c\/\*\?\"<>\|]/',
+            '_',
+            $ascii_filename
+        );
         return $ascii_filename;
     }
     
@@ -761,39 +861,41 @@ class ilFileUtils
      * @param string $a_temp_path
      *
      * @return    string
-     */public static function ilTempnam($a_temp_path = null)
+     */
+    public static function ilTempnam($a_temp_path = null)
     {
         if ($a_temp_path === null) {
             $temp_path = ilFileUtils::getDataDir() . "/temp";
         } else {
             $temp_path = $a_temp_path;
         }
-    
+        
         if (!is_dir($temp_path)) {
             ilFileUtils::createDirectory($temp_path);
         }
         $temp_name = $temp_path . "/" . uniqid("tmp");
-    
+        
         return $temp_name;
     }
     
     /**
      * unzip file
      *
-     * @param string    $a_file    full path/filename
-    * @param	boolean $overwrite pass true to overwrite existing files
-    * @static
-    *
-    */public static function unzip($a_file, $overwrite = false, $a_flat = false)
+     * @param string  $a_file    full path/filename
+     * @param boolean $overwrite pass true to overwrite existing files
+     * @static
+     *
+     */
+    public static function unzip($a_file, $overwrite = false, $a_flat = false)
     {
         global $DIC;
-    
+        
         $log = $DIC->logger()->root();
-    
+        
         if (!is_file($a_file)) {
             return;
         }
-    
+        
         // if flat, move file to temp directory first
         if ($a_flat) {
             $tmpdir = ilFileUtils::ilTempnam();
@@ -803,16 +905,16 @@ class ilFileUtils
             $a_file = $tmpdir . DIRECTORY_SEPARATOR . basename($a_file);
             $origpathinfo = pathinfo($orig_file);
         }
-    
+        
         $pathinfo = pathinfo($a_file);
         $dir = $pathinfo["dirname"];
         $file = $pathinfo["basename"];
-    
+        
         // unzip
         $cdir = getcwd();
         chdir($dir);
         $unzip = PATH_TO_UNZIP;
-    
+        
         // the following workaround has been removed due to bug
         // http://www.ilias.de/mantis/view.php?id=7578
         // since the workaround is quite old, it may not be necessary
@@ -849,7 +951,7 @@ class ilFileUtils
                     ilUtil::createDirectory($zdir);
                 }
         */
-    
+        
         // real unzip
         if (!$overwrite) {
             $unzipcmd = ilUtil::escapeShellArg($file);
@@ -857,22 +959,28 @@ class ilFileUtils
             $unzipcmd = "-o " . ilUtil::escapeShellArg($file);
         }
         ilUtil::execQuoted($unzip, $unzipcmd);
-    
+        
         chdir($cdir);
-    
+        
         // remove all sym links
-    clearstatcache();            // prevent is_link from using cache
-    $dir_realpath = realpath($dir);
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $name => $f) {
+        clearstatcache();            // prevent is_link from using cache
+        $dir_realpath = realpath($dir);
+        foreach (new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir)
+        ) as $name => $f) {
             if (is_link($name)) {
                 $target = readlink($name);
-                if (substr($target, 0, strlen($dir_realpath)) != $dir_realpath) {
+                if (substr(
+                    $target,
+                    0,
+                    strlen($dir_realpath)
+                ) != $dir_realpath) {
                     unlink($name);
                     $log->info("Removed symlink " . $name);
                 }
             }
         }
-    
+        
         // if flat, get all files and move them to original directory
         if ($a_flat) {
             $filearray = [];
@@ -880,7 +988,10 @@ class ilFileUtils
             if (is_array($filearray["file"])) {
                 foreach ($filearray["file"] as $k => $f) {
                     if (substr($f, 0, 1) != "." && $f != basename($orig_file)) {
-                        copy($filearray["path"][$k] . $f, $origpathinfo["dirname"] . DIRECTORY_SEPARATOR . $f);
+                        copy(
+                            $filearray["path"][$k] . $f,
+                            $origpathinfo["dirname"] . DIRECTORY_SEPARATOR . $f
+                        );
                     }
                 }
             }

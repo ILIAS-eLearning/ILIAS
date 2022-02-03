@@ -449,6 +449,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $this->object->getRefId(),
                 "htlm"
             );
+
+            ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
         }
 
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());

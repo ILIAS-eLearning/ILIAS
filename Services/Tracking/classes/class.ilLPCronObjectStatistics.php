@@ -15,6 +15,7 @@ class ilLPCronObjectStatistics extends ilCronJob
     protected ilDBInterface $db;
     protected ilTree $tree;
     protected ilLogger $logger;
+    protected ilCronManagerInterface $cron_manager;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         $this->lng->loadLanguageModule("trac");
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
+        $this->cron_manager = $DIC->cron()->manager();
     }
 
     public function getId() : string
@@ -148,7 +150,7 @@ class ilLPCronObjectStatistics extends ilCronJob
                     
                     $this->db->insert("obj_lp_stat", $set);
                     $count++;
-                    ilCronManager::ping($this->getId());
+                    $this->cron_manager->ping($this->getId());
                 }
             }
         }
@@ -179,7 +181,7 @@ class ilLPCronObjectStatistics extends ilCronJob
             $this->db->insert("obj_type_stat", $set);
             
             $count++;
-            ilCronManager::ping($this->getId());
+            $this->cron_manager->ping($this->getId());
         }
         return $count;
     }
@@ -212,7 +214,7 @@ class ilLPCronObjectStatistics extends ilCronJob
             $this->db->insert("obj_user_stat", $iset);
             
             $count++;
-            ilCronManager::ping($this->getId());
+            $this->cron_manager->ping($this->getId());
         }
         return $count;
     }

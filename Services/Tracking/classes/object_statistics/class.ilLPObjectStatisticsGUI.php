@@ -18,9 +18,14 @@
 
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
+    protected ilCronManagerInterface $cronManager;
 
     public function __construct(int $a_mode, int $a_ref_id = 0)
     {
+        global $DIC;
+
+        $this->cronManager = $DIC->cron()->manager();
+
         parent::__construct($a_mode, $a_ref_id);
     
         if (!$this->ref_id) {
@@ -396,7 +401,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     protected function showCronJobInfo() : void
     {
         include_once "Services/Cron/classes/class.ilCronManager.php";
-        if (!ilCronManager::isJobActive("lp_object_statistics")) {
+        if (!$this->cronManager->isJobActive("lp_object_statistics")) {
             ilUtil::sendInfo($this->lng->txt("trac_cron_info"));
         }
     }
