@@ -111,7 +111,7 @@ class ilAdministrationSettingsFormHandler
     ) : void {
         switch ($a_form_id) {
             case self::FORM_SECURITY:
-                $types = array(self::SETTINGS_GENERAL, self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
+                $types = array(self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
                 break;
             
             case self::FORM_PRIVACY:
