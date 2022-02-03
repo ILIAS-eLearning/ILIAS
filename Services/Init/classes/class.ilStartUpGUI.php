@@ -211,12 +211,12 @@ class ilStartUpGUI
         $this->getLogger()->debug('Showing login page');
 
         $extUid = '';
-        if (isset($_GET['ext_uid']) && is_string($_GET['ext_uid'])) {
-            $extUid = $_GET['ext_uid'];
-        }
         $soapPw = '';
-        if (isset($_GET['soap_pw']) && is_string($_GET['soap_pw'])) {
-            $soapPw = $_GET['soap_pw'];
+        if (isset($this->httpRequest->getQueryParams()['ext_uid'])) {
+            $extUid = $this->httpRequest->getQueryParams()['ext_uid'];
+        }
+        if (isset($this->httpRequest->getQueryParams()['soap_pw'])) {
+            $soapPw = $this->httpRequest->getQueryParams()['soap_pw'];
         }
 
         require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsSoap.php';
