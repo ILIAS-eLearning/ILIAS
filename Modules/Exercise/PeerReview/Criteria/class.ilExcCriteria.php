@@ -17,16 +17,16 @@ abstract class ilExcCriteria
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
     protected ?int $id = null;
-    protected ?int $parent;
-    protected ?string $title;
-    protected ?string $desc;
+    protected ?int $parent = null;
+    protected string $title = "";
+    protected string $desc = "";
     protected bool $required = false;
-    protected int $pos;
+    protected int $pos = 0;
     protected ?array $def = null;
     protected ?ilPropertyFormGUI $form;
     protected ilExAssignment $ass;
-    protected int $giver_id;
-    protected int $peer_id;
+    protected int $giver_id = 0;
+    protected int $peer_id = 0;
     
     public function __construct()
     {
