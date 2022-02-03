@@ -211,7 +211,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
-            case "ilobjectcontentstylesettingsgui":
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->setLocator();
