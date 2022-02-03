@@ -486,7 +486,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $lng = $DIC['lng'];
         
         include_once "Services/Cron/classes/class.ilCronManager.php";
-        if (!ilCronManager::isJobActive("lp_object_statistics")) {
+        if (!$DIC->cron()->manager()->isJobActive("lp_object_statistics")) {
             ilUtil::sendInfo($lng->txt("trac_cron_info"));
         }
     }

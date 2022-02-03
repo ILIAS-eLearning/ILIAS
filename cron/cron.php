@@ -21,12 +21,14 @@ $cron = new ilCronStartUp(
 );
 
 try {
+    global $DIC;
+
     $cron->authenticate();
 
-    $cronManager = new ilStrictCliCronManager(
-        new ilCronManager($DIC->settings(), $DIC->logger()->root())
+    $strictCronManager = new ilStrictCliCronManager(
+        $DIC->cron()->manager()
     );
-    $cronManager->runActiveJobs();
+    $strictCronManager->runActiveJobs($DIC->user());
 
     $cron->logout();
 } catch (Exception $e) {

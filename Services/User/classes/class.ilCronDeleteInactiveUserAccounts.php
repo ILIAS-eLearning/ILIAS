@@ -34,6 +34,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
+    private ilCronJobRepository $cronRepository;
 
     public function __construct()
     {
@@ -58,6 +59,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
             if (isset($DIC['rbacreview'])) {
                 $this->rbacReview = $DIC->rbac()->review();
+            }
+
+            if (isset($DIC['cron.repository'])) {
+                $this->cronRepository = $DIC->cron()->repository();
             }
 
             if (isset($DIC['ilSetting'])) {
@@ -237,7 +242,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     
     protected function calculateDeletionData(int $date_for_deletion) : int
     {
-        $cron_timing = ilCronManager::getCronJobData($this->getId());
+        $cron_timing = $this->cronRepository->getCronJobData($this->getId());
         $time_difference = 0;
         $multiplier = 1;
 

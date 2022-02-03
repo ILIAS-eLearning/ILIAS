@@ -65,6 +65,8 @@ class ilMembershipCronNotifications extends ilCronJob
 
     public function run() : ilCronJobResult
     {
+        global $DIC;
+
         $this->logger->debug("===Member Notifications=== start");
 
         $status = ilCronJobResult::STATUS_NO_ACTION;
@@ -103,7 +105,7 @@ class ilMembershipCronNotifications extends ilCronJob
             foreach ($user_news_aggr as $user_id => $user_news) {
                 $this->logger->debug("sending mails to user " . $user_id . ", nr news: " . count($user_news));
                 $this->sendMail($user_id, $user_news, $last_run);
-                ilCronManager::ping($this->getId());
+                $DIC->cron()->manager()->ping($this->getId());
             }
             // mails were sent - set cron job status accordingly
             $status = ilCronJobResult::STATUS_OK;
@@ -450,13 +452,8 @@ class ilMembershipCronNotifications extends ilCronJob
         }
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        // propagate cron-job setting to object setting
-        $ilSetting->set("crsgrp_ntf", $a_currently_active);
+        $setting->set("crsgrp_ntf", (string) ((int) $a_currently_active));
     }
 }

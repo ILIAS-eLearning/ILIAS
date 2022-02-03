@@ -1,13 +1,19 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * Cron job application base class
+/******************************************************************************
  *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesCron
- */
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 abstract class ilCronJob
 {
     public const SCHEDULE_TYPE_DAILY = 1;
@@ -238,10 +244,16 @@ abstract class ilCronJob
     {
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    /**
+     * Important: This method is (also) called from the setup process, where the constructor of an ilCronJob ist NOT executed.
+     * Furthermore only few dependencies may be available in the $DIC.
+     * @param ilDBInterface $db
+     * @param ilSetting $setting
+     * @param bool $a_currently_active
+     * @return void
+     */
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
     {
-        // we cannot use ilObject or any higher level construct here
-        // this may be called from setup, so it is limited to handling ilSetting/ilDB mostly
     }
 
     abstract public function getId() : string;

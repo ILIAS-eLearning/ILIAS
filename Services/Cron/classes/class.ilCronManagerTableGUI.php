@@ -1,17 +1,31 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * List all active cron jobs
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesCron
- */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 class ilCronManagerTableGUI extends ilTable2GUI
 {
+    private ilCronJobRepository $cronRepository;
     private bool $mayWrite;
 
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, bool $mayWrite = false)
-    {
+    public function __construct(
+        ilCronManagerGUI $a_parent_obj,
+        ilCronJobRepository $cronRepository,
+        string $a_parent_cmd,
+        bool $mayWrite = false
+    ) {
+        $this->cronRepository = $cronRepository;
         $this->mayWrite = $mayWrite;
 
         $this->setId('crnmng'); // #14526 / #16391
@@ -216,14 +230,14 @@ class ilCronManagerTableGUI extends ilTable2GUI
             if ($entity->getJob()->hasFlexibleSchedule()) {
                 $row['editable_schedule'] = true;
                 if (!$entity->getScheduleType()) {
-                    ilCronManager::updateJobSchedule(
+                    $this->cronRepository->updateJobSchedule(
                         $entity->getJob(),
                         $entity->getEffectiveScheduleType(),
                         $entity->getEffectiveScheduleValue()
                     );
                 }
             } elseif ($entity->getScheduleType()) {
-                ilCronManager::updateJobSchedule($entity->getJob(), null, null);
+                $this->cronRepository->updateJobSchedule($entity->getJob(), null, null);
             }
 
             return $row;
