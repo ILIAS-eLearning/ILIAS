@@ -69,7 +69,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
             $passedSso = $this->httpRequest->getQueryParams()['passed_sso'];
         }
 
-        if ('force_login' === $cmd || !empty($passedSso)) {
+        if (!empty($passedSso)) {
             return;
         }
 
