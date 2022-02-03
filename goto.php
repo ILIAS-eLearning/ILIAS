@@ -61,11 +61,16 @@ if ($target_type === "impr") {
 if (!ilStartUpGUI::_checkGoto($requested_target)) {
     // if anonymous: go to login page
     if ($DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
-        $DIC->ctrl()->redirectToURL(
-            "login.php?target="
+        $url = "login.php?target="
             . $orig_target . "&cmd=force_login&lang="
-            . $DIC->user()->getCurrentLanguage()
-        );
+            . $DIC->user()->getCurrentLanguage();
+        if (isset($DIC->http()->request()->getQueryParams()['soap_pw'])) {
+            $url = ilUtil::appendUrlParameterString($url, 'soap_pw=' . $DIC->http()->request()->getQueryParams()['soap_pw']);
+        }
+        if (isset($DIC->http()->request()->getQueryParams()['ext_uid'])) {
+            $url = ilUtil::appendUrlParameterString($url, 'ext_uid=' . $DIC->http()->request()->getQueryParams()['ext_uid']);
+        }
+        $DIC->ctrl()->redirectToURL($url);
     } else {
         // message if target given but not accessible
         $tarr = explode("_", $requested_target);
