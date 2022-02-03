@@ -252,7 +252,7 @@ class ilSession
                 $a_session_id = array_keys($a_session_id);
             }
             $q = "DELETE FROM usr_session WHERE " .
-                $ilDB->in("session_id", $a_session_id, "", "text");
+                $ilDB->in("session_id", $a_session_id, false, "text");
         }
 
         ilSessionIStorage::destroySession($a_session_id);
