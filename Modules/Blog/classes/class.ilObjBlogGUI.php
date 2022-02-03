@@ -520,7 +520,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $lng = $this->lng;
         $ilNavigationHistory = $this->nav_history;
 
-        $this->triggerAssignmentTool();
+
+        $next_class = $ilCtrl->getNextClass($this);
+
+        if ($next_class != "ilexportgui") {
+            $this->triggerAssignmentTool();
+        }
 
         // goto link to blog posting
         if ($this->gtp > 0) {
@@ -539,7 +544,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
         }
         
-        $next_class = $ilCtrl->getNextClass($this);
+
         $cmd = $ilCtrl->getCmd();
         
         if ($this->id_type == self::REPOSITORY_NODE_ID) {
