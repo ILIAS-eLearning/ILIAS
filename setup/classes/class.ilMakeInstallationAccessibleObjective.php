@@ -40,7 +40,7 @@ class ilMakeInstallationAccessibleObjective extends ilSetupObjective
 
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
-        $client_ini->setVariable("client", "access", true);
+        $client_ini->setVariable("client", "access", '1');
 
         if (!$client_ini->write()) {
             throw new Setup\UnachievableException("Could not write client.ini.php");
