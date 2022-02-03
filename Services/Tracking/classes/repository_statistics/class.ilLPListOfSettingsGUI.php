@@ -4,30 +4,26 @@
 
 /**
  * Class ilLPListOfSettingsGUI
- *
- * @author Stefan Meyer <meyer@leifos.com>
- *
+ * @author       Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilLPListOfSettingsGUI:
- *
- * @ingroup ServicesTracking
- *
+ * @ingroup      ServicesTracking
  */
 class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 {
     protected ilLPObjSettings $obj_settings;
     protected ilObjectLP $obj_lp;
-    
+
     public function __construct(int $a_mode, int $a_ref_id)
     {
         parent::__construct($a_mode, $a_ref_id);
-        
+
         $this->obj_settings = new ilLPObjSettings($this->getObjId());
         $this->obj_lp = ilObjectLP::getInstance($this->getObjId());
     }
 
     /**
-    * execute command
-    */
+     * execute command
+     */
     public function executeCommand() : void
     {
         switch ($this->ctrl->getNextClass()) {
@@ -51,7 +47,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return [];
     }
 
-
     /**
      * Show settings tables
      */
@@ -70,7 +65,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $this->getTableByMode()
         );
     }
-
 
     protected function initFormSettings() : ilPropertyFormGUI
     {
@@ -121,7 +115,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             // anything changed?
-            
+
             // mode
             if ($this->obj_lp->shouldFetchIndividualModeFromFormSubmission()) {
                 $new_mode = $this->obj_lp->fetchIndividualModeFromFormSubmission($form);
@@ -149,16 +143,16 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $collection->delete();
                 }
             }
-            
+
             $refresh_lp = ($mode_changed || $visits_changed);
-            
+
             // has to be done before LP refresh!
             $this->obj_lp->resetCaches();
-            
+
             $this->obj_settings->setMode($new_mode);
             $this->obj_settings->setVisits((int) $new_visits);
             $this->obj_settings->update($refresh_lp);
-            
+
             if ($mode_changed &&
                 $this->obj_lp->getCollectionInstance() &&
                 $new_mode != ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) { // #14819
@@ -184,7 +178,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     {
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
-            $table = new ilLPCollectionSettingsTableGUI($this, 'show', $this->getRefId(), $this->obj_lp->getCurrentMode());
+            $table = new ilLPCollectionSettingsTableGUI($this, 'show', $this->getRefId(),
+                $this->obj_lp->getCurrentMode());
             $table->parse($collection);
             return $table->getHTML();
         }
@@ -202,10 +197,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             if ($collection && $collection->hasSelectableItems()) {
                 $collection->activateEntries($this->initItemIdsFromPost());
             }
-            
+
             // #15045 - has to be done before LP refresh!
             $this->obj_lp->resetCaches();
-            
+
             // refresh learning progress
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
@@ -225,10 +220,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             if ($collection && $collection->hasSelectableItems()) {
                 $collection->deactivateEntries($this->initItemIdsFromPost());
             }
-            
+
             // #15045 - has to be done before LP refresh!
             $this->obj_lp->resetCaches();
-            
+
             // refresh learning progress
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
@@ -245,7 +240,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
-        
+
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
             // Assign new grouping id
@@ -272,11 +267,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
             $collection->releaseGrouping($this->initItemIdsFromPost());
-            
+
             // refresh learning progress
             ilLPStatusWrapper::_refreshStatus($this->getObjId());
         }
-        
+
         ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'), true);
         $this->ctrl->redirect($this, 'show');
     }
@@ -339,33 +334,36 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             );
             $md_section->update();
         }
-        
+
         // refresh learning progress
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
-        
+
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'show');
     }
-    
-    
+
     protected function getLPPathInfo(int $a_ref_id, array &$a_res) : bool
     {
         $has_lp_parents = false;
-                
+
         $path = $this->tree->getNodePath($a_ref_id);
-        array_shift($path);	 // root
+        array_shift($path);     // root
         foreach ($path as $node) {
             $supports_lp = ilObjectLP::isSupportedObjectType($node["type"]);
             if ($supports_lp || $has_lp_parents) {
                 $a_res[(int) $node["child"]]["node"] = array(
                     "type" => (string) $node["type"]
-                    ,"title" => (string) $node["title"]
-                    ,"obj_id" => (int) $node["obj_id"]
-                    ,"lp" => false
-                    ,"active" => false
+                    ,
+                    "title" => (string) $node["title"]
+                    ,
+                    "obj_id" => (int) $node["obj_id"]
+                    ,
+                    "lp" => false
+                    ,
+                    "active" => false
                 );
             }
-            
+
             if (
                 $supports_lp &&
                 $node["child"] != $a_ref_id) {
@@ -386,7 +384,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
         return $has_lp_parents;
     }
-    
+
     protected function handleLPUsageInfo() : string
     {
         $ref_id = 0;
@@ -404,9 +402,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $coll = array();
         if ($ref_id &&
             $this->getLPPathInfo((int) $ref_id, $coll)) {
-            
+
             $tpl = new ilTemplate("tpl.lp_obj_settings_tree_info.html", true, true, "Services/Tracking");
-            
+
             $margin = 0;
             $has_active = false;
             foreach ($coll as $parent_ref_id => $parts) {
@@ -417,10 +415,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                         $tpl->touchBlock("parent_active_bl");
                         $has_active = true;
                     }
-                    
+
                     $params["gotolp"] = 1;
                 }
-                
+
                 if ($this->access->checkAccess("read", "", $parent_ref_id) &&
                     $parent_ref_id != $ref_id) { // #17170
                     $tpl->setCurrentBlock("parent_link_bl");
@@ -432,32 +430,32 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $tpl->setVariable("PARENT_NOLINK_TITLE", $node["title"]);
                     $tpl->parseCurrentBlock();
                 }
-                
+
                 $tpl->setCurrentBlock("parent_usage_bl");
                 $tpl->setVariable("PARENT_TYPE_URL", ilUtil::getTypeIconPath($node["type"], $node["obj_id"]));
                 $tpl->setVariable("PARENT_TYPE_ALT", $this->lng->txt("obj_" . $node["type"]));
-                
+
                 $tpl->setVariable("PARENT_STYLE", $node["lp"]
                     ? ''
                     : ' class="ilLPParentInfoListLPUnsupported"');
                 $tpl->setVariable("MARGIN", $margin);
                 $tpl->parseCurrentBlock();
-                
+
                 $margin += 25;
             }
-            
+
             if ($has_active) {
                 $tpl->setVariable("LEGEND", sprintf(
                     $this->lng->txt("trac_lp_settings_info_parent_legend"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
                 ));
             }
-            
+
             $panel = ilPanelGUI::getInstance();
             $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
             $panel->setHeading($this->lng->txt("trac_lp_settings_info_parent_container"));
             $panel->setBody($tpl->get());
-            
+
             return $panel->getHTML();
         }
         return '';

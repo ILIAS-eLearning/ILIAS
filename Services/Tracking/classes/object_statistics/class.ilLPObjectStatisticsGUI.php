@@ -3,19 +3,12 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjectStatisticsGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
-*
-* @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsTableGUI
-*
-* @package ilias-tracking
-*
-*/
-
-
+ * Class ilObjectStatisticsGUI
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version      $Id: class.ilLPListOfObjectsGUI.php 27489 2011-01-19 16:58:09Z jluetzen $
+ * @ilCtrl_Calls ilLPObjectStatisticsGUI: ilLPObjectStatisticsTableGUI
+ * @package      ilias-tracking
+ */
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
     protected ilCronManagerInterface $cronManager;
@@ -27,7 +20,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->cronManager = $DIC->cron()->manager();
 
         parent::__construct($a_mode, $a_ref_id);
-    
+
         if (!$this->ref_id) {
             if ($this->http->wrapper()->query()->has('ref_id')) {
                 $this->ref_id = $this->http->wrapper()->query()->retrieve(
@@ -37,7 +30,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             }
         }
     }
-
 
     protected function setTabs() : void
     {
@@ -70,11 +62,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             );
         }
     }
-    
+
     public function executeCommand() : void
     {
         $this->ctrl->setReturn($this, "");
-        
+
         $this->setTabs();
 
         switch ($this->ctrl->getNextClass()) {
@@ -110,7 +102,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
         $this->showAggregationInfo();
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, $a_load_data);
-        
+
         if (!$a_load_data) {
             $lp_table->disable("content");
             $lp_table->disable("header");
@@ -124,7 +116,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->access();
         }
-        
+
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
         $lp_table = new ilLPObjectStatisticsTableGUI($this, "access", $this->initItemIdFromPost());
 
@@ -163,7 +155,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
-        
+
         $this->tpl->setContent($lp_table->getHTML());
     }
 
@@ -174,7 +166,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $this->types();
             return;
         }
-        
+
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
 
         $lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", $this->initItemIdFromPost());
@@ -206,7 +198,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function daily(bool $a_load_data = true) : void
     {
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
-        
+
         $this->showAggregationInfo();
 
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, $a_load_data);
@@ -215,7 +207,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
-        
+
         $this->tpl->setContent($lp_table->getHTML());
     }
 
@@ -226,7 +218,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $this->daily();
             return;
         }
-        
+
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
 
         $lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", $this->initItemIdFromPost());
@@ -237,7 +229,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function admin() : void
     {
         $this->tabs_gui->activateSubTab('trac_object_stat_admin');
-        
+
         $this->showAggregationInfo(false);
 
         if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
@@ -285,8 +277,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         // list objects that should be deleted
         foreach ($this->initItemIdFromPost() as $i) {
             $caption = $this->lng->txt("month_" . str_pad(substr($i, 5), 2, "0", STR_PAD_LEFT) . "_long") .
-            " " . substr($i, 0, 4);
-            
+                " " . substr($i, 0, 4);
+
             $cgui->addItem("item_id[]", $i, $caption);
         }
 
@@ -305,7 +297,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         ilUtil::sendSuccess($this->lng->txt("trac_data_deleted"));
         $this->admin();
     }
-    
+
     public function applyLearningProgressFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
@@ -321,7 +313,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $lp_table->resetFilter();
         $this->learningProgress();
     }
-    
+
     public function learningProgressFilter() : void
     {
         $this->learningProgress(false);
@@ -330,16 +322,16 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function learningProgress(bool $a_load_data = true) : void
     {
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
-        
+
         $this->showCronJobInfo();
 
         $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, $a_load_data);
-        
+
         if (!$a_load_data) {
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
-        
+
         $this->tpl->setContent($lp_table->getHTML());
     }
 
@@ -350,11 +342,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $this->learningProgress();
             return;
         }
-        
+
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
 
-        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $this->initItemIdFromPost(), true, true);
-                
+        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $this->initItemIdFromPost(), true,
+            true);
+
         $this->tpl->setContent($lp_table->getGraph($this->initItemIdFromPost()) . $lp_table->getHTML());
     }
 
@@ -367,29 +360,30 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($item_id), true, false, true);
-        
+        $lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($item_id), true,
+            false, true);
+
         $a_tpl = new ilTemplate("tpl.lp_object_statistics_lp_details.html", true, true, "Services/Tracking");
         $a_tpl->setVariable("CONTENT", $lp_table->getHTML());
         $a_tpl->setVariable('CLOSE_IMG_TXT', $this->lng->txt('close'));
         echo $a_tpl->get();
         exit();
     }
-    
+
     protected function showAggregationInfo(bool $a_show_link = true) : void
     {
         $info = ilTrQuery::getObjectStatisticsLogInfo();
         $info_date = ilDatePresentation::formatDate(new ilDateTime($info["tstamp"], IL_CAL_UNIX));
-                    
+
         $link = "";
         if ($a_show_link && $this->access->checkAccess("write", "", $this->ref_id)) {
             $link = " <a href=\"" . $this->ctrl->getLinkTarget($this, "admin") . "\">&raquo;" .
                 $this->lng->txt("trac_log_info_link") . "</a>";
         }
-        
+
         ilUtil::sendInfo(sprintf($this->lng->txt("trac_log_info"), $info_date, $info["counter"]) . $link);
     }
-    
+
     protected function showCronJobInfo() : void
     {
         if (!$this->cronManager->isJobActive("lp_object_statistics")) {

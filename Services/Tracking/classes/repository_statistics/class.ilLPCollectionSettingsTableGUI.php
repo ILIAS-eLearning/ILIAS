@@ -1,11 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Description of class
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesTracking
  */
 class ilLPCollectionSettingsTableGUI extends ilTable2GUI
@@ -34,12 +32,12 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
     {
         return $this->node_id;
     }
-    
+
     public function getMode() : int
     {
         return $this->mode;
     }
-    
+
     /**
      * Read and parse items
      */
@@ -47,12 +45,12 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
     {
         $this->setData($a_collection->getTableGUIData($this->getNode()));
         $this->initTable();
-        
+
         // grouping actions
         if ($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION &&
             ilLPCollectionOfRepositoryObjects::hasGroupedItems(ilObject::_lookupObjId($this->getNode()))) {
             $this->addMultiCommand('releaseMaterials', $this->lng->txt('trac_release_materials'));
-            
+
             foreach ($this->row_data as $item) {
                 if ($item["grouped"]) {
                     $this->addCommandButton('saveObligatoryMaterials', $this->lng->txt('trac_group_materials_save'));
@@ -69,7 +67,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ITEM_ID', $a_set['id']);
         $this->tpl->setVariable('COLL_TITLE', $a_set['title']);
         $this->tpl->setVariable('COLL_DESC', $a_set['description']);
-            
+
         if ($this->obj_definition->isPluginTypeName($a_set["type"])) {
             $alt = ilObjectPlugin::lookupTxtById($a_set['type'], "obj_" . $a_set['type']);
         } else {
@@ -93,7 +91,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent'));
 
                 $path = new ilPathGUI();
-                $this->tpl->setVariable('COLL_PATH', $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id']));
+                $this->tpl->setVariable('COLL_PATH',
+                    $this->lng->txt('path') . ': ' . $path->getPath($this->getNode(), $a_set['ref_id']));
 
                 $mode_suffix = '';
                 if (
@@ -184,7 +183,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $min = floor($tlt / 60);
 
                 $options = array();
-                for ($i = 0;$i <= 24;$i++) {
+                for ($i = 0; $i <= 24; $i++) {
                     $options[$i] = sprintf('%02d', $i);
                 }
                 $this->tpl->setVariable(
@@ -192,7 +191,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                     ilUtil::formSelect($mon, 'tlt[' . $a_set['id'] . '][mo]', $options, false, true)
                 );
 
-                for ($i = 0;$i <= 31;$i++) {
+                for ($i = 0; $i <= 31; $i++) {
                     $options[$i] = sprintf('%02d', $i);
                 }
                 $this->tpl->setVariable(
@@ -227,7 +226,6 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 : $this->lng->txt('trac_not_assigned')
         );
         $this->tpl->parseCurrentBlock();
-
 
         // Parse grouped items
         foreach ((array) $a_set['grouped'] as $item) {
@@ -271,16 +269,16 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription($this->lng->txt('trac_lp_determination_info_sco'));
                 break;
-            
+
             case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
                 $this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
                 $this->setDescription($this->lng->txt('trac_lp_determination_info_crs'));
                 $this->lng->loadLanguageModule("meta");
-                
+
                 $this->addCommandButton('updateTLT', $this->lng->txt('save'));
                 break;
-            
+
             case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
                 $this->setRowTemplate('tpl.lp_collection_subitem_row.html', 'Services/Tracking');
                 $this->setTitle($this->lng->txt('trac_lp_determination'));
@@ -290,7 +288,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
         $this->addColumn('', '', '1px');
         $this->addColumn($this->lng->txt('item'), 'title', '50%');
-        
+
         if ($this->getMode() != ilLPObjSettings::LP_MODE_SCORM &&
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MOBS &&
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL &&
@@ -299,7 +297,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         } elseif ($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
             $this->addColumn($this->lng->txt('meta_typical_learning_time'), 'tlt');
         }
-        
+
         if ($this->getMode() != ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) {
             $this->addMultiCommand('assign', $this->lng->txt('trac_collection_assign'));
             $this->addMultiCommand('deassign', $this->lng->txt('trac_collection_deassign'));

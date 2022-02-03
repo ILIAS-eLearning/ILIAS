@@ -22,11 +22,9 @@
 */
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ingroup ServicesTracking
-*/
-
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesTracking
+ */
 class ilObjUserTrackingAccess extends ilObjectAccess
 {
 }

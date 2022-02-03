@@ -2,13 +2,12 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjUserTracking
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Jens Conze <jc@databay.de>
-* @extends ilObject
-* @package ilias-core
-*/
+ * Class ilObjUserTracking
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Jens Conze <jc@databay.de>
+ * @extends ilObject
+ * @package ilias-core
+ */
 class ilObjUserTracking extends ilObject
 {
     private int $valid_time = 0;
@@ -28,7 +27,7 @@ class ilObjUserTracking extends ilObject
     public const EXTENDED_DATA_LAST_ACCESS = 1;
     public const EXTENDED_DATA_READ_COUNT = 2;
     public const EXTENDED_DATA_SPENT_SECONDS = 4;
-    
+
     public const DEFAULT_TIME_SPAN = 300;
 
     protected ilSetting $settings;
@@ -80,7 +79,7 @@ class ilObjUserTracking extends ilObject
         $ilSetting = $DIC->settings();
         return (bool) $ilSetting->get('save_user_related_data', '0');
     }
-    
+
     public static function _enabledObjectStatistics() : bool
     {
         global $DIC;
@@ -88,7 +87,7 @@ class ilObjUserTracking extends ilObject
         $ilSetting = $DIC->settings();
         return (bool) $ilSetting->get('object_statistics', '0');
     }
-    
+
     public function enableObjectStatistics(bool $newValue) : void
     {
         $this->object_statistics_enabled = $newValue;
@@ -98,7 +97,7 @@ class ilObjUserTracking extends ilObject
     {
         return $this->object_statistics_enabled;
     }
-    
+
     public function enableSessionStatistics(bool $newValue) : void
     {
         $this->session_statistics_enabled = $newValue;
@@ -108,7 +107,7 @@ class ilObjUserTracking extends ilObject
     {
         return $this->session_statistics_enabled;
     }
-    
+
     public static function _enabledSessionStatistics() : bool
     {
         global $DIC;
@@ -126,7 +125,7 @@ class ilObjUserTracking extends ilObject
     {
         return $this->valid_time;
     }
-    
+
     public static function _getValidTimeSpan() : int
     {
         global $DIC;
@@ -144,8 +143,9 @@ class ilObjUserTracking extends ilObject
     {
         return $this->is_change_event_tracking_enabled;
     }
+
     // END ChangeEvent
-    
+
     public function setExtendedData(int $a_value) : void
     {
         $this->extended_data = $a_value;
@@ -182,7 +182,7 @@ class ilObjUserTracking extends ilObject
         // BEGIN ChangeEvent
         $this->enableChangeEventTracking(ilChangeEvent::_isActive());
         // END ChangeEvent
-        
+
         $this->setExtendedData((int) $this->settings->get("lp_extended_data", '0'));
     }
 
@@ -209,7 +209,7 @@ class ilObjUserTracking extends ilObject
         $ilDB->manipulate("DELETE FROM ut_online WHERE usr_id = " .
             $ilDB->quote($a_usr_id, "integer"));
     }
-    
+
     public static function _hasLearningProgressOtherUsers() : bool
     {
         global $DIC;
@@ -221,17 +221,17 @@ class ilObjUserTracking extends ilObject
         $ref_id = array_pop($ref_ids);
         return $rbacsystem->checkAccess("lp_other_users", $ref_id);
     }
-    
+
     public function setLearningProgressLearner(bool $a_value) : void
     {
         $this->lp_learner = $a_value;
     }
-    
+
     public function hasLearningProgressLearner() : bool
     {
         return $this->lp_learner;
     }
-    
+
     public static function _hasLearningProgressLearner() : bool
     {
         global $DIC;
@@ -239,17 +239,17 @@ class ilObjUserTracking extends ilObject
         $ilSetting = $DIC->settings();
         return (bool) $ilSetting->get("lp_learner", '1');
     }
-    
+
     public function setLearningProgressListGUI(bool $a_value) : void
     {
         $this->lp_list_gui = $a_value;
     }
-    
+
     public function hasLearningProgressListGUI() : bool
     {
         return $this->lp_list_gui;
     }
-    
+
     public static function _hasLearningProgressListGUI() : bool
     {
         global $DIC;

@@ -1,14 +1,12 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
-* TableGUI class for learning progress
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @ilCtrl_Calls ilLPProgressTableGUI: ilFormPropertyDispatchGUI
-* @ingroup ServicesTracking
-*/
+ * TableGUI class for learning progress
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilLPProgressTableGUI: ilFormPropertyDispatchGUI
+ * @ingroup      ServicesTracking
+ */
 class ilLPProgressTableGUI extends ilLPTableBaseGUI
 {
     protected ?ilObjUser $tracked_user;
@@ -21,10 +19,9 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
     protected int $lp_context;
     protected bool $has_object_subitems = false;
 
-
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
@@ -35,8 +32,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         bool $personal_only = false,
         ?int $a_parent_id = null,
         ?int $a_parent_ref_id = null,
-        ?int $lp_context = null)
-    {
+        ?int $lp_context = null
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
@@ -48,16 +45,16 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $this->mode = (int) $mode;
         $this->parent_obj_id = (int) $a_parent_id;
         $this->lp_context = (int) $lp_context;
-        
+
         if ($a_parent_id) {
             $this->obj_id = $this->parent_obj_id;
             $this->ref_id = (int) $a_parent_ref_id;
         }
-        
+
         $this->setId("lpprgtbl");
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setLimit(9999);
-    
+
         if (!$this->details) {
             $this->has_object_subitems = true;
             $user = $this->tracked_user;
@@ -80,18 +77,18 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
             $this->setSelectAllCheckbox("item_id");
             $this->addMultiCommand("hideSelected", $this->lng->txt("trac_hide_selected"));
-            
+
             $this->setShowTemplates(true);
         } else {
             $olp = ilObjectLP::getInstance($this->parent_obj_id);
             $collection = $olp->getCollectionInstance();
             $this->has_object_subitems = ($collection instanceof ilLPCollectionOfRepositoryObjects);
-                        
+
             $this->setTitle($this->lng->txt("details")); // #15247
 
             $this->addColumn($this->lng->txt("trac_title"), "title", "31%");
             $this->addColumn($this->lng->txt("status"), "status", "7%");
-            
+
             if ($this->mode == ilLPObjSettings::LP_MODE_SCORM) {
                 $this->lng->loadLanguageModule('content');
                 $this->addColumn($this->lng->txt('cont_score'), 'score', '10%');
@@ -104,7 +101,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                 $this->addColumn($this->lng->txt("path"), "", "20%");
             }
         }
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormActionByClass(get_class($this)));
         $this->setRowTemplate("tpl.lp_progress_list_row.html", "Services/Tracking");
@@ -113,7 +110,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         if ($this->has_object_subitems) {
             $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
         }
@@ -123,7 +120,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->getItems();
         }
     }
-    
+
     public function numericOrdering(string $a_field) : bool
     {
         return $a_field == "percentage";
@@ -141,9 +138,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
                 default:
                     $obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
-                                                            
+
                     // check for LP relevance
-                    foreach (ilObjectLP::getLPMemberships($this->tracked_user->getId(), $obj_ids, null, true) as $obj_id => $status) {
+                    foreach (ilObjectLP::getLPMemberships($this->tracked_user->getId(), $obj_ids, null,
+                        true) as $obj_id => $status) {
                         if (!$status) {
                             unset($obj_ids[$obj_id]);
                         }
@@ -154,21 +152,24 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         if ($obj_ids) {
             switch ($this->mode) {
                 case ilLPObjSettings::LP_MODE_SCORM:
-                    $data = ilTrQuery::getSCOsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);
+                    $data = ilTrQuery::getSCOsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id,
+                        $obj_ids);
                     break;
-                
+
                 case ilLPObjSettings::LP_MODE_OBJECTIVES:
-                    $data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);
+                    $data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $this->parent_obj_id,
+                        $obj_ids);
                     break;
-                
+
                 case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
                 case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
                 case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
                     if ($this->tracked_user) {
-                        $data = ilTrQuery::getSubItemsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);
+                        $data = ilTrQuery::getSubItemsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id,
+                            $obj_ids);
                     }
                     break;
-                
+
                 default:
                     $data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
                     foreach ($data as $idx => $item) {
@@ -181,7 +182,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     }
                     break;
             }
-            
+
             // #15334
             foreach ($data as $idx => $row) {
                 if (!$this->isPercentageAvailable($row["obj_id"])) {
@@ -192,7 +193,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->setData($data);
         }
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         if (!$this->details) {
@@ -219,21 +220,22 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable('SCORE_VAL', $a_set["score"]);
         } elseif ($this->has_object_subitems) {
             $this->tpl->setCurrentBlock("status_details");
-            
-            $this->tpl->setVariable('STATUS_CHANGED_VAL', ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],
-                IL_CAL_DATETIME)));
+
+            $this->tpl->setVariable('STATUS_CHANGED_VAL',
+                ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],
+                    IL_CAL_DATETIME)));
 
             $olp = ilObjectLP::getInstance($a_set["obj_id"]);
             $this->tpl->setVariable("MODE_TEXT", $olp->getModeText($a_set["u_mode"]));
             $this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
             $this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
-                        
+
             if ($a_set["percentage"] < 0) {
                 $this->tpl->setVariable("PERCENTAGE_VALUE", "");
             } else {
                 $this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
             }
-        
+
             // path
             $path = $this->buildPath($a_set["ref_ids"]);
             if ($path) {
@@ -243,7 +245,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     $this->tpl->parseCurrentBlock();
                 }
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
 
@@ -280,7 +282,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     $ref_id = $a_set["ref_ids"];
                     $ref_id = array_shift($ref_id);
                     $this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), 'details_id', $ref_id);
-                    $this->tpl->setVariable("HREF_COMMAND", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), 'details'));
+                    $this->tpl->setVariable("HREF_COMMAND",
+                        $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), 'details'));
                     $this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), 'details_id', '');
                     $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_subitems'));
                     $this->tpl->parseCurrentBlock();
@@ -303,10 +306,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, 6, $this->lng->txt("comment"));
         $a_excel->setCell($a_row, 7, $this->lng->txt("trac_mode"));
         // $a_excel->setCell($a_row, 7, $this->lng->txt("path"));
-        
+
         $a_excel->setBold("A" . $a_row . ":H" . $a_row);
     }
-    
+
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
@@ -314,7 +317,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 
         $a_excel->setCell($a_row, 3, new ilDateTime($a_set['status_changed'], IL_CAL_DATETIME));
-        
+
         if (!$this->isPercentageAvailable($a_set['obj_id'])) {
             $a_excel->setCell($a_row, 4, '-');
         } else {

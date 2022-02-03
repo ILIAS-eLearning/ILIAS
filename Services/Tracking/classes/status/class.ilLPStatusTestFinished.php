@@ -3,10 +3,9 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup	ServicesTracking
-*/
+ * @author     Stefan Meyer <meyer@leifos.com>
+ * @ingroup    ServicesTracking
+ */
 class ilLPStatusTestFinished extends ilLPStatus
 {
     public static function _getInProgress(int $a_obj_id) : array
@@ -35,7 +34,6 @@ class ilLPStatusTestFinished extends ilLPStatus
         }
         return array_values($user_ids);
     }
-
 
     public static function _getCompleted(int $a_obj_id) : array
     {
@@ -69,7 +67,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
 
-
         $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
@@ -97,7 +94,6 @@ class ilLPStatusTestFinished extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
 
-
         $res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active" .
             " WHERE test_fi = " . $ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
         $user_ids = array();
@@ -108,13 +104,11 @@ class ilLPStatusTestFinished extends ilLPStatus
         return $user_ids;
     }
 
-    
     public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
 
         $res = $this->db->query("
 			SELECT active_id, user_fi, tries, COUNT(tst_sequence.active_fi) sequences
@@ -131,7 +125,7 @@ class ilLPStatusTestFinished extends ilLPStatus
         if ($rec = $this->db->fetchAssoc($res)) {
             if ($rec['sequences'] > 0) {
                 $status = self::LP_STATUS_IN_PROGRESS_NUM;
-                
+
                 if ($rec['tries'] > 0) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }

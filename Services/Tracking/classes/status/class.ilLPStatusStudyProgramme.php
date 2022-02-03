@@ -2,30 +2,27 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* @author Richard Klees <richard.klees@concepts-and-training.de>
-*
-* @package ilias-tracking
-*
-*/
-
+ * @author  Richard Klees <richard.klees@concepts-and-training.de>
+ * @package ilias-tracking
+ */
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
     public static function _getCountInProgress(int $a_obj_id) : int
     {
         return count(self::_getInProgress($a_obj_id));
     }
-    
+
     public static function _getInProgress(int $a_obj_id) : array
     {
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithNotCompletedAndRelevantProgress();
     }
-    
+
     public static function _getCountCompleted(int $a_obj_id) : int
     {
         return count(self::_getCompleted($a_obj_id));
     }
-    
+
     public static function _getCompleted(int $a_obj_id) : array
     {
         $prg = new ilObjStudyProgramme($a_obj_id, false);

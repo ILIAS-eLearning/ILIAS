@@ -1,15 +1,12 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Build table list for objects of given user
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version      $Id$
  * @ilCtrl_Calls ilTrUserObjectsPropsTableGUI: ilFormPropertyDispatchGUI
- * @ingroup ServicesTracking
+ * @ingroup      ServicesTracking
  */
 class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 {
@@ -20,19 +17,19 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
+
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
         int $a_user_id,
         int $a_obj_id,
         int $a_ref_id,
-        bool $a_print_view = false)
-    {
+        bool $a_print_view = false
+    ) {
         global $DIC;
-
 
         $this->setId("truop");
         $this->user_id = $a_user_id;
@@ -50,10 +47,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         $this->addColumn($this->lng->txt("title"), "title");
-        
+
         foreach ($this->getSelectedColumns() as $c) {
             $l = $c;
-            if (in_array($l, array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage"))) {
+            if (in_array($l,
+                array("last_access", "first_access", "read_count", "spent_seconds", "mark", "status", "percentage"))) {
                 $l = "trac_" . $l;
             }
             if ($l == "u_comment") {
@@ -79,50 +77,58 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $this->initFilter();
         $this->getItems();
     }
-    
+
     public function getSelectableColumns() : array
     {
         // default fields
         $cols = array();
-        
+
         $tracking = new ilObjUserTracking();
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $cols["first_access"] = array(
                 "txt" => $this->lng->txt("trac_first_access"),
-                "default" => true);
+                "default" => true
+            );
             $cols["last_access"] = array(
                 "txt" => $this->lng->txt("trac_last_access"),
-                "default" => true);
+                "default" => true
+            );
         }
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT)) {
             $cols["read_count"] = array(
                 "txt" => $this->lng->txt("trac_read_count"),
-                "default" => true);
+                "default" => true
+            );
         }
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
             $cols["spent_seconds"] = array(
                 "txt" => $this->lng->txt("trac_spent_seconds"),
-                "default" => true);
+                "default" => true
+            );
         }
-        
+
         // #15334 - parent object does not matter, sub-objects may have percentage
         $cols["percentage"] = array(
             "txt" => $this->lng->txt("trac_percentage"),
-            "default" => true);
-        
+            "default" => true
+        );
+
         $cols["status"] = array(
             "txt" => $this->lng->txt("trac_status"),
-            "default" => true);
+            "default" => true
+        );
         $cols["mark"] = array(
             "txt" => $this->lng->txt("trac_mark"),
-            "default" => true);
+            "default" => true
+        );
         $cols["u_comment"] = array(
             "txt" => $this->lng->txt("trac_comment"),
-            "default" => false);
-        
+            "default" => false
+        );
+
         return $cols;
     }
-    
+
     public function getItems()
     {
         $this->determineOffsetAndOrder();
@@ -140,7 +146,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $additional_fields,
             $this->filter["view_mode"]
         );
-            
+
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
             $tr_data = ilTrQuery::getObjectsDataForUser(
@@ -156,7 +162,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                 $this->filter["view_mode"]
             );
         }
-        
+
         // #13807
         foreach ($tr_data["set"] as $idx => $row) {
             if ($row["ref_id"] &&
@@ -171,7 +177,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         $this->setMaxCount($tr_data["cnt"]);
-        
+
         if ($this->getOrderField() == "title") {
             // sort alphabetically, move parent object to 1st position
             $set = array();
@@ -218,7 +224,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->filter["view_mode"] = $ti->getValue();
         }
     }
-    
+
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -257,13 +263,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                                 $timing = $this->showTimingsWarning($a_set["ref_id"], $this->user_id);
                                 if ($timing) {
                                     if ($timing !== true) {
-                                        $timing = ": " . ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+                                        $timing = ": " . ilDatePresentation::formatDate(new ilDate($timing,
+                                                IL_CAL_UNIX));
                                     } else {
                                         $timing = "";
                                     }
                                     $this->tpl->setCurrentBlock('warning_img');
                                     $this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.svg'));
-                                    $this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed') . $timing);
+                                    $this->tpl->setVariable('WARNING_ALT',
+                                        $this->lng->txt('trac_time_passed') . $timing);
                                     $this->tpl->parseCurrentBlock();
                                 }
                             }
@@ -273,7 +281,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                             if (!ilObjectLP::supportsSpentSeconds($a_set["type"])) {
                                 $val = "-";
                             } else {
-                                $val = ilDatePresentation::secondsToString($a_set[$c], ($a_set[$c] < 3600 ? true : false)); // #14858
+                                $val = ilDatePresentation::secondsToString($a_set[$c],
+                                    ($a_set[$c] < 3600 ? true : false)); // #14858
                             }
                             break;
 
@@ -303,7 +312,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable("VAL_UF", $val);
             $this->tpl->parseCurrentBlock();
         }
-                
+
         if ($a_set["privacy_conflict"]) {
             $this->tpl->setCurrentBlock("permission_bl");
             $this->tpl->setVariable("TXT_NO_PERMISSION", $this->lng->txt("status_no_permission"));
@@ -315,7 +324,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
         $this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
-        
+
         if (in_array($a_set['type'], array('fold', 'grp')) && $a_set['obj_id'] != $this->obj_id) {
             if ($a_set['type'] == 'fold') {
                 $object_gui = 'ilobjfoldergui';
@@ -337,7 +346,11 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $a_set["ref_id"]);
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'details_id', $a_set["ref_id"]);
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'user_id', $this->user_id);
-                $url = $this->ctrl->getLinkTargetByClass(array('ilrepositorygui', $object_gui, 'illearningprogressgui', 'illplistofobjectsgui'), 'userdetails');
+                $url = $this->ctrl->getLinkTargetByClass(array('ilrepositorygui',
+                                                               $object_gui,
+                                                               'illearningprogressgui',
+                                                               'illplistofobjectsgui'
+                ), 'userdetails');
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $old["ref_id"]);
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'details_id', $old["details_id"]);
                 $this->ctrl->setParameterByClass('illplistofobjectsgui', 'user_id', $old["user_id"]);
@@ -353,7 +366,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // #16453 / #17163
         if ($a_set['ref_id']) {
             $path = new ilPathGUI();
@@ -369,14 +382,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             if (!in_array($a_set["type"], array("sco", "lobj")) && !$this->getPrintMode()) {
                 $this->tpl->setCurrentBlock("item_command");
                 $this->ctrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $a_set["ref_id"]);
-                $this->tpl->setVariable("HREF_COMMAND", $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+                $this->tpl->setVariable("HREF_COMMAND",
+                    $this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('edit'));
                 $this->ctrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
                 $this->tpl->parseCurrentBlock();
             }
         }
     }
-    
+
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("type"));
@@ -387,7 +401,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         foreach ($this->getSelectedColumns() as $c) {
             $a_excel->setCell($a_row, $cnt++, $labels[$c]["txt"]);
         }
-        
+
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt - 1) . $a_row);
     }
 

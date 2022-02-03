@@ -23,8 +23,7 @@
 
 /**
  * Learning progress access checks
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesTracking
  */
 class ilLearningProgressAccess
@@ -39,7 +38,7 @@ class ilLearningProgressAccess
         if ($a_user_id === null) {
             $a_user_id = $DIC->user()->getId();
         }
-        
+
         // position access
         if ($a_permission === 'read_learning_progress') {
             return $DIC->access()->checkRbacOrPositionPermissionAccess(
@@ -50,7 +49,6 @@ class ilLearningProgressAccess
         }
         return $DIC->access()->checkAccessOfUser($a_user_id, $a_permission, '', $a_ref_id);
     }
-
 
     /**
      * check access to learning progress
@@ -66,7 +64,7 @@ class ilLearningProgressAccess
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return false;
         }
-        
+
         $olp = ilObjectLP::getInstance(ilObject::_lookupObjId($a_ref_id));
         if ($DIC->access()->checkAccess('read_learning_progress', '', $a_ref_id) ||
             (
@@ -95,7 +93,7 @@ class ilLearningProgressAccess
         if (!$olp->isActive()) {
             return false;
         }
-        
+
         if ($a_allow_only_read) {
             return true;
         }

@@ -7,14 +7,11 @@ use ILIAS\HTTP\Services as HttpServices;
 
 /**
  * Class ilObjUserTrackingGUI
- *
  * Base class for all Learning progress gui classes.
  * Defines modes for presentation according to the context in which it was called
  * E.g: mode LP_CONTEXT_PERSONAL_DESKTOP displays only listOfObjects.
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @package ilias-tracking
- *
  */
 class ilLearningProgressBaseGUI
 {
@@ -41,14 +38,12 @@ class ilLearningProgressBaseGUI
     protected string $obj_type = '';
     protected int $mode = 0;
 
-
-    
     public const LP_CONTEXT_PERSONAL_DESKTOP = 1;
     public const LP_CONTEXT_ADMINISTRATION = 2;
     public const LP_CONTEXT_REPOSITORY = 3;
     public const LP_CONTEXT_USER_FOLDER = 4;
     public const LP_CONTEXT_ORG_UNIT = 5;
-    
+
     protected const LP_ACTIVE_SETTINGS = 1;
     protected const LP_ACTIVE_OBJECTS = 2;
     protected const LP_ACTIVE_PROGRESS = 3;
@@ -137,7 +132,7 @@ class ilLearningProgressBaseGUI
         }
         return 0;
     }
-    
+
     public function __getDefaultCommand() : string
     {
         if (strlen($cmd = $this->ctrl->getCmd())) {
@@ -175,13 +170,12 @@ class ilLearningProgressBaseGUI
                 }
                 break;
 
-
             case self::LP_CONTEXT_REPOSITORY:
                 // #12771 - do not show status if learning progress is deactivated
                 $olp = ilObjectLP::getInstance($this->obj_id);
                 if ($olp->isActive()) {
                     $has_read = ilLearningProgressAccess::checkPermission('read_learning_progress', $this->getRefId());
-                                
+
                     if ($this->isAnonymized() || !$has_read) {
                         $this->ctrl->setParameterByClass('illplistofprogressgui', 'user_id', $this->getUserId());
                         $this->tabs_gui->addSubTabTarget(
@@ -335,7 +329,7 @@ class ilLearningProgressBaseGUI
         switch ($a_status) {
             case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
                 return $a_lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS);
-                
+
             case ilLPStatus::LP_STATUS_COMPLETED_NUM:
                 return $a_lng->txt(ilLPStatus::LP_STATUS_COMPLETED);
 
@@ -350,18 +344,17 @@ class ilLearningProgressBaseGUI
         }
     }
 
-
     /**
-    * show details about current object. Uses an existing info_gui object.
-    */
+     * show details about current object. Uses an existing info_gui object.
+     */
     public function __showObjectDetails(ilInfoScreenGUI $info, int $item_id = 0, bool $add_section = true) : bool
     {
         $details_id = $item_id ?: $this->details_id;
-        
+
         $olp = ilObjectLP::getInstance($details_id);
         $mode = $olp->getCurrentMode();
         if ($mode == ilLPObjSettings::LP_MODE_VISITS ||
-           ilMDEducational::_getTypicalLearningTimeSeconds($details_id)) {
+            ilMDEducational::_getTypicalLearningTimeSeconds($details_id)) {
             // Section object details
             if ($add_section) {
                 $info->addSection($this->lng->txt('details'));
@@ -373,18 +366,18 @@ class ilLearningProgressBaseGUI
             }
 
             if ($seconds = ilMDEducational::_getTypicalLearningTimeSeconds($details_id)) {
-                $info->addProperty($this->lng->txt('meta_typical_learning_time'), ilDatePresentation::secondsToString($seconds));
+                $info->addProperty($this->lng->txt('meta_typical_learning_time'),
+                    ilDatePresentation::secondsToString($seconds));
             }
             return true;
         }
         return false;
     }
 
-
     public function __appendLPDetails(ilInfoScreenGUI $info, int $item_id, int $user_id) : void
     {
         $type = $this->ilObjectDataCache->lookupType($item_id);
-        
+
         // Section learning_progress
         // $info->addSection($this->lng->txt('trac_learning_progress'));
         // see ilLPTableBaseGUI::parseTitle();
@@ -414,40 +407,40 @@ class ilLearningProgressBaseGUI
                 ),
                 'lp_edit',
                 array(0 => $this->lng->txt('trac_not_completed'),
-                      1 => $this->lng->txt('trac_completed')),
+                      1 => $this->lng->txt('trac_completed')
+                ),
                 false,
                 true
             ));
             $i_tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
             $info->addProperty($this->lng->txt('trac_status'), $i_tpl->get());
 
-
             // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
             $mode = $olp->getCurrentMode();
             if (in_array($mode, array(ilLPObjSettings::LP_MODE_TLT,
-                ilLPObjSettings::LP_MODE_VISITS,
-                // ilLPObjSettings::LP_MODE_OBJECTIVES,
-                ilLPObjSettings::LP_MODE_LTI_OUTCOME,
-                ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
-                ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-                ilLPObjSettings::LP_MODE_CMIX_PASSED,
-                ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-                ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-                ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
-                ilLPObjSettings::LP_MODE_SCORM,
-                ilLPObjSettings::LP_MODE_TEST_PASSED))) {
+                                      ilLPObjSettings::LP_MODE_VISITS,
+                                      // ilLPObjSettings::LP_MODE_OBJECTIVES,
+                                      ilLPObjSettings::LP_MODE_LTI_OUTCOME,
+                                      ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
+                                      ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
+                                      ilLPObjSettings::LP_MODE_CMIX_PASSED,
+                                      ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
+                                      ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
+                                      ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
+                                      ilLPObjSettings::LP_MODE_SCORM,
+                                      ilLPObjSettings::LP_MODE_TEST_PASSED
+            ))) {
                 $perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
                 $info->addProperty($this->lng->txt('trac_percentage'), (int) $perc . "%");
             }
         }
-        
 
         if (ilObjectLP::supportsMark($type)) {
             if (strlen($mark = ilLPMarks::_lookupMark($user_id, $item_id))) {
                 $info->addProperty($this->lng->txt('trac_mark'), $mark);
             }
         }
-        
+
         if (strlen($comment = ilLPMarks::_lookupComment($user_id, $item_id))) {
             $info->addProperty($this->lng->txt('trac_comment'), $comment);
         }
@@ -502,9 +495,6 @@ class ilLearningProgressBaseGUI
         }
     }
 
-
-
-
     public function __getLegendHTML() : string
     {
         $tpl = new ilTemplate("tpl.lp_legend.html", true, true, "Services/Tracking");
@@ -540,58 +530,58 @@ class ilLearningProgressBaseGUI
             "TXT_FAILED",
             $this->lng->txt("trac_failed")
         );
-        
+
         $panel = ilPanelGUI::getInstance();
         $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);
         $panel->setBody($tpl->get());
-        
+
         return $panel->getHTML();
     }
-    
+
     protected function initEditUserForm(int $a_user_id, int $a_obj_id, ?string $a_cancel = null) : ilPropertyFormGUI
     {
         $olp = ilObjectLP::getInstance($a_obj_id);
         $lp_mode = $olp->getCurrentMode();
-        
+
         $form = new ilPropertyFormGUI();
-        
+
         $form->setFormAction($this->ctrl->getFormAction($this, "updateUser"));
-        
+
         $form->setTitle($this->lng->txt("edit") . ": " . ilObject::_lookupTitle($a_obj_id));
         $form->setDescription($this->lng->txt('trac_mode') . ": " . $olp->getModeText($lp_mode));
-        
+
         $user = new ilNonEditableValueGUI($this->lng->txt("user"), '', true);
         $user->setValue(ilUserUtil::getNamePresentation($a_user_id, true));
         $form->addItem($user);
-                
+
         $marks = new ilLPMarks($a_obj_id, $a_user_id);
-        
+
         if (ilObjectLP::supportsMark(ilObject::_lookupType($a_obj_id))) {
             $mark = new ilTextInputGUI($this->lng->txt("trac_mark"), "mark");
             $mark->setValue($marks->getMark());
             $mark->setMaxLength(32);
             $form->addItem($mark);
         }
-        
+
         $comm = new ilTextInputGUI($this->lng->txt("trac_comment"), "comment");
         $comm->setValue($marks->getComment());
         $form->addItem($comm);
-            
+
         if ($lp_mode == ilLPObjSettings::LP_MODE_MANUAL ||
             $lp_mode == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) {
             $completed = ilLPStatus::_lookupStatus($a_obj_id, $a_user_id);
-            
+
             $status = new ilCheckboxInputGUI($this->lng->txt('trac_completed'), "completed");
             $status->setChecked(($completed == ilLPStatus::LP_STATUS_COMPLETED_NUM));
             $form->addItem($status);
         }
-            
+
         $form->addCommandButton("updateUser", $this->lng->txt('save'));
-        
+
         if ($a_cancel) {
             $form->addCommandButton($a_cancel, $this->lng->txt('cancel'));
         }
-        
+
         return $form;
     }
 
@@ -617,9 +607,9 @@ class ilLearningProgressBaseGUI
             $marks = new ilLPMarks($obj_id, $user_id);
             $marks->setMark($form->getInput("mark"));
             $marks->setComment($form->getInput("comment"));
-            
+
             $do_lp = false;
-            
+
             // status/completed is optional
             $status = $form->getItemByPostVar("completed");
             if (is_object($status)) {
@@ -654,7 +644,7 @@ class ilLearningProgressBaseGUI
         if (!$a_type) {
             $a_type = $ilObjDataCache->lookupType($a_obj_id);
         }
-        
+
         if ($objDefinition->isPluginTypeName($a_type)) {
             return false;
         }

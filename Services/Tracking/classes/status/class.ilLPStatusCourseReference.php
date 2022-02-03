@@ -102,7 +102,6 @@ class ilLPStatusCourseReference extends ilLPStatus
         return $this->status_info[\ilLPStatus::LP_STATUS_COMPLETED_NUM];
     }
 
-
     /**
      * @inheritdoc
      */
@@ -143,7 +142,6 @@ class ilLPStatusCourseReference extends ilLPStatus
         $this->status_info = $info;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -155,7 +153,6 @@ class ilLPStatusCourseReference extends ilLPStatus
         }
         return \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
-
 
     private static function getInstanceByObjId(int $a_reference_obj_id) : ilLPStatusCourseReference
     {

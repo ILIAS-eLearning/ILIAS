@@ -2,15 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjUserTrackingGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @extends ilObjectGUI
-* @package ilias-core
-*
-* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjUserTrackingGUI: ilLPObjectStatisticsGUI, ilSessionStatisticsGUI
-*/
+ * Class ilObjUserTrackingGUI
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @extends      ilObjectGUI
+ * @package      ilias-core
+ * @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjUserTrackingGUI: ilLPObjectStatisticsGUI, ilSessionStatisticsGUI
+ */
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
     protected ilErrorHandling $error;
@@ -45,19 +43,19 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $lp_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
                 $ret = $this->ctrl->forwardCommand($lp_gui);
                 break;
-            
+
             case 'illpobjectstatisticsgui':
                 $this->tabs_gui->setTabActive('statistics');
                 $os_gui = new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
                 $ret = $this->ctrl->forwardCommand($os_gui);
                 break;
-            
+
             case 'ilsessionstatisticsgui':
                 $this->tabs_gui->setTabActive('session_statistics');
                 $sess_gui = new ilSessionStatisticsGUI();
                 $ret = $this->ctrl->forwardCommand($sess_gui);
                 break;
-                
+
             default:
                 $cmd = $this->ctrl->getCmd();
                 if ($cmd == "view" || $cmd == "") {
@@ -68,7 +66,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 break;
         }
     }
-    
+
     public function getAdminTabs()
     {
         $this->getTabs();
@@ -77,7 +75,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
     protected function getTabs()
     {
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
-        
+
         $this->tabs_gui->addTarget(
             "settings",
             $this->ctrl->getLinkTarget($this, "settings"),
@@ -109,7 +107,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                     "illearningprogressgui"
                 );
             }
-            
+
             // session statistics
             if (ilObjUserTracking::_enabledSessionStatistics()) {
                 $this->tabs_gui->addTarget(
@@ -123,17 +121,16 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 );
             }
         }
-        
+
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), "perm"),
+                array("perm", "info", "owner"),
                 'ilpermissiongui'
             );
         }
     }
-
 
     public function settingsObject(?ilPropertyFormGUI $a_form = null) : void
     {
@@ -154,17 +151,17 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, 'editLPDefaults')
             );
         }
-        
+
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('lp_settings');
-        
+
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
         }
 
         $this->tpl->setContent($a_form->getHTML());
     }
-    
+
     protected function initSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -173,23 +170,21 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
         $activate = new ilCheckboxGroupInputGUI($this->lng->txt('activate_tracking'));
         $form->addItem($activate);
-        
+
         // learning progress
         $lp = new ilCheckboxInputGUI($this->lng->txt('trac_learning_progress'), 'learning_progress_tracking');
         if ($this->object->enabledLearningProgress()) {
             $lp->setChecked(true);
         }
         $activate->addSubItem($lp);
-        
-        
+
         // lp settings
 
         $learner = new ilCheckboxInputGUI($this->lng->txt('trac_lp_learner_access'), 'lp_learner');
         $learner->setInfo($this->lng->txt('trac_lp_learner_access_info'));
         $learner->setChecked($this->object->hasLearningProgressLearner());
         $lp->addSubItem($learner);
-        
-        
+
         // extended data
 
         $extdata = new ilCheckboxGroupInputGUI($this->lng->txt('trac_learning_progress_settings_info'), 'lp_extdata');
@@ -197,7 +192,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $extdata->addOption(new ilCheckboxOption($this->lng->txt('trac_read_count'), 'lp_count'));
         $extdata->addOption(new ilCheckboxOption($this->lng->txt('trac_spent_seconds'), 'lp_spent'));
         $lp->addSubItem($extdata);
-        
+
         $ext_value = array();
         if ($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $ext_value[] = 'lp_access';
@@ -209,12 +204,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             $ext_value[] = 'lp_spent';
         }
         $extdata->setValue($ext_value);
-        
+
         $listgui = new ilCheckboxInputGUI($this->lng->txt('trac_lp_list_gui'), 'lp_list');
         $listgui->setInfo($this->lng->txt('trac_lp_list_gui_info'));
         $listgui->setChecked($this->object->hasLearningProgressListGUI());
         $lp->addSubItem($listgui);
-        
 
         // object statistics
         $objstat = new ilCheckboxInputGUI($this->lng->txt('trac_object_statistics'), 'object_statistics');
@@ -222,14 +216,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             $objstat->setChecked(true);
         }
         $activate->addSubItem($objstat);
-        
+
         // session statistics
         $sessstat = new ilCheckboxInputGUI($this->lng->txt('session_statistics'), 'session_statistics');
         if ($this->object->enabledSessionStatistics()) {
             $sessstat->setChecked(true);
         }
         $activate->addSubItem($sessstat);
-            
+
         // Anonymized
         $user = new ilCheckboxInputGUI($this->lng->txt('trac_anonymized'), 'user_related');
         $user->setInfo($this->lng->txt('trac_anonymized_info'));
@@ -247,13 +241,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $valid->setMaxValue(9999);
         $valid->setRequired(true);
         $form->addItem($valid);
-        
+
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_LP,
             $form,
             $this
         );
-        
+
         // #12259
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton('saveSettings', $this->lng->txt('save'));
@@ -266,20 +260,20 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             $user->setDisabled(true);
             $valid->setDisabled(true);
         }
-                
+
         return $form;
     }
 
     public function saveSettingsObject() : void
     {
         $this->checkPermission('write');
-        
+
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $lp_active = $form->getInput('learning_progress_tracking');
-            
+
             $this->object->enableLearningProgress((bool) $lp_active);
-            
+
             if ($lp_active) {
                 $ext_data = (array) $form->getInput("lp_extdata");
                 $code = 0;
@@ -304,15 +298,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             $this->object->enableSessionStatistics((bool) $form->getInput('session_statistics'));
             $this->object->setLearningProgressListGUI((bool) $form->getInput('lp_list'));
             $this->object->updateSettings();
-            
+
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "settings");
         }
         $form->setValuesByPost();
         $this->settingsObject($form);
     }
-    
-    
+
     protected function editLPDefaultsObject(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->checkPermission('read');
@@ -331,22 +324,21 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('lpdef');
-        
+
         if (!$a_form) {
             $a_form = $this->initLPDefaultsForm();
         }
 
         $this->tpl->setContent($a_form->getHTML());
     }
-    
+
     protected function initLPDefaultsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('trac_defaults'));
         $form->setDescription($this->lng->txt('trac_defaults_info'));
-        
-        
+
         $types = array();
         foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {
             if (ilObjectLP::isSupportedObjectType($type)) {
@@ -363,10 +355,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             if (sizeof($modes) > 1) {
                 $def_type = new ilSelectInputGUI($item["caption"], "def_" . $item["type"]);
                 $form->addItem($def_type);
-                
+
                 $def_type->setRequired(true);
                 $def_type->setValue(ilObjectLP::getTypeDefault($item["type"]));
-                
+
                 $options = array();
                 foreach ($modes as $mode) {
                     $caption = ($mode == ilLPObjSettings::LP_MODE_DEACTIVATED)
@@ -377,7 +369,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                 $def_type->setOptions($options);
             }
         }
-        
+
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton('saveLPDefaults', $this->lng->txt('save'));
         } else {
@@ -387,14 +379,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         }
         return $form;
     }
-    
+
     protected function saveLPDefaultsObject() : void
     {
         $this->checkPermission('write');
-        
+
         $form = $this->initLPDefaultsForm();
         if ($form->checkInput()) {
-            
+
             $res = array();
             foreach ($this->objectDefinition->getAllRepositoryTypes() as $type) {
                 if (ilObjectLP::isSupportedObjectType($type)) {
@@ -403,13 +395,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
                         ?: ilLPObjSettings::LP_MODE_DEACTIVATED;
                 }
             }
-            
+
             ilObjectLP::saveTypeDefaults($res);
-            
+
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editLPDefaults");
         }
-    
+
         $form->setValuesByPost();
         $this->editLPDefaultsObject($form);
     }

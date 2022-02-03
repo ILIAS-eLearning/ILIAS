@@ -22,12 +22,10 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-* @ilCtrl_Calls
-* @ingroup ServicesTracking
-*/
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ilCtrl_Calls
+ * @ingroup ServicesTracking
+ */
 class ilLPStatusManualByTutor extends ilLPStatus
 {
 
@@ -37,17 +35,17 @@ class ilLPStatusManualByTutor extends ilLPStatus
     public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();
-    
+
         $members = self::getMembers($a_obj_id);
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
             $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
         }
-        
+
         return $users;
     }
-    
+
     /**
      * get in progress
      * @access public
@@ -57,7 +55,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
     public static function _getInProgress(int $a_obj_id) : array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-        
+
         // Exclude all users with status completed.
         $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
 
@@ -65,16 +63,16 @@ class ilLPStatusManualByTutor extends ilLPStatus
             // Exclude all non members
             $users = array_intersect(self::getMembers($a_obj_id), $users);
         }
-        
+
         return $users;
     }
-    
+
     public static function _getCompleted(int $a_obj_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $usr_ids = array();
 
         $query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks " .
@@ -85,14 +83,14 @@ class ilLPStatusManualByTutor extends ilLPStatus
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $usr_ids[] = (int) $row->user_id;
         }
-        
+
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
         }
         return $usr_ids;
     }
-    
+
     /**
      * Determine status
      */
@@ -122,7 +120,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
         }
         return $status;
     }
-    
+
     /**
      * Get members for object
      */
@@ -131,16 +129,16 @@ class ilLPStatusManualByTutor extends ilLPStatus
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-    
+
         switch ($ilObjDataCache->lookupType($a_obj_id)) {
             case 'crs':
             case 'grp':
                 return ilParticipants::getInstanceByObjId($a_obj_id)->getMembers();
         }
-        
+
         return array();
     }
-    
+
     /**
      * Get completed users for object
      */
@@ -154,7 +152,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
         }
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
     }
-    
+
     /**
      * Get failed users for object
      */
@@ -162,7 +160,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
     {
         return array();
     }
-    
+
     /**
      * Get in progress users for object
      */

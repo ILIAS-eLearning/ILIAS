@@ -3,10 +3,8 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author Stefan Meyer <meyer@leifos.com>
- *
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @package ilias-tracking
- *
  */
 class ilLPStatusSCORM extends ilLPStatus
 {
@@ -77,7 +75,6 @@ class ilLPStatusSCORM extends ilLPStatus
         return $users;
     }
 
-    
     public static function _getStatusInfo(int $a_obj_id) : array
     {
         // Which sco's determine the status
@@ -96,7 +93,8 @@ class ilLPStatusSCORM extends ilLPStatus
         switch ($status_info['subtype']) {
             case 'hacp':
             case 'aicc':
-                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'], $a_obj_id);
+                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'],
+                    $a_obj_id);
 
                 foreach (ilObjAICCLearningModule::_getTrackingItems($a_obj_id) as $item) {
                     if (in_array($item['obj_id'], $status_info['scos'])) {
@@ -107,16 +105,18 @@ class ilLPStatusSCORM extends ilLPStatus
                 break;
 
             case 'scorm':
-                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'], $a_obj_id);
+                $status_info['num_completed'] = ilObjSCORMTracking::_getCountCompletedPerUser($status_info['scos'],
+                    $a_obj_id);
 
                 foreach ($status_info['scos'] as $sco_id) {
                     $status_info['scos_title'][$sco_id] = ilSCORMItem::_lookupTitle($sco_id);
                 }
                 $info = ilObjSCORMTracking::_getProgressInfo($status_info['scos'], $a_obj_id);
                 break;
-                
+
             case "scorm2004":
-                $status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser($status_info['scos'], $a_obj_id, true);
+                $status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser($status_info['scos'],
+                    $a_obj_id, true);
                 foreach ($status_info['scos'] as $sco_id) {
                     $status_info['scos_title'][$sco_id] = ilObjSCORM2004LearningModule::_lookupItemTitle($sco_id);
                 }
@@ -136,7 +136,7 @@ class ilLPStatusSCORM extends ilLPStatus
         //var_dump($status_info["completed"]);
         return $status_info;
     }
-    
+
     public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         global $DIC;
@@ -161,13 +161,13 @@ class ilLPStatusSCORM extends ilLPStatus
                     case 'aicc':
                     case 'scorm':
                         $scorm_status = ilObjSCORMTracking::_getCollectionStatus($scos, $a_obj_id, $a_usr_id);
-                    break;
+                        break;
 
                     case 'scorm2004':
                         $scorm_status = ilSCORM2004Tracking::_getCollectionStatus($scos, $a_obj_id, $a_usr_id);
                         break;
                 }
-                
+
                 switch ($scorm_status) {
                     case "in_progress":
                         $status = self::LP_STATUS_IN_PROGRESS_NUM;
@@ -181,12 +181,12 @@ class ilLPStatusSCORM extends ilLPStatus
                 }
             }
         }
-        
+
         //$ilLog->write("-".$status."-");
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         // Which sco's determine the status
         $olp = ilObjectLP::getInstance($a_obj_id);
@@ -196,7 +196,7 @@ class ilLPStatusSCORM extends ilLPStatus
         if ($collection) {
             $scos = $collection->getItems();
             $reqscos = count($scos);
-        
+
             $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
             if ($subtype != "scorm2004") {
                 $compl = ilObjSCORMTracking::_countCompleted($scos, $a_obj_id, $a_usr_id);
@@ -217,13 +217,13 @@ class ilLPStatusSCORM extends ilLPStatus
     public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
     {
         parent::refreshStatus($a_obj_id, $a_users);
-        
+
         // this is restricted to SCOs in the current collection
         $in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
         $completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
         $failed = ilLPStatusWrapper::_getFailed($a_obj_id);
         $all_active_users = array_unique(array_merge($in_progress, $completed, $failed));
-        
+
         // get all tracked users regardless of SCOs
         $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
         if ($subtype != "scorm2004") {
@@ -231,11 +231,11 @@ class ilLPStatusSCORM extends ilLPStatus
         } else {
             $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
         }
-        
+
         $not_attempted_users = array_diff($all_tracked_users, $all_active_users);
         unset($all_tracked_users);
         unset($all_active_users);
-        
+
         // reset all users which have no data for the current SCOs
         if ($not_attempted_users) {
             foreach ($not_attempted_users as $usr_id) {

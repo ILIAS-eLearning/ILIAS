@@ -8,8 +8,9 @@ class ilServicesTrackingSuite extends TestSuite
     public static function suite()
     {
         $suite = new ilServicesTrackingSuite();
-        
-        $suite->addTestSuite("ilTrackingTest");
+
+        include_once './Services/Tracking/test/ilTrackingTest.php';
+        $suite->addTestSuite(ilTrackingTest::class);
 
         return $suite;
     }

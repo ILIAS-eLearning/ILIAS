@@ -3,10 +3,8 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author Stefan Meyer <meyer@leifos.com>
- *
- * @ingroup	ServicesTracking
- *
+ * @author     Stefan Meyer <meyer@leifos.com>
+ * @ingroup    ServicesTracking
  */
 class ilLPStatusTypicalLearningTime extends ilLPStatus
 {
@@ -56,7 +54,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         $status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
         return $status_info;
     }
-    
+
     public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -64,7 +62,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
             case 'lm':
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
-                    
+
                     // completed?
                     $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
                     $tlt = $status_info['tlt'];
@@ -79,7 +77,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);

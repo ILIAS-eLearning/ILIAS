@@ -3,16 +3,14 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* LP collection of learning module chapters
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ingroup ServicesTracking
-*/
+ * LP collection of learning module chapters
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesTracking
+ */
 class ilLPCollectionOfLMChapters extends ilLPCollection
 {
     protected static array $possible_items = array();
-    
+
     public function getPossibleItems($a_ref_id)
     {
         if (!isset(self::$possible_items[$a_ref_id])) {
@@ -30,20 +28,19 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
                     $items[$child["obj_id"]] = $child;
                 }
             }
-            
+
             self::$possible_items[$a_ref_id] = $items;
         }
-        
+
         return self::$possible_items[$a_ref_id];
     }
-    
-    
+
     public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $data = array();
-        
+
         $parent_type = ilObject::_lookupType($a_parent_ref_id, true);
-        
+
         foreach ($this->getPossibleItems($a_parent_ref_id) as $item) {
             $tmp = array();
             $tmp['id'] = $item['obj_id'];
@@ -51,17 +48,17 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             $tmp['title'] = $item['title'];
             $tmp['type'] = $item['type'];
             $tmp['status'] = $this->isAssignedEntry($item['obj_id']);
-            
+
             // #12158
             $tmp['url'] = ilLink::_getLink($a_parent_ref_id, $parent_type, null, "_" . $tmp['id']);
-            
+
             if ($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
                 $tmp['tlt'] = $item['tlt'];
             }
-            
+
             $data[] = $tmp;
         }
-        
+
         return $data;
     }
 }

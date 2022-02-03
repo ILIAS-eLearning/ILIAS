@@ -2,23 +2,21 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* LP collection of media objects
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ingroup ServicesTracking
-*/
+ * LP collection of media objects
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesTracking
+ */
 class ilLPCollectionOfMediaObjects extends ilLPCollection
 {
     protected static array $possible_items = array();
-
 
     public function getPossibleItems() : array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
             $items = array();
-                        
+
             $cast = new ilObjMediaCast($this->obj_id, false);
-            
+
             foreach ($cast->getSortedItemsArray() as $item) {
                 $items[$item["mob_id"]] = array("title" => $item["title"]);
             }
@@ -26,12 +24,11 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
         }
         return self::$possible_items[$this->obj_id];
     }
-    
-    
+
     public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $data = array();
-        
+
         foreach ($this->getPossibleItems() as $mob_id => $item) {
             $tmp = array();
             $tmp['id'] = $mob_id;
@@ -39,10 +36,10 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
             $tmp['type'] = 'mob';
             $tmp['title'] = $item['title'];
             $tmp['status'] = $this->isAssignedEntry($mob_id);
-                            
+
             $data[] = $tmp;
         }
-    
+
         return $data;
     }
 

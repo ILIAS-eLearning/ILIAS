@@ -22,13 +22,11 @@
 */
 
 /**
-* Class ilLearningProgress
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* @package ilias-core
-*/
-
+ * Class ilLearningProgress
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @package ilias-core
+ */
 class ilLearningProgress
 {
 
@@ -36,7 +34,7 @@ class ilLearningProgress
     public static function _tracProgress(int $a_user_id, int $a_obj_id, int $a_ref_id, string $a_obj_type = '') : bool
     {
         ilChangeEvent::_recordReadEvent($a_obj_type, $a_ref_id, $a_obj_id, $a_user_id);
-        
+
         ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
 
         return true;
@@ -45,16 +43,15 @@ class ilLearningProgress
     public static function _getProgress(int $a_user_id, int $a_obj_id) : array
     {
         $events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
-        
 
         $progress = [];
         foreach ($events as $row) {
             $tmp_date = new ilDateTime($row['last_access'], IL_CAL_UNIX);
             $row['last_access'] = $tmp_date->get(IL_CAL_UNIX);
-            
+
             $tmp_date = new ilDateTime($row['first_access'], IL_CAL_DATETIME);
             $row['first_access'] = $tmp_date->get(IL_CAL_UNIX);
-            
+
             if ($progress) {
                 $progress['spent_seconds'] += (int) $row['spent_seconds'];
                 $progress['access_time'] = max($progress['access_time'], (int) $row['last_access']);
@@ -70,7 +67,7 @@ class ilLearningProgress
         }
         return $progress;
     }
-    
+
     /**
      * lookup progress for a specific object
      */

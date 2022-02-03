@@ -1,12 +1,12 @@
 <?php declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
-* LP collection of repository objects
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @ingroup ServicesTracking
-*/
+ * LP collection of repository objects
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesTracking
+ */
 class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 {
     protected static array $possible_items = array();
@@ -45,12 +45,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                     } else {
                         $item_ref_id = (int) $node['ref_id'];
                     }
-                    
+
                     // avoid recursion
                     if ($item_ref_id == $a_ref_id || !$this->validateEntry($item_ref_id)) {
                         continue;
                     }
-                    
+
                     switch ($node['type']) {
                         case 'sess':
                         case 'exc':
@@ -107,13 +107,13 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                     }
                 }
             }
-            
+
             self::$possible_items[$cache_idx] = $all_possible;
         }
-        
+
         return self::$possible_items[$cache_idx];
     }
-    
+
     protected function validateEntry(int $a_item_id) : bool
     {
         $a_item_type = ilObject::_lookupType($a_item_id, true);
@@ -128,17 +128,17 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
         return true;
     }
-    
+
     public function cloneCollection(int $a_target_id, int $a_copy_id) : void
     {
         parent::cloneCollection($a_target_id, $a_copy_id);
-        
+
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
-        
+
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $target_collection = new static($target_obj_id, $this->mode);
-        
+
         // clone (active) groupings
         foreach ($this->getGroupedItemsForLPStatus() as $grouping_id => $group) {
             $target_item_ids = array();
@@ -149,12 +149,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
                 $target_item_ids[] = $mappings[$item];
             }
-            
+
             // grouping - if not only single item left after copy?
             if ($grouping_id && sizeof($target_item_ids) > 1) {
                 // should not be larger than group
                 $num_obligatory = min(sizeof($target_item_ids), $group["num_obligatory"]);
-                
+
                 $target_collection->createNewGrouping($target_item_ids, $num_obligatory);
             } else {
                 // #15487 - single items
@@ -164,16 +164,15 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             }
         }
     }
-    
-    
+
     protected function read(int $a_obj_id) : void
     {
         $items = array();
-        
+
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($ref_ids);
         $possible = $this->getPossibleItems($ref_id);
-        
+
         $res = $this->db->query("SELECT utc.item_id, obd.type" .
             " FROM ut_lp_collections utc" .
             " JOIN object_reference obr ON item_id = ref_id" .
@@ -189,17 +188,17 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                 $this->deleteEntry((int) $row->item_id);
             }
         }
-        
+
         $this->items = $items;
     }
-    
+
     protected function addEntry(int $a_item_id) : bool
     {
         // only active entries are assigned!
         if (!$this->isAssignedEntry($a_item_id)) {
             // #13278 - because of grouping inactive items may exist
             $this->deleteEntry($a_item_id);
-            
+
             $query = "INSERT INTO ut_lp_collections" .
                 " (obj_id, lpmode, item_id, grouping_id, num_obligatory, active)" .
                 " VALUES (" . $this->db->quote($this->obj_id, "integer") .
@@ -214,7 +213,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
         return true;
     }
-    
+
     protected function deleteEntry(int $a_item_id) : bool
     {
         $query = "DELETE FROM ut_lp_collections " .
@@ -224,8 +223,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $this->db->manipulate($query);
         return true;
     }
-    
-    
+
     public static function hasGroupedItems(int $a_obj_id) : bool
     {
         global $DIC;
@@ -237,15 +235,15 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $res = $ilDB->query($query);
         return $res->numRows() ? true : false;
     }
-    
+
     protected function getGroupingIds(array $a_item_ids) : array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $grouping_ids = array();
-        
+
         $query = "SELECT grouping_id FROM ut_lp_collections" .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
             " AND " . $this->db->in("item_id", $a_item_ids, false, "integer") .
@@ -254,14 +252,14 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $grouping_ids[] = $row->grouping_id;
         }
-        
+
         return $grouping_ids;
     }
 
     public function deactivateEntries(array $a_item_ids) : void
     {
         parent::deactivateEntries($a_item_ids);
-    
+
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         if ($grouping_ids) {
             $query = "UPDATE ut_lp_collections" .
@@ -275,7 +273,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     public function activateEntries(array $a_item_ids) : void
     {
         parent::activateEntries($a_item_ids);
-        
+
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         if ($grouping_ids) {
             $query = "UPDATE ut_lp_collections" .
@@ -289,7 +287,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     public function createNewGrouping(array $a_item_ids, int $a_num_obligatory = 1) : void
     {
         $this->activateEntries($a_item_ids);
-        
+
         $all_item_ids = array();
         $grouping_ids = $this->getGroupingIds($a_item_ids);
         $query = "SELECT item_id FROM ut_lp_collections" .
@@ -322,7 +320,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $this->db->manipulate($query);
 
     }
-    
+
     public function releaseGrouping(array $a_item_ids) : void
     {
         $grouping_ids = $this->getGroupingIds($a_item_ids);
@@ -358,20 +356,19 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
     }
 
-    
     public function getTableGUIData(int $a_parent_ref_id) : array
     {
         $items = $this->getPossibleItems($a_parent_ref_id, true);
-    
+
         $data = array();
         $done = array();
         foreach ($items as $item_id => $item) {
             if (in_array($item_id, $done)) {
                 continue;
             }
-            
+
             $table_item = $this->parseTableGUIItem($item_id, $item);
-                        
+
             // grouping
             $table_item['grouped'] = array();
             $grouped_items = $this->getTableGUItemGroup($item_id);
@@ -381,11 +378,11 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                         !is_array($items[$grouped_item_id])) { // #15498
                         continue;
                     }
-                    
+
                     $table_item['grouped'][] = $this->parseTableGUIItem($grouped_item_id, $items[$grouped_item_id]);
                     $table_item['num_obligatory'] = $grouped_items['num_obligatory'];
                     $table_item['grouping_id'] = $grouped_items['grouping_id'];
-                    
+
                     $done[] = $grouped_item_id;
                 }
             }
@@ -393,7 +390,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
         return $data;
     }
-    
+
     protected function parseTableGUIItem(int $a_id, array $a_item) : array
     {
         $table_item = $a_item;
@@ -404,10 +401,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $table_item['mode_id'] = $olp->getCurrentMode();
         $table_item['mode'] = $olp->getModeText($table_item['mode_id']);
         $table_item['anonymized'] = $olp->isAnonymized();
-        
+
         return $table_item;
     }
-    
+
     protected function getTableGUItemGroup(int $item_id) : array
     {
         $items = array();
@@ -430,7 +427,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
         return $items;
     }
-    
+
     public function getGroupedItemsForLPStatus() : array
     {
         $items = $this->getItems();

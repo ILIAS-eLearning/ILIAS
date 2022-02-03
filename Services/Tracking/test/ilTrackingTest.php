@@ -24,14 +24,11 @@
 use PHPUnit\Framework\TestCase;
 
 /**
-* Unit tests for tree table
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesTree
-*/
+ * Unit tests for tree table
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesTree
+ */
 class ilTrackingTest //extends TestCase
 {
     protected $backupGlobals = false;

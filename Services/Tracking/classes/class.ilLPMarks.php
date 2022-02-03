@@ -22,17 +22,11 @@
 */
 
 /**
-* Class ilLPMarks
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @package ilias-tracking
-*
-*/
-
-
+ * Class ilLPMarks
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @package ilias-tracking
+ */
 class ilLPMarks
 {
     protected ?ilDBInterface $db;
@@ -49,10 +43,6 @@ class ilLPMarks
 
     protected $has_entry = false;
 
-
-
-
-
     public function __construct(int $a_obj_id, int $a_usr_id)
     {
         global $DIC;
@@ -66,7 +56,7 @@ class ilLPMarks
 
         $this->__read();
     }
-    
+
     public static function deleteObject(int $a_obj_id) : void
     {
         global $DIC;
@@ -87,26 +77,32 @@ class ilLPMarks
     {
         $this->mark = $a_mark;
     }
+
     public function getMark() : string
     {
         return $this->mark;
     }
+
     public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
+
     public function getComment() : string
     {
         return $this->comment;
     }
+
     public function setCompleted(bool $a_status) : void
     {
         $this->completed = $a_status;
     }
+
     public function getCompleted() : bool
     {
         return $this->completed;
     }
+
     public function getStatusChanged() : string
     {
         return $this->status_changed;
@@ -116,7 +112,7 @@ class ilLPMarks
     {
         return $this->obj_id;
     }
-    
+
     public function update() : void
     {
         if (!$this->has_entry) {
@@ -180,7 +176,6 @@ class ilLPMarks
         return $completions;
     }
 
-
     public static function _lookupMark(int $a_usr_id, int $a_obj_id) : string
     {
         global $DIC;
@@ -198,7 +193,6 @@ class ilLPMarks
         return '';
     }
 
-        
     public static function _lookupComment(int $a_usr_id, int $a_obj_id) : string
     {
         global $DIC;
@@ -220,8 +214,8 @@ class ilLPMarks
     public function __read() : bool
     {
         $res = $this->db->query("SELECT * FROM ut_lp_marks " .
-                                "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
-                                "AND usr_id = " . $this->db->quote($this->usr_id, 'integer'));
+            "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
+            "AND usr_id = " . $this->db->quote($this->usr_id, 'integer'));
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->has_entry = true;
             $this->completed = (int) $row->completed;
@@ -246,7 +240,7 @@ class ilLPMarks
         $res = $this->db->manipulate($query);
         $this->has_entry = true;
     }
-    
+
     public static function _deleteForUsers(int $a_obj_id, array $a_user_ids) : void
     {
         global $DIC;
@@ -256,7 +250,7 @@ class ilLPMarks
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND " . $ilDB->in("usr_id", $a_user_ids, "", "integer"));
     }
-    
+
     public static function _getAllUserIds(int $a_obj_id) : array
     {
         global $DIC;

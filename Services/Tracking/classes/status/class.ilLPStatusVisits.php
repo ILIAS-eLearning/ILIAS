@@ -3,10 +3,8 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author Stefan Meyer <meyer@leifos.com>
- *
- * @ingroup	ServicesTracking
- *
+ * @author     Stefan Meyer <meyer@leifos.com>
+ * @ingroup    ServicesTracking
  */
 class ilLPStatusVisits extends ilLPStatus
 {
@@ -18,7 +16,7 @@ class ilLPStatusVisits extends ilLPStatus
 
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $required_visits = $status_info['visits'];
-            
+
         $all = ilChangeEvent::_lookupReadEvents($a_obj_id);
         $user_ids = [];
         foreach ($all as $event) {
@@ -60,13 +58,13 @@ class ilLPStatusVisits extends ilLPStatus
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilDB = $DIC['ilDB'];
-        
+
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'lm':
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
-                    
+
                     // completed?
                     $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
                     $required_visits = $status_info['visits'];
@@ -80,8 +78,8 @@ class ilLPStatusVisits extends ilLPStatus
         }
         return $status;
     }
-        
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
+
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
 

@@ -3,8 +3,7 @@
 
 /**
  * LP handler class for plugins
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ServicesTracking
  */
 class ilLPStatusPlugin extends ilLPStatus
@@ -62,7 +61,7 @@ class ilLPStatusPlugin extends ilLPStatus
         }
         return array();
     }
-    
+
     public static function _getFailed(int $a_obj_id) : array
     {
         $plugin = self::initPluginObj($a_obj_id);
@@ -76,7 +75,7 @@ class ilLPStatusPlugin extends ilLPStatus
         }
         return array();
     }
-    
+
     public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         $plugin = self::initPluginObj($a_obj_id);
@@ -92,7 +91,7 @@ class ilLPStatusPlugin extends ilLPStatus
         // #11368
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
-    
+
     public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $plugin = self::initPluginObj($a_obj_id);
@@ -108,7 +107,7 @@ class ilLPStatusPlugin extends ilLPStatus
         // #11368
         return 0;
     }
-    
+
     /**
      * Read existing LP status data
      */
@@ -117,7 +116,7 @@ class ilLPStatusPlugin extends ilLPStatus
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $all = array();
         $set = $ilDB->query("SELECT usr_id" .
             " FROM ut_lp_marks" .
@@ -128,7 +127,7 @@ class ilLPStatusPlugin extends ilLPStatus
         }
         return $all;
     }
-    
+
     /**
      * Read existing LP status data for user
      */
@@ -137,7 +136,7 @@ class ilLPStatusPlugin extends ilLPStatus
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $set = $ilDB->query("SELECT status" .
             " FROM ut_lp_marks" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
@@ -149,13 +148,13 @@ class ilLPStatusPlugin extends ilLPStatus
         }
         return $status;
     }
-    
+
     protected static function getPercentageForUser(int $a_obj_id, int $a_user_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $set = $ilDB->query("SELECT percentage" .
             " FROM ut_lp_marks" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .

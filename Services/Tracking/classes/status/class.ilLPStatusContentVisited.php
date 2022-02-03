@@ -1,10 +1,8 @@
 <?php declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesTracking
  */
 class ilLPStatusContentVisited extends ilLPStatus

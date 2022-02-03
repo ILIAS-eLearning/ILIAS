@@ -22,12 +22,9 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-* @package ilias-tracking
-*
-*/
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @package ilias-tracking
+ */
 class ilLPStatusTestPassed extends ilLPStatus
 {
     public static function _getInProgress(int $a_obj_id) : array
@@ -51,19 +48,19 @@ class ilLPStatusTestPassed extends ilLPStatus
     {
         return self::getUserIdsByResultArrayStatus($a_obj_id, 'failed');
     }
-    
+
     private static function getUserIdsByResultArrayStatus($objId, $resultArrayStatus)
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($objId);
-        
+
         $user_ids = array();
-        
+
         foreach ($status_info['results'] as $user_data) {
             if ($user_data[$resultArrayStatus]) {
                 $user_ids[] = (int) $user_data['user_id'];
             }
         }
-        
+
         return $user_ids;
     }
 
@@ -72,7 +69,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         $status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
         return $status_info;
     }
-    
+
     /**
      * Determine status.
      * Behaviour of "old" 4.0 learning progress:
@@ -134,11 +131,11 @@ class ilLPStatusTestPassed extends ilLPStatus
                     $status = $this->determineStatusForScoreLastPassTests($is_finished, $is_passed);
                 } elseif ($test_obj->getPassScoring() == SCORE_BEST_PASS) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
-                    
+
                     if ($rec['last_finished_pass'] != null) {
                         $status = $this->determineLpStatus($is_passed);
                     }
-                    
+
                     if (!$rec['is_last_pass'] && $status == self::LP_STATUS_FAILED_NUM) {
                         $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     }
@@ -171,17 +168,17 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null): int
+    public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $set = $this->db->query("SELECT tst_result_cache.*, tst_active.user_fi FROM " .
-                     "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)" .
-                     " JOIN tst_tests ON (tst_tests.test_id = tst_active.test_fi) " .
-                     " WHERE tst_tests.obj_fi = " . $this->db->quote($a_obj_id, "integer") .
-                     " AND tst_active.user_fi = " . $this->db->quote($a_usr_id, "integer"));
+            "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)" .
+            " JOIN tst_tests ON (tst_tests.test_id = tst_active.test_fi) " .
+            " WHERE tst_tests.obj_fi = " . $this->db->quote($a_obj_id, "integer") .
+            " AND tst_active.user_fi = " . $this->db->quote($a_usr_id, "integer"));
         $per = 0;
         if ($rec = $this->db->fetchAssoc($set)) {
             if ($rec["max_points"] > 0) {

@@ -22,18 +22,16 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @package ilias-tracking
-*
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @package ilias-tracking
+ */
 class ilLPStatusExerciseReturned extends ilLPStatus
 {
 
     public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();
-        
+
         $members = self::getMembers($a_obj_id);
         if ($members) {
             $users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
@@ -51,7 +49,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
         $users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
-        
+
         if ($users) {
             // Exclude all non members
             $users = array_intersect(self::getMembers($a_obj_id), $users);
@@ -78,7 +76,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
+
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'exc':
@@ -97,7 +95,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         }
         return $status;
     }
-    
+
     /**
      * Get members for object
      */
@@ -119,7 +117,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         }
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
     }
-    
+
     /**
      * Get failed users for object
      */
@@ -133,7 +131,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         }
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
     }
-    
+
     /**
      * Get in progress users for object
      */

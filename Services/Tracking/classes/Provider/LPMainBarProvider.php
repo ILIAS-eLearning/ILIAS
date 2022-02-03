@@ -1,13 +1,13 @@
 <?php declare(strict_types=0);
 
 namespace ILIAS\LearningProgress;
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilObjUserTracking;
 
 /**
  * Class LPMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class LPMainBarProvider extends AbstractStaticMainMenuProvider
@@ -21,7 +21,6 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
         return [];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -34,20 +33,23 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))
-                ->withTitle($title)
-                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI",
-                    "ilAchievementsGUI","ilLearningProgressGUI","ilLPListOfProgressGUI"]))
-                ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
-                ->withPosition(30)
-                ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
-                ->withAvailableCallable(
-                    function () {
-                        return ilObjUserTracking::_enabledLearningProgress()
-                            && (ilObjUserTracking::_hasLearningProgressOtherUsers()
-                                || ilObjUserTracking::_hasLearningProgressLearner());
-                    }
-                ),
+                           ->withTitle($title)
+                           ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI",
+                                                                     "ilAchievementsGUI",
+                                                                     "ilLearningProgressGUI",
+                                                                     "ilLPListOfProgressGUI"
+                           ]))
+                           ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
+                           ->withPosition(30)
+                           ->withSymbol($icon)
+                           ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                           ->withAvailableCallable(
+                               function () {
+                                   return ilObjUserTracking::_enabledLearningProgress()
+                                       && (ilObjUserTracking::_hasLearningProgressOtherUsers()
+                                           || ilObjUserTracking::_hasLearningProgressLearner());
+                               }
+                           ),
         ];
     }
 }

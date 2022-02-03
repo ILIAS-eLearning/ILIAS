@@ -22,19 +22,16 @@
 */
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-* @package ilias-tracking
-*
-*/
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @package ilias-tracking
+ */
 class ilLPStatusCollection extends ilLPStatus
 {
 
     public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();
-        
+
         $members = self::getMembers($a_obj_id);
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
@@ -49,7 +46,7 @@ class ilLPStatusCollection extends ilLPStatus
     public static function _getInProgress(int $a_obj_id) : array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-        
+
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -71,7 +68,7 @@ class ilLPStatusCollection extends ilLPStatus
             // Exclude all non members
             $users = array_intersect(self::getMembers($a_obj_id), $users);
         }
-        
+
         return $users;
     }
 
@@ -79,12 +76,12 @@ class ilLPStatusCollection extends ilLPStatus
      * Get completed users
      * New handling for optional grouped assignments.
      */
-    public static function _getCompleted(int $a_obj_id): array
+    public static function _getCompleted(int $a_obj_id) : array
     {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
+
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         $grouped_items = [];
@@ -134,7 +131,7 @@ class ilLPStatusCollection extends ilLPStatus
                 }
             }
         }
-    
+
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
 
         if ($users) {
@@ -150,7 +147,7 @@ class ilLPStatusCollection extends ilLPStatus
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-                
+
         $users = array();
 
         $olp = ilObjectLP::getInstance($a_obj_id);
@@ -188,26 +185,26 @@ class ilLPStatusCollection extends ilLPStatus
                 $users = array_unique(array_merge($users, $gr_failed));
             }
         }
-        
+
         if ($users) {
             // Exclude all non members
             $users = array_intersect(self::getMembers($a_obj_id), $users);
         }
-    
+
         return array_unique($users);
     }
-        
+
     public static function _getStatusInfo(int $a_obj_id) : array
     {
         $status_info = array();
-        
+
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection) {
             $status_info['collections'] = $collection->getItems();
             $status_info['num_collections'] = count($status_info['collections']);
         }
-                        
+
         return $status_info;
     }
 
@@ -228,7 +225,7 @@ class ilLPStatusCollection extends ilLPStatus
         }
         return $tlt;
     }
-    
+
     public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         global $DIC;
@@ -238,7 +235,7 @@ class ilLPStatusCollection extends ilLPStatus
         $status['completed'] = true;
         $status['failed'] = false;
         $status['in_progress'] = false;
-        
+
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case "crs":
             case "fold":
@@ -247,7 +244,7 @@ class ilLPStatusCollection extends ilLPStatus
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status['in_progress'] = true;
                 }
-                
+
                 $olp = ilObjectLP::getInstance($a_obj_id);
                 $collection = $olp->getCollectionInstance();
                 $grouped_items = [];
@@ -263,7 +260,7 @@ class ilLPStatusCollection extends ilLPStatus
                         $status = self::determineGroupingStatus($status, $grouping, $a_usr_id, $isGrouping);
                     }
                 }
-            
+
                 if ($status['completed']) {
                     return self::LP_STATUS_COMPLETED_NUM;
                 }
@@ -286,8 +283,7 @@ class ilLPStatusCollection extends ilLPStatus
         array $gr_info,
         int $user_id,
         bool $is_grouping
-    ) : array
-    {
+    ) : array {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -326,7 +322,7 @@ class ilLPStatusCollection extends ilLPStatus
         $status['completed'] = false;
         return $status;
     }
-    
+
     /**
      * Get members for object
      * @param int $a_obj_id
@@ -338,16 +334,16 @@ class ilLPStatusCollection extends ilLPStatus
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $tree = $DIC['tree'];
-    
+
         switch ($ilObjDataCache->lookupType($a_obj_id)) {
             case 'crs':
                 $member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
                 return $member_obj->getMembers();
-                
+
             case 'grp':
                 $member_obj = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
                 return $member_obj->getMembers();
-                
+
             case 'fold':
                 $folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
                 $folder_ref_id = current($folder_ref_ids);
@@ -362,14 +358,14 @@ class ilLPStatusCollection extends ilLPStatus
                 return $member_obj->getMembers();
                 break;
         }
-        
+
         return array();
     }
-    
+
     /**
      * Get completed users for object
      */
-    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null):array
+    public static function _lookupCompletedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
@@ -379,11 +375,11 @@ class ilLPStatusCollection extends ilLPStatus
         }
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
     }
-    
+
     /**
      * Get failed users for object
      */
-    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null):array
+    public static function _lookupFailedForObject(int $a_obj_id, ?array $a_user_ids = null) : array
     {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
@@ -393,7 +389,7 @@ class ilLPStatusCollection extends ilLPStatus
         }
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
     }
-    
+
     /**
      * Get in progress users for object
      */

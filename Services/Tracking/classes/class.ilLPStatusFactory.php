@@ -14,8 +14,7 @@ class ilLPStatusFactory
     private static self $instance;
     private static array $class_by_obj_id = array();
 
-    private  ilLogger $logger;
-
+    private ilLogger $logger;
 
     private static function getFactoryInstance() : ilLPStatusFactory
     {
@@ -43,7 +42,7 @@ class ilLPStatusFactory
         if ($a_mode === null) {
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
-            
+
             // please keep the cache in this if-block, otherwise default values
             if (isset(self::$class_by_obj_id[$a_obj_id])) {
                 return self::$class_by_obj_id[$a_obj_id];
@@ -51,10 +50,10 @@ class ilLPStatusFactory
         }
 
         $map = ilLPObjSettings::getClassMap();
-        
+
         if (array_key_exists($a_mode, $map)) {
             $class = $map[$a_mode];
-                        
+
             // undefined? try object lp directly
             if ($class === null) {
                 $olp = ilObjectLP::getInstance($a_obj_id);
@@ -74,7 +73,7 @@ class ilLPStatusFactory
         $factory->getLogger()->logStack(ilLogLevel::ERROR, $message);
         throw new ilInvalidLPStatusException($message);
     }
-    
+
     protected static function includeClass(string $a_class) : void
     {
         $path = ($a_class == 'ilLPStatus')
@@ -104,12 +103,12 @@ class ilLPStatusFactory
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
         }
-        
+
         $map = ilLPObjSettings::getClassMap();
-        
+
         if (array_key_exists($a_mode, $map)) {
             $class = $map[$a_mode];
-                        
+
             // undefined? try object lp directly
             if ($class === null) {
                 $olp = ilObjectLP::getInstance($a_obj_id);

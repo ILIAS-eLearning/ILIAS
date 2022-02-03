@@ -2,22 +2,17 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
- * @author Stefan Meyer <meyer@leifos.com>
- *
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- *
  * @package ilias-tracking
- *
  */
 class ilLPStatusObjectives extends ilLPStatus
 {
     public static function _getNotAttempted(int $a_obj_id) : array
     {
         $users = array();
-        
+
         $members = self::getMembers($a_obj_id);
         if ($members) {
             // diff in progress, completed and failed (use stored result in LPStatusWrapper)
@@ -32,7 +27,7 @@ class ilLPStatusObjectives extends ilLPStatus
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) $objective_results['user_status'][self::LP_STATUS_IN_PROGRESS_NUM];
-        
+
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
@@ -49,28 +44,28 @@ class ilLPStatusObjectives extends ilLPStatus
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) $objective_results['user_status'][self::LP_STATUS_COMPLETED_NUM];
-                
+
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
         }
-        
+
         return $usr_ids ?: array();
     }
-    
+
     public static function _getFailed(int $a_obj_id) : array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) $objective_results['user_status'][self::LP_STATUS_FAILED_NUM];
-        
+
         if ($usr_ids) {
             // Exclude all non members
             $usr_ids = array_intersect(self::getMembers($a_obj_id), $usr_ids);
         }
-        
+
         return $usr_ids;
     }
-    
+
     public static function _getStatusInfo(int $a_obj_id) : array
     {
         global $DIC;
@@ -84,11 +79,12 @@ class ilLPStatusObjectives extends ilLPStatus
 
         if ($status_info['num_objectives']) {
             $in = $ilDB->in('objective_id', $status_info['objectives'], false, 'integer');
-                        
-            foreach (ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id, $status_info['objectives']) as $user_id => $user_status) {
+
+            foreach (ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id,
+                $status_info['objectives']) as $user_id => $user_status) {
                 $status_info['user_status'][$user_status][] = $user_id;
             }
-            
+
             // change event should lead to "in progress" - see determineStatus()
             foreach (ilChangeEvent::lookupUsersInProgress($a_obj_id) as $user_id) {
                 if (!is_array($status_info['user_status'][ilLPStatus::LP_STATUS_IN_PROGRESS_NUM]) ||
@@ -96,7 +92,7 @@ class ilLPStatusObjectives extends ilLPStatus
                     $status_info['user_status'][ilLPStatus::LP_STATUS_IN_PROGRESS_NUM][] = $user_id;
                 }
             }
-            
+
             // Read title/description
             $query = "SELECT * FROM crs_objectives WHERE " . $in;
             $res = $ilDB->query($query);
@@ -107,7 +103,7 @@ class ilLPStatusObjectives extends ilLPStatus
         }
         return $status_info;
     }
-    
+
     public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
     {
         // the status completed depends on:
@@ -115,11 +111,11 @@ class ilLPStatusObjectives extends ilLPStatus
         // - ilCourseObjective::_getObjectiveIds($a_obj_id);
         // - table crs_objectives manipulated in
         // - ilCourseObjective
-        
+
         // $status_info['objective_result']  (ilLPStatusWrapper::_getStatusInfo($a_obj_id);)
         // table crs_objective_status (must not contain a dataset)
         // ilCourseObjectiveResult -> added ilLPStatusWrapper::_updateStatus()
-    
+
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case "crs":
@@ -130,7 +126,8 @@ class ilLPStatusObjectives extends ilLPStatus
                     $objectives = ilCourseObjective::_getObjectiveIds($a_obj_id, true);
                     if ($objectives) {
                         // #14051 - getSummarizedObjectiveStatusForLP() might return null
-                        $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id, $objectives, $a_usr_id);
+                        $objtv_status = ilLOUserResults::getSummarizedObjectiveStatusForLP($a_obj_id, $objectives,
+                            $a_usr_id);
                         if ($objtv_status !== null) {
                             $status = $objtv_status;
                         }
@@ -150,7 +147,7 @@ class ilLPStatusObjectives extends ilLPStatus
         $member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
         return $member_obj->getMembers();
     }
-    
+
     /**
      * Get completed users for object
      */
@@ -164,7 +161,7 @@ class ilLPStatusObjectives extends ilLPStatus
         }
         return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids);
     }
-    
+
     /**
      * Get failed users for object
      */
@@ -172,7 +169,7 @@ class ilLPStatusObjectives extends ilLPStatus
     {
         return array();
     }
-    
+
     /**
      * Get in progress users for object
      */
